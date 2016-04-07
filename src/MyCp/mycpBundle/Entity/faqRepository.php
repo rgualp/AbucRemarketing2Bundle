@@ -44,6 +44,8 @@ class faqRepository extends EntityRepository
             }
         }
         $em->flush();
+
+        return $faq;
     }
 
     function edit($data)
@@ -83,7 +85,7 @@ class faqRepository extends EntityRepository
             }
         }
         $em->flush();
-
+        return $faq;
     }
 
     function getAll($filter_name,$filter_active,$filter_category,$sort_by)

@@ -525,4 +525,10 @@ class destination {
     {
         $this->des_categories->removeElement($desCategories);
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Destino ".$this->getDesName();
+    }
 }

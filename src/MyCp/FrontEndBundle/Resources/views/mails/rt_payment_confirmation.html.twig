@@ -10,7 +10,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 {% if payment_pending == 1%}
   <h2 style="color: #eb2200">Pendiente de control de pago</h2>
 {% endif %}
-<b>Reservación:</b> {{ reservations[0].getOwnResGenResId.getCASId }}
+<b>Booking:</b> {{ booking }}
 <br/>
 <b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}
 <br/>
@@ -24,14 +24,18 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/>
 <b>Moneda:</b> {{ user_tourist[0].getUserTouristCurrency.getCurrName }}
 <br/>
+<b>Alojamiento:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} - {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
 <br/>
-<b>Casa:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}
 <br/>
-<br/>
-<h3>Habitaciones (Total: {{ reservations| length }} habitacion(es) )</h3>
+<h3>Reservas (Total: {{ reservations| length }})</h3>
 {% set total_price = 0 %}
 {% set total_payed = 0 %}
+{% set reservationCAS = "" %}
 {% for reservation in reservations %}
+{% if reservationCAS != reservation.getOwnResGenResId.getCASId %}
+    {% set reservationCAS = reservation.getOwnResGenResId.getCASId %}
+    <b>Reserva: {{ reservationCAS }}</b><br/><br/>
+{% endif %}
 <b>Habitación: </b> Habitación #{{ rooms[reservation.getOwnResId()].getRoomNum() }} - {{ reservation.getOwnResRoomType }}
 <br/>
 <b>Adultos: </b> {{ reservation.getOwnResCountAdults }}
@@ -45,18 +49,17 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/>
 <b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
 <br/>
-<b>Noches: </b> {{ nights[reservation.getOwnResId] }}
+<b>Noches: </b> {{ nights[reservation.getOwnResId] }}<br/>
  {% set subtotal = reservation.ownResTotalInSite - ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
  {% set subtotal_payed = ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
-
+<b>Subtotal a pagar en casa:</b> {{ subtotal }} CUC en efectivo.<br/>
 {% set total_price = total_price + subtotal %}
 {% set total_payed = total_payed + subtotal_payed %}
 <br/>
 <br/>
 {% endfor %}
 <br/>
-<br/>
-<b>A pagar en casa:</b> {{ total_price }} CUC en efectivo.
+<b>Total a pagar en casa:</b> {{ total_price }} CUC en efectivo.
 <br/>
 <br/>
 <b>Saldo pagado:</b> {{ total_payed + configuration_service_fee }} CUC en efectivo.
@@ -66,7 +69,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 
 <br/>
 <br/>
-<b>ID de transacción de Moneybooker:</b>
+<b>ID de transacción de Skrill:</b>
 <br/>
 <br/>
 <b>MSID:</b>

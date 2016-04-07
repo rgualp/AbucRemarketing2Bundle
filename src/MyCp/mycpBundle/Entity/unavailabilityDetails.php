@@ -194,4 +194,10 @@ class unavailabilityDetails {
     {
         return $this->ud_sync_st;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return $this->getRoom()->getLogDescription(). " no disponible  ".$this->getUdFromDate()->format("d/m/Y")." - ".$this->getUdToDate()->format("d/m/Y");
+    }
 }

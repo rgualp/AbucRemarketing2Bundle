@@ -56,9 +56,6 @@ class message
      */
     private $message_date;
 
-
-
-
     /**
      * Get message_id
      *
@@ -182,5 +179,11 @@ class message
     public function getMessageDate()
     {
         return $this->message_date;
+    }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Mensaje a ".$this->getMessageSendTo()->getUserCompleteName();
     }
 }

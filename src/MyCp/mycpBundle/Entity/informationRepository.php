@@ -30,6 +30,7 @@ class informationRepository extends EntityRepository {
             $em->persist($information_lang);
         }
         $em->flush();
+        return $information;
     }
 
     function edit($post) {
@@ -59,6 +60,8 @@ class informationRepository extends EntityRepository {
             }
         }
         $em->flush();
+
+        return $information;
     }
 
     function getByType($information_type, $language) {

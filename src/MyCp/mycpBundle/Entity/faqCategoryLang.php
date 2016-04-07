@@ -35,7 +35,7 @@ class faqCategoryLang
     private $faq_cat_description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="faqCategory",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="faqCategory",inversedBy="translations")
      * @ORM\JoinColumn(name="faq_cat_id_cat",referencedColumnName="faq_cat_id")
      */
     private $faq_cat_id_cat;

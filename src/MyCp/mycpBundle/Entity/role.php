@@ -168,12 +168,20 @@ class role
     {
         return $this->permissions;
     }
+
     public function setPermissions(ArrayCollection $perm)
     {
          $this->permissions = $perm;
         return $this;
     }
+
     public function __toString(){
         return $this->role_name;
+    }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Rol ".$this->getRoleName();
     }
 }

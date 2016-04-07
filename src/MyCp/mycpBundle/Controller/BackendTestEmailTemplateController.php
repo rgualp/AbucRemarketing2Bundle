@@ -560,5 +560,174 @@ class BackendTestEmailTemplateController extends Controller {
         return $this->redirect($this->generateUrl('mycp_test_home'));
     }
 
+    public function confirmationPaymentAction($booking, Request $request) {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $bookingEntity = $em->getRepository("mycpBundle:booking")->find($booking);
+            $user = $em->getRepository('mycpBundle:user')->find($bookingEntity->getBookingUserId());
+            $userId = $user->getUserId();
+            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $userId));
+            $ownershipReservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $booking), array("own_res_gen_res_id" => "ASC"));
+            $rooms = $this->getRoomsFromReservations($em, $ownershipReservations);
+
+            $arrayNights = array();
+            $arrayNightsByOwnershipReservation = array();
+            $arrayHouses = array();
+            $arrayHousesIds = array();
+            $arrayOwnershipReservationByHouse = array();
+            $timeService = $this->get('time');
+
+            $cont = 0;
+
+            foreach ($ownershipReservations as $own) {
+                $rootOwn = $own->getOwnResGenResId()->getGenResOwnId();
+                $rootOwnId = $rootOwn->getOwnId();
+                $array_dates = $timeService->datesBetween(
+                    $own->getOwnResReservationFromDate()->getTimestamp(),
+                    $own->getOwnResReservationToDate()->getTimestamp()
+                );
+                array_push($arrayNights, count($array_dates) - 1);
+                $arrayNightsByOwnershipReservation[$own->getOwnResId()] = count($array_dates) - 1;
+
+                $insert = true;
+                foreach ($arrayHousesIds as $item) {
+                    if ($rootOwnId == $item) {
+                        $insert = false;
+                    }
+                }
+
+                if ($insert) {
+                    array_push($arrayHousesIds, $rootOwnId);
+                    array_push($arrayHouses, $rootOwn);
+                }
+
+                if (isset($arrayOwnershipReservationByHouse[$rootOwnId])) {
+                    $temp_array = $arrayOwnershipReservationByHouse[$rootOwnId];
+                } else {
+                    $temp_array = array();
+                }
+
+                array_push($temp_array, $own);
+                $arrayOwnershipReservationByHouse[$rootOwnId] = $temp_array;
+                $cont++;
+            }
+
+            foreach ($arrayOwnershipReservationByHouse as $owns) {
+                return $this->render(
+                    'FrontEndBundle:mails:rt_payment_confirmation.html.twig',
+                    array(
+                        'user' => $user,
+                        'user_tourist' => array($userTourist),
+                        'reservations' => $owns,
+                        'nights' => $arrayNightsByOwnershipReservation,
+                        'payment_pending' => 0,
+                        'rooms' => $rooms,
+                        'booking' => $booking
+                    )
+                );
+            }
+
+            /*$bookingService = $this->get('front_end.services.booking');
+            $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($reservation);
+            $idBooking = $bookings_ids[0]["booking_id"];
+            return $bookingService->getPrintableBookingConfirmationResponse($idBooking);*/
+        }
+        catch(\Exception $e) {
+            $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
+            return $this->redirect($this->generateUrl('mycp_test_home'));
+        }
+    }
+
+    public function confirmationPaymentToOwnerAction($booking, Request $request) {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $bookingEntity = $em->getRepository("mycpBundle:booking")->find($booking);
+            $user = $em->getRepository('mycpBundle:user')->find($bookingEntity->getBookingUserId());
+            $userId = $user->getUserId();
+            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $userId));
+            $ownershipReservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $booking), array("own_res_gen_res_id" => "ASC"));
+            $rooms = $this->getRoomsFromReservations($em, $ownershipReservations);
+
+            $arrayNights = array();
+            $arrayNightsByOwnershipReservation = array();
+            $arrayHouses = array();
+            $arrayHousesIds = array();
+            $arrayOwnershipReservationByHouse = array();
+            $timeService = $this->get('time');
+
+            $cont = 0;
+
+            foreach ($ownershipReservations as $own) {
+                $rootOwn = $own->getOwnResGenResId()->getGenResOwnId();
+                $rootOwnId = $rootOwn->getOwnId();
+                $array_dates = $timeService->datesBetween(
+                    $own->getOwnResReservationFromDate()->getTimestamp(),
+                    $own->getOwnResReservationToDate()->getTimestamp()
+                );
+                array_push($arrayNights, count($array_dates) - 1);
+                $arrayNightsByOwnershipReservation[$own->getOwnResId()] = count($array_dates) - 1;
+
+                $insert = true;
+                foreach ($arrayHousesIds as $item) {
+                    if ($rootOwnId == $item) {
+                        $insert = false;
+                    }
+                }
+
+                if ($insert) {
+                    array_push($arrayHousesIds, $rootOwnId);
+                    array_push($arrayHouses, $rootOwn);
+                }
+
+                if (isset($arrayOwnershipReservationByHouse[$rootOwnId])) {
+                    $temp_array = $arrayOwnershipReservationByHouse[$rootOwnId];
+                } else {
+                    $temp_array = array();
+                }
+
+                array_push($temp_array, $own);
+                $arrayOwnershipReservationByHouse[$rootOwnId] = $temp_array;
+                $cont++;
+            }
+
+            foreach ($arrayOwnershipReservationByHouse as $owns) {
+                return $this->render(
+                    'FrontEndBundle:mails:email_house_confirmation.html.twig',
+                    array(
+                        'user' => $user,
+                        'user_tourist' => array($userTourist),
+                        'reservations' => $owns,
+                        'nights' => $arrayNightsByOwnershipReservation,
+                        'rooms' => $rooms,
+                        'booking' => $booking
+                    )
+                );
+            }
+
+            /*$bookingService = $this->get('front_end.services.booking');
+            $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($reservation);
+            $idBooking = $bookings_ids[0]["booking_id"];
+            return $bookingService->getPrintableBookingConfirmationResponse($idBooking);*/
+        }
+        catch(\Exception $e) {
+            $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
+            return $this->redirect($this->generateUrl('mycp_test_home'));
+        }
+    }
+
+    private function getRoomsFromReservations($em, $ownershipReservations)
+    {
+        $rooms = array();
+
+        foreach($ownershipReservations as $reservation)
+        {
+            $room = $em->getRepository('mycpBundle:room')->find($reservation->getOwnResSelectedRoomId());
+
+            $rooms[$reservation->getOwnResId()] = $room;
+        }
+
+        return $rooms;
+    }
+
 }
 

@@ -86,12 +86,6 @@ class RequestListener {
                 }
         }
 
-        /*if(empty($_COOKIE))
-        {
-            echo '<div>Cookies are not enabled in your browser. Please, check if cookies are enabled or try to open another window of your browser.</div>';
-            die;
-        }*/
-
     }
 
 }

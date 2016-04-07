@@ -225,4 +225,10 @@ class currency
     {
         return $this->curr_site_price_in;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Moneda ".$this->getCurrCode();
+    }
 }

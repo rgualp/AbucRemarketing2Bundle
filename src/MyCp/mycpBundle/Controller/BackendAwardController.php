@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FormMode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +48,7 @@ class BackendAwardController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create award, ' . $award->getName(), BackendModuleName::MODULE_AWARD);
+                $service_log->saveLog($award->getLogDescription(), BackendModuleName::MODULE_AWARD, log::OPERATION_INSERT, DataBaseTables::AWARD);
 
                 return $this->redirect($this->generateUrl('mycp_list_awards'));
             }
@@ -72,7 +74,7 @@ class BackendAwardController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit award, ' . $award->getName(), BackendModuleName::MODULE_AWARD);
+                $service_log->saveLog($award->getLogDescription(), BackendModuleName::MODULE_AWARD, log::OPERATION_UPDATE, DataBaseTables::AWARD);
 
                 return $this->redirect($this->generateUrl('mycp_list_awards'));
             }
@@ -117,6 +119,7 @@ class BackendAwardController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $dir = $this->container->getParameter('award.dir.photos');
         $award = $em->getRepository('mycpBundle:award')->find($id);
+        $logDescription = $award->getLogDescription();
 
         if(count($award->getAwardAccommodations()) == 0) {
             if ($award->getIconOrClassName()) {
@@ -135,7 +138,7 @@ class BackendAwardController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete award, ' . $id, BackendModuleName::MODULE_AWARD);
+            $service_log->saveLog($logDescription, BackendModuleName::MODULE_AWARD, log::OPERATION_DELETE, DataBaseTables::AWARD);
         }
         else{
             $message = 'El premio no puede ser eliminado porque esta otorgado en '.count($award->getAwardAccommodations()). " alojamientos";
@@ -150,6 +153,7 @@ class BackendAwardController extends Controller {
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $accommodationAward = $em->getRepository('mycpBundle:accommodationAward')->findOneBy(array("award" => $award_id, "accommodation" => $accommodation_id));
+        $logDescription = $accommodationAward->getLogDescription();
 
         if ($accommodationAward)
             $em->remove($accommodationAward);
@@ -158,7 +162,7 @@ class BackendAwardController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_AWARD);
+        $service_log->saveLog($logDescription, BackendModuleName::MODULE_AWARD, log::OPERATION_REMOVE, DataBaseTables::AWARD);
 
         return $this->redirect($this->generateUrl('mycp_accommodation_award_list', array("id" => $award_id)));
     }
@@ -257,7 +261,6 @@ class BackendAwardController extends Controller {
         $filter_year = $request->request->get('filter_year');
         $year = $request->request->get('year');
 
-
         $response = null;
 
         $service_log = $this->get('log');
@@ -293,6 +296,7 @@ class BackendAwardController extends Controller {
         $response = null;
 
         $accommodationAward = $em->getRepository('mycpBundle:accommodationAward')->findOneBy(array("award" => $award_id, "accommodation" => $accommodation_id));
+        $logDescription = $accommodationAward->getLogDescription();
 
         if ($accommodationAward)
             $em->remove($accommodationAward);
@@ -301,7 +305,7 @@ class BackendAwardController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_AWARD);
+        $service_log->saveLog($logDescription, BackendModuleName::MODULE_AWARD, log::OPERATION_REMOVE, DataBaseTables::AWARD);
 
         $response = $this->generateUrl('mycp_set_award_accommodation', array("id" => $award_id,
             "filter_code" => $filter_code, "filter_destination" => $filter_destination, "filter_municipality" => $filter_municipality,

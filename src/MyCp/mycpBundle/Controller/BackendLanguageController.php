@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +29,8 @@ class BackendLanguageController extends Controller
         $paginator->setItemsPerPage($items_per_page);
         $languages=$paginator->paginate($em->getRepository('mycpBundle:lang')->findAll())->getResult();
 
-        $service_log= $this->get('log');
-        $service_log->saveLog('Visit',BackendModuleName::MODULE_LANGUAGE);
+//        $service_log= $this->get('log');
+//        $service_log->saveLog('Visit',BackendModuleName::MODULE_LANGUAGE);
 
         return $this->render('mycpBundle:language:list.html.twig',array(
             'languages'=>$languages,
@@ -85,7 +86,7 @@ class BackendLanguageController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Edit entity '.$post_form['lang_name'],BackendModuleName::MODULE_LANGUAGE);
+                    $service_log->saveLog($lang->getLogDescription(), BackendModuleName::MODULE_LANGUAGE, log::OPERATION_UPDATE, DataBaseTables::LANGUAGE);
 
                     return $this->redirect($this->generateUrl('mycp_list_languages'));
                 }
@@ -134,7 +135,7 @@ class BackendLanguageController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Create entity '.$post_form['lang_name'],BackendModuleName::MODULE_LANGUAGE);
+                    $service_log->saveLog($lang->getLogDescription(), BackendModuleName::MODULE_LANGUAGE, log::OPERATION_INSERT, DataBaseTables::LANGUAGE);
 
                     return $this->redirect($this->generateUrl('mycp_list_languages'));
                 }
@@ -232,14 +233,14 @@ class BackendLanguageController extends Controller
         $dir=$this->container->getParameter('language.dir.photos');
         @unlink($dir.$photo->getPhoName());
         $em->remove($photo);
-        $name_lang=$language->getLangName();
+        $logDescription=$language->getLogDescription();
         $em->remove($language);
         $em->flush();
         $message='El idioma se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Delete entity '.$name_lang,BackendModuleName::MODULE_LANGUAGE);
+        $service_log->saveLog($logDescription, BackendModuleName::MODULE_LANGUAGE, log::OPERATION_DELETE, DataBaseTables::LANGUAGE);
 
         return $this->redirect($this->generateUrl('mycp_list_languages'));
     }

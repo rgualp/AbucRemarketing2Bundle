@@ -51,9 +51,6 @@ class album
      */
     private $album_category;
 
-
-    
-
     /**
      * Get album_id
      *
@@ -154,5 +151,11 @@ class album
     public function getAlbumCategory()
     {
         return $this->album_category;
+    }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Álbum ".$this->getAlbumName();
     }
 }

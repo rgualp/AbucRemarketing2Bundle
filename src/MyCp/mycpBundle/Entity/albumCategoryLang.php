@@ -35,7 +35,7 @@ class albumCategoryLang
     private $album_cat_description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="albumCategory",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="albumCategory",inversedBy="translations")
      * @ORM\JoinColumn(name="album_cat_id_cat",referencedColumnName="alb_cat_id")
      */
     private $album_cat_id_cat;

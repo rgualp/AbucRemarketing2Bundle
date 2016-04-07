@@ -37,7 +37,6 @@ class albumRepository extends EntityRepository
         $album->setAlbumCategory($category);
         $em->persist($album);
 
-
         foreach($keys as $item)
         {
             if(strpos($item, 'name')!==false)
@@ -55,6 +54,8 @@ class albumRepository extends EntityRepository
             }
         }
         $em->flush();
+
+        return $album;
     }
 
     function edit($data)
@@ -102,6 +103,8 @@ class albumRepository extends EntityRepository
             }
         }
         $em->flush();
+
+        return $album;
     }
 
     function getAll($filter_name, $filter_active,$filter_category)

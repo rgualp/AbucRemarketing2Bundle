@@ -164,7 +164,7 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>MyCasaParticular, Ihre erste Adresse in Kuba</target>
+                <target>MyCasaParticular.com, Ihre erste Adresse in Kuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
@@ -216,7 +216,7 @@
             </trans-unit>
             <trans-unit id="54">
                 <source>HOMEPAGE_SUBTITLE_1</source>
-                <target>Warum ein Aufenthalt in einem Casa particular?</target>
+                <target>Warum ein Aufenthalt in einer Casa particular?</target>
             </trans-unit>
             <trans-unit id="55">
                 <source>HOMEPAGE_SUBTITLE_2</source>
@@ -224,7 +224,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Der Aufenthalt in einem Casa particular kann eine der interessantesten Erfahrungen während Ihres Kuba-Aufenthaltes sein. Neben der Möglichkeit, Reisende aus der ganzen Welt zu treffen, haben Sie in einem Casa particular hautnahen Kontakt zur kubanischen Bevölkerung und bekommen einen Einblick in den kubanischen Alltag. Ein weiteres wichtiges Argument ist der Preis. Eine Übernachtung in einem Casa particular ist weit günstiger als eine Übernachtung in einem Hotel.</target>
+                <target>Der Aufenthalt in einer Casa particular kann eine der interessantesten Erfahrungen während Ihrer Kuba-Reise sein. Neben der Möglichkeit, Touristen aus der ganzen Welt zu treffen, haben Sie in einer Casa particular hautnahen Kontakt zur kubanischen Bevölkerung und bekommen so einen Einblick in deren Alltag. Ein weiterer entscheidender Vorteil ist der Preis: In einer Casa particular zu übernachten ist weit günstiger als in einem Hotel. Kuba erleben, Kuba entdecken!</target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
@@ -1436,11 +1436,11 @@
             </trans-unit>
             <trans-unit id="368">
                 <source>CONTACT_US_TOURIST_HEADER</source>
-                <target>Formular für den Touristen</target>
+                <target>Formular für Touristen</target>
             </trans-unit>
             <trans-unit id="369">
                 <source>CONTACT_US_OWNER_HEADER</source>
-                <target>Formular für den Besitzer</target>
+                <target>Formular für Hausbesitzer</target>
             </trans-unit>
             <trans-unit id="370">
                 <source>FORMS_PASSWORD</source>
@@ -1616,7 +1616,7 @@
             </trans-unit>
             <trans-unit id="413">
                 <source>CONTACT_OWNER_QUESTION</source>
-                <target>Wären Sie interessiert, eine neue Unterkunft in Kuba auf unserer Webseite aufzunehmen?</target>
+                <target>Sind Sie interessiert, eine neue Unterkunft auf Kuba auf unserer Webseite zu platzieren?</target>
             </trans-unit>
             <trans-unit id="414">
                 <source>CONTACT_OWNER_FILL_FORM</source>
@@ -1624,7 +1624,7 @@
             </trans-unit>
             <trans-unit id="415">
                 <source>CONTACT_OWNER_FILL_FORM</source>
-                <target>In Kürze werden wir Sie kontaktieren!</target>
+                <target>Wir kontaktieren Sie in Kürze!</target>
             </trans-unit>
             <trans-unit id="416">
                 <source>DES_POBLATION</source>
@@ -1716,7 +1716,7 @@
             </trans-unit>
             <trans-unit id="438">
                 <source>MAIN_CUBAN_DESTINATIONS</source>
-                <target>Top Reiseziele in Kuba</target>
+                <target>Topreiseziele auf Kuba!</target>
             </trans-unit>
             <trans-unit id="439">
                 <source>RESERVATION_DETAILS</source>

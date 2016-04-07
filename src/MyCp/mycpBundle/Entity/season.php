@@ -220,4 +220,20 @@ class season
         $s_types[season::SEASON_TYPE_SPECIAL] = "Temporada Especial";
         return $s_types;
     }
+
+    public function getSeasonName()
+    {
+        switch($this->getSeasonType())
+        {
+            case season::SEASON_TYPE_SPECIAL: return "Temporada Especial";
+            case season::SEASON_TYPE_HIGH: return "Temporada Alta";
+            case season::SEASON_TYPE_LOW: return "Temporada Baja";
+        }
+    }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return $this->getSeasonName().": ".$this->getSeasonStartDate()->format("d/m/Y")." - ".$this->getSeasonEndDate()->format("d/m/Y");
+    }
 }

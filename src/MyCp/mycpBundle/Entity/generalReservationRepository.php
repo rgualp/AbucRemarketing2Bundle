@@ -382,9 +382,9 @@ class generalReservationRepository extends EntityRepository {
             $where .= " AND (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow3 JOIN ow3.own_res_gen_res_id gres3 JOIN gres3.gen_res_own_id own WHERE ow3.own_res_reservation_booking = booking.booking_id) = '$filter_ownership' ";
        $dateWhere="";
        if($filter_date_booking_from!="")
-       $dateWhere=" AND payment.created >='$filter_date_booking_from'";
+       $dateWhere=" AND payment.created >='$filter_date_booking_from 00:00:00'";
        if($filter_date_booking_to!="")
-       $dateWhere.=" AND payment.created <='$filter_date_booking_to'";
+       $dateWhere.=" AND payment.created <='$filter_date_booking_to 23:59:59'";
         $query = $em->createQuery("SELECT payment.created,
         payment.payed_amount,
         booking.booking_id,
@@ -701,15 +701,13 @@ class generalReservationRepository extends EntityRepository {
                 $queryStr .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
         }
 
-        $array_date_from = explode('/', $checkinDate);
-        if (count($array_date_from) > 1)
-            $checkinDate = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
+        $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
 
         $em = $this->getEntityManager();
         $query = $em->createQuery($queryStr);
 
         $query->setParameters(array(
-            'filter_date_from' => "%" . $checkinDate . "%",
+            'filter_date_from' => "%".$checkinDate."%",
             'reservationStatus' => ownershipReservation::STATUS_RESERVED,
             'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
             'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED

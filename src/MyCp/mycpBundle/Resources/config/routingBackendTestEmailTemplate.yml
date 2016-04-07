@@ -93,3 +93,11 @@ mycp_test_view_voucher_rt:
 mycp_test_send_directory_rt:
     pattern:  /send-directory/{mail}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:sendDirectory, mail:null}
+
+mycp_test_view_confirmation_payment_rt:
+    pattern:  /confirmation-payment/{booking}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:confirmationPayment, booking: null}
+
+mycp_test_view_confirmation_payment_owner:
+    pattern:  /confirmation-payment-owner/{booking}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:confirmationPaymentToOwner, booking: null}

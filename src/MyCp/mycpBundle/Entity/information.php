@@ -37,6 +37,19 @@ class information
     private $info_id_nom;
 
     /**
+     * @ORM\OneToMany(targetEntity="informationLang",mappedBy="info_lang_info")
+     */
+    private $translations;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Get info_id
      *
      * @return integer 
@@ -90,6 +103,32 @@ class information
     public function getInfoFixed()
     {
         return $this->info_fixed;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param mixed $translations
+     * @return mixed
+     */
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+        return $this;
+    }
+
+
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return (count($this->translations) > 0) ? "Información general ".$this->translations[0]->getInfoLangContent(). " y sus traducciones." : "Información general con id ".$this->getInfoId()." y sus traducciones.";
     }
     
 }

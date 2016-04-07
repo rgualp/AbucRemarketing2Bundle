@@ -313,4 +313,10 @@ class batchProcess
     {
         return $this->batch_type;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Proceso por lotes del día ".$this->getBatchStartDate()->format("d/m/Y");
+    }
 }

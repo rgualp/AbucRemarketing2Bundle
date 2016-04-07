@@ -73,6 +73,13 @@ class reservationNotification
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="smsId",  type="string", length=255, nullable=true)
+     */
+    private $smsId;
+
+    /**
      * @return int
      */
     public function getId()
@@ -206,5 +213,25 @@ class reservationNotification
         $this->sended = $sended;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getSmsId()
+    {
+        return $this->smsId;
+    }
+
+    /**
+     * @param string $smsId
+     * @return mixed
+     */
+    public function setSmsId($smsId)
+    {
+        $this->smsId = $smsId;
+        return $this;
+    }
+
+
 
 }

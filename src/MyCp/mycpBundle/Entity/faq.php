@@ -127,4 +127,10 @@ class faq
     {
         return $this->faq_category;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "FAQ id ".$this->getFaqId();
+    }
 }

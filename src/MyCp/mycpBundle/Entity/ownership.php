@@ -1991,5 +1991,9 @@ class ownership {
         return $this;
     }
 
-
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Alojamiento ".$this->getOwnMcpCode();
+    }
 }

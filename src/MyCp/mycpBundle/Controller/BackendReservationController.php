@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\Reservation;
@@ -81,8 +82,9 @@ class BackendReservationController extends Controller {
                         $to = $general_reservation->getGenResUserId();
                         $subject = "Reservación ".$general_reservation->getCASId();
 
-                        $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $postMessageBody);
-                        $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
+                        $message = $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $postMessageBody);
+                        if($message != null)
+                            $service_log->saveLog($message->getLogDescription(), BackendModuleName::MODULE_CLIENT_MESSAGES, log::OPERATION_INSERT, DataBaseTables::MESSAGE);
                     }
 
                     $mailMessage = ($postMessageBody != null && $postMessageBody != "") ? $postMessageBody : null;
@@ -98,7 +100,7 @@ class BackendReservationController extends Controller {
                 $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                $service_log->saveLog('Create new offer '.$general_reservation->getCASId(),  BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog($general_reservation->getLogDescription()." (Nueva oferta)", BackendModuleName::MODULE_RESERVATION, log::OPERATION_INSERT, DataBaseTables::GENERAL_RESERVATION);
                 $service_log->saveNewOfferLog($general_reservation, $gen_res, false);
 
                 return $this->redirect($this->generateUrl('mycp_details_reservation', array('id_reservation' => $general_reservation->getGenResId())));
@@ -239,7 +241,7 @@ class BackendReservationController extends Controller {
                 }
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Nueva oferta para ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog($reservation->getLogDescription()." (Nueva oferta por cambio de fechas)", BackendModuleName::MODULE_RESERVATION, log::OPERATION_INSERT, DataBaseTables::GENERAL_RESERVATION);
                 $service_log->saveNewOfferLog($newGeneralReservation, $reservation, true);
 
                 //Enviar correo al cliente con el texto escrito y el voucher como adjunto
@@ -325,8 +327,8 @@ class BackendReservationController extends Controller {
             $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
             $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
             $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
-            $service_log = $this->get('log');
-            $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+//            $service_log = $this->get('log');
+//            $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
             /*$total_nights = array();
             $service_time = $this->get('time');
             foreach ($reservations as $res) {
@@ -407,8 +409,8 @@ class BackendReservationController extends Controller {
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
                                 ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency))->getResult();
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         $filter_date_booking = str_replace('_', '/', $filter_date_booking);
         $filter_arrive_date_booking = str_replace('_', '/', $filter_arrive_date_booking);
@@ -478,8 +480,8 @@ class BackendReservationController extends Controller {
         $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
                                 ->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         return $this->render('mycpBundle:reservation:list_client.html.twig', array(
                     'reservations' => $reservations,
@@ -576,7 +578,7 @@ class BackendReservationController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['reservation_ownership']);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity for ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog($ownership->getLogDescription()." (Nueva reservación)", BackendModuleName::MODULE_RESERVATION, log::OPERATION_INSERT, DataBaseTables::GENERAL_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_list_reservations'));
@@ -591,7 +593,6 @@ class BackendReservationController extends Controller {
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getByIdObj($id_reservation);
 
         $service_time = $this->get('time');
-
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
 
         $rooms = array();
@@ -682,9 +683,11 @@ class BackendReservationController extends Controller {
             $to = $generalReservation->getGenResUserId();
             $subject = "Reservación ".$generalReservation->getCASId();
 
-            $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
-            $service_log= $this->get('log');
-            $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
+            $message = $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+            if($message != null) {
+                $service_log = $this->get('log');
+                $service_log->saveLog($message->getLogDescription(), BackendModuleName::MODULE_CLIENT_MESSAGES, log::OPERATION_INSERT, DataBaseTables::MESSAGE);
+            }
         }
 
         if ($generalReservation->getGenResStatus() == generalReservation::STATUS_RESERVED || $generalReservation->getGenResStatus() == generalReservation::STATUS_PARTIAL_RESERVED) {
@@ -768,7 +771,7 @@ class BackendReservationController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['ownership']);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog($reservation->getLogDescription(), BackendModuleName::MODULE_RESERVATION, log::OPERATION_UPDATE, DataBaseTables::GENERAL_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_edit_reservation', array('id_reservation' => $id_reservation)));
@@ -786,11 +789,8 @@ class BackendReservationController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $reservationId = $request->get("reservation");
-
         $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null);
-
         $content = $this->renderView("mycpBundle:utils:bookings.html.twig", array("bookings" => $bookings));
-
         return new Response($content, 200);
     }
 
@@ -798,11 +798,8 @@ class BackendReservationController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $reservationId = $request->get("reservation");
-
         $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($reservationId);
-
         $content = $this->renderView("mycpBundle:utils:offerLogs.html.twig", array("logs" => $logs));
-
         return new Response($content, 200);
     }
 
@@ -871,7 +868,7 @@ class BackendReservationController extends Controller {
         $message = 'Reserva eliminada satisfactoriamente.';
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete entity for ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION);
+        $service_log->saveLog($reservation->getLogDescription(), BackendModuleName::MODULE_RESERVATION, log::OPERATION_DELETE, DataBaseTables::GENERAL_RESERVATION);
 
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
@@ -904,7 +901,7 @@ class BackendReservationController extends Controller {
                 $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
             }
 
-            $service_log->saveLog("Se han colocado ".count($reservations_ids)." reservas como no disponibles: ".$logMessage,  BackendModuleName::MODULE_RESERVATION);
+            $service_log->saveLog("Se han colocado ".count($reservations_ids)." reservas como no disponibles: ".$logMessage, BackendModuleName::MODULE_RESERVATION, log::OPERATION_UPDATE, DataBaseTables::GENERAL_RESERVATION);
             $message = ($save_option == Operations::SAVE_AND_UPDATE_CALENDAR) ? 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles, se almacenaron las No Disponibilidades y se ha notificado a los clientes respectivos. Todas las operaciones fueron satisfactorias.' :
                 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -1040,7 +1037,7 @@ class BackendReservationController extends Controller {
             $eventData = new GeneralReservationJobData($general_reservation->getGenResId());
             $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
 
-            $service_log->saveLog('Create new offer '.$general_reservation->getCASId(),  BackendModuleName::MODULE_RESERVATION);
+            $service_log->saveLog($general_reservation->getLogDescription()." (Nueva oferta)", BackendModuleName::MODULE_RESERVATION, log::OPERATION_INSERT, DataBaseTables::GENERAL_RESERVATION);
 
             switch($operation)
             {
@@ -1053,8 +1050,9 @@ class BackendReservationController extends Controller {
                         $to = $general_reservation->getGenResUserId();
                         $subject = "Reservación ".$general_reservation->getCASId();
 
-                        $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
-                        $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
+                        $createdMessage = $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+                        if($createdMessage != null)
+                            $service_log->saveLog($createdMessage->getLogDescription(), BackendModuleName::MODULE_CLIENT_MESSAGES, log::OPERATION_INSERT, DataBaseTables::MESSAGE);
                     }
 
                     $mailer = $this->get('Email');
@@ -1074,9 +1072,7 @@ class BackendReservationController extends Controller {
                     return $this->redirect($this->generateUrl('mycp_list_reservations'));
                 }
             }
-
         }
-
 
         return $this->render('mycpBundle:reservation:newCleanOffer.html.twig', array(
             'client' => $client, 'tourist' => $tourist));

@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +24,8 @@ class BackendSeasonController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $seasons = $paginator->paginate($em->getRepository('mycpBundle:season')->getAll())->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_SEASON);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_SEASON);
 
         return $this->render('mycpBundle:season:list.html.twig', array(
                     'seasons' => $seasons,
@@ -65,14 +67,16 @@ class BackendSeasonController extends Controller {
                     $dest = $em->getRepository('mycpBundle:destination')->find($post_form['season_destination']);
                     $season->setSeasonDestination($dest);
                 }
-                $season->setSeasonReason(trim($post_form['season_reason']));
+
+                if(array_key_exists("season_reason", $post_form) && $post_form['season_reason'] != "")
+                    $season->setSeasonReason(trim($post_form['season_reason']));
                 $em->persist($season);
                 $em->flush();
                 $message = 'Temporada añadida satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity from ' . $post_form['season_startdate'] . " to " . $post_form['season_enddate'], BackendModuleName::MODULE_SEASON);
+                $service_log->saveLog($season->getLogDescription(), BackendModuleName::MODULE_SEASON, log::OPERATION_INSERT, DataBaseTables::SEASON);
 
                 return $this->redirect($this->generateUrl('mycp_list_season'));
             }
@@ -129,7 +133,7 @@ class BackendSeasonController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity from ' . $post_form['season_startdate'] . " to " . $post_form['season_enddate'], BackendModuleName::MODULE_SEASON);
+                $service_log->saveLog($season->getLogDescription(), BackendModuleName::MODULE_SEASON, log::OPERATION_UPDATE, DataBaseTables::SEASON);
 
                 return $this->redirect($this->generateUrl('mycp_list_season'));
             }
@@ -143,6 +147,7 @@ class BackendSeasonController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $season=$em->getRepository('mycpBundle:season')->find($id_season);
+        $logDescription = $season->getLogDescription();
 
         $season_start=$season->getSeasonStartDate();
         $season_end=$season->getSeasonEndDate();
@@ -152,7 +157,7 @@ class BackendSeasonController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Delete entity from ' . date("d/m/Y",$season_start->getTimestamp()) . " to " . date("d/m/Y",$season_end->getTimestamp()),BackendModuleName::MODULE_SEASON);
+        $service_log->saveLog($logDescription, BackendModuleName::MODULE_SEASON, log::OPERATION_DELETE, DataBaseTables::SEASON);
 
         return $this->redirect($this->generateUrl('mycp_list_season'));
     }

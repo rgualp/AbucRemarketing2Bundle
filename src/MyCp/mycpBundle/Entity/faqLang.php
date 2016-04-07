@@ -149,4 +149,10 @@ class faqLang
     {
         return $this->faq_lang_lang;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return  "FAQ ".$this->getFaqLangQuestion(). " (Lenguaje ".$this->getFaqLangLang()->getLangCode().")";
+    }
 }

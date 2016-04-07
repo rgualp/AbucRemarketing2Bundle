@@ -65,6 +65,7 @@ class userPartnerRepository extends EntityRepository
         $em->persist($user);
         $em->persist($user_partner);
         $em->flush();
+        return $user_partner;
     }
 
     function edit($id_user, $request, $container, $factory) {
@@ -121,5 +122,6 @@ class userPartnerRepository extends EntityRepository
         }
         $em->persist($user_partner);
         $em->flush();
+        return $user_partner;
     }
 }

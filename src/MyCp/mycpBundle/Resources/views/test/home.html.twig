@@ -49,6 +49,26 @@
             <button class="btn btn-warning bSendDirectory" data-url="{{path("mycp_test_send_directory_rt")}}">Enviar</button>
         </td>
     </tr>
+    <tr>
+        <td>Confirmación de pago (Equipo Reserva)</td>
+        <td style="text-align: right">
+            <div class="row-fluid">
+                <b>Booking: </b>
+                <input type="text" name="tBookingReserva" id="tBookingReserva" style="width:50px"/>
+                <button class="btn btn-danger bActionBookingReserva" data-url="{{path("mycp_test_view_confirmation_payment_rt")}}">Ver</button>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>Confirmación de pago (Propietario)</td>
+        <td style="text-align: right">
+            <div class="row-fluid">
+                <b>Booking: </b>
+                <input type="text" name="tBookingOwner" id="tBookingOwner" style="width:50px"/>
+                <button class="btn btn-danger bActionBookingOwner" data-url="{{path("mycp_test_view_confirmation_payment_owner")}}">Ver</button>
+            </div>
+        </td>
+    </tr>
 </table><hr/>
 
 <h5>Remarketing</h5>
@@ -241,6 +261,20 @@
         url=url+'/'+reservation;
         /*$('#form').attr('action',url);
         $('#form').submit();*/
+        window.location = url;
+    });
+
+    $(".bActionBookingReserva").click(function(){
+        url = $(this).attr("data-url");
+        booking = $("#tBookingReserva").val();
+        url=url+'/'+booking;
+        window.location = url;
+    });
+
+    $(".bActionBookingOwner").click(function(){
+        url = $(this).attr("data-url");
+        booking = $("#tBookingOwner").val();
+        url=url+'/'+booking;
         window.location = url;
     });
 

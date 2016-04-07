@@ -164,7 +164,7 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>MyCasaParticular, Ihre erste Adresse in Kuba</target>
+                <target>MyCasaParticular.com, Ihre erste Adresse auf Kuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
@@ -216,7 +216,7 @@
             </trans-unit>
             <trans-unit id="54">
                 <source>HOMEPAGE_SUBTITLE_1</source>
-                <target>Warum ein Aufenthalt in einem Casa particular?</target>
+                <target>Warum ein Aufenthalt in einer Casa particular?</target>
             </trans-unit>
             <trans-unit id="55">
                 <source>HOMEPAGE_SUBTITLE_2</source>
@@ -224,7 +224,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Der Aufenthalt in einem Casa particular kann eine der interessantesten Erfahrungen während Ihres Kuba-Aufenthaltes sein. Neben der Möglichkeit, Reisende aus der ganzen Welt zu treffen, haben Sie in einem Casa particular hautnahen Kontakt zur kubanischen Bevölkerung und bekommen einen Einblick in den kubanischen Alltag. Ein weiteres wichtiges Argument ist der Preis. Eine Übernachtung in einem Casa particular ist weit günstiger als eine Übernachtung in einem Hotel.</target>
+                <target>Der Aufenthalt in einer Casa particular kann eine der interessantesten Erfahrungen während Ihrer Kuba-Reise sein. Neben der Möglichkeit, Touristen aus der ganzen Welt zu treffen, haben Sie in einer Casa particular hautnahen Kontakt zur kubanischen Bevölkerung und bekommen so einen Einblick in deren Alltag. Ein weiterer entscheidender Vorteil ist der Preis: In einer Casa particular zu übernachten ist weit günstiger als in einem Hotel. Kuba erleben, Kuba entdecken!</target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
@@ -1436,11 +1436,11 @@
             </trans-unit>
             <trans-unit id="368">
                 <source>CONTACT_US_TOURIST_HEADER</source>
-                <target>Formular für den Touristen</target>
+                <target>Formular für Touristen</target>
             </trans-unit>
             <trans-unit id="369">
                 <source>CONTACT_US_OWNER_HEADER</source>
-                <target>Formular für den Besitzer</target>
+                <target>Formular für den Hausbesitzer</target>
             </trans-unit>
             <trans-unit id="370">
                 <source>FORMS_PASSWORD</source>
@@ -1616,7 +1616,7 @@
             </trans-unit>
             <trans-unit id="413">
                 <source>CONTACT_OWNER_QUESTION</source>
-                <target>Wären Sie interessiert, eine neue Unterkunft in Kuba auf unserer Webseite aufzunehmen?</target>
+                <target>Sind Sie interessiert, eine neue Unterkunft auf Kuba auf unserer Webseite zu platzieren?</target>
             </trans-unit>
             <trans-unit id="414">
                 <source>CONTACT_OWNER_FILL_FORM</source>
@@ -1624,7 +1624,7 @@
             </trans-unit>
             <trans-unit id="415">
                 <source>CONTACT_OWNER_FILL_FORM</source>
-                <target>In Kürze werden wir Sie kontaktieren!</target>
+                <target>Wir kontaktieren Sie in Kürze!</target>
             </trans-unit>
             <trans-unit id="416">
                 <source>DES_POBLATION</source>
@@ -1716,7 +1716,7 @@
             </trans-unit>
             <trans-unit id="438">
                 <source>MAIN_CUBAN_DESTINATIONS</source>
-                <target>Top Reiseziele in Kuba</target>
+                <target>Topreiseziele auf Kuba!</target>
             </trans-unit>
             <trans-unit id="439">
                 <source>RESERVATION_DETAILS</source>
@@ -3723,30 +3723,30 @@
              </trans-unit>
                         <trans-unit id="941">
                             <source>HOW_IT_WORKS_QUESTION</source>
-                            <target>Wie es funktioniert?</target>
+                            <target>Wie funktioniert MyCasa Renta?</target>
                         </trans-unit>
                       <trans-unit id="942">
                                     <source>MYCASA_RENTA_PARR1</source>
-                                    <target>Eine Handy Anwendung die es dem Eigentümer erleichtert, seine Unterkünfte  mittels eines Kalenders zu verwalten, in dem die nicht verfügbaren Tage in seinen Unterkünften wiedergespiegelt werden und die Verfügbarkeit der Zimmer, direkt auf unserer Website aktualisiert werden können.</target>
+                                    <target>MyCasa Renta ist eine Handy-Anwendung, die es dem Eigentümer erleichtert, seine Unterkünfte mittels eines Kalenders zu verwalten. Darin kann er die Verfügbarkeit der Zimmer sowie die nicht verfügbaren Tage in seinen Unterkünften aufnehmen. Die Daten werden dann direkt auf unserer Website aktualisiert.</target>
                                 </trans-unit>
                       <trans-unit id="943">
                                     <source>MYCASA_RENTA_PARR2</source>
-                                   <target><![CDATA[Verbinden Sie Ihr Handy mit dem Internet, mit einem Betriebssystem Android 2.2 oder höher und laden Sie die Anwendung von dieser Webadresse: <a href="https://mycasaparticular.com/de/apprenta" target="_blank">https://mycasaparticular.com/de/apprenta</a> oder direkt bei <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a> herunter. Einmal heruntergeladen, installieren Sie die Anwendung.]]></target>
+                                   <target><![CDATA[Verbinden Sie Ihr Handy (Betriebssystem Android 2.2 oder höher)mit dem Internet und laden Sie die Anwendung von der Webadresse: <a href="https://mycasaparticular.com/de/apprenta" target="_blank">https://mycasaparticular.com/de/apprenta</a> oder direkt bei <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a> herunter. Danach können Sie die Anwendung installieren.]]></target>
                                 </trans-unit>
                          <trans-unit id="944">
                                     <source>MYCASA_RENTA_PARR3</source>
-                                    <target>Um MyCasa Renta anzuwenden, müssen Sie Ihr Zugriffskonto aktivieren. Die Anweisungen für die Aktivierung, wurde Ihnen per E-Mail von uns gesendet. Wenn Sie diese Informationen, mit den spezifischen Details, der Erstellung Ihres Zugriffskontos noch nicht erhalten haben sollten, können Sie diese über folgende Website info@mycasaparticular.com beantragen.</target>
+                                    <target>Um MyCasa Renta zu nutzen, müssen Sie Ihr Zugriffskonto aktivieren. Die Anweisungen für die Aktivierung erhalten Sie von uns per E-Mail. Falls Sie die Informationen zur Erstellung Ihres Zugriffskontos nicht erhalten haben, können Sie diese unter info@mycasaparticular.com beantragen.</target>
                                 </trans-unit>
                         <trans-unit id="945">
                                     <source>MYCASA_RENTA_PARR4</source>
-                                    <target>Wenn die App nun auf Ihrem Handy installiert ist und das Verfahren der Aktivierung des Zugriffskontos erfolgreich abgeschlossen wurde, können Sie nun beginnen MyCasa Renta zu nutzen. Auf dem Begrüßungsbildschirm der App, drücken Sie auf  die Enter Taste.
-                                            Um MyCasa Renta zu starten, sollte Sie sich authentifizieren, dazu nutzen Sie den Benutzercode Ihres Hauses, den Sie bei der Erstellung Ihres Zugriffskontos per E-Mail bekommen haben. Als Passwort, verwenden Sie jenes welches von Ihnen bei der Aktivierung im Formular angegeben wurde.
+                                    <target>Wenn die App auf Ihrem Handy installiert ist und das Verfahren zur Aktivierung des Zugriffskontos erfolgreich abgeschlossen wurde, können Sie beginnen, MyCasa Renta zu nutzen. Auf dem Begrüssungsbildschirm der App, drücken Sie auf  die Enter Taste.
+                                            Um MyCasa Renta zu starten, müssen Sie sich authentifizieren; dazu benötigen Sie den Benutzercode Ihres Hauses, den Sie bei der Erstellung Ihres Zugriffskontos per E-Mail bekommen haben. Als Passwort verwenden Sie jenes, das von Ihnen bei der Aktivierung im Formular angegeben wurde.
                                     </target>
                                 </trans-unit>
                          <trans-unit id="946">
                                     <source>MYCASA_RENTA_PARR5</source>
-                                    <target>Die Anwendung besteht aus einem interaktiven Kalender, der dazu dient, den Status der verschiedenen Zimmer Ihres Hauses zu ändern. Jedes der Zimmer, zeigt die eingetragenen Termine als nicht verfügbar an, im Moment der  Authentifizierung.
-                                            Das erste Mal, wenn Sie die App nutzen, sollten Sie Zugang zum Internet haben, um die Daten Ihrer Unterkunft, mit denen, in unserem System gespeicherten Daten zu synchronisieren.
+                                    <target>Die Anwendung besteht aus einem interaktiven Kalender, der dazu dient, den Status der verschiedenen Zimmer Ihres Hauses zu ändern. Im Moment der Authentifizierung zeigt jedes Zimmer die eingetragenen Termine als nicht verfügbar an. Wenn Sie die App zum ersten Mal benutzen,
+                                            sollten Sie Zugang zum Internet haben, um die Daten Ihrer Unterkunft mit jenen, die in unserem System gespeichert sind, zu synchronisieren.
                                     </target>
                                 </trans-unit>
                               <trans-unit id="947">

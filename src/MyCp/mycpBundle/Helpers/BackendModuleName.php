@@ -68,4 +68,36 @@ class BackendModuleName {
 
 }
 
+class DataBaseTables {
+
+    const USER = "user";
+    const METATAGS = "metatag";
+    const MUNICIPALITY = "municipality";
+    const DESTINATION = "destination";
+    const DESTINATION_CATEGORY = "destinationCategory";
+    const DESTINATION_PHOTO = "destinationPhoto";
+    const OWNERSHIP = "ownership";
+    const OWNERSHIP_PHOTO = "ownershipPhoto";
+    const ROOM = "room";
+    const BATCH_PROCESS = "batchProcess";
+    const UNAVAILABILITY_DETAILS = "unavailabilityDetails";
+    const ALBUM_CATEGORY = "albumCategory";
+    const ALBUM = "album";
+    const ALBUM_PHOTO = "albumPhoto";
+    const FAQ_CATEGORY = "faqCategory";
+    const FAQ_LANG = "faqLang";
+    const FAQ = "faq";
+    const INFORMATION = "information";
+    const INFORMATION_LANG = "informationLang";
+    const COMMENT = "comment";
+    const AWARD = "award";
+    const CLIENT_COMMENT = "clientComment";
+    const MESSAGE = "message";
+    const GENERAL_RESERVATION = "generalReservation";
+    const ROLE = "role";
+    const CURRENCY = "currency";
+    const LANGUAGE = "lang";
+    const SEASON = "season";
+
+}
 ?>

@@ -155,4 +155,10 @@ class municipality
     {
         return $this->getMunName();
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Municipio ".$this->getMunName();
+    }
 }

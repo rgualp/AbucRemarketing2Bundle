@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,8 +24,8 @@ class BackendCurrencyController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $currencies = $paginator->paginate($em->getRepository('mycpBundle:currency')->findAll())->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_CURRENCY);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_CURRENCY);
 
         return $this->render('mycpBundle:currency:list.html.twig', array(
                     'currencies' => $currencies,
@@ -67,18 +68,21 @@ class BackendCurrencyController extends Controller {
                 if (!$currency->getCurrSitePriceIn()) {
                     $price_in_count = count($em->getRepository("mycpBundle:currency")->findBy(array('curr_site_price_in' => true)));
 
-                    if ($price_in_count == 0)
-                        $errors['curr_site_price_in'] = 'Primero tiene que marcar la moneda en la que están almacenados los precios en la base de datos y la asociación quedará eliminada automáticamente';
+                    if ($price_in_count == 0) {
+                        $message = 'Primero tiene que marcar la moneda en la que están almacenados los precios en la base de datos y la asociación quedará eliminada automáticamente';
+                        $errors['curr_site_price_in'] = $message;
+                        $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                    }
                 }
-                else {
+                //else {
 
                     $message = 'Moneda actualizada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog('Edit entity ' . $post_form['curr_name'], BackendModuleName::MODULE_CURRENCY);
+                    $service_log->saveLog($currency->getLogDescription(), BackendModuleName::MODULE_CURRENCY, log::OPERATION_UPDATE, DataBaseTables::CURRENCY);
                     return $this->redirect($this->generateUrl('mycp_list_currencies'));
-                }
+                //}
             }
         }
 
@@ -113,7 +117,7 @@ class BackendCurrencyController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity ' . $post_form['curr_name'], BackendModuleName::MODULE_CURRENCY);
+                $service_log->saveLog($currency->getLogDescription(), BackendModuleName::MODULE_CURRENCY, log::OPERATION_INSERT, DataBaseTables::CURRENCY);
 
                 return $this->redirect($this->generateUrl('mycp_list_currencies'));
             }
@@ -126,6 +130,7 @@ class BackendCurrencyController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $currency = $em->getRepository('mycpBundle:currency')->find($id_currency);
+        $logDescription = $currency->getLogDescription();
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_currency' => $currency));
         if ($user) {
             $message = 'No se puede eliminar la moneda, está siendo utilizada por un usuario.';
@@ -153,7 +158,7 @@ class BackendCurrencyController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete entity ' . $name_curr, BackendModuleName::MODULE_CURRENCY);
+            $service_log->saveLog($logDescription, BackendModuleName::MODULE_CURRENCY, log::OPERATION_DELETE, DataBaseTables::CURRENCY);
 
             return $this->redirect($this->generateUrl('mycp_list_currencies'));
         }

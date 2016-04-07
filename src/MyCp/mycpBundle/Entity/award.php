@@ -159,6 +159,10 @@ class award
         return $this;
     }
 
-
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Premio ".$this->getName();
+    }
 
 }

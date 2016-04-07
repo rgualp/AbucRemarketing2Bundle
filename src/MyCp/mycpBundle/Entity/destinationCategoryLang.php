@@ -35,7 +35,7 @@ class destinationCategoryLang
     private $des_cat_name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="destinationCategory",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="destinationCategory",inversedBy="translations")
      * @ORM\JoinColumn(name="des_cat_id_cat",referencedColumnName="des_cat_id")
      */
     private $des_cat_id_cat;
@@ -119,4 +119,5 @@ class destinationCategoryLang
     {
         return $this->des_cat_id_cat;
     }
+
 }

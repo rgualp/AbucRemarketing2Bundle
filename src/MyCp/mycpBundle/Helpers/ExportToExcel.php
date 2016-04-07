@@ -853,7 +853,7 @@ class ExportToExcel extends Controller {
         $excel = $this->configExcel("Reporte resumen de reservaciones por clientes", "Reporte resumen de reservaciones por clientes de MyCasaParticular", "reportes");
         $dateFrom=\DateTime::createFromFormat('Y-m-d',$dateFrom);
         $dateTo=\DateTime::createFromFormat('Y-m-d', $dateTo);
-        $data = $this->dataForReservationsByClientReport($dateFrom, $dateTo );
+        $data = $this->dataForReservationsByClientReport($dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d') );
         if (count($data) > 0)
             $excel = $this->createSheetForReservationsByClientReport($excel, 'Resumen', $reportId, $data, $dateFrom, $dateTo);
 
@@ -884,8 +884,29 @@ class ExportToExcel extends Controller {
         $reportContent = $this->em->getRepository("mycpBundle:report")->reservationsByClientsSummary($dateFrom, $dateTo);
 
         $dataArr = array();
+        $sol=0;
+        $disp=0;
+        $no_disp=0;
+        $pend=0;
+        $res=0;
+        $venc=0;
+        $cancel=0;
         foreach ($reportContent as $content) {
             $data = array();
+            if($content["solicitudes"]>0)
+            $sol=$sol+$content["solicitudes"];
+            if($content["disponibles"]>0)
+            $disp=$disp+$content["disponibles"];
+            if($content["no_disponibles"]>0)
+            $no_disp=$no_disp+$content["no_disponibles"];
+            if($content["pendientes"]>0)
+            $pend=$pend+$content["pendientes"];
+            if($content["reservas"]>0)
+            $res=$res+$content["reservas"];
+            if($content["vencidas"]>0)
+            $venc=$venc+$content["vencidas"];
+            if($content["canceladas"]>0)
+            $cancel=$cancel+$content["canceladas"];
 
             $data[0] = $content["user_name"].' '.$content["user_last_name"];
             $data[1] = $content["solicitudes"];
@@ -894,6 +915,19 @@ class ExportToExcel extends Controller {
             $data[4] = $content["pendientes"];
             $data[5] = $content["reservas"];
             $data[6] = $content["vencidas"];
+            $data[7] = $content["canceladas"];
+            array_push($dataArr, $data);
+        }
+        if(count($reportContent)>0){
+            $data = array();
+            $data[0] = "Total";
+            $data[1] = ''.$sol;
+            $data[2] = ''.$disp;
+            $data[3] = ''.$no_disp;
+            $data[4] = ''.$pend;
+            $data[5] = ''.$res;
+            $data[6] = ''.$venc;
+            $data[7] = ''.$cancel;
             array_push($dataArr, $data);
         }
         return $dataArr;
@@ -905,7 +939,7 @@ class ExportToExcel extends Controller {
         $sheet = $this->createSheet($excel, $sheetName);
         $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
         $now = new \DateTime();
-        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y H:s').'-'.$dateTo->format('d/m/Y H:s'));
+        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y').'-'.$dateTo->format('d/m/Y'));
 
         $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
 
@@ -916,8 +950,9 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('e5', 'Pendientes');
         $sheet->setCellValue('f5', 'Reservaciones');
         $sheet->setCellValue('g5', 'Vencidas');
+        $sheet->setCellValue('h5', 'Canceladas');
 
-        $sheet = $this->styleHeader("a5:g5", $sheet);
+        $sheet = $this->styleHeader("a5:h5", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -927,8 +962,8 @@ class ExportToExcel extends Controller {
         $sheet->getStyle("a1")->applyFromArray($style);
 
         $sheet->fromArray($data, ' ', 'A6');
-        $this->setColumnAutoSize("a", "g", $sheet);
-        $sheet->setAutoFilter("A5:G".(count($data) + 5));
+        $this->setColumnAutoSize("a", "h", $sheet);
+        $sheet->setAutoFilter("A5:H".(count($data) + 5));
 
         return $excel;
     }

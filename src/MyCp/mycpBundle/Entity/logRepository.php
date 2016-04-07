@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\Dates;
 
 /**
  * logRepository
@@ -19,52 +20,39 @@ class logRepository extends EntityRepository
         $module=$post['module'];
         $from_date=$post['from_date'];
         $to_date=$post['to_date'];
+        $role=$post['role'];
 
-        $string0='';
+        $em=$this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('log')
+            ->from("mycpBundle:log", "log")
+            ->leftJoin("log.log_user", "user")
+            ->orderBy("log.log_date", "DESC")
+            ->addOrderBy("log.log_time", "DESC");
+
         if($user!='')
-            $string0="lu.user_id='$user'";
+            $qb->andWhere("user.user_user_name LIKE '$user'")
+                ->orWhere("user.user_name LIKE '$user'")
+                ->orWhere("user.user_last_name LIKE '$user'");
 
-        $string1='';
-        if($module!='')
-        {
-            $string1_1='';
-            if($user!='')
-                $string1_1='AND';
-            $string1="$string1_1 l.log_module='$module'";
+        if($module!='' && $module!='-1')
+            $qb->andWhere("log.log_module = $module");
+
+        if($role!='')
+            $qb->andWhere("user.user_role = '$role'");
+
+        if($from_date!='') {
+            $from_date = Dates::createForQuery($from_date, "d/m/Y");
+            $qb->andWhere("log.log_date >= '$from_date'");
         }
 
-
-        $string2='';
-        if($from_date!='')
-        {
-            $string2_1='';
-            if($user!='' or $module!='')
-                $string2_1='AND';
-            $array_date_from=explode('/',$from_date);
-            $string2=$array_date_from[2].'-'.$array_date_from[1].'-'.$array_date_from[0];
-            $string2="$string2_1 l.log_date >='$string2'";
-        }
-        $string3='';
         if($to_date!='')
         {
-            $string3_1='';
-            if($user!='' or $module!='' or $from_date!='')
-                $string3_1='AND';
-            $array_date_from=explode('/',$to_date);
-            $string3=$array_date_from[2].'-'.$array_date_from[1].'-'.$array_date_from[0];
-            $string3="$string3_1 l.log_date <='$string3'";
+            $to_date = Dates::createForQuery($to_date, "d/m/Y");
+            $qb->andWhere("log.log_date <= '$to_date'");
         }
 
-        $where='WHERE';
-        if($user=='' && $module=='' && $from_date=='' && $to_date=='')
-            $where='';
-
-
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT l,lu FROM mycpBundle:log l
-        JOIN l.log_user lu
-        $where $string0 $string1 $string2 $string3");
-        return $query->getResult();
+        return $qb->getQuery()->getResult();
     }
 
     function getOldLogs($date, $maxResults = 50)

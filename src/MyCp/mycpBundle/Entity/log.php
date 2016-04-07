@@ -13,6 +13,35 @@ use Doctrine\ORM\Mapping as ORM;
 class log
 {
     /**
+     * All allowed statuses adding text
+     */
+
+    const OPERATION_INSERT = 1;
+    const OPERATION_UPDATE = 2;
+    const OPERATION_DELETE= 3;
+    const OPERATION_VISIT = 4;
+    const OPERATION_LOGIN = 5;
+    const OPERATION_LOGOUT = 6;
+    const OPERATION_NONE = 7;
+    const OPERATION_REMOVE = 8;
+
+    /**
+     * Contains all possible statuses
+     *
+     * @var array
+     */
+    private $operations = array(
+        self::OPERATION_INSERT,
+        self::OPERATION_UPDATE,
+        self::OPERATION_DELETE,
+        self::OPERATION_VISIT,
+        self::OPERATION_LOGIN,
+        self::OPERATION_LOGOUT,
+        self::OPERATION_NONE,
+        self::OPERATION_REMOVE
+    );
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="log_id", type="integer")
@@ -54,6 +83,20 @@ class log
      * @ORM\Column(name="log_time", type="string", length=255)
      */
     private $log_time;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="operation", type="integer", nullable=true)
+     */
+    private $operation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="db_table", type="string", length=255, nullable=true)
+     */
+    private $db_table;
 
     /**
      * Get log_id
@@ -179,4 +222,55 @@ class log
     {
         return $this->log_time;
     }
+
+    /**
+     * @return string
+     */
+    public function getDbTable()
+    {
+        return $this->db_table;
+    }
+
+    /**
+     * @param string $db_table
+     * @return log
+     */
+    public function setDbTable($db_table)
+    {
+        $this->db_table = $db_table;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOperation()
+    {
+        return $this->operation;
+    }
+
+    /**
+     * @param string $operation
+     * @return log
+     */
+    public function setOperation($operation)
+    {
+        $this->operation = $operation;
+        return $this;
+    }
+
+    public static function getOperationName($operation)
+    {
+        switch($operation){
+            case self::OPERATION_DELETE: return "Eliminar";
+            case self::OPERATION_INSERT: return "Insertar";
+            case self::OPERATION_LOGIN: return "Autenticar";
+            case self::OPERATION_LOGOUT: return "Cerrar sesión";
+            case self::OPERATION_UPDATE: return "Actualizar";
+            case self::OPERATION_VISIT: return "Visita";
+            case self::OPERATION_REMOVE: return "Remover";
+            default: return "(No especificada)";
+        }
+    }
+
 }

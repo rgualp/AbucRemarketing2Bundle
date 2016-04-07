@@ -36,7 +36,7 @@ class informationLang
     private $info_lang_content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="information",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="information",inversedBy="translations")
      * @ORM\JoinColumn(name="info_lang_info",referencedColumnName="info_id")
      */
     private $info_lang_info;
