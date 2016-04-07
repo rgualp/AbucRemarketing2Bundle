@@ -61,6 +61,13 @@
             <div class="span4"><label>Apellido</label><input id="filter_last_name" value="{{filter_last_name}}" class="input-block-level" name="filter_last_name" type="text"/></div>
             <div class="span3"><label>Email</label><input id="filter_email" value="{{filter_email}}" class="input-block-level" name="filter_email" type="text"/></div>
             <div class="span2">
+                {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
+                {% if filter_role ==''%}{% set filter_role='null'%}{%endif%}
+                {% if filter_city ==''%}{% set filter_city='null'%}{%endif%}
+                {% if filter_country ==''%}{% set filter_country='null'%}{%endif%}
+                {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+                {% if filter_last_name ==''%}{% set filter_last_name='null'%}{%endif%}
+                {% if filter_email ==''%}{% set filter_email='null'%}{%endif%}
                 <label>&nbsp;</label>
                 <div class="row-fluid">
                     <div class="span6">
@@ -97,7 +104,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email,'sort_by':sort_by}
+'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email}
 }) }}
 </div>
 <table class="table table-striped table-hover">
@@ -136,7 +143,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email,'sort_by':sort_by}
+'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email}
 }) }}
 </div>
     {% else %}
@@ -217,7 +224,7 @@
 
         function action_submit()
         {
-            //items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:'',sort_by:'0'}
+            //items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:''}
             items_per_page={{items_per_page}};
 
             filter_user_name=$('#filter_user_name').val();

@@ -453,7 +453,6 @@ class BackendUserController extends Controller {
         $filter_name = $request->get('filter_name');
         $filter_last_name = $request->get('filter_last_name');
         $filter_email = $request->get('filter_email');
-        $sort_by = $request->get('sort_by');
 
         if ($request->getMethod() == 'POST' && $filter_user_name == 'null' && $filter_role == 'null' && $filter_city == 'null' && $filter_country == 'null' && $filter_name == 'null' && $filter_last_name == 'null' && $filter_email == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
@@ -463,8 +462,12 @@ class BackendUserController extends Controller {
 
         if ($filter_user_name == 'null')
             $filter_user_name = '';
+        if ($filter_role == 'null')
+            $filter_role = '';
         if ($filter_city == 'null')
             $filter_city = '';
+        if ($filter_country == 'null')
+            $filter_country = '';
         if ($filter_name == 'null')
             $filter_name = '';
         if ($filter_last_name == 'null')
@@ -493,8 +496,7 @@ class BackendUserController extends Controller {
                     'filter_country' => $filter_country,
                     'filter_name' => $filter_name,
                     'filter_last_name' => $filter_last_name,
-                    'filter_email' => $filter_email,
-                    'sort_by' => $sort_by,
+                    'filter_email' => $filter_email
         ));
     }
 
