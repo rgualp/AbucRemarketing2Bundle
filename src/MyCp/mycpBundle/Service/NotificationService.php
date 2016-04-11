@@ -60,7 +60,8 @@ class NotificationService extends Controller
 
             $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $reservation->getGenResId()), array("own_res_reservation_from_date" => "ASC"));
             $nights = $reservation->getTotalStayedNights($reservations, $this->time);
-            $payAtService = $reservation->getGenResTotalInSite() - $reservation->getGenResTotalInSite() * $accommodation->getOwnCommissionPercent()/100;
+            $payAtService =  $reservation->getGenResTotalInSite() - $reservation->getGenResTotalInSite() * $accommodation->getOwnCommissionPercent()/100;
+            $payAtService = number_format((float)$payAtService, 2, '.', '');
 
             $message = "MyCasaParticular le recuerda, cliente ".$touristName." arriba el ".$reservations[0]->getOwnResReservationFromDate()->format("d-m-Y")." por ".$nights." noches pagará ".$payAtService." CUC.";
             $subType = "CHECKIN";
