@@ -414,13 +414,16 @@ class generalReservationRepository extends EntityRepository {
                         ->getArrayResult();
     }
 
-    function getByUser($id_user, $ownId = null) {
+    function getByUser($id_user, $ownId = null, $isUserCasaModule = false) {
         $em = $this->getEntityManager();
 
         $whereOwn = "";
 
         if ($ownId != null) {
             $whereOwn = " AND ow.own_id= $ownId ";
+
+            if($isUserCasaModule)
+                $whereOwn .= " AND gre.gen_res_status = ".generalReservation::STATUS_RESERVED;//." or gre.gen_res_status = ".generalReservation::STATUS_CANCELLED.") ";//agregar stado
         }
 
         $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,gre.gen_res_total_in_site,gre.gen_res_status,
