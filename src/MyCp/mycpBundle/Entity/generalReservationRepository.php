@@ -82,7 +82,7 @@ class generalReservationRepository extends EntityRepository {
 
      }
 
-    function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $filter_status) {
+    function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa, $filter_status) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -92,13 +92,13 @@ class generalReservationRepository extends EntityRepository {
         u.user_user_name, u.user_last_name, u.user_email
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
-        JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id
         JOIN gre.gen_res_user_id u ";
+        /*JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id*/
 
-        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $gaQuery);
+        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $gaQuery);
     }
 
-    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $queryStr,$items_per_page = null, $page = null) {
+    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $queryStr,$items_per_page = null, $page = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -171,8 +171,12 @@ class generalReservationRepository extends EntityRepository {
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
             $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_status = $filter_status ";
 
-        if ($user_casa_id != -1)
-            $where .= (($where != "") ? " AND ": " WHERE "). " uca.user_casa_id = $user_casa_id ";
+        if ($user_casa != null) {
+            $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_id = ".$user_casa->getUserCasaOwnership()->getOwnId();
+
+            if($filter_status == "" || $filter_status == "-1" || $filter_status == "null")
+                $where .= (($where != "") ? " AND " : " WHERE ") . " (gre.gen_res_status = ".generalReservation::STATUS_CANCELLED." or gre.gen_res_status = ".generalReservation::STATUS_RESERVED.") ";
+        }
 
         if ($filter_booking_number != '' && $filter_booking_number != "-1" && $filter_booking_number != "null")
         {
