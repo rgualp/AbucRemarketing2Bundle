@@ -492,6 +492,13 @@ class ownership {
     private $comments;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_sms_notifications", type="boolean")
+     */
+    private $own_sms_notifications;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -506,6 +513,7 @@ class ownership {
         $this->photos = new ArrayCollection();
         $this->comments = new ArrayCollection();
         //$this->own_creation_date = new \DateTime();
+        $this->own_sms_notifications = true;
     }
 
     /**
@@ -1990,6 +1998,26 @@ class ownership {
         $this->photos = $photos;
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getOwnSmsNotifications()
+    {
+        return $this->own_sms_notifications;
+    }
+
+    /**
+     * @param boolean $own_sms_notifications
+     * @return mixed
+     */
+    public function setOwnSmsNotifications($own_sms_notifications)
+    {
+        $this->own_sms_notifications = $own_sms_notifications;
+        return $this;
+    }
+
+
 
     /*Logs functions*/
     public function getLogDescription()

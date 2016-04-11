@@ -39,7 +39,7 @@ class NotificationService extends Controller
     public function sendConfirmPaymentSMSNotification($reservation, $isTesting = false)
     {
         $accommodation = $reservation->getGenResOwnId();
-        if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
+        if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
             $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
             $message = "Mycasaparticular confirma reserva del cliente ".$touristName.", revise su correo o contáctenos al 78673574";
@@ -54,7 +54,7 @@ class NotificationService extends Controller
     public function sendCheckinSMSNotification($reservation, $isTesting = false)
     {
         $accommodation = $reservation->getGenResOwnId();
-        if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
+        if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
             $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
 
