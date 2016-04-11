@@ -74,14 +74,14 @@ class NotificationService extends Controller
 
     private function sendSMSNotification($mobileNumber, $message, $subtype, $description)
     {
-        $data['notificacionsmsrest_formtype'] = array(
+        $data['sms'] = array(
             'project' => $this->notificationServiceApiKey,//Obligatorio
             'to' => $mobileNumber,//8 digitos, comenzando con 5
             'msg' => $message,//No obligatorio
-            'notification_type' => $subtype,//Obligatorio
+            'sms_type' => $subtype,//Obligatorio
         );
 
-        $url= $this->serviceNotificationUrl.'/api/notificacion/sms/add';
+        $url= $this->serviceNotificationUrl.'/api/sms/add';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
