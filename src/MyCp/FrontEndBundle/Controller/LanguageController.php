@@ -24,7 +24,7 @@ class LanguageController extends Controller
                 'routeParams' => $routeParams
             ));
 
-        // cache control -> languages rarely change
+        // cache controol -> languages rarely change
         $response->setSharedMaxAge(3600);
 
         return $response;
