@@ -81,7 +81,7 @@
                                 <td style="background: #fff"><b>Huéspedes:</b> {{check.adults+check.children}}</td>
                                 <td style="background: #fff"><b>Pagado:</b> {{check.payed|date("d/m/Y")}}</td>
                                 <td style="background: #fff"><b>Noches:</b> {{check.nights}}</td>
-                                <td style="background: #fff"><b>Pago en casa:</b> {{ check.to_pay_at_service - check.to_pay_at_service * check.own_commission_percent /100}} CUC</td>
+                                <td style="background: #fff"><b>Pago en casa:</b> {{ check.to_pay_at_service - check.to_pay_at_service * check.own_commission_percent /100 }} CUC</td>
                             </tr>
                             <tr>
                                 <td style="background: #fff"> <b>Propiedad:</b> {{check.own_mcp_code}}</td>
