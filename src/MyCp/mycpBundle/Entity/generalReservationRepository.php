@@ -171,7 +171,7 @@ class generalReservationRepository extends EntityRepository {
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
             $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_status = $filter_status ";
 
-        if ($user_casa != null) {
+        if ($user_casa != null && $user_casa != -1) {
             $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_id = ".$user_casa->getUserCasaOwnership()->getOwnId();
 
             if($filter_status == "" || $filter_status == "-1" || $filter_status == "null")
@@ -681,37 +681,70 @@ class generalReservationRepository extends EntityRepository {
     }
 
     function getCheckins($checkinDate, $orderBy = OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE) {
-        $queryStr = "SELECT gre,
-        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id AND owres.own_res_status = :reservationStatus),
-        (SELECT SUM(owres1.own_res_count_adults) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gre.gen_res_id AND owres1.own_res_status = :reservationStatus),
-        (SELECT SUM(owres2.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id AND owres2.own_res_status = :reservationStatus),
-        us, cou,own,prov,
-        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = (SELECT MIN(owres3.own_res_reservation_booking) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id AND owres3.own_res_status = :reservationStatus))
-        FROM mycpBundle:generalReservation gre
+        /*
+         $queryStr = "SELECT owreservation,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id AND owres.own_res_status = :reservationStatus AND owres.own_res_reservation_from_date = gre.gen_res_from_date) as rooms,
+        (SELECT SUM(owres1.own_res_count_adults) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gre.gen_res_id AND owres1.own_res_status = :reservationStatus AND owres1.own_res_reservation_from_date = gre.gen_res_from_date) as adults,
+        (SELECT SUM(owres2.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id AND owres2.own_res_status = :reservationStatus AND owres2.own_res_reservation_from_date = gre.gen_res_from_date) as children,
+        (SELECT SUM(owres4.own_res_total_in_site) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id AND owres4.own_res_status = :reservationStatus AND owres4.own_res_reservation_from_date = gre.gen_res_from_date) as to_pay_at_service,
+        us.user_user_name, us.user_last_name,
+        cou.co_name,
+        own.own_commission_percent, own.own_mcp_code,prov,own.own_homeowner_1,own.own_homeowner_2,own.own_phone_number,own.own_mobile_number,
+        prov.prov_phone_code,
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = (SELECT MIN(owres3.own_res_reservation_booking) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id AND owres3.own_res_status = :reservationStatus AND owres3.own_res_reservation_from_date = gre.gen_res_from_date)) as payed
+        FROM mycpBundle:ownershipreservation owreservation
+        JOIN ownreservation.own_res_gen_res_id gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id us
         JOIN us.user_country cou
         JOIN own.own_address_province prov
         WHERE gre.gen_res_from_date LIKE :filter_date_from
-        AND gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus";
+        AND gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus
+        AND gre.gen_res_from_date == owreservation.own_res_reservation_from_date
+        GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date";
+*/
+        $queryStr = "SELECT owreservation,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+        COUNT(owreservation) as rooms,
+        SUM(owreservation.own_res_count_adults) as adults,
+        SUM(owreservation.own_res_count_childrens) as children,
+        SUM(owreservation.own_res_total_in_site) as to_pay_at_service,
+        us.user_user_name, us.user_last_name,
+        cou.co_name,
+        own.own_commission_percent, own.own_mcp_code,prov,own.own_homeowner_1,own.own_homeowner_2,own.own_phone_number,own.own_mobile_number,
+        prov.prov_phone_code,
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
+        (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights
+        FROM mycpBundle:ownershipreservation owreservation
+        JOIN owreservation.own_res_gen_res_id gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us
+        JOIN us.user_country cou
+        JOIN own.own_address_province prov
+        WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
+        AND (gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)
+        AND owreservation.own_res_status = :reservationStatus
+        GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
+        ";
+
+        $orderByString = "";
 
         switch($orderBy)
         {
             case OrderByHelper::DEFAULT_ORDER_BY:
             case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE:
-                $queryStr .= " ORDER BY own.own_mcp_code ASC ";break;
+                $orderByString .= " ORDER BY own.own_mcp_code ASC ";break;
             case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE:
-                $queryStr .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC "; break;
+                $orderByString .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC "; break;
             case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_CASCODE;
-                $queryStr .= " ORDER BY gre.gen_res_id ASC ";break;
+                $orderByString .= " ORDER BY gre.gen_res_id ASC ";break;
             case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE;
-                $queryStr .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
+                $orderByString .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
         }
 
         $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
 
         $em = $this->getEntityManager();
-        $query = $em->createQuery($queryStr);
+        $query = $em->createQuery($queryStr.$orderByString);
 
         $query->setParameters(array(
             'filter_date_from' => "%".$checkinDate."%",
@@ -720,7 +753,41 @@ class generalReservationRepository extends EntityRepository {
             'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
         ));
 
-        return $query->getArrayResult();
+        /*$checkingGeneral =*/ return $query->getArrayResult();
+
+        /*$queryStrOwnership = "SELECT owreservation,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+        COUNT(owreservation) as rooms,
+        SUM(owreservation.own_res_count_adults) as adults,
+        SUM(owreservation.own_res_count_childrens) as children,
+        SUM(owreservation.own_res_total_in_site) as to_pay_at_service,
+        us.user_user_name, us.user_last_name,
+        cou.co_name,
+        own.own_commission_percent, own.own_mcp_code,prov,own.own_homeowner_1,own.own_homeowner_2,own.own_phone_number,own.own_mobile_number,
+        prov.prov_phone_code,
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
+        (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights
+        FROM mycpBundle:ownershipreservation owreservation
+        JOIN owreservation.own_res_gen_res_id gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us
+        JOIN us.user_country cou
+        JOIN own.own_address_province prov
+        WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
+        AND gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus
+        AND gre.gen_res_from_date != owreservation.own_res_reservation_from_date
+        AND owreservation.own_res_status = :reservationStatus
+        GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date";
+
+        $queryOwn = $em->createQuery($queryStrOwnership.$orderByString);
+
+        $queryOwn->setParameters(array(
+            'filter_date_from' => "%".$checkinDate."%",
+            'reservationStatus' => ownershipReservation::STATUS_RESERVED,
+            'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
+            'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
+        ));
+
+        return array_merge($checkingGeneral, $queryOwn->getArrayResult());*/
     }
 
     function getReservationsForNightCounterTotal()

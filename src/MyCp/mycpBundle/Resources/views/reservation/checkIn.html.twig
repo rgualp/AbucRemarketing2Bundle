@@ -75,26 +75,26 @@
                     <td colspan="3">
                         <table style="width:100%" class="stylessTable">
                             <tr>
-                                <td style="background: #fff"><b>Reserva:</b> {{check[0].gen_res_id | getCASId}}</td>
-                                <td style="background: #fff"><b>Fecha:</b> {{check[0].gen_res_date |date("d/m/Y")}}</td>
-                                <td style="background: #fff"><b>Habitaciones:</b> {{check[1]}}</td>
-                                <td style="background: #fff"><b>Huéspedes:</b> {{check[3]+check[5]}}</td>
-                                <td style="background: #fff"><b>Pagado:</b> {{check[7]|date("d/m/Y")}}</td>
-                                <td style="background: #fff"><b>Noches:</b> {{nights[loop.index0]}}</td>
-                                <td style="background: #fff"><b>Pago en casa:</b> {{ check[0].gen_res_total_in_site - check[0].gen_res_total_in_site * check[0].gen_res_own_id.own_commission_percent /100}} CUC</td>
+                                <td style="background: #fff"><b>Reserva:</b> {{check.gen_res_id | getCASId}}</td>
+                                <td style="background: #fff"><b>Fecha:</b> {{check.gen_res_date |date("d/m/Y")}}</td>
+                                <td style="background: #fff"><b>Habitaciones:</b> {{check.rooms}}</td>
+                                <td style="background: #fff"><b>Huéspedes:</b> {{check.adults+check.children}}</td>
+                                <td style="background: #fff"><b>Pagado:</b> {{check.payed|date("d/m/Y")}}</td>
+                                <td style="background: #fff"><b>Noches:</b> {{check.nights}}</td>
+                                <td style="background: #fff"><b>Pago en casa:</b> {{ check.to_pay_at_service - check.to_pay_at_service * check.own_commission_percent /100}} CUC</td>
                             </tr>
                             <tr>
-                                <td style="background: #fff"> <b>Propiedad:</b> {{check[0].gen_res_own_id.own_mcp_code}}</td>
-                                <td style="background: #fff" colspan="3"> <b>Propietario(s):</b> {{check[0].gen_res_own_id.own_homeowner_1}} {%if check[0].gen_res_own_id.own_homeowner_2%} / {{check[0].gen_res_own_id.own_homeowner_2}}{%endif%}</td>
-                                <td style="background: #fff" colspan="3"> <b>Teléfonos(s):</b> {%if check[0].gen_res_own_id.own_phone_number%} (+53) {{check[0].gen_res_own_id.own_address_province.prov_phone_code}} {{check[0].gen_res_own_id.own_phone_number}} {%endif%}
-                                {%if check[0].gen_res_own_id.own_phone_number and check[0].gen_res_own_id.own_mobile_number%} / {%endif%}
-                                {{check[0].gen_res_own_id.own_mobile_number}}
+                                <td style="background: #fff"> <b>Propiedad:</b> {{check.own_mcp_code}}</td>
+                                <td style="background: #fff" colspan="3"> <b>Propietario(s):</b> {{check.own_homeowner_1}} {%if check.own_homeowner_2%} / {{check.own_homeowner_2}}{%endif%}</td>
+                                <td style="background: #fff" colspan="3"> <b>Teléfonos(s):</b> {%if check.own_phone_number%} (+53) {{check.prov_phone_code}} {{check.own_phone_number}} {%endif%}
+                                {%if check.own_phone_number and check.own_mobile_number%} / {%endif%}
+                                {{check.own_mobile_number}}
                                 </td>
                             </tr>
                             <tr>
-                                <td style="background: #fff" colspan="2"> <b>Cliente:</b> {{check[0].gen_res_user_id.user_user_name}} {{check[0].gen_res_user_id.user_last_name}}</td>
-                                <td style="background: #fff" colspan="4"> <b>País:</b> {{check[0].gen_res_user_id.user_country.co_name}}</td>
-                                <td style="background: #fff; text-align: right"><a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':check[0].gen_res_id}) }}">Detalles</a></td>
+                                <td style="background: #fff" colspan="2"> <b>Cliente:</b> {{check.user_user_name}} {{check.user_last_name}}</td>
+                                <td style="background: #fff" colspan="4"> <b>País:</b> {{check.co_name}}</td>
+                                <td style="background: #fff; text-align: right"><a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':check.gen_res_id}) }}">Detalles</a></td>
                             </tr>
                         </table>
                     </td>
