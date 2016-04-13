@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Command;
 
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
+use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,8 +36,19 @@ EOT
     {
         $notificationService = $container->get("mycp.notification.service");
         $reservation = $em->getRepository("mycpBundle:generalReservation")->find(69210);
+        $reservationObj = array(
+            "mobile" => "52540669",
+            "nights" => 2,
+            "smsNotification" => 1,
+            "touristCompleteName" => "Yanet Morales",
+            "payAtService" => 20,
+            "arrivalDate" => "31-03-2016",
+            "casId" => "CAS.42939",
+            "genResId" => 42939
+
+        );
         $notificationService->sendConfirmPaymentSMSNotification($reservation, true);
-        $notificationService->sendCheckinSMSNotification($reservation, true);
+        $notificationService->sendCheckinSMSNotification($reservationObj, true);
     }
 
     private function testingPostPaymentProcess($em,OutputInterface $output)

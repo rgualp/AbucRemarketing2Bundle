@@ -51,24 +51,22 @@ class NotificationService extends Controller
         }
     }
 
-    public function sendCheckinSMSNotification($reservation, $isTesting = false)
+    public function sendCheckinSMSNotification($reservationObj, $isTesting = false)
     {
-        $accommodation = $reservation->getGenResOwnId();
-        if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
-            $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
-            $touristName = $reservation->getGenResUserId()->getUserCompleteName();
+        if($reservationObj["mobile"] != null  && $reservationObj["mobile"] != "" && $reservationObj["smsNotification"]) {
+            $mobileNumber = ($isTesting) ? "52540669" : $reservationObj["mobile"];
+            /*$touristName = $reservation->getGenResUserId()->getUserCompleteName();
 
             $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $reservation->getGenResId()), array("own_res_reservation_from_date" => "ASC"));
             $nights = $reservation->getTotalStayedNights($reservations, $this->time);
             $payAtService =  $reservation->getGenResTotalInSite() - $reservation->getGenResTotalInSite() * $accommodation->getOwnCommissionPercent()/100;
-            $payAtService = number_format((float)$payAtService, 2, '.', '');
+            $payAtService = number_format((float)$payAtService, 2, '.', '');*/
 
-            $message = "MyCasaParticular le recuerda, cliente ".$touristName." arriba el ".$reservations[0]->getOwnResReservationFromDate()->format("d-m-Y")." por ".$nights." noches pagará ".$payAtService." CUC.";
+            $message = "MyCasaParticular le recuerda, cliente ".$reservationObj["touristCompleteName"]." arriba el ".$reservationObj["arrivalDate"]." por ".$reservationObj["nights"]." noches pagará ".$reservationObj["payAtService"]." CUC.";
             $subType = "CHECKIN";
-            $description = $reservation->getCASId();
 
-            $status = $this->sendSMSNotification($mobileNumber, $message, $subType, $description);
-            $this->createReservationNotification($reservation,$subType, $status);
+            $status = $this->sendSMSNotification($mobileNumber, $message, $subType, $reservationObj["casId"]);
+            $this->createReservationNotification($reservationObj,$subType, $status);
         }
     }
 
@@ -116,10 +114,11 @@ class NotificationService extends Controller
         return $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "pending_ns"));
     }
 
-    private function createReservationNotification(generalReservation $reservation, $subType, $notificationStatus)
+    private function createReservationNotification($reservationObj, $subType, $notificationStatus)
     {
         try {
             $notificationType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationType", "nom_name" => "sms_nt"));
+            $reservation = $this->em->getRepository("mycpBundle:generalReservation")->find($reservationObj["genResId"]);
 
             $reservationNotification = new reservationNotification();
             $reservationNotification->setReservation($reservation)

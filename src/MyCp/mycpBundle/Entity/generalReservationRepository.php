@@ -711,7 +711,9 @@ class generalReservationRepository extends EntityRepository {
         us.user_user_name, us.user_last_name,
         cou.co_name,
         own.own_commission_percent, own.own_mcp_code,prov,own.own_homeowner_1,own.own_homeowner_2,own.own_phone_number,own.own_mobile_number,
+        own.own_sms_notifications,
         prov.prov_phone_code,
+        owreservation.own_res_reservation_from_date,
         (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
         (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights
         FROM mycpBundle:ownershipreservation owreservation
