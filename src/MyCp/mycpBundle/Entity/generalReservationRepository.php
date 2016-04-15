@@ -715,7 +715,8 @@ class generalReservationRepository extends EntityRepository {
         prov.prov_phone_code,
         owreservation.own_res_reservation_from_date,
         (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
-        (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights
+        (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights,
+        (SELECT MIN(notif.id) FROM mycpBundle:notification notif WHERE notif.reservation = gre.gen_res_id and notif.subtype = 'CHECKIN' ) as notification
         FROM mycpBundle:ownershipreservation owreservation
         JOIN owreservation.own_res_gen_res_id gre
         JOIN gre.gen_res_own_id own
