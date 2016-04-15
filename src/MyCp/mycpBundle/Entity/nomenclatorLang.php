@@ -28,7 +28,7 @@ class nomenclatorLang
     private $nom_lang_id_lang;
     
      /**
-     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="translations")
      * @ORM\JoinColumn(name="nom_lang_id_nomenclator",referencedColumnName="nom_id")
      */
     private $nom_lang_id_nomenclator;
