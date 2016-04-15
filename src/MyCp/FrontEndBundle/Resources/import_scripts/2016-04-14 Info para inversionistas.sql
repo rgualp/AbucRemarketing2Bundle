@@ -112,3 +112,17 @@ GROUP BY anno, mes, destino
 ORDER BY anno ASC , mes ASC , destino ASC
 ;
 
+/*Total de casas con reservas pagadas, por año*/
+select anno, count(distinct Code) from
+  (select YEAR(gres.gen_res_date) as anno, own.own_mcp_code as Code
+   from generalreservation gres
+     join ownership own  on own.own_id = gres.gen_res_own_id
+     join ownershipreservation owres on owres.own_res_gen_res_id = gres.gen_res_id
+     join booking b on b.booking_id = owres.own_res_reservation_booking
+     join payment p on p.`booking_id` = b.`booking_id`
+   where gres.gen_res_status = 2
+   union
+   select YEAR(pay.creation_date) as anno, pay.accommodation_code as Code
+   from old_payment pay) T
+group by anno
+order by anno;
