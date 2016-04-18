@@ -171,7 +171,7 @@ class generalReservationRepository extends EntityRepository {
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
             $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_status = $filter_status ";
 
-        if ($user_casa != null && $user_casa != -1) {
+        if ((is_object($user_casa) && $user_casa != null) || (is_int($user_casa) && $user_casa != -1)) {
             $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_id = ".$user_casa->getUserCasaOwnership()->getOwnId();
 
             if($filter_status == "" || $filter_status == "-1" || $filter_status == "null")
