@@ -34,6 +34,19 @@ class nomenclator
      * @ORM\Column(name="nom_category", type="string", length=255)
      */
     private $nom_category;
+
+    /**
+     * @ORM\OneToMany(targetEntity="nomenclatorLang",mappedBy="nom_lang_id_nomenclator")
+     */
+    private $translations;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     
     /**
      * Get nom_id
@@ -90,4 +103,24 @@ class nomenclator
     {
         return $this->nom_category;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param mixed $translations
+     * @return mixed
+     */
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+        return $this;
+    }
+
+
 }

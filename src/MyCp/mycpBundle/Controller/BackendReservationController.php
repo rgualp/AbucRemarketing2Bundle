@@ -803,6 +803,15 @@ class BackendReservationController extends Controller {
         return new Response($content, 200);
     }
 
+    public function getNotificationsCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reservationId = $request->get("reservation");
+        $notifications = $em->getRepository("mycpBundle:notification")->findBy(array("reservation" => $reservationId) );
+        $content = $this->renderView("mycpBundle:utils:notifications.html.twig", array("notifications" => $notifications));
+        return new Response($content, 200);
+    }
+
     public function get_ownershipsAction($data) {
         $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();

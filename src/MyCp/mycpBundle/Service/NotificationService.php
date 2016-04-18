@@ -44,10 +44,13 @@ class NotificationService extends Controller
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
             $message = "Mycasaparticular confirma reserva del cliente ".$touristName.", revise su correo o contáctenos al 78673574";
             $subType = "RESERVATION_PAID";
-            $description = $reservation->getCASId();
+            $reservationObj = array(
+                "casId" => $reservation->getCASId(),
+                "genResId" => $reservation->getGenResId()
+            );
 
-            $status = $this->sendSMSNotification($mobileNumber, $message, $subType, $description);
-            $this->createReservationNotification($reservation,$subType, $status);
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+            $this->createNotification($reservationObj,$subType, $response);
         }
     }
 
@@ -55,22 +58,15 @@ class NotificationService extends Controller
     {
         if($reservationObj["mobile"] != null  && $reservationObj["mobile"] != "" && $reservationObj["smsNotification"]) {
             $mobileNumber = ($isTesting) ? "52540669" : $reservationObj["mobile"];
-            /*$touristName = $reservation->getGenResUserId()->getUserCompleteName();
-
-            $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $reservation->getGenResId()), array("own_res_reservation_from_date" => "ASC"));
-            $nights = $reservation->getTotalStayedNights($reservations, $this->time);
-            $payAtService =  $reservation->getGenResTotalInSite() - $reservation->getGenResTotalInSite() * $accommodation->getOwnCommissionPercent()/100;
-            $payAtService = number_format((float)$payAtService, 2, '.', '');*/
-
             $message = "MyCasaParticular le recuerda, cliente ".$reservationObj["touristCompleteName"]." arriba el ".$reservationObj["arrivalDate"]." por ".$reservationObj["nights"]." noches pagará ".$reservationObj["payAtService"]." CUC.";
             $subType = "CHECKIN";
 
-            $status = $this->sendSMSNotification($mobileNumber, $message, $subType, $reservationObj["casId"]);
-            $this->createReservationNotification($reservationObj,$subType, $status);
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+            $this->createNotification($reservationObj,$subType, $response);
         }
     }
 
-    private function sendSMSNotification($mobileNumber, $message, $subtype, $description)
+    private function sendSMSNotification($mobileNumber, $message, $subtype)
     {
         $data['sms'] = array(
             'project' => $this->notificationServiceApiKey,//Obligatorio
@@ -89,29 +85,47 @@ class NotificationService extends Controller
         curl_close($curl);
         $code = $info['http_code'];
 
+        return array(
+            "code" => $code,
+            "response" => $response,
+            "message" => $message,
+            "mobile" => $mobileNumber
+        );
 
-        if($code!= 201){
+    }
+
+    private function createNotification($reservationObj, $subType, $response)
+    {
+        try {
             $notificationType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationType", "nom_name" => "sms_nt"));
-            $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "failed_ns"));
+            $reservation = $this->em->getRepository("mycpBundle:generalReservation")->find($reservationObj["genResId"]);
+
+            if($response["code"] != 201)
+                $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "failed_ns"));
+            else
+                $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "success_ns"));
+
 
             $notification = new notification();
-            $notification->setCode($code)
-                ->setResponse($response)
-                ->setCreated(new \DateTime)
-                ->setMessage($message)
-                ->setSendTo($mobileNumber)
-                ->setSubType($subtype)
-                ->setDescription($description)
+            $notification->setCode($response["code"])
+                ->setReservation($reservation)
+                ->setResponse($response["response"])
+                ->setCreated(new \DateTime())
+                ->setMessage($response["message"])
+                ->setSendTo($response["mobile"])
+                ->setSubType($subType)
+                ->setDescription($reservationObj["casId"])
                 ->setNotificationType($notificationType)
-                ->setStatus($notificationStatus);
+                ->setStatus($notificationStatus)
+            ;
 
             $this->em->persist($notification);
             $this->em->flush();
-
-            return $notificationStatus;
         }
-
-        return $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "pending_ns"));
+        catch(\Exception $e)
+        {
+            echo $e->getMessage();
+        }
     }
 
     private function createReservationNotification($reservationObj, $subType, $notificationStatus)
