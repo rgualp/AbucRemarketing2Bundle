@@ -2,10 +2,12 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\mailList;
 use MyCp\mycpBundle\Form\mailListType;
 use MyCp\mycpBundle\Entity\mailListUser;
 use MyCp\mycpBundle\Form\mailListUserType;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
@@ -23,8 +25,8 @@ class BackendMailListController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $list = $paginator->paginate($em->getRepository('mycpBundle:mailList')->findAll())->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_MAIL_LIST);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_MAIL_LIST);
 
         return $this->render('mycpBundle:mailList:list.html.twig', array(
                     'list' => $list,
@@ -54,7 +56,7 @@ class BackendMailListController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog('Create entity ' . $post_form['mail_list_name'], BackendModuleName::MODULE_MAIL_LIST);
+                    $service_log->saveLog($mailList->getLogDescription(), BackendModuleName::MODULE_MAIL_LIST, log::OPERATION_INSERT, DataBaseTables::MAIL_LIST);
 
                     return $this->redirect($this->generateUrl('mycp_list_mail_list'));
                 } else {
@@ -91,7 +93,7 @@ class BackendMailListController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Update mailList, ' . $post_form['mail_list_name'], BackendModuleName::MODULE_MAIL_LIST);
+                $service_log->saveLog($mailList->getLogDescription(), BackendModuleName::MODULE_MAIL_LIST, log::OPERATION_UPDATE, DataBaseTables::MAIL_LIST);
 
                 return $this->redirect($this->generateUrl('mycp_list_mail_list'));
             }
@@ -116,7 +118,7 @@ class BackendMailListController extends Controller {
         $em->flush();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Remove mail list ' . $listId, BackendModuleName::MODULE_MAIL_LIST);
+        $service_log->saveLog($list->getLogDescription(), BackendModuleName::MODULE_MAIL_LIST, log::OPERATION_DELETE, DataBaseTables::MAIL_LIST);
 
         $message = 'Lista de correo eliminada satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -135,8 +137,8 @@ class BackendMailListController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $list = $paginator->paginate($em->getRepository('mycpBundle:mailListUser')->findBy(array('mail_list' => $mailList)))->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit users for a mail list', BackendModuleName::MODULE_MAIL_LIST);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit users for a mail list', BackendModuleName::MODULE_MAIL_LIST);
 
         return $this->render('mycpBundle:mailList:users.html.twig', array(
                     'list' => $list,
@@ -173,7 +175,7 @@ class BackendMailListController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog('Create mail list user, ' . $mlUser->getMailListUserId(), BackendModuleName::MODULE_MAIL_LIST);
+                    $service_log->saveLog($mlUser->getLogDescription(), BackendModuleName::MODULE_MAIL_LIST, log::OPERATION_INSERT, DataBaseTables::MAIL_LIST_USER);
 
                     return $this->redirect($this->generateUrl('mycp_list_mail_list_user', array("mailList" => $mailList)));
                 } else {
@@ -197,7 +199,7 @@ class BackendMailListController extends Controller {
         $em->flush();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Remove mail list user ' . $mailListUserId, BackendModuleName::MODULE_MAIL_LIST);
+        $service_log->saveLog($listUser->getLogDescription(), BackendModuleName::MODULE_MAIL_LIST, log::OPERATION_DELETE, DataBaseTables::MAIL_LIST_USER);
 
         $message = 'El usuario ha sido eliminado de la lista de correo satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);

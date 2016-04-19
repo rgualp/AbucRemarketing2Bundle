@@ -38,6 +38,7 @@ class ownershipRepository extends EntityRepository {
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
+        $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
 
         //languages
         $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
@@ -94,7 +95,8 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSelection($active_selection)
             ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
-            ->setOwnCubaCoupon($cubacoupon);
+            ->setOwnCubaCoupon($cubacoupon)
+            ->setOwnSmsNotifications($smsNotification);
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
@@ -261,6 +263,7 @@ class ownershipRepository extends EntityRepository {
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
+        $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
 
         //languages
         $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
@@ -315,7 +318,8 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSelection($active_selection)
             ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
-            ->setOwnCubaCoupon($cubacoupon);
+            ->setOwnCubaCoupon($cubacoupon)
+            ->setOwnSmsNotifications($smsNotification);
 
         if ($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);

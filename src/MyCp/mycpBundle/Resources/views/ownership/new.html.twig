@@ -677,6 +677,11 @@
     </div>
     {%endif%}
     <br/>
+    <h3 class="title">Configuración</h3>
+    <div class="row-fluid">
+        <input type="checkbox" name="sms_notification" id="sms_notification" {% if post['sms_notification'] is defined and (post['sms_notification'] ==1) %} checked="TRUE" {% endif %}/> Enviar notificaciones por SMS
+    </div>
+    <br/>
     <h3 class="title">Foto del propietario(a)</h3>
     <div class="photoOwnerContainer">
         <div class="photoOwnerContainer">

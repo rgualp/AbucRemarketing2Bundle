@@ -803,6 +803,15 @@ class BackendReservationController extends Controller {
         return new Response($content, 200);
     }
 
+    public function getNotificationsCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reservationId = $request->get("reservation");
+        $notifications = $em->getRepository("mycpBundle:notification")->findBy(array("reservation" => $reservationId) );
+        $content = $this->renderView("mycpBundle:utils:notifications.html.twig", array("notifications" => $notifications));
+        return new Response($content, 200);
+    }
+
     public function get_ownershipsAction($data) {
         $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
@@ -980,20 +989,11 @@ class BackendReservationController extends Controller {
 
         $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckins($filter_date_from, $sort_by);
 
-        $total_nights = array();
-        $service_time = $this->get('time');
-        foreach ($checkins as $res) {
-            $genRes = $em->getRepository('mycpBundle:generalReservation')->find($res[0]['gen_res_id']);
-            $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $res[0]['gen_res_id']), array("own_res_reservation_from_date" => "ASC"));
-            $nights = $genRes->getTotalStayedNights($reservations, $service_time);
-            array_push($total_nights, $nights);
-        }
 
         return $this->render('mycpBundle:reservation:checkIn.html.twig', array(
                     'list' => $checkins,
                     'filter_date_from' => $filter_date_from,
-                    'sort_by' => $sort_by,
-                    'nights' => $total_nights));
+                    'sort_by' => $sort_by));
     }
 
 

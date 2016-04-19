@@ -34,33 +34,35 @@ class BackendModuleName {
     const MODULE_CLIENT_MESSAGES = 21;
     const MODULE_CLIENT_COMMENTS = 22;
     const MODULE_AWARD = 23;
+    const MODULE_RBAC = 24;
 
     public static function getModuleName($module_number)
     {
         switch ($module_number) {
-            case BackendModuleName::MODULE_DESTINATION: return "Destination";
+            case BackendModuleName::MODULE_DESTINATION: return "Destinos";
             case BackendModuleName::MODULE_FAQS: return "FAQ";
             case BackendModuleName::MODULE_ALBUM: return "Album";
-            case BackendModuleName::MODULE_OWNERSHIP: return "Accommodation";
-            case BackendModuleName::MODULE_CURRENCY: return "Currency";
-            case BackendModuleName::MODULE_LANGUAGE: return "Language";
-            case BackendModuleName::MODULE_RESERVATION: return "Reservation";
-            case BackendModuleName::MODULE_USER: return "User";
-            case BackendModuleName::MODULE_GENERAL_INFORMATION: return "General Information";
-            case BackendModuleName::MODULE_COMMENT: return "Comment";
-            case BackendModuleName::MODULE_UNAVAILABILITY_DETAILS: return "Unavailability Details";
+            case BackendModuleName::MODULE_OWNERSHIP: return "Alojamientos";
+            case BackendModuleName::MODULE_CURRENCY: return "Monedas";
+            case BackendModuleName::MODULE_LANGUAGE: return "Lenguajes";
+            case BackendModuleName::MODULE_RESERVATION: return "Reservaciones";
+            case BackendModuleName::MODULE_USER: return "Usuarios";
+            case BackendModuleName::MODULE_GENERAL_INFORMATION: return "Información General";
+            case BackendModuleName::MODULE_COMMENT: return "Comentarios";
+            case BackendModuleName::MODULE_UNAVAILABILITY_DETAILS: return "Disponibilidad";
             case BackendModuleName::MODULE_METATAGS: return "Meta Tags";
-            case BackendModuleName::MODULE_MUNICIPALITY: return "Municipality";
-            case BackendModuleName::MODULE_SEASON: return "Season";
-            case BackendModuleName::MODULE_LODGING_RESERVATION: return "Lodging - Reservations";
-            case BackendModuleName::MODULE_LODGING_COMMENT: return "Lodging - Comments";
-            case BackendModuleName::MODULE_LODGING_OWNERSHIP: return "Lodging - MyCasa";
-            case BackendModuleName::MODULE_LODGING_USER: return "Lodging - User Profile";
-            case BackendModuleName::MODULE_MAIL_LIST: return "Mail List";
-            case BackendModuleName::MODULE_BATCH_PROCESS: return "Batch Process";
-            case BackendModuleName::MODULE_CLIENT_MESSAGES: return "Messages to Clients";
-            case BackendModuleName::MODULE_CLIENT_COMMENTS: return "Comments of Clients";
-            case BackendModuleName::MODULE_AWARD: return "Awards";
+            case BackendModuleName::MODULE_MUNICIPALITY: return "Municipios";
+            case BackendModuleName::MODULE_SEASON: return "Temporadas";
+            case BackendModuleName::MODULE_LODGING_RESERVATION: return "Módulo Casa - Reservaciones";
+            case BackendModuleName::MODULE_LODGING_COMMENT: return "Módulo Casa - Comentarios";
+            case BackendModuleName::MODULE_LODGING_OWNERSHIP: return "Módulo Casa - MyCasa";
+            case BackendModuleName::MODULE_LODGING_USER: return "Módulo Casa - Perfil de Usuario";
+            case BackendModuleName::MODULE_MAIL_LIST: return "Listas de correo";
+            case BackendModuleName::MODULE_BATCH_PROCESS: return "Procesamiento por lotes";
+            case BackendModuleName::MODULE_CLIENT_MESSAGES: return "Mensajes a los clientes";
+            case BackendModuleName::MODULE_CLIENT_COMMENTS: return "Comentarios de los clientes";
+            case BackendModuleName::MODULE_AWARD: return "Premios";
+            case BackendModuleName::MODULE_RBAC: return "Roles y permisos";
 
             default: return "MyCP";
         }
@@ -98,6 +100,8 @@ class DataBaseTables {
     const CURRENCY = "currency";
     const LANGUAGE = "lang";
     const SEASON = "season";
-
+    const MAIL_LIST = "mailList";
+    const MAIL_LIST_USER = "mailListUser";
+    const MAIL_ROLE_PERMISSION = "rolePermission";
 }
 ?>

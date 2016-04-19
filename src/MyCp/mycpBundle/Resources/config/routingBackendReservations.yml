@@ -90,3 +90,7 @@ mycp_reservation_sync_booking_list:
 mycp_export_list_reservations:
     pattern:  /export/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}/{filter_status}
     defaults: { _controller: mycpBundle:BackendReservation:exportReservations,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'', filter_status:'',sort_by:0}
+
+mycp_reservation_notifications_callback:
+    pattern:  /reservation-notifications-callback/
+    defaults: { _controller: mycpBundle:BackendReservation:getNotificationsCallback }

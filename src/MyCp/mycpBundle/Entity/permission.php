@@ -125,4 +125,10 @@ class permission
     public function __toString(){
         return $this->getPermDescription();
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Permiso ".$this->getPermDescription();
+    }
 }

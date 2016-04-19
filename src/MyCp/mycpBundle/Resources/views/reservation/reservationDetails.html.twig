@@ -209,12 +209,16 @@
         <li>
             <a href="#booking" data-toggle="tab">Bookings</a>
         </li>
+            <li>
+                <a href="#notifications" data-toggle="tab">Notificaciones SMS</a>
+            </li>
         {% endif %}
         {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') or reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')  %}
             <li>
                 <a href="#logs" data-toggle="tab">Logs</a>
             </li>
         {% endif %}
+
     </ul>
 <div class="tab-content" id="myTabContent" style="margin-bottom: 3%">
     <div id="reservas" class="tab-pane fade active in">
@@ -277,12 +281,16 @@
     <div id="booking" class="tab-pane fade" data-url="{{ path("mycp_reservation_bookings_callback") }}" data-has-content = "false">
 
     </div>
+    <div id="notifications" class="tab-pane fade" data-url="{{ path("mycp_reservation_notifications_callback") }}" data-has-content = "false">
+
+    </div>
     {% endif %}
     {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') or reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')  %}
         <div id="logs" class="tab-pane fade" data-url="{{ path("mycp_reservation_logs_callback") }}" data-has-content = "false">
 
         </div>
     {% endif %}
+
     </div>
 {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user[0]})) }}
 {% if reservation.modified != null and reservation.modifiedBy != null %}
@@ -324,12 +332,36 @@
                 loadLogs();
             });
 
+            $('#tabs a[href="#notifications"]').click(function () {
+                loadNotifications();
+            });
+
             function send_message()
             {
                 url_submit="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}";
                 form=$('#form_edit_reserve');
                 form.attr('action',url_submit);
                 form.submit();
+            }
+
+            function loadNotifications()
+            {
+                var hasContent = $("#notifications").attr("data-has-content");
+
+                if(hasContent == "false") {
+                    var reservation = {{ id_reservation }};
+                    var url = $("#notifications").attr("data-url");
+                    $("#notifications").html("Cargando....");
+                    $.post(url, {
+                                reservation: reservation
+                            },
+                            function (data) {
+                                $("#notifications").html(data);
+                                $('#tabs a[href="#notifications"]').tab('show');
+                                $("#notifications").attr("data-has-content", "true");
+                            });
+                }
+                return false;
             }
 
             function loadBookings()

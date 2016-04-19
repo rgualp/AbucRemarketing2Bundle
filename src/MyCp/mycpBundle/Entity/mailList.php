@@ -163,4 +163,10 @@ class mailList
 
         return $results;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Lista de correo ".$this->getMailListName();
+    }
 }

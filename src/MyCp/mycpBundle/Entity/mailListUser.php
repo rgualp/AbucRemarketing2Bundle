@@ -91,4 +91,10 @@ class mailListUser
     {
         return $this->mail_list_user;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Lista de correo ".$this->getMailList()->getMailListName()." - Usuario: ".$this->getMailListUser()->getUserCompleteName();
+    }
 }

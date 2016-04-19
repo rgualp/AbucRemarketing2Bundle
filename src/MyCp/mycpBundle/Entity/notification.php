@@ -84,6 +84,12 @@ class notification
      * @ORM\Column(name="description",  type="text", nullable=true)
      */
     private $description;
+    /**
+     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="")
+     * @ORM\JoinColumn(name="reservation",referencedColumnName="gen_res_id")
+     */
+    private $reservation;
+
 
     /**
      * @return int
@@ -254,6 +260,25 @@ class notification
         $this->description = $description;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReservation()
+    {
+        return $this->reservation;
+    }
+
+    /**
+     * @param mixed $reservation
+     * @return mixed
+     */
+    public function setReservation($reservation)
+    {
+        $this->reservation = $reservation;
+        return $this;
+    }
+
 
 
 }

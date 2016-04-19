@@ -55,7 +55,18 @@ class CheckInCommand extends ContainerAwareCommand {
         try{
             foreach($checkIns as $check)
             {
-                $reservation = $em->getRepository("mycpBundle:generalReservation")->find($check[0]["gen_res_id"]);
+                $payAtService = $check["to_pay_at_service"] - $check["to_pay_at_service"] * $check["own_commission_percent"] / 100;
+                $reservation = array(
+                    "mobile" => $check["own_mobile_number"],
+                    "nights" => $check["nights"],
+                    "smsNotification" => $check["own_sms_notifications"],
+                    "touristCompleteName" => $check["user_user_name"]." ".$check["user_last_name"],
+                    "payAtService" => number_format((float)$payAtService, 2, '.', ''),
+                    "arrivalDate" => $check["own_res_reservation_from_date"]->format("d-m-Y"),
+                    "casId" => "CAS.".$check["gen_res_id"],
+                    "genResId" => $check["gen_res_id"]
+
+                );
                 $notificationService->sendCheckinSMSNotification($reservation);
             }
             $output->writeln('Successfully sent SMS notifications to homeowners.');

@@ -9,8 +9,10 @@
 namespace MyCp\mycpBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\permission;
 use MyCp\mycpBundle\Form\roleType;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\user;
@@ -106,9 +108,12 @@ class BackendRbacController extends Controller {
             $em->persist($roleN);
             $em->flush();
             $request->getSession()->getFlashBag()->add(
-                'success',
+                'message_ok',
                 'El rol fue creado'
             );
+            $service_log = $this->get('log');
+            $service_log->saveLog($roleN->getLogDescription(), BackendModuleName::MODULE_RBAC, log::OPERATION_INSERT, DataBaseTables::ROLE);
+
             return $this->redirectToRoute('mycp_rbac_list_roles');
 
 
@@ -213,9 +218,12 @@ class BackendRbacController extends Controller {
             $em->persist($role);
             $em->flush();
             $request->getSession()->getFlashBag()->add(
-                'success',
+                'message_ok',
                 'El rol fue actualizado'
             );
+
+            $service_log = $this->get('log');
+            $service_log->saveLog($role->getLogDescription(), BackendModuleName::MODULE_RBAC, log::OPERATION_UPDATE, DataBaseTables::ROLE);
             return $this->redirectToRoute('mycp_rbac_list_roles');
 
 
@@ -291,9 +299,12 @@ class BackendRbacController extends Controller {
             $em->persist($permission);
             $em->flush();
             $request->getSession()->getFlashBag()->add(
-                'success',
+                'message_ok',
                 'El permiso fue creado'
             );
+
+            $service_log = $this->get('log');
+            $service_log->saveLog($permission->getLogDescription(), BackendModuleName::MODULE_RBAC, log::OPERATION_INSERT, DataBaseTables::MAIL_ROLE_PERMISSION);
             return $this->redirectToRoute('mycp_list_privileges');
 
         }
@@ -340,9 +351,12 @@ class BackendRbacController extends Controller {
             $em->persist($permission);
             $em->flush();
             $request->getSession()->getFlashBag()->add(
-                'success',
+                'message_ok',
                 'El permiso fue actualizado'
             );
+            $service_log = $this->get('log');
+            $service_log->saveLog($permission->getLogDescription(), BackendModuleName::MODULE_RBAC, log::OPERATION_UPDATE, DataBaseTables::MAIL_ROLE_PERMISSION);
+
             return $this->redirectToRoute('mycp_list_privileges');
 
         }

@@ -365,23 +365,41 @@ class ExportToExcel extends Controller {
 
     private function createSheetForCheckin($excel, $sheetName, $data) {
         $sheet = $this->createSheet($excel, $sheetName);
-        $sheet->setCellValue('a1', 'Reserva');
-        $sheet->setCellValue('b1', 'Fecha Reserva');
-        $sheet->setCellValue('c1', 'Propiedad');
-        $sheet->setCellValue('d1', 'Propietario(s)');
-        $sheet->setCellValue('e1', 'Teléfono (s)');
-        $sheet->setCellValue('f1', 'Hab.');
-        $sheet->setCellValue('g1', 'Huésp.');
-        $sheet->setCellValue('h1', 'Noches');
-        $sheet->setCellValue('i1', 'Fecha Pago');
-        $sheet->setCellValue('j1', 'A Pagar');
-        $sheet->setCellValue('k1', 'Cliente');
-        $sheet->setCellValue('l1', 'País');
-        $sheet->setCellValue('m1', 'Contactado');
+        $sheet->setCellValue('a1', 'Notificado');
+        $sheet->setCellValue('b1', 'Reserva');
+        $sheet->setCellValue('c1', 'Fecha Reserva');
+        $sheet->setCellValue('d1', 'Propiedad');
+        $sheet->setCellValue('e1', 'Propietario(s)');
+        $sheet->setCellValue('f1', 'Teléfono (s)');
+        $sheet->setCellValue('g1', 'Hab.');
+        $sheet->setCellValue('h1', 'Huésp.');
+        $sheet->setCellValue('i1', 'Noches');
+        $sheet->setCellValue('j1', 'Fecha Pago');
+        $sheet->setCellValue('k1', 'A Pagar');
+        $sheet->setCellValue('l1', 'Cliente');
+        $sheet->setCellValue('m1', 'País');
+
 
         $sheet = $this->styleHeader("a1:m1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
+
+        for($i = 0; $i < count($data); $i++)
+        {
+            if($data[$i][0] != "")
+            {
+                $style = array(
+                    'font' => array(
+                        'color' => array('rgb' => '000000'),
+                    ),
+                    'fill' => array(
+                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'd6e9c6')
+                ));
+                $sheet->getStyle("A".($i + 2).":M".($i + 2))->applyFromArray($style);
+            }
+        }
+
         $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
         $this->setColumnAutoSize("a", "m", $sheet);
         return $excel;
@@ -392,56 +410,51 @@ class ExportToExcel extends Controller {
 
         $checkins = $this->em->getRepository("mycpBundle:generalReservation")->getCheckins($date, $sort_by);
 
-        $total_nights = array();
-        $service_time = $this->container->get('time');
-        foreach ($checkins as $res) {
-            $genRes = $this->em->getRepository('mycpBundle:generalReservation')->find($res[0]['gen_res_id']);
-            $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $res[0]['gen_res_id']), array("own_res_reservation_from_date" => "ASC"));
-            $nights = $genRes->getTotalStayedNights($reservations, $service_time);
-
-            $total_nights[$res[0]["gen_res_id"]] = $nights;
-        }
-
         foreach ($checkins as $check) {
             $data = array();
 
-            $data[0] = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($check[0]["gen_res_id"]);
-            $resDate = $check[0]["gen_res_date"];
-            $data[1] = $resDate->format("d/m/Y");
-            $data[2] = $check[0]["gen_res_own_id"]["own_mcp_code"];
-            $data[3] = $check[0]["gen_res_own_id"]["own_homeowner_1"];
-            if ($check[0]["gen_res_own_id"]["own_homeowner_2"] != "")
-                $data[3] .= " / " . $check[0]["gen_res_own_id"]["own_homeowner_2"];
+            if($check["notification"] != null && $check["notification"] != "")
+                $data[0] = "SMS Enviado";
+            else
+                $data[0] = "";
 
-            $data[4] = "";
-            if ($check[0]["gen_res_own_id"]["own_phone_number"] != "")
-                $data[4] .= "(+53) " . $check[0]["gen_res_own_id"]["own_address_province"]["prov_phone_code"] . " " . $check[0]["gen_res_own_id"]["own_phone_number"];
+                $data[1] = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($check["gen_res_id"]);
+            $resDate = $check["gen_res_date"];
+            $data[2] = $resDate->format("d/m/Y");
+            $data[3] = $check["own_mcp_code"];
+            $data[4] = $check["own_homeowner_1"];
+            if ($check["own_homeowner_2"] != "")
+                $data[4] .= " / " . $check["own_homeowner_2"];
 
-            if ($check[0]["gen_res_own_id"]["own_phone_number"] != "" && $check[0]["gen_res_own_id"]["own_mobile_number"] != "")
-                $data[4] .= " / ";
+            $data[5] = "";
+            if ($check["own_phone_number"] != "")
+                $data[5] .= "(+53) " . $check["prov_phone_code"] . " " . $check["own_phone_number"];
 
-            $data[4] .= $check[0]["gen_res_own_id"]["own_mobile_number"];
+            if ($check["own_phone_number"] != "" && $check["own_mobile_number"] != "")
+                $data[5] .= " / ";
+
+            $data[5] .= $check["own_mobile_number"];
 
             //Total de habitaciones
-            $data[5] = $check[1];
+            $data[6] = $check["rooms"];
 
             //Total de huéspedes
-            $data[6] = $check[3] + $check[5];
+            $data[7] = $check["adults"] + $check["children"];
 
             //Noches
-            $data[7] = $total_nights[$check[0]["gen_res_id"]];
+            $data[8] = $check["nights"];
 
             //Fecha de Pago
-            $payDate = new \DateTime($check[7]);
-            $data[8] = $payDate->format("d/m/Y");
+            $payDate = new \DateTime($check["payed"]);
+            $data[9] = $payDate->format("d/m/Y");
 
             //Pago en casa
-            $data[9] = $check[0]["gen_res_total_in_site"] - $check[0]["gen_res_total_in_site"] * $check[0]["gen_res_own_id"]["own_commission_percent"] / 100;
-            $data[9] .= " CUC";
+            $payAtService = $check["to_pay_at_service"] - $check["to_pay_at_service"] * $check["own_commission_percent"] / 100;
+            $data[10] = number_format((float)$payAtService, 2, '.', '');
+            $data[10] .= " CUC";
             //Cliente
-            $data[10] = $check[0]["gen_res_user_id"]["user_user_name"] . " " . $check[0]["gen_res_user_id"]["user_last_name"];
-            $data[11] = $check[0]["gen_res_user_id"]["user_country"]["co_name"];
-
+            $data[11] = $check["user_user_name"] . " " . $check["user_last_name"];
+            $data[12] = $check["co_name"];
 
             array_push($results, $data);
         }
