@@ -70,7 +70,7 @@ class NotificationService extends Controller
     {
         $data['sms'] = array(
             'project' => $this->notificationServiceApiKey,//Obligatorio
-            'to' => $mobileNumber,//8 digitos, comenzando con 5
+            'to' => "53".$mobileNumber,//8 digitos, comenzando con 5
             'msg' => $message,//No obligatorio
             'sms_type' => $subtype,//Obligatorio
         );
