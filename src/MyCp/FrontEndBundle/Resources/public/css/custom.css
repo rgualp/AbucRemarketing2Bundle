@@ -108,3 +108,17 @@ hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
     height: 35px;margin: -8px 0 0 -50px;position: absolute;width: 35px;border:2px solid #98CD34;
 }
 .icon-facebook{background: url("../img/icons/facebook.png"); width: 22px; height: 22px;vertical-align: middle;}
+
+.tt-dropdown-menu{
+    z-index: 251 !important;
+}
+@media (max-width:400px){
+    #main-search{
+        margin-top: 15px;
+    }
+}
+@media (min-width:400px) and (max-width:768px){
+    #main-search{
+        margin-top: 10px;
+    }
+}

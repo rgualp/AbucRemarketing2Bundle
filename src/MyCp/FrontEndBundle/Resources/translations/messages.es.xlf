@@ -28,7 +28,7 @@
             </trans-unit>
             <trans-unit id="7">
                 <source>LANGUAGE</source>
-                <target>Idioma</target>
+                <target>Idiomas</target>
             </trans-unit>
             <trans-unit id="8">
                 <source>LOG_OUT</source>
