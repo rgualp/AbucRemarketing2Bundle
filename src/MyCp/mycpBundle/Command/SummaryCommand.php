@@ -59,6 +59,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'countReservationDispon'=>count($countReservationDispon),
                 'countReservationNoDispon'=>count($countReservationNoDispon),
                 'countReservationPag'=>count($countReservationPag),
+                'fecha'=> date("Y-m-d", strtotime('-1 day')),
                 'user_locale'=>'es'
             ));
 
