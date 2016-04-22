@@ -1,20 +1,28 @@
-<p>
-    Cantidad de clientes que realizaron al menos una solicitud: {{ countClientSol }}
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
 
-    Cantidad de clientes a los que se les dio al menos una disponibilidad: {{ countClientDisponibility }}
+{% block content %}
+    <p>
+        <b>Cantidad de clientes que realizaron al menos una solicitud:</b> {{ countClientSol }}<br>
 
-    Cantidad de clientes con solicitudes en estado pendiente: {{ pending }}
+        <b>Cantidad de clientes a los que se les dio al menos una disponibilidad:</b> {{ countClientDisponibility }}<br>
 
-    Cantidad de clientes con reservas confirmadas (pagadas):{{ reserved }}
+        <b>Cantidad de clientes con solicitudes en estado pendiente:</b> {{ pending }}<br>
+
+        <b> Cantidad de clientes con reservas confirmadas (pagadas):</b>{{ reserved }}<br>
 
 
 
-    Cantidad de reservas (solicitudes):{{ countReservationYesterday }}
+        <b> Cantidad de reservas (solicitudes):</b>{{ countReservationYesterday }}<br>
 
-    Cantidad de reservas con estado disponible {{ countReservationDispon }}
+        <b>Cantidad de reservas con estado disponible:</b> {{ countReservationDispon }}<br>
 
-    Cantidad de reservas no disponibles (solicitudes que se enviaron como no disponibles) {{ countReservationNoDispon }}
+        <b>Cantidad de reservas no disponibles (solicitudes que se enviaron como no disponibles):</b> {{ countReservationNoDispon }}<br>
 
-    Cantidad de reservas confirmadas (pagadas) {{ countReservationPag }}
+        <b>Cantidad de reservas confirmadas (pagadas):</b> {{ countReservationPag }}
 
-</p>
+    </p>
+    <p>Saludos Cordiales,
+    <p>Equipo de MyCasaParticular.com</p>
+    </p>
+{% endblock %}
+
