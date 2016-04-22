@@ -50,7 +50,7 @@ class SummaryCommand extends ContainerAwareCommand
 
         //Cuerpo del correo
         $body = $templatingService
-            ->renderResponse('mycpBundle:reports:dashboardSummary.html.twig', array(
+            ->renderResponse('mycpBundle:reports:emailSummary.html.twig', array(
                 'countClientSol'=>$countClientSol[0][1],
                 'countClientDisponibility'=>$countClientDisponibility[0][1],
                 'pending'=>$pending[0][1],
