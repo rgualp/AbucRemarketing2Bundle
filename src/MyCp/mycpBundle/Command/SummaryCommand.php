@@ -58,8 +58,8 @@ class SummaryCommand extends ContainerAwareCommand
                 'countReservationYesterday'=>count($countReservationYesterday),
                 'countReservationDispon'=>count($countReservationDispon),
                 'countReservationNoDispon'=>count($countReservationNoDispon),
-                'countReservationPag'=>count($countReservationPag)
-
+                'countReservationPag'=>count($countReservationPag),
+                'user_locale'=>'es'
             ));
 
         try {
