@@ -1139,6 +1139,8 @@ class generalReservationRepository extends EntityRepository {
         WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
+
+
     function countReservationYesterday(){
         $day = date("Y-m-d", strtotime('-1 day'));
         $em = $this->getEntityManager();
@@ -1153,6 +1155,17 @@ class generalReservationRepository extends EntityRepository {
         WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
+    function countReservationPag(){
+        $yesterday= date("Y-m-d", strtotime('-1 day'));
+        $day=date("Y-m-d");
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gres.gen_res_id, gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
+        join owres.own_res_gen_res_id gres
+        join owres.own_res_reservation_booking b
+        join mycpBundle:payment p with p.booking = b.booking_id
+        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        return $query->getResult();
 
+    }
 
 }
