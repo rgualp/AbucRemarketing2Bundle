@@ -206,7 +206,7 @@ class reportRepository extends EntityRepository
         order by gres.gen_res_date DESC) Solicitudes
         on Clientes.Fecha = Solicitudes.Fecha";
 
-        $qb="SELECT DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as fecha,
+        $qb="SELECT DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as Fecha,
             SUM(if(gres.gen_res_status = 0, 1, 0)) as SinAtender,
             SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
             SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
