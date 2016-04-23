@@ -42,7 +42,8 @@ class SummaryCommand extends ContainerAwareCommand
 
         $countReservationNoDispon=$em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterday(3);
 
-        $countReservationPag=$em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterday(2);
+        $countReservationPag=$em->getRepository("mycpBundle:generalReservation")->countReservationPag();
+        print_r(count($countReservationPag));die;
 
         $emailService = $container->get('mycp.service.email_manager');
         $templatingService = $container->get('templating');
@@ -59,6 +60,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'countReservationDispon'=>count($countReservationDispon),
                 'countReservationNoDispon'=>count($countReservationNoDispon),
                 'countReservationPag'=>count($countReservationPag),
+                'fecha'=> date("Y-m-d", strtotime('-1 day')),
                 'user_locale'=>'es'
             ));
 

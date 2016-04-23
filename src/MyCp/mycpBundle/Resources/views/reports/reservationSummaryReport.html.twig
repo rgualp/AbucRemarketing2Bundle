@@ -1,0 +1,129 @@
+{#% if list %#}
+<div>
+
+    <h3>DESGLOSE DIARIO DEL ESTADO DE LAS RESERVAS</h3>
+
+    <h4>Solicitudes</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Solicitudes (S)</th>
+            <th style="text-align: center">Habitaciones Solicitadas (HS)</th>
+            <th style="text-align: center">Noches Solicitadas (NS)</th>
+        </tr>
+        </thead>
+        <tbody style="overflow: auto; height: 200px">
+        {% set ts = 0 %}
+        {% set ths = 0 %}
+        {% set tns = 0 %}
+        {% for item in reservationSummary %}
+            {% set ts = ts + item.cantidad %}
+            {% set ths = ths + item.habitaciones %}
+            {% set tns = tns + item.noches %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td style="text-align: center">{{ item.cantidad }}</td>
+                <td style="text-align: center">{{ item.habitaciones }}</td>
+                <td style="text-align: center">{{item.noches}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ ts }}</td>
+            <td style="text-align: center">{{ ths }}</td>
+            <td style="text-align: center">{{ tns }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <h4>Solicitudes Disponibles</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Solicitudes Disponibles (SD)</th>
+            <th style="text-align: center">Habitaciones Solicitadas Disponibles (HSD)</th>
+            <th style="text-align: center">Noches Solicitadas Disponibles (NSD)</th>
+        </tr>
+        </thead>
+        <tbody style="overflow: scroll; height: 200px">
+        {% set tsd = 0 %}
+        {% set thsd = 0 %}
+        {% set tnsd = 0 %}
+        {% for item in reservationSummaryAvailable %}
+            {% set tsd = tsd + item.cantidad %}
+            {% set thsd = thsd + item.habitaciones %}
+            {% set tnsd = tnsd + item.noches %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td style="text-align: center">{{ item.cantidad }}</td>
+                <td style="text-align: center">{{ item.habitaciones }}</td>
+                <td style="text-align: center">{{item.noches}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ tsd }}</td>
+            <td style="text-align: center">{{ thsd }}</td>
+            <td style="text-align: center">{{ tnsd }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <h4>Reservas Pagadas</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Reservas Pagadas (RP)</th>
+            <th style="text-align: center">Habitaciones Pagadas (HP)</th>
+            <th style="text-align: center">Noches Pagadas (NP)</th>
+            <th style="text-align: center">Facturación por Reservas (FR)</th>
+        </tr>
+        </thead>
+        <tbody style="overflow: scroll; height: 200px">
+        {% set trp = 0 %}
+        {% set thp = 0 %}
+        {% set tnp = 0 %}
+        {% set tfr = 0 %}
+        {% for item in reservationSummaryPayments %}
+            {% set trp = trp + item.cantidad %}
+            {% set thp = thp + item.habitaciones %}
+            {% set tnp = tnp + item.noches %}
+            {% set tfr = tfr + item.noches %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td style="text-align: center">{{ item.cantidad }}</td>
+                <td style="text-align: center">{{ item.habitaciones }}</td>
+                <td style="text-align: center">{{item.noches}}</td>
+                <td style="text-align: center">{{item.facturacion}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ trp }}</td>
+            <td style="text-align: center">{{ thp }}</td>
+            <td style="text-align: center">{{ tnp }}</td>
+            <td style="text-align: center">{{ tfr }}</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+    {#% else %#}
+    <!--p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p-->
+    {#% endif %#}
+
+
