@@ -100,6 +100,7 @@ doctrine:
                        DAYNAME: DoctrineExtensions\Query\Mysql\DayName
                        DATEADD: DoctrineExtensions\Query\Mysql\DateAdd
                        IF: MyCp\mycpBundle\MiscBundle\Doctrine\ORM\Query\AST\Functions\IfFunction #ADDED THIS LINE
+                       DATE: DoctrineExtensions\Query\Mysql\Date
             #remarketing:
             #    connection: remarketing
             #    mappings:

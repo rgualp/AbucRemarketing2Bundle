@@ -100,14 +100,14 @@
             {% set trp = trp + item.cantidad %}
             {% set thp = thp + item.habitaciones %}
             {% set tnp = tnp + item.noches %}
-            {% set tfr = tfr + item.noches %}
+            {% set tfr = tfr + item.facturacion %}
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ item.fecha | date("d/m/Y") }}</td>
                 <td style="text-align: center">{{ item.cantidad }}</td>
                 <td style="text-align: center">{{ item.habitaciones }}</td>
                 <td style="text-align: center">{{item.noches}}</td>
-                <td style="text-align: center">{{item.facturacion}}</td>
+                <td style="text-align: center">{{item.facturacion | number_format(2)}} CUC</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -117,7 +117,7 @@
             <td style="text-align: center">{{ trp }}</td>
             <td style="text-align: center">{{ thp }}</td>
             <td style="text-align: center">{{ tnp }}</td>
-            <td style="text-align: center">{{ tfr }}</td>
+            <td style="text-align: center">{{ tfr | number_format(2) }} CUC</td>
         </tr>
         </tfoot>
     </table>

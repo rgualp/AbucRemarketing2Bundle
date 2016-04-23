@@ -1221,7 +1221,7 @@ class generalReservationRepository extends EntityRepository {
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
-            ->groupBy("DATE(p.created)");
+            ->groupBy("fecha");
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
         {
