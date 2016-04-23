@@ -154,4 +154,36 @@ class reportRepository extends EntityRepository
         $content = $query->getSingleResult();
         return $content;
     }
+
+    function dashBoardSummary(){
+
+        $day = date("Y-m-d", strtotime('-7 day'));
+        //dump($day);die;
+        $em=$this->getEntityManager();
+        $qb="SELECT DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as fecha,
+            SUM(if(gres.gen_res_status = 0, 1, 0)) as SinAtender,
+            SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
+            SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
+            SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
+            COUNT(gres.gen_res_id) as Total
+            FROM
+            mycpBundle:generalReservation gres
+            where gres.gen_res_date >= :dias AND gres.gen_res_date <= CURRENT_TIMESTAMP()
+            group by fecha
+            order by gres.gen_res_date DESC
+        ";
+
+
+        //where gres.gen_res_date >= :dias AND gres.gen_res_date <= CURRENT_TIMESTAMP()
+        $day = date("Y-m-d", strtotime('-7 day'));
+
+        $query = $em->createQuery($qb)
+        ->setParameters(array(
+            'dias' => $day
+        ));
+
+        $content = $query->getArrayResult();
+
+        return $content;
+    }
 }

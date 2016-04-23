@@ -1,0 +1,29 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
+
+{% block content %}
+    <p>
+        <b>Fecha:</b>{{ fecha|date('d/m/Y') }}</br>
+        <b>Cantidad de clientes que realizaron al menos una solicitud:</b> {{ countClientSol }}<br>
+
+        <b>Cantidad de clientes a los que se les dio al menos una disponibilidad:</b> {{ countClientDisponibility }}<br>
+
+        <b>Cantidad de clientes con solicitudes en estado pendiente:</b> {{ pending }}<br>
+
+        <b> Cantidad de clientes con reservas confirmadas (pagadas):</b>{{ reserved }}<br>
+
+
+
+        <b> Cantidad de reservas (solicitudes):</b>{{ countReservationYesterday }}<br>
+
+        <b>Cantidad de reservas con estado disponible:</b> {{ countReservationDispon }}<br>
+
+        <b>Cantidad de reservas no disponibles (solicitudes que se enviaron como no disponibles):</b> {{ countReservationNoDispon }}<br>
+
+        <b>Cantidad de reservas confirmadas (pagadas):</b> {{ countReservationPag }}
+
+    </p>
+    <p>Saludos Cordiales,
+    <p>Equipo de MyCasaParticular.com</p>
+    </p>
+{% endblock %}
+

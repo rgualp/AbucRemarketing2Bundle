@@ -1,1 +1,42 @@
-hola
+{% if reportData is defined %}
+<h2>Resumen Ultimos 7 Dias</h2>
+
+<hr>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Atendidas</th>
+                <th>No Atendidas</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for dia in reportData %}
+                <tr>
+                    <th scope="row">{{ dia['dia'] |replace({'Monday':'Lunes','Tuesday':'Martes','Wednesday':'Miercoles','Thursday':'Jueves','Friday':'Viernes','Saturday':'Sabado','Sunday':'Domingo'}) }} ( {{ dia['fecha'] | date("d/m/Y", false) }} )</th>
+
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td>Total</td>
+                                <td><span class="badge">{{ dia['Atendidas'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Disponibles</td>
+                                <td><span class="badge">{{ dia['Disponible'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>No Disponibles</td>
+                                <td><span class="badge">{{ dia['NoDisponible'] }}</span></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>{{ dia['SinAtender'] }}</td>
+                    <td>{{ dia['Total'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endif %}
