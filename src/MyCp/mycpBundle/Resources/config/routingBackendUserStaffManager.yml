@@ -1,0 +1,15 @@
+mycp_rbusm_list_user_dest:
+    pattern:  /user/list/userdest
+    defaults: { _controller: mycpBundle:BackendUserStaffManager:listUserDestination }
+
+mycp_rbusm_add_user_dest:
+    pattern:  /user/add/userdest
+    defaults: { _controller: mycpBundle:BackendUserStaffManager:addUserDestination }
+
+mycp_rbusm_edit_user_dest:
+    pattern:  /user/edit/userdest/{id}
+    defaults: { _controller: mycpBundle:BackendUserStaffManager:editUserDestination }
+
+mycp_rbusm_delete_user_dest:
+    pattern:  /user/delete/userdest/{id}
+    defaults: { _controller: mycpBundle:BackendUserStaffManager:deleteUserDestination }

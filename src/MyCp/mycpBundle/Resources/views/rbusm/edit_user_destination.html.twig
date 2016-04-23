@@ -1,0 +1,50 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block another_in_head %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/mycp/vendors/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li class="active">Permisos</li>
+    </ul>
+{% endblock %}
+{% block form_actions %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li class="active">Usuarios Destino</li>
+    </ul>
+    <div class="form-actions">
+        <button class="btn btn-success" type="submit">Guardar</button>
+        <a class="btn" href="{{ path('mycp_backend_front') }}">Cancelar</a>
+    </div>
+    </form>
+{% endblock %}
+{% block content %}
+   <h2>Editar Usuario Destino</h2>
+    <hr/>
+<form class="sfgen" method="POST" action="{{path('mycp_rbusm_edit_user_dest',{'id': id})}}" novalidate="true">
+    {{form_widget(form)}}
+{% endblock %}
+    {% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+<script type="text/javascript">
+  $(document).on('ready', function(){
+
+     $('#form_destinations').prop('name', $('#form_destinations').prop('name') + '[]');
+     $('.select2').select2();
+/*
+     $('#form_user').select2("val", "12790");*/
+     $('#form_destinations').select2("val", {{ destinationsSelected }});
+
+  });
+    </script>
+{% endblock %}
