@@ -25,11 +25,24 @@ class SummaryCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-
         $output->writeln('Starting summary reports command...');
 
-        //$data = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsForNightsCounterTotal();
+        $countClientSol = $em->getRepository("mycpBundle:generalReservation")->countClientSol();
 
+        $countClientDisponibility = $em->getRepository("mycpBundle:generalReservation")->countClientDisponibility();
+
+        $pending = $em->getRepository("mycpBundle:generalReservation")->getReservationClientByStatusYesterday(0);
+
+        $reserved=$em->getRepository("mycpBundle:generalReservation")->getReservationClientByStatusYesterday(2);
+
+
+        $countReservationYesterday=$em->getRepository("mycpBundle:generalReservation")->countReservationYesterday();
+
+        $countReservationDispon=$em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterday(1);
+
+        $countReservationNoDispon=$em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterday(3);
+
+        $countReservationPag=$em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterday(2);
 
         $emailService = $container->get('mycp.service.email_manager');
         $templatingService = $container->get('templating');
@@ -37,15 +50,23 @@ class SummaryCommand extends ContainerAwareCommand
 
         //Cuerpo del correo
         $body = $templatingService
-            ->renderResponse('mycpBundle:mail:salesReportMail.html.twig', array(
-
+            ->renderResponse('mycpBundle:reports:emailSummary.html.twig', array(
+                'countClientSol'=>$countClientSol[0][1],
+                'countClientDisponibility'=>$countClientDisponibility[0][1],
+                'pending'=>$pending[0][1],
+                'reserved'=>$reserved[0][1],
+                'countReservationYesterday'=>count($countReservationYesterday),
+                'countReservationDispon'=>count($countReservationDispon),
+                'countReservationNoDispon'=>count($countReservationNoDispon),
+                'countReservationPag'=>count($countReservationPag),
+                'fecha'=> date("Y-m-d", strtotime('-1 day')),
+                'user_locale'=>'es'
             ));
 
         try {
-            $emailArg = $input->getArgument("email");
             $subject = "Sumario MyCasaParticular";
 
-            $emailService->sendEmail('usuario@mycasaparticular.com', $subject,  $body, 'no-responder@mycasaparticular.com');
+            $emailService->sendEmail(array('damian.flores@mycasaparticular.com','ander@mycasaparticular.com'), $subject,  $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email to address usuario@mycasaparticular.com');
 
 

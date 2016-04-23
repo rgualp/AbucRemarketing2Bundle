@@ -1118,6 +1118,42 @@ class generalReservationRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+    function countClientSol() {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day'");
+        return $query->getResult();
+    }
+    function countClientDisponibility() {
+
+        $day = date("Y-m-d", strtotime('-1 day'));
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day' AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        return $query->getResult();
+    }
+    function getReservationClientByStatusYesterday($status) {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        return $query->getResult();
+    }
+    function countReservationYesterday(){
+        $day = date("Y-m-d", strtotime('-1 day'));
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day'");
+        return $query->getResult();
+    }
+    function getReservationByStatusYesterday($status) {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        return $query->getResult();
+    }
 
     function getReservationDailySummary($filter_date_from=null, $filter_date_to=null)
     {
@@ -1199,4 +1235,6 @@ class generalReservationRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
+
 }
