@@ -206,13 +206,28 @@ class reportRepository extends EntityRepository
         order by gres.gen_res_date DESC) Solicitudes
         on Clientes.Fecha = Solicitudes.Fecha";
 
+        $qb="SELECT DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as fecha,
+            SUM(if(gres.gen_res_status = 0, 1, 0)) as SinAtender,
+            SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
+            SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
+            SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
+            COUNT(gres.gen_res_id) as Total, 0 as DisponibleClientes, 0 as PagaronClientes, 0 as NoAtendieronClientes, 0 as TotalClientes
+            FROM
+            generalReservation gres
+            where gres.gen_res_date >= :d1 AND gres.gen_res_date <= :d2
+            group by fecha
+            order by gres.gen_res_date DESC
+        ";
+
 
         $day = date("Y-m-d", strtotime('-7 day'));
+        $today = date("Y-m-d");
 
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare($qb);
         $statement->bindValue('d1', $day);
+        $statement->bindValue('d2', $today);
         $statement->execute();
         $results = $statement->fetchAll();
 

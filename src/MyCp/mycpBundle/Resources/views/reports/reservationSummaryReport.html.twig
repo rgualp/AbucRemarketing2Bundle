@@ -100,7 +100,13 @@
         {% for item in reservationSummary %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                    {% endif %}
+                </td>
                 <td style="text-align: center">{{ item.cantidad }}</td>
                 <td style="text-align: center">{{ item.habitaciones }}</td>
                 <td style="text-align: center">{{item.noches}}</td>
@@ -132,7 +138,13 @@
         {% for item in reservationSummaryAvailable %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                    {% endif %}
+                </td>
                 <td style="text-align: center">{{ item.cantidad }}</td>
                 <td style="text-align: center">{{ item.habitaciones }}</td>
                 <td style="text-align: center">{{item.noches}}</td>
@@ -165,7 +177,13 @@
         {% for item in reservationSummaryPayments %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                    {% endif %}
+                </td>
                 <td style="text-align: center">{{ item.cantidad }}</td>
                 <td style="text-align: center">{{ item.habitaciones }}</td>
                 <td style="text-align: center">{{item.noches}}</td>
@@ -199,7 +217,13 @@
         {% for item in reservationSummaryPayments %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ item.fecha | date("d/m/Y") }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }} {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                {% endif %}
+                </td>
                 <td style="text-align: center">{{ (item.facturacion / item.cantidad) | number_format(2) }} CUC</td>
                 <td style="text-align: center">{{ (item.facturacion / item.habitaciones) | number_format(2) }} CUC</td>
                 <td style="text-align: center">{{ (item.facturacion  / item.noches)  | number_format(2)}} CUC</td>
@@ -239,7 +263,13 @@
         {% for i in reservationSummary | keys %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ reservationSummary[i].fecha | date("d/m/Y") }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                        {{ reservationSummary[i].fecha}}
+                    {% else %}
+                    {{ reservationSummary[i].fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ reservationSummary[i].year }}{% endif %}
+                    {% endif %}
+                </td>
                 <td style="text-align: center">{{ (reservationSummaryPayments[i] is defined) ? (reservationSummaryPayments[i].cantidad*100 / reservationSummary[i].cantidad) | number_format(2) ~ " %" : "-" }}</td>
                 <td style="text-align: center">{{ (reservationSummaryPayments[i] is defined) ? (reservationSummaryPayments[i].cantidad*100 / reservationSummaryAvailable[i].cantidad) | number_format(2) ~ " %" : "-" }}</td>
                 <td style="text-align: center">{{ (reservationSummaryPayments[i] is defined) ? (reservationSummaryPayments[i].habitaciones*100 / reservationSummary[i].habitaciones) | number_format(2) ~ " %" : "-" }}</td>

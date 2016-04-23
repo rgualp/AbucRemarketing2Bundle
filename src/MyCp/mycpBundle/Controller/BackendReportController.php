@@ -974,11 +974,143 @@ ORDER BY own.own_mcp_code ASC
             'reservationSummaryPayments' => $reservationSummaryPayments,
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
-            'summary' => $summary
+            'summary' => $summary,
+            "dateFilter" => "d/m/Y"
         ));
     }
 
     public function reservationSummaryExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        /*$exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
+        throw new NotImplementedException("En construcción");
+    }
+
+    public function reservationSummaryMonthlyAction(Request $request)
+    {
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+
+        $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummary($dateFrom, $dateTo);
+        $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryAvailable($dateFrom, $dateTo);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryPayments($dateFrom, $dateToPayment);
+
+        $ts = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($reservationSummary as $item)
+        {
+            $ts += $item["cantidad"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tsd = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($reservationSummaryAvailable as $item)
+        {
+            $tsd += $item["cantidad"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $trp = 0;
+        $thp = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($reservationSummaryPayments as $item)
+        {
+            $trp += $item["cantidad"];
+            $thp += $item["habitaciones"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "ts" => $ts, "ths" => $ths, "tns" => $tns,
+            "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+
+        return $this->render('mycpBundle:reports:reservationSummaryReport.html.twig', array(
+            'reservationSummary' => $reservationSummary,
+            'reservationSummaryAvailable' => $reservationSummaryAvailable,
+            'reservationSummaryPayments' => $reservationSummaryPayments,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'summary' => $summary,
+            "dateFilter" => "F"
+        ));
+    }
+
+    public function reservationSummaryExcelMonthlyAction(Request $request,$report, $from_date, $to_date)
+    {
+        /*$exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
+        throw new NotImplementedException("En construcción");
+    }
+
+    public function reservationSummaryYearlyAction(Request $request)
+    {
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+
+        $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummary();
+        $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryAvailable();
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryPayments();
+
+        $ts = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($reservationSummary as $item)
+        {
+            $ts += $item["cantidad"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tsd = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($reservationSummaryAvailable as $item)
+        {
+            $tsd += $item["cantidad"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $trp = 0;
+        $thp = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($reservationSummaryPayments as $item)
+        {
+            $trp += $item["cantidad"];
+            $thp += $item["habitaciones"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "ts" => $ts, "ths" => $ths, "tns" => $tns,
+            "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+
+        return $this->render('mycpBundle:reports:reservationSummaryReport.html.twig', array(
+            'reservationSummary' => $reservationSummary,
+            'reservationSummaryAvailable' => $reservationSummaryAvailable,
+            'reservationSummaryPayments' => $reservationSummaryPayments,
+            'summary' => $summary,
+            "dateFilter" => "Y"
+        ));
+    }
+
+    public function reservationSummaryExcelYearlyAction(Request $request,$report)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
