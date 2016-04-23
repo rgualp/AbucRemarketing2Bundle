@@ -53,6 +53,10 @@ mycp_rbac:
     resource: "@mycpBundle/Resources/config/routingBackendRBAC.yml"
     prefix:   backend/rbac/
 
+mycp_rbusm:
+    resource: "@mycpBundle/Resources/config/routingBackendUserStaffManager.yml"
+    prefix:   backend/rbusm/
+
 mycp_lodging_user:
     resource: "@mycpBundle/Resources/config/routingLodgingUser.yml"
     prefix:   casa/usuario/
