@@ -96,7 +96,7 @@
             <th style="text-align: center">Noches Solicitadas (NS)</th>
         </tr>
         </thead>
-        <tbody style="overflow: auto; height: 200px">
+        <tbody>
         {% for item in reservationSummary %}
             <tr>
                 <td>{{ loop.index }}</td>
@@ -134,7 +134,7 @@
             <th style="text-align: center">Noches Solicitadas Disponibles (NSD)</th>
         </tr>
         </thead>
-        <tbody style="overflow: scroll; height: 200px">
+        <tbody>
         {% for item in reservationSummaryAvailable %}
             <tr>
                 <td>{{ loop.index }}</td>
@@ -173,7 +173,7 @@
             <th style="text-align: center">Facturación por Reservas (FR)</th>
         </tr>
         </thead>
-        <tbody style="overflow: scroll; height: 200px">
+        <tbody>
         {% for item in reservationSummaryPayments %}
             <tr>
                 <td>{{ loop.index }}</td>
@@ -213,7 +213,7 @@
             <th style="text-align: center">Por Noche</th>
         </tr>
         </thead>
-        <tbody style="overflow: scroll; height: 200px">
+        <tbody>
         {% for item in reservationSummaryPayments %}
             <tr>
                 <td>{{ loop.index }}</td>
@@ -259,7 +259,7 @@
             <th style="text-align: center">Pagadas del Total Disponibles (PTD)</th>
         </tr>
         </thead>
-        <tbody style="overflow: scroll; height: 200px">
+        <tbody>
         {% for i in reservationSummary | keys %}
             <tr>
                 <td>{{ loop.index }}</td>
