@@ -919,6 +919,13 @@ ORDER BY own.own_mcp_code ASC
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
 
+        $timer = $this->get("Time");
+
+        if($timer->diff($dateFrom, $dateTo) > 30){
+            $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
+            $dateTo = $dateTo->format("Y-m-d");
+        }
+
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($dateFrom, $dateTo);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($dateFrom, $dateTo);
         $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateTo);

@@ -50,6 +50,20 @@ class Time {
     }
 
     /**
+     * Diff between dates
+     * @param $dateFromString
+     * @param $dateToString
+     * @param $dateStringFormat
+     * @return \DateTime
+     */
+    public static function diff($dateFromString, $dateToString, $dateStringFormat = "Y-m-d")
+    {
+        $dateFrom = \DateTime::createFromFormat($dateStringFormat, $dateFromString);
+        $dateTo = \DateTime::createFromFormat($dateStringFormat, $dateToString);
+        return date_diff($dateTo, $dateFrom)->days;
+    }
+
+    /**
      * Add a time date string to a time string with certain format
      * @param $timeStringToAdd
      * @param $dateString
