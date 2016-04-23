@@ -213,7 +213,7 @@ class reportRepository extends EntityRepository
             SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
             COUNT(gres.gen_res_id) as Total, 0 as DisponibleClientes, 0 as PagaronClientes, 0 as NoAtendieronClientes, 0 as TotalClientes
             FROM
-            generalReservation gres
+            generalreservation gres
             where gres.gen_res_date >= :d1 AND gres.gen_res_date <= :d2
             group by fecha
             order by gres.gen_res_date DESC
