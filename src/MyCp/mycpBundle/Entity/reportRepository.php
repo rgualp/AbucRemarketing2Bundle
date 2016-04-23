@@ -168,7 +168,7 @@ class reportRepository extends EntityRepository
             COUNT(gres.gen_res_id) as Total
             FROM
             mycpBundle:generalReservation gres
-            where gres.gen_res_date >= :dias1 AND gres.gen_res_date <= :dias2
+            where gres.gen_res_date >= :dias AND gres.gen_res_date <= CURRENT_TIMESTAMP()
             group by fecha
             order by gres.gen_res_date DESC
         ";
@@ -179,9 +179,7 @@ class reportRepository extends EntityRepository
 
         $query = $em->createQuery($qb)
         ->setParameters(array(
-            //'dias' => $day,
-            'dias1' => "2016-01-10",
-            'dias2' => "2016-01-16"
+            'dias' => $day
         ));
 
         $content = $query->getArrayResult();
