@@ -913,4 +913,28 @@ ORDER BY own.own_mcp_code ASC
 
     }
 
+    public function reservationSummaryAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+
+        $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($dateFrom, $dateTo);
+        $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($dateFrom, $dateTo);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateTo);
+
+        return $this->render('mycpBundle:reports:reservationSummaryReport.html.twig', array(
+            'reservationSummary' => $reservationSummary,
+            'reservationSummaryAvailable' => $reservationSummaryAvailable,
+            'reservationSummaryPayments' => $reservationSummaryPayments,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
+    }
+
+    public function reservationSummaryExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);
+    }
 }
