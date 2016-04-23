@@ -50,13 +50,13 @@ class Time {
     }
 
     /**
-     * Diff between dates
+     * Days Diff between dates
      * @param $dateFromString
      * @param $dateToString
      * @param $dateStringFormat
      * @return \DateTime
      */
-    public static function diff($dateFromString, $dateToString, $dateStringFormat = "Y-m-d")
+    public static function diffInDays($dateFromString, $dateToString, $dateStringFormat = "Y-m-d")
     {
         $dateFrom = \DateTime::createFromFormat($dateStringFormat, $dateFromString);
         $dateTo = \DateTime::createFromFormat($dateStringFormat, $dateToString);

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Intl\Exception\NotImplementedException;
 
 
 class BackendReportController extends Controller
@@ -915,33 +915,73 @@ ORDER BY own.own_mcp_code ASC
 
     public function reservationSummaryAction(Request $request)
     {
+        $timer = $this->get("Time");
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
+        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
-        $timer = $this->get("Time");
-
-        if($timer->diff($dateFrom, $dateTo) > 30){
+        if($timer->diffInDays($dateFrom, $dateTo) > 30) {
             $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
-            $dateTo = $dateTo->format("Y-m-d");
+            $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
         }
 
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($dateFrom, $dateTo);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($dateFrom, $dateTo);
-        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateTo);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateToPayment);
+
+        $ts = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($reservationSummary as $item)
+        {
+            $ts += $item["cantidad"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tsd = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($reservationSummaryAvailable as $item)
+        {
+            $tsd += $item["cantidad"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $trp = 0;
+        $thp = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($reservationSummaryPayments as $item)
+        {
+            $trp += $item["cantidad"];
+            $thp += $item["habitaciones"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "ts" => $ts, "ths" => $ths, "tns" => $tns,
+            "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
 
         return $this->render('mycpBundle:reports:reservationSummaryReport.html.twig', array(
             'reservationSummary' => $reservationSummary,
             'reservationSummaryAvailable' => $reservationSummaryAvailable,
             'reservationSummaryPayments' => $reservationSummaryPayments,
             'dateFrom' => $dateFrom,
-            'dateTo' => $dateTo
+            'dateTo' => $dateTo,
+            'summary' => $summary
         ));
     }
 
     public function reservationSummaryExcelAction(Request $request,$report, $from_date, $to_date)
     {
-        $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);
+        /*$exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
+        throw new NotImplementedException("En construcción");
     }
 }
