@@ -1,0 +1,325 @@
+{% if clientsSummaryPayments and clientsSummary and clientsSummaryAvailable %}
+<div>
+    <h3>RESUMEN ESTADISTICO</h3>
+    <h4>Clientes</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+        <tbody>
+    <tr>
+        <td>Total de Clientes (TC)</td>
+        <td style="text-align: center">{{ summary.tc }}</td>
+    </tr>
+    <tr>
+        <td>Porciento Total de Clientes con Reservas (PTCR)</td>
+        <td style="text-align: center">{{ (summary.tcp*100/summary.tc)|number_format(2) }} %</td>
+    </tr>
+        </tbody>
+        </table>
+    <h4>Solicitudes de Reserva</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th></th>
+            <th style="text-align: center">Clientes</th>
+            <th style="text-align: center">Solicitudes</th>
+            <th style="text-align: center">Personas Involucradas</th>
+            <th style="text-align: center">Habitaciones</th>
+            <th style="text-align: center">Noches</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Solicitudes</td>
+                <td style="text-align: center">{{ summary.tc }}</td>
+                <td style="text-align: center">{{ summary.ts }}</td>
+                <td style="text-align: center">{{ summary.tpi }}</td>
+                <td style="text-align: center">{{ summary.ths }}</td>
+                <td style="text-align: center">{{ summary.tns }}</td>
+            </tr>
+            <tr>
+                <td>Solicitudes Disponibles</td>
+                <td style="text-align: center">{{ summary.tcd }}</td>
+                <td style="text-align: center">{{ summary.tsd }}</td>
+                <td style="text-align: center">{{ summary.tpid }}</td>
+                <td style="text-align: center">{{ summary.thsd }}</td>
+                <td style="text-align: center">{{ summary.tnsd }}</td>
+            </tr>
+            <tr>
+                <td>Reservas Pagadas</td>
+                <td style="text-align: center">{{ summary.tcp }}</td>
+                <td style="text-align: center">{{ summary.trp }}</td>
+                <td style="text-align: center">{{ summary.tpip }}</td>
+                <td style="text-align: center">{{ summary.thp }}</td>
+                <td style="text-align: center">{{ summary.tnp }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>{{ 'PROMEDIOS TOTAL DE SOLICITUDES POR CLIENTES'|title}}</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th style="text-align: center">Solicitudes</th>
+            <th style="text-align: center">Personas Involucradas</th>
+            <th style="text-align: center">Habitaciones</th>
+            <th style="text-align: center">Noches</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="text-align: center">{{ (summary.ts/summary.tc)|number_format(2) }}</td>
+            <td style="text-align: center">{{ (summary.tpi/summary.tc)|number_format(2) }}</td>
+            <td style="text-align: center">{{ (summary.ths/summary.tc)|number_format(2) }}</td>
+            <td style="text-align: center">{{ (summary.tns/summary.tc)|number_format(2) }}</td>
+
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <h4>Facturación: {{ summary.tfr | number_format(2) }} CUC</h4>
+
+    <h4>Promedio de Facturación</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th style="text-align: center">Por Reserva</th>
+            <th style="text-align: center">Por Habitación</th>
+            <th style="text-align: center">Por Noche</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="text-align: center">{{ (summary.tfr / summary.trp) | number_format(2) }} CUC</td>
+            <td style="text-align: center">{{ (summary.tfr / summary.thp) | number_format(2) }} CUC</td>
+            <td style="text-align: center">{{ (summary.tfr / summary.tnp) | number_format(2) }} CUC</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3>DESGLOSE DIARIO DEL ESTADO DE LAS RESERVAS</h3>
+
+    <h4>Solicitudes</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Clientes (C)</th>
+            <th style="text-align: center">Solicitudes (S)</th>
+            <th style="text-align: center">Personas Involucradas (PI)</th>
+            <th style="text-align: center">Habitaciones Solicitadas (HS)</th>
+            <th style="text-align: center">Noches Solicitadas (NS)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in clientsSummary %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                    {% endif %}
+                </td>
+                <td style="text-align: center">{{ item.clientes }}</td>
+                <td style="text-align: center">{{ item.solicitudes }}</td>
+                <td style="text-align: center">{{ item.personas_involucradas }}</td>
+                <td style="text-align: center">{{ item.habitaciones }}</td>
+                <td style="text-align: center">{{item.noches}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ summary.tc}}</td>
+            <td style="text-align: center">{{ summary.ts }}</td>
+            <td style="text-align: center">{{ summary.tpi}}</td>
+            <td style="text-align: center">{{ summary.ths }}</td>
+            <td style="text-align: center">{{ summary.tns }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <h4>Clientes con Solicitudes Disponibles</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Clientes (C)</th>
+            <th style="text-align: center">Solicitudes Disponibles (SD)</th>
+            <th style="text-align: center">Personas Involucradas (PID)</th>
+            <th style="text-align: center">Habitaciones Solicitadas Disponibles (HSD)</th>
+            <th style="text-align: center">Noches Solicitadas Disponibles (NSD)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in clientsSummaryAvailable %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                    {% endif %}
+                </td>
+                <td style="text-align: center">{{ item.clientes }}</td>
+                <td style="text-align: center">{{ item.solicitudes }}</td>
+                <td style="text-align: center">{{ item.personas_involucradas }}</td>
+                <td style="text-align: center">{{ item.habitaciones }}</td>
+                <td style="text-align: center">{{item.noches}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ summary.tcd }}</td>
+            <td style="text-align: center">{{ summary.tsd }}</td>
+            <td style="text-align: center">{{ summary.tpid }}</td>
+            <td style="text-align: center">{{ summary.thsd }}</td>
+            <td style="text-align: center">{{ summary.tnsd }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <h4>Clientes con Reservas Pagadas</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Clientes (C)</th>
+            <th style="text-align: center">Reservas Pagadas (RP)</th>
+            <th style="text-align: center">Personas Involucradas(PIP)</th>
+            <th style="text-align: center">Habitaciones Pagadas (HP)</th>
+            <th style="text-align: center">Noches Pagadas (NP)</th>
+            <th style="text-align: center">Facturación por Reservas (FR)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in clientsSummaryPayments %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                    {% endif %}
+                </td>
+                <td style="text-align: center">{{ item.clientes }}</td>
+                <td style="text-align: center">{{ item.solicitudes }}</td>
+                <td style="text-align: center">{{ item.personas_involucradas }}</td>
+                <td style="text-align: center">{{ item.habitaciones }}</td>
+                <td style="text-align: center">{{item.noches}}</td>
+                <td style="text-align: center">{{item.facturacion | number_format(2)}} CUC</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ summary.tcp }}</td>
+            <td style="text-align: center">{{ summary.trp }}</td>
+            <td style="text-align: center">{{ summary.tpip }}</td>
+            <td style="text-align: center">{{ summary.thp }}</td>
+            <td style="text-align: center">{{ summary.tnp }}</td>
+            <td style="text-align: center">{{ summary.tfr | number_format(2) }} CUC</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <h4>Promedio de Facturación</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th style="text-align: center">Por Reserva</th>
+            <th style="text-align: center">Por Habitación</th>
+            <th style="text-align: center">Por Noche</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in clientsSummaryPayments %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                    {{ item.fecha}}
+                    {% else %}
+                    {{ item.fecha | date(dateFilter) }} {% if dateFilter == "F" %}- {{ item.year }}{% endif %}
+                {% endif %}
+                </td>
+                <td style="text-align: center">{{ (item.facturacion / item.solicitudes) | number_format(2) }} CUC</td>
+                <td style="text-align: center">{{ (item.facturacion / item.solicitudes) | number_format(2) }} CUC</td>
+                <td style="text-align: center">{{ (item.facturacion  / item.noches)  | number_format(2)}} CUC</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ (summary.tfr / summary.trp) | number_format(2) }} CUC</td>
+            <td style="text-align: center">{{ (summary.tfr / summary.thp) | number_format(2) }} CUC</td>
+            <td style="text-align: center">{{ (summary.tfr / summary.tnp) | number_format(2) }} CUC</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <h4>Promedios de Solicitudes por Clientes</h4>
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th >No.</th>
+            <th >Fecha</th>
+            <th style="text-align: center">Solicitudes</th>
+            <th style="text-align: center">Personas Involucradas</th>
+            <th style="text-align: center">Por Habitación</th>
+            <th style="text-align: center">Por Noche</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in clientsSummary | keys %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if dateFilter == "Y" %}
+                        {{ clientsSummary[i].fecha}}
+                    {% else %}
+                    {{ clientsSummary[i].fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ clientsSummary[i].year }}{% endif %}
+                    {% endif %}
+                </td>
+                <td style="text-align: center">{{ (clientsSummary[i].solicitudes/clientsSummary[i].clientes)|number_format(2) }}</td>
+                <td style="text-align: center">{{ (clientsSummary[i].personas_involucradas/clientsSummary[i].clientes)|number_format(2) }}</td>
+                <td style="text-align: center">{{ (clientsSummary[i].habitaciones/clientsSummary[i].clientes)|number_format(2) }}</td>
+                <td style="text-align: center">{{ (clientsSummary[i].noches/clientsSummary[i].clientes)|number_format(2) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">TOTAL</td>
+            <td style="text-align: center">{{ (summary.ts / summary.tc) | number_format(2) }}</td>
+            <td style="text-align: center">{{ (summary.tpi / summary.tc) | number_format(2) }}</td>
+            <td style="text-align: center">{{ (summary.ths / summary.tc) | number_format(2) }}</td>
+            <td style="text-align: center">{{ (summary.tns / summary.tc) | number_format(2) }}</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+    {% else %}
+    <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+    {% endif %}
+
+
