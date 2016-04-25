@@ -919,16 +919,16 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
-        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
             $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
-            $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+            //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
         }
 
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($dateFrom, $dateTo);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($dateFrom, $dateTo);
-        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateToPayment);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateTo);
 
         $ts = 0;
         $ths = 0;
@@ -985,16 +985,16 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         /*$dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");*/
-        $dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
 
         if($timer->diffInDays($from_date, $to_date) > 30) {
-            $dateTo = $timer->add("+30 day", $from_date, "Y-m-d");
-            $dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
+            $to_date = $timer->add("+30 day", $from_date, "Y-m-d");
+            //$dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
         }
 
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($from_date, $to_date);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($from_date, $to_date);
-        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($from_date, $dateToPayment);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($from_date, $to_date);
 
         $ts = 0;
         $ths = 0;
@@ -1059,11 +1059,11 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
-        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummary($dateFrom, $dateTo);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryAvailable($dateFrom, $dateTo);
-        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryPayments($dateFrom, $dateToPayment);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryPayments($dateFrom, $dateTo);
 
         $ts = 0;
         $ths = 0;
@@ -1118,11 +1118,11 @@ ORDER BY own.own_mcp_code ASC
     {
         $timer = $this->get("Time");
         $em = $this->getDoctrine()->getManager();
-        $dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
 
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummary($from_date, $to_date);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryAvailable($from_date, $to_date);
-        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryPayments($from_date, $dateToPayment);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryPayments($from_date, $to_date);
 
         $ts = 0;
         $ths = 0;
@@ -1306,16 +1306,16 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
-        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
             $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
-            $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+            //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
         }
 
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($dateFrom, $dateToPayment);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($dateFrom, $dateTo);
 
         $tc = 0;
         $ts = 0;
@@ -1386,16 +1386,16 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $from_date;
         $dateTo = $to_date;
-        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
             $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
-            $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+            //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
         }
 
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($dateFrom, $dateToPayment);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($dateFrom, $dateTo);
 
         $tc = 0;
         $ts = 0;
@@ -1470,11 +1470,11 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
-        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPayments($dateFrom, $dateToPayment);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPayments($dateFrom, $dateTo);
 
         $tc = 0;
         $ts = 0;
@@ -1545,11 +1545,11 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $from_date;
         $dateTo = $to_date;
-        $dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPayments($dateFrom, $dateToPayment);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPayments($dateFrom, $dateTo);
 
         $tc = 0;
         $ts = 0;
