@@ -41,3 +41,4 @@ nbproject/*
 app/emails/*
 .DS_Store
 web/uploads/*
+*.DS_Store
