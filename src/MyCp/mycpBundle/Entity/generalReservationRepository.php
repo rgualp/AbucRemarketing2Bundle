@@ -1238,10 +1238,24 @@ class generalReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
     function countReservationPag(){
+       $yesterday= date("Y-m-d", strtotime('-1 day'));
+        $day=date("Y-m-d");
+       // $yesterday='2015-11-26';
+        //$day='2015-11-27';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gres.gen_res_id, gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
+        join owres.own_res_gen_res_id gres
+        join owres.own_res_reservation_booking b
+        join mycpBundle:payment p with p.booking = b.booking_id
+        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        return $query->getResult();
+
+    }
+    function countReservationClientPag(){
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gres.gen_res_id, gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
+        $query = $em->createQuery("SELECT count(distinct gres.gen_res_user_id), gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id

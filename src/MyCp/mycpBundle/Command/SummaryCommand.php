@@ -33,8 +33,8 @@ class SummaryCommand extends ContainerAwareCommand
 
         $pending = $em->getRepository("mycpBundle:generalReservation")->getReservationClientByStatusYesterday(0);
 
-        $reserved=$em->getRepository("mycpBundle:generalReservation")->getReservationClientByStatusYesterday(2);
-
+        //$reserved=$em->getRepository("mycpBundle:generalReservation")->getReservationClientByStatusYesterday(2);
+        $reserved=$em->getRepository("mycpBundle:generalReservation")->countReservationClientPag();
 
         $countReservationYesterday=$em->getRepository("mycpBundle:generalReservation")->countReservationYesterday();
 
