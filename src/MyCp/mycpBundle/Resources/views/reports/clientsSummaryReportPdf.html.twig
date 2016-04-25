@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{% block title %}Plan de Trabajo{% endblock %}</title>
+    <title>Resumen Estadístico de Clientes</title>
     <link rel="stylesheet" href="{{ asset('bundles/mycp/css/bootstrap.min.css',null, true) }}">
     <style type="text/css">
         #logo {
@@ -124,7 +124,6 @@
         </tr>
         {% endif %}
     </table>
-    {% if clientsSummaryPayments and clientsSummary and clientsSummaryAvailable %}
         <div>
             <div class="col-md-12" style="background-color:#074E75; color: white; text-align: center; padding: 5px; margin-top: 20px;">
                 <span>RESUMEN ESTADISTICO</span>
@@ -143,7 +142,7 @@
                 </tr>
                 <tr>
                     <td>Porciento Total de Clientes con Reservas (PTCR)</td>
-                    <td style="text-align: center">{{ (summary.tcp*100/summary.tc)|number_format(2) }} %</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.tcp*100/summary.tc)|number_format(2)~" %": "-" }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -198,16 +197,15 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td style="text-align: center">{{ (summary.ts/summary.tc)|number_format(2) }}</td>
-                    <td style="text-align: center">{{ (summary.tpi/summary.tc)|number_format(2) }}</td>
-                    <td style="text-align: center">{{ (summary.ths/summary.tc)|number_format(2) }}</td>
-                    <td style="text-align: center">{{ (summary.tns/summary.tc)|number_format(2) }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.ts/summary.tc)|number_format(2): "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.tpi/summary.tc)|number_format(2): "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.ths/summary.tc)|number_format(2): "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.tns/summary.tc)|number_format(2): "-" }}</td>
 
                 </tr>
 
                 </tbody>
             </table>
-
 
             <h4>Facturación: {{ summary.tfr | number_format(2) }} CUC</h4>
 
@@ -222,9 +220,9 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td style="text-align: center">{{ (summary.tfr / summary.trp) | number_format(2) }} CUC</td>
-                    <td style="text-align: center">{{ (summary.tfr / summary.thp) | number_format(2) }} CUC</td>
-                    <td style="text-align: center">{{ (summary.tfr / summary.tnp) | number_format(2) }} CUC</td>
+                    <td style="text-align: center">{{ (summary.trp > 0) ? (summary.tfr / summary.trp) | number_format(2)~" CUC": "-" }}</td>
+                    <td style="text-align: center">{{ (summary.thp > 0) ?(summary.tfr / summary.thp) | number_format(2)~" CUC": "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tnp > 0) ?(summary.tfr / summary.tnp) | number_format(2)~" CUC": "-" }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -232,6 +230,7 @@
             <div class="col-md-12" style="background-color:#074E75; color: white; text-align: center; padding: 5px; margin-top: 20px;">
                 <span>DESGLOSE DEL ESTADO DE LAS RESERVAS</span>
             </div>
+
             <h4>Solicitudes</h4>
             <table class="table table-striped table-hover" style="font-size: 12px;">
                 <thead>
@@ -265,7 +264,7 @@
                 {% endfor %}
                 </tbody>
                 <tfoot>
-                <tr style="font-weight: bold;">
+                <tr>
                     <td colspan="2">TOTAL</td>
                     <td style="text-align: center">{{ summary.tc}}</td>
                     <td style="text-align: center">{{ summary.ts }}</td>
@@ -309,7 +308,7 @@
                 {% endfor %}
                 </tbody>
                 <tfoot>
-                <tr style="font-weight: bold;">
+                <tr>
                     <td colspan="2">TOTAL</td>
                     <td style="text-align: center">{{ summary.tcd }}</td>
                     <td style="text-align: center">{{ summary.tsd }}</td>
@@ -355,7 +354,7 @@
                 {% endfor %}
                 </tbody>
                 <tfoot>
-                <tr style="font-weight: bold;">
+                <tr>
                     <td colspan="2">TOTAL</td>
                     <td style="text-align: center">{{ summary.tcp }}</td>
                     <td style="text-align: center">{{ summary.trp }}</td>
@@ -396,11 +395,11 @@
                 {% endfor %}
                 </tbody>
                 <tfoot>
-                <tr style="font-weight: bold;">
+                <tr>
                     <td colspan="2">TOTAL</td>
-                    <td style="text-align: center">{{ (summary.tfr / summary.trp) | number_format(2) }} CUC</td>
-                    <td style="text-align: center">{{ (summary.tfr / summary.thp) | number_format(2) }} CUC</td>
-                    <td style="text-align: center">{{ (summary.tfr / summary.tnp) | number_format(2) }} CUC</td>
+                    <td style="text-align: center">{{ (summary.trp)?(summary.tfr / summary.trp) | number_format(2)~" CUC":"-" }}</td>
+                    <td style="text-align: center">{{ (summary.thp)?(summary.tfr / summary.thp) | number_format(2)~" CUC":"-" }}</td>
+                    <td style="text-align: center">{{ (summary.tnp)?(summary.tfr / summary.tnp) | number_format(2)~" CUC":"-" }}</td>
                 </tr>
                 </tfoot>
             </table>
@@ -436,19 +435,16 @@
                 {% endfor %}
                 </tbody>
                 <tfoot>
-                <tr style="font-weight: bold;">
+                <tr>
                     <td colspan="2">TOTAL</td>
-                    <td style="text-align: center">{{ (summary.ts / summary.tc) | number_format(2) }}</td>
-                    <td style="text-align: center">{{ (summary.tpi / summary.tc) | number_format(2) }}</td>
-                    <td style="text-align: center">{{ (summary.ths / summary.tc) | number_format(2) }}</td>
-                    <td style="text-align: center">{{ (summary.tns / summary.tc) | number_format(2) }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.ts / summary.tc) | number_format(2): "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.tpi / summary.tc) | number_format(2): "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.ths / summary.tc) | number_format(2): "-" }}</td>
+                    <td style="text-align: center">{{ (summary.tc > 0) ? (summary.tns / summary.tc) | number_format(2): "-" }}</td>
                 </tr>
                 </tfoot>
             </table>
         </div>
-    {% else %}
-        <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
-    {% endif %}
 
 </div>
 </body>
