@@ -88,19 +88,19 @@ class SummaryCommand extends ContainerAwareCommand
                 'clientNotDisponPercent'=>round($clientNotDisponPercent),
                 'user_locale'=>'es',
                 'factu'=>(count($factu))?round($factu[0]['facturacion']):0,
-                //'countReservationPending'=>count($countReservationPending)
-                'totalSol'=>count($countReservationDispon)+count($countReservationNoDispon)+count($countReservationPag),
+                'countReservationPending'=>count($countReservationPending),
+                'totalSol'=>count($countReservationDispon)+count($countReservationNoDispon)+count($countReservationPag)+count($countReservationPending),
                 'clientPending'=>count($clientPendig),
                 'totalPending'=>$totalPending,
                 'totalClient'=>count($clientPendig)+$reserved[0][1],
-                'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:0
+                'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:$totalPending
             ));
 
         try {
             $subject = "Sumario MyCasaParticular";
 
-            $emailService->sendEmail(array('natalie@mycasaparticular.com','ptorres@mycasaparticular.com','anne.schweizer@abuc.ch','damian.flores@mycasaparticular.com','ander@mycasaparticular.com'), $subject,  $body, 'no-responder@mycasaparticular.com');
-            $output->writeln('Successfully sent sales report email to address usuario@mycasaparticular.com');
+            $emailService->sendEmail(array('damian.flores@mycasaparticular.com','ander@mycasaparticular.com'), $subject,  $body, 'no-responder@mycasaparticular.com');
+            $output->writeln('Successfully sent sales report email');
 
 
         } catch (\Exception $e) {

@@ -1135,7 +1135,6 @@ class generalReservationRepository extends EntityRepository {
         return $query->getResult();
     }
     function countClientDisponibility() {
-
         $day = date("Y-m-d", strtotime('-1 day'));
         //$day = '2016-01-21';
         $em = $this->getEntityManager();
@@ -1260,21 +1259,21 @@ class generalReservationRepository extends EntityRepository {
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        WHERE  gres.gen_res_date > '$yesterday' AND gres.gen_res_date < '$day'");
         return $query->getResult();
 
     }
     function countReservationClientPag(){
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
-       /* $yesterday= '2016-01-21';
+        /*$yesterday= '2016-01-21';
         $day='2016-01-22';*/
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gres.gen_res_user_id), gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        WHERE  gres.gen_res_date > '$yesterday' AND gres.gen_res_date < '$day'");
         return $query->getResult();
 
     }
@@ -1697,7 +1696,7 @@ class generalReservationRepository extends EntityRepository {
     function clientPendig(){
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
-        /*$yesterday= '2016-01-21';
+     /*   $yesterday= '2016-01-21';
         $day='2016-01-22';*/
 
         $em = $this->getEntityManager();
@@ -1706,7 +1705,7 @@ class generalReservationRepository extends EntityRepository {
         join gres.gen_res_user_id u
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        WHERE gres.gen_res_date > '$yesterday' AND gres.gen_res_date < '$day'");
         $result= $query->getResult();
         $client_id = "0";
 
@@ -1714,7 +1713,6 @@ class generalReservationRepository extends EntityRepository {
         {
             $client_id .= ",".$client["user_id"];
         }
-        //$yesterday = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT distinct u.user_id, owr.own_res_total_in_site,own.own_commission_percent FROM mycpBundle:generalReservation gre
         join gre.gen_res_user_id u
