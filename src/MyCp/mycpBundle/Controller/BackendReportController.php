@@ -1172,7 +1172,7 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "F"
         ));
 
-        $name='reservationSummaryDaily';
+        $name='reservationSummaryMonthly';
         require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
         $dompdf = new \DOMPDF();
         $dompdf->load_html($html);
@@ -1290,7 +1290,7 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "Y"
         ));
 
-        $name='reservationSummaryDaily';
+        $name='reservationSummaryYearly';
         require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
         $dompdf = new \DOMPDF();
         $dompdf->load_html($html);
@@ -1300,6 +1300,7 @@ ORDER BY own.own_mcp_code ASC
 
 
     }
+
     public function clientsSummaryAction(Request $request)
     {
         $timer = $this->get("Time");
@@ -1622,7 +1623,6 @@ ORDER BY own.own_mcp_code ASC
     {
         $timer = $this->get("Time");
         $em = $this->getDoctrine()->getManager();
-
 
 
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
