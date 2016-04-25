@@ -39,3 +39,7 @@ default/*
 nbproject/*
 # Emails
 app/emails/*
+
+.DS_Store
+*.DS_Store
+web/uploads/

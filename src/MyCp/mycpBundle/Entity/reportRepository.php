@@ -154,4 +154,98 @@ class reportRepository extends EntityRepository
         $content = $query->getSingleResult();
         return $content;
     }
+
+    function dashBoardSummary(){
+
+        $day = date("Y-m-d", strtotime('-7 day'));
+        //dump($day);die;
+        $em=$this->getEntityManager();
+        $qb="SELECT DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as fecha,
+            SUM(if(gres.gen_res_status = 0, 1, 0)) as SinAtender,
+            SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
+            SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
+            SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
+            COUNT(gres.gen_res_id) as Total
+            FROM
+            mycpBundle:generalReservation gres
+            where gres.gen_res_date >= :d1 AND gres.gen_res_date <= :d2
+            group by fecha
+            order by gres.gen_res_date DESC
+        ";
+
+
+
+        $qb="select Solicitudes.*, Clientes.DisponibleClientes, Clientes.PagaronClientes, Clientes.NoAtendieronClientes, Clientes.TotalClientes from(
+        select DAYNAME(T.gen_res_date) as dia, T.gen_res_date as Fecha,
+        SUM(if(T.gen_res_status = 1 or T.gen_res_status = 2 or T.gen_res_status = 6 or T.gen_res_status = 8, 1, 0)) as DisponibleClientes,
+        (SELECT count(distinct b.booking_user_id)  from payment p join booking b on p.booking_id = b.booking_id where DATE(p.created) = T.gen_res_date) as PagaronClientes,
+        SUM(if(T.gen_res_status = 0 and not exists(select gres1.gen_res_id
+                from generalreservation gres1
+                where gres1.gen_res_user_id = T.gen_res_user_id and gres1.gen_res_date = T.gen_res_date and gres1.gen_res_status != 0
+        ), 1, 0)) as NoAtendieronClientes,
+        COUNT(distinct T.gen_res_user_id) as TotalClientes
+        FROM
+        (
+        select distinct gres.gen_res_date, gres.gen_res_user_id, gres.gen_res_status
+        from generalreservation gres
+        where gres.gen_res_date >= :d1 AND gres.gen_res_date <= Now()
+        ) T
+        group by DAY(T.gen_res_date)
+        order by T.gen_res_date DESC) Clientes
+        inner join
+        (select DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as Fecha,
+        SUM(if(gres.gen_res_status = 0, 1, 0)) as SinAtender,
+        SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
+        SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
+        SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
+        COUNT(gres.gen_res_id) as Total
+        FROM
+        generalreservation gres
+        where gres.gen_res_date >= :d1 AND gres.gen_res_date <= Now()
+        group by DAY(gres.gen_res_date)
+        order by gres.gen_res_date DESC) Solicitudes
+        on Clientes.Fecha = Solicitudes.Fecha";
+
+        $qb="SELECT DAYNAME(gres.gen_res_date) as dia, gres.gen_res_date as Fecha,
+            SUM(if(gres.gen_res_status = 0, 1, 0)) as SinAtender,
+            SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
+            SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
+            SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
+            COUNT(gres.gen_res_id) as Total, 0 as DisponibleClientes, 0 as PagaronClientes, 0 as NoAtendieronClientes, 0 as TotalClientes
+            FROM
+            generalreservation gres
+            where gres.gen_res_date >= :d1 AND gres.gen_res_date <= :d2
+            group by fecha
+            order by gres.gen_res_date DESC
+        ";
+
+
+        $day = date("Y-m-d", strtotime('-7 day'));
+        $today = date("Y-m-d");
+
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($qb);
+        $statement->bindValue('d1', $day);
+        $statement->bindValue('d2', $today);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        //dump($results);die;
+        //where gres.gen_res_date >= :d1 AND gres.gen_res_date <= Now()
+
+
+//        $query = $em->createQuery($qb)
+//        ->setParameters(array(
+//            //'dias' => $day,
+//            'd1' => '2016-01-1',
+//            'd2' => '2016-01-6'
+//        ));
+//
+//        $content = $query->getArrayResult();
+//
+//        dump($content);die;
+
+        return $results;
+    }
 }

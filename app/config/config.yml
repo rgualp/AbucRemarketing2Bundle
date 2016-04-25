@@ -94,10 +94,21 @@ doctrine:
             default:
                 connection: default
                 auto_mapping: true
+                dql:
+                    string_functions:
+                       DAY: DoctrineExtensions\Query\Mysql\Day
+                       MONTH: DoctrineExtensions\Query\Mysql\Month
+                       YEAR: DoctrineExtensions\Query\Mysql\Year
+                       DAYNAME: DoctrineExtensions\Query\Mysql\DayName
+                       DATEADD: DoctrineExtensions\Query\Mysql\DateAdd
+                       IF: MyCp\mycpBundle\MiscBundle\Doctrine\ORM\Query\AST\Functions\IfFunction #ADDED THIS LINE
+                       DATE: DoctrineExtensions\Query\Mysql\Date
+                       MONTHNAME: DoctrineExtensions\Query\Mysql\MonthName
             #remarketing:
             #    connection: remarketing
             #    mappings:
             #        AbucRemarketingBundle: ~
+
 
 # Swiftmailer Configuration
 swiftmailer:
