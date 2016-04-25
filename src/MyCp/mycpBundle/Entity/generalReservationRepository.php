@@ -1120,14 +1120,24 @@ class generalReservationRepository extends EntityRepository {
     }
     function countClientSol() {
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
         WHERE  gre.gen_res_date = '$day'");
         return $query->getResult();
     }
+    function solDisponibility(){
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day' AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        return $query->getResult();
+    }
     function countClientDisponibility() {
 
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
         WHERE  gre.gen_res_date = '$day' AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
@@ -1135,15 +1145,17 @@ class generalReservationRepository extends EntityRepository {
     }
     function getReservationClientByStatusYesterday($status) {
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        WHERE  gre.gen_res_status_date = '$day' AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
 
 
     function countReservationYesterday(){
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
         WHERE  gre.gen_res_date = '$day'");
@@ -1151,9 +1163,10 @@ class generalReservationRepository extends EntityRepository {
     }
     function getReservationByStatusYesterday($status) {
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        WHERE gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
 
@@ -1238,10 +1251,10 @@ class generalReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
     function countReservationPag(){
-       $yesterday= date("Y-m-d", strtotime('-1 day'));
+        $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
-       // $yesterday='2015-11-26';
-        //$day='2015-11-27';
+        /*$yesterday='2016-01-21';
+        $day='2016-01-22';*/
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gres.gen_res_id, gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
@@ -1254,6 +1267,8 @@ class generalReservationRepository extends EntityRepository {
     function countReservationClientPag(){
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
+       /* $yesterday= '2016-01-21';
+        $day='2016-01-22';*/
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gres.gen_res_user_id), gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
@@ -1678,5 +1693,36 @@ class generalReservationRepository extends EntityRepository {
         }
 
         return $qb->getQuery()->getResult();
+    }
+    function clientPendig(){
+        $yesterday= date("Y-m-d", strtotime('-1 day'));
+        $day=date("Y-m-d");
+        /*$yesterday= '2016-01-21';
+        $day='2016-01-22';*/
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u.user_id,owres.own_res_total_in_site FROM mycpBundle:ownershipReservation owres
+        join owres.own_res_gen_res_id gres
+        join gres.gen_res_user_id u
+        join owres.own_res_reservation_booking b
+        join mycpBundle:payment p with p.booking = b.booking_id
+        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        $result= $query->getResult();
+        $client_id = "0";
+
+        foreach ($result as $client)
+        {
+            $client_id .= ",".$client["user_id"];
+        }
+        //$yesterday = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT distinct u.user_id, owr.own_res_total_in_site,own.own_commission_percent FROM mycpBundle:generalReservation gre
+        join gre.gen_res_user_id u
+        join gre.own_reservations owr
+        join gre.gen_res_own_id own
+        WHERE  gre.gen_res_date = '$yesterday' AND gre.gen_res_user_id NOT IN('$client_id') AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        return $query->getResult();
+
+
     }
 }
