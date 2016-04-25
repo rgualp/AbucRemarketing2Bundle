@@ -979,11 +979,78 @@ ORDER BY own.own_mcp_code ASC
         ));
     }
 
-    public function reservationSummaryExcelAction(Request $request,$report, $from_date, $to_date)
+    public function reservationSummaryExcelAction($report, $from_date, $to_date)
     {
-        /*$exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
-        throw new NotImplementedException("En construcción");
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        /*$dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");*/
+        $dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
+
+        if($timer->diffInDays($from_date, $to_date) > 30) {
+            $dateTo = $timer->add("+30 day", $from_date, "Y-m-d");
+            $dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
+        }
+
+        $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($from_date, $to_date);
+        $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($from_date, $to_date);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($from_date, $dateToPayment);
+
+        $ts = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($reservationSummary as $item)
+        {
+            $ts += $item["cantidad"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tsd = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($reservationSummaryAvailable as $item)
+        {
+            $tsd += $item["cantidad"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $trp = 0;
+        $thp = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($reservationSummaryPayments as $item)
+        {
+            $trp += $item["cantidad"];
+            $thp += $item["habitaciones"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "ts" => $ts, "ths" => $ths, "tns" => $tns,
+            "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+
+        $html = $this->renderView('mycpBundle:reports:reservationSummaryPdf.html.twig', array(
+            'reservationSummary' => $reservationSummary,
+            'reservationSummaryAvailable' => $reservationSummaryAvailable,
+            'reservationSummaryPayments' => $reservationSummaryPayments,
+            'dateFrom' => $from_date,
+            'dateTo' => $to_date,
+            'summary' => $summary,
+            "dateFilter" => "d/m/Y"
+        ));
+
+        $name='reservationSummaryDaily';
+        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+        $dompdf->stream($name . ".pdf", array("Attachment" => false));
     }
 
     public function reservationSummaryMonthlyAction(Request $request)
@@ -1047,16 +1114,75 @@ ORDER BY own.own_mcp_code ASC
         ));
     }
 
-    public function reservationSummaryExcelMonthlyAction(Request $request,$report, $from_date, $to_date)
+    public function reservationSummaryExcelMonthlyAction($report, $from_date, $to_date)
     {
-        /*$exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
-        throw new NotImplementedException("En construcción");
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        $dateToPayment = $timer->add("+1 day", $to_date, "Y-m-d");
+
+        $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummary($from_date, $to_date);
+        $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryAvailable($from_date, $to_date);
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationMonthlySummaryPayments($from_date, $dateToPayment);
+
+        $ts = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($reservationSummary as $item)
+        {
+            $ts += $item["cantidad"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tsd = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($reservationSummaryAvailable as $item)
+        {
+            $tsd += $item["cantidad"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $trp = 0;
+        $thp = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($reservationSummaryPayments as $item)
+        {
+            $trp += $item["cantidad"];
+            $thp += $item["habitaciones"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "ts" => $ts, "ths" => $ths, "tns" => $tns,
+            "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+
+        $html = $this->renderView('mycpBundle:reports:reservationSummaryPdf.html.twig', array(
+            'reservationSummary' => $reservationSummary,
+            'reservationSummaryAvailable' => $reservationSummaryAvailable,
+            'reservationSummaryPayments' => $reservationSummaryPayments,
+            'dateFrom' => $from_date,
+            'dateTo' => $to_date,
+            'summary' => $summary,
+            "dateFilter" => "F"
+        ));
+
+        $name='reservationSummaryDaily';
+        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+        $dompdf->stream($name . ".pdf", array("Attachment" => false));
     }
 
     public function reservationSummaryYearlyAction(Request $request)
     {
-        $timer = $this->get("Time");
         $em = $this->getDoctrine()->getManager();
 
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummary();
@@ -1112,9 +1238,67 @@ ORDER BY own.own_mcp_code ASC
 
     public function reservationSummaryExcelYearlyAction(Request $request,$report)
     {
-        /*$exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
-        throw new NotImplementedException("En construcción");
+        $em = $this->getDoctrine()->getManager();
+
+        $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummary();
+        $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryAvailable();
+        $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryPayments();
+
+        $ts = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($reservationSummary as $item)
+        {
+            $ts += $item["cantidad"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tsd = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($reservationSummaryAvailable as $item)
+        {
+            $tsd += $item["cantidad"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $trp = 0;
+        $thp = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($reservationSummaryPayments as $item)
+        {
+            $trp += $item["cantidad"];
+            $thp += $item["habitaciones"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "ts" => $ts, "ths" => $ths, "tns" => $tns,
+            "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+
+        $html = $this->renderView('mycpBundle:reports:reservationSummaryPdf.html.twig', array(
+            'reservationSummary' => $reservationSummary,
+            'reservationSummaryAvailable' => $reservationSummaryAvailable,
+            'reservationSummaryPayments' => $reservationSummaryPayments,
+            'summary' => $summary,
+            "dateFilter" => "Y"
+        ));
+
+        $name='reservationSummaryDaily';
+        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+        $dompdf->stream($name . ".pdf", array("Attachment" => false));
+
+
     }
     public function clientsSummaryAction(Request $request)
     {
