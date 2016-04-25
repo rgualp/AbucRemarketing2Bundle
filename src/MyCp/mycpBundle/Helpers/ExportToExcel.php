@@ -1793,6 +1793,128 @@ ORDER BY own.own_mcp_code ASC
 
         return $excel;
     }
+    public function exportReservationsStatement(Request $request) {
+        $excel = $this->configExcel("Parte de últimas reservaciones recibidas", "Parte de últimas reservaciones recibidas MyCasaParticular", "reportes");
+
+        $sheetName = "General";
+        $now=new \DateTime();
+        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $data = $this->dataForReservationsStatement();
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationsStatement($excel, $sheetName, $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    public function createExcelReservationsStatement() {
+        $excel = $this->configExcel("Parte de últimas reservaciones recibidas", "Parte de últimas reservaciones recibidas MyCasaParticular", "reportes");
+
+        $sheetName = "General";
+        $now=new \DateTime();
+        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $data = $this->dataForReservationsStatement();
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationsStatement($excel, $sheetName, $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->excelDirectoryPath.$fileName;
+    }
+
+    private function createSheetForReservationsStatement($excel, $sheetName, $data){
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte de últimas reservas recibidas");
+        $sheet->setCellValue('a2', 'Rango: ');
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Fecha');
+        $sheet->setCellValue('b4', 'Id reserva');
+        $sheet->setCellValue('c4', 'Estado');
+        $sheet->setCellValue('d4', 'Precio');
+        $sheet->setCellValue('e4', 'Cod Casa');
+        $sheet->setCellValue('f4', 'Cliente');
+        $sheet->setCellValue('g4', 'Email');
+        $sheet->setCellValue('h4', 'Nombre Casa');
+        $sheet->setCellValue('i4', 'Dueños');
+        $sheet->setCellValue('j4', 'Teléfono');
+        $sheet->setCellValue('k4', 'Celular');
+        $sheet->setCellValue('l4', 'Comisión MyCP(%)');
+        $sheet->setCellValue('m4', 'Tipo de habitación');
+        $sheet->setCellValue('n4', 'Adultos');
+        $sheet->setCellValue('o4', 'Niños');
+        $sheet->setCellValue('p4', 'Precio baja');
+        $sheet->setCellValue('q4', 'Precio alta');
+        $sheet->setCellValue('r4', 'Precio especial');
+        $sheet->setCellValue('s4', 'Fecha llegada');
+        $sheet->setCellValue('t4', 'Noches');
+
+        $sheet = $this->styleHeader("a4:t4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "t", $sheet);
+
+        return $excel;
+    }
+
+    private function dataForReservationsStatement(){
+        $results = array();
+        $query="SELECT generalreservation.gen_res_date, generalreservation.gen_res_id, generalreservation.gen_res_status,generalreservation.gen_res_total_in_site,
+      ownership.own_mcp_code, user.user_user_name, user.user_last_name, user.user_email, ownership.own_name, ownership.own_homeowner_1, ownership.own_homeowner_2,
+      ownership.own_phone_number, ownership.own_mobile_number, ownership.own_commission_percent, ownershipreservation.own_res_room_type, ownershipreservation.own_res_count_adults, ownershipreservation.own_res_count_childrens, ownershipreservation.own_res_room_price_down, ownershipreservation.own_res_room_price_up, ownershipreservation.own_res_room_price_special,
+      generalreservation.gen_res_from_date,DATEDIFF(generalreservation.gen_res_to_date, generalreservation.gen_res_from_date) as total_nigths
+FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id
+INNER JOIN user ON generalreservation.gen_res_user_id = user.user_id
+WHERE gen_res_date>'2016-04-01'
+ORDER BY user_email ASC, gen_res_date ASC
+;";
+      $stmt = $this->em->getConnection()->prepare($query);
+      $stmt->execute();
+      $data=$stmt->fetchAll();
+      foreach($data as $item){
+        $temp=array();
+          $temp[0]=$item['gen_res_date'];
+          $temp[1]='CAS.'.$item['gen_res_id'];
+          $temp[2]=$item['gen_res_status'];
+          $temp[3]=$item['gen_res_total_in_site'];
+          $temp[4]=$item['own_mcp_code'];
+          $temp[5]=$item['user_user_name']. ' '. $item['user_last_name'];
+          $temp[6]=$item['user_email'];
+          $temp[7]=$item['own_name'];
+          $temp[8]=$item['own_homeowner_1'].' '.$item['own_homeowner_2'];
+          $temp[9]=$item['own_phone_number'];
+          $temp[10]=$item['own_mobile_number'];
+          $temp[11]=$item['own_commission_percent'];
+          $temp[12]=$item['own_res_room_type'];
+          $temp[13]=$item['own_res_count_adults'];
+          $temp[14]=$item['own_res_count_childrens'];
+          $temp[15]=$item['own_res_room_price_down'];
+          $temp[16]=$item['own_res_room_price_up'];
+          $temp[17]=$item['own_res_room_price_special'];
+          $temp[18]=$item['gen_res_from_date'];
+          $temp[19]=$item['total_nigths'];
+          $results[]=$temp;
+      }
+        return $results;
+
+    }
 }
 
 ?>

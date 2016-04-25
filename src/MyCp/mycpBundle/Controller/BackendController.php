@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 class BackendController extends Controller {
 
     public function backend_frontAction(Request $request) {
@@ -28,7 +29,17 @@ class BackendController extends Controller {
                 $photo = $em->getRepository('mycpBundle:photo')->find($user->getUserPhoto()->getPhoId());
             else
                 $photo = null;
-            return $this->render('mycpBundle:backend:welcome.html.twig', array('photo' => $photo));
+
+            if ($this->get('security.context')->isGranted('ROLE_CLIENT_STAFF') || $this->get('security.context')->isGranted('ROLE_CLIENT_STAFF_RESERVATION_TEAM') || $this->get('security.context')->isGranted('ROLE_CLIENT_STAFF_ADMIN')){
+                $reporData = $em->getRepository("mycpBundle:report")->dashBoardSummary();
+            }
+
+            return $this->render('mycpBundle:backend:welcome.html.twig',
+                array(
+                    'photo' => $photo,
+                    'reportData' => $reporData
+                )
+            );
         }
     }
 

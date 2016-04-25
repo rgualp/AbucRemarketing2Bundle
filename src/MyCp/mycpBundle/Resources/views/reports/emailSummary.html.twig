@@ -1,27 +1,170 @@
 {% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
-
+{% block styles %}
+ {% include 'mycpBundle:reports:styles.html.twig' %}
+{% endblock %}
 {% block content %}
-    <p>
-        <b>Fecha:</b>{{ fecha|date('d/m/Y') }}<br>
-        <b>Cantidad de clientes que realizaron al menos una solicitud:</b> {{ countClientSol }}<br>
+    <b>Fecha:</b>{{ fecha|date('d/m/Y') }}</br>
+    <h3>RESUMEN ESTADISTICO</h3><br>
 
-        <b>Cantidad de clientes a los que se les dio al menos una disponibilidad:</b> {{ countClientDisponibility }}<br>
+    <table style="width: 100%" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td><b>Clientes:</b> {{ countClientSol }}</td>
+            <td>
+                <b>Solicitudes Recibidas:</b> {{ countReservationYesterday }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Clientes con Reservas Pagadas:</b> {{ reserved }}</td>
+            <td>
+                <b>Facturación:</b> {{ factu }} CUC
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-        <b>Cantidad de clientes con solicitudes en estado pendiente:</b> {{ pending }}<br>
+    <table class="border-gray" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td>Clientes</td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td><b>Cantidad</b></td>
+            <td>
+                <b>Porciento</b>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Recibieron al menos una Disponibilidad</b></td>
+            <td>
+                {{ countClientDisponibility }}
+            </td>
+            <td>
+               {{ countClientDisponibilityPercent}} %
+            </td>
+        </tr>
+        <tr>
+            <td><b>Con Solicitudes Pendientes</b></td>
+            <td>
+                {{ pending }}
+            </td>
+            <td>
+               {{ pendingPercent }} %
+            </td>
+        </tr>
+        <tr>
+            <td><b>Sin Disponibilidad</b></td>
+            <td>
+                {{ clientNotDispon }}
+            </td>
+            <td>
+                {{ clientNotDisponPercent }}%
+            </td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td>
+                {{ countClientSol }}
+            </td>
+            <td>
+                100%
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="border-gray" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td>FACTURACIÓN X CLIENTES QUE RECIBIERON AL MENOS UNA DISPONIBILIDAD</td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td><b>Cantidad</b></td>
+            <td>
+                <b>Facturación</b>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Clientes que pagaron</b></td>
+            <td>
+                {{ reserved }}
+            </td>
+            <td>
+                {{ factu }} CUC
+            </td>
+        </tr>
+        <tr>
+            <td><b>Clientes pendientes de pago</b></td>
+            <td>
+                {{ clientPending }}
+            </td>
+            <td>
+               {{ totalPending }} CUC
+            </td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td>
+                {{ totalClient }}
+            </td>
+            <td>
+                {{ totalCUC }} CUC
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="border-gray" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td>SOLICITUDES RECIBIDAS</td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td><b>Cantidad</b></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Enviadas Disponibles</b></td>
+            <td>
+                {{ countReservationDispon }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Enviadas No Disponibles</b></td>
+            <td>
+                {{ countReservationNoDispon }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Pagadas</b></td>
+            <td>
+                {{ countReservationPag }}
+            </td>
+        </tr>
+       {# <tr>
+            <td><b>Pendientes</b></td>
+            <td>
+                {{ countReservationPending }}
+            </td>
+        </tr>#}
+        <tr>
+            <td><b>Total</b></td>
+            <td>
+               {{ totalSol }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-        <b> Cantidad de clientes con reservas confirmadas (pagadas):</b>{{ reserved }}<br>
-
-
-
-        <b> Cantidad de reservas (solicitudes):</b>{{ countReservationYesterday }}<br>
-
-        <b>Cantidad de reservas con estado disponible:</b> {{ countReservationDispon }}<br>
-
-        <b>Cantidad de reservas no disponibles (solicitudes que se enviaron como no disponibles):</b> {{ countReservationNoDispon }}<br>
-
-        <b>Cantidad de reservas confirmadas (pagadas):</b> {{ countReservationPag }}
-
-    </p>
     <p>Saludos Cordiales,
     <p>Equipo de MyCasaParticular.com</p>
     </p>

@@ -1,1 +1,79 @@
-hola
+{% if reportData is defined %}
+<h2>Resumen Ultimos 7 Dias</h2>
+
+    {#
+
+    "dia" => "Wednesday"
+    "Fecha" => "2016-01-06"
+    "SinAtender" => "6"
+    "Atendidas" => "262"
+    "NoDisponible" => "179"
+    "Disponible" => "83"
+    "Total" => "268"
+    "DisponibleClientes" => "66"
+    "PagaronClientes" => "40"
+    "NoAtendieronClientes" => "0"
+    "TotalClientes" => "91"
+
+    #}
+
+<hr>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Solicitudes</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for dia in reportData %}
+                <tr>
+                    <th scope="row">{{ dia['dia'] |replace({'Monday':'Lunes','Tuesday':'Martes','Wednesday':'Miercoles','Thursday':'Jueves','Friday':'Viernes','Saturday':'Sabado','Sunday':'Domingo'}) }} ( {{ dia['Fecha'] | date("d/m/Y", false) }} )</th>
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td>Total de Clientes</td>
+                                <td><span class="badge">{{ dia['TotalClientes'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Con Disponibilidad</td>
+                                <td><span class="badge">{{ dia['DisponibleClientes'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>No Atendidos</td>
+                                <td><span class="badge">{{ dia['NoAtendieronClientes'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pagaron</td>
+                                <td><span class="badge">{{ dia['PagaronClientes'] }}</span></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td>Total de Solicitudes</td>
+                                <td><span class="badge">{{ dia['Total'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Disponibles</td>
+                                <td><span class="badge">{{ dia['Disponible'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>No Disponibles</td>
+                                <td><span class="badge">{{ dia['NoDisponible'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pendientes</td>
+                                <td><span class="badge">{{ dia['SinAtender'] }}</span></td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endif %}
