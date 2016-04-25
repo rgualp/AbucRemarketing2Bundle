@@ -1,4 +1,4 @@
-{% if reservationSummaryPayments and reservationSummary and reservationSummaryAvailable %}
+
 <div>
     <h3>RESUMEN ESTADISTICO</h3>
     <h4>Solicitudes de Reserva</h4>
@@ -52,12 +52,12 @@
         </thead>
         <tbody>
         <tr>
-            <td style="text-align: center">{{ (summary.trp*100 / summary.ts) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.trp*100 / summary.tsd) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.thp*100 / summary.ths) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.thp*100 / summary.thsd) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.tnp*100 / summary.tns) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.tnp*100 / summary.tnsd) | number_format(2) }} %</td>
+            <td style="text-align: center">{{ (summary.ts > 0) ? (summary.trp*100 / summary.ts) | number_format(2)~" %": "-"}} </td>
+            <td style="text-align: center">{{ (summary.tsd > 0) ? (summary.trp*100 / summary.tsd) | number_format(2)~" %": "-" }}</td>
+            <td style="text-align: center">{{ (summary.ths > 0) ? (summary.thp*100 / summary.ths) | number_format(2)~" %": "-" }}</td>
+            <td style="text-align: center">{{ (summary.thsd > 0) ? (summary.thp*100 / summary.thsd) | number_format(2)~" %": "-" }}</td>
+            <td style="text-align: center">{{ (summary.tns > 0) ? (summary.tnp*100 / summary.tns) | number_format(2)~" %": "-" }}</td>
+            <td style="text-align: center">{{ (summary.tnsd > 0) ? (summary.tnp*100 / summary.tnsd) | number_format(2)~" %": "-" }}</td>
         </tr>
         </tbody>
     </table>
@@ -75,9 +75,9 @@
         </thead>
         <tbody>
         <tr>
-            <td style="text-align: center">{{ (summary.tfr / summary.trp) | number_format(2) }} CUC</td>
-            <td style="text-align: center">{{ (summary.tfr / summary.thp) | number_format(2) }} CUC</td>
-            <td style="text-align: center">{{ (summary.tfr / summary.tnp) | number_format(2) }} CUC</td>
+            <td style="text-align: center">{{ (summary.trp > 0) ? (summary.tfr / summary.trp) | number_format(2)~" CUC": "-" }}</td>
+            <td style="text-align: center">{{ (summary.thp > 0) ? (summary.tfr / summary.thp) | number_format(2)~" CUC": "-" }}</td>
+            <td style="text-align: center">{{ (summary.tnp > 0) ? (summary.tfr / summary.tnp) | number_format(2)~" CUC": "-" }}</td>
         </tr>
         </tbody>
     </table>
@@ -233,9 +233,9 @@
         <tfoot>
         <tr>
             <td colspan="2">TOTAL</td>
-            <td style="text-align: center">{{ (summary.tfr / summary.trp) | number_format(2) }} CUC</td>
-            <td style="text-align: center">{{ (summary.tfr / summary.thp) | number_format(2) }} CUC</td>
-            <td style="text-align: center">{{ (summary.tfr / summary.tnp) | number_format(2) }} CUC</td>
+            <td style="text-align: center">{{ (summary.trp > 0) ? (summary.tfr / summary.trp) | number_format(2)~" CUC":"-" }}</td>
+            <td style="text-align: center">{{ (summary.thp > 0) ? (summary.tfr / summary.thp) | number_format(2)~" CUC":"-" }}</td>
+            <td style="text-align: center">{{ (summary.tnp > 0) ? (summary.tfr / summary.tnp) | number_format(2)~" CUC":"-" }}</td>
         </tr>
         </tfoot>
     </table>
@@ -282,18 +282,16 @@
         <tfoot>
         <tr>
             <td colspan="2">TOTAL</td>
-            <td style="text-align: center">{{ (summary.trp*100 / summary.ts) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.trp * 100 / summary.tsd) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.thp * 100 / summary.ths) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.thp * 100 / summary.thsd) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.tnp * 100 / summary.tns) | number_format(2) }} %</td>
-            <td style="text-align: center">{{ (summary.tnp * 100 / summary.tnsd) | number_format(2) }} %</td>
+            <td style="text-align: center">{{ (summary.ts > 0) ? (summary.trp*100 / summary.ts) | number_format(2)~" %":"-" }}</td>
+            <td style="text-align: center">{{ (summary.tsd > 0) ? (summary.trp * 100 / summary.tsd) | number_format(2)~" %":"-" }}</td>
+            <td style="text-align: center">{{ (summary.ths > 0) ? (summary.thp * 100 / summary.ths) | number_format(2)~" %":"-" }}</td>
+            <td style="text-align: center">{{ (summary.thsd > 0) ? (summary.thp * 100 / summary.thsd) | number_format(2)~" %":"-" }}</td>
+            <td style="text-align: center">{{ (summary.tns > 0) ? (summary.tnp * 100 / summary.tns) | number_format(2)~" %":"-" }}</td>
+            <td style="text-align: center">{{ (summary.tnsd > 0) ? (summary.tnp * 100 / summary.tnsd) | number_format(2)~" %":"-" }}</td>
         </tr>
         </tfoot>
     </table>
 </div>
-    {% else %}
-    <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
-    {% endif %}
+
 
 
