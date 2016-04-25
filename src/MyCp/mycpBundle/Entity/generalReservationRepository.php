@@ -1259,7 +1259,7 @@ class generalReservationRepository extends EntityRepository {
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  gres.gen_res_date > '$yesterday' AND gres.gen_res_date < '$day'");
+        WHERE  gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
         return $query->getResult();
 
     }
@@ -1273,7 +1273,7 @@ class generalReservationRepository extends EntityRepository {
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  gres.gen_res_date > '$yesterday' AND gres.gen_res_date < '$day'");
+        WHERE  gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
         return $query->getResult();
 
     }
@@ -1705,7 +1705,7 @@ class generalReservationRepository extends EntityRepository {
         join gres.gen_res_user_id u
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE gres.gen_res_date > '$yesterday' AND gres.gen_res_date < '$day'");
+        WHERE gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
         $result= $query->getResult();
         $client_id = "0";
 
