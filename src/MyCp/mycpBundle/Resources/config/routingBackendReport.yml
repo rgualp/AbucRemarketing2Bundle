@@ -156,3 +156,6 @@ mycp_reports_clients_summary_yearly:
 mycp_reports_clients_summary_excel_yearly:
     pattern:  /clients/all-summary-excel-yearly/{report}
     defaults: { _controller: mycpBundle:BackendReport:clientsSummaryExcelYearly, report:''}
+mycp_reports_reservations_statement_excel:
+    pattern:  /reservations/statement-excel
+    defaults: { _controller: mycpBundle:BackendReport:reservationsStatementExcel}
