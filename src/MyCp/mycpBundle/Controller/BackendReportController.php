@@ -1764,4 +1764,11 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
     }
+
+    public function reservationsStatementExcelAction(Request $request){
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationsStatement($request);
+
+
+    }
 }
