@@ -1700,7 +1700,7 @@ class generalReservationRepository extends EntityRepository {
         $day='2016-01-22';*/
 
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT u.user_id,owres.own_res_total_in_site FROM mycpBundle:ownershipReservation owres
+        $query = $em->createQuery("SELECT distinct u.user_id,owres.own_res_total_in_site FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
         join gres.gen_res_user_id u
         join owres.own_res_reservation_booking b
