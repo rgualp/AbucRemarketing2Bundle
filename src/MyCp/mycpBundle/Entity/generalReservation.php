@@ -171,6 +171,12 @@ class generalReservation {
      * @ORM\Column(name="childrenAges", type="array", nullable=true)
      */
     private $childrenAges;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="gen_res_last_in_report", type="boolean", nullable=true)
+     */
+    private $gen_res_last_in_report;
 
     /**
      * Constructor
@@ -663,5 +669,29 @@ class generalReservation {
     public function getLogDescription()
     {
         return "Reserva ".$this->getCASId();
+    }
+
+    /**
+     * Set genResLastInReport
+     *
+     * @param boolean $genResLastInReport
+     *
+     * @return generalReservation
+     */
+    public function setGenResLastInReport($genResLastInReport)
+    {
+        $this->gen_res_last_in_report = $genResLastInReport;
+
+        return $this;
+    }
+
+    /**
+     * Get genResLastInReport
+     *
+     * @return boolean
+     */
+    public function getGenResLastInReport()
+    {
+        return $this->gen_res_last_in_report;
     }
 }
