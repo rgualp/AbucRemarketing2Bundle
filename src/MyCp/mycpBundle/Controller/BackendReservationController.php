@@ -525,7 +525,7 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $reservations = array();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsers())->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
 //        $service_log = $this->get('log');

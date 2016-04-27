@@ -37,16 +37,9 @@
                     </div>
                     <div class="pull-right">
                         Mostrar:
-                        {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
-                        {% if filter_user_email ==''%}{% set filter_user_email='null'%}{%endif%}
-                        {% if filter_user_city ==''%}{% set filter_user_city='null'%}{%endif%}
-                        {% if filter_user_country ==''%}{% set filter_user_country='null'%}{%endif%}
-                        {% if sort_by=='' %}
-                            {% set sort_by=0 %}
-                        {% endif %}
-                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_user',{'items_per_page':100,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">100</a>
-                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_user',{'items_per_page':300,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">300</a>
-                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_user',{'items_per_page':500,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">500</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':100})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':300})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':500})}}">500</a>
                         <input class="hidden" name="items_per_page" value="100">
                     </div>
                 </div>
@@ -63,7 +56,7 @@
                 'currentClass': 'current',
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by}
+                'route_params': {'items_per_page':items_per_page}
                 }) }}
 
                     </div>
@@ -74,9 +67,9 @@
                 <tr>
                     <th>Fecha</th>
                     <th>Cliente</th>
-                    <th>Alojamientos</th>
+                    <th>Alojamientos Pendientes</th>
                     <th>Noches</th>
-                    <th>Destinos</th>
+                    <th>Destinos Pendientes</th>
                     <th>Estado</th>
                     <th style="text-align: right">Acciones</th>
                 </tr>
@@ -85,15 +78,19 @@
                 {% set flag=0 %}
                 {% for reservation in reservations %}
                 <tr>
-                    <td>{{ reservation['user_user_name'] }} {{ reservation['user_last_name'] }}</td>
-                    <td>{{ reservation['user_email'] }}</td>
-                    <td>{{ reservation['user_city'] }}</td>
-                    <td>{{ reservation['co_name'] }}</td>
-                    <td>{{ reservation.langName}}</td>
-                    <td>{{ reservation.currName}}</td>
+                    <td>{{ reservation.gen_res_date | date('d/m/Y') }}</td>
+                    <td>{{ reservation.user_user_name }} {{ reservation.user_last_name }}</td>
+                    <td>{% for accommodation in  accommodationsByClient(reservation.user_id, reservation.gen_res_date) %}
+                        <a href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.own_id}) }}">{{ accommodation.own_mcp_code }}</a>{% if not loop.last %}, {% endif %}
+                        {% else %} -
+                        {% endfor %}
+                    </td>
+                    <td>{{ reservation.nights }}</td>
+                    <td></td>
+                    <td></td>
                     <td style="text-align: right">
-                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation['user_id']})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
-                        <a class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation['user_id']}) }}">Detalles</a>
+                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
@@ -109,7 +106,7 @@
                 'currentClass': 'current',
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by}
+                'route_params': {'items_per_page':items_per_page}
                 }) }}
                 </div>
             </div>

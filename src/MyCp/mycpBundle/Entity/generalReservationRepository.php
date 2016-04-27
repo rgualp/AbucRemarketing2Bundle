@@ -1721,6 +1721,38 @@ class generalReservationRepository extends EntityRepository {
         WHERE  gre.gen_res_date = '$yesterday' AND gre.gen_res_user_id NOT IN('$client_id') AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
         return $query->getResult();
 
+    }
 
+    function getByUsers() {
+        $em = $this->getEntityManager();
+        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id, SUM(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights
+            FROM mycpBundle:ownershipReservation owres
+            join owres.own_res_gen_res_id gres
+            join gres.gen_res_user_id u
+
+            group by gres.gen_res_date, gres.gen_res_user_id
+            order by gres.gen_res_id DESC";
+
+        $query = $em->createQuery($queryString);
+
+        return $query->getArrayResult();
+    }
+
+    function getAccommodationsFromReservationsByClient($idClient, $reservationDate)
+    {
+        $em = $this->getEntityManager();
+        $queryString = "select o.own_mcp_code, o.own_id
+            from mycpBundle:generalReservation gres
+            join gres.gen_res_own_id o
+            join o.own_destination d
+            join gres.gen_res_user_id u
+            where u.user_id = :idClient and gres.gen_res_date = :reservationDate and gres.gen_res_status = :status
+            order by d.des_name, LENGTH(o.own_mcp_code), o.own_mcp_code";
+
+        $query = $em->createQuery($queryString)
+            ->setParameter("idClient", $idClient)
+            ->setParameter("reservationDate", $reservationDate)
+            ->setParameter("status", generalReservation::STATUS_PENDING);
+        return $query->getResult();
     }
 }

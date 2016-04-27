@@ -37,6 +37,7 @@ class mycpExtension extends \Twig_Extension {
     public function getFunctions() {
         return array(
             'nights' => new \Twig_Function_Method($this, 'nights'),
+            'accommodationsByClient' => new \Twig_Function_Method($this, 'accommodationsByClient'),
         );
     }
 
@@ -91,6 +92,10 @@ class mycpExtension extends \Twig_Extension {
     {
         $user = $this->em->getRepository("mycpBundle:user")->find($userId);
         return ($user != null) ? $user->getUserCompleteName() : "Usuario no registrado o eliminado";
+    }
+
+    public function accommodationsByClient($clientId, $reservationDate){
+        return $this->em->getRepository("mycpBundle:generalReservation")->getAccommodationsFromReservationsByClient($clientId, $reservationDate);
     }
 
 }
