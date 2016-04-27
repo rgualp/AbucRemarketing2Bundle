@@ -1798,7 +1798,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheetName = "General";
         $now=new \DateTime();
-        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $fileName='Reservaciones_'.$now->format('dmY_Hm');
         $data = $this->dataForReservationsStatement();
 
         if (count($data) > 0)
@@ -1814,7 +1814,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheetName = "General";
         $now=new \DateTime();
-        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $fileName='Reservaciones_'.$now->format('dmY_Hm');
         $data = $this->dataForReservationsStatement();
 
         if (count($data) > 0)
@@ -1876,23 +1876,54 @@ ORDER BY own.own_mcp_code ASC
 
     private function dataForReservationsStatement(){
         $results = array();
+        $lastId=$this->em->getRepository('mycpBundle:generalReservation')->findOneBy(array('gen_res_last_in_report'=>1));
+        if(!$lastId){
+            $yesterday=new \DateTime('yesterday');
+            $yesterday->sub(new \DateInterval('P30D'));
+//            die(dump($yesterday));
+        $lastId=$this->em->getRepository('mycpBundle:generalReservation')->findOneBy(array('gen_res_date'=>$yesterday));
+        }
+        $id=$lastId->getGenResId();
         $query="SELECT generalreservation.gen_res_date, generalreservation.gen_res_id, generalreservation.gen_res_status,generalreservation.gen_res_total_in_site,
       ownership.own_mcp_code, user.user_user_name, user.user_last_name, user.user_email, ownership.own_name, ownership.own_homeowner_1, ownership.own_homeowner_2,
       ownership.own_phone_number, ownership.own_mobile_number, ownership.own_commission_percent, ownershipreservation.own_res_room_type, ownershipreservation.own_res_count_adults, ownershipreservation.own_res_count_childrens, ownershipreservation.own_res_room_price_down, ownershipreservation.own_res_room_price_up, ownershipreservation.own_res_room_price_special,
       generalreservation.gen_res_from_date,DATEDIFF(generalreservation.gen_res_to_date, generalreservation.gen_res_from_date) as total_nigths
 FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id
 INNER JOIN user ON generalreservation.gen_res_user_id = user.user_id
-WHERE gen_res_date>'2016-04-01'
-ORDER BY user_email ASC, gen_res_date ASC
+WHERE gen_res_id>$id
+ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 ;";
       $stmt = $this->em->getConnection()->prepare($query);
       $stmt->execute();
       $data=$stmt->fetchAll();
       foreach($data as $item){
+        if($item['gen_res_id']>$id)
+        $id=$item['gen_res_id'];
         $temp=array();
           $temp[0]=$item['gen_res_date'];
           $temp[1]='CAS.'.$item['gen_res_id'];
-          $temp[2]=$item['gen_res_status'];
+          $estado='';
+          switch($item["gen_res_status"]){
+              case generalReservation::STATUS_AVAILABLE: $estado='Disponible';
+                  break;
+              case generalReservation::STATUS_CANCELLED: $estado='Cancelada';
+                  break;
+              case generalReservation::STATUS_PARTIAL_CANCELLED: $estado='Parcialmente Cancelada';
+                  break;
+              case generalReservation::STATUS_NOT_AVAILABLE: $estado='No disponible';
+                  break;
+              case generalReservation::STATUS_PENDING: $estado='Pendiente';
+                  break;
+              case generalReservation::STATUS_RESERVED: $estado='Reservada';
+                  break;
+              case generalReservation::STATUS_PARTIAL_RESERVED: $estado='Parcialmente Reservada';
+                  break;
+              case generalReservation::STATUS_PARTIAL_RESERVED: $estado='Parcialmente Reservada';
+                  break;
+              case generalReservation::STATUS_OUTDATED: $estado='Vencida';
+                  break;
+          }
+          $temp[2]=$estado;
           $temp[3]=$item['gen_res_total_in_site'];
           $temp[4]=$item['own_mcp_code'];
           $temp[5]=$item['user_user_name']. ' '. $item['user_last_name'];
@@ -1912,7 +1943,18 @@ ORDER BY user_email ASC, gen_res_date ASC
           $temp[19]=$item['total_nigths'];
           $results[]=$temp;
       }
+      if($lastId->getGenResLastInReport())
+      {
+          $lastId->setGenResLastInReport(null);
+          $this->em->persist($lastId);
+      }
+
+        $newLast=$this->em->getRepository('mycpBundle:generalReservation')->find($id);
+        $newLast->setGenResLastInReport(1);
+        $this->em->persist($newLast);
+        $this->em->flush();
         return $results;
+
 
     }
 }
