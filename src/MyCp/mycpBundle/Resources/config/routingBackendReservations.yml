@@ -94,3 +94,7 @@ mycp_export_list_reservations:
 mycp_reservation_notifications_callback:
     pattern:  /reservation-notifications-callback/
     defaults: { _controller: mycpBundle:BackendReservation:getNotificationsCallback }
+
+mycp_list_reservations_byuser:
+    pattern:  /by-users/list/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendReservation:listReservationsByUsers,items_per_page:100}

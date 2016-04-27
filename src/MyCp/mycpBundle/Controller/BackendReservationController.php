@@ -496,6 +496,54 @@ class BackendReservationController extends Controller {
         ));
     }
 
+    public function listReservationsByUsersAction($items_per_page, Request $request) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $page = 1;
+
+        /*$sort_by = $request->get('sort_by');
+        if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' && $filter_user_city == 'null' &&
+            $filter_user_country == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_reservations_user'));
+        }
+        if ($filter_user_name == 'null')
+            $filter_user_name = '';
+        if ($filter_user_email == 'null')
+            $filter_user_email = '';
+        if ($filter_user_city == 'null')
+            $filter_user_city = '';
+        if ($filter_user_country == 'null')
+            $filter_user_country = '';
+        if ($sort_by == 'null')
+            $sort_by = '';
+*/
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $reservations = array();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
+
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        return $this->render('mycpBundle:reservation:list_byclient.html.twig', array(
+            'reservations' => $reservations,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            /*'filter_user_name' => $filter_user_name,
+            'filter_user_email' => $filter_user_email,
+            'filter_user_city' => $filter_user_city,
+            'filter_user_country' => $filter_user_country,
+            'sort_by' => $sort_by*/
+        ));
+    }
+
     public function details_client_reservationAction($id_client, Request $request) {
 
         //$service_security= $this->get('Secure');
