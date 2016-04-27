@@ -1,65 +1,155 @@
 {% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
-
+{% block styles %}
+ {% include 'mycpBundle:reports:styles.html.twig' %}
+{% endblock %}
 {% block content %}
-    <b>Fecha del reporte:</b>{{ fecha|date('d/m/Y') }}</br>
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Nombre</th>
-            <th style="text-align: right">Cantidad</th>
-        </tr>
-        </thead>
+    <b>Fecha:</b>{{ fecha|date('d/m/Y') }}</br>
+    <h3>RESUMEN ESTADISTICO</h3><br>
+
+    <table style="width: 100%" cellpadding="0" cellspacing="0">
         <tbody>
-            <tr>
-                <td><b>Cantidad de clientes que realizaron al menos una solicitud:</b></td>
-                <td style="text-align: right">
-                    {{ countClientSol }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de clientes a los que se les dio al menos una disponibilidad:</b></td>
-                <td style="text-align: right">
-                    {{ countClientDisponibility }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de clientes con solicitudes en estado pendiente:</b></td>
-                <td style="text-align: right">
-                    {{ pending }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de clientes con reservas confirmadas (pagadas):</b></td>
-                <td style="text-align: right">
-                    {{ reserved }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de reservas (solicitudes):</b></td>
-                <td style="text-align: right">
-                    {{ countReservationYesterday }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de reservas con estado disponible:</b></td>
-                <td style="text-align: right">
-                    {{ countReservationDispon }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de reservas no disponibles (solicitudes que se enviaron como no disponibles):</b></td>
-                <td style="text-align: right">
-                    {{ countReservationNoDispon }}
-                </td>
-            </tr>
-            <tr>
-                <td><b>Cantidad de reservas confirmadas (pagadas):</b></td>
-                <td style="text-align: right">
-                    {{ countReservationPag }}
-                </td>
-            </tr>
+        <tr>
+            <td><b>Clientes:</b> {{ countClientSol }}</td>
+            <td>
+                <b>Solicitudes Recibidas:</b> {{ countReservationYesterday }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Clientes con Reservas Pagadas:</b> {{ reserved }}</td>
+            <td>
+                <b>Facturación:</b> {{ factu }} CUC
+            </td>
+        </tr>
         </tbody>
     </table>
+
+    <table class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="3">Clientes</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right"><b>Cantidad</b></td>
+            <td>
+                <b>Porciento</b>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Recibieron al menos una Disponibilidad</b></td>
+            <td>
+                {{ countClientDisponibility }}
+            </td>
+            <td>
+               {{ countClientDisponibilityPercent}} %
+            </td>
+        </tr>
+        <tr>
+            <td><b>Con Solicitudes Pendientes</b></td>
+            <td>
+                {{ pending }}
+            </td>
+            <td>
+               {{ pendingPercent }} %
+            </td>
+        </tr>
+        <tr>
+            <td><b>Sin Disponibilidad</b></td>
+            <td>
+                {{ clientNotDispon }}
+            </td>
+            <td>
+                {{ clientNotDisponPercent }}%
+            </td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td>
+                {{ countClientSol }}
+            </td>
+            <td>
+                100%
+            </td>
+        </tr>
+    </table>
+    <table  class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="3">FACTURACIÓN X CLIENTES QUE RECIBIERON AL MENOS UNA DISPONIBILIDAD</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right"><b>Cantidad</b></td>
+            <td>
+                <b>Facturación</b>
+            </td>
+        </tr>
+
+        <tr>
+            <td><b>Clientes que pagaron</b></td>
+            <td>
+                {{ reserved }}
+            </td>
+            <td>
+                {{ factu }} CUC
+            </td>
+        </tr>
+        <tr>
+            <td><b>Clientes pendientes de pago</b></td>
+            <td>
+                {{ clientPending }}
+            </td>
+            <td>
+               {{ totalPending }} CUC
+            </td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td>
+                {{ totalClient }}
+            </td>
+            <td>
+                {{ totalCUC }} CUC
+            </td>
+        </tr>
+    </table>
+    <table class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="3">SOLICITUDES RECIBIDAS</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: right"><b>Cantidad</b></td>
+        </tr>
+        <tr>
+            <td><b>Enviadas Disponibles</b></td>
+            <td>
+                {{ countReservationDispon }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Enviadas No Disponibles</b></td>
+            <td>
+                {{ countReservationNoDispon }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Pagadas</b></td>
+            <td>
+                {{ countReservationPag }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Pendientes</b></td>
+            <td>
+                {{ countReservationPending }}
+            </td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td>
+               {{ totalSol }}
+            </td>
+        </tr>
+    </table>
+
+
+
     <p>Saludos Cordiales,
     <p>Equipo de MyCasaParticular.com</p>
     </p>

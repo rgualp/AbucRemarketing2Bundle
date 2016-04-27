@@ -1120,14 +1120,23 @@ class generalReservationRepository extends EntityRepository {
     }
     function countClientSol() {
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
         WHERE  gre.gen_res_date = '$day'");
         return $query->getResult();
     }
-    function countClientDisponibility() {
-
+    function solDisponibility(){
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE  gre.gen_res_date = '$day' AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        return $query->getResult();
+    }
+    function countClientDisponibility() {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
         WHERE  gre.gen_res_date = '$day' AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
@@ -1135,15 +1144,17 @@ class generalReservationRepository extends EntityRepository {
     }
     function getReservationClientByStatusYesterday($status) {
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        WHERE  gre.gen_res_status_date = '$day' AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
 
 
     function countReservationYesterday(){
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
         WHERE  gre.gen_res_date = '$day'");
@@ -1151,9 +1162,10 @@ class generalReservationRepository extends EntityRepository {
     }
     function getReservationByStatusYesterday($status) {
         $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        WHERE gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
 
@@ -1213,7 +1225,7 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select("DATE(p.created) as fecha, count(distinct gres.gen_res_id) as cantidad,
+        $qb->select("DATE(gres.gen_res_date) as fecha, count(distinct gres.gen_res_id) as cantidad,
         count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
         SUM(if(p.current_cuc_change_rate is not null, p.payed_amount * p.current_cuc_change_rate, p.payed_amount * curr.curr_cuc_change)) as facturacion")
             ->from("mycpBundle:ownershipReservation", "owres")
@@ -1225,41 +1237,43 @@ class generalReservationRepository extends EntityRepository {
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
         {
-            $qb->andWhere("p.created >= '$filter_date_from' AND p.created <= '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
 
         }
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
-            $qb->andWhere("p.created >= '$filter_date_from'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
         }
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
-            $qb->andWhere("p.created <= '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
     }
     function countReservationPag(){
-       $yesterday= date("Y-m-d", strtotime('-1 day'));
+        $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
-       // $yesterday='2015-11-26';
-        //$day='2015-11-27';
+        /*$yesterday='2016-01-21';
+        $day='2016-01-22';*/
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gres.gen_res_id, gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        WHERE  gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
         return $query->getResult();
 
     }
     function countReservationClientPag(){
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
+        /*$yesterday= '2016-01-21';
+        $day='2016-01-22';*/
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(distinct gres.gen_res_user_id), gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  p.created > '$yesterday' AND p.created<'$day'");
+        WHERE  gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
         return $query->getResult();
 
     }
@@ -1322,7 +1336,7 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select("MONTHNAME(DATE(p.created)) as fecha, MONTH(p.created) as month, YEAR(gres.gen_res_date) as year, count(distinct gres.gen_res_id) as cantidad,
+        $qb->select("MONTHNAME(DATE(gres.gen_res_date)) as fecha, MONTH(p.created) as month, YEAR(gres.gen_res_date) as year, count(distinct gres.gen_res_id) as cantidad,
         count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
         SUM(if(p.current_cuc_change_rate is not null, p.payed_amount * p.current_cuc_change_rate, p.payed_amount * curr.curr_cuc_change)) as facturacion")
             ->from("mycpBundle:ownershipReservation", "owres")
@@ -1335,14 +1349,14 @@ class generalReservationRepository extends EntityRepository {
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
         {
-            $qb->andWhere("p.created >= '$filter_date_from' AND p.created <= '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
 
         }
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
-            $qb->andWhere("p.created >= '$filter_date_from'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
         }
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
-            $qb->andWhere("p.created <= '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
@@ -1406,7 +1420,7 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select("YEAR(DATE(p.created)) as fecha, count(distinct gres.gen_res_id) as cantidad,
+        $qb->select("YEAR(DATE(gres.gen_res_date)) as fecha, count(distinct gres.gen_res_id) as cantidad,
         count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
         SUM(if(p.current_cuc_change_rate is not null, p.payed_amount * p.current_cuc_change_rate, p.payed_amount * curr.curr_cuc_change)) as facturacion")
             ->from("mycpBundle:ownershipReservation", "owres")
@@ -1419,14 +1433,14 @@ class generalReservationRepository extends EntityRepository {
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
         {
-            $qb->andWhere("p.created >= '$filter_date_from' AND p.created <= '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
 
         }
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
-            $qb->andWhere("p.created >= '$filter_date_from'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
         }
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
-            $qb->andWhere("p.created <= '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
@@ -1678,5 +1692,35 @@ class generalReservationRepository extends EntityRepository {
         }
 
         return $qb->getQuery()->getResult();
+    }
+    function clientPendig(){
+        $yesterday= date("Y-m-d", strtotime('-1 day'));
+        $day=date("Y-m-d");
+     /*   $yesterday= '2016-01-21';
+        $day='2016-01-22';*/
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT distinct u.user_id,owres.own_res_total_in_site FROM mycpBundle:ownershipReservation owres
+        join owres.own_res_gen_res_id gres
+        join gres.gen_res_user_id u
+        join owres.own_res_reservation_booking b
+        join mycpBundle:payment p with p.booking = b.booking_id
+        WHERE gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
+        $result= $query->getResult();
+        $client_id = "0";
+
+        foreach ($result as $client)
+        {
+            $client_id .= ",".$client["user_id"];
+        }
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT distinct u.user_id, owr.own_res_total_in_site,own.own_commission_percent FROM mycpBundle:generalReservation gre
+        join gre.gen_res_user_id u
+        join gre.own_reservations owr
+        join gre.gen_res_own_id own
+        WHERE  gre.gen_res_date = '$yesterday' AND gre.gen_res_user_id NOT IN('$client_id') AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        return $query->getResult();
+
+
     }
 }
