@@ -1798,7 +1798,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheetName = "General";
         $now=new \DateTime();
-        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $fileName='Reservaciones_'.$now->format('dmY_Hm');
         $data = $this->dataForReservationsStatement();
 
         if (count($data) > 0)
@@ -1814,7 +1814,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheetName = "General";
         $now=new \DateTime();
-        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $fileName='Reservaciones_'.$now->format('dmY_Hm');
         $data = $this->dataForReservationsStatement();
 
         if (count($data) > 0)
@@ -1891,7 +1891,7 @@ ORDER BY own.own_mcp_code ASC
 FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id
 INNER JOIN user ON generalreservation.gen_res_user_id = user.user_id
 WHERE gen_res_id>$id
-ORDER BY user_email ASC, gen_res_date ASC
+ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 ;";
       $stmt = $this->em->getConnection()->prepare($query);
       $stmt->execute();
