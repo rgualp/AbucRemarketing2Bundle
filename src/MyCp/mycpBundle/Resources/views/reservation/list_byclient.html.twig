@@ -73,7 +73,7 @@
                     <th>Noches Solicitadas</th>
                     <th>Destinos No Atendidos</th>
                     <th>Estado</th>
-                    <th style="text-align: right">Acciones</th>
+                    <th style="text-align: right; width: 150px;">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -90,7 +90,7 @@
                 <tr class="{% if status==attended %}success{%endif%}{% if status==paid %}info{%endif%}{% if status==notAttended%}warning{% endif %} {% if status==incomplete%}yellow{%endif%}">
                     <td>{{ reservation.gen_res_date | date('d/m/Y') }}</td>
                     <td>{{ reservation.user_id }}</td>
-                    <td>{{ reservation.user_user_name }} {{ reservation.user_last_name }}</td>
+                    <td><a title="Editar datos del cliente" href="{{ path("mycp_edit_user_tourist",{"id_user": reservation.user_id}) }}">{{ reservation.user_user_name }} {{ reservation.user_last_name }}</a></td>
                     <td>{{ reservation.total }}</td>
                     <td>{% for accommodation in  accommodations %}
                         <a href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.own_id}) }}">{{ accommodation.own_mcp_code }}</a>{% if not loop.last %}, {% endif %}
@@ -107,12 +107,15 @@
                             {% endif %}
                         {% else %} -
                         {% endfor %}
-                        {% if notShowed == destinations | length %}-{% endif %}
+                        {% if notShowed == destinations | length and destinations | length > 0%}-{% endif %}
                     </td>
                     <td>{% include 'mycpBundle:utils:clientStatus.html.twig' with {'status': status,'wrap': false, 'showInDiv': true} %}</td>
                     <td style="text-align: right">
-                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
-                        <a class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}">Detalles</a>
+                        {% if status != attended %}
+                        <a title="Exportar" class="btn btn-mini btn-success" href="{{path('mycp_export_users_reservations', {'idClient': reservation.user_id})}}"><i class="icon-download-alt"></i></a>
+                        {% endif %}
+                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id})}}"><i class="icon-asterisk icon-white"></i></a>
+                        <a title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}"><i class="icon-tags"></i></a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}

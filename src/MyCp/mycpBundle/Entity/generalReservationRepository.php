@@ -415,7 +415,7 @@ class generalReservationRepository extends EntityRepository {
                         ->getArrayResult();
     }
 
-    function getByUser($id_user, $ownId = null, $isUserCasaModule = false) {
+    function getByUser($id_user, $ownId = null, $isUserCasaModule = false, $notAttendedReservations = false) {
         $em = $this->getEntityManager();
 
         $whereOwn = "";
@@ -426,6 +426,9 @@ class generalReservationRepository extends EntityRepository {
             if($isUserCasaModule)
                 $whereOwn .= " AND gre.gen_res_status = ".generalReservation::STATUS_RESERVED;//." or gre.gen_res_status = ".generalReservation::STATUS_CANCELLED.") ";//agregar stado
         }
+
+        if($notAttendedReservations)
+            $whereOwn .= " AND (gre.gen_res_status = ".generalReservation::STATUS_PENDING ." or gre.gen_res_status = ".generalReservation::STATUS_NOT_AVAILABLE.")";
 
         $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,gre.gen_res_total_in_site,gre.gen_res_status,
             (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,

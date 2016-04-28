@@ -544,6 +544,11 @@ class BackendReservationController extends Controller {
         ));
     }
 
+    public function exportUsersReservationsAction($idClient){
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportUsersReservations($idClient);
+    }
+
     public function details_client_reservationAction($id_client, Request $request) {
 
         //$service_security= $this->get('Secure');

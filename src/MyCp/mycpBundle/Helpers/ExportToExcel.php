@@ -1960,6 +1960,95 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 
 
     }
+
+    public function exportUsersReservations($idCliente, $fileName = "reservasCliente") {
+        $excel = $this->configExcel("Reporte de reservas de un cliente", "Reporte de clientes en un dia de MyCasaParticular", "reportes");
+
+        $data = $this->dataUsersReservations($idCliente);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetUsersReservations($excel,"Cliente-Reservas", $idCliente, $data);
+
+        $fileName = $this->getFileName($fileName."_".$idCliente);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataUsersReservations($idCliente) {
+        $results = array();
+
+        $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getByUser($idCliente, null, false, true);
+
+        $index = 1;
+        foreach ($reportContent as $content) {
+            $data = array();
+
+            $data[0] = $index++;
+            $date = $content["gen_res_date"];
+            $data[1] = date('d/m/Y',$date->getTimestamp());
+            $data[2] = "CAS.".$content["gen_res_id"];
+            $data[3] = $content["own_mcp_code"];
+            $data[4] = $content["rooms"];
+            $data[5] = $content["adults"];
+            $data[6] = $content["childrens"];
+            $data[7] = $content["totalNights"];
+            $data[8] = $content["gen_res_total_in_site"]." CUC";
+            $data[9] = generalReservation::getStatusName($content["gen_res_status"]);
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetUsersReservations($excel, $sheetName, $idCliente, $data) {
+
+        $client = $this->em->getRepository('mycpBundle:user')->find($idCliente);
+        $userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $idCliente));
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Cliente: ".$client->getUserUserName()." ".$client->getUserLastName());
+        $sheet->setCellValue('a2', 'País: '.$client->getUserCountry()->getCoName());
+        $sheet->setCellValue('c2', 'Idioma: '.$userTourist->getUserTouristLanguage()->getLangName());
+        $sheet->setCellValue('e2', 'Moneda: '.$userTourist->getUserTouristCurrency()->getCurrCode());
+        $now = new \DateTime();
+        $sheet->setCellValue('a4', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a6', 'No.');
+        $sheet->setCellValue('b6', 'Fecha');
+        $sheet->setCellValue('c6', 'Reserva');
+        $sheet->setCellValue('d6', 'Propiedad');
+        $sheet->setCellValue('e6', 'Habitaciones');
+        $sheet->setCellValue('f6', 'Adultos');
+        $sheet->setCellValue('g6', 'Niños');
+        $sheet->setCellValue('h6', 'Noches');
+        $sheet->setCellValue('i6', 'Precio');
+        $sheet->setCellValue('j6', 'Estado');
+
+        $sheet = $this->styleHeader("a6:j6", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+        $sheet->mergeCells("A1:J1");
+        $sheet->mergeCells("A4:J4");
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:J1")->applyFromArray($centerStyle);
+
+        $sheet->fromArray($data, ' ', 'A7');
+        $this->setColumnAutoSize("a", "j", $sheet);
+        /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+        $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
+
+        return $excel;
+    }
 }
 
 ?>
