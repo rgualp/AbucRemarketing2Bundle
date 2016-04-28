@@ -129,5 +129,7 @@ label.permission{margin-left: 15px;}
 .redTag{background-color: #b94a48; color: #fff; font-weight: bold;}
 .forgotLink, .forgotLink a{font-size: 16px; color: #666;}
 a.inactive, a.inactive:visited, a.inactive:hover, a.inactive:active{color: #ff1212;}
+.badge-yellow{background-color: #FFFF00; color: #000; font-weight: bold;}
+.yellow{background-color: #FFFFCC;}
 
 

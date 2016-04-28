@@ -66,10 +66,12 @@
                 <thead>
                 <tr>
                     <th>Fecha</th>
+                    <th>Id</th>
                     <th>Cliente</th>
+                    <th>Solicitudes</th>
                     <th>Alojamientos Pendientes</th>
-                    <th>Noches</th>
-                    <th>Destinos Pendientes</th>
+                    <th>Noches Solicitadas</th>
+                    <th>Destinos No Atendidos</th>
                     <th>Estado</th>
                     <th style="text-align: right">Acciones</th>
                 </tr>
@@ -77,17 +79,37 @@
                 <tbody>
                 {% set flag=0 %}
                 {% for reservation in reservations %}
-                <tr>
+                    {% set accommodations =  accommodationsByClient(reservation.user_id, reservation.gen_res_date)%}
+                    {% set destinations =  destinationsByClient(reservation.user_id, reservation.gen_res_date)%}
+                    {% set status =  statusByClient(reservation.user_id, reservation.gen_res_date)%}
+                    {% set notShowed = 0 %}
+                    {%set attended = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED')%}
+                    {%set paid = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_PAID')%}
+                    {%set notAttended = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_NOT_ATTENDED')%}
+                    {%set incomplete = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_INCOMPLETE')%}
+                <tr class="{% if status==attended %}success{%endif%}{% if status==paid %}info{%endif%}{% if status==notAttended%}warning{% endif %} {% if status==incomplete%}yellow{%endif%}">
                     <td>{{ reservation.gen_res_date | date('d/m/Y') }}</td>
+                    <td>{{ reservation.user_id }}</td>
                     <td>{{ reservation.user_user_name }} {{ reservation.user_last_name }}</td>
-                    <td>{% for accommodation in  accommodationsByClient(reservation.user_id, reservation.gen_res_date) %}
+                    <td>{{ reservation.total }}</td>
+                    <td>{% for accommodation in  accommodations %}
                         <a href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.own_id}) }}">{{ accommodation.own_mcp_code }}</a>{% if not loop.last %}, {% endif %}
                         {% else %} -
                         {% endfor %}
                     </td>
                     <td>{{ reservation.nights }}</td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        {% for destination in  destinations %}
+                            {% if destination.pending == destination.total or destination.notAvailable == destination.total %}
+                            <a href="{{ path("mycp_edit_destination", {"id_destination": destination.des_id}) }}">{{ destination.des_name }}</a>{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                {% set notShowed = notShowed + 1  %}
+                            {% endif %}
+                        {% else %} -
+                        {% endfor %}
+                        {% if notShowed == destinations | length %}-{% endif %}
+                    </td>
+                    <td>{% include 'mycpBundle:utils:clientStatus.html.twig' with {'status': status,'wrap': false, 'showInDiv': true} %}</td>
                     <td style="text-align: right">
                         <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
                         <a class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}">Detalles</a>
