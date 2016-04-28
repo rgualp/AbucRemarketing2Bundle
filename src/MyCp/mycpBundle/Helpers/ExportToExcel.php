@@ -1852,8 +1852,9 @@ ORDER BY own.own_mcp_code ASC
         $sheet->setCellValue('r4', 'Precio especial');
         $sheet->setCellValue('s4', 'Fecha llegada');
         $sheet->setCellValue('t4', 'Noches');
+        $sheet->setCellValue('u4', 'Destino');
 
-        $sheet = $this->styleHeader("a4:t4", $sheet);
+        $sheet = $this->styleHeader("a4:u4", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -1869,7 +1870,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheet->fromArray($data, ' ', 'A5');
 
-        $this->setColumnAutoSize("a", "t", $sheet);
+        $this->setColumnAutoSize("a", "u", $sheet);
 
         return $excel;
     }
@@ -1887,8 +1888,9 @@ ORDER BY own.own_mcp_code ASC
         $query="SELECT generalreservation.gen_res_date, generalreservation.gen_res_id, generalreservation.gen_res_status,generalreservation.gen_res_total_in_site,
       ownership.own_mcp_code, user.user_user_name, user.user_last_name, user.user_email, ownership.own_name, ownership.own_homeowner_1, ownership.own_homeowner_2,
       ownership.own_phone_number, ownership.own_mobile_number, ownership.own_commission_percent, ownershipreservation.own_res_room_type, ownershipreservation.own_res_count_adults, ownershipreservation.own_res_count_childrens, ownershipreservation.own_res_room_price_down, ownershipreservation.own_res_room_price_up, ownershipreservation.own_res_room_price_special,
-      generalreservation.gen_res_from_date,DATEDIFF(generalreservation.gen_res_to_date, generalreservation.gen_res_from_date) as total_nigths
-FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id
+      generalreservation.gen_res_from_date,DATEDIFF(generalreservation.gen_res_to_date, generalreservation.gen_res_from_date) as total_nigths,
+            destination.des_name
+FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id INNER JOIN destination ON ownership.own_destination = destination.des_id
 INNER JOIN user ON generalreservation.gen_res_user_id = user.user_id
 WHERE gen_res_id>$id
 ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
@@ -1941,6 +1943,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
           $temp[17]=$item['own_res_room_price_special'];
           $temp[18]=$item['gen_res_from_date'];
           $temp[19]=$item['total_nigths'];
+          $temp[20]=$item['des_name'];
           $results[]=$temp;
       }
       if($lastId->getGenResLastInReport())
