@@ -535,7 +535,7 @@ class BackendReservationController extends Controller {
             'reservations' => $reservations,
             'items_per_page' => $items_per_page,
             'current_page' => $page,
-            'total_items' => $paginator->getTotalItems(),
+            'total_items' => $paginator->getTotalItems()
             /*'filter_user_name' => $filter_user_name,
             'filter_user_email' => $filter_user_email,
             'filter_user_city' => $filter_user_city,
