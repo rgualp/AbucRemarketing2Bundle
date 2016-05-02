@@ -40,7 +40,7 @@
                                 {% include 'mycpBundle:utils:clientStatusList.html.twig' with {"status": filter_status} %}
                             </select>
                         </div>
-                        <div class="span3"><label>Alojamiento:</label>
+                        <div class="span3"><label>Alojamiento (Código o Nombre):</label>
                             <input id="filter_accommodation" name="filter_accommodation" type="text" class="input-block-level" value="{{ filter_accommodation }}"/>
                         </div>
                         <div class="span3"><label>Destino:</label>
@@ -149,7 +149,7 @@
                     <td>{{ reservation.nights }}</td>
                     <td>
                         {% for destination in  destinations %}
-                            {% if destination.pending == destination.total or destination.notAvailable == destination.total %}
+                            {% if destination.pending + destination.notAvailable == destination.total %}
                             <a href="{{ path("mycp_edit_destination", {"id_destination": destination.des_id}) }}">{{ destination.des_name }}</a>{% if not loop.last %}, {% endif %}
                             {% else %}
                                 {% set notShowed = notShowed + 1  %}
@@ -203,8 +203,9 @@
     {% endjavascripts %}
     <script>
         $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',
+            format: 'yyyy-mm-dd',
             todayBtn: 'linked',
+            autoclose: true,
             language: 'es'
         });
 

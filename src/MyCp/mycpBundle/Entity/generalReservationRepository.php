@@ -1732,19 +1732,83 @@ class generalReservationRepository extends EntityRepository {
 
     function getByUsers($filter_name = "", $filter_status = "", $filter_accommodation = "", $filter_destination = "", $filter_range_from = "", $filter_range_to = "") {
         $em = $this->getEntityManager();
-        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,
-            SUM(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
-            COUNT(DISTINCT gres.gen_res_id) as total
-            FROM mycpBundle:ownershipReservation owres
-            join owres.own_res_gen_res_id gres
-            join gres.gen_res_user_id u
+        $where = "";
 
+        if($filter_name != "")
+            $where .= (($where != "") ? " AND ": " WHERE ")." (u.user_id = :filter_user_id OR u.user_user_name LIKE :filter_name OR u.user_last_name LIKE :filter_name) ";
+
+        if($filter_range_from != "")
+            $where .= (($where != "") ? " AND ": " WHERE ")." gres.gen_res_date >= '$filter_range_from' ";
+
+        if($filter_range_to != "")
+            $where .= (($where != "") ? " AND ": " WHERE ")." gres.gen_res_date <= '$filter_range_to' ";
+
+
+        if($filter_accommodation != "")
+            $where .= (($where != "") ? " AND ": " WHERE ")." EXISTS (select DISTINCT o.own_id from generalreservation gres1
+            join ownership o on gres1.gen_res_own_id = o.own_id where gres1.gen_res_user_id = u.user_id and gres1.gen_res_status = :status and gres1.gen_res_date = gres.gen_res_date and (o.own_mcp_code LIKE :filter_accommodation or o.own_name LIKE :filter_accommodation)) ";
+
+        if($filter_destination != "")
+            $where .= (($where != "") ? " AND ": " WHERE ")." EXISTS (
+            select d2.des_id,
+            owres2.own_res_reservation_from_date,
+            SUM(if(gres2.gen_res_status = :available or gres2.gen_res_status = :payed or gres2.gen_res_status = :cancelled or gres2.gen_res_status = :outdated, 1, 0)) as available
+            from ownershipreservation owres2
+            join generalreservation gres2 on owres2.own_res_gen_res_id = gres2.gen_res_id
+            join ownership o2 on gres2.gen_res_own_id = o2.own_id
+            join destination d2 on o2.own_destination = d2.des_id
+            where gres2.gen_res_user_id = gres.gen_res_user_id and gres2.gen_res_date = gres.gen_res_date and d2.des_id = :filter_destination
+            group by d2.des_id, owres2.own_res_reservation_from_date HAVING available = 0) ";
+
+        if($filter_status != "")
+        {
+            $where .= (($where != "") ? " AND ": " WHERE ")." getClientStatus(u.user_id, gres.gen_res_date) = :filter_status";
+        }
+
+
+        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,
+            SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
+            COUNT(DISTINCT gres.gen_res_id) as total
+            FROM ownershipreservation owres
+            join generalreservation gres on owres.own_res_gen_res_id = gres.gen_res_id
+            join user u on gres.gen_res_user_id = u.user_id
+            $where
             group by gres.gen_res_date, gres.gen_res_user_id
             order by gres.gen_res_id DESC";
 
         $query = $em->createQuery($queryString);
 
-        return $query->getArrayResult();
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($queryString);
+
+
+        if($filter_name != ""){
+            $statement->bindValue('filter_user_id', $filter_name);
+            $statement->bindValue("filter_name", "%".$filter_name."%");
+        }
+
+        if($filter_accommodation != "")
+        {
+            $statement->bindValue('status', generalReservation::STATUS_PENDING);
+            $statement->bindValue("filter_accommodation", "%".$filter_accommodation."%");
+        }
+
+        if($filter_destination != "")
+        {
+            $statement->bindValue('filter_destination', $filter_destination);
+            $statement->bindValue("available", generalReservation::STATUS_AVAILABLE);
+            $statement->bindValue("payed", generalReservation::STATUS_RESERVED);
+            $statement->bindValue("cancelled", generalReservation::STATUS_CANCELLED);
+            $statement->bindValue("outdated", generalReservation::STATUS_OUTDATED);
+        }
+
+        if($filter_status != "")
+            $statement->bindValue('filter_status', $filter_status);
+
+
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
     function getAccommodationsFromReservationsByClient($idClient, $reservationDate)
