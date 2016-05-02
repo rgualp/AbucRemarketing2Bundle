@@ -775,4 +775,13 @@ class room {
         return "Habitación #".$this->getRoomNum();
     }
 
+    public static function getShortRoomType($roomType){
+
+        switch($roomType){
+            case "Habitación Triple": return "HT";
+            case "Habitación doble": return "HD";
+            case "Habitación doble (Dos camas)": return "HD (Dos camas)";
+            case "Habitación individual": return "HI";
+        }
+    }
 }

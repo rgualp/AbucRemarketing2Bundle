@@ -11,6 +11,7 @@ namespace MyCp\mycpBundle\Helpers;
 use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\season;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -1977,24 +1978,41 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
     private function dataUsersReservations($idCliente) {
         $results = array();
 
-        $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getByUser($idCliente, null, false, true);
+        $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsRoomsByUser($idCliente);
 
         $index = 1;
+        $currentReservation = 0;
         foreach ($reportContent as $content) {
             $data = array();
 
-            $data[0] = $index++;
-            $date = $content["gen_res_date"];
-            $data[1] = date('d/m/Y',$date->getTimestamp());
-            $data[2] = "CAS.".$content["gen_res_id"];
-            $data[3] = $content["own_mcp_code"];
-            $data[4] = $content["rooms"];
-            $data[5] = $content["adults"];
-            $data[6] = $content["childrens"];
-            $data[7] = $content["totalNights"];
-            $data[8] = $content["gen_res_total_in_site"]." CUC";
-            $data[9] = generalReservation::getStatusName($content["gen_res_status"]);
 
+
+            if($currentReservation != $content["gen_res_id"])
+            {
+                $data[0] = $index++;
+                $currentReservation = $content["gen_res_id"];
+                $date = $content["gen_res_date"];
+                $data[1] = date('d/m/Y',$date->getTimestamp());
+                $data[2] = $content["gen_res_id"];
+                $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
+                $data[4] = $content["own_mcp_code"];
+            }
+            else{
+                $data[0] = "";
+                $data[1] = "";
+                $data[2] = "";
+                $data[3] = "";
+                $data[4] = "";
+            }
+
+            $data[5] = room::getShortRoomType($content["own_res_room_type"]);
+            $data[6] = $content["own_res_count_adults"];
+            $data[7] = $content["own_res_count_childrens"];
+            $data[8] = $content["own_res_total_in_site"];
+            $date = $content["own_res_reservation_from_date"];
+            $data[9] = date('d/m/Y',$date->getTimestamp());
+            $data[10] = $content["nights"];
+           //
             array_push($results, $data);
         }
 
@@ -2016,15 +2034,16 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->setCellValue('a6', 'No.');
         $sheet->setCellValue('b6', 'Fecha');
         $sheet->setCellValue('c6', 'Reserva');
-        $sheet->setCellValue('d6', 'Propiedad');
-        $sheet->setCellValue('e6', 'Habitaciones');
-        $sheet->setCellValue('f6', 'Adultos');
-        $sheet->setCellValue('g6', 'Niños');
-        $sheet->setCellValue('h6', 'Noches');
+        $sheet->setCellValue('d6', 'Estado');
+        $sheet->setCellValue('e6', 'Alojamiento');
+        $sheet->setCellValue('f6', 'Habitación');
+        $sheet->setCellValue('g6', 'Adultos');
+        $sheet->setCellValue('h6', 'Niños');
         $sheet->setCellValue('i6', 'Precio');
-        $sheet->setCellValue('j6', 'Estado');
+        $sheet->setCellValue('j6', 'Llegada');
+        $sheet->setCellValue('k6', 'Noches');
 
-        $sheet = $this->styleHeader("a6:j6", $sheet);
+        $sheet = $this->styleHeader("a6:k6", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -2032,18 +2051,18 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
             ),
         );
         $sheet->getStyle("a1")->applyFromArray($style);
-        $sheet->mergeCells("A1:J1");
-        $sheet->mergeCells("A4:J4");
+        $sheet->mergeCells("A1:k1");
+        $sheet->mergeCells("A4:k4");
 
         $centerStyle = array(
             'alignment' => array(
                 'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
             )
         );
-        $sheet->getStyle("A1:J1")->applyFromArray($centerStyle);
+        $sheet->getStyle("A1:k1")->applyFromArray($centerStyle);
 
         $sheet->fromArray($data, ' ', 'A7');
-        $this->setColumnAutoSize("a", "j", $sheet);
+        $this->setColumnAutoSize("a", "k", $sheet);
         /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
         $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
 

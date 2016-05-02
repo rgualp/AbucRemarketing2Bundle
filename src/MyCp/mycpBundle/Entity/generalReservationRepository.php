@@ -428,6 +428,9 @@ class generalReservationRepository extends EntityRepository {
         }
 
         if($notAttendedReservations) {
+           /* $today = \date('Y-m-j');
+            $before = strtotime('-72 hour', strtotime($date));
+            $new_date = \date('Y-m-j', $new_date);*/
             $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
         }
 
@@ -1861,5 +1864,29 @@ class generalReservationRepository extends EntityRepository {
         }
 
         return $status;
+    }
+
+    function getReservationsRoomsByUser($id_user) {
+        $em = $this->getEntityManager();
+
+        $whereOwn = "";
+        $today = \date('Y-m-j');
+        $before = strtotime('-72 hour', strtotime($today));
+        $before = \date('Y-m-j', $before);
+        $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
+        //$whereOwn .= " AND gre.gen_res_date >= '".$before."' AND gre.gen_res_date <= '".$today."'";
+
+        $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,owres.own_res_status,
+            ow.own_mcp_code, ow.own_id, owres.own_res_room_type, owres.own_res_count_adults, owres.own_res_count_childrens,
+            owres.own_res_total_in_site, owres.own_res_reservation_from_date, DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date) as nights
+            FROM mycpBundle:ownershipReservation owres
+            JOIN owres.own_res_gen_res_id gre
+            JOIN gre.gen_res_own_id ow
+            JOIN gre.gen_res_user_id us
+            WHERE us.user_id = :user_id $whereOwn
+            ORDER BY gre.gen_res_id DESC";
+
+        $query = $em->createQuery($queryString);
+        return $query->setParameter('user_id', $id_user)->getArrayResult();
     }
 }
