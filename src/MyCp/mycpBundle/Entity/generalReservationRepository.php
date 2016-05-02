@@ -1730,7 +1730,7 @@ class generalReservationRepository extends EntityRepository {
 
     }
 
-    function getByUsers() {
+    function getByUsers($filter_name = "", $filter_status = "", $filter_accommodation = "", $filter_destination = "", $filter_range_from = "", $filter_range_to = "") {
         $em = $this->getEntityManager();
         $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,
             SUM(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
