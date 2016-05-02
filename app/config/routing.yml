@@ -122,3 +122,7 @@ remarketing_view_confirmation_reservation:
         route: frontend_view_confirmation_reservation
         permanent: true
 
+hds-seobundle:
+    resource: "@SeoBundle/Resources/config/routing.yml"
+    prefix:   /backend/seo
+
