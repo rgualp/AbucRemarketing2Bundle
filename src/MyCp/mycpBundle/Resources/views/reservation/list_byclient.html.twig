@@ -146,7 +146,7 @@
                     </td>
                     <td>{% include 'mycpBundle:utils:clientStatus.html.twig' with {'status': status,'wrap': false, 'showInDiv': true} %}</td>
                     <td style="text-align: right">
-                        {% if status != attended %}
+                        {% if status != attended and reservation.gen_res_date|date("U") >= "-48 hours"|date("U")%}
                         <a title="Exportar" class="btn btn-mini btn-success" href="{{path('mycp_export_users_reservations', {'idClient': reservation.user_id})}}"><i class="icon-download-alt"></i></a>
                         {% endif %}
                         <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id})}}"><i class="icon-asterisk icon-white"></i></a>

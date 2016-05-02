@@ -1874,7 +1874,7 @@ class generalReservationRepository extends EntityRepository {
         $before = strtotime('-72 hour', strtotime($today));
         $before = \date('Y-m-j', $before);
         $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
-        //$whereOwn .= " AND gre.gen_res_date >= '".$before."' AND gre.gen_res_date <= '".$today."'";
+        $whereOwn .= " AND gre.gen_res_date >= '".$before."' AND gre.gen_res_date <= '".$today."'";
 
         $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,owres.own_res_status,
             ow.own_mcp_code, ow.own_id, owres.own_res_room_type, owres.own_res_count_adults, owres.own_res_count_childrens,
