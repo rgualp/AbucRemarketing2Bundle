@@ -1,0 +1,19 @@
+imports:
+    - { resource: repositoryServices.yml }
+    - { resource: formTypeServices.yml }
+
+services:
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
+
+    seo_utils.twig.extension:
+        class: hds\SeoBundle\Extension\SeoUtilsExtension
+        arguments:
+            - @service_container
+            - @block_repository
+        tags:
+            - { name: twig.extension }

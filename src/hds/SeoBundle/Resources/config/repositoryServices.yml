@@ -1,0 +1,77 @@
+services:
+
+    ### Block
+    block_repository:
+        alias: block.repository.custom
+        public: true
+
+    block.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\Block ]
+        public: false
+
+    block.repository.custom:
+        class: hds\SeoBundle\Repository\Block
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\Block ]
+        public: false
+
+    ### Header
+    header_repository:
+        alias: header.repository.custom
+        public: true
+
+    header.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\Header ]
+        public: false
+
+    header.repository.custom:
+        class: hds\SeoBundle\Repository\Header
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\Header ]
+        public: false
+
+    ### HeaderBlock
+    headerblock_repository:
+        alias: headerblock.repository.custom
+        public: true
+
+    headerblock.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\HeaderBlock ]
+        public: false
+
+    headerblock.repository.custom:
+        class: hds\SeoBundle\Repository\HeaderBlock
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\HeaderBlock ]
+        public: false
+
+    ### BlockContent
+    blockcontent_repository:
+        alias: blockcontent.repository.custom
+        public: true
+
+    blockcontent.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\BlockContent ]
+        public: false
+
+    blockcontent.repository.custom:
+        class: hds\SeoBundle\Repository\BlockContent
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ hds\SeoBundle\Entity\BlockContent ]
+        public: false
