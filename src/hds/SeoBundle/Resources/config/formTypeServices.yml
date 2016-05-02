@@ -1,0 +1,5 @@
+services:
+    block_formtype:
+        class: hds\SeoBundle\Form\BlockType
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"

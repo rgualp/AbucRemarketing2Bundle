@@ -3768,6 +3768,14 @@
                 <source>OWN_PRIZES</source>
                 <target>Premios</target>
             </trans-unit>
+                            <trans-unit id="951">
+                                <source>FOOTER_EMAIL1</source>
+                                <target><![CDATA[Añade reservation@mycasaparticular.com a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>También puedes leer nuestra Política de Privacidad <a href="%policieslink%">Aquí.</a><br/><br/>Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros <a href="%termlink%">Términos y Condiciones</a> para obtener información más detallada.]]></target>
+                            </trans-unit>
+                                                  <trans-unit id="952">
+                                                      <source>FOOTER_EMAIL1_SUBTEXT</source>
+                                                      <target><![CDATA[MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
+                                                  </trans-unit>
         </body>
     </file>
 </xliff>

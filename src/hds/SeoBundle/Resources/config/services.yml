@@ -1,0 +1,12 @@
+imports:
+    - { resource: repositoryServices.yml }
+    - { resource: formTypeServices.yml }
+
+services:
+    seo_utils.twig.extension:
+        class: hds\SeoBundle\Extension\SeoUtilsExtension
+        arguments:
+            - @service_container
+            - @block_repository
+        tags:
+            - { name: twig.extension }
