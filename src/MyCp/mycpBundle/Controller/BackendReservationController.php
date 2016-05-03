@@ -501,31 +501,39 @@ class BackendReservationController extends Controller {
         $service_security->verifyAccess();*/
         $page = 1;
 
-        /*$sort_by = $request->get('sort_by');
-        if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' && $filter_user_city == 'null' &&
-            $filter_user_country == 'null') {
+        $filter_name = $request->get('filter_name');
+        $filter_status = $request->get('filter_status');
+        $filter_accommodation = $request->get('filter_accommodation');
+        $filter_destination = $request->get('filter_destination');
+        $filter_range_from = $request->get('filter_range_from');
+        $filter_range_to = $request->get('filter_range_to');
+
+        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' &&
+            $filter_destination == 'null' && $filter_range_from == "null"  && $filter_range_to == "null") {
             $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_reservations_user'));
+            return $this->redirect($this->generateUrl('mycp_list_reservations_byuser'));
         }
-        if ($filter_user_name == 'null')
-            $filter_user_name = '';
-        if ($filter_user_email == 'null')
-            $filter_user_email = '';
-        if ($filter_user_city == 'null')
-            $filter_user_city = '';
-        if ($filter_user_country == 'null')
-            $filter_user_country = '';
-        if ($sort_by == 'null')
-            $sort_by = '';
-*/
+        if ($filter_name == 'null')
+            $filter_name = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($filter_accommodation == 'null')
+            $filter_accommodation = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_range_from == 'null')
+            $filter_range_from = '';
+        if ($filter_range_to == 'null')
+            $filter_range_to = '';
+
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsers())->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsers($filter_name, $filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
 //        $service_log = $this->get('log');
@@ -535,12 +543,13 @@ class BackendReservationController extends Controller {
             'reservations' => $reservations,
             'items_per_page' => $items_per_page,
             'current_page' => $page,
-            'total_items' => $paginator->getTotalItems()
-            /*'filter_user_name' => $filter_user_name,
-            'filter_user_email' => $filter_user_email,
-            'filter_user_city' => $filter_user_city,
-            'filter_user_country' => $filter_user_country,
-            'sort_by' => $sort_by*/
+            'total_items' => $paginator->getTotalItems(),
+            'filter_name' => $filter_name,
+            'filter_status' => $filter_status,
+            'filter_accommodation' => $filter_accommodation,
+            'filter_destination' => $filter_destination,
+            'filter_range_from' => $filter_range_from,
+            'filter_range_to' => $filter_range_to
         ));
     }
 

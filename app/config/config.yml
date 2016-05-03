@@ -75,6 +75,8 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
+                mapping_types:
+                    enum: string
              #remarketing:
                  #driver:   "%database_driver_remarketing%"
                  #host:     "%database_host_remarketing%"

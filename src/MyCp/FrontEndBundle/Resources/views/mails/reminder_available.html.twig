@@ -1,4 +1,4 @@
-{% extends 'FrontEndBundle:layout:translatedbaseMailTemplate.html.twig' %}
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 
 {#% set mailPaymentUrl =  url('frontend_mycasatrip_available', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
 {% set mailPaymentUrl = mail_base_url ~ '/mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower %}

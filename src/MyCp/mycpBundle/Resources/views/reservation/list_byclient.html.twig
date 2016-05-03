@@ -32,27 +32,41 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_byuser')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span6"><label>Cliente:</label>
-                            <input id="filter_name" name="filter_name" type="text" class="input-block-level" value=""/>
+                        <div class="span3"><label>Cliente (Id, Nombre o Apellidos):</label>
+                            <input id="filter_name" name="filter_name" type="text" class="input-block-level" value="{{ filter_name }}"/>
                         </div>
-                        <div class="span6"><label>Estado:</label>
+                        <div class="span3"><label>Estado:</label>
                             <select id="filter_status" name="filter_status" class="input-block-level">
-                                {% include 'mycpBundle:utils:clientStatusList.html.twig' %}
+                                {% include 'mycpBundle:utils:clientStatusList.html.twig' with {"status": filter_status} %}
+                            </select>
+                        </div>
+                        <div class="span3"><label>Alojamiento (Código o Nombre):</label>
+                            <input id="filter_accommodation" name="filter_accommodation" type="text" class="input-block-level" value="{{ filter_accommodation }}"/>
+                        </div>
+                        <div class="span3"><label>Destino:</label>
+                            <select id="filter_destination" name="filter_destination" class="input-block-level">
+                                {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':filter_destination}})) }}
                             </select>
                         </div>
 
                     </div>
                     <div class="row-fluid">
                         <div class="span5"><label>Rango de Fechas:</label>
-                            <input id="filter_range_from" name="filter_range_from" type="text" class="datepicker input-block-level" value=""/>
+                            <input id="filter_range_from" name="filter_range_from" type="text" class="datepicker input-block-level" value="{{ filter_range_from }}"/>
                         </div>
                         <div class="span5">
                             <label>&nbsp;</label>
-                            <input id="filter_range_to" name="filter_range_to" type="text" class="datepicker input-block-level" value=""/>
+                            <input id="filter_range_to" name="filter_range_to" type="text" class="datepicker input-block-level" value="{{ filter_range_to }}"/>
                         </div>
                         <div class="span2">
                             <label>&nbsp;</label>
                             <div class="row-fluid">
+                                {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+                                {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
+                                {% if filter_accommodation ==''%}{% set filter_accommodation='null'%}{%endif%}
+                                {% if filter_destination ==''%}{% set filter_destination='null'%}{%endif%}
+                                {% if filter_range_from ==''%}{% set filter_range_from='null'%}{%endif%}
+                                {% if filter_range_to ==''%}{% set filter_range_to='null'%}{%endif%}
                                 <div class="span6">
                                     <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                                 </div>
@@ -72,9 +86,9 @@
                     </div>
                     <div class="pull-right">
                         Mostrar:
-                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':100})}}">100</a>
-                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':300})}}">300</a>
-                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':500})}}">500</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':100, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':300, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_byuser',{'items_per_page':500, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to})}}">500</a>
                         <input class="hidden" name="items_per_page" value="100">
                     </div>
                 </div>
@@ -91,7 +105,7 @@
                 'currentClass': 'current',
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page}
+                'route_params': {'items_per_page':items_per_page, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to}
                 }) }}
 
                     </div>
@@ -135,7 +149,7 @@
                     <td>{{ reservation.nights }}</td>
                     <td>
                         {% for destination in  destinations %}
-                            {% if destination.pending == destination.total or destination.notAvailable == destination.total %}
+                            {% if destination.pending + destination.notAvailable == destination.total %}
                             <a href="{{ path("mycp_edit_destination", {"id_destination": destination.des_id}) }}">{{ destination.des_name }}</a>{% if not loop.last %}, {% endif %}
                             {% else %}
                                 {% set notShowed = notShowed + 1  %}
@@ -166,7 +180,7 @@
                 'currentClass': 'current',
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page}
+                'route_params': {'items_per_page':items_per_page, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to}
                 }) }}
                 </div>
             </div>
@@ -189,8 +203,9 @@
     {% endjavascripts %}
     <script>
         $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',
+            format: 'yyyy-mm-dd',
             todayBtn: 'linked',
+            autoclose: true,
             language: 'es'
         });
 
@@ -205,19 +220,21 @@
         function action_submit()
         {
             items_per_page={{items_per_page}};
-            filter_user_name=$('#filter_user_name').val();
-            if(filter_user_name=='')filter_user_name='null';
-            filter_user_email=$('#filter_user_email').val();
-            if(filter_user_email=='')filter_user_email='null';
-            filter_user_city=$('#filter_user_city').val();
-            if(filter_user_city=='')filter_user_city='null';
-            filter_user_country=$('#filter_user_country').val();
-            if(filter_user_country=='')filter_user_country='null';
-            sort_by=$('#sort_by').val();
-            if(sort_by=='')sort_by='null';
+            filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
+            filter_status=$('#filter_status').val();
+            if(filter_status=='')filter_status='null';
+            filter_accommodation=$('#filter_accommodation').val();
+            if(filter_accommodation=='')filter_accommodation='null';
+            filter_destination=$('#filter_destination').val();
+            if(filter_destination=='')filter_destination='null';
+            filter_range_from=$('#filter_range_from').val();
+            if(filter_range_from=='')filter_range_from='null';
+            filter_range_to=$('#filter_range_to').val();
+            if(filter_range_to=='')filter_range_to='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_city+'/'+filter_user_country+'/'+sort_by;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_status+'/'+filter_accommodation+'/'+filter_destination+'/'+filter_range_from+'/'+filter_range_to;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }

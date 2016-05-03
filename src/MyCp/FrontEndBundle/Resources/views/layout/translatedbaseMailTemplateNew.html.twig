@@ -1,0 +1,84 @@
+<html>
+<head>
+    <title>MyCasaParticular.com</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        .ExternalClass {width:100%;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+            line-height: 100%;
+        }
+        body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+        body {margin:0; padding:0;}
+        table td {border-collapse:collapse;}
+        .ReadMsgBody { width: 100%;}
+        .ExternalClass {width: 100%;}
+        body{background:#e8e8e8 }
+        p{margin-bottom:10px;}
+       a,a:visited,a:link,a:hover, a.titleLink, a.titleLink:visited, a.titleLink:link, a.titleLink:hover{text-decoration: none;color:#084f76;}
+       .footer a,.footer a:visited,.footer a:link,.footer a:hover{text-decoration: none;color:white;}
+    </style>
+</head>
+<body style="font-family: Arial;">
+<table width="100%" cellpadding="10" cellspacing="0" border="0">
+    <tr>
+        <td valign="top" align="center">
+            <table width="825px" bgcolor="#FFFFFF" border="0" cellpadding="15" cellspacing="0" style="border: solid 1px #DDDDDD; background-color: #FFFFFF">
+                <tr style="">
+                    <td width="335px" style="padding: 35px;">
+                        <a href="{#{ url('mycp_main') }#}{{ mail_base_url }}"><img alt="MyCasaParticular" style="display:block;" border="0"  {#src="{{mail_base_url~'/bundles/frontend/img/logo-with-text.png'}}"#} src="{{ asset('bundles/frontend/img/logo-with-text.png', null, true) }}"/></a></td>
+                       </tr>
+
+                <tr>
+                    <td colspan="2" style="font-family: arial; padding: 35px;">{% block content %}{% endblock %}</td>
+                </tr>
+               <tr>
+                    <td colspan="2" bgcolor="#084e75" style="">
+                        <table  width="100%" cellpadding="10" cellspacing="0" border="0">
+                            <tr>
+                                <td class="footer" colspan="2" style="line-height: 18px; font-family: arial; color: #9da5ac; padding: 10px 20px;">
+                                     {#% set policiesLink =  url('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+                                    {#% set termlink =  url('frontend_legal_terms', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+                                    {% set policiesLink = mail_base_url ~ "/security-privacy-email/"~ user_locale|lower ~ '/' ~ user_locale|lower%}
+                                    {% set termlink = mail_base_url ~ "/legal-terms-email/"~ user_locale|lower ~ '/' ~ user_locale|lower%}
+                                    {{ 'FOOTER_EMAIL1'| trans({'%policieslink%': policiesLink, '%termlink%': termlink }, "messages", user_locale) |raw }}
+                                    <br/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="footer" colspan="2" style="line-height: 18px; font-family: arial; color: #fefefe; font-size: 12px; ">
+
+                                    {{ 'FOOTER_EMAIL1_SUBTEXT'| trans({'%policieslink%': policiesLink, '%termlink%': termlink }, "messages", user_locale) |raw }}
+
+                                </td>
+                            </tr>
+                        </table>
+                        {#<table width="100%" border="0" cellspacing="0" cellpadding="15" style="color: #FFFFFF; font-size: 12px; font-family: arial">#}
+                            {#<tr>#}
+                                {#<td width="50%">#}
+                                    {#<a style="color: #FFFFFF; text-decoration: none" href="{{ mail_base_url }}">MyCasaParticular.com</a>#}
+                                {#</td>#}
+                                {#<td width="50%" align="right" style="text-align: right">#}
+                                    {#<a style="color: #FFFFFF; text-decoration: none" href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>#}
+                                {#</td>#}
+                            {#</tr>#}
+                            {#<tr>#}
+                                {#<td colspan="2">#}
+                                    {#<a href="http://www.facebook.com/MyCasaParticular"><img border="0" src="{{mail_base_url~'/bundles/frontend/img/facebook.gif'}}"/></a>&nbsp;&nbsp;&nbsp;#}
+                                    {#<a href="https://twitter.com/MyCP"><img border="0" src="{{mail_base_url~'/bundles/frontend/img/twitter.gif'}}"/></a>&nbsp;&nbsp;&nbsp;#}
+                                    {#<a href="https://pinterest.com/MyCasaParticular"><img border="0" src="{{mail_base_url~'/bundles/frontend/img/pinenterest.gif'}}"/></a>&nbsp;&nbsp;&nbsp;#}
+                                    {#<a href="#"><img border="0" src="{{mail_base_url~'/bundles/frontend/img/youtube.png'}}"/></a>#}
+                                {#</td>#}
+                            {#</tr>#}
+                            {#<tr>#}
+                                {#<td colspan="2">{{ global_abuc_address }}</td>#}
+                            {#</tr>#}
+                        {#</table>#}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
