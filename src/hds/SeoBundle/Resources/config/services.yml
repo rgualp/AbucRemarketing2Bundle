@@ -8,5 +8,6 @@ services:
         arguments:
             - @service_container
             - @block_repository
+            - @blockcontent_repository
         tags:
             - { name: twig.extension }

@@ -4,7 +4,7 @@ hds\SeoBundle
 Parametros:
 -Nombre del Bloque definido
 -Parametros a reemplazar (Debe pasar el parametro con el mismo formato que se le dio entrada en el header)
-{{ get_metas('Main', {'%casa_name%':'Casa de HDS'})|raw }}
+{{ get_metas('Main', 'es', {'%casa_name%':'Casa de HDS'})|raw }}
 
 
 MyCP:
