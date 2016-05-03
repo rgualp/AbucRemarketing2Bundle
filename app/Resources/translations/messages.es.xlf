@@ -3770,7 +3770,11 @@
             </trans-unit>
                             <trans-unit id="951">
                                 <source>FOOTER_EMAIL1</source>
-                                <target><![CDATA[Añade reservation@mycasaparticular.com a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>También puedes leer nuestra Política de Privacidad <a href="%policieslink%">Aquí.</a><br/><br/>Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros <a href="%termlink%">Términos y Condiciones</a> para obtener información más detallada.]]></target>
+                                <target><![CDATA[Agregue reservation@mycasaparticular.com a sus contactos seguros para continuar recibiendo nuestros correos electrónicos.<br/><br/>
+                                Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad.
+                                Para más información consulte nuestra <a href="%policieslink%">Política de Privacidad;</a>, las FAQ´s y nuestros <a href="%termlink%">Términos y Condiciones</a>.
+
+                                ]]></target>
                             </trans-unit>
                                                   <trans-unit id="952">
                                                       <source>FOOTER_EMAIL1_SUBTEXT</source>
