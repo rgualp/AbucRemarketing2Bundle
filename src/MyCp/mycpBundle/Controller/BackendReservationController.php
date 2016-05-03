@@ -760,7 +760,7 @@ class BackendReservationController extends Controller {
         else {
 
             $service_email = $this->get('Email');
-            $service_email->sendReservation($id_reservation, $custom_message);
+            $service_email->sendReservation($id_reservation, $custom_message, false);
 
             // inform listeners that a reservation was sent out
             $dispatcher = $this->get('event_dispatcher');
@@ -1118,7 +1118,7 @@ class BackendReservationController extends Controller {
                     }
 
                     $mailer = $this->get('Email');
-                    $mailer->sendReservation($general_reservation->getGenResId(), $custom_message);
+                    $mailer->sendReservation($general_reservation->getGenResId(), $custom_message, true);
 
                     $message = 'Oferta '.$general_reservation->getCASId().' enviada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
