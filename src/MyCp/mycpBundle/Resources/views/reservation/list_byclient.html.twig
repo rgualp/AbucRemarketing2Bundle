@@ -148,11 +148,15 @@
                     </td>
                     <td>{{ reservation.nights }}</td>
                     <td>
+                        {% set currentDestination = 0 %}
                         {% for destination in  destinations %}
-                            {% if destination.pending + destination.notAvailable == destination.total %}
-                            <a href="{{ path("mycp_edit_destination", {"id_destination": destination.des_id}) }}">{{ destination.des_name }}</a>{% if not loop.last %}, {% endif %}
-                            {% else %}
-                                {% set notShowed = notShowed + 1  %}
+                            {% if currentDestination != destination.des_id %}
+                                {% set currentDestination = destination.des_id %}
+                                {% if destination.pending + destination.notAvailable == destination.total %}
+                                <a href="{{ path("mycp_edit_destination", {"id_destination": destination.des_id}) }}">{{ destination.des_name }}</a>{% if not loop.last %}, {% endif %}
+                                {% else %}
+                                    {% set notShowed = notShowed + 1  %}
+                                {% endif %}
                             {% endif %}
                         {% else %} -
                         {% endfor %}
