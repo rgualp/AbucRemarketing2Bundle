@@ -67,6 +67,10 @@ class BlockController extends Controller
 	 */
 	function listPrivilegesAction(Request $request){
 
+		$block_content= $this->blockcontent_repository->findOneBy(array(
+			'language_code'=>'es'
+		));
+
 		$entities= $this->block_repository->findAll();
 		$languages= $this->em->getRepository('mycpBundle:lang')->findBy(array('lang_active'=>1));
 
