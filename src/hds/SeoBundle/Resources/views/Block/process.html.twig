@@ -11,6 +11,7 @@
         {{ form_widget(form_header._token) }}
 
         <input id="id_id" name="id" type="hidden" class="form-control" value="{{ obj.id }}">
+        {#<input id="locale_id" name="locale" type="hidden" class="form-control" value="{{ locale }}">#}
 
         <div class="row-fluid">
             <label class="span1 control-label">{{ 'Nombre' | trans }}</label>
@@ -20,16 +21,27 @@
         </div>
 
         <div class="row-fluid">
-            <label class="span1 control-label">{{ 'Activo' | trans }}</label>
+            <label class="span1 control-label">{{ 'Localización' | trans }}</label>
             <div class="span11">
-                {{ form_widget(form_header.isActive, { 'attr': {'placeholder':'Activar bloque'} }) }}
+                {{ form_widget(form_header.location, { 'attr': {'style':'width:60%', 'maxlength':'150', 'placeholder':'Define el lugar donde se va a aplicar el bloque de Etiquetas definidas'} }) }}
             </div>
         </div>
 
         <div class="row-fluid">
-            <label class="span1 control-label">{{ 'Localización' | trans }}</label>
+            <label class="span1 control-label">{{ 'Idioma' | trans }}</label>
             <div class="span11">
-                {{ form_widget(form_header.location, { 'attr': {'style':'width:60%', 'maxlength':'150', 'placeholder':'Define el lugar donde se va a aplicar el bloque de Etiquetas definidas'} }) }}
+                <select id="locale_id" name="locale" >
+                    {% for language in languages %}
+                        <option value="{{ language.langCode }}" {{ (language.langCode==locale)?'selected':'' }} {% if obj.id and language.langCode!=locale %}disabled{% endif %}>{{ language.langName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <label class="span1 control-label">{{ 'Activo' | trans }}</label>
+            <div class="span11">
+                {{ form_widget(form_header.isActive, { 'attr': {'placeholder':'Activar bloque'} }) }}
             </div>
         </div>
 

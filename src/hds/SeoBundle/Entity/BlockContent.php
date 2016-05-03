@@ -36,6 +36,12 @@ class BlockContent
 	private $header;
 
 	/**
+	 * @ORM\Column(type="string", length=25, nullable=true)
+	 * @Assert\NotBlank()
+	 */
+	protected $language_code;
+
+	/**
 	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $content;
@@ -177,4 +183,28 @@ class BlockContent
 		$tag_meta_content= str_replace($content_to_replace, $content, $tag_str);
 		return $tag_meta_content;
 	}
+
+    /**
+     * Set languageCode
+     *
+     * @param string $languageCode
+     *
+     * @return BlockContent
+     */
+    public function setLanguageCode($languageCode)
+    {
+        $this->language_code = $languageCode;
+
+        return $this;
+    }
+
+    /**
+     * Get languageCode
+     *
+     * @return string
+     */
+    public function getLanguageCode()
+    {
+        return $this->language_code;
+    }
 }
