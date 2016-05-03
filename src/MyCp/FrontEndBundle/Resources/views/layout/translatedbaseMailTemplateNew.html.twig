@@ -25,12 +25,9 @@
             <table width="825px" bgcolor="#FFFFFF" border="0" cellpadding="15" cellspacing="0" style="border: solid 1px #DDDDDD; background-color: #FFFFFF">
                 <tr style="">
                     <td width="335px" style="padding: 35px;">
-                        <a href="{#{ url('mycp_main') }#}{{ mail_base_url }}"><img alt="MyCasaParticular" style="display:block;" border="0"  {#src="{{mail_base_url~'/bundles/frontend/img/logo-with-text.png'}}"#} src="{{ asset('bundles/frontend/img/logo-with-text.png') }}"/></a></td>
-                    {#<td align="right" style="font-family: Arial;color: #1C70AC; font-style: italic; font-size: 16px">{{"STAY_WHERE_CUBA_CUBA_IS"|trans({}, "messages", user_locale)}}</td>#}
-                </tr>
-                {#<tr>#}
-                    {#<td colspan="2"><hr style="margin:0;color: #A2CF40; background-color: #A2CF40; height: 5px; border: medium none;"/></td>#}
-                {#</tr>#}
+                        <a href="{#{ url('mycp_main') }#}{{ mail_base_url }}"><img alt="MyCasaParticular" style="display:block;" border="0"  {#src="{{mail_base_url~'/bundles/frontend/img/logo-with-text.png'}}"#} src="{{ asset('bundles/frontend/img/logo-with-text.png', null, true) }}"/></a></td>
+                       </tr>
+
                 <tr>
                     <td colspan="2" style="font-family: arial; padding: 35px;">{% block content %}{% endblock %}</td>
                 </tr>
