@@ -1,0 +1,3 @@
+SeoHds:
+    resource: "@SeoBundle/Controller"
+    type:     annotation

@@ -1,0 +1,15 @@
+
+{%if showInDiv%}
+<div style="text-align: center" class="badge
+{%else%}
+<span style="text-align: center" class="badge
+{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED') %} badge-success">Atendido{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_PAID') %} badge-info">Atendido{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_NOT_ATTENDED') %} badge-warning">No atendido{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_INCOMPLETE') %} badge-yellow">Incompleto{%endif%}
+{%if showInDiv%}
+</divs>
+{%else%}
+</span>
+{%endif%}

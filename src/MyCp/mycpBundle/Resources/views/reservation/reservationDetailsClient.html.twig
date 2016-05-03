@@ -11,17 +11,17 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_reservations_user') }}">Clientes</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_byuser') }}">Clientes</a> <span class="divider">/</span></li>
     <li class="active">Detalles del cliente</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_byuser') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
 {% block form_actions %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_reservations_user') }}">Clientes</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_byuser') }}">Clientes</a> <span class="divider">/</span></li>
     <li class="active">Detalles del cliente</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_byuser') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <!--a class="btn btn-success" href="javascript:submit()">Guardar</a>
@@ -49,9 +49,16 @@
     </ul>
     <div class="tab-content tabs_cont">
         <div class="tab-pane active" id="res">
+            <div>
+                <div class="btn-group dropdown btn-action-reservation" data-url="{{path("mycp_set_not_available_reservation_callback")}}" data-reload="{{ path("mycp_details_client_reservation", {"id_client": client.userId}) }}" style="display:inline-table">
+                    <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                </div>
+                <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+            </div>
             <table class="table table-striped table-hover" style="font-size: 12px;">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>No.</th>
                     <th>Fecha</th>
                     <th>Reservación</th>
@@ -62,13 +69,19 @@
                     <th>Noches</th>
                     <th>Precio</th>
                     <th>Estado</th>
-                    <th style="text-align: right">Acciones</th>
+                    <th style="text-align: right; width: 80px;">Acciones</th>
                 </tr>
                 </thead>
                 {% set flag=1 %}
                 {% set flag_2=0 %}
+                {%set pending = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING')%}
                 {% for reservation in reservations %}
                 <tr>
+                    <td>
+                        {% if reservation.gen_res_status==pending %}
+                            <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{reservation.gen_res_id}}"/>
+                        {%endif%}
+                    </td>
                     <td>{{ flag }}</td>
                     <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
                     <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.gen_res_id}) }}">{{reservation.gen_res_id | getCASId}}</a></td>
@@ -82,13 +95,20 @@
                         {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
-                        <button data_res_id="{{reservation.gen_res_id}}" data_name_id="{{reservation.gen_res_id}}tab" data_name="{{reservation.gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Ver</button>
+                        <a  href="{{ path("mycp_details_reservation", {"id_reservation": reservation.gen_res_id}) }}" class="btn btn-mini btn-success" title="Editar" target="_blank"><i class="icon-white icon-edit"></i></a>
+                        <button data_res_id="{{reservation.gen_res_id}}" data_name_id="{{reservation.gen_res_id}}tab" data_name="{{reservation.gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="" title="Ver">Ver</button>
                     </td>
                 </tr>
                 {% set flag = flag + 1 %}
                 {% set flag_2 = flag_2 + 1 %}
                 {% endfor %}
             </table>
+            <div style="margin-bottom: 20px;">
+                <div class="btn-group dropup btn-action-reservation" data-url="{{path("mycp_set_not_available_reservation_callback")}}" data-reload="{{ path("mycp_details_client_reservation", {"id_client": client.userId}) }}" style="display:inline-table">
+                    <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                </div>
+                <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+            </div>
         </div>
 
     </div>
@@ -214,6 +234,38 @@
                     });
 
             return false;
+        }
+
+        function sendReservation(option)
+        {
+            $(".lblLoading").removeClass("hidden");
+            var checkValues = $('input[name=check_reservations]:checked').map(function() {
+                return $(this).attr('data-reservation-id');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                alert("Seleccione alguno de los elementos");
+                return;
+            }
+
+            var url = $(".btn-action-reservation").attr("data-url");
+            var reload = $(".btn-action-reservation").attr("data-reload");
+            $.post(url, {
+                'reservations_ids': checkValues,
+                'save_option': option,
+                'page': 0
+
+            }, function(data) {
+                if(data != "ERROR")
+                {
+                    window.location = reload;
+                }
+                else {
+                    alert(data);
+                    $(".lblLoading").addClass("hidden");
+                }
+            });
         }
 
     </script>

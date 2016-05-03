@@ -66,7 +66,7 @@ class Email {
         return $this->container->get('mailer')->send($message);
     }
 
-    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = true) {
+    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = false) {
         $templating = $this->container->get('templating');
         $reservation = $this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
 

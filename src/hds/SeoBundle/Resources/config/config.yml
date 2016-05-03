@@ -1,0 +1,8 @@
+#parameters:
+#    translation_abuc:
+#        project_key: 1qaz
+#        url_base: 'http://translations.dev/api/translation/'
+##        url_base: 'http://tran.lvps92-51-151-239.dedicated.hosteurope.de/api/translation/'
+#        url_send: '/add/%s/json' # /add/(xliff|entity)/json
+#        url_get_trans: '/language/%%s/%%s/json' #/language/(en|es|de)/(xliff|entity)/json
+#        url_languages: '/languages/json'

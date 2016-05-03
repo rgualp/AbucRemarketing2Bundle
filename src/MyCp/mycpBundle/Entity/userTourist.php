@@ -13,6 +13,29 @@ use Doctrine\ORM\Mapping as ORM;
 class userTourist
 {
     /**
+     * All allowed statuses adding text
+     */
+
+    const STATUS_NONE = 0;
+    const STATUS_ATTENDED = 1;
+    const STATUS_ATTENDED_PAID = 2;
+    const STATUS_NOT_ATTENDED = 3;
+    const STATUS_ATTENDED_INCOMPLETE = 4;
+
+    /**
+     * Contains all possible statuses
+     *
+     * @var array
+     */
+    private $statuses = array(
+        self::STATUS_NONE,
+        self::STATUS_ATTENDED,
+        self::STATUS_ATTENDED_PAID,
+        self::STATUS_NOT_ATTENDED,
+        self::STATUS_ATTENDED_INCOMPLETE
+    );
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="user_tourist_id", type="integer")
@@ -207,5 +230,16 @@ class userTourist
     public function getUserTouristUser()
     {
         return $this->user_tourist_user;
+    }
+
+    public static function getStatusName($status)
+    {
+        switch($status){
+            case self::STATUS_ATTENDED_PAID: return "Atendido";
+            case self::STATUS_ATTENDED: return "Atendido";
+            case self::STATUS_NONE:
+            case self::STATUS_NOT_ATTENDED: return "No Atendido";
+            case self::STATUS_ATTENDED_INCOMPLETE: return "Incompleto";
+        }
     }
 }

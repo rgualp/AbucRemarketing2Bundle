@@ -1,0 +1,8 @@
+
+<option value=""></option>
+<option {% if(status is defined and  status== constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED')) %} selected="TRUE" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED') }}">Atendido</option>
+<option {% if(status is defined and  status== constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_PAID')) %} selected="TRUE" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_PAID') }}">Atendido (Pagado)</option>
+<option {% if(status is defined and  status== constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_NOT_ATTENDED')) %} selected="TRUE" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_NOT_ATTENDED') }}">No Atendido</option>
+<option {% if(status is defined and  status== constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_INCOMPLETE')) %} selected="TRUE" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_INCOMPLETE') }}">Incompleto</option>
+
+

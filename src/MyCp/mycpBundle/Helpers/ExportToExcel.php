@@ -11,6 +11,7 @@ namespace MyCp\mycpBundle\Helpers;
 use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\season;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -1798,7 +1799,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheetName = "General";
         $now=new \DateTime();
-        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $fileName='Reservaciones_'.$now->format('dmY_Hm');
         $data = $this->dataForReservationsStatement();
 
         if (count($data) > 0)
@@ -1814,7 +1815,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheetName = "General";
         $now=new \DateTime();
-        $fileName='Reservaciones_'.$now->format('d_m_Y_H_m');
+        $fileName='Reservaciones_'.$now->format('dmY_Hm');
         $data = $this->dataForReservationsStatement();
 
         if (count($data) > 0)
@@ -1852,8 +1853,9 @@ ORDER BY own.own_mcp_code ASC
         $sheet->setCellValue('r4', 'Precio especial');
         $sheet->setCellValue('s4', 'Fecha llegada');
         $sheet->setCellValue('t4', 'Noches');
+        $sheet->setCellValue('u4', 'Destino');
 
-        $sheet = $this->styleHeader("a4:t4", $sheet);
+        $sheet = $this->styleHeader("a4:u4", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -1869,30 +1871,62 @@ ORDER BY own.own_mcp_code ASC
 
         $sheet->fromArray($data, ' ', 'A5');
 
-        $this->setColumnAutoSize("a", "t", $sheet);
+        $this->setColumnAutoSize("a", "u", $sheet);
 
         return $excel;
     }
 
     private function dataForReservationsStatement(){
         $results = array();
+        $lastId=$this->em->getRepository('mycpBundle:generalReservation')->findOneBy(array('gen_res_last_in_report'=>1));
+        if(!$lastId){
+            $yesterday=new \DateTime('yesterday');
+            $yesterday->sub(new \DateInterval('P30D'));
+//            die(dump($yesterday));
+        $lastId=$this->em->getRepository('mycpBundle:generalReservation')->findOneBy(array('gen_res_date'=>$yesterday));
+        }
+        $id=$lastId->getGenResId();
         $query="SELECT generalreservation.gen_res_date, generalreservation.gen_res_id, generalreservation.gen_res_status,generalreservation.gen_res_total_in_site,
       ownership.own_mcp_code, user.user_user_name, user.user_last_name, user.user_email, ownership.own_name, ownership.own_homeowner_1, ownership.own_homeowner_2,
       ownership.own_phone_number, ownership.own_mobile_number, ownership.own_commission_percent, ownershipreservation.own_res_room_type, ownershipreservation.own_res_count_adults, ownershipreservation.own_res_count_childrens, ownershipreservation.own_res_room_price_down, ownershipreservation.own_res_room_price_up, ownershipreservation.own_res_room_price_special,
-      generalreservation.gen_res_from_date,DATEDIFF(generalreservation.gen_res_to_date, generalreservation.gen_res_from_date) as total_nigths
-FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id
+      generalreservation.gen_res_from_date,DATEDIFF(generalreservation.gen_res_to_date, generalreservation.gen_res_from_date) as total_nigths,
+            destination.des_name
+FROM ownershipreservation INNER JOIN generalreservation ON ownershipreservation.own_res_gen_res_id = generalreservation.gen_res_id INNER JOIN ownership ON generalreservation.gen_res_own_id = ownership.own_id INNER JOIN destination ON ownership.own_destination = destination.des_id
 INNER JOIN user ON generalreservation.gen_res_user_id = user.user_id
-WHERE gen_res_date>'2016-04-01'
-ORDER BY user_email ASC, gen_res_date ASC
+WHERE gen_res_id>$id
+ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 ;";
       $stmt = $this->em->getConnection()->prepare($query);
       $stmt->execute();
       $data=$stmt->fetchAll();
       foreach($data as $item){
+        if($item['gen_res_id']>$id)
+        $id=$item['gen_res_id'];
         $temp=array();
           $temp[0]=$item['gen_res_date'];
           $temp[1]='CAS.'.$item['gen_res_id'];
-          $temp[2]=$item['gen_res_status'];
+          $estado='';
+          switch($item["gen_res_status"]){
+              case generalReservation::STATUS_AVAILABLE: $estado='Disponible';
+                  break;
+              case generalReservation::STATUS_CANCELLED: $estado='Cancelada';
+                  break;
+              case generalReservation::STATUS_PARTIAL_CANCELLED: $estado='Parcialmente Cancelada';
+                  break;
+              case generalReservation::STATUS_NOT_AVAILABLE: $estado='No disponible';
+                  break;
+              case generalReservation::STATUS_PENDING: $estado='Pendiente';
+                  break;
+              case generalReservation::STATUS_RESERVED: $estado='Reservada';
+                  break;
+              case generalReservation::STATUS_PARTIAL_RESERVED: $estado='Parcialmente Reservada';
+                  break;
+              case generalReservation::STATUS_PARTIAL_RESERVED: $estado='Parcialmente Reservada';
+                  break;
+              case generalReservation::STATUS_OUTDATED: $estado='Vencida';
+                  break;
+          }
+          $temp[2]=$estado;
           $temp[3]=$item['gen_res_total_in_site'];
           $temp[4]=$item['own_mcp_code'];
           $temp[5]=$item['user_user_name']. ' '. $item['user_last_name'];
@@ -1910,10 +1944,129 @@ ORDER BY user_email ASC, gen_res_date ASC
           $temp[17]=$item['own_res_room_price_special'];
           $temp[18]=$item['gen_res_from_date'];
           $temp[19]=$item['total_nigths'];
+          $temp[20]=$item['des_name'];
           $results[]=$temp;
       }
+      if($lastId->getGenResLastInReport())
+      {
+          $lastId->setGenResLastInReport(null);
+          $this->em->persist($lastId);
+      }
+
+        $newLast=$this->em->getRepository('mycpBundle:generalReservation')->find($id);
+        $newLast->setGenResLastInReport(1);
+        $this->em->persist($newLast);
+        $this->em->flush();
         return $results;
 
+
+    }
+
+    public function exportUsersReservations($idCliente, $fileName = "reservasCliente") {
+        $excel = $this->configExcel("Reporte de reservas de un cliente", "Reporte de clientes en un dia de MyCasaParticular", "reportes");
+
+        $data = $this->dataUsersReservations($idCliente);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetUsersReservations($excel,"Cliente-Reservas", $idCliente, $data);
+
+        $fileName = $this->getFileName($fileName."_".$idCliente);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataUsersReservations($idCliente) {
+        $results = array();
+
+        $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsRoomsByUser($idCliente);
+
+        $index = 1;
+        $currentReservation = 0;
+        foreach ($reportContent as $content) {
+            $data = array();
+
+
+
+            if($currentReservation != $content["gen_res_id"])
+            {
+                $data[0] = $index++;
+                $currentReservation = $content["gen_res_id"];
+                $date = $content["gen_res_date"];
+                $data[1] = date('d/m/Y',$date->getTimestamp());
+                $data[2] = $content["gen_res_id"];
+                $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
+                $data[4] = $content["own_mcp_code"];
+            }
+            else{
+                $data[0] = "";
+                $data[1] = "";
+                $data[2] = "";
+                $data[3] = "";
+                $data[4] = "";
+            }
+
+            $data[5] = room::getShortRoomType($content["own_res_room_type"]);
+            $data[6] = $content["own_res_count_adults"];
+            $data[7] = $content["own_res_count_childrens"];
+            $data[8] = $content["own_res_total_in_site"];
+            $date = $content["own_res_reservation_from_date"];
+            $data[9] = date('d/m/Y',$date->getTimestamp());
+            $data[10] = $content["nights"];
+           //
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetUsersReservations($excel, $sheetName, $idCliente, $data) {
+
+        $client = $this->em->getRepository('mycpBundle:user')->find($idCliente);
+        $userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $idCliente));
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Cliente: ".$client->getUserUserName()." ".$client->getUserLastName());
+        $sheet->setCellValue('a2', 'País: '.$client->getUserCountry()->getCoName());
+        $sheet->setCellValue('c2', 'Idioma: '.$userTourist->getUserTouristLanguage()->getLangName());
+        $sheet->setCellValue('e2', 'Moneda: '.$userTourist->getUserTouristCurrency()->getCurrCode());
+        $now = new \DateTime();
+        $sheet->setCellValue('a4', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a6', 'No.');
+        $sheet->setCellValue('b6', 'Fecha');
+        $sheet->setCellValue('c6', 'Reserva');
+        $sheet->setCellValue('d6', 'Estado');
+        $sheet->setCellValue('e6', 'Alojamiento');
+        $sheet->setCellValue('f6', 'Habitación');
+        $sheet->setCellValue('g6', 'Adultos');
+        $sheet->setCellValue('h6', 'Niños');
+        $sheet->setCellValue('i6', 'Precio');
+        $sheet->setCellValue('j6', 'Llegada');
+        $sheet->setCellValue('k6', 'Noches');
+
+        $sheet = $this->styleHeader("a6:k6", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+        $sheet->mergeCells("A1:k1");
+        $sheet->mergeCells("A4:k4");
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:k1")->applyFromArray($centerStyle);
+
+        $sheet->fromArray($data, ' ', 'A7');
+        $this->setColumnAutoSize("a", "k", $sheet);
+        /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+        $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
+
+        return $excel;
     }
 }
 

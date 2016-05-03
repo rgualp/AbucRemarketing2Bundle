@@ -63,7 +63,7 @@
             </div>
             <div id="collapseTwo" class="accordion-body collapse {%if temp == 'BackendReservationController'%}in{%endif%}">
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-star"></i> Clientes</a>
+                    <a href="{{ path('mycp_list_reservations_byuser') }}"><i class="icon-star"></i> Clientes</a>
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_reservations') }}"><i class="icon-tags"></i> Reservas</a>
@@ -139,6 +139,9 @@
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_rbusm_list_user_dest') }}"><i class="icon-lock"></i> Usuarios Destinos</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('hdsseo_block_list') }}"><i class="icon-lock"></i> Seo</a>
                 </div>
             </div>
         </div>

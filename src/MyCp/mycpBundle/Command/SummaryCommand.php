@@ -46,8 +46,17 @@ class SummaryCommand extends ContainerAwareCommand
 
         $countReservationPag=$em->getRepository("mycpBundle:generalReservation")->countReservationPag();
 
-        $clientNotDispon= $countClientSol[0][1]-($countClientDisponibility[0][1]+$pending[0][1]);
 
+        $tempCli= $countClientDisponibility[0][1]+$pending[0][1];
+        if($countClientSol[0][1]>$tempCli){
+            $clientNotDispon= $countClientSol[0][1]-($countClientDisponibility[0][1]+$pending[0][1]);
+            $clientNotDisponPercent=($countClientSol[0][1]==0)?0:($clientNotDispon*100)/$countClientSol[0][1];
+        }
+
+        else{
+            $clientNotDispon=0;
+            $clientNotDisponPercent=0;
+        }
 
         $emailService = $container->get('mycp.service.email_manager');
         $templatingService = $container->get('templating');
@@ -56,7 +65,7 @@ class SummaryCommand extends ContainerAwareCommand
         /*Porcientos*/
         $countClientDisponibilityPercent=($countClientSol[0][1]==0)?0:($countClientDisponibility[0][1]*100)/$countClientSol[0][1];
         $pendingPercent=($countClientSol[0][1]==0)?0:($pending[0][1]*100)/$countClientSol[0][1];
-        $clientNotDisponPercent=($countClientSol[0][1]==0)?0:($clientNotDispon*100)/$countClientSol[0][1];
+
 
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");

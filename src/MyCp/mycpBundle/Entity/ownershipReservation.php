@@ -580,4 +580,17 @@ class ownershipReservation {
         }
     }
 
+    public static function getStatusShortName($status)
+    {
+        switch($status){
+            case self::STATUS_AVAILABLE2:
+            case self::STATUS_AVAILABLE: return "D";
+            case self::STATUS_CANCELLED: return "C";
+            case self::STATUS_PENDING: return "P";
+            case self::STATUS_NOT_AVAILABLE: return "ND";
+            case self::STATUS_OUTDATED: return "V";
+            case self::STATUS_RESERVED: return "R";
+        }
+    }
+
 }

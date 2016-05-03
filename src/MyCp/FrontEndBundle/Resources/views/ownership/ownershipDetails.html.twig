@@ -598,6 +598,13 @@
                             {% endfor %}
                         </div>
                     </div>
+                    <span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>
+                    <textarea class="col-sm-12 form-control" id="input_comment"
+                              requiered-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
+                    <button class="btn btn-primary margin-t pull-right" id="btn_insert_comment"
+                            data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
+                        {{ "SEND_COMMENT_DETAILS" | trans }}
+                    </button>
                     {% if show_comments_and_friends %}
                         <div id="user_comments">
                             {{ include('FrontEndBundle:comment:listComments.html.twig',
@@ -713,7 +720,7 @@
                 <h1 class="text-center big-price-green no-margin">
                     {% if ownership.comments_total > 0 %}+{% endif %}{{ ownership.comments_total }}
                 </h1>
-                <hr class="no-margin" style="margin-bottom: 10px"/>
+                {#<hr class="no-margin" style="margin-bottom: 10px"/>#}
                 {% if can_comment %}
                     <span class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</span>
                     <div class="radio"><label><input type="radio" value="5" id="option5"
@@ -731,13 +738,13 @@
                     <div class="radio"><label><input type="radio" value="1" id="option1"
                                                      name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}
                         </label></div>
-                    <span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>
+                    {#<span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>
                     <textarea class="col-sm-12 form-control" id="input_comment"
                               requiered-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
                     <button class="btn btn-primary margin-t" id="btn_insert_comment"
                             data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
                         {{ "SEND_COMMENT_DETAILS" | trans }}
-                    </button>
+                    </button>#}
                     <div id="loading" class="alert alert-info hidden">
                         <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>
                     </div>
