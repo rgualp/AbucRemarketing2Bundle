@@ -31,7 +31,7 @@ class BlockContent
 	private $block;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="hds\SeoBundle\Entity\Header", inversedBy="", fetch="EXTRA_LAZY")
+	 * @ORM\ManyToOne(targetEntity="hds\SeoBundle\Entity\Header", inversedBy="contents", fetch="EXTRA_LAZY")
 	 */
 	private $header;
 
