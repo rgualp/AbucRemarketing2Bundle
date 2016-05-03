@@ -3764,10 +3764,12 @@
                             <source>OWN_PRIZES</source>
                             <target>Awards</target>
                         </trans-unit>
-                                                    <trans-unit id="951">
-                                                        <source>FOOTER_EMAIL1</source>
-                                                        <target><![CDATA[Add service@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>Can also read our Privacy Policy <a href="%policieslink%"> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our <a href="%termlink%">Terms and Conditions</a> for more details.]]></target>
-                                                    </trans-unit>
+       <trans-unit id="951">
+       <source>FOOTER_EMAIL1</source>
+       <target><![CDATA[Add reservation@mycasaparticular.com  to your safe contacts so that you can continue to receive our e-mails.. <br/><br/>
+        The prices can be subject to changes before the payment takes place. The prices do not include charges for applicable services. All accommodation facilities are subject to availability check.
+        For further information consult our <a href="%policieslink%">privacy policy</a>, the FAQs, and our <a href="%termlink%">terms and conditions</a>. ]]></target>
+       </trans-unit>
                                                                           <trans-unit id="952">
                                                                               <source>FOOTER_EMAIL1_SUBTEXT</source>
                                                                               <target><![CDATA[MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
