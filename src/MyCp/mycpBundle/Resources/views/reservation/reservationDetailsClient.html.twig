@@ -49,9 +49,16 @@
     </ul>
     <div class="tab-content tabs_cont">
         <div class="tab-pane active" id="res">
+            <div>
+                <div class="btn-group dropdown btn-action-reservation" data-url="{{path("mycp_set_not_available_reservation_callback")}}" data-reload="{{ path("mycp_details_client_reservation", {"id_client": client.userId}) }}" style="display:inline-table">
+                    <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                </div>
+                <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+            </div>
             <table class="table table-striped table-hover" style="font-size: 12px;">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>No.</th>
                     <th>Fecha</th>
                     <th>Reservación</th>
@@ -67,8 +74,14 @@
                 </thead>
                 {% set flag=1 %}
                 {% set flag_2=0 %}
+                {%set pending = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING')%}
                 {% for reservation in reservations %}
                 <tr>
+                    <td>
+                        {% if reservation.gen_res_status==pending %}
+                            <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{reservation.gen_res_id}}"/>
+                        {%endif%}
+                    </td>
                     <td>{{ flag }}</td>
                     <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
                     <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.gen_res_id}) }}">{{reservation.gen_res_id | getCASId}}</a></td>
@@ -90,6 +103,12 @@
                 {% set flag_2 = flag_2 + 1 %}
                 {% endfor %}
             </table>
+            <div style="margin-bottom: 20px;">
+                <div class="btn-group dropup btn-action-reservation" data-url="{{path("mycp_set_not_available_reservation_callback")}}" data-reload="{{ path("mycp_details_client_reservation", {"id_client": client.userId}) }}" style="display:inline-table">
+                    <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                </div>
+                <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+            </div>
         </div>
 
     </div>
@@ -215,6 +234,38 @@
                     });
 
             return false;
+        }
+
+        function sendReservation(option)
+        {
+            $(".lblLoading").removeClass("hidden");
+            var checkValues = $('input[name=check_reservations]:checked').map(function() {
+                return $(this).attr('data-reservation-id');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                alert("Seleccione alguno de los elementos");
+                return;
+            }
+
+            var url = $(".btn-action-reservation").attr("data-url");
+            var reload = $(".btn-action-reservation").attr("data-reload");
+            $.post(url, {
+                'reservations_ids': checkValues,
+                'save_option': option,
+                'page': 0
+
+            }, function(data) {
+                if(data != "ERROR")
+                {
+                    window.location = reload;
+                }
+                else {
+                    alert(data);
+                    $(".lblLoading").addClass("hidden");
+                }
+            });
         }
 
     </script>
