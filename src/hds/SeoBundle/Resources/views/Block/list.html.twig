@@ -30,6 +30,7 @@
 {% endblock javascripts %}
 
 {% block content %}
+{{ get_metas('Main', 'des', {'%casa_name%':'Casa de HDS'})|raw }}
 <h2>Bloques Seo</h2>
 <hr/>
 <a class="btn" href="{{path('hdsseo_block_new')}}"><i class="icon-plus"></i> Adicionar bloque seo</a>&nbsp;
