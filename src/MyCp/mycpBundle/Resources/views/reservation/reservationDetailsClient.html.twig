@@ -62,7 +62,7 @@
                     <th>Noches</th>
                     <th>Precio</th>
                     <th>Estado</th>
-                    <th style="text-align: right">Acciones</th>
+                    <th style="text-align: right; width: 80px;">Acciones</th>
                 </tr>
                 </thead>
                 {% set flag=1 %}
@@ -82,7 +82,8 @@
                         {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
-                        <button data_res_id="{{reservation.gen_res_id}}" data_name_id="{{reservation.gen_res_id}}tab" data_name="{{reservation.gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Ver</button>
+                        <a  href="{{ path("mycp_details_reservation", {"id_reservation": reservation.gen_res_id}) }}" class="btn btn-mini btn-success" title="Editar" target="_blank"><i class="icon-white icon-edit"></i></a>
+                        <button data_res_id="{{reservation.gen_res_id}}" data_name_id="{{reservation.gen_res_id}}tab" data_name="{{reservation.gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="" title="Ver">Ver</button>
                     </td>
                 </tr>
                 {% set flag = flag + 1 %}
