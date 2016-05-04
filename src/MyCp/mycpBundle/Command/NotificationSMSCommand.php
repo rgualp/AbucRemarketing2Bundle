@@ -36,16 +36,17 @@ class NotificationSMSCommand extends ContainerAwareCommand
 	{
 		$this->loadConfig();
 
-		$users= $this->getUserCasa();
-		$total= count($users);
+		$ownerships= $this->getUserCasa();
+		$total= count($ownerships);
 		$output->writeln('<info>'.$total.' usuarios.</info>');
 
 //		$accounts= array();
-//		foreach ($users as $user) {
-//			$email= $user->getUserCasaUser()->getUserEmail();
+//		foreach ($ownerships as $ownership) {
+//			$email = trim($ownership->getOwnEmail1());
+//			if (empty($email))
+//				$email = trim($ownership->getOwnEmail2());
 //			$accounts[]= $email;
 //		}
-
 		#region Test
 		$accounts= array();
 		$accounts[]= 'arieskienmendoza@gmail.com';
@@ -57,14 +58,9 @@ class NotificationSMSCommand extends ContainerAwareCommand
 	}
 
 	protected function getUserCasa(){
-		$sql= 'select uc from mycpBundle:userCasa uc ';
-		$sql.= 'INNER JOIN ';
-		$sql.= 'mycpBundle:user u ';
-		$sql.= 'WITH u = uc.user_casa_user ';
-		$sql.= 'INNER JOIN ';
-		$sql.= 'mycpBundle:ownership o ';
-		$sql.= 'WITH o = uc.user_casa_ownership ';
-		$sql.= 'WHERE u.user_enabled = 1 ';
+		$sql= 'select o from mycpBundle:ownership o ';
+		$sql.= "WHERE (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
+		$sql.= "AND o.own_status = 1";//Status 1=Activo
 
 		$q = $this->em->createQuery(trim($sql));
 		$results= $q->execute();
