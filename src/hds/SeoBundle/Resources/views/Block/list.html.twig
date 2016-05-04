@@ -12,6 +12,21 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
+    <script>
+        $('.btn_edit_block').on('click', function(){
+
+            var btn= $(this);
+            var id= btn.data('id');
+            var locale= $('#locale_id'+id).val();
+            var url = '{{ path('hdsseo_block_edit') }}';
+            var data={
+                id: id,
+                locale: locale
+            };
+            gotoUrl(url, data);
+        });
+    </script>
+
 {% endblock javascripts %}
 
 {% block content %}
@@ -45,6 +60,7 @@
 
     </div>
 </div>
+
 <div class="paginator-cont span11">
     {{ simple_paginator_render('hdsseo_block_list',null,{
     'container_class': 'paginator',
@@ -62,6 +78,7 @@
         <th>Activo</th>
         <th>Nombre</th>
         <th>Localización</th>
+        <th>Idioma</th>
         <th style="text-align: right">Acciones</th>
     </tr>
     </thead>
@@ -71,8 +88,15 @@
         <td>{{ block.isActive? '<span class="label label-success">Activo</span>': '<span class="label label-important">No activo</span>' }}</td>
         <td>{{ block.name }}</td>
         <td>{{ block.location }}</td>
+        <td>
+            <select id="locale_id{{ block.id }}" name="locale_name{{ block.id }}">
+            {% for language in languages %}
+            <option value="{{ language.langCode }}">{{ language.langName }}</option>
+            {% endfor %}
+            </select>
+        </td>
         <td style="text-align: right">
-            <a class="btn btn-mini" onclick="gotoUrl('{{ path('hdsseo_block_edit') }}', {id:{{ block.id }}})">Editar</a>
+            <a class="btn btn-mini btn_edit_block" data-id="{{ block.id }}">Editar</a>
             <a class="btn btn-mini btn-danger delete" onclick="gotoUrl('{{ path('hdsseo_block_delete') }}', {id:{{ block.id }}})">Eliminar</a>
 
         </td>

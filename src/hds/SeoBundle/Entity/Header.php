@@ -45,7 +45,7 @@ class Header
 	protected $content;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="hds\SeoBundle\Entity\Header", mappedBy="header")
+	 * @ORM\OneToMany(targetEntity="hds\SeoBundle\Entity\BlockContent", mappedBy="header")
 	 */
 	private $contents;
 

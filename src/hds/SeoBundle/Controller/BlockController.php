@@ -66,12 +66,11 @@ class BlockController extends Controller
 	 * @Route("/list", name="hdsseo_block_list")
 	 */
 	function listPrivilegesAction(Request $request){
-
-		$entities= $this->block_repository->findBy(array());
+		$entities= $this->block_repository->findAll();
+		$languages= $this->em->getRepository('mycpBundle:lang')->findBy(array('lang_active'=>1));
 
 		$page= $request->get('page')?$request->get('page'):1;
 		$items_per_page= $request->get('items_per_page')?$request->get('items_per_page'):20;
-		$em=$this->getDoctrine()->getManager();
 		$paginator = $this->get('ideup.simple_paginator');
 		$paginator->setItemsPerPage($items_per_page);
 		$blocks = $paginator->paginate($entities)->getResult();
@@ -80,6 +79,7 @@ class BlockController extends Controller
 			'blocks' => $blocks,
 			'items_per_page' => $items_per_page,
 			'current_page' => $page,
+			'languages' => $languages,
 			'total_items' => $paginator->getTotalItems()
 		));
 	}
@@ -95,6 +95,7 @@ class BlockController extends Controller
 	{
 		$data= array();
 		$id= $request->get('id');
+		$locale= $request->get('locale', 'en');
 		if($id){
 			$obj= $this->block_repository->find($id);
 		}else{
@@ -124,7 +125,8 @@ class BlockController extends Controller
 
 					$block_content= $this->blockcontent_repository->findOneBy(array(
 						'block'=>$obj->getId(),
-						'header'=>$id_header
+						'header'=>$id_header,
+						'language_code'=>$locale
 					));
 					if(!$block_content){
 						$block_content= new BlockContent();
@@ -137,6 +139,7 @@ class BlockController extends Controller
 					if($content_str!= ''){
 						$block_content->setBlock($obj);
 						$block_content->setHeader($header);
+						$block_content->setLanguageCode($locale);
 						$block_content->setContent($content_str);
 						$this->em->persist($block_content);
 						$block_content_count++;
@@ -169,7 +172,8 @@ class BlockController extends Controller
 
 				$content= $this->blockcontent_repository->findOneBy(array(
 					'block'=>$obj->getId(),
-					'header'=>$header->getId()
+					'header'=>$header->getId(),
+					'language_code'=>$locale
 				));
 				if(!$content){
 					$content= new BlockContent();
@@ -182,10 +186,14 @@ class BlockController extends Controller
 			}
 		}
 
+		$languages= $this->em->getRepository('mycpBundle:lang')->findBy(array('lang_active'=>1));
+
 		$data['obj']= $obj;
 		$data['block']= $obj;
 		$data['form_header']= $form->createView();
 		$data['header_blocks']= $tmp_header_blocks;
+		$data['locale']= $locale;
+		$data['languages']= $languages;
 		return $this->render('SeoBundle:Block:process.html.twig', $data);
 	}
 
