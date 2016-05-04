@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\reservationNotification;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\Dates;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class NotificationService extends Controller
@@ -73,13 +74,13 @@ class NotificationService extends Controller
             $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
             $reservationData = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
-            $fromDate = $reservationData["fromDate"];
+            $fromDate =  \DateTime::createFromFormat("Y-m-d",$reservationData[0]["fromDate"]);
             $fromDate = $fromDate->format("d/m/y");
-            $rooms = $reservationData["rooms"];
-            $nights = $reservationData["nights"];
-            $guests = $reservationData["guests"] / $nights;
+            $rooms = $reservationData[0]["rooms"];
+            $nights = $reservationData[0]["nights"];
+            $guests = $reservationData[0]["guests"];
 
-            $message = "MyCasaParticular: un cliente desea reservar desde el $fromDate por $nights noches. Solicita $rooms habitaciones para $guests personas. ¿Está disponible? Confirme en menos de 1 hora al 78673574. Gracias.";
+            $message = "MyCasaParticular: Tiene una reserva para el $fromDate por $nights noches. Son $rooms habitaciones/$guests personas. ¿Está disponible? Confirme en menos de 1hora al 78673574.";
             $subType = "INMEDIATE_BOOKING";
             $reservationObj = array(
                 "casId" => $reservation->getCASId(),

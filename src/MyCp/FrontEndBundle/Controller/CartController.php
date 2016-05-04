@@ -412,9 +412,9 @@ class CartController extends Controller {
                     $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
                     array_push($generalReservations, $general_reservation->getGenResId());
 
-                    if($general_reservation->getGenResOwnId()->getOwnInmediateBooking() == "1"){
+                    if($general_reservation->getGenResOwnId()->getOwnInmediateBooking()){
                         $smsService = $this->get("mycp.notification.service");
-                        $smsService->sendInmediateBookingSMSNotification($general_reservation, true);
+                        $smsService->sendInmediateBookingSMSNotification($general_reservation);
                     }
 
                 }
