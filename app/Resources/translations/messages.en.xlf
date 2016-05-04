@@ -3766,7 +3766,7 @@
                         </trans-unit>
        <trans-unit id="951">
        <source>FOOTER_EMAIL1</source>
-       <target><![CDATA[Add reservation@mycasaparticular.com  to your safe contacts so that you can continue to receive our e-mails. <br/><br/>
+       <target><![CDATA[Add <a href='mailto:reservation@mycasaparticular.com'>reservation@mycasaparticular.com</a>  to your safe contacts so that you can continue to receive our e-mails. <br/><br/>
         The prices can be subject to changes before the payment takes place. The prices do not include charges for applicable services. All accommodation facilities are subject to availability check.
         For further information consult our privacy policy, the FAQs, and our terms and conditions. ]]></target>
        </trans-unit>
