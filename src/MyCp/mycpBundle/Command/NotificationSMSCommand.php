@@ -40,15 +40,14 @@ class NotificationSMSCommand extends ContainerAwareCommand
 		$total= count($ownerships);
 		$output->writeln('<info>'.$total.' usuarios.</info>');
 
-//		$accounts= array();
-//		foreach ($ownerships as $ownership) {
-//			$email = trim($ownership->getOwnEmail1());
-//			if (empty($email))
-//				$email = trim($ownership->getOwnEmail2());
-//			$accounts[]= $email;
-//		}
-		#region Test
 		$accounts= array();
+		foreach ($ownerships as $ownership) {
+			$email = trim($ownership->getOwnEmail1());
+			if (empty($email))
+				$email = trim($ownership->getOwnEmail2());
+			$accounts[]= $email;
+		}
+		#region Test
 		$accounts[]= 'arieskienmendoza@gmail.com';
 		$accounts[]= 'ander@mycasaparticular.com';
 		$accounts[]= 'olga.dias@hds.li';
