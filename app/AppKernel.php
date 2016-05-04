@@ -29,7 +29,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(),
             new Abuc\RemarketingBundle\AbucRemarketingBundle(),
-			new hds\SeoBundle\SeoBundle()
+			new hds\SeoBundle\SeoBundle(),
+            new MyCp\CasaModuleBundle\MyCpCasaModuleBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

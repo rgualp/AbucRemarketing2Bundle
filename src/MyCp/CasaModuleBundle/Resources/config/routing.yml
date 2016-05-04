@@ -1,0 +1,6 @@
+my_cp_casa_module_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MyCpCasaModuleBundle:Default:index }
+my_cp_casa_module_registration:
+    path:     /registro
+    defaults: { _controller: MyCpCasaModuleBundle:Registration:register }
