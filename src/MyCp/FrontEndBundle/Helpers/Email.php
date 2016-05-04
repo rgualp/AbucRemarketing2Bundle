@@ -223,12 +223,15 @@ class Email {
 		$data['user_locale']= 'es';
 		$email_manager = $this->container->get('mycp.service.email_manager');
 		$content = $email_manager->getViewContent('FrontEndBundle:mails:notificacionSmsCheckInCommand.html.twig', $data);
-		$message = Swift_Message::newInstance()
-			->setSubject('Nuevo servicio de MyCasaParticular')
-			->setFrom('no_responder@mycasaparticular.com', 'MyCasaParticular.com')
-			->setBcc($users)
-			->setBody($content, 'text/html');
-		return $this->container->get('mailer')->send($message);
+
+		foreach($users as $email){
+			$message = Swift_Message::newInstance()
+				->setSubject('Nuevo servicio de MyCasaParticular')
+				->setFrom('no_responder@mycasaparticular.com', 'MyCasaParticular.com')
+				->setBcc($email)
+				->setBody($content, 'text/html');
+			$this->container->get('mailer')->send($message);
+		}
 	}
 
 }
