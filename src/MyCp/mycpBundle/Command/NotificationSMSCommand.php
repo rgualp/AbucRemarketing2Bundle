@@ -50,7 +50,7 @@ class NotificationSMSCommand extends ContainerAwareCommand
 		$accounts= array();
 		$accounts[]= 'arieskienmendoza@gmail.com';
 		$accounts[]= 'ander@mycasaparticular.com';
-		$accounts[]= 'yenisi@hds.li';
+		$accounts[]= 'olga.dias@hds.li';
 		#endregion
 		$this->service_email->notificationSmsCheckIn($accounts);
 		$output->writeln('<info>Ok</info>');

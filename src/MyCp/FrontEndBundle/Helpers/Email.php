@@ -226,7 +226,7 @@ class Email {
 		$message = Swift_Message::newInstance()
 			->setSubject('Nuevo servicio de MyCasaParticular')
 			->setFrom('no_responder@mycasaparticular.com', 'MyCasaParticular.com')
-			->setCc($users)
+			->setBcc($users)
 			->setBody($content, 'text/html');
 		return $this->container->get('mailer')->send($message);
 	}
