@@ -664,11 +664,11 @@
     <div id="divCreateUserCasa" {%if data['status_id']!= constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%} style="display:none;"{%endif%}>
     <h3 class="title">Nuevo usuario</h3>
     <div class="row-fluid">
-        <input type="checkbox" name="user_create" id="user_create"/> Crear una cuenta de usuario para este alojamiento
+        <input type="checkbox" name="user_create" checked id="user_create"/> Crear una cuenta de usuario para este alojamiento
         <br/>
     </div>
     <div class="row-fluid">
-        <input type="checkbox" name="user_send_mail" id="user_send_mail" disabled="disabled"/> Enviar los datos de la cuenta al correo del propietario
+        <input type="checkbox" name="user_send_mail" checked id="user_send_mail" disabled="disabled"/> Enviar los datos de la cuenta al correo del propietario
     </div>
     </div>
 
