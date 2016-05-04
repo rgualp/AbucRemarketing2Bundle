@@ -39,17 +39,17 @@ class BlockContent
 	 * @ORM\Column(type="string", length=25, nullable=true)
 	 * @Assert\NotBlank()
 	 */
-	protected $language_code;
+	private $language_code;
 
 	/**
 	 * @ORM\Column(type="text", nullable=true)
 	 */
-	protected $content;
+	private $content;
 
 	/**
 	 * @ORM\Column(type="text", nullable=true)
 	 */
-	protected $decription;
+	private $decription;
 
 
 	public function __construct(){
