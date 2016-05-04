@@ -430,7 +430,7 @@ class ownership {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_inmediate_booking", type="boolean", nullable=true)
+     * @ORM\Column(name="own_inmediate_booking", type="boolean")
      */
     private $own_inmediate_booking;
 
@@ -514,6 +514,7 @@ class ownership {
         $this->comments = new ArrayCollection();
         //$this->own_creation_date = new \DateTime();
         $this->own_sms_notifications = true;
+        $this->own_inmediate_booking = false;
     }
 
     /**
