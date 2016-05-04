@@ -36,7 +36,7 @@ class NotificationSMSCommand extends ContainerAwareCommand
 	{
 		$this->loadConfig();
 
-		$ownerships= $this->getUserCasa();
+		$ownerships= $this->getOwnerships();
 		$total= count($ownerships);
 		$output->writeln('<info>'.$total.' usuarios.</info>');
 
@@ -56,7 +56,7 @@ class NotificationSMSCommand extends ContainerAwareCommand
 		$output->writeln('<info>Ok</info>');
 	}
 
-	protected function getUserCasa(){
+	protected function getOwnerships(){
 		$sql= 'select o from mycpBundle:ownership o ';
 		$sql.= "WHERE (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
 		$sql.= "AND o.own_status = 1";//Status 1=Activo
