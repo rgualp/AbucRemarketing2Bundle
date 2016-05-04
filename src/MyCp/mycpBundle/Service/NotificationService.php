@@ -66,6 +66,31 @@ class NotificationService extends Controller
         }
     }
 
+    public function sendInmediateBookingSMSNotification($reservation, $isTesting = false)
+    {
+        $accommodation = $reservation->getGenResOwnId();
+        if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+            $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
+            $touristName = $reservation->getGenResUserId()->getUserCompleteName();
+            $reservationData = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
+            $fromDate = $reservationData["fromDate"];
+            $fromDate = $fromDate->format("d/m/y");
+            $rooms = $reservationData["rooms"];
+            $nights = $reservationData["nights"];
+            $guests = $reservationData["guests"] / $nights;
+
+            $message = "MyCasaParticular: un cliente desea reservar desde el $fromDate por $nights noches. Solicita $rooms habitaciones para $guests personas. ¿Está disponible? Confirme en menos de 1 hora al 78673574. Gracias.";
+            $subType = "INMEDIATE_BOOKING";
+            $reservationObj = array(
+                "casId" => $reservation->getCASId(),
+                "genResId" => $reservation->getGenResId()
+            );
+
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+            $this->createNotification($reservationObj,$subType, $response);
+        }
+    }
+
     private function sendSMSNotification($mobileNumber, $message, $subtype)
     {
         $data['sms'] = array(
