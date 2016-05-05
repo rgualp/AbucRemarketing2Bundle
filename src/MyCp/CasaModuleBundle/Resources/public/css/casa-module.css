@@ -6,6 +6,10 @@
     border-bottom: 3px solid #8fb571;
     text-align: left;
 }
+.form-icon{
+    font-size: 27px;
+    margin-top: 4px;
+}
 .bg-yellow{
     background-color: #ffa726;
     padding: 35px;
