@@ -584,7 +584,7 @@
             </trans-unit>
             <trans-unit id="155">
                 <source>TEXT_COMMENTS_DETAILS</source>
-                <target>Opinión</target>
+                <target>Deje su comentario</target>
             </trans-unit>
             <trans-unit id="156">
                 <source>REQUIERED_TEXT_VALIDATOR_COMMENTS_DETAILS</source>
@@ -3770,9 +3770,9 @@
             </trans-unit>
                             <trans-unit id="951">
                                 <source>FOOTER_EMAIL1</source>
-                                <target><![CDATA[Agregue reservation@mycasaparticular.com a sus contactos seguros para continuar recibiendo nuestros correos electrónicos.<br/><br/>
+                                <target><![CDATA[Agregue <a href='mailto:reservation@mycasaparticular.com'>reservation@mycasaparticular.com</a> a sus contactos seguros para continuar recibiendo nuestros correos electrónicos.<br/><br/>
                                 Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad.
-                                Para más información consulte nuestra <a href="%policieslink%">Política de Privacidad;</a>, las FAQ´s y nuestros <a href="%termlink%">Términos y Condiciones</a>.
+                                Para más información consulte nuestra Política de Privacidad, las FAQ´s y nuestros Términos y Condiciones.
 
                                 ]]></target>
                             </trans-unit>

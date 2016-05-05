@@ -79,4 +79,4 @@ services:
 
    mycp.notification.service:
        class: MyCp\mycpBundle\Service\NotificationService
-       arguments: [@doctrine.orm.entity_manager,"%notification_service_url%", "%notification_service_api_key%", @Time]
+       arguments: [@doctrine.orm.entity_manager,"%notification_service_url%", "%notification_service_api_key%", @Time, "%notification_send_sms%"]

@@ -29,7 +29,7 @@ class offerLog
 
     /**
      * @ORM\ManyToOne(targetEntity="generalReservation")
-     * @ORM\JoinColumn(name="log_from_reservation",referencedColumnName="gen_res_id")
+     * @ORM\JoinColumn(name="log_from_reservation",referencedColumnName="gen_res_id", nullable=true)
      */
     private $log_from_reservation;
 
@@ -45,6 +45,12 @@ class offerLog
      * @ORM\Column(name="log_date", type="datetime")
      */
     private $log_date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\JoinColumn(name="log_created_by",referencedColumnName="user_id", nullable=true)
+     */
+    private $log_created_by;
     
     /**
      * Get log_id
@@ -147,4 +153,24 @@ class offerLog
     {
         return $this->log_date;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLogCreatedBy()
+    {
+        return $this->log_created_by;
+    }
+
+    /**
+     * @param mixed $log_created_by
+     * @return mixed
+     */
+    public function setLogCreatedBy($log_created_by)
+    {
+        $this->log_created_by = $log_created_by;
+        return $this;
+    }
+
+
 }
