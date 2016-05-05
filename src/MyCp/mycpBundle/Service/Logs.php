@@ -42,10 +42,15 @@ class Logs
 
     public function saveNewOfferLog($newReservation, $fromReservation, $isForChangeDates)
     {
+        $user = $this->security_context->getToken()->getUser();
         $log = new offerLog();
         $log->setLogDate(new \DateTime());
-        $log->setLogFromReservation($fromReservation);
+
+        if($fromReservation != null)
+            $log->setLogFromReservation($fromReservation);
+
         $log->setLogOfferReservation($newReservation);
+        $log->setLogCreatedBy($user);
 
         $reason = null;
         if($isForChangeDates)

@@ -38,7 +38,7 @@
             <a href="#accommodation" data-toggle="tab">Alojamiento</a>
         </li>
     </ul>
-<form id="form_submit" action="{{ path("mycp_new_offer_to_client", {"idClient": client.userId}) }}" method="POST">
+<form id="form_submit" action="{{ path("mycp_new_offer_to_client", {"idClient": client.userId, "attendedDate": attendedDate}) }}" method="POST">
     {{ render(controller('mycpBundle:BackendReservation:searchAccommodations')) }}
     <div class="row-fluid" style="text-align: right">
         <button class="btn btn-success btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>

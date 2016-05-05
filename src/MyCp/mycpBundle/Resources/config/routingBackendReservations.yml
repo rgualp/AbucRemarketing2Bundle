@@ -68,8 +68,8 @@ mycp_changes_dates_reservation:
     defaults: { _controller: mycpBundle:BackendReservation:changeDates }
 
 mycp_new_offer_to_client:
-    pattern:  /new-offer-to-client/{idClient}
-    defaults: { _controller: mycpBundle:BackendReservation:newCleanOffer, idClient:'' }
+    pattern:  /new-offer-to-client/{idClient}/{attendedDate}
+    defaults: { _controller: mycpBundle:BackendReservation:newCleanOffer, idClient:'',attendedDate:'' }
 
 mycp_reservation_bookings_callback:
     pattern:  /reservation-bookings-callback/
