@@ -584,7 +584,7 @@
             </trans-unit>
             <trans-unit id="155">
                 <source>TEXT_COMMENTS_DETAILS</source>
-                <target>Meinung</target>
+                <target>Comment</target>
             </trans-unit>
             <trans-unit id="156">
                 <source>REQUIERED_TEXT_VALIDATOR_COMMENTS_DETAILS</source>
