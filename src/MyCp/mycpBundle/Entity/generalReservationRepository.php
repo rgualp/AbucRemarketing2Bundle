@@ -29,7 +29,8 @@ class generalReservationRepository extends EntityRepository {
         (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
         (SELECT MIN(owres4.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id),
-        u.user_user_name, u.user_last_name, u.user_email
+        u.user_user_name, u.user_last_name, u.user_email,
+        (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
@@ -188,6 +189,7 @@ class generalReservationRepository extends EntityRepository {
         $query = $em->createQuery($queryStr);
 
         return ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
+
     }
 
     function getTotalReservations($filter_date_reserve = "", $filter_offer_number = "", $filter_reference = "", $filter_date_from = "", $filter_date_to = "", $filter_booking_number = "", $filter_status = "")
@@ -439,7 +441,8 @@ class generalReservationRepository extends EntityRepository {
             (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,
             (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
             (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id) as totalNights,
-            ow.own_mcp_code, ow.own_id, gre.gen_res_from_date
+            ow.own_mcp_code, ow.own_id, gre.gen_res_from_date,
+            (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id ow
             JOIN gre.gen_res_user_id us
