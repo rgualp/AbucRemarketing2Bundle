@@ -544,7 +544,7 @@ class OwnershipController extends Controller {
                     'comments_items_per_page' => $items_per_page,
                     'comments_total_items' => $paginator->getTotalItems(),
                     'comments_current_page' => $page,
-                    'can_comment' => ($this->getUser() != null), //$em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
+                    'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
                     'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
                     'locale' => $locale,
                     'real_category' => $real_category,
