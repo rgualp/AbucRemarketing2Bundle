@@ -15,7 +15,7 @@ class RegistrationController extends Controller
 {
 
     public function registerAction(){
-    return $this->render('@MyCpCasaModule/Registration/register.html.twig',
+    return $this->render('MyCpCasaModuleBundle:Registration:register.html.twig',
         array());
     }
 }
