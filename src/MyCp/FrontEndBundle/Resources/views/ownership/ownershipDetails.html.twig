@@ -599,7 +599,7 @@
                         </div>
                     </div>
                     {% if can_comment %}
-                        <span class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</span>
+                        <h3 class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</h3>
                         <div class="radio"><label><input type="radio" value="5" id="option5"
                                                          name="radio_rating">{{ "5_STARS_COMMENTS_DETAILS" | trans }}
                             </label></div>
@@ -615,7 +615,7 @@
                         <div class="radio"><label><input type="radio" value="1" id="option1"
                                                          name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}
                             </label></div>
-                        <span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>
+                        <span class="h-grey" style="font-size: 24px;">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>
                         <textarea class="col-sm-12 form-control" id="input_comment"
                                   required-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
                         <button class="btn btn-primary margin-t" id="btn_insert_comment"
@@ -627,7 +627,14 @@
                         </div>
                         <div id="message_text" class="hidden"
                              ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>
-                        <hr class="margin-t hr-green"/>
+                        {#<hr class="margin-t hr-green"/>#}
+                    {% endif %}
+                    {% if show_comments_and_friends %}
+                        <div id="user_comments">
+                            {{ include('FrontEndBundle:comment:listComments.html.twig',
+                            {'show_comments_and_friends': show_comments_and_friends,
+                                'comments': comments}) }}
+                        </div>
                     {% endif %}
                 </div>
             </div>
