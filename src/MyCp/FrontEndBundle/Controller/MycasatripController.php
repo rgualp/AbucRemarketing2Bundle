@@ -494,4 +494,8 @@ class MycasatripController extends Controller {
         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
     }
 
+    public function appsMycasatripAction(){
+        return $this->render('FrontEndBundle:mycasatrip:app_index.html.twig', array());
+    }
+
 }
