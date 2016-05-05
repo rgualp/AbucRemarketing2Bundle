@@ -1,0 +1,69 @@
+/**Casa module styles*/
+.bg-gray{
+    background-color: #ececec;
+    color: #b3b3b3;
+    padding: 35px;
+    border-bottom: 3px solid #8fb571;
+    text-align: left;
+}
+.bg-yellow{
+    background-color: #ffa726;
+    padding: 35px;
+    color: white;
+}
+.font-blue{
+    color: #094e75;
+}
+.btn{
+    border-radius: 0;
+    border: 0;
+}
+.btn-success, .btn-success:hover, .btn-success:active{
+    background-color: #64a433;
+    color: white;
+    border-bottom: 3px solid #4e7f28;
+
+}
+
+.btn-default, .btn-default:hover, .btn-default:active{
+    background-color: #bdbdbd;
+    color: white;
+    border-bottom: 3px solid #939393;
+}
+h2{
+    font-size: 27px;
+}
+h3{
+    font-size: 16px;
+}
+h1,h2,h3,h4,h5,h6{
+    font-weight: 400;
+}
+.m-t-10{
+    margin-top: 10px;
+}
+.m-t-20{
+    margin-top: 20px;
+}
+.m-t-30{
+    margin-top: 30px;
+}
+.m-t-40{
+    margin-top: 40px;
+}
+.m-b-10{
+    margin-bottom: 10px;
+}
+.m-b-20{
+    margin-bottom: 20px;
+}
+.m-b-30{
+    margin-bottom: 30px;
+}
+.m-b-40{
+    margin-bottom: 40px;
+}
+label{
+    font-weight: 400;
+    font-size: 14px;
+}

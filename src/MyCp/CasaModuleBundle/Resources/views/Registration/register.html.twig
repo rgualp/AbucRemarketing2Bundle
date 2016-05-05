@@ -1,4 +1,36 @@
 {% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
 {% block content %}
-    Hello world
+   <div class="middle-box text-center animated fadeInDown">
+      <div>
+         <img src="{{ asset('img/mycp.png') }}">
+      </div>
+      <h2 class="font-blue">Bienvenido!</h2>
+      <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
+       <form role="form">
+       <div class="bg-gray m-t-20">
+
+            <div class="form-group"><label>Nombre de la casa</label><input type="text" name="own_name" class="form-control" placeholder="Nombre de la casa"></div>
+            <div class="form-group"><label>Número de la licencia</label> <input type="text" name="own_license_number" class="form-control" placeholder="Número de la licencia"></div>
+            <div class="row">
+               <div class="col-sm-6">
+                   <div class="form-group"><label>Municipio</label> <select class="form-control" name="own_municipality"></select> </div>     </div>
+            <div class="col-sm-6">
+            <div class="form-group"><label>Provincia</label> <select class="form-control" name="own_province"></select> </div>
+           </div>
+            </div>
+            <div class="form-group"><label>Nombre del propietario principal</label> <input type="text" name="own_homeowner_1" class="form-control" placeholder="Nombre del propietario principal"></div>
+            <div class="form-group"><label>Correo principal</label> <input type="email" name="own_email_1" class="form-control" placeholder="Correo principal"></div>
+            <div class="form-group"><label>Teléfono</label> <input type="text" name="own_phone" class="form-control" placeholder="Teléfono"></div>
+
+
+      </div>
+      <div class="bg-yellow m-t-30">
+          <h3>Por favor revise nuestros</h3>
+          <h3 class="font-blue">Términos y condiciones de uso</h3>
+          <i class="fa fa-check-circle"></i>
+          <h3>acepte para continuar</h3>
+      </div>
+       <button class="btn btn-success m-t-30 m-b-30" type="submit">Registrarse</button>
+       </form>
+   </div>
 {% endblock %}
