@@ -14,7 +14,7 @@
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %} badge-important">Parcialmente {%if wrap is defined and not wrap%}<br/>{%endif%} Cancelada{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_OUTDATED') %} badge-inverse">Vencida{%endif%}
 {%if showInDiv%}
-</divs>
+</div>
 {%else%}
 </span>
 {%endif%}

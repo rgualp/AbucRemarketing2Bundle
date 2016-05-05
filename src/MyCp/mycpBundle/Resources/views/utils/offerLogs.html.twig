@@ -4,6 +4,7 @@
     <tr>
         <th>Modifica a</th>
         <th>Motivo</th>
+        <th>Creada por</th>
         <th>Fecha</th>
     </tr>
     </thead>
@@ -11,8 +12,9 @@
 {% for log in logs %}
     <tr>
 
-        <td><a href="{{ path('mycp_details_reservation',{'id_reservation':log.getLogFromReservation.genResId}) }}">{{ log.getLogFromReservation.getCASId}}</a></td>
+        <td>{% if log.getLogFromReservation != null %}<a href="{{ path('mycp_details_reservation',{'id_reservation':log.getLogFromReservation.genResId}) }}">{{ log.getLogFromReservation.getCASId}}</a>{% else %}Nueva Oferta{% endif %}</td>
         <td>{{ log.logReason.nomName }}</td>
+        <td>{{ log.logCreatedBy | user }}</td>
         <td>{{ log.logDate|date("d/m/Y H:i") }}</td>
     </tr>
 {% endfor %}
