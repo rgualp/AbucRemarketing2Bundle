@@ -3126,6 +3126,14 @@
                                                 <source>mycasatrip_reservations_text</source>
                                                 <target>Encuentra los detalles de tus reservas activas a través de MyCasaTrip. </target>
                                              </trans-unit>
+         <trans-unit id="937">
+                                                         <source>mycasatrip_bearing</source>
+                                                         <target>Orientación</target>
+                                                      </trans-unit>
+         <trans-unit id="938">
+                                                                  <source>mycasatrip_bearing_text</source>
+                                                                  <target>Consulta las indicaciones para que tu recorrido sea más eficaz.</target>
+                                                               </trans-unit>
 
         </body>
     </file>
