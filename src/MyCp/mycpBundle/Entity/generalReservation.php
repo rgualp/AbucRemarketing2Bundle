@@ -71,6 +71,13 @@ class generalReservation {
     private $gen_res_date;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="gen_res_date_hour", type="time", nullable=true)
+     */
+    private $gen_res_date_hour;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="gen_res_status", type="integer")
@@ -694,4 +701,24 @@ class generalReservation {
     {
         return $this->gen_res_last_in_report;
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getGenResDateHour()
+    {
+        return $this->gen_res_date_hour;
+    }
+
+    /**
+     * @param DateTime $gen_res_date_hour
+     * @return mixed
+     */
+    public function setGenResDateHour($gen_res_date_hour)
+    {
+        $this->gen_res_date_hour = $gen_res_date_hour;
+        return $this;
+    }
+
+
 }
