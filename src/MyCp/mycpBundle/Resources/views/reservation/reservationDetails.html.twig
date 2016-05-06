@@ -44,6 +44,9 @@
 <h2>
     Reserva {{reservation.getCASId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})
     {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.genresstatus, 'showInDiv': false} %}
+    {% if offerLog != null %}
+    <span style="text-align: center; background-color: #5bc0de" class="badge" title="Oferta enviada al cliente">Oferta</span>
+    {% endif %}
 </h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
@@ -296,7 +299,7 @@
     </div>
 {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user[0]})) }}
 {% if reservation.modified != null and reservation.modifiedBy != null %}
-    {% include 'mycpBundle:utils:modifiedControl.html.twig' with {'modified':reservation.modified,'modifiedBy':reservation.modifiedBy}%}
+    {% include 'mycpBundle:utils:modifiedControl.html.twig' with {'modified':reservation.modified,'modifiedBy':reservation.modifiedBy, 'offer': offerLog}%}
 {% endif %}
 </div>
 {% endblock %}

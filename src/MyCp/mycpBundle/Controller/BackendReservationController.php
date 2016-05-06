@@ -687,6 +687,7 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+        $offerLog = $em->getRepository("mycpBundle:offerLog")->findOneBy(array("log_offer_reservation" => $id_reservation), array("log_date" => "DESC"));
         $errors = array();
 
         $service_time = $this->get('time');
@@ -730,7 +731,9 @@ class BackendReservationController extends Controller {
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
                     'nights' => $array_nights,
-                    'id_reservation' => $id_reservation));
+                    'id_reservation' => $id_reservation,
+                    "offerLog" => $offerLog
+        ));
     }
 
     public function send_reservationAction($id_reservation) {
