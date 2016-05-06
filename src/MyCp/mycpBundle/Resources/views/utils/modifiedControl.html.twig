@@ -1,4 +1,9 @@
 <div class="row-fluid text-right" style="color:#404040">
     <hr/>
+    {% if offer is defined and offer != null %}
+    <em class="pull-left">
+        Oferta: Creada {{ offer.logCreatedBy | user }} - {{ offer.logDate | date("d/m/Y H:i") }}{% if offer.logFromReservation != null %}. Creada a partir de offer.logFromReservation.getCASId{% endif %}
+    </em>
+    {% endif %}
     <em class="pull-right">Modificado por: {{ modifiedBy | user }} - {{ modified | date("d/m/Y H:i") }}</em>
 </div>

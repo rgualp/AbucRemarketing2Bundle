@@ -180,6 +180,8 @@
                     <td>
                         {% if reservation.gen_res_status==pending %}
                         <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{reservation.gen_res_id}}"/>
+                        {% elseif reservation.isOffer > 0 %}
+                            <i class="icon-asterisk" title="Oferta enviada al cliente"/>
                         {%endif%}
                     </td>
                     <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>

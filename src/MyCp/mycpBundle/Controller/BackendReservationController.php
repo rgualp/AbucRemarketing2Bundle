@@ -687,6 +687,7 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+        $offerLog = $em->getRepository("mycpBundle:offerLog")->findOneBy(array("log_offer_reservation" => $id_reservation), array("log_date" => "DESC"));
         $errors = array();
 
         $service_time = $this->get('time');
@@ -730,7 +731,9 @@ class BackendReservationController extends Controller {
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
                     'nights' => $array_nights,
-                    'id_reservation' => $id_reservation));
+                    'id_reservation' => $id_reservation,
+                    "offerLog" => $offerLog
+        ));
     }
 
     public function send_reservationAction($id_reservation) {
@@ -1059,7 +1062,7 @@ class BackendReservationController extends Controller {
     }
 
 
-    public function newCleanOfferAction($idClient)
+    public function newCleanOfferAction($idClient, $attendedDate)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -1084,7 +1087,7 @@ class BackendReservationController extends Controller {
             $reservationService = $this->get("mycp.reservation.service");
             $service_log= $this->get('log');
 
-            $resultReservations = $reservationService->createAvailableOfferFromRequest($request, $client);
+            $resultReservations = $reservationService->createAvailableOfferFromRequest($request, $client, $attendedDate);
 
             $newReservations = $resultReservations['reservations'];
             $arrayNightsByOwnershipReservation = $resultReservations['nights'];
@@ -1100,6 +1103,7 @@ class BackendReservationController extends Controller {
             $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
 
             $service_log->saveLog($general_reservation->getLogDescription()." (Nueva oferta)", BackendModuleName::MODULE_RESERVATION, log::OPERATION_INSERT, DataBaseTables::GENERAL_RESERVATION);
+            $service_log->saveNewOfferLog($general_reservation,null,false);
 
             switch($operation)
             {
@@ -1137,7 +1141,7 @@ class BackendReservationController extends Controller {
         }
 
         return $this->render('mycpBundle:reservation:newCleanOffer.html.twig', array(
-            'client' => $client, 'tourist' => $tourist));
+            'client' => $client, 'tourist' => $tourist, "attendedDate" => $attendedDate));
     }
 
     public function searchClientsAction()

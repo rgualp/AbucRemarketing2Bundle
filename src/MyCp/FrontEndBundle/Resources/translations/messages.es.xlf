@@ -3090,6 +3090,51 @@
             <target>MYCASA RENTA APP</target>
             </trans-unit>
 
+         <trans-unit id="928">
+            <source>find_reservations</source>
+            <target>Encuentra tus reservas</target>
+         </trans-unit>
+         <trans-unit id="929">
+            <source>mycasatrip_location</source>
+            <target>Ubicación</target>
+         </trans-unit>
+         <trans-unit id="930">
+            <source>mycasatrip_location_text</source>
+            <target>Conoce a través del mapa la ubicación exacta de tus reservas activas.</target>
+         </trans-unit>
+         <trans-unit id="931">
+            <source>mycasatrip_optimization</source>
+            <target>Optimización</target>
+         </trans-unit>
+         <trans-unit id="932">
+                     <source>mycasatrip_optimization_text</source>
+                     <target>Traza tu ruta desde el teléfono móvil.</target>
+                  </trans-unit>
+         <trans-unit id="933">
+                              <source>mycasatrip_description</source>
+                              <target>MyCasaTrip es una aplicación móvil que a través de un mapa te brinda la ubicación exacta de tus reservas activas, puedes calcular la distancia entre ellas y conocer cómo llegar de una manera rápida y eficiente.</target>
+                           </trans-unit>
+         <trans-unit id="934">
+                              <source>mycasatrip_accuracy</source>
+                              <target>Exactitud</target>
+                           </trans-unit>
+         <trans-unit id="935">
+                                       <source>mycasatrip_accuracy_text</source>
+                                       <target>Calcula la distancia exacta entre tus reservas.</target>
+                                    </trans-unit>
+         <trans-unit id="936">
+                                                <source>mycasatrip_reservations_text</source>
+                                                <target>Encuentra los detalles de tus reservas activas a través de MyCasaTrip. </target>
+                                             </trans-unit>
+         <trans-unit id="937">
+                                                         <source>mycasatrip_bearing</source>
+                                                         <target>Orientación</target>
+                                                      </trans-unit>
+         <trans-unit id="938">
+                                                                  <source>mycasatrip_bearing_text</source>
+                                                                  <target>Consulta las indicaciones para que tu recorrido sea más eficaz.</target>
+                                                               </trans-unit>
+
         </body>
     </file>
 </xliff>

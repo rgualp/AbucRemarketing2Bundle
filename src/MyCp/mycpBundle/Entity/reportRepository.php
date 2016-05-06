@@ -157,7 +157,12 @@ class reportRepository extends EntityRepository
 
     function dashBoardSummary(){
 
-        $qb="select Solicitudes.*, Clientes.DisponibleClientes, Clientes.PagaronClientes, Clientes.NoAtendieronClientes, Clientes.TotalClientes from(
+        $qb="select Solicitudes.*, Clientes.DisponibleClientes, Clientes.PagaronClientes, Clientes.NoAtendieronClientes, Clientes.TotalClientes,
+                (select count(distinct gresLog.gen_res_user_id) from offerlog ofl
+                join generalreservation gresLog on gresLog.gen_res_id = ofl.log_offer_reservation
+                where ofl.log_date >= Solicitudes.Fecha and ofl.log_date <= DATE_ADD(Solicitudes.Fecha, INTERVAL 1 DAY)
+                group by DATE_FORMAT(ofl.log_date, 'Y-m-d') ) as ClientesOfertas
+                from(
                 select DAYNAME(T.gen_res_date) as dia, T.gen_res_date as Fecha,
                 SUM(if(T.gen_res_status = 1 or T.gen_res_status = 2 or T.gen_res_status = 6 or T.gen_res_status = 8, 1, 0)) as DisponibleClientes,
                 (SELECT count(distinct b.booking_user_id)  from payment p join booking b on p.booking_id = b.booking_id where DATE(p.created) = T.gen_res_date) as PagaronClientes,
@@ -180,7 +185,10 @@ class reportRepository extends EntityRepository
                 SUM(if(gres.gen_res_status != 0, 1, 0)) as Atendidas,
                 SUM(if(gres.gen_res_status = 3, 1, 0)) as NoDisponible,
                 SUM(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, 1, 0)) as Disponible,
-                COUNT(gres.gen_res_id) as Total
+                COUNT(gres.gen_res_id) as Total,
+                (select count(ofl1.nom_id) from offerlog ofl1
+                where ofl1.log_date >= gres.gen_res_date and ofl1.log_date <= DATE_ADD(gres.gen_res_date, INTERVAL 1 DAY)
+                group by DATE_FORMAT(ofl1.log_date, 'Y-m-d') ) as Ofertas
                 FROM
                 generalreservation gres
                 where gres.gen_res_date >= :d1 AND gres.gen_res_date <= Now()

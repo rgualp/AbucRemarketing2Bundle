@@ -13,3 +13,7 @@ frontend_metatags_control:
 frontend_download_apprenta:
     locales:  { en: "/apprenta", es: "/apprenta", de: "/apprenta" }
     defaults: { _controller: FrontEndBundle:Public:appRentaDownload }
+
+frontend_download_apptrip:
+    locales:  { en: "/apptrip", es: "/apptrip", de: "/apptrip" }
+    defaults: { _controller: FrontEndBundle:Public:appTripDownload }
