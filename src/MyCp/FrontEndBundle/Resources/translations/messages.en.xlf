@@ -3708,6 +3708,14 @@
                                                               <source>mycasatrip_reservations_text</source>
                                                               <target>Find the details of your active reservations through MyCasa Trip.</target>
                                                            </trans-unit>
+              <trans-unit id="937">
+                                                                       <source>mycasatrip_bearing</source>
+                                                                       <target>Bearing</target>
+                                                                    </trans-unit>
+                       <trans-unit id="938">
+                                                                                <source>mycasatrip_bearing_text</source>
+                                                                                <target>Consult the indications so that your route can be more effective.</target>
+                                                                             </trans-unit>
         </body>
     </file>
 </xliff>
