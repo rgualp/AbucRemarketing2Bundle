@@ -94,6 +94,9 @@
                 </div>
             </div>
             <div class="row-fluid">
+                <div class="span3">
+                    <button type="button" class="btn-mini btn-success" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                </div>
                 <div class="span9">
                     <div class="paginator-cont">
 
@@ -114,7 +117,9 @@
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Fecha</th>
+                    <th>Hora</th>
                     <th>Id</th>
                     <th>Cliente</th>
                     <th>Solicitudes</th>
@@ -137,7 +142,9 @@
                     {%set notAttended = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_NOT_ATTENDED')%}
                     {%set incomplete = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_INCOMPLETE')%}
                 <tr class="{% if status==attended %}success{%endif%}{% if status==paid %}info{%endif%}{% if status==notAttended%}warning{% endif %} {% if status==incomplete%}yellow{%endif%}">
+                    <td><input type="checkbox" name="check_users" class="ch_reservation" data-user-id="{{reservation.user_id}}"/></td>
                     <td>{{ reservation.gen_res_date | date('d/m/Y') }}</td>
+                    <td>{% if reservation.hourRes != null %}{{ reservation.hourRes | date('H:i') }}{% else %}{{ reservation.hourSavedRes }}h{% endif %}</td>
                     <td>{{ reservation.user_id }}</td>
                     <td><a title="Editar datos del cliente" href="{{ path("mycp_edit_user_tourist",{"id_user": reservation.user_id}) }}">{{ reservation.user_user_name }} {{ reservation.user_last_name }}</a></td>
                     <td>{{ reservation.total }}</td>

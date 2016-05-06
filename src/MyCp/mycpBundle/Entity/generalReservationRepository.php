@@ -1771,7 +1771,9 @@ class generalReservationRepository extends EntityRepository {
 
         $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,
             SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
-            COUNT(DISTINCT gres.gen_res_id) as total
+            COUNT(DISTINCT gres.gen_res_id) as total,
+            MAX(gres.gen_res_date_hour) as hourRes,
+            MAX(gres.gen_res_hour) as hourSavedRes
             FROM ownershipreservation owres
             join generalreservation gres on owres.own_res_gen_res_id = gres.gen_res_id
             join user u on gres.gen_res_user_id = u.user_id
