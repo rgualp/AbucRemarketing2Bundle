@@ -1255,5 +1255,21 @@ class BackendReservationController extends Controller {
             return $this->redirect($this->generateUrl("mycp_list_reservations"));
         }
     }
+
+    public function generateClientCallbackAction() {
+        $request = $this->getRequest();
+        $users_ids = array_unique($request->request->get('users_ids'));
+
+        $exporter = $this->get("mycp.service.export_to_excel");
+        $exporter->generateClients($users_ids, true);
+
+        return new Response($this->generateUrl("mycp_download_clients"), 200);
+    }
+
+    function downloadClientCallbackAction()
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportClients();
+    }
 }
 
