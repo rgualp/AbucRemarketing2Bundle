@@ -23,12 +23,14 @@
 </head>
 
 <body class="{% block body_class %}white-bg{% endblock %}">
+{% block alerts %}
 {% for message in app.session.flashbag.get('message_ok') %}
     <div class="alert alert-info">{{ message }}</div>
 {% endfor %}
 {% for message in app.session.flashbag.get('message_error') %}
     <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
+{% endblock %}
 {% block content %}
 {% endblock %}
 {% block footer %}

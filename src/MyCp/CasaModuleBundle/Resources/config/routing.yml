@@ -1,6 +1,25 @@
 my_cp_casa_module_homepage:
-    path:     /hello/{name}
+    path:     /dashboard
     defaults: { _controller: MyCpCasaModuleBundle:Default:index }
 my_cp_casa_module_registration:
     path:     /registro
     defaults: { _controller: MyCpCasaModuleBundle:Registration:register }
+frontend_userCasa_activateAccount:
+    path: /registro/activar/{token}
+    defaults: { _controller: MyCpCasaModuleBundle:Registration:activateAccount }
+    requirements:
+        token: .*
+my_cp_casa_login:
+    path: /login
+    defaults: { _controller: MyCpCasaModuleBundle:Security:login , urlLogin: 'my_cp_casa_login_check'}
+my_cp_casa_login_check:
+    path: /login_check
+my_cp_casa_logout:
+    path: /logout
+my_cp_forget_password:
+    pattern:  /olvido-contrasenna/
+    defaults: { _controller: MyCpCasaModuleBundle:Security:forgotPassword}
+
+my_cp_change_password_user:
+    pattern:  /cambiar-contrasenna/{string}
+    defaults: { _controller: MyCpCasaModuleBundle:Security:changePassword }

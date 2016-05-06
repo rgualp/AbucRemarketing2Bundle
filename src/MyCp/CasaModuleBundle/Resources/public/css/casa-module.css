@@ -31,7 +31,7 @@
     border-radius: 0;
     border: 0;
 }
-.btn-success, .btn-success:hover, .btn-success:active{
+.btn-success, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success:active:focus, .btn-success:active:hover, .btn-success.active:hover, .btn-success.active:focus{
     background-color: #64a433;
     color: white;
     border-bottom: 3px solid #4e7f28;

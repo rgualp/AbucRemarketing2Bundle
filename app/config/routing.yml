@@ -1,6 +1,6 @@
 my_cp_casa_module:
     resource: "@MyCpCasaModuleBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /mycasa
 
 # To catch all outdated routes of the old website the routing
 # for website migration must be included first!

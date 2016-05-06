@@ -23,8 +23,10 @@ class enableUserCasaType extends AbstractType {
                 ->add('user_password', 'repeated', array(
                     'first_name' => $this->translate->trans('FORMS_PASSWORD'),
                     'second_name' => $this->translate->trans('FORMS_REPEAT'),
+                    'first_options' => array('attr' =>array('class'=>'form-control')),
+                    'second_options' => array('attr' =>array('class'=>'form-control')),
                     'type' => 'password',
-                    'attr' => array('class' => 'form-control'),
+//                    'attr' => array('class' => 'form-control'),
                     'constraints' => array(new NotBlank(), new Length(array('min' => 6)))
                 ))
                 ->add('user_user_name', 'text', array(
