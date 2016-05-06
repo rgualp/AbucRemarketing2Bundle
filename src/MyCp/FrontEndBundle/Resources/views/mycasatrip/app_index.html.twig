@@ -40,13 +40,19 @@
             color:#095075;
         }
 
+        @media (max-width: 991px) {
+            .text_center{
+                text-align: center;
+            }
+        }
+
     </style>
 {% endblock %}
 
 {% block big_banner %}
     <div style="width: 100%">
         {#<h2 style="color: #095075;text-align: center;position: absolute;left:35%">{{ 'Descarga App My Casa Trip'|trans }}</h2>#}
-        <img src="{{ asset('bundles/frontend/img/mycasatrip/b2.png') }}" style="width: 100%">
+        <img src="{{ asset('bundles/frontend/img/mycasatrip/b2_' ~ app.request.locale ~ '.png') }}" style="width: 100%">
     </div>
 {% endblock %}
 
@@ -73,8 +79,8 @@
                     </div>
                     <div class="col-xs-1   col-md-1 hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
-                        <h2 style="color: #095075;">{{ 'mycasatrip_location'|trans }}</h2>
-                        <p class="paraf_text">{{ 'mycasatrip_location_text'|trans }}
+                        <h2 class="text_center" style="color: #095075;">{{ 'mycasatrip_location'|trans }}</h2>
+                        <p class="paraf_text text_center">{{ 'mycasatrip_location_text'|trans }}
                     </div>
                 </div>
             </div>
@@ -85,8 +91,8 @@
                     </div>
                     <div class="col-xs-1   hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
-                        <h2 style="color: #095075;">{{ 'mycasatrip_optimization'|trans }}</h2>
-                        <p class="paraf_text">{{ 'mycasatrip_optimization_text'|trans }}
+                        <h2 class="text_center" style="color: #095075;">{{ 'mycasatrip_optimization'|trans }}</h2>
+                        <p class="paraf_text text_center">{{ 'mycasatrip_optimization_text'|trans }}
                     </div>
                 </div>
             </div>
@@ -99,8 +105,8 @@
                     </div>
                     <div class="col-xs-1   col-md-1 hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
-                        <h2 style="color: #095075;">{{ 'RESERVATION_TITLE'|trans }}</h2>
-                        <p class="paraf_text">{{ 'mycasatrip_reservations_text'|trans }}
+                        <h2 class="text_center" style="color: #095075;">{{ 'RESERVATION_TITLE'|trans }}</h2>
+                        <p class="paraf_text text_center">{{ 'mycasatrip_reservations_text'|trans }}
                     </div>
                 </div>
             </div>
@@ -111,8 +117,8 @@
                     </div>
                     <div class="col-xs-1   hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
-                        <h2 style="color: #095075;">{{ 'mycasatrip_accuracy'|trans }}</h2>
-                        <p class="paraf_text">{{ 'mycasatrip_accuracy_text'|trans }}
+                        <h2 class="text_center" style="color: #095075;">{{ 'mycasatrip_accuracy'|trans }}</h2>
+                        <p class="paraf_text text_center">{{ 'mycasatrip_accuracy_text'|trans }}
                     </div>
                 </div>
             </div>
@@ -126,8 +132,8 @@
                     </div>
                     <div class="col-xs-1   hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
-                        <h2 style="color: #095075;">{{ 'mycasatrip_bearing'|trans }}</h2>
-                        <p class="paraf_text">{{ 'mycasatrip_bearing_text'|trans }}
+                        <h2 class="text_center" style="color: #095075;">{{ 'mycasatrip_bearing'|trans }}</h2>
+                        <p class="paraf_text text_center">{{ 'mycasatrip_bearing_text'|trans }}
                     </div>
                 </div>
             </div>
