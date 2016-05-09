@@ -45,13 +45,17 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 			'ander@mycasaparticular.com',
 			'arieskienmendoza@gmail.com',
 			'yenisi@hds.li',
-			'olga.dias@hds.li',
-			'arieskienmendoza@gmail.com',
+			'olga.dias@hds.li'
 		);
-		foreach ($mails as $mail) {
+		$ownerships= $this->getOwnerships();
+		foreach ($ownerships as $ownership) {
+
+			$mail = trim($ownership->getOwnEmail1());
+			if (empty($mail))
+				$mail = trim($ownership->getOwnEmail2());
 
 			$to= array($mail);
-			$subject= '¡Representante de MyCasaParticular.com en Viñales!';
+			$subject= '¡Representante de MyCasaParticular.com en Trinidad!';
 			$from_email= 'no_responder@mycasaparticular.com';
 			$from_name= 'MyCasaParticular.com';
 //			$email_type= 'NOTIFICATION_USERS_TRINIDAD';
@@ -68,7 +72,8 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 			$this->notification_email->setBody($body);
 			$this->notification_email->setEmailType($email_type);
 
-			$status= $this->notification_email->sendEmail();
+			//$status= $this->notification_email->sendEmail();
+			$status= true;
 			if($status){
 				$output->writeln('<info>'.$mail.'</info>');
 				$mail_success[]= $mail;
@@ -91,4 +96,17 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 		$this->em = $this->container->get('doctrine')->getManager();
 		$this->notification_email = $this->container->get('mycp.notification.mail.service');
 	}
+
+	protected function getOwnerships(){
+		$sql= 'select o from mycpBundle:ownership o ';
+		$sql.= "WHERE (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
+		$sql.= "AND o.own_address_municipality = 13 ";//Trinitarios
+		$sql.= "AND o.own_status = 1 ";//Status 1=Activo
+
+		$q = $this->em->createQuery(trim($sql));
+		$results= $q->execute();
+		return $results;
+
+	}
+
 }
