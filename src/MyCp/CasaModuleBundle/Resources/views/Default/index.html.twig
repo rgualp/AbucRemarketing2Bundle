@@ -1,1 +1,14 @@
-Hola cliente casa {{ app.user.getName }}
+{#Hola cliente casa {{ app.user.getName }}#}
+{% extends 'MyCpCasaModuleBundle::layout_dashboard.html.twig' %}
+
+{% block title %}Mi casa{% endblock title %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="middle-box text-center animated fadeInRightBig">
+            <h3 class="font-bold">Hola cliente casa {{ app.user.getName }}</h3>
+        </div>
+    </div>
+
+{% endblock content %}

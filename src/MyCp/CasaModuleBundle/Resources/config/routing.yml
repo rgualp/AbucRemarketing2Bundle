@@ -4,7 +4,7 @@ my_cp_casa_module_homepage:
 my_cp_casa_module_registration:
     path:     /registro
     defaults: { _controller: MyCpCasaModuleBundle:Registration:register }
-frontend_userCasa_activateAccount:
+my_cp_casa_module_activateAccount:
     path: /registro/activar/{token}
     defaults: { _controller: MyCpCasaModuleBundle:Registration:activateAccount }
     requirements:

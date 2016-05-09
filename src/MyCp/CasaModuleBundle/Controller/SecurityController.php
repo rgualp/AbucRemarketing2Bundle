@@ -8,6 +8,9 @@
 
 namespace MyCp\CasaModuleBundle\Controller;
 
+use MyCp\FrontEndBundle\Form\changePasswordUserType;
+use MyCp\mycpBundle\Entity\user;
+use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -46,7 +49,7 @@ class SecurityController extends Controller
                     $service_security = $this->get('Secure');
                     $encode_string = $service_security->getEncodedUserString($user_db);
 
-                    $change_passwordRoute = 'mycp_change_password_user';
+                    $change_passwordRoute = 'my_cp_change_password_user';
                     $changeUrl = $this->get('router')
                         ->generate($change_passwordRoute, array('string' => $encode_string), true);
                     //mailing
@@ -56,14 +59,14 @@ class SecurityController extends Controller
                     $service_email->sendEmail("Restauración de su cuenta en MyCasaParticular", 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = "Se ha enviado un correo para que recupere su contraseña.";
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
-                    return $this->redirect($this->generateUrl('backend_login'));
+                    return $this->redirect($this->generateUrl('my_cp_casa_login'));
                 } else {
                     $message = "No existe ningún usuario con ese correo con acceso a esta sección.";
                     $this->get('session')->getFlashBag()->add('message_error', $message);
                 }
             }
         }
-        return $this->render('mycpBundle:user:restorePasswordUser.html.twig', array(
+        return $this->render('MyCpCasaModuleBundle:Security:forgot_password.html.twig', array(
             'form' => $form->createView(),
             'errors' => $errors
         ));
@@ -72,7 +75,7 @@ class SecurityController extends Controller
     public function changePasswordAction($string, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
-        $form = $this->createForm(new changePasswordUserType());
+        $form = $this->createForm(new \MyCp\mycpBundle\Form\changePasswordUserType());
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_mycpbundle_change_password_usertype');
             $form->handleRequest($request);
@@ -100,7 +103,7 @@ class SecurityController extends Controller
                         $service_email->sendEmail($message, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $message);
 
                         $this->get('session')->getFlashBag()->add('message_ok', $message);
-                        return $this->redirect($this->generateUrl('backend_login'));
+                        return $this->redirect($this->generateUrl('my_cp_casa_login'));
                     }
                 } else {
                     $message = "Imposible cambiar contraseña, los parámetros no son correctos.";
@@ -109,7 +112,7 @@ class SecurityController extends Controller
             }
         }
 
-        return $this->render('mycpBundle:user:changePasswordUser.html.twig', array(
+        return $this->render('MyCpCasaModuleBundle:Security:reset_password.html.twig', array(
             'string' => $string,
             'form' => $form->createView(),
             'errors' => $errors

@@ -14,6 +14,7 @@
             }
         </style>
     {% endblock %}
+{% block alerts %}{% endblock %}
 {% block content %}
    <div class="middle-box text-center animated fadeInDown">
       <div>
@@ -21,6 +22,20 @@
       </div>
       <h2 class="font-blue">Bienvenido!</h2>
       <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
+       {% for message in app.session.flashbag.get('message_ok') %}
+           <div class="alert alert-info alert-dismissable">
+               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+               {{ message }}</div>
+       {% endfor %}
+       {% for message in app.session.flashbag.get('message_error') %}
+           <div class="alert alert-danger alert-dismissable">
+               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+               {{ message }}</div>
+       {% endfor %}
+       {% if error is defined and error is not null %}
+           <div class="alert alert-danger alert-dismissable">
+               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
+       {% endif %}
        <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn">
        <div class="bg-gray m-t-20">
 

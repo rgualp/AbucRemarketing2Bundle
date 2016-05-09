@@ -16,7 +16,21 @@ class changePasswordUserType extends AbstractType
         $builder
             ->add('user_password','repeated',array(
             'first_name' => "Clave",
+            'first_options' => [
+                'attr'=>[
+                    'class'=>'form-control'
+                ],
+                'label_attr'=>['class'=>'control-label']
+            ],
+
             'second_name' => "Repetir",
+            'second_options' => [
+                'attr'=>[
+                    'class'=>'form-control'
+                ],
+                'label_attr'=>['class'=>'control-label']
+            ],
+                'label_attr'=>['class'=>'control-label'],
             'type' => 'password',
             'constraints'=>array(new NotBlank(), new Length(array('min'=>6))),
         ));

@@ -142,7 +142,7 @@ security:
         - { path: ^/casa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/casa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/casa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/mycasa/registro$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
