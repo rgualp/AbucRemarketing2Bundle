@@ -1,5 +1,5 @@
-{% extends 'FrontEndBundle:layout:baseMailTemplate.html.twig' %}
-
+{#{% extends 'FrontEndBundle:layout:baseMailTemplate.html.twig' %}#}
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"GOOD_MORNING"|trans}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
         <p class="note"> {{"THANKS_CHECK_AVAILABLE"|trans}} <br/> {{"REQUEST_IN_PROCESS_24_HOURS"|trans}}
