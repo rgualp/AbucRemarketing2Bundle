@@ -16,7 +16,7 @@ use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
 
-class TestMailCommand extends ContainerAwareCommand
+class SendEmailTrinidadCommand extends ContainerAwareCommand
 {
 	private $em;
 
@@ -51,7 +51,8 @@ class TestMailCommand extends ContainerAwareCommand
 			$subject= '¡Representante de MyCasaParticular.com en Viñales!';
 			$from_email= 'no_responder@mycasaparticular.com';
 			$from_name= 'MyCasaParticular.com';
-			$email_type= 'NOTIFICATION_USERS_TRINIDAD';
+//			$email_type= 'NOTIFICATION_USERS_TRINIDAD';
+			$email_type= 'TEST_NOTIFICATION_USERS_TRINIDAD';
 
 			$email_manager = $this->container->get('mycp.service.email_manager');
 			$data= array();
