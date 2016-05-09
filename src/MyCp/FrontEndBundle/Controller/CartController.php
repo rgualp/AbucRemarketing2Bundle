@@ -357,6 +357,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResToDate($max_date);
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
+                    $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
 
 
                     $total_price = 0;

@@ -81,12 +81,13 @@ class NotificationService extends Controller
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
             $reservationData = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
             $fromDate =  \DateTime::createFromFormat("Y-m-d",$reservationData[0]["fromDate"]);
-            $fromDate = $fromDate->format("d/m/y");
+            $fromDate = $fromDate->format("d-m-y");
             $rooms = $reservationData[0]["rooms"];
             $nights = $reservationData[0]["nights"] / $rooms;
             $guests = $reservationData[0]["guests"];
+            $reservationId = $reservation->getGenResId();
 
-            $message = "MyCasaParticular: Tiene una solicitud para el $fromDate por $nights noches. Son $rooms habitaciones/$guests personas. Si está disponible, llame en menos de 1hora al 78673574.";
+            $message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights"."noches. CAS$reservationId. Son $rooms"."hab./$guests"."personas. Si está disponible, llame en menos de 1h al 78673574";
 
             $subType = "INMEDIATE_BOOKING";
             $reservationObj = array(

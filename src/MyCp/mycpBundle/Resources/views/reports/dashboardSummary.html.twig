@@ -49,6 +49,10 @@
                                 <td>Pagaron</td>
                                 <td><span class="badge">{{ dia['PagaronClientes'] }}</span></td>
                             </tr>
+                            <tr>
+                                <td>Con Ofertas</td>
+                                <td><span class="badge">{{ (dia['ClientesOfertas'] != null) ? dia['ClientesOfertas']: 0 }}</span></td>
+                            </tr>
                         </table>
                     </td>
                     <td>
@@ -69,7 +73,10 @@
                                 <td>Pendientes</td>
                                 <td><span class="badge">{{ dia['SinAtender'] }}</span></td>
                             </tr>
-
+                            <tr>
+                                <td>Ofertas</td>
+                                <td><span class="badge">{{ (dia['Ofertas'] != null) ? dia['Ofertas']: 0 }}</span></td>
+                            </tr>
                         </table>
                     </td>
                 </tr>

@@ -42,9 +42,9 @@ class GeneralReservationService extends Controller
         $this->container = $container;
     }
 
-    public function createAvailableOfferFromRequest($request, user $user)
+    public function createAvailableOfferFromRequest($request, user $user, $attendedDate = null)
     {
-        return $this->createOfferFromRequest($request, $user, generalReservation::STATUS_AVAILABLE, ownershipReservation::STATUS_AVAILABLE);
+        return $this->createOfferFromRequest($request, $user, generalReservation::STATUS_AVAILABLE, ownershipReservation::STATUS_AVAILABLE, null, $attendedDate);
     }
 
     public function createReservedOfferFromRequest($request, user $user, booking $booking)
@@ -52,7 +52,7 @@ class GeneralReservationService extends Controller
         return $this->createOfferFromRequest($request, $user, generalReservation::STATUS_RESERVED, ownershipReservation::STATUS_RESERVED, $booking);
     }
 
-    private function createOfferFromRequest($request, user $user, $generalReservationStatus, $ownReservationsStatus, booking $booking = null)
+    private function createOfferFromRequest($request, user $user, $generalReservationStatus, $ownReservationsStatus, booking $booking = null, $attendedDate = null)
     {
         $id_ownership = $request->get('data_ownership');
         $reservations = array();
@@ -89,7 +89,12 @@ class GeneralReservationService extends Controller
 
         $general_reservation = new generalReservation();
         $general_reservation->setGenResUserId($user);
-        $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+
+        if($attendedDate == null or $attendedDate == "")
+            $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+        else
+            $general_reservation->setGenResDate(\DateTime::createFromFormat("Y-m-d", $attendedDate));
+
         $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
         $general_reservation->setGenResHour(date('G'));
         $general_reservation->setGenResStatus($generalReservationStatus);
@@ -161,6 +166,7 @@ class GeneralReservationService extends Controller
         $general_reservation->setGenResNights($totalNights);
         $this->em->persist($general_reservation);
         $this->em->flush();
+
 
 
         return array('reservations' => $reservations, 'nights' => $nights, 'generalReservation' => $general_reservation);

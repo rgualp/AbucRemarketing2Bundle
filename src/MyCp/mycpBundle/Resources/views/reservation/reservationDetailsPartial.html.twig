@@ -1,5 +1,11 @@
 
+<div class="pull-right">
+    {% if logs %}
+    <span style="text-align: center; background-color: #5bc0de; margin-right: 10px;" class="badge" title="Oferta enviada al cliente">Oferta</span>
+    {% endif %}
+
 <a  href="{{ path("mycp_details_reservation", {"id_reservation": reservation.getGenResId}) }}" class="pull-right btn btn-mini btn-success"  style="margin-right: 1em"><i class="icon-white icon-edit"></i> Editar</a>
+</div>
 
 <div class="row-fluid">
 <div class="row-fluid">

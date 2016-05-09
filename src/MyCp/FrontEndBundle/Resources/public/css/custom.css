@@ -122,3 +122,67 @@ hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
         margin-top: 10px;
     }
 }
+
+.banner-dow{
+    background: url("../bundles/frontend/img/mycasatrip/b1.png") no-repeat;
+    width: 100%;
+    height: 150px;
+    cursor: pointer;
+}
+
+div#div_b h1{
+    margin: 0px !important;
+    color: #ffffff;
+    font-family: CaeciliaRoman;
+}
+
+div#div_b h4{
+    margin: 0px !important;
+    color: #ffffff;
+    font-family: CaeciliaRoman;
+    text-transform: uppercase;
+}
+
+.padding_l_r_0 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    /*margin-left: 0 !important;
+    margin-right: 0 !important;*/
+}
+
+.padding_left_0{
+    padding-left: 0 !important;
+}
+
+.padding_right_0{
+    padding-right: 0 !important;
+}
+
+.banner_footer{
+    background: url("../bundles/frontend/img/mycasatrip/imagmovil.png") no-repeat;
+    padding: 20px;
+    width: 100%;
+    background-size: 100%;
+}
+
+@media (max-width: 767px) {
+    .hidden-xs {
+        display: none !important;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .hidden-sm {
+        display: none !important;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .hidden-md {
+        display: none !important;
+    }
+}
+@media (min-width: 1200px) {
+    .hidden-lg {
+        display: none !important;
+    }
+}
+
