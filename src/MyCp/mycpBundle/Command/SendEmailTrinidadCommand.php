@@ -43,7 +43,7 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 		$mails= array(
 			'yanet.moralesr@gmail.com',
 			'ander@mycasaparticular.com',
-			'arieskiemendoza@gmail.com',
+			'arieskienmendoza@gmail.com',
 		);
 		foreach ($mails as $mail) {
 
