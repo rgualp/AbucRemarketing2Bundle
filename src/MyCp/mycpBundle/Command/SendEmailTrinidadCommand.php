@@ -44,6 +44,9 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 			'yanet.moralesr@gmail.com',
 			'ander@mycasaparticular.com',
 			'arieskienmendoza@gmail.com',
+			'yenisi@hds.li',
+			'olga.dias@hds.li',
+			'arieskienmendoza@gmail.com',
 		);
 		foreach ($mails as $mail) {
 
