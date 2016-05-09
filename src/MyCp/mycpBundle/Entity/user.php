@@ -153,8 +153,10 @@ class user implements AdvancedUserInterface,  \Serializable
      * @ORM\OneToMany(targetEntity="comment", mappedBy="com_user")
      */
     private $comments;
-
-
+    /**
+     * @ORM\OneToMany(targetEntity="userCasa", mappedBy="user_casa_user")
+     */
+   private $user_user_casa;
 
     public function __construct() {
         $this->comments = new ArrayCollection();
@@ -370,6 +372,7 @@ class user implements AdvancedUserInterface,  \Serializable
 
         return $this;
     }
+
 
     /**
      * Get user_password
@@ -754,4 +757,62 @@ class user implements AdvancedUserInterface,  \Serializable
         return "Usuario ".$this->getUserCompleteName();
     }
 
+
+    /**
+     * Add comment
+     *
+     * @param \MyCp\mycpBundle\Entity\comment $comment
+     *
+     * @return user
+     */
+    public function addComment(\MyCp\mycpBundle\Entity\comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \MyCp\mycpBundle\Entity\comment $comment
+     */
+    public function removeComment(\MyCp\mycpBundle\Entity\comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Add userUserCasa
+     *
+     * @param \MyCp\mycpBundle\Entity\userCasa $userUserCasa
+     *
+     * @return user
+     */
+    public function addUserUserCasa(\MyCp\mycpBundle\Entity\userCasa $userUserCasa)
+    {
+        $this->user_user_casa[] = $userUserCasa;
+
+        return $this;
+    }
+
+    /**
+     * Remove userUserCasa
+     *
+     * @param \MyCp\mycpBundle\Entity\userCasa $userUserCasa
+     */
+    public function removeUserUserCasa(\MyCp\mycpBundle\Entity\userCasa $userUserCasa)
+    {
+        $this->user_user_casa->removeElement($userUserCasa);
+    }
+
+    /**
+     * Get userUserCasa
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserUserCasa()
+    {
+        return $this->user_user_casa;
+    }
 }

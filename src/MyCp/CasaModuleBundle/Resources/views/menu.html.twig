@@ -1,27 +1,32 @@
-<li class="">
-    <a>
-        <i class="fa fa-dollar"></i>
-        <span class="nav-label">Mi propiedad</span>
-        <span class="fa arrow"></span>
-    </a>
-    <ul class="nav nav-second-level collapse" style="height: 0px;">
+{#<li class="">#}
+    {#<a>#}
+        {#<i class="fa fa-dollar"></i>#}
+        {#<span class="nav-label">Mi propiedad</span>#}
+        {#<span class="fa arrow"></span>#}
+    {#</a>#}
+    {#<ul class="nav nav-second-level collapse" style="height: 0px;">#}
+         <li class="m-t-20" style="padding-left: 14px;">
+            <span class="nav-label ">Propiedad</span></a><br>
+            <span class="nav-label header-label">{{ app.user.userUserCasa[0].userCasaOwnership.ownName }}</span></a>
+
+        </li>
          <li class="{{ activeClass('hdspayments_admin_payments_list') }}">
-        <a href="#">Datos de su propiedad</a>
+              <a href="#"><i class="glyphicons home menu-icon"></i> <span class="nav-label">Datos de su propiedad</span></a>
+        </li>
+        <li class="{{ activeClass('hdspayments_admin_payments_list') }}">
+         <a href="#"><i class="glyphicons align_left menu-icon"></i> <span class="nav-label">Descripción</span></a>
         </li>
         <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-        <a href="#">Descripción</a>
+         <a href="#"><i class="glyphicons keys menu-icon"></i> <span class="nav-label">Habitaciones</span></a>
         </li>
         <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-        <a href="#">Habitaciones</a>
+        <a href="#"><i class="glyphicons plus menu-icon"></i> <span class="nav-label">Facilidades</span></a>
         </li>
         <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-        <a href="#">Facilidades</a>
+        <a href="#"><i class="glyphicons picture menu-icon"></i> <span class="nav-label">Imágenes</span></a>
         </li>
         <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-        <a href="#">Imagenes</a>
+        <a href="#"><i class="glyphicons nameplate menu-icon"></i> <span class="nav-label">Datos del propietario</span></a>
         </li>
-        <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-        <a href="#">Datos del propietario</a>
-        </li>
-    </ul>
-</li>
+    {#</ul>#}
+{#</li>#}

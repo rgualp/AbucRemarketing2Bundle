@@ -1,4 +1,7 @@
 /**Casa module styles*/
+body{
+    background-color: #094e75;
+}
 .bg-gray{
     background-color: #ececec;
     color: #b3b3b3;
@@ -79,4 +82,54 @@ h1,h2,h3,h4,h5,h6{
 label{
     font-weight: 400;
     font-size: 14px;
+}
+/**Dashboard*/
+.navbar-static-top{
+    background-color: white;
+    border-bottom: 5px solid #64a433;
+    height: 85px;
+    vertical-align: middle;
+}
+.navbar-static-top .navbar-header {
+    float: left;
+    padding-top: 10px;
+}
+#side-menu .nav-header {
+    background-color: #094e75;
+    font-size: 14px;
+    text-align: center;
+}
+.nav-label.header-label {
+    font-size: 18px;
+}
+body.mini-navbar .nav-header {
+    background-color: #64a433 !important;
+    padding: 0;
+}
+.minimalize-styl-2{
+    margin-left: 10px;
+}
+.navbar-right{
+    margin-top: 7px;
+}
+#side-menu{
+    font-size: 16px;
+    background-color:  #062331;
+}
+.navbar-static-side{
+    width: 270px;
+}
+#page-wrapper{
+    margin-left: 270px;
+}
+.nav-label
+{
+    color: #1483c2;
+    margin-left: 10px;
+    font-weight: 400;
+}
+.glyphicons.menu-icon {
+    color: #b3b3b3;
+    font-size: 18px;
+    margin-top: 0;
 }
