@@ -186,6 +186,7 @@
         {% endjavascripts %}
     {% endblock %}
 {% endblock %}
+{% block footer_big %}{% endblock %}
 <hr>
 <p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
 <footer class="bg-gradient-blue">
@@ -226,11 +227,19 @@
                 </ul>
             </div>
             <div class="col-xs-2">
-                <h3 style="margin-bottom: 5px;">{{"HOUSE_QUESTION" | trans}}</h3>
-                <ul>
-                    <li style="font-size: 13px; margin-bottom: 5px;"><a href="{{ path('frontend_mycasarenta_index') }}" >{{ 'MYCASA_RENTA_APP'|trans }}</a></li>
-                    {#<li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank"><img width="120px" src="{{ asset('bundles/frontend/img/google-play.png') }}"></a> </li>#}
-                </ul>
+                <div class="col-xs-12">
+                    <h3 style="margin-bottom: 5px;">{{"HOUSE_QUESTION" | trans}}</h3>
+                    <ul>
+                        <li style="font-size: 13px; margin-bottom: 5px;"><a href="{{ path('frontend_mycasarenta_index') }}" >{{ 'MYCASA_RENTA_APP'|trans }}</a></li>
+                        {#<li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank"><img width="120px" src="{{ asset('bundles/frontend/img/google-play.png') }}"></a> </li>#}
+                    </ul>
+                </div>
+                <div class="col-xs-12">
+                    <h3 style="margin-bottom: 5px;">{{"find_reservations" | trans}}</h3>
+                    <ul>
+                        <li style="font-size: 13px; margin-bottom: 5px;"><a href="{{ path('frontend_mycasatrip_apps') }}" >{{ 'MyCasa Trip APP' | upper }}</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="col-xs-2 text-right">
                 <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">

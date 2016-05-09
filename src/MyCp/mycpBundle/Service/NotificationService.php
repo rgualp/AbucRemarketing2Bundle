@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\reservationNotification;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\Dates;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class NotificationService extends Controller
@@ -27,13 +28,15 @@ class NotificationService extends Controller
     private $serviceNotificationUrl;
     private $notificationServiceApiKey;
     private $time;
+    private $notificationSendSms;
 
-    public function __construct(ObjectManager $em, $serviceNotificationUrl, $notificationServiceApiKey, $time)
+    public function __construct(ObjectManager $em, $serviceNotificationUrl, $notificationServiceApiKey, $time, $notificationSendSms)
     {
         $this->em = $em;
         $this->serviceNotificationUrl = $serviceNotificationUrl;
         $this->notificationServiceApiKey = $notificationServiceApiKey;
         $this->time =$time;
+        $this->notificationSendSms = $notificationSendSms;
     }
 
     public function sendConfirmPaymentSMSNotification($reservation, $isTesting = false)
@@ -50,7 +53,9 @@ class NotificationService extends Controller
             );
 
             $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            $this->createNotification($reservationObj,$subType, $response);
+
+            if($response != null)
+                $this->createNotification($reservationObj,$subType, $response);
         }
     }
 
@@ -62,7 +67,9 @@ class NotificationService extends Controller
             $subType = "CHECKIN";
 
             $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            $this->createNotification($reservationObj,$subType, $response);
+
+            if($response != null)
+                $this->createNotification($reservationObj,$subType, $response);
         }
     }
 
@@ -73,13 +80,15 @@ class NotificationService extends Controller
             $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
             $reservationData = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
-            $fromDate = $reservationData["fromDate"];
-            $fromDate = $fromDate->format("d/m/y");
-            $rooms = $reservationData["rooms"];
-            $nights = $reservationData["nights"];
-            $guests = $reservationData["guests"] / $nights;
+            $fromDate =  \DateTime::createFromFormat("Y-m-d",$reservationData[0]["fromDate"]);
+            $fromDate = $fromDate->format("d-m-y");
+            $rooms = $reservationData[0]["rooms"];
+            $nights = $reservationData[0]["nights"] / $rooms;
+            $guests = $reservationData[0]["guests"];
+            $reservationId = $reservation->getGenResId();
 
-            $message = "MyCasaParticular: un cliente desea reservar desde el $fromDate por $nights noches. Solicita $rooms habitaciones para $guests personas. ¿Está disponible? Confirme en menos de 1 hora al 78673574. Gracias.";
+            $message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights"."noches. CAS$reservationId. Son $rooms"."hab./$guests"."personas. Si está disponible, llame en menos de 1h al 78673574";
+
             $subType = "INMEDIATE_BOOKING";
             $reservationObj = array(
                 "casId" => $reservation->getCASId(),
@@ -87,36 +96,40 @@ class NotificationService extends Controller
             );
 
             $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            $this->createNotification($reservationObj,$subType, $response);
+
+            if($response != null)
+                $this->createNotification($reservationObj,$subType, $response);
         }
     }
 
     private function sendSMSNotification($mobileNumber, $message, $subtype)
     {
-        $data['sms'] = array(
-            'project' => $this->notificationServiceApiKey,//Obligatorio
-            'to' => "53".$mobileNumber,//8 digitos, comenzando con 5
-            'msg' => $message,//No obligatorio
-            'sms_type' => $subtype,//Obligatorio
-        );
+        if($this->notificationSendSms == 1) {
+            $data['sms'] = array(
+                'project' => $this->notificationServiceApiKey,//Obligatorio
+                'to' => "53" . $mobileNumber,//8 digitos, comenzando con 5
+                'msg' => $message,//No obligatorio
+                'sms_type' => $subtype,//Obligatorio
+            );
 
-        $url= $this->serviceNotificationUrl.'/api/sms/add';
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        $response = curl_exec($curl);
-        $info = curl_getinfo($curl);
-        curl_close($curl);
-        $code = $info['http_code'];
+            $url = $this->serviceNotificationUrl . '/api/sms/add';
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+            $response = curl_exec($curl);
+            $info = curl_getinfo($curl);
+            curl_close($curl);
+            $code = $info['http_code'];
 
-        return array(
-            "code" => $code,
-            "response" => $response,
-            "message" => $message,
-            "mobile" => $mobileNumber
-        );
-
+            return array(
+                "code" => $code,
+                "response" => $response,
+                "message" => $message,
+                "mobile" => $mobileNumber
+            );
+        }
+        return null;
     }
 
     private function createNotification($reservationObj, $subType, $response)

@@ -157,6 +157,7 @@ class commentRepository extends EntityRepository {
     }
 
     function canComment($user, $own_id) {
+
         if ($user != null && $user != "anon.") {
             $em = $this->getEntityManager();
             $reservations = count($em->getRepository('mycpBundle:ownershipReservation')->getByOwnershipAndUser(ownershipReservation::STATUS_RESERVED, $own_id, $user));

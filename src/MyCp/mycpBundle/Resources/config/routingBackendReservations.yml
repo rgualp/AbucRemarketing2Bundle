@@ -68,8 +68,8 @@ mycp_changes_dates_reservation:
     defaults: { _controller: mycpBundle:BackendReservation:changeDates }
 
 mycp_new_offer_to_client:
-    pattern:  /new-offer-to-client/{idClient}
-    defaults: { _controller: mycpBundle:BackendReservation:newCleanOffer, idClient:'' }
+    pattern:  /new-offer-to-client/{idClient}/{attendedDate}
+    defaults: { _controller: mycpBundle:BackendReservation:newCleanOffer, idClient:'',attendedDate:'' }
 
 mycp_reservation_bookings_callback:
     pattern:  /reservation-bookings-callback/
@@ -102,3 +102,11 @@ mycp_list_reservations_byuser:
 mycp_export_users_reservations:
     pattern:  /export-users/reservations/{idClient}
     defaults: { _controller: mycpBundle:BackendReservation:exportUsersReservations}
+
+mycp_generate_clients_callback:
+    pattern:  /generate_client/
+    defaults: { _controller: mycpBundle:BackendReservation:generateClientCallback }
+
+mycp_download_clients:
+    pattern:  /download_clients
+    defaults: { _controller: mycpBundle:BackendReservation:downloadClientCallback}

@@ -3671,6 +3671,51 @@
                         <source>MYCASA_RENTA_APP</source>
                         <target>MYCASA RENTA APP</target>
                         </trans-unit>
+
+              <trans-unit id="928">
+                <source>find_reservations</source>
+                <target>Find your reservations</target>
+              </trans-unit>
+              <trans-unit id="929">
+                <source>mycasatrip_location</source>
+                <target>Location</target>
+              </trans-unit>
+              <trans-unit id="930">
+                <source>mycasatrip_location_text</source>
+                <target>Get to know through the map the exact location of your active reservations.</target>
+              </trans-unit>
+              <trans-unit id="931">
+                <source>mycasatrip_optimization</source>
+                <target>Optimization</target>
+              </trans-unit>
+              <trans-unit id="932">
+                                   <source>mycasatrip_optimization_text</source>
+                                   <target>Trace out your route on your mobile phone.</target>
+                                </trans-unit>
+              <trans-unit id="933">
+                                            <source>mycasatrip_description</source>
+                                            <target>MyCasa Trip is a mobile application that through a map offers you the exact location of your active reservations; you can calculate the distance among them and get to know how to get there in an efficient and fast way.</target>
+                                         </trans-unit>
+              <trans-unit id="934">
+                                            <source>mycasatrip_accuracy</source>
+                                            <target>Accuracy</target>
+                                         </trans-unit>
+              <trans-unit id="935">
+                                                     <source>mycasatrip_accuracy_text</source>
+                                                     <target>Calculate the exact distance among your reservation places.</target>
+                                                  </trans-unit>
+              <trans-unit id="936">
+                                                              <source>mycasatrip_reservations_text</source>
+                                                              <target>Find the details of your active reservations through MyCasa Trip.</target>
+                                                           </trans-unit>
+              <trans-unit id="937">
+                                                                       <source>mycasatrip_bearing</source>
+                                                                       <target>Bearing</target>
+                                                                    </trans-unit>
+                       <trans-unit id="938">
+                                                                                <source>mycasatrip_bearing_text</source>
+                                                                                <target>Consult the indications so that your route can be more effective.</target>
+                                                                             </trans-unit>
         </body>
     </file>
 </xliff>

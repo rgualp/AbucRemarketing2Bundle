@@ -94,6 +94,12 @@
                 </div>
             </div>
             <div class="row-fluid">
+                <div class="span3">
+                    <div class="btn-group dropup btn-action-download" data-url="{{path("mycp_generate_clients_callback")}}" data-reload="{{ path("mycp_list_reservations_byuser", {'items_per_page':items_per_page, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to}) }}" style="display:inline-table">
+                        <button type="button" class="btn-mini btn-success" onclick="javascript:download()">Descargar</button>
+                    </div>
+                    <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+                </div>
                 <div class="span9">
                     <div class="paginator-cont">
 
@@ -114,7 +120,9 @@
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Fecha</th>
+                    <th>Hora</th>
                     <th>Id</th>
                     <th>Cliente</th>
                     <th>Solicitudes</th>
@@ -137,7 +145,13 @@
                     {%set notAttended = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_NOT_ATTENDED')%}
                     {%set incomplete = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_INCOMPLETE')%}
                 <tr class="{% if status==attended %}success{%endif%}{% if status==paid %}info{%endif%}{% if status==notAttended%}warning{% endif %} {% if status==incomplete%}yellow{%endif%}">
+                    <td>
+                        {% if status != attended and status != paid and reservation.gen_res_date|date("U") >= "-72 hours"|date("U") %}
+                        <input type="checkbox" name="check_users" class="ch_reservation" data-user-id="{{reservation.user_id}}"/>
+                        {% endif %}
+                    </td>
                     <td>{{ reservation.gen_res_date | date('d/m/Y') }}</td>
+                    <td>{% if reservation.hourRes != null %}{{ reservation.hourRes | date('H:i') }}{% else %}{{ reservation.hourSavedRes }}h{% endif %}</td>
                     <td>{{ reservation.user_id }}</td>
                     <td><a title="Editar datos del cliente" href="{{ path("mycp_edit_user_tourist",{"id_user": reservation.user_id}) }}">{{ reservation.user_user_name }} {{ reservation.user_last_name }}</a></td>
                     <td>{{ reservation.total }}</td>
@@ -164,10 +178,10 @@
                     </td>
                     <td>{% include 'mycpBundle:utils:clientStatus.html.twig' with {'status': status,'wrap': false, 'showInDiv': true} %}</td>
                     <td style="text-align: right">
-                        {% if status != attended and reservation.gen_res_date|date("U") >= "-48 hours"|date("U")%}
+                        {% if status != attended and reservation.gen_res_date|date("U") >= "-72 hours"|date("U")%}
                         <a title="Exportar" class="btn btn-mini btn-success" href="{{path('mycp_export_users_reservations', {'idClient': reservation.user_id})}}"><i class="icon-download-alt"></i></a>
                         {% endif %}
-                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id})}}"><i class="icon-asterisk icon-white"></i></a>
+                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>
                         <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}"><i class="icon-tags"></i></a>
                     </td>
                 </tr>
@@ -176,6 +190,13 @@
                 </tbody>
             </table>
             <div class="row-fluid">
+                <div class="span3">
+                    <div class="btn-group dropup btn-action-download" data-url="{{path("mycp_generate_clients_callback")}}" data-reload="{{ path("mycp_list_reservations_byuser", {'items_per_page':items_per_page, 'filter_name':filter_name,'filter_status':filter_status,'filter_accommodation':filter_accommodation,'filter_destination':filter_destination,'filter_range_from':filter_range_from,'filter_range_to':filter_range_to}) }}" style="display:inline-table">
+                        <button type="button" class="btn-mini btn-success" onclick="javascript:download()">Descargar</button>
+                    </div>
+                    <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+
+                </div>
                 <div class="paginator-cont span9">
                     {{ simple_paginator_render('mycp_list_reservations_byuser',null,{
                 'container_class': 'paginator',
@@ -241,6 +262,38 @@
             url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_status+'/'+filter_accommodation+'/'+filter_destination+'/'+filter_range_from+'/'+filter_range_to;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
+        }
+
+        function download()
+        {
+            $(".lblLoading").removeClass("hidden");
+            var checkValues = $('input[name=check_users]:checked').map(function() {
+                return $(this).attr('data-user-id');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                alert("Seleccione alguno de los elementos");
+                return;
+            }
+
+            var url = $(".btn-action-download").attr("data-url");
+            //var reload = $(".btn-action-download").attr("data-reload");
+            $.post(url, {
+                'users_ids': checkValues,
+                'page': 0
+
+            }, function(data) {
+                if(data != "ERROR")
+                {
+                    window.location = data;
+                    $(".lblLoading").addClass("hidden");
+                }
+                else {
+                    alert(data);
+                    $(".lblLoading").addClass("hidden");
+                }
+            });
         }
 
     </script>
