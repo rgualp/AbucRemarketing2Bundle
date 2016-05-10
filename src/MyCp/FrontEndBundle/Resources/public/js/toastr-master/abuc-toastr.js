@@ -2,8 +2,8 @@
  * Created by mgleon on 7/09/2015.
  */
 $(function () {
-    sabrus = {};
-    sabrus.msg = (function () {
+    hds = {};
+    hds.msg = (function () {
         var indexsTypes = {
             success: 0,
             info: 1,

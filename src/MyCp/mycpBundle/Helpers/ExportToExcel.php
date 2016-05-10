@@ -2068,6 +2068,129 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 
         return $excel;
     }
+
+    public function generateClients($clients, $fileName = "reservasClientes") {
+        $excel = $this->configExcel("Reporte de reservas de los clientes", "Reporte de reservas de los clientes de MyCasaParticular", "reportes");
+
+        $data = $this->dataClientsReservations($clients);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetClientsReservations($excel,"Clientes-Reservas", $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        //return $this->export($fileName);
+        return $fileName;
+    }
+
+    public function exportClients($fileName = "reservasClientes") {
+        $fileName = $this->getFileName($fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataClientsReservations($clients) {
+        $results = array();
+
+        foreach($clients as $idClient){
+            $data = array();
+
+            $client = $this->em->getRepository('mycpBundle:user')->find($idClient);
+            $userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $idClient));
+
+            $data[0] = "Cliente: ".$client->getUserUserName()." ".$client->getUserLastName();
+            $data[1] = "";
+            $data[2] = 'País: '.$client->getUserCountry()->getCoName();
+            $data[3] = "";
+            $data[4] = 'Idioma: '.$userTourist->getUserTouristLanguage()->getLangName();
+            $data[5] = "";
+            $data[6] = 'Moneda: '.$userTourist->getUserTouristCurrency()->getCurrCode();
+            $data[7] = "";
+            $data[8] = "";
+            $data[9] = "";
+            $data[10] = "";
+            array_push($results, $data);
+
+            $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsRoomsByUser($idClient);
+            $index = 1;
+            $currentReservation = 0;
+            foreach ($reportContent as $content) {
+
+                if ($currentReservation != $content["gen_res_id"]) {
+                    $data[0] = $index++;
+                    $currentReservation = $content["gen_res_id"];
+                    $date = $content["gen_res_date"];
+                    $data[1] = date('d/m/Y', $date->getTimestamp());
+                    $data[2] = $content["gen_res_id"];
+                    $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
+                    $data[4] = $content["own_mcp_code"];
+                } else {
+                    $data[0] = "";
+                    $data[1] = "";
+                    $data[2] = "";
+                    $data[3] = "";
+                    $data[4] = "";
+                }
+
+                $data[5] = room::getShortRoomType($content["own_res_room_type"]);
+                $data[6] = $content["own_res_count_adults"];
+                $data[7] = $content["own_res_count_childrens"];
+                $data[8] = $content["own_res_total_in_site"];
+                $date = $content["own_res_reservation_from_date"];
+                $data[9] = date('d/m/Y', $date->getTimestamp());
+                $data[10] = $content["nights"];
+                //
+
+
+                array_push($results, $data);
+            }
+        }
+
+        return $results;
+    }
+
+    private function createSheetClientsReservations($excel, $sheetName, $data) {
+
+        $sheet = $this->createSheet($excel, $sheetName);
+        $now = new \DateTime();
+        $sheet->setCellValue('a1', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a3', 'No.');
+        $sheet->setCellValue('b3', 'Fecha');
+        $sheet->setCellValue('c3', 'Reserva');
+        $sheet->setCellValue('d3', 'Estado');
+        $sheet->setCellValue('e3', 'Alojamiento');
+        $sheet->setCellValue('f3', 'Habitación');
+        $sheet->setCellValue('g3', 'Adultos');
+        $sheet->setCellValue('h3', 'Niños');
+        $sheet->setCellValue('i3', 'Precio');
+        $sheet->setCellValue('j3', 'Llegada');
+        $sheet->setCellValue('k3', 'Noches');
+
+        $sheet = $this->styleHeader("a3:k3", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+        /*$sheet->mergeCells("A1:k1");
+        $sheet->mergeCells("A4:k4");*/
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:k1")->applyFromArray($centerStyle);
+
+        $sheet->fromArray($data, ' ', 'A4');
+        $this->setColumnAutoSize("a", "k", $sheet);
+        /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+        $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
+
+        return $excel;
+    }
 }
 
 ?>
