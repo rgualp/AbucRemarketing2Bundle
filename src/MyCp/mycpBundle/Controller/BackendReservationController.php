@@ -1269,7 +1269,8 @@ class BackendReservationController extends Controller {
     function downloadClientCallbackAction()
     {
         $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportClients();
+        $result=$exporter->exportClients();
+        return $result!=false?$result:array();
     }
 }
 
