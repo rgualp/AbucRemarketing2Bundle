@@ -44,16 +44,20 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 			'yanet.moralesr@gmail.com',
 			'ander@mycasaparticular.com',
 			'arieskienmendoza@gmail.com',
-			'yenisi@hds.li',
-			'damian.flores@hds.li',
-			'olga.dias@hds.li'
+			'galopezturinno@gmail.com'
+//			'yenisi@hds.li',
+//			'damian.flores@hds.li',
+//			'olga.dias@hds.li',
+//			'galopezturinno@gmail.com'
 		);
-//		$ownerships= $this->getOwnerships();
-//		foreach ($ownerships as $ownership) {
-//
-//			$mail = trim($ownership->getOwnEmail1());
-//			if (empty($mail))
-//				$mail = trim($ownership->getOwnEmail2());
+		$ownerships= $this->getOwnerships();
+		foreach ($ownerships as $ownership) {
+			$mail = trim($ownership->getOwnEmail1());
+			if (empty($mail))
+				$mail = trim($ownership->getOwnEmail2());
+
+			$mails[]= $mail;
+		}
 
 		foreach ($mails as $mail) {
 
@@ -62,7 +66,7 @@ class SendEmailTrinidadCommand extends ContainerAwareCommand
 			$from_email= 'no_responder@mycasaparticular.com';
 			$from_name= 'MyCasaParticular.com';
 //			$email_type= 'NOTIFICATION_USERS_TRINIDAD';
-			$email_type= 'TEST_NOTIFICATION_USERS_TRINIDAD';
+			$email_type= 'NOTIFICATION_USERS_TRINIDAD';
 
 			$email_manager = $this->container->get('mycp.service.email_manager');
 			$data= array();
