@@ -1765,6 +1765,472 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
     }
 
+/**Facturacion*/
+
+    public function clientsFacturationSummaryAction(Request $request)
+    {
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+
+        if($timer->diffInDays($dateFrom, $dateTo) > 30) {
+            $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
+            //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        }
+
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo);
+
+        $tc = 0;
+        $ts = 0;
+        $tpi = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($clientsSummary as $item)
+        {
+            $tc += $item["clientes"];
+            $ts += $item["solicitudes"];
+            $tpi += $item["personas_involucradas"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tcd = 0;
+        $tsd= 0;
+        $tpid = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($clientsSummaryAvailable as $item)
+        {
+            $tcd += $item["clientes"];
+            $tsd += $item["solicitudes"];
+            $tpid += $item["personas_involucradas"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $tcp = 0;
+        $trp = 0;
+        $thp = 0;
+        $tpip = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tcp += $item["clientes"];
+            $trp += $item["solicitudes"];
+            $thp += $item["habitaciones"];
+            $tpip += $item["personas_involucradas"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "tc"=>$tc,"ts" => $ts, "tpi"=>$tpi, "ths" => $ths, "tns" => $tns,
+            "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
+            "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+        return $this->render('mycpBundle:reports:clientsSummaryReport.html.twig', array(
+            'clientsSummary' => $clientsSummary,
+            'clientsSummaryAvailable' => $clientsSummaryAvailable,
+            'clientsSummaryPayments' => $clientsSummaryPayments,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'summary' => $summary,
+            "dateFilter" => "d/m/Y"
+        ));
+    }
+
+    public function clientsFacturationSummaryExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        /*$exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
+//        throw new NotImplementedException("En construcción");
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $from_date;
+        $dateTo = $to_date;
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+
+        if($timer->diffInDays($dateFrom, $dateTo) > 30) {
+            $dateTo = $timer->add("+30 day", $dateFrom, "Y-m-d");
+            //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+        }
+
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo);
+
+        $tc = 0;
+        $ts = 0;
+        $tpi = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($clientsSummary as $item)
+        {
+            $tc += $item["clientes"];
+            $ts += $item["solicitudes"];
+            $tpi += $item["personas_involucradas"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tcd = 0;
+        $tsd= 0;
+        $tpid = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($clientsSummaryAvailable as $item)
+        {
+            $tcd += $item["clientes"];
+            $tsd += $item["solicitudes"];
+            $tpid += $item["personas_involucradas"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $tcp = 0;
+        $trp = 0;
+        $thp = 0;
+        $tpip = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tcp += $item["clientes"];
+            $trp += $item["solicitudes"];
+            $thp += $item["habitaciones"];
+            $tpip += $item["personas_involucradas"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "tc"=>$tc,"ts" => $ts, "tpi"=>$tpi, "ths" => $ths, "tns" => $tns,
+            "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
+            "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+        $html= $this->renderView('mycpBundle:reports:clientsSummaryReportPdf.html.twig', array(
+            'clientsSummary' => $clientsSummary,
+            'clientsSummaryAvailable' => $clientsSummaryAvailable,
+            'clientsSummaryPayments' => $clientsSummaryPayments,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'summary' => $summary,
+            "dateFilter" => "d/m/Y"
+        ));
+        $name='clientsSummayReportDaily';
+        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+        $dompdf->stream($name . ".pdf", array("Attachment" => false));
+    }
+
+    public function clientsFacturationSummaryMonthlyAction(Request $request)
+    {
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo);
+
+        $tc = 0;
+        $ts = 0;
+        $tpi = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($clientsSummary as $item)
+        {
+            $tc += $item["clientes"];
+            $ts += $item["solicitudes"];
+            $tpi += $item["personas_involucradas"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tcd = 0;
+        $tsd= 0;
+        $tpid = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($clientsSummaryAvailable as $item)
+        {
+            $tcd += $item["clientes"];
+            $tsd += $item["solicitudes"];
+            $tpid += $item["personas_involucradas"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $tcp = 0;
+        $trp = 0;
+        $thp = 0;
+        $tpip = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tcp += $item["clientes"];
+            $trp += $item["solicitudes"];
+            $thp += $item["habitaciones"];
+            $tpip += $item["personas_involucradas"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "tc"=>$tc,"ts" => $ts, "tpi"=>$tpi, "ths" => $ths, "tns" => $tns,
+            "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
+            "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+        return $this->render('mycpBundle:reports:clientsSummaryReport.html.twig', array(
+            'clientsSummary' => $clientsSummary,
+            'clientsSummaryAvailable' => $clientsSummaryAvailable,
+            'clientsSummaryPayments' => $clientsSummaryPayments,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'summary' => $summary,
+            "dateFilter" => "F"
+        ));
+    }
+
+    public function clientsFacturationSummaryExcelMonthlyAction(Request $request,$report, $from_date, $to_date)
+    {
+        /*$exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
+//        throw new NotImplementedException("En construcción");
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $from_date;
+        $dateTo = $to_date;
+        //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
+
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo);
+
+        $tc = 0;
+        $ts = 0;
+        $tpi = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($clientsSummary as $item)
+        {
+            $tc += $item["clientes"];
+            $ts += $item["solicitudes"];
+            $tpi += $item["personas_involucradas"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tcd = 0;
+        $tsd= 0;
+        $tpid = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($clientsSummaryAvailable as $item)
+        {
+            $tcd += $item["clientes"];
+            $tsd += $item["solicitudes"];
+            $tpid += $item["personas_involucradas"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $tcp = 0;
+        $trp = 0;
+        $thp = 0;
+        $tpip = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tcp += $item["clientes"];
+            $trp += $item["solicitudes"];
+            $thp += $item["habitaciones"];
+            $tpip += $item["personas_involucradas"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "tc"=>$tc,"ts" => $ts, "tpi"=>$tpi, "ths" => $ths, "tns" => $tns,
+            "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
+            "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+        $html= $this->renderView('mycpBundle:reports:clientsSummaryReportPdf.html.twig', array(
+            'clientsSummary' => $clientsSummary,
+            'clientsSummaryAvailable' => $clientsSummaryAvailable,
+            'clientsSummaryPayments' => $clientsSummaryPayments,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'summary' => $summary,
+            "dateFilter" => "F"
+        ));
+        $name='clientsSummayReportMonthly';
+        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+        $dompdf->stream($name . ".pdf", array("Attachment" => false));
+    }
+
+    public function clientsFacturationSummaryYearlyAction(Request $request)
+    {
+        $timer = $this->get("Time");
+        $em = $this->getDoctrine()->getManager();
+
+
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation();
+
+        $tc = 0;
+        $ts = 0;
+        $tpi = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($clientsSummary as $item)
+        {
+            $tc += $item["clientes"];
+            $ts += $item["solicitudes"];
+            $tpi += $item["personas_involucradas"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tcd = 0;
+        $tsd= 0;
+        $tpid = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($clientsSummaryAvailable as $item)
+        {
+            $tcd += $item["clientes"];
+            $tsd += $item["solicitudes"];
+            $tpid += $item["personas_involucradas"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $tcp = 0;
+        $trp = 0;
+        $thp = 0;
+        $tpip = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tcp += $item["clientes"];
+            $trp += $item["solicitudes"];
+            $thp += $item["habitaciones"];
+            $tpip += $item["personas_involucradas"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "tc"=>$tc,"ts" => $ts, "tpi"=>$tpi, "ths" => $ths, "tns" => $tns,
+            "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
+            "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+        return $this->render('mycpBundle:reports:clientsSummaryReport.html.twig', array(
+            'clientsSummary' => $clientsSummary,
+            'clientsSummaryAvailable' => $clientsSummaryAvailable,
+            'clientsSummaryPayments' => $clientsSummaryPayments,
+            'summary' => $summary,
+            "dateFilter" => "Y"
+        ));
+    }
+
+    public function clientsFacturationSummaryExcelYearlyAction(Request $request,$report)
+    {
+        /*$exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
+//        throw new NotImplementedException("En construcción");
+        $em = $this->getDoctrine()->getManager();
+
+
+
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation();
+
+        $tc = 0;
+        $ts = 0;
+        $tpi = 0;
+        $ths = 0;
+        $tns = 0;
+        foreach($clientsSummary as $item)
+        {
+            $tc += $item["clientes"];
+            $ts += $item["solicitudes"];
+            $tpi += $item["personas_involucradas"];
+            $ths += $item["habitaciones"];
+            $tns += $item["noches"];
+        }
+
+        $tcd = 0;
+        $tsd= 0;
+        $tpid = 0;
+        $thsd = 0;
+        $tnsd = 0;
+        foreach($clientsSummaryAvailable as $item)
+        {
+            $tcd += $item["clientes"];
+            $tsd += $item["solicitudes"];
+            $tpid += $item["personas_involucradas"];
+            $thsd += $item["habitaciones"];
+            $tnsd += $item["noches"];
+        }
+
+        $tcp = 0;
+        $trp = 0;
+        $thp = 0;
+        $tpip = 0;
+        $tnp = 0;
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tcp += $item["clientes"];
+            $trp += $item["solicitudes"];
+            $thp += $item["habitaciones"];
+            $tpip += $item["personas_involucradas"];
+            $tnp += $item["noches"];
+            $tfr += $item["facturacion"];
+        }
+
+        $summary = array(
+            "tc"=>$tc,"ts" => $ts, "tpi"=>$tpi, "ths" => $ths, "tns" => $tns,
+            "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
+            "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+        );
+        $html= $this->renderView('mycpBundle:reports:clientsSummaryReportPdf.html.twig', array(
+            'clientsSummary' => $clientsSummary,
+            'clientsSummaryAvailable' => $clientsSummaryAvailable,
+            'clientsSummaryPayments' => $clientsSummaryPayments,
+            'summary' => $summary,
+            "dateFilter" => "Y"
+        ));
+        $name='clientsSummayReportYearly';
+        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+        $dompdf->stream($name . ".pdf", array("Attachment" => false));
+    }
+
     public function reservationsStatementExcelAction(Request $request){
         $exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportReservationsStatement($request);
