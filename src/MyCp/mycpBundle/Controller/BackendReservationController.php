@@ -1261,7 +1261,7 @@ class BackendReservationController extends Controller {
         $users_ids = array_unique($request->request->get('users_ids'));
 
         $exporter = $this->get("mycp.service.export_to_excel");
-        $exporter->generateClients($users_ids, true);
+        $exporter->generateClients($users_ids);
 
         return new Response($this->generateUrl("mycp_download_clients"), 200);
     }
@@ -1269,6 +1269,7 @@ class BackendReservationController extends Controller {
     function downloadClientCallbackAction()
     {
         $exporter = $this->get("mycp.service.export_to_excel");
+//        $result=$exporter->exportClients();
         return $exporter->exportClients();
     }
 }
