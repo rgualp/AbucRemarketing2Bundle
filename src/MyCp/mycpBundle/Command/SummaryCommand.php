@@ -70,6 +70,7 @@ class SummaryCommand extends ContainerAwareCommand
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
         $factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($yesterday,$day);
+        $factura=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($yesterday,$yesterday);
 
         $clientPendig=$em->getRepository("mycpBundle:generalReservation")->clientPendig();
 
@@ -102,13 +103,14 @@ class SummaryCommand extends ContainerAwareCommand
                 'clientPending'=>count($clientPendig),
                 'totalPending'=>$totalPending,
                 'totalClient'=>count($clientPendig)+$reserved[0][1],
-                'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:$totalPending
+                'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:$totalPending,
+                'factura'=>(count($factura))?$factura[0]['facturacion']:0
             ));
 
         try {
             $subject = "Sumario MyCasaParticular";
 
-            $emailService->sendEmail(array('natalie@mycasaparticular.com','ptorres@mycasaparticular.com','anne.schweizer@abuc.ch','damian.flores@mycasaparticular.com','ander@mycasaparticular.com'), $subject,  $body, 'no-responder@mycasaparticular.com');
+            $emailService->sendEmail(array('laura@hds.li','ptorres@abuc.ch','natalie@mycasaparticular.com','ptorres@mycasaparticular.com','anne.schweizer@abuc.ch','damian.flores@mycasaparticular.com','ander@mycasaparticular.com'), $subject,  $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email');
 
 

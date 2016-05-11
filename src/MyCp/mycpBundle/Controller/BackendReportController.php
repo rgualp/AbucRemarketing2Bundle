@@ -1188,7 +1188,10 @@ ORDER BY own.own_mcp_code ASC
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummary();
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryAvailable();
         $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryPayments();
-
+        $reservationSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($reservationSummaryFacturation as  $i=>$y){
+            $reservationSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        }
         $ts = 0;
         $ths = 0;
         $tns = 0;
@@ -1243,7 +1246,10 @@ ORDER BY own.own_mcp_code ASC
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummary();
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryAvailable();
         $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationYearlySummaryPayments();
-
+        $reservationSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($reservationSummaryFacturation as  $i=>$y){
+            $reservationSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        }
         $ts = 0;
         $ths = 0;
         $tns = 0;
@@ -1628,7 +1634,10 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPayments();
-
+        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($clientsSummaryFacturation as  $i=>$y){
+            $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        }
         $tc = 0;
         $ts = 0;
         $tpi = 0;
@@ -1699,7 +1708,10 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPayments();
-
+        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($clientsSummaryFacturation as  $i=>$y){
+            $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        }
         $tc = 0;
         $ts = 0;
         $tpi = 0;
@@ -2094,7 +2106,11 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation();
-
+        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($clientsSummaryFacturation as  $i=>$y){
+            $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        }
+//        die(dump($clientsSummaryPayments));
         $tc = 0;
         $ts = 0;
         $tpi = 0;
@@ -2165,7 +2181,10 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation();
-
+        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($clientsSummaryFacturation as  $i=>$y){
+            $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        }
         $tc = 0;
         $ts = 0;
         $tpi = 0;

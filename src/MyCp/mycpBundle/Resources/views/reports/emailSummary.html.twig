@@ -1,4 +1,4 @@
-{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 {% block styles %}
  {% include 'mycpBundle:reports:styles.html.twig' %}
 {% endblock %}
@@ -20,6 +20,12 @@
                 <b>Facturación:</b> {{ factu }} CUC
             </td>
         </tr>
+        <tr>
+            <td>
+                <b>Facturación Neta:</b> {{ factura }} CUC
+            </td>
+        </tr>
+
         </tbody>
     </table>
 
