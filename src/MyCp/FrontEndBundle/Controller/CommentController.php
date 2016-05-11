@@ -3,8 +3,10 @@
 namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 class CommentController extends Controller {
@@ -13,6 +15,9 @@ class CommentController extends Controller {
     public function insertAction($ownid, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
+        if(!$user instanceof UserInterface){
+            return new RedirectResponse($this->generateUrl('frontend_login'));
+        }
         $data = array();
         $data['com_ownership_id'] = $ownid;
         $data['com_rating'] = $request->get('com_rating');

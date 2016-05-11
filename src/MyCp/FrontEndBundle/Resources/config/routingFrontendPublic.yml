@@ -17,3 +17,7 @@ frontend_download_apprenta:
 frontend_download_apptrip:
     locales:  { en: "/apptrip", es: "/apptrip", de: "/apptrip" }
     defaults: { _controller: FrontEndBundle:Public:appTripDownload }
+
+frontend_mycasatrip_apps:
+    locales:  { en: "/apps/mycasatrip", es: "/apps/mycasatrip", de: "/apps/mycasatrip" }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:appsMycasatrip }
