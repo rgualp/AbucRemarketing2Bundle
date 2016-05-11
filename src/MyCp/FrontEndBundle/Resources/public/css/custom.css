@@ -160,7 +160,8 @@ div#div_b h4{
 
 .banner_footer{
     background: url("../bundles/frontend/img/mycasatrip/imagmovil.png") no-repeat;
-    padding: 20px;
+    padding-top: 135px;
+    padding-bottom: 135px;
     width: 100%;
     background-size: 100%;
 }
