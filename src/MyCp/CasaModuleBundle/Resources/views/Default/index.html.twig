@@ -6,9 +6,28 @@
 {% block content %}
 
     <div class="wrapper wrapper-content">
-        <div class="middle-box text-center animated fadeInRightBig">
-            <h3 class="font-bold">Hola cliente casa {{ app.user.getName }}</h3>
+        {#<div class="middle-box text-center animated fadeInRightBig">#}
+            {#<h3 class="font-bold">Hola cliente casa {{ app.user.getName }}</h3>#}
+        {#</div>#}
+        <div class="col-md-12">
+            <div class="row row-eq-height">
+           <div class="col-md-9 white-bg">
+            <h2 class="font-blue">Publique su oferta en solo 6 pasos más!</h2>
+           <ol class="owner-list">
+              <li>Complete los datos de su propiedad</li>
+              <li>Describa su alojamiento de manera sencilla y breve</li>
+              <li>Detalle las características de sus habitaciones</li>
+              <li>Seleccione las comodidades para su oferta</li>
+              <li>Suba las fotos que desea</li>
+              <li>Ingrese otros datos de propietario</li>
+           </ol>
+            </div>
+            <div class="col-md-3 oneblue-bg">
+              <h3 class="m-t-20">Por favor</h3>
+                <p>evite el uso de palabras ofensivas, la promoción de otros sitios, así como URls de enlaces externos, de lo contrario su propiedad no sera publicada!!!</p>
+            </div>
+            </div>
         </div>
-    </div>
 
+    </div>
 {% endblock content %}

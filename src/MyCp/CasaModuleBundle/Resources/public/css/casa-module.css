@@ -170,3 +170,98 @@ body.mini-navbar.fixed-sidebar .profile-element, .block {
 .white{
     color: white;
 }
+
+.nav.navbar-right > li > a {
+    color: #64a433;
+    font-size: 18px;
+    font-weight: 400;
+}
+.nav > li > a i {
+    color: #b3b3b3;
+}
+.nav > li.active a span {
+    color: white;
+}
+#side-menu li.active::after {
+    border-bottom: 20px solid transparent;
+    border-right: 20px solid #f3f3f4;
+    border-top: 20px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 20%;
+    width: 0;
+}
+.nav > li.active {
+    border-left: none;
+}
+.oneblue-bg{
+    background-color: #90a4ae;
+    color:#f3f3f3;
+}
+.wrapper-content {
+    padding: 0;
+}
+ol.owner-list {
+    font-size: 16px;
+}
+.owner-list > li {
+    margin-bottom: 5px;
+}
+
+ol {
+    counter-reset:li; /* Initiate a counter */
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ol > li {
+    position:relative; /* Create a positioning context */
+    margin:0 0 6px 2em; /* Give each list item a left margin to make room for the numbers */
+    padding:4px 8px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+    /*border-top:2px solid #666;*/
+    /*background:#f6f6f6;*/
+}
+/*ol > li:before {*/
+    /*content:counter(li); !* Use the counter as content *!*/
+    /*counter-increment:li; !* Increment the counter by 1 *!*/
+    /*!* Position and style the number *!*/
+    /*position:absolute;*/
+    /*top:-2px;*/
+    /*left:-2em;*/
+    /*-moz-box-sizing:border-box;*/
+    /*-webkit-box-sizing:border-box;*/
+    /*box-sizing:border-box;*/
+    /*width:2em;*/
+    /*!* Some space between the number and the content in browsers that support*/
+       /*generated content but not positioning it (Camino 2 is one example) *!*/
+    /*margin-right:8px;*/
+    /*padding:4px;*/
+    /*border-top:2px solid #666;*/
+    /*color:#fff;*/
+    /*background:#666;*/
+    /*font-weight:bold;*/
+    /*font-family:"Helvetica Neue", Arial, sans-serif;*/
+    /*text-align:center;*/
+/*}*/
+/*li ol,*/
+/*li ul {margin-top:6px;}*/
+/*ol ol li:last-child {margin-bottom:0;}*/
+
+ol > li::before {
+    color: #64a433;
+    content: counter(li, decimal);
+    counter-increment: li;
+    /*font-family: "Helvetica Neue",Arial,sans-serif;*/
+    font-size: 27px;
+    left: -1em;
+    margin-right: 3px;
+}
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+}

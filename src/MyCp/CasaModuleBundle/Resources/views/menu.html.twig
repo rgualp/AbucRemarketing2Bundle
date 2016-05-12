@@ -5,9 +5,10 @@
         {#<span class="fa arrow"></span>#}
     {#</a>#}
     {#<ul class="nav nav-second-level collapse" style="height: 0px;">#}
-         <li class="m-t-20 nav-label" style="padding-left: 14px;">
-            <span class="nav-label white">Propiedad</span></a><br>
-            <span class="nav-label header-label white">{{ app.user.userUserCasa[0].userCasaOwnership.ownName }}</span></a>
+         <li class="m-t-20 nav-label {{ activeClass('my_cp_casa_module_homepage') }}" style="margin-left: 0;">
+             <a href="{{ path('my_cp_casa_module_homepage') }}">
+            <span class="nav-label">Propiedad</span><br>
+            <span class="nav-label header-label">{{ app.user.userUserCasa[0].userCasaOwnership.ownName }}</span></a>
 
         </li>
          <li class="{{ activeClass('hdspayments_admin_payments_list') }}">
