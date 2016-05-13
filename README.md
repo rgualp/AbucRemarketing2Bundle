@@ -31,3 +31,16 @@ We would like all developers to commit code to the develop branch. The develop b
 
 For new features that take more time and commits than changing some lines of code we would like all developers to create feature branches from develop and merge them back to develop when you are finished with the feature. Then the feature branch can be deleted.
 
+Working with emails (NotificationMailService)
+-----------------------------
+
+* Class file (NotificationMailService):  
+    * src/MyCp/mycpBundle/Service/NotificationMailService.php  
+* Service (mycp.notification.mail.service):  
+    * src/MyCp/mycpBundle/Resources/config/services.yml  
+* Example  
+    * src/MyCp/mycpBundle/Command/TestMailCommand.php
+    * src/MyCp/mycpBundle/Command/SendEmailTrinidadCommand.php
+
+
+

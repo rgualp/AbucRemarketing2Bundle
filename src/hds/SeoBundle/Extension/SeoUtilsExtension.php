@@ -63,7 +63,6 @@ class SeoUtilsExtension extends \Twig_Extension
 
 		$metas= '';
 		try{
-			throw new \Exception('LOLO');
 			$block= $this->block_repository->findOneBy(array('name'=>$block_name));
 			if(!$block){
 				return '<!--- Seo: Bloque "'.$block_name.'" no existe!!! --->';
@@ -90,6 +89,7 @@ class SeoUtilsExtension extends \Twig_Extension
 		}catch(\Exception $ee){
 			$content= $ee->getFile().':'.$ee->getLine().':'.$ee->getMessage();
 			$metas.= '<!---Seo: Ocurrio un ERROR!!! --->';
+			$metas.= '<!---'.$content.' --->';
 		}
 		return $metas;
 	}
