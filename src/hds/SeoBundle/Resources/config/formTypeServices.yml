@@ -3,3 +3,13 @@ services:
         class: hds\SeoBundle\Form\BlockType
         arguments:
             entityManager: "@doctrine.orm.entity_manager"
+
+    header_formtype:
+        class: hds\SeoBundle\Form\HeaderType
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+
+    headerblock_formtype:
+        class: hds\SeoBundle\Form\HeaderBlockType
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
