@@ -2,41 +2,46 @@
 <html id="top">
 <head>
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
-    <meta charset="utf-8">
-    <meta name="google-site-verification" content="D3B7Zo_ELB0RPsw2VojNY8ilJc4jeSyWiUB4va-vEx0" />
-    {%if section is not defined%}
-        {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}
-    {%endif%}
-    {%if meta_description is not defined%}
-        {%set meta_description =render(controller('FrontEndBundle:Public:getMetaTags', {'section':section, 'onlyDescription': true}))%}
-    {%endif%}
+
     {% block metas %}
-        {{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}
-    {% endblock %}
+        {{ get_metas('Main', app.session.get('app_lang_code')|lower )|raw }}
+    {% endblock metas %}
 
-    <meta name="author" content="ABUC media network GmbH">
-    <meta name="copyright" content="ABUC media network GmbH">
-    <meta name="language-content" content="{{app.request.locale}}">
+    {#<meta charset="utf-8">#}
+    {#<meta name="google-site-verification" content="D3B7Zo_ELB0RPsw2VojNY8ilJc4jeSyWiUB4va-vEx0" />#}
+    {#{%if section is not defined%}#}
+        {#{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}#}
+    {#{%endif%}#}
+    {#{%if meta_description is not defined%}#}
+        {#{%set meta_description =render(controller('FrontEndBundle:Public:getMetaTags', {'section':section, 'onlyDescription': true}))%}#}
+    {#{%endif%}#}
+    {#{% block metas %}#}
+        {#{{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}#}
+    {#{% endblock %}#}
 
-    {% block open_graph_metas %}
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@MyCP">
-    <meta name="twitter:title" content="MyCasaParticular *** {{block('title')}}">
-    <meta name="twitter:description" content="{{meta_description}}">
-    <meta name="twitter:creator" content="@MyCP">
-    <meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">
+    {#<meta name="author" content="ABUC media network GmbH">#}
+    {#<meta name="copyright" content="ABUC media network GmbH">#}
+    {#<meta name="language-content" content="{{app.request.locale}}">#}
 
-    <!-- Propiedades Open Graph -->
-    <meta property="og:title" content="MyCasaParticular *** {{block('title')}}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />
-    <meta property="og:author" content="ABUC media network GmbH" />
-    <meta property="og:site_name" content="MyCasaParticular" />
-    <meta property="og:description" content="{{meta_description}}" />
-    <meta property="og:url" content="http://www.mycasaparticular.com" />
-    <meta property=”fb:admins” content=”312774092497”/>
-    {% endblock %}
+    {#{% block open_graph_metas %}#}
+    {#<!-- Twitter -->#}
+    {#<meta name="twitter:card" content="summary">#}
+    {#<meta name="twitter:site" content="@MyCP">#}
+    {#<meta name="twitter:title" content="MyCasaParticular *** {{block('title')}}">#}
+    {#<meta name="twitter:description" content="{{meta_description}}">#}
+    {#<meta name="twitter:creator" content="@MyCP">#}
+    {#<meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">#}
+
+    {#<!-- Propiedades Open Graph -->#}
+    {#<meta property="og:title" content="MyCasaParticular *** {{block('title')}}" />#}
+    {#<meta property="og:type" content="website" />#}
+    {#<meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />#}
+    {#<meta property="og:author" content="ABUC media network GmbH" />#}
+    {#<meta property="og:site_name" content="MyCasaParticular" />#}
+    {#<meta property="og:description" content="{{meta_description}}" />#}
+    {#<meta property="og:url" content="http://www.mycasaparticular.com" />#}
+    {#<meta property=”fb:admins” content=”312774092497”/>#}
+    {#{% endblock %}#}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% stylesheets

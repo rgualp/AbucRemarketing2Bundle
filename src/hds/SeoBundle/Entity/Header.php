@@ -75,6 +75,15 @@ class Header
 		return '';
 	}
 
+	static public function getAllTypeTag()
+	{
+		$data = array(
+			'meta' => 'Meta',
+			'link' => 'Link',
+		);
+		return $data;
+	}
+
 	/**
 	 * Get id
 	 *
@@ -205,37 +214,37 @@ class Header
 		return $this->header_block;
 	}
 
-    /**
-     * Add content
-     *
-     * @param \hds\SeoBundle\Entity\Header $content
-     *
-     * @return Header
-     */
-    public function addContent(\hds\SeoBundle\Entity\Header $content)
-    {
-        $this->contents[] = $content;
+	/**
+	 * Add content
+	 *
+	 * @param \hds\SeoBundle\Entity\Header $content
+	 *
+	 * @return Header
+	 */
+	public function addContent(\hds\SeoBundle\Entity\Header $content)
+	{
+		$this->contents[] = $content;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove content
-     *
-     * @param \hds\SeoBundle\Entity\Header $content
-     */
-    public function removeContent(\hds\SeoBundle\Entity\Header $content)
-    {
-        $this->contents->removeElement($content);
-    }
+	/**
+	 * Remove content
+	 *
+	 * @param \hds\SeoBundle\Entity\Header $content
+	 */
+	public function removeContent(\hds\SeoBundle\Entity\Header $content)
+	{
+		$this->contents->removeElement($content);
+	}
 
-    /**
-     * Get contents
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getContents()
-    {
-        return $this->contents;
-    }
+	/**
+	 * Get contents
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getContents()
+	{
+		return $this->contents;
+	}
 }
