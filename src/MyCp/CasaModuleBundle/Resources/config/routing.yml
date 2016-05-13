@@ -17,9 +17,12 @@ my_cp_casa_login_check:
 my_cp_casa_logout:
     path: /logout
 my_cp_forget_password:
-    pattern:  /olvido-contrasenna/
+    path:  /olvido-contrasenna/
     defaults: { _controller: MyCpCasaModuleBundle:Security:forgotPassword}
 
 my_cp_change_password_user:
-    pattern:  /cambiar-contrasenna/{string}
+    path:  /cambiar-contrasenna/{string}
     defaults: { _controller: MyCpCasaModuleBundle:Security:changePassword }
+my_casa_module_ownership_steps:
+    resource: "@MyCpCasaModuleBundle/Controller/StepsController.php"
+    type: annotation
