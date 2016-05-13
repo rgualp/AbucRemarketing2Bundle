@@ -40,6 +40,12 @@ body{
     border-bottom: 3px solid #4e7f28;
 
 }
+.btn-orange, .btn-orange:hover, .btn-orange:focus, .btn-orange:active, .btn-orange.active, .btn-orange:active:focus, .btn-orange:active:hover, .btn-orange.active:hover, .btn-orange.active:focus{
+    background-color: #f36b25;
+    color: white;
+    border-bottom: 3px solid #bd531d;
+
+}
 
 .btn-default, .btn-default:hover, .btn-default:active{
     background-color: #bdbdbd;
@@ -184,7 +190,7 @@ body.mini-navbar.fixed-sidebar .profile-element, .block {
 }
 #side-menu li.active::after {
     border-bottom: 20px solid transparent;
-    border-right: 20px solid #f3f3f4;
+    border-right: 20px solid white;
     border-top: 20px solid transparent;
     content: "";
     display: block;
@@ -264,4 +270,10 @@ ol > li::before {
     display: -webkit-flex;
     display: -ms-flexbox;
     display:         flex;
+}
+.p-20{
+    padding:20px;
+}
+.p-10{
+    padding:10px;
 }
