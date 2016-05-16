@@ -62,8 +62,9 @@
                     <th>No.</th>
                     <th>Fecha</th>
                     <th>Reservación</th>
-                    <th>Propiedad</th>
-                    <th>Habitaciones</th>
+                    <th>Alojamiento</th>
+                    <th>Destino</th>
+                    <th>Hab.</th>
                     <th>Adultos</th>
                     <th>Niños</th>
                     <th>Noches</th>
@@ -87,7 +88,8 @@
                     <td>{{ flag }}</td>
                     <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
                     <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.gen_res_id}) }}">{{reservation.gen_res_id | getCASId}}</a></td>
-                    <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.own_id}) }}">{{reservation.own_mcp_code}}</a></td>
+                    <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.own_id}) }}">{{reservation.own_mcp_code}} {% if reservation.own_inmediate_booking %}<i class="icon-fire" title="Reserva Inmediata"></i>{% endif %}</a></td>
+                    <td>{{ reservation.destination }}</td>
                     <td>{{reservation.rooms}}</td>
                     <td>{{reservation.adults}}</td>
                     <td>{{reservation.childrens}}</td>

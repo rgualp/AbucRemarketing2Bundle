@@ -5,7 +5,11 @@
     {%for ownership in list%}
     {% if cont <2 %}
     <div class="col-sm-6">
-        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}" >
+        <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
+            {% if ownership.OwnInmediateBooking %}
+                <div class="quick-ribbon">
+                    <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+            {% endif %}
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>

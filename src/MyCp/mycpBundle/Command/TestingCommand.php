@@ -47,8 +47,9 @@ EOT
             "genResId" => 42939
 
         );
-        $notificationService->sendConfirmPaymentSMSNotification($reservation, true);
-        $notificationService->sendCheckinSMSNotification($reservationObj, true);
+        $notificationService->sendInmediateBookingSMSNotification($reservation, true);
+        //$notificationService->sendConfirmPaymentSMSNotification($reservation, true);
+        //$notificationService->sendCheckinSMSNotification($reservationObj, true);
     }
 
     private function testingPostPaymentProcess($em,OutputInterface $output)
