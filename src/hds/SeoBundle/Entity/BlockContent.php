@@ -168,21 +168,24 @@ class BlockContent
 	public function getMeta(array $replacements=array()){
 
 		try{
-			$tag_str= $this->getHeader()->getTag();
-			$type_tag_str= $this->getHeader()->getTypeTag();
-			$field_rewrite_str= $this->getHeader()->getFieldRewrite();
-			$content= $this->getContent();
-			foreach($replacements as $key=>$replacement){
-				$content= str_replace($key, $replacement, $content);
+			$header= $this->getHeader();
+			if($header){
+				$tag_str= $header->getTag();
+				$type_tag_str= $this->getHeader()->getTypeTag();
+				$field_rewrite_str= $this->getHeader()->getFieldRewrite();
+				$content= $this->getContent();
+				foreach($replacements as $key=>$replacement){
+					$content= str_replace($key, $replacement, $content);
+				}
+
+				$doc = new \DOMDocument();
+				$doc->loadHTML($tag_str);
+
+				$tag_element = $doc->getElementsByTagName($type_tag_str)->item(0);
+				$content_to_replace =  $tag_element->getAttribute($field_rewrite_str);
+				$tag_meta_content= str_replace($content_to_replace, $content, $tag_str);
+				return $tag_meta_content;
 			}
-
-			$doc = new \DOMDocument();
-			$doc->loadHTML($tag_str);
-
-			$tag_element = $doc->getElementsByTagName($type_tag_str)->item(0);
-			$content_to_replace =  $tag_element->getAttribute($field_rewrite_str);
-			$tag_meta_content= str_replace($content_to_replace, $content, $tag_str);
-			return $tag_meta_content;
 		}catch(\Exception $error){
 			//Pass
 		}

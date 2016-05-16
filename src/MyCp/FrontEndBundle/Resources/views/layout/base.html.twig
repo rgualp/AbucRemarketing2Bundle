@@ -4,6 +4,7 @@
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
 
     {% block metas %}
+        <meta charset="utf-8">
         {{ get_metas('Main', app.session.get('app_lang_code')|lower )|raw }}
     {% endblock metas %}
 
