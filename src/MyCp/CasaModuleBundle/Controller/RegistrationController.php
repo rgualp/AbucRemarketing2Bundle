@@ -64,6 +64,8 @@ class RegistrationController extends Controller
         $ownership->setOwnName(trim($request->get('own_name')))
             ->setOwnLicenceNumber(trim($request->get('own_license_number')))
             ->setOwnAddressProvince($province)
+            ->setOwnPhoneNumber(trim($request->get('own_phone')))
+            ->setOwnPhoneCode($province->getProvPhoneCode())
             ->setOwnAddressMunicipality($municipality)
             ->setOwnHomeowner1($request->get('own_homeowner_1'))
             ->setOwnEmail1($request->get('own_email_1'));
