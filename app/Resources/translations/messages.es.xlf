@@ -3780,6 +3780,10 @@
                                                       <source>FOOTER_EMAIL1_SUBTEXT</source>
                                                       <target><![CDATA[MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
                                                   </trans-unit>
+                             <trans-unit id="953">
+                                                      <source>quick_bookinhg</source>
+                                                      <target>Reserva Rápida</target>
+                                                  </trans-unit>
         </body>
     </file>
 </xliff>
