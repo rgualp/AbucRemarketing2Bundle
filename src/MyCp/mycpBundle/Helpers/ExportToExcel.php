@@ -1985,8 +1985,6 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         foreach ($reportContent as $content) {
             $data = array();
 
-
-
             if($currentReservation != $content["gen_res_id"])
             {
                 $data[0] = $index++;
@@ -1995,7 +1993,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
                 $data[1] = date('d/m/Y',$date->getTimestamp());
                 $data[2] = $content["gen_res_id"];
                 $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
-                $data[4] = $content["own_mcp_code"];
+                $data[4] = $content["own_mcp_code"].(($content["own_inmediate_booking"]) ? " (RR)": "");
             }
             else{
                 $data[0] = "";
@@ -2122,7 +2120,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
                     $data[1] = date('d/m/Y', $date->getTimestamp());
                     $data[2] = $content["gen_res_id"];
                     $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
-                    $data[4] = $content["own_mcp_code"];
+                    $data[4] = $content["own_mcp_code"].(($content["own_inmediate_booking"]) ? " (RR)": "");
                 } else {
                     $data[0] = "";
                     $data[1] = "";
