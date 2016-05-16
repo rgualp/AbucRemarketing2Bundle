@@ -226,3 +226,8 @@ div#div_b h4{
     position: absolute;
     width: 0;
 }
+
+.quick-ribbon > span {
+    color: white !important;
+    font-size: 14px;
+}
