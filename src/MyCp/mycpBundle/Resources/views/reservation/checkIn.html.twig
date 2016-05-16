@@ -84,7 +84,7 @@
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Pago en casa:</b> {{ check.to_pay_at_service - check.to_pay_at_service * check.own_commission_percent /100 | number_format(2, '.', '') }} CUC</td>
                             </tr>
                             <tr>
-                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"> <b>Propiedad:</b> {{check.own_mcp_code}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"> <b>Propiedad:</b> {{check.own_mcp_code}} {% if check.own_inmediate_booking %}<i class="icon-fire" title="Reserva Inmediata"></i>{% endif %}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="3"> <b>Propietario(s):</b> {{check.own_homeowner_1}} {%if check.own_homeowner_2%} / {{check.own_homeowner_2}}{%endif%}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="2"> <b>Teléfonos(s):</b> {%if check.own_phone_number%} (+53) {{check.prov_phone_code}} {{check.own_phone_number}} {%endif%}
                                 {%if check.own_phone_number and check.own_mobile_number%} / {%endif%}

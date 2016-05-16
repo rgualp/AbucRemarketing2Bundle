@@ -30,7 +30,8 @@ class generalReservationRepository extends EntityRepository {
         (SELECT MIN(owres4.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id),
         u.user_user_name, u.user_last_name, u.user_email,
-        (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer
+        (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
+        own.own_inmediate_booking
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
@@ -442,7 +443,7 @@ class generalReservationRepository extends EntityRepository {
             (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
             (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id) as totalNights,
             ow.own_mcp_code, ow.own_id, gre.gen_res_from_date,
-            (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer
+            (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer, ow.own_inmediate_booking
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id ow
             JOIN gre.gen_res_user_id us
@@ -727,7 +728,8 @@ class generalReservationRepository extends EntityRepository {
         owreservation.own_res_reservation_from_date,
         (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
         (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights,
-        (SELECT MIN(notif.id) FROM mycpBundle:notification notif JOIN notif.status status WHERE notif.reservation = gre.gen_res_id and notif.subtype = 'CHECKIN' and status.nom_name = 'success_ns' and status.nom_category = 'notificationStatus') as notification
+        (SELECT MIN(notif.id) FROM mycpBundle:notification notif JOIN notif.status status WHERE notif.reservation = gre.gen_res_id and notif.subtype = 'CHECKIN' and status.nom_name = 'success_ns' and status.nom_category = 'notificationStatus') as notification,
+        own.own_inmediate_booking
         FROM mycpBundle:ownershipreservation owreservation
         JOIN owreservation.own_res_gen_res_id gre
         JOIN gre.gen_res_own_id own
@@ -1943,7 +1945,7 @@ class generalReservationRepository extends EntityRepository {
     function getAccommodationsFromReservationsByClient($idClient, $reservationDate)
     {
         $em = $this->getEntityManager();
-        $queryString = "select DISTINCT o.own_mcp_code, o.own_id
+        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking
             from mycpBundle:generalReservation gres
             join gres.gen_res_own_id o
             where gres.gen_res_user_id = :idClient and gres.gen_res_date = :reservationDate and gres.gen_res_status = :status
