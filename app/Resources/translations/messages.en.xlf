@@ -3774,6 +3774,10 @@
                                                                               <source>FOOTER_EMAIL1_SUBTEXT</source>
                                                                               <target><![CDATA[MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
                                                                           </trans-unit>
+                             <trans-unit id="953">
+                                                      <source>quick_bookinhg</source>
+                                                      <target>Quick Booking</target>
+                                                  </trans-unit>
         </body>
     </file>
 </xliff>
