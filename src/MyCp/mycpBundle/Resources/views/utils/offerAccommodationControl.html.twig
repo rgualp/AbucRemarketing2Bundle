@@ -5,7 +5,14 @@
 {% set end_date = "+2 days" | date("d/m/Y") %}
 {% endif %}
 <div class="row-fluid">
-    <div class="span6">
+    <div class="span3">
+        <select id="destination" name="destination" class="input-block-level select">
+            {% for des in destinations %}
+                <option  value="{{ des.desId }}">{{ des.desName }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="span3">
         <select id="ownership" name="own" class="input-block-level select">
             {% for own in ownerships %}
                 <option data-percent="{{ own.ownCommissionPercent }}" value="{{ own.ownId }}" {% if loop.index == 0 %}selected{% endif %}>{{own.ownMcpCode}} - {{ own.ownName }}</option>

@@ -217,4 +217,11 @@ class PublicController extends Controller
 
         return $this->render('mycpBundle:utils:users.html.twig', array('users' => $users,'selected'=>$user));
     }
+
+    public function getAccommodationsByDestinationCallbackAction($destinationId,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $accommodations = $em->getRepository('mycpBundle:ownership')->findBy(array('own_destination'=>$destinationId), array("own_mcp_code" => "ASC"));
+        return $this->render('mycpBundle:utils:list_accommodations.html.twig', array('accommodations' => $accommodations));
+    }
 }

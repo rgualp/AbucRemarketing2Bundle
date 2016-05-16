@@ -1156,10 +1156,11 @@ class BackendReservationController extends Controller {
     public function searchAccommodationsAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $destinations = $em->getRepository("mycpBundle:destination")->findBy(array(), array("des_name" => "ASC"));
         $ownerships = $em->getRepository("mycpBundle:ownership")->findBy(array("own_status" => OwnershipStatuses::ACTIVE), array("own_mcp_code" => "ASC"));
 
         return $this->render('mycpBundle:utils:offerAccommodationControl.html.twig', array(
-            'ownerships' => $ownerships));
+            'ownerships' => $ownerships, "destinations" => $destinations));
     }
 
     public function syncPaymentsAction()
