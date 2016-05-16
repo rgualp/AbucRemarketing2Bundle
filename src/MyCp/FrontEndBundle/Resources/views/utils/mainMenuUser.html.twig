@@ -1,9 +1,9 @@
     <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#">
 
         {% if app.user.getUserUserName is defined and app.user.UserPhoto is not null and app.user.UserPhoto.phoName is not null %}
-            <img class="icon-avatar img-circle" src="{{ asset('uploads/userImages/'~app.user.UserPhoto.phoName)}}" />
+            <img class="icon-avatar img-circle" src="{{ asset('uploads/userImages/'~app.user.UserPhoto.phoName)}}" alt="{{"User image" | trans}}" />
         {% else %}
-            <img class="icon-avatar img-circle" src="{{ asset('bundles/frontend/img/user-no-photo.gif')}}"/>
+            <img class="icon-avatar img-circle" src="{{ asset('bundles/frontend/img/user-no-photo.gif')}}" alt="{{"No photo" | trans}}"/>
         {% endif %}
         {% if app.user.getUserUserName is defined %}
             {{app.user.getUserUserName | slice(0,10)}}{% if app.user.getUserUserName|length > 10 %}...{% endif %}
