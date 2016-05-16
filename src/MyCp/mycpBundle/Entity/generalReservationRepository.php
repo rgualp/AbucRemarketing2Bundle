@@ -2089,12 +2089,12 @@ class generalReservationRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
-                ->select("MIN(owres.own_res_reservation_from_date) as fromDate", "COUNT(owres) as rooms",
+                ->select("owres.own_res_reservation_from_date as fromDate", "COUNT(owres) as rooms",
                     "SUM(owres.own_res_count_adults + owres.own_res_count_childrens) as guests",
                     "SUM(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights ")
                 ->from("mycpBundle:ownershipReservation", "owres")
                 ->where("owres.own_res_gen_res_id = :genResId")
-                ->groupBy("owres.own_res_gen_res_id")
+                ->groupBy("owres.own_res_reservation_from_date")
                 ->setParameter("genResId", $idGeneralReservation);
         return $qb->setMaxResults(1)->getQuery()->getResult();
     }
