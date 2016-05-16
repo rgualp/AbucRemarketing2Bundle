@@ -623,7 +623,7 @@
                             {{ "SEND_COMMENT_DETAILS" | trans }}
                         </button>
                         <div id="loading" class="alert alert-info hidden">
-                            <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>
+                            <img src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/>
                         </div>
                         <div id="message_text" class="hidden"
                              ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>

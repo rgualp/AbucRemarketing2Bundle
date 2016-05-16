@@ -7,7 +7,7 @@
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_FAVORITES')%}
 {% block body_inner %}
 <div id="loading" class="hidden">
-        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
     </div>
 {%if favorite_type == "ownerships"%}
 <div id="div_result">

@@ -44,7 +44,7 @@
         {%if item['owns_total'] > item['owns_list']|length%}
                             <div class="thumbs-houses">
                                 <a href="{{ path('frontend_search_ownership',{'text':item.municipality, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
-                                    <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                                    <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more" alt="{{"Pixel" | trans}}"/></small>
                                 </a>
                             </div>
         {%endif%}
