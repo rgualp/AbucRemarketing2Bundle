@@ -9,8 +9,9 @@
 namespace MyCp\CasaModuleBundle\Controller;
 
 
-use FOS\RestBundle\Controller\Annotations\Route;
+
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
