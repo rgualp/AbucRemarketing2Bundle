@@ -880,6 +880,7 @@ class ownershipRepository extends EntityRepository {
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,
+                         o.own_inmediate_booking as OwnInmediateBooking,
                          (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
@@ -1905,6 +1906,7 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_1 as owner1,
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
+                        o.own_inmediate_booking as OwnInmediateBooking,
                         (select min(op.pho_name) from mycpBundle:photo op where op.pho_id = o.own_owner_photo) as ownerPhotoName,
                         (SELECT min(os.status_id) FROM mycpBundle:ownershipStatus os where o.own_status = os.status_id) as status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,

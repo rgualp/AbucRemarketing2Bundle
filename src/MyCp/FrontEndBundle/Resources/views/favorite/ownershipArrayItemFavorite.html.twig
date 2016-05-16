@@ -15,25 +15,25 @@
         </a>
         <small class="top">{{own['prov_name']}}, {{own['mun_name']}}</small><br>
                 {%if own.category == "Premium"%}
-        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" alt="{{"Pixel" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                 {%else%}
                     {%if (own.category | lower) == ("Rango Medio" | lower)%}
-        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" alt="{{"Pixel" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                     {%else%}
-        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" alt="{{"Pixel" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                     {%endif%}
                 {%endif%}
         <span>{{own.category | trans}}</span><br/>
         <small class="top">{{own.type  | trans}}  {%if (own.rooms_count != 0) %} / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small><br/>
                 {%if own['rating'] > 0%}
                 {%for i in 1..own['rating']%}
-        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon">
+        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon" alt="{{"Pixel" | trans}}">
                 {%endfor%}
                 {%endif%}
 
                 {%if own['rating'] < 5%}
                 {%for i in 1..(5-own['rating'])%}
-        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
+        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon" alt="{{"Pixel" | trans}}">
                 {%endfor%}
                 {%endif%}
         <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>

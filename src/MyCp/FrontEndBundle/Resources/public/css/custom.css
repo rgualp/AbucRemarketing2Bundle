@@ -186,4 +186,43 @@ div#div_b h4{
         display: none !important;
     }
 }
+.red-ribbon::before {
+    border-color: #9f671c transparent;
+    border-width: 10px 0 0 6px;
+    margin-top: 3.1em;
+}
 
+.red-ribbon::after {
+    background-color: #e2513c;
+    line-height: 1.2em;
+    max-width: 80px;
+    padding-left: 10px;
+}
+
+.red-ribbon::after, .red-ribbon::before{
+    top:45%;
+}
+.with-quick-ribbon{
+    position: relative;
+}
+.quick-ribbon {
+    background-color: #e44f37;
+    color: white;
+    font-size: 14px;
+    padding: 6px 4px;
+    position: absolute;
+    left: -10px;
+    top: 45%;
+    box-shadow: 4px 5px 5px 1px #ddd;
+}
+.quick-ribbon::before {
+    border-color: #945e18 transparent;
+    border-style: solid;
+    border-width: 10px 0 0 10px;
+    bottom: -10px;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 0;
+}
