@@ -10,13 +10,13 @@
             <div class="col-xs-10">
             {%if comment.com_rate > 0%}
                     {%for i in 1..comment.com_rate%}
-                    <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
+                    <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}">
                     {%endfor%}
                             {%endif%}
 
                             {%if comment.com_rate < 5%}
                             {%for i in 1..(5-comment.com_rate)%}
-                    <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
+                    <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}">
                     {%endfor%}
                         {%endif%}
                     <br/>

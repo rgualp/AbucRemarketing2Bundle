@@ -37,6 +37,7 @@
     {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
         <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
     {%endif%}
+
 </div>
 </form>
 {% endblock %}
@@ -46,6 +47,9 @@
     {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.genresstatus, 'showInDiv': false} %}
     {% if offerLog != null %}
     <span style="text-align: center; background-color: #5bc0de" class="badge" title="Oferta enviada al cliente">Oferta</span>
+    {% endif %}
+    {% if reservation.genResOwnId.ownInmediateBooking %}
+    <span style="text-align: center" class="badge badge-important"><i class="icon-fire icon-white"></i> Reserva Inmediata</span>
     {% endif %}
 </h2>
 <hr/>
@@ -60,7 +64,11 @@
     </ul>
     <table class="table table-striped " style="font-size: 12px">
         <tr>
-            <td colspan="2"><b>Propiedad: </b>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}</td>
+            <td colspan="2"><b>Propiedad: </b>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}
+    {% if reservation.genResOwnId.ownInmediateBooking %}
+                <span style="text-align: center" class="badge badge-important pull-right"><i class="icon-fire icon-white" title="Reserva Inmediata"></i></span>
+    {% endif %}
+            </td>
         </tr>
         <tr>
             <td><b>Tipo: </b>{{ reservation.getGenResOwnId.getOwnType }}</td>
