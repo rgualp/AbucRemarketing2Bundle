@@ -3777,10 +3777,12 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                                                                               <trans-unit id="952">
                                                                                                   <source>FOOTER_EMAIL1_SUBTEXT</source>
                                      <target><![CDATA[MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
+
+         </trans-unit>
                              <trans-unit id="953">
                                                       <source>quick_bookinhg</source>
                                                       <target>Schnelle Buchung</target>
-                                                  </trans-unit>                                                                                                    </trans-unit>
+                                                  </trans-unit>
     </body>
     </file>
 </xliff>
