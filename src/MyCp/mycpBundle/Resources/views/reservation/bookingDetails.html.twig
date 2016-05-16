@@ -52,7 +52,7 @@
                     <tr>
                         <td>{{ payment.booking.bookingId }}</td>
                         <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.getOwnResGenResId.getGenResId}) }}">{{ reservation.getOwnResGenResId.getCASId }}</a></td>
-                        <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if reservation.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="icon-fire" title="Reserva Inmediata"></i>{% endif %}</a></td>
+                        <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if reservation.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="icon-fire" title="Reserva Rápida"></i>{% endif %}</a></td>
                         <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
                         <td>{{ reservation.getOwnResRoomType}}</td>
                         <td>{{ reservation.getOwnResReservationFromDate|date("d/m/Y")}}</td>
