@@ -49,7 +49,7 @@
     <span style="text-align: center; background-color: #5bc0de" class="badge" title="Oferta enviada al cliente">Oferta</span>
     {% endif %}
     {% if reservation.genResOwnId.ownInmediateBooking %}
-    <span style="text-align: center" class="badge badge-important"><i class="icon-fire icon-white"></i> Reserva Rápida</span>
+    <span style="text-align: center" class="badge badge-important"><i class="glyphicons electricity white"></i> Reserva Rápida</span>
     {% endif %}
 </h2>
 <hr/>
@@ -66,7 +66,7 @@
         <tr>
             <td colspan="2"><b>Propiedad: </b>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}
     {% if reservation.genResOwnId.ownInmediateBooking %}
-                <span style="text-align: center" class="badge badge-important pull-right"><i class="icon-fire icon-white" title="Reserva Rápida"></i></span>
+                <span style="text-align: center" class="badge badge-important pull-right"><i class="glyphicons electricity white" title="Reserva Rápida"></i></span>
     {% endif %}
             </td>
         </tr>
