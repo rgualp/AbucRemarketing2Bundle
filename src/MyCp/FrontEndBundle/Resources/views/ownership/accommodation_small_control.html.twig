@@ -1,6 +1,6 @@
 
 
-<div class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %} style="position:relative" rel="tooltip" title="{{"MORE_INFO_PREFFIX" | trans}} {{name}}">
+<div class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %} style="position:relative" rel="tooltip" title="{% if ownership.OwnInmediateBooking %}{{"quick_booking_tooltip" | trans}}{% else %}{{"MORE_INFO_PREFFIX" | trans}} {{name}}{% endif %}">
     {% if ownership.OwnInmediateBooking %}
         <div class="quick-ribbon">
             <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
@@ -19,7 +19,7 @@
          class="lazy"
          data-src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
          src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"
-         {% if award %}style="position: relative; top:-15px"{% endif %}   />
+         {% if award %}style="position: relative; top:-15px; {% if ownership.OwnInmediateBooking %}z-index:0;{% endif %}"{% else %}{% if ownership.OwnInmediateBooking %}style="z-index: 0;"{% endif %}{% endif %}   />
      </a>
     <noscript>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
