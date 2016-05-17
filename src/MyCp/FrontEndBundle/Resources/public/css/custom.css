@@ -207,13 +207,14 @@ div#div_b h4{
 }
 .quick-ribbon {
     background-color: #e44f37;
+    box-shadow: 4px 5px 5px #444;
     color: white;
     font-size: 14px;
-    padding: 6px 4px;
-    position: absolute;
     left: -10px;
+    padding: 6px 10px;
+    position: absolute;
     top: 45%;
-    box-shadow: 4px 5px 5px 1px #ddd;
+    z-index: 1;
 }
 .quick-ribbon::before {
     border-color: #945e18 transparent;

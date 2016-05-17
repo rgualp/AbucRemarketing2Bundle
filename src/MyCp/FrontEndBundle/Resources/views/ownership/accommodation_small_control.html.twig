@@ -19,7 +19,7 @@
          class="lazy"
          data-src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
          src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"
-         {% if award %}style="position: relative; top:-15px"{% endif %}   />
+         {% if award %}style="position: relative; top:-15px; {% if ownership.OwnInmediateBooking %}z-index:0;{% endif %}"{% else %}{% if ownership.OwnInmediateBooking %}style="z-index: 0;"{% endif %}{% endif %}   />
      </a>
     <noscript>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
