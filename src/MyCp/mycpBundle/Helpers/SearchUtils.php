@@ -206,7 +206,8 @@ class SearchUtils {
                             o.own_water_sauna as sauna,
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs
+                            o.own_langs as langs,
+                            o.own_inmediate_booking as OwnInmediateBooking
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun

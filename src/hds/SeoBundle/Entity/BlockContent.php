@@ -59,152 +59,160 @@ class BlockContent
 		return $this->id.'';
 	}
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return BlockContent
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
+	/**
+	 * Set content
+	 *
+	 * @param string $content
+	 *
+	 * @return BlockContent
+	 */
+	public function setContent($content)
+	{
+		$this->content = $content;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
+	/**
+	 * Get content
+	 *
+	 * @return string
+	 */
+	public function getContent()
+	{
+		return $this->content;
+	}
 
-    /**
-     * Set decription
-     *
-     * @param string $decription
-     *
-     * @return BlockContent
-     */
-    public function setDecription($decription)
-    {
-        $this->decription = $decription;
+	/**
+	 * Set decription
+	 *
+	 * @param string $decription
+	 *
+	 * @return BlockContent
+	 */
+	public function setDecription($decription)
+	{
+		$this->decription = $decription;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get decription
-     *
-     * @return string
-     */
-    public function getDecription()
-    {
-        return $this->decription;
-    }
+	/**
+	 * Get decription
+	 *
+	 * @return string
+	 */
+	public function getDecription()
+	{
+		return $this->decription;
+	}
 
-    /**
-     * Set block
-     *
-     * @param \hds\SeoBundle\Entity\Block $block
-     *
-     * @return BlockContent
-     */
-    public function setBlock(\hds\SeoBundle\Entity\Block $block = null)
-    {
-        $this->block = $block;
+	/**
+	 * Set block
+	 *
+	 * @param \hds\SeoBundle\Entity\Block $block
+	 *
+	 * @return BlockContent
+	 */
+	public function setBlock(\hds\SeoBundle\Entity\Block $block = null)
+	{
+		$this->block = $block;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get block
-     *
-     * @return \hds\SeoBundle\Entity\Block
-     */
-    public function getBlock()
-    {
-        return $this->block;
-    }
+	/**
+	 * Get block
+	 *
+	 * @return \hds\SeoBundle\Entity\Block
+	 */
+	public function getBlock()
+	{
+		return $this->block;
+	}
 
-    /**
-     * Set header
-     *
-     * @param \hds\SeoBundle\Entity\Header $header
-     *
-     * @return BlockContent
-     */
-    public function setHeader(\hds\SeoBundle\Entity\Header $header = null)
-    {
-        $this->header = $header;
+	/**
+	 * Set header
+	 *
+	 * @param \hds\SeoBundle\Entity\Header $header
+	 *
+	 * @return BlockContent
+	 */
+	public function setHeader(\hds\SeoBundle\Entity\Header $header = null)
+	{
+		$this->header = $header;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get header
-     *
-     * @return \hds\SeoBundle\Entity\Header
-     */
-    public function getHeader()
-    {
-        return $this->header;
-    }
+	/**
+	 * Get header
+	 *
+	 * @return \hds\SeoBundle\Entity\Header
+	 */
+	public function getHeader()
+	{
+		return $this->header;
+	}
 
 	public function getMeta(array $replacements=array()){
 
-		$tag_str= $this->getHeader()->getTag();
-		$type_tag_str= $this->getHeader()->getTypeTag();
-		$field_rewrite_str= $this->getHeader()->getFieldRewrite();
-		$content= $this->getContent();
-		foreach($replacements as $key=>$replacement){
-			$content= str_replace($key, $replacement, $content);
+		try{
+			$header= $this->getHeader();
+			if($header){
+				$tag_str= $header->getTag();
+				$type_tag_str= $this->getHeader()->getTypeTag();
+				$field_rewrite_str= $this->getHeader()->getFieldRewrite();
+				$content= $this->getContent();
+				foreach($replacements as $key=>$replacement){
+					$content= str_replace($key, $replacement, $content);
+				}
+
+				$doc = new \DOMDocument();
+				$doc->loadHTML($tag_str);
+
+				$tag_element = $doc->getElementsByTagName($type_tag_str)->item(0);
+				$content_to_replace =  $tag_element->getAttribute($field_rewrite_str);
+				$tag_meta_content= str_replace($content_to_replace, $content, $tag_str);
+				return $tag_meta_content;
+			}
+		}catch(\Exception $error){
+			//Pass
 		}
-
-		$doc = new \DOMDocument();
-		$doc->loadHTML($tag_str);
-
-		$tag_element = $doc->getElementsByTagName($type_tag_str)->item(0);
-		$content_to_replace =  $tag_element->getAttribute($field_rewrite_str);
-		$tag_meta_content= str_replace($content_to_replace, $content, $tag_str);
-		return $tag_meta_content;
+		return '';
 	}
 
-    /**
-     * Set languageCode
-     *
-     * @param string $languageCode
-     *
-     * @return BlockContent
-     */
-    public function setLanguageCode($languageCode)
-    {
-        $this->language_code = $languageCode;
+	/**
+	 * Set languageCode
+	 *
+	 * @param string $languageCode
+	 *
+	 * @return BlockContent
+	 */
+	public function setLanguageCode($languageCode)
+	{
+		$this->language_code = $languageCode;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get languageCode
-     *
-     * @return string
-     */
-    public function getLanguageCode()
-    {
-        return $this->language_code;
-    }
+	/**
+	 * Get languageCode
+	 *
+	 * @return string
+	 */
+	public function getLanguageCode()
+	{
+		return $this->language_code;
+	}
 }
