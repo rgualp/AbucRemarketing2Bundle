@@ -79,10 +79,10 @@ class SeoUtilsExtension extends \Twig_Extension
 			}
 
 
-			$headers= array();
+//			$headers= array();
 			foreach($block_contents as $block_content){
-				$header= $block_content->getHeader();
-				$headers[]= $header;
+//				$header= $block_content->getHeader();
+//				$headers[]= $header;
 				$metas.= $block_content->getMeta($replacements);
 			}
 
