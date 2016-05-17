@@ -507,6 +507,7 @@ function load_upper_filters()
     var others_languages_items = [];
     var others_included_items = [];
     var own_awards = [];
+    var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
     var others_not_included_items = [];
     var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
     var order_comments='';
@@ -733,6 +734,7 @@ function load_upper_filters()
         //"own_reservation_type": (own_reservation_type != null && own_reservation_type != "" && own_reservation_type != "-1" && own_reservation_type != -1) ? own_reservation_type : null,
         "own_category": (own_category_items.length > 0) ? own_category_items : null,
         "own_award": (own_awards.length > 0) ? own_awards: null,
+        "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
         "own_type": (own_type_items.length > 0) ? own_type_items : null,
         "own_price": (own_price_items.length > 0) ? own_price_items : null,
         "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
