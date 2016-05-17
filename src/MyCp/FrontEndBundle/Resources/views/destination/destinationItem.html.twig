@@ -4,7 +4,7 @@
                    <td class="full-width">
                        <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
                            <img class="lazy thumbnail full-width" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                           <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}"></noscript>
+                           <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}" alt="{{"Thumbnails" | trans}}"></noscript>
                        </a>
                    </td>
                    <td>

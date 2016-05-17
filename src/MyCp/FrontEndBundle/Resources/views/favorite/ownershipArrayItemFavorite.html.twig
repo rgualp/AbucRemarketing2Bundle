@@ -5,7 +5,7 @@
         <div data-text="&nbsp;&nbsp;&nbsp;{%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
             <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | urlNormalize}) }}">
                 <img class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}"></noscript>
+                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}" alt="{{"Thumbnails" | trans}}"></noscript>
             </a>
         </div>
     </div>

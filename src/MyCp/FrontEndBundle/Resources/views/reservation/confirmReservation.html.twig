@@ -52,7 +52,7 @@
             <tr style="border-top:none;">
                 <td width="70%" style="border-top:none;">
                     <h3 class="h-green h-green-line">
-                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vaccomodation">
+                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vaccomodation" alt="{{"Pixel" | trans}}">
                             {{"ACCOMMODATION"|trans}} {{loop.index}}
                     </h3>
                 </td>
@@ -96,7 +96,7 @@
         </table>
         {%for res_room in own_res_rooms[own.id]%}
         <h4 class="voucher-subtitle">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed" alt="{{"Pixel" | trans}}">
             {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_SINGULAR"|trans | capitalize}} {{loop.index}}
         </h4>
         <table class="table table-type-1">
@@ -128,7 +128,7 @@
         </table>
         {%endfor%}
         <h4 class="voucher-subtitle">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency" alt="{{"Pixel" | trans}}">
         {{"PAYMENT_DETAILS"|trans}}:
         </h4>
         <table class="table table-type-1">
