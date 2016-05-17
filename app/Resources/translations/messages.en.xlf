@@ -3778,6 +3778,10 @@
                                                       <source>quick_bookinhg</source>
                                                       <target>Quick Booking</target>
                                                   </trans-unit>
+                <trans-unit id="954">
+                                                      <source>quick_booking_tooltip</source>
+                                                      <target>The owner of this Casa Particular will reply to your availability request as soon as possible.</target>
+                                                  </trans-unit>
         </body>
     </file>
 </xliff>
