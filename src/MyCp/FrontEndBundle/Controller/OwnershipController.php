@@ -1061,6 +1061,7 @@ class OwnershipController extends Controller {
         $check_filters['own_others_not_included'] = $request->request->get('own_others_not_included');
         $check_filters['own_others_pets'] = ($request->request->get('own_others_pets') == 'true' || $request->request->get('own_others_pets') == '1') ? true : false;
         $check_filters['own_others_internet'] = ($request->request->get('own_others_internet') == 'true' || $request->request->get('own_others_internet') == '1') ? true : false;
+        $check_filters['own_inmediate_booking'] = ($request->request->get('own_inmediate_booking') == 'true' || $request->request->get('own_inmediate_booking') == '1') ? true : false;
 
         $room_filter = ($check_filters['room_type'] != null ||
                 $check_filters['room_bathroom'] != null ||
@@ -1160,6 +1161,7 @@ class OwnershipController extends Controller {
         //$check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
         $check_filters['own_category'] = $request->request->get('own_category');
         $check_filters['own_award'] = $request->request->get('own_award');
+        $check_filters['own_inmediate_booking'] = $request->request->get('own_inmediate_booking');
         $check_filters['own_type'] = $request->request->get('own_type');
         $check_filters['own_price'] = $request->request->get('own_price');
         $check_filters['own_price_from'] = $request->request->get('own_price_from');
