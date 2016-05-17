@@ -1,14 +1,10 @@
-{#Hola cliente casa {{ app.user.getName }}#}
 {% extends 'MyCpCasaModuleBundle::layout_dashboard.html.twig' %}
 
 {% block title %}Mi casa{% endblock title %}
 
 {% block content %}
 
-    <div class="wrapper wrapper-content">
-        {#<div class="middle-box text-center animated fadeInRightBig">#}
-            {#<h3 class="font-bold">Hola cliente casa {{ app.user.getName }}</h3>#}
-        {#</div>#}
+    <div class="wrapper wrapper-content" id="step-0">
         <div class="col-md-12">
             <div class="row row-eq-height">
            <div class="col-md-9 white-bg">
@@ -23,7 +19,7 @@
            </ol>
                <div >
                    <a class="btn btn-default" style="margin-left:40px; margin-right: 20px;">Continuar después</a>
-                   <a class="btn btn-success">Comenzar</a>
+                   <a class="btn btn-success" id="btn-start">Comenzar</a>
                </div>
                <div class="bg-gray m-t-20 m-b-20 p-20" style="margin-left: 40px;">
                    <h3 class="font-blue">¿Desea un servicio de calidad?</h3>

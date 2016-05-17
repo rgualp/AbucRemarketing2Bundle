@@ -1,0 +1,36 @@
+<div class="col-md-12 hide" id="content-wizard">
+    <div class="row row-eq-height">
+        <div class="col-md-9 white-bg">
+            <div id="wizard" style="display: none">
+                <h1>First Step</h1>
+                <div class="step-content">
+                    <div class="text-center m-t-md">
+                        <h2>Hello in Step 1</h2>
+                        <p>
+                            This is the first content.
+                        </p>
+                    </div>
+                </div>
+
+                <h1>Second Step</h1>
+                <div class="step-content">
+                    {% include 'MyCpCasaModuleBundle:Steps:step2.html.twig' %}
+                </div>
+
+                <h1>Third Step</h1>
+                <div class="step-content">
+                    <div class="text-center m-t-md">
+                        <h2>This is step 3</h2>
+                        <p>
+                            This is last content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 oneblue-bg">
+            <h3 class="m-t-20">Por favor</h3>
+            <p>evite el uso de palabras ofensivas, la promoción de otros sitios, así como URls de enlaces externos, de lo contrario su propiedad no sera publicada!!!</p>
+        </div>
+    </div>
+</div>
