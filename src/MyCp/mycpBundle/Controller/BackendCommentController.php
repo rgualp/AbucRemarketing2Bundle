@@ -68,8 +68,12 @@ class BackendCommentController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                $comment->setComDate(new \DateTime(date('Y-m-d')));
                 $em->persist($comment);
                 $em->flush();
+
+                $em->getRepository("mycpBundle:ownership")->updateRating($comment->getComOwnership());
+
                 if($comment->getComOwnership()->getOwnEmail1()!=null) {
                     $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
                         'host_user_name' => $comment->getComOwnership()->getOwnHomeowner1(),
@@ -82,12 +86,6 @@ class BackendCommentController extends Controller {
                 }
                 $message = 'Comentario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-
-                $comment_db = $em->getRepository('mycpBundle:comment')->find($comment->getComId());
-                $comment_db->setComDate(new \DateTime(date('Y-m-d')));
-                $em->persist($comment_db);
-                $em->flush();
 
                 $service_log = $this->get('log');
                 $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_INSERT, DataBaseTables::COMMENT);
@@ -113,6 +111,7 @@ class BackendCommentController extends Controller {
                 $em->flush();
                 $ownership = $comment->getComOwnership();
                 $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
+                $em->getRepository("mycpBundle:ownership")->updateRating($ownership);
                 $message = 'Comentario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -139,6 +138,10 @@ class BackendCommentController extends Controller {
 //        $own_comment = $comment->getComOwnership()->getOwnMcpCode();
         $em->remove($comment);
         $em->flush();
+
+        $em->getRepository("mycpBundle:ownership")->updateRanking($comment->getComOwnership());
+        $em->getRepository("mycpBundle:ownership")->updateRating($comment->getComOwnership());
+
         $message = 'El comentario se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -176,6 +179,7 @@ class BackendCommentController extends Controller {
 
         $ownership = $comment->getComOwnership();
         $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
+        $em->getRepository("mycpBundle:ownership")->updateRating($ownership);
         $message = 'Comentario publicado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
