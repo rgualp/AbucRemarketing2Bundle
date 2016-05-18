@@ -98,7 +98,7 @@
         <td style="text-align: right">
             <a class="btn btn-mini btn_edit_block" data-id="{{ block.id }}">Editar</a>
             <a class="btn btn-mini btn-danger delete" onclick="gotoUrl('{{ path('hdsseo_block_delete') }}', {id:{{ block.id }}})">Eliminar</a>
-
+            <div style="display: none"><!--- {{ block.usersLog }} ---></div>
         </td>
     </tr>
 {% endfor %}
