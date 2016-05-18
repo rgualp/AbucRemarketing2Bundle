@@ -240,6 +240,7 @@ class SearchUtils {
                             o.own_water_sauna as sauna,
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
+                            o.own_inmediate_booking as OwnInmediateBooking,
                             o.own_langs as langs
                              FROM mycpBundle:room r
                              JOIN r.room_ownership o
