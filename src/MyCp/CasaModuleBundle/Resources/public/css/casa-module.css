@@ -6,6 +6,21 @@ body{
     min-height: 200px;
     /*padding-left: 15px;*/
 }
+.mcp-pager li{
+    padding-right: 20px;
+}
+.mcp-pager .previous > a, .mcp-pager .previous > span {
+    float: none;
+}
+.mcp-pager .next > a, .mcp-pager .next > span {
+    float: none;
+}
+.mcp-pager li > a, .mcp-pager li > span {
+    border: none;
+    border-radius: 0px;
+    display: inline-block;
+    padding: 5px 14px;
+}
 .bg-gray{
     background-color: #ececec;
     color: #b3b3b3;
@@ -50,19 +65,19 @@ body{
 .btn-success, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success:active:focus, .btn-success:active:hover, .btn-success.active:hover, .btn-success.active:focus{
     background: #64a433 !important;
     color: white !important;
-    border-bottom: 3px solid #4e7f28;
+    border-bottom: 3px solid #4e7f28 !important;
 
 }
 .btn-orange, .btn-orange:hover, .btn-orange:focus, .btn-orange:active, .btn-orange.active, .btn-orange:active:focus, .btn-orange:active:hover, .btn-orange.active:hover, .btn-orange.active:focus{
     background: #f36b25 !important;
     color: white !important;
-    border-bottom: 3px solid #bd531d;
+    border-bottom: 3px solid #bd531d !important;
 }
 
 .btn-default, .btn-default:hover, .btn-default:active{
     background: #bdbdbd !important;
     color: white !important;
-    border-bottom: 3px solid #939393;
+    border-bottom: 3px solid #939393 !important;
 }
 h2{
     font-size: 27px;
