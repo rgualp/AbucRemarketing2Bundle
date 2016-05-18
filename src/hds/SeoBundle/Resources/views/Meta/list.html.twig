@@ -88,7 +88,7 @@
         <td>{{ meta.tag }}</td>
         <td style="text-align: right">
             <a class="btn btn-mini btn_edit_block" data-id="{{ meta.id }}">Editar</a>
-            <a class="btn btn-mini btn-danger delete" onclick="gotoUrl('{{ path('hdsseo_meta_delete') }}', {id:{{ meta.id }}})">Eliminar</a>
+            <a class="btn btn-mini btn-danger delete" {% if meta.contents.count > 0 %}disabled title="No se puede eliminar, contiene contenido asociado ({{ meta.contents.count }})" {% else %} onclick="gotoUrl('{{ path('hdsseo_meta_delete') }}', {id:{{ meta.id }}})"{% endif %}>Eliminar</a>
 
         </td>
     </tr>

@@ -723,7 +723,7 @@ function load_upper_filters()
         $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_internet' data-control-id='room_others_internet' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_internet").parent().text() + "</a> ");
     }
 
-    if (own_inmediate_booking)
+    if (own_inmediate_booking && document.getElementById("fu_own_inmediate_booking") == null)
     {
         innerHtml = $("#filter_upper").html();
         $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
@@ -866,6 +866,9 @@ function refresh_filters_statistics(checked_filters)
 
         if (document.getElementById('room_airconditioner') != null)
             document.getElementById('room_airconditioner').checked = checked_filters['room_airconditioner'];
+
+        if (document.getElementById('own_inmediate_booking') != null)
+            document.getElementById('own_inmediate_booking').checked = checked_filters['own_inmediate_booking'];
 
         if (document.getElementById('room_audiovisuals') != null)
             document.getElementById('room_audiovisuals').checked = checked_filters['room_audiovisuals'];
