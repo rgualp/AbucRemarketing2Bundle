@@ -1,27 +1,24 @@
-     <li class="m-t-20 nav-label {{ activeClass('my_cp_casa_module_homepage') }}" style="margin-left: 0;">
-         <a href="{{ path('my_cp_casa_module_homepage') }}">
+     <li class="m-t-20 nav-label {{ activeClass('my_cp_casa_module_homepage') }}" style="margin-left: 0;" id="1">
+         <a class="ajaxify" data-href="1">
         <span class="nav-label">Propiedad</span><br>
         <span class="nav-label header-label">{{ app.user.userUserCasa[0].userCasaOwnership.ownName }}</span></a>
 
     </li>
-    {#<li class="{{ activeClass('casa_module_edit_step1') }}">
-          <a href="{{ path('casa_module_edit_step1') }}"><i class="glyphicons home menu-icon"></i> <span class="nav-label">Datos de su propiedad</span></a>
-    </li>#}
      <li class="{{ activeClass('casa_module_edit_step1') }}">
-         <a class="ajaxify" data-href="1"><i class="glyphicons home menu-icon"></i> <span class="nav-label">Datos de su propiedad</span></a>
+         <a class="ajaxify" data-href="2"><i class="glyphicons home menu-icon"></i> <span class="nav-label">Datos de su propiedad</span></a>
      </li>
     <li class="{{ activeClass('hdspayments_admin_payments_list') }}">
-     <a class="ajaxify" data-href="2"><i class="glyphicons align_left menu-icon"></i> <span class="nav-label">Descripción</span></a>
+        <a class="ajaxify" data-href="3"><i class="glyphicons align_left menu-icon"></i> <span class="nav-label">Descripción</span></a>
     </li>
     <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-     <a class="ajaxify" data-href="3"><i class="glyphicons keys menu-icon"></i> <span class="nav-label">Habitaciones</span></a>
+        <a class="ajaxify" data-href="4"><i class="glyphicons keys menu-icon"></i> <span class="nav-label">Habitaciones</span></a>
     </li>
     <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-    <a href="#"><i class="glyphicons plus menu-icon"></i> <span class="nav-label">Facilidades</span></a>
+        <a class="ajaxify" data-href="5"><i class="glyphicons plus menu-icon"></i> <span class="nav-label">Facilidades</span></a>
     </li>
     <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-    <a href="#"><i class="glyphicons picture menu-icon"></i> <span class="nav-label">Imágenes</span></a>
+        <a class="ajaxify" data-href="6"><i class="glyphicons picture menu-icon"></i> <span class="nav-label">Imágenes</span></a>
     </li>
     <li class="{{ activeClass('hdspayments_admin_refunds_list') }}">
-    <a href="#"><i class="glyphicons nameplate menu-icon"></i> <span class="nav-label">Datos del propietario</span></a>
+        <a class="ajaxify" data-href="7"><i class="glyphicons nameplate menu-icon"></i> <span class="nav-label">Datos del propietario</span></a>
     </li>

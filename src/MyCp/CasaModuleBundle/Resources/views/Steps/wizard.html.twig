@@ -1,4 +1,4 @@
-<div class="col-md-12 hide" id="content-wizard">
+<div class="col-md-12" id="content-wizard">
     <div class="row row-eq-height">
         <div class="col-md-12 white-bg">
             <div id="rootwizard">
@@ -22,7 +22,7 @@
                         {% include 'MyCpCasaModuleBundle:Steps:step1.html.twig' %}
                     </div>
                     <div class="tab-pane" id="tab2">
-                        2
+                        {% include 'MyCpCasaModuleBundle:Steps:step2.html.twig' %}
                     </div>
                     <div class="tab-pane" id="tab3">
                         3
@@ -39,7 +39,7 @@
                     <div class="tab-pane" id="tab7">
                         7
                     </div>
-                    <ul class="pager wizard col-md-9 mcp-pager">
+                    <ul class="pager wizard col-md-9 mcp-pager hide">
                         <li><a class="btn btn-orange">Continuar despues</a></li>
                         <li class="previous"><a class="btn btn-default" href="#">Anterior</a></li></li>
                         <li class="next"><a class="btn btn-success" href="#">Siguiente</a></li>
@@ -47,12 +47,8 @@
                 </div>
             </div>
         </div>
-        {#<div class="col-md-3 oneblue-bg" id="col-content">
-            <h3 class="m-t-20">Por favor</h3>
-            <p>evite el uso de palabras ofensivas, la promoción de otros sitios, así como URls de enlaces externos, de lo contrario su propiedad no sera publicada!!!</p>
-        </div>#}
     </div>
-    <div class="row">
+    <div class="row hide" id="text-save">
         <div class="col-md-9 text-center">
             <p>sus datos se guardaran<br>en caso de que usted quiera seguir mas adelante</p>
         </div>

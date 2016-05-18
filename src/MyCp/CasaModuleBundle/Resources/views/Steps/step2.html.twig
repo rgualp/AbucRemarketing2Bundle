@@ -1,2 +1,128 @@
-<h2 class="font-blue">Paso 2</h2>
-<h3 class="font-blue">Describa su casa de renta de manera sencialla y breve</h3>
+<div class="row row-eq-height">
+    <div class="col-md-9 white-bg">
+        <h2 class="font-blue">Paso1</h2>
+        <h3 class="font-blue">Complete los datos de su propiedad</h3>
+        <form novalidate class="form-horizontal" action="{{ path('casa_module_edit_step1') }}" method="post">
+            <div class="bg-gray m-t-20 col-md-11 font-black">
+                <div class="row">
+                    <label class="control-label">Nombre de la casa</label>
+                    <div>
+                     <i class="glyphicons home step-form-icon"></i>
+                     <span class="font-blue step-span">{{ ownership.ownName }}</span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <label class="control-label">Número de la licencia</label>
+                    <div>
+                     <i class="glyphicons nameplate step-form-icon"></i>
+                     <span class="font-blue step-span">{{ ownership.ownLicenceNumber }}</span>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Dirección(Calle, No., Entre calles, Provincia, Municipio)</label>
+                    <div class="row">
+                    <div class="col-sm-8 m-t-10">
+                     <div class="row">
+
+                         <div class="col-sm-1">
+                             <i class="glyphicons google_maps form-icon pull-right"></i>
+                         </div>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.own_address_street) }}
+                         </div>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.own_address_number) }}
+                         </div>
+                         <div class="col-sm-1"></div>
+                     </div>
+                        <div class="row m-t-10">
+
+                         <div class="col-sm-1">
+
+                         </div>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.own_address_between_street_1) }}
+                         </div>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.own_address_between_street_2) }}
+                         </div>
+                         <div class="col-sm-1"></div>
+                     </div>
+                        <div class="row m-t-10">
+
+                            <div class="col-sm-1">
+
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label">Provincia</label>
+                                <div>
+                                    <span class="font-blue step-span">{{ ownership.ownAddressProvince }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label">Municipio</label>
+                                <div>
+                                    <span class="font-blue step-span">{{ ownership.ownAddressMunicipality }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-1"></div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Destino</label>
+                    <div class="row">
+                        <div class="col-sm-8">
+                         <div class="row">
+                             <div class="col-sm-1">
+                                 <i class="glyphicons pin form-icon pull-right"></i>
+                             </div>
+                             <div class="col-sm-10">
+                                 {{ form_widget(form.own_destination, {'attr':{'class':'form-control'}}) }}
+                             </div>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div >
+                    <label class="control-label">Geolocalización</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <i class="glyphicons globe form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.geolocate) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-12 m-t-10">
+                    <div id="map_canvas">
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label">Teléfono</label>
+                    <div>
+                        <i class="glyphicons phone_alt step-form-icon"></i>
+                        <span class="font-blue step-span">{{ ownership.ownPhoneNumber }}</span>
+                    </div>
+
+                </div>
+                {{ form_rest(form) }}
+                </div>
+            </form>
+    </div>
+    <div class="col-md-3 oneblue-bg col-content">
+        <h3 class="m-t-20">Por favor</h3>
+        <p>evite el uso de palabras ofensivas, la promoción de otros sitios, así como URls de enlaces externos, de lo contrario su propiedad no sera publicada!!!</p>
+    </div>
+</div>

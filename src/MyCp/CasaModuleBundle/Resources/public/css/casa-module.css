@@ -2,6 +2,9 @@
 body{
     background-color: #2191d2;
 }
+.collapse_arrow{
+    background: url('/bundles/mycpcasamodule/img/Zaeta-Izquierda.png') no-repeat;
+}
 /*start: style map*/
 #map_canvas {
     min-height: 200px;

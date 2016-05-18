@@ -15,6 +15,12 @@ var App = function () {
             },
             onPrevious: function (tab, navigation, index) {
                 idWizardActive=(parseInt(index)-parseInt(1));
+            },
+            onTabShow:function(tab, navigation, index){
+                if(index!=0){
+                    $('#text-save').removeClass('hide');
+                    $('.mcp-pager').removeClass('hide');
+                }
             }
         });
         $('#steps').addClass('hide');
@@ -24,8 +30,7 @@ var App = function () {
      */
     var startStep=function(){
        $('#btn-start').on('click',function(){
-           $('#content-wizard').removeClass('hide');
-           $('#step-0').addClass('hide');
+           $('#rootwizard').bootstrapWizard('show',1);
            App.fix_height();
        })
     }
@@ -37,9 +42,6 @@ var App = function () {
         jQuery('.sidebar-collapse').on('click', ' li > a.ajaxify', function (e) {
             e.preventDefault();
             if(idWizardActive!=''){
-                //Inicializar el wizard
-                $('#content-wizard').removeClass('hide');
-                $('#step-0').addClass('hide');
                 $('#tab' + idWizardActive).removeClass('active');
                 $('#rootwizard').bootstrapWizard('show',(parseInt($(this).data("href"))-parseInt(1)));
                 idWizardActive=$(this).data("href");
