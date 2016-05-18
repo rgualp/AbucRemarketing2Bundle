@@ -3,7 +3,7 @@
  * Copyright 2015.
  *========================================================================*/
 var App = function () {
-    var idWizardActive="1";
+    var idWizardActive="0";
 
     /**
      * Para inicializar el wizard
@@ -11,16 +11,14 @@ var App = function () {
     var initializeWizard=function(){
         $('#rootwizard').bootstrapWizard({
             onNext: function (tab, navigation, index) {
-                idWizardActive=(parseInt(index)+parseInt(1));
             },
             onPrevious: function (tab, navigation, index) {
-                idWizardActive=(parseInt(index)-parseInt(1));
             },
             onTabShow:function(tab, navigation, index){
-                if(index!=0){
-                    $('#text-save').removeClass('hide');
-                    $('.mcp-pager').removeClass('hide');
-                }
+                $('#li'+idWizardActive).removeClass('active');
+                $('#li'+index).addClass('active');
+                idWizardActive=index;
+                App.hide_pagination_izard(index);
             }
         });
         $('#steps').addClass('hide');
@@ -41,12 +39,9 @@ var App = function () {
         //Para cuando se selecciona un link del menu
         jQuery('.sidebar-collapse').on('click', ' li > a.ajaxify', function (e) {
             e.preventDefault();
-            if(idWizardActive!=''){
-                $('#tab' + idWizardActive).removeClass('active');
-                $('#rootwizard').bootstrapWizard('show',(parseInt($(this).data("href"))-parseInt(1)));
-                idWizardActive=$(this).data("href");
-                $('#tab' + idWizardActive).addClass('active');
-            }
+            $('#tab' + idWizardActive).removeClass('active');
+            $('#rootwizard').bootstrapWizard('show',$(this).data("href"));
+            idWizardActive=$(this).data("href");
             App.fix_height();
         })
     }
@@ -62,6 +57,16 @@ var App = function () {
             $('.col-content').css("position", "absolute");
             var content_wizard = $('#content-wizard').height();
             $('.col-content').css("min-height", content_wizard + "px");
+        },
+        hide_pagination_izard:function(index){
+            if(index==0){
+                $('#text-save').addClass('hide');
+                $('.mcp-pager').addClass('hide');
+            }
+            else{
+                $('#text-save').removeClass('hide');
+                $('.mcp-pager').removeClass('hide');
+            }
         }
     };
 }()
