@@ -45,7 +45,8 @@ var App = function () {
                 $('#step-0').addClass('hide');
                 App.fix_height();
                 $('#' + idWizardActive).removeClass('active');
-                $('#' + $(this).data("href")).addClass('active');
+                $('#rootwizard').show('tab1');
+                //$('#' + $(this).data("href")).addClass('active');
                 idWizardActive=$(this).data("href");
             }
         })
