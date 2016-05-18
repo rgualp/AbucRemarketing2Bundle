@@ -184,9 +184,9 @@ class PaymentController extends Controller
         $bookingService = $this->get('front_end.services.booking');
         $bookingService->postProcessBookingPayment($payment);
 
-        $dispatcher = $this->get('event_dispatcher');
+        /*$dispatcher = $this->get('event_dispatcher');
         $eventData = new PaymentJobData($payment->getId());
-        $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));
+        $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));*/
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
             ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());

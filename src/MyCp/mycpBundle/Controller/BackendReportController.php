@@ -1845,7 +1845,7 @@ ORDER BY own.own_mcp_code ASC
             "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
             "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
         );
-        return $this->render('mycpBundle:reports:clientsSummaryReport.html.twig', array(
+        return $this->render('mycpBundle:reports:facturationSummaryReport.html.twig', array(
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
@@ -1925,7 +1925,7 @@ ORDER BY own.own_mcp_code ASC
             "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
             "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
         );
-        $html= $this->renderView('mycpBundle:reports:clientsSummaryReportPdf.html.twig', array(
+        $html= $this->renderView('mycpBundle:reports:facturationSummaryReportPdf.html.twig', array(
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
@@ -2004,7 +2004,7 @@ ORDER BY own.own_mcp_code ASC
             "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
             "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
         );
-        return $this->render('mycpBundle:reports:clientsSummaryReport.html.twig', array(
+        return $this->render('mycpBundle:reports:facturationSummaryReport.html.twig', array(
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
@@ -2079,7 +2079,7 @@ ORDER BY own.own_mcp_code ASC
             "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
             "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
         );
-        $html= $this->renderView('mycpBundle:reports:clientsSummaryReportPdf.html.twig', array(
+        $html= $this->renderView('mycpBundle:reports:facturationSummaryReportPdf.html.twig', array(
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
@@ -2160,7 +2160,7 @@ ORDER BY own.own_mcp_code ASC
             "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
             "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
         );
-        return $this->render('mycpBundle:reports:clientsSummaryReport.html.twig', array(
+        return $this->render('mycpBundle:reports:facturationSummaryReport.html.twig', array(
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
@@ -2234,7 +2234,7 @@ ORDER BY own.own_mcp_code ASC
             "tcd"=>$tcd, "tsd" => $tsd, "tpid"=>$tpid,"thsd" => $thsd, "tnsd" => $tnsd,
             "tcp"=>$tcp, "trp" => $trp,"tpip"=>$tpip, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
         );
-        $html= $this->renderView('mycpBundle:reports:clientsSummaryReportPdf.html.twig', array(
+        $html= $this->renderView('mycpBundle:reports:facturationSummaryReportPdf.html.twig', array(
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,

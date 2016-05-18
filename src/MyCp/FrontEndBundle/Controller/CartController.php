@@ -443,7 +443,8 @@ class CartController extends Controller {
             'reservations' => $reservations,
             'ids' => $own_ids,
             'nigths' => $nigths,
-            'photos' => $array_photos
+            'photos' => $array_photos,
+            'user_locale' => $locale
         ));
 
         $locale = $this->get('translator');
