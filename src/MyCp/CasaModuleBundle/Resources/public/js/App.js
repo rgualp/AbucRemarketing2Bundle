@@ -6,14 +6,21 @@
 
  **/
 var App = function () {
-    var idWizardActive="wizard-p-0";
+    var idWizardActive="tab1";
 
     /**
-     * Para activar el wizard
+     * Para inicializar el wizard
      */
     var initializeWizard=function(){
-        $("#wizard").steps();
-        $('.steps').addClass('hide');
+        $('#rootwizard').bootstrapWizard({
+            onNext: function (tab, navigation, index) {
+                idWizardActive='tab'+(parseInt(index)+parseInt(1));
+            },
+            onPrevious: function (tab, navigation, index) {
+                idWizardActive='tab'+(parseInt(index)-parseInt(1));
+            }
+        });
+        $('#steps').addClass('hide');
     }
     /**
      * Para cunado se da click en el boton comenzar
@@ -21,8 +28,8 @@ var App = function () {
     var startStep=function(){
        $('#btn-start').on('click',function(){
            $('#content-wizard').removeClass('hide');
-           $('#step-0').css('display', 'none');
-           $('#wizard').css('display', 'block');
+           $('#step-0').addClass('hide');
+           App.fix_height();
        })
     }
     /**
@@ -35,11 +42,10 @@ var App = function () {
             if(idWizardActive!=''){
                 //Inicializar el wizard
                 $('#content-wizard').removeClass('hide');
-                $('#step-0').css('display', 'none');
-                $('#wizard').css('display', 'block');
-
-                $('#' + idWizardActive).css('display', 'none');
-                $('#' + $(this).data("href")).css('display', 'block');
+                $('#step-0').addClass('hide');
+                App.fix_height();
+                $('#' + idWizardActive).removeClass('active');
+                $('#' + $(this).data("href")).addClass('active');
                 idWizardActive=$(this).data("href");
             }
         })
@@ -51,6 +57,22 @@ var App = function () {
             initializeWizard();
             activeTabWizard();
             startStep();
+        },
+        fix_height:function(){
+            var navbarHeigh = $('nav.navbar-default').height();
+            var wrapperHeigh = $('#col-content').height();
+
+            if (navbarHeigh > wrapperHeigh) {
+                $('#col-content').css("min-height", navbarHeigh + "px");
+            }
+
+            if (navbarHeigh < wrapperHeigh) {
+                $('#col-content').css("min-height", $(window).height() + "px");
+            }
+
+            if ($('body').hasClass('fixed-nav')) {
+                $('#col-content').css("min-height", $(window).height() - 60 + "px");
+            }
         }
     };
 }();

@@ -17,8 +17,6 @@
         '@MyCpCasaModuleBundle/Resources/public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
         '@MyCpCasaModuleBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
         '@MyCpCasaModuleBundle/Resources/public/css/plugins/switchery/switchery.css'
-        '@MyCpCasaModuleBundle/Resources/public/css/plugins/steps/jquery.steps.css'
-        '@MyCpCasaModuleBundle/Resources/public/css/plugins/steps/mcp.steps.css'
         filter='?uglifycss'
         %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -42,7 +40,7 @@
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/switchery/switchery.js'
         '@MyCpCasaModuleBundle/Resources/public/js/inspinia.js'
         '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/plugins/steps/jquery.steps.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/css/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/App.js'
         filter='?uglifyjs2'
         %}
@@ -113,7 +111,6 @@
                 <div id="content_id" class="row white-bg">
                     {% include 'MyCpCasaModuleBundle:Steps:wizard.html.twig' %}
                      {% block content %}
-
                      {% endblock content %}
                 </div>
 
