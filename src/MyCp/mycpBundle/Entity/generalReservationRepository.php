@@ -2075,10 +2075,13 @@ class generalReservationRepository extends EntityRepository {
         $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,owres.own_res_status,
             ow.own_mcp_code, ow.own_id, owres.own_res_room_type, owres.own_res_count_adults, owres.own_res_count_childrens,
             owres.own_res_total_in_site, owres.own_res_reservation_from_date, DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date) as nights,
-            ow.own_inmediate_booking
+            ow.own_inmediate_booking,
+            ow.own_name, ow.own_homeowner_1, ow.own_homeowner_2, ow.own_phone_number, prov.prov_phone_code,
+            ow.own_mobile_number, ow.own_commission_percent, gre.gen_res_total_in_site
             FROM mycpBundle:ownershipReservation owres
             JOIN owres.own_res_gen_res_id gre
             JOIN gre.gen_res_own_id ow
+            JOIN ow.own_address_province prov
             JOIN gre.gen_res_user_id us
             WHERE us.user_id = :user_id $whereOwn
             ORDER BY gre.gen_res_id DESC";
