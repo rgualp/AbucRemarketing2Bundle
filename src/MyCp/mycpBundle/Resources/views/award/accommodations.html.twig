@@ -10,7 +10,7 @@
 {% block content %}
 <h2>Alojamientos premiados - {{ award.name }}</h2>
 <hr/>
-    <a class="btn btn-info" href="{{ path("mycp_set_award_accommodation", {"id": award.id}) }}"><i class="icon-asterisk icon-white"></i> Premiar</a>&nbsp;
+    <a class="btn btn-info" href="{{ path("mycp_set_award_accommodation", {"id": award.id}) }}"><i class="glyphicons certificate white"></i> Premiar</a>&nbsp;
 <br/><br/>
     <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_accommodation_award_list', {"id": award.id})}}">
         <div class="well well-small">
