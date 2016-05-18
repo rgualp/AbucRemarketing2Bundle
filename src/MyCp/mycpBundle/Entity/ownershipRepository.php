@@ -1951,6 +1951,25 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
+
+    public function updateRating($ownership) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("SUM(if(com.com_rate >= 3, 1, 0)) as comments")
+            ->addSelect("ROUND(AVG(com.com_rate)) as rating")
+            ->from("mycpBundle:comment", "com")
+            ->where("com.com_public = 1")
+            ->andWhere("com.com_ownership = :own_id")
+            ->setParameter("own_id", $ownership->getOwnId());
+
+        $results = $qb->getQuery()->getOneOrNullResult();
+        $ownership->setOwnRating($results["rating"]);
+        $ownership->setOwnCommentsTotal($results["comments"]);
+        $ownership->setOwnLastUpdate(new \DateTime());
+        $em->persist($ownership);
+        $em->flush();
+    }
+
     public function publish($ownership)
     {
         $em = $this->getEntityManager();

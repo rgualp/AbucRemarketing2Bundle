@@ -116,6 +116,12 @@ class BlockController extends Controller
 		if($formtype){
 			$form->submit($request);
 			if ($form->isValid()) {
+
+				$user= $this->getUser();
+				$log= $user->getUserName();
+				$time = new \DateTime();
+				$log.= ':'.$time->format('Y-m-d H:i:s');
+				$obj->addUsersLog($log);
 				$this->em->persist($obj);
 
 				$contents= $request->get('content');

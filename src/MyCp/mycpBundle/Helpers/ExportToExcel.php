@@ -1985,31 +1985,47 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         foreach ($reportContent as $content) {
             $data = array();
 
-            if($currentReservation != $content["gen_res_id"])
-            {
+            if ($currentReservation != $content["gen_res_id"]) {
                 $data[0] = $index++;
-                $currentReservation = $content["gen_res_id"];
                 $date = $content["gen_res_date"];
-                $data[1] = date('d/m/Y',$date->getTimestamp());
+                $data[1] = date('d/m/Y', $date->getTimestamp());
                 $data[2] = $content["gen_res_id"];
                 $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
                 $data[4] = $content["own_mcp_code"].(($content["own_inmediate_booking"]) ? " (RR)": "");
-            }
-            else{
+                $data[5] = $content["own_name"];
+                $data[6] = $content["own_homeowner_1"].(($content["own_homeowner_2"] != "") ? " / ".$content["own_homeowner_2"]: "");
+                $phone = ($content["own_phone_number"] != "") ? $content["prov_phone_code"]." ".$content["own_phone_number"] : "";
+                $data[7] = $phone.($content["own_mobile_number"] != "" ? " / ".$content["own_mobile_number"] : "");
+                $data[8] = $content["own_commission_percent"]." %";
+
+            } else {
                 $data[0] = "";
                 $data[1] = "";
                 $data[2] = "";
                 $data[3] = "";
                 $data[4] = "";
+                $data[5] = "";
+                $data[6] = "";
+                $data[7] = "";
+                $data[8] = "";
             }
 
-            $data[5] = room::getShortRoomType($content["own_res_room_type"]);
-            $data[6] = $content["own_res_count_adults"];
-            $data[7] = $content["own_res_count_childrens"];
-            $data[8] = $content["own_res_total_in_site"];
+            $data[9] = room::getShortRoomType($content["own_res_room_type"]);
+            $data[10] = $content["own_res_count_adults"];
+            $data[11] = $content["own_res_count_childrens"];
+            $data[12] = $content["own_res_total_in_site"];
             $date = $content["own_res_reservation_from_date"];
-            $data[9] = date('d/m/Y',$date->getTimestamp());
-            $data[10] = $content["nights"];
+            $data[13] = date('d/m/Y', $date->getTimestamp());
+            $data[14] = $content["nights"];
+            //
+
+            if ($currentReservation != $content["gen_res_id"]) {
+                $currentReservation = $content["gen_res_id"];
+                $data[15] = $content["gen_res_total_in_site"];
+            }
+            else {
+                $data[15] = "";
+            }
            //
             array_push($results, $data);
         }
@@ -2034,14 +2050,19 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->setCellValue('c6', 'Reserva');
         $sheet->setCellValue('d6', 'Estado');
         $sheet->setCellValue('e6', 'Alojamiento');
-        $sheet->setCellValue('f6', 'Habitación');
-        $sheet->setCellValue('g6', 'Adultos');
-        $sheet->setCellValue('h6', 'Niños');
-        $sheet->setCellValue('i6', 'Precio');
-        $sheet->setCellValue('j6', 'Llegada');
-        $sheet->setCellValue('k6', 'Noches');
+        $sheet->setCellValue('f6', 'Nombre Alojamiento');
+        $sheet->setCellValue('g6', 'Propietario (s)');
+        $sheet->setCellValue('h6', 'Teléfono(s)');
+        $sheet->setCellValue('i6', 'Comisión');
+        $sheet->setCellValue('j6', 'Habitación');
+        $sheet->setCellValue('k6', 'Adultos');
+        $sheet->setCellValue('l6', 'Niños');
+        $sheet->setCellValue('m6', 'Precio-Habitación');
+        $sheet->setCellValue('n6', 'Llegada');
+        $sheet->setCellValue('o6', 'Noches');
+        $sheet->setCellValue('p6', 'Precio Total');
 
-        $sheet = $this->styleHeader("a6:k6", $sheet);
+        $sheet = $this->styleHeader("a6:p6", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -2049,8 +2070,8 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
             ),
         );
         $sheet->getStyle("a1")->applyFromArray($style);
-        $sheet->mergeCells("A1:k1");
-        $sheet->mergeCells("A4:k4");
+        $sheet->mergeCells("A1:p1");
+        $sheet->mergeCells("A4:p4");
 
         $centerStyle = array(
             'alignment' => array(
@@ -2060,7 +2081,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->getStyle("A1:k1")->applyFromArray($centerStyle);
 
         $sheet->fromArray($data, ' ', 'A7');
-        $this->setColumnAutoSize("a", "k", $sheet);
+        $this->setColumnAutoSize("a", "p", $sheet);
         /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
         $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
 
@@ -2115,29 +2136,45 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 
                 if ($currentReservation != $content["gen_res_id"]) {
                     $data[0] = $index++;
-                    $currentReservation = $content["gen_res_id"];
                     $date = $content["gen_res_date"];
                     $data[1] = date('d/m/Y', $date->getTimestamp());
                     $data[2] = $content["gen_res_id"];
                     $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
                     $data[4] = $content["own_mcp_code"].(($content["own_inmediate_booking"]) ? " (RR)": "");
+                    $data[5] = $content["own_name"];
+                    $data[6] = $content["own_homeowner_1"].(($content["own_homeowner_2"] != "") ? " / ".$content["own_homeowner_2"]: "");
+                    $phone = ($content["own_phone_number"] != "") ? $content["prov_phone_code"]." ".$content["own_phone_number"] : "";
+                    $data[7] = $phone.($content["own_mobile_number"] != "" ? " / ".$content["own_mobile_number"] : "");
+                    $data[8] = $content["own_commission_percent"]." %";
+
                 } else {
                     $data[0] = "";
                     $data[1] = "";
                     $data[2] = "";
                     $data[3] = "";
                     $data[4] = "";
+                    $data[5] = "";
+                    $data[6] = "";
+                    $data[7] = "";
+                    $data[8] = "";
                 }
 
-                $data[5] = room::getShortRoomType($content["own_res_room_type"]);
-                $data[6] = $content["own_res_count_adults"];
-                $data[7] = $content["own_res_count_childrens"];
-                $data[8] = $content["own_res_total_in_site"];
+                $data[9] = room::getShortRoomType($content["own_res_room_type"]);
+                $data[10] = $content["own_res_count_adults"];
+                $data[11] = $content["own_res_count_childrens"];
+                $data[12] = $content["own_res_total_in_site"];
                 $date = $content["own_res_reservation_from_date"];
-                $data[9] = date('d/m/Y', $date->getTimestamp());
-                $data[10] = $content["nights"];
+                $data[13] = date('d/m/Y', $date->getTimestamp());
+                $data[14] = $content["nights"];
                 //
 
+                if ($currentReservation != $content["gen_res_id"]) {
+                    $currentReservation = $content["gen_res_id"];
+                    $data[15] = $content["gen_res_total_in_site"];
+                }
+                else {
+                    $data[15] = "";
+                }
 
                 array_push($results, $data);
             }
@@ -2157,14 +2194,19 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->setCellValue('c3', 'Reserva');
         $sheet->setCellValue('d3', 'Estado');
         $sheet->setCellValue('e3', 'Alojamiento');
-        $sheet->setCellValue('f3', 'Habitación');
-        $sheet->setCellValue('g3', 'Adultos');
-        $sheet->setCellValue('h3', 'Niños');
-        $sheet->setCellValue('i3', 'Precio');
-        $sheet->setCellValue('j3', 'Llegada');
-        $sheet->setCellValue('k3', 'Noches');
+        $sheet->setCellValue('f3', 'Nombre Alojamiento');
+        $sheet->setCellValue('g3', 'Propietario (s)');
+        $sheet->setCellValue('h3', 'Teléfono(s)');
+        $sheet->setCellValue('i3', 'Comisión');
+        $sheet->setCellValue('j3', 'Habitación');
+        $sheet->setCellValue('k3', 'Adultos');
+        $sheet->setCellValue('l3', 'Niños');
+        $sheet->setCellValue('m3', 'Precio-Habitación');
+        $sheet->setCellValue('n3', 'Llegada');
+        $sheet->setCellValue('o3', 'Noches');
+        $sheet->setCellValue('p3', 'Precio Total');
 
-        $sheet = $this->styleHeader("a3:k3", $sheet);
+        $sheet = $this->styleHeader("a3:p3", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -2183,7 +2225,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->getStyle("A1:k1")->applyFromArray($centerStyle);
 
         $sheet->fromArray($data, ' ', 'A4');
-        $this->setColumnAutoSize("a", "k", $sheet);
+        $this->setColumnAutoSize("a", "p", $sheet);
         /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
         $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
 
