@@ -1,4 +1,4 @@
-<img  class='img-polaroid' title='{{ userCompleteName }}' src='{{ photoFullPath }}'/>
+<img  class='img-polaroid' title='{{ userCompleteName }}' src='{{ photoFullPath }}' alt="{{"Photo" | trans}}"/>
 {% if changePhotoLink %}
 <br/>
 <a href="{% if app.user.getUserRole =='ROLE_CLIENT_STAFF'%}

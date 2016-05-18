@@ -6,7 +6,7 @@
     <div class="span2">
         <label class="name">{{ comment.getComUser.getName }}</label>
         <div class="rating_star">
-            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
+            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}" alt="{{"Start on" | trans}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
         </div>
         {% if comment.getComPublic==0%}<span class="label label-important">No publicado</span>{% else %} <span class="label label-success">Publicado</span>{% endif %}
         <br/><em>{{comment.comdate |date("d/m/Y")}}</em>

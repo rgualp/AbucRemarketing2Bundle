@@ -6,7 +6,7 @@
         {% if hasPhoto %}
         <div class="row-fluid">
            <a style="margin-top: 10px;" class="btn btn-mini btn-danger" id="deletePhotoOwner" data-url="{{ path("mycp_delete_photo_owner_ownership") }}">Eliminar</a>
-           <img style="margin-top: 10px;" id="loadingImg" class="hidden" src="{{asset("bundles/mycp/images/loading.gif")}}" style="margin-right: 5px;"/>
+           <img style="margin-top: 10px;" id="loadingImg" class="hidden" src="{{asset("bundles/mycp/images/loading.gif")}}" style="margin-right: 5px;" alt="{{"Loading" | trans}}"/>
         </div>
         {% endif %}
     </div>

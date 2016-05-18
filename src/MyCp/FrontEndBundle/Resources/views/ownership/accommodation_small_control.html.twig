@@ -7,7 +7,7 @@
     {% endif %}
     <div>
         {% if award %}
-            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px"/>
+            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
         {% endif %}
         <h1 class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</h1>
     </div>
