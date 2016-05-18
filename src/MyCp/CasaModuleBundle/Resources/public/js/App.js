@@ -6,7 +6,7 @@
 
  **/
 var App = function () {
-    var idWizardActive="tab1";
+    var idWizardActive="1";
 
     /**
      * Para inicializar el wizard
@@ -14,10 +14,10 @@ var App = function () {
     var initializeWizard=function(){
         $('#rootwizard').bootstrapWizard({
             onNext: function (tab, navigation, index) {
-                idWizardActive='tab'+(parseInt(index)+parseInt(1));
+                idWizardActive=(parseInt(index)+parseInt(1));
             },
             onPrevious: function (tab, navigation, index) {
-                idWizardActive='tab'+(parseInt(index)-parseInt(1));
+                idWizardActive=(parseInt(index)-parseInt(1));
             }
         });
         $('#steps').addClass('hide');
@@ -44,10 +44,10 @@ var App = function () {
                 $('#content-wizard').removeClass('hide');
                 $('#step-0').addClass('hide');
                 App.fix_height();
-                $('#' + idWizardActive).removeClass('active');
-                $('#rootwizard').show('tab1');
-                //$('#' + $(this).data("href")).addClass('active');
+                $('#tab' + idWizardActive).removeClass('active');
+                $('#rootwizard').bootstrapWizard('show',(parseInt($(this).data("href"))-parseInt(1)));
                 idWizardActive=$(this).data("href");
+                $('#tab' + idWizardActive).addClass('active');
             }
         })
     }
