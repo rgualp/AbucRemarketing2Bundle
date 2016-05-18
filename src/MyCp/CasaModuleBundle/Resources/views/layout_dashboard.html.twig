@@ -21,6 +21,7 @@
         %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
     {% endblock stylesheets %}
 
     {% block javascripts_first %}{% endblock javascripts_first %}
@@ -41,14 +42,17 @@
         '@MyCpCasaModuleBundle/Resources/public/js/inspinia.js'
         '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
         '@MyCpCasaModuleBundle/Resources/public/css/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-geocomplete/jquery.geocomplete.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/App.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/script/step1.js'
         filter='?uglifyjs2'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
         <!-- Custom config -->
         {% include 'MyCpCasaModuleBundle::layout_config.html.twig' %}
-
+        <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>
     {% endblock javascripts %}
 
     {% block body %}

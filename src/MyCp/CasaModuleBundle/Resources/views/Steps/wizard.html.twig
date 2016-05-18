@@ -1,6 +1,6 @@
 <div class="col-md-12 hide" id="content-wizard">
     <div class="row row-eq-height">
-        <div class="col-md-9 white-bg">
+        <div class="col-md-12 white-bg">
             <div id="rootwizard">
                 <div class="navbar" id="steps">
                     <div class="navbar-inner">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane" id="tab1">
-                        1
+                        {% include 'MyCpCasaModuleBundle:Steps:step1.html.twig' %}
                     </div>
                     <div class="tab-pane" id="tab2">
                         2
@@ -48,9 +48,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 oneblue-bg" id="col-content">
+        {#<div class="col-md-3 oneblue-bg" id="col-content">
             <h3 class="m-t-20">Por favor</h3>
             <p>evite el uso de palabras ofensivas, la promoción de otros sitios, así como URls de enlaces externos, de lo contrario su propiedad no sera publicada!!!</p>
-        </div>
+        </div>#}
     </div>
 </div>

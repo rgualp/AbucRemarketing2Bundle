@@ -2,6 +2,10 @@
 body{
     background-color: #094e75;
 }
+#map_canvas {
+    min-height: 200px;
+    /*padding-left: 15px;*/
+}
 .bg-gray{
     background-color: #ececec;
     color: #b3b3b3;
