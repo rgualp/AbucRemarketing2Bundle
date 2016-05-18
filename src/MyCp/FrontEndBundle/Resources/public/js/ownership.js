@@ -472,7 +472,7 @@ function research()
             if (control_id =='#priceFilter')
                 $(control_id).val('');
             else if (control_id !== "")
-                $(this).getElementById(control_id).checked = false;
+                $("#"+control_id).removeAttr("checked");
 
             if (control_name != "" && item_value != ""&& control_name != "own_category")
             {
