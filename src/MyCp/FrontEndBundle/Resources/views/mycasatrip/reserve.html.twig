@@ -9,9 +9,9 @@
                 <div class="row-fluid">
                 <div class="span4"><a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                     {% if photos[loop.index0]%}
-                    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="span12 img-polaroid">
+                    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="span12 img-polaroid" alt="{{"Thumbnails" | trans}}">
                     {% else %}
-                    <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" class="span12 img-polaroid">
+                    <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" class="span12 img-polaroid" alt="{{"Thumbnails" | trans}}">
                     {% endif %}
                 </a></div>
                 <div style="margin-left: 10px" class="span8">

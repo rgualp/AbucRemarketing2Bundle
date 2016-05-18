@@ -13,7 +13,7 @@
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
     {% if notLazyLoad is defined and notLazyLoad %}
-        <img alt="{{ name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}"/>
+        <img alt="{{ name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}" alt="{{"Thumbnails" | trans}}"/>
     {% else %}
     <img alt="{{ name }}"
          class="lazy"

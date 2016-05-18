@@ -7,8 +7,8 @@
     <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}"></noscript>
+                <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}" alt="{{"No photo" | trans}}"/>
+                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" alt="{{"No script" | trans}}"></noscript>
             </a>
         </div>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
@@ -64,7 +64,7 @@
   <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
+                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}" alt="{{"Thumbnails" | trans}}">
             </a>
         </div>
         <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">

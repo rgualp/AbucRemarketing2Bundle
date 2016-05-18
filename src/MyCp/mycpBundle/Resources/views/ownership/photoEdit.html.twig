@@ -46,7 +46,7 @@
 <form action="{{ path('mycp_edit_photos_ownership',{'id_photo':id_photo,'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
     <div class="row-fluid">
         <div class="pull-right text-center">
-    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid"  alt=""/>
+    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid"  alt="Thumbnails"/>
     {% if is_granted('ROLE_CLIENT_STAFF')%}
                 <br/><br/><a class="btn btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':photo.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
                 {%endif%}
