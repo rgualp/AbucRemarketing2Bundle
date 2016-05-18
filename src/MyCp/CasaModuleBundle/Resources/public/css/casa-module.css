@@ -1,6 +1,6 @@
 /**Casa module styles*/
 body{
-    background-color: #094e75;
+    background-color: #2191d2;
 }
 /*start: style map*/
 #map_canvas {
@@ -134,7 +134,7 @@ label{
     padding-top: 10px;
 }
 #side-menu .nav-header {
-    background-color: #094e75;
+    background-color: #2191d2;
     font-size: 14px;
     text-align: center;
 }
@@ -153,7 +153,7 @@ body.mini-navbar .nav-header {
 }
 #side-menu{
     font-size: 16px;
-    background-color:  #062331;
+    background-color:  #0078be;
 }
 @media (min-width: 768px) {
     #page-wrapper {
@@ -174,12 +174,12 @@ body.mini-navbar .nav-header {
 }
 .nav-label
 {
-    color: #1483c2;
+    color: #fff;
     margin-left: 10px;
     font-weight: 400;
 }
 .glyphicons.menu-icon {
-    color: #b3b3b3;
+    color: #fff;
     font-size: 18px;
     margin-top: 0;
 }
@@ -233,10 +233,12 @@ body.mini-navbar.fixed-sidebar .profile-element, .block {
 .nav > li.active {
     border-left: none;
 }
+/*start:style column blue*/
 .oneblue-bg{
-    background-color: #90a4ae;
+    background-color: #58ae17;
     color:#f3f3f3;
 }
+/*end:style column blue*/
 .wrapper-content {
     padding: 0;
 }
