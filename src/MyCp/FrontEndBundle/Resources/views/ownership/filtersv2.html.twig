@@ -305,15 +305,14 @@
                         <input class="action_remove_filter_up" type="checkbox" name="room_bathroom" value="Compartido" {%if check_filters is defined  and check_filters['room_bathroom'] is defined and 'Compartido' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_shared%} disabled="disabled" {%endif%}/>{{"SHARED_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_shared']}})
                     </label>
                 </div>
-
+               <br>
                 <span class="h-dark-grey-2">{{ 'quick_bookinhg'|trans }}</span>
-                {%for award in awards%}
-                    <div class="checkbox">
+                 <div class="checkbox">
                         <label>
-                            <input class="action_remove_filter_up" type="checkbox" name="own_inmediate_booking"  {%if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %} data-aux-text="{{"quick_bookinhg" | trans}}" data-aux-text="{{"quick_bookinhg" | trans}}" />{{ 'quick_bookinhg'|trans }}
+                            <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking" name="own_inmediate_booking"  {%if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %} data-aux-text="{{"quick_bookinhg" | trans}}" data-aux-text="{{"quick_bookinhg" | trans}}" />{{ 'quick_bookinhg'|trans }}
                         </label>
                     </div>
-                {%endfor%}
+
             </div>
         </div>
     </div>
