@@ -723,6 +723,12 @@ function load_upper_filters()
         $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_internet' data-control-id='room_others_internet' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_internet").parent().text() + "</a> ");
     }
 
+    if (own_inmediate_booking)
+    {
+        innerHtml = $("#filter_upper").html();
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
+    }
+
     $(".filter_upper_item").click(function() {
         filter_upper($(this));
     });
