@@ -40,12 +40,12 @@ var App = function () {
                 //Inicializar el wizard
                 $('#content-wizard').removeClass('hide');
                 $('#step-0').addClass('hide');
-                App.fix_height();
                 $('#tab' + idWizardActive).removeClass('active');
                 $('#rootwizard').bootstrapWizard('show',(parseInt($(this).data("href"))-parseInt(1)));
                 idWizardActive=$(this).data("href");
                 $('#tab' + idWizardActive).addClass('active');
             }
+            App.fix_height();
         })
     }
     return {
@@ -57,20 +57,9 @@ var App = function () {
             startStep();
         },
         fix_height:function(){
-            var navbarHeigh = $('nav.navbar-default').height();
-            var wrapperHeigh = $('.col-content').height();
-
-            if (navbarHeigh > wrapperHeigh) {
-                $('.col-content').css("min-height", navbarHeigh + "px");
-            }
-
-            if (navbarHeigh < wrapperHeigh) {
-                $('.col-content').css("min-height", $(window).height() + "px");
-            }
-
-            if ($('body').hasClass('fixed-nav')) {
-                $('.col-content').css("min-height", $(window).height() - 60 + "px");
-            }
+            $('.col-content').css("position", "absolute");
+            var content_wizard = $('#content-wizard').height();
+            $('.col-content').css("min-height", content_wizard + "px");
         }
     };
 }()
