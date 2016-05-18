@@ -2,9 +2,6 @@
  * App script to handle the entire CasaModule and base functions
  * Copyright 2015.
  *========================================================================*/
-/**
-
- **/
 var App = function () {
     var idWizardActive="1";
 
@@ -61,22 +58,23 @@ var App = function () {
         },
         fix_height:function(){
             var navbarHeigh = $('nav.navbar-default').height();
-            var wrapperHeigh = $('#col-content').height();
+            var wrapperHeigh = $('.col-content').height();
 
             if (navbarHeigh > wrapperHeigh) {
-                $('#col-content').css("min-height", navbarHeigh + "px");
+                $('.col-content').css("min-height", navbarHeigh + "px");
             }
 
             if (navbarHeigh < wrapperHeigh) {
-                $('#col-content').css("min-height", $(window).height() + "px");
+                $('.col-content').css("min-height", $(window).height() + "px");
             }
 
             if ($('body').hasClass('fixed-nav')) {
-                $('#col-content').css("min-height", $(window).height() - 60 + "px");
+                $('.col-content').css("min-height", $(window).height() - 60 + "px");
             }
         }
     };
-}();
+}()
+//Start App
 App.init();
 
 

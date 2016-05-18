@@ -2,9 +2,6 @@
  * App script to handle the entire CasaModule and base functions
  * Copyright 2015.
  *========================================================================*/
-/**
-
- **/
 var Step1 = function () {
 
     /**
@@ -28,6 +25,7 @@ var Step1 = function () {
         }
     };
 }();
+//Start step1
 Step1.init();
 
 

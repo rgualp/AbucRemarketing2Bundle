@@ -2,10 +2,13 @@
 body{
     background-color: #094e75;
 }
+/*start: style map*/
 #map_canvas {
     min-height: 200px;
-    /*padding-left: 15px;*/
 }
+/*end: style map*/
+
+/*start: style wizard controle*/
 .mcp-pager li{
     padding-right: 20px;
 }
@@ -21,6 +24,7 @@ body{
     display: inline-block;
     padding: 5px 14px;
 }
+/*end: style wizard controle*/
 .bg-gray{
     background-color: #ececec;
     color: #b3b3b3;
@@ -58,6 +62,7 @@ body{
 .font-blue{
     color: #094e75;
 }
+/*start: style btn*/
 .btn{
     border-radius: 0;
     border: 0;
@@ -79,6 +84,7 @@ body{
     color: white !important;
     border-bottom: 3px solid #939393 !important;
 }
+/*end: style btn*/
 h2{
     font-size: 27px;
 }
@@ -149,12 +155,6 @@ body.mini-navbar .nav-header {
     font-size: 16px;
     background-color:  #062331;
 }
-/*.navbar-static-side{*/
-    /*width: 270px;*/
-/*}*/
-/*#page-wrapper{*/
-    /*margin-left: 270px;*/
-/*}*/
 @media (min-width: 768px) {
     #page-wrapper {
         position: inherit;
@@ -257,40 +257,11 @@ ol > li {
     margin:0 0 6px 2em; /* Give each list item a left margin to make room for the numbers */
     padding:4px 8px; /* Add some spacing around the content */
     list-style:none; /* Disable the normal item numbering */
-    /*border-top:2px solid #666;*/
-    /*background:#f6f6f6;*/
 }
-/*ol > li:before {*/
-    /*content:counter(li); !* Use the counter as content *!*/
-    /*counter-increment:li; !* Increment the counter by 1 *!*/
-    /*!* Position and style the number *!*/
-    /*position:absolute;*/
-    /*top:-2px;*/
-    /*left:-2em;*/
-    /*-moz-box-sizing:border-box;*/
-    /*-webkit-box-sizing:border-box;*/
-    /*box-sizing:border-box;*/
-    /*width:2em;*/
-    /*!* Some space between the number and the content in browsers that support*/
-       /*generated content but not positioning it (Camino 2 is one example) *!*/
-    /*margin-right:8px;*/
-    /*padding:4px;*/
-    /*border-top:2px solid #666;*/
-    /*color:#fff;*/
-    /*background:#666;*/
-    /*font-weight:bold;*/
-    /*font-family:"Helvetica Neue", Arial, sans-serif;*/
-    /*text-align:center;*/
-/*}*/
-/*li ol,*/
-/*li ul {margin-top:6px;}*/
-/*ol ol li:last-child {margin-bottom:0;}*/
-
 ol > li::before {
     color: #64a433;
     content: counter(li, decimal);
     counter-increment: li;
-    /*font-family: "Helvetica Neue",Arial,sans-serif;*/
     font-size: 27px;
     left: -1em;
     margin-right: 3px;
