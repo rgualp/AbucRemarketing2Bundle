@@ -83,8 +83,8 @@ body{
 }
 
 .btn-default, .btn-default:hover, .btn-default:active{
-    background: #bdbdbd !important;
-    color: white !important;
+    background: #cecece !important;
+    color: #595959 !important;
     border-bottom: 3px solid #939393 !important;
 }
 /*end: style btn*/
