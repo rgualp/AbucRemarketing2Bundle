@@ -2013,7 +2013,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
             $data[9] = room::getShortRoomType($content["own_res_room_type"]);
             $data[10] = $content["own_res_count_adults"];
             $data[11] = $content["own_res_count_childrens"];
-            $data[12] = $content["own_res_total_in_site"];
+            $data[12] = $content["own_res_total_in_site"] / $content["nights"];
             $date = $content["own_res_reservation_from_date"];
             $data[13] = date('d/m/Y', $date->getTimestamp());
             $data[14] = $content["nights"];
@@ -2162,7 +2162,7 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
                 $data[9] = room::getShortRoomType($content["own_res_room_type"]);
                 $data[10] = $content["own_res_count_adults"];
                 $data[11] = $content["own_res_count_childrens"];
-                $data[12] = $content["own_res_total_in_site"];
+                $data[12] = $content["own_res_total_in_site"] / $content["nights"];
                 $date = $content["own_res_reservation_from_date"];
                 $data[13] = date('d/m/Y', $date->getTimestamp());
                 $data[14] = $content["nights"];
