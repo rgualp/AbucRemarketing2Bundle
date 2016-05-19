@@ -23,10 +23,7 @@
      </a>
     <noscript>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-        <img
-                class="nolazy"
-                src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
-                {% if award %}style="position: relative; top:-15px"{% endif %}>
+        <img class="nolazy" src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}" {% if award %}style="position: relative; top:-15px"{% endif %} alt="{{"Thumbnails" | trans}}" />
     </a>
         {% endif %}
     </noscript>
