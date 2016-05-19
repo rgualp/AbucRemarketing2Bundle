@@ -27,6 +27,9 @@ body{
     display: inline-block;
     padding: 5px 14px;
 }
+.text-save{
+    color:#a3a3a3;
+}
 /*end: style wizard controle*/
 .bg-gray{
     background-color: #ececec;
