@@ -1,0 +1,84 @@
+{% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
+    {% block stylesheets %}
+        {% stylesheets
+        '@MyCpCasaModuleBundle/Resources/public/css/plugins/iCheck/custom.css'
+        filter='?uglifycss'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        <style>
+
+            #terms-error {
+                margin-top: 2px;
+                min-width: 230px;
+            }
+            .control-label{
+                font-size: 18px;
+            }
+        </style>
+    {% endblock %}
+{% block alerts %}{% endblock %}
+{% block content %}
+<div class="middle-box loginscreen text-center animated fadeInDown">
+    <div>
+        <img src="{{ asset('img/mycp.png') }}">
+    </div>
+    <h2 class="font-blue">Bienvenido!</h2>
+    {% for message in app.session.flashbag.get('message_ok') %}
+        <div class="alert alert-info alert-dismissable">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('message_error') %}
+        <div class="alert alert-danger alert-dismissable">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ message }}</div>
+    {% endfor %}
+    {% if error is defined and error is not null %}
+        <div class="alert alert-danger alert-dismissable">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
+    {% endif %}
+    <form class="form-horizontal" action="{{ path('my_cp_casa_login_check') }}" method="post" id="login">
+    <div class="bg-gray m-t-20" style="text-align: center;">
+            <div class="form-group row">
+                    <label class="control-label" for="inputUsername">Código de la Casa </label>
+                     <input type="text" class="form-control" id="inputUsername" placeholder="Usuario" name="_username"   value="{{ last_username|default('') }}"/>
+            </div>
+            <div class="form-group row">
+                <label class="control-label" for="inputPassword">Contraseña</label>
+
+                    <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>
+                    <br/>
+                    <label>
+                        <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña
+                    </label>
+
+                </div>
+            </div>
+        <div class="col-md-12 m-t-20 m-b-20">
+            <a class="forgotLink" href="{{ path("my_cp_forget_password") }}">¿Olvidó su clave?</a>
+        </div>
+         <button type="submit" class="btn btn-success">Autenticarse</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    filter='?uglifyjs2'
+    %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function(){
+            $('.i-checks').iCheck({
+//             checkboxClass: 'icheckbox_square-green',
+                checkboxClass: 'iradio_square-green',
+                radioClass: 'iradio_square-green'
+            });
+        });
+    </script>
+{% endblock %}

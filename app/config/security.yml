@@ -70,6 +70,28 @@ security:
                 delete_cookies:
                     REMEMBERME: { path: ~, domain: ~}
             anonymous: ~
+        modulo_casa_new:
+            pattern:    ^/mycasa
+            provider: chain_for_backend
+            form_login:
+                check_path: /mycasa/login_check
+                login_path: /mycasa/login
+                remember_me: true
+                default_target_path: /mycasa/dashboard
+                use_referer: false
+            remember_me:
+                key: '%secret%'
+                #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                lifetime: 86400
+                path: /
+                domain: ~
+            logout:
+                path:   /mycasa/logout
+                target: /mycasa/dashboard
+                invalidate_session: false
+                delete_cookies:
+                    REMEMBERME: { path: ~, domain: ~}
+            anonymous: ~
 
         #lodging:
         #    pattern:    ^/alojamiento
@@ -120,9 +142,14 @@ security:
         - { path: ^/casa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/casa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/casa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
         - { path: ^/casa, roles: IS_AUTHENTICATED_REMEMBERED}
+        - { path: ^/mycasa, roles: IS_AUTHENTICATED_REMEMBERED}
        # - { path: ^/alojamiento/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento, roles: IS_AUTHENTICATED_REMEMBERED}

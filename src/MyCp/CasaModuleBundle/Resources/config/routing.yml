@@ -1,0 +1,28 @@
+my_cp_casa_module_homepage:
+    path:     /dashboard
+    defaults: { _controller: MyCpCasaModuleBundle:Default:index }
+my_cp_casa_module_registration:
+    path:     /registro
+    defaults: { _controller: MyCpCasaModuleBundle:Registration:register }
+my_cp_casa_module_activateAccount:
+    path: /registro/activar/{token}
+    defaults: { _controller: MyCpCasaModuleBundle:Registration:activateAccount }
+    requirements:
+        token: .*
+my_cp_casa_login:
+    path: /login
+    defaults: { _controller: MyCpCasaModuleBundle:Security:login , urlLogin: 'my_cp_casa_login_check'}
+my_cp_casa_login_check:
+    path: /login_check
+my_cp_casa_logout:
+    path: /logout
+my_cp_forget_password:
+    path:  /olvido-contrasenna/
+    defaults: { _controller: MyCpCasaModuleBundle:Security:forgotPassword}
+
+my_cp_change_password_user:
+    path:  /cambiar-contrasenna/{string}
+    defaults: { _controller: MyCpCasaModuleBundle:Security:changePassword }
+my_casa_module_ownership_steps:
+    resource: "@MyCpCasaModuleBundle/Controller/StepsController.php"
+    type: annotation

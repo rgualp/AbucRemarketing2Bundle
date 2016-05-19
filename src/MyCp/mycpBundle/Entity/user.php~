@@ -2,7 +2,9 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -12,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\userRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class user implements UserInterface,  \Serializable
+class user implements AdvancedUserInterface,  \Serializable
 {
     /**
      * @var integer
@@ -147,15 +149,51 @@ class user implements UserInterface,  \Serializable
      */
     private $user_activation_date;
 
+    /**
+     * @ORM\OneToMany(targetEntity="comment", mappedBy="com_user")
+     */
+    private $comments;
+    /**
+     * @ORM\OneToMany(targetEntity="userCasa", mappedBy="user_casa_user")
+     */
+   private $user_user_casa;
+
+    public function __construct() {
+        $this->comments = new ArrayCollection();
+        $this->modified_reservations = new ArrayCollection();
+    }
+
+
 
     public function getSalt(){
         return '222';
     }
-
-    public function unserialize($data)
+    public function serialize()
     {
-        $this->user_id = unserialize($data);
+        return serialize(array(
+            $this->user_id,
+            $this->user_user_name,
+            $this->user_email, //Add email
+            $this->user_password,
+            $this->user_enabled,
+        ));
     }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->user_id,
+            $this->user_user_name,
+            $this->user_email, //Add email
+            $this->user_password,
+            $this->user_enabled,
+            ) = unserialize($serialized);
+
+    }
+//    public function unserialize($data)
+//    {
+//        $this->user_id = unserialize($data);
+//    }
 
     public function eraseCredentials(){
 
@@ -165,23 +203,24 @@ class user implements UserInterface,  \Serializable
         return array($this->user_role);
     }
 
-    public function serialize()
-    {
-        return serialize($this->user_id);
-    }
+//    public function serialize()
+//    {
+//        return serialize($this->user_id);
+//    }
 
     public function getPassword()
     {
         return $this->user_password;
     }
+    public function getUsername()
+    {
+        return $this->user_email;
+    }
 
-    public function getUserName()
+    public function getName()
     {
         return $this->user_name;
     }
-
-
-
 
     /**
      * Get user_id
@@ -333,6 +372,7 @@ class user implements UserInterface,  \Serializable
 
         return $this;
     }
+
 
     /**
      * Get user_password
@@ -592,8 +632,129 @@ class user implements UserInterface,  \Serializable
 
     public function __toString()
     {
-        return $this->user_name;
+        $country = ($this->getUserCountry() != null) ? " (".$this->getUserCountry()->getCoName(). ")" : "";
+        return (($this->getUserCompleteName() != "") ? $this->getUserCompleteName() : $this->getUserUserName()).$country;
     }
 
+
+
+    /**
+     * Set locked
+     *
+     * @param boolean $locked
+     *
+     * @return user
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+    public function isAccountNonLocked()
+    {
+        return !$this->locked;
+    }
+    public function isLocked()
+    {
+        return !$this->isAccountNonLocked();
+    }
+
+    /**
+     * Checks whether the user's account has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw an AccountExpiredException and prevent login.
+     *
+     * @return bool true if the user's account is non expired, false otherwise
+     *
+     * @see AccountExpiredException
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the user's credentials (password) has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a CredentialsExpiredException and prevent login.
+     *
+     * @return bool true if the user's credentials are non expired, false otherwise
+     *
+     * @see CredentialsExpiredException
+     */
+    public function isCredentialsNonExpired()
+    {
+       return true;
+    }
+
+    /**
+     * Checks whether the user is enabled.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a DisabledException and prevent login.
+     *
+     * @return bool true if the user is enabled, false otherwise
+     *
+     * @see DisabledException
+     */
+    public function isEnabled()
+    {
+        return $this->user_enabled;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     * @return mixed
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+   /* public function getModifiedReservations()
+    {
+        return $this->modified_reservations;
+    }*/
+
+    /**
+     * @param mixed $modified_reservations
+     * @return mixed
+     */
+    /*public function setModifiedReservations($modified_reservations)
+    {
+        $this->modified_reservations = $modified_reservations;
+        return $this;
+    }*/
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Usuario ".$this->getUserCompleteName();
+    }
 
 }

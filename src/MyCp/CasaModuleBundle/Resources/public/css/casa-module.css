@@ -1,0 +1,312 @@
+/**Casa module styles*/
+body{
+    background-color: #2191d2;
+}
+.collapse_arrow{
+    background: url('/bundles/mycpcasamodule/img/Zaeta-Izquierda.png') no-repeat;
+}
+/*start: style map*/
+#map_canvas {
+    min-height: 200px;
+}
+/*end: style map*/
+
+/*start: style wizard controle*/
+.mcp-pager li{
+    padding-right: 20px;
+}
+.mcp-pager .previous > a, .mcp-pager .previous > span {
+    float: none;
+}
+.mcp-pager .next > a, .mcp-pager .next > span {
+    float: none;
+}
+.mcp-pager li > a, .mcp-pager li > span {
+    border: none;
+    border-radius: 0px;
+    display: inline-block;
+    padding: 5px 14px;
+}
+.text-save{
+    color:#a3a3a3;
+}
+/*end: style wizard controle*/
+.bg-gray{
+    background-color: #ececec;
+    color: #b3b3b3;
+    padding: 35px;
+    border-bottom: 3px solid #8fb571;
+    text-align: left;
+}
+.form-icon{
+    font-size: 27px;
+    margin-top: 4px;
+}
+.glyphicons.form-icon {
+    color: #b3b3b3;
+    font-size: 24px;
+    margin-top: 5px;
+    margin-right: -13px;
+}
+.step-span{
+    font-size: 24px;
+}
+.glyphicons.step-form-icon {
+    color: #bdbdbd;
+    font-size: 24px;
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+.register-check{
+  font-size: 27px;
+    color: #595959;
+}
+.bg-yellow{
+    background-color: #ffa726;
+    padding: 15px 30px;
+    color: white;
+}
+.font-blue{
+    color: #094e75;
+}
+/*start: style btn*/
+.btn{
+    border-radius: 0;
+    border: 0;
+}
+.btn-success, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success:active:focus, .btn-success:active:hover, .btn-success.active:hover, .btn-success.active:focus{
+    background: #64a433 !important;
+    color: white !important;
+    border-bottom: 3px solid #4e7f28 !important;
+
+}
+.btn-orange, .btn-orange:hover, .btn-orange:focus, .btn-orange:active, .btn-orange.active, .btn-orange:active:focus, .btn-orange:active:hover, .btn-orange.active:hover, .btn-orange.active:focus{
+    background: #f36b25 !important;
+    color: white !important;
+    border-bottom: 3px solid #bd531d !important;
+}
+
+.btn-default, .btn-default:hover, .btn-default:active{
+    background: #cecece !important;
+    color: #595959 !important;
+    border-bottom: 3px solid #939393 !important;
+}
+/*end: style btn*/
+h2{
+    font-size: 27px;
+}
+h3{
+    font-size: 16px;
+}
+h1,h2,h3,h4,h5,h6{
+    font-weight: 400;
+}
+.img-title-step{
+    height: 50px;
+    width: 50px;
+}
+.m-t-10{
+    margin-top: 10px;
+}
+.m-t-20{
+    margin-top: 20px;
+}
+.m-t-25{
+    margin-top: 25px;
+}
+.m-t-30{
+    margin-top: 30px;
+}
+.m-t-40{
+    margin-top: 40px;
+}
+.m-b-10{
+    margin-bottom: 10px;
+}
+.m-b-20{
+    margin-bottom: 20px;
+}
+.m-b-30{
+    margin-bottom: 30px;
+}
+.m-b-40{
+    margin-bottom: 40px;
+}
+.m-r-5{
+    margin-right: 5px;
+}
+label{
+    font-weight: 400;
+    font-size: 14px;
+}
+/**Dashboard*/
+.navbar-static-top{
+    background-color: white;
+    border-bottom: 5px solid #64a433;
+    height: 85px;
+    vertical-align: middle;
+}
+.navbar-static-top .navbar-header {
+    float: left;
+    padding-top: 10px;
+}
+#side-menu .nav-header {
+    background-color: #2191d2;
+    font-size: 14px;
+    text-align: center;
+}
+.nav-label.header-label {
+    font-size: 18px;
+}
+body.mini-navbar .nav-header {
+    /*background-color: #64a433 !important;*/
+    padding: 0 !important;
+}
+.minimalize-styl-2{
+    margin-left: 10px;
+}
+.navbar-right{
+    margin-top: 7px;
+}
+#side-menu{
+    font-size: 16px;
+    background-color:  #0078be;
+}
+@media (min-width: 768px) {
+    #page-wrapper {
+        position: inherit;
+        margin: 0 0 0 270px;
+        min-height: 1200px;
+    }
+    .navbar-static-side {
+        z-index: 2001;
+        position: absolute;
+        width: 270px;
+    }
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    }
+}
+.nav-label
+{
+    color: #fff;
+    margin-left: 10px;
+    font-weight: 400;
+}
+.glyphicons.menu-icon {
+    color: #fff;
+    font-size: 18px;
+    margin-top: 0;
+}
+body.mini-navbar.fixed-sidebar .profile-element, .block {
+    color: white;
+    display: block !important;
+    font-size: 18px;
+}
+.logo-element {
+    color: white;
+    display: none;
+    font-size: 18px;
+    font-weight: 100;
+    height: 85px;
+    padding: 24px 0;
+    text-align: center;
+}
+#side-menu .nav-header{
+    padding: 20px;
+}
+.white{
+    color: white;
+}
+
+.nav.navbar-right > li > a {
+    color: #64a433;
+    font-size: 18px;
+    font-weight: 400;
+}
+.nav > li > a i {
+    color: #b3b3b3;
+}
+.nav > li.active a span {
+    color: white;
+}
+#side-menu li.active::after {
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid white;
+    border-top: 15px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 24%;
+    width: 0;
+}
+#side-menu li.active.m-t-20::after {
+    top: 30%;
+}
+.nav > li.active {
+    border-left: none;
+}
+/*start:style column blue*/
+.oneblue-bg{
+    background-color: #58ae17;
+    color:#f3f3f3;
+}
+/*end:style column blue*/
+.wrapper-content {
+    padding: 0;
+}
+ol.owner-list {
+    font-size: 16px;
+}
+.owner-list > li {
+    margin-bottom: 5px;
+}
+
+ol {
+    counter-reset:li; /* Initiate a counter */
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ol > li {
+    position:relative; /* Create a positioning context */
+    margin:0 0 6px 2em; /* Give each list item a left margin to make room for the numbers */
+    padding:4px 8px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+}
+ol > li::before {
+    color: #64a433;
+    content: counter(li, decimal);
+    counter-increment: li;
+    font-size: 27px;
+    left: -1em;
+    margin-right: 3px;
+}
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+}
+.p-20{
+    padding:20px;
+}
+.p-10{
+    padding:10px;
+}
+/**Avatar*/
+.dashboard-avatar {
+    border: 6px solid #c0c0c0;
+    position: relative;
+    box-shadow: 0 0 0 4px #377209;
+}
+.help-icon{
+    margin-left: 2px;
+    cursor: pointer;
+}
+.font-black{
+    color: #575757;
+}

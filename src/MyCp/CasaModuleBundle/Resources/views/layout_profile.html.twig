@@ -1,0 +1,24 @@
+{% if app.user %}
+<li class="nav-header">
+    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle dashboard-avatar" src="{{ asset('bundles/frontend/img/user-no-photo.gif') }}" width="140px" height="140px" />
+                             </span>
+
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Hola {{ app.user.userUserName~' '~ app.user.userLastName}}</strong>
+                             </span></span>
+                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="text-muted text-xs block" style="font-size: 16px;">{{ 'Subir foto' | trans }} </span>  </a>
+        {#<ul class="dropdown-menu animated fadeInRight m-t-xs">#}
+            {#<li><a href="profile.html">Profile</a></li>#}
+            {#<li><a href="contacts.html">Contacts</a></li>#}
+            {#<li><a href="mailbox.html">Mailbox</a></li>#}
+            {#<li class="divider"></li>#}
+            {#<li><a href="{{ path('my_cp_casa_logout') }}">Cerrar sesión</a></li>#}
+        {#</ul>#}
+    </div>
+    <div class="logo-element">
+        {#<img alt="mycp" class="img-circle" src="{{ asset('bundles/mycpcasamodule/img/logo-icon.png') }}" width="48px" height="48px" />#}
+        <a class="navbar-minimalize">
+        <i class="ico_pinunpin glyphicons white right_arrow "></i></a>
+    </div>
+</li>
+{% endif %}
