@@ -71,7 +71,7 @@
                         <img class="img-polaroid" src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" alt=""><br/>
                         <em>{{ comment.getComUser.getName }} {{ comment.getComUser.getUserLastName }}</em><br/>
                         <div class="rating_star">
-                            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
+                            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}" alt="{{"Start on" | trans}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}" alt="{{"Start off" | trans}}"/>{% endif %} {% endfor %}
                         </div>
                     </div>
                     <div class="span10" style="font-size: 16px;">

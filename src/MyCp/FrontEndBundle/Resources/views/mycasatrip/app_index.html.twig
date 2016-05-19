@@ -51,7 +51,7 @@
 {% block big_banner %}
     <div style="width: 100%">
         {#<h2 style="color: #095075;text-align: center;position: absolute;left:35%">{{ 'Descarga App My Casa Trip'|trans }}</h2>#}
-        <img src="{{ asset('bundles/frontend/img/mycasatrip/b2_' ~ app.request.locale ~ '.png') }}" style="width: 100%">
+        <img src="{{ asset('bundles/frontend/img/mycasatrip/b2_' ~ app.request.locale ~ '.png') }}" style="width: 100%" alt="{{"MyCp" | trans}}">
     </div>
 {% endblock %}
 
@@ -67,14 +67,14 @@
         </div>
         <div class="row" style="text-align: center; margin-top: 20px;">
             <a href="{{ path('frontend_download_apptrip') }}">
-                <img src="{{ asset('bundles/frontend/img/mycasatrip/nuebe.png') }}">
+                <img src="{{ asset('bundles/frontend/img/mycasatrip/nuebe.png') }}" alt="{{"Number" | trans}}">
             </a>
         </div>
         <div class="row" style="margin-top:50px;">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-xs-12  col-md-3" style="text-align: center">
-                        <img src="{{ asset('bundles/frontend/img/mycasatrip/mapa.png') }}">
+                        <img src="{{ asset('bundles/frontend/img/mycasatrip/mapa.png') }}" alt="{{"Map" | trans}}">
                     </div>
                     <div class="col-xs-1   col-md-1 hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
@@ -86,7 +86,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-xs-12  col-md-3" style="text-align: center">
-                        <img src="{{ asset('bundles/frontend/img/mycasatrip/movil.png') }}">
+                        <img src="{{ asset('bundles/frontend/img/mycasatrip/movil.png') }}" alt="{{"Movil" | trans}}">
                     </div>
                     <div class="col-xs-1   hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
@@ -100,7 +100,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-xs-12  col-md-3" style="text-align: center">
-                        <img src="{{ asset('bundles/frontend/img/mycasatrip/casa.png') }}">
+                        <img src="{{ asset('bundles/frontend/img/mycasatrip/casa.png') }}" alt="{{"House" | trans}}">
                     </div>
                     <div class="col-xs-1   col-md-1 hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
@@ -112,7 +112,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-xs-12  col-md-3" style="text-align: center">
-                        <img src="{{ asset('bundles/frontend/img/mycasatrip/icono-destino.png') }}">
+                        <img src="{{ asset('bundles/frontend/img/mycasatrip/icono-destino.png') }}" alt="{{"DESTINATION" | trans}}">
                     </div>
                     <div class="col-xs-1   hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
@@ -127,7 +127,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="row">
                     <div class="col-xs-12  col-md-3" style="text-align: center">
-                        <img src="{{ asset('bundles/frontend/img/mycasatrip/brujula.png') }}">
+                        <img src="{{ asset('bundles/frontend/img/mycasatrip/brujula.png') }}" alt="{{"Brujula" | trans}}">
                     </div>
                     <div class="col-xs-1   hidden-xs hidden-sm"></div>
                     <div class="col-xs-12  col-md-8">
@@ -151,7 +151,7 @@
         <a href="{{ path('frontend_download_apptrip') }}" class="btn btn-green"><i class="fa fa-download"></i> {{ 'DOWNLOAD_APP'|trans }}</a>
 
         <i class="hidden-xs hidden-sm" style="margin-left: 50px"></i>
-        <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycplight" target="_blank"><img src="{{ asset('bundles/frontend/img/google-play.png') }}"></a>
+        <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycplight" target="_blank"><img src="{{ asset('bundles/frontend/img/google-play.png') }}" alt="{{"Google play" | trans}}"></a>
     </div>
 {% endblock %}
 

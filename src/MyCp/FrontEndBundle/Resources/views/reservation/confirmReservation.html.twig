@@ -70,7 +70,7 @@
                 <td width="40%" style="border-top:none;"><a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.name  | urlNormalize}) }}">{{ own.name }}</a></td>
                 <td rowspan="5" style="border-top:none;">
                     <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                        <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
+                        <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>
                     </div>
                 </td>
             </tr>

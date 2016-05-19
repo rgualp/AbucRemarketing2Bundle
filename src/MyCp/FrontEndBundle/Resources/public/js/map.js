@@ -673,7 +673,7 @@ function map_destination_by_province()
             {
                 name = destinations_names[array_signals_show[cont]];
                 name = name.toLowerCase();
-                name = name.split(' ').join('_');
+                name = name.split(' ').join('-');
                 window.location = link_destination + '/' + name;
             }
 

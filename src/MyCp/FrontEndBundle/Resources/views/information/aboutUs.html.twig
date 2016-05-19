@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <img class="full-width" src="{{ asset('bundles/frontend/img/cuba.png') }}"/>
+                <img class="full-width" src="{{ asset('bundles/frontend/img/cuba.png') }}" alt="{{"Cuba" | trans}}"/>
             </div>
         </div>
         <div class="row">
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <img class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?center={{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&zoom=15&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
+                <img alt="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?center={{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&zoom=15&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
             </div>
 
         </div>

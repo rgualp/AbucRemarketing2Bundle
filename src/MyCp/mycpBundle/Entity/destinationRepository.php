@@ -666,11 +666,7 @@ class destinationRepository extends EntityRepository {
                              d.des_name,
                              d.des_name as des_name_for_url,
                              prov.prov_name,
-                             (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
-                            JOIN dp.des_pho_photo pho
-                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
-                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
-                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
+                             (select min(ph.pho_name) from mycpBundle:destinationPhoto dp join dp.des_pho_photo ph where dp.des_pho_destination = d.des_id order by ph.pho_order) as photo,
                              (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_address_province = prov.prov_id) as min_price
                              FROM mycpBundle:destinationLocation dloc
                              JOIN dloc.des_loc_province prov

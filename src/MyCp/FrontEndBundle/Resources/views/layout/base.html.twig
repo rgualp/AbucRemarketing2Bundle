@@ -4,7 +4,6 @@
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
 
     {% block metas %}
-        <meta charset="utf-8">
         {{ get_metas('Main', app.session.get('app_lang_code')|lower )|raw }}
     {% endblock metas %}
 
@@ -266,7 +265,7 @@
                 </div>
             </div>
             <div class="col-xs-2 text-right">
-                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">
+                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com" alt="{{"MyCasaParticular" | trans}}">
             </div>
         </div>
         <div style="margin: 0 0 10px;">
@@ -285,8 +284,6 @@
         </div>
     </div>
 </footer>
-
-</body>
 {% javascripts
 '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
 '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
@@ -297,7 +294,7 @@
 '@FrontEndBundle/Resources/public/js/custom.min.js'
 filter='?uglifyjs2'
 %}
-    <script src="{{ asset_url }}"></script>
+<script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
@@ -331,4 +328,5 @@ filter='?uglifyjs2'
 </noscript>
 {% block javascripts %}
 {% endblock javascripts %}
+</body>
 </html>
