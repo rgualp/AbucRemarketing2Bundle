@@ -70,9 +70,9 @@ var App = function () {
             mouseHelp();
         },
         fix_height:function(){
-            $('.col-content').css("position", "absolute");
+           /* $('.col-content').css("position", "absolute");
             var content_wizard = $('#content-wizard').height();
-            $('.col-content').css("min-height", content_wizard + "px");
+            $('.col-content').css("min-height", content_wizard + "px");*/
         },
         hide_pagination_izard:function(index){
             if(index==0){
