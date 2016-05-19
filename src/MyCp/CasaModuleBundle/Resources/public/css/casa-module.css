@@ -46,12 +46,13 @@ body{
     color: #b3b3b3;
     font-size: 24px;
     margin-top: 5px;
+    margin-right: -13px;
 }
 .step-span{
     font-size: 24px;
 }
 .glyphicons.step-form-icon {
-    color: #b3b3b3;
+    color: #bdbdbd;
     font-size: 24px;
     margin-bottom: 15px;
     margin-right: 10px;
@@ -100,11 +101,18 @@ h3{
 h1,h2,h3,h4,h5,h6{
     font-weight: 400;
 }
+.img-title-step{
+    height: 50px;
+    width: 50px;
+}
 .m-t-10{
     margin-top: 10px;
 }
 .m-t-20{
     margin-top: 20px;
+}
+.m-t-25{
+    margin-top: 25px;
 }
 .m-t-30{
     margin-top: 30px;
@@ -123,6 +131,9 @@ h1,h2,h3,h4,h5,h6{
 }
 .m-b-40{
     margin-bottom: 40px;
+}
+.m-r-5{
+    margin-right: 5px;
 }
 label{
     font-weight: 400;
@@ -290,8 +301,11 @@ ol > li::before {
 .dashboard-avatar {
     border: 6px solid #c0c0c0;
     position: relative;
-    box-shadow: 0 0 0 4px #083a57;
+    box-shadow: 0 0 0 4px #377209;
+}
+.help-icon{
+    margin-left: 2px;
 }
 .font-black{
-    color: #313131;
+    color: #575757;
 }
