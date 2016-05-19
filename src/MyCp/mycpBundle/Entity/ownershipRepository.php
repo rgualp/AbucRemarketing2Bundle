@@ -468,24 +468,19 @@ class ownershipRepository extends EntityRepository {
                 $room->setRoomNum($e);
                 $em->persist($room);
 
-                if (($ownership->getOwnMinimumPrice() == 0 ||
-                        $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()) && $room->getRoomActive()
-                )
+            if ($room->getRoomActive()) {
+                if (($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()))
                     $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-                if (($ownership->getOwnMaximumPrice() == 0 ||
-                        $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive()
-                )
+                if (($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()))
                     $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-                if (($ownership->getOwnMaximumPrice() == 0 ||
-                        $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive()
-                )
+                if (($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()))
                     $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-                if ($room->getRoomActive()) {
                     $maximum_guest_total += $room->getMaximumNumberGuests();
-                }
+            }
+
                 $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
            // }
         }

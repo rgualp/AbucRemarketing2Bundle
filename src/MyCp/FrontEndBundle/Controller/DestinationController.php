@@ -177,11 +177,6 @@ class DestinationController extends Controller {
 
         $list = $em->getRepository('mycpBundle:destination')->getByProvinceName($province_name);
 
-        /*$decimal_part = (count($list) / 4) - (count($list) % 4);
-        $decimal_part = ($decimal_part != 0) ? 1: 0;
-
-        var_dump((count($list) % 4) + 1); die;*/
-
         $response = $this->renderView('FrontEndBundle:destination:destinationsInProvince.html.twig', array(
             'list' => $list
         ));
