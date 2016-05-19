@@ -303,7 +303,7 @@ class destinationRepository extends EntityRepository {
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
                          (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id) as count_ownership,
-                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_destination = d.des_id) as min_price
+                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_destination = d.des_id and o1.own_minimum_price is not null and o1.own_minimum_price > 0) as min_price
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
@@ -667,7 +667,7 @@ class destinationRepository extends EntityRepository {
                              d.des_name as des_name_for_url,
                              prov.prov_name,
                              (select min(ph.pho_name) from mycpBundle:destinationPhoto dp join dp.des_pho_photo ph where dp.des_pho_destination = d.des_id order by ph.pho_order) as photo,
-                             (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_address_province = prov.prov_id) as min_price
+                             (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_destination = d.des_id AND o1.own_minimum_price is not null and o1.own_minimum_price > 0 and o1.own_status = :activeStatus) as min_price
                              FROM mycpBundle:destinationLocation dloc
                              JOIN dloc.des_loc_province prov
                              JOIN dloc.des_loc_destination d
@@ -677,7 +677,10 @@ class destinationRepository extends EntityRepository {
 
         //$query_string = $query_string . " ORDER BY o.own_rating DESC";
 
-        $results = $em->createQuery($query_string)->setParameter('province_name', "%" . $province_name . "%")->getResult();
+        $results = $em->createQuery($query_string)
+            ->setParameter('province_name', "%" . $province_name . "%")
+            ->setParameter("activeStatus", ownershipStatus::STATUS_ACTIVE)
+            ->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
