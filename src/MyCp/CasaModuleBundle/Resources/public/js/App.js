@@ -4,7 +4,7 @@
  *========================================================================*/
 var App = function () {
     var idWizardActive="0";
-
+    var textHelp="";
     /**
      * Para inicializar el wizard
      */
@@ -45,6 +45,21 @@ var App = function () {
             App.fix_height();
         })
     }
+    /**
+     * //Para cuando el usuario de click en la ayuda
+     */
+    var mouseHelp=function(){
+        $('.help-icon').on('click',function(){
+            if(textHelp!=''){
+                $('#'+textHelp).css('background-color','transparent');
+                $('#'+$(this).data("href")).css('background-color','#e94b3d');
+            }
+            else
+                $('#'+$(this).data("href")).css('background-color','#e94b3d');
+
+            textHelp=$(this).data("href");
+        })
+    }
     return {
         //main function to initiate template pages
         init: function () {
@@ -52,6 +67,7 @@ var App = function () {
             initializeWizard();
             activeTabWizard();
             startStep();
+            mouseHelp();
         },
         fix_height:function(){
             $('.col-content').css("position", "absolute");

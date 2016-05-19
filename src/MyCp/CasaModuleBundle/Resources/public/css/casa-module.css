@@ -305,6 +305,7 @@ ol > li::before {
 }
 .help-icon{
     margin-left: 2px;
+    cursor: pointer;
 }
 .font-black{
     color: #575757;

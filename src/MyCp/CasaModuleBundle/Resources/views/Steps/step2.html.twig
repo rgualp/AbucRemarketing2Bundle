@@ -5,7 +5,7 @@
                 <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-step m-t-25">
             </div>
             <div class="col-sm-11">
-                <h2 class="font-blue">Paso1</h2>
+                <h2 class="font-blue">Paso 1</h2>
                 <h3 class="font-blue">Complete los datos de su propiedad</h3>
             </div>
         </div>
@@ -30,8 +30,8 @@
                 </div>
                 <div class="form-group row">
                     <label class="control-label">Dirección(Calle, No., Entre calles, Provincia, Municipio)</label>
-                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" class="help-icon">
-                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-one" class="help-icon">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
                     <div class="row">
                     <div class="col-sm-8 m-t-10">
                      <div class="row">
@@ -85,7 +85,9 @@
                 </div>
                 <div class="form-group row">
                     <label class="control-label">Destino</label>
-                    <div class="row">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                    <div class="row p-10">
                         <div class="col-sm-8">
                          <div class="row">
                              <div class="col-sm-1">
@@ -101,8 +103,10 @@
                 <div class="row">
                     <div >
                     <label class="control-label">Geolocalización</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-three" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
                     </div>
-                    <div class="row">
+                    <div class="row p-10">
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-1">
@@ -132,22 +136,22 @@
             </form>
     </div>
     <div class="col-md-3 oneblue-bg col-content">
-        <div id="text-description-one" class="row">
+        <div id="help-step2-one" class="row">
             <div class="col-md-12 m-t-20">
                 <p>ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas especificas</p>
             </div>
         </div>
-        <div id="text-description-two" class="row">
+        <div id="help-step2-two" class="row">
             <div class="col-md-12 m-t-40">
                 <p>especifique el destino turístico al cual pertenece su alojamiento</p>
             </div>
         </div>
-        <div id="text-description-tree" class="row">
+        <div id="help-step2-three" class="row">
             <div class="col-md-12 m-t-40">
                 <p>usted puede ubicar su alojamiento en el mapa, o simplemente poner su dirección y el mapa le dará la opción de verificar sus datos. Haga más fácil para el cliente encontrar su alojamiento)</p>
             </div>
         </div>
-        <div id="text-description-four" class="row">
+        <div id="help-step2-four" class="row">
             <div class="col-md-12 m-t-40">
                 <p>especifique cuales son los idiomas que domina, a través de los cuales usted y su personal se pueden comunicar con el cliente</p>
             </div>
