@@ -11,16 +11,16 @@
     {% if errors['user_email'] is defined%}<div class="alert alert-danger">{{errors['user_email']}}</div>{% endif %}
     {% if errors['complete_form'] is defined%}<div class="alert alert-danger">{{errors['complete_form']}}</div>{% endif %}
     <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_MY_PROFILE" | trans}}</h2>
-    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
     <div class="row" style="margin-bottom: 30px">
             <div class="col-sm-4"></div>
         <div class="col-sm-4 houses-list thumbs-houses lazy-cont ">
         {%if user.UserPhoto != ""%}
-            <img class="lazy thumbnail" style="width: 150px" data-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-            <noscript><img class="nolazy" src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}"></noscript>
+            <img class="lazy thumbnail" style="width: 150px" data-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}" alt="{{"No photo" | trans}}"/>
+            <noscript><img class="nolazy" src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" alt="{{"User" | trans}}"/></noscript>
         {%else%}
-            <img class="lazy" data-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-            <noscript><img class="nolazy" src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}"></noscript>
+            <img class="lazy" data-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}" alt="{{"No photo" | trans}}"/>
+            <noscript><img class="nolazy" src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" alt="{{"No photo" | trans}}"/></noscript>
         {%endif%}
         </div>
         </div>

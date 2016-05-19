@@ -190,8 +190,6 @@
         </div>
     </div>
 </footer>
-
-</body>
 {% javascripts
 '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
 '@FrontEndBundle/Resources/public/js/respond.min.js'
@@ -199,7 +197,7 @@
 '@FrontEndBundle/Resources/public/js/custom.min.js'
 filter='?uglifyjs2'
 %}
-    <script src="{{ asset_url }}"></script>
+<script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
@@ -217,4 +215,5 @@ filter='?uglifyjs2'
         $('img.lazy').jail();
     });
 </script>
+</body>
 </html>

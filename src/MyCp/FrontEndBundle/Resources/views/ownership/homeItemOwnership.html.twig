@@ -15,24 +15,24 @@
                     <td>
                         {%if own_rating > 0%}
                            {%for i in 1..own_rating%}
-                                <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                             {%endfor%}
                             {%endif%}
 
                             {%if own_rating < 5%}
                             {%for i in 1..(5-own_rating)%}
-                                   <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                   <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                             {%endfor%}
                             {%endif%}
                     </td>
                     <td>
                         {%if category == "Premium"%}
-                        <img rel="tooltip" title="{{category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                        <img rel="tooltip" title="{{category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                         {%else%}
                             {%if (category | lower) == ("Rango Medio" | lower)%}
-                            <img rel="tooltip" title="{{category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            <img rel="tooltip" title="{{category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                             {%else%}
-                                <img rel="tooltip" title="{{category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                <img rel="tooltip" title="{{category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                             {%endif%}
                         {%endif%}
                         {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
