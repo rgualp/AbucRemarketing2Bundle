@@ -57,7 +57,7 @@
                 </div>
                 {% if ownership.award %}
                 <div class="col-lg-1">
-                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;"/>
+                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;" alt="{{"Upload" | trans}}"/>
                 </div>
                 {% endif %}
             </div>
@@ -741,7 +741,7 @@
                     <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left"
                             onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property');
                                     $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ ownership.own_id }}');">
-                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon icon-mail"/>
+                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon icon-mail" alt="{{"Pixel" | trans}}"/>
                         {{ "TELL_A_FRIEND" | trans }}
                     </button>
                 </a>
@@ -749,7 +749,7 @@
                 <div>
                     <a class="click" onclick="facebookPopup();">
                         <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left">
-                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-facebook"/>
+                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-facebook" alt="{{"Facebook" | trans}}"/>
                             {{ "SHARE_FACEBOOK" | trans }}
                         </button>
                     </a>
