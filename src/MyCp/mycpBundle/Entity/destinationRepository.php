@@ -682,7 +682,7 @@ class destinationRepository extends EntityRepository {
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
 
