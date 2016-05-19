@@ -6,7 +6,10 @@
                 <h4 class="carousel-title"></h4>
                 <div class="carousel-inner">
                     {% set flag_item = 0 %}
-                        {% for i in 1..((list|length)/4 > 1 ? (list|length)/4 : 1)%}
+                    {% set decimalPart = ((list|length)/4) - ((list|length)%4) %}
+                    {% set decimalPart = (decimalPart != 0) ? 1 : 0 %}
+                    {% set pages = ((list|length)%4) + decimalPart %}
+                        {% for i in 1..pages%}
                         <div class="item {% if i == 1 %}active{% endif %}">                            
                             {% for e in 1..4%}
                             {% if list[flag_item] is defined %}
