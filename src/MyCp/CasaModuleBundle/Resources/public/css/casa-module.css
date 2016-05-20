@@ -345,3 +345,23 @@ ol > li::before {
 .menu-textarea{
     color: #b9b9b9;
 }
+.closeTab {
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 18px;
+    opacity: 0.2;
+    position: absolute;
+    right: 3px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #ffffff;
+    top: 0;
+}
+.closeTab:hover {
+    display:inline;
+    color: #000000;
+    text-decoration: none;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    cursor: pointer;
+}
