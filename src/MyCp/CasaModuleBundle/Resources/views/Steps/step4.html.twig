@@ -10,41 +10,15 @@
             </div>
         </div>
             <div class="tabbable font-black tab-mcp">
-                <ul class="nav nav-tabs mcp">
-                    <li class="active"><a data-toggle="tab" href="#tab11">Habitación 1</a></li>
-                    <li><a data-toggle="tab" href="#tab12" id="addRoom">Agregar otra Habitación <img src="{{ asset('bundles/mycpcasamodule/img/mas.png') }}" style="height: 25px;width: 25px"></a></li>
+                <ul id="nav-tabs-backend" class="nav nav-tabs mcp">
+                    <li id="nav11" class="active"><a data-toggle="tab" href="#tab11">Habitación 1</a></li>
+                    <li><a data-toggle="tab" href="#tab12" id="addRoom" data-href="{{ path('content_tab_step4') }}">Agregar otra Habitación <img src="{{ asset('bundles/mycpcasamodule/img/mas.png') }}" style="height: 25px;width: 25px"></a></li>
                 </ul>
-                <div class="tab-content">
+                <div id="tab-content-backend" class="tab-content">
                     <div id="tab11" class="tab-pane active">
-                        <form class="form-horizontal" >
-                            <div class="m-t-20 m-l-25">
-                                <label for="comment">Tipo de habitación </label>
-                                <img class="help-icon" data-href="help-step3-one" src="/bundles/mycpcasamodule/img/ayuda.png">
-                                <img class="help-icon" src="/bundles/mycpcasamodule/img/Zaeta-Derecha.png">
-                                <div class="row m-t-5">
-                                    <div class="col-md-1">
-                                        <a class="glyphicons keys m-t-5 m-l-10 menu-textarea"></a>
-                                    </div><div class="col-md-6 p-l-0">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="m-t-20 m-l-25">
-                                <label for="comment">No. De camas </label>
-                                <img class="help-icon" data-href="help-step3-one" src="/bundles/mycpcasamodule/img/ayuda.png">
-                                <img class="help-icon" src="/bundles/mycpcasamodule/img/Zaeta-Derecha.png">
-                                <div class="row m-t-5">
-                                    <div class="col-md-1">
-                                        <a class="glyphicons sun m-t-5 m-l-10 menu-textarea"></a>
-                                    </div><div class="col-md-6 p-l-0">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        {% include 'MyCpCasaModuleBundle:form:form4.html.twig' %}
                     </div>
                     <div id="tab12" class="tab-pane">
-                        <p>Howdy, I'm in Section 2.Morbi vel nibh et arcu pretium adipiscing. Ut vestibulum est eget justo facilisis ullamcorper.  </p>
                     </div>
                 </div>
             </div>
