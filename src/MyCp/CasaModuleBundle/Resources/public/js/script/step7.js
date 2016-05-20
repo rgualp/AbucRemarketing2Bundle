@@ -1,6 +1,6 @@
 /*========================================================================
  * App script to handle the entire CasaModule and base functions
- * Copyright 2015.
+ * Copyright 2016.
  *========================================================================*/
 var Step7 = function () {
 

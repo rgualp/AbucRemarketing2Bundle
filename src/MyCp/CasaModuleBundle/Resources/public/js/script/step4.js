@@ -1,11 +1,12 @@
 /*========================================================================
  * App script to handle the entire CasaModule and base functions
- * Copyright 2015.
+ * Copyright 2016.
  *========================================================================*/
 var Step4 = function () {
 
+    var id_active="";
     /**
-     *
+     *Para adicionar tab dinamicos
      */
     var addTab=function(){
         $('#addRoom').on('click',function(){
@@ -22,8 +23,10 @@ var Step4 = function () {
             addTab();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
+        },
+        getActiveTab:function(){
+            return id_active;
         }
-
     };
 }();
 //Start step4
