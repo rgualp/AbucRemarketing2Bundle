@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
 * @Route("/ownership/edit")
@@ -42,4 +43,17 @@ class StepsController extends Controller
      ));
 
  }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="content_tab_step4", path="/content/step4")
+     */
+    public function getContentTabStep4Action(Request $request){
+        return new JsonResponse([
+            'success' => true,
+            'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array()),
+            'msg' => 'Nueva habitacion']);
+    }
+
 }

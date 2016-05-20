@@ -1,0 +1,47 @@
+<div class="row row-eq-height">
+    <div class="col-md-9 white-bg">
+        <div class="row">
+            <div class="col-sm-1">
+                <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-step m-t-25">
+            </div>
+            <div class="col-sm-11">
+                <h2 class="font-blue">Paso 3</h2>
+                <h3 class="font-blue">Detalle las características de sus habitaciones </h3>
+            </div>
+        </div>
+            <div class="tabbable font-black tab-mcp">
+                <ul id="nav-tabs-backend" class="nav nav-tabs mcp">
+                    <li id="nav11" class="active"><a data-toggle="tab" href="#tab11">Habitación 1</a></li>
+                    <li><a data-toggle="tab" href="#tab12" id="addRoom" data-href="{{ path('content_tab_step4') }}">Agregar otra Habitación <img src="{{ asset('bundles/mycpcasamodule/img/mas.png') }}" style="height: 25px;width: 25px"></a></li>
+                </ul>
+                <div id="tab-content-backend" class="tab-content">
+                    <div id="tab11" class="tab-pane active">
+                        {% include 'MyCpCasaModuleBundle:form:form4.html.twig' %}
+                    </div>
+                    <div id="tab12" class="tab-pane">
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    <div class="col-md-3 oneblue-bg col-content">
+        <div id="help-step4-one" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>por favor señale si sus habitaciones son dobles, sencillas, matrimoniales, de estudio o suites</p>
+            </div>
+        </div>
+        <div id="help-step4-two" class="row">
+            <div class="col-md-12 m-t-40">
+                <p>indique cuántas camas existen por habitación</p>
+            </div>
+        </div>
+        <div id="help-step4-three" class="row">
+            <div class="col-md-12 m-t-40">
+                <p>El precio usted lo determina. De forma independiente, MyCasaParticular cobra al TURISTA un pago por adelantado correspondiente al 20% del precio
+                    publicado en el sitio.
+                    Usted NO PAGA COMISIÓN.
+                    El valor que hacemos público incluye el  precio que usted pone a su alojamiento más la comisión nuestra</p>
+            </div>
+        </div>
+    </div>
+</div>

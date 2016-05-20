@@ -5,6 +5,16 @@
 var App = function () {
     var idWizardActive="0";
     var textHelp="";
+    var Signal = signals.Signal;
+    var event='';
+    /**
+     * Crear los eventos
+     */
+    var createEvent=function(){
+        event = {
+            clickBtnContinueAfter: new Signal()
+        }
+    }
     /**
      * Para inicializar el wizard
      */
@@ -60,6 +70,14 @@ var App = function () {
             textHelp=$(this).data("href");
         })
     }
+    /**
+     * Para salvar los diferentes step
+     */
+    var saveStep=function(){
+        $('#saveStep').on('click',function(){
+            event.clickBtnContinueAfter.dispatch();
+        })
+    }
     return {
         //main function to initiate template pages
         init: function () {
@@ -68,11 +86,13 @@ var App = function () {
             activeTabWizard();
             startStep();
             mouseHelp();
+            saveStep();
+            createEvent();
         },
         fix_height:function(){
-            $('.col-content').css("position", "absolute");
+           /* $('.col-content').css("position", "absolute");
             var content_wizard = $('#content-wizard').height();
-            $('.col-content').css("min-height", content_wizard + "px");
+            $('.col-content').css("min-height", content_wizard + "px");*/
         },
         hide_pagination_izard:function(index){
             if(index==0){
@@ -83,6 +103,9 @@ var App = function () {
                 $('#text-save').removeClass('hide');
                 $('.mcp-pager').removeClass('hide');
             }
+        },
+        getEvent:function(){
+            return event;
         }
     };
 }()
