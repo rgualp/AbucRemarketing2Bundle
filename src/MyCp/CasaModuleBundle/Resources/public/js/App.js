@@ -78,6 +78,14 @@ var App = function () {
             event.clickBtnContinueAfter.dispatch();
         })
     }
+    var initializePlugins= function(){
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function(html) {
+            var switchery = new Switchery(html, { color: '#58ae17' });
+        });
+    }
+
     return {
         //main function to initiate template pages
         init: function () {
@@ -88,6 +96,7 @@ var App = function () {
             mouseHelp();
             saveStep();
             createEvent();
+            initializePlugins();
         },
         fix_height:function(){
            /* $('.col-content').css("position", "absolute");

@@ -5,7 +5,11 @@
     {%for ownership in list%}
     {% if cont <2 %}
     <div class="col-sm-6">
-        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
+        <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
+            {% if ownership.OwnInmediateBooking %}
+                <div class="quick-ribbon">
+                    <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+            {% endif %}
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
@@ -56,12 +60,12 @@
         </div>
         <div class="col-sm-8 p-0">
             {%if ownership.category == "Premium"%}
-                <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
             {%else%}
                 {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
-                    <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                    <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
                 {%else%}
-                    <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                    <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
                 {%endif%}
             {%endif%}
             <span>{{ownership.category | trans}}</span>
@@ -74,13 +78,13 @@
             <div class="col-sm-12 p-0">
                 {%if ownership.rating > 0%}
                     {%for i in 1..ownership.rating%}
-                        <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                        <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
                     {%endfor%}
                 {%endif%}
 
                 {%if ownership.rating < 5%}
                     {%for i in 1..(5-ownership.rating)%}
-                        <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                        <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
                     {%endfor%}
                 {%endif%}
                 <span>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
@@ -88,7 +92,7 @@
         </div>
         <div class="col-sm-4 p-0 pull-right">
             {% if ownership.award %}
-                <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="pull-right" style="margin-top: 5px;">
+                <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="pull-right" style="margin-top: 5px;" alt="{{"Pixel" | trans}}"/>
 
             {% endif %}
 
@@ -100,7 +104,11 @@
 </div>
 <div class="row">
   <div class="col-sm-6">
-        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
+      <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
+          {% if ownership.OwnInmediateBooking %}
+              <div class="quick-ribbon">
+                  <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+          {% endif %}
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
@@ -151,12 +159,12 @@
         </div>
       <div class="col-sm-8 p-0">
           {%if ownership.category == "Premium"%}
-              <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+              <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
           {%else%}
               {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
-                  <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                  <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
               {%else%}
-                  <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                  <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
               {%endif%}
           {%endif%}
           <span>{{ownership.category | trans}}</span>
@@ -169,13 +177,13 @@
           <div class="col-sm-12 p-0">
               {%if ownership.rating > 0%}
                   {%for i in 1..ownership.rating%}
-                      <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                      <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
                   {%endfor%}
               {%endif%}
 
               {%if ownership.rating < 5%}
                   {%for i in 1..(5-ownership.rating)%}
-                      <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;">
+                      <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
                   {%endfor%}
               {%endif%}
               <span>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
@@ -183,7 +191,7 @@
       </div>
       <div class="col-sm-4 p-0 pull-right">
           {% if ownership.award %}
-              <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="pull-right" style="margin-top: 5px;">
+              <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="pull-right" style="margin-top: 5px;" alt="{{"Awards" | trans}}">
 
           {% endif %}
 

@@ -79,26 +79,32 @@ class NotificationService extends Controller
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
             $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
-            $reservationData = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
-            $fromDate =  \DateTime::createFromFormat("Y-m-d",$reservationData[0]["fromDate"]);
-            $fromDate = $fromDate->format("d-m-y");
-            $rooms = $reservationData[0]["rooms"];
-            $nights = $reservationData[0]["nights"] / $rooms;
-            $guests = $reservationData[0]["guests"];
-            $reservationId = $reservation->getGenResId();
+            $reservationDatas = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
 
-            $message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights"."noches. CAS$reservationId. Son $rooms"."hab./$guests"."personas. Si está disponible, llame en menos de 1h al 78673574";
+            foreach($reservationDatas as $reservationData) {
+                $fromDate = $reservationData["fromDate"];
+                $fromDate = $fromDate->format("d-m-y");
+                $rooms = $reservationData["rooms"];
+                $nights = $reservationData["nights"] / $rooms;
+                $guests = $reservationData["guests"];
+                $reservationId = $reservation->getGenResId();
 
-            $subType = "INMEDIATE_BOOKING";
-            $reservationObj = array(
-                "casId" => $reservation->getCASId(),
-                "genResId" => $reservation->getGenResId()
-            );
+                //$message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights" . "noches. CAS$reservationId. Son $rooms" . "hab./$guests" . "personas. Si está disponible, llame en menos de 1h al 78673574";
+				$noches= ($nights>1)?'s':'';
+				$personas= ($guests>1)?'s':'';
+				$message = 'Mycasaparticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al 78644502 o 58419821.';
 
-            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+                $subType = "INMEDIATE_BOOKING";
+                $reservationObj = array(
+                    "casId" => $reservation->getCASId(),
+                    "genResId" => $reservation->getGenResId()
+                );
 
-            if($response != null)
-                $this->createNotification($reservationObj,$subType, $response);
+                $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+
+                if ($response != null)
+                    $this->createNotification($reservationObj, $subType, $response);
+            }
         }
     }
 

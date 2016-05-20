@@ -51,7 +51,7 @@
                     <a href="{{ path('mycp_list_comments') }}"><i class="icon-comment"></i> Comentarios</a>
                 </div>
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_awards') }}"><i class="icon-asterisk"></i> Premios</a>
+                    <a href="{{ path('mycp_list_awards') }}"><i class="glyphicons certificate"></i> Premios</a>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                     <a href="{{ path('mycp_list_reservations') }}"><i class="icon-tags"></i> Reservas</a>
                 </div>
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-file"></i> Bookings</a>
+                    <a href="{{ path('mycp_list_reservations_booking') }}"><i class="glyphicons money"></i> Bookings</a>
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_reservations_checkin') }}"><i class="icon-check"></i> Check-in</a>
@@ -123,7 +123,7 @@
                     Configuraciones <i class="icon-chevron-right  pull-right"></i>
                 </a>
             </div>
-            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendMailListController' or temp == 'BackendExportController' or temp == 'BackendRbacController' or temp == 'BlockController'%}in{%endif%}">
+            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendMailListController' or temp == 'BackendExportController' or temp == 'BackendRbacController' or temp == 'BlockController' or temp == 'MetaController'%}in{%endif%}">
 
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_mail_list') }}"><i class="icon-bullhorn"></i> Listas de correo</a>
@@ -142,6 +142,9 @@
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('hdsseo_block_list') }}"><i class="icon-lock"></i> Seo</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('hdsseo_meta_list') }}"><i class="icon-lock"></i> Metas</a>
                 </div>
             </div>
         </div>

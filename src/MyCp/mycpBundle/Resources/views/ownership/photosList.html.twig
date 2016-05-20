@@ -67,7 +67,7 @@
                 </a>
             </div>
             <div id="loading" class="span1 load-div hidden">
-                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
             </div>
             <div class="span8">
                 {{ simple_paginator_render('mycp_list_photos_ownership',null,{
@@ -94,7 +94,7 @@
                     <div class="row-fluid" style="padding: 0">
                         <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo" data-id="{{item.getOwnPhoPhoto.getPhoId}}"/></div>
                         <div class="span2">
-                            <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></a>
+                            <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid" alt="{{"Thumbnails" | trans}}"/></a>
                          </div>
                         <div class="span6">
                             {% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
@@ -118,7 +118,7 @@
                 </a>
             </div>
             <div id="loading" class="span1 load-div hidden">
-                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
             </div>
             <div class="span5">
                 {{ simple_paginator_render('mycp_list_photos_ownership',null,{

@@ -2,45 +2,51 @@
 <html id="top">
 <head>
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
-    <meta charset="utf-8">
-    <meta name="google-site-verification" content="D3B7Zo_ELB0RPsw2VojNY8ilJc4jeSyWiUB4va-vEx0" />
-    {%if section is not defined%}
-        {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}
-    {%endif%}
-    {%if meta_description is not defined%}
-        {%set meta_description =render(controller('FrontEndBundle:Public:getMetaTags', {'section':section, 'onlyDescription': true}))%}
-    {%endif%}
+
     {% block metas %}
-        {{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}
-    {% endblock %}
+        {{ get_metas('Main', app.session.get('app_lang_code')|lower )|raw }}
+    {% endblock metas %}
 
-    <meta name="author" content="ABUC media network GmbH">
-    <meta name="copyright" content="ABUC media network GmbH">
-    <meta name="language-content" content="{{app.request.locale}}">
+    {#<meta charset="utf-8">#}
+    {#<meta name="google-site-verification" content="D3B7Zo_ELB0RPsw2VojNY8ilJc4jeSyWiUB4va-vEx0" />#}
+    {#{%if section is not defined%}#}
+        {#{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}#}
+    {#{%endif%}#}
+    {#{%if meta_description is not defined%}#}
+        {#{%set meta_description =render(controller('FrontEndBundle:Public:getMetaTags', {'section':section, 'onlyDescription': true}))%}#}
+    {#{%endif%}#}
+    {#{% block metas %}#}
+        {#{{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}#}
+    {#{% endblock %}#}
 
-    {% block open_graph_metas %}
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@MyCP">
-    <meta name="twitter:title" content="MyCasaParticular *** {{block('title')}}">
-    <meta name="twitter:description" content="{{meta_description}}">
-    <meta name="twitter:creator" content="@MyCP">
-    <meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">
+    {#<meta name="author" content="ABUC media network GmbH">#}
+    {#<meta name="copyright" content="ABUC media network GmbH">#}
+    {#<meta name="language-content" content="{{app.request.locale}}">#}
 
-    <!-- Propiedades Open Graph -->
-    <meta property="og:title" content="MyCasaParticular *** {{block('title')}}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />
-    <meta property="og:author" content="ABUC media network GmbH" />
-    <meta property="og:site_name" content="MyCasaParticular" />
-    <meta property="og:description" content="{{meta_description}}" />
-    <meta property="og:url" content="http://www.mycasaparticular.com" />
-    <meta property=”fb:admins” content=”312774092497”/>
-    {% endblock %}
+    {#{% block open_graph_metas %}#}
+    {#<!-- Twitter -->#}
+    {#<meta name="twitter:card" content="summary">#}
+    {#<meta name="twitter:site" content="@MyCP">#}
+    {#<meta name="twitter:title" content="MyCasaParticular *** {{block('title')}}">#}
+    {#<meta name="twitter:description" content="{{meta_description}}">#}
+    {#<meta name="twitter:creator" content="@MyCP">#}
+    {#<meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">#}
+
+    {#<!-- Propiedades Open Graph -->#}
+    {#<meta property="og:title" content="MyCasaParticular *** {{block('title')}}" />#}
+    {#<meta property="og:type" content="website" />#}
+    {#<meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />#}
+    {#<meta property="og:author" content="ABUC media network GmbH" />#}
+    {#<meta property="og:site_name" content="MyCasaParticular" />#}
+    {#<meta property="og:description" content="{{meta_description}}" />#}
+    {#<meta property="og:url" content="http://www.mycasaparticular.com" />#}
+    {#<meta property=”fb:admins” content=”312774092497”/>#}
+    {#{% endblock %}#}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
+    '@FrontEndBundle/Resources/public/css/glyphicons.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -70,15 +76,30 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
+    {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
 
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_iphone.png') }}" />
-    <link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_ipad.png') }}" />
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_iphone4.png') }}" />
+     <!-- Apple Touch Icon -->
+    {#<link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />#}
+    {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
+    {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
 
     {% block include_javascripts_and_css %}{% endblock %}
 
+    <!-- Google Analytics -->
+    <script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16697066-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -89,9 +110,7 @@
 
         fbq('init', '1240648305949371');
         fbq('track', "PageView");</script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1"
-        /></noscript>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
     <!-- End Facebook Pixel Code -->
 
 
@@ -246,7 +265,7 @@
                 </div>
             </div>
             <div class="col-xs-2 text-right">
-                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">
+                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com" alt="{{"MyCasaParticular" | trans}}">
             </div>
         </div>
         <div style="margin: 0 0 10px;">
@@ -265,8 +284,6 @@
         </div>
     </div>
 </footer>
-
-</body>
 {% javascripts
 '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
 '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
@@ -277,7 +294,7 @@
 '@FrontEndBundle/Resources/public/js/custom.min.js'
 filter='?uglifyjs2'
 %}
-    <script src="{{ asset_url }}"></script>
+<script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
@@ -295,20 +312,7 @@ filter='?uglifyjs2'
         $('img.lazy').jail();
     });
 </script>
-<script>
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-16697066-1']);
-    _gaq.push(['_trackPageview']);
 
-    (function() {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
-</script>
 <script type="text/javascript">
     /* <![CDATA[ */
     var google_conversion_id = 1016854742;
@@ -324,4 +328,5 @@ filter='?uglifyjs2'
 </noscript>
 {% block javascripts %}
 {% endblock javascripts %}
+</body>
 </html>

@@ -52,7 +52,7 @@
             <tr style="border-top:none;">
                 <td width="70%" style="border-top:none;">
                     <h3 class="h-green h-green-line">
-                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vaccomodation">
+                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vaccomodation" alt="{{"Pixel" | trans}}">
                             {{"ACCOMMODATION"|trans}} {{loop.index}}
                     </h3>
                 </td>
@@ -70,7 +70,7 @@
                 <td width="40%" style="border-top:none;"><a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.name  | urlNormalize}) }}">{{ own.name }}</a></td>
                 <td rowspan="5" style="border-top:none;">
                     <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                        <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
+                        <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>
                     </div>
                 </td>
             </tr>
@@ -96,7 +96,7 @@
         </table>
         {%for res_room in own_res_rooms[own.id]%}
         <h4 class="voucher-subtitle">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed" alt="{{"Pixel" | trans}}">
             {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_SINGULAR"|trans | capitalize}} {{loop.index}}
         </h4>
         <table class="table table-type-1">
@@ -128,7 +128,7 @@
         </table>
         {%endfor%}
         <h4 class="voucher-subtitle">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency" alt="{{"Pixel" | trans}}">
         {{"PAYMENT_DETAILS"|trans}}:
         </h4>
         <table class="table table-type-1">

@@ -9,7 +9,7 @@
 <div class="container" style="max-width: 450px">
         <div>
             <a href="{{ path('frontend_welcome') }}" stitle="{{"HOMEPAGE_TITLE" | trans}}">
-                <img src="{{ asset('bundles/frontend/img/mycp.png') }}"/>
+                <img src="{{ asset('bundles/frontend/img/mycp.png') }}" alt="{{"MyCP" | trans}}"/>
             </a>
         </div>
 
@@ -25,19 +25,19 @@
         <div class="links" style="margin-top: 30px;">
                 <div>
                     <a href="{{ path('frontend_welcome') }}">
-                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}"/>
+                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}" alt="{{"Error" | trans}}"/>
                         Home
                     </a>
                 </div>
                 <div style="text-align: center">
                     <a href="{{ path('frontend_list_destinations') }}">
-                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}"/>
+                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}" alt="{{"Error" | trans}}"/>
                         Destinations
                     </a>
                 </div>
                 <div style="text-align: right">
                     <a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
-                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}"/>
+                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}" alt="{{"Error" | trans}}"/>
                         Accommodations
                     </a>
                 </div>

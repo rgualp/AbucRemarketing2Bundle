@@ -18,9 +18,9 @@
 <div class="row-fluid">
     <div class="span2 text-center">
         {% if photo %}
-        <img src="{{ asset('uploads/userImages/')}}{{photo.getPhoName}}" class="img-polaroid span12"/>
+        <img src="{{ asset('uploads/userImages/')}}{{photo.getPhoName}}" class="img-polaroid span12" alt="{{"User image" | trans}}"/>
         {% else %}
-        <img src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" class="img-polaroid span12" />
+        <img src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" class="img-polaroid span12" alt="{{"No photo" | trans}}"/>
         {% endif %}
         <br/>
         <a href="{{ path('mycp_lodging_edit_user')}}">Cambiar Foto</a>

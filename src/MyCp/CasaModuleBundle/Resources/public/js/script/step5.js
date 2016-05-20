@@ -13,6 +13,9 @@ var Step5 = function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep5,this);
+
+
+
         }
 
     };

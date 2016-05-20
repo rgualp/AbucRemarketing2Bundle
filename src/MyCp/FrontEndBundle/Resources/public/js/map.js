@@ -44,8 +44,8 @@ function destination_map()
     array_polygons=[poly_ij,poly_cg,poly_lt,poly_ho,poly_gt,poly_st,poly_gr,poly_ca,poly_ss,poly_vc,poly_cf,poly_mt,poly_mb,
         poly_lh,poly_ar,poly_pr]
 
-    array_links_prov=['isla_de_la_juventud','camaguey','las_tunas','Holguin','guantanamo','santiago_de_cuba','granma','ciego_de_avila','sancti_spiritus',
-        'villa_clara','cienfuegos','matanzas','mayabeque','la_habana','artemisa','pinar_del_rio'];
+    array_links_prov=['isla-de-la-juventud','camaguey','las-tunas','Holguin','guantanamo','santiago-de-cuba','granma','ciego-de-avila','sancti-spiritus',
+        'villa-clara','cienfuegos','matanzas','mayabeque','la-habana','artemisa','pinar-del-rio'];
 
     array_names_prov_pos=[106,185,420,212,610,150,709,194,762,225,625,318,530,254,489,99,348,185,363,50,281,153,
         208,139,232,34,177,15,122,38,15,58];
@@ -366,8 +366,8 @@ function destination_map()
 
     $('.icon-destination').click(function(){
         btn_cat=$(this);
-        category=btn_cat.attr('data');
-        if(btn_cat.attr('focus')==1)
+        category=btn_cat.attr('data-catid');
+        if(btn_cat.attr('data-focus')==1)
         {
 
             for(a=0; a < poly_signal_category.length;a++)
@@ -379,7 +379,7 @@ function destination_map()
             }
 
             clear_signals('aa');
-            btn_cat.attr('focus',0);
+            btn_cat.attr('data-focus',0);
         }
         else
         {
@@ -404,7 +404,7 @@ function destination_map()
                 }
             }
 
-            btn_cat.attr('focus',1);
+            btn_cat.attr('data-focus',1);
         }
 
         bg=btn_cat.css('backgroundPosition');

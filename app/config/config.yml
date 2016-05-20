@@ -106,6 +106,7 @@ doctrine:
                        IF: MyCp\mycpBundle\MiscBundle\Doctrine\ORM\Query\AST\Functions\IfFunction #ADDED THIS LINE
                        DATE: DoctrineExtensions\Query\Mysql\Date
                        MONTHNAME: DoctrineExtensions\Query\Mysql\MonthName
+                       ROUND: DoctrineExtensions\Query\Mysql\Round
             #remarketing:
             #    connection: remarketing
             #    mappings:

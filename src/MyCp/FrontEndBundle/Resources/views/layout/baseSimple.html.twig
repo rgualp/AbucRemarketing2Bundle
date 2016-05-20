@@ -70,9 +70,9 @@
     <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
 
     <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_iphone.png') }}" />
-    <link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_ipad.png') }}" />
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_iphone4.png') }}" />
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />
+    <link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />
 
     {% block include_javascripts_and_css %}{% endblock %}
 </head>
@@ -171,7 +171,7 @@
                 </ul>
             </div>
             <div class="col-xs-3 text-right">
-                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">
+                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com" alt="{{"MyCasaParticular" | trans}}">
             </div>
         </div>
         <div style="margin: 0 0 10px;">
@@ -190,8 +190,6 @@
         </div>
     </div>
 </footer>
-
-</body>
 {% javascripts
 '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
 '@FrontEndBundle/Resources/public/js/respond.min.js'
@@ -199,7 +197,7 @@
 '@FrontEndBundle/Resources/public/js/custom.min.js'
 filter='?uglifyjs2'
 %}
-    <script src="{{ asset_url }}"></script>
+<script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
@@ -217,4 +215,5 @@ filter='?uglifyjs2'
         $('img.lazy').jail();
     });
 </script>
+</body>
 </html>

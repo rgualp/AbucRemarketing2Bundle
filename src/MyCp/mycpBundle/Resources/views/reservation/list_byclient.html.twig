@@ -156,7 +156,7 @@
                     <td><a title="Editar datos del cliente" href="{{ path("mycp_edit_user_tourist",{"id_user": reservation.user_id}) }}">{{ reservation.user_user_name }} {{ reservation.user_last_name }}</a></td>
                     <td>{{ reservation.total }}</td>
                     <td>{% for accommodation in  accommodations %}
-                        <a href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.own_id}) }}">{{ accommodation.own_mcp_code }}</a>{% if not loop.last %}, {% endif %}
+                        <a href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.own_id}) }}">{{ accommodation.own_mcp_code }} {% if accommodation.own_inmediate_booking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a>{% if not loop.last %}, {% endif %}
                         {% else %} -
                         {% endfor %}
                     </td>

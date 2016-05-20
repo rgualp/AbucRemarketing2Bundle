@@ -2,13 +2,13 @@
             <div class="text-center">
                 {%if ownership.rating > 0%}
     {%for i in 1..ownership.rating%}
-      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-icon-2"/>
+      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-icon-2" alt="{{"Pixel" | trans}}"/>
     {%endfor%}
   {%endif%}
 
   {%if ownership.rating < 5%}
     {%for i in 1..(5-ownership.rating)%}
-       <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-off-icon-2"/>
+       <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-off-icon-2" alt="{{"Pixel" | trans}}"/>
     {%endfor%}
   {%endif%}
             </div>

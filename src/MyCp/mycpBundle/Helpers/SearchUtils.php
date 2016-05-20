@@ -206,7 +206,8 @@ class SearchUtils {
                             o.own_water_sauna as sauna,
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs
+                            o.own_langs as langs,
+                            o.own_inmediate_booking as OwnInmediateBooking
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
@@ -239,6 +240,7 @@ class SearchUtils {
                             o.own_water_sauna as sauna,
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
+                            o.own_inmediate_booking as OwnInmediateBooking,
                             o.own_langs as langs
                              FROM mycpBundle:room r
                              JOIN r.room_ownership o
@@ -309,6 +311,9 @@ public static function getFilterWhere($filters) {
 
             if (array_key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where .= " AND r.room_safe = 1";
+
+            if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking'])
+                $where .= " AND o.own_inmediate_booking = 1";
 
             if (array_key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
                 $where .= " AND (r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";

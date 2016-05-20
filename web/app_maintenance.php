@@ -10,7 +10,7 @@
 <body>
 <div class="container" style="max-width: 450px">
     <div>
-        <img src="bundles/frontend/img/mycp.png"/>
+        <img src="bundles/frontend/img/mycp.png" alt="MyCP"/>
     </div>
 
     <div class="info_message banner">

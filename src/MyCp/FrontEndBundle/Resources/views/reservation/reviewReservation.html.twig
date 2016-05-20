@@ -16,7 +16,7 @@
 <div class="container">
         <table>
             <tr>
-                <td style="width: 45px"><img src="{{ asset('bundles/frontend/img/icons/cart-full.gif') }}"/></td>
+                <td style="width: 45px"><img src="{{ asset('bundles/frontend/img/icons/cart-full.gif') }}" alt="{{"Cart" | trans}}"/></td>
                 <td><h1 class="caecilia-roman h-grey h-size-1 no-margin"> {{ 'CART_OF_RESERVES'|trans }} <br/></h1>
                     <div style="font-size: 12px; margin-top: -3px" class="h-grey-2">{{ 'MANAGE_CART'|trans }}</div>
                 </td>
@@ -38,7 +38,7 @@
     </div>
     {% if services %}
     <div class="pull-right">
-    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"/>
+    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
     </div>
     {% endif %}
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
