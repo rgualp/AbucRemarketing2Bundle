@@ -12,7 +12,7 @@
             <div class="tabbable font-black tab-mcp">
                 <ul id="nav-tabs-backend" class="nav nav-tabs mcp">
                     <li id="nav11" class="active"><a data-toggle="tab" href="#tab11">Habitación 1</a></li>
-                    <li><a data-toggle="tab" href="#tab12" id="addRoom" data-href="{{ path('content_tab_step4') }}">Agregar otra Habitación <img src="{{ asset('bundles/mycpcasamodule/img/mas.png') }}" style="height: 25px;width: 25px"></a></li>
+                    <li id="addTab" data-href="{{ path('content_tab_step4') }}" onclick="Step4.addTabTabpanel($(this))"><a data-toggle="tab" href="#tab12" id="addRoom" >Agregar otra Habitación <img src="{{ asset('bundles/mycpcasamodule/img/mas.png') }}" style="height: 25px;width: 25px"></a></li>
                 </ul>
                 <div id="tab-content-backend" class="tab-content">
                     <div id="tab11" class="tab-pane active">

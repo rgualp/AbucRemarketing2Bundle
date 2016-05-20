@@ -153,9 +153,12 @@ h1,h2,h3,h4,h5,h6{
 .m-l-25{
     margin-left: 25px;
 }
+.m-n-l-50{
+    margin-left: -50px;
+}
 label{
     font-weight: 400;
-    font-size: 14px;
+    font-size: 20px;
 }
 /**Dashboard*/
 .navbar-static-top{
@@ -278,7 +281,7 @@ body.mini-navbar.fixed-sidebar .profile-element, .block {
 .nav-tabs > li > a {
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: 0px;
-    line-height: 1.42857;
+    line-height: 25px;
     margin-right: 2px;
     background: #d7d7d7;
 }
@@ -313,7 +316,7 @@ ol > li::before {
     color: #64a433;
     content: counter(li, decimal);
     counter-increment: li;
-    font-size: 27px;
+    font-size: 24px;
     left: -1em;
     margin-right: 3px;
 }
@@ -344,4 +347,37 @@ ol > li::before {
 }
 .menu-textarea{
     color: #b9b9b9;
+}
+.closeTab {
+    color: #000000 !important;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 18px;
+    opacity: 0.2;
+    position: absolute;
+    right: 3px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #ffffff;
+    top: 0;
+}
+.closeTab:hover {
+    display:inline;
+    color: #000000;
+    text-decoration: none;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    cursor: pointer;
+}
+.glyphicons{
+    color: #B9B9B9;
+}
+.text-step3{
+    color: #094e75;
+    font-size: 16px;
+    font-weight: bold;
+}
+.text-price-step3{
+    font-size: 30px;
+    font-weight: lighter;
+    margin-left: -12px;
 }
