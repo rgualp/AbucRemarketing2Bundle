@@ -2,32 +2,22 @@
  * App script to handle the entire CasaModule and base functions
  * Copyright 2015.
  *========================================================================*/
-var Step4 = function () {
+var Step3 = function () {
 
-    /**
-     *
-     */
-    var addTab=function(){
-        $('#addRoom').on('click',function(){
-            alert(1);
-        })
-    }
-    var saveStep4=function(){
-        alert('Save form 4');
+    var saveStep3=function(){
+        alert('Save form 3');
     }
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
-            addTab();
             var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep4,this);
+            event.clickBtnContinueAfter.add(saveStep3,this);
         }
-
     };
 }();
-//Start step4
-Step4.init();
+//Start step3
+Step3.init();
 
 
 
