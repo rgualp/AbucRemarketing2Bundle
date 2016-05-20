@@ -3,12 +3,10 @@
  * Copyright 2016.
  *========================================================================*/
 var Step4 = function () {
-
     var id_active="11";
     var numRoom=1;
     var html_nav_addTab="";
-    var html_tab_addTab="";
-
+    var url_add_tab="";
     /**
      *
      */
@@ -23,6 +21,7 @@ var Step4 = function () {
     var addContentTab=function(el){
         HoldOn.open();
         var data={};
+        url_add_tab=el.data("href");
         //Función q retorna el html de la respuesta
         $.post( el.data("href"),data,
             function (data, status, response) {
@@ -35,12 +34,14 @@ var Step4 = function () {
                     var id=(parseInt(id_active)+parseInt(2));
                     var text='Habitación '+(parseInt(numRoom)+parseInt(1));
                     numRoom=parseInt(numRoom)+parseInt(1);
-                    $('#nav-tabs-backend').append('<li id="nav'+id+'" class="active"><a id="'+id+'" data-toggle="tab" href="#tab'+id+'" data-tab="'+id+'">'+text+'<span class="closeTab" onclick="closeTab($(this))">×</span></a></li>');
+                    $('#nav-tabs-backend').append('<li id="nav'+id+'" class="active"><a id="'+id+'" data-toggle="tab" href="#tab'+id+'" data-tab="'+id+'">'+text+'<span class="closeTab" onclick="Step4.closeTab($(this))">×</span></a></li>');
                     //Adiciono el contenido del tab
                     $('#tab-content-backend').append('<div id="tab'+id+'" class="tab-pane active">'
                         +data.html
                         +'</div>');
                     id_active=id;
+                    $('#nav'+id_active+'').addClass('active');
+                    $('#tab'+id_active+'').addClass('active');
                     Step4.addEndTab();
                     HoldOn.close();
                 }
@@ -64,16 +65,15 @@ var Step4 = function () {
             addContentTab(el);
         },
         closeTab:function(el) {
-             alert(1);
-           /* //there are multiple elements which has .closeTab icon so close the tab whose close icon is clicked
+            //there are multiple elements which has .closeTab icon so close the tab whose close icon is clicked
             var tabContentId = el.parent().data('tab');
             el.parent().parent().remove(); //remove li of tab
             $('#nav-tabs-backend a:last').tab('show'); // Select first tab
-            $('#tab_'+tabContentId).remove(); //remove respective tab content
-            array_Tab[tabContentId]="";*/
+            $('#tab'+tabContentId).remove(); //remove respective tab content
+            numRoom=parseInt(numRoom)-parseInt(1);
         },
         addEndTab:function(){
-            $('#nav-tabs-backend').append('<li id="addTab" data-href="/mycasa/ownership/edit/content/step4" onclick="Step4.addTabTabpanel($(this))" >'+html_nav_addTab+'</li>');
+            $('#nav-tabs-backend').append('<li id="addTab" data-href="'+url_add_tab+'" onclick="Step4.addTabTabpanel($(this))" >'+html_nav_addTab+'</li>');
             //Adiciono el contenido del tab
             $('#tab-content-backend').append('<div class="tab-pane" id="tab12"></div>');
         },

@@ -1,25 +1,93 @@
-<form class="form-horizontal" >
+<form class="form-horizontal" style="padding-bottom: 25px" >
     <div class="m-t-20 m-l-25">
         <label for="comment">Tipo de habitación </label>
-        <img class="help-icon" data-href="help-step3-one" src="/bundles/mycpcasamodule/img/ayuda.png">
-        <img class="help-icon" src="/bundles/mycpcasamodule/img/Zaeta-Derecha.png">
+        <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+        <img class="help-icon" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
         <div class="row m-t-5">
             <div class="col-md-1">
                 <a class="glyphicons keys m-t-5 m-l-10 menu-textarea"></a>
-            </div><div class="col-md-6 p-l-0">
+            </div><div class="col-md-5 p-l-0">
                 <input type="text" class="form-control">
             </div>
         </div>
     </div>
     <div class="m-t-20 m-l-25">
         <label for="comment">No. De camas </label>
-        <img class="help-icon" data-href="help-step3-one" src="/bundles/mycpcasamodule/img/ayuda.png">
-        <img class="help-icon" src="/bundles/mycpcasamodule/img/Zaeta-Derecha.png">
+        <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+        <img class="help-icon" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
         <div class="row m-t-5">
             <div class="col-md-1">
-                <a class="glyphicons sun m-t-5 m-l-10 menu-textarea"></a>
-            </div><div class="col-md-6 p-l-0">
+                <img class="m-t-5 m-l-10" src="{{ asset('/bundles/mycpcasamodule/img/vbed.png') }}">
+            </div><div class="col-md-5 p-l-0">
                 <input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="m-t-20 m-l-25">
+        <div class="row">
+            <div class="col-md-1 m-t-10">
+                <a class="glyphicons money"></a>
+            </div>
+            <div class="col-md-2 p-l-0">
+                <span class="text-price-step3">Precios</span>
+            </div>
+            <div class="col-md-2 p-l-0 m-t-10 m-n-l-50">
+                <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+                <img class="help-icon" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
+            </div>
+        </div>
+
+        <div class="row m-t-5">
+            <div class="col-md-3">
+                <span>Precio en temporada alta</span>
+            </div>
+            <div class="col-md-2 p-l-0">
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-1 p-l-0 m-t-5">
+                CUC
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <div class="col-md-3">
+                <span>Precio en temporada alta</span>
+            </div>
+            <div class="col-md-2 p-l-0">
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-1 p-l-0 m-t-5">
+                CUC
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <div class="col-md-3">
+                <span>Precio en temporada alta</span>
+            </div>
+            <div class="col-md-2 p-l-0">
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-2 p-l-0 m-t-5">
+                CUC
+            </div>
+        </div>
+    </div>
+    <div class="m-t-20 m-l-25">
+        <div class="row text-center">
+            <img  src="{{ asset('/bundles/mycpcasamodule/img/alarma.png') }}">
+        </div>
+        <div class="row text-step3">
+            <div class="col-md-11">
+                <p>A partir del precio definido por usted, MyCasaParticular cobra al TURISTA un pago por adelantado correspondiente al 20% del precio publicado en el sitio.</p>
+            </div>
+        </div>
+        <div class="row text-step3">
+            <div class="col-md-11">
+                <p>Usted NO PAGA COMISIÓN.</p>
+            </div>
+        </div>
+        <div class="row text-step3">
+            <div class="col-md-11">
+                <p>El valor que hacemos público incluye el  precio que usted pone a su alojamiento más la comisión nuestra.</p>
             </div>
         </div>
     </div>
