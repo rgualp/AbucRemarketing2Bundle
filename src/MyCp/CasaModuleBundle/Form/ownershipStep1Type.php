@@ -69,10 +69,10 @@ class ownershipStep1Type extends AbstractType
 //                    'placeholder'=>'y'
                 ],
                 'choices'=>array(
-                    '0001'=>'Español',
-                    '0010'=>'Inglés',
+                    '1000'=>'Inglés',
                     '0100'=>'Alemán',
-                    '1000'=>'Francés'
+                    '0010'=>'Francés',
+                    '0001'=>'Italiano'
                 )
             ))
             ->add('geolocate', 'text', array(
