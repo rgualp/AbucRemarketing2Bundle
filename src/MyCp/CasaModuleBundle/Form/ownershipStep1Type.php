@@ -48,8 +48,33 @@ class ownershipStep1Type extends AbstractType
 //            ->add('own_phone_code')
 //            ->add('own_phone_number')
 //             ->add('own_category')
-            ->add('own_type')
-            ->add('own_langs')
+            ->add('own_type','choice', array(
+                'label'=>'Tipo de propiedad',
+                'attr'=>[
+                    'class'=>'form-control',
+//                    'placeholder'=>'y'
+                ],
+                'choices'=>array(
+                    'Casa particular'=>'Casa particular',
+                    'Apartamento'=>'Apartamento',
+                    'Propiedad completa'=>'Propiedad completa',
+                    'Villa con piscina'=>'Villa con piscina',
+                    'Penthouse'=>'Penthouse'
+                )
+            ))
+            ->add('own_langs','choice', array(
+                'label'=>'Idiomas que se hablan en la casa',
+                'attr'=>[
+                    'class'=>'form-control',
+//                    'placeholder'=>'y'
+                ],
+                'choices'=>array(
+                    '0001'=>'Español',
+                    '0010'=>'Inglés',
+                    '0100'=>'Alemán',
+                    '1000'=>'Francés'
+                )
+            ))
             ->add('geolocate', 'text', array(
                 'attr'=>[
                   'class'=>'form-control'
