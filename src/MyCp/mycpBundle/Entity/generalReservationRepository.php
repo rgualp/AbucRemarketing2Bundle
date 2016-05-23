@@ -1667,9 +1667,10 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select("MONTHNAME(DATE(p.created)) as fecha, MONTH(gres.gen_res_date) as month, YEAR(gres.gen_res_date) as year, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
+        $qb->select("MONTHNAME(DATE(p.created)) as fecha, MONTH(p.created) as month, YEAR(p.created) as year, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
         count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
-         (SELECT SUM(CASE WHEN p1.current_cuc_change_rate IS NOT NULL THEN p1.payed_amount*p1.current_cuc_change_rate ELSE p1.payed_amount*curr.curr_cuc_change END) from mycpBundle:payment p1 WHERE MONTH(p1.created)=month AND YEAR(p1.created)=year ) as facturacion")            ->from("mycpBundle:ownershipReservation", "owres")
+         (SELECT SUM(CASE WHEN p1.current_cuc_change_rate IS NOT NULL THEN p1.payed_amount*p1.current_cuc_change_rate ELSE p1.payed_amount*curr.curr_cuc_change END) from mycpBundle:payment p1 WHERE MONTH(p1.created)=month AND YEAR(p1.created)=year ) as facturacion")
+            ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')

@@ -3094,6 +3094,11 @@
             <source>find_reservations</source>
             <target>Encuentra tus reservas</target>
          </trans-unit>
+
+         <trans-unit id="1928">
+                     <source>find_location</source>
+                     <target>¿Adónde quieres ir?</target>
+                  </trans-unit>
          <trans-unit id="929">
             <source>mycasatrip_location</source>
             <target>Ubicación</target>
