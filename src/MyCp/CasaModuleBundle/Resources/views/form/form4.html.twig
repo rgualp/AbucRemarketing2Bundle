@@ -43,7 +43,7 @@
             <div class="col-md-2 p-l-0">
                 <span class="text-price-step3">Precios</span>
             </div>
-            <div class="col-md-2 p-l-0 m-t-10 m-n-l-50">
+            <div class="col-md-2 p-l-0 m-t-10 m-n-l-25">
                 <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
                 <img class="help-icon" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
             </div>
@@ -104,25 +104,30 @@
         </div>
     </div>
     <div class="row m-t-20 m-l-25">
-
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <i class="glyphicons snowflake step-form-icon m-t-5"></i>
                 <label class="control-label">Climatización</label>
+            </div>
+            <div class="col-md-8 p-l-0 m-t-5 m-n-l-70">
                 <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_climate"/>
             </div>
         </div>
-        <div>
-            <i class="glyphicons display step-form-icon m-t-5"></i>
-            <label class="control-label">Audiovisuales</label>
-            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_audiovisual"/>
+        <div class="row">
+            <div class="col-md-4">
+                <i class="glyphicons display step-form-icon m-t-5"></i>
+                <label class="control-label">Audiovisuales</label>
+            </div>
+            <div class="col-md-8 p-l-0 m-t-5 m-n-l-70">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_audiovisual"/>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <i class="glyphicons display step-form-icon m-t-5"></i>
+                <img src="{{ asset('bundles/mycpcasamodule/img/bathroom.png') }}" class="img-step4" >
                 <label class="control-label">Tipo de baño</label>
             </div>
-            <div class="col-md-6 m-t-5 p-l-0">
+            <div class="col-md-3 p-l-0 m-t-5">
                 <select name="room_bathroom" class="form-control">
                     <option value="Interior privado">Interior privado</option>
                     <option value="Exterior privado">Exterior privado</option>
@@ -132,10 +137,10 @@
         </div>
         <div class="row">
             <div class="col-md-5">
-                <i class="glyphicons display step-form-icon m-t-5"></i>
+                <img src="{{ asset('bundles/mycpcasamodule/img/ventanas.png') }}" class="img-step4">
                 <label class="control-label">Cantidad de ventanas</label>
             </div>
-            <div class="col-md-6 m-t-5 p-l-0">
+            <div class="col-md-3 p-l-0 m-t-5">
                 <select name="room_window" class="form-control">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -146,10 +151,10 @@
         </div>
         <div class="row">
             <div class="col-md-5">
-                <i class="glyphicons display step-form-icon m-t-5"></i>
+                <img src="{{ asset('bundles/mycpcasamodule/img/balcones.png') }}" class="img-step4">
                 <label class="control-label">Cantidad de balcones</label>
             </div>
-            <div class="col-md-6 m-t-5 p-l-0">
+            <div class="col-md-3 p-l-0 m-t-5">
                 <select name="room_balcony" class="form-control">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -159,29 +164,58 @@
             </div>
         </div>
         <div class="row">
-            <i class="glyphicons snowflake step-form-icon m-t-5"></i>
-            <label class="control-label">Terraza</label>
-            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_terrace"/>
+            <div class="col-md-3">
+                <img src="{{ asset('bundles/mycpcasamodule/img/terraza.png') }}" class="img-step4">
+                <label class="control-label">Terraza</label>
+            </div>
+            <div class="col-md-1 m-n-l-70 m-t-5">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_terrace"/>
+            </div>
         </div>
         <div class="row">
-            <i class="glyphicons snowflake step-form-icon m-t-5"></i>
-            <label class="control-label">Patio</label>
-            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_yard"/>
+            <div class="col-md-3">
+                <img src="{{ asset('bundles/mycpcasamodule/img/patio.png') }}" class="img-step4">
+                <label class="control-label">Patio</label>
+            </div>
+            <div class="col-md-1 m-n-l-70 m-t-5">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_yard"/>
+            </div>
         </div>
         <div class="row">
-            <i class="glyphicons smoking step-form-icon m-t-5"></i>
-            <label class="control-label">Fumador</label>
-            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_smoker"/>
+            <div class="col-md-3">
+                <i class="glyphicons smoking step-form-icon m-t-5"></i>
+                <label class="control-label">Fumador</label>
+            </div>
+            <div class="col-md-1 m-n-l-50 m-t-5">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_smoker"/>
+            </div>
         </div>
         <div class="row">
-            <i class="glyphicons smoking step-form-icon m-t-5"></i>
-            <label class="control-label">Caja fuerte</label>
-            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_safe"/>
+            <div class="col-md-3">
+                <img src="{{ asset('bundles/mycpcasamodule/img/caja-fuerte.png') }}" class="img-step4">
+                <label class="control-label">Caja fuerte</label>
+            </div>
+            <div class="col-md-1 m-n-l-50 m-t-5">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_safe"/>
+            </div>
         </div>
         <div class="row">
-            <i class="glyphicons stroller step-form-icon m-t-5"></i>
-            <label class="control-label">Facilidades para bebé</label>
-            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_safe"/>
+            <div class="col-md-5">
+                <i class="glyphicons stroller step-form-icon m-t-5"></i>
+                <label class="control-label">Facilidades para bebé</label>
+            </div>
+            <div class="col-md-1 m-n-l-50 m-t-5">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_baby"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <i class="glyphicons note step-form-icon m-t-5"></i>
+                <label class="control-label">Estéreo</label>
+            </div>
+            <div class="col-md-1 m-n-l-50 m-t-5">
+                <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_stereo"/>
+            </div>
         </div>
     </div>
 </form>
