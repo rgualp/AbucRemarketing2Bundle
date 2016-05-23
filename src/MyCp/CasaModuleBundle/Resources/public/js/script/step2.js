@@ -3,12 +3,27 @@
  * Copyright 2016.
  *========================================================================*/
 var Step2 = function () {
+   if($('#mycp_mycpbundle_ownership_step1_own_langs').val()==''){
+       $('#mycp_mycpbundle_ownership_step1_own_langs').val(0);
+   };
     $('#mycp_mycpbundle_ownership_step1_own_langs1').select2(
         {
             placeholder: "Seleccione",
             allowClear: true
         }
     );
+    $('#mycp_mycpbundle_ownership_step1_own_langs1').on("select2:select", function (e) {
+        //console.log("select2:select", e.params.data.id);
+       var value= $('#mycp_mycpbundle_ownership_step1_own_langs').val();
+        value=parseInt(value)+parseInt(e.params.data.id);
+        $('#mycp_mycpbundle_ownership_step1_own_langs').val(value);
+    });
+    $('#mycp_mycpbundle_ownership_step1_own_langs1').on("select2:unselect", function (e) {
+        //console.log("select2:select", e.params.data.id);
+        var value= $('#mycp_mycpbundle_ownership_step1_own_langs').val();
+        value=parseInt(value)-parseInt(e.params.data.id);
+        $('#mycp_mycpbundle_ownership_step1_own_langs').val(value);
+    });
     /**
      * Para inicializar el Mapa
      */
@@ -29,7 +44,20 @@ var Step2 = function () {
             //bounds: strictBounds
         };
 
-        var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options);
+        var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options).bind("geocode:dragged", function(event, latLng){
+            //console.log('Dragged Lat: '+latLng.lat());
+            //console.log('Dragged Lng: '+latLng.lng());
+            $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(latLng.lat());
+            $('#mycp_mycpbundle_ownership_step1_own_geolocate_y').val(latLng.lng());
+
+        });
+        geomap.bind("geocode:result", function(event, result) {
+            $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(result.geometry.location.lat());
+            $('#mycp_mycpbundle_ownership_step1_own_geolocate_y').val(result.geometry.location.lng());
+           //console.log( result.geometry.location.lat());
+           //console.log( result.geometry.location.lng());
+
+        });
     }
 
     //$('#mycp_mycpbundle_ownership_step1_own_langs1').on('change', function(){

@@ -17,16 +17,26 @@
                     <label class="control-label">Desayuno incluido</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="breakfast" id="breakfast"/>
+                    <input type="checkbox" class="js-switch" name="breakfast" id="breakfast" {% if ownership.ownFacilitiesBreakfast %}checked{% endif %}/>
                     </div>
-                    <div class="col-md-6">
-                        <label class="control-label">Desde</label>
-                        <span class="font-blue step-span">5</span>
+                    {% if ownership.ownFacilitiesBreakfast %}
+                    <div class="col-md-5 facilitiesBreakfastWithPrice">
+                        {% if ownership.ownFacilitiesBreakfast %}
+                        <span class="font-blue step-span">{{ ownership.ownFacilitiesBreakfastPrice }} </span>
                         <label class="control-label"> CUC</label>
-                        <label class="control-label">Hasta</label>
-                        <span class="font-blue step-span">7</span>
-                        <label class="control-label"> CUC</label>
+                        {% endif %}
                     </div>
+                    <div class="col-md-1 p-0 facilitiesBreakfastWithPrice">
+                        {% if ownership.ownFacilitiesBreakfast %}
+                            <a id="btn-change-breakfast" class="btn btn-success">Cambiar</a>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                        <div class="col-md-6 facilitiesBreakfastPrice">
+                            <span class="text-price-step3">Precio</span>
+                            <input type="text" name="facilitiesBreakfast" class="form-control" value="{{ ownership.ownFacilitiesBreakfastPrice }}"/>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row">
                     <div class="col-md-5">
@@ -34,16 +44,35 @@
                     <label class="control-label">Cena</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="dinner" id="dinner"/>
+                    <input type="checkbox" class="js-switch" name="dinner" id="dinner" {% if ownership.ownFacilitiesDinner %}checked{% endif %}/>
                     </div>
-                    <div class="col-md-6">
+                    {% if ownership.ownFacilitiesDinner %}
+                    <div class="col-md-5 facilitiesDinnerWithPrice">
+                        {% if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom > 0 %}
                         <label class="control-label">Desde</label>
-                        <span class="font-blue step-span">5</span>
+                        <span class="font-blue step-span">{{ ownership.ownFacilitiesDinnerPriceFrom }} </span>
                         <label class="control-label"> CUC</label>
+                        {% endif %}
+                        {% if ownership.ownFacilitiesDinnerPriceTo != null and ownership.ownFacilitiesDinnerPriceTo > 0 %}
                         <label class="control-label">Hasta</label>
-                        <span class="font-blue step-span">7</span>
+                        <span class="font-blue step-span">{{ ownership.ownFacilitiesDinnerPriceTo }} </span>
                         <label class="control-label"> CUC</label>
+                        {% endif %}
                     </div>
+                    <div class="col-md-1 p-0 facilitiesDinnerWithPrice">
+                        {% if ownership.ownFacilitiesDinner %}
+                        <a id="btn-change-dinner" class="btn btn-success">Cambiar</a>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                        <div class="col-md-6 facilitiesDinnerPrice">
+                            <span class="text-price-step3">Precio</span>
+                            <label class="control-label">Desde</label>
+                            <input type="text" name="facilitiesDinnerFrom" class="form-control" value="{{ ownership.ownFacilitiesDinnerPriceFrom }}"/>
+                            <label class="control-label">Hasta</label>
+                            <input type="text" name="facilitiesDinnerTo" class="form-control" value="{{ ownership.ownFacilitiesDinnerPriceTo }}"/>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row">
                     <div class="col-md-5">
@@ -51,13 +80,27 @@
                     <label class="control-label">Parqueo incluido</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="parking" id="parking"/>
+                    <input type="checkbox" class="js-switch" name="parking" id="parking" {% if ownership.ownFacilitiesParking %}checked{% endif %}/>
                     </div>
-                    <div class="col-md-6">
-                        <label class="control-label">Desde</label>
-                        <span class="font-blue step-span">5</span>
-                        <label class="control-label">CUC</label>
+                    {% if ownership.ownFacilitiesParking %}
+                    <div class="col-md-5 facilitiesParkingWithPrice">
+                        {% if ownership.ownFacilitiesParking %}
+                            <label class="control-label">Desde</label>
+                            <span class="font-blue step-span">{{ ownership.ownFacilitiesParkingPrice }} </span>
+                            <label class="control-label">CUC</label>
+                        {% endif %}
                     </div>
+                    <div class="col-md-1 p-0 facilitiesParkingWithPrice">
+                        {% if ownership.ownFacilitiesParking %}
+                            <a id="btn-change-parking" class="btn btn-success">Cambiar</a>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                        <div class="col-md-6 facilitiesParkingPrice">
+                            <span class="text-price-step3">Precio</span>
+                            <input type="text" name="facilitiesParking" class="form-control" value="{{ ownership.ownFacilitiesParkingPrice }}"/>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row">
                     <div class="col-md-5">
@@ -65,7 +108,8 @@
                     <label class="control-label">Jacuzzi</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="jacuzzy" id="jacuzzy"/>
+                    <input type="checkbox" class="js-switch" name="jacuzzy" id="jacuzzy" {% if ownership.ownWaterJacuzee %}checked{% endif %}/>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -74,7 +118,7 @@
                     <label class="control-label">Sauna</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="sauna" id="sauna"/>
+                    <input type="checkbox" class="js-switch" name="sauna" id="sauna" {% if ownership.ownWaterSauna %}checked{% endif %}/>
                     </div>
                 </div>
 
@@ -84,7 +128,7 @@
                     <label class="control-label">Piscina</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="pool" id="pool"/>
+                    <input type="checkbox" class="js-switch" name="pool" id="pool" {% if ownership.ownWaterPiscina %}checked{% endif %}/>
                     </div>
                 </div>
                 <div class="row">
@@ -93,7 +137,7 @@
                     <label class="control-label">Parqueo de ciclos</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="parking_bike" id="parking_bike"/>
+                    <input type="checkbox" class="js-switch" name="parking_bike" id="parking_bike" {% if ownership.ownDescriptionBicycleParking %}checked{% endif %}/>
                     </div>
                 </div>
                 <div class="row">
@@ -102,7 +146,7 @@
                     <label class="control-label">Mascotas</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="pet" id="pet"/>
+                    <input type="checkbox" class="js-switch" name="pet" id="pet" {% if ownership.ownDescriptionPets %}checked{% endif %}/>
                     </div>
                 </div>
                 <div class="row">
@@ -111,7 +155,7 @@
                     <label class="control-label">Lavandería</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="laundry" id="laundry"/>
+                    <input type="checkbox" class="js-switch" name="laundry" id="laundry" {% if ownership.ownDescriptionLaundry %}checked{% endif %}/>
                     </div>
                 </div>
                 <div class="row">
@@ -120,7 +164,7 @@
                     <label class="control-label">Email (Internet)</label>
                     </div>
                     <div class="col-md-7">
-                    <input type="checkbox" class="js-switch" name="email" id="email"/>
+                    <input type="checkbox" class="js-switch" name="email" id="email" {% if ownership.ownDescriptionInternet %}checked{% endif %}/>
                     </div>
                 </div>
 

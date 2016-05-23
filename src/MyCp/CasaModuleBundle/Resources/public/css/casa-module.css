@@ -467,4 +467,6 @@ ol > li::before {
     margin-bottom: 10px;
     margin-right: 10px;
     width: 24px;
-}
+}}
+
+.p-0 { padding: 0; }

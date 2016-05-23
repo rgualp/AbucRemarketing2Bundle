@@ -2991,15 +2991,15 @@
             </trans-unit>
              <trans-unit id="758">
                 <source>NEWSLETTER_HEAD_1</source>
-                <target>Das dürfen Sie auf keinen Fall vergessen !</target>
+                <target>Unverzichtbar!</target>
             </trans-unit>
             <trans-unit id="759">
                 <source>NEWSLETTER_PARR_1</source>
-                <target>Als erstes, vergewissern Sie sich, Ihre Reisedokumente vorzubereiten, Ihre Kamera und natürlich Ihre Badebekleidung einzupacken.</target>
+                <target>In Ihrem Gepäck sollten Ihre Reisedokumente, Ihre Kamera und Ihr Badeanzug auf keinen Fall fehlen.</target>
             </trans-unit>
             <trans-unit id="760">
                 <source>NEWSLETTER_SUBHEAD_1</source>
-                <target> Ohne Badebekleidung kommt man nicht nach Kuba.</target>
+                <target>Nach Kuba sollten Sie nicht ohne Badeanzug reisen.</target>
             </trans-unit>
             <trans-unit id="761">
                 <source>NEWSLETTER_PARR_2</source>
@@ -3067,7 +3067,7 @@
                 </trans-unit>
               <trans-unit id="777">
                 <source>NEWSLETTER_LINK_TEXT1</source>
-                <target>Die besten Top Reiseziele von Kuba.</target>
+                <target>Entdecken Sie auch andere Reiseziele</target>
                 </trans-unit>
               <trans-unit id="778">
                 <source>NEWSLETTER_LINK_BTN1</source>
@@ -3787,6 +3787,38 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
         <source>quick_booking_tooltip</source>
         <target>Der Eigentümer dieser Unterkunft wird Ihnen auf Ihre Verfügbarkeitsanfrage in kurzmöglichster Zeit antworten.</target>
      </trans-unit>
+                     <trans-unit id="955">
+                         <source>VOUCHER_CONSULT_TEXT</source>
+                         <target>Bitte schauen Sie die Daten Ihrer Reservierung nach.</target>
+                         </trans-unit>
+              <trans-unit id="956">
+                 <source>VOUCHER_MOVIL_TEXT</source>
+                 <target>Jetzt auch auf Ihrem Mobil-Telefon erhältlich.</target>
+                 </trans-unit>
+                 <trans-unit id="957">
+                 <source>VOUCHER_MOVIL_TEXT1</source>
+                 <target>Es ist kostenlos!</target>
+                 </trans-unit>
+                 <trans-unit id="958">
+                 <source>VOUCHER_ON_SITE</source>
+                 <target>Sehen auf unserer Website</target>
+                 </trans-unit>
+                 <trans-unit id="959">
+                 <source>VOUCHER_HEADER_OWNS</source>
+                 <target>Casas Particulares in jeder Ecke der Insel</target>
+                 </trans-unit>
+                      <trans-unit id="960">
+                     <source>VOUCHER_MYCM_HEAD</source>
+                     <target>Ihre Reise nimmt mit uns Formen</target>
+                     </trans-unit>
+                     <trans-unit id="961">
+                     <source>VOUCHER_MYCM_HEAD1</source>
+                     <target>an…</target>
+                     </trans-unit>
+                 <trans-unit id="962">
+                 <source>VOUCHER_CUCOU_HEAD</source>
+                 <target>Ihre Unterkunft ist nur der Anfang. Wir machen Ihre Reise zu einem einzigartigen Erlebnis.</target>
+                 </trans-unit>
     </body>
     </file>
 </xliff>
