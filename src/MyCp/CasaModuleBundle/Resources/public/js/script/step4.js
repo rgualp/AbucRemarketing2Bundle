@@ -60,12 +60,14 @@ var Step4 = function () {
             $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
             rooms.push(data);
         }
+        /**
+         * Para salvar las rooms
+         */
         $.ajax({
             type: 'post',
             url: url,
-            data:  {rooms: rooms},
+            data:  {rooms: rooms,idown:App.getOwnId()},
             success: function (data) {
-                console.log(1);
             }
         });
     }
