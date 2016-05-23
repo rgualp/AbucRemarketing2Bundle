@@ -20,7 +20,7 @@ var Step4 = function () {
      */
     var addContentTab=function(el){
         HoldOn.open();
-        var data={};
+        var data={'num':(parseInt(numRoom)+parseInt(1))};
         url_add_tab=el.data("href");
         //Función q retorna el html de la respuesta
         $.post( el.data("href"),data,
@@ -43,12 +43,31 @@ var Step4 = function () {
                     $('#nav'+id_active+'').addClass('active');
                     $('#tab'+id_active+'').addClass('active');
                     Step4.addEndTab();
+                    App.initializePlugins('.js-switch-'+numRoom);
                     HoldOn.close();
                 }
             });
     }
     var saveStep4=function(){
-        alert('Save form 4');
+        var obj = new Object();
+        var url='';
+        for(var i=1;i<=numRoom;i++){
+            var data={};
+            if(url==''){
+                var form = $("#form-number-"+i);
+                url= form.attr('action');
+            }
+            $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+            obj['form-number-'+i]=data;
+        }
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: obj,
+            success: function (data) {
+                console.log(1);
+            }
+        });
     }
     return {
         //main function to initiate template pages
@@ -57,6 +76,7 @@ var Step4 = function () {
             changeTab();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
+            App.initializePlugins('.js-switch-'+numRoom);
         },
         getActiveTab:function(){
             return id_active;
@@ -83,7 +103,6 @@ var Step4 = function () {
             $('#addTab').remove(); //remove li of tab
             $('#tab12').remove(); //remove respective tab content
         }
-
     };
 }();
 //Start step4

@@ -3,7 +3,12 @@
  * Copyright 2016.
  *========================================================================*/
 var Step2 = function () {
-
+    $('#mycp_mycpbundle_ownership_step1_own_langs1').select2(
+        {
+            placeholder: "Seleccione",
+            allowClear: true
+        }
+    );
     /**
      * Para inicializar el Mapa
      */
@@ -27,12 +32,13 @@ var Step2 = function () {
         var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options);
     }
 
-    $('#mycp_mycpbundle_ownership_step1_own_langs1').on('change', function(){
-        var txt = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").text();
-        var val = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").val();
-      alert(txt);
-      alert(val);
-    });
+    //$('#mycp_mycpbundle_ownership_step1_own_langs1').on('change', function(){
+    //    var txt = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").text();
+    //    var val = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").val();
+    //  alert(txt);
+    //  alert(val);
+    //});
+
     var saveStep2=function(){
         alert('Save form 2');
     }
