@@ -8,15 +8,31 @@ var Step2 = function () {
      * Para inicializar el Mapa
      */
     var initializeMap=function(){
+
+        //var strictBounds = new google.maps.LatLngBounds(
+        //    new google.maps.LatLng(28.70, -127.50),
+        //    new google.maps.LatLng(48.85, -55.90)
+        //);
         var options = {
             map: "#map_canvas",
             markerOptions: {
-                draggable: true
+                draggable: true,
+                icon: iconUrl
             },
-            location: '{{ ownership.ownAddressProvince }}, Cuba'
+            location: province+', Cuba'
+            //,
+            //bounds: strictBounds
         };
+
         var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options);
     }
+
+    $('#mycp_mycpbundle_ownership_step1_own_langs1').on('change', function(){
+        var txt = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").text();
+        var val = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").val();
+      alert(txt);
+      alert(val);
+    });
     var saveStep2=function(){
         alert('Save form 2');
     }
