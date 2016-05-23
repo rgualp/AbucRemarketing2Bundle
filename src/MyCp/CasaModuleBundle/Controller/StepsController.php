@@ -50,7 +50,7 @@ class StepsController extends Controller
      * @Route(name="save_step4", path="/save/step4")
      */
     public function saveStep4Action(Request $request){
-        print_r($request->get('form-number-1'));die;
+        print_r($request->get('rooms'));die;
     }
 
     /**

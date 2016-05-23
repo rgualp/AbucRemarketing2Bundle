@@ -56,6 +56,7 @@ class SeoUtilsExtension extends \Twig_Extension
 	{
 		return array(
 			new \Twig_SimpleFunction('get_metas', array($this, 'getMetas')),
+			new \Twig_SimpleFunction('get_lang', array($this, 'getLang')),
 		);
 	}
 
@@ -92,6 +93,32 @@ class SeoUtilsExtension extends \Twig_Extension
 			$metas.= '<!---'.$content.' --->';
 		}
 		return $metas;
+	}
+
+	public function getLang($language_code){
+
+		$lang= '';
+		try{
+			switch ($language_code) {
+				case 'en':
+					$lang.= 'lang="en"';
+					break;
+				case 'es':
+					$lang.= 'lang="es-419"';
+					break;
+				case 'de':
+					$lang.= 'lang="de"';
+					break;
+				default:
+					$lang.= 'lang="en" <!---Seo: "'.$language_code.'" no esta definido... --->';
+			}
+
+		}catch(\Exception $ee){
+			$content= $ee->getFile().':'.$ee->getLine().':'.$ee->getMessage();
+			$lang.= '<!---Seo: Ocurrio un ERROR!!! --->';
+			$lang.= '<!---'.$content.' --->';
+		}
+		return $lang;
 	}
 
 }

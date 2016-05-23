@@ -49,7 +49,7 @@ var Step4 = function () {
             });
     }
     var saveStep4=function(){
-        var obj = new Object();
+        var rooms = new Array();
         var url='';
         for(var i=1;i<=numRoom;i++){
             var data={};
@@ -58,14 +58,16 @@ var Step4 = function () {
                 url= form.attr('action');
             }
             $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
-            obj['form-number-'+i]=data;
+            rooms.push(data);
         }
+        /**
+         * Para salvar las rooms
+         */
         $.ajax({
             type: 'post',
             url: url,
-            data: obj,
+            data:  {rooms: rooms,idown:App.getOwnId()},
             success: function (data) {
-                console.log(1);
             }
         });
     }

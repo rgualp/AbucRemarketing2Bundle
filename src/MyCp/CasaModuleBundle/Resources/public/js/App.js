@@ -7,6 +7,7 @@ var App = function () {
     var textHelp="";
     var Signal = signals.Signal;
     var event='';
+    var idown='';
     /**
      * Crear los eventos
      */
@@ -32,6 +33,7 @@ var App = function () {
             }
         });
         $('#steps').addClass('hide');
+        idown=$('#content-wizard').data("idown");
     }
     /**
      * Para cunado se da click en el boton comenzar
@@ -114,6 +116,9 @@ var App = function () {
         },
         getEvent:function(){
             return event;
+        },
+        getOwnId:function(){
+            return idown;
         }
     };
 }()
