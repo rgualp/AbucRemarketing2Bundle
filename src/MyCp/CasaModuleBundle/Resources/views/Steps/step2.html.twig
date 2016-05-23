@@ -142,8 +142,8 @@
                                 <div class="col-sm-1">
                                     <i class="glyphicons conversation form-icon pull-right"></i>
                                 </div>
-                                <div class="col-sm-5">
-                                    {{ form_widget(form.own_langs1) }}
+                                <div class="col-sm-8">
+                                    {{ form_widget(form.own_langs1, {'attr':{'class':'form-control select2', 'multiple':'multiple'}}) }}
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                 <div class="col-sm-1">
                                     <i class="glyphicons home form-icon pull-right"></i>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     {{ form_widget(form.own_type) }}
                                 </div>
                             </div>
