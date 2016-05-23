@@ -134,7 +134,7 @@
                 <div class="form-group row">
                     {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
                     <label class="control-label">Idiomas que se hablan en la casa</label>
-                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-four" class="help-icon">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
                     <div class="row p-10">
                         <div class="col-sm-8">
@@ -142,8 +142,8 @@
                                 <div class="col-sm-1">
                                     <i class="glyphicons conversation form-icon pull-right"></i>
                                 </div>
-                                <div class="col-sm-5">
-                                    {{ form_widget(form.own_langs) }}
+                                <div class="col-sm-8">
+                                    {{ form_widget(form.own_langs1, {'attr':{'class':'form-control select2', 'multiple':'multiple'}}) }}
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                 <div class="col-sm-1">
                                     <i class="glyphicons home form-icon pull-right"></i>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     {{ form_widget(form.own_type) }}
                                 </div>
                             </div>
@@ -195,3 +195,7 @@
 
     </div>
 </div>
+<script type="text/javascript">
+    var province='{{ ownership.ownAddressProvince }}';
+    var iconUrl='{{ asset('bundles/frontend/img/map_marker.png', absolute=true) }}';
+</script>

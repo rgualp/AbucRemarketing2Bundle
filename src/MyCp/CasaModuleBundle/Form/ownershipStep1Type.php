@@ -62,7 +62,7 @@ class ownershipStep1Type extends AbstractType
                     'Penthouse'=>'Penthouse'
                 )
             ))
-            ->add('own_langs','choice', array(
+            ->add('own_langs1','choice', array(
                 'label'=>'Idiomas que se hablan en la casa',
                 'attr'=>[
                     'class'=>'form-control',
@@ -73,7 +73,10 @@ class ownershipStep1Type extends AbstractType
                     '0100'=>'Alemán',
                     '0010'=>'Francés',
                     '0001'=>'Italiano'
-                )
+                ),
+                'mapped'=>false
+            ))
+            ->add('own_langs','hidden', array(
             ))
             ->add('geolocate', 'text', array(
                 'attr'=>[
