@@ -1,11 +1,12 @@
 {% spaceless %}
+{% set lang_code=app.session.get('app_lang_code')|lower %}
 <!DOCTYPE html>
-<html id="top">
+<html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
 
     {% block metas %}
-        {{ get_metas('Main', app.session.get('app_lang_code')|lower )|raw }}
+        {{ get_metas('Main', lang_code)|raw }}
     {% endblock metas %}
 
     {#<meta charset="utf-8">#}
