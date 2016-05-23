@@ -8,73 +8,73 @@
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
     filter='?uglifyjs2'
     %}
-        <script src="{{ asset_url }}"></script>
+    <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-<script type="text/javascript">
-    jQuery(document).ready(function($) {
-        $('#full-width-slider').royalSlider({
-            numImagesToPreload:5,
-            arrowsNav: true,
-            loop: true,
-            keyboardNavEnabled: true,
-            imageScaleMode: 'fill',
-            arrowsNavAutoHide: false,
-            autoScaleSlider: true,
-            autoScaleSliderWidth: 1466,
-            autoScaleSliderHeight: 470,
-            controlNavigation: false,
-            thumbsFitInViewport: false,
-            navigateByClick: true,
-            startSlideId: 0,
-            autoPlay: true,
-            transitionType:'move',
-            globalCaption: false,
-            deeplinking: {
-                enabled: true,
-                change: false
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('#full-width-slider').royalSlider({
+                numImagesToPreload:5,
+                arrowsNav: true,
+                loop: true,
+                keyboardNavEnabled: true,
+                imageScaleMode: 'fill',
+                arrowsNavAutoHide: false,
+                autoScaleSlider: true,
+                autoScaleSliderWidth: 1466,
+                autoScaleSliderHeight: 470,
+                controlNavigation: false,
+                thumbsFitInViewport: false,
+                navigateByClick: true,
+                startSlideId: 0,
+                autoPlay: true,
+                transitionType:'move',
+                globalCaption: false,
+                deeplinking: {
+                    enabled: true,
+                    change: false
+                }
+            });
+
+            var slider = $("#full-width-slider").data('royalSlider');
+
+            var img="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/') }}"
+
+            for(x=1; x<=5;x++)
+            {
+                slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="Cuba, Casas, alojamiento" />');
             }
+
         });
 
-        var slider = $("#full-width-slider").data('royalSlider');
 
-        var img="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/') }}"
-
-        for(x=1; x<=5;x++)
-        {
-            slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="Cuba, Casas, alojamiento" />');
-        }
-
-    });
-
-
-</script>
+    </script>
 {% endblock %}
 
 {% block big_banner %}
-<div id="full-width-slider" class="royalSlider rsDefault">
+    <div id="full-width-slider" class="royalSlider rsDefault">
 
-</div>
-<div id="banner-msg-cont">
-<div id="banner-msg">
-    <h1 class="caecilia-roman">{{"SLOGAN_1" | trans}}<br> {{"SLOGAN_2" | trans}}</h1>
-    <h2>{{"SLOGAN_3" | trans}}</h2>
-</div>
-</div>
-<div id="main-search">
-{{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
-</div>
+    </div>
+    <div id="banner-msg-cont">
+        <div id="banner-msg">
+            <h1 class="caecilia-roman">{{"SLOGAN_1" | trans}}<br> {{"SLOGAN_2" | trans}}</h1>
+            <h2>{{"SLOGAN_3" | trans}}</h2>
+        </div>
+    </div>
+    <div id="main-search">
+        {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
+    </div>
 {% endblock %}
 {% block body %}
-<div id="map-cont">
-<div class="container">
-    <h2 class="text-center caecilia-roman h-grey h-size-2">{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</h2>
-</div>
-<div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px">
-    {{ render(controller('FrontEndBundle:Destination:getBigMap')) }}
-</div>
-</div>
-<div  class="container">
-<!--div class="row home_cat">
+    <div id="map-cont">
+        <div class="container">
+            <h2 class="text-center caecilia-roman h-grey h-size-2">{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</h2>
+        </div>
+        <div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px">
+            {{ render(controller('FrontEndBundle:Destination:getBigMap')) }}
+        </div>
+    </div>
+    <div  class="container">
+        <!--div class="row home_cat">
     <div class="col-md-4">
         <a href="">
         <div data="icon-map" class="select">
@@ -100,30 +100,30 @@
         </a>
     </div>
 </div-->
-<h1 class="text-center caecilia-roman h-dark-grey">{{"HOMEPAGE_SUBTITLE_1" | trans}}</h1>
-    <p style="color: #000000; ">{{"HOMEPAGE_TEXT" | trans}}</p>
-    {#<h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>#}
-    <div class="text-center"><label class="caecilia-roman" style="margin-top: 13px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</label></div>
+        <div class="text-center"><span class="caecilia-roman h-dark-grey">{{"HOMEPAGE_SUBTITLE_1" | trans}}</span></div>
+        <p style="color: #000000; ">{{"HOMEPAGE_TEXT" | trans}}</p>
+        {#<h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>#}
+        <div class="text-center"><label class="caecilia-roman" style="margin-top: 13px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</label></div>
 
-<div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}"
-     data-url-change-category="{{path('frontend_top_rated_change_category_callback_ownership')}}">
-    {{ include('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,
-                                                                            'premium_total': premium_total,
-                                                                            'midrange_total': midrange_total,
-                                                                            'economic_total': economic_total}) }}
-</div>
-{{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
-</div>
-<script type="text/javascript">
-    old_class='';
-    $('.home_cat .col-md-4 div').mouseover(function(){
-        elem=$('.'+$(this).attr('data'));
-        old_class= elem.attr('class');
-        elem.addClass('hover');
-    })
-    $('.home_cat .col-md-4 div').mouseout(function(){
-        elem=$('.'+$(this).attr('data'));
-        elem.attr('class',old_class);
-    });
-</script>
+        <div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}"
+             data-url-change-category="{{path('frontend_top_rated_change_category_callback_ownership')}}">
+            {{ include('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,
+                'premium_total': premium_total,
+                'midrange_total': midrange_total,
+                'economic_total': economic_total}) }}
+        </div>
+        {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
+    </div>
+    <script type="text/javascript">
+        old_class='';
+        $('.home_cat .col-md-4 div').mouseover(function(){
+            elem=$('.'+$(this).attr('data'));
+            old_class= elem.attr('class');
+            elem.addClass('hover');
+        })
+        $('.home_cat .col-md-4 div').mouseout(function(){
+            elem=$('.'+$(this).attr('data'));
+            elem.attr('class',old_class);
+        });
+    </script>
 {% endblock %}
