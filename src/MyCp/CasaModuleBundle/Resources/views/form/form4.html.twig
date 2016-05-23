@@ -1,4 +1,7 @@
-<form class="form-horizontal" style="padding-bottom: 25px" >
+{% if num is not defined %}
+    {% set num=1 %}
+{% endif %}
+<form class="form-horizontal" style="padding-bottom: 25px" id="form-number-{{ num }}" action="{{ path('save_step4') }}">
     <div class="m-t-20 m-l-25">
         <label for="comment">Tipo de habitación </label>
         <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
@@ -7,7 +10,12 @@
             <div class="col-md-1">
                 <a class="glyphicons keys m-t-5 m-l-10 menu-textarea"></a>
             </div><div class="col-md-5 p-l-0">
-                <input type="text" class="form-control">
+                <select name="room_type" class="form-control">
+                    <option  value="Habitación individual">Habitación individual</option>
+                    <option  value="Habitación doble">Habitación doble</option>
+                    <option  value="Habitación doble (Dos camas)">Habitación doble (Dos camas)</option>
+                    <option  value="Habitación Triple">Habitación Triple</option>
+                </select>
             </div>
         </div>
     </div>
@@ -19,7 +27,11 @@
             <div class="col-md-1">
                 <img class="m-t-5 m-l-10" src="{{ asset('/bundles/mycpcasamodule/img/vbed.png') }}">
             </div><div class="col-md-5 p-l-0">
-                <input type="text" class="form-control">
+                <select name="number_beds" class="form-control">
+                    <option  value="1">1</option>
+                    <option  value="2">2</option>
+                    <option  value="3">3</option>
+                </select>
             </div>
         </div>
     </div>
@@ -42,7 +54,7 @@
                 <label>Precio en temporada alta</label>
             </div>
             <div class="col-md-2 p-l-0">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="price_high_season">
             </div>
             <div class="col-md-1 p-l-0 m-t-5">
                 CUC
@@ -53,7 +65,7 @@
                 <label>Precio en temporada baja</label>
             </div>
             <div class="col-md-2 p-l-0">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="price_low_season">
             </div>
             <div class="col-md-1 p-l-0 m-t-5">
                 CUC
@@ -64,7 +76,7 @@
                 <label>Precio en temporada especial</label>
             </div>
             <div class="col-md-2 p-l-0">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="price_special_season">
             </div>
             <div class="col-md-2 p-l-0 m-t-5">
                 CUC
@@ -93,9 +105,19 @@
     </div>
     <div class="m-t-20 m-l-25">
         <div>
-            <i class="glyphicons snowflake step-form-icon"></i>
+            <i class="glyphicons snowflake step-form-icon m-t-5"></i>
             <label class="control-label">Climatización</label>
-            <input type="checkbox" class="js-switch" name="climate" id="climate"/>
+            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_climate"/>
+        </div>
+        <div>
+            <i class="glyphicons display step-form-icon m-t-5"></i>
+            <label class="control-label">Audiovisuales</label>
+            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_audiovisual"/>
+        </div>
+        <div>
+            <i class="glyphicons display step-form-icon m-t-5"></i>
+            <label class="control-label">Tipo de baño</label>
+            <input type="checkbox" class="js-switch-{{ num }} m-l-10" name="room_audiovisual"/>
         </div>
     </div>
 </form>

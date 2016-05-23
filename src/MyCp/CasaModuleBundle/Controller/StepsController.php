@@ -47,12 +47,22 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_step4", path="/save/step4")
+     */
+    public function saveStep4Action(Request $request){
+        print_r($request->get('form-number-1'));die;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
      * @Route(name="content_tab_step4", path="/content/step4")
      */
     public function getContentTabStep4Action(Request $request){
         return new JsonResponse([
+            'num'=>$request->get('num'),
             'success' => true,
-            'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array()),
+            'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array('num'=>$request->get('num'))),
             'msg' => 'Nueva habitacion']);
     }
 
