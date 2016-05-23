@@ -1,3 +1,4 @@
+{% spaceless %}
 <!DOCTYPE html>
 <html id="top">
 <head>
@@ -43,7 +44,7 @@
     {#<meta property=”fb:admins” content=”312774092497”/>#}
     {#{% endblock %}#}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {#<meta name="viewport" content="width=device-width, initial-scale=1.0">#}
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
     '@FrontEndBundle/Resources/public/css/glyphicons.css'
@@ -330,3 +331,4 @@ filter='?uglifyjs2'
 {% endblock javascripts %}
 </body>
 </html>
+{% endspaceless %}
