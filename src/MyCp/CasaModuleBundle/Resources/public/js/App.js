@@ -78,13 +78,7 @@ var App = function () {
             event.clickBtnContinueAfter.dispatch();
         })
     }
-    var initializePlugins= function(){
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
-        elems.forEach(function(html) {
-            var switchery = new Switchery(html, { color: '#58ae17' });
-        });
-    }
 
     return {
         //main function to initiate template pages
@@ -96,7 +90,12 @@ var App = function () {
             mouseHelp();
             saveStep();
             createEvent();
-            initializePlugins();
+        },
+        initializePlugins:function(selector,color){
+            var elems = Array.prototype.slice.call(document.querySelectorAll((typeof(selector) === "undefined")?'.js-switch':selector));
+            elems.forEach(function(html) {
+                var switchery = new Switchery(html, { color: (typeof(color) === "undefined")?'#58ae17':color });
+            });
         },
         fix_height:function(){
            /* $('.col-content').css("position", "absolute");
@@ -120,6 +119,7 @@ var App = function () {
 }()
 //Start App
 App.init();
+App.initializePlugins();
 
 
 
