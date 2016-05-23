@@ -381,3 +381,78 @@ ol > li::before {
     font-weight: lighter;
     margin-left: -12px;
 }
+
+/*Additional icons*/
+.additional-icons{width: 13px; height: 14px; background: url("../img/icons.png") no-repeat; vertical-align: middle }
+/*.additional-icons{ width: 27px; height: 27px}*/
+.icon-2{width: 14px; height: 14px;}
+.icon-3{width: 18px; height: 18px;}
+.icon-medium{width: 26px; height: 25px; vertical-align: middle}
+.tiny-book-icon{background-position: 0 0}
+.icon-mail{background-position: -19px -231px; width: 19px; height: 14px;}
+.icon-heart{background-position: -31px -75px; cursor: pointer}
+.icon-heart-on{background-position: -16px -204px;cursor: pointer}
+.tiny-heart-icon{background-position: -14px 0}
+.tiny-user-icon{background-position: 0 -14px}
+.tiny-lang-icon{background-position: -14px -14px}
+.tiny-curr-icon{background-position: 0 -28px}
+.cart-icon{background-position: 0 -42px}
+.cart-full-icon{background-position: 0 -65px}
+.star-orange-icon{background-position: -28px 0}
+.star-orange-icon-2{background-position: -23px -248px;width: 23px; height: 22px}
+.star-orange-off-icon-2{background-position: 0 -248px; width: 23px; height: 22px}
+.tiny-orange-icon{background-position: 0 -89px}
+.all-icon{background-position: 0px -648px;}
+.premium-icon{background-position: -29px -25px}
+.tiny-premium-icon{background-position: -36px -122px}
+.middle-icon{background-position: -27px -50px}
+.tiny-middle-icon{background-position: -16px -113px}
+.economic-icon{background-position: 0 -89px}
+.tiny-economic-icon{background-position: -17px -91px}
+.two-lines-icon,.three-lines-icon,.four-lines-icon{background-position: -33px -98px}
+.two-lines-icon{height: 12px} .three-lines-icon{height: 18px; margin-top: 2px}
+.four-lines-icon{height: 23px} .tiny-star-icon{background-position: -14px -28px}
+.tiny-star-off-icon{background-position: 0px -114px}
+.mail-icon{width: 28px; height: 19px; background-position: -27px -140px}
+.facebook-icon{width: 14px; height: 26px; background-position: -1px -157px}
+.icon-heart-2,.icon-heart-2-on{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2-on{background-position: -29px -625px}
+.twitter-icon{width: 27px; height: 23px; background-position: 0 -133px}
+.pinterest-icon{width: 16px; height: 22px; background-position: -37px -161px}
+.youtube-icon{width: 19px; height: 24px; background-position: -16px -159px}
+.camara-icon{width: 26px; height: 21px; background-position: 0 -183px}
+.three-lines2-icon{width: 24px; height: 15px; background-position: -31px -187px}
+.map-marker-icon{width: 16px; height: 25px; background-position: 0 -204px}
+.icon-more{background-position: 0 -230px; width: 18px; height: 18px}
+.box-icon{background-position: 0 -271px;}
+.breakfast-icon{background-position: -28px -271px;}
+.dinner-icon{background-position: 0 -298px;}
+.parking-icon{background-position: -28px -298px;}
+.laundry-icon{background-position: 0 -325px;}
+.internet-icon{background-position: -28px -325px;}
+.bed-icon{background-position: 0 -352px;}
+.clima-icon{background-position: -28px -352px;}
+.media-icon{background-position: 0 -379px;}
+.bathroom-icon{background-position: -28px -379px;}
+.smoke-icon{background-position: 0 -406px;}
+.windows-icon{background-position: -28px -406px;}
+.balcony-icon{background-position: 0 -433px;}
+.terrace-icon{background-position: -28px -433px;}
+.garden-icon{background-position: 0 -460px;}
+.audio-icon{background-position: -28px -460px;}
+.kids-icon{background-position: 0 -487px;}
+.eye-icon{background-position: -28px -487px;}
+.flag-icon{background-position: 0 -514px;}
+.graph-icon{background-position: -28px -514px;}
+.pet-icon{background-position: 0 -568px;}
+.jacuzzee-icon{background-position: 0 -595px;}
+.sauna-icon{background-position: -28px -595px;}
+.pool-icon{background-position: 0 -622px;}
+.bicycle-icon{background-position: -28px -568px;}
+.persons-icon{background-position: 0 -541px;}
+.heart-3-icon{background-position: -28px -541px;}
+
+/*Facilities*/
+.facilities .control-label{
+    margin-right: 10px;
+}
