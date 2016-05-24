@@ -8,7 +8,7 @@
 
 <div class="container text-center">
     {% for des_cat in des_categories_lang %}
-        <img data-focus="0" {% if loop.index0 == 0 %} id="first_atraction" {% endif %}title="" style='background-image: url("{{ asset('uploads/destinationImages/icons/'~des_cat.getDesCatIdCat.getDesIcon ) }}")' data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_cat.getDesCatName }}" class="icon-destination" data-catid="cat{{ des_cat.getDesCatIdCat.getDesCatId }}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/>
+        <img data-focus="0" {% if loop.index0 == 0 %} id="first_atraction" {% endif %}title="{{ des_cat.getDesCatName }}" style='background-image: url("{{ asset('uploads/destinationImages/icons/'~des_cat.getDesCatIdCat.getDesIcon ) }}")' data-placement="top" rel="tooltip" data-original-title="{{ des_cat.getDesCatName }}" class="icon-destination" data-catid="cat{{ des_cat.getDesCatIdCat.getDesCatId }}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/>
     {% endfor %}
 </div>
 <hr style="border-color: #D7D6D6; width: 100%; margin: 0"/>
