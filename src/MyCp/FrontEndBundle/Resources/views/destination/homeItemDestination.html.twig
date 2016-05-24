@@ -12,7 +12,7 @@
         {%if destination_name | length > 27%}...{%endif%}
     </h2>
     </a>
-    <h5 class="no-margin">
+    <div class="no-margin">
         <table>
             <tr>
                 <td>
@@ -31,8 +31,8 @@
                 </td>
             </tr>
         </table>
-        <h6 class="h-blue h-blue-2">{{"FROM_PRICES" | trans | lower}} {{ statistics['minimum_prize'] | price}}</h6>
-    </h5>
+        <div class="h-blue h-blue-2" style="line-height:1.1">{{"FROM_PRICES" | trans | lower}} {{ statistics['minimum_prize'] | price}}</div>
+    </div>
 </div>
 
 
