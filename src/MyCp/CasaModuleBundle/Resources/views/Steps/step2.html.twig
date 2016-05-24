@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <form novalidate class="form-horizontal" action="{{ path('casa_module_edit_step1') }}" method="post">
+        <form id="mycp_mycpbundle_ownership_step1" novalidate class="form-horizontal" action="{{ path('casa_module_edit_step1') }}" method="post">
             <div class="bg-gray m-t-20 col-md-11 font-black">
                 <div class="row">
                     <label class="control-label">Nombre de la casa</label>
@@ -137,13 +137,13 @@
                     <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-four" class="help-icon">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
                     <div class="row p-10">
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <div class="row">
                                 <div class="col-sm-1">
                                     <i class="glyphicons conversation form-icon pull-right"></i>
                                 </div>
                                 <div class="col-sm-8">
-                                    {{ form_widget(form.own_langs1, {'attr':{'class':'form-control select2', 'multiple':'multiple'}}) }}
+                                    {{ form_widget(form.own_langs1, {'attr':{'class':'form-control', 'multiple':'multiple'}}) }}
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                 <div class="col-sm-1">
                                     <i class="glyphicons home form-icon pull-right"></i>
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-9">
                                     {{ form_widget(form.own_type) }}
                                 </div>
                             </div>
