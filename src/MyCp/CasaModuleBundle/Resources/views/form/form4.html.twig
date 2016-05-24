@@ -7,7 +7,7 @@
         <button id="deleteRoom" type="button" class="btn btn-danger  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
     </div>
 {% endif %}
-<form class="form-horizontal" style="padding-bottom: 25px" id="form-number-{{ num }}" action="{{ path('save_step4') }}">
+<form class="form-horizontal" style="padding-bottom: 25px" id="{% if room is defined %}form-number-{{ room.RoomId }}{% else %}form-number-{{ num }}{% endif %}" action="{{ path('save_step4') }}">
     {% if room is defined %}
         <input type="hidden" class="form-control" name="idRoom" value="{{ room.RoomId }}">
     {% endif %}
@@ -23,7 +23,7 @@
                 {% if room is defined %}
                     <span id="label_room_type_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomType }}</span>
                 {% endif %}
-                <select id="select_room_type_{{ num }}" name="room_type" class="form-control {% if room is defined %}hide{% endif %}">
+                <select id="select_room_type_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_type" class="form-control {% if room is defined %}hide{% endif %}">
                     <option  value="Habitación individual">Habitación individual</option>
                     <option  value="Habitación doble">Habitación doble</option>
                     <option  value="Habitación doble (Dos camas)">Habitación doble (Dos camas)</option>
@@ -32,7 +32,7 @@
 
             </div>
             {% if room is defined %}
-                <button id="changeDataStep4" data-cmpdisabled="#label_room_type_{{ room.RoomId }}" data-cmpenabled="#select_room_type_{{ num }}" class="btn btn-primary dim" type="button">Cambiar</button>
+                <button data-cmpdisabled="#label_room_type_{{ room.RoomId }}" data-cmpenabled="#select_room_type_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeDataStep4" type="button">Cambiar</button>
             {% endif %}
         </div>
     </div>
@@ -43,13 +43,20 @@
         <div class="row m-t-5">
             <div class="col-md-1">
                 <img class="m-t-5 m-l-10" src="{{ asset('/bundles/mycpcasamodule/img/vbed.png') }}">
-            </div><div class="col-md-5 p-l-0">
-                <select name="number_beds" class="form-control">
+            </div>
+            <div class="col-md-5 p-l-0">
+                {% if room is defined %}
+                    <span id="label_number_beds_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomBeds }}</span>
+                {% endif %}
+                <select id="select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="number_beds" class="form-control {% if room is defined %}hide{% endif %}">
                     <option  value="1">1</option>
                     <option  value="2">2</option>
                     <option  value="3">3</option>
                 </select>
             </div>
+            {% if room is defined %}
+                <button data-cmpdisabled="#label_number_beds_{{ room.RoomId }}" data-cmpenabled="#select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeDataStep4" type="button">Cambiar</button>
+            {% endif %}
         </div>
     </div>
     <div class="m-t-20 m-l-25">
@@ -71,33 +78,58 @@
                 <label>Precio en temporada alta</label>
             </div>
             <div class="col-md-2 p-l-0">
-                <input type="text" class="form-control" name="price_high_season">
+                {% if room is defined %}
+                    <span id="label_price_high_season_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomPriceUpTo }}</span>
+                {% endif %}
+                <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control  {% if room is defined %}hide{% endif %}" name="price_high_season">
             </div>
             <div class="col-md-1 p-l-0 m-t-5">
                 CUC
             </div>
+            {% if room is defined %}
+                <div class="col-md-1 p-l-0 m-t-5">
+                    <button data-cmpdisabled="#label_price_high_season_{{ room.RoomId }}" data-cmpenabled="#input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeDataStep4" type="button">Cambiar</button>
+                </div>
+            {% endif %}
+
         </div>
         <div class="row m-t-5">
             <div class="col-md-5">
                 <label>Precio en temporada baja</label>
             </div>
             <div class="col-md-2 p-l-0">
-                <input type="text" class="form-control" name="price_low_season">
+                {% if room is defined %}
+                    <span id="label_price_low_season_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomPriceDownTo }}</span>
+                {% endif %}
+                <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %}" name="price_low_season">
             </div>
             <div class="col-md-1 p-l-0 m-t-5">
                 CUC
             </div>
+            {% if room is defined %}
+                <div class="col-md-1 p-l-0 m-t-5">
+                    <button data-cmpdisabled="#label_price_low_season_{{ room.RoomId }}" data-cmpenabled="#input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeDataStep4" type="button">Cambiar</button>
+                </div>
+            {% endif %}
         </div>
         <div class="row m-t-5">
             <div class="col-md-5">
                 <label>Precio en temporada especial</label>
             </div>
             <div class="col-md-2 p-l-0">
-                <input type="text" class="form-control" name="price_special_season">
+                {% if room is defined %}
+                    <span id="label_price_special_season_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomPriceSpecial }}</span>
+                {% endif %}
+                <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %}" name="price_special_season">
             </div>
-            <div class="col-md-2 p-l-0 m-t-5">
+            <div class="col-md-1 p-l-0 m-t-5">
                 CUC
             </div>
+            {% if room is defined %}
+                <div class="col-md-1 p-l-0 m-t-5">
+                    <button data-cmpdisabled="#label_price_special_season_{{ room.RoomId }}" data-cmpenabled="#input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeDataStep4" type="button">Cambiar</button>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div class="m-t-20 m-l-25">

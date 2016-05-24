@@ -82,7 +82,7 @@ var Step4 = function () {
         });
     }
     var changeDataStep4=function(){
-        $('#changeDataStep4').on('click',function(){
+        $('.changeDataStep4').on('click',function(){
             $($(this).data("cmpdisabled")).addClass('hide');
             $($(this).data("cmpenabled")).removeClass('hide');
             $(this).addClass('hide');
@@ -117,13 +117,13 @@ var Step4 = function () {
         addEndTab:function(){
             $('#nav-tabs-backend').append('<li id="addTab" data-href="'+url_add_tab+'" onclick="Step4.addTabTabpanel($(this))" >'+html_nav_addTab+'</li>');
             //Adiciono el contenido del tab
-            $('#tab-content-backend').append('<div class="tab-pane" id="tab12"></div>');
+            $('#tab-content-backend').append('<div class="tab-pane" id="tab25"></div>');
         },
         deleteEndTab:function(){
             //Remuevo el ultimo tab y lo adiciono
             html_nav_addTab=$('#addTab').html();
             $('#addTab').remove(); //remove li of tab
-            $('#tab12').remove(); //remove respective tab content
+            $('#tab25').remove(); //remove respective tab content
         }
     };
 }();
