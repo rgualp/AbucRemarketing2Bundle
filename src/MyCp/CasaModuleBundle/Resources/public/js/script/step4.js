@@ -81,6 +81,13 @@ var Step4 = function () {
 
         });
     }
+    var changeDataStep4=function(){
+        $('#changeDataStep4').on('click',function(){
+            $($(this).data("cmpdisabled")).addClass('hide');
+            $($(this).data("cmpenabled")).removeClass('hide');
+            $(this).addClass('hide');
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
@@ -88,6 +95,7 @@ var Step4 = function () {
             changeTab();
             deactivateRoom();
             deleteRoom();
+            changeDataStep4();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
             App.initializePlugins('.js-switch-'+numRoom);

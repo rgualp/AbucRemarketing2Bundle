@@ -3,11 +3,14 @@
 {% endif %}
 {% if room is defined %}
     <div class="row m-t-20 m-l-25">
-        <button id="deactivateRoom" type="button" class="btn btn-default  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons eye_close"></i> Desactivar</button>
-        <button id="deleteRoom" type="button" class="btn btn-danger  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons bin"></i> Eliminar</button>
+        <button id="deactivateRoom" type="button" class="btn btn-default  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
+        <button id="deleteRoom" type="button" class="btn btn-danger  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
     </div>
 {% endif %}
 <form class="form-horizontal" style="padding-bottom: 25px" id="form-number-{{ num }}" action="{{ path('save_step4') }}">
+    {% if room is defined %}
+        <input type="hidden" class="form-control" name="idRoom" value="{{ room.RoomId }}">
+    {% endif %}
     <div class="m-t-20 m-l-25">
         <label for="comment">Tipo de habitación </label>
         <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
@@ -15,14 +18,22 @@
         <div class="row m-t-5">
             <div class="col-md-1">
                 <a class="glyphicons keys m-t-5 m-l-10 menu-textarea"></a>
-            </div><div class="col-md-5 p-l-0">
-                <select name="room_type" class="form-control">
+            </div>
+            <div class="col-md-5 p-l-0">
+                {% if room is defined %}
+                    <span id="label_room_type_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomType }}</span>
+                {% endif %}
+                <select id="select_room_type_{{ num }}" name="room_type" class="form-control {% if room is defined %}hide{% endif %}">
                     <option  value="Habitación individual">Habitación individual</option>
                     <option  value="Habitación doble">Habitación doble</option>
                     <option  value="Habitación doble (Dos camas)">Habitación doble (Dos camas)</option>
                     <option  value="Habitación Triple">Habitación Triple</option>
                 </select>
+
             </div>
+            {% if room is defined %}
+                <button id="changeDataStep4" data-cmpdisabled="#label_room_type_{{ room.RoomId }}" data-cmpenabled="#select_room_type_{{ num }}" class="btn btn-primary dim" type="button">Cambiar</button>
+            {% endif %}
         </div>
     </div>
     <div class="m-t-20 m-l-25">

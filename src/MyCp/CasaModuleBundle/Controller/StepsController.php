@@ -73,31 +73,61 @@ class StepsController extends Controller
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
             $i=1;
             foreach($rooms as $room){
+                //Se esta modificando
+                if(isset($room['idRoom'])){
+                    $ownership_room = $em->getRepository('mycpBundle:room')->find($room['idRoom']);
+                    if(isset($room['room_type']))
+                        $ownership_room->setRoomType($room['room_type']);
+                    if(isset($room['number_beds']))
+                        $ownership_room->setRoomBeds($room['number_beds']);
+                    if(isset($room['price_high_season']))
+                        $ownership_room->setRoomPriceUpTo($room['price_high_season']);
+                    if(isset($room['price_low_season']))
+                        $ownership_room->setRoomPriceDownTo($room['price_low_season']);
+                    if(isset($room['price_special_season']))
+                        $ownership_room->setRoomPriceSpecial($room['price_special_season']);
+                    $ownership_room->setRoomClimate((isset($room['room_climate']))?($room['room_climate']=='on'?'Aire acondicionado / Ventilador':''):'');
+                    $ownership_room->setRoomAudiovisual((isset($room['room_audiovisual']))?($room['room_audiovisual']=='on'?'TV+DVD / Video':''):'');
 
-                $obj= new room();
-                $obj->setRoomNum($i);
-                $obj->setRoomType($room['room_type']);
-                $obj->setRoomBeds($room['number_beds']);
-                $obj->setRoomPriceUpTo($room['price_high_season']);
-                $obj->setRoomPriceDownTo($room['price_low_season']);
-                $obj->setRoomPriceSpecial($room['price_special_season']);
-                $obj->setRoomClimate(($room['room_climate']=='on'?'Aire acondicionado / Ventilador':''));
-                $obj->setRoomAudiovisual(($room['room_audiovisual']=='on'?'TV+DVD / Video':'No'));
-                $obj->setRoomSmoker(($room['room_smoker']=='on'?1:0));
-                $obj->setRoomSmoker(($room['room_smoker']=='on'?1:0));
-                $obj->setRoomActive(1);
-                $obj->setRoomSafe(($room['room_safe']=='on'?1:0));
-                $obj->setRoomBaby(($room['room_baby']=='on'?1:0));
-                $obj->setRoomBathroom($room['room_bathroom']);
-                $obj->setRoomStereo(($room['room_stereo']=='on'?1:0));
-                $obj->setRoomWindows($room['room_window']);
-                $obj->setRoomBalcony($room['room_balcony']);
-                $obj->setRoomTerrace(($room['room_terrace']=='on'?1:0));
-                $obj->setRoomYard(($room['room_yard']=='on'?1:0));
-
-                $obj->setRoomOwnership($ownership);
-
-                $em->persist($obj);
+                    $ownership_room->setRoomSmoker((isset($room['room_smoker']))?($room['room_smoker']=='on'?1:0):0);
+                    $ownership_room->setRoomActive(1);
+                    $ownership_room->setRoomSafe((isset($room['room_safe']))?($room['room_safe']=='on'?1:0):0);
+                    $ownership_room->setRoomBaby((isset($room['room_baby']))?($room['room_baby']=='on'?1:0):0);
+                    if(isset($room['room_bathroom']))
+                        $ownership_room->setRoomBathroom($room['room_bathroom']);
+                    $ownership_room->setRoomStereo((isset($room['room_stereo']))?($room['room_stereo']=='on'?1:0):0);
+                    if(isset($room['room_window']))
+                        $ownership_room->setRoomWindows($room['room_window']);
+                    if(isset($room['room_balcony']))
+                        $ownership_room->setRoomBalcony($room['room_balcony']);
+                    $ownership_room->setRoomTerrace((isset($room['room_terrace']))?($room['room_terrace']=='on'?1:0):0);
+                    $ownership_room->setRoomYard((isset($room['room_yard']))?($room['room_yard']=='on'?1:0):0);
+                    $em->persist($ownership_room);
+                }
+                else{
+                    //Se esta insertando
+                    $obj= new room();
+                    $obj->setRoomNum($i);
+                    $obj->setRoomType($room['room_type']);
+                    $obj->setRoomBeds($room['number_beds']);
+                    $obj->setRoomPriceUpTo($room['price_high_season']);
+                    $obj->setRoomPriceDownTo($room['price_low_season']);
+                    $obj->setRoomPriceSpecial($room['price_special_season']);
+                    $obj->setRoomClimate((isset($room['room_climate']))?($room['room_climate']=='on'?'Aire acondicionado / Ventilador':''):'');
+                    $obj->setRoomAudiovisual((isset($room['room_audiovisual']))?($room['room_audiovisual']=='on'?'TV+DVD / Video':''):'');
+                    $obj->setRoomSmoker((isset($room['room_smoker']))?($room['room_smoker']=='on'?1:0):0);
+                    $obj->setRoomActive(1);
+                    $obj->setRoomSafe((isset($room['room_safe']))?($room['room_safe']=='on'?1:0):0);
+                    $obj->setRoomBaby((isset($room['room_baby']))?($room['room_baby']=='on'?1:0):0);
+                    $obj->setRoomBathroom($room['room_bathroom']);
+                    $obj->setRoomStereo((isset($room['room_stereo']))?($room['room_stereo']=='on'?1:0):0);
+                    $obj->setRoomWindows($room['room_window']);
+                    $obj->setRoomBalcony($room['room_balcony']);
+                    $obj->setRoomTerrace((isset($room['room_terrace']))?($room['room_terrace']=='on'?1:0):0);
+                    $obj->setRoomYard((isset($room['room_yard']))?($room['room_yard']=='on'?1:0):0);
+                    $obj->setRoomOwnership($ownership);
+                    $em->persist($obj);
+                }
                 $i++;
             }
             $em->flush();
