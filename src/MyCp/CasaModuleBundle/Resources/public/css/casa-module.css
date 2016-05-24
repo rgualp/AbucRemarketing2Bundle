@@ -81,6 +81,9 @@ body{
     border-radius: 0;
     border: 0;
 }
+button.glyphicons{
+    color: #fff;
+}
 button.btn-default.dim {
     box-shadow: 0 0 0 #B3B3B3 inset, 0 5px 0 0 #B3B3B3, 0 0 0 #999999;
 }
