@@ -64,7 +64,7 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="save_step5", path="/save/step5")
+     * @Route(name="save_step4", path="/save/step4")
      */
     public function saveStep4Action(Request $request){
         $em = $this->getDoctrine()->getManager();
@@ -105,6 +105,12 @@ class StepsController extends Controller
         return new JsonResponse([
             'success' => true
         ]);
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_step5", path="/save/step5")
+     */
     public function saveStep5Action(Request $request){
         print_r($request->get('hasBreakfast'));die;
     }
