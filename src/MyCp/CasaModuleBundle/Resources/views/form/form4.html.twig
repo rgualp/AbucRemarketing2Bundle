@@ -1,6 +1,12 @@
 {% if num is not defined %}
     {% set num=1 %}
 {% endif %}
+{% if room is defined %}
+    <div class="row m-t-20 m-l-25">
+        <button id="deactivateRoom" type="button" class="btn btn-default  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons eye_close"></i> Desactivar</button>
+        <button id="deleteRoom" type="button" class="btn btn-danger  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons bin"></i> Eliminar</button>
+    </div>
+{% endif %}
 <form class="form-horizontal" style="padding-bottom: 25px" id="form-number-{{ num }}" action="{{ path('save_step4') }}">
     <div class="m-t-20 m-l-25">
         <label for="comment">Tipo de habitación </label>

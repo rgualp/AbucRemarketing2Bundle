@@ -71,11 +71,23 @@ var Step4 = function () {
             }
         });
     }
+    var deactivateRoom=function(){
+        $('#deactivateRoom').on('click',function(){
+
+        });
+    }
+    var deleteRoom=function(){
+        $('#deleteRoom').on('click',function(){
+
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             changeTab();
+            deactivateRoom();
+            deleteRoom();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
             App.initializePlugins('.js-switch-'+numRoom);
