@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use MyCp\mycpBundle\Entity\ownership;
+use MyCp\mycpBundle\Entity\room;
 
 /**
 * @Route("/ownership/edit")
@@ -50,7 +52,44 @@ class StepsController extends Controller
      * @Route(name="save_step4", path="/save/step4")
      */
     public function saveStep4Action(Request $request){
-        print_r($request->get('rooms'));die;
+        $em = $this->getDoctrine()->getManager();
+        $rooms=$request->get('rooms');
+        if(count($rooms)){
+            $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
+            $i=1;
+            foreach($rooms as $room){
+
+                $obj= new room();
+                $obj->setRoomNum($i);
+                $obj->setRoomType($room['room_type']);
+                $obj->setRoomBeds($room['number_beds']);
+                $obj->setRoomPriceUpTo($room['price_high_season']);
+                $obj->setRoomPriceDownTo($room['price_low_season']);
+                $obj->setRoomPriceSpecial($room['price_special_season']);
+                $obj->setRoomClimate(($room['room_climate']=='on'?'Aire acondicionado / Ventilador':''));
+                $obj->setRoomAudiovisual(($room['room_audiovisual']=='on'?'TV+DVD / Video':'No'));
+                $obj->setRoomSmoker(($room['room_smoker']=='on'?1:0));
+                $obj->setRoomSmoker(($room['room_smoker']=='on'?1:0));
+                $obj->setRoomActive(1);
+                $obj->setRoomSafe(($room['room_safe']=='on'?1:0));
+                $obj->setRoomBaby(($room['room_baby']=='on'?1:0));
+                $obj->setRoomBathroom($room['room_bathroom']);
+                $obj->setRoomStereo(($room['room_stereo']=='on'?1:0));
+                $obj->setRoomWindows($room['room_window']);
+                $obj->setRoomBalcony($room['room_balcony']);
+                $obj->setRoomTerrace(($room['room_terrace']=='on'?1:0));
+                $obj->setRoomYard(($room['room_yard']=='on'?1:0));
+
+                $obj->setRoomOwnership($ownership);
+
+                $em->persist($obj);
+                $i++;
+            }
+            $em->flush();
+        }
+        return new JsonResponse([
+            'success' => true
+        ]);
     }
 
     /**
