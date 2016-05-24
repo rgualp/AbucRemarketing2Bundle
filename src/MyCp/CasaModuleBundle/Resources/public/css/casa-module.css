@@ -1,6 +1,7 @@
 /**Casa module styles*/
 body{
     background-color: #2191d2;
+    font-size: 14px;
 }
 .collapse_arrow{
     background: url('/bundles/mycpcasamodule/img/Zaeta-Izquierda.png') no-repeat;
@@ -467,6 +468,22 @@ ol > li::before {
     margin-bottom: 10px;
     margin-right: 10px;
     width: 24px;
-}}
+}
 
 .p-0 { padding: 0; }
+
+.form-control.inline{display: inline !important; width: 20%; margin:0 5px;}
+
+.p-0 { padding: 0; }
+
+.select2-container{
+    width: 100% !important;
+}
+.select2-container--default .select2-selection--multiple{
+    border-radius: 0 !important;
+    border: 1px solid #e5e6e7 !important;
+}
+.select2-container--default:focus, .select2-selection--multiple:focus {
+    border-color: #1ab394 !important;
+}
+

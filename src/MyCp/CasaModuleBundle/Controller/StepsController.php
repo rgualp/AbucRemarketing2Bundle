@@ -30,6 +30,7 @@ class StepsController extends Controller
      * @Route(name="casa_module_edit_step1", path="/step1")
      */
  public function step1Action(Request $request){
+     $em=$this->getDoctrine()->getManager();
      $user=$this->getUser();
      if(empty($user->getUserUserCasa()))
          return new NotFoundHttpException('El usuario no es usuario casa');
@@ -37,6 +38,20 @@ class StepsController extends Controller
      $form=$this->createForm(new ownershipStep1Type(),$ownership);
      $form->handleRequest($request);
      if($form->isValid()){
+         $langs=$ownership->getOwnLangs();
+         if(strlen($langs)==3){
+             $ownership->setOwnLangs('0'.$langs);
+         }
+         elseif(strlen($langs)==2){
+             $ownership->setOwnLangs('00'.$langs);
+         }
+         elseif(strlen($langs)==1){
+             $ownership->setOwnLangs('000'.$langs);
+         }
+
+         $em->persist($ownership);
+         $em->flush();
+         return new JsonResponse('ok');
 
      }
      return $this->render('MyCpCasaModuleBundle:Ownership:step1.html.twig',array(
@@ -49,7 +64,7 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="save_step4", path="/save/step4")
+     * @Route(name="save_step5", path="/save/step5")
      */
     public function saveStep4Action(Request $request){
         $em = $this->getDoctrine()->getManager();
@@ -90,6 +105,8 @@ class StepsController extends Controller
         return new JsonResponse([
             'success' => true
         ]);
+    public function saveStep5Action(Request $request){
+        print_r($request->get('hasBreakfast'));die;
     }
 
     /**
