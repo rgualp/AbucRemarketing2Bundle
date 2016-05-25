@@ -11,7 +11,7 @@
         </div>
             <div class="tabbable font-black tab-mcp">
 
-                <ul id="nav-tabs-backend" class="nav nav-tabs mcp">
+                <ul id="nav-tabs-backend" class="nav nav-tabs mcp" data-numroom="{{ ownership.ownRooms | length }}">
                     {% if ownership.ownRooms | length %}
                         {% for room in ownership.ownRooms %}
                             <li id="nav1{{ room.RoomNum }}" class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="#tab1{{ room.RoomNum }}">Habitación {{ room.RoomNum }}</a></li>
@@ -26,7 +26,7 @@
                     {% if ownership.ownRooms | length %}
                         {% for room in ownership.ownRooms %}
                             <div id="tab1{{ room.RoomNum }}" class="tab-pane {% if loop.first %}active{% endif %}">
-                                {% include 'MyCpCasaModuleBundle:form:form4.html.twig' with {'room':room} %}
+                                {% include 'MyCpCasaModuleBundle:form:form4.html.twig' with {'room':room,'index':loop.index} %}
                             </div>
                         {% endfor %}
                         {% else %}
