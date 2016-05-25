@@ -382,6 +382,12 @@
 
     {% block include_javascripts %}
         <!--script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script-->
+        {% javascripts
+        '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         <script type="text/javascript">
 
             $(document).ready(function($) {

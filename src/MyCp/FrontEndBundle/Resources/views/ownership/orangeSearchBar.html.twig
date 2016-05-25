@@ -1,3 +1,9 @@
+{% javascripts
+'@FrontEndBundle/Resources/public/js/typeahead.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 
 <div class="form bg-gradient-orange" id="orange_search_bar">
         <div class="row">
@@ -72,3 +78,9 @@
         limit: 4
     });
 </script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/ownership.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
