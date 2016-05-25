@@ -155,6 +155,7 @@ var Step5 = function () {
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep5,this);
 
+
             showDivPrices();
 
             $("#btn-change-breakfast").click(changeBreakfastPrice);

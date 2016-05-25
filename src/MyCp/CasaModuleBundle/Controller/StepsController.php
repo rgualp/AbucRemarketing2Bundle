@@ -141,7 +141,45 @@ class StepsController extends Controller
      * @Route(name="save_step5", path="/save/step5")
      */
     public function saveStep5Action(Request $request){
-        print_r($request->get('hasBreakfast'));die;
+        $hasBreakfast = $request->get('hasBreakfast');
+        $idAccommodation = $request->get('idAccommodation');
+        $breakfastPrice = $request->get('breakfastPrice');
+        $hasDinner = $request->get('hasDinner');
+        $dinnerPriceFrom = $request->get('dinnerPriceFrom');
+        $dinnerPriceTo = $request->get('dinnerPriceTo');
+        $hasParking = $request->get('hasParking');
+        $parkingPrice = $request->get('parkingPrice');
+        $hasJacuzzy = $request->get('hasJacuzzy');
+        $hasSauna = $request->get('hasSauna');
+        $hasPool = $request->get('hasPool');
+        $hasParkingBike = $request->get('hasParkingBike');
+        $hasPet = $request->get('hasPet');
+        $hasLaundry = $request->get('hasLaundry');
+        $hasEmail = $request->get('hasEmail');
+
+        $em = $this->getDoctrine()->getManager();
+        $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+
+        $accommodation->setOwnFacilitiesBreakfast($hasBreakfast)
+            ->setOwnFacilitiesBreakfastPrice($breakfastPrice)
+            ->setOwnFacilitiesDinner($hasDinner)
+            ->setOwnFacilitiesDinnerPriceFrom($dinnerPriceFrom)
+            ->setOwnFacilitiesDinnerPriceTo($dinnerPriceTo)
+            ->setOwnFacilitiesParking($hasParking)
+            ->setOwnFacilitiesParkingPrice($parkingPrice)
+            ->setOwnWaterJacuzee($hasJacuzzy)
+            ->setOwnWaterSauna($hasSauna)
+            ->setOwnWaterPiscina($hasPool)
+            ->setOwnDescriptionBicycleParking($hasParkingBike)
+            ->setOwnDescriptionPets($hasPet)
+            ->setOwnDescriptionLaundry($hasLaundry)
+            ->setOwnDescriptionInternet($hasEmail);
+
+        $em->flush();
+
+        return new JsonResponse([
+            'success' => true
+        ]);
     }
 
     /**
