@@ -8,7 +8,7 @@
         <button id="deleteRoom" type="button" class="btn btn-danger  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
     </div>
 {% endif %}
-<form class="form-horizontal" style="padding-bottom: 25px" id="{% if room is defined %}form-number-{{ room.RoomId }}{% else %}form-number-{{ num }}{% endif %}" action="{{ path('save_step4') }}">
+<form class="form-horizontal" style="padding-bottom: 25px" id="{% if room is defined %}form-number-{{ index }}{% else %}form-number-{{ num }}{% endif %}" action="{{ path('save_step4') }}">
     {% if room is defined %}
         <input type="hidden" class="form-control" name="idRoom" value="{{ room.RoomId }}">
     {% endif %}
