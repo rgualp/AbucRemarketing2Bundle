@@ -13,7 +13,7 @@
             <div class="facilities" id="facilities-div" data-url="{{ path("save_step5") }}">
                 <div class="row">
                     <div class="col-md-5">
-                    <i class="additional-icons breakfast-icon"></i>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/desayuno.png') }}" class="img-step4" >
                     <label class="control-label">Desayuno incluido</label>
                     </div>
                     <div class="col-md-1">
@@ -31,7 +31,7 @@
                     </div>
                         <div class="col-md-6 facilitiesBreakfastPrice">
                             <label class="control-label">Precio</label>
-                            <input type="text" name="facilitiesBreakfast" id="facilitiesBreakfast" class="form-control inline" value="{{ ownership.ownFacilitiesBreakfastPrice }}"/>
+                            <input type="number" min="0" name="facilitiesBreakfast" id="facilitiesBreakfast" class="form-control inline" value="{{ ownership.ownFacilitiesBreakfastPrice }}"/>
                         </div>
                 </div>
                 <div class="row">
@@ -58,9 +58,9 @@
                     <div class="col-md-6 facilitiesDinnerPrice">
                         <label class="control-label">Precio</label>
                         <label class="control-label">Desde</label>
-                        <input type="text" name="facilitiesDinnerFrom" id="facilitiesDinnerFrom" class="form-control inline" value="{{ ownership.ownFacilitiesDinnerPriceFrom }}"/>
+                        <input type="number" min="0" name="facilitiesDinnerFrom" id="facilitiesDinnerFrom" class="form-control inline" value="{{ ownership.ownFacilitiesDinnerPriceFrom }}"/>
                         <label class="control-label">Hasta</label>
-                        <input type="text" name="facilitiesDinnerTo" id="facilitiesDinnerTo" class="form-control inline" value="{{ ownership.ownFacilitiesDinnerPriceTo }}"/>
+                        <input type="number" min="0" name="facilitiesDinnerTo" id="facilitiesDinnerTo" class="form-control inline" value="{{ ownership.ownFacilitiesDinnerPriceTo }}"/>
                     </div>
                 </div>
                 <div class="row">
@@ -84,12 +84,12 @@
                     </div>
                         <div class="col-md-6 facilitiesParkingPrice">
                             <label class="control-label">Precio</label>
-                            <input type="text" name="facilitiesParking" id="facilitiesParking" class="form-control inline" value="{{ ownership.ownFacilitiesParkingPrice }}"/>
+                            <input type="number" min="0" name="facilitiesParking" id="facilitiesParking" class="form-control inline" value="{{ ownership.ownFacilitiesParkingPrice }}"/>
                         </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5">
-                    <i class="additional-icons jacuzzee-icon"></i>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/jacuzze.png') }}" class="img-step4" >
                     <label class="control-label">Jacuzzi</label>
                     </div>
                     <div class="col-md-7">
@@ -99,7 +99,7 @@
 
                 <div class="row">
                     <div class="col-md-5">
-                    <i class="additional-icons sauna-icon"></i>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/sauna.png') }}" class="img-step4" >
                     <label class="control-label">Sauna</label>
                     </div>
                     <div class="col-md-7">
