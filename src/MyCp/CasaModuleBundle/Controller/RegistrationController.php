@@ -11,6 +11,8 @@ namespace MyCp\CasaModuleBundle\Controller;
 
 use MyCp\FrontEndBundle\Form\enableUserCasaType;
 use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\owner;
+use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\user;
@@ -101,6 +103,23 @@ class RegistrationController extends Controller
 //        UserMails::sendOwnersMail($this, $request->get('own_email_1'), null, $request->get('own_homeowner_1'), null, $request->get('own_name'), $ownership->getOwnMcpCode());
 
         $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
+
+           //Create new owner
+           $owner = new owner();
+           $owner->setEmail($request->get('own_email_1'))
+               ->setFullName($request->get('own_homeowner_1'))
+               ->setPhone(trim($request->get('own_phone')))
+               ->setProvince($province)
+               ->setMunicipality($municipality);
+
+           $em->persist($owner);
+
+           $ownerAccommodation = new ownerAccommodation();
+           $ownerAccommodation->setAccommodation($ownership)
+               ->setOwner($owner);
+
+           $em->persist($ownerAccommodation);
+
         $em->flush();
            $data['id_ownership']=$ownership->getOwnId();
            $data['ownership_mcp_code']=$ownership->getOwnMcpCode();

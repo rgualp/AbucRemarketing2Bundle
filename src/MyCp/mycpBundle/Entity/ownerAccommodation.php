@@ -27,6 +27,42 @@ class ownerAccommodation
      */
     private $owner;
 
+    /**
+     * @return mixed
+     */
+    public function getAccommodation()
+    {
+        return $this->accommodation;
+    }
+
+    /**
+     * @param mixed $accommodation
+     * @return mixed
+     */
+    public function setAccommodation($accommodation)
+    {
+        $this->accommodation = $accommodation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param mixed $owner
+     * @return mixed
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
+
 
 
 }

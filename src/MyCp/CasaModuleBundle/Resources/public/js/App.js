@@ -30,6 +30,18 @@ var App = function () {
                 $('#li'+index).addClass('active');
                 idWizardActive=index;
                 App.hide_pagination_izard(index);
+
+                var stepsCount = navigation.find('li').length-1;
+
+                if(index == stepsCount)
+                {
+                    $("#btnNext").addClass("hidden");
+                    $("#btnPublish").removeClass("hidden");
+                }
+                else{
+                    $("#btnNext").removeClass("hidden");
+                    $("#btnPublish").addClass("hidden");
+                }
             }
         });
         $('#steps').addClass('hide');

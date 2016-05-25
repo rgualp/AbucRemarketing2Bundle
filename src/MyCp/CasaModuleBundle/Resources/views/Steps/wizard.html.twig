@@ -42,7 +42,10 @@
                     <ul class="pager wizard col-md-9 mcp-pager hide">
                         <li><button type="button" class="btn btn-warning  dim" id="saveStep">Continuar después</button></li>
                         <li class="previous"><button class="btn btn-default  dim" type="button"><img src="{{ asset('bundles/mycpcasamodule/img/previous.png') }}" class="m-r-5"> Anterior</button></li>
-                        <li class="next"><button class="btn btn-primary dim" type="button">Siguiente <img src="{{ asset('bundles/mycpcasamodule/img/next.png') }}" class="m-r-5"></button></li>
+                        <li class="next">
+                            <button id="btnNext" class="btn btn-primary dim" type="button">Siguiente <img src="{{ asset('bundles/mycpcasamodule/img/next.png') }}" class="m-r-5"/></button>
+                            <button id="btnPublish" class="btn btn-primary dim hidden" type="button">Publicar <img src="{{ asset('bundles/mycpcasamodule/img/thumbs_up.png') }}" class="m-r-5"/></button>
+                        </li>
                     </ul>
                 </div>
             </div>
