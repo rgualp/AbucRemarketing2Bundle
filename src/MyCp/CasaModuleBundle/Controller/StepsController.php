@@ -18,6 +18,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
+use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
 
 /**
 * @Route("/ownership/edit")
@@ -90,7 +92,6 @@ class StepsController extends Controller
                     $ownership_room->setRoomAudiovisual((isset($room['room_audiovisual']))?($room['room_audiovisual']=='on'?'TV+DVD / Video':''):'');
 
                     $ownership_room->setRoomSmoker((isset($room['room_smoker']))?($room['room_smoker']=='on'?1:0):0);
-                    $ownership_room->setRoomActive(1);
                     $ownership_room->setRoomSafe((isset($room['room_safe']))?($room['room_safe']=='on'?1:0):0);
                     $ownership_room->setRoomBaby((isset($room['room_baby']))?($room['room_baby']=='on'?1:0):0);
                     if(isset($room['room_bathroom']))
@@ -195,5 +196,65 @@ class StepsController extends Controller
             'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array('num'=>$request->get('num'))),
             'msg' => 'Nueva habitacion']);
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="change_active_room", path="/change/active/room")
+     */
+    public function changeActiveRoomAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $room = $em->getRepository('mycpBundle:room')->find($request->get('idroom'));
+        $room->setRoomActive(($request->get('val')=='false'?0:1));
 
+        $em->persist($room);
+        $em->flush();
+        return new JsonResponse([
+            'success' => true,
+            'msg' => 'Se ha cambiado el estado'
+        ]);
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_description", path="/save/description")
+     */
+    public function saveDescriptionAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
+        $description=$request->get('comment-one').' '.$request->get('comment-two').' '.$request->get('comment-three').' '.$request->get('comment-four');
+
+        $language = $em->getRepository('mycpBundle:lang')->findAll();
+        $translator = $this->get("mycp.translator.service");
+        foreach($language as $lang){
+           $ownershipDescriptionLang= new ownershipDescriptionLang();
+           if($lang->getLangCode()=='ES'){
+               $ownershipDescriptionLang->setOdlOwnership($ownership)
+                   ->setOdlIdLang($lang)                   //id del lenguage
+                   ->setOdlDescription($request->get('comment-one'))                    //descripcion corta que corresponde al primer parrafo
+                   ->setOdlBriefDescription($description)
+                   ->setOdlAutomaticTranslation(0);
+           }
+           else{
+               $response = $translator->translate($description, 'ES', $lang->getLangCode());
+               if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                   $briefDescription = $response->getTranslation();
+
+               $response = $translator->translate($request->get('comment-one'), 'ES', $lang->getLangCode());
+               if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                   $shortDescription = $response->getTranslation();
+
+
+               $ownershipDescriptionLang->setOdlOwnership($ownership)
+                   ->setOdlIdLang($lang)                   //id del lenguage
+                   ->setOdlDescription($shortDescription)                    //descripcion corta que corresponde al primer parrafo
+                   ->setOdlBriefDescription($briefDescription)
+                   ->setOdlAutomaticTranslation(1);
+           }
+           $em->persist($ownershipDescriptionLang);
+        }
+        $em->flush();
+        return new JsonResponse([
+            'success' => true,
+        ]);
+    }
 }

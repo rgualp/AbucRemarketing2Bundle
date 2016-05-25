@@ -5,7 +5,16 @@
 var Step3 = function () {
 
     var saveStep3=function(){
-        alert('Save form 3');
+        var data={};
+        $("#form-description-room").serializeArray().map(function(x){data[x.name] = x.value;});
+        data['idown']=App.getOwnId();
+        $.ajax({
+            type: 'post',
+            url: $("#form-description-room").attr('action'),
+            data:  data,
+            success: function (data) {
+            }
+        });
     }
     return {
         //main function to initiate template pages

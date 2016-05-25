@@ -72,13 +72,18 @@ var Step4 = function () {
         });
     }
     /**
-     * Para desactivar la habitacion
+     * Para activar o desactivar la habitacion
      */
-    var deactivateRoom=function(){
-        $('#deactivateRoom').on('click',function(){
+    var activeRoom=function(){
 
+        $('.change-activate').on('click',function(){
+            Step4.changeActiveRoom(($(this).hasClass('deactivate'))?false:true,$(this).data('idroom'),$(this).data('href'));
         });
+
     }
+    /**
+     * Para eliminar una habitacion
+     */
     var deleteRoom=function(){
         $('#deleteRoom').on('click',function(){
 
@@ -111,7 +116,7 @@ var Step4 = function () {
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             changeTab();
-            deactivateRoom();
+            activeRoom();
             deleteRoom();
             changeDataStep4();
             //Se captura el evento de guardar el paso
@@ -143,6 +148,25 @@ var Step4 = function () {
             html_nav_addTab=$('#addTab').html();
             $('#addTab').remove(); //remove li of tab
             $('#tab25').remove(); //remove respective tab content
+        },
+        changeActiveRoom:function(val,idroom,url){
+            HoldOn.open();
+            $.ajax({
+                type: 'post',
+                url: url,
+                data:  {idroom:idroom,val:val},
+                success: function (data) {
+                    HoldOn.close();
+                    if(!val){
+                        $('#deactiveRoom_'+idroom).addClass('hide');
+                        $('#activeRoom_'+idroom).removeClass('hide');
+                    }
+                    else{
+                        $('#deactiveRoom_'+idroom).removeClass('hide');
+                        $('#activeRoom_'+idroom).addClass('hide');
+                    }
+                }
+            });
         }
     };
 }();

@@ -1,0 +1,20 @@
+<form class="form-horizontal" id="form-description-short-room" action="{{ path('save_description') }}">
+    <div class="form-group">
+        <label for="comment">Descripcion </label>
+        <div class="row">
+            <div class="col-md-12">
+                <p id="label_odlbriefdescription" class="font-blue step-span">{{ ownDescriptionLang.OdlBriefDescription }}</p>
+                <textarea class="form-control hide" rows="10" name="comment-one">{{ ownDescriptionLang.OdlBriefDescription }}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comment">Descripcio corta</label>
+        <div class="row">
+            <div class="col-md-12">
+                <p id="label_odldescription" class="font-blue step-span">{{ ownDescriptionLang.OdlDescription }}</p>
+                <textarea class="form-control hide" rows="2" name="comment-two"></textarea>
+            </div>
+        </div>
+    </div>
+</form>
