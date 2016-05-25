@@ -94,11 +94,7 @@
         </div>
 
     {% block include_javascripts %}
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
         {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
         '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
         '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
         '@FrontEndBundle/Resources/public/js/ownership.js'

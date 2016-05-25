@@ -91,16 +91,4 @@
             </div>
         </div>
     </div>
-    {% block include_javascripts %}
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
-        '@FrontEndBundle/Resources/public/js/ownership.min.js'
-        filter='?uglifyjs2'
-        %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-    {% endblock %}
 {% endblock %}
