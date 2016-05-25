@@ -49,11 +49,11 @@
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
     '@FrontEndBundle/Resources/public/css/glyphicons.css'
+    '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/frontend/css/plugins/font-awesome/css/font-awesome.min.css') }}">
     {% if ownership.category is defined and  ownership.category == 'Económica'%}
         {% stylesheets
         '@FrontEndBundle/Resources/public/css/economic_house.css'
@@ -71,11 +71,41 @@
         {% endstylesheets %}
     {% endif %}
 
+    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery.js'
+
+    '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
+
+
+
+
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+
+    '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
+    '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
+
+    '@FrontEndBundle/Resources/public/js/respond.min.js'
+    '@FrontEndBundle/Resources/public/js/jail.min.js'
+    '@FrontEndBundle/Resources/public/js/custom.min.js'
+
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
+    '@FrontEndBundle/Resources/public/js/destinations.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+
+    '@FrontEndBundle/Resources/public/js/map.min.js'
+    '@FrontEndBundle/Resources/public/js/typeahead.min.js'
+
+    '@FrontEndBundle/Resources/public/js/ownership.min.js'
+
     filter='?uglifyjs2'
     %}
-    <script src="{{ asset_url }}"></script>
+        <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
     {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
@@ -195,16 +225,7 @@
 {% block body %}
     {% block include_javascripts %}{% endblock %}
     {% block include_javascripts_datepicker_message %}
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
-        '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
-        '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
-        filter='?uglifyjs2'
-        %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+
     {% endblock %}
 {% endblock %}
 {% block footer_big %}{% endblock %}
@@ -322,18 +343,6 @@
         </div>
     </div>
 </footer>
-{% javascripts
-'@FrontEndBundle/Resources/public/js/bootstrap.min.js'
-'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
-'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
-'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
-'@FrontEndBundle/Resources/public/js/respond.min.js'
-'@FrontEndBundle/Resources/public/js/jail.min.js'
-'@FrontEndBundle/Resources/public/js/custom.min.js'
-filter='?uglifyjs2'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
     topmenu = $("#top-menu").offset().top;
