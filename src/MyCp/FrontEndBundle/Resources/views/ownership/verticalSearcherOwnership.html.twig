@@ -1,14 +1,3 @@
-{% javascripts
-'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
-'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
-'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
-'@FrontEndBundle/Resources/public/js/typeahead.min.js'
-'@FrontEndBundle/Resources/public/js/ownership.min.js'
-filter='?uglifyjs2'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-
 <div class="orange-shadow-cont text-center vertical-searcher">
                 <span style="color: #ffffff; margin-bottom: 5px; display: block">{{"ACCOMMODATION_SEARCH_TITLE" | trans | title}}</span>
                 <div><input type="text" class="form-control" {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead"/></div>
