@@ -10,62 +10,64 @@
             </div>
         </div>
         <div class="bg-gray m-t-20 col-md-11 font-black">
-            <div class="form-group">
-                <label for="comment">Explique a los huéspedes cómo es su espacio:<br> luminoso, ventilado, acogedor, amplio… </label>
-                <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step3-one" class="help-icon" style="margin-top: -18px">
-                <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon" style="margin-top: -18px">
-                <div class="row">
-                    <div class="col-md-1">
-                        <a class="glyphicons sun m-t-10 menu-textarea"></a>
-                        <a class="glyphicons snowflake m-t-10 menu-textarea"></a>
-                        <a class="glyphicons resize_full m-t-10 menu-textarea"></a>
-                    </div>
-                    <div class="col-md-11">
-                        <textarea class="form-control" rows="4" id="comment" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="comment">Comente sobre sus intereses y cuánto disfruta recibirlos en casa como invitados. Comparta detalles personales, como la música o la comida que prefiere. </label>
-                <div class="row">
-                    <div class="col-md-1">
-                        <a class="glyphicons parents menu-textarea m-t-10"></a>
-                        <a class="glyphicons coffe_cup m-t-10 menu-textarea"></a>
-                        <a class="glyphicons note m-t-10 menu-textarea"></a>
-                    </div>
-                    <div class="col-md-11">
-                        <textarea class="form-control" rows="4" id="comment" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+            <form class="form-horizontal" id="form-description-room" action="{{ path('save_description') }}">
+                <div class="form-group">
+                    <label for="comment">Explique a los huéspedes cómo es su espacio:<br> luminoso, ventilado, acogedor, amplio… </label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step3-one" class="help-icon" style="margin-top: -18px">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon" style="margin-top: -18px">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a class="glyphicons sun m-t-10 menu-textarea"></a>
+                            <a class="glyphicons snowflake m-t-10 menu-textarea"></a>
+                            <a class="glyphicons resize_full m-t-10 menu-textarea"></a>
+                        </div>
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="4" name="comment-one" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="comment">Promocione su destino. Cuénteles de las principales<br> atracciones de su ciudad. Qué lugares podrían visitar y <br>cuán cerca están de su alojamiento.</label>
-                <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step3-two" class="help-icon" style="margin-top: -40px">
-                <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon" style="margin-top: -40px">
-                <div class="row">
-                    <div class="col-md-1">
-                        <a class="glyphicons bank menu-textarea m-t-10"></a>
-                        <a class="glyphicons temple_christianity_church m-t-10 menu-textarea"></a>
-                        <a class="glyphicons tree_conifer m-t-10 menu-textarea"></a>
-                    </div>
-                    <div class="col-md-11">
-                        <textarea class="form-control" rows="4" id="comment" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+                <div class="form-group">
+                    <label for="comment">Comente sobre sus intereses y cuánto disfruta recibirlos en casa como invitados. Comparta detalles personales, como la música o la comida que prefiere. </label>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a class="glyphicons parents menu-textarea m-t-10"></a>
+                            <a class="glyphicons coffe_cup m-t-10 menu-textarea"></a>
+                            <a class="glyphicons note m-t-10 menu-textarea"></a>
+                        </div>
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="4" name="comment-two" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="comment">No pierda oportunidad para encantar a sus futuros huéspedes. Añada información sobre su alojamiento y sus experiencias como anfitrión. No olvide incluir qué lo distingue y lo hace único.</label>
-                <div class="row">
-                    <div class="col-md-1">
-                        <a class="glyphicons heart_empty menu-textarea m-t-10"></a>
-                        <a class="glyphicons tie m-t-10 menu-textarea"></a>
-                        <a class="glyphicons star m-t-10 menu-textarea"></a>
-                    </div>
-                    <div class="col-md-11">
-                        <textarea class="form-control" rows="4" id="comment" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+                <div class="form-group">
+                    <label for="comment">Promocione su destino. Cuénteles de las principales<br> atracciones de su ciudad. Qué lugares podrían visitar y <br>cuán cerca están de su alojamiento.</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step3-two" class="help-icon" style="margin-top: -40px">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon" style="margin-top: -40px">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a class="glyphicons bank menu-textarea m-t-10"></a>
+                            <a class="glyphicons temple_christianity_church m-t-10 menu-textarea"></a>
+                            <a class="glyphicons tree_conifer m-t-10 menu-textarea"></a>
+                        </div>
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="4" name="comment-three" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="comment">No pierda oportunidad para encantar a sus futuros huéspedes. Añada información sobre su alojamiento y sus experiencias como anfitrión. No olvide incluir qué lo distingue y lo hace único.</label>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a class="glyphicons heart_empty menu-textarea m-t-10"></a>
+                            <a class="glyphicons tie m-t-10 menu-textarea"></a>
+                            <a class="glyphicons star m-t-10 menu-textarea"></a>
+                        </div>
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="4" name="comment-four" placeholder="Por favor evite el uso de palabras ofensivas, la promoción de otros sitios; así como URL´s de enlacen externos; de lo contrario su propiedad no será publicada."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
     </div>

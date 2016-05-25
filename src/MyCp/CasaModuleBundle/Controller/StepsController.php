@@ -18,6 +18,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
+use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
 
 /**
 * @Route("/ownership/edit")
@@ -211,5 +213,48 @@ class StepsController extends Controller
             'msg' => 'Se ha cambiado el estado'
         ]);
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_description", path="/save/description")
+     */
+    public function saveDescriptionAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
+        $description=$request->get('comment-one').' '.$request->get('comment-two').' '.$request->get('comment-three').' '.$request->get('comment-four');
 
+        $language = $em->getRepository('mycpBundle:lang')->findAll();
+        $translator = $this->get("mycp.translator.service");
+        foreach($language as $lang){
+           $ownershipDescriptionLang= new ownershipDescriptionLang();
+           if($lang->getLangCode()=='ES'){
+               $ownershipDescriptionLang->setOdlOwnership($ownership)
+                   ->setOdlIdLang($lang)                   //id del lenguage
+                   ->setOdlDescription($request->get('comment-one'))                    //descripcion corta que corresponde al primer parrafo
+                   ->setOdlBriefDescription($description)
+                   ->setOdlAutomaticTranslation(0);
+           }
+           else{
+               $response = $translator->translate($description, 'ES', $lang->getLangCode());
+               if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                   $briefDescription = $response->getTranslation();
+
+               $response = $translator->translate($request->get('comment-one'), 'ES', $lang->getLangCode());
+               if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                   $shortDescription = $response->getTranslation();
+
+
+               $ownershipDescriptionLang->setOdlOwnership($ownership)
+                   ->setOdlIdLang($lang)                   //id del lenguage
+                   ->setOdlDescription($shortDescription)                    //descripcion corta que corresponde al primer parrafo
+                   ->setOdlBriefDescription($briefDescription)
+                   ->setOdlAutomaticTranslation(1);
+           }
+           $em->persist($ownershipDescriptionLang);
+        }
+        $em->flush();
+        return new JsonResponse([
+            'success' => true,
+        ]);
+    }
 }
