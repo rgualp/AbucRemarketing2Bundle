@@ -90,7 +90,6 @@ class StepsController extends Controller
                     $ownership_room->setRoomAudiovisual((isset($room['room_audiovisual']))?($room['room_audiovisual']=='on'?'TV+DVD / Video':''):'');
 
                     $ownership_room->setRoomSmoker((isset($room['room_smoker']))?($room['room_smoker']=='on'?1:0):0);
-                    $ownership_room->setRoomActive(1);
                     $ownership_room->setRoomSafe((isset($room['room_safe']))?($room['room_safe']=='on'?1:0):0);
                     $ownership_room->setRoomBaby((isset($room['room_baby']))?($room['room_baby']=='on'?1:0):0);
                     if(isset($room['room_bathroom']))
@@ -156,6 +155,23 @@ class StepsController extends Controller
             'success' => true,
             'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array('num'=>$request->get('num'))),
             'msg' => 'Nueva habitacion']);
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="change_active_room", path="/change/active/room")
+     */
+    public function changeActiveRoomAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $room = $em->getRepository('mycpBundle:room')->find($request->get('idroom'));
+        $room->setRoomActive(($request->get('val')=='false'?0:1));
+
+        $em->persist($room);
+        $em->flush();
+        return new JsonResponse([
+            'success' => true,
+            'msg' => 'Se ha cambiado el estado'
+        ]);
     }
 
 }

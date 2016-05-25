@@ -3,7 +3,8 @@
 {% endif %}
 {% if room is defined %}
     <div class="row m-t-20 m-l-25">
-        <button id="deactivateRoom" type="button" class="btn btn-default  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
+        <button type="button" id="deactiveRoom_{{ room.RoomId }}" class="change-activate deactivate btn btn-default  dim {% if not room.RoomActive %} hide {% endif %}" data-href="{{ path('change_active_room') }}" data-idroom="{{ room.RoomId }}"><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
+        <button type="button" id="activeRoom_{{ room.RoomId }}" class="change-activate activate btn btn-default  dim {% if  room.RoomActive %} hide {% endif %}" data-href="{{ path('change_active_room') }}" data-idroom="{{ room.RoomId }}"><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
         <button id="deleteRoom" type="button" class="btn btn-danger  dim" data-idRoom="{{ room.RoomId }}"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
     </div>
 {% endif %}
