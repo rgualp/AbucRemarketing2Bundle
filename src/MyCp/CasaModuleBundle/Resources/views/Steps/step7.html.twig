@@ -7,17 +7,166 @@
             <div class="col-sm-11">
                 <h2 class="font-blue">Paso 6</h2>
                 <h3 class="font-blue"> Ingrese otros datos de los propietarios </h3>
+                <h3 class="font-green"> Ya casi terminamos, solo un paso más...</h3>
             </div>
         </div>
         <div class="bg-gray m-t-20 col-md-11 font-black">
+            <form id="mycp_mycpbundle_ownership_step7" novalidate class="form-horizontal" action="{{ path('casa_module_edit_step1') }}" method="post">
+                <div class="row">
+                    <label class="control-label">Nombre del propietario principal</label>
+                    <div>
+                        <i class="glyphicons vcard step-form-icon"></i>
+                        <span class="font-blue step-span">{{ ownership.ownHomeowner1 }}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Teléfono móvil</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-one" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                    <div class="row">
+                        <div class="col-sm-8 m-t-10">
+                        <div class="col-sm-1">
+                            <i class="glyphicons iphone form-icon"></i>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">+53</span>
+                                <input name="own_mobile_number" id="own_mobile_number" type="text" class="form-control" maxlength="8" minlength="8"/>
+                            </div>
 
+                        </div>
+                            <div class="col-sm-6"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Teléfono fijo</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-two" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                    <div class="row">
+                        <div class="col-sm-8 m-t-10">
+                        <div class="col-sm-1">
+                            <i class="glyphicons phone_alt form-icon"></i>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">+53</span>
+                                <input name="own_phone_number" id="own_phone_number" type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6"></div>
+                    </div>
+                        </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Dirección(Calle, No., Entre calles, Provincia, Municipio)</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-three" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                    <div class="row">
+                        <div class="col-sm-8 m-t-10">
+                            <div class="row">
+
+                                <div class="col-sm-1">
+                                    <i class="glyphicons google_maps form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input name="owner_street" id="owner_street" type="text" class="form-control" placeholder="Calle"/>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input name="owner_street_number" id="owner_street_number" type="text" class="form-control" placeholder="Número"/>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row m-t-10">
+
+                                <div class="col-sm-1">
+
+                                </div>
+                                <div class="col-sm-5">
+                                    <input name="owner_between_street_1" id="owner_between_street_1" type="text" class="form-control"  placeholder="Entre"/>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input name="owner_between_street_2" id="owner_between_street_2" type="text" class="form-control" placeholder="y"/>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row m-t-10">
+
+                                <div class="col-sm-1">
+
+                                </div>
+                                <div class="col-sm-5">
+                                    <input name="owner_municipality" id="owner_municipality" type="text" class="form-control"  placeholder="Municipio"/>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input name="owner_province" id="owner_province" type="text" class="form-control"  placeholder="Provincia"/>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label">Correo electrónico principal</label>
+                    <div>
+                        <i class="glyphicons envelope step-form-icon"></i>
+                        <span class="font-blue step-span">{{ ownership.ownEmail1 }}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Correo electrónico 2</label>
+                    <div class="row">
+                        <div class="col-sm-8 m-t-10">
+                            <div class="col-sm-1">
+                                <i class="glyphicons envelope form-icon"></i>
+                            </div>
+                            <div class="col-sm-8">
+                                <input name="owner_email_2" id="owner_email_2" type="email" class="form-control"/>
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label">Nombre y apellidos del propietario secundario</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-four" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                    <div class="row">
+                        <div class="col-sm-8 m-t-10">
+                            <div class="col-sm-1">
+                                <i class="glyphicons parents form-icon"></i>
+                            </div>
+                            <div class="col-sm-10">
+                                <input name="owner_second_owner" id="owner_second_owner" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-sm-1"></div>
+                        </div>
+                    </div>
+                </div>
+                </form>
         </div>
 
     </div>
     <div class="col-md-3 oneblue-bg col-content">
-        <div id="help-step6-one" class="row">
+        <div id="help-step7-one" class="row">
             <div class="col-md-12 m-t-20">
-                <p>Por favor es necesario ingresar al menos una foto, de 50 permitidas. Trate de que sus imágenes tengan buena calidad, pero que no excedan el tamaño máximo de 1 megabyte. Se recomienda una resolución mayor de 640x480 píxeles. Para un mejor funcionamiento, suba imágenes tomadas horizontalmente. Verifique que no muestren teléfonos, logos, marcas de agua, o señales de edición. Recuerde que las personas hacen más énfasis en las propuestas que contienen varias fotografías.  </p>
+                <p>Ingrese un número de celular al que podamos localizarle</p>
+            </div>
+        </div>
+        <div id="help-step7-two" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>Ingrese un número de teléfono fijo al que podamos localizarle</p>
+            </div>
+        </div>
+        <div id="help-step7-three" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>Señale la dirección exacta del o los propietarios</p>
+            </div>
+        </div>
+        <div id="help-step7-four" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>Por favor, indique un segundo propietario, lo necesitamos en caso de ausencia, enfermedad o no disponibilidad del primero</p>
             </div>
         </div>
     </div>

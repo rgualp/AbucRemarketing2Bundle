@@ -76,6 +76,10 @@ body{
 .font-blue{
     color: #094e75;
 }
+
+.font-green{
+    color: #64A433;
+}
 /*start: style btn*/
 .btn{
     border-radius: 0;
