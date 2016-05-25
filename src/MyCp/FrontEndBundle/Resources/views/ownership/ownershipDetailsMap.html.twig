@@ -8,4 +8,15 @@
     data-image="{{asset('uploads/ownershipImages/thumbnails/'~image)}}"
     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
 </div>
+ {% block include_javascripts_and_css %}
+    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+     {% javascripts
+     '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+     '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+     '@FrontEndBundle/Resources/public/js/ownership.min.js'
+     filter='?uglifyjs2'
+     %}
+     <script src="{{ asset_url }}"></script>
+     {% endjavascripts %}
+{% endblock %}
 {% endblock %}

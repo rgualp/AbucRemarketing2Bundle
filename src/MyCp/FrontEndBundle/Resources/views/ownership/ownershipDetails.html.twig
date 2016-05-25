@@ -814,6 +814,16 @@
             var own_id = "{{ownership.own_id}}";
             var today_date = "{{"now"|date("d/m/Y") }}";
         </script>
+        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+        {% javascripts
+        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+        '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         <script type="text/javascript">
 
             var cont_array_dates
@@ -935,6 +945,9 @@
         <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
         {% javascripts
+        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+        '@FrontEndBundle/Resources/public/js/ownership.min.js'
         '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
         filter='?uglifyjs2' %}
         <script src="{{ asset_url }}"></script>

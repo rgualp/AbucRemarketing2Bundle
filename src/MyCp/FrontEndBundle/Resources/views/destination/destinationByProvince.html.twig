@@ -64,4 +64,10 @@
     var destinations_names=[{{ destinations_names|slice(0,(destinations_names|length)-1)|raw }}];
     var dir="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/destinationImages/icons/') }}";
 </script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/map.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <div id="signal_tooltip" style="left: -500px;position: absolute; top: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>
