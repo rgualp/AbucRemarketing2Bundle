@@ -14,8 +14,19 @@ class ownershipPhotoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('own_pho_photo')
+        $builder->add('file', 'file', array(
+              'mapped'=>false,
+               'label'=>false,
+              'attr'=>[
+                  'class'=>'hide photo-input',
+                  'accept'=>'image/*'
+              ]
+        ))
+            ->add('description', 'text', array(
+                'label'=>'Descripción',
+                'mapped'=>false
+            ))
+//            ->add('own_pho_photo','hidden, ar')
 //            ->add('own_pho_own')
         ;
     }

@@ -2,6 +2,8 @@
 
 namespace MyCp\CasaModuleBundle\Controller;
 
+use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
+use MyCp\mycpBundle\Entity\ownershipPhoto;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 
@@ -14,10 +16,15 @@ class DefaultController extends Controller
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         $form=$this->createForm(new ownershipStep1Type(),$ownership);
+//        $owp= new ownershipPhoto();
+//        $owp->setOwnPhoOwn($ownership);
+//        $ownership->addPhoto($owp);
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership);
 
         return $this->render('MyCpCasaModuleBundle:Default:index.html.twig', array(
             'ownership'=>$ownership,
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'photoForm'=>$photosForm->createView()
         ));
     }
 }

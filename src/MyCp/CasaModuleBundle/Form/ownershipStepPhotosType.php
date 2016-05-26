@@ -18,7 +18,12 @@ class ownershipStepPhotosType extends AbstractType
             ->add('photos', 'collection', array(
                 'allow_add'=>true,
                 'allow_delete'=>true,
-                'type'=> new ownershipPhotoType()
+                'by_reference'=>false,
+                'type'=> new ownershipPhotoType(),
+                'label'=>false,
+//                'prototype' => true,
+//                'prototype_name' => 'photo__name__',
+//                'prototype_name' => 'photo__name__',
 
             ))
 
@@ -41,6 +46,6 @@ class ownershipStepPhotosType extends AbstractType
      */
     public function getName()
     {
-        return 'mycp_mycpbundle_ownership_step1';
+        return 'mycp_mycpbundle_ownership_step_photos';
     }
 }

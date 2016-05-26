@@ -2005,7 +2005,12 @@ class ownership {
         $this->photos = $photos;
         return $this;
     }
-
+     public function addPhoto($photo){
+         $this->photos->add($photo);
+     }
+    public function removePhoto($photo){
+         $this->photos->removeElement($photo);
+     }
     /**
      * @return boolean
      */
