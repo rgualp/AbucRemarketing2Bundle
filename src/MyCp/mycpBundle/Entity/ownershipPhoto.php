@@ -89,4 +89,8 @@ class ownershipPhoto
     {
         return $this->own_pho_own;
     }
+    public function __toString()
+    {
+        return 'foto_'.$this->getOwnPhoPhoto().'_own_'.$this->getOwnPhoOwn();
+    }
 }
