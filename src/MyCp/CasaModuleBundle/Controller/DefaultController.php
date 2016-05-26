@@ -19,8 +19,7 @@ class DefaultController extends Controller
 //        $owp= new ownershipPhoto();
 //        $owp->setOwnPhoOwn($ownership);
 //        $ownership->addPhoto($owp);
-        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership);
-
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
         return $this->render('MyCpCasaModuleBundle:Default:index.html.twig', array(
             'ownership'=>$ownership,
             'form'=>$form->createView(),

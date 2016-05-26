@@ -121,6 +121,25 @@ var Step6 = function () {
         }}
 
     var saveStep6=function(){
+        var _url=$('#mycp_mycpbundle_ownership_step_photos').attr('action');
+        //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
+        //var form=$('#mycp_mycpbundle_ownership_step_photos');
+        var form = document.getElementById("mycp_mycpbundle_ownership_step_photos");
+        var $envio = $.ajax({
+            url: _url,
+            //data: values,
+            data: new FormData(form),
+            processData: false,
+            contentType: false,
+            type: 'POST'
+        });
+        $envio.error(function(data){
+            //
+        });
+        $envio.success(function(data){
+            //
+        });
+
         alert('Save form 6');
     }
 
