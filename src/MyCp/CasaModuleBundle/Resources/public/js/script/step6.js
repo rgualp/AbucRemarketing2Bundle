@@ -83,7 +83,7 @@ var Step6 = function () {
             '<i class="fa fa-times-circle"></i>' +
             '</a>');
         mediaFormLi.append(removeFormA);
-        mediaFormLi.append(inde);
+        //mediaFormLi.append(inde);
 
         removeFormA.on('click', function (e) {
             // prevent the link from creating a "#" on the URL
