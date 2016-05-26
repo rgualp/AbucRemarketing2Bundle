@@ -92,7 +92,16 @@ var App = function () {
             event.clickBtnContinueAfter.dispatch();
         })
     }
-
+    /**
+     * Para cuando se da click en el boton de cambiar
+     */
+    var changeBtn=function(){
+        $('.changeBtn').on('click',function(){
+            $($(this).data("cmpdisabled")).addClass('hide');
+            $($(this).data("cmpenabled")).removeClass('hide');
+            $(this).addClass('hide');
+        });
+    }
 
     return {
         //main function to initiate template pages
@@ -104,6 +113,7 @@ var App = function () {
             mouseHelp();
             saveStep();
             createEvent();
+            changeBtn();
         },
         initializePlugins:function(selector,color){
             var elems = Array.prototype.slice.call(document.querySelectorAll((typeof(selector) === "undefined")?'.js-switch':selector));

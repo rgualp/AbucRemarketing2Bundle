@@ -89,16 +89,7 @@ var Step4 = function () {
 
         });
     }
-    /**
-     * Para cuando se da click en el boton de cambiar
-     */
-    var changeDataStep4=function(){
-        $('.changeDataStep4').on('click',function(){
-            $($(this).data("cmpdisabled")).addClass('hide');
-            $($(this).data("cmpenabled")).removeClass('hide');
-            $(this).addClass('hide');
-        });
-    }
+
     /**
      * Funcion para inicializar los plugins
      */
@@ -118,7 +109,6 @@ var Step4 = function () {
             changeTab();
             activeRoom();
             deleteRoom();
-            changeDataStep4();
             //Se captura el evento de guardar el paso
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
