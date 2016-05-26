@@ -110,7 +110,9 @@ class RegistrationController extends Controller
                ->setFullName($request->get('own_homeowner_1'))
                ->setPhone(trim($request->get('own_phone')))
                ->setProvince($province)
-               ->setMunicipality($municipality);
+               ->setMunicipality($municipality)
+               ->setMain(true)
+           ;
 
            $em->persist($owner);
 
