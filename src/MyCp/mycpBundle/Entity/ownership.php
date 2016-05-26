@@ -499,6 +499,11 @@ class ownership {
     private $own_sms_notifications;
 
     /**
+     * @ORM\OneToMany(targetEntity="ownerAccommodation",mappedBy="accommodation")
+     */
+    private $owners;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -515,6 +520,7 @@ class ownership {
         //$this->own_creation_date = new \DateTime();
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
+        $this->owners = ArrayCollection();
     }
 
     /**
@@ -2025,4 +2031,24 @@ class ownership {
     {
         return "Alojamiento ".$this->getOwnMcpCode();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOwners()
+    {
+        return $this->owners;
+    }
+
+    /**
+     * @param mixed $owners
+     * @return mixed
+     */
+    public function setOwners($owners)
+    {
+        $this->owners = $owners;
+        return $this;
+    }
+
+
 }
