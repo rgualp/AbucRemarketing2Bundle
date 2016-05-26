@@ -30,7 +30,7 @@ var Step4 = function () {
                     Step4.deleteEndTab();
                     //Lo adiciono y lo activo
                     var id=(parseInt(id_active)+parseInt(2));
-                    var text='Habitación '+($('#nav-tabs-backend li').size()+1);
+                    var text='Hab '+($('#nav-tabs-backend li').size()+1);
                     $('#nav-tabs-backend').append('<li id="nav'+id+'" class="active"><a id="'+id+'" data-toggle="tab" href="#tab'+id+'" data-tab="'+id+'">'+text+'<span class="closeTab" onclick="Step4.closeTab($(this))">×</span></a></li>');
                     //Adiciono el contenido del tab
                     $('#tab-content-backend').append('<div id="tab'+id+'" class="tab-pane active">'
