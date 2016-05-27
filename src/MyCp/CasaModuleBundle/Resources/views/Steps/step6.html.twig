@@ -12,14 +12,25 @@
     <div data-content="{{ name }}">
         <div class="formMedia">
                <div class="col-sm-12 preview" style="padding: 0;">
+                   {% if form.vars.value is null %}
                    <img src="" class="hide picture-link" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%" style="cursor: pointer;">
                <a href="#" class="picture-link" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
+                   {% else %}
+                       <img src="{{ asset('uploads/ownershipImages/thumbnails/'~form.vars.value.ownPhoPhoto.phoName) }}" class="picture-link" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%" style="cursor: pointer;">
+                       <a href="#" class="picture-link hide" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
+
+                   {% endif %}
                </div>
                 {{ form_row(form.file) }}
 
                 <div class="form-group">
                      <label class="control-label">Descripción</label>
+                    {% if form.vars.value is null %}
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
+                    {% else %}
+                        {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
+                        {{ form_widget(form.description, {'attr':{'class':'form-control','disabled':'disabled', 'value':form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription}}) }}
+                    {% endif %}
                 </div>
 
 
@@ -47,7 +58,9 @@
 
             <ul id="ownPhotos" class="ownPhotos" data-prototype="{{ _self.widget_prototype(photoForm.photos, 'Eliminar elemento')|escape }}">
                 {% for photo in photoForm.photos %}
+                    <li class="col-sm-4">
                     {{ _self.widget_prototype(photo, 'Eliminar elemento') }}
+                    </li>
                 {% endfor %}
             </ul>
             {#<ul id="upload-images" class="hide"></ul>#}

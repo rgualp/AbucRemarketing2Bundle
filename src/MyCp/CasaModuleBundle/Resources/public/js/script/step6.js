@@ -47,7 +47,7 @@ var Step6 = function () {
             //});
 
         });
-        addPhotoForm(collectionHolderPhotos, newPhotoLi);
+        //addPhotoForm(collectionHolderPhotos, newPhotoLi);
     });
 
     function addPhotoForm(collectionHolder, newLinkLi) {
