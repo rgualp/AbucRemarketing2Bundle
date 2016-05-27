@@ -103,6 +103,13 @@ class owner
     private $accommodations;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="main", type="boolean")
+     */
+    private $main;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -330,6 +337,24 @@ class owner
     public function setAccommodations($accommodations)
     {
         $this->accommodations = $accommodations;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isMain()
+    {
+        return $this->main;
+    }
+
+    /**
+     * @param boolean $main
+     * @return mixed
+     */
+    public function setMain($main)
+    {
+        $this->main = $main;
         return $this;
     }
     

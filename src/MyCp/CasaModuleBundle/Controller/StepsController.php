@@ -13,6 +13,8 @@ namespace MyCp\CasaModuleBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
+use MyCp\mycpBundle\Entity\owner;
+use MyCp\mycpBundle\Entity\ownerAccommodation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -179,6 +181,7 @@ class StepsController extends Controller
             ->setOwnDescriptionLaundry($hasLaundry)
             ->setOwnDescriptionInternet($hasEmail);
 
+        $em->persist($accommodation);
         $em->flush();
 
         return new JsonResponse([
@@ -323,6 +326,71 @@ class StepsController extends Controller
         $em->flush();
         return new JsonResponse([
             'success' => true,
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_step7", path="/save/step7")
+     */
+    public function saveStep7Action(Request $request){
+        $idAccommodation = $request->get('idAccommodation');
+        $mobile = $request->get('mobile');
+        $phone = $request->get('phone');
+        $mainStreet = $request->get('mainStreet');
+        $streetNumber = $request->get('streetNumber');
+        $between1 = $request->get('between1');
+        $between2 = $request->get('between2');
+        $municipalityId = $request->get('municipalityId');
+        $provinceId = $request->get('provinceId');
+        $email2 = $request->get('email2');
+        $secondOwner = $request->get('secondOwner');
+
+        $em = $this->getDoctrine()->getManager();
+        $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+
+        $accommodation->setOwnMobileNumber($mobile)
+            ->setOwnEmail2($email2)
+            ->setOwnHomeowner2($secondOwner);
+        $em->persist($accommodation);
+
+        $ownerAccommodation = $em->getRepository("mycpBundle:ownerAccommodation")->getMainOwner($idAccommodation);
+        $owner = new owner();
+
+        if($ownerAccommodation != null)
+        {
+            $owner = $ownerAccommodation->getOwner();
+        }
+        else{
+            $ownerAccommodation = new ownerAccommodation();
+        }
+
+        $municipality = $em->getRepository("mycpBundle:municipality")->find($municipalityId);
+        $province = $em->getRepository("mycpBundle:province")->find($provinceId);
+
+        $owner->setAddressBetween1($between1)
+            ->setAddressBetween2($between2)
+            ->setPhone($phone)
+            ->setMobile($mobile)
+            ->setEmail2($email2)
+            ->setMunicipality($municipality)
+            ->setProvince($province)
+            ->setAddressMainStreet($mainStreet)
+            ->setAddressStreetNumber($streetNumber);
+
+        $em->persist($owner);
+
+        $ownerAccommodation->setAccommodation($accommodation)
+            ->setOwner($owner);
+
+        $em->persist($ownerAccommodation);
+
+        $em->flush();
+
+        return new JsonResponse([
+            'success' => true
         ]);
     }
 }
