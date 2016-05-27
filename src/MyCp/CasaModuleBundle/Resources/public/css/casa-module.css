@@ -572,3 +572,9 @@ ol > li::before {
     color:#e94b3d;
     top: 5px;
 }
+.picture-link{
+    color: #adadad;
+}
+.picture-link:hover,.picture-link:active,.picture-link:focus{
+    color: #b3b3b3;
+}
