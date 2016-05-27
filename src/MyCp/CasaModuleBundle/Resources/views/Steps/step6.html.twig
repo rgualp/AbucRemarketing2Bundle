@@ -28,8 +28,8 @@
                     {% if form.vars.value is null %}
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
                     {% else %}
-                        {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
-                        {{ form_widget(form.description, {'attr':{'class':'form-control','disabled':'disabled', 'value':form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription}}) }}
+                        {#{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }#}
+                        {{ form_widget(form.description, {'attr':{'class':'form-control','disabled':'disabled', 'value': (form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}
                 </div>
 
