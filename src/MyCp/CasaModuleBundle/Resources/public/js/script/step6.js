@@ -35,9 +35,14 @@ var Step6 = function () {
             e.preventDefault();
 
             // add a new tag form (see next code block)
+            if(collectionHolderPhotos.find('li').length>51){
+                swal("Alcanzó el máximo de imagenes permitidas", "Límite alcanzado", "error");
+            }
+            else{
             addPhotoForm(collectionHolderPhotos, newPhotoLi);
             var temp = collectionHolderPhotos.find('li').length - 2;
             $("#mycp_mycpbundle_ownership_step_photos_photos_"+temp+"_file").click();
+            }
             //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_title').focus();
             //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_title').rules( "add", {
             //    required: false
@@ -51,6 +56,8 @@ var Step6 = function () {
     });
 
     function addPhotoForm(collectionHolder, newLinkLi) {
+
+
         // Get the data-prototype explained earlier
         var prototype = collectionHolder.data('prototype');
 
@@ -70,6 +77,7 @@ var Step6 = function () {
 
         // add a delete link to the new form
         addPhotoFormDeleteLink(newFormLi, index);
+
     }
 
     function addPhotoFormDeleteLink(mediaFormLi, index) {
@@ -90,7 +98,40 @@ var Step6 = function () {
             e.preventDefault();
 
             // remove the li for the tag form
+            if(mediaFormLi.hasClass('uploaded')){
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "Se borrará la foto del servidor!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sí",
+                    cancelButtonText: "No",
+                    closeOnConfirm: true
+                }, function () {
+                    HoldOn.open();
+                    var url=mediaFormLi.data('url');
+                    $.post(url,
+                        function (success) {
+                            if (success == 'Ok') {
+                                swal("Eliminado!", "La foto fue eliminada", "success");
+                                mediaFormLi.remove();
+                            }
+                            else {
+                                swal("Ocurrió un error y no pudo borrarse la foto, inténtelo de nuevo", "", "error");
+                            }
+                            HoldOn.close();
+                        }
+                    ).fail(function () {
+                        HoldOn.close();
+                        swal("Ocurrió un error y no pudo borrarse la foto, inténtelo de nuevo", "", "error");
+                    });
+
+                });
+            }
+            else{
             mediaFormLi.remove();
+            }
         });
     }
    $(document).on('click', '.picture-link', function(){

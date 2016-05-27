@@ -262,6 +262,25 @@ class StepsController extends Controller
             'msg' => 'Se ha cambiado el estado'
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="delete_uploaded_photo", path="/photo/remove/{id}")
+     */
+    public function removeOwnPhotoAction(Request $request, $id){
+        $em = $this->getDoctrine()->getManager();
+        try{
+          $em->getRepository('mycpBundle:ownershipPhoto')->deleteOwnPhoto($id, $this->get('service_container'));
+        }
+        catch(\Exception $exc){
+            return new JsonResponse([
+                'success'=>false,
+                'message'=>$exc->getMessage()
+            ]);
+        }
+        return new JsonResponse('Ok');
+    }
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
