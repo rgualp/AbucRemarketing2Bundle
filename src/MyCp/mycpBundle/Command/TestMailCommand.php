@@ -44,6 +44,7 @@ class TestMailCommand extends ContainerAwareCommand
 			'yanet.moralesr@gmail.com',
 			'ander@mycasaparticular.com',
 			'arieskiemendoza@gmail.com',
+            "anne.schweizer@abuc.ch",
 		);
 		foreach ($mails as $mail) {
 
@@ -54,9 +55,12 @@ class TestMailCommand extends ContainerAwareCommand
 			$email_type= 'Test';
 
 			$email_manager = $this->container->get('mycp.service.email_manager');
+            $container = $this->getContainer();
+            $em = $container->get('doctrine')->getManager();
 			$data= array();
 			$data['user_locale']= 'es';
-			$body = $email_manager->getViewContent('FrontEndBundle:mails:notificacionSmsCheckInCommand.html.twig', $data);
+            $data['user']= $em->getRepository("mycpBundle:user")->find(18168);
+			$body = $email_manager->getViewContent('FrontEndBundle:mails:boletinTest.html.twig', $data);
 
 			$this->notification_email->setTo($to);
 
