@@ -20,6 +20,7 @@ use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
 use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
+use MyCp\mycpBundle\Entity\photo;
 
 /**
 * @Route("/ownership/edit")
@@ -257,4 +258,31 @@ class StepsController extends Controller
             'success' => true,
         ]);
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_avatar", path="/save/avatar")
+     */
+    public function saveAvatarAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        //subir photo
+        $dir = $this->container->getParameter('user.dir.photos');
+        $file = $request->files->get('file');
+        if (isset($file)) {
+            $photo = new photo();
+            $fileName = uniqid('user-') . '-photo.jpg';
+            $file->move($dir, $fileName);
+            //Redimensionando la foto del usuario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+            $photo->setPhoName($fileName);
+            $user->setUserPhoto($photo);
+            $em->persist($photo);
+        }
+        $em->persist($user);
+        return new JsonResponse([
+            'success' => true,
+        ]);
+    }
+
 }

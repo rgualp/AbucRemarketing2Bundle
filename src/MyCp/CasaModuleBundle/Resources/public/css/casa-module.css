@@ -399,6 +399,20 @@ ol > li::before {
     position: relative;
     box-shadow: 0 0 0 4px #377209;
 }
+.dashboard-picture{
+    margin-top: 30%;
+    z-index: 999;
+    margin-left: 67px;
+    position: absolute;
+    display: none;
+}
+.profile-element:hover .dashboard-picture {
+    display: block;
+}
+.dashboard-avatar:hover{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.7;
+}
 .help-icon{
     margin-left: 2px;
     cursor: pointer;
