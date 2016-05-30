@@ -49,7 +49,7 @@ var ImgAccount = function () {
             var base64String = canvas.toDataURL('img/png');
 
             // Create a Blob from a base64 string
-            var blob = dataURItoBlob(base64String);
+            var blob = ImgAccount.dataURItoBlob(base64String);
             var fd = new FormData();
             // Get instance object XMLHttpRequest
             if (window.XMLHttpRequest) {
@@ -58,14 +58,15 @@ var ImgAccount = function () {
             else if (window.ActiveXObject) {
                 xmlhttp = new XMLHttpRequest("Microsoft.XMLHTTP");
             }
+            var form = $('#image-upload-form');
             fd.append('acl', $("input[name=acl]").val());
             fd.append('success_action_status', $("input[name=success_action_status]").val());
             fd.append('x-amz-date', $("input[name=x-amz-date]").val());
             fd.append("file", blob);
-            xmlhttp.open('POST', 's', true);
+            xmlhttp.open('POST',  form.attr('action'), true);
             xmlhttp.send(fd);
             //Prepare response
-            xmlhttp.onreadystatechange = showResponse;
+            xmlhttp.onreadystatechange = ImgAccount.showResponse();
             $('#myModal').modal('hide');
         });
         $('#myModal').on('hide.bs.modal', function (event) {
@@ -83,38 +84,29 @@ var ImgAccount = function () {
         $('#img-file').on('click',function(){
             $('#imputfile').click();
             var form = $('#image-upload-form');
-           /* $("#imputfile").change(function () {
-                var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
-                if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                    return false;
+            form.fileupload({
+                url: form.attr('action'),
+                type: 'POST',
+                datatype: 'xml',
+                add: function (event, data) {
+                    data.submit();
+                },
+                progress: function (e, data) {
+                },
+                fail: function (e, data) {
+                },
+                done: function (event, data) {
+                    if(!data.result.success)
+                        return false;
+                    else{
+                        var aux = data.files[0].type;
+                        var ext = aux.split('/');
+                        //$(".user-avatar").attr("src", '/uploads/archivos/' + '{{ app.user.id }}' + '.' + ext[1] + '?timestamp=' + new Date().getTime());
+                        //$(".user-image").css("background", 'url(/uploads/archivos/' + '{{ app.user.id }}' + '.' + ext[1] + '?timestamp=' + new Date().getTime() + ')' + ' transparent no-repeat scroll center center / cover');
+                    }
+
                 }
-                else {*/
-                    form.fileupload({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        datatype: 'xml',
-                        add: function (event, data) {
-                            data.submit();
-                        },
-                        progress: function (e, data) {
-                        },
-                        fail: function (e, data) {
-                        },
-                        done: function (event, data) {
-                            if(!data.result.success)
-                                return false;
-                            else{
-                                var aux = data.files[0].type;
-                                var ext = aux.split('/');
-                                //$(".user-avatar").attr("src", '/uploads/archivos/' + '{{ app.user.id }}' + '.' + ext[1] + '?timestamp=' + new Date().getTime());
-                                //$(".user-image").css("background", 'url(/uploads/archivos/' + '{{ app.user.id }}' + '.' + ext[1] + '?timestamp=' + new Date().getTime() + ')' + ' transparent no-repeat scroll center center / cover');
-                            }
-
-                        }
-                    });
-               // }
-            //});
-
+            });
         })
     }
     return {
@@ -123,7 +115,22 @@ var ImgAccount = function () {
             //IMPORTANT!!!: Do not modify the call order.
             clickBtnUploadImg();
             showModalImg();
-        }
+        },
+        dataURItoBlob:function(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            var bb = new Blob([ab], {"type": mimeString});
+            return bb;
+        },
+        showResponse:function(){}
     };
 }();
 //Start ImgAccount
