@@ -412,12 +412,12 @@ class StepsController extends Controller
             $file->move($dir, $fileName);
             //Redimensionando la foto del usuario
             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
-            print_r($fileName);die;
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
             $em->persist($photo);
         }
         $em->persist($user);
+        $em->flush();
         return new JsonResponse([
             'success' => true,
         ]);
