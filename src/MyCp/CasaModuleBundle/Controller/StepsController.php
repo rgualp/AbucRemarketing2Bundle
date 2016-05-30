@@ -406,11 +406,13 @@ class StepsController extends Controller
         $dir = $this->container->getParameter('user.dir.photos');
         $file = $request->files->get('file');
         if (isset($file)) {
+
             $photo = new photo();
             $fileName = uniqid('user-') . '-photo.jpg';
             $file->move($dir, $fileName);
             //Redimensionando la foto del usuario
             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+            print_r($fileName);die;
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
             $em->persist($photo);
