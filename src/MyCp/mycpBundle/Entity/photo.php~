@@ -102,38 +102,4 @@ class photo
     {
         $this->photo_langs=new ArrayCollection();
     }
-
-    /**
-     * Add photoLang
-     *
-     * @param \MyCp\mycpBundle\Entity\photoLang $photoLang
-     *
-     * @return photo
-     */
-    public function addPhotoLang(\MyCp\mycpBundle\Entity\photoLang $photoLang)
-    {
-        $this->photo_langs[] = $photoLang;
-
-        return $this;
-    }
-
-    /**
-     * Remove photoLang
-     *
-     * @param \MyCp\mycpBundle\Entity\photoLang $photoLang
-     */
-    public function removePhotoLang(\MyCp\mycpBundle\Entity\photoLang $photoLang)
-    {
-        $this->photo_langs->removeElement($photoLang);
-    }
-
-    /**
-     * Get photoLangs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPhotoLangs()
-    {
-        return $this->photo_langs;
-    }
 }

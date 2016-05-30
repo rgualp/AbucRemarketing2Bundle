@@ -10,7 +10,11 @@ namespace MyCp\CasaModuleBundle\Controller;
 
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
+use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
+use MyCp\mycpBundle\Entity\owner;
+use MyCp\mycpBundle\Entity\ownerAccommodation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -178,7 +182,55 @@ class StepsController extends Controller
             ->setOwnDescriptionLaundry($hasLaundry)
             ->setOwnDescriptionInternet($hasEmail);
 
+        $em->persist($accommodation);
         $em->flush();
+
+        return new JsonResponse([
+            'success' => true
+        ]);
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_step6", path="/save/step6")
+     */
+    public function saveStep6Action(Request $request){
+        $em=$this->getDoctrine()->getManager();
+        $ownership=  $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
+        $photosForm->handleRequest($request);
+        if($photosForm->isValid()){
+            $ownership->setPhotos(new ArrayCollection());
+        foreach($request->files->get('mycp_mycpbundle_ownership_step_photos')['photos'] as $index=>$file){
+        $desc=  $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
+        $file=  $file['file'];
+//        try{
+            $post=array();
+            $language = $em->getRepository('mycpBundle:lang')->findAll();
+            $translator = $this->get("mycp.translator.service");
+            foreach($language as $lang){
+                if($lang->getLangCode()=='ES'){
+                    $post['description_'.$lang->getLangId()]=$desc;
+                }
+                else{
+                    $response = $translator->translate($desc, 'ES', $lang->getLangCode());
+                    if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                        $post['description_'.$lang->getLangId()]=$response->getTranslation();
+                    else $post['description_'.$lang->getLangId()]=$desc;
+
+                }
+            }
+            $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership,$file,$this->get('service_container'),$post);
+//          }
+//        catch (\Exception $exc){
+//            return new JsonResponse([
+//                'success' => false,
+//                'message'=>$exc->getMessage()
+//            ]);
+//        }
+        }
+
+        }
 
         return new JsonResponse([
             'success' => true
@@ -214,6 +266,25 @@ class StepsController extends Controller
             'msg' => 'Se ha cambiado el estado'
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="delete_uploaded_photo", path="/photo/remove/{id}")
+     */
+    public function removeOwnPhotoAction(Request $request, $id){
+        $em = $this->getDoctrine()->getManager();
+        try{
+          $em->getRepository('mycpBundle:ownershipPhoto')->deleteOwnPhoto($id, $this->get('service_container'));
+        }
+        catch(\Exception $exc){
+            return new JsonResponse([
+                'success'=>false,
+                'message'=>$exc->getMessage()
+            ]);
+        }
+        return new JsonResponse('Ok');
+    }
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
@@ -227,35 +298,100 @@ class StepsController extends Controller
         $language = $em->getRepository('mycpBundle:lang')->findAll();
         $translator = $this->get("mycp.translator.service");
         foreach($language as $lang){
-           $ownershipDescriptionLang= new ownershipDescriptionLang();
-           if($lang->getLangCode()=='ES'){
-               $ownershipDescriptionLang->setOdlOwnership($ownership)
-                   ->setOdlIdLang($lang)                   //id del lenguage
-                   ->setOdlDescription($request->get('comment-one'))                    //descripcion corta que corresponde al primer parrafo
-                   ->setOdlBriefDescription($description)
-                   ->setOdlAutomaticTranslation(0);
-           }
-           else{
-               $response = $translator->translate($description, 'ES', $lang->getLangCode());
-               if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                   $briefDescription = $response->getTranslation();
+            $ownershipDescriptionLang= new ownershipDescriptionLang();
+            if($lang->getLangCode()=='ES'){
+                $ownershipDescriptionLang->setOdlOwnership($ownership)
+                    ->setOdlIdLang($lang)                   //id del lenguage
+                    ->setOdlDescription($request->get('comment-one'))                    //descripcion corta que corresponde al primer parrafo
+                    ->setOdlBriefDescription($description)
+                    ->setOdlAutomaticTranslation(0);
+            }
+            else{
+                $response = $translator->translate($description, 'ES', $lang->getLangCode());
+                if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                    $briefDescription = $response->getTranslation();
 
-               $response = $translator->translate($request->get('comment-one'), 'ES', $lang->getLangCode());
-               if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                   $shortDescription = $response->getTranslation();
+                $response = $translator->translate($request->get('comment-one'), 'ES', $lang->getLangCode());
+                if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                    $shortDescription = $response->getTranslation();
 
 
-               $ownershipDescriptionLang->setOdlOwnership($ownership)
-                   ->setOdlIdLang($lang)                   //id del lenguage
-                   ->setOdlDescription($shortDescription)                    //descripcion corta que corresponde al primer parrafo
-                   ->setOdlBriefDescription($briefDescription)
-                   ->setOdlAutomaticTranslation(1);
-           }
-           $em->persist($ownershipDescriptionLang);
+                $ownershipDescriptionLang->setOdlOwnership($ownership)
+                    ->setOdlIdLang($lang)                   //id del lenguage
+                    ->setOdlDescription($shortDescription)                    //descripcion corta que corresponde al primer parrafo
+                    ->setOdlBriefDescription($briefDescription)
+                    ->setOdlAutomaticTranslation(1);
+            }
+            $em->persist($ownershipDescriptionLang);
         }
         $em->flush();
         return new JsonResponse([
             'success' => true,
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_step7", path="/save/step7")
+     */
+    public function saveStep7Action(Request $request){
+        $idAccommodation = $request->get('idAccommodation');
+        $mobile = $request->get('mobile');
+        $phone = $request->get('phone');
+        $mainStreet = $request->get('mainStreet');
+        $streetNumber = $request->get('streetNumber');
+        $between1 = $request->get('between1');
+        $between2 = $request->get('between2');
+        $municipalityId = $request->get('municipalityId');
+        $provinceId = $request->get('provinceId');
+        $email2 = $request->get('email2');
+        $secondOwner = $request->get('secondOwner');
+
+        $em = $this->getDoctrine()->getManager();
+        $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+
+        $accommodation->setOwnMobileNumber($mobile)
+            ->setOwnEmail2($email2)
+            ->setOwnHomeowner2($secondOwner);
+        $em->persist($accommodation);
+
+        $ownerAccommodation = $em->getRepository("mycpBundle:ownerAccommodation")->getMainOwner($idAccommodation);
+        $owner = new owner();
+
+        if($ownerAccommodation != null)
+        {
+            $owner = $ownerAccommodation->getOwner();
+        }
+        else{
+            $ownerAccommodation = new ownerAccommodation();
+        }
+
+        $municipality = $em->getRepository("mycpBundle:municipality")->find($municipalityId);
+        $province = $em->getRepository("mycpBundle:province")->find($provinceId);
+
+        $owner->setAddressBetween1($between1)
+            ->setAddressBetween2($between2)
+            ->setPhone($phone)
+            ->setMobile($mobile)
+            ->setEmail2($email2)
+            ->setMunicipality($municipality)
+            ->setProvince($province)
+            ->setAddressMainStreet($mainStreet)
+            ->setAddressStreetNumber($streetNumber);
+
+        $em->persist($owner);
+
+        $ownerAccommodation->setAccommodation($accommodation)
+            ->setOwner($owner);
+
+        $em->persist($ownerAccommodation);
+
+        $em->flush();
+
+        return new JsonResponse([
+            'success' => true
         ]);
     }
     /**

@@ -35,7 +35,7 @@ class photoLang
     private $pho_lang_id_lang;
 
     /**
-     * @ORM\ManyToOne(targetEntity="photo",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="photo",inversedBy="photo_langs")
      * @ORM\JoinColumn(name="pho_lang_id_photo",referencedColumnName="pho_id")
      */
     private $pho_lang_id_photo;

@@ -1,3 +1,45 @@
+{% macro widget_prototype(widget, remove_text) %}
+    {% if widget.vars.prototype is defined %}
+        {% set form = widget.vars.prototype %}
+        {% set name = widget.vars.full_name~'[__name__]'%}
+        {#{% set name = widget.vars.prototype.vars.name %}#}
+        {% set id = widget.vars.id~'___name__' %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.vars.full_name %}
+        {% set id = widget.vars.id %}
+    {% endif %}
+    <div data-content="{{ name }}">
+        <div class="formMedia">
+               <div class="col-sm-12 preview" style="padding: 0;">
+                   {% if form.vars.value is null %}
+                   <img src="" class="hide picture-link" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%" style="cursor: pointer;">
+               <a href="#" class="picture-link" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
+                   {% else %}
+                       <img src="{{ asset('uploads/ownershipImages/thumbnails/'~form.vars.value.ownPhoPhoto.phoName) }}" class="picture-link-m" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%" style="cursor: not-allowed;">
+                       <a href="#" class="picture-link hide" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
+
+                   {% endif %}
+               </div>
+                {{ form_row(form.file) }}
+
+                <div class="form-group">
+                     <label class="control-label">Descripción</label>
+                    {% if form.vars.value is null %}
+                    {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
+                    {% else %}
+                        {#{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }#}
+                        {{ form_widget(form.description, {'attr':{'class':'form-control','disabled':'disabled', 'value': (form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
+                    {% endif %}
+                </div>
+
+
+        </div>
+
+
+    </div>
+{% endmacro %}
+
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
         <div class="row">
@@ -7,10 +49,42 @@
             <div class="col-sm-11">
                 <h2 class="font-blue">Paso 5</h2>
                 <h3 class="font-blue">Suba las fotos que desea</h3>
+
             </div>
         </div>
-        <div class="bg-gray m-t-20 col-md-11 font-black">
 
+        <div class="bg-gray m-t-20 col-md-11 font-black">
+            {{ form_start(photoForm) }}
+
+            <ul id="ownPhotos" class="ownPhotos" data-prototype="{{ _self.widget_prototype(photoForm.photos, 'Eliminar elemento')|escape }}">
+                {% for i,photo in photoForm.photos %}
+                    <li class="col-sm-4 uploaded" data-id="{{ ownership.photos[i].OwnPhoPhoto.phoId }}" data-url="{{ path('delete_uploaded_photo',{'id':ownership.photos[i].OwnPhoPhoto.phoId }) }}">
+                    {{ _self.widget_prototype(photo, 'Eliminar elemento') }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {#<ul id="upload-images" class="hide"></ul>#}
+            <div id="addPhotoLink" class="col-sm-4">
+                <div class="col-sm-12 add-photo text-center icon-add-link">
+                <button type="button" class="btn btn-primary btn-circle btn-lg">
+                    <i class="glyphicons white plus"></i>
+                </button>
+
+                <p class="m-t-20">Adicionar imagen</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 text-center m-t-20">
+                    <h2 style="color: #b3b3b3;"> Puede subir hasta 50 imágenes</h2>
+                    <h3 style="color: #adadad; font-size: 27px; font-weight: 100;"> La primera imagen será la principal</h3>
+                </div>
+            </div>
+            {#{{ form_widget(photoForm) }}#}
+            {{ form_rest(photoForm) }}
+            <div class="col-sm-4">
+
+            </div>
         </div>
 
     </div>

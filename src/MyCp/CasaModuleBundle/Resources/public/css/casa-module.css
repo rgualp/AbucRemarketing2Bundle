@@ -555,3 +555,40 @@ ol > li::before {
     border-color: #1ab394 !important;
 }
 
+.add-photo{
+    background-color: #dcdcdc;
+    padding: 20px;
+}
+.btn-circle.btn-lg {
+    border-radius: 30px;
+    font-size: 24px;
+    height: 60px;
+    line-height: 1.33;
+    padding: 0 17px;
+    width: 60px;
+}
+
+.ownPhotos {
+    list-style: outside none none;
+    padding: 0;
+}
+.preview {
+    background-color: #dcdcdc;
+    font-size: 60px;
+    height: 150px;
+    text-align: center;
+}
+
+.icon-minus-link {
+    font-size: 18px;
+    position: absolute;
+    right: 25px;
+    color:#e94b3d;
+    top: 5px;
+}
+.picture-link{
+    color: #adadad;
+}
+.picture-link:hover,.picture-link:active,.picture-link:focus{
+    color: #b3b3b3;
+}
