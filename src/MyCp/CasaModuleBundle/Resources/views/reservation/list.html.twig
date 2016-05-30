@@ -1,0 +1,243 @@
+{% extends 'MyCpCasaModuleBundle::layout_dashboard.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #map_canvas {
+            min-height: 200px;
+            /*padding-left: 15px;*/
+        }
+    </style>
+{% endblock %}
+{% block title %}Mis reservas{% endblock title %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="col-md-12">
+            <div class="row row-eq-height">
+                <div class="col-md-9 white-bg">
+                    <div class="row">
+                    <div class="col-sm-1">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Reserva.png') }}" class="img-title-step m-t-25">
+                    </div>
+                    <div class="col-sm-11">
+                        <h2 class="font-blue">Reservas</h2>
+                    </div>
+                        </div>
+                    <div class="bg-gray m-t-20 col-md-12 font-black">
+                        <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('my_casa_module_reservations')}}">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">No. de la reserva</label>
+                                    <div>
+                                     <i class="glyphicons clock step-form-icon"></i>
+                                     <input type="text" name="filter_offer_number" id="filter_offer_number" value="{{ filter_offer_number }}"/>
+                                </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Estado</label>
+                                    <div>
+                                        <i class="glyphicons tag step-form-icon"></i>
+                                        <select id="filter_status" name="filter_status" class="input-block-level">
+                                            <option></option>
+                                            <option {% if filter_status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') %} selected="true" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')}}">Reservada</option>
+                                            <option {% if filter_status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %} selected="true" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')}}">Cancelada</option>
+
+                                        </select>
+                                </div>
+                            </div>
+
+                        <div class="col-sm-4">
+                            <label class="control-label">Fecha de la reserva</label>
+                            <div>
+                                <i class="glyphicons calendar step-form-icon"></i>
+                                <input id="filter_date_reserve" name="filter_date_reserve" type="text" class="datepicker input-block-level" value="{{filter_date_reserve}}"/>
+                            </div>
+                        </div>
+                     </div>
+                            <div class="row">
+                            <div class="col-sm-4">
+                                <label class="control-label">Desde</label>
+                                <div>
+                                    <i class="glyphicons calendar step-form-icon"></i>
+                                    <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{filter_date_from}}"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">Hasta</label>
+                                <div>
+                                    <i class="glyphicons calendar step-form-icon"></i>
+                                    <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level" value="{{filter_date_to}}"/>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <br/><br/>
+                                <button id="btnFilter" class="btn btn-primary dim" type="button">Filtrar</button>
+                                <button class="btn btn-default  dim" type="button">Limpiar</button>
+                            </div>
+                        </div>
+                        </form>
+
+                        {% if reservations %}
+                        <div class="row">
+
+                        </div>
+
+                        <div class="row">
+                            <table class="table table-hover table-casa" style="font-size: 12px">
+                                <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>No. de reserva</th>
+                                    <th>Habit.</th>
+                                    <th>Huésp.</th>
+                                    <th>Llegada</th>
+                                    <th>Noches</th>
+                                    <th>Precio</th>
+                                    <th>Estado</th>
+                                    <th style="text-align: right"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% set flag=0 %}
+                                {%set pending = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING')%}
+                                {%set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
+                                {%set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
+                                {%set not_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE')%}
+                                {%set partially_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE')%}
+                                {%set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED')%}
+                                {%set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+                                {%set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED')%}
+
+                                {% for reservation in reservations %}
+                                    <tr>
+                                        <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
+                                        <td>{{reservation.gen_res_id | getCASId}}</td>
+                                        <td>{{reservation[1]}}</td>
+                                        <td>{{reservation[3]+reservation[5]}}</td>
+                                        <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
+                                        <td>{{reservation[9]}}</td>
+                                        <td>{{ reservation.gen_res_total_in_site }} CUC</td>
+                                        <td>
+                                            {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
+                                        </td>
+                                        <td style="text-align: right">
+                                            <a class="green-link" href="{{ path('mycp_details_readonly_reservation',{'id_reservation':reservation.gen_res_id}) }}">Detalles</a>
+                                        </td>
+                                    </tr>
+                                    {% set flag = flag + 1%}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="row text-center">
+                                {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
+                                {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
+                                {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
+                                {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
+                                {% if filter_date_to ==''%}{% set filter_date_to='null'%}{%endif%}
+                                {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
+                                {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
+                                {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
+                                {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
+                                {% if sort_by=='' %}
+                                    {% set sort_by=0 %}
+                                {% endif %}
+                                <div class="paginator-cont">
+                                    {{ simple_paginator_render('my_casa_module_reservations',null,{
+                                    'container_class': 'paginator',
+                                    'previousPageText': '«',
+                                    'nextPageText': '»',
+                                    'currentClass': 'current',
+                                    'firstPageText': 'Primera',
+                                    'lastPageText': 'Última',
+                                    'route_params': {'items_per_page':items_per_page, 'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_status':filter_status}
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-3 oneblue-bg col-content">
+                    <div id="help-reservations-one" class="row">
+                        <div class="col-md-12 m-t-20">
+                    <p>Esta sección muestra el listado de todas las reservaciones que ha recibido su propiedad a través de MyCasaParticular</p>
+                        </div>
+                    </div>
+                    <div id="help-reservations-two" class="row">
+                        <div class="col-md-12 m-t-40">
+                    <p>Puede realizar búsquedas en el listado utilizando el formulario que aparece en el recuadro gris justo encima del listado</p>
+                        </div>
+                    </div>
+                    <div id="help-reservations-three" class="row">
+                        <div class="col-md-12 m-t-40">
+                    <p>Cada reservación posee un botón "Detalles" a la derecha. Si acciona sobre este, se visualizará una página que contiene la información de la reserva seleccionada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-geocomplete/jquery.geocomplete.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            language: 'es',
+            autoclose: true
+        });
+
+        function submit_filters(ev)
+        {
+            if(ev.keyCode==13)
+            {
+                action_submit();
+            }
+        }
+
+        function action_submit()
+        {
+            items_per_page={{items_per_page}};
+            filter_date_reserve=$('#filter_date_reserve').val();
+            if(filter_date_reserve=='')filter_date_reserve='null';
+            filter_offer_number=$('#filter_offer_number').val();
+            if(filter_offer_number=='')filter_offer_number='null';
+            filter_status=$('#filter_status').val();
+            if(filter_status=='')filter_status='null';
+            filter_reference='null';//$('#filter_reference').val();
+            //if(filter_reference=='')filter_reference='null';
+            filter_date_from=$('#filter_date_from').val();
+            if(filter_date_from=='')filter_date_from='null';
+            filter_date_to=$('#filter_date_to').val();
+            if(filter_date_to=='')filter_date_to='null';
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
+            filter_date_from=filter_date_from.replace('/',"_");
+            filter_date_from=filter_date_from.replace('/',"_");
+            filter_date_to=filter_date_to.replace('/',"_");
+            filter_date_to=filter_date_to.replace('/',"_");
+            filter_date_reserve=filter_date_reserve.replace('/',"_");
+            filter_date_reserve=filter_date_reserve.replace('/',"_");
+            url_submit=$('#filter').attr('action');
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_date_reserve+'/'+filter_offer_number+'/'+filter_reference+'/'+filter_date_from+'/'+filter_date_to+'/'+sort_by+'/'+filter_status;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
+
+    </script>
+{% endblock %}

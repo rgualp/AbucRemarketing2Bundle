@@ -80,6 +80,17 @@ body{
 .font-green{
     color: #64A433;
 }
+
+a.green-link{
+    color: #64A433;
+}
+.table-casa > thead > tr > th, .table-casa > tbody > tr > th, .table-casa > tfoot > tr > th, .table-casa > thead > tr > td, .table-casa > tbody > tr > td, .table-casa > tfoot > tr > td{
+    border-top: 1px solid #C2C2C2;
+}
+
+.table-casa  > thead > tr > th {
+    border-bottom: 1px solid #C2C2C2;
+}
 /*start: style btn*/
 .btn{
     border-radius: 0;
@@ -578,3 +589,17 @@ ol > li::before {
 .picture-link:hover,.picture-link:active,.picture-link:focus{
     color: #b3b3b3;
 }
+
+ul.paginator :first-child{border-left-width:1px;border-radius:3px 0 0 3px;}
+ul.paginator :last-child{ border-radius:0 3px 3px 0;}
+ul.paginator > li.current{background-color: #A5A5A5!important;color: #D5D5D5}
+ul.paginator > li{ display: inline;line-height: 20px;-moz-border-bottom-colors: none;
+    -moz-border-left-colors: none; -moz-border-right-colors: none;-moz-border-top-colors: none;
+    background-color: #D5D5D5; border-color: #D5D5D5; border-image: none; border-style: solid;
+    border-width: 1px 1px 1px 0; float: left; line-height: 20px; padding: 4px 12px; text-decoration: none;}
+ul.paginator > li > a{text-decoration: none; color: #9A9A9A;}
+ul.paginator{border-radius: 4px 4px 4px 4px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: inline-block;margin: 20px 0px; margin-top: 10px; margin-bottom: 10px;}
+div.paginator-cont{text-align: center;}
+.paginator li{color: #9A9A9A!important;}
+.paginator li.current{color: #D5D5D5!important;}
