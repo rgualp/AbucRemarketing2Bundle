@@ -406,7 +406,6 @@ class StepsController extends Controller
         $dir = $this->container->getParameter('user.dir.photos');
         $file = $request->files->get('file');
         if (isset($file)) {
-
             $photo = new photo();
             $fileName = uniqid('user-') . '-photo.jpg';
             $file->move($dir, $fileName);

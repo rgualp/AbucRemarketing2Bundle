@@ -4,7 +4,7 @@
             {{include('MyCpCasaModuleBundle::img-account.html.twig')}}
             <span>
                 {% if app.user.UserPhoto is not null %}
-                    <img class="img-circle dashboard-avatar" src="{{ asset('uploads/userImages/'~app.user.UserPhoto.phoName)}}" alt="{{"User image" | trans}}" />
+                    <img class="img-circle dashboard-avatar" src="{{ asset('uploads/userImages/'~app.user.UserPhoto.phoName)}}" alt="{{"User image" | trans}}" width="140px" height="140px"/>
                 {% else %}
                     <img alt="image" class="img-circle dashboard-avatar" src="{{ asset('bundles/frontend/img/user-no-photo.gif') }}" width="140px" height="140px"/>
                 {% endif %}
