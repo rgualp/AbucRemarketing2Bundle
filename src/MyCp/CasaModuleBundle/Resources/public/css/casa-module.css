@@ -80,17 +80,6 @@ body{
 .font-green{
     color: #64A433;
 }
-
-a.green-link{
-    color: #64A433;
-}
-.table-casa > thead > tr > th, .table-casa > tbody > tr > th, .table-casa > tfoot > tr > th, .table-casa > thead > tr > td, .table-casa > tbody > tr > td, .table-casa > tfoot > tr > td{
-    border-top: 1px solid #C2C2C2;
-}
-
-.table-casa  > thead > tr > th {
-    border-bottom: 1px solid #C2C2C2;
-}
 /*start: style btn*/
 .btn{
     border-radius: 0;
@@ -410,6 +399,20 @@ ol > li::before {
     position: relative;
     box-shadow: 0 0 0 4px #377209;
 }
+.dashboard-picture{
+    margin-top: 30%;
+    z-index: 999;
+    margin-left: 67px;
+    position: absolute;
+    display: none;
+}
+.profile-element:hover .dashboard-picture {
+    display: block;
+}
+.dashboard-avatar:hover{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.7;
+}
 .help-icon{
     margin-left: 2px;
     cursor: pointer;
@@ -576,20 +579,29 @@ ol > li::before {
     text-align: center;
 }
 
-.icon-minus-link {
-    font-size: 18px;
+.icon-minus-link, .icon-minus-link:hover, .icon-minus-link:active, .icon-minus-link:focus  {
     position: absolute;
-    right: 25px;
-    color:#e94b3d;
-    top: 5px;
+    right: 15%;
+    top: 20px;
+    box-shadow: 0 0 0 #b53a2f inset, 0 5px 0 0 #b53a2f, 0 0 0 #999999;
+}
+.set-picture-link, .set-picture-link:hover, .set-picture-link:active, .set-picture-link:focus {
+    position: absolute;
+    left: 15%;
+    top: 20px;
+    box-shadow: 0 0 0 #4e7f28 inset, 0 5px 0 0 #4e7f28, 0 0 0 #999999;
+
 }
 .picture-link{
     color: #adadad;
 }
-.picture-link:hover,.picture-link:active,.picture-link:focus{
-    color: #b3b3b3;
-}
 
+/*.picture-link-m:hover, .picture-link:hover {*/
+    /*box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);*/
+/*}*/
+/*.picture-link:hover,.picture-link:active,.picture-link:focus{*/
+    /*color: #b3b3b3;*/
+/*}*/
 ul.paginator :first-child{border-left-width:1px;border-radius:3px 0 0 3px;}
 ul.paginator :last-child{ border-radius:0 3px 3px 0;}
 ul.paginator > li.current{background-color: #A5A5A5!important;color: #D5D5D5}

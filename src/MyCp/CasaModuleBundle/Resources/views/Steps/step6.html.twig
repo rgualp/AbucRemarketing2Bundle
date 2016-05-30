@@ -13,10 +13,10 @@
         <div class="formMedia">
                <div class="col-sm-12 preview" style="padding: 0;">
                    {% if form.vars.value is null %}
-                   <img src="" class="hide picture-link" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%" style="cursor: pointer;">
-               <a href="#" class="picture-link" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
+                   <img src="" class="hide picture-link" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%">
+                   <i class="fa fa-camera" style=" margin-top: 45px;"></i>
                    {% else %}
-                       <img src="{{ asset('uploads/ownershipImages/thumbnails/'~form.vars.value.ownPhoPhoto.phoName) }}" class="picture-link-m" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%" style="cursor: not-allowed;">
+                       <img src="{{ asset('uploads/ownershipImages/thumbnails/'~form.vars.value.ownPhoPhoto.phoName) }}" class="picture-link-m" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%">
                        <a href="#" class="picture-link hide" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
 
                    {% endif %}
@@ -24,12 +24,14 @@
                 {{ form_row(form.file) }}
 
                 <div class="form-group">
-                     <label class="control-label">Descripción</label>
                     {% if form.vars.value is null %}
+                      <label class="control-label">Descripción</label>
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
                     {% else %}
-                        {#{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }#}
-                        {{ form_widget(form.description, {'attr':{'class':'form-control','disabled':'disabled', 'value': (form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
+                        {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
+                        <span class="font-blue step-span">{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}</span>
+                        <label class="control-label hide">Descripción</label>
+                        {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}
                 </div>
 

@@ -25,7 +25,9 @@
         <script src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
     {% endblock stylesheets %}
 
-    {% block javascripts_first %}{% endblock javascripts_first %}
+    {% block javascripts_first %}
+
+    {% endblock javascripts_first %}
 
     {% block javascripts %}
         {{ parent() }}
@@ -47,6 +49,8 @@
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-geocomplete/jquery.geocomplete.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/signals/signals.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-ui/jquery-ui.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/jquery.fileupload.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/App.js'
         '@MyCpCasaModuleBundle/Resources/public/js/script/step1.js'
         '@MyCpCasaModuleBundle/Resources/public/js/script/step2.js'
@@ -55,6 +59,7 @@
         '@MyCpCasaModuleBundle/Resources/public/js/script/step5.js'
         '@MyCpCasaModuleBundle/Resources/public/js/script/step6.js'
         '@MyCpCasaModuleBundle/Resources/public/js/script/step7.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/script/img-account.js'
         filter='?uglifyjs2'
         %}
         <script src="{{ asset_url }}"></script>

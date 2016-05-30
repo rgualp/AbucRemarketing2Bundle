@@ -19,8 +19,9 @@ var Step6 = function () {
         collectionHolderPhotos = $('ul#ownPhotos');
 
         // add a delete course link to all of the existing tag form li elements
-        collectionHolderPhotos.find('li').each(function () {
-            addPhotoFormDeleteLink($(this));
+        collectionHolderPhotos.find('li').each(function (index) {
+             console.log(index);
+            addPhotoFormDeleteLink($(this),index);
         });
 
         // add the "add a Photo" anchor and li to the Photos ul
@@ -79,7 +80,28 @@ var Step6 = function () {
         addPhotoFormDeleteLink(newFormLi, index);
 
     }
-
+    $(document).on('mouseover', 'li.col-sm-4', function(){
+        //alert('in');
+        $( this ).find('.icon-minus-link').removeClass('hide');
+        $( this ).find('.set-picture-link').removeClass('hide');
+        $( this ).find('.picture-link-m').css('box-shadow','5px 5px 10px rgba(0, 0, 0, 0.4)');
+        $( this ).find('.picture-link').css('box-shadow','5px 5px 10px rgba(0, 0, 0, 0.4)');
+    });
+    $(document).on('mouseleave', 'li.col-sm-4', function(){
+        //alert('out');
+        $( this ).find('.icon-minus-link').addClass('hide');
+        $( this ).find('.set-picture-link').addClass('hide');
+        $( this ).find('.picture-link-m').css('box-shadow','none');
+        $( this ).find('.picture-link').css('box-shadow','none');
+    });
+    //$( "div.enterleave" )
+    //    .mouseenter(function() {
+    //        n += 1;
+    //        $( this ).find( "span" ).text( "mouse enter x " + n );
+    //    })
+    //    .mouseleave(function() {
+    //        $( this ).find( "span" ).text( "mouse leave" );
+    //    });
     function addPhotoFormDeleteLink(mediaFormLi, index) {
         index += 1;
         var inde;
@@ -87,13 +109,28 @@ var Step6 = function () {
             inde = $('<h4 style="padding: 40px 9px 15px;">' + index + '</h4>');
         else
             inde = $('<h4>' + index + '</h4>');
-        var removeFormA = $('<a href="#" class="icon-minus-link">' +
-            '<i class="fa fa-times-circle"></i>' +
+        var removeFormA = $('<a href="#" class="btn btn-danger icon-minus-link hide">' +
+            'Eliminar' +
             '</a>');
+        var modFormA = $('<a class="btn btn-primary set-picture-link hide">' +
+            'Cambiar' +
+            '</a>');
+        mediaFormLi.append(modFormA);
         mediaFormLi.append(removeFormA);
         //mediaFormLi.append(inde);
+        modFormA.on('click', function (e) {
+            e.preventDefault();
+            //alert('epa');
+            var pos=parseInt(index)-1;
+            var name='mycp_mycpbundle_ownership_step_photos[photos]['+pos+'][file]';
+            var nameD='mycp_mycpbundle_ownership_step_photos[photos]['+pos+'][description]';
+            $("input[name='"+name+"']").click();
+            $("input[name='"+nameD+"']").removeClass('hide');
+            $("input[name='"+nameD+"']").prev().removeClass('hide');
+            $("input[name='"+nameD+"']").parent().find('span.step-span').addClass('hide');
 
-        removeFormA.on('click', function (e) {
+        });
+          removeFormA.on('click', function (e) {
             // prevent the link from creating a "#" on the URL
             e.preventDefault();
 
@@ -104,7 +141,8 @@ var Step6 = function () {
                     text: "Se borrará la foto del servidor!",
                     type: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
+                    confirmButtonColor: "#e94b3d",
+                    cancelButtonColor: "#64a433",
                     confirmButtonText: "Sí",
                     cancelButtonText: "No",
                     closeOnConfirm: true
@@ -134,10 +172,10 @@ var Step6 = function () {
             }
         });
     }
-   $(document).on('click', '.picture-link', function(){
-    var name=$(this).data('input');
-       $("input[name='"+name+"']").click();
-   });
+   //$(document).on('click', '.picture-link', function(){
+   // var name=$(this).data('input');
+   //    $("input[name='"+name+"']").click();
+   //});
     $(document).on('change', '.photo-input', function(){
        var fileName = $(this).val();
         readURL(''+$(this).attr('id'));
