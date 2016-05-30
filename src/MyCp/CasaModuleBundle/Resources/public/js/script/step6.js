@@ -123,8 +123,11 @@ var Step6 = function () {
             //alert('epa');
             var pos=parseInt(index)-1;
             var name='mycp_mycpbundle_ownership_step_photos[photos]['+pos+'][file]';
-            console.log(name);
+            var nameD='mycp_mycpbundle_ownership_step_photos[photos]['+pos+'][description]';
             $("input[name='"+name+"']").click();
+            $("input[name='"+nameD+"']").removeClass('hide');
+            $("input[name='"+nameD+"']").prev().removeClass('hide');
+            $("input[name='"+nameD+"']").parent().find('span.step-span').addClass('hide');
 
         });
           removeFormA.on('click', function (e) {
