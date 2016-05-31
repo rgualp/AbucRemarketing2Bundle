@@ -85,22 +85,22 @@ body{
     border-radius: 0;
     border: 0;
 }
-button.glyphicons{
+button.glyphicons a.btn.glyphicons{
     color: #fff;
 }
-button.btn-default.dim {
+button.btn-default.dim, a.btn-default.dim {
     box-shadow: 0 0 0 #B3B3B3 inset, 0 5px 0 0 #B3B3B3, 0 0 0 #999999;
 }
-button.btn-danger.dim {
+button.btn-danger.dim, a.btn-danger.dim {
     box-shadow: 0 0 0 #b53a2f inset, 0 5px 0 0 #b53a2f, 0 0 0 #999999;
 }
-button.btn-primary.dim {
+button.btn-primary.dim, a.btn-primary.dim {
     box-shadow: 0 0 0 #4e7f28 inset, 0 5px 0 0 #4e7f28, 0 0 0 #999999;
 }
-button.btn-warning.dim {
+button.btn-warning.dim, a.btn-warning.dim {
     box-shadow: 0 0 0 #bd531d inset, 0 5px 0 0 #bd531d, 0 0 0 #999999;
 }
-button.dim {
+button.dim, a.dim {
     border-radius: 2px;
     text-transform: none;
     font-weight: normal;
@@ -615,3 +615,14 @@ ul.paginator{border-radius: 4px 4px 4px 4px;box-shadow: 0 1px 2px rgba(0, 0, 0, 
 div.paginator-cont{text-align: center;}
 .paginator li{color: #9A9A9A!important;}
 .paginator li.current{color: #D5D5D5!important;}
+
+a.green-link{
+    color: #64A433;
+}
+.table-casa > thead > tr > th, .table-casa > tbody > tr > th, .table-casa > tfoot > tr > th, .table-casa > thead > tr > td, .table-casa > tbody > tr > td, .table-casa > tfoot > tr > td{
+    border-top: 1px solid #C2C2C2;
+}
+
+.table-casa  > thead > tr > th {
+    border-bottom: 1px solid #C2C2C2;
+}

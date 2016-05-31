@@ -1,4 +1,4 @@
-{% extends 'MyCpCasaModuleBundle::layout_dashboard.html.twig' %}
+{% extends 'MyCpCasaModuleBundle::layout_general.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
     <style>
@@ -73,15 +73,34 @@
 
                             <div class="col-sm-4">
                                 <br/><br/>
-                                <button id="btnFilter" class="btn btn-primary dim" type="button">Filtrar</button>
-                                <button class="btn btn-default  dim" type="button">Limpiar</button>
+                                <a id="btnFilter" class="btn btn-primary dim" href="javascript:action_submit();" >Filtrar</a>
+                                <a href="{{ path('my_casa_module_reservations') }}" class="btn btn-default dim">Limpiar</a>
                             </div>
                         </div>
                         </form>
 
                         {% if reservations %}
-                        <div class="row">
-
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="text-center">
+                                {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}                             </div>
+                            <div class="pull-right">
+                                Organizar por:
+                                {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
+                                {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
+                                {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
+                                {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
+                                {% if filter_date_to ==''%}{% set filter_date_to='null'%}{%endif%}
+                                {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
+                                {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
+                                {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
+                                {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
+                                {% if sort_by=='' %}
+                                    {% set sort_by=0 %}
+                                {% endif %}
+                                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                    {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::RESERVATION_LODGING_MODULE')})) }}
+                                </select>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -131,18 +150,6 @@
                                 </tbody>
                             </table>
                             <div class="row text-center">
-                                {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
-                                {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
-                                {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
-                                {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
-                                {% if filter_date_to ==''%}{% set filter_date_to='null'%}{%endif%}
-                                {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
-                                {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
-                                {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
-                                {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
-                                {% if sort_by=='' %}
-                                    {% set sort_by=0 %}
-                                {% endif %}
                                 <div class="paginator-cont">
                                     {{ simple_paginator_render('my_casa_module_reservations',null,{
                                     'container_class': 'paginator',
@@ -156,6 +163,10 @@
                                 </div>
                             </div>
                         </div>
+
+                        <
+                        {% else %}
+                            <p> <div class="alert alert-block">No hay reservas disponibles.</div></p>
                         {% endif %}
 
                     </div>
@@ -189,7 +200,8 @@
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
     '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
-    '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-geocomplete/jquery.geocomplete.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
