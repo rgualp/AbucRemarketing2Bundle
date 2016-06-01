@@ -334,7 +334,7 @@ class userRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT u FROM mycpBundle:user u
-        WHERE u.user_role = 'ROLE_CLIENT_INFO_STAFF' AND (u.locked is NULL or u.locked = 0) order by u.user_user_name ASC");
+        WHERE u.user_role LIKE '%ROLE_CLIENT_INFO_STAFF%' AND (u.locked is NULL or u.locked = 0) order by u.user_user_name ASC");
         return $query->getResult();
     }
 
