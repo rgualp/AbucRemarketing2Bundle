@@ -2993,15 +2993,15 @@
             </trans-unit>
              <trans-unit id="758">
                 <source>NEWSLETTER_HEAD_1</source>
-                <target>What you cannot forget!</target>
+                <target>Indispensable!</target>
             </trans-unit>
             <trans-unit id="759">
                 <source>NEWSLETTER_PARR_1</source>
-                <target>First of all, make sure that you are travelling with all the documents you need for the trip, your camera and your bathing suit.</target>
+                <target>They can´t miss in luggage your travel documents, a camera and a swimsuit.</target>
             </trans-unit>
             <trans-unit id="760">
                 <source>NEWSLETTER_SUBHEAD_1</source>
-                <target>You cannot come to Cuba without a bathing suit!!</target>
+                <target>To Cuba, you can´t come without a swimsuit!</target>
             </trans-unit>
             <trans-unit id="761">
                 <source>NEWSLETTER_PARR_2</source>
@@ -3069,7 +3069,7 @@
                 </trans-unit>
               <trans-unit id="777">
                 <source>NEWSLETTER_LINK_TEXT1</source>
-                <target>The best destinations in Cuba</target>
+                <target>Go for other destinations</target>
                 </trans-unit>
               <trans-unit id="778">
                 <source>NEWSLETTER_LINK_BTN1</source>
@@ -3774,6 +3774,46 @@
                                                                               <source>FOOTER_EMAIL1_SUBTEXT</source>
                                                                               <target><![CDATA[MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
                                                                           </trans-unit>
+                             <trans-unit id="953">
+                                                      <source>quick_bookinhg</source>
+                                                      <target>Quick Booking</target>
+                                                  </trans-unit>
+                <trans-unit id="954">
+                                                      <source>quick_booking_tooltip</source>
+                                                      <target>The owner of this Casa Particular will reply to your availability request as soon as possible.</target>
+                                                  </trans-unit>
+                <trans-unit id="955">
+                    <source>VOUCHER_CONSULT_TEXT</source>
+                    <target>Please, consult the data of your reservations</target>
+                    </trans-unit>
+              <trans-unit id="956">
+                 <source>VOUCHER_MOVIL_TEXT</source>
+                 <target>Now also available on your mobile device. </target>
+                 </trans-unit>
+                 <trans-unit id="957">
+                 <source>VOUCHER_MOVIL_TEXT1</source>
+                 <target>It's free!</target>
+                 </trans-unit>
+                                  <trans-unit id="958">
+                                  <source>VOUCHER_ON_SITE</source>
+                                  <target>See on our web site</target>
+                                  </trans-unit>
+                 <trans-unit id="959">
+                 <source>VOUCHER_HEADER_OWNS</source>
+                 <target>Casas particulares in every corner of the Island</target>
+                 </trans-unit>
+                      <trans-unit id="960">
+                     <source>VOUCHER_MYCM_HEAD</source>
+                     <target>Your trip takes course with us,</target>
+                     </trans-unit>
+                     <trans-unit id="961">
+                     <source>VOUCHER_MYCM_HEAD1</source>
+                     <target>for</target>
+                     </trans-unit>
+                 <trans-unit id="962">
+                 <source>VOUCHER_CUCOU_HEAD</source>
+                 <target>Staying is just the beginning. We make your trip a unique experience.</target>
+                 </trans-unit>
         </body>
     </file>
 </xliff>

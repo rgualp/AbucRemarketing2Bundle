@@ -33,7 +33,7 @@ destinos
 
 
 </div>
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
+<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/> {{"LOADING_MESSAGE" | trans}}</div>
 <div class="row-fluid result_list" id="div_result">
     {{ include('FrontEndBundle:destination:itemListDestination.html.twig',
                 {'popular_places': popular_places,

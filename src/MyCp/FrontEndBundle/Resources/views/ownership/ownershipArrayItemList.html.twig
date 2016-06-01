@@ -5,7 +5,7 @@
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}&nbsp;&nbsp;&nbsp;">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | urlNormalize}) }}">
                 <img alt="{{ own.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}"></noscript>
+                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}" alt="{{"No script" | trans}}"></noscript>
             </a>
         </div>
     </div>
@@ -17,12 +17,12 @@
                     <h1 class="h-blue">{{own['own_name']}}</h1>
                     </a>
                      {%if own.category == "Premium"%}
-                        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                         {%else%}
                             {%if (own.category | lower) == ("Rango Medio" | lower)%}
-                            <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                             {%else%}
-                                <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
                             {%endif%}
                         {%endif%}
                         <span>{{own.category | trans}}</span><br/>
@@ -31,13 +31,13 @@
 
                     {%if own['rating'] > 0%}
                         {%for i in 1..own['rating']%}
-                            <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon">
+                            <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon" alt="{{"Pixel" | trans}}">
                         {%endfor%}
                         {%endif%}
 
                         {%if own['rating'] < 5%}
                         {%for i in 1..(5-own['rating'])%}
-                            <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
+                            <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon" alt="{{"Pixel" | trans}}">
                         {%endfor%}
                     {%endif%}
                      <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>
@@ -65,12 +65,6 @@
   <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
     </div>
-{% javascripts
-'@FrontEndBundle/Resources/public/js/jail.min.js'
-filter='?uglifyjs2'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
 <script type="text/javascript">
         $(function(){
             $('img.lazy').jail();

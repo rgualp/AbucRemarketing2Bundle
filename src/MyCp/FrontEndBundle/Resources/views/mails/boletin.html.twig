@@ -14,12 +14,29 @@
     <p>{{ 'NEWSLETTER_INTRO_TEXT'|trans({}, "messages", user_locale) }}</p>
     <p>{{ 'NEWSLETTER_INTRO_TEXT1'|trans({}, "messages", user_locale) }}</p>
     <p>{{ 'NEWSLETTER_INTRO_TEXT2'|trans({}, "messages", user_locale) }}</p>
-    <a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_historial_reserve',relative=true ) }}">Mycasatrip</a>
-    <p>{{ 'NEWSLETTER_LINK_TEXT'|trans({}, "messages", user_locale) }}</p>
-    <a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_favorites_destinations',relative=true ) }}">{{ 'NEWSLETTER_LINK_BTN1'|trans({}, "messages", user_locale) }}</a>
-    <p>{{ 'NEWSLETTER_LINK_TEXT1'|trans({}, "messages", user_locale) }}</p>
+    {#<a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_historial_reserve',relative=true ) }}">Mycasatrip</a>#}
+    {#<p>{{ 'NEWSLETTER_LINK_TEXT'|trans({}, "messages", user_locale) }}</p>#}
+    {#<a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_favorites_destinations',relative=true ) }}">{{ 'NEWSLETTER_LINK_BTN1'|trans({}, "messages", user_locale) }}</a>#}
+    {#<p>{{ 'NEWSLETTER_LINK_TEXT1'|trans({}, "messages", user_locale) }}</p>#}
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; background-color: #6cccff;">
+    <tr>
+       <td width="70%" style="padding: 10px;">
+           <h3 style="color: white;">{{ 'VOUCHER_CONSULT_TEXT'|trans({}, "messages", user_locale)}}</h3>
+           <p style="color: #084d76; margin-bottom: 0;">{{ 'VOUCHER_MOVIL_TEXT'|trans({}, "messages", user_locale)}}</p>
+           <p style="color: #084d76; font-size: 13px; margin-top: 0; margin-bottom: 20px;">{{ 'VOUCHER_MOVIL_TEXT1'|trans({}, "messages", user_locale)}}</p>
+
+           <a href="{{ path('frontend_mycasatrip_historial_reserve',relative=true ) }}" style="background-color: #61a037; color: #fff; padding: 7px 9px; text-decoration: none; margin-bottom: 10px;">{{ 'VOUCHER_ON_SITE'|trans({}, "messages", user_locale)}}</a>
+           <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycplight" style="background-color: #084d76; color: #fff; padding: 7px 9px; text-decoration: none; margin-bottom: 10px;">{{ 'DOWNLOAD_APP'|trans({}, "messages", user_locale)}}</a>
+      <br>
+       </td>
+       <td width="30%">
+           <img style="float: right; margin: 20px;" src="{{asset('bundles/frontend/img/mycasatrip/logo-mycasatrip.png', absolute=true)}}">
+       </td>
+    </tr>
+
+    </table>
     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none; margin: 15px 0;"/>
-    <img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/playa.png', absolute=true)}}">
+    {#<img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/playa.png', absolute=true)}}">#}
 
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px;">
     <tr>
@@ -28,11 +45,11 @@
         {% endfor %}
     </tr>
     <tr>
-        <td colspan="10"></td>
-        <td colspan="25">
+        {#<td colspan="10"></td>#}
+        <td colspan="15">
             <img style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/1.png', absolute=true)}}">
         </td>
-        <td colspan="65">
+        <td colspan="85">
             <h3 style="color: #4d779d;">{{ 'NEWSLETTER_HEAD_1'|trans({}, "messages", user_locale) }}</h3>
             <p>{{ 'NEWSLETTER_PARR_1'|trans({}, "messages", user_locale) }}</p>
             <h5>{{ 'NEWSLETTER_SUBHEAD_1'|trans({}, "messages", user_locale) }}</h5>
@@ -53,7 +70,7 @@
     </tr>
     <tr>
         <td colspan="15">
-            <img width="" style="display:block; margin-left: 10px; margin-top: 15px;" border="0" src="{{asset('bundles/frontend/img/newsletter/4.png', absolute=true)}}">
+            <img style="display:block; margin-left: 10px; margin-top: 15px;" border="0" src="{{asset('bundles/frontend/img/newsletter/4.png', absolute=true)}}">
 
         </td>
         <td colspan="40"  style="padding-top: 15px;">
@@ -61,7 +78,7 @@
         </td>
         <td colspan="5"></td>
        <td colspan="40">
-           <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/3.png', absolute=true)}}">
+           <img style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/3.png', absolute=true)}}">
        </td>
     </tr>
     <tr>
@@ -100,14 +117,14 @@
         <tr>
             <td colspan="8"></td>
             <td colspan="40">
-                <img width="" style="display:block; margin-bottom: 40px;" border="0" src="{{asset('bundles/frontend/img/newsletter/7.png', absolute=true)}}">
+                <img style="display:block; margin-bottom: 40px;" border="0" src="{{asset('bundles/frontend/img/newsletter/7.png', absolute=true)}}">
                 <div>
                     <p>{{ 'NEWSLETTER_PARR_7'|trans({}, "messages", user_locale) }}</p>
                 </div>
             </td>
             <td colspan="4"></td>
             <td colspan="40">
-                <img width="" style="display:block; margin-bottom: 30px;" border="0" src="{{asset('bundles/frontend/img/newsletter/8.png', absolute=true)}}">
+                <img style="display:block; margin-bottom: 30px;" border="0" src="{{asset('bundles/frontend/img/newsletter/8.png', absolute=true)}}">
 
                     <p>
                         {{ 'NEWSLETTER_PARR_8'|trans({}, "messages", user_locale) }}
@@ -123,19 +140,83 @@
         <tr>
             <td colspan="8"></td>
             <td colspan="40">
-                <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/9.png', absolute=true)}}">
+                <img style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/9.png', absolute=true)}}">
 
                     <p>{{ 'NEWSLETTER_PARR_9'|trans({}, "messages", user_locale) }}</p>
             </td>
             <td colspan="4"></td>
             <td colspan="40">
-                <img width="" style="display:block; margin-bottom: 61px;" border="0" src="{{asset('bundles/frontend/img/newsletter/10.png', absolute=true)}}">
+                <img style="display:block; margin-bottom: 61px;" border="0" src="{{asset('bundles/frontend/img/newsletter/10.png', absolute=true)}}">
 
                     <p>{{ 'NEWSLETTER_PARR_10'|trans({}, "messages", user_locale) }}</p>
 
             </td>
             <td colspan="8"></td>
         </tr>
+        <tr>
+            <td colspan="100" style="height: 30px;">
 
+            </td>
+        </tr>
+        <tr>
+            <td colspan="100">
+                <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none; margin-bottom: 20px;"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="100" style="padding: 15px; background-image: url({{ asset('bundles/frontend/img/newsletter/bg-1.png', absolute=true) }}); background-repeat: no-repeat; background-size: 100%;">
+                <h3 style="color: white; margin-bottom: 50px;">{{ 'VOUCHER_HEADER_OWNS'|trans({}, "messages", user_locale) }}</h3>
+                <a href="{{ path('frontend_mycasatrip_favorites_destinations',relative=true) }}" style="background-color: #f36b25; color: #fff; padding: 7px 9px; text-decoration: none; margin-bottom: 10px;">{{ 'NEWSLETTER_LINK_TEXT1'|trans({}, "messages", user_locale)}}</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="100" style="height: 30px;">
+
+            </td>
+        </tr>
+       <tr>
+           <td colspan="49" style="background-color: #6dcbff; padding: 0px 10px 10px 15px;">
+               <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                   <tr>
+                       <td width="60%">
+                           <p style="font-size: 24px; color: white; line-height: 1em; margin-bottom: 0px;">
+           {{
+            'VOUCHER_MYCM_HEAD'|trans({}, "messages", user_locale)
+            }}
+                           </p>
+                           <p style="font-size: 24px; color: #f36b25; margin-top: 10px;"> {{
+                               'VOUCHER_MYCM_HEAD1'|trans({}, "messages", user_locale)
+                               }} 6 €</p>
+                       </td>
+                       <td width="40%">
+                           <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycubamap" target="_blank">
+                           <img src="{{ asset('bundles/frontend/img/logo-mycubamap.png', absolute=true) }}" style="float: right; margin-right: 15px; margin-top: 10px;">
+                           </a>
+                       </td>
+                   </tr>
+               </table>
+               {#<div style="width: 70%;">#}
+                   {#<p style="font-size: 24px; color: white; line-height: 1em; margin-bottom: 0px;">#}
+                       {#Su viaje toma#}
+                       {#rumbo con#}
+                       {#nosotros.#}
+                   {#</p>#}
+                   {#<p style="font-size: 24px; color: #f36b25; margin-top: 10px;">por 6 €</p>#}
+               {#</div>#}
+               {#<div style="width: 30%;">#}
+                   {#<img src="{{ asset('bundles/frontend/img/logo-mycubamap.png', absolute=true) }}" width="100%">#}
+               {#</div>#}
+           </td>
+           <td colspan="2"></td>
+           <td colspan="49" style="background-color: #0b906c; padding: 10px 10px 10px 15px;">
+           <p style="font-size: 18px; color: white; line-height: 1em; margin-bottom: 20px;">
+               {{
+                   'VOUCHER_CUCOU_HEAD'|trans({}, "messages", user_locale)
+               }}
+           </p>
+               <a target="_blank" href="http://cubacoupon.com">
+               <img src="{{ asset('bundles/frontend/img/logo-cubacoupon.png', absolute=true) }}"></a>
+           </td>
+       </tr>
 </table>
  {% endblock %}

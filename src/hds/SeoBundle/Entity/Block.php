@@ -48,6 +48,11 @@ class Block
 	protected $decription;
 
 	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $users_log;
+
+	/**
 	 * @ORM\OneToMany(targetEntity="hds\SeoBundle\Entity\BlockContent", mappedBy="block", cascade={"all"})
 	 */
 	private $contents;
@@ -199,4 +204,38 @@ class Block
     {
         return $this->contents;
     }
+
+    /**
+     * Set usersLog
+     *
+     * @param string $usersLog
+     *
+     * @return Block
+     */
+    public function setUsersLog($usersLog)
+    {
+        $this->users_log = $usersLog;
+
+        return $this;
+    }
+
+    /**
+     * Get usersLog
+     *
+     * @return string
+     */
+    public function getUsersLog()
+    {
+        return $this->users_log;
+    }
+
+	public function addUsersLog($usersLog)
+	{
+		if($this->users_log!=''){
+			$this->users_log.= ' ;';
+		}
+		$this->users_log .= $usersLog;
+
+		return $this;
+	}
 }

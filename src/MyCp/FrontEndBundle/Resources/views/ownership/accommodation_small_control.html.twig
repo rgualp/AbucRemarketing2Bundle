@@ -1,28 +1,29 @@
 
 
-<div class="thumbnail" style="position:relative" rel="tooltip" title="{{"MORE_INFO_PREFFIX" | trans}} {{name}}">
+<div class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %} style="position:relative" rel="tooltip" title="{% if ownership.OwnInmediateBooking %}{{"quick_booking_tooltip" | trans}}{% else %}{{"MORE_INFO_PREFFIX" | trans}} {{name}}{% endif %}">
+    {% if ownership.OwnInmediateBooking %}
+        <div class="quick-ribbon">
+            <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+    {% endif %}
     <div>
         {% if award %}
-            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px"/>
+            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
         {% endif %}
-        <h1 class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</h1>
+        <span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span>
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
     {% if notLazyLoad is defined and notLazyLoad %}
-        <img alt="{{ name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}"/>
+        <img alt="{{ name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}" alt="{{"Thumbnails" | trans}}"/>
     {% else %}
     <img alt="{{ name }}"
          class="lazy"
          data-src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
          src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"
-         {% if award %}style="position: relative; top:-15px"{% endif %}   />
+         {% if award %}style="position: relative; top:-15px; {% if ownership.OwnInmediateBooking %}z-index:0;{% endif %}"{% else %}{% if ownership.OwnInmediateBooking %}style="z-index: 0;"{% endif %}{% endif %}   />
      </a>
     <noscript>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-        <img
-                class="nolazy"
-                src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
-                {% if award %}style="position: relative; top:-15px"{% endif %}>
+        <img class="nolazy" src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}" {% if award %}style="position: relative; top:-15px"{% endif %} alt="{{"Thumbnails" | trans}}" />
     </a>
         {% endif %}
     </noscript>

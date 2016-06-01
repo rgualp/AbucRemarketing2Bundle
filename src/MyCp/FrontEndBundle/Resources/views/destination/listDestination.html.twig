@@ -3,6 +3,9 @@
 {% block title %}
 {{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
 {% endblock %}
+{% block metas %}
+    {{ get_metas('Destinos', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
 
 {% block include_javascripts_and_css %}
     {% javascripts

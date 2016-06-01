@@ -21,9 +21,9 @@
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
                                                 <a href="{{ accommdationDetailsUrl }}">
                                                     {% if photos[loop.index0][0].getPhoName is defined %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{ mail_base_url~'/uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{ mail_base_url~'/uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}" alt="{{"Thumbnails" | trans}}">
                                                     {% else %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{ mail_base_url~'/uploads/ownershipImages/no_photo_square.gif'}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{ mail_base_url~'/uploads/ownershipImages/no_photo_square.gif'}}" alt="{{"Thumbnails" | trans}}">
                                                     {% endif %}
                                                 </a>
                                             </td>

@@ -1,13 +1,7 @@
-{% javascripts
-'@FrontEndBundle/Resources/public/js/typeahead.min.js'
-filter='?uglifyjs2'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
 
 <div class="form bg-gradient-orange" id="orange_search_bar">
         <div class="row">
-            <div class="col-sm-12" style="">
+            <div class="col-sm-12">
                 <form class="form-inline">
                     <div class="col-sm-3">
                         <input type="text" id="input_text" placeholder="{{'PLACE_WATERMARK' | trans}}" class="form-control" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead">
@@ -78,9 +72,3 @@ filter='?uglifyjs2'
         limit: 4
     });
 </script>
-{% javascripts
-'@FrontEndBundle/Resources/public/js/ownership.min.js'
-filter='?uglifyjs2'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}

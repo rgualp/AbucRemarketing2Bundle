@@ -21,4 +21,5 @@ $(function () {
 
 $(function() {
     $("[rel='tooltip']").tooltip();
+    $("[data-rel='tooltip']").tooltip();
 });

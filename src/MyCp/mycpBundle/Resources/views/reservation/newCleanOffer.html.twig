@@ -200,5 +200,23 @@
 
         });
     </script>
+    <script type="text/javascript">
+        var url = "{{ path('mycp_get_accommodations_by_destination', { 'destinationId': '-1'}) }}";
+        url = url.replace('/-1', '');
+
+        $('#destination').change(function() {
+            $('#ownership').html('<option value="">Cargando...</option>');
+            $("#ownership").select2("val", ["Cargando..."]);
+            var idDestination = $('#destination').val();
+            $.ajax({
+                type: "POST",
+                url: url + '/' + idDestination,
+                success: function(msg) {
+
+                    $('#ownership').html(msg);
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

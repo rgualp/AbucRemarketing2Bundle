@@ -468,24 +468,19 @@ class ownershipRepository extends EntityRepository {
                 $room->setRoomNum($e);
                 $em->persist($room);
 
-                if (($ownership->getOwnMinimumPrice() == 0 ||
-                        $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()) && $room->getRoomActive()
-                )
+            if ($room->getRoomActive()) {
+                if (($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()))
                     $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-                if (($ownership->getOwnMaximumPrice() == 0 ||
-                        $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive()
-                )
+                if (($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()))
                     $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-                if (($ownership->getOwnMaximumPrice() == 0 ||
-                        $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive()
-                )
+                if (($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()))
                     $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-                if ($room->getRoomActive()) {
                     $maximum_guest_total += $room->getMaximumNumberGuests();
-                }
+            }
+
                 $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
            // }
         }
@@ -880,6 +875,7 @@ class ownershipRepository extends EntityRepository {
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,
+                         o.own_inmediate_booking as OwnInmediateBooking,
                          (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
@@ -1858,6 +1854,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_category as category,
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
+                            o.own_inmediate_booking as OwnInmediateBooking,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
@@ -1905,6 +1902,7 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_1 as owner1,
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
+                        o.own_inmediate_booking as OwnInmediateBooking,
                         (select min(op.pho_name) from mycpBundle:photo op where op.pho_id = o.own_owner_photo) as ownerPhotoName,
                         (SELECT min(os.status_id) FROM mycpBundle:ownershipStatus os where o.own_status = os.status_id) as status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
@@ -1943,6 +1941,25 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $ranking = $this->getRankingFormula($ownership);
         $ownership->setOwnRanking($ranking);
+        $ownership->setOwnLastUpdate(new \DateTime());
+        $em->persist($ownership);
+        $em->flush();
+    }
+
+
+    public function updateRating($ownership) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("SUM(if(com.com_rate >= 3, 1, 0)) as comments")
+            ->addSelect("ROUND(AVG(com.com_rate)) as rating")
+            ->from("mycpBundle:comment", "com")
+            ->where("com.com_public = 1")
+            ->andWhere("com.com_ownership = :own_id")
+            ->setParameter("own_id", $ownership->getOwnId());
+
+        $results = $qb->getQuery()->getOneOrNullResult();
+        $ownership->setOwnRating($results["rating"]);
+        $ownership->setOwnCommentsTotal($results["comments"]);
         $ownership->setOwnLastUpdate(new \DateTime());
         $em->persist($ownership);
         $em->flush();

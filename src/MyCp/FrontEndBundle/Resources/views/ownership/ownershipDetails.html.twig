@@ -57,7 +57,7 @@
                 </div>
                 {% if ownership.award %}
                 <div class="col-lg-1">
-                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;"/>
+                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;" alt="{{"Upload" | trans}}"/>
                 </div>
                 {% endif %}
             </div>
@@ -278,7 +278,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services cofee-icon"> {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services cofee-icon" alt="Service" /> {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right">
                                                         <b>
@@ -294,7 +294,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services food-icon"> {{ "DINNER_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services food-icon" alt="Pixel" /> {{ "DINNER_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>
                                                             {% if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0 %}
@@ -312,7 +312,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services parking-icon"> {{ "PARKING_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services parking-icon" alt="Service" /> {{ "PARKING_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right">
                                                         <b>
@@ -331,7 +331,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services bicicle-icon"> {{ "BIKE_PARKING_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services bicicle-icon" alt="Pixel" /> {{ "BIKE_PARKING_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -342,7 +342,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services pet-icon"> {{ "PETS_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services pet-icon" alt="Service" /> {{ "PETS_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -353,7 +353,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services laund-icon"> {{ "LAUNDRY_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services laund-icon" alt="Service" /> {{ "LAUNDRY_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -364,7 +364,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services inet-icon"> {{ "INTERNET_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services inet-icon" alt="Service" /> {{ "INTERNET_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -375,7 +375,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services jacuzee-icon"> {{ "JACUZEE_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services jacuzee-icon" alt="Service" /> {{ "JACUZEE_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -386,7 +386,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services sauna-icon"> {{ "SAUNA_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services sauna-icon" alt="Service" /> {{ "SAUNA_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -397,7 +397,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                class="icon-services pool-icon"> {{ "POOL_TAB_DESCRIPTION" | trans }}
+                                                                class="icon-services pool-icon" alt="Service" /> {{ "POOL_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -431,7 +431,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services bed-icon"> {{ "BEDS_ROOMS" | trans }}
+                                                                        class="icon-services bed-icon" alt="Service" /> {{ "BEDS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6"><b>{{ room.roomBeds }}</b></div>
@@ -441,7 +441,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services win-icon"> {{ "WINDOWS_ROOMS" | trans }}
+                                                                        class="icon-services win-icon" alt="Service" /> {{ "WINDOWS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -457,7 +457,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services clima-icon"> {{ "CLIMATIZATION_ROOMS" | trans }}
+                                                                        class="icon-services clima-icon" alt="Service" /> {{ "CLIMATIZATION_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6"><b>{{ room.roomClimate | trans }}</b>
@@ -468,7 +468,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services bal-icon"> {{ "BALCONY_ROOMS" | trans }}
+                                                                        class="icon-services bal-icon" alt="Service" /> {{ "BALCONY_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -484,7 +484,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services media-icon"> {{ "AUDIOVISUALS_ROOMS" | trans }}
+                                                                        class="icon-services media-icon" alt="Service" /> {{ "AUDIOVISUALS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -496,7 +496,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services terr-icon"> {{ "TERRACE_ROOMS" | trans }}
+                                                                        class="icon-services terr-icon" alt="Service" /> {{ "TERRACE_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -512,7 +512,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services ba-icon"> {{ "BATHROOM_ROOMS" | trans }}
+                                                                        class="icon-services ba-icon" alt="Service" /> {{ "BATHROOM_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -524,7 +524,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services gard-icon"> {{ "YARD_ROOMS" | trans }}
+                                                                        class="icon-services gard-icon" alt="Icon" /> {{ "YARD_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -540,7 +540,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services smok-icon"> {{ "SMOKER_ROOMS" | trans }}
+                                                                        class="icon-services smok-icon" alt="Icon" /> {{ "SMOKER_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -552,7 +552,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services est-icon"> {{ "STEREO_ROOMS" | trans }}
+                                                                        class="icon-services est-icon" alt="Icon" /> {{ "STEREO_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -568,7 +568,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services box-icon"> {{ "SAFE_ROOMS" | trans }}
+                                                                        class="icon-services box-icon" alt="Icon" /> {{ "SAFE_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -580,7 +580,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                                        class="icon-services kids-icon"> {{ "KIDS_ROOMS" | trans }}
+                                                                        class="icon-services kids-icon" alt="Icon" /> {{ "KIDS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -623,7 +623,7 @@
                             {{ "SEND_COMMENT_DETAILS" | trans }}
                         </button>
                         <div id="loading" class="alert alert-info hidden">
-                            <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>
+                            <img src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/>
                         </div>
                         <div id="message_text" class="hidden"
                              ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>
@@ -644,24 +644,50 @@
                         {% if ownership.category == "Premium" %}
                             <img rel="tooltip" title="{{ ownership.category | trans }}"
                                  class="icon icon-3 tiny-premium-icon"
-                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="Pixel" />
                         {% else %}
                             {% if (ownership.category | lower) == ("Rango Medio" | lower) %}
                                 <img rel="tooltip" title="{{ ownership.category | trans }}"
                                      class="icon icon-3 tiny-middle-icon"
-                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="Pixel" />
                             {% else %}
                                 <img rel="tooltip" title="{{ ownership.category | trans }}"
                                      class="icon icon-3 tiny-economic-icon"
-                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="Pixel" >
                             {% endif %}
                         {% endif %}
                         {{ "CATEGORY_TAB_DESCRIPTION" | trans }}: {{ ownership.category | trans }}
                     </li>
-                    <li class="lead">
+                    <li class="lead"  {% if ownership['OwnInmediateBooking'] %}style="padding: 0; font-size: 18px; border: none;"{% endif %}>
+                        {% if ownership['OwnInmediateBooking'] %}
+                            <div class="row">
+                                <div class="col-md-12">
+                        <div class="col-md-5">
+                            <style>
+                                /*@media (min-width: 1016px) {*/
+                                    /*.icon-padding {*/
+                                        /*margin-left: -20px;*/
+                                        /*margin-bottom: -20px;*/
+                                    /*}*/
+                                /*}*/
+                            </style>
+                            <div class="row" style="background-color: #e94b3d;padding: 10px 0px;">
+
+                           <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+                        </div>
+                        <div class="col-md-7">
+                            <h2 class="no-margin" style="margin-top: 3px;">
+                                <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> {{ ownership.ownminimumprice | price }}
+                            </h2>
+                        </div>
+                                </div>
+                            </div>
+                            {% else %}
                         <h1 class="no-margin">
                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> {{ ownership.ownminimumprice | price }}
                         </h1>
+                            {% endif %}
+
                     </li>
                     <li class="lead-2">
                         {{ "ARRIVAL_RESERVATION" | trans }}<br/>
@@ -715,7 +741,7 @@
                     <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left"
                             onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property');
                                     $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ ownership.own_id }}');">
-                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon icon-mail"/>
+                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon icon-mail" alt="{{"Pixel" | trans}}"/>
                         {{ "TELL_A_FRIEND" | trans }}
                     </button>
                 </a>
@@ -723,7 +749,7 @@
                 <div>
                     <a class="click" onclick="facebookPopup();">
                         <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left">
-                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-facebook"/>
+                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-facebook" alt="{{"Facebook" | trans}}"/>
                             {{ "SHARE_FACEBOOK" | trans }}
                         </button>
                     </a>
@@ -788,16 +814,6 @@
             var own_id = "{{ownership.own_id}}";
             var today_date = "{{"now"|date("d/m/Y") }}";
         </script>
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
-        filter='?uglifyjs2' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
         <script type="text/javascript">
 
             var cont_array_dates
@@ -919,9 +935,6 @@
         <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
         {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-        '@FrontEndBundle/Resources/public/js/ownership.min.js'
         '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
         filter='?uglifyjs2' %}
         <script src="{{ asset_url }}"></script>

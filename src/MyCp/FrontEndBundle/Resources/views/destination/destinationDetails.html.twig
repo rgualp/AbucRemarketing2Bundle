@@ -150,7 +150,7 @@
             }) }}
         <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
             <button style="margin-top: 15px" class="btn btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
-                <img src="{{ asset('bundles/frontend/img/main_to_friend.gif') }}">{{"TELL_A_FRIEND" | trans}}
+                <img src="{{ asset('bundles/frontend/img/main_to_friend.gif') }}" alt="{{"TELL_A_FRIEND" | trans}}">{{"TELL_A_FRIEND" | trans}}
             </button>
         </a>
         </div>
@@ -159,7 +159,7 @@
             {%if owns_nearby | length%}
             <div id="loading" class="hidden">
                 <div class="layer-loading"></div>
-                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
             </div>
             <div class="bg-solid-blue-bar" style="margin-top: 0">
                 <div class="row">
@@ -171,8 +171,8 @@
                     <div class="col-xs-4 text-right">
 
                         {#<a id="change_view_to_list" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>#}
-                        <a id="change_view_to_photo" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
-                        <a id="change_view_to_map" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
+                        <a id="change_view_to_photo" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon" alt="{{"Pixel" | trans}}"></a>
+                        <a id="change_view_to_map" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon" alt="{{"Pixel" | trans}}"></a>
 
                     </div>
                 </div>
@@ -218,16 +218,6 @@
     });
 </script>
 <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-    {% javascripts
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
-    '@FrontEndBundle/Resources/public/js/destinations.min.js'
-    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({

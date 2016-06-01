@@ -366,8 +366,8 @@ function destination_map()
 
     $('.icon-destination').click(function(){
         btn_cat=$(this);
-        category=btn_cat.attr('data');
-        if(btn_cat.attr('focus')==1)
+        category=btn_cat.attr('data-catid');
+        if(btn_cat.attr('data-focus')==1)
         {
 
             for(a=0; a < poly_signal_category.length;a++)
@@ -379,7 +379,7 @@ function destination_map()
             }
 
             clear_signals('aa');
-            btn_cat.attr('focus',0);
+            btn_cat.attr('data-focus',0);
         }
         else
         {
@@ -404,7 +404,7 @@ function destination_map()
                 }
             }
 
-            btn_cat.attr('focus',1);
+            btn_cat.attr('data-focus',1);
         }
 
         bg=btn_cat.css('backgroundPosition');
@@ -673,7 +673,7 @@ function map_destination_by_province()
             {
                 name = destinations_names[array_signals_show[cont]];
                 name = name.toLowerCase();
-                name = name.split(' ').join('_');
+                name = name.split(' ').join('-');
                 window.location = link_destination + '/' + name;
             }
 

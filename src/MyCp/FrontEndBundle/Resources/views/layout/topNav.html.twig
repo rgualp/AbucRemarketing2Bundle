@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-sm-7" style="display: table">
             <ul class="nav nav-pills">
-                <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
+                <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                 <li><a class="count-info" title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}">
-                        <img  style="width: 26px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/big-heart.gif')}}"/> {{"FAVORITIES" | trans }}
+                        <img  style="width: 26px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/big-heart.gif')}}" alt="{{"Heart" | trans}}"/> {{"FAVORITIES" | trans }}
                         <span style="height: 15px;width: 20px;margin-left: -15px;" class="label" id="count-fav"> {{ count_fav }} </span>
                     </a></li>
                 <li>
@@ -34,7 +34,7 @@
                 </li>#}
                 {#<li class="nav-divider pull-right">&nbsp;</li>#}
                 <li class="dropdown pull-right">
-                    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
                         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
                         {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
@@ -42,13 +42,14 @@
                 </li>
                 {#<li class="nav-divider pull-right">&nbsp;</li>#}
                 <li class="dropdown pull-right">
-                    <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                    <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
                         {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
                         {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
                     </ul>
                 </li>
                 {#<li class="nav-divider pull-right">&nbsp;</li>#}
+            </ul>
         </div>
     </div>
 </div>

@@ -6,16 +6,19 @@
                 <h4 class="carousel-title"></h4>
                 <div class="carousel-inner">
                     {% set flag_item = 0 %}
-                        {% for i in 1..((list|length)/4 > 1 ? (list|length)/4 : 1)%}
+                    {% set decimalPart = ((list|length)/4) - ((list|length)%4) %}
+                    {% set decimalPart = (decimalPart != 0) ? 1 : 0 %}
+                    {% set pages = ((list|length)%4) + decimalPart %}
+                        {% for i in 1..pages%}
                         <div class="item {% if i == 1 %}active{% endif %}">                            
                             {% for e in 1..4%}
                             {% if list[flag_item] is defined %}
                             <div class="row">
                             <div class="col-xs-6">
                                 <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
-                                    <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width"/>
-                                <!--img data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width lazy" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                                <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/' ~ list[flag_item].photo)}}"></noscript-->
+                                    <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width" alt="{{"Thumbnails" | trans}}"/>
+                                <!--img data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width lazy" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                                <noscript><img class="nolazy" src="{{ asset('uploads/destinationImages/thumbnails/' ~ list[flag_item].photo)}}"></noscript-->
                                 </a>
                             </div>
                             <div class="col-xs-6"><b>

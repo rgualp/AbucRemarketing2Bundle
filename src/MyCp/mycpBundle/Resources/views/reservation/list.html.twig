@@ -190,7 +190,12 @@
                         {#<a href="{{ reservation.user_email }}">{{ reservation.user_email }}</a>#}
                     </td>
                     <td>{{reservation.gen_res_id | getCASId}}</td>
-                    <td>{{reservation.own_mcp_code}}</td>
+                    <td>
+                        {{reservation.own_mcp_code}}
+                        {% if reservation.own_inmediate_booking %}
+                            <i class="glyphicons electricity" title="Reserva Rápida"></i>
+                        {% endif %}
+                    </td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
                     <td>{{reservation[7]|date("d/m/Y")}}</td>

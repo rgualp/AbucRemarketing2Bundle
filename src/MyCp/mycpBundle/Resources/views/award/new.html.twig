@@ -45,10 +45,10 @@
 {% if edit_award is defined %}<input style="display: none;" name="edit_award" value="{{edit_award}}"> {% endif %}
     <div >
     {% if edit_award is defined and award.iconOrClassName %}
-        <img src="{{ asset("uploads/awards/") ~ award.iconOrClassName }}" style="vertical-align: bottom; border: 0;"/>
+        <img src="{{ asset("uploads/awards/") ~ award.iconOrClassName }}" style="vertical-align: bottom; border: 0;" alt="{{"Awards" | trans}}"/>
     {% endif %}
     {% if edit_award is defined and award.secondIconOrClassName %}
-        <img src="{{ asset("uploads/awards/") ~ award.secondIconOrClassName }}" style="vertical-align: bottom; border: 0;"/>
+        <img src="{{ asset("uploads/awards/") ~ award.secondIconOrClassName }}" style="vertical-align: bottom; border: 0;" alt="{{"Awards" | trans}}"/>
     {% endif %}
     </div>
     {{form_widget(form)}}

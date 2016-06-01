@@ -79,7 +79,7 @@
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                 </select>
             </td>
-            <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}"/></td>
+            <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}" alt="{{"Pixel" | trans}}"/></td>
             <td id="childrenAge1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                 <select
                         id="combo_kidsage_1_{{room.getRoomId}}"
@@ -104,7 +104,7 @@
                     <option value="12">12</option>
                 </select>
             </td>
-            <td id="childrenImg2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}"/></td>
+            <td id="childrenImg2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}" alt="{{"Pixel" | trans}}"/></td>
                 <td id="childrenAge2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                     <select
                             id="combo_kidsage_2_{{room.getRoomId}}"
@@ -128,7 +128,7 @@
                         <option value="12">12</option>
                     </select>
                 </td>
-            <td  id="childrenImg3_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}"/></td>
+            <td  id="childrenImg3_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}" alt="{{"Children" | trans}}"/></td>
             <td id="childrenAge3_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                 <select
                         id="combo_kidsage_3_{{room.getRoomId}}"
@@ -165,7 +165,7 @@
 </table>
 <input type="hidden" id="totalNights" value="{{ nights}}"/>
 <div style="text-align: right">
-    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"/>
+    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
 </div>
 <script type="text/javascript">
     var cont_array_dates={{ array_dates | length}};

@@ -171,3 +171,7 @@ mycp_change_password_user:
 mycp_backend_award:
     resource: "@mycpBundle/Resources/config/routingBackendAward.yml"
     prefix:   backend/awards/
+
+mycp_get_accommodations_by_destination:
+    pattern:  /get_accommodations_by_destination/{destinationId}
+    defaults: { _controller: mycpBundle:Public:getAccommodationsByDestinationCallback,selected:null}

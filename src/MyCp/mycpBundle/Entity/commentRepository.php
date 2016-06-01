@@ -215,6 +215,7 @@ class commentRepository extends EntityRepository {
 
             $ownership = $comment->getComOwnership();
             $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
+            $em->getRepository("mycpBundle:ownership")->updateRating($ownership);
         }
 
     }
@@ -225,6 +226,10 @@ class commentRepository extends EntityRepository {
             $comment = $em->getRepository('mycpBundle:comment')->find($com_id);
             $em->remove($comment);
             $em->flush();
+
+            $ownership = $comment->getComOwnership();
+            $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
+            $em->getRepository("mycpBundle:ownership")->updateRating($ownership);
         }
     }
 

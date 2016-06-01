@@ -303,7 +303,7 @@ class destinationRepository extends EntityRepository {
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
                          (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id) as count_ownership,
-                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_destination = d.des_id) as min_price
+                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_destination = d.des_id and o1.own_minimum_price is not null and o1.own_minimum_price > 0) as min_price
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
@@ -534,6 +534,7 @@ class destinationRepository extends EntityRepository {
                              o.own_rating as rating,
                              o.own_category as category,
                              o.own_type as type,
+                             o.own_inmediate_booking as OwnInmediateBooking,
                              o.own_minimum_price as minimum_price,
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
@@ -665,12 +666,8 @@ class destinationRepository extends EntityRepository {
                              d.des_name,
                              d.des_name as des_name_for_url,
                              prov.prov_name,
-                             (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
-                            JOIN dp.des_pho_photo pho
-                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
-                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
-                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                             (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_address_province = prov.prov_id) as min_price
+                             (select min(ph.pho_name) from mycpBundle:destinationPhoto dp join dp.des_pho_photo ph where dp.des_pho_destination = d.des_id order by ph.pho_order) as photo,
+                             (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_destination = d.des_id AND o1.own_minimum_price is not null and o1.own_minimum_price > 0 and o1.own_status = :activeStatus) as min_price
                              FROM mycpBundle:destinationLocation dloc
                              JOIN dloc.des_loc_province prov
                              JOIN dloc.des_loc_destination d
@@ -680,12 +677,15 @@ class destinationRepository extends EntityRepository {
 
         //$query_string = $query_string . " ORDER BY o.own_rating DESC";
 
-        $results = $em->createQuery($query_string)->setParameter('province_name', "%" . $province_name . "%")->getResult();
+        $results = $em->createQuery($query_string)
+            ->setParameter('province_name', "%" . $province_name . "%")
+            ->setParameter("activeStatus", ownershipStatus::STATUS_ACTIVE)
+            ->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
 

@@ -2995,11 +2995,11 @@
             </trans-unit>
              <trans-unit id="758">
                 <source>NEWSLETTER_HEAD_1</source>
-                <target>¡No se le puede olvidar!</target>
+                <target>¡Imprescindibles!</target>
             </trans-unit>
             <trans-unit id="759">
                 <source>NEWSLETTER_PARR_1</source>
-                <target>En primer orden, asegúrese de preparar sus documentos de viaje, su cámara y su traje de baño.</target>
+                <target>No pueden faltar en el equipaje los documentos de viaje, una cámara y su traje de baño.</target>
             </trans-unit>
             <trans-unit id="760">
                 <source>NEWSLETTER_SUBHEAD_1</source>
@@ -3071,7 +3071,7 @@
                 </trans-unit>
               <trans-unit id="777">
                 <source>NEWSLETTER_LINK_TEXT1</source>
-                <target>Los destinos más populares de Cuba</target>
+                <target>Decídase por otros destinos</target>
                 </trans-unit>
               <trans-unit id="778">
                 <source>NEWSLETTER_LINK_BTN1</source>
@@ -3739,7 +3739,7 @@
                         </trans-unit>
                  <trans-unit id="944">
                             <source>MYCASA_RENTA_PARR3</source>
-                            <target>   Para comenzar a utilizar MyCasa Renta necesitará activar su cuenta de acceso. Las instrucciones para la activación le han sido enviadas por nuestro equipo vía correo electrónico. Si usted no ha recibido aún esta información especifcándole los detalles de la creación de su cuenta de acceso, puede solicitarla a través de info@mycasaparticular.com.</target>
+                            <target>   Para comenzar a utilizar MyCasa Renta necesitará activar su cuenta de acceso. Las instrucciones para la activación le han sido enviadas por nuestro equipo vía correo electrónico. Si usted no ha recibido aún esta información especificándole los detalles de la creación de su cuenta de acceso, puede solicitarla a través de info@mycasaparticular.com.</target>
                         </trans-unit>
                 <trans-unit id="945">
                             <source>MYCASA_RENTA_PARR4</source>
@@ -3780,6 +3780,47 @@
                                                       <source>FOOTER_EMAIL1_SUBTEXT</source>
                                                       <target><![CDATA[MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
                                                   </trans-unit>
+                             <trans-unit id="953">
+                                                      <source>quick_bookinhg</source>
+                                                      <target>Reserva Rápida</target>
+                                                  </trans-unit>
+                                     <trans-unit id="954">
+                                                      <source>quick_booking_tooltip</source>
+                                                      <target>El propietario de esta vivienda contestará a tu solicitud de disponibilidad en el menor tiempo posible.</target>
+                                                  </trans-unit>
+             <trans-unit id="955">
+                 <source>VOUCHER_CONSULT_TEXT</source>
+                 <target>Consulte los datos de sus reservas</target>
+                 </trans-unit>
+              <trans-unit id="956">
+                 <source>VOUCHER_MOVIL_TEXT</source>
+                 <target>Ahora también disponible en su dispositivo móvil.</target>
+                 </trans-unit>
+                 <trans-unit id="957">
+                 <source>VOUCHER_MOVIL_TEXT1</source>
+                 <target>¡Es gratis!</target>
+                 </trans-unit>
+                 <trans-unit id="958">
+                 <source>VOUCHER_ON_SITE</source>
+                 <target>Ver en el sitio</target>
+                 </trans-unit>
+                 <trans-unit id="959">
+                 <source>VOUCHER_HEADER_OWNS</source>
+                 <target>Casas particulares en todos los rincones de la Isla</target>
+                 </trans-unit>
+                  <trans-unit id="960">
+                 <source>VOUCHER_MYCM_HEAD</source>
+                 <target>Su viaje toma rumbo con nosotros,</target>
+                 </trans-unit>
+                 <trans-unit id="961">
+                 <source>VOUCHER_MYCM_HEAD1</source>
+                 <target>por</target>
+                 </trans-unit>
+                 <trans-unit id="962">
+                 <source>VOUCHER_CUCOU_HEAD</source>
+                 <target>Alojarse es solo el comienzo. Hacemos de su viaje una experiencia única.</target>
+                 </trans-unit>
+
         </body>
     </file>
 </xliff>

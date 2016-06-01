@@ -138,6 +138,7 @@ function change_category(category)
     }, function(data) {
         result.html(data);
         $("[rel='tooltip']").tooltip();
+        $("[data-rel='tooltip']").tooltip();
         start();
         hide_loading();
     });
@@ -154,6 +155,7 @@ function visualize_rows(show_rows)
     }, function(data) {
         result.html(data);
         $("[rel='tooltip']").tooltip();
+        $("[data-rel='tooltip']").tooltip();
         start();
         hide_loading();
     });
@@ -472,7 +474,7 @@ function research()
             if (control_id =='#priceFilter')
                 $(control_id).val('');
             else if (control_id !== "")
-                $(this).getElementById(control_id).checked = false;
+                $("#"+control_id).removeAttr("checked");
 
             if (control_name != "" && item_value != ""&& control_name != "own_category")
             {
@@ -507,6 +509,7 @@ function load_upper_filters()
     var others_languages_items = [];
     var others_included_items = [];
     var own_awards = [];
+    var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
     var others_not_included_items = [];
     var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
     var order_comments='';
@@ -722,6 +725,12 @@ function load_upper_filters()
         $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_internet' data-control-id='room_others_internet' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_internet").parent().text() + "</a> ");
     }
 
+    if (own_inmediate_booking && document.getElementById("fu_own_inmediate_booking") == null)
+    {
+        innerHtml = $("#filter_upper").html();
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
+    }
+
     $(".filter_upper_item").click(function() {
         filter_upper($(this));
     });
@@ -733,6 +742,7 @@ function load_upper_filters()
         //"own_reservation_type": (own_reservation_type != null && own_reservation_type != "" && own_reservation_type != "-1" && own_reservation_type != -1) ? own_reservation_type : null,
         "own_category": (own_category_items.length > 0) ? own_category_items : null,
         "own_award": (own_awards.length > 0) ? own_awards: null,
+        "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
         "own_type": (own_type_items.length > 0) ? own_type_items : null,
         "own_price": (own_price_items.length > 0) ? own_price_items : null,
         "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
@@ -858,6 +868,9 @@ function refresh_filters_statistics(checked_filters)
 
         if (document.getElementById('room_airconditioner') != null)
             document.getElementById('room_airconditioner').checked = checked_filters['room_airconditioner'];
+
+        if (document.getElementById('own_inmediate_booking') != null)
+            document.getElementById('own_inmediate_booking').checked = checked_filters['own_inmediate_booking'];
 
         if (document.getElementById('room_audiovisuals') != null)
             document.getElementById('room_audiovisuals').checked = checked_filters['room_audiovisuals'];

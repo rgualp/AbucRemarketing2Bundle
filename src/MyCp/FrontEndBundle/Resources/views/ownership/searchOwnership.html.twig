@@ -42,7 +42,7 @@
             <div class="col-sm-9">
                 <div id="loading" class="hidden">
                     <div class="layer-loading"></div>
-                    <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+                    <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
                 </div>
                 <div id="filter_upper">
                     {%if check_filters is defined and check_filters | length%}
@@ -57,9 +57,9 @@
                             </select>
                         </div>
                         <div class="col-xs-7 text-right">
-                            <a href="#" id="change_view_to_list" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
-                            <a href="#" id="change_view_to_photo" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
-                            <a href="#" id="change_view_to_map" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
+                            <a href="#" id="change_view_to_list" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon" alt="{{"Pixel" | trans}}"/></a>
+                            <a href="#" id="change_view_to_photo" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon" alt="{{"Pixel" | trans}}"/></a>
+                            <a href="#" id="change_view_to_map" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon" alt="{{"Pixel" | trans}}"/></a>
                         </div>
                     </div>
                 </div>
@@ -91,16 +91,4 @@
             </div>
         </div>
     </div>
-    {% block include_javascripts %}
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
-        '@FrontEndBundle/Resources/public/js/ownership.min.js'
-        filter='?uglifyjs2'
-        %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-    {% endblock %}
 {% endblock %}
