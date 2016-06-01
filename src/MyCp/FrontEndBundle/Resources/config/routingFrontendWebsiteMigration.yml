@@ -4,11 +4,11 @@ frontend_website_migration_homepage:
   requirements:
       locale:  en|es|ge
 
-frontend_website_migration_homepage_language:
-  pattern: /{locale}/
-  defaults: { _controller: FrontEndBundle:WebsiteMigration:permanentRedirect, redirectTo: frontend_welcome}
-  requirements:
-      locale:  en|es|ge
+#frontend_website_migration_homepage_language:
+#  pattern: /{locale}/
+#  defaults: { _controller: FrontEndBundle:WebsiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+#  requirements:
+#      locale:  en|es|ge
 
 frontend_website_migration_accommdation_details:
   pattern: /{locale}/propiedad/detalle.php{something}
