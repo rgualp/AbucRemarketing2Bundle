@@ -52,6 +52,7 @@ var ImgAccount = function () {
             var blob = ImgAccount.dataURItoBlob(base64String);
             var fd = new FormData();
             // Get instance object XMLHttpRequest
+            var xmlhttp='';
             if (window.XMLHttpRequest) {
                 xmlhttp = new XMLHttpRequest();
             }
@@ -66,7 +67,11 @@ var ImgAccount = function () {
             xmlhttp.open('POST',  form.attr('action'), true);
             xmlhttp.send(fd);
             //Prepare response
-            xmlhttp.onreadystatechange = ImgAccount.showResponse();
+            xmlhttp.onreadystatechange = function(){
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ImgAccount.showResponse(JSON.parse(xmlhttp.responseText));
+                }
+            };
             $('#myModal').modal('hide');
         });
         $('#myModal').on('hide.bs.modal', function (event) {
@@ -99,10 +104,7 @@ var ImgAccount = function () {
                     if(!data.result.success)
                         return false;
                     else{
-                        var aux = data.files[0].type;
-                        var ext = aux.split('/');
-                        //$(".user-avatar").attr("src", '/uploads/archivos/' + '{{ app.user.id }}' + '.' + ext[1] + '?timestamp=' + new Date().getTime());
-                        //$(".user-image").css("background", 'url(/uploads/archivos/' + '{{ app.user.id }}' + '.' + ext[1] + '?timestamp=' + new Date().getTime() + ')' + ' transparent no-repeat scroll center center / cover');
+                        ImgAccount.showResponse(data.result);
                     }
 
                 }
@@ -130,7 +132,9 @@ var ImgAccount = function () {
             var bb = new Blob([ab], {"type": mimeString});
             return bb;
         },
-        showResponse:function(){}
+        showResponse:function(obj){
+            $(".dashboard-avatar").attr("src", '/uploads/userImages/' + obj.dir + '?timestamp=' + new Date().getTime());
+        }
     };
 }();
 //Start ImgAccount
