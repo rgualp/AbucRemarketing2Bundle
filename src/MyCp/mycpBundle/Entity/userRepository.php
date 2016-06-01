@@ -333,8 +333,7 @@ class userRepository extends EntityRepository {
     public function getUsersInfoStaff()
     {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT u FROM mycpBundle:user u
-        WHERE u.user_role LIKE '%ROLE_CLIENT_INFO_STAFF%' AND (u.locked is NULL or u.locked = 0) order by u.user_user_name ASC");
+        $query = $em->createQuery("SELECT u FROM mycpBundle:user u JOIN u.user_subrole sr WHERE sr.role_name = 'ROLE_CLIENT_IP_STAFF' ORDER BY u.user_user_name");
         return $query->getResult();
     }
 
