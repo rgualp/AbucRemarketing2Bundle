@@ -330,6 +330,14 @@ class userRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    public function getUsersInfoStaff()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u FROM mycpBundle:user u
+        WHERE u.user_role = 'ROLE_CLIENT_INFO_STAFF' AND (u.locked is NULL or u.locked = 0) order by u.user_user_name ASC");
+        return $query->getResult();
+    }
+
     public function getUserBackendByEmailAndUserName($email, $userName)
     {
         $em = $this->getEntityManager();

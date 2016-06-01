@@ -49,7 +49,7 @@ class BackendUserStaffManagerController extends Controller {
         }
         else{
             $userArr = array();
-            $users=$em->getRepository('mycpBundle:user')->getUsersStaff();
+            $users=$em->getRepository('mycpBundle:user')->getUsersInfoStaff();
             foreach($users as $key=>$value){
                 $userArr[$value->getUserId()] = $value->getUserUserName().' ('. $value->getName().')';
             }
