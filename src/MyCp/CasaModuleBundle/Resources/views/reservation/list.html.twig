@@ -144,7 +144,7 @@
                                             {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                                         </td>
                                         <td style="text-align: right">
-                                            <a class="green-link detail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
+                                            <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
                                         </td>
                                     </tr>
                                     {% set flag = flag + 1%}
