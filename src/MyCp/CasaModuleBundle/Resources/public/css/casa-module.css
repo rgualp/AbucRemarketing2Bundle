@@ -665,3 +665,5 @@ a.green-link{
 .bold{font-weight: bold;}
 .closeDetails{margin:5px}
 .closeDetails:hover{cursor: pointer;}
+.label-important,.badge-important{background-color:#b94a48; color: #fff;}
+.label-important[href],.badge-important[href]{background-color:#953b39; color: #fff;}

@@ -100,31 +100,31 @@
             <table class="table table-casa" style="margin-top: 10px">
                 <tr>
                     <td style="border:none">Habitaciones</td>
-                    <td style="border:none">{{ total_rooms }}</td>
+                    <td style="border:none">{{ (total_rooms) ? total_rooms : " - " }}</td>
                 </tr>
                 <tr>
                     <td>Total de adultos</td>
-                    <td>{{ total_adults }}</td>
+                    <td>{{ (total_adults) ? total_adults : " - "  }}</td>
                 </tr>
                 <tr>
                     <td>Total de niños</td>
-                    <td>{{ total_kids }}</td>
+                    <td>{{ (total_kids) ? total_kids : " - " }}</td>
                 </tr>
                 <tr>
                     <td>Noches</td>
-                    <td>{{ total_nights }}</td>
+                    <td>{{ (total_nights) ? total_nights : " - " }}</td>
                 </tr>
                 <tr>
                     <td>Precio Total</td>
-                    <td>{{ total_price }} CUC</td>
+                    <td>{{ (total_price) ? total_price ~ " CUC"   : " - " }}</td>
                 </tr>
                 <tr>
                     <td>Comisión MyCP</td>
-                    <td>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) | number_format(2) }} CUC</td>
+                    <td>{{ (total_price) ? (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) | number_format(2)  ~ " CUC"   : " - " }}</td>
                 </tr>
                 <tr>
                     <td class="bold">Pago en casa</td>
-                    <td class="bold">{{ (total_price * ( 1 - reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)) | number_format(2) }} CUC</td>
+                    <td class="bold">{{ (total_price) ? (total_price * ( 1 - reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100))  ~ " CUC" | number_format(2)   : " - " }}</td>
                 </tr>
                 </table>
             </div>

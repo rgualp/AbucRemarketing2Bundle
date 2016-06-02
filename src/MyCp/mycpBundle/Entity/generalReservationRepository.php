@@ -166,7 +166,7 @@ class generalReservationRepository extends EntityRepository {
             $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_to_date <= '$filter_date_to'";
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null")
-            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_date >= '$filter_date_reserve'";
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_date = '$filter_date_reserve'";
 
         if($filter_reference != "" && $filter_reference != "null")
             $where .= (($where != "") ? " AND ": " WHERE "). " own.own_mcp_code LIKE '%$filter_reference%'";
@@ -187,6 +187,7 @@ class generalReservationRepository extends EntityRepository {
         }
 
         $queryStr = $queryStr. $where . $string_order;
+
         $query = $em->createQuery($queryStr);
 
         return ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();

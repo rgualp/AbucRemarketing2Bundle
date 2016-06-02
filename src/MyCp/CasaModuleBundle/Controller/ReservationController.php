@@ -27,6 +27,10 @@ class ReservationController extends Controller
         $price = 0;
         $sort_by = $request->get('sort_by');
 
+        $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+        $filter_date_from = str_replace('_', '/', $filter_date_from);
+        $filter_date_to = str_replace('_', '/', $filter_date_to);
+
         if ($filter_date_reserve == 'null')
             $filter_date_reserve = '';
         if ($filter_offer_number == 'null')
