@@ -601,7 +601,29 @@ ol > li::before {
 .picture-link{
     color: #adadad;
 }
+.circle {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+}
 
+.circle-warning {
+    background-color: #f36b25 !important;
+}
+.circle-danger {
+    background-color: #e94b3d !important;
+}
+.circle-info {
+    background-color: #2191d2 !important;
+}
+/**full calendar **/
+.fc-day-number {
+    font-size: 18px;
+    padding-right: 5px !important;
+}
+.fc-day-header{
+    text-transform: uppercase;
+}
 /*.picture-link-m:hover, .picture-link:hover {*/
     /*box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);*/
 /*}*/
