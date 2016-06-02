@@ -632,3 +632,14 @@ a.green-link{
 .table-casa  > thead > tr > th {
     border-bottom: 1px solid #C2C2C2;
 }
+
+.img-grey-border{border: 6px solid #c0c0c0;}
+.m-b-5{margin-bottom: 5px;}
+.m-t-5{margin-top: 5px;}
+.lighter-gray{background-color: #F4F4F4;}
+.p-40{padding: 40px;}
+.p-l-r-0{padding-right: 0px; padding-left: 0px;}
+.p-l-r-5{padding-right: 5px; padding-left: 5px;}
+.bold{font-weight: bold;}
+.closeDetails{margin:5px}
+.closeDetails:hover{cursor: pointer;}
