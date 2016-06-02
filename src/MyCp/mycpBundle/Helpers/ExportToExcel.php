@@ -443,7 +443,7 @@ class ExportToExcel extends Controller {
             $data[7] = $check["adults"] + $check["children"];
 
             //Noches
-            $data[8] = $check["nights"];
+            $data[8] = $check["nights"] / $check["rooms"];
 
             //Fecha de Pago
             $payDate = new \DateTime($check["payed"]);

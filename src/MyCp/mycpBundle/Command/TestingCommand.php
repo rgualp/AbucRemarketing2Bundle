@@ -27,9 +27,30 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $this->testingSMSNotifications($em, $output, $container);
+        $this->testingCheckingSMSNotifications($em, $output, $container);
 
         $output->writeln("End of testings");
+    }
+
+    private function testingCheckingSMSNotifications($em,OutputInterface $output, $container)
+    {
+        $notificationService = $container->get("mycp.notification.service");
+        $checkIns = $em->getRepository("mycpBundle:generalReservation")->getCheckins('04/04/2016');
+
+        $check = $checkIns[2];
+        $payAtService = $check["to_pay_at_service"] - $check["to_pay_at_service"] * $check["own_commission_percent"] / 100;
+        $reservationObj = array(
+            "mobile" => "52540669",
+            "nights" => $check["nights"] / $check["rooms"],
+            "smsNotification" => $check["own_sms_notifications"],
+            "touristCompleteName" => $check["user_user_name"]." ".$check["user_last_name"],
+            "payAtService" => number_format((float)$payAtService, 2, '.', ''),
+            "arrivalDate" => $check["own_res_reservation_from_date"]->format("d-m-Y"),
+            "casId" => "CAS.".$check["gen_res_id"],
+            "genResId" => $check["gen_res_id"]
+
+        );
+        $notificationService->sendCheckinSMSNotification($reservationObj, true);
     }
 
     private function testingSMSNotifications($em,OutputInterface $output, $container)

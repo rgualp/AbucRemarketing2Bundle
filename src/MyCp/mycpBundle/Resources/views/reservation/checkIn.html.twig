@@ -80,7 +80,7 @@
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Habitaciones:</b> {{check.rooms}}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Huéspedes:</b> {{check.adults+check.children}}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Pagado:</b> {{check.payed|date("d/m/Y")}}</td>
-                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Noches:</b> {{check.nights}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Noches:</b> {{check.nights / check.rooms}}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Pago en casa:</b> {{ check.to_pay_at_service - check.to_pay_at_service * check.own_commission_percent /100 | number_format(2, '.', '') }} CUC</td>
                             </tr>
                             <tr>
