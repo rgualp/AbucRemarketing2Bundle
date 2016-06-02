@@ -58,7 +58,7 @@ class CheckInCommand extends ContainerAwareCommand {
                 $payAtService = $check["to_pay_at_service"] - $check["to_pay_at_service"] * $check["own_commission_percent"] / 100;
                 $reservation = array(
                     "mobile" => $check["own_mobile_number"],
-                    "nights" => $check["nights"],
+                    "nights" => $check["nights"] / $check["rooms"],
                     "smsNotification" => $check["own_sms_notifications"],
                     "touristCompleteName" => $check["user_user_name"]." ".$check["user_last_name"],
                     "payAtService" => number_format((float)$payAtService, 2, '.', ''),
