@@ -31,6 +31,12 @@ body{
 .text-save{
     color:#a3a3a3;
 }
+.glyphicons span {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    margin-left: 7px;
+    font-weight: normal;
+}
 /*end: style wizard controle*/
 .tab-mcp{
     background: #ececec;
