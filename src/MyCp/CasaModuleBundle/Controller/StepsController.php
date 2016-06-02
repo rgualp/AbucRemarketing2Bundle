@@ -425,6 +425,7 @@ class StepsController extends Controller
         $em->flush();
         return new JsonResponse([
             'success' => true,
+            'dir'=>$fileName
         ]);
     }
 

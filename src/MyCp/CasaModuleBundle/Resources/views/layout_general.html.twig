@@ -51,14 +51,6 @@
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/signals/signals.js'
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-ui/jquery-ui.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/jquery.fileupload.min.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/App.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step1.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step2.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step3.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step4.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step5.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step6.js'
-        '@MyCpCasaModuleBundle/Resources/public/js/script/step7.js'
         '@MyCpCasaModuleBundle/Resources/public/js/script/img-account.js'
         filter='?uglifyjs2'
         %}
@@ -89,7 +81,7 @@
                             {% endblock profile %}
 
                             {% block menu %}
-                                {% include 'MyCpCasaModuleBundle:menu:register.html.twig' %}
+                                {% include 'MyCpCasaModuleBundle::menu.html.twig' %}
                             {% endblock menu %}
 
                         </ul>
