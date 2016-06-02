@@ -406,9 +406,9 @@ ol > li::before {
     box-shadow: 0 0 0 4px #377209;
 }
 .dashboard-picture{
-    margin-top: 30%;
     z-index: 999;
-    margin-left: 67px;
+    margin-left: 60px;
+    margin-top: 27%;
     position: absolute;
     display: none;
 }
