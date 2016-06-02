@@ -7,6 +7,7 @@ use MyCp\mycpBundle\Entity\ownershipPhoto;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReservationController extends Controller
 {
@@ -76,6 +77,37 @@ class ReservationController extends Controller
             'total_items' => $paginator->getTotalItems(),
         ));
 
+    }
+
+    public function detailAction(Request $request) {
+        $id_reservation = $request->get("idReservation");
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+
+        $service_time = $this->get('time');
+        $dates = $service_time->datesBetween($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
+
+
+        $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+        $array_nights = array();
+        $rooms = array();
+        foreach ($ownership_reservations as $res) {
+            $nights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            array_push($array_nights, $nights);
+        }
+
+        array_pop($dates);
+        $content = $this->renderView('MyCpCasaModuleBundle:reservation:detail.html.twig', array(
+            'reservation' => $reservation,
+            'user' => $user,
+            'reservations' => $ownership_reservations,
+            'rooms' => $rooms,
+            'nights' => $array_nights,
+            'id_reservation' => $id_reservation));
+
+        return new Response($content, 200);
     }
 
 }

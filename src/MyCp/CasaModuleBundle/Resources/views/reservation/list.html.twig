@@ -25,7 +25,6 @@
                     </div>
                         </div>
                     <div id="reservationDetail" class="hidden">
-                        <span class="font-blue step-span">Cargando...</span>
                     </div>
                     <div class="bg-gray m-t-20 col-md-12 font-black">
                         <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('my_casa_module_reservations')}}">
@@ -145,7 +144,7 @@
                                             {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                                         </td>
                                         <td style="text-align: right">
-                                            <a class="green-link" href="{{ path('mycp_details_readonly_reservation',{'id_reservation':reservation.gen_res_id}) }}">Detalles</a>
+                                            <a class="green-link detail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
                                         </td>
                                     </tr>
                                     {% set flag = flag + 1%}
@@ -215,6 +214,25 @@
             todayBtn: 'linked',
             language: 'es',
             autoclose: true
+        });
+
+        $(".detail").click(function(){
+            var url = "{{ path("my_casa_module_reservation_detail") }}";
+            var idReservation = $(this).data("reservation");
+            $("#reservationDetail").removeClass("hidden");
+
+            $("#reservationDetail").html('<span class="font-blue step-span">Cargando...</span>');
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                data:  {
+                    idReservation:idReservation
+                },
+                success: function (data) {
+                    $("#reservationDetail").html(data);
+                }
+            });
         });
 
         function submit_filters(ev)

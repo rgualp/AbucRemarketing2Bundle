@@ -31,3 +31,6 @@ my_casa_module_reservations:
     pattern:  /reservations/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_status}
     defaults: { _controller: MyCpCasaModuleBundle:Reservation:reservations,items_per_page:10,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',sort_by:0,filter_status:''}
 
+my_casa_module_reservation_detail:
+    pattern:  /reservations-detail
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:detail}
