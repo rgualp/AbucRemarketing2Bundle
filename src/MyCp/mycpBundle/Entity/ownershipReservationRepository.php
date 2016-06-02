@@ -392,6 +392,19 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :end");
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('roomId', $roomId)->getResult();
     }
+    function getReservationCancelledByRoom($roomId,$startParam, $endParam) {
+        $em = $this->getEntityManager();
+        $cancelledCode = ownershipReservation::STATUS_CANCELLED;
+        $query = $em->createQuery("SELECT ore.own_res_id, ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date, ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
+            FROM mycpBundle:ownershipReservation ore
+            JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
+            JOIN ore.own_res_gen_res_id gre
+            JOIN gre.gen_res_user_id user
+            JOIN gre.gen_res_own_id own
+            JOIN user.user_country coun
+        WHERE (ore.own_res_status = $cancelledCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :end");
+        return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('roomId', $roomId)->getResult();
+    }
 
     public function getAllReservations($olders, $date = null, $startIndex = 0, $maxResults = 500)
     {

@@ -29,7 +29,7 @@
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
                     {% else %}
                         {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
-                        <span class="font-blue step-span">{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}</span>
+                        <span class="font-blue step-span">{% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}{% else  %}-{% endif %}</span>
                         <label class="control-label hide">Descripción</label>
                         {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}
@@ -50,8 +50,10 @@
             </div>
             <div class="col-sm-11">
                 <h2 class="font-blue">Paso 5</h2>
-                <h3 class="font-blue">Suba las fotos que desea</h3>
-
+                <h3 class="font-blue">Suba las fotos que desea
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step6-one" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
+                </h3>
             </div>
         </div>
 

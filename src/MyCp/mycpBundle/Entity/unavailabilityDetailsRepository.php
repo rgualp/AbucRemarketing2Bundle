@@ -52,6 +52,25 @@ class unavailabilityDetailsRepository extends EntityRepository {
                   ->getResult();
     }
 
+    public function getRoomDetailsForCasaModuleCalendar($id_room, $date_from, $date_to) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:unavailabilityDetails o
+                        JOIN o.room r
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED.
+                        " AND r.room_id = :id_room
+                        AND (o.ud_from_date >= :dateFrom OR (o.ud_from_date < :dateFrom AND o.ud_to_date >= :dateTo))
+                        ORDER BY o.ud_from_date DESC";
+
+//        $dateFrom = date("Y")."-01-01";
+
+        return $em->createQuery($query_string)
+                  ->setParameter("id_room", $id_room)
+                  ->setParameter("dateFrom", $date_from)
+                  ->setParameter("dateTo", $date_to)
+                  ->getResult();
+    }
+
     public function getAllNotDeletedByDate($start, $end){
         $em = $this->getEntityManager();
         $query_string = "SELECT o

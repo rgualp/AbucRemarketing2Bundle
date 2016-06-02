@@ -31,6 +31,12 @@ body{
 .text-save{
     color:#a3a3a3;
 }
+.glyphicons span {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    margin-left: 7px;
+    font-weight: normal;
+}
 /*end: style wizard controle*/
 .tab-mcp{
     background: #ececec;
@@ -400,9 +406,9 @@ ol > li::before {
     box-shadow: 0 0 0 4px #377209;
 }
 .dashboard-picture{
-    margin-top: 30%;
     z-index: 999;
-    margin-left: 67px;
+    margin-left: 60px;
+    margin-top: 27%;
     position: absolute;
     display: none;
 }
@@ -595,7 +601,29 @@ ol > li::before {
 .picture-link{
     color: #adadad;
 }
+.circle {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+}
 
+.circle-warning {
+    background-color: #f36b25 !important;
+}
+.circle-danger {
+    background-color: #e94b3d !important;
+}
+.circle-info {
+    background-color: #2191d2 !important;
+}
+/**full calendar **/
+.fc-day-number {
+    font-size: 18px;
+    padding-right: 5px !important;
+}
+.fc-day-header{
+    text-transform: uppercase;
+}
 /*.picture-link-m:hover, .picture-link:hover {*/
     /*box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);*/
 /*}*/
