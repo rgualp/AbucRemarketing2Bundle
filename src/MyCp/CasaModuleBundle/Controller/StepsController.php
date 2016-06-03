@@ -309,7 +309,7 @@ class StepsController extends Controller
      * @Route(name="save_description", path="/save/description")
      */
     public function saveDescriptionAction(Request $request)
-    {
+    {print_r(1);die;
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
         $description = $request->get('comment-one') . ' ' . $request->get('comment-two') . ' ' . $request->get('comment-three') . ' ' . $request->get('comment-four');
@@ -343,17 +343,9 @@ class StepsController extends Controller
             $em->persist($ownershipDescriptionLang);
         }
         $em->flush();
-        if($request->get('dashboard')){
-            return $this->render('MyCpCasaModuleBundle:Steps:step3.html.twig', array(
-                'ownership'=>$ownership,
-                'dashboard'=>true
-            ));
-        }
-        else{
-            return new JsonResponse([
-                'success' => true,
-            ]);
-        }
+        return new JsonResponse([
+            'success' => true,
+        ]);
     }
 
     /**
