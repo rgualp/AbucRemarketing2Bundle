@@ -1,3 +1,3 @@
 frontend_mycasarenta_index:
-    locales:  { en: "/mycasarenta", es: "/mycasarenta", de: "/mycasarenta" }
+    locales:  { en: "/app/mycasarenta", es: "/app/mycasarenta", de: "/app/mycasarenta" }
     defaults: { _controller: FrontEndBundle:MyCasaRenta:index}

@@ -22,7 +22,7 @@ frontend_register_confirmation_user:
     defaults: { _controller: FrontEndBundle:User:registerUserConfirmation }
 
 frontend_contact_user:
-    locales:  { en: "/contact/", es: "/contacto/", de: "/kontakt/" }
+    locales:  { en: "/contact/", es: "/contactos/", de: "/kontakt/" }
     defaults: { _controller: FrontEndBundle:User:contact }
 
 frontend_profile_user:
