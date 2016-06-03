@@ -289,6 +289,19 @@ class StepsController extends Controller
         }
         return new JsonResponse('Ok');
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_description", path="/panel/description")
+     */
+    public function showDescriptionAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step3.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 
     /**
      * @param Request $request

@@ -28,7 +28,8 @@ class DefaultController extends Controller
             return $this->render('MyCpCasaModuleBundle:Default:register.html.twig', array(
                 'ownership'=>$ownership,
                 'form'=>$form->createView(),
-                'photoForm'=>$photosForm->createView()
+                'photoForm'=>$photosForm->createView(),
+                'dashboard'=>false
             ));
         }
 
