@@ -144,7 +144,7 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="save_step5", path="/save/step5")
+     * @Route(name="save_facilities", path="/save/step5")
      */
     public function saveStep5Action(Request $request)
     {
@@ -185,9 +185,17 @@ class StepsController extends Controller
         $em->persist($accommodation);
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true
-        ]);
+        if($request->get('dashboard')){
+            return $this->render('MyCpCasaModuleBundle:Steps:step5.html.twig', array(
+                'ownership'=>$accommodation,
+                'dashboard'=>true
+            ));
+        }
+        else {
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
     }
 
     /**

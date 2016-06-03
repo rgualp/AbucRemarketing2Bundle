@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="bg-gray m-t-20 col-md-11 font-black">
-            <div class="facilities" id="facilities-div" data-url="{{ path("save_step5") }}">
+            <div class="facilities" id="facilities-div" data-url="{{ path("save_facilities") }}">
                 <div class="row">
                     <div class="col-md-5">
                         <img src="{{ asset('bundles/mycpcasamodule/img/desayuno.png') }}" class="img-step4" >
@@ -23,16 +23,15 @@
                     <input type="checkbox" class="js-switch" name="breakfast" id="breakfast" {% if ownership.ownFacilitiesBreakfast %}checked{% endif %}/>
                     <input type="hidden" name="hasBreakfast" id="hasBreakfast" value="{{ ownership.ownFacilitiesBreakfast }}"/>
                     </div>
+
                     <div class="col-md-5 facilitiesBreakfastWithPrice">
-                        {% if ownership.ownFacilitiesBreakfast %}
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesBreakfastPrice }} </span>
                         <label class="control-label"> CUC</label>
-                        {% endif %}
                     </div>
                     <div class="col-md-1 p-0 facilitiesBreakfastWithPrice">
-                            <a id="btn-change-breakfast" class="btn btn-success">Cambiar</a>
+                            <a id="btn-change-breakfast" class="btn btn-success changeBtn" data-cmpdisabled=".facilitiesBreakfastWithPrice" data-cmpenabled=".facilitiesBreakfastPrice">Cambiar</a>
                     </div>
-                        <div class="col-md-6 facilitiesBreakfastPrice">
+                        <div class="col-md-6 facilitiesBreakfastPrice hide">
                             <label class="control-label">Precio</label>
                             <input type="number" min="0" name="facilitiesBreakfast" id="facilitiesBreakfast" class="form-control inline" value="{{ ownership.ownFacilitiesBreakfastPrice }}"/>
                         </div>
@@ -56,9 +55,9 @@
                         <label class="control-label"> CUC</label>
                     </div>
                     <div class="col-md-1 p-0 facilitiesDinnerWithPrice">
-                        <a id="btn-change-dinner" class="btn btn-success">Cambiar</a>
+                        <a id="btn-change-dinner" class="btn btn-success changeBtn" data-cmpdisabled=".facilitiesDinnerWithPrice" data-cmpenabled=".facilitiesDinnerPrice">Cambiar</a>
                     </div>
-                    <div class="col-md-6 facilitiesDinnerPrice">
+                    <div class="col-md-6 facilitiesDinnerPrice hide">
                         <label class="control-label">Precio</label>
                         <label class="control-label">Desde</label>
                         <input type="number" min="0" name="facilitiesDinnerFrom" id="facilitiesDinnerFrom" class="form-control inline" value="{{ ownership.ownFacilitiesDinnerPriceFrom }}"/>
@@ -76,16 +75,14 @@
                         <input type="hidden" name="hasParking" id="hasParking" value="{{ ownership.ownFacilitiesParking }}"/>
                     </div>
                     <div class="col-md-5 facilitiesParkingWithPrice">
-                        {% if ownership.ownFacilitiesParking %}
                             <label class="control-label">Desde</label>
                             <span class="font-blue step-span">{{ ownership.ownFacilitiesParkingPrice }} </span>
                             <label class="control-label">CUC</label>
-                        {% endif %}
                     </div>
                     <div class="col-md-1 p-0 facilitiesParkingWithPrice">
-                            <a id="btn-change-parking" class="btn btn-success">Cambiar</a>
+                            <a id="btn-change-parking" class="btn btn-success changeBtn" data-cmpdisabled=".facilitiesParkingWithPrice" data-cmpenabled=".facilitiesParkingPrice">Cambiar</a>
                     </div>
-                        <div class="col-md-6 facilitiesParkingPrice">
+                        <div class="col-md-6 facilitiesParkingPrice hide">
                             <label class="control-label">Precio</label>
                             <input type="number" min="0" name="facilitiesParking" id="facilitiesParking" class="form-control inline" value="{{ ownership.ownFacilitiesParkingPrice }}"/>
                         </div>
@@ -165,4 +162,12 @@
 
     </div>
 </div>
+
+    {% if dashboard is defined and dashboard %}
+        <div class="row">
+            <div class="col-md-8 text-center m-t-10">
+                <button id="saveStepFacilities" class="btn btn-primary dim" type="button">Guardar</button>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
