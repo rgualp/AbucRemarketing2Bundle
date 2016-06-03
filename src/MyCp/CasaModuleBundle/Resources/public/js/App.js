@@ -22,6 +22,7 @@ var App = function () {
     var initializeWizard=function(){
         $('#rootwizard').bootstrapWizard({
             onNext: function (tab, navigation, index) {
+                event.clickBtnContinueAfter.dispatch();
             },
             onPrevious: function (tab, navigation, index) {
             },
@@ -66,7 +67,8 @@ var App = function () {
             $('#tab' + idWizardActive).removeClass('active');
             $('#rootwizard').bootstrapWizard('show',$(this).data("href"));
             idWizardActive=$(this).data("href");
-            App.fix_height();
+            event.clickBtnContinueAfter.dispatch();
+            //App.fix_height();
         })
     }
     /**
@@ -141,6 +143,9 @@ var App = function () {
         },
         getOwnId:function(){
             return idown;
+        },
+        fireEventSaveTab: function (){
+            event.clickBtnContinueAfter.dispatch();
         }
     };
 }()
