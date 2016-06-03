@@ -65,6 +65,19 @@ class StepsController extends Controller
         ));
 
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_room", path="/panel/room")
+     */
+    public function showRoomAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step4.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 
     /**
      * @param Request $request
@@ -309,7 +322,7 @@ class StepsController extends Controller
      * @Route(name="save_description", path="/save/description")
      */
     public function saveDescriptionAction(Request $request)
-    {print_r(1);die;
+    {
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
         $description = $request->get('comment-one') . ' ' . $request->get('comment-two') . ' ' . $request->get('comment-three') . ' ' . $request->get('comment-four');
