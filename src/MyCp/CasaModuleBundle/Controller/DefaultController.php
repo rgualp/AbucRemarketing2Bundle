@@ -20,7 +20,9 @@ class DefaultController extends Controller
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
-            return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array());
+            return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array(
+                'dashboard'=>true
+            ));
         }
         else{
             $form=$this->createForm(new ownershipStep1Type(),$ownership);
