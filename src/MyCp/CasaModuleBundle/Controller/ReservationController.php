@@ -79,6 +79,7 @@ class ReservationController extends Controller
             'items_per_page' => $items_per_page,
             'current_page' => $page,
             'total_items' => $paginator->getTotalItems(),
+            'dashboard'=>true
         ));
 
     }
