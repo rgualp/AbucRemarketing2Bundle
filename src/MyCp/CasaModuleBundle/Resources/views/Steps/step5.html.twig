@@ -8,8 +8,13 @@
                 <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-step m-t-25">
             </div>
             <div class="col-sm-11">
+        {% if dashboard is defined and dashboard %}
+            <h2 class="font-blue">Facilidades</h2>
+            <h3 class="font-blue">Seleccione las comodidades que posee su alojamiento</h3>
+        {% else %}
                 <h2 class="font-blue">Paso 4</h2>
                 <h3 class="font-blue">Seleccione las comodidades para su oferta</h3>
+            {% endif %}
             </div>
         </div>
         <div class="bg-gray m-t-20 col-md-11 font-black">
