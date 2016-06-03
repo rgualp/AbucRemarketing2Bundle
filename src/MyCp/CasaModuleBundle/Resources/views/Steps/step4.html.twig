@@ -1,3 +1,5 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+{% block content %}
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
         <div class="row">
@@ -10,7 +12,6 @@
             </div>
         </div>
             <div class="tabbable font-black tab-mcp">
-
                 <ul id="nav-tabs-backend" class="nav nav-tabs mcp" data-numroom="{{ ownership.ownRooms | length }}">
                     {% if ownership.ownRooms | length %}
                         {% for room in ownership.ownRooms %}
@@ -19,7 +20,6 @@
                         {% else %}
                             <li id="nav11" class="active"><a data-toggle="tab" href="#tab11">Hab 1</a></li>
                     {% endif %}
-
                     <li id="addTab" data-href="{{ path('content_tab_step4') }}" onclick="Step4.addTabTabpanel($(this))"><a data-toggle="tab" href="#tab25" id="addRoom" >{% if ownership is not defined %}Agregar otra Habitación{% endif %} <img src="{{ asset('bundles/mycpcasamodule/img/mas.png') }}" style="height: 25px;width: 25px"></a></li>
                 </ul>
                 <div id="tab-content-backend" class="tab-content">
@@ -34,25 +34,23 @@
                                 {% include 'MyCpCasaModuleBundle:form:form4.html.twig'%}
                             </div>
                     {% endif %}
-
                     <div id="tab25" class="tab-pane">
                     </div>
                 </div>
             </div>
-
     </div>
     <div class="col-md-3 oneblue-bg col-content">
-        <div id="help-step4-one" class="row">
+        <div id="help-step3-one" class="row">
             <div class="col-md-12 m-t-20">
                 <p>por favor señale si sus habitaciones son dobles, sencillas, matrimoniales, de estudio o suites</p>
             </div>
         </div>
-        <div id="help-step4-two" class="row">
+        <div id="help-step3-two" class="row">
             <div class="col-md-12 m-t-40">
                 <p>indique cuántas camas existen por habitación</p>
             </div>
         </div>
-        <div id="help-step4-three" class="row">
+        <div id="help-step3-three" class="row">
             <div class="col-md-12 m-t-40">
                 <p>El precio usted lo determina. De forma independiente, MyCasaParticular cobra al TURISTA un pago por adelantado correspondiente al 20% del precio
                     publicado en el sitio.
@@ -62,3 +60,11 @@
         </div>
     </div>
 </div>
+    {% if dashboard is defined and dashboard %}
+        <div class="row">
+            <div class="col-md-8 text-center m-t-10">
+                <button id="saveStepRoom" class="btn btn-primary dim" type="button">Guardar</button>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+<form class="form-horizontal" id="form-description-room" action="{{ path('save_description') }}">
+    {% if ownership.OwnDescriptionLangs | length %}
+        {% include 'MyCpCasaModuleBundle:form:short_form3.html.twig' with {ownDescriptionLang:ownership.OwnDescriptionLangs | first} %}
+    {% else %}
+        {% include 'MyCpCasaModuleBundle:form:long_form3.html.twig'%}
+    {% endif %}
+</form>

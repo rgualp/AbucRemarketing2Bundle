@@ -46,7 +46,7 @@ var App = function () {
             }
         });
         $('#steps').addClass('hide');
-        idown=$('#content-wizard').data("idown");
+        idown=$('#page-wrapper').data("idown");
     }
     /**
      * Para cunado se da click en el boton comenzar

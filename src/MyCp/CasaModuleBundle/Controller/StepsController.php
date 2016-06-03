@@ -65,6 +65,19 @@ class StepsController extends Controller
         ));
 
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_room", path="/panel/room")
+     */
+    public function showRoomAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step4.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 
     /**
      * @param Request $request
@@ -351,17 +364,9 @@ class StepsController extends Controller
             $em->persist($ownershipDescriptionLang);
         }
         $em->flush();
-        if($request->get('dashboard')){
-            return $this->render('MyCpCasaModuleBundle:Steps:step3.html.twig', array(
-                'ownership'=>$ownership,
-                'dashboard'=>true
-            ));
-        }
-        else{
-            return new JsonResponse([
-                'success' => true,
-            ]);
-        }
+        return new JsonResponse([
+            'success' => true,
+        ]);
     }
 
     /**
