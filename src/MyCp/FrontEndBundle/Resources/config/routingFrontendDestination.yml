@@ -11,7 +11,7 @@ frontend_filter_by_province_destinations:
     defaults: { _controller:FrontEndBundle:Destination:popularList }
 
 frontend_details_destination:
-    locales:  { en: "/destination/{destination_name}", es: "/destino/{destination_name}", de: "/reiseziel/{destination_name}" }
+    locales:  { en: "/destinations/{destination_name}", es: "/destinos/{destination_name}", de: "/reiseziele/{destination_name}" }
     defaults: { _controller:FrontEndBundle:Destination:details }
 
 frontend_filter_destination:

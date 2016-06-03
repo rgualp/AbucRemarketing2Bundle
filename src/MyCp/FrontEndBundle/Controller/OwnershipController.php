@@ -1369,7 +1369,7 @@ class OwnershipController extends Controller {
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
-
+		$awards = $em->getRepository('mycpBundle:award')->findAll();
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                     'search_text' => null,
                     'search_guests' => '1',
@@ -1387,7 +1387,8 @@ class OwnershipController extends Controller {
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
-                    'list_preffix' => 'voted_best'
+                    'list_preffix' => 'voted_best',
+					'awards'=>$awards
         ));
     }
 
@@ -1455,6 +1456,7 @@ class OwnershipController extends Controller {
         $check_filters['own_others_not_included'] = null;
         $check_filters['own_others_pets'] = false;
         $check_filters['own_others_internet'] = false;
+		$awards = $em->getRepository('mycpBundle:award')->findAll();
 
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                     'search_text' => null,
@@ -1471,7 +1473,8 @@ class OwnershipController extends Controller {
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                     'check_filters' => $check_filters,
                     'list_preffix' => 'search',
-                    'list' => $search_results_list
+                    'list' => $search_results_list,
+					'awards'=>$awards
         ));
     }
 

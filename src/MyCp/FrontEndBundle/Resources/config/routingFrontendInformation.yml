@@ -1,9 +1,9 @@
 frontend_about_us:
-    locales:  { en: "/who-we-are/", es: "/quienes-somos/",de: "/wer-wir-sind/" }
+    locales:  { en: "/about-us/", es: "/sobre-nosotros/",de: "/uber-uns/" }
     defaults: { _controller: FrontEndBundle:Information:aboutUs }
 
 frontend_legal_terms:
-    locales:  { en: "/legal-terms/", es: "/terminos-legales/",de: "/allgemeine-geschaeftsbedingungen/" }
+    locales:  { en: "/terms/", es: "/terminos/",de: "/nutzungsbedingungen/" }
     defaults: { _controller: FrontEndBundle:Information:legalTerms }
 
 frontend_security_privacity:

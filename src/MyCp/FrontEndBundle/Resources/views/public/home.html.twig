@@ -3,6 +3,8 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOMEPAGE')%}
 
+{#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
+
 {% block include_javascripts_and_css %}
     <script type="text/javascript">
         jQuery(document).ready(function($) {
