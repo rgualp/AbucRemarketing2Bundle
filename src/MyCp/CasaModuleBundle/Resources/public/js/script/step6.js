@@ -219,7 +219,6 @@ var Step6 = function () {
             //
         });
 
-        alert('Save form 6');
     }
 
     return {

@@ -51,6 +51,8 @@
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/signals/signals.js'
         '@MyCpCasaModuleBundle/Resources/public/js/plugins/jquery-ui/jquery-ui.min.js'
         '@MyCpCasaModuleBundle/Resources/public/js/jquery.fileupload.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/App.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/script/step3.js'
         '@MyCpCasaModuleBundle/Resources/public/js/script/img-account.js'
         filter='?uglifyjs2'
         %}
@@ -119,7 +121,7 @@
                     </nav>
                 </div>
 
-                <div id="content_id" class="wrapper wrapper-content white-bg " style="padding-bottom:40px">
+                <div id="content_id" class="wrapper wrapper-content white-bg" style="padding-bottom:40px">
                      {% block content %}
                          {% include 'MyCpCasaModuleBundle:Steps:wizard.html.twig' %}
                      {% endblock content %}

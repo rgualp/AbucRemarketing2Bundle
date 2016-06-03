@@ -343,11 +343,18 @@ class StepsController extends Controller
             $em->persist($ownershipDescriptionLang);
         }
         $em->flush();
-        return new JsonResponse([
-            'success' => true,
-        ]);
+        if($request->get('dashboard')){
+            return $this->render('MyCpCasaModuleBundle:Steps:step3.html.twig', array(
+                'ownership'=>$ownership,
+                'dashboard'=>true
+            ));
+        }
+        else{
+            return new JsonResponse([
+                'success' => true,
+            ]);
+        }
     }
-
 
     /**
      * @param Request $request
