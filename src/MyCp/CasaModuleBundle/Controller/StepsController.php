@@ -178,7 +178,9 @@ class StepsController extends Controller
         $hasEmail = $request->get('hasEmail');
 
         $em = $this->getDoctrine()->getManager();
+
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+
 
         $accommodation->setOwnFacilitiesBreakfast($hasBreakfast)
             ->setOwnFacilitiesBreakfastPrice($breakfastPrice)
@@ -555,5 +557,17 @@ class StepsController extends Controller
         ));
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_user_profile", path="/panel/profile")
+     */
+    public function showUserProfileAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 }

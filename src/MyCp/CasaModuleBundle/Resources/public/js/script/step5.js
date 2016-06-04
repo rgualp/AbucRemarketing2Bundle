@@ -23,6 +23,7 @@ var Step5 = function () {
             event.clickBtnContinueAfter.add(saveStep5,this);
         },
         saveFacilities:function(flag){
+            $("#loading").removeClass("hide");
             var url= $("#facilities-div").data("url");
             var hasBreakfast = $("#breakfast").is(':checked');
             var breakfastPrice = $("#facilitiesBreakfast").val();
@@ -59,9 +60,10 @@ var Step5 = function () {
             };
             $.ajax({
                 type: 'post',
-                url: $("#form-description-room").attr('action'),
+                url: url,
                 data:  data,
                 success: function (data) {
+                    $("#loading").addClass("hide");
                 }
             });
         }
