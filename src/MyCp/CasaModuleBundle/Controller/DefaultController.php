@@ -21,6 +21,7 @@ class DefaultController extends Controller
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
             return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array(
+                'ownership'=>$ownership,
                 'dashboard'=>true
             ));
         }
