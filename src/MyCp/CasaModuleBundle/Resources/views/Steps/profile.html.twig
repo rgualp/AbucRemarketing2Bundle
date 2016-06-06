@@ -9,27 +9,40 @@
                 <img src="{{ asset('bundles/mycpcasamodule/img/usuario.png') }}" class="img-title-step m-t-25">
             </div>
             <div class="col-sm-11">
+            {% if dashboard is defined and dashboard %}
+                <h2 class="font-blue">Perfil del Propietario</h2>
+            {% else %}
                 <h2 class="font-blue">Paso 6</h2>
                 <h3 class="font-blue"> Ingrese otros datos de los propietarios </h3>
                 <h3 class="font-green"> Ya casi terminamos, solo un paso más...</h3>
+            {% endif %}
             </div>
         </div>
         <div class="bg-gray m-t-20 col-md-11 font-black">
             <div class="row">
                 <input type="hidden" name="submit-url" id="submit-url" value="{{ path("save_step7") }}"/>
                     <label class="control-label">Nombre del propietario principal</label>
-                    <div>
+                    <div class="homeownerName">
                         <i class="glyphicons vcard step-form-icon"></i>
                         <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].fullName : ownership.ownHomeowner1 }}</span>
-                        <input type="hidden" name="homeownerName" id="homeownerName" class="form-control inline" value="{{ (hasOwner) ? ownership.owners[0].fullName : ownership.ownHomeowner1 }}"/>
+                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".homeownerName" data-cmpenabled=".homeownerNameChange">Cambiar</a>
                     </div>
+                <div class="homeownerNameChange hide">
+                    <i class="glyphicons vcard step-form-icon"></i>
+                    <input type="text" name="homeownerName" id="homeownerName" class="form-control inline" value="{{ (hasOwner) ? ownership.owners[0].fullName : ownership.ownHomeowner1 }}"/>
+                </div>
                 </div>
                 <div class="form-group row">
                     <label class="control-label">Teléfono móvil</label>
                     <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-one" class="help-icon">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
-                    <div class="row">
-                        <div class="col-sm-8 m-t-10">
+
+                        <div class="mobile m-l-5 m-t-10">
+                            <i class="glyphicons iphone step-form-icon"></i>
+                            <span class="font-blue step-span">+53 {{ (hasOwner) ? ownership.owners[0].mobile: ownership.ownMobileNumber }}</span>
+                            <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".mobile" data-cmpenabled=".mobileChange">Cambiar</a>
+                        </div>
+                        <div class="col-sm-8 m-t-10 mobileChange hide">
                         <div class="col-sm-1">
                             <i class="glyphicons iphone form-icon"></i>
                         </div>
@@ -42,14 +55,19 @@
                         </div>
                             <div class="col-sm-6"></div>
                         </div>
-                    </div>
                 </div>
                 <div class="form-group row">
+                    <div class="row  m-l-5 m-t-10">
                     <label class="control-label">Teléfono fijo</label>
                     <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-two" class="help-icon">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
-                    <div class="row">
-                        <div class="col-sm-8 m-t-10">
+                    </div>
+                        <div class="phone m-t-10">
+                            <i class="glyphicons phone_alt step-form-icon"></i>
+                            <span class="font-blue step-span">+53 {{ (hasOwner) ? ownership.owners[0].province.provPhoneCode: ownership.ownAddressProvince.provPhoneCode }}{{ (hasOwner) ? ownership.owners[0].phone: ownership.ownPhoneNumber }}</span>
+                            <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".phone" data-cmpenabled=".phoneChange">Cambiar</a>
+                        </div>
+                        <div class="col-sm-8 m-t-10 phoneChange hide">
                         <div class="col-sm-1">
                             <i class="glyphicons phone_alt form-icon"></i>
                         </div>
@@ -61,14 +79,21 @@
                         </div>
                         <div class="col-sm-6"></div>
                     </div>
-                        </div>
                 </div>
                 <div class="form-group row">
-                    <label class="control-label">Dirección(Calle, No., Entre calles, Provincia, Municipio)</label>
+                    <div class="row  m-l-5 m-t-10">
+                    <label class="control-label">Dirección (Calle, No., Entre calles, Provincia, Municipio)</label>
                     <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-three" class="help-icon">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
-                    <div class="row">
-                        <div class="col-sm-8 m-t-10">
+                    </div>
+                    <div class="address  m-t-10">
+                        <i class="glyphicons google_maps step-form-icon"></i>
+                        <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].addressMainStreet: ownership.ownAddressStreet }}, No. {{ (hasOwner) ? ownership.owners[0].addressStreetNumber: ownership.ownAddressNumber }}, entre {{ (hasOwner) ? ownership.owners[0].addressBetween1: ownership.ownAddressBetweenStreet1 }} y {{ (hasOwner) ? ownership.owners[0].addressBetween2: ownership.ownAddressBetweenStreet2 }}.
+                        {{ (hasOwner) ? ownership.owners[0].municipality.munName: ownership.ownAddressMunicipality.munName }}, {{ (hasOwner) ? ownership.owners[0].province.provName: ownership.ownAddressProvince.provName }}.
+                        </span>
+                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".address" data-cmpenabled=".addressChange">Cambiar</a>
+                    </div>
+                        <div class="col-sm-8 m-t-10 addressChange hide">
                             <div class="row">
 
                                 <div class="col-sm-1">
@@ -114,20 +139,32 @@
                             </div>
 
                         </div>
-                    </div>
                 </div>
                 <div class="row">
                     <label class="control-label">Correo electrónico principal</label>
-                    <div>
+                    <div class="email">
                         <i class="glyphicons envelope step-form-icon"></i>
                         <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].email: ownership.ownEmail1 }}</span>
-                        <input name="owner_email" id="owner_email" type="hidden" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].email: ownership.ownEmail1 }}"/>
+                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".email" data-cmpenabled=".emailChange">Cambiar</a>
+                    </div>
+                    <div class="emailChange hide">
+                        <div class="col-sm-1">
+                            <i class="glyphicons envelope form-icon"></i>
+                        </div>
+                        <div class="col-sm-8">
+                            <input name="owner_email" id="owner_email" type="email" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].email: ownership.ownEmail1 }}"/>
+                        </div>
+                        <div class="col-sm-3"></div>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                     <label class="control-label">Correo electrónico 2</label>
-                    <div class="row">
-                        <div class="col-sm-8 m-t-10">
+                    <div class="email2">
+                        <i class="glyphicons envelope step-form-icon"></i>
+                        <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].email2: ownership.ownEmail2 }}</span>
+                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".email2" data-cmpenabled=".email2Change">Cambiar</a>
+                    </div>
+                        <div class="email2Change hide">
                             <div class="col-sm-1">
                                 <i class="glyphicons envelope form-icon"></i>
                             </div>
@@ -136,14 +173,17 @@
                             </div>
                             <div class="col-sm-3"></div>
                         </div>
-                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="control-label">Nombre y apellidos del propietario secundario</label>
                     <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step7-four" class="help-icon">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">
-                    <div class="row">
-                        <div class="col-sm-8 m-t-10">
+                        <div class="secondHomeowner">
+                            <i class="glyphicons parents step-form-icon"></i>
+                            <span class="font-blue step-span">{{ ownership.ownHomeowner2 }}</span>
+                            <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".secondHomeowner" data-cmpenabled=".secondHomeownerChange">Cambiar</a>
+                        </div>
+                        <div class="secondHomeownerChange hide">
                             <div class="col-sm-1">
                                 <i class="glyphicons parents form-icon"></i>
                             </div>
@@ -152,8 +192,20 @@
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-                    </div>
                 </div>
+            <div class="form-group row">
+                <label class="control-label">Cambio de contraseña</label>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <i class="glyphicons unlock form-icon"></i>
+                    </div>
+                    <div class="col-sm-5">
+                        <input name="password" id="password" type="password" class="form-control" placeholder="Nueva contraseña"/>
+                        <input name="repeated" id="repeated" type="password" class="form-control m-t-10" placeholder="Confirme otra vez"/>
+                    </div>
+                    <div class="col-sm-6"></div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -183,7 +235,7 @@
     {% if dashboard is defined and dashboard %}
         <div class="row">
             <div class="col-md-8 text-center m-t-10">
-                <button id="saveStepFacilities" class="btn btn-primary dim" type="button">Guardar</button>
+                <button id="saveProfile" class="btn btn-primary dim" type="button">Guardar</button>
                 <span id="loading" class="hide">Procesando...</span>
             </div>
         </div>

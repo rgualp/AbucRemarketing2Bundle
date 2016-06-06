@@ -429,9 +429,17 @@ class StepsController extends Controller
 
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true
-        ]);
+        if ($request->get('dashboard')) {
+            return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+                'ownership' => $accommodation,
+                'dashboard' => true
+            ));
+        }
+        else {
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
     }
 
     /**
@@ -565,7 +573,7 @@ class StepsController extends Controller
     public function showUserProfileAction(Request $request)
     {
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+        return $this->render('MyCpCasaModuleBundle:Steps:profile.html.twig', array(
             'ownership'=>$ownership,
             'dashboard'=>true
         ));

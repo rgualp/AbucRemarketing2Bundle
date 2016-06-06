@@ -5,40 +5,13 @@
 var Step7 = function () {
 
     var saveStep7=function(){
-        /**
-         * Para salvar datos del propietario
-         */
-        var url= $("#submit-url-div").val();
-        var mobile = $("#own_mobile_number").val();
-        var phone = $("#own_phone_number").val();
-        var mainStreet = $("#owner_street").val();
-        var streetNumber = $("#owner_street_number").val();
-        var between1 = $("#owner_between_street_1").val();
-        var between2 = $("#owner_between_street_2").val();
-        var municipalityId = $("#owner_municipality").val();
-        var provinceId = $("#owner_province").val();
-        var email2 = $("#owner_email_2").val();
-        var secondOwner = $("#owner_second_owner").val();
+        Step7.saveProfile(false);
+    }
 
-        $.ajax({
-            type: 'post',
-            url: url,
-            data:  {
-                idAccommodation:App.getOwnId(),
-                mobile: mobile,
-                phone: phone,
-                mainStreet: mainStreet,
-                streetNumber: streetNumber,
-                between1: between1,
-                between2: between2,
-                municipalityId: municipalityId,
-                provinceId: provinceId,
-                email2: email2,
-                secondOwner: secondOwner
-            },
-            success: function (data) {
-            }
-    });
+    var onclickBtnSaveProfile=function(){
+        $('#saveProfile').on('click',function(){
+            Step7.saveProfile(true);
+        });
     }
 
 
@@ -46,10 +19,50 @@ var Step7 = function () {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
+            onclickBtnSaveProfile();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep7,this);
 
             $("#btnPublish").click(App.fireEventSaveTab());
+        },
+        saveProfile:function(flag){
+            $("#loading").removeClass("hide");
+            var url = $("#submit-url-div").val();
+            var homeownerName = $("#homeownerName").val();
+            var mobile = $("#own_mobile_number").val();
+            var phone = $("#own_phone_number").val();
+            var mainStreet = $("#owner_street").val();
+            var streetNumber = $("#owner_street_number").val();
+            var between1 = $("#owner_between_street_1").val();
+            var between2 = $("#owner_between_street_2").val();
+            var municipalityId = $("#owner_municipality").val();
+            var provinceId = $("#owner_province").val();
+            var email = $("#owner_email").val();
+            var email2 = $("#owner_email_2").val();
+            var secondOwner = $("#owner_second_owner").val();
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: {
+                    idAccommodation: App.getOwnId(),
+                    mobile: mobile,
+                    phone: phone,
+                    mainStreet: mainStreet,
+                    streetNumber: streetNumber,
+                    between1: between1,
+                    between2: between2,
+                    municipalityId: municipalityId,
+                    provinceId: provinceId,
+                    email: email,
+                    email2: email2,
+                    homeownerName: homeownerName,
+                    secondOwner: secondOwner
+                },
+                success: function (data) {
+                    $("#loading").addClass("hide");
+                }
+            });
         }
     };
 }();
