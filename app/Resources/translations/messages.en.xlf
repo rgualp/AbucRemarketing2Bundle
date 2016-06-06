@@ -3818,17 +3818,13 @@
                 <source>La Habana Vieja</source>
                 <target>Old Havana</target>
             </trans-unit>
-            <trans-unit id="964">
-                <source>Remedios</source>
-                <target>Remedies</target>
-            </trans-unit>
             <trans-unit id="965">
                 <source>Isla de la Juventud</source>
                 <target>Isle of Youth</target>
             </trans-unit>
             <trans-unit id="966">
                 <source>Península de Zapata</source>
-                <target>Zapata Marsch</target>
+                <target>Zapata Marsh</target>
             </trans-unit>
             <trans-unit id="967">
                 <source>La Habana</source>

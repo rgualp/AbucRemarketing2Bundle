@@ -3,7 +3,7 @@ frontend_about_us:
     defaults: { _controller: FrontEndBundle:Information:aboutUs }
 
 frontend_legal_terms:
-    locales:  { en: "/terms/", es: "/terminos/",de: "/nutzungsbedingungen/" }
+    locales:  { en: "/terms/", es: "/terminos-legales/",de: "/nutzungsbedingungen/" }
     defaults: { _controller: FrontEndBundle:Information:legalTerms }
 
 frontend_security_privacity:
