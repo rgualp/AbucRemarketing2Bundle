@@ -577,7 +577,7 @@ class StepsController extends Controller
             'dashboard' => true
         ));
     }
-    
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
