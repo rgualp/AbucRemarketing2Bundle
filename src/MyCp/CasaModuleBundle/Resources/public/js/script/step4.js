@@ -128,6 +128,7 @@ var Step4 = function () {
                 rooms.push(data);
             }
             if(!App.equals(rooms,dataStep4)){
+                dataStep4=rooms;
                 /**
                  * Para salvar las rooms
                  */

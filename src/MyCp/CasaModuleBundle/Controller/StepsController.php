@@ -339,6 +339,13 @@ class StepsController extends Controller
 
         $language = $em->getRepository('mycpBundle:lang')->findAll();
         $translator = $this->get("mycp.translator.service");
+
+        $ownershipDescriptionLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $request->get('idown')));
+        if(isset($ownershipDescriptionLangs[0]))
+        {
+            foreach($ownershipDescriptionLangs as $desc_lang)
+                $em->remove($desc_lang);
+        }
         foreach ($language as $lang) {
             $ownershipDescriptionLang = new ownershipDescriptionLang();
             if ($lang->getLangCode() == 'ES') {

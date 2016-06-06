@@ -28,6 +28,7 @@ var Step3 = function () {
             var data={};
             $("#form-description-room").serializeArray().map(function(x){data[x.name] = x.value;});
             if(!App.equals(data,dataStep3)){ //Sino son iguales los dos objetos no los salvo
+                $("#form-description-room").serializeArray().map(function(x){dataStep3[x.name] = x.value;});
                 data['idown']=App.getOwnId();
                 data['dashboard']=flag;
                 $.ajax({
