@@ -9,7 +9,7 @@
                     {%if counter == 0%}
                         <tr>
                     {%endif%}
-                    <td><a href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{prov.prov_name}} ({{prov.total_owns}})</a></td>
+                    <td><a href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{prov.prov_name | trans}} ({{prov.total_owns}})</a></td>
                     {%if counter == 1%}
                         </tr>
                         {%set counter = 0%}
