@@ -49,7 +49,8 @@ class DefaultController extends Controller
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         return $this->render('MyCpCasaModuleBundle:Default:calendar.html.twig', array(
-            'ownership'=>$ownership
+            'ownership'=>$ownership,
+            'dashboard' => true
         ));
     }
 }

@@ -25,7 +25,7 @@
                     <div class="homeownerName">
                         <i class="glyphicons vcard step-form-icon"></i>
                         <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].owner.fullName : ownership.ownHomeowner1 }}</span>
-                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".homeownerName" data-cmpenabled=".homeownerNameChange">Cambiar</a>
+                        <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".homeownerName" data-cmpenabled=".homeownerNameChange">Cambiar</a>
                     </div>
                 <div class="homeownerNameChange hide">
                     <i class="glyphicons vcard step-form-icon"></i>
@@ -40,7 +40,7 @@
                         <div class="mobile m-l-5 m-t-10">
                             <i class="glyphicons iphone step-form-icon"></i>
                             <span class="font-blue step-span">+53 {{ (hasOwner) ? ownership.owners[0].owner.mobile: ownership.ownMobileNumber }}</span>
-                            <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".mobile" data-cmpenabled=".mobileChange">Cambiar</a>
+                            <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".mobile" data-cmpenabled=".mobileChange">Cambiar</a>
                         </div>
                         <div class="col-sm-8 m-t-10 mobileChange hide">
                         <div class="col-sm-1">
@@ -65,7 +65,7 @@
                         <div class="phone m-t-10">
                             <i class="glyphicons phone_alt step-form-icon"></i>
                             <span class="font-blue step-span">+53 {{ (hasOwner) ? ownership.owners[0].owner.province.provPhoneCode: ownership.ownAddressProvince.provPhoneCode }}{{ (hasOwner) ? ownership.owners[0].owner.phone: ownership.ownPhoneNumber }}</span>
-                            <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".phone" data-cmpenabled=".phoneChange">Cambiar</a>
+                            <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".phone" data-cmpenabled=".phoneChange">Cambiar</a>
                         </div>
                         <div class="col-sm-8 m-t-10 phoneChange hide">
                         <div class="col-sm-1">
@@ -91,7 +91,7 @@
                         <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].owner.addressMainStreet: ownership.ownAddressStreet }}, No. {{ (hasOwner) ? ownership.owners[0].owner.addressStreetNumber: ownership.ownAddressNumber }}, entre {{ (hasOwner) ? ownership.owners[0].owner.addressBetween1: ownership.ownAddressBetweenStreet1 }} y {{ (hasOwner) ? ownership.owners[0].owner.addressBetween2: ownership.ownAddressBetweenStreet2 }}.
                         {{ (hasOwner) ? ownership.owners[0].owner.municipality.munName: ownership.ownAddressMunicipality.munName }}, {{ (hasOwner) ? ownership.owners[0].owner.province.provName: ownership.ownAddressProvince.provName }}.
                         </span>
-                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".address" data-cmpenabled=".addressChange">Cambiar</a>
+                        <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".address" data-cmpenabled=".addressChange">Cambiar</a>
                     </div>
                         <div class="col-sm-8 m-t-10 addressChange hide">
                             <div class="row">
@@ -145,7 +145,7 @@
                     <div class="email">
                         <i class="glyphicons envelope step-form-icon"></i>
                         <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].owner.email: ownership.ownEmail1 }}</span>
-                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".email" data-cmpenabled=".emailChange">Cambiar</a>
+                        <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".email" data-cmpenabled=".emailChange">Cambiar</a>
                     </div>
                     <div class="emailChange hide">
                         <div class="col-sm-1">
@@ -162,7 +162,7 @@
                     <div class="email2">
                         <i class="glyphicons envelope step-form-icon"></i>
                         <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].owner.email2: ownership.ownEmail2 }}</span>
-                        <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".email2" data-cmpenabled=".email2Change">Cambiar</a>
+                        <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".email2" data-cmpenabled=".email2Change">Cambiar</a>
                     </div>
                         <div class="email2Change hide">
                             <div class="col-sm-1">
@@ -181,7 +181,7 @@
                         <div class="secondHomeowner">
                             <i class="glyphicons parents step-form-icon"></i>
                             <span class="font-blue step-span">{{ ownership.ownHomeowner2 }}</span>
-                            <a class="btn btn-success changeBtn m-l-10" data-cmpdisabled=".secondHomeowner" data-cmpenabled=".secondHomeownerChange">Cambiar</a>
+                            <a class="btn btn-primary changeBtn m-l-10" data-cmpdisabled=".secondHomeowner" data-cmpenabled=".secondHomeownerChange">Cambiar</a>
                         </div>
                         <div class="secondHomeownerChange hide">
                             <div class="col-sm-1">

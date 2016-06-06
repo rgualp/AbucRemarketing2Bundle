@@ -14,6 +14,7 @@ use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
+use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,12 +89,13 @@ class StepsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $rooms = $request->get('rooms');
+        $ids=array();
         if (count($rooms)) {
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
             $i = 1;
             foreach ($rooms as $room) {
                 //Se esta modificando
-                if (isset($room['idRoom'])) {
+                if (isset($room['idRoom']) && $room['idRoom'] !='') {
                     $ownership_room = $em->getRepository('mycpBundle:room')->find($room['idRoom']);
                     if (isset($room['room_type']))
                         $ownership_room->setRoomType($room['room_type']);
@@ -121,6 +123,7 @@ class StepsController extends Controller
                     $ownership_room->setRoomTerrace((isset($room['room_terrace'])) ? ($room['room_terrace'] == 'on' ? 1 : 0) : 0);
                     $ownership_room->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $em->persist($ownership_room);
+                    $em->flush();
                 } else {
                     //Se esta insertando
                     $obj = new room();
@@ -144,13 +147,15 @@ class StepsController extends Controller
                     $obj->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $obj->setRoomOwnership($ownership);
                     $em->persist($obj);
+                    $em->flush();
+                    $ids[]=$obj->getRoomId();
                 }
                 $i++;
             }
-            $em->flush();
         }
         return new JsonResponse([
-            'success' => true
+            'success' => true,
+            'ids'=>$ids
         ]);
     }
 
@@ -339,6 +344,13 @@ class StepsController extends Controller
 
         $language = $em->getRepository('mycpBundle:lang')->findAll();
         $translator = $this->get("mycp.translator.service");
+
+        $ownershipDescriptionLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $request->get('idown')));
+        if(isset($ownershipDescriptionLangs[0]))
+        {
+            foreach($ownershipDescriptionLangs as $desc_lang)
+                $em->remove($desc_lang);
+        }
         foreach ($language as $lang) {
             $ownershipDescriptionLang = new ownershipDescriptionLang();
             if ($lang->getLangCode() == 'ES') {
@@ -514,7 +526,7 @@ class StepsController extends Controller
         foreach ($unavailability as $unab) {
             $days = date_diff($unab->getUdToDate(), $unab->getUdFromDate());
             $fecha = $unab->getUdFromDate();
-            for ($i = 1; $i <= $days->d; $i++) {
+            for ($i = 0; $i <= $days->d; $i++) {
 
                 $event = array(
                     'title' => 'No Disponibildad id' . $unab->getUdId(),
@@ -535,7 +547,7 @@ class StepsController extends Controller
         foreach ($reserved as $res) {
             $days = date_diff($res['own_res_reservation_to_date'], $res['own_res_reservation_from_date']);
             $fecha = $res['own_res_reservation_from_date'];
-            for ($i = 1; $i <= $days->d; $i++) {
+            for ($i = 0; $i <= $days->d; $i++) {
 
                 $event = array(
                     'title' => 'Reservada MYCP id' . $res['own_res_id'],
@@ -556,7 +568,7 @@ class StepsController extends Controller
         foreach ($cancelled as $res) {
             $days = date_diff($res['own_res_reservation_to_date'], $res['own_res_reservation_from_date']);
             $fecha = $res['own_res_reservation_from_date'];
-            for ($i = 1; $i <= $days->d; $i++) {
+            for ($i = 0; $i <= $days->d; $i++) {
 
                 $event = array(
                     'title' => 'Cancelada id' . $res['own_res_id'],
@@ -574,7 +586,6 @@ class StepsController extends Controller
 
         return new JsonResponse($events);
     }
-
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
@@ -598,8 +609,58 @@ class StepsController extends Controller
     {
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         return $this->render('MyCpCasaModuleBundle:Steps:profile.html.twig', array(
-            'ownership'=>$ownership,
-            'dashboard'=>true
+            'ownership' => $ownership,
+            'dashboard' => true
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="save_unabailability", path="/save/unabailability")
+     */
+    public function saveUnabailabilityAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $room=$request->get('room');
+        $start=\DateTime::createFromFormat('d/m/Y',$request->get('date_from'));
+        $end=\DateTime::createFromFormat('d/m/Y',$request->get('date_to'));
+        $status=$request->get('status');
+        $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoom($room,$start->format('Y-m-d'), $end->format('Y-m-d'));
+         if(count($reserved)>0){
+            return new JsonResponse([
+                'success' => false,
+                'message'=>'No se puede modificar en ese período pues tiene reservaciones pagadas'
+            ]);
+        }
+        $unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
+        foreach($unavailability as $item){
+          if($item->getUdFromDate()>=$start&&$item->getUdToDate()<=$end){
+              $em->remove($item);
+          }
+          else if($item->getUdToDate()<=$end){
+              $item->setUdFromDate($start);
+              $em->persist($item);
+          }
+            else{
+                $item->setUdToDate($end);
+                $em->persist($item);
+            }
+        }
+        if($status==0){
+          $room=$em->getRepository('mycpBundle:room')->find($room);
+          $nu= new unavailabilityDetails();
+          $nu->setRoom($room);
+          $nu->setUdFromDate($start);
+          $nu->setUdToDate($end);
+          $nu->setUdReason('Por el propietario');
+            $em->persist($nu);
+        }
+
+        $em->flush();
+        return new JsonResponse([
+            'success' => true
+        ]);
     }
 }

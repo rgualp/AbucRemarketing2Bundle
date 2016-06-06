@@ -606,7 +606,10 @@ ol > li::before {
     height: 20px;
     width: 20px;
 }
-
+.fc-today{
+    background-color: #b7b7b7;
+    color: white;
+}
 .circle-warning {
     background-color: #f36b25 !important;
 }
@@ -658,7 +661,6 @@ a.green-link{
 .img-grey-border{border: 6px solid #c0c0c0;}
 .m-b-5{margin-bottom: 5px;}
 .m-t-5{margin-top: 5px;}
-.m-l-5{margin-left: 5px;}
 .lighter-gray{background-color: #F4F4F4;}
 .p-40{padding: 40px;}
 .p-l-r-0{padding-right: 0px; padding-left: 0px;}
@@ -666,6 +668,25 @@ a.green-link{
 .bold{font-weight: bold;}
 .closeDetails{margin:5px}
 .closeDetails:hover{cursor: pointer;}
+
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("/bundles/mycp/images/bootstrap/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    margin-top: 1px;
+}
+.icon-arrow-left {
+    background-position: -240px -96px;
+}
+.icon-arrow-right {
+    background-position: -264px -96px;
+}
+
 .label-important,.badge-important{background-color:#b94a48; color: #fff;}
 .label-important[href],.badge-important[href]{background-color:#953b39; color: #fff;}
 .red-text {color: #ff0000;}

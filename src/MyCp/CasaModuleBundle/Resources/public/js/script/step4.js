@@ -6,6 +6,18 @@ var Step4 = function () {
     var id_active="11";
     var html_nav_addTab="";
     var url_add_tab="";
+    var dataStep4=new Array();
+    /**
+     * Para llenar un arreglo con los datos del paso 4
+     */
+    var fillDataStep4=function(){
+        for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+            var data={};
+            var form = $("#form-number-"+i);
+            $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+            dataStep4.push(data);
+        }
+    }
     /**
      * Para cuando se cambia de tab
      */
@@ -25,20 +37,20 @@ var Step4 = function () {
             function (data, status, response) {
                 if (status && status == 'success') {
                     //Le quito la clase al que esta activo en caso de que tenga algun tab
-                    $('#nav'+id_active+'').removeClass('active');
-                    $('#tab'+id_active+'').removeClass('active');
+                    $('#nav1'+id_active+'').removeClass('active');
+                    $('#tab1'+id_active+'').removeClass('active');
                     Step4.deleteEndTab();
                     //Lo adiciono y lo activo
-                    var id=(parseInt(id_active)+parseInt(2));
+                    var id=$('#nav-tabs-backend li').size()+1;
                     var text='Hab '+($('#nav-tabs-backend li').size()+1);
-                    $('#nav-tabs-backend').append('<li id="nav'+id+'" class="active"><a id="'+id+'" data-toggle="tab" href="#tab'+id+'" data-tab="'+id+'">'+text+'<span class="closeTab" onclick="Step4.closeTab($(this))">×</span></a></li>');
+                    $('#nav-tabs-backend').append('<li id="nav1'+id+'" class="active"><a id="'+id+'" data-toggle="tab" href="#tab1'+id+'" data-tab="'+id+'">'+text+'<span class="closeTab" onclick="Step4.closeTab($(this))">×</span></a></li>');
                     //Adiciono el contenido del tab
-                    $('#tab-content-backend').append('<div id="tab'+id+'" class="tab-pane active">'
+                    $('#tab-content-backend').append('<div id="tab1'+id+'" class="tab-pane active">'
                         +data.html
                         +'</div>');
                     id_active=id;
-                    $('#nav'+id_active+'').addClass('active');
-                    $('#tab'+id_active+'').addClass('active');
+                    $('#nav1'+id_active+'').addClass('active');
+                    $('#tab1'+id_active+'').addClass('active');
                     Step4.addEndTab();
                     App.initializePlugins('.js-switch-'+($('#nav-tabs-backend li').size()-1));
                     HoldOn.close();
@@ -95,6 +107,7 @@ var Step4 = function () {
             activeRoom();
             deleteRoom();
             onclickBtnSaveRoom();
+            fillDataStep4();
             //Se captura el evento de guardar el paso
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
@@ -102,7 +115,6 @@ var Step4 = function () {
 
         },
         saveRoom:function(flag){
-
             var rooms = new Array();
             var url='';
             for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
@@ -114,16 +126,28 @@ var Step4 = function () {
                 $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
                 rooms.push(data);
             }
-            /**
-             * Para salvar las rooms
-             */
-            $.ajax({
-                type: 'post',
-                url: url,
-                data:  {rooms: rooms,idown:App.getOwnId()},
-                success: function (data) {
-                }
-            });
+            if(!App.equals(rooms,dataStep4)){
+                dataStep4=rooms;
+                /**
+                 * Para salvar las rooms
+                 */
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    data:  {rooms: rooms,idown:App.getOwnId()},
+                    success: function (data) {
+                        if(data.success){
+                            var j=1;
+                            for(var i=1;i<$('#nav-tabs-backend li').size()-1;i++){
+                                if($('#id-room-'+i).val()==''){
+                                    $('#id-room-'+i).val(data.ids[parseInt(j)-parseInt(1)]);
+                                    j++;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         },
         getActiveTab:function(){
             return id_active;
@@ -136,7 +160,7 @@ var Step4 = function () {
             var tabContentId = el.parent().data('tab');
             el.parent().parent().remove(); //remove li of tab
             $('#nav-tabs-backend a:last').tab('show'); // Select first tab
-            $('#tab'+tabContentId).remove(); //remove respective tab content
+            $('#tab1'+tabContentId).remove(); //remove respective tab content
         },
         addEndTab:function(){
             $('#nav-tabs-backend').append('<li id="addTab" data-href="'+url_add_tab+'" onclick="Step4.addTabTabpanel($(this))" >'+html_nav_addTab+'</li>');
