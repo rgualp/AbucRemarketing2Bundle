@@ -29,25 +29,16 @@ var Step2 = function () {
      * Para inicializar el Mapa
      */
     var initializeMap=function(){
-
-        //var strictBounds = new google.maps.LatLngBounds(
-        //    new google.maps.LatLng(28.70, -127.50),
-        //    new google.maps.LatLng(48.85, -55.90)
-        //);
         var options = {
             map: "#map_canvas",
             markerOptions: {
                 draggable: true,
-                icon: iconUrl
+                icon: (typeof iconUrl !== 'undefined')?iconUrl:''
             },
-            location: province+', Cuba'
-            //,
-            //bounds: strictBounds
+            location: (typeof province!== 'undefined')?province:''+', Cuba'
         };
 
         var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options).bind("geocode:dragged", function(event, latLng){
-            //console.log('Dragged Lat: '+latLng.lat());
-            //console.log('Dragged Lng: '+latLng.lng());
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(latLng.lat());
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_y').val(latLng.lng());
 
@@ -55,18 +46,9 @@ var Step2 = function () {
         geomap.bind("geocode:result", function(event, result) {
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(result.geometry.location.lat());
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_y').val(result.geometry.location.lng());
-           //console.log( result.geometry.location.lat());
-           //console.log( result.geometry.location.lng());
 
         });
     }
-
-    //$('#mycp_mycpbundle_ownership_step1_own_langs1').on('change', function(){
-    //    var txt = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").text();
-    //    var val = $("#mycp_mycpbundle_ownership_step1_own_langs1 option:selected").val();
-    //  alert(txt);
-    //  alert(val);
-    //});
 
     var saveStep2=function(){
       var _url=$('#mycp_mycpbundle_ownership_step1').attr('action');
@@ -83,7 +65,6 @@ var Step2 = function () {
         $envio.success(function(data){
     //
         });
-        alert('Save form 2');
     }
     return {
         //main function to initiate template pages

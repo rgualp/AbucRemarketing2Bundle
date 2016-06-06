@@ -66,6 +66,19 @@ class StepsController extends Controller
         ));
 
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_room", path="/panel/room")
+     */
+    public function showRoomAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step4.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 
     /**
      * @param Request $request
@@ -145,7 +158,7 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="save_step5", path="/save/step5")
+     * @Route(name="save_facilities", path="/save/step5")
      */
     public function saveStep5Action(Request $request)
     {
@@ -166,7 +179,9 @@ class StepsController extends Controller
         $hasEmail = $request->get('hasEmail');
 
         $em = $this->getDoctrine()->getManager();
+
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+
 
         $accommodation->setOwnFacilitiesBreakfast($hasBreakfast)
             ->setOwnFacilitiesBreakfastPrice($breakfastPrice)
@@ -186,9 +201,17 @@ class StepsController extends Controller
         $em->persist($accommodation);
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true
-        ]);
+        if($request->get('dashboard')){
+            return $this->render('MyCpCasaModuleBundle:Steps:step5.html.twig', array(
+                'ownership'=>$accommodation,
+                'dashboard'=>true
+            ));
+        }
+        else {
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
     }
 
     /**
@@ -290,6 +313,19 @@ class StepsController extends Controller
         }
         return new JsonResponse('Ok');
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_description", path="/panel/description")
+     */
+    public function showDescriptionAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step3.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 
     /**
      * @param Request $request
@@ -335,7 +371,6 @@ class StepsController extends Controller
             'success' => true,
         ]);
     }
-
 
     /**
      * @param Request $request
@@ -508,7 +543,34 @@ class StepsController extends Controller
 
         return new JsonResponse($events);
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_facilities", path="/panel/facilities")
+     */
+    public function showFacilitiesAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step5.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_user_profile", path="/panel/profile")
+     */
+    public function showUserProfileAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+            'ownership' => $ownership,
+            'dashboard' => true
+        ));
+    }
+    
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException

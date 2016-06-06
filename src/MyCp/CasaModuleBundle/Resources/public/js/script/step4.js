@@ -49,27 +49,12 @@ var Step4 = function () {
      * Para salvar el paso
      */
     var saveStep4=function(){
-        var rooms = new Array();
-        var url='';
-        for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
-            var data={};
-            if(url==''){
-                var form = $("#form-number-"+i);
-                url= form.attr('action');
-            }
-            $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
-            rooms.push(data);
-        }
-        /**
-         * Para salvar las rooms
-         */
-        $.ajax({
-            type: 'post',
-            url: url,
-            data:  {rooms: rooms,idown:App.getOwnId()},
-            success: function (data) {
-            }
-        });
+        Step4.saveRoom(false);
+    }
+    var onclickBtnSaveRoom=function(){
+        $('#saveStepRoom').on('click',function(){
+            Step4.saveRoom(true);
+        })
     }
     /**
      * Para activar o desactivar la habitacion
@@ -109,11 +94,36 @@ var Step4 = function () {
             changeTab();
             activeRoom();
             deleteRoom();
+            onclickBtnSaveRoom();
             //Se captura el evento de guardar el paso
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
             initialicePlugins();
 
+        },
+        saveRoom:function(flag){
+
+            var rooms = new Array();
+            var url='';
+            for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+                var data={};
+                if(url==''){
+                    var form = $("#form-number-"+i);
+                    url= form.attr('action');
+                }
+                $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+                rooms.push(data);
+            }
+            /**
+             * Para salvar las rooms
+             */
+            $.ajax({
+                type: 'post',
+                url: url,
+                data:  {rooms: rooms,idown:App.getOwnId()},
+                success: function (data) {
+                }
+            });
         },
         getActiveTab:function(){
             return id_active;

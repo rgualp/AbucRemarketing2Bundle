@@ -48,6 +48,8 @@ var Step7 = function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep7,this);
+
+            $("#btnPublish").click(App.fireEventSaveTab());
         }
     };
 }();

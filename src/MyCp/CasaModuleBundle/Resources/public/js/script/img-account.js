@@ -133,7 +133,8 @@ var ImgAccount = function () {
             return bb;
         },
         showResponse:function(obj){
-            $(".dashboard-avatar").attr("src", '/uploads/userImages/' + obj.dir + '?timestamp=' + new Date().getTime());
+            var imageURL='/uploads/userImages/' + obj.dir + '?timestamp=' + new Date().getTime();
+            $(".dashboard-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
         }
     };
 }();

@@ -1,3 +1,6 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+
+{% block content %}
 {% set hasOwner = (ownership.owners != null and ownership.owners | length > 0 ) %}
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
@@ -175,3 +178,12 @@
         </div>
     </div>
 </div>
+    {% if dashboard is defined and dashboard %}
+        <div class="row">
+            <div class="col-md-8 text-center m-t-10">
+                <button id="saveStepFacilities" class="btn btn-primary dim" type="button">Guardar</button>
+                <span id="loading" class="hide">Procesando...</span>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

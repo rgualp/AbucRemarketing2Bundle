@@ -1,4 +1,4 @@
-{% extends 'MyCpCasaModuleBundle::layout_general.html.twig' %}
+{% extends 'MyCpCasaModuleBundle:Default:dashboard.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
     <style>
@@ -75,7 +75,7 @@
 
                             <div class="col-sm-4">
                                 <br/><br/>
-                                <a id="btnFilter" class="btn btn-primary dim" href="javascript:action_submit();" >Filtrar</a>
+                                <a id="btnFilter" class="btn btn-primary dim m-r-5" href="javascript:action_submit();" >Filtrar</a>
                                 <a href="{{ path('my_casa_module_reservations') }}" class="btn btn-default dim">Limpiar</a>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                                             {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                                         </td>
                                         <td style="text-align: right">
-                                            <a class="green-link detail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
+                                            <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
                                         </td>
                                     </tr>
                                     {% set flag = flag + 1%}

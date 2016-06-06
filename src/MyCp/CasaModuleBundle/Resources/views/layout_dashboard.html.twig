@@ -97,8 +97,7 @@
                 </nav>
             {% endblock nav %}
 
-            <div id="page-wrapper" class="white-bg">
-
+            <div id="page-wrapper" class="white-bg" data-idown="{{ ownership.OwnId }}">
                 <div class="row border-bottom">
                     <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
                         <div class="navbar-header">
@@ -127,7 +126,7 @@
                     </nav>
                 </div>
 
-                <div id="content_id" class="row white-bg" style="padding-bottom:40px">
+                <div id="content_id" class="{% if dashboard %}wrapper wrapper-content white-bg{% else %}row white-bg{% endif %}" style="padding-bottom:40px">
                      {% block content %}
                          {% include 'MyCpCasaModuleBundle:Steps:wizard.html.twig' %}
                      {% endblock content %}
