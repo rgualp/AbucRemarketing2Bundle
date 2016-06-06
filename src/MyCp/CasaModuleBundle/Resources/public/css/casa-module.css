@@ -606,7 +606,10 @@ ol > li::before {
     height: 20px;
     width: 20px;
 }
-
+.fc-today{
+    background-color: #b7b7b7;
+    color: white;
+}
 .circle-warning {
     background-color: #f36b25 !important;
 }

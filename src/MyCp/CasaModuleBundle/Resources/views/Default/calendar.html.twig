@@ -1,4 +1,4 @@
-{% extends 'MyCpCasaModuleBundle::layout_dashboard.html.twig' %}
+{% extends 'MyCpCasaModuleBundle:Default:dashboard.html.twig' %}
 
 {% block title %}Calendario{% endblock title %}
 
@@ -14,8 +14,11 @@
                 <div class="col-sm-1">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Disponibilidad.png') }}" class="img-title-step m-t-10" style="margin-left: 20px;">
                 </div>
-                <div class="col-sm-11">
+                <div class="col-sm-8">
                     <h2 class="font-blue">Disponibilidad</h2>
+                </div>
+                <div class="col-sm-3" style="padding-left: 0;">
+                    <h3 class="font-blue" style="margin-top: 15px;">Gestione la disponibilidad de sus habitaciones</h3>
                 </div>
             </div>
      <div class="col-sm-12 m-t-20">
@@ -58,8 +61,7 @@
              </div>
          </div>
          <div class="col-sm-3">
-             <h3 class="font-blue">Gestione la disponibilidad de sus habitaciones</h3>
-             <div class="bg-gray m-t-20 row font-black">
+             <div class="bg-gray row font-black">
                  <form class="form-horizontal" id="form-unab" method="post" action="{{ path('save_unabailability') }}">
                      <div class="form-group row">
                          <label class="control-label">Habitación</label>
@@ -116,29 +118,23 @@
          </div>
      </div>
      </div>
-        <div class="col-md-2 oneblue-bg col-content">
+        <div class="col-md-2 oneblue-bg col-content" style="background-color: #90a4ae;">
             <div id="help-step2-one" class="row">
                 <div class="col-md-12 m-t-20">
-                    <p>ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas especificas</p>
+                    <p>Utilice el formulario de la derecha para agregar no disponibildades en las habitaciones de su propiedad.</p>
                 </div>
             </div>
             <div id="help-step2-two" class="row">
                 <div class="col-md-12 m-t-40">
-                    <p>especifique el destino turístico al cual pertenece su alojamiento</p>
+                    <p>Si da click sobre algún elemento del calendario etiquetado como "Reservada MyCp" o "Cancelada por cliente" se mostrará la página que contiene los detalles a la reservación correspondiente. Este tipo de elemento no sera editado ni eliminado.</p>
                 </div>
             </div>
             <div id="help-step2-three" class="row">
                 <div class="col-md-12 m-t-40">
-                    <p>usted puede ubicar su alojamiento en el mapa, o simplemente poner su dirección y el mapa le dará la opción de verificar sus datos. Haga más fácil para el cliente encontrar su alojamiento)</p>
+                    <p>Los elementos etiquetados como "No disponibles" podrán ser modificados o eliminados solo si la</p>
                 </div>
             </div>
-            <div id="help-step2-four" class="row">
-                <div class="col-md-12 m-t-40">
-                    <p>especifique cuales son los idiomas que domina, a través de los cuales usted y su personal se pueden comunicar con el cliente</p>
-                </div>
-            </div>
-
-        </div>
+                   </div>
     </div>
 {% endblock %}
 
@@ -154,8 +150,7 @@
 //            var id='';
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                id=$(this).data('id');
-                console.log(id);
-                $('#calendar'+id).fullCalendar('render');
+               $('#calendar'+id).fullCalendar('render');
             });
             $('#form-unab').on('submit', function(e){
                 e.preventDefault();
@@ -177,8 +172,7 @@
                     if(data['success']==true){
                         toastr.success('Se guardó la información correctamente');
                         var id= $('div.tab-pane.active').data('id');
-                        console.log(id);
-                        $('#calendar'+id).fullCalendar('rerenderEvents');
+                        $('#calendar'+ id).fullCalendar('refetchEvents');
                     }
                     else
                         toastr.error(data['message']);
