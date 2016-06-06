@@ -9,7 +9,7 @@
                  {%if counter == 0%}
                      <tr>
                  {%endif%}
-                 <td><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name}} ({{des.total_owns}})</a></td>
+                 <td><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name | trans }} ({{des.total_owns}})</a></td>
                  {%if counter == 1%}
                      </tr>
                      {%set counter = 0%}
