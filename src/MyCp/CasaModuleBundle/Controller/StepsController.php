@@ -157,7 +157,7 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="save_step5", path="/save/step5")
+     * @Route(name="save_facilities", path="/save/step5")
      */
     public function saveStep5Action(Request $request)
     {
@@ -178,7 +178,9 @@ class StepsController extends Controller
         $hasEmail = $request->get('hasEmail');
 
         $em = $this->getDoctrine()->getManager();
+
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+
 
         $accommodation->setOwnFacilitiesBreakfast($hasBreakfast)
             ->setOwnFacilitiesBreakfastPrice($breakfastPrice)
@@ -198,9 +200,17 @@ class StepsController extends Controller
         $em->persist($accommodation);
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true
-        ]);
+        if($request->get('dashboard')){
+            return $this->render('MyCpCasaModuleBundle:Steps:step5.html.twig', array(
+                'ownership'=>$accommodation,
+                'dashboard'=>true
+            ));
+        }
+        else {
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
     }
 
     /**
@@ -547,5 +557,17 @@ class StepsController extends Controller
         ));
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_user_profile", path="/panel/profile")
+     */
+    public function showUserProfileAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
 }
