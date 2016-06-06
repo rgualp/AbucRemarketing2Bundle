@@ -89,12 +89,13 @@ class StepsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $rooms = $request->get('rooms');
+        $ids=array();
         if (count($rooms)) {
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
             $i = 1;
             foreach ($rooms as $room) {
                 //Se esta modificando
-                if (isset($room['idRoom'])) {
+                if (isset($room['idRoom']) && $room['idRoom'] !='') {
                     $ownership_room = $em->getRepository('mycpBundle:room')->find($room['idRoom']);
                     if (isset($room['room_type']))
                         $ownership_room->setRoomType($room['room_type']);
@@ -122,6 +123,7 @@ class StepsController extends Controller
                     $ownership_room->setRoomTerrace((isset($room['room_terrace'])) ? ($room['room_terrace'] == 'on' ? 1 : 0) : 0);
                     $ownership_room->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $em->persist($ownership_room);
+                    $em->flush();
                 } else {
                     //Se esta insertando
                     $obj = new room();
@@ -145,13 +147,15 @@ class StepsController extends Controller
                     $obj->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $obj->setRoomOwnership($ownership);
                     $em->persist($obj);
+                    $em->flush();
+                    $ids[]=$obj->getRoomId();
                 }
                 $i++;
             }
-            $em->flush();
         }
         return new JsonResponse([
-            'success' => true
+            'success' => true,
+            'ids'=>$ids
         ]);
     }
 

@@ -7,7 +7,6 @@ var Step4 = function () {
     var html_nav_addTab="";
     var url_add_tab="";
     var dataStep4=new Array();
-
     /**
      * Para llenar un arreglo con los datos del paso 4
      */
@@ -137,6 +136,15 @@ var Step4 = function () {
                     url: url,
                     data:  {rooms: rooms,idown:App.getOwnId()},
                     success: function (data) {
+                        if(data.success){
+                            var j=1;
+                            for(var i=1;i<$('#nav-tabs-backend li').size()-1;i++){
+                                if($('#id-room-'+i).val()==''){
+                                    $('#id-room-'+i).val(data.ids[parseInt(j)-parseInt(1)]);
+                                    j++;
+                                }
+                            }
+                        }
                     }
                 });
             }
