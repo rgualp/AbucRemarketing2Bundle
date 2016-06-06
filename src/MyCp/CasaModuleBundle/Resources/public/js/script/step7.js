@@ -26,6 +26,11 @@ var Step7 = function () {
                 $("#errorLabel").removeClass("hide");
                 return false;
             }
+            else if(password.length < 6){
+                $("#errorLabel").html("La longitud de la nueva contraseña tiene que ser superior a 6 caracteres");
+                $("#errorLabel").removeClass("hide");
+                return false;
+            }
         }
         $("#errorLabel").addClass("hide");
         return true;
@@ -45,9 +50,12 @@ var Step7 = function () {
         },
         saveProfile:function(flag) {
             var validate = true;
+            var changePassword = false;
 
-            if (flag)
+            if (flag) {
                 validate = validatePassword();
+                changePassword = validate;
+            }
 
             if (validate) {
                 $("#loading").removeClass("hide");
@@ -64,6 +72,7 @@ var Step7 = function () {
                 var email = $("#owner_email").val();
                 var email2 = $("#owner_email_2").val();
                 var secondOwner = $("#owner_second_owner").val();
+                var password = $("#password").val();
 
                 $.ajax({
                     type: 'post',
@@ -81,7 +90,10 @@ var Step7 = function () {
                         email: email,
                         email2: email2,
                         homeownerName: homeownerName,
-                        secondOwner: secondOwner
+                        secondOwner: secondOwner,
+                        password: password,
+                        changePassword: changePassword,
+                        dashboard: flag
                     },
                     success: function (data) {
                         $("#loading").addClass("hide");

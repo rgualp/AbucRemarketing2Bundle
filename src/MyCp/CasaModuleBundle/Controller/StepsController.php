@@ -436,6 +436,21 @@ class StepsController extends Controller
 
         $em->persist($ownerAccommodation);
 
+        if ($request->get('dashboard') and $request->get("changePassword")) {
+            $password = $request->get('password');
+
+                $factory = $this->get('security.encoder_factory');
+                $user = $this->getUser();
+
+                $encoder = $factory->getEncoder($user);
+                $password = $encoder->encodePassword($password, $user->getSalt());
+                $user->setUserPassword($password);
+
+
+                $em->persist($user);
+        }
+
+
         $em->flush();
 
         if ($request->get('dashboard')) {
