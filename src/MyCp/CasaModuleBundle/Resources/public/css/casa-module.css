@@ -668,3 +668,4 @@ a.green-link{
 .closeDetails:hover{cursor: pointer;}
 .label-important,.badge-important{background-color:#b94a48; color: #fff;}
 .label-important[href],.badge-important[href]{background-color:#953b39; color: #fff;}
+.red-text {color: #ff0000;}
