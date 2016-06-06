@@ -389,12 +389,17 @@ class StepsController extends Controller
         $provinceId = $request->get('provinceId');
         $email2 = $request->get('email2');
         $secondOwner = $request->get('secondOwner');
+        $homeownerName = $request->get('homeownerName');
+        $email = $request->get('email');
 
         $em = $this->getDoctrine()->getManager();
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
 
         $accommodation->setOwnMobileNumber($mobile)
+            ->setOwnPhoneNumber($phone)
+            ->setOwnEmail1($email)
             ->setOwnEmail2($email2)
+            ->setOwnHomeowner1($homeownerName)
             ->setOwnHomeowner2($secondOwner);
         $em->persist($accommodation);
 
@@ -411,14 +416,18 @@ class StepsController extends Controller
         $province = $em->getRepository("mycpBundle:province")->find($provinceId);
 
         $owner->setAddressBetween1($between1)
+            ->setFullName($homeownerName)
             ->setAddressBetween2($between2)
             ->setPhone($phone)
             ->setMobile($mobile)
+            ->setEmail($email)
             ->setEmail2($email2)
             ->setMunicipality($municipality)
             ->setProvince($province)
             ->setAddressMainStreet($mainStreet)
-            ->setAddressStreetNumber($streetNumber);
+            ->setAddressStreetNumber($streetNumber)
+            ->setMain(true)
+        ;
 
         $em->persist($owner);
 

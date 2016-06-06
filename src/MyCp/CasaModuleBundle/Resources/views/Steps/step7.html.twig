@@ -20,8 +20,8 @@
                     <label class="control-label">Nombre del propietario principal</label>
                     <div>
                         <i class="glyphicons vcard step-form-icon"></i>
-                        <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].fullName : ownership.ownHomeowner1 }}</span>
-                        <input type="hidden" name="homeownerName" id="homeownerName" class="form-control inline" value="{{ (hasOwner) ? ownership.owners[0].fullName : ownership.ownHomeowner1 }}"/>
+                        <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].owner.fullName : ownership.ownHomeowner1 }}</span>
+                        <input type="hidden" name="homeownerName" id="homeownerName" class="form-control inline" value="{{ (hasOwner) ? ownership.owners[0].owner.fullName : ownership.ownHomeowner1 }}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -36,7 +36,7 @@
                         <div class="col-sm-5">
                             <div class="input-group">
                                 <span class="input-group-addon">+53</span>
-                                <input name="own_mobile_number" id="own_mobile_number" type="text" class="form-control" maxlength="8" minlength="8" value="{{ (hasOwner) ? ownership.owners[0].mobile: ownership.ownMobileNumber }}"/>
+                                <input name="own_mobile_number" id="own_mobile_number" type="text" class="form-control" maxlength="8" minlength="8" value="{{ (hasOwner) ? ownership.owners[0].owner.mobile: ownership.ownMobileNumber }}"/>
                             </div>
 
                         </div>
@@ -56,7 +56,7 @@
                         <div class="col-sm-5">
                             <div class="input-group">
                                 <span class="input-group-addon" id="phoneCode">+53</span>
-                                <input name="own_phone_number" id="own_phone_number" type="text" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].province.provPhoneCode: ownership.ownAddressProvince.provPhoneCode }}{{ (hasOwner) ? ownership.owners[0].phone: ownership.ownPhoneNumber }}"/>
+                                <input name="own_phone_number" id="own_phone_number" type="text" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].owner.province.provPhoneCode: ownership.ownAddressProvince.provPhoneCode }}{{ (hasOwner) ? ownership.owners[0].owner.phone: ownership.ownPhoneNumber }}"/>
                             </div>
                         </div>
                         <div class="col-sm-6"></div>
@@ -75,10 +75,10 @@
                                     <i class="glyphicons google_maps form-icon pull-right"></i>
                                 </div>
                                 <div class="col-sm-5">
-                                    <input name="owner_street" id="owner_street" type="text" class="form-control" placeholder="Calle" value="{{ (hasOwner) ? ownership.owners[0].addressMainStreet: ownership.ownAddressStreet }}"/>
+                                    <input name="owner_street" id="owner_street" type="text" class="form-control" placeholder="Calle" value="{{ (hasOwner) ? ownership.owners[0].owner.addressMainStreet: ownership.ownAddressStreet }}"/>
                                 </div>
                                 <div class="col-sm-5">
-                                    <input name="owner_street_number" id="owner_street_number" type="text" class="form-control" placeholder="Número" value="{{ (hasOwner) ? ownership.owners[0].addressStreetNumber: ownership.ownAddressNumber }}"/>
+                                    <input name="owner_street_number" id="owner_street_number" type="text" class="form-control" placeholder="Número" value="{{ (hasOwner) ? ownership.owners[0].owner.addressStreetNumber: ownership.ownAddressNumber }}"/>
                                 </div>
                                 <div class="col-sm-1"></div>
                             </div>
@@ -88,10 +88,10 @@
 
                                 </div>
                                 <div class="col-sm-5">
-                                    <input name="owner_between_street_1" id="owner_between_street_1" type="text" class="form-control"  placeholder="Entre" value="{{ (hasOwner) ? ownership.owners[0].addressBetween1: ownership.ownAddressBetweenStreet1 }}"/>
+                                    <input name="owner_between_street_1" id="owner_between_street_1" type="text" class="form-control"  placeholder="Entre" value="{{ (hasOwner) ? ownership.owners[0].owner.addressBetween1: ownership.ownAddressBetweenStreet1 }}"/>
                                 </div>
                                 <div class="col-sm-5">
-                                    <input name="owner_between_street_2" id="owner_between_street_2" type="text" class="form-control" placeholder="y" value="{{ (hasOwner) ? ownership.owners[0].addressBetween2: ownership.ownAddressBetweenStreet2 }}"/>
+                                    <input name="owner_between_street_2" id="owner_between_street_2" type="text" class="form-control" placeholder="y" value="{{ (hasOwner) ? ownership.owners[0].owner.addressBetween2: ownership.ownAddressBetweenStreet2 }}"/>
                                 </div>
                                 <div class="col-sm-1"></div>
                             </div>
@@ -102,12 +102,12 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <select name="owner_municipality" id="owner_municipality" type="text" class="form-control"  placeholder="Municipio">
-                                        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality': (hasOwner) ? ownership.owners[0].municipality.munId: ownership.ownAddressMunicipality.munId }})) }}
+                                        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality': (hasOwner) ? ownership.owners[0].owner.municipality.munId: ownership.ownAddressMunicipality.munId }})) }}
                                     </select>
                                 </div>
                                 <div class="col-sm-5">
                                     <select class="form-control" name="owner_province" id="owner_province" placeholder="Provincia">
-                                        {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':(hasOwner) ? ownership.owners[0].province.provId: ownership.ownAddressProvince.provId}})) }}
+                                        {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':(hasOwner) ? ownership.owners[0].owner.province.provId: ownership.ownAddressProvince.provId}})) }}
                                     </select>
                                 </div>
                                 <div class="col-sm-1"></div>
@@ -120,8 +120,8 @@
                     <label class="control-label">Correo electrónico principal</label>
                     <div>
                         <i class="glyphicons envelope step-form-icon"></i>
-                        <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].email: ownership.ownEmail1 }}</span>
-                        <input name="owner_email" id="owner_email" type="hidden" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].email: ownership.ownEmail1 }}"/>
+                        <span class="font-blue step-span">{{ (hasOwner) ? ownership.owners[0].owner.email: ownership.ownEmail1 }}</span>
+                        <input name="owner_email" id="owner_email" type="hidden" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].owner.email: ownership.ownEmail1 }}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -132,7 +132,7 @@
                                 <i class="glyphicons envelope form-icon"></i>
                             </div>
                             <div class="col-sm-8">
-                                <input name="owner_email_2" id="owner_email_2" type="email" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].email2: ownership.ownEmail2 }}"/>
+                                <input name="owner_email_2" id="owner_email_2" type="email" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].owner.email2: ownership.ownEmail2 }}"/>
                             </div>
                             <div class="col-sm-3"></div>
                         </div>

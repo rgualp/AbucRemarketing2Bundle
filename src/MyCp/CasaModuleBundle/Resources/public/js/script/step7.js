@@ -27,7 +27,7 @@ var Step7 = function () {
         },
         saveProfile:function(flag){
             $("#loading").removeClass("hide");
-            var url = $("#submit-url-div").val();
+            var url = $("#submit-url").val();
             var homeownerName = $("#homeownerName").val();
             var mobile = $("#own_mobile_number").val();
             var phone = $("#own_phone_number").val();
