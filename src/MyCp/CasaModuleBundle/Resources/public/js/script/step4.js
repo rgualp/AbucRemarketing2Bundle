@@ -136,12 +136,13 @@ var Step4 = function () {
                     url: url,
                     data:  {rooms: rooms,idown:App.getOwnId()},
                     success: function (data) {
+                        var response=data;
                         if(data.success){
                             var j=1;
-                            for(var i=1;i<$('#nav-tabs-backend li').size()-1;i++){
-                                if($('#id-room-'+i).val()==''){
-                                    $('#id-room-'+i).val(data.ids[parseInt(j)-parseInt(1)]);
-                                    j++;
+                            for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+                                var idRoom=response.ids[parseInt(j)-parseInt(1)];
+                                if($("#id-room-"+i).val()==""){
+                                    document.getElementById('id-room-'+i).value=idRoom;
                                 }
                             }
                         }
