@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
+use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -521,8 +522,32 @@ class StepsController extends Controller
                 $em->persist($user);
         }
 
+        if(!$request->get("dashboard"))
+        {
+            //Preguntar si los datos primarios estan llenos
+            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+            $accommodation->setOwnStatus($status)
+                ->setOwnMaximumNumberGuests(0)
+                ->setOwnMaximumPrice(0)
+                ->setOwnMinimumPrice(0)
+                ->setOwnRoomsTotal(0);
+
+
+
+            //Insertar un ownershipStatistics
+            $statistic = new ownershipStatistics();
+            $statistic->setAccommodation($accommodation)
+                ->setCreated(true)
+                ->setStatus($status)
+                ->setUser($this->getUser());
+
+            $em->persist($statistic);
+        }
 
         $em->flush();
+
+        //Update general data
+        $em->getRepository("mycpBundle:ownership")->updateGeneralData($accommodation);
 
         if ($request->get('dashboard')) {
             return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(

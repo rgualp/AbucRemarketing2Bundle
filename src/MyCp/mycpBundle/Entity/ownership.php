@@ -504,6 +504,18 @@ class ownership {
     private $owners;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="waiting_for_revision", type="boolean")
+     */
+    private $waiting_for_revision;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipStatistics",mappedBy="accommodation")
+     */
+    private $ownershipLogs;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -513,14 +525,16 @@ class ownership {
         $this->ownershipKeywordOwnership = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
         $this->own_sended_to_team = false;
+        $this->waiting_for_revision = false;
         $this->own_cubacoupon = false;
         $this->awards = new ArrayCollection();
         $this->photos = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        //$this->own_creation_date = new \DateTime();
+        $this->ownershipLogs = new ArrayCollection();
+        $this->own_creation_date = new \DateTime();
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
-        $this->owners = ArrayCollection();
+        $this->owners = new ArrayCollection();
     }
 
     /**
@@ -2054,6 +2068,25 @@ class ownership {
         $this->owners = $owners;
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isWaitingForRevision()
+    {
+        return $this->waiting_for_revision;
+    }
+
+    /**
+     * @param boolean $waiting_for_revision
+     * @return mixed
+     */
+    public function setWaitingForRevision($waiting_for_revision)
+    {
+        $this->waiting_for_revision = $waiting_for_revision;
+        return true;
+    }
+
 
 
 }

@@ -247,6 +247,15 @@ class ownershipRepository extends EntityRepository {
         //save owner photo
         $this->saveOwnerPhoto($em, $ownership, $dir, $request);
 
+        //Insertar un ownershipStatistics
+        $statistic = new ownershipStatistics();
+        $statistic->setAccommodation($ownership)
+            ->setCreated(true)
+            ->setStatus($status)
+            ->setUser($controller->getUser());
+
+        $em->persist($statistic);
+
         $em->flush();
 
         return $ownership;
@@ -504,6 +513,15 @@ class ownershipRepository extends EntityRepository {
 
         //save owner photo
         $this->saveOwnerPhoto($em, $ownership, $dir, $request);
+
+        //Insertar un ownershipStatistics
+        $statistic = new ownershipStatistics();
+        $statistic->setAccommodation($ownership)
+            ->setCreated(false)
+            ->setStatus($status)
+            ->setUser($controller->getUser());
+
+        $em->persist($statistic);
 
         $em->flush();
         return $ownership;
@@ -2112,6 +2130,45 @@ class ownershipRepository extends EntityRepository {
             ->getResult();
 
         return $results;
+    }
+
+    function updateGeneralData($accommodation)
+    {
+        $em = $this->getEntityManager();
+        $maximum_guest_total = 0;
+        $roomsActiveTotal = 0;
+        $roomsInactiveTotal = 0;
+        $rooms = $em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $accommodation->getOwnId()));
+
+        foreach($rooms as $room) {
+            if ($room->getRoomActive()) {
+                $roomsActiveTotal++;
+                if (($accommodation->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $accommodation->getOwnMinimumPrice()))
+                    $accommodation->setOwnMinimumPrice($room->getRoomPriceDownTo());
+
+                if (($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $accommodation->getOwnMaximumPrice()))
+                    $accommodation->setOwnMaximumPrice($room->getRoomPriceUpTo());
+
+                if (($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $accommodation->getOwnMaximumPrice()))
+                    $accommodation->setOwnMaximumPrice($room->getRoomPriceSpecial());
+
+                $maximum_guest_total += $room->getMaximumNumberGuests();
+            }
+            else
+                $roomsInactiveTotal++;
+        }
+
+        $accommodation->setOwnMaximumNumberGuests($maximum_guest_total);
+        $accommodation->setOwnRoomsTotal($roomsActiveTotal);
+
+        if($roomsInactiveTotal == count($rooms))
+        {
+            $inactiveStatus = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
+            $accommodation->setOwnStatus($inactiveStatus);
+        }
+
+        $em->persist($accommodation);
+        $em->flush();
     }
 
 
