@@ -12,7 +12,7 @@
     {% if room is defined %}
         <input type="hidden" class="form-control" id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom" value="{{ room.RoomId }}">
         {% else %}
-            <input type="hidden" class="form-control" id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom">
+            <input type="hidden" class="form-control" id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom" value="">
     {% endif %}
     <div class="m-t-20 m-l-25">
         <label for="comment">Tipo de habitación </label>

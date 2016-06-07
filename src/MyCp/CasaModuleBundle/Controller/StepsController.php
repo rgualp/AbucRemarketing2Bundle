@@ -14,6 +14,7 @@ use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,6 +33,51 @@ use MyCp\mycpBundle\Entity\photo;
  */
 class StepsController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_casa", path="/panel/casa")
+     */
+    public function showCasaAction(Request $request)
+    {
+        $user=$this->getUser();
+        if(empty($user->getUserUserCasa()))
+            return new NotFoundHttpException('El usuario no es usuario casa');
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+        $form=$this->createForm(new ownershipStep1Type(),$ownership);
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
+
+//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
+            return $this->render('MyCpCasaModuleBundle:Steps:step2.html.twig', array(
+                'ownership'=>$ownership,
+                'dashboard'=>$ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE,
+                'form'=>$form->createView()
+            ));
+//        }
+
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="casa_show_photos", path="/panel/photos")
+     */
+    public function showPhotosAction(Request $request)
+    {
+        $user=$this->getUser();
+        if(empty($user->getUserUserCasa()))
+            return new NotFoundHttpException('El usuario no es usuario casa');
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
+
+//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
+            return $this->render('MyCpCasaModuleBundle:Steps:step6.html.twig', array(
+                'ownership'=>$ownership,
+                'dashboard'=>$ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE,
+                'photoForm'=>$photosForm->createView()
+            ));
+//        }
+
+    }
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException

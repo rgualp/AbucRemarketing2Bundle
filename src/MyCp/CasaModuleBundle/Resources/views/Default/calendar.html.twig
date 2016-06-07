@@ -214,7 +214,7 @@
                 allDayDefault: true,
                 lazyFetching: true,
                 lang: 'es',
-                'timezone': 'local',
+                'timezone': 'America/Havana',
 //                'eventTimeFormat': 'h:mmt',
                 eventSources: [
                     {
@@ -262,6 +262,22 @@
 
 
                 },
+                dayClick: function( date, jsEvent, view){
+                   var data= date.format("YYYY-MM-DD");
+                    console.log(data);
+                    var todaysEvents = $('#calendar{{ room.roomId }}').fullCalendar('clientEvents', function(event) {
+                        // Below statement returns the EVENT OBJECT of the clicked day after comparing the two dates
+                        return (event.start._i == data);
+                    });
+                    if (todaysEvents.length>0){
+                        if(todaysEvents[0].className=='circle-info')
+                        toastr.info(todaysEvents[0].title);
+                        else if(todaysEvents[0].className=='circle-warning')
+                        toastr.warning(todaysEvents[0].title);
+                        else toastr.error(todaysEvents[0].title);
+
+                    }
+                }
 //                dayRender: function(date, cell){
 //                    if (moment().diff(date,'days') > 0){
 //                        cell.css("background-color","silver");
