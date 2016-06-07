@@ -200,6 +200,12 @@
 <script type="text/javascript">
     var province='{{ ownership.ownAddressProvince }}';
     var iconUrl='{{ asset('bundles/frontend/img/map_marker.png', absolute=true) }}';
+    var langs=[
+        {% for lang in langs %}
+          '{{ lang }}'{% if not loop.last %},{% endif %}
+         {% endfor %}
+    ];
+
 </script>
 
     {% if dashboard is defined and dashboard %}

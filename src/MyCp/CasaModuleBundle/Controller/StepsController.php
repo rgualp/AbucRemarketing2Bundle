@@ -44,13 +44,25 @@ class StepsController extends Controller
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         $form=$this->createForm(new ownershipStep1Type(),$ownership);
-        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
-
+        //        die(dump($form['own_langs1']));
+        $langs=array();
+        if($ownership->getOwnLangs()){
+            if(substr($ownership->getOwnLangs(),0,1))
+                $langs[]='1000';
+            if(substr($ownership->getOwnLangs(),1,1))
+                $langs[]='0100';
+            if(substr($ownership->getOwnLangs(),2,1))
+                $langs[]='0010';
+            if(substr($ownership->getOwnLangs(),3,1))
+                $langs[]='0001';
+        }
+//        die(dump($langs));
 //        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
             return $this->render('MyCpCasaModuleBundle:Steps:step2.html.twig', array(
                 'ownership'=>$ownership,
                 'dashboard'=>$ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE,
-                'form'=>$form->createView()
+                'form'=>$form->createView(),
+                'langs'=>$langs
             ));
 //        }
 

@@ -20,8 +20,7 @@ var Step6 = function () {
 
         // add a delete course link to all of the existing tag form li elements
         collectionHolderPhotos.find('li').each(function (index) {
-             console.log(index);
-            addPhotoFormDeleteLink($(this),index);
+             addPhotoFormDeleteLink($(this),index);
         });
 
         // add the "add a Photo" anchor and li to the Photos ul
@@ -219,18 +218,24 @@ var Step6 = function () {
             //
         });
 
+
+
     }
 
+    var onclickBtnSavePhoto=function(){
+        $('#saveStepPhotos').on('click',function(){
+            Step6.saveStep6();
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep6,this);
-
-
-
-        }
+            onclickBtnSavePhoto();
+        },
+        saveStep6: saveStep6
     };
 }();
 //Start step6

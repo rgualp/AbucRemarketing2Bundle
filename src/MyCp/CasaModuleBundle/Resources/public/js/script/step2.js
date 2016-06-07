@@ -8,11 +8,12 @@ var Step2 = function () {
    };
     $('#mycp_mycpbundle_ownership_step1_own_langs1').select2(
         {
-            placeholder: "Seleccione",
+            placeholder: "Idiomas hablados en su casa",
             width: 'element',
             allowClear: true
         }
     );
+    $('#mycp_mycpbundle_ownership_step1_own_langs1').select2('val',langs);
     $('#mycp_mycpbundle_ownership_step1_own_langs1').on("select2:select", function (e) {
         //console.log("select2:select", e.params.data.id);
        var value= $('#mycp_mycpbundle_ownership_step1_own_langs').val();
