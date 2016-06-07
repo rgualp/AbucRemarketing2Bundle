@@ -263,13 +263,6 @@
 
                 },
                 dayClick: function( date, jsEvent, view){
-//                    console.log(date.toDate());
-////                    console.log(date.add(1,'d'));
-//                    var date1=date;
-//                    var date2 = date1.add(2,'d');
-//                    console.log(date);
-//                    console.log(date1);
-//                    console.log(date2);
                    var data= date.format("YYYY-MM-DD");
                     console.log(data);
                     var todaysEvents = $('#calendar{{ room.roomId }}').fullCalendar('clientEvents', function(event) {
