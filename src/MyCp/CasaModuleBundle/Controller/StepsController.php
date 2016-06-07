@@ -135,12 +135,13 @@ class StepsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $rooms = $request->get('rooms');
+        $ids=array();
         if (count($rooms)) {
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
             $i = 1;
             foreach ($rooms as $room) {
                 //Se esta modificando
-                if (isset($room['idRoom'])) {
+                if (isset($room['idRoom']) && $room['idRoom'] !='') {
                     $ownership_room = $em->getRepository('mycpBundle:room')->find($room['idRoom']);
                     if (isset($room['room_type']))
                         $ownership_room->setRoomType($room['room_type']);
@@ -168,6 +169,7 @@ class StepsController extends Controller
                     $ownership_room->setRoomTerrace((isset($room['room_terrace'])) ? ($room['room_terrace'] == 'on' ? 1 : 0) : 0);
                     $ownership_room->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $em->persist($ownership_room);
+                    $em->flush();
                 } else {
                     //Se esta insertando
                     $obj = new room();
@@ -191,13 +193,15 @@ class StepsController extends Controller
                     $obj->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $obj->setRoomOwnership($ownership);
                     $em->persist($obj);
+                    $em->flush();
+                    $ids[]=$obj->getRoomId();
                 }
                 $i++;
             }
-            $em->flush();
         }
         return new JsonResponse([
-            'success' => true
+            'success' => true,
+            'ids'=>$ids
         ]);
     }
 
@@ -443,12 +447,17 @@ class StepsController extends Controller
         $provinceId = $request->get('provinceId');
         $email2 = $request->get('email2');
         $secondOwner = $request->get('secondOwner');
+        $homeownerName = $request->get('homeownerName');
+        $email = $request->get('email');
 
         $em = $this->getDoctrine()->getManager();
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
 
         $accommodation->setOwnMobileNumber($mobile)
+            ->setOwnPhoneNumber($phone)
+            ->setOwnEmail1($email)
             ->setOwnEmail2($email2)
+            ->setOwnHomeowner1($homeownerName)
             ->setOwnHomeowner2($secondOwner);
         $em->persist($accommodation);
 
@@ -465,14 +474,18 @@ class StepsController extends Controller
         $province = $em->getRepository("mycpBundle:province")->find($provinceId);
 
         $owner->setAddressBetween1($between1)
+            ->setFullName($homeownerName)
             ->setAddressBetween2($between2)
             ->setPhone($phone)
             ->setMobile($mobile)
+            ->setEmail($email)
             ->setEmail2($email2)
             ->setMunicipality($municipality)
             ->setProvince($province)
             ->setAddressMainStreet($mainStreet)
-            ->setAddressStreetNumber($streetNumber);
+            ->setAddressStreetNumber($streetNumber)
+            ->setMain(true)
+        ;
 
         $em->persist($owner);
 
@@ -481,11 +494,34 @@ class StepsController extends Controller
 
         $em->persist($ownerAccommodation);
 
+        if ($request->get('dashboard') and $request->get("changePassword")) {
+            $password = $request->get('password');
+
+                $factory = $this->get('security.encoder_factory');
+                $user = $this->getUser();
+
+                $encoder = $factory->getEncoder($user);
+                $password = $encoder->encodePassword($password, $user->getSalt());
+                $user->setUserPassword($password);
+
+
+                $em->persist($user);
+        }
+
+
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true
-        ]);
+        if ($request->get('dashboard')) {
+            return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+                'ownership' => $accommodation,
+                'dashboard' => true
+            ));
+        }
+        else {
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
     }
 
     /**
@@ -618,7 +654,7 @@ class StepsController extends Controller
     public function showUserProfileAction(Request $request)
     {
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+        return $this->render('MyCpCasaModuleBundle:Steps:profile.html.twig', array(
             'ownership' => $ownership,
             'dashboard' => true
         ));

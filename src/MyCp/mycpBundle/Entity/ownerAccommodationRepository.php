@@ -27,7 +27,7 @@ class ownerAccommodationRepository extends EntityRepository
             ->setMaxResults(1)
             ;
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getOneOrNullResult();
 
     }
 }
