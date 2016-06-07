@@ -16,7 +16,6 @@ use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
-use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
