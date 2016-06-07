@@ -105,6 +105,19 @@ var App = function () {
             $(this).addClass('hide');
         });
     }
+    /**
+     * Funcion para validar la entrada de numeros
+     */
+    var validateInteger=function(){
+        $('.only-number').keyup(function (){
+            this.value = (this.value + '').replace(/[^0-9]/g, '');
+        });
+    }
+    /**
+     * Funcion que devuelve el tipo de valor
+     * @param obj
+     * @returns {*}
+     */
     var toType = function (obj) {
         if (typeof obj === "undefined") {
             return "undefined";
@@ -148,6 +161,7 @@ var App = function () {
             saveStep();
             createEvent();
             changeBtn();
+            validateInteger();
         },
         initializePlugins:function(selector,color){
             var elems = Array.prototype.slice.call(document.querySelectorAll((typeof(selector) === "undefined")?'.js-switch':selector));
