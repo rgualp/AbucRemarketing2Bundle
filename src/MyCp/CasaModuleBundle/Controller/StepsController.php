@@ -14,6 +14,7 @@ use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +32,51 @@ use MyCp\mycpBundle\Entity\photo;
  */
 class StepsController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_casa", path="/panel/casa")
+     */
+    public function showCasaAction(Request $request)
+    {
+        $user=$this->getUser();
+        if(empty($user->getUserUserCasa()))
+            return new NotFoundHttpException('El usuario no es usuario casa');
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+        $form=$this->createForm(new ownershipStep1Type(),$ownership);
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
+
+//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
+            return $this->render('MyCpCasaModuleBundle:Steps:step2.html.twig', array(
+                'ownership'=>$ownership,
+                'dashboard'=>$ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE,
+                'form'=>$form->createView()
+            ));
+//        }
+
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="casa_show_photos", path="/panel/photos")
+     */
+    public function showPhotosAction(Request $request)
+    {
+        $user=$this->getUser();
+        if(empty($user->getUserUserCasa()))
+            return new NotFoundHttpException('El usuario no es usuario casa');
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+        $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
+
+//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
+            return $this->render('MyCpCasaModuleBundle:Steps:step6.html.twig', array(
+                'ownership'=>$ownership,
+                'dashboard'=>$ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE,
+                'photoForm'=>$photosForm->createView()
+            ));
+//        }
+
+    }
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
@@ -401,12 +447,17 @@ class StepsController extends Controller
         $provinceId = $request->get('provinceId');
         $email2 = $request->get('email2');
         $secondOwner = $request->get('secondOwner');
+        $homeownerName = $request->get('homeownerName');
+        $email = $request->get('email');
 
         $em = $this->getDoctrine()->getManager();
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
 
         $accommodation->setOwnMobileNumber($mobile)
+            ->setOwnPhoneNumber($phone)
+            ->setOwnEmail1($email)
             ->setOwnEmail2($email2)
+            ->setOwnHomeowner1($homeownerName)
             ->setOwnHomeowner2($secondOwner);
         $em->persist($accommodation);
 
@@ -423,14 +474,18 @@ class StepsController extends Controller
         $province = $em->getRepository("mycpBundle:province")->find($provinceId);
 
         $owner->setAddressBetween1($between1)
+            ->setFullName($homeownerName)
             ->setAddressBetween2($between2)
             ->setPhone($phone)
             ->setMobile($mobile)
+            ->setEmail($email)
             ->setEmail2($email2)
             ->setMunicipality($municipality)
             ->setProvince($province)
             ->setAddressMainStreet($mainStreet)
-            ->setAddressStreetNumber($streetNumber);
+            ->setAddressStreetNumber($streetNumber)
+            ->setMain(true)
+        ;
 
         $em->persist($owner);
 
@@ -439,11 +494,34 @@ class StepsController extends Controller
 
         $em->persist($ownerAccommodation);
 
+        if ($request->get('dashboard') and $request->get("changePassword")) {
+            $password = $request->get('password');
+
+                $factory = $this->get('security.encoder_factory');
+                $user = $this->getUser();
+
+                $encoder = $factory->getEncoder($user);
+                $password = $encoder->encodePassword($password, $user->getSalt());
+                $user->setUserPassword($password);
+
+
+                $em->persist($user);
+        }
+
+
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true
-        ]);
+        if ($request->get('dashboard')) {
+            return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+                'ownership' => $accommodation,
+                'dashboard' => true
+            ));
+        }
+        else {
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
     }
 
     /**
@@ -576,7 +654,7 @@ class StepsController extends Controller
     public function showUserProfileAction(Request $request)
     {
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+        return $this->render('MyCpCasaModuleBundle:Steps:profile.html.twig', array(
             'ownership' => $ownership,
             'dashboard' => true
         ));
