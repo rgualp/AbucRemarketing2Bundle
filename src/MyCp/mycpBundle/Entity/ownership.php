@@ -19,6 +19,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ownership {
 
     /**
+     * All allowed statuses
+     */
+    const ACCOMMODATION_CATEGORY_ECONOMIC = "Económica";
+    const ACCOMMODATION_CATEGORY_MIDDLE_RANGE = "Rango medio";
+    const ACCOMMODATION_CATEGORY_PREMIUM = "Premium";
+
+    /**
+     * Contains all possible statuses
+     *
+     * @var array
+     */
+    private $categories = array(
+        self::ACCOMMODATION_CATEGORY_ECONOMIC,
+        self::ACCOMMODATION_CATEGORY_MIDDLE_RANGE,
+        self::ACCOMMODATION_CATEGORY_PREMIUM
+    );
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="own_id", type="integer")
@@ -2084,7 +2102,35 @@ class ownership {
     public function setWaitingForRevision($waiting_for_revision)
     {
         $this->waiting_for_revision = $waiting_for_revision;
-        return true;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnershipLogs()
+    {
+        return $this->ownershipLogs;
+    }
+
+    /**
+     * @param mixed $ownershipLogs
+     * @return mixed
+     */
+    public function setOwnershipLogs($ownershipLogs)
+    {
+        $this->ownershipLogs = $ownershipLogs;
+        return $this;
+    }
+
+
+
+    /**
+     * @return array
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 
 
