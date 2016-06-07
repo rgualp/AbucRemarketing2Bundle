@@ -531,10 +531,10 @@ class ownership {
         $this->photos = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->ownershipLogs = new ArrayCollection();
-        //$this->own_creation_date = new \DateTime();
+        $this->own_creation_date = new \DateTime();
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
-        $this->owners = ArrayCollection();
+        $this->owners = new ArrayCollection();
     }
 
     /**
