@@ -9,6 +9,7 @@ var App = function () {
     var Signal = signals.Signal;
     var event='';
     var idown='';
+    var flag='';
     /**
      * Crear los eventos
      */
@@ -113,6 +114,31 @@ var App = function () {
             this.value = (this.value + '').replace(/[^0-9]/g, '');
         });
     }
+    var initializeMenu=function(){
+        if (localStorageSupport){
+            if(localStorage.getItem("permited_click_menu_two_level")==null){
+                localStorage.setItem("permited_click_menu_two_level",true);
+            }
+        }
+    }
+    var showAction=function(){
+        //Para cuando se selecciona un link del menu
+        jQuery('.sidebar-collapse').on('click', ' li > a.redirect', function (e) {
+            if (localStorageSupport){
+                if(localStorage.getItem("permited_click_menu_two_level")=="true"){
+                    localStorage.setItem("permited_click_menu_two_level",false);
+                    window.location.href = $(this).data('href');
+                }
+            }
+        });
+    }
+    var showNormal=function(){
+        //Para cuando se selecciona un link del menu
+        jQuery('.sidebar-collapse').on('click', ' li > a.normal', function (e) {
+            localStorage.setItem("permited_click_menu_two_level",true);
+            return true;
+        });
+    }
     /**
      * Funcion que devuelve el tipo de valor
      * @param obj
@@ -162,6 +188,10 @@ var App = function () {
             createEvent();
             changeBtn();
             validateInteger();
+            initializeMenu();
+            showAction();
+            showNormal();
+
         },
         initializePlugins:function(selector,color){
             var elems = Array.prototype.slice.call(document.querySelectorAll((typeof(selector) === "undefined")?'.js-switch':selector));

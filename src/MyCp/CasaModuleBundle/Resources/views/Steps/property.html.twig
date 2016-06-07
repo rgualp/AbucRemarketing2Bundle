@@ -1,0 +1,71 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+
+{% block content %}
+    <div class="row row-eq-height">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="font-blue">Bienvenido a su perfil en MyCasaParticular.com.</h2>
+                    <h3 class="font-green">Aquí encontrará las claves para gestionar su alojamiento.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11 m-l-10 bg-gray font-black" style="padding: 0">
+                    <div class="row" style="margin-left: 0px">
+                        <div class="col-md-8"><h2 class="font-blue">{{ ownership.ownName }}</h2></div>
+                        <div class="col-md-4">
+                            <div class="col-md-4">
+                                <h3 style="font-size: 20px; margin-top: 25px;">desde:</h3>
+                            </div>
+                            <div class="col-md-8">
+                                <h2 class="font-blue">{{ ownership.ownMinimumPrice }} CUC</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 0px">
+
+                        <div class="col-md-1">
+                            <div class="additional-icons icons-medium premium-icon"></div>
+                        </div>
+                        <div class="col-md-6 p-0">
+                            <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">Rango medio</span>
+                        </div>
+                    </div>
+                    <div class="row m-l-10">
+                        <div class="col-md-6">
+                            <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">CH 222</span>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button type="button" class="change-activate activate btn btn-default  dim" ><i class="glyphicons eye_open" style="color:#fff"></i> Desactivar</button>
+                            <button type="button" class="btn btn-danger  dim"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+        <div class="col-md-3 oneblue-bg col-content">
+            <div id="help-step3-one" class="row">
+                <div class="col-md-12 m-t-20">
+                    <p>por favor señale si sus habitaciones son dobles, sencillas, matrimoniales, de estudio o suites</p>
+                </div>
+            </div>
+            <div id="help-step3-two" class="row">
+                <div class="col-md-12 m-t-40">
+                    <p>indique cuántas camas existen por habitación</p>
+                </div>
+            </div>
+            <div id="help-step3-three" class="row">
+                <div class="col-md-12 m-t-40">
+                    <p>El precio usted lo determina. De forma independiente, MyCasaParticular cobra al TURISTA un pago por adelantado correspondiente al 20% del precio
+                        publicado en el sitio.
+                        Usted NO PAGA COMISIÓN.
+                        El valor que hacemos público incluye el  precio que usted pone a su alojamiento más la comisión nuestra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

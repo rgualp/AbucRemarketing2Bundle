@@ -366,7 +366,20 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="show_description", path="/panel/description")
+     * @Route(name="show_property", path="/datos")
+     */
+    public function showPropertyAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:property.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_description", path="/descripcion")
      */
     public function showDescriptionAction(Request $request)
     {

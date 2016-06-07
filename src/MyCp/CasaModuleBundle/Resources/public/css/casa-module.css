@@ -3,6 +3,7 @@ body{
     background-color: #2191d2;
     font-size: 14px;
 }
+.big-icons{width: 44px; height: 44px; background: url("../img/icons/big-icons.png") no-repeat;} .premium-big-icon{background-position: 0 0} .medium-big-icon{background-position: -44px 0} .economic-big-icon{background-position: -88px 0}
 .collapse_arrow{
     background: url('/bundles/mycpcasamodule/img/Zaeta-Izquierda.png') no-repeat;
 }
@@ -464,11 +465,11 @@ ol > li::before {
 }
 
 /*Additional icons*/
-.additional-icons{width: 13px; height: 14px; background: url("../img/icons.png") no-repeat; vertical-align: middle }
+.additional-icons{width: 13px; height: 14px; background: url("../img/icons/icons.png") no-repeat; vertical-align: middle }
 /*.additional-icons{ width: 27px; height: 27px}*/
 .icon-2{width: 14px; height: 14px;}
 .icon-3{width: 18px; height: 18px;}
-.icon-medium{width: 26px; height: 25px; vertical-align: middle}
+.icons-medium{width: 26px; height: 25px; vertical-align: middle}
 .tiny-book-icon{background-position: 0 0}
 .icon-mail{background-position: -19px -231px; width: 19px; height: 14px;}
 .icon-heart{background-position: -31px -75px; cursor: pointer}
