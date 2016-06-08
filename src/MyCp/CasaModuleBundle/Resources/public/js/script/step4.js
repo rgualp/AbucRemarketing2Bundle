@@ -179,16 +179,52 @@ var Step4 = function () {
             $.ajax({
                 type: 'post',
                 url: url,
-                data:  {idroom:idroom,val:val},
+                data:  {idroom:idroom,val:val,forced:false},
                 success: function (data) {
                     HoldOn.close();
-                    if(!val){
-                        $('#deactiveRoom_'+idroom).addClass('hide');
-                        $('#activeRoom_'+idroom).removeClass('hide');
+                    if(data.success){
+                        if(!val){
+                            $('#deactiveRoom_'+idroom).addClass('hide');
+                            $('#activeRoom_'+idroom).removeClass('hide');
+                        }
+                        else{
+                            $('#deactiveRoom_'+idroom).removeClass('hide');
+                            $('#activeRoom_'+idroom).addClass('hide');
+                        }
                     }
                     else{
-                        $('#deactiveRoom_'+idroom).removeClass('hide');
-                        $('#activeRoom_'+idroom).addClass('hide');
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "La habitación que usted desea eliminar tiene reservas hechas, quiere desactivar la misma!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#e94b3d",
+                            cancelButtonColor: "#64a433",
+                            confirmButtonText: "Sí",
+                            cancelButtonText: "No",
+                            closeOnConfirm: true
+                        }, function () {
+                           HoldOn.open();
+                            HoldOn.open();
+                            $.ajax({
+                                type: 'post',
+                                url: url,
+                                data:  {idroom:idroom,val:val,forced:true},
+                                success: function (data) {
+                                    HoldOn.close();
+                                    if(data.success){
+                                        if(!val){
+                                            $('#deactiveRoom_'+idroom).addClass('hide');
+                                            $('#activeRoom_'+idroom).removeClass('hide');
+                                        }
+                                        else{
+                                            $('#deactiveRoom_'+idroom).removeClass('hide');
+                                            $('#activeRoom_'+idroom).addClass('hide');
+                                        }
+                                    }
+                                }
+                            });
+                        });
                     }
                 }
             });
