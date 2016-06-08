@@ -19,10 +19,21 @@ class DefaultController extends Controller
         if(empty($user->getUserUserCasa()))
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+        if($ownership->getOwnLangs()){
+            if(substr($ownership->getOwnLangs(),0,1))
+                $langs[]='1000';
+            if(substr($ownership->getOwnLangs(),1,1))
+                $langs[]='0100';
+            if(substr($ownership->getOwnLangs(),2,1))
+                $langs[]='0010';
+            if(substr($ownership->getOwnLangs(),3,1))
+                $langs[]='0001';
+        }
         if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
             return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array(
                 'ownership'=>$ownership,
-                'dashboard'=>true
+                'dashboard'=>true,
+                'langs'=>$langs
             ));
         }
         else{
@@ -32,7 +43,8 @@ class DefaultController extends Controller
                 'ownership'=>$ownership,
                 'form'=>$form->createView(),
                 'photoForm'=>$photosForm->createView(),
-                'dashboard'=>false
+                'dashboard'=>false,
+                'langs'=>$langs
             ));
         }
 

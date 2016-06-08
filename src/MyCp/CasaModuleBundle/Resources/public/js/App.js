@@ -134,7 +134,7 @@ var App = function () {
     }
     var showNormal=function(){
         //Para cuando se selecciona un link del menu
-        jQuery('.sidebar-collapse').on('click', ' li > a.normal', function (e) {
+       jQuery('.sidebar-collapse').on('click', ' li > a.normal', function (e) {
             localStorage.setItem("permited_click_menu_two_level",true);
             return true;
         });

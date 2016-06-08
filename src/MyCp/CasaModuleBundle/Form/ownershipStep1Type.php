@@ -56,7 +56,7 @@ class ownershipStep1Type extends AbstractType
                 ]
             ))
 //            ->add('own_phone_code')
-//            ->add('own_phone_number')
+            ->add('own_phone_number')
 //             ->add('own_category')
             ->add('own_type','choice', array(
                 'label'=>'Tipo de propiedad',

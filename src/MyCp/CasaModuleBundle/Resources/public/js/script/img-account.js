@@ -40,7 +40,7 @@ var ImgAccount = function () {
         $('#take-picture').on('click', function () {
             $('#video').addClass('hide');
             $('#canvas').removeClass('hide');
-            context.drawImage(video_camera, 0, 0, 320, 220);
+            context.drawImage(video_camera, 0, 0, 320, 240);
             $('#repeat-take-picture').removeClass('hide');
             $('#use-take-picture').removeClass('hide');
             $('#take-picture').addClass('hide');
