@@ -2171,5 +2171,34 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
+    /**
+     * Calcula automaticamente la categoria de un alojamiento
+     * @param ownership $accommodation
+     */
+    function calculateAccommodationCategory($accommodation)
+    {
+        $em = $this->getEntityManager();
+        $category = "";
+
+        $average = $em->createQueryBuilder()
+            ->from("mycpBundle:room", "r")
+            ->select("AVG(r.room_price_down_to) as average")
+            ->where("r.room_ownership = :idAccommodation")
+            ->setParameter("idAccommodation", $accommodation->getOwnId())
+            ->getQuery()
+            ->getSingleScalarResult();
+        
+        if($average < 15 || ($average >= 15 && $average <= 35))
+            $category = ownership::ACCOMMODATION_CATEGORY_ECONOMIC;
+        else if($average > 35 && $average <= 50)
+            $category = ownership::ACCOMMODATION_CATEGORY_MIDDLE_RANGE;
+        else
+            $category = ownership::ACCOMMODATION_CATEGORY_PREMIUM;
+
+        $accommodation->setOwnCategory($category);
+        $em->persist($accommodation);
+
+        $em->flush();
+    }
 
 }

@@ -526,12 +526,8 @@ class StepsController extends Controller
             //Preguntar si los datos primarios estan llenos
             $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
             $accommodation->setOwnStatus($status)
-                ->setOwnMaximumNumberGuests(0)
-                ->setOwnMaximumPrice(0)
-                ->setOwnMinimumPrice(0)
-                ->setOwnRoomsTotal(0);
-
-
+                ->setWaitingForRevision(true);
+            $em->persist($accommodation);
 
             //Insertar un ownershipStatistics
             $statistic = new ownershipStatistics();
@@ -547,6 +543,13 @@ class StepsController extends Controller
 
         //Update general data
         $em->getRepository("mycpBundle:ownership")->updateGeneralData($accommodation);
+
+        //Enviar correo
+        if(!$request->get("dashboard"))
+        {
+            $service_email = $this->get('Email');
+            $service_email->sendInfoCasaRentaCommand($this->getUser());
+        }
 
         if ($request->get('dashboard')) {
             return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
