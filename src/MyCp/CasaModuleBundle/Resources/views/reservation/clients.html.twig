@@ -177,6 +177,7 @@
             var url = "{{ path("my_casa_module_client_detail") }}";
             var idClient = $(this).data("client");
             $("#clientDetail").removeClass("hidden");
+            $("#reservationDetail").addClass("hidden");
 
             $("#clientDetail").html('<span class="font-blue step-span">Cargando...</span>');
 
