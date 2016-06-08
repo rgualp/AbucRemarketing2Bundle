@@ -249,4 +249,20 @@ class Email {
 		}
 	}
 
+    public function sendCasaModulePublishAccommodation($user) {
+        $user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());
+        $email_to= $user->getUserEmail();
+
+        if (!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $data= array();
+        $data['user_locale']= 'es';
+
+        $templating = $this->container->get('templating');
+        $content = $templating->render('FrontEndBundle:mails:casaModulePublishAccommodation.html.twig', $data);
+        $subject= 'Bienvenido a MyCasaParticular';
+        $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
+    }
+
 }

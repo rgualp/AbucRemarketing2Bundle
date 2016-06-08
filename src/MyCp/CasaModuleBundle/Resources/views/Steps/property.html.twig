@@ -1,0 +1,95 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+
+{% block content %}
+        <div class="row row-eq-height p-b-40">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="font-blue">Bienvenido a su perfil en MyCasaParticular.com.</h2>
+                    <h3 class="font-green">Aquí encontrará las claves para gestionar su alojamiento.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11 m-l-10 bg-gray font-black" style="padding: 0">
+                    <div class="row" style="margin-left: 0px">
+                        <div class="col-md-8"><h2 class="font-blue">{{ ownership.ownName }}</h2></div>
+                        <div class="col-md-4">
+                            <div class="col-md-4">
+                                <h3 style="font-size: 20px; margin-top: 25px;">desde:</h3>
+                            </div>
+                            <div class="col-md-8">
+                                <h2 class="font-blue">{{ ownership.ownMinimumPrice }} CUC</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 0px">
+
+                        <div class="col-md-1">
+                            <div class="additional-icons icons-medium premium-icon"></div>
+                        </div>
+                        <div class="col-md-6 p-0">
+                            <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">Rango medio</span>
+                        </div>
+                    </div>
+                    <div class="row m-l-10">
+                        <div class="col-md-6">
+                            <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">{{ ownership.ownMcpCode }}</span>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button type="button" class="change-activate activate btn btn-default  dim" ><i class="glyphicons eye_open" style="color:#fff"></i> Desactivar</button>
+                            <button type="button" class="btn btn-danger  dim"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row m-l-10">
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('show_casa') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Datos de su propiedad</span>
+                    </a>
+                </div>
+
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('show_description') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Descripción</span>
+                    </a>
+                </div>
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('show_room') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Habitaciones</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row m-l-10">
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path("show_facilities") }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Facilidades</span>
+                    </a>
+                </div>
+
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('casa_show_photos') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Imágenes</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 oneblue-bg col-content">
+            <div class="row">
+                <div class="col-md-12 m-t-20">
+                    <p>Esta sección muestra los datos principales de su propiedad que MyCasa
+                        tiene registrados. De ellos, solo podrá modificar los que se pueden
+                        editar. Para salvar los cambios dé clic sobre el botón "Guardar".</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 m-t-40">
+                    <p>Si desea que alguna otra información se modifique por nuestro equipo,
+                        por favor, accione sobre el botón "Solicitar cambio" y descríbalo. Su
+                        petición se reflejará en nuestro sitio lo antes posible.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

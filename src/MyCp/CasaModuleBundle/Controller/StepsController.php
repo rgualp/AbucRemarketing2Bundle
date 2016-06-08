@@ -378,7 +378,20 @@ class StepsController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
-     * @Route(name="show_description", path="/panel/description")
+     * @Route(name="show_property", path="/datos")
+     */
+    public function showPropertyAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:property.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true
+        ));
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_description", path="/descripcion")
      */
     public function showDescriptionAction(Request $request)
     {
@@ -520,8 +533,35 @@ class StepsController extends Controller
                 $em->persist($user);
         }
 
+        if(!$request->get("dashboard"))
+        {
+            //Preguntar si los datos primarios estan llenos
+            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+            $accommodation->setOwnStatus($status)
+                ->setWaitingForRevision(true);
+            $em->persist($accommodation);
+
+            //Insertar un ownershipStatistics
+            $statistic = new ownershipStatistics();
+            $statistic->setAccommodation($accommodation)
+                ->setCreated(true)
+                ->setStatus($status)
+                ->setUser($this->getUser());
+
+            $em->persist($statistic);
+        }
 
         $em->flush();
+
+        //Update general data
+        $em->getRepository("mycpBundle:ownership")->updateGeneralData($accommodation);
+
+        //Enviar correo
+        if(!$request->get("dashboard"))
+        {
+            $service_email = $this->get('Email');
+            $service_email->sendInfoCasaRentaCommand($this->getUser());
+        }
 
         if ($request->get('dashboard')) {
             return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
