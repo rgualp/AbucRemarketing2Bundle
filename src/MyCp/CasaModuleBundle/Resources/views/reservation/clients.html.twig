@@ -22,6 +22,8 @@
                         <h2 class="font-blue">Clientes</h2>
                     </div>
                         </div>
+                    <div id="reservationDetail" class="hidden">
+                    </div>
                     <div id="clientDetail" class="hidden">
                     </div>
                     <div class="bg-gray m-t-20 col-md-12 font-black">
@@ -103,7 +105,7 @@
                                         <td>{{ reservation.langName}}</td>
                                         <td>{{ reservation.total_reserves }}</td>
                                         <td style="text-align: right">
-                                            <a class="green-link detail" href="#clientDetail" data-client="{{ reservation.user_id }}">Detalles</a>
+                                            <a class="green-link clientDetail" href="#clientDetail" data-client="{{ reservation.user_id }}">Detalles</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -171,24 +173,26 @@
             autoclose: true
         });
 
-        $(".detail").click(function(){
-            var url = "{{ path("my_casa_module_reservation_detail") }}";
-            var idReservation = $(this).data("reservation");
-            $("#reservationDetail").removeClass("hidden");
+        $(".clientDetail").click(function(){
+            var url = "{{ path("my_casa_module_client_detail") }}";
+            var idClient = $(this).data("client");
+            $("#clientDetail").removeClass("hidden");
+            $("#reservationDetail").addClass("hidden");
 
-            $("#reservationDetail").html('<span class="font-blue step-span">Cargando...</span>');
+            $("#clientDetail").html('<span class="font-blue step-span">Cargando...</span>');
 
             $.ajax({
                 type: 'post',
                 url: url,
                 data:  {
-                    idReservation:idReservation
+                    idClient:idClient
                 },
                 success: function (data) {
-                    $("#reservationDetail").html(data);
+                    $("#clientDetail").html(data);
                 }
             });
         });
+
 
         function submit_filters(ev)
         {

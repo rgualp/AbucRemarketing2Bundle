@@ -176,4 +176,38 @@ class ReservationController extends Controller
         ));
     }
 
+    public function clientDetailAction(Request $request) {
+        $id_client = $request->get("idClient");
+        $service_time = $this->get('time');
+
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client, $userCasa->getUserCasaOwnership()->getOwnId(), true);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
+        $price = 0;
+        $total_nights = array();
+
+        foreach ($reservations as $reservation) {
+            $temp_total_nights = 0;
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation['gen_res_id']));
+
+            foreach ($owns_res as $own) {
+                $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=$nights;
+            }
+            array_push($total_nights, $temp_total_nights);
+        }
+
+        $content = $this->renderView('MyCpCasaModuleBundle:reservation:clientDetail.html.twig', array(
+            'total_nights' => $total_nights,
+            'reservations' => $reservations,
+            'client' => $client,
+            'errors' => '',
+            'tourist' => $userTourist[0]));
+
+        return new Response($content, 200);
+    }
+
 }

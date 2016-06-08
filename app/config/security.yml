@@ -55,7 +55,7 @@ security:
                 check_path: /casa/login_check
                 login_path: /casa/login
                 remember_me: true
-                default_target_path: /casa/
+                default_target_path: /casa/dashboard
                 use_referer: false
             remember_me:
                 key: '%secret%'
@@ -65,7 +65,7 @@ security:
                 domain: ~
             logout:
                 path:   /casa/logout
-                target: /casa/
+                target: /casa/dashboard
                 invalidate_session: false
                 delete_cookies:
                     REMEMBERME: { path: ~, domain: ~}

@@ -67,6 +67,12 @@ var Step2 = function () {
     //
         });
     }
+
+    var onclickBtnSaveCasa=function(){
+        $('#saveStepCasa').on('click',function(){
+            Step2.saveStep2();
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
@@ -74,7 +80,10 @@ var Step2 = function () {
             initializeMap();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep2,this);
+            onclickBtnSaveCasa();
         }
+        ,
+        saveStep2: saveStep2
     };
 }();
 //Start step2
