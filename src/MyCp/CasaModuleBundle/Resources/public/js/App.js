@@ -60,7 +60,7 @@ var App = function () {
        })
     }
     /**
-     * //Para cuando se selecciona un link del menu
+     * Para cuando se selecciona un link del menu
      */
     var activeTabWizard=function(){
         //Para cuando se selecciona un link del menu
@@ -74,7 +74,7 @@ var App = function () {
         })
     }
     /**
-     * //Para cuando el usuario de click en la ayuda
+     * Para cuando el usuario de click en la ayuda
      */
     var mouseHelp=function(){
         $('.help-icon').on('click',function(){
@@ -114,6 +114,9 @@ var App = function () {
             this.value = (this.value + '').replace(/[^0-9]/g, '');
         });
     }
+    /**
+     * Funcion para inicializar el menu
+     */
     var initializeMenu=function(){
         if (localStorageSupport){
             if(localStorage.getItem("permited_click_menu_two_level")==null){

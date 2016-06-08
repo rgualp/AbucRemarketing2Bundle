@@ -2108,4 +2108,18 @@ class generalReservationRepository extends EntityRepository {
                 ->setParameter("genResId", $idGeneralReservation);
         return $qb->setMaxResults(1)->getQuery()->getResult();
     }
+
+    function getReservationsByIdAccommodationByDateFrom($idAccommodation,$start)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->where("gres.gen_res_own_id = :idAccommodation")
+            ->andWhere("gres.gen_res_from_date >= :start")
+            ->setParameter("idAccommodation", $idAccommodation)
+            ->setParameter("start", $start);
+        return $qb->getQuery()->getResult();
+    }
 }

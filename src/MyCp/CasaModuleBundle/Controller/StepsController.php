@@ -795,4 +795,42 @@ class StepsController extends Controller
             'success' => true
         ]);
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="active_property", path="/active/property")
+     */
+    public function activePropertyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $time = new \DateTime();
+        //$start= $time->format('Y-m-d H:i:s');
+        $start='2015-07-02';
+
+        $reserved = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodationByDateFrom($ownership->getOwnId(), $start);
+        if(count($reserved)){
+            if($request->get('forced')=='true'){
+                $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
+                $ownership->setOwnStatus($status);
+                $em->persist($ownership);
+                $em->flush();
+                //Mando notificacion al equipo de reserva
+                //self::submitEmailReservationTeam($room,$ownership,$reserved);
+                $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+            }
+            else
+                $response=array( 'success' => false);
+        }
+        else{
+            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
+            $ownership->setOwnStatus($status);
+            $em->persist($ownership);
+            $em->flush();
+            $response=array('success' => true);
+        }
+        return new JsonResponse($response);
+
+    }
+
 }
