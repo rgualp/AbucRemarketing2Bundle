@@ -15,7 +15,7 @@
                 <ul id="nav-tabs-backend" class="nav nav-tabs mcp" data-numroom="{{ ownership.ownRooms | length }}">
                     {% if ownership.ownRooms | length %}
                         {% for room in ownership.ownRooms %}
-                            <li id="nav1{{ room.RoomNum }}" class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="#tab1{{ room.RoomNum }}">Habitación {{ room.RoomNum }}</a></li>
+                            <li id="nav1{{ room.RoomNum }}" class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="#tab1{{ room.RoomNum }}">Hab {{ room.RoomNum }}</a></li>
                         {% endfor %}
                         {% else %}
                             <li id="nav11" class="active"><a data-toggle="tab" href="#tab11">Hab 1</a></li>
