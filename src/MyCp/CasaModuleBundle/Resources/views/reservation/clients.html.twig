@@ -103,7 +103,7 @@
                                         <td>{{ reservation.langName}}</td>
                                         <td>{{ reservation.total_reserves }}</td>
                                         <td style="text-align: right">
-                                            <a class="green-link detail" href="#clientDetail" data-client="{{ reservation.user_id }}">Detalles</a>
+                                            <a class="green-link clientDetail" href="#clientDetail" data-client="{{ reservation.user_id }}">Detalles</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -171,7 +171,7 @@
             autoclose: true
         });
 
-        $(".detail").click(function(){
+        $(".clientDetail").click(function(){
             var url = "{{ path("my_casa_module_client_detail") }}";
             var idClient = $(this).data("client");
             $("#clientDetail").removeClass("hidden");

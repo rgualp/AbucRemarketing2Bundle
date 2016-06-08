@@ -1,11 +1,11 @@
-<div class="bg-gray font-black p-0 m-t-10 detailsContainer">
+<div class="bg-gray font-black p-0 m-t-10 clientDetailsContainer">
     <div class="row">
         <div class="row">
             <div class="col-sm-6 p-40">
                 <span class="font-blue step-span">Cliente {{client.getUserUserName | capitalize}} {{client.getUserLastName | capitalize}}</span>
             </div>
             <div class="col-sm-6">
-                <div class="pull-right"><a class="closeDetails" style="margin: 18px"><i class="glyphicons remove_2"></i></a></div>
+                <div class="pull-right"><a class="closeClientDetails" style="margin: 18px"><i class="glyphicons remove_2"></i></a></div>
             </div>
         </div>
         <div class="row">
@@ -69,7 +69,7 @@
                             {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
                         </td>
                         <td style="text-align: right">
-
+                            <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -79,7 +79,7 @@
 </div>
 
 <script>
-    $('.closeDetails').click(function(){
-        $(".detailsContainer").addClass('hidden');
+    $('.closeClientDetails').click(function(){
+        $(".clientDetailsContainer").addClass('hidden');
     });
 </script>
