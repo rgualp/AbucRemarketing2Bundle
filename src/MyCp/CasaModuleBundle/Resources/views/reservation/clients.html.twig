@@ -42,10 +42,10 @@
                                 </div>
                             </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 pull-right">
                             <br/><br/>
-                            <a id="btnFilter" class="btn btn-primary dim m-r-5" href="javascript:action_submit();" >Filtrar</a>
-                            <a href="{{ path('my_casa_module_clients') }}" class="btn btn-default dim">Limpiar</a>
+                            <a href="{{ path('my_casa_module_clients') }}" class="btn btn-default dim pull-right">Limpiar</a>
+                            <a id="btnFilter" class="btn btn-primary dim m-r-5 pull-right" href="javascript:action_submit();" >Filtrar</a>
                         </div>
                      </div>
                             <div class="row">
@@ -53,16 +53,18 @@
                                 <label class="control-label">País</label>
                                 <div>
                                     <i class="glyphicons globe step-form-icon"></i>
-                                    <select id="filter_user_country" name="filter_user_country" class="input-block-level">
+                                    <select id="filter_user_country" name="filter_user_country" class="input-block-level" style="width: 57%">
                                         {{ render(controller('mycpBundle:Public:get_countries', {'selected': filter_user_country})) }}
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-4 pull-right">
-                                Organizar por:
-                                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                    {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CLIENT')})) }}
-                                </select>
+                                <div class="m-t-40">
+                                    Organizar por:
+                                    <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                        {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CLIENT')})) }}
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         </form>
@@ -74,7 +76,7 @@
                             {% if sort_by=='' %}
                                 {% set sort_by=0 %}
                             {% endif %}
-                            <div class="row text-center" style="margin-top: 10px;">
+                            <div class="row text-center font-blue" style="margin-top: 10px;">
                                 {% if items_per_page * current_page >  total_items%}
                                     {{total_items }}
                                 {% else %}
@@ -109,7 +111,7 @@
                             </table>
                             <div class="row text-center">
                                 <div class="paginator-cont">
-                                    {{ simple_paginator_render('my_casa_module_reservations',null,{
+                                    {{ simple_paginator_render('my_casa_module_clients',null,{
                                     'container_class': 'paginator',
                                     'previousPageText': '«',
                                     'nextPageText': '»',
@@ -198,31 +200,20 @@
 
         function action_submit()
         {
-            /*items_per_page={{items_per_page}};
-            filter_date_reserve=$('#filter_date_reserve').val();
-            if(filter_date_reserve=='')filter_date_reserve='null';
-            filter_offer_number=$('#filter_offer_number').val();
-            if(filter_offer_number=='')filter_offer_number='null';
-            filter_status=$('#filter_status').val();
-            if(filter_status=='')filter_status='null';
-            filter_reference='null';//$('#filter_reference').val();
-            //if(filter_reference=='')filter_reference='null';
-            filter_date_from=$('#filter_date_from').val();
-            if(filter_date_from=='')filter_date_from='null';
-            filter_date_to=$('#filter_date_to').val();
-            if(filter_date_to=='')filter_date_to='null';
+            items_per_page={{items_per_page}};
+            filter_user_name=$('#filter_user_name').val();
+            if(filter_user_name=='')filter_user_name='null';
+            filter_user_email=$('#filter_user_email').val();
+            if(filter_user_email=='')filter_user_email='null';
+            filter_user_country=$('#filter_user_country').val();
+            if(filter_user_country=='')filter_user_country='null';
             sort_by=$('#sort_by').val();
             if(sort_by=='')sort_by='null';
-            filter_date_from=filter_date_from.replace('/',"_");
-            filter_date_from=filter_date_from.replace('/',"_");
-            filter_date_to=filter_date_to.replace('/',"_");
-            filter_date_to=filter_date_to.replace('/',"_");
-            filter_date_reserve=filter_date_reserve.replace('/',"_");
-            filter_date_reserve=filter_date_reserve.replace('/',"_");
+
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_date_reserve+'/'+filter_offer_number+'/'+filter_reference+'/'+filter_date_from+'/'+filter_date_to+'/'+sort_by+'/'+filter_status;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_country+'/'+sort_by;
             $('#filter').attr('action',url_submit);
-            $('#filter').submit();*/
+            $('#filter').submit();
         }
 
     </script>
