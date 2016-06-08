@@ -82,4 +82,23 @@
     $('.closeClientDetails').click(function(){
         $(".clientDetailsContainer").addClass('hidden');
     });
+
+    $(".detail").click(function(){
+        var url = "{{ path("my_casa_module_reservation_detail") }}";
+        var idReservation = $(this).data("reservation");
+        $("#reservationDetail").removeClass("hidden");
+
+        $("#reservationDetail").html('<span class="font-blue step-span">Cargando...</span>');
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data:  {
+                idReservation:idReservation
+            },
+            success: function (data) {
+                $("#reservationDetail").html(data);
+            }
+        });
+    });
 </script>
