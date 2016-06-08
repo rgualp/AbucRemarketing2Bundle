@@ -15,8 +15,18 @@ class ownershipStep1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('own_name', 'hidden')
-            ->add('own_licence_number','hidden')
+            ->add('own_name', 'text', [
+                'attr'=>[
+                    'class'=>'form-control hide',
+                    'placeholder'=>'Nombre de la casa'
+                ],
+            ])
+            ->add('own_licence_number', 'text', [
+                'attr'=>[
+                    'class'=>'form-control hide',
+                    'placeholder'=>'Número de licencia'
+                ],
+            ])
             ->add('own_address_street','text', array(
                 'label'=>false,
                 'attr'=>[
@@ -86,8 +96,8 @@ class ownershipStep1Type extends AbstractType
             ))
             ->add('own_geolocate_x','hidden')
             ->add('own_geolocate_y', 'hidden')
-//            ->add('own_address_province')
-//            ->add('own_address_municipality')
+            ->add('own_address_province')
+            ->add('own_address_municipality')
             ->add('own_destination')
 
         ;
