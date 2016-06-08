@@ -4,6 +4,8 @@ namespace MyCp\CasaModuleBundle\Controller;
 
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\ownershipPhoto;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,6 +65,35 @@ class DefaultController extends Controller
         return $this->render('MyCpCasaModuleBundle:Default:calendar.html.twig', array(
             'ownership'=>$ownership,
             'dashboard' => true
+        ));
+    }
+
+
+    public function commentsAction(Request $request)
+    {
+        $sort_by=$request->get('sort_by');
+        if($sort_by=='null') $sort_by=  \MyCp\mycpBundle\Helpers\OrderByHelper::DEFAULT_ORDER_BY;
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if($user->getUserRole()!='ROLE_CLIENT_CASA')
+            $comments_list = $em->getRepository('mycpBundle:comment')->getAll(null,null,null, null,$sort_by);
+        else
+        {
+            $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
+            $comments_list = $em->getRepository('mycpBundle:comment')->getByUserCasa(null,null,null, null,$sort_by, $user_casa->getUserCasaId());
+        }
+
+
+        $service_log= $this->get('log');
+        $service_log->saveLog('Visit module',  BackendModuleName::MODULE_LODGING_COMMENT);
+
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Default:comment.html.twig', array(
+            'ownership'=>$ownership,
+            'dashboard'=>true,
+            'comments' => $comments_list
         ));
     }
 }
