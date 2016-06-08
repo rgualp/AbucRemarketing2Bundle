@@ -177,6 +177,9 @@ h1,h2,h3,h4,h5,h6{
     display: block;
     margin-left: 25px;
 }
+.p-b-40{
+    padding-bottom: 40px;
+}
 .p-l-0{
     padding-left: 0px;
 }
