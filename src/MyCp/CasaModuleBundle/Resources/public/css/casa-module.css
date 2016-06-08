@@ -173,6 +173,10 @@ h1,h2,h3,h4,h5,h6{
     height: 50px;
     width: 50px;
 }
+.img-title-dashboard{
+    display: block;
+    margin-left: 25px;
+}
 .p-l-0{
     padding-left: 0px;
 }
@@ -463,6 +467,7 @@ ol > li::before {
     font-weight: lighter;
     margin-left: -12px;
 }
+
 
 /*Additional icons*/
 .additional-icons{width: 13px; height: 14px; background: url("../img/icons/icons.png") no-repeat; vertical-align: middle }

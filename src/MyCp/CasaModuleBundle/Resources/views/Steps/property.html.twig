@@ -33,7 +33,7 @@
                     </div>
                     <div class="row m-l-10">
                         <div class="col-md-6">
-                            <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">CH 222</span>
+                            <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">{{ ownership.ownMcpCode }}</span>
                         </div>
                         <div class="col-md-6 text-center">
                             <button type="button" class="change-activate activate btn btn-default  dim" ><i class="glyphicons eye_open" style="color:#fff"></i> Desactivar</button>
@@ -43,8 +43,36 @@
 
                 </div>
             </div>
-            <div class="row">
+            <div class="row m-l-10">
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('show_casa') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Datos de su propiedad</span>
+                    </a>
+                </div>
 
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('show_description') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Descripción</span>
+                    </a>
+                </div>
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('show_room') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Habitaciones</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row m-l-10">
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path("show_facilities") }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Facilidades</span>
+                    </a>
+                </div>
+
+                <div class="infont col-md-4 col-sm-4">
+                    <a href="{{ path('casa_show_photos') }}">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-dashboard m-t-25"><span style="font-size: 24px">Imágenes</span>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="col-md-3 oneblue-bg col-content">
