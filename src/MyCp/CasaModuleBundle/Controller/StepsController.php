@@ -339,6 +339,20 @@ class StepsController extends Controller
     }
 
     /**
+     * Para enviar el correo que se desactivo una casa
+     * @return bool
+     */
+    function submitEmailReservationTeam($room,$ownership,$reserved){
+        $emailService = $this->container->get('mycp.service.email_manager');
+        $templatingService = $this->container->get('templating');
+        $emailSubject='Desactivar habitación reservada';
+        $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:deleteRoom.html.twig', array('room'=>$room,'ownership'=>$ownership,'user_locale'=>'es','reserveds'=>$reserved));
+        //print_r($body);die;
+        $emailService->sendEmail(array('reservation@mycasaparticular.com'), $emailSubject, $body);
+        return true;
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
      * @Route(name="change_active_room", path="/change/active/room")
@@ -347,14 +361,31 @@ class StepsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($request->get('idroom'));
-        $room->setRoomActive(($request->get('val') == 'false' ? 0 : 1));
+        $response=array();
+        $time = new \DateTime();
+        $start= $time->format('Y-m-d H:i:s');
+        //$start='2015-07-02';
+        $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationByRoomByStartDate($request->get('idroom'), $start);
+        if(count($reserved) && $request->get('val')!='true'){
+            if($request->get('forced')=='true'){
+                $room->setRoomActive(($request->get('val') == 'false' ? 0 : 1));
+                $em->persist($room);
+                $em->flush();
+                //Mando notificacion al equipo de reserva
+                self::submitEmailReservationTeam($room,$this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership(),$reserved);
+                $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+            }
+            else
+                $response=array( 'success' => false);
+        }
+        else{
+            $room->setRoomActive(($request->get('val') == 'false' ? 0 : 1));
+            $em->persist($room);
+            $em->flush();
+            $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+        }
+        return new JsonResponse($response);
 
-        $em->persist($room);
-        $em->flush();
-        return new JsonResponse([
-            'success' => true,
-            'msg' => 'Se ha cambiado el estado'
-        ]);
     }
 
     /**

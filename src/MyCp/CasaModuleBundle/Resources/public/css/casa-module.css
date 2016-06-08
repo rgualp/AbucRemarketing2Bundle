@@ -711,6 +711,15 @@ a.green-link{
 .icon-arrow-right {
     background-position: -264px -96px;
 }
+.glyphicons.green:before {
+    color: #94be2f;
+}
+.glyphicons.orange:before {
+    color: #e96811;
+}
+.glyphicons.blue:before {
+    color: #2e5baa;
+}
 
 .label-important,.badge-important{background-color:#b94a48; color: #fff;}
 .label-important[href],.badge-important[href]{background-color:#953b39; color: #fff;}

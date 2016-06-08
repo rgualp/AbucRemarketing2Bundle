@@ -23,12 +23,11 @@
                         </div>
                     </div>
                     <div class="row" style="margin-left: 0px">
-
                         <div class="col-md-1">
-                            <div class="additional-icons icons-medium premium-icon"></div>
+                            <div class="{% if ownership is defined and ownership.ownCategory is not null %}{% if ownership.ownCategory =='Económica'  %}glyphicons blue certificate{% endif %}{% if ownership.ownCategory =='Rango medio'  %}glyphicons green cup{% endif %}{% if ownership.ownCategory =='Premium'  %}glyphicons orange crown{% endif %}{% endif %}"></div>
                         </div>
                         <div class="col-md-6 p-0">
-                            <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">Rango medio</span>
+                            <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">{% if ownership is defined and ownership.ownCategory is not null %}{{ ownership.ownCategory }}{% endif %}</span>
                         </div>
                     </div>
                     <div class="row m-l-10">
