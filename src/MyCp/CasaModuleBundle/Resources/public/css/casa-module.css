@@ -610,7 +610,7 @@ ol > li::before {
     text-align: center;
 }
 
-.icon-minus-link, .icon-minus-link:hover, .icon-minus-link:active, .icon-minus-link:focus  {
+.btn-minus-link, .btn-minus-link:hover, .btn-minus-link:active, .btn-minus-link:focus  {
     position: absolute;
     right: 15%;
     top: 20px;

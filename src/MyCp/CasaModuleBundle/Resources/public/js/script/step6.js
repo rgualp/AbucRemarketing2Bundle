@@ -6,7 +6,7 @@ var Step6 = function () {
 
     var collectionHolderPhotos;
     // setup an "add a course" link
-    //var addCourseLink = $('<a id="add-course" href="#" class="icon-add-link">' +
+    //var addCourseLink = $('<a id="add-course" href="#" class="btn-add-link">' +
     //    '<i class="fa fa-plus-circle"></i>' +
     //    '</a>');
     //
@@ -20,8 +20,7 @@ var Step6 = function () {
 
         // add a delete course link to all of the existing tag form li elements
         collectionHolderPhotos.find('li').each(function (index) {
-             console.log(index);
-            addPhotoFormDeleteLink($(this),index);
+             addPhotoFormDeleteLink($(this),index);
         });
 
         // add the "add a Photo" anchor and li to the Photos ul
@@ -82,14 +81,14 @@ var Step6 = function () {
     }
     $(document).on('mouseover', 'li.col-sm-4', function(){
         //alert('in');
-        $( this ).find('.icon-minus-link').removeClass('hide');
+        $( this ).find('.btn-minus-link').removeClass('hide');
         $( this ).find('.set-picture-link').removeClass('hide');
         $( this ).find('.picture-link-m').css('box-shadow','5px 5px 10px rgba(0, 0, 0, 0.4)');
         $( this ).find('.picture-link').css('box-shadow','5px 5px 10px rgba(0, 0, 0, 0.4)');
     });
     $(document).on('mouseleave', 'li.col-sm-4', function(){
         //alert('out');
-        $( this ).find('.icon-minus-link').addClass('hide');
+        $( this ).find('.btn-minus-link').addClass('hide');
         $( this ).find('.set-picture-link').addClass('hide');
         $( this ).find('.picture-link-m').css('box-shadow','none');
         $( this ).find('.picture-link').css('box-shadow','none');
@@ -109,7 +108,7 @@ var Step6 = function () {
             inde = $('<h4 style="padding: 40px 9px 15px;">' + index + '</h4>');
         else
             inde = $('<h4>' + index + '</h4>');
-        var removeFormA = $('<a href="#" class="btn btn-danger icon-minus-link hide">' +
+        var removeFormA = $('<a href="#" class="btn btn-danger btn-minus-link hide">' +
             'Eliminar' +
             '</a>');
         var modFormA = $('<a class="btn btn-primary set-picture-link hide">' +
@@ -219,18 +218,24 @@ var Step6 = function () {
             //
         });
 
+
+
     }
 
+    var onclickBtnSavePhoto=function(){
+        $('#saveStepPhotos').on('click',function(){
+            Step6.saveStep6();
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep6,this);
-
-
-
-        }
+            onclickBtnSavePhoto();
+        },
+        saveStep6: saveStep6
     };
 }();
 //Start step6
