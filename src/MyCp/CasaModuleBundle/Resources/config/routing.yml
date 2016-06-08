@@ -37,3 +37,11 @@ my_casa_module_reservations:
 my_casa_module_reservation_detail:
     pattern:  /reservations-detail
     defaults: { _controller: MyCpCasaModuleBundle:Reservation:detail}
+
+my_casa_module_clients:
+    pattern:  /clients/{items_per_page}/{filter_user_name}/{filter_user_email}/{filter_user_country}/{sort_by}
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:clients,items_per_page:10,filter_user_name:'',filter_user_email:'',filter_user_country:'',sort_by:0}
+
+my_casa_module_client_detail:
+    pattern:  /client-detail
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:clientDetail}

@@ -64,6 +64,7 @@ body{
 }
 .step-span{
     font-size: 24px;
+    margin-right: 5px;
 }
 .glyphicons.step-form-icon {
     color: #bdbdbd;
