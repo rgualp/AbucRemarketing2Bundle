@@ -7,8 +7,8 @@
                 <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-step m-t-25">
             </div>
             <div class="col-sm-11">
-                <h2 class="font-blue">Paso 1</h2>
-                <h3 class="font-blue">Complete los datos de su propiedad</h3>
+                <h2 class="font-blue">{% if dashboard %}Datos de su propiedad{% else %}Paso 1{% endif %}</h2>
+                {% if not dashboard %}<h3 class="font-blue">Complete los datos de su propiedad</h3>{% endif %}
             </div>
         </div>
 
