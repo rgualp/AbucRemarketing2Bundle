@@ -93,7 +93,8 @@ class DefaultController extends Controller
         return $this->render('MyCpCasaModuleBundle:Default:comment.html.twig', array(
             'ownership'=>$ownership,
             'dashboard'=>true,
-            'comments' => $comments_list
+            'comments' => $comments_list,
+            'sort_by' => $sort_by
         ));
     }
 }
