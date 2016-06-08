@@ -361,6 +361,7 @@ class StepsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($request->get('idroom'));
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         $response=array();
         $time = new \DateTime();
         $start= $time->format('Y-m-d H:i:s');
@@ -371,8 +372,9 @@ class StepsController extends Controller
                 $room->setRoomActive(($request->get('val') == 'false' ? 0 : 1));
                 $em->persist($room);
                 $em->flush();
+                $em->getRepository('mycpBundle:ownership')->updateGeneralData($ownership);
                 //Mando notificacion al equipo de reserva
-                self::submitEmailReservationTeam($room,$this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership(),$reserved);
+                self::submitEmailReservationTeam($room,$ownership,$reserved);
                 $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
             }
             else
@@ -383,6 +385,7 @@ class StepsController extends Controller
             $em->persist($room);
             $em->flush();
             $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+            $em->getRepository('mycpBundle:ownership')->updateGeneralData($ownership);
         }
         return new JsonResponse($response);
 
