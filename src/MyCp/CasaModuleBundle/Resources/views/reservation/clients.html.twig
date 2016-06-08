@@ -172,20 +172,20 @@
         });
 
         $(".detail").click(function(){
-            var url = "{{ path("my_casa_module_reservation_detail") }}";
-            var idReservation = $(this).data("reservation");
-            $("#reservationDetail").removeClass("hidden");
+            var url = "{{ path("my_casa_module_client_detail") }}";
+            var idClient = $(this).data("client");
+            $("#clientDetail").removeClass("hidden");
 
-            $("#reservationDetail").html('<span class="font-blue step-span">Cargando...</span>');
+            $("#clientDetail").html('<span class="font-blue step-span">Cargando...</span>');
 
             $.ajax({
                 type: 'post',
                 url: url,
                 data:  {
-                    idReservation:idReservation
+                    idClient:idClient
                 },
                 success: function (data) {
-                    $("#reservationDetail").html(data);
+                    $("#clientDetail").html(data);
                 }
             });
         });
