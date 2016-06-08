@@ -1,0 +1,224 @@
+{% extends 'MyCpCasaModuleBundle:Default:dashboard.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #map_canvas {
+            min-height: 200px;
+            /*padding-left: 15px;*/
+        }
+    </style>
+{% endblock %}
+{% block title %}Mis clientes{% endblock title %}
+
+{% block content %}
+
+   <div class="row row-eq-height">
+                <div class="col-md-9 white-bg">
+                    <div class="row">
+                    <div class="col-sm-1">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Clientes.png') }}" class="img-title-step m-t-25">
+                    </div>
+                    <div class="col-sm-11">
+                        <h2 class="font-blue">Clientes</h2>
+                    </div>
+                        </div>
+                    <div id="reservationDetail" class="hidden">
+                    </div>
+                    <div id="clientDetail" class="hidden">
+                    </div>
+                    <div class="bg-gray m-t-20 col-md-12 font-black">
+                        <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('my_casa_module_clients')}}">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Nombre</label>
+                                    <div>
+                                     <i class="glyphicons user step-form-icon"></i>
+                                     <input type="text" name="filter_user_name" id="filter_user_name" value="{{ filter_user_name }}"/>
+                                </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Correo</label>
+                                    <div>
+                                        <i class="glyphicons envelope step-form-icon"></i>
+                                        <input type="email" name="filter_user_email" id="filter_user_email" value="{{ filter_user_email }}"/>
+                                </div>
+                            </div>
+
+                        <div class="col-sm-4 pull-right">
+                            <br/><br/>
+                            <a href="{{ path('my_casa_module_clients') }}" class="btn btn-default dim pull-right">Limpiar</a>
+                            <a id="btnFilter" class="btn btn-primary dim m-r-5 pull-right" href="javascript:action_submit();" >Filtrar</a>
+                        </div>
+                     </div>
+                            <div class="row">
+                            <div class="col-sm-4">
+                                <label class="control-label">País</label>
+                                <div>
+                                    <i class="glyphicons globe step-form-icon"></i>
+                                    <select id="filter_user_country" name="filter_user_country" class="input-block-level" style="width: 57%">
+                                        {{ render(controller('mycpBundle:Public:get_countries', {'selected': filter_user_country})) }}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 pull-right">
+                                <div class="m-t-40">
+                                    Organizar por:
+                                    <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                        {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CLIENT')})) }}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+
+                        {% if reservations %}
+                            {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
+                            {% if filter_user_email ==''%}{% set filter_user_email='null'%}{%endif%}
+                            {% if filter_user_country ==''%}{% set filter_user_country='null'%}{%endif%}
+                            {% if sort_by=='' %}
+                                {% set sort_by=0 %}
+                            {% endif %}
+                            <div class="row text-center font-blue" style="margin-top: 10px;">
+                                {% if items_per_page * current_page >  total_items%}
+                                    {{total_items }}
+                                {% else %}
+                                    {{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}
+                            </div>
+                        <div class="row">
+                            <table class="table table-hover table-casa" style="font-size: 12px">
+                                <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>País</th>
+                                    <th>Idioma</th>
+                                    <th>Reservas</th>
+                                    <th style="text-align: right"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for reservation in reservations %}
+                                    <tr>
+                                        <td>{{ reservation.user_user_name }} {{ reservation.user_last_name }}</td>
+                                        <td><a href="mailto:{{ reservation.user_email | lower }}">{{ reservation.user_email | lower }}</a></td>
+                                        <td>{{ reservation.co_name }}</td>
+                                        <td>{{ reservation.langName}}</td>
+                                        <td>{{ reservation.total_reserves }}</td>
+                                        <td style="text-align: right">
+                                            <a class="green-link clientDetail" href="#clientDetail" data-client="{{ reservation.user_id }}">Detalles</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="row text-center">
+                                <div class="paginator-cont">
+                                    {{ simple_paginator_render('my_casa_module_clients',null,{
+                                    'container_class': 'paginator',
+                                    'previousPageText': '«',
+                                    'nextPageText': '»',
+                                    'currentClass': 'current',
+                                    'firstPageText': 'Primera',
+                                    'lastPageText': 'Última',
+                                    'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_country':filter_user_country,'sort_by':sort_by}
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% else %}
+                            <p> <div class="alert alert-block">No hay reservas disponibles.</div></p>
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-3 oneblue-bg col-content">
+                    <div id="help-reservations-one" class="row">
+                        <div class="col-md-12 m-t-20">
+                    <p>Esta sección muestra el listado de todas las reservaciones que ha recibido su propiedad a través de MyCasaParticular</p>
+                        </div>
+                    </div>
+                    <div id="help-reservations-two" class="row">
+                        <div class="col-md-12 m-t-40">
+                    <p>Puede realizar búsquedas en el listado utilizando el formulario que aparece en el recuadro gris justo encima del listado</p>
+                        </div>
+                    </div>
+                    <div id="help-reservations-three" class="row">
+                        <div class="col-md-12 m-t-40">
+                    <p>Cada reservación posee un botón "Detalles" a la derecha. Si acciona sobre este, se visualizará una página que contiene la información de la reserva seleccionada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock content %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            language: 'es',
+            autoclose: true
+        });
+
+        $(".clientDetail").click(function(){
+            var url = "{{ path("my_casa_module_client_detail") }}";
+            var idClient = $(this).data("client");
+            $("#clientDetail").removeClass("hidden");
+            $("#reservationDetail").addClass("hidden");
+
+            $("#clientDetail").html('<span class="font-blue step-span">Cargando...</span>');
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                data:  {
+                    idClient:idClient
+                },
+                success: function (data) {
+                    $("#clientDetail").html(data);
+                }
+            });
+        });
+
+
+        function submit_filters(ev)
+        {
+            if(ev.keyCode==13)
+            {
+                action_submit();
+            }
+        }
+
+        function action_submit()
+        {
+            items_per_page={{items_per_page}};
+            filter_user_name=$('#filter_user_name').val();
+            if(filter_user_name=='')filter_user_name='null';
+            filter_user_email=$('#filter_user_email').val();
+            if(filter_user_email=='')filter_user_email='null';
+            filter_user_country=$('#filter_user_country').val();
+            if(filter_user_country=='')filter_user_country='null';
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
+
+            url_submit=$('#filter').attr('action');
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_country+'/'+sort_by;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
+
+    </script>
+{% endblock %}

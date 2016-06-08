@@ -11,10 +11,7 @@
 {% block title %}Mis reservas{% endblock title %}
 
 {% block content %}
-
-    <div class="wrapper wrapper-content">
-        <div class="col-md-12">
-            <div class="row row-eq-height">
+    <div class="row row-eq-height">
                 <div class="col-md-9 white-bg">
                     <div class="row">
                     <div class="col-sm-1">
@@ -83,7 +80,7 @@
 
                         {% if reservations %}
                         <div class="row" style="margin-top: 10px;">
-                            <div class="text-center">
+                            <div class="text-center font-blue">
                                 {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}                             </div>
                             <div class="pull-right">
                                 Organizar por:
@@ -193,9 +190,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-    </div>
 {% endblock content %}
 {% block javascripts %}
     {{ parent() }}

@@ -4,6 +4,7 @@ namespace MyCp\CasaModuleBundle\Controller;
 
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\ownershipPhoto;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,6 +112,100 @@ class ReservationController extends Controller
             'rooms' => $rooms,
             'nights' => $array_nights,
             'id_reservation' => $id_reservation));
+
+        return new Response($content, 200);
+    }
+
+    public function clientsAction($items_per_page, Request $request)
+    {
+        $page = 1;
+        $filter_user_name = $request->get('filter_user_name');
+        $filter_user_email = $request->get('filter_user_email');
+        $filter_user_country = $request->get('filter_user_country');
+
+        $sort_by = $request->get('sort_by');
+        if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' &&
+            $filter_user_country == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_readonly_reservations'));
+        }
+        if ($filter_user_name == 'null')
+            $filter_user_name = '';
+        if ($filter_user_email == 'null')
+            $filter_user_email = '';
+        if ($filter_user_country == 'null')
+            $filter_user_country = '';
+        if ($sort_by == 'null')
+            $sort_by = '';
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, '', $filter_user_country, $sort_by);
+        else {
+            $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, '', $filter_user_country, $sort_by, $userCasa->getUserCasaOwnership()->getOwnId());
+        }
+
+        $reservations = $paginator->paginate($reser)->getResult();
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+
+        return $this->render('MyCpCasaModuleBundle:reservation:clients.html.twig', array(
+            'ownership'=>$ownership,
+            'reservations' => $reservations,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_user_name' => $filter_user_name,
+            'filter_user_email' => $filter_user_email,
+            'filter_user_country' => $filter_user_country,
+            'sort_by' => $sort_by,
+            'dashboard'=>true
+        ));
+    }
+
+    public function clientDetailAction(Request $request) {
+        $id_client = $request->get("idClient");
+        $service_time = $this->get('time');
+
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client, $userCasa->getUserCasaOwnership()->getOwnId(), true);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
+        $price = 0;
+        $total_nights = array();
+
+        foreach ($reservations as $reservation) {
+            $temp_total_nights = 0;
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation['gen_res_id']));
+
+            foreach ($owns_res as $own) {
+                $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=$nights;
+            }
+            array_push($total_nights, $temp_total_nights);
+        }
+
+        $content = $this->renderView('MyCpCasaModuleBundle:reservation:clientDetail.html.twig', array(
+            'total_nights' => $total_nights,
+            'reservations' => $reservations,
+            'client' => $client,
+            'errors' => '',
+            'tourist' => $userTourist[0]));
 
         return new Response($content, 200);
     }

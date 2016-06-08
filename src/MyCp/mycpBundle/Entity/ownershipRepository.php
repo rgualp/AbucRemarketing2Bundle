@@ -258,6 +258,8 @@ class ownershipRepository extends EntityRepository {
 
         $em->flush();
 
+        $this->calculateAccommodationCategory($ownership);
+
         return $ownership;
     }
 
@@ -524,6 +526,8 @@ class ownershipRepository extends EntityRepository {
         $em->persist($statistic);
 
         $em->flush();
+
+        $this->calculateAccommodationCategory($ownership);
         return $ownership;
     }
 
@@ -2187,7 +2191,8 @@ class ownershipRepository extends EntityRepository {
             ->setParameter("idAccommodation", $accommodation->getOwnId())
             ->getQuery()
             ->getSingleScalarResult();
-        
+
+
         if($average < 15 || ($average >= 15 && $average <= 35))
             $category = ownership::ACCOMMODATION_CATEGORY_ECONOMIC;
         else if($average > 35 && $average <= 50)
