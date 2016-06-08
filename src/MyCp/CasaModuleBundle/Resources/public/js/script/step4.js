@@ -26,7 +26,7 @@ var Step4 = function () {
         });
     }
     /**
-     *Para adicionar tab dinámicos
+     * Para adicionar tab dinámicos
      */
     var addContentTab=function(el){
         HoldOn.open();
@@ -63,6 +63,9 @@ var Step4 = function () {
     var saveStep4=function(){
         Step4.saveRoom(false);
     }
+    /**
+     * Para cuando se click en el boton salvar
+     */
     var onclickBtnSaveRoom=function(){
         $('#saveStepRoom').on('click',function(){
             Step4.saveRoom(true);
@@ -72,11 +75,9 @@ var Step4 = function () {
      * Para activar o desactivar la habitacion
      */
     var activeRoom=function(){
-
         $('.change-activate').on('click',function(){
             Step4.changeActiveRoom(($(this).hasClass('deactivate'))?false:true,$(this).data('idroom'),$(this).data('href'));
         });
-
     }
     /**
      * Para eliminar una habitacion
@@ -86,7 +87,6 @@ var Step4 = function () {
 
         });
     }
-
     /**
      * Funcion para inicializar los plugins
      */
@@ -195,7 +195,7 @@ var Step4 = function () {
                     else{
                         swal({
                             title: "¿Estás seguro?",
-                            text: "La habitación que usted desea eliminar tiene reservas hechas, quiere desactivar la misma!",
+                            text: "La habitación que usted desea desactivar tiene reservas hechas, quiere desactivar la misma!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#e94b3d",
