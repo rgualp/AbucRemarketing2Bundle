@@ -184,7 +184,7 @@
                                 </div>
                                 <div class="col-sm-10">
                                     {% if ownership.ownGeolocateX and  ownership.ownGeolocateY%}
-                                        <span id="label_ownership_step1_geolocate" class="font-blue step-span">{{ ownership.ownGeolocateY }}, {{ ownership.ownGeolocateX }}</span>
+                                        <span id="label_ownership_step1_geolocate" class="font-blue step-span">{{ ownership.ownGeolocateY|number_format(4) }}, {{ ownership.ownGeolocateX|number_format(4) }}</span>
                                         {{ form_widget(form.geolocate, {'attr':{'class':'form-control hide'}}) }}
                                         <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_geolocate" data-cmpdisabled="#label_ownership_step1_geolocate">Cambiar</button>
 
@@ -305,7 +305,10 @@
           '{{ lang }}'{% if not loop.last %},{% endif %}
          {% endfor %}
     ];
-
+    {% if ownership.ownGeolocateX and  ownership.ownGeolocateY%}
+    var lat='{{ownership.ownGeolocateX  }}';
+    var lng='{{ownership.ownGeolocateY  }}';
+    {% endif %}
 </script>
 
     {% if dashboard is defined and dashboard %}
