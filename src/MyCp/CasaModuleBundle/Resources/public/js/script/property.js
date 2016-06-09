@@ -11,7 +11,7 @@ var Property = function () {
         $('#delete-property').on('click',function(){
             swal({
                 title: "¿Estás seguro?",
-                text: "La casa que usted desea eliminar puede tener reservas hechas, ¿quiere eliminar la misma?",
+                text: "¿Está seguro que desea eliminar la propiedad?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#e94b3d",
@@ -101,17 +101,48 @@ var Property = function () {
      */
     var onclickBtnLogin=function(){
         $('#btn-login').on('click',function(){
-            //$('#login-form').submit();
             var url=$(this).data('href');
+            var url_property=$(this).data('delproperty');
+            var url_logout=$(this).data('logout');
             var data={};
             $("#login-form").serializeArray().map(function(x){data[x.name] = x.value;});
+            HoldOn.open();
             $.ajax({
                 type: 'post',
                 data:data,
                 url: url,
                 success: function (data) {
                     HoldOn.close();
-                    if(data)
+                    if(data.success){
+                        $('#myModalLogin').modal('hide');
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "Su propiedad tiene reservas activas, se notificará, al equipo de reservas de MyCasaParticular de la eliminación de su propiedad.Al eliminar su propiedad automáticamente saldrá del sistema.",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#e94b3d",
+                            cancelButtonColor: "#64a433",
+                            confirmButtonText: "Sí",
+                            cancelButtonText: "No",
+                            closeOnConfirm: true
+                        }, function () {
+                            HoldOn.open();
+                            $.ajax({
+                                type: 'post',
+                                data:data,
+                                url: url_property,
+                                success: function (data) {
+                                    HoldOn.close();
+                                    if(data.success){
+                                        window.location.href = url_logout;
+                                    }
+                                }
+                            });
+                        });
+
+                    }
+                    else
+                        $('#msg-error').removeClass('hide');
                 }
             });
         });

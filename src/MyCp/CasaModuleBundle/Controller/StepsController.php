@@ -847,5 +847,35 @@ class StepsController extends Controller
         }
         return new JsonResponse($response);
     }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="delete_property", path="/delete/property")
+     */
+    public function deletePropertyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_DELETED);
+        $ownership->setOwnStatus($status);
+        $em->persist($ownership);
+        $em->flush();
+        $time = new \DateTime();
+        $start= $time->format('Y-m-d H:i:s');
+        $reserved = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodationByDateFrom($ownership->getOwnId(), $start);
+        //Mando notificacion al equipo de reserva
+        self::submitEmailReservationTeamProperty($ownership,$reserved);
+        $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+        return new JsonResponse($response);
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="delete_room", path="/delete/room")
+     */
+    public function deleteRoomAction(Request $request)
+    {
+        print_r(1);die;
+    }
 
 }

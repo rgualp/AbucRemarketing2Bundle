@@ -8,6 +8,9 @@
                 <h4>Por favor, introduzca sus datos nuevamente para asegurarnos que es usted.</h4>
             </div>
             <div class="modal-body">
+                <div id="msg-error" class="alert alert-danger alert-dismissable hide">
+                    Nombre de usuario o Contraseña inválido
+                </div>
                 <form class="form-horizontal" method="post" id="login-form">
                     <div style="text-align: left;">
                         <div class="form-group row">
@@ -26,7 +29,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default dim" data-dismiss="modal">Cancelar</button>
-                <button type="submit" id="btn-login" class="btn btn-primary dim" data-href="{{ path('my_cp_casa_login_check') }}">Autenticarse</button>
+                <button type="submit" id="btn-login" class="btn btn-primary dim" data-href="{{ path('my_cp_casa_login_check') }}" data-delproperty="{{  path('delete_property')  }}" data-logout="{{ path('my_cp_casa_logout') }}">Autenticarse</button>
             </div>
         </div>
     </div>
