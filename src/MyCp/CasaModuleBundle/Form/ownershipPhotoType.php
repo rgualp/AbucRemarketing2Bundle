@@ -27,7 +27,10 @@ class ownershipPhotoType extends AbstractType
                 'mapped'=>false
             ))
 //            ->add('own_pho_photo','hidden, ar')
-//            ->add('own_pho_own')
+            ->add('own_pho_id','hidden',
+                array(
+                    'mapped'=>false
+                ))
         ;
     }
     

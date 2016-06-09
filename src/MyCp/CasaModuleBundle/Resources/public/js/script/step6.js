@@ -212,28 +212,30 @@ var Step6 = function () {
             type: 'POST'
         });
         $envio.error(function(data){
-            //
+            HoldOn.close();
         });
         $envio.success(function(data){
-            //
+            HoldOn.close();
         });
 
 
 
     }
 
-    var onclickBtnSavePhoto=function(){
+    //var onclickBtnSavePhoto=function(){
         $('#saveStepPhotos').on('click',function(){
+            HoldOn.open();
             Step6.saveStep6();
+
         });
-    }
+    //}
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep6,this);
-            onclickBtnSavePhoto();
+            //onclickBtnSavePhoto();
         },
         saveStep6: saveStep6
     };

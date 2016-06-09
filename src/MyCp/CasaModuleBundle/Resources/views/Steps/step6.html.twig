@@ -34,6 +34,8 @@
                         {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}
                 </div>
+            {#{{ dump(form.vars.value) }}#}
+            {{ form_widget(form.own_pho_id, {'attr':{'value':(form.vars.value!=null)?form.vars.value.ownPhoId:''}}) }}
 
 
         </div>
