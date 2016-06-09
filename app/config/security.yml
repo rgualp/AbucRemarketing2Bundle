@@ -76,6 +76,8 @@ security:
             form_login:
                 check_path: /mycasa/login_check
                 login_path: /mycasa/login
+                success_handler: authentication_handler
+                failure_handler: authentication_handler
                 remember_me: true
                 default_target_path: /mycasa/dashboard
                 use_referer: false

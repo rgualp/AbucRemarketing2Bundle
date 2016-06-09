@@ -35,7 +35,7 @@ class DefaultController extends Controller
             return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array(
                 'ownership'=>$ownership,
                 'dashboard'=>true,
-                'langs'=>$langs
+                'langs'=>(isset($langs))?$langs:array()
             ));
         }
         else{
@@ -46,7 +46,7 @@ class DefaultController extends Controller
                 'form'=>$form->createView(),
                 'photoForm'=>$photosForm->createView(),
                 'dashboard'=>false,
-                'langs'=>$langs
+                'langs'=>(isset($langs))?$langs:array()
             ));
         }
 

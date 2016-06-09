@@ -52,25 +52,25 @@
 
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('show_description') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px">Descripción</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Descripción</span>
                     </a>
                 </div>
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('show_room') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px">Habitaciones</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Habitaciones</span>
                     </a>
                 </div>
             </div>
             <div class="row m-l-10">
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path("show_facilities") }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px">Facilidades</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Facilidades</span>
                     </a>
                 </div>
 
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('casa_show_photos') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px">Imágenes</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Imágenes</span>
                     </a>
                 </div>
             </div>
@@ -92,4 +92,5 @@
             </div>
         </div>
     </div>
+    {% include 'MyCpCasaModuleBundle:login:login.html.twig' %}
 {% endblock %}

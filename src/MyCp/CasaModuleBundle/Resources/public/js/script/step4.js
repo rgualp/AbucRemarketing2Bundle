@@ -7,6 +7,7 @@ var Step4 = function () {
     var html_nav_addTab="";
     var url_add_tab="";
     var dataStep4=new Array();
+
     /**
      * Para llenar un arreglo con los datos del paso 4
      */
@@ -18,6 +19,7 @@ var Step4 = function () {
             dataStep4.push(data);
         }
     }
+
     /**
      * Para cuando se cambia de tab
      */
@@ -25,6 +27,7 @@ var Step4 = function () {
         $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
         });
     }
+
     /**
      * Para adicionar tab dinámicos
      */
@@ -57,12 +60,14 @@ var Step4 = function () {
                 }
             });
     }
+
     /**
      * Para salvar el paso
      */
     var saveStep4=function(){
         Step4.saveRoom(false);
     }
+
     /**
      * Para cuando se click en el boton salvar
      */
@@ -71,6 +76,7 @@ var Step4 = function () {
             Step4.saveRoom(true);
         })
     }
+
     /**
      * Para activar o desactivar la habitacion
      */
@@ -79,6 +85,7 @@ var Step4 = function () {
             Step4.changeActiveRoom(($(this).hasClass('deactivate'))?false:true,$(this).data('idroom'),$(this).data('href'));
         });
     }
+
     /**
      * Para eliminar una habitacion
      */
@@ -87,6 +94,7 @@ var Step4 = function () {
 
         });
     }
+
     /**
      * Funcion para inicializar los plugins
      */

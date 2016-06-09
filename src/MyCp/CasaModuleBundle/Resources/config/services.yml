@@ -8,3 +8,10 @@ services:
             - @service_container
         tags:
             - { name: twig.extension }
+
+    authentication_handler:
+        class:        MyCp\CasaModuleBundle\Handler\AuthenticationHandler
+        public: false
+        arguments:
+            - @router
+            - @session

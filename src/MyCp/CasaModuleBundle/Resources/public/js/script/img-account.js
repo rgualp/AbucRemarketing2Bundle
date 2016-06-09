@@ -3,7 +3,9 @@
  * Copyright 2016.
  *========================================================================*/
 var ImgAccount = function () {
-
+    /**
+     * Funcion que contiene todo lo referente a la toma de la imagen
+     */
     var showModalImg=function(){
         var  localStream=null;
         // Grab elements, create settings, etc.
@@ -85,7 +87,11 @@ var ImgAccount = function () {
             }
         });
     }
-    var clickBtnUploadImg=function(){
+
+    /**
+     * Funcion para cuando se da click en el boton subir imagen
+     */
+    var onclickBtnUploadImg=function(){
         $('#img-file').on('click',function(){
             $('#imputfile').click();
             var form = $('#image-upload-form');
@@ -111,13 +117,19 @@ var ImgAccount = function () {
             });
         })
     }
+
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
-            clickBtnUploadImg();
+            onclickBtnUploadImg();
             showModalImg();
         },
+        /**
+         * Funcion que devuelve un blob imagen
+         * @param dataURI
+         * @returns {Blob}
+         */
         dataURItoBlob:function(dataURI) {
             var byteString = atob(dataURI.split(',')[1]);
 
@@ -132,6 +144,10 @@ var ImgAccount = function () {
             var bb = new Blob([ab], {"type": mimeString});
             return bb;
         },
+        /**
+         * Funcion para cambiar la foto
+         * @param obj
+         */
         showResponse:function(obj){
             var imageURL='/uploads/userImages/' + obj.dir + '?timestamp=' + new Date().getTime();
             $(".dashboard-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
