@@ -9,9 +9,22 @@ var Property = function () {
      */
     var onclickBtnDeleteProperty=function(){
         $('#delete-property').on('click',function(){
-
-        })
+            swal({
+                title: "¿Estás seguro?",
+                text: "La casa que usted desea eliminar puede tener reservas hechas, ¿quiere eliminar la misma?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e94b3d",
+                cancelButtonColor: "#64a433",
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+                closeOnConfirm: true
+            }, function () {
+                $('#myModalLogin').modal('show');
+            });
+        });
     }
+
     /**
      * Funcion para cuando se da click en el boton activar una propiedead
      */
@@ -82,6 +95,27 @@ var Property = function () {
             });
         })
     }
+
+    /**
+     * Funcion para cuando se da click en el boton autenticar
+     */
+    var onclickBtnLogin=function(){
+        $('#btn-login').on('click',function(){
+            //$('#login-form').submit();
+            var url=$(this).data('href');
+            var data={};
+            $("#login-form").serializeArray().map(function(x){data[x.name] = x.value;});
+            $.ajax({
+                type: 'post',
+                data:data,
+                url: url,
+                success: function (data) {
+                    HoldOn.close();
+
+                }
+            });
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
@@ -89,6 +123,7 @@ var Property = function () {
             onclickBtnDeleteProperty();
             onclickBtnDeactiveProperty();
             onclickBtnActivateProperty();
+            onclickBtnLogin();
         }
     };
 }();
