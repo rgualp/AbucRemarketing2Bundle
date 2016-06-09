@@ -36,8 +36,9 @@ var Step2 = function () {
                 draggable: true,
                 icon: (typeof iconUrl !== 'undefined')?iconUrl:''
             },
-            location: (typeof province!== 'undefined')?province:''+', Cuba'
+            location:(typeof lat== 'undefined')? (typeof province!== 'undefined')?province:''+', Cuba': new google.maps.LatLng(lat,lng)
         };
+
 
         var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options).bind("geocode:dragged", function(event, latLng){
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(latLng.lat());
