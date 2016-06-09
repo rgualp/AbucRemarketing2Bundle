@@ -875,7 +875,27 @@ class StepsController extends Controller
      */
     public function deleteRoomAction(Request $request)
     {
-        print_r(1);die;
+        $em = $this->getDoctrine()->getManager();
+        $room = $em->getRepository('mycpBundle:room')->find($request->get('idroom'));
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $time = new \DateTime();
+        $start= $time->format('Y-m-d H:i:s');
+        $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationByRoomByStartDate($request->get('idroom'), $start);
+        if(count($reserved)){
+            $em->remove($room);
+            $em->flush();
+            $em->getRepository('mycpBundle:ownership')->updateGeneralData($ownership);
+            //Mando notificacion al equipo de reserva
+            self::submitEmailReservationTeamRoom($room,$ownership,$reserved);
+            $response=array( 'success' => true,'msg' => 'El elemento se ha eliminado satisfactoriamente');
+        }
+        else{
+            $em->remove($room);
+            $em->flush();
+            $response=array( 'success' => true,'msg' => 'El elemento se ha eliminado satisfactoriamente');
+            $em->getRepository('mycpBundle:ownership')->updateGeneralData($ownership);
+        }
+        return new JsonResponse($response);
     }
 
 }
