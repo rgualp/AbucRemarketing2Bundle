@@ -89,9 +89,36 @@ var Step4 = function () {
     /**
      * Para eliminar una habitacion
      */
-    var deleteRoom=function(){
-        $('#deleteRoom').on('click',function(){
-
+    var onclickBtnDeleteRoom=function(){
+        $('.delete-room').on('click',function(){
+            var idroom=$(this).data('idroom');
+            var url_delete_room=$(this).data('href');
+            var noroom=$(this).data('noroom');
+            swal({
+                title: "¿Estás seguro?",
+                text: "¿Está seguro que desea eliminar la habitación seleccionada?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e94b3d",
+                cancelButtonColor: "#64a433",
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+                closeOnConfirm: true
+            }, function () {
+                HoldOn.open();
+                $.ajax({
+                    type: 'post',
+                    url: url_delete_room,
+                    data:  {idroom:idroom},
+                    success: function (data) {
+                        HoldOn.close();
+                        if(data.success){
+                            $('#nav1'+noroom).remove(); //remove li of tab
+                            $('#tab1'+noroom).remove(); //remove respective tab content
+                        }
+                    }
+                });
+            });
         });
     }
 
@@ -113,7 +140,7 @@ var Step4 = function () {
             //IMPORTANT!!!: Do not modify the call order.
             changeTab();
             activeRoom();
-            deleteRoom();
+            onclickBtnDeleteRoom();
             onclickBtnSaveRoom();
             fillDataStep4();
             //Se captura el evento de guardar el paso
