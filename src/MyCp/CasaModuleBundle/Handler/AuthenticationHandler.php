@@ -20,7 +20,6 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     /**
      * Constructor
      *
-     * @author Joe Sexton <joe@webtipblog.com>
      * @param RouterInterface $router
      * @param Session $session
      */
@@ -33,7 +32,6 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     /**
      * onAuthenticationSuccess
      *
-     * @author Joe Sexton <joe@webtipblog.com>
      * @param Request $request
      * @param TokenInterface $token
      * @return Response
@@ -68,7 +66,6 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     /**
      * onAuthenticationFailure
      *
-     * @author Joe Sexton <joe@webtipblog.com>
      * @param Request $request
      * @param AuthenticationException $exception
      * @return Response

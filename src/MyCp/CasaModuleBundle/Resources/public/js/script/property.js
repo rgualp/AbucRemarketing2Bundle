@@ -111,7 +111,7 @@ var Property = function () {
                 url: url,
                 success: function (data) {
                     HoldOn.close();
-
+                    if(data)
                 }
             });
         });
