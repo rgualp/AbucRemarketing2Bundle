@@ -4,30 +4,52 @@
  *========================================================================*/
 var Property = function () {
 
-    var deleteProperty=function(){
+    /**
+     * Funcion para cuando se da click en el boton eliminar propiedad
+     */
+    var onclickBtnDeleteProperty=function(){
         $('#delete-property').on('click',function(){
 
         })
     }
-    var activeProperty=function(){
+    /**
+     * Funcion para cuando se da click en el boton activar una propiedead
+     */
+    var onclickBtnActivateProperty=function(){
+        $('#activate-property').on('click',function(){
+            var url=$(this).data('href');
+            HoldOn.open();
+            $.ajax({
+                type: 'post',
+                url: url,
+                data:  {active:true},
+                success: function (data) {
+                    HoldOn.close();
+                    if(data.success){
+                         $('#activate-property').addClass('hide');
+                         $('#deactive-property').removeClass('hide');
+                    }
+                }
+            });
+        })
+    }
+
+    /**
+     * Funcion para cuando se da click en el boton desactivar una propiedead
+     */
+    var onclickBtnDeactiveProperty=function(){
         $('#deactive-property').on('click',function(){
             var url=$(this).data('href');
             HoldOn.open();
             $.ajax({
                 type: 'post',
                 url: url,
-                data:  {forced:false},
+                data:  {active:false,forced:false},
                 success: function (data) {
                     HoldOn.close();
                     if(data.success){
-                      /*  if(!val){
-                            $('#deactiveRoom_'+idroom).addClass('hide');
-                            $('#activeRoom_'+idroom).removeClass('hide');
-                        }
-                        else{
-                            $('#deactiveRoom_'+idroom).removeClass('hide');
-                            $('#activeRoom_'+idroom).addClass('hide');
-                        }*/
+                        $('#activate-property').removeClass('hide');
+                        $('#deactive-property').addClass('hide');
                     }
                     else{
                         swal({
@@ -45,18 +67,12 @@ var Property = function () {
                             $.ajax({
                                 type: 'post',
                                 url: url,
-                                data:  {forced:true},
+                                data:  {active:false,forced:true},
                                 success: function (data) {
                                     HoldOn.close();
                                     if(data.success){
-                                        /*if(!val){
-                                            $('#deactiveRoom_'+idroom).addClass('hide');
-                                            $('#activeRoom_'+idroom).removeClass('hide');
-                                        }
-                                        else{
-                                            $('#deactiveRoom_'+idroom).removeClass('hide');
-                                            $('#activeRoom_'+idroom).addClass('hide');
-                                        }*/
+                                        $('#activate-property').removeClass('hide');
+                                        $('#deactive-property').addClass('hide');
                                     }
                                 }
                             });
@@ -70,8 +86,9 @@ var Property = function () {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
-            deleteProperty();
-            activeProperty();
+            onclickBtnDeleteProperty();
+            onclickBtnDeactiveProperty();
+            onclickBtnActivateProperty();
         }
     };
 }();
