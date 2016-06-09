@@ -726,3 +726,10 @@ a.green-link{
 .label-important[href],.badge-important[href]{background-color:#953b39; color: #fff;}
 .red-text {color: #ff0000;}
 .orange-text {color: #F4783F;}
+.fc-toolbar{
+    text-transform: uppercase;
+}
+.fc td.fc-today {
+    background: #b7b7b7 none repeat scroll 0 0;
+    border-style: double;
+}
