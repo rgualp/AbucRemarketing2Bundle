@@ -340,19 +340,29 @@ class StepsController extends Controller
     }
 
     /**
-     * Para enviar el correo que se desactivo una casa
+     * Para enviar el correo que se desactivo o elimino una habitacion
      * @return bool
      */
-    function submitEmailReservationTeam($room,$ownership,$reserved){
+    function submitEmailReservationTeamRoom($room,$ownership,$reserved){
         $emailService = $this->container->get('mycp.service.email_manager');
         $templatingService = $this->container->get('templating');
-        $emailSubject='Desactivar habitación reservada';
+        $emailSubject='Desactivar una habitación reservada';
         $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:deleteRoom.html.twig', array('room'=>$room,'ownership'=>$ownership,'user_locale'=>'es','reserveds'=>$reserved));
-        //print_r($body);die;
         $emailService->sendEmail(array('reservation@mycasaparticular.com'), $emailSubject, $body);
         return true;
     }
-
+    /**
+     * Para enviar el correo que se desactivo una propiedad
+     * @return bool
+     */
+    function submitEmailReservationTeamProperty($ownership,$reserved){
+        $emailService = $this->container->get('mycp.service.email_manager');
+        $templatingService = $this->container->get('templating');
+        $emailSubject='Desactivar una propiedad reservada';
+        $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:deleteProperty.html.twig', array('ownership'=>$ownership,'user_locale'=>'es','reserveds'=>$reserved));
+        $emailService->sendEmail(array('reservation@mycasaparticular.com'), $emailSubject, $body);
+        return true;
+    }
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
@@ -363,10 +373,8 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($request->get('idroom'));
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        $response=array();
         $time = new \DateTime();
         $start= $time->format('Y-m-d H:i:s');
-        //$start='2015-07-02';
         $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationByRoomByStartDate($request->get('idroom'), $start);
         if(count($reserved) && $request->get('val')!='true'){
             if($request->get('forced')=='true'){
@@ -375,7 +383,7 @@ class StepsController extends Controller
                 $em->flush();
                 $em->getRepository('mycpBundle:ownership')->updateGeneralData($ownership);
                 //Mando notificacion al equipo de reserva
-                self::submitEmailReservationTeam($room,$ownership,$reserved);
+                self::submitEmailReservationTeamRoom($room,$ownership,$reserved);
                 $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
             }
             else
@@ -389,7 +397,6 @@ class StepsController extends Controller
             $em->getRepository('mycpBundle:ownership')->updateGeneralData($ownership);
         }
         return new JsonResponse($response);
-
     }
 
     /**
@@ -805,33 +812,40 @@ class StepsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        $time = new \DateTime();
-        //$start= $time->format('Y-m-d H:i:s');
-        $start='2015-07-02';
-
-        $reserved = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodationByDateFrom($ownership->getOwnId(), $start);
-        if(count($reserved)){
-            if($request->get('forced')=='true'){
+        if($request->get('active')=='true'){
+            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+            $ownership->setOwnStatus($status);
+            $em->persist($ownership);
+            $em->flush();
+            $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+        }
+        else{
+            $time = new \DateTime();
+            $start= $time->format('Y-m-d H:i:s');
+            //$start='2015-07-02';
+            $reserved = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodationByDateFrom($ownership->getOwnId(), $start);
+            if(count($reserved)){
+                if($request->get('forced')=='true'){
+                    $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
+                    $ownership->setOwnStatus($status);
+                    $em->persist($ownership);
+                    $em->flush();
+                    //Mando notificacion al equipo de reserva
+                    self::submitEmailReservationTeamProperty($ownership,$reserved);
+                    $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+                }
+                else
+                    $response=array( 'success' => false);
+            }
+            else{
                 $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
                 $ownership->setOwnStatus($status);
                 $em->persist($ownership);
                 $em->flush();
-                //Mando notificacion al equipo de reserva
-                //self::submitEmailReservationTeam($room,$ownership,$reserved);
-                $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+                $response=array('success' => true);
             }
-            else
-                $response=array( 'success' => false);
-        }
-        else{
-            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
-            $ownership->setOwnStatus($status);
-            $em->persist($ownership);
-            $em->flush();
-            $response=array('success' => true);
         }
         return new JsonResponse($response);
-
     }
 
 }
