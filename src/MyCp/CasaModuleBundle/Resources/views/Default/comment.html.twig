@@ -1,0 +1,94 @@
+{% extends 'MyCpCasaModuleBundle:Default:dashboard.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #map_canvas {
+            min-height: 200px;
+            /*padding-left: 15px;*/
+        }
+    </style>
+{% endblock %}
+{% block title %}Mis comentarios{% endblock title %}
+
+{% block content %}
+    <div class="row row-eq-height">
+                <div class="col-md-9 white-bg">
+                    <div class="row">
+                    <div class="col-sm-1">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/opiniones.png') }}" class="img-title-step m-t-25">
+                    </div>
+                    <div class="col-sm-11">
+                        <h2 class="font-blue">Opiniones de los Clientes</h2>
+                        {% if  comments | length%}
+                        <h4 class="orange-text">Tienes {{ comments | length }} comentarios</h4>
+                        {% endif %}
+                    </div>
+                        </div>
+                    <div class="m-t-20 col-md-12 font-black">
+                        {% if comments %}
+                        <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path("my_casa_module_comments")}}">
+                            <div class="row pull-right">
+                                Organizar:
+                                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                    {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::COMMENT_LODGING_MODULE')})) }}
+                                </select>
+                            </div>
+                            </form>
+                        {% for comment in comments %}
+                            <div class="row p-10">
+                                <div class="col-md-2">
+                                    <img  class='img-circle img-grey-border pull-right' title='{{ comment.getComUser.userCompleteName }}' src='{{ (comment.getComUser.userPhoto != null) ? asset("uploads/userImages/") ~ comment.getComUser.userPhoto.phoName : asset("uploads/userImages/no_photo.gif") }}' alt="{{"Photo" | trans}}"/>
+                                </div>
+                                <div class="col-md-10">
+                                    <h2 style="font-size: 20px" class="font-blue">{{ comment.getComUser.getName }} {{ comment.getComUser.getUserLastName }}</h2>
+                                    <h3 class="font-green">{{comment.comDate | localizeddate('none', 'none', app.request.locale, null, "MMM d, Y") | capitalize}}</h3><br/>
+                                    <div class="rating_star">
+                                        {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}" alt="{{"Start on" | trans}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}" alt="{{"Start off" | trans}}"/>{% endif %} {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="line_height: 24px">{{ comment.getComComments }}</p>
+
+                        {% endfor %}
+                        {% else %}
+                            <p> <div class="alert alert-block">No ha recibido ningún comentario.</div></p>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+                <div class="col-md-3 oneblue-bg col-content">
+                    <div id="help-reservations-one" class="row">
+                        <div class="col-md-12 m-t-20">
+                            <p>En esta sección podrá visualizar todos los comentarios que sus clientes han realizado sobre su propiedad. No podrá eliminar ninguno de los comentarios que aparecen en el listado, sólo podrá ordenarlos por la fecha en que se realizó, la puntuación y el nombre del cliente.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+{% endblock content %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        function action_submit()
+        {
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
+
+            url_submit='{{ path("my_casa_module_comments") }}';
+            url_submit=url_submit+'/'+sort_by;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
+
+    </script>
+{% endblock %}
