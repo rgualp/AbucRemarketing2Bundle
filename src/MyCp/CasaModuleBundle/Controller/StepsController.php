@@ -15,7 +15,10 @@ use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownershipStatus;
+use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
+use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\mycpBundle\Helpers\Images;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -288,27 +291,89 @@ class StepsController extends Controller
         $photosForm = $this->createForm(new ownershipStepPhotosType(), $ownership, array('action' => $this->generateUrl('save_step6'), 'attr' => ['id' => 'mycp_mycpbundle_ownership_step_photos']));
         $photosForm->handleRequest($request);
         if ($photosForm->isValid()) {
-//            $own=$em->getRepository('mycpBundle:ownership')->find('');
             $ownership->setPhotos(new ArrayCollection());
-            foreach ($request->files->get('mycp_mycpbundle_ownership_step_photos')['photos'] as $index => $file) {
-                $desc = $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
-                $file = $file['file'];
+           foreach ($request->files->get('mycp_mycpbundle_ownership_step_photos')['photos'] as $index => $file) {
+                if($request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['own_pho_id']=='') {
+                   $desc = $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
+                    $file = $file['file'];
 //        try{
-                $post = array();
-                $language = $em->getRepository('mycpBundle:lang')->findAll();
-                $translator = $this->get("mycp.translator.service");
-                foreach ($language as $lang) {
-                    if ($lang->getLangCode() == 'ES') {
-                        $post['description_' . $lang->getLangId()] = $desc;
-                    } else {
-                        $response = $translator->translate($desc, 'ES', $lang->getLangCode());
-                        if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                            $post['description_' . $lang->getLangId()] = $response->getTranslation();
-                        else $post['description_' . $lang->getLangId()] = $desc;
+                    $post = array();
+                    $language = $em->getRepository('mycpBundle:lang')->findAll();
+                    $translator = $this->get("mycp.translator.service");
+                    foreach ($language as $lang) {
+                        if ($lang->getLangCode() == 'ES') {
+                            $post['description_' . $lang->getLangId()] = $desc;
+                        } else {
+                            $response = $translator->translate($desc, 'ES', $lang->getLangCode());
+                            if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                                $post['description_' . $lang->getLangId()] = $response->getTranslation();
+                            else $post['description_' . $lang->getLangId()] = $desc;
 
+                        }
+                    }
+                    $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership, $file, $this->get('service_container'), $post);
+                }
+                else{
+
+                    $ownPhoto=$em->getRepository('mycpBundle:ownershipPhoto')->find($request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['own_pho_id']);
+                    if($file['file']!=null){
+                      $file=$file['file'];
+                      $dir = $this->get('service_container')->getParameter('ownership.dir.photos');
+                      $dir_thumbs =$this->get('service_container')->getParameter('ownership.dir.thumbnails');
+                      $dir_watermark =$this->get('service_container')->getParameter('dir.watermark');
+                      $photo_size = $this->get('service_container')->getParameter('ownership.dir.photos.size');
+                      $thumbs_size = $this->get('service_container')->getParameter('thumbnail.size');
+                      $dirUserPhoto = $this->get('service_container')->getParameter('user.dir.photos');
+                      $userPhotoSize = $this->get('service_container')->getParameter('user.photo.size');
+                      $fileName = uniqid('ownership-') . '-photo.jpg';
+                      $file->move($dir, $fileName);
+                      $photo=$ownPhoto->getOwnPhoPhoto();
+                      FileIO::deleteFile($dir . $photo->getPhoName());
+                      FileIO::deleteFile($dir_thumbs . $photo->getPhoName());
+                      FileIO::deleteFile($dir_watermark . $photo->getPhoName());
+                      $photo->setPhoName($fileName);
+                      //Creando thumbnail, redimensionando y colocando marca de agua
+                      Images::createThumbnail($dir . $fileName, $dir_thumbs . $fileName, $thumbs_size);
+                      Images::resizeAndWatermark($dir, $fileName, $dir_watermark, $photo_size, $this->get('service_container'));
+                      $em->persist($photo);
+                  }
+                    if($request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description']!=''){
+                        $photo=$ownPhoto->getOwnPhoPhoto();
+                        $desc = $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
+                        $language = $em->getRepository('mycpBundle:lang')->findAll();
+                        $translator = $this->get("mycp.translator.service");
+                        if(count($photo->getPhotoLangs())>0){
+                         foreach($photo->getPhotoLangs() as $photoLang){
+                             if ($photoLang->getPhoLangIdLang()->getLangCode() == 'ES')
+                                 $photoLang->setPhoLangDescription($desc);
+                             else{
+                                 $response = $translator->translate($desc, 'ES', $photoLang->getPhoLangIdLang()->getLangCode());
+                                 if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                                     $photoLang->setPhoLangDescription($response->getTranslation());
+                                 else $photoLang->setPhoLangDescription($desc);
+                             }
+                             $em->persist($photoLang);
+                         }
+                        }
+                        else{
+
+                            foreach ($language as $lang){
+                                $photoLang = new photoLang();
+                                if ($lang->getLangCode() == 'ES')
+                                $photoLang->setPhoLangDescription($desc);
+                                else{
+                                    $response = $translator->translate($desc, 'ES', $lang->getLangCode());
+                                    if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                                        $photoLang->setPhoLangDescription($response->getTranslation());
+                                    else $photoLang->setPhoLangDescription($desc);
+                                }
+                                $photoLang->setPhoLangIdLang($lang);
+                                $photoLang->setPhoLangIdPhoto($photo);
+                                $em->persist($photoLang);
+                            }
+                        }
                     }
                 }
-                $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership, $file, $this->get('service_container'), $post);
 //          }
 //        catch (\Exception $exc){
 //            return new JsonResponse([
@@ -317,7 +382,7 @@ class StepsController extends Controller
 //            ]);
 //        }
             }
-
+           $em->flush();
         }
 
         return new JsonResponse([
