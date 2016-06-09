@@ -288,6 +288,7 @@ class StepsController extends Controller
         $photosForm = $this->createForm(new ownershipStepPhotosType(), $ownership, array('action' => $this->generateUrl('save_step6'), 'attr' => ['id' => 'mycp_mycpbundle_ownership_step_photos']));
         $photosForm->handleRequest($request);
         if ($photosForm->isValid()) {
+//            $own=$em->getRepository('mycpBundle:ownership')->find('');
             $ownership->setPhotos(new ArrayCollection());
             foreach ($request->files->get('mycp_mycpbundle_ownership_step_photos')['photos'] as $index => $file) {
                 $desc = $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
