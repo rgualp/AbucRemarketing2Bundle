@@ -65,3 +65,7 @@ mycp_delete_photo_owner_ownership:
 mycp_save_photo_owner_ownership:
     pattern:  /save-photo-owner/{idOwnership}
     defaults: { _controller: mycpBundle:BackendOwnership:savePhotoOwner }
+
+mycp_logs_ownership:
+    pattern:  /logs/{items_per_page}/{filter_user}/{filter_status}/{filter_date}/{filter_created}/{filter_description}
+    defaults: { _controller: mycpBundle:BackendOwnershipLogs:logs, items_per_page: 100,filter_user:'',filter_status:'',filter_date:'',filter_created:'',filter_description:'' }

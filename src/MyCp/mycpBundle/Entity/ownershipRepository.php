@@ -2206,4 +2206,40 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
+    function logs($filter_user = '', $filter_status= '', $filter_date= '', $filter_created= '', $filter_description= ''){
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipStatistics", "os")
+            ->select("os")
+            ->join("os.accommodation", "acc")
+            ->join("os.user", "user")
+            ->join("acc.own_status", "status")
+        ;
+
+        if($filter_user != "")
+            $qb->andWhere("user.user_id = :userId")
+                ->setParameter("userId", $filter_user);
+
+        if($filter_status != "")
+            $qb->andWhere("status.status_id = :statusIs")
+                ->setParameter("userId", $filter_status);
+
+        if($filter_date != "")
+            $qb->andWhere("os.date = :date")
+                ->setParameter("date", $filter_date);
+
+        if($filter_created != "") {
+
+            if($filter_created == FilterHelper::ACCOMMODATION_GENERAL_DATA_CREATED)
+            $qb->andWhere("os.created = 1");
+        }
+
+        if($filter_description != "")
+            $qb->andWhere("os.notes LIKE :description")
+                ->setParameter("description", "%".$filter_description."%");
+
+        return $qb->getQuery();
+    }
+
 }
