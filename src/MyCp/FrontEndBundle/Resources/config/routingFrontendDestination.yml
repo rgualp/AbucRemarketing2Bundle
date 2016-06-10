@@ -3,7 +3,7 @@ frontend_list_destinations:
     defaults: { _controller: FrontEndBundle:Destination:popularList }
 
 frontend_filter_by_municipality_destinations:
-    pattern:  /destinations/{province_id}/{municipality_id}/
+    locales:  { en: "/destinations/{province_id}/{municipality_id}", es: "/destinos/{province_id}/{municipality_id}", de: "/reiseziele/{province_id}/{municipality_id}" }
     defaults: { _controller: FrontEndBundle:Destination:popularList }
 
 frontend_filter_by_province_destinations:

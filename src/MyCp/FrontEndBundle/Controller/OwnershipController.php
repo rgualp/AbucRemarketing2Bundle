@@ -1399,6 +1399,19 @@ class OwnershipController extends Controller {
         $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
         $filters = array();
+
+        switch($type){
+            case "villa-con-piscina":
+            case "pool-villa":
+            case "villa-mit-swimmbad": $type = "villa-con-piscina"; break;
+            case "apartamento":
+            case "apartament":
+            case "wohnung": $type = "apartamento"; break;
+            case "propiedad-completa":
+            case "full-property":
+            case "ganze-unterkunft": $type = "propiedad-completa"; break;
+        }
+
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters);

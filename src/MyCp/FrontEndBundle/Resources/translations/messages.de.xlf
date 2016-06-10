@@ -3135,6 +3135,33 @@
                                                                                         <source>mycasatrip_bearing_text</source>
                                                                                         <target>Schauen Sie auf die Hinweise um Ihre Reise effizienter zu machen.</target>
                                                                                      </trans-unit>
+
+        <trans-unit id="939">
+            <source>villa-con-piscina</source>
+            <target>villa-mit-swimmbad</target>
+        </trans-unit>
+
+        <trans-unit id="940">
+            <source>apartamento</source>
+            <target>wohnung</target>
+        </trans-unit>
+
+        <trans-unit id="941">
+            <source>casa-particular</source>
+            <target>casa-particular</target>
+        </trans-unit>
+
+        <trans-unit id="942">
+            <source>propiedad-completa</source>
+            <target>ganze-unterkunft</target>
+        </trans-unit>
+
+        <trans-unit id="943">
+            <source>penthouse</source>
+            <target>penthouse</target>
+        </trans-unit>
+
+
     </body>
     </file>
 </xliff>

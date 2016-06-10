@@ -101,54 +101,57 @@ class CartController extends Controller {
             }
             if ($insert == 1) {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
-                $cart = new cart();
-                $fromDate = new \DateTime();
-                $fromDate->setTimestamp($start_timestamp);
-                $cart->setCartDateFrom($fromDate);
 
-                $toDate = new \DateTime();
-                $toDate->setTimestamp($end_timestamp);
-                $cart->setCartDateTo($toDate);
-                $cart->setCartRoom($room);
+                if($room != null) {
+                    $cart = new cart();
+                    $fromDate = new \DateTime();
+                    $fromDate->setTimestamp($start_timestamp);
+                    $cart->setCartDateFrom($fromDate);
 
-                if (isset($array_count_guests[$a]))
-                    $cart->setCartCountAdults($array_count_guests[$a]);
-                else
-                    $cart->setCartCountAdults(1);
+                    $toDate = new \DateTime();
+                    $toDate->setTimestamp($end_timestamp);
+                    $cart->setCartDateTo($toDate);
+                    $cart->setCartRoom($room);
 
-                if (isset($array_count_kids[$a]))
-                    $cart->setCartCountChildren($array_count_kids[$a]);
-                else
-                    $cart->setCartCountChildren(0);
+                    if (isset($array_count_guests[$a]))
+                        $cart->setCartCountAdults($array_count_guests[$a]);
+                    else
+                        $cart->setCartCountAdults(1);
 
-                $kidsAge = array();
+                    if (isset($array_count_kids[$a]))
+                        $cart->setCartCountChildren($array_count_kids[$a]);
+                    else
+                        $cart->setCartCountChildren(0);
 
-                if(isset($array_count_kidsAge_1[$a]) && $array_count_kidsAge_1[$a] != -1)
-                    $kidsAge["FirstKidAge"] = $array_count_kidsAge_1[$a];
+                    $kidsAge = array();
 
-                if(isset($array_count_kidsAge_2[$a]) && $array_count_kidsAge_2[$a] != -1)
-                    $kidsAge["SecondKidAge"] = $array_count_kidsAge_2[$a];
+                    if (isset($array_count_kidsAge_1[$a]) && $array_count_kidsAge_1[$a] != -1)
+                        $kidsAge["FirstKidAge"] = $array_count_kidsAge_1[$a];
 
-                if(isset($array_count_kidsAge_3[$a]) && $array_count_kidsAge_3[$a] != -1)
-                    $kidsAge["ThirdKidAge"] = $array_count_kidsAge_3[$a];
+                    if (isset($array_count_kidsAge_2[$a]) && $array_count_kidsAge_2[$a] != -1)
+                        $kidsAge["SecondKidAge"] = $array_count_kidsAge_2[$a];
 
-                if(count($kidsAge))
-                    $cart->setChildrenAges($kidsAge);
+                    if (isset($array_count_kidsAge_3[$a]) && $array_count_kidsAge_3[$a] != -1)
+                        $kidsAge["ThirdKidAge"] = $array_count_kidsAge_3[$a];
 
-                $cart->setCartCreatedDate(new \DateTime());
-                if ($user_ids["user_id"] != null) {
-                    $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
-                    $cart->setCartUser($user);
-                } else if ($user_ids["session_id"] != null)
-                    $cart->setCartSessionId($user_ids["session_id"]);
+                    if (count($kidsAge))
+                        $cart->setChildrenAges($kidsAge);
 
-                $em->persist($cart);
-                $em->flush();
-                if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
-                    // inform listeners that a reservation was sent out
-                    $dispatcher = $this->get('event_dispatcher');
-                    $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
-                    $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
+                    $cart->setCartCreatedDate(new \DateTime());
+                    if ($user_ids["user_id"] != null) {
+                        $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
+                        $cart->setCartUser($user);
+                    } else if ($user_ids["session_id"] != null)
+                        $cart->setCartSessionId($user_ids["session_id"]);
+
+                    $em->persist($cart);
+                    $em->flush();
+                    if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
+                        // inform listeners that a reservation was sent out
+                        $dispatcher = $this->get('event_dispatcher');
+                        $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
+                        $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
+                    }
                 }
             }
         }
@@ -166,47 +169,49 @@ class CartController extends Controller {
         $array_data = explode('-', $data);
         $cartItem = $em->getRepository("mycpBundle:cart")->find($array_data[0]);
 
-        $cartItemDateFrom = $cartItem->getCartDateFrom()->getTimestamp();
-        $cartItemDateTo = $cartItem->getCartDateTo()->getTimestamp();
-        $cartItemDateToBefore = strtotime("-1 day", $cartItemDateTo);
-        $deleteToAfter = strtotime("+1 day", $array_data[1]);
+        if($cartItem != null) {
+            $cartItemDateFrom = $cartItem->getCartDateFrom()->getTimestamp();
+            $cartItemDateTo = $cartItem->getCartDateTo()->getTimestamp();
+            $cartItemDateToBefore = strtotime("-1 day", $cartItemDateTo);
+            $deleteToAfter = strtotime("+1 day", $array_data[1]);
 
-        if ( $cartItemDateFrom == $array_data[1]) {
-            $date = new \DateTime();
-            $date->setTimestamp(strtotime("+1 day", $cartItemDateFrom));
-            $cartItem->setCartDateFrom($date);
-        } else if ($cartItemDateTo == $deleteToAfter) {
-            $dateTo = new \DateTime();
-            $dateTo->setTimestamp($cartItemDateToBefore);
-            $cartItem->setCartDateTo($dateTo);
-        } else if ($array_data[1] < $cartItemDateTo && $array_data[1] > $cartItemDateFrom) {
-            $cartItemNext = $cartItem->getClone();
-            $date = new \DateTime();
-            $date->setTimestamp($array_data[1]);
-            $cartItem->setCartDateTo($date);
+            if ($cartItemDateFrom == $array_data[1]) {
+                $date = new \DateTime();
+                $date->setTimestamp(strtotime("+1 day", $cartItemDateFrom));
+                $cartItem->setCartDateFrom($date);
+            } else if ($cartItemDateTo == $deleteToAfter) {
+                $dateTo = new \DateTime();
+                $dateTo->setTimestamp($cartItemDateToBefore);
+                $cartItem->setCartDateTo($dateTo);
+            } else if ($array_data[1] < $cartItemDateTo && $array_data[1] > $cartItemDateFrom) {
+                $cartItemNext = $cartItem->getClone();
+                $date = new \DateTime();
+                $date->setTimestamp($array_data[1]);
+                $cartItem->setCartDateTo($date);
 
-            $date = new \DateTime();
-            $date->setTimestamp($deleteToAfter);
-            $cartItemNext->setCartDateFrom($date);
-            $em->persist($cartItemNext);
-        }
-
-        $cartItem->setCartCreatedDate(new \DateTime());
-        $em->persist($cartItem);
-        $em->flush();
-        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
-
-        foreach ($cartItems as $item) {
-            if ($item->getCartDateTo()->getTimestamp() <= $item->getCartDateFrom()->getTimestamp()) {
-                //delete cartItem
-                $em->remove($cartItem);
+                $date = new \DateTime();
+                $date->setTimestamp($deleteToAfter);
+                $cartItemNext->setCartDateFrom($date);
+                $em->persist($cartItemNext);
             }
-        }
-        $em->flush();
 
-        if (count($cartItems) < 1) {
-            return new Response('0');
+            $cartItem->setCartCreatedDate(new \DateTime());
+            $em->persist($cartItem);
+            $em->flush();
+            $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+
+            foreach ($cartItems as $item) {
+                if ($item->getCartDateTo()->getTimestamp() <= $item->getCartDateFrom()->getTimestamp()) {
+                    //delete cartItem
+                    $em->remove($cartItem);
+                }
+            }
+            $em->flush();
+
+            if (count($cartItems) < 1) {
+                return new Response('0');
+            }
         }
         return $this->getCartBodyAction($request);
     }

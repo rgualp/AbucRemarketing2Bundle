@@ -71,10 +71,10 @@
             {%endif%}
             <span>{{ownership.category | trans}}</span>
        <div class="col-sm-12 p-0">
-             <p style="margin: 0;">{{ ownership.prov_name }}, {{ ownership.mun_name }}</p>
+             <p style="margin: 0;">{{ ownership.prov_name | trans }}, {{ ownership.mun_name }}</p>
        </div>
        <div class="col-sm-12 p-0">
-           <p style="margin: 0;">{{ ownership.type }}/ {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
+           <p style="margin: 0;">{{ ownership.type | trans }}/ {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
        </div>
             <div class="col-sm-12 p-0">
                 {%if ownership.rating > 0%}
