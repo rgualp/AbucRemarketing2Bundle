@@ -38,7 +38,7 @@
             </div>
                 <div class="span4">
                     <label>Fecha Visita:</label>
-                    <input name="filter_date" value="{%if filter_date is defined and filter_date != null%}{{filter_date | date('d/m/Y')}}{%endif%}" id="filter_date" class="input-block-level datepicker">
+                    <input name="filter_date" value="{%if filter_date is defined and filter_date != null%}{{filter_date | date('yyyy-mm-dd')}}{%endif%}" id="filter_date" class="input-block-level datepicker">
                     </div>
                 </div>
                 <div class="row-fluid">
@@ -190,7 +190,7 @@
 
     <script type="text/javascript">
         $('.datepicker').datepicker({
-            format: 'dd-mm-yyyy',
+            format: 'yyyy-mm-dd',
             todayBtn: 'linked',
             autoclose: true,
             language: 'es'
