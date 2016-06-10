@@ -166,47 +166,49 @@ class CartController extends Controller {
         $array_data = explode('-', $data);
         $cartItem = $em->getRepository("mycpBundle:cart")->find($array_data[0]);
 
-        $cartItemDateFrom = $cartItem->getCartDateFrom()->getTimestamp();
-        $cartItemDateTo = $cartItem->getCartDateTo()->getTimestamp();
-        $cartItemDateToBefore = strtotime("-1 day", $cartItemDateTo);
-        $deleteToAfter = strtotime("+1 day", $array_data[1]);
+        if($cartItem != null) {
+            $cartItemDateFrom = $cartItem->getCartDateFrom()->getTimestamp();
+            $cartItemDateTo = $cartItem->getCartDateTo()->getTimestamp();
+            $cartItemDateToBefore = strtotime("-1 day", $cartItemDateTo);
+            $deleteToAfter = strtotime("+1 day", $array_data[1]);
 
-        if ( $cartItemDateFrom == $array_data[1]) {
-            $date = new \DateTime();
-            $date->setTimestamp(strtotime("+1 day", $cartItemDateFrom));
-            $cartItem->setCartDateFrom($date);
-        } else if ($cartItemDateTo == $deleteToAfter) {
-            $dateTo = new \DateTime();
-            $dateTo->setTimestamp($cartItemDateToBefore);
-            $cartItem->setCartDateTo($dateTo);
-        } else if ($array_data[1] < $cartItemDateTo && $array_data[1] > $cartItemDateFrom) {
-            $cartItemNext = $cartItem->getClone();
-            $date = new \DateTime();
-            $date->setTimestamp($array_data[1]);
-            $cartItem->setCartDateTo($date);
+            if ($cartItemDateFrom == $array_data[1]) {
+                $date = new \DateTime();
+                $date->setTimestamp(strtotime("+1 day", $cartItemDateFrom));
+                $cartItem->setCartDateFrom($date);
+            } else if ($cartItemDateTo == $deleteToAfter) {
+                $dateTo = new \DateTime();
+                $dateTo->setTimestamp($cartItemDateToBefore);
+                $cartItem->setCartDateTo($dateTo);
+            } else if ($array_data[1] < $cartItemDateTo && $array_data[1] > $cartItemDateFrom) {
+                $cartItemNext = $cartItem->getClone();
+                $date = new \DateTime();
+                $date->setTimestamp($array_data[1]);
+                $cartItem->setCartDateTo($date);
 
-            $date = new \DateTime();
-            $date->setTimestamp($deleteToAfter);
-            $cartItemNext->setCartDateFrom($date);
-            $em->persist($cartItemNext);
-        }
-
-        $cartItem->setCartCreatedDate(new \DateTime());
-        $em->persist($cartItem);
-        $em->flush();
-        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
-
-        foreach ($cartItems as $item) {
-            if ($item->getCartDateTo()->getTimestamp() <= $item->getCartDateFrom()->getTimestamp()) {
-                //delete cartItem
-                $em->remove($cartItem);
+                $date = new \DateTime();
+                $date->setTimestamp($deleteToAfter);
+                $cartItemNext->setCartDateFrom($date);
+                $em->persist($cartItemNext);
             }
-        }
-        $em->flush();
 
-        if (count($cartItems) < 1) {
-            return new Response('0');
+            $cartItem->setCartCreatedDate(new \DateTime());
+            $em->persist($cartItem);
+            $em->flush();
+            $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+
+            foreach ($cartItems as $item) {
+                if ($item->getCartDateTo()->getTimestamp() <= $item->getCartDateFrom()->getTimestamp()) {
+                    //delete cartItem
+                    $em->remove($cartItem);
+                }
+            }
+            $em->flush();
+
+            if (count($cartItems) < 1) {
+                return new Response('0');
+            }
         }
         return $this->getCartBodyAction($request);
     }
