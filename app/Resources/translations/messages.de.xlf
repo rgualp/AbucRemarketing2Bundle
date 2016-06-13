@@ -3835,6 +3835,18 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <source>La Habana</source>
             <target>Havanna</target>
         </trans-unit>
+        <trans-unit id="968">
+          <source>ESCAPE_TEXT</source>
+          <target><![CDATA[Flüchten Sie nach Kuba! ... <br/>Das ganze Abenteuer zum halben Preis]]></target>
+        </trans-unit>
+        <trans-unit id="969">
+          <source>DOUBLE_TEXT</source>
+          <target>Der doppelte Spaß mit jedem Coupon</target>
+          </trans-unit>
+          <trans-unit id="970">
+           <source>CODE_TEXT</source>
+           <target>Behalten Sie diesen Code und probieren Sie!</target>
+           </trans-unit>
     </body>
     </file>
 </xliff>

@@ -3830,6 +3830,18 @@
                 <source>La Habana</source>
                 <target>Havana</target>
             </trans-unit>
+            <trans-unit id="968">
+              <source>ESCAPE_TEXT</source>
+              <target><![CDATA[Escape to Cuba! ...<br/> Whole adventure for half price]]></target>
+            </trans-unit>
+             <trans-unit id="969">
+              <source>DOUBLE_TEXT</source>
+              <target>Double the fun with each Coupon</target>
+              </trans-unit>
+             <trans-unit id="970">
+                 <source>CODE_TEXT</source>
+                 <target>Keep this promo code try it here</target>
+                 </trans-unit>
         </body>
     </file>
 </xliff>

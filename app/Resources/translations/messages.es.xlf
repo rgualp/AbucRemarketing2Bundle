@@ -3820,7 +3820,18 @@
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Alojarse es solo el comienzo. Hacemos de su viaje una experiencia única.</target>
                  </trans-unit>
-
+                 <trans-unit id="963">
+                  <source>ESCAPE_TEXT</source>
+                  <target><![CDATA[¡Escápese a Cuba! ...<br/>Toda la aventura a mitad de precio]]></target>
+                  </trans-unit>
+                    <trans-unit id="964">
+                  <source>DOUBLE_TEXT</source>
+                  <target>El doble de diversión con cada cupón</target>
+                  </trans-unit>
+                   <trans-unit id="965">
+                    <source>CODE_TEXT</source>
+                    <target>Quédese este código y pruébelo! </target>
+                    </trans-unit>
         </body>
     </file>
 </xliff>

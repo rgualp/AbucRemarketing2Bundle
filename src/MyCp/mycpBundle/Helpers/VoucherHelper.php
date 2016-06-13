@@ -78,7 +78,8 @@ class VoucherHelper {
                     'user' => $user,
                     //'reservations' => $ownershipReservations,
                     'message' => $message,
-                    //'nights' => $nights
+                    //'nights' => $nights,
+                    'bookId'=>$bookId
                 ));
 
                 $locale = $controller->get('translator');
