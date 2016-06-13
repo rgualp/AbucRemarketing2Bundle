@@ -2226,8 +2226,8 @@ class ownershipRepository extends EntityRepository {
                 ->setParameter("userId", $filter_status);
 
         if($filter_date != "")
-            $qb->andWhere("os.date = :date")
-                ->setParameter("date", $filter_date);
+            $qb->andWhere("os.date LIKE :date")
+                ->setParameter("date", $filter_date."%");
 
         if($filter_created != "") {
 
