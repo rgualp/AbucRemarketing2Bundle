@@ -252,7 +252,9 @@ class ownershipRepository extends EntityRepository {
         $statistic->setAccommodation($ownership)
             ->setCreated(true)
             ->setStatus($status)
-            ->setUser($controller->getUser());
+            ->setUser($controller->getUser())
+            ->setNotes("Inserted in Backend")
+        ;
 
         $em->persist($statistic);
 
@@ -521,7 +523,9 @@ class ownershipRepository extends EntityRepository {
         $statistic->setAccommodation($ownership)
             ->setCreated(false)
             ->setStatus($status)
-            ->setUser($controller->getUser());
+            ->setUser($controller->getUser())
+            ->setNotes("Modify in Backend")
+        ;
 
         $em->persist($statistic);
 

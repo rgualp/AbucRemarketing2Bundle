@@ -656,7 +656,7 @@ class StepsController extends Controller
                 ->setCreated(true)
                 ->setStatus($status)
                 ->setUser($this->getUser())
-                ->setNotes("Inserted by Casa Module")
+                ->setNotes("Inserted in Casa Module")
             ;
 
             $em->persist($statistic);
