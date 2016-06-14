@@ -143,6 +143,8 @@ class BackendTestEmailTemplateController extends Controller {
                 $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
 
+        $booking = $em->getRepository("mycpBundle:booking")->findOneBy(array(), array("booking_id" => "DESC"));
+
         return $this->render('FrontEndBundle:mails:boletin.html.twig', array(
                     'user' => $user,
                     'reservations' => $ownershipReservations,
@@ -151,7 +153,8 @@ class BackendTestEmailTemplateController extends Controller {
                     'user_locale' => $langCode,
                     'initial_payment' => $initialPayment,
                     'generalReservationId' => $generalReservation->getGenResId(),
-                    'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
+                    'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null,
+                    'bookId' => $booking->getBookingId()
         ));
     }
 
