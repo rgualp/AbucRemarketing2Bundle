@@ -645,7 +645,9 @@ class StepsController extends Controller
             //Preguntar si los datos primarios estan llenos
             $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
             $accommodation->setOwnStatus($status)
-                ->setWaitingForRevision(true);
+                ->setWaitingForRevision(true)
+                ->setOwnPublishDate(new \DateTime())
+            ;
             $em->persist($accommodation);
 
             //Insertar un ownershipStatistics
@@ -653,10 +655,13 @@ class StepsController extends Controller
             $statistic->setAccommodation($accommodation)
                 ->setCreated(true)
                 ->setStatus($status)
-                ->setUser($this->getUser());
+                ->setUser($this->getUser())
+                ->setNotes("Inserted by Casa Module")
+            ;
 
             $em->persist($statistic);
         }
+
 
         $em->flush();
 
