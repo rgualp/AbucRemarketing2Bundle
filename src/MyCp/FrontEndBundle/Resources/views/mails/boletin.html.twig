@@ -18,6 +18,26 @@
     {#<p>{{ 'NEWSLETTER_LINK_TEXT'|trans({}, "messages", user_locale) }}</p>#}
     {#<a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_favorites_destinations',relative=true ) }}">{{ 'NEWSLETTER_LINK_BTN1'|trans({}, "messages", user_locale) }}</a>#}
     {#<p>{{ 'NEWSLETTER_LINK_TEXT1'|trans({}, "messages", user_locale) }}</p>#}
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; background-color: #f0f0f0;">
+        <tr>
+            <td width="40%" style="padding: 10px;">
+                <a target="_blank" href="http://cubacoupon.com">
+                    <img src="{{ asset('bundles/frontend/img/logo-cubacoupon.png', absolute=true) }}"></a>
+                <p style="color: #e0534a; margin-bottom: 10px;font-size: 18px">{{ 'ESCAPE_TEXT'|trans({}, "messages", user_locale) |raw}}</p>
+                <p style="color: #084d76; font-size: 13px;">{{ 'DOUBLE_TEXT'|trans({}, "messages", user_locale)}}</p>
+                <p style="color: #084d76; font-size: 13px;">{{ 'CODE_TEXT'|trans({}, "messages", user_locale)}} <b>{% if bookId is defined %}{{ bookId }}{% endif %}</b></p>
+                <a href="http://cubacoupon.com/{{ user_locale }}/promotion?idbooking={{ bookId }}" target="_blank">http://cubacoupon.com/{{ user_locale }}/promotion</a>
+                <br>
+            </td>
+            <td width="20%">
+                <img style="width: 300px;" src="{{asset('bundles/frontend/img/sello.png', absolute=true)}}">
+            </td>
+            <td width="10%">
+                <img style="margin-left: -84px;margin-top: -21px;position: absolute;width: 180px;" src="{{asset('bundles/frontend/img/cupones.png', absolute=true)}}">
+            </td>
+        </tr>
+
+    </table>
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; background-color: #6cccff;">
     <tr>
        <td width="70%" style="padding: 10px;">
