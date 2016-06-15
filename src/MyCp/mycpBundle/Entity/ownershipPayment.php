@@ -4,13 +4,13 @@ namespace MyCp\mycpBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownershipPayment
  *
  * @ORM\Table(name="ownershippayment")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipPaymentRepository")
+ * @ORM\EntityListeners({"MyCp\mycpBundle\Listener\OwnershipPaymentListener"})
  */
 class ownershipPayment {
 
@@ -42,6 +42,13 @@ class ownershipPayment {
     private $method;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="number", type="string")
+     */
+    private $number;
+
+    /**
      * @var decimal
      *
      * @ORM\Column(name="payed_amount", type="decimal")
@@ -61,6 +68,10 @@ class ownershipPayment {
      * @ORM\Column(name="creation_dat", type="datetime")
      */
     private $creation_date;
+
+    public function __construct() {
+        $this->creation_date = new \DateTime();
+    }
 
     /**
      * @return mixed
