@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,17 @@ class mycpService
      * @ORM\Column(name="price", type="decimal", nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipPayment",mappedBy="accommodation")
+     */
+    private $payments;
+
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -76,6 +88,24 @@ class mycpService
     public function setPrice($price)
     {
         $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param mixed $payments
+     * @return mixed
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
         return $this;
     }
 

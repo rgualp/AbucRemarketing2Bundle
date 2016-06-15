@@ -41,11 +41,17 @@ class nomenclator
     private $translations;
 
     /**
+     * @ORM\OneToMany(targetEntity="ownershipPayment",mappedBy="method")
+     */
+    private $payments;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
     
     /**
@@ -121,6 +127,25 @@ class nomenclator
         $this->translations = $translations;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param mixed $payments
+     * @return mixed
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
+        return $this;
+    }
+
 
 
 }

@@ -534,6 +534,11 @@ class ownership {
     private $ownershipLogs;
 
     /**
+     * @ORM\OneToMany(targetEntity="ownershipPayment",mappedBy="accommodation")
+     */
+    private $payments;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -553,6 +558,7 @@ class ownership {
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
         $this->owners = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     /**
@@ -2131,6 +2137,24 @@ class ownership {
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param mixed $payments
+     * @return mixed
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
+        return $this;
     }
 
 
