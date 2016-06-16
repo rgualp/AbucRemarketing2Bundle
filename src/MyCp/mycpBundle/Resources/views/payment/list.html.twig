@@ -10,7 +10,7 @@
 {% block content %}
 <h2>Pagos</h2>
 <hr/>
-    <a class="btn" href="#"><i class="icon-plus"></i> Adicionar Pago</a>&nbsp;
+    <a class="btn" href="{{ path("mycp_new_payment") }}"><i class="icon-plus"></i> Adicionar Pago</a>&nbsp;
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="paginator-cont span11">
-    {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+    {# % if filter_name ==''%}{% set filter_name='null'%}{%endif% #}
     {{ simple_paginator_render('mycp_list_payments',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
@@ -62,10 +62,10 @@
             <td>{{payment.paymentDate | date ("d/m/Y")}}</td>
             <td>{{ payment.payedAmount }} CUC</td>
             <td>{{ payment.service.name }}</td>
-            <td>{{ payment.method }}</td>
+            <td>{{ payment.method.translations[0].nomLangDescription }}</td>
             <td>{{ payment.accommodation.ownMcpCode }}</td>
             <td style="text-align: right">
-                <a class="btn btn-mini" href="#">Editar</a>
+                <a class="btn btn-mini" href="{{ path("mycp_edit_payment", {"id": payment.id}) }}">Editar</a>
                 <button data='#' class="btn btn-mini btn-danger delete">Eliminar</button>
             </td>
         </tr>
@@ -73,7 +73,7 @@
         </tbody>
     </table>
 <div class="paginator-cont span11">
-{% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+{# % if filter_name ==''%}{% set filter_name='null'%}{%endif% #}
 {{ simple_paginator_render('mycp_list_payments',null,{
 'container_class': 'paginator',
 'previousPageText': '«',

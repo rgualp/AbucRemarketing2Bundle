@@ -9,19 +9,19 @@
 namespace MyCp\mycpBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use MyCp\mycpBundle\Entity\ownership;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use MyCp\mycpBundle\Entity\ownershipPayment;
 
 class OwnershipPaymentListener {
 
-    public function prePersist(ownership $entity, LifecycleEventArgs $args)
+    public function prePersist(ownershipPayment $entity, LifecycleEventArgs $args)
     {
         //$entity = $args->getEntity();
         $em = $args->getEntityManager();
         $this->generatePaymentNumber($em, $entity, $entity->getPaymentDate());
     }
 
-    public function preUpdate(ownership $entity, PreUpdateEventArgs $args)
+    public function preUpdate(ownershipPayment $entity, PreUpdateEventArgs $args)
     {
         $em = $args->getEntityManager();
         $changeSet = $args->getEntityChangeSet();
@@ -35,7 +35,7 @@ class OwnershipPaymentListener {
     private function generatePaymentNumber($em, $entity, $paymentDate)
     {
         $year = $paymentDate->format("Y");
-        $queryString = "SELECT MAX(op.number) from mycpBundle:ownershipPayment op WHERE o.number LIKE :number";
+        $queryString = "SELECT MAX(op.number) from mycpBundle:ownershipPayment op WHERE op.number LIKE :number";
 
         $maxPaymentNumber = $em->createQuery($queryString)->setParameter('number', $year."%")->getSingleScalarResult();
 
@@ -47,7 +47,7 @@ class OwnershipPaymentListener {
         }
 
 
-        if( $this->getNumberValue($entity->getOwnAutomaticMcpCode()) < 100)
+        if( $this->getNumberValue($entity->getNumber()) < 100)
             $newPaymentNumber =  $year.str_pad($maxPaymentNumber, 3, "0", STR_PAD_LEFT);
         else
             $newPaymentNumber =  $year.$maxPaymentNumber;
