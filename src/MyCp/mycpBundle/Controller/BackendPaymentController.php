@@ -50,9 +50,9 @@ class BackendPaymentController extends Controller {
                 $message = 'Pago añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                /*$service_log = $this->get('log');
-                $service_log->saveLog($award->getLogDescription(), BackendModuleName::MODULE_AWARD, log::OPERATION_INSERT, DataBaseTables::AWARD);
-*/
+                $service_log = $this->get('log');
+                $service_log->saveLog($payment->getNumber(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_INSERT, DataBaseTables::ACCOMMODATION_PAYMENT);
+
                 return $this->redirect($this->generateUrl('mycp_list_payments'));
             }
         }
@@ -78,9 +78,9 @@ class BackendPaymentController extends Controller {
                 $message = 'Pago actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                /*$service_log = $this->get('log');
-                $service_log->saveLog($award->getLogDescription(), BackendModuleName::MODULE_AWARD, log::OPERATION_UPDATE, DataBaseTables::AWARD);
-*/
+                $service_log = $this->get('log');
+                $service_log->saveLog($payment->getNumber(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_UPDATE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
                 return $this->redirect($this->generateUrl('mycp_list_payments'));
             }
         }
@@ -88,6 +88,26 @@ class BackendPaymentController extends Controller {
         return $this->render('mycpBundle:payment:new.html.twig', array(
             'form' => $form->createView(), 'edit_payment' => $id, 'payment' => $payment
         ));
+    }
+
+    function deleteAction($id) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+
+        $em = $this->getDoctrine()->getManager();
+        $payment= $em->getRepository('mycpBundle:ownershipPayment')->find($id);
+
+        if ($payment)
+            $em->remove($payment);
+        $em->flush();
+        $message = 'Pago eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($payment->getNumber(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_DELETE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+
+        return $this->redirect($this->generateUrl('mycp_list_payments'));
     }
 
 }

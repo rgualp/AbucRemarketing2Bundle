@@ -9,3 +9,7 @@ mycp_new_payment:
 mycp_edit_payment:
     pattern:  /edit/{id}
     defaults: { _controller: mycpBundle:BackendPayment:edit }
+
+mycp_delete_payment:
+    pattern:  /delete/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:delete }
