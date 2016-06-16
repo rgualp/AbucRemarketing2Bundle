@@ -2157,6 +2157,9 @@ class ownership {
         return $this;
     }
 
-
+    public function getCodeAndName()
+    {
+        return $this->getOwnMcpCode()." - ".$this->getOwnName();
+    }
 
 }

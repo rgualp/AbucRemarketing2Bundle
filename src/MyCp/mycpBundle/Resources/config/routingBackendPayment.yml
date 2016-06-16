@@ -7,5 +7,5 @@ mycp_new_payment:
     defaults: { _controller: mycpBundle:BackendPayment:new }
 
 mycp_edit_payment:
-    pattern:  /edit
+    pattern:  /edit/{id}
     defaults: { _controller: mycpBundle:BackendPayment:edit }

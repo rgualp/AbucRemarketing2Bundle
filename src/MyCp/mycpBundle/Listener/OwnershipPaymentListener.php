@@ -27,39 +27,41 @@ class OwnershipPaymentListener {
         $changeSet = $args->getEntityChangeSet();
         if(isset($changeSet["payment_date"]))
         {
-            if($args->hasChangedField('payment_date'))
+            $newDate = $changeSet["payment_date"];
+            if($args->hasChangedField('payment_date') && ($newDate[0]->format("Y") != $entity->getPaymentDate()->format("Y")))
                 $this->generatePaymentNumber($em, $entity, $args->getNewValue("payment_date"));
         }
     }
 
     private function generatePaymentNumber($em, $entity, $paymentDate)
     {
-        $year = $paymentDate->format("Y");
-        $queryString = "SELECT MAX(op.number) from mycpBundle:ownershipPayment op WHERE op.number LIKE :number";
+            $year = $paymentDate->format("Y");
 
-        $maxPaymentNumber = $em->createQuery($queryString)->setParameter('number', $year."%")->getSingleScalarResult();
+            $queryString = "SELECT MAX(op.number) from mycpBundle:ownershipPayment op WHERE op.number LIKE :number";
 
-        if($maxPaymentNumber === null)
-            $maxPaymentNumber = 1;
-        else{
-            $maxPaymentNumber = $this->getNumberValue($maxPaymentNumber);
-            $maxPaymentNumber++;
-        }
+            $maxPaymentNumber = $em->createQuery($queryString)->setParameter('number', $year . "%")->getSingleScalarResult();
+
+            if ($maxPaymentNumber === null)
+                $maxPaymentNumber = 1;
+            else {
+                $maxPaymentNumber = $this->getNumberValue($maxPaymentNumber);
+                $maxPaymentNumber++;
+            }
 
 
-        if( $this->getNumberValue($entity->getNumber()) < 100)
-            $newPaymentNumber =  $year.str_pad($maxPaymentNumber, 3, "0", STR_PAD_LEFT);
-        else
-            $newPaymentNumber =  $year.$maxPaymentNumber;
+            if ($maxPaymentNumber < 100)
+                $newPaymentNumber = $year . str_pad($maxPaymentNumber, 3, "0", STR_PAD_LEFT);
+            else
+                $newPaymentNumber = $year . $maxPaymentNumber;
 
-        //if($entity->getOwnMcpCode() == null || $entity->getOwnMcpCode() == "") {
+            //if($entity->getOwnMcpCode() == null || $entity->getOwnMcpCode() == "") {
             $entity->setNumber($newPaymentNumber);
-        //}
+            //}
     }
 
     private function getNumberValue($paymentNumber)
     {
-        $paymentNumber = substr ($paymentNumber , 0,4 );
+        $paymentNumber = substr ($paymentNumber , 4 );
         $paymentNumber = ltrim($paymentNumber, '0');
 
         return $paymentNumber;

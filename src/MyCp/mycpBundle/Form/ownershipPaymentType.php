@@ -23,9 +23,10 @@ class ownershipPaymentType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('o')->orderBy('length(o.own_mcp_code)', 'ASC')->addOrderBy('o.own_mcp_code', 'ASC');
                 },
-                'property' => 'own_mcp_code',
+                'property' => 'codeAndName',
                 'required' => true,
-                'multiple' => false
+                'multiple' => false,
+                'attr' => array("class" => "select input-block-level")
             ))
             ->add('service', 'entity', array(
                 'label'=>'Servicio a pagar:',
@@ -59,7 +60,7 @@ class ownershipPaymentType extends AbstractType
                 'widget'=>'single_text',
                 'format'=>'dd/MM/yyyy',
                 'label'=>'Fecha de pago (dia/mes/año - dd/mm/yyyy):',
-                'attr'=>array('class'=>'input-block-level datepicker-to')
+                'attr'=>array('class'=>'input-block-level datepicker_textbox', "style" => "width: 206px")
             ))
         ;
     }
