@@ -65,7 +65,7 @@ class ownershipPayment {
     /**
      * @var datetime
      *
-     * @ORM\Column(name="creation_dat", type="datetime")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creation_date;
 

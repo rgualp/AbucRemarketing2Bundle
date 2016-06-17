@@ -21,7 +21,9 @@ class ownershipPaymentRepository extends EntityRepository {
             ->join("op.method", "method")
             ->join("op.service", "service")
             ->select("op")
-            ->orderBy("op.creation_date", "DESC");
+            ->orderBy("op.creation_date", "DESC")
+            ->addOrderBy("op.number", "DESC")
+            ->addOrderBy("length(op.number)", "ASC");
 
         return $qb->getQuery();
 
