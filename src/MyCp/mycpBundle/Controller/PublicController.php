@@ -224,4 +224,22 @@ class PublicController extends Controller
         $accommodations = $em->getRepository('mycpBundle:ownership')->findBy(array('own_destination'=>$destinationId), array("own_mcp_code" => "ASC"));
         return $this->render('mycpBundle:utils:list_accommodations.html.twig', array('accommodations' => $accommodations));
     }
+
+    public function getMycpServiceAction($selectedValue,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $services = $em->getRepository('mycpBundle:mycpService')->findAll();
+
+        return $this->render('mycpBundle:utils:listMycpServices.html.twig', array('services' => $services
+        ,'selected'=>$selectedValue));
+    }
+
+    public function getNomenclatorListAction($selectedValue, $category,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $nomenclators = $em->getRepository('mycpBundle:nomenclator')->findBy(array("nom_category" => $category));
+
+        return $this->render('mycpBundle:utils:listNomenclators.html.twig', array('nomenclators' => $nomenclators
+        ,'selected'=>$selectedValue));
+    }
 }
