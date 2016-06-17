@@ -65,4 +65,21 @@ class ownershipPaymentRepository extends EntityRepository {
 
     }
 
+    function accommodationsNoPayment()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownership", "o")
+            ->where("o.own_id NOT IN (select ac.own_id from mycpBundle:ownershipPayment op JOIN op.accommodation ac JOIN op.service s where s.name LIKE '%inscripción%')")
+            ->select("o")
+            ->orderBy("o.own_creation_date", "DESC")
+            ->addOrderBy("o.own_mcp_code", "ASC")
+            ->addOrderBy("length(o.own_mcp_code)", "ASC");
+
+
+
+        return $qb->getQuery();
+
+    }
+
 }

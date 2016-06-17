@@ -13,3 +13,7 @@ mycp_edit_payment:
 mycp_delete_payment:
     pattern:  /delete/{id}
     defaults: { _controller: mycpBundle:BackendPayment:delete }
+
+mycp_accommodations_no_payment:
+    pattern:  /accommodations/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendPayment:accommodationsNoPayments, items_per_page: 100 }

@@ -135,4 +135,31 @@ class BackendPaymentController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_payments'));
     }
 
+    function accommodationsNoPaymentsAction($items_per_page, Request $request)
+    {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+
+        $em = $this->getDoctrine()->getManager();
+        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoPayment();
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $accommodationsNoPayment = $paginator->paginate($accommodationsNoPayment)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        return $this->render('mycpBundle:payment:accommodations.html.twig', array(
+            'list' => $accommodationsNoPayment,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+            'filter_code' => "",
+            'filter_name' => "",
+            'filter_destination' => "",
+            'filter_creation_date_from' => "",
+            'filter_creation_date_to' => ""
+        ));
+    }
+
 }
