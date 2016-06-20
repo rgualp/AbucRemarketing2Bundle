@@ -65,7 +65,7 @@ class ownershipPaymentRepository extends EntityRepository {
 
     }
 
-    function accommodationsNoPayment()
+    function accommodationsNoPayment($filter_name="", $filter_code="", $filter_destination="", $filter_creation_date_from="", $filter_creation_date_to="")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -76,7 +76,35 @@ class ownershipPaymentRepository extends EntityRepository {
             ->addOrderBy("o.own_mcp_code", "ASC")
             ->addOrderBy("length(o.own_mcp_code)", "ASC");
 
+        if($filter_name != null && $filter_name != "" && $filter_name != "null")
+        {
+            $qb->andWhere("o.own_name LIKE :name")
+                ->setParameter("name", '%'.$filter_name.'%');
+        }
 
+        if($filter_code != null && $filter_code != "" && $filter_code != "null")
+        {
+            $qb->andWhere("o.own_mcp_code LIKE :code")
+                ->setParameter("code", '%'.$filter_code.'%');
+        }
+
+        if($filter_destination != null && $filter_destination != "" && $filter_destination != "null")
+        {
+            $qb->andWhere("o.own_destination = :destination")
+                ->setParameter("destination", $filter_destination);
+        }
+
+        if($filter_creation_date_from != null && $filter_creation_date_from != "" && $filter_creation_date_from != "null")
+        {
+            $qb->andWhere("o.own_creation_date >= :creationDateFrom")
+                ->setParameter("creationDateFrom", $filter_creation_date_from);
+        }
+
+        if($filter_creation_date_to != null && $filter_creation_date_to != "" && $filter_creation_date_to != "null")
+        {
+            $qb->andWhere("o.own_creation_date <= :creationDateTo")
+                ->setParameter("creationDateTo", $filter_creation_date_to);
+        }
 
         return $qb->getQuery();
 

@@ -141,7 +141,26 @@ class BackendPaymentController extends Controller {
         //$service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
-        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoPayment();
+
+        $filter_name = $request->get('filter_name');
+        $filter_code = $request->get('filter_code');
+        $filter_destination = $request->get('filter_destination');
+        $filter_creation_date_from = $request->get('filter_creation_date_from');
+        $filter_creation_date_to = $request->get('filter_creation_date_to');
+
+        if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_code == 'null' && $filter_destination == 'null' &&
+            $filter_creation_date_from == 'null' && $filter_creation_date_to == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_accommodations_no_payment'));
+        }
+        /*if ($filter_name == 'null')
+            $filter_name = '';
+
+        if ($filter_code == 'null')
+            $filter_code = '';*/
+
+        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoPayment($filter_name, $filter_code, $filter_destination, $filter_creation_date_from, $filter_creation_date_to);
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
@@ -154,11 +173,11 @@ class BackendPaymentController extends Controller {
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
-            'filter_code' => "",
-            'filter_name' => "",
-            'filter_destination' => "",
-            'filter_creation_date_from' => "",
-            'filter_creation_date_to' => ""
+            'filter_code' => $filter_code,
+            'filter_name' => $filter_name,
+            'filter_destination' => $filter_destination,
+            'filter_creation_date_from' => $filter_creation_date_from,
+            'filter_creation_date_to' => $filter_creation_date_to
         ));
     }
 

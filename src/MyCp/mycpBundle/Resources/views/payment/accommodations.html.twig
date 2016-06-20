@@ -29,13 +29,13 @@
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
-    <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_payments')}}">
+    <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_accommodations_no_payment')}}">
         <div class="well well-small">
             <div class="row-fluid">
                 <div class="span4">
-                    <label>Código:</label><input id="filter_code" value="{{filter_code}}" class="input-block-level" name="filter_code" type="text"/></div>
+                    <label>Código:</label><input id="filter_code" value="{{(filter_code != 'null')?filter_code: ''}}" class="input-block-level" name="filter_code" type="text"/></div>
                 <div class="span4"><label>Nombre:</label>
-                    <input id="filter_name" value="{{filter_name}}" class="input-block-level" name="filter_name" type="text"/>
+                    <input id="filter_name" value="{{(filter_name != 'null')?filter_name:''}}" class="input-block-level" name="filter_name" type="text"/>
                 </div>
                 <div class="span4">
                     <label>Destino:</label>
@@ -74,9 +74,9 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_accommodations_no_payment',{'items_per_page':100})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_accommodations_no_payment',{'items_per_page':300})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_accommodations_no_payment',{'items_per_page':500})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_accommodations_no_payment',{'items_per_page':100, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_accommodations_no_payment',{'items_per_page':300, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_accommodations_no_payment',{'items_per_page':500, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
@@ -90,7 +90,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page}
+'route_params': {'items_per_page':items_per_page, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to}
 }) }}
 </div>
     <table class="table table-striped table-hover">
@@ -100,7 +100,6 @@
             <th>Nombre</th>
             <th>Destino</th>
             <th>Fecha Registro</th>
-            <th>Usuario</th>
         </tr>
         </thead>
         <tbody>
@@ -108,9 +107,8 @@
         <tr>
             <td>{{accommodation.ownMcpCode}}</td>
             <td>{{accommodation.ownName}}</td>
-            <td>{{ accommodation.ownDestination.desName }} </td>
-            <td>{{ accommodation.ownCreationName | date("d/m/Y") }}</td>
-            <td></td>
+            <td>{{ (accommodation.ownDestination != null) ? accommodation.ownDestination.desName : " - " }} </td>
+            <td>{{ (accommodation.ownCreationDate != null) ? accommodation.ownCreationDate | date("d/m/Y") : " - " }}</td>
         </tr>
         {% endfor %}
         </tbody>
@@ -124,7 +122,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page}
+'route_params': {'items_per_page':items_per_page, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to}
 }) }}
 </div>
     {% else %}
@@ -161,29 +159,26 @@
 
         function action_submit()
         {
-            /*var items_per_page={{items_per_page}};
-            var filter_number=$('#filter_number').val();
-            if(filter_number=='')filter_number='null';
+            var items_per_page={{items_per_page}};
+            var filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
 
             var filter_code=$('#filter_code').val();
             if(filter_code=='')filter_code='null';
 
-            var filter_service=$('#filter_service').val();
-            if(filter_service=='')filter_service='null';
+            var filter_destination=$('#filter_destination').val();
+            if(filter_destination=='')filter_destination='null';
 
-            var filter_method=$('#filter_method').val();
-            if(filter_method=='')filter_method='null';
+            var filter_creation_date_from=$('#filter_creation_date_from').val();
+            if(filter_creation_date_from=='')filter_creation_date_from='null';
 
-            var filter_payment_date_from = $("#filter_payment_date_from").val();
-            if(filter_payment_date_from=='')filter_payment_date_from='null';
-
-            var filter_payment_date_to = $("#filter_payment_date_to").val();
-            if(filter_payment_date_to=='')filter_payment_date_to='null';
+            var filter_creation_date_to = $("#filter_creation_date_to").val();
+            if(filter_creation_date_to=='')filter_creation_date_to='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_service+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_code+'/'+filter_name+'/'+filter_destination+'/'+filter_creation_date_from+'/'+filter_creation_date_to;
             $('#filter').attr('action',url_submit);
-            $('#filter').submit();*/
+            $('#filter').submit();
         }
     </script>
 {% endblock %}
