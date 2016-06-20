@@ -33,11 +33,11 @@ class BackendPaymentController extends Controller {
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_payments'));
         }
-        if ($filter_number == 'null')
+        /*if ($filter_number == 'null')
             $filter_number = '';
 
         if ($filter_code == 'null')
-            $filter_code = '';
+            $filter_code = '';*/
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);

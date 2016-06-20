@@ -29,14 +29,14 @@ class ownershipPaymentRepository extends EntityRepository {
 
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
         {
-            $qb->andWhere("op.number = :number")
-                ->setParameter("number", $filter_number);
+            $qb->andWhere("op.number LIKE :number")
+                ->setParameter("number", '%'.$filter_number.'%');
         }
 
         if($filter_code != null && $filter_code != "" && $filter_code != "null")
         {
-            $qb->andWhere("acc.own_mcp_code = :code")
-                ->setParameter("code", $filter_code);
+            $qb->andWhere("acc.own_mcp_code LIKE :code")
+                ->setParameter("code", '%'.$filter_code.'%');
         }
 
         if($filter_service != null && $filter_service != "" && $filter_service != "null")
