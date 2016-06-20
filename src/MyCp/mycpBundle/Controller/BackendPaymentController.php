@@ -9,6 +9,7 @@ use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 
@@ -179,6 +180,38 @@ class BackendPaymentController extends Controller {
             'filter_creation_date_from' => $filter_creation_date_from,
             'filter_creation_date_to' => $filter_creation_date_to
         ));
+    }
+
+    public function setPaymentCallbackAction() {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $accommodations_ids = $request->request->get('accommodations_ids');
+        $items_per_page = $request->request->get('items_per_page');
+        $filter_code = $request->request->get('filter_code');
+        $filter_creation_date_from = $request->request->get('filter_creation_date_from');
+        $filter_creation_date_to = $request->request->get('filter_creation_date_to');
+        $filter_destination = $request->request->get('filter_destination');
+        $filter_name = $request->request->get('filter_name');
+
+        $service = $request->request->get('service');
+        $method = $request->request->get('method');
+        $amount = $request->request->get('amount');
+        $paymentDate = $request->request->get('paymentDate');
+
+        $response = null;
+
+        $service_log = $this->get('log');
+        //Premiar
+        $em->getRepository('mycpBundle:ownershipPayment')->setAccommodationPayment($accommodations_ids, $service, $method, $amount, $paymentDate, $service_log);
+
+        $message = 'Se ha registrado exitosamente el pago de ' . count($accommodations_ids);
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $response = $this->generateUrl('mycp_accommodations_no_payment', array("items_per_page" => $items_per_page,
+            "filter_code" => $filter_code, "filter_destination" => $filter_destination, "filter_name" => $filter_name,
+            "filter_creation_date_from" => $filter_creation_date_from, "filter_creation_date_to" => $filter_creation_date_to));
+
+        return new Response($response);
     }
 
 }

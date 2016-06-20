@@ -207,6 +207,11 @@ class ownershipPayment {
         return $this;
     }
 
+    public function getLogDescription()
+    {
+        return "Pago ".$this->getNumber();
+    }
+
 
 
 }

@@ -81,21 +81,57 @@
         </div>
     </div>
 </div>
-<div class="paginator-cont span11">
-    {# % if filter_name ==''%}{% set filter_name='null'%}{%endif% #}
-    {{ simple_paginator_render('mycp_accommodations_no_payment',null,{
-'container_class': 'paginator',
-'previousPageText': '«',
-'nextPageText': '»',
-'currentClass': 'current',
-'firstPageText': 'Primera',
-'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to}
-}) }}
-</div>
+
+        <div class="well well-small">
+            <div class="row-fluid">
+                <div class="span2" style="margin-top: 4px; font-size: 12px">
+                    Servicio:
+                    <select name="service" id="service" class="input-block-level">
+                        {{ render(controller('mycpBundle:Public:getMycpService', {'selectedValue': ''})) }}
+                    </select>
+                </div>
+                <div class="span2" style="margin-top: 4px; font-size: 12px">
+                    Método:
+                    <select name="method" id="method" class="input-block-level">
+                        {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': '', 'category': 'accommodationPaymentType'})) }}
+                    </select>
+                </div>
+                <div class="span3" style="margin-top: 4px; font-size: 12px">
+                    Cantidad:
+                    <input type="text" name="amount" id="amount" />
+                </div>
+                <div class="span3" style="margin-top: 4px; font-size: 12px">
+                    Fecha:
+                    <input type="text" name="paymentDate" id="paymentDate" class="input-block-level datepicker"/>
+                </div>
+                <div class="span2 pull-left" style="margin-top: 4px; font-size: 12px">
+                    <br/>
+                    <a rel="tooltip" title="Pagar" href="javascript:set_payment();" class="tooltip_msg btn btn-block btn-success btn-action-pay" data-url="{{path("mycp_set_payment_callback")}}"><i class="glyphicons usd white"></i> Pagar</a>
+                </div>
+                <div class="span3">
+                    <span class="lblLoading hidden">Almacenando pagos...</span>
+
+                    <span class="lblMessageError hidden error"></span>
+                </div>
+                <div class="span4">&nbsp;</div>
+            </div>
+        </div>
+        <div class="paginator-cont span11">
+            {# % if filter_name ==''%}{% set filter_name='null'%}{%endif% #}
+            {{ simple_paginator_render('mycp_accommodations_no_payment',null,{
+            'container_class': 'paginator',
+            'previousPageText': '«',
+            'nextPageText': '»',
+            'currentClass': 'current',
+            'firstPageText': 'Primera',
+            'lastPageText': 'Última',
+            'route_params': {'items_per_page':items_per_page, 'filter_code': filter_code, 'filter_name': filter_name, 'filter_destination': filter_destination, 'filter_creation_date_from': filter_creation_date_from, 'filter_creation_date_to': filter_creation_date_to}
+            }) }}
+        </div>
     <table class="table table-striped table-hover">
         <thead>
         <tr>
+            <th></th>
             <th>Código</th>
             <th>Nombre</th>
             <th>Destino</th>
@@ -105,6 +141,7 @@
         <tbody>
         {% for accommodation in list %}
         <tr>
+            <td><input type="checkbox" name="check_to_pay" class="ch_accommodation" data-id="{{accommodation.ownId}}"/></td>
             <td>{{accommodation.ownMcpCode}}</td>
             <td>{{accommodation.ownName}}</td>
             <td>{{ (accommodation.ownDestination != null) ? accommodation.ownDestination.desName : " - " }} </td>
@@ -179,6 +216,99 @@
             url_submit=url_submit+'/'+items_per_page+'/'+filter_code+'/'+filter_name+'/'+filter_destination+'/'+filter_creation_date_from+'/'+filter_creation_date_to;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
+        }
+
+        function set_payment()
+        {
+            $(".lblMessageError").addClass("hidden");
+            var checkValues = $('input[name=check_to_pay]:checked').map(function() {
+                return $(this).attr('data-id');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                //alert("Seleccione al menos un alojamiento");
+                $(".lblMessageError").html("Seleccione al menos un alojamiento");
+                $(".lblMessageError").removeClass("hidden");
+                return;
+            }
+
+            var service = $("#service").val();
+            if(service == "")
+            {
+                $(".lblMessageError").html("Seleccione el servicio a pagar");
+                $(".lblMessageError").removeClass("hidden");
+                return;
+            }
+
+            var method = $("#method").val();
+            if(method == "")
+            {
+                $(".lblMessageError").html("Seleccione el método de pago");
+                $(".lblMessageError").removeClass("hidden");
+                return;
+            }
+
+            var amount = $("#amount").val();
+            if(amount == "")
+            {
+                $(".lblMessageError").html("Seleccione la cantidad a pagar");
+                $(".lblMessageError").removeClass("hidden");
+                return;
+            }
+
+            var paymentDate = $("#paymentDate").val();
+            if(paymentDate == "")
+            {
+                $(".lblMessageError").html("Seleccione lafecha de pago");
+                $(".lblMessageError").removeClass("hidden");
+                return;
+            }
+
+            $(".lblLoading").removeClass("hidden");
+
+            var items_per_page ={{items_per_page}} ;
+            var filter_code = $('#filter_code').val();
+            if (filter_code == '')
+                filter_code = 'null';
+            var filter_name = $('#filter_name').val();
+            if (filter_name == '')
+                filter_name = 'null';
+            var filter_destination = $('#filter_destination').val();
+            if (filter_destination == '')
+                filter_destination = 'null';
+            var filter_creation_date_from = $('#filter_creation_date_from').val();
+            if (filter_creation_date_from == '')
+                filter_creation_date_from = 'null';
+
+            var filter_creation_date_to = $('#filter_creation_date_to').val();
+            if (filter_creation_date_to == '')
+                filter_creation_date_to = 'null';
+
+            var url = $(".btn-action-pay").attr("data-url");
+            $.post(url, {
+                'accommodations_ids': checkValues,
+                'items_per_page': items_per_page,
+                'filter_code': filter_code,
+                'filter_name': filter_name,
+                'filter_destination': filter_destination,
+                'filter_creation_date_from': filter_creation_date_from,
+                'filter_creation_date_to': filter_creation_date_to,
+                "service": service,
+                'method': method,
+                'amount': amount,
+                'paymentDate': paymentDate
+
+            }, function(data) {
+                if(data != "ERROR")
+                {
+                    window.location = data;
+                }
+                else {
+                    alert(data);
+                    $(".lblLoading").addClass("hidden");
+                }
+            });
         }
     </script>
 {% endblock %}

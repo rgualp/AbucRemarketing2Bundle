@@ -3,6 +3,8 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 
 /**
  * ownershipPaymentRepository
@@ -109,5 +111,32 @@ class ownershipPaymentRepository extends EntityRepository {
         return $qb->getQuery();
 
     }
+
+    public function setAccommodationPayment($accommodations_ids, $service, $method, $amount, $paymentDate, $serviceLog) {
+        $em = $this->getEntityManager();
+        $paymentDate = \DateTime::createFromFormat("Y-m-d", $paymentDate);
+        $service = $em->getRepository("mycpBundle:mycpService")->find($service);
+        $method = $em->getRepository("mycpBundle:nomenclator")->find($method);
+
+        foreach ($accommodations_ids as $accommodation_id) {
+            $existPayment = $em->getRepository("mycpBundle:ownershipPayment")->findOneBy(array("accommodation" => $accommodation_id, "service" => $service, "method" => $method, "payed_amount" => $amount, "payment_date" => $paymentDate));
+
+            if($existPayment == null) {
+                $accommodation = $em->getRepository('mycpBundle:ownership')->find($accommodation_id);
+                $payment = new ownershipPayment();
+                $payment->setAccommodation($accommodation)
+                    ->setService($service)
+                    ->setMethod($method)
+                    ->setPayedAmount($amount)
+                    ->setPaymentDate($paymentDate)
+                ;
+                $em->persist($payment);
+            }
+        }
+
+        $serviceLog->saveLog("Pago por lote otorgado a ".count($accommodations_ids)." alojamientos", BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_INSERT, DataBaseTables::ACCOMMODATION_PAYMENT);
+        $em->flush();
+    }
+
 
 }
