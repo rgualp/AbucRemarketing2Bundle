@@ -20,7 +20,7 @@ class Version20160617182410 extends AbstractMigration
         $this->addSql("set @service = (SELECT min(id) FROM mycpservice WHERE name LIKE 'Inscripción Gratuita')");
         $this->addSql("SET @rank=0");
         $this->addSql("INSERT INTO ownershippayment (accommodation, service, method, payed_amount, payment_date, creation_date, number)
-                       SELECT o.own_id, @service, @method, 0, o.CURDATE(), CURDATE(), CONCAT(IF(@rank+1 < 10,'201600', IF(@rank+1 < 100 and @rank+1 >= 10,'20160','2016')), @rank:=@rank+1)
+                       SELECT o.own_id, @service, @method, 0, CURDATE(), CURDATE(), CONCAT(IF(@rank+1 < 10,'201600', IF(@rank+1 < 100 and @rank+1 >= 10,'20160','2016')), @rank:=@rank+1)
                        from ownership o");
     }
 
