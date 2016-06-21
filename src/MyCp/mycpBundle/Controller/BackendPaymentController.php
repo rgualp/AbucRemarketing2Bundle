@@ -161,7 +161,7 @@ class BackendPaymentController extends Controller {
         if ($filter_code == 'null')
             $filter_code = '';*/
 
-        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoPayment($filter_name, $filter_code, $filter_destination, $filter_creation_date_from, $filter_creation_date_to);
+        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoInscriptionPayment(false,$filter_name, $filter_code, $filter_destination, $filter_creation_date_from, $filter_creation_date_to);
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);

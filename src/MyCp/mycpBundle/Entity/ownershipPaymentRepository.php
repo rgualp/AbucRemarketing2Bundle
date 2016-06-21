@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
+use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 
 /**
  * ownershipPaymentRepository
@@ -67,7 +68,7 @@ class ownershipPaymentRepository extends EntityRepository {
 
     }
 
-    function accommodationsNoPayment($filter_name="", $filter_code="", $filter_destination="", $filter_creation_date_from="", $filter_creation_date_to="")
+    function accommodationsNoInscriptionPayment($timeRangeRestriction = false, $filter_name="", $filter_code="", $filter_destination="", $filter_creation_date_from="", $filter_creation_date_to="")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -76,7 +77,9 @@ class ownershipPaymentRepository extends EntityRepository {
             ->select("o")
             ->orderBy("o.own_creation_date", "DESC")
             ->addOrderBy("o.own_mcp_code", "ASC")
-            ->addOrderBy("length(o.own_mcp_code)", "ASC");
+            ->addOrderBy("length(o.own_mcp_code)", "ASC")
+            ->andWhere("o.own_status = :activeStatus")
+            ->setParameter("activeStatus", OwnershipStatuses::ACTIVE);
 
         if($filter_name != null && $filter_name != "" && $filter_name != "null")
         {
@@ -108,7 +111,12 @@ class ownershipPaymentRepository extends EntityRepository {
                 ->setParameter("creationDateTo", $filter_creation_date_to);
         }
 
-        return $qb->getQuery();
+        if($timeRangeRestriction)
+        {
+            $qb->andWhere("(o.own_creation_date IS NULL or DATE_DIFF(CURRENT_DATE(),o.own_creation_date) >= 15)");
+        }
+
+        return ($timeRangeRestriction) ? $qb->getQuery()->getResult() : $qb->getQuery();
 
     }
 

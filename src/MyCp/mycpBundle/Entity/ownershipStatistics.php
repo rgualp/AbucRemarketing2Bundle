@@ -34,7 +34,7 @@ class ownershipStatistics {
 
     /**
      * @ORM\ManyToOne(targetEntity="user")
-     * @ORM\JoinColumn(name="user", referencedColumnName="user_id")
+     * @ORM\JoinColumn(name="user", referencedColumnName="user_id", nullable=true)
      */
     private $user;
 
