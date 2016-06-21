@@ -16,8 +16,8 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 class BackendPaymentController extends Controller {
 
     function listAction($items_per_page, Request $request) {
-        /*$service_security = $this->get('Secure');
-        $service_security->verifyAccess();*/
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
         $filter_number = $request->get('filter_number');
@@ -60,8 +60,8 @@ class BackendPaymentController extends Controller {
     }
 
     function newAction(Request $request) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $payment = new ownershipPayment();
         $form = $this->createForm(new ownershipPaymentType(), $payment);
@@ -88,8 +88,8 @@ class BackendPaymentController extends Controller {
     }
 
     function editAction($id, Request $request) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:ownershipPayment')->find(array('id' => $id));
        $form = $this->createForm(new ownershipPaymentType(), $payment);
@@ -117,8 +117,8 @@ class BackendPaymentController extends Controller {
     }
 
     function deleteAction($id) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
         $payment= $em->getRepository('mycpBundle:ownershipPayment')->find($id);
@@ -138,8 +138,8 @@ class BackendPaymentController extends Controller {
 
     function accommodationsNoPaymentsAction($items_per_page, Request $request)
     {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
 
