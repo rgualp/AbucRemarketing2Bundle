@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
-    <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
+    <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %} *** MyCasaParticular</title>
 
     {% block metas %}
         {{ get_metas('Main', lang_code)|raw }}
