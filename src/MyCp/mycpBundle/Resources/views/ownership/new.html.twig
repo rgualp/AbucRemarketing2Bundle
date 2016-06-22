@@ -811,6 +811,7 @@
                 if ($(this).is(":selected") && $(this).attr('data-has-season') == 1)
                 {
                     $('.special_season_price').removeAttr('disabled');
+                    return false;
                 }
                 else
                     $('.special_season_price').attr('disabled', 'disabled');
