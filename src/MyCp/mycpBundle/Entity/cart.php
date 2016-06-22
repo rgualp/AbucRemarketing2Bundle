@@ -84,6 +84,12 @@ class cart {
     private $childrenAges;
 
     /**
+     * @ORM\ManyToOne(targetEntity="serviceFee",inversedBy="carts")
+     * @ORM\JoinColumn(name="service_fee",referencedColumnName="id", nullable=true)
+     */
+    private $service_fee;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -345,6 +351,22 @@ class cart {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getServiceFee()
+    {
+        return $this->service_fee;
+    }
 
+    /**
+     * @param mixed $service_fee
+     * @return mixed
+     */
+    public function setServiceFee($service_fee)
+    {
+        $this->service_fee = $service_fee;
+        return $this;
+    }
 
 }

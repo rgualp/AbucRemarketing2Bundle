@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -97,6 +98,24 @@ class serviceFee
      * @ORM\Column(name="current", type="boolean")
      */
     private $current;
+
+    /**
+     * @ORM\OneToMany(targetEntity="cart",mappedBy="service_fee")
+     */
+    private $carts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="generalReservation",mappedBy="service_fee")
+     */
+    private $reservations;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->carts = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+    }
 
     /**
      * @return DateTime
@@ -302,6 +321,42 @@ class serviceFee
     public function setCurrent($current)
     {
         $this->current = $current;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCarts()
+    {
+        return $this->carts;
+    }
+
+    /**
+     * @param mixed $carts
+     * @return mixed
+     */
+    public function setCarts($carts)
+    {
+        $this->carts = $carts;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReservations()
+    {
+        return $this->reservations;
+    }
+
+    /**
+     * @param mixed $reservations
+     * @return mixed
+     */
+    public function setReservations($reservations)
+    {
+        $this->reservations = $reservations;
         return $this;
     }
 
