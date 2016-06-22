@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>HOW_IT_WORKS</source>
-                <target>Wie es funktioniert</target>
+                <target>So funktioniert es</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>REGISTER</source>
@@ -104,7 +104,7 @@
             </trans-unit>
             <trans-unit id="26">
                 <source>LEGAL_TERMS</source>
-                <target>AGB</target>
+                <target>Geschäftsbedingungen</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
@@ -112,7 +112,7 @@
             </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
-                <target>Kontaktieren Sie uns!</target>
+                <target>Kontaktieren Sie uns</target>
             </trans-unit>
             <trans-unit id="29">
                 <source>SITE_MAP</source>
@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Übernachten, wo Kuba Kuba ist!</target>
+                <target>Mieten von Privathäusern, Appartements und Zimmer in Kuba</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -679,16 +679,16 @@
                 <target>Angebote</target>
             </trans-unit>
             <trans-unit id="179">
-                <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
-                <target>Beliebte Destinationen</target>
-            </trans-unit>
+                            <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
+                            <target>Die besten reiseziele in Kuba </target>
+                        </trans-unit>
             <trans-unit id="180">
                 <source>ALL_ITEMS</source>
                 <target>(Alle)</target>
             </trans-unit>
             <trans-unit id="181">
                 <source>SEARCH_RESULTS_PAGE_TITLE</source>
-                <target>Suchergebnisse</target>
+                <target>Die besten casas particulares in Kuba </target>
             </trans-unit>
             <trans-unit id="182">
                 <source>ROOM_FEATURES_HEADING_FILTER</source>
@@ -1228,7 +1228,7 @@
             </trans-unit>
             <trans-unit id="316">
                 <source>ABOUT_US</source>
-                <target>Wer sind wir?</target>
+                <target>Über uns</target>
             </trans-unit>
             <trans-unit id="317">
                 <source>ABOUT_US_CONTENT</source>
@@ -3847,6 +3847,22 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
            <source>CODE_TEXT</source>
            <target>Behalten Sie diesen Code und probieren Sie!</target>
            </trans-unit>
+           <trans-unit id="971">
+                <source>MYCASARENTA_TITLE</source>
+                <target>MyCasa Renta, Mobilgeräte Applikation</target>
+           </trans-unit>
+           <trans-unit id="972">
+                                                     <source>MYCASATRIP_TITLE</source>
+                                                     <target>MyCasa Trip, Mobilgeräte Applikation </target>
+                                                   </trans-unit>
+           <trans-unit id="973">
+                                                                       <source>DESTINATION_DETAILS</source>
+                                                                       <target>Die besten casas particulares in %destinationName%, Kuba </target>
+                                                                   </trans-unit>
+           <trans-unit id="974">
+                                                                                                        <source>MOST_VISITED_CITIES_TITLE</source>
+                                                                                                        <target>Meistbesuchte Städte in Kuba </target>
+                                                                                                    </trans-unit>
     </body>
     </file>
 </xliff>

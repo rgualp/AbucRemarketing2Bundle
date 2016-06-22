@@ -23,7 +23,9 @@
 </style>
 {% endblock %}
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS')%}
+
 {% block title %}{{"SEARCH_RESULTS_PAGE_TITLE" | trans}}{% endblock %}
+
  {% block metas %}
      {% if search_text=='la habana' %}
          {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
