@@ -103,6 +103,7 @@ class CartController extends Controller {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
 
                 if($room != null) {
+                    $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
                     $cart = new cart();
                     $fromDate = new \DateTime();
                     $fromDate->setTimestamp($start_timestamp);
@@ -112,6 +113,7 @@ class CartController extends Controller {
                     $toDate->setTimestamp($end_timestamp);
                     $cart->setCartDateTo($toDate);
                     $cart->setCartRoom($room);
+                    $cart->setServiceFee($serviceFee);
 
                     if (isset($array_count_guests[$a]))
                         $cart->setCartCountAdults($array_count_guests[$a]);
@@ -352,6 +354,8 @@ class CartController extends Controller {
             foreach ($res_array as $resByOwn) {
                 if (isset($resByOwn[0])) {
                     $ownership = $em->getRepository('mycpBundle:ownership')->find($resByOwn[0]->getCartRoom()->getRoomOwnership()->getOwnId());
+
+                    $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
                     $general_reservation = new generalReservation();
                     $general_reservation->setGenResUserId($user);
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
@@ -363,6 +367,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
+                    $general_reservation->setServiceFee($serviceFee);
 
 
                     $total_price = 0;
