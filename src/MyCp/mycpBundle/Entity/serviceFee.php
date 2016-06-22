@@ -31,65 +31,72 @@ class serviceFee
     /**
      * @var decimal
      *
-     * @ORM\Column(name="fixedFee", type="decimal")
+     * @ORM\Column(name="fixedFee", type="decimal", scale=2)
      */
     private $fixedFee;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_nr_until_20_percent", type="decimal")
+     * @ORM\Column(name="one_nr_until_20_percent", type="decimal", scale=2)
      */
     private $one_nr_until_20_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_nr_from_20_to_25_percent", type="decimal")
+     * @ORM\Column(name="one_nr_from_20_to_25_percent", type="decimal", scale=2)
      */
     private $one_nr_from_20_to_25_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_nr_from_more_25_percent", type="decimal")
+     * @ORM\Column(name="one_nr_from_more_25_percent", type="decimal", scale=2)
      */
     private $one_nr_from_more_25_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_night_several_rooms_percent", type="decimal")
+     * @ORM\Column(name="one_night_several_rooms_percent", type="decimal", scale=2)
      */
     private $one_night_several_rooms_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_2_nights_percent", type="decimal")
+     * @ORM\Column(name="one_2_nights_percent", type="decimal", scale=2)
      */
     private $one_2_nights_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_3_nights_percent", type="decimal")
+     * @ORM\Column(name="one_3_nights_percent", type="decimal", scale=2)
      */
     private $one_3_nights_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_4_nights_percent", type="decimal")
+     * @ORM\Column(name="one_4_nights_percent", type="decimal", scale=2)
      */
     private $one_4_nights_percent;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="one_5_nights_percent", type="decimal")
+     * @ORM\Column(name="one_5_nights_percent", type="decimal", scale=2)
      */
     private $one_5_nights_percent;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="current", type="boolean")
+     */
+    private $current;
 
     /**
      * @return DateTime
@@ -277,6 +284,24 @@ class serviceFee
     public function setOneNrUntil20Percent($one_nr_until_20_percent)
     {
         $this->one_nr_until_20_percent = $one_nr_until_20_percent;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCurrent()
+    {
+        return $this->current;
+    }
+
+    /**
+     * @param boolean $current
+     * @return mixed
+     */
+    public function setCurrent($current)
+    {
+        $this->current = $current;
         return $this;
     }
 
