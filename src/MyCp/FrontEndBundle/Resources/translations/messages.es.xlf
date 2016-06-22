@@ -3165,6 +3165,21 @@
             <target>penthouse</target>
         </trans-unit>
 
+        <trans-unit id="944">
+            <source>SERVICE_ACCOMMODATION_TAX</source>
+            <target>Servicio al alojamiento</target>
+        </trans-unit>
+
+        <trans-unit id="945">
+            <source>SERVICE_TOURIST_TAX</source>
+            <target>Servicio al turista</target>
+        </trans-unit>
+
+        <trans-unit id="946">
+            <source>SERVICE_FIXED_TAX</source>
+            <target>Tarifa fija</target>
+        </trans-unit>
+
         </body>
     </file>
 </xliff>

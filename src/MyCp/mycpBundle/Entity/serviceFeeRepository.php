@@ -22,4 +22,14 @@ class serviceFeeRepository extends EntityRepository {
                   ->orderBy("s.date", "DESC")
                   ->getQuery()->getOneOrNullResult();
     }
+
+    public function calculateServiceFee()
+    {
+        $currentServiceFee = $this->getCurrent();
+
+        return array(
+            "fixedFee" => $currentServiceFee->getFixedFee(),
+            "touristFee" => 0
+        );
+    }
 }

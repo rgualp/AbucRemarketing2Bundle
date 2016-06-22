@@ -172,19 +172,34 @@
                                 </li>
                                 <li class="lead">
                                     <div class="row all-prices-numbers">
-                                        <div class="col-sm-4">
-                                            {{ 'RESERVATION_TOTAL_PRICE' | trans }} {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                                        <div class="col-sm-3">
+                                            {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
+                                            {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                                             <span id="total_price"></span>
                                         </div>
-                                        <div class="col-sm-4">
-                                            {{ 'INITIAL_DEPOSIT' | trans }} ({{ ownership.OwnCommissionPercent }}
-                                            %): {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                                        <div class="col-sm-3">
+                                            {{ 'SERVICE_ACCOMMODATION_TAX' | trans }}  ({{ ownership.OwnCommissionPercent }}%)<br/>
+                                            {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                                             <span id="initial_deposit"></span>
                                         </div>
-                                        <div class="col-sm-4">
-                                            {{ 'SERVICE_RECHARGE' | trans }}
-                                            : {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
-                                            <span id="service_recharge">{{ configuration_service_fee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</span>
+                                        <div class="col-sm-3">
+                                            {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
+                                            {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                                            <span id="tourist_service"
+                                                  data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                                                  data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                                                  data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                                                  data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                                                  data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                                                  data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                                                  data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                                                  data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                                                  data-fixed-tax = "{{ currentServiceFee.fixedFee }}"  ></span>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
+                                             {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                                            <span id="service_recharge">{{ currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</span>
                                         </div>
                                     </div>
                                     <div class="text-center" style="font-size: 20px; margin-top: 10px">

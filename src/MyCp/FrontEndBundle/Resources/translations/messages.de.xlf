@@ -3161,6 +3161,21 @@
             <target>penthouse</target>
         </trans-unit>
 
+        <trans-unit id="944">
+            <source>SERVICE_ACCOMMODATION_TAX</source>
+            <target>Zimmervermittlung</target>
+        </trans-unit>
+
+        <trans-unit id="945">
+            <source>SERVICE_TOURIST_TAX</source>
+            <target>Tourist service</target>
+        </trans-unit>
+
+        <trans-unit id="946">
+            <source>SERVICE_FIXED_TAX</source>
+            <target>Festen zinssatz</target>
+        </trans-unit>
+
 
     </body>
     </file>

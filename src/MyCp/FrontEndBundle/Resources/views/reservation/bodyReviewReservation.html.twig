@@ -2,6 +2,7 @@
 {% set service_flag = 0%}
 {% set total_price = 0 %}
 {% set total_percent = 0 %}
+<input type="hidden" id="totalNights" value="{{ array_dates|length }}"/>
 {% for date in dates_string %}
     {% set service_flag = 0%}
     {% if array_clear_date[dates_timestamp[flag]] is not defined %}
