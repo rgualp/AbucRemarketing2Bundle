@@ -288,13 +288,16 @@ class CartController extends Controller {
             }
         }
 
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+
         return $this->render('FrontEndBundle:cart:bodyCart.html.twig', array(
                     'dates_string' => $array_dates_string,
                     'dates_string_day' => $array_dates_string_day,
                     'dates_timestamp' => $array_dates,
                     'cartItems' => $cartItems,
                     'array_season' => $array_season,
-                    'array_clear_date' => $array_clear_date
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee
         ));
     }
 

@@ -3182,7 +3182,7 @@
 
         <trans-unit id="947">
             <source>SERVICE_ACCOMMODATION_TAX_TITLE</source>
-            <target>Depósito inicial del %accommodation_percent%% por concepto de alojamiento</target>
+            <target>Depósito inicial por concepto de alojamiento</target>
         </trans-unit>
 
         <trans-unit id="948">
@@ -3198,6 +3198,11 @@
         <trans-unit id="950">
             <source>TOTAL_PAY_AT_SERVICE</source>
             <target>Pago en casa</target>
+        </trans-unit>
+
+        <trans-unit id="951">
+            <source>SERVICE_ACCOMMODATION_TAX_LONG</source>
+            <target>Servicio al alojamiento</target>
         </trans-unit>
 
 

@@ -23,13 +23,34 @@ class serviceFeeRepository extends EntityRepository {
                   ->getQuery()->getOneOrNullResult();
     }
 
-    public function calculateServiceFee()
+    public function calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices)
     {
         $currentServiceFee = $this->getCurrent();
+        $touristTax = 0;
 
-        return array(
-            "fixedFee" => $currentServiceFee->getFixedFee(),
-            "touristFee" => 0
-        );
+        if($totalNights == 1)
+        {
+            if($totalRooms == 1)
+            {
+                if($avgRoomPrices < 20)
+                    $touristTax = $currentServiceFee->getOneNrUntil20Percent();
+                else if($avgRoomPrices >= 20 && $avgRoomPrices < 25)
+                    $touristTax = $currentServiceFee->getOneNrFrom20To25Percent();
+                else
+                    $touristTax = $currentServiceFee->getOneNrFromMore25Percent();
+            }
+            else if($totalRooms > 1)
+                $touristTax = $currentServiceFee->getOneNightSeveralRoomsPercent();
+        }
+        else if($totalNights == 2)
+            $touristTax = $currentServiceFee->getOne2NightsPercent();
+        else if($totalNights == 3)
+            $touristTax = $currentServiceFee->getOne3NightsPercent();
+        else if($totalNights == 4)
+            $touristTax = $currentServiceFee->getOne4NightsPercent();
+        else if($totalNights >= 5)
+            $touristTax = $currentServiceFee->getOne5NightsPercent();
+
+        return $touristTax;
     }
 }

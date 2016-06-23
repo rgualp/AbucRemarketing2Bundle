@@ -37,6 +37,7 @@ class utilsExtension extends \Twig_Extension {
             'roomPriceBySeason' => new \Twig_Function_Method($this, 'roomPriceBySeason'),
             'reservationPriceBySeason' => new \Twig_Function_Method($this, 'reservationPriceBySeason'),
             'getUrl' => new \Twig_Function_Method($this, 'getUrl'),
+            'touristTax' => new \Twig_Function_Method($this, 'touristTax'),
         );
     }
 
@@ -63,6 +64,10 @@ class utilsExtension extends \Twig_Extension {
 
     public function default_currency() {
         return $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
+    }
+
+    public function touristTax($totalRooms, $totalNights, $avgRoomPrices) {
+        return $this->entity_manager->getRepository('mycpBundle:serviceFee')->calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices);
     }
 
     public function price_in_currency() {
