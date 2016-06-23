@@ -117,13 +117,21 @@
         {% set total_adults = 0 %}
         {% set total_kids = 0 %}
         {% set total_nights = 0 %}
+        {% set real_total_nights = 0 %}
         {% set total_price = 0 %}
         {% set total_rooms = 0 %}
+        {% set initialDate = null %}
+        {% set endDate = null %}
 
         {% for reservation_rooms in reservations%}
         {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
         {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
         {% set total_nights = total_nights + nights[loop.index0] %}
+        {% if initialDate != reservation_rooms.ownResReservationFromDate and endDate != reservation_rooms.ownResReservationToDate %}
+            {% set real_total_nights = real_total_nights + nights[loop.index0] %}
+            {% set initialDate = reservation_rooms.ownResReservationFromDate %}
+            {% set endDate = reservation_rooms.ownResReservationToDate %}
+        {% endif %}
         {% set total_kids = total_kids + reservation_rooms.getOwnResCountChildrens %}
         {#% set total_nights = total_nights + reservation_rooms.ownResNights %#}
         {% set total_rooms = total_rooms + 1 %}

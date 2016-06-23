@@ -723,6 +723,8 @@ class BackendReservationController extends Controller {
         }
 
         array_pop($dates);
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+
         return $this->render('mycpBundle:reservation:reservationDetails.html.twig', array(
                     'post' => $post,
                     'errors' => $errors,
@@ -732,7 +734,8 @@ class BackendReservationController extends Controller {
                     'rooms' => $rooms,
                     'nights' => $array_nights,
                     'id_reservation' => $id_reservation,
-                    "offerLog" => $offerLog
+                    "offerLog" => $offerLog,
+                    'currentServiceFee' => $currentServiceFee
         ));
     }
 
