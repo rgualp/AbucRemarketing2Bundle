@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use MyCp\mycpBundle\Entity\room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -238,9 +239,15 @@ class CartController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+        $service_time = $this->get('Time');
 
         $min_date = 0;
         $max_date = 0;
+        $touristTax = 0;
+        $accommodationId = (count($cartItems)) ? $cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnId() : 0;
+        $nights = 0;
+        $totalPrice = 0;
+        $totalRooms = 0;
 
         foreach ($cartItems as $item) {
             if ($min_date == 0)
@@ -254,7 +261,7 @@ class CartController extends Controller {
                 $max_date = $item->getCartDateTo()->getTimestamp();
         }
 
-        $service_time = $this->get('Time');
+
         $array_dates = $service_time->datesBetween($min_date, $max_date);
         $array_dates_string_day = array();
         $array_dates_string = array();
@@ -278,6 +285,26 @@ class CartController extends Controller {
 
                     if ($date >= $item->getCartDateFrom()->getTimestamp() && $date <= $item->getCartDateTo()->getTimestamp()) {
                         $insert = 0;
+                    }
+
+                    if($accommodationId != $item->getCartRoom()->getRoomOwnership()->getOwnId())
+                    {
+                        $accommodationId = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+                        $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
+                        $touristTax = $tax * $totalPrice;
+                        $nights = 0;
+                        $totalPrice = 0;
+                        $totalRooms = 0;
+
+                        var_dump("casa: " . $item->getCartRoom()->getRoomOwnership()->getOwnId());
+                        var_dump("tarifa: " . $touristTax);
+                    }
+                    else{
+                        $totalRooms++;
+                        $roomNights = $service_time->nights($item->getCartDateFrom()->format("Y-m-d"), $item->getCartDateTo()->format("Y-m-d"));
+                        $nights += $roomNights;
+                        $tripleFee = ($item->getTripleRoomCharged()) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                        $totalPrice += ($item->getCartRoom()->getPriceBySeasonTypeString($seasonTypes) + $tripleFee) * $roomNights;
                     }
                 }
                 if ($insert == 1) {

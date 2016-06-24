@@ -55,4 +55,37 @@ class serviceFeeRepository extends EntityRepository {
 
         return $touristTax;
     }
+
+    public function calculateTouristServiceFeeByGeneralReservation($genResId, $serviceTime)
+    {
+        $em = $this->getEntityManager();
+
+        $genRes = $em->getRepository("mycpBundle:generalReservation")->find($genResId);
+        $reservations = $genRes->getOwn_reservations();
+        $totalsRooms = count($reservations);
+        $taxId = $genRes->getServiceFee()->getId();
+
+        $roomPrices = 0;
+        $totalNights = 0;
+        $totalPrice = 0;
+
+        foreach($reservations as $reservation)
+        {
+            $nights = $serviceTime->nights($reservation->getOwnResReservationFromDate()->format("Y-m-d"), $reservation->getOwnResReservationToDate()->format("Y-m-d"));
+            $price = $reservation->getOwnResTotalInSite();
+
+            $totalNights += $nights;
+            $totalPrice += $price;
+            $roomPrices += $price / $nights;
+        }
+
+        $avgRoomPrices = $roomPrices / $totalsRooms;
+        /*var_dump($genResId);
+        var_dump($totalsRooms);
+        var_dump($totalNights);*/
+
+        $touristTax = $this->calculateTouristServiceFee($totalsRooms, $totalNights, $avgRoomPrices, $taxId);
+
+        return $touristTax * $totalPrice;
+    }
 }

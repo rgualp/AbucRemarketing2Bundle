@@ -58,7 +58,7 @@
 {% endfor %}
     </div>
     {% set nights = (dates_string | length) - 1 %}
-    {% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %}
+    {#% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %#}
     {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)) | price%}
 <div class="row">
     <div class="col-xs-6" style="line-height: 25px">

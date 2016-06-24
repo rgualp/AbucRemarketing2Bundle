@@ -70,8 +70,10 @@ class ReservationController extends Controller {
         $total_percent_price = 0;
         $commissions = array();
         $rooms = array();
+        $generalReservationIds = array();
         $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
         foreach ($reservations as $reservation) {
+            $generalReservationIds[] = $reservation->getOwnResGenResId()->getGenResId();
             if ($min_date > $reservation->getOwnResReservationFromDate()->getTimestamp()) {
                 $min_date = $reservation->getOwnResReservationFromDate()->getTimestamp();
             }
@@ -104,6 +106,17 @@ class ReservationController extends Controller {
                 array_push($commissions, $commission);
             }
         }
+
+        $generalReservationIds = array_unique($generalReservationIds);
+        $touristTax = 0;
+
+        foreach($generalReservationIds as $genResId){
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($genResId, $service_time);
+            $touristTax += $tax;
+
+            /*var_dump($tax);*/
+        }
+
         $array_dates_string = array();
         $array_dates_string_day = array();
         $array_dates = $service_time->datesBetween($min_date, $max_date);
@@ -218,9 +231,9 @@ class ReservationController extends Controller {
 
                 $booking->setBookingCurrency($currency);
                 $configuration_service_fee = floatval($currentServiceFee->getFixedFee());
-                $totalNights = count($array_dates_string) - 1;
-                $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(count($reservations), $totalNights, $total_price / $totalNights);
-                $prepayment = ($touristTax * $total_price + $configuration_service_fee + $total_percent_price)* $currency->getCurrCucChange();
+                //$totalNights = count($array_dates_string) - 1;
+                //$touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(count($reservations), $totalNights, $total_price / $totalNights);
+                $prepayment = ($touristTax  + $configuration_service_fee + $total_percent_price)* $currency->getCurrCucChange();
                 $booking->setBookingPrepay($prepayment);
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
@@ -273,7 +286,8 @@ class ReservationController extends Controller {
                     'post_country' => $post_country,
                     'total_errors' => $count_errors,
                     'seasons' => $season_types,
-                    'currentServiceFee' => $currentServiceFee
+                    'currentServiceFee' => $currentServiceFee,
+                    'touristTax' => $touristTax
         ));
     }
 
