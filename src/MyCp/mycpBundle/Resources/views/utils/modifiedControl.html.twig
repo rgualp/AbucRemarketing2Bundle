@@ -2,7 +2,7 @@
     <hr/>
     {% if offer is defined and offer != null %}
     <em class="pull-left">
-        Oferta: Creada {{ offer.logCreatedBy | user }} - {{ offer.logDate | date("d/m/Y H:i") }}{% if offer.logFromReservation != null %}. Creada a partir de offer.logFromReservation.getCASId{% endif %}
+        Oferta: Creada {{ (offer.logCreatedBy != null) ? (offer.logCreatedBy.userId | user) : "Usuario Anónimo" }} - {{ offer.logDate | date("d/m/Y H:i") }}{% if offer.logFromReservation != null %}. Creada a partir de {{ offer.logFromReservation.getCASId }}{% endif %}
     </em>
     {% endif %}
     <em class="pull-right">Modificado por: {{ modifiedBy | user }} - {{ modified | date("d/m/Y H:i") }}</em>
