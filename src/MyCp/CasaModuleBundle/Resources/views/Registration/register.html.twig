@@ -11,6 +11,7 @@
             #terms-error {
                 margin-top: 2px;
                 min-width: 230px;
+                font-size: 14px;
             }
         </style>
     {% endblock %}
@@ -71,7 +72,7 @@
             <div class="form-group row">
                 <div class="col-sm-12"><label>Teléfono</label></div>
                 <div class="col-xs-1"><i class="glyphicons phone_alt form-icon"></i> </div><div class="col-xs-11">
-                <input type="text" name="own_phone" required minlength="6"  class="form-control" placeholder="Teléfono"></div>
+                <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono"></div>
                 </div>
 
 
