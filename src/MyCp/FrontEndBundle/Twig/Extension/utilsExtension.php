@@ -66,8 +66,8 @@ class utilsExtension extends \Twig_Extension {
         return $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
     }
 
-    public function touristTax($totalRooms, $totalNights, $avgRoomPrices) {
-        return $this->entity_manager->getRepository('mycpBundle:serviceFee')->calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices);
+    public function touristTax($totalRooms, $totalNights, $avgRoomPrices, $taxId = null) {
+        return $this->entity_manager->getRepository('mycpBundle:serviceFee')->calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices, $taxId);
     }
 
     public function price_in_currency() {

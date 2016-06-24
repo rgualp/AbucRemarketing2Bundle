@@ -23,9 +23,11 @@ class serviceFeeRepository extends EntityRepository {
                   ->getQuery()->getOneOrNullResult();
     }
 
-    public function calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices)
+    public function calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices, $taxId = null)
     {
-        $currentServiceFee = $this->getCurrent();
+        $em = $this->getEntityManager();
+
+        $currentServiceFee = ($taxId == null) ? $this->getCurrent(): $em->getRepository("mycpBundle:serviceFee")->find($taxId);
         $touristTax = 0;
 
         if($totalNights == 1)

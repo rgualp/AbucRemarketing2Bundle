@@ -251,13 +251,15 @@
             <th>Niños</th>
             <th>Noches</th>
             <th>Precio Total</th>
-            <th>Prepago</th>
+            <th>Tarifa al alojamiento</th>
             <th>Pago en casa</th>
-            <th>Pago por servicio</th>
+            <th>Tarifa al turista</th>
+            <th>Tarifa fija</th>
             <th style="text-align: right">Anticipo total a pagar</th>
         </tr>
         </thead>
-
+        {% set touristTax = total_price * touristTax(total_rooms, real_total_nights , ((total_nights<= 1) ? total_price : total_price / total_nights), currentServiceFee.id) %}
+        {% set prepayment = (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?currentServiceFee.fixedFee: 0) + ((total_price)?touristTax: 0)%}
         <tr>
             <td>{{ total_rooms }}</td>
             <td>{{ total_adults }}</td>
@@ -266,11 +268,12 @@
             <td>{{ total_price}} CUC</td>
             <td>{{ total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
             <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
-            <td>{%if total_price%}{{configuration_service_fee}} CUC{%else%} - {%endif%}</td>
+            <td>{%if total_price%}{{touristTax}} CUC{%else%} - {%endif%}</td>
+            <td>{%if total_price%}{{currentServiceFee.fixedFee}} CUC{%else%} - {%endif%}</td>
             {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
-            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+            <td style="text-align: right"><b>{{ prepayment }} CUC ({{prepayment * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
             {% else %}
-            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC </b></td>
+            <td style="text-align: right"><b>{{ prepayment }} CUC </b></td>
             {% endif %}
         </tr>
         <tr>
@@ -289,7 +292,7 @@
                 {%endif%}
             </td>
                 {% else %}
-                    <td colspan="9" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                    <td colspan="10" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
                         {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
                             <b>1 CUC = {{user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }}</b>
                         {%endif%}
