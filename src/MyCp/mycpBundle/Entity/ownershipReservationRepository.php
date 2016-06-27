@@ -162,11 +162,15 @@ class ownershipReservationRepository extends EntityRepository {
             prov.prov_phone_code as prov_code,
             o.own_geolocate_y as geo_y,
             o.own_geolocate_x as geo_x,
-            o.own_commission_percent as commission_percent
+            o.own_commission_percent as commission_percent,
+            serviceFee.id as service_fee,
+            serviceFee.fixedFee,
+            serviceFee.current as currentFee
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
             JOIN gre.gen_res_own_id o
             JOIN o.own_address_municipality as mun
             JOIN o.own_address_province as prov
+            JOIN gre.service_fee serviceFee
         WHERE ore.own_res_reservation_booking = :id_booking");
         return $query->setParameter('id_booking', $id_booking)->getArrayResult();
     }

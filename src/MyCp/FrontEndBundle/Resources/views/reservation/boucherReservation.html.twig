@@ -157,9 +157,17 @@
                                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td><b>{{"INITIAL_DEPOSIT" | trans({}, "messages", user_locale)}} ({{own.commission_percent}}%)</b></td>
+                                    <td><b>{{"SERVICE_ACCOMMODATION_TAX_LONG" | trans({}, "messages", user_locale)}} ({{own.commission_percent}}%)</b></td>
                                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].prepayment)) | number_format(2) }}</h4></td>
                                 </tr>
+                            <tr>
+                                <td><b>{{"SERVICE_TOURIST_TAX" | trans({}, "messages", user_locale)}}</b></td>
+                                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
+                            </tr>
+                            <tr>
+                                <td><b>{{"INITIAL_DEPOSIT" | trans({}, "messages", user_locale)}}</b></td>
+                                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].touristTax + own_res_payments[own.id].prepayment)) | number_format(2) }}</h4></td>
+                            </tr>
                                 <tr class="b-cyan">
                                     <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans({}, "messages", user_locale)}}</b></td>
                                     <td class="text-right"><h4 class="no-margin">
@@ -194,11 +202,15 @@
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(accommodations_service_charge)| number_format(2) }}</h4></td>
         </tr>
         <tr>
-            <td>- {{"INITIAL_DEPOSIT"|trans({}, "messages", user_locale)}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+            <td>- {{"SERVICE_ACCOMMODATION_TAX"|trans({}, "messages", user_locale)}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
             <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
         </tr>
         <tr>
-            <td>- {{"SERVICE_RECHARGE"|trans({}, "messages", user_locale)}}</td>
+            <td>- {{"SERVICE_TOURIST_TAX"|trans({}, "messages", user_locale)}}</td>
+            <td class="text-right">{{ currency_symbol }} {{ ceil_round(tourist_tax_total) }}</td>
+        </tr>
+        <tr>
+            <td>- {{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</td>
             <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
         </tr>
         <tr>
@@ -207,7 +219,7 @@
         </tr>
         <tr>
             <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans({}, "messages", user_locale)}}</b></td>
-            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</h4></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(total_prepayment)) | number_format(2) }}</h4></td>
         </tr>
 
         <tr>
