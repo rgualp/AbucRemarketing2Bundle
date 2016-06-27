@@ -200,4 +200,31 @@ class cartRepository extends EntityRepository {
         return $cartItems;
     }
 
+    public function getCartItemsForCalculateTaxes($user_ids) {
+        try {
+            $em = $this->getEntityManager();
+            $qb = $em->createQueryBuilder()
+                ->from("mycpBundle:cart", "c")
+                ->join("c.cart_room", "r")
+                ->join("r.room_ownership", "o")
+                ->groupBy("r.room_ownership", "c.service_fee", "c.cart_date_from", "c.cart_date_to")
+                ->select("o", "c.service_fee", "count(c.cart_room) as rooms", "DATE_DIFF(c.cart_date_to, c.cart_date_from) as nights")
+                ->addSelect("c.cart_date_from as fromDate", "c.cart_date_to as toDate")
+                ->addSelect("MIN(r.room_price_up_to) as highSeason", " MIN(r.room_price_down_to) as lowSeason", "MIN(r.room_price_special) as specialSeason")
+                ->orderBy("o.own_id")
+            ;
+
+            if ($user_ids["user_id"] != null)
+                $qb->where("c.cart_user = :userId")
+                    ->setParameter("userId", $user_ids['user_id']);
+            else if ($user_ids["session_id"] != null)
+                $qb->where("c.cart_session_id = :sessionId")
+                    ->setParameter("sessionId", $user_ids['session_id']);
+
+            return $qb->getQuery()->getResult();
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
 }
