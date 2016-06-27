@@ -38,13 +38,18 @@ var Step2 = function () {
             },
             location:(typeof lat== 'undefined')? (typeof province!== 'undefined')?province:''+', Cuba': new google.maps.LatLng(lat,lng)
         };
+        if(typeof lat!== 'undefined'){
+            options['mapOptions']={
+              center: new google.maps.LatLng(lat,lng)
+            };
 
-
+        }
         var geomap= $("#mycp_mycpbundle_ownership_step1_geolocate").geocomplete(options).bind("geocode:dragged", function(event, latLng){
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(latLng.lat());
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_y').val(latLng.lng());
 
         });
+
         geomap.bind("geocode:result", function(event, result) {
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_x').val(result.geometry.location.lat());
             $('#mycp_mycpbundle_ownership_step1_own_geolocate_y').val(result.geometry.location.lng());

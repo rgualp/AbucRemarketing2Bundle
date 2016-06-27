@@ -733,3 +733,6 @@ a.green-link{
     background: #b7b7b7 none repeat scroll 0 0;
     border-style: double;
 }
+.col-content p {
+    font-size: 16px;
+}

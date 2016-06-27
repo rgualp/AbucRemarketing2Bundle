@@ -95,7 +95,7 @@ var Step4 = function () {
             var url_delete_room=$(this).data('href');
             var noroom=$(this).data('noroom');
             swal({
-                title: "¿Estás seguro?",
+                title: "",
                 text: "¿Está seguro que desea eliminar la habitación seleccionada?",
                 type: "warning",
                 showCancelButton: true,
