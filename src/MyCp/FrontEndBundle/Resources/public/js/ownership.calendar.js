@@ -77,7 +77,7 @@ function total_price(curr,percent)
     $('#total_price').html( normalize_prices(total_price_var) );
     $('#subtotal_price').html(normalize_prices(total_price_var));
     var percent_value=total_price_var * percent / 100;
-    var tourist_service = total_price_var*tourist_fee_percent;
+    var tourist_service = total_price_var*parseFloat(tourist_fee_percent);
     $("#tourist_service").html(normalize_prices(tourist_service));
     $('#initial_deposit').html(normalize_prices(percent_value));
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
