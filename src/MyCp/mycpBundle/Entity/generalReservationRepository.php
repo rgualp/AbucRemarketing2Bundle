@@ -1910,7 +1910,7 @@ class generalReservationRepository extends EntityRepository {
             join user u on gres.gen_res_user_id = u.user_id
             $where
             group by gres.gen_res_date, gres.gen_res_user_id
-            order by gres.gen_res_id DESC";
+            order by gres.gen_res_date DESC, gres.gen_res_date_hour DESC, gres.gen_res_hour DESC ";
 
         $query = $em->createQuery($queryString);
 
