@@ -247,6 +247,30 @@
                 </div>
                 <div class="form-group row">
                     {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
+                    <label class="control-label">Tipo de renta</label>
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">#}
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">#}
+                    <div class="row p-10">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <i class="glyphicons home form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-10">
+                                    {% if ownership.ownType %}
+                                        <span class="font-blue step-span" id="label_ownership_step1_own_rental_type">{{ ownership.ownRentalType }}</span>
+                                        {{ form_widget(form.own_rental_type, {'attr':{'class':'form-control hide'}}) }}
+                                        <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_rental_type" data-cmpdisabled="#label_ownership_step1_own_rental_type">Cambiar</button>
+                                    {% else %}
+                                    {{ form_widget(form.own_rental_type) }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
                     <label class="control-label">Tipo de propiedad</label>
                     {#<img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">#}
                     {#<img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">#}
@@ -276,7 +300,7 @@
     <div class="col-md-3 oneblue-bg col-content">
         <div id="help-step2-one" class="row">
             <div class="col-md-12 m-t-20">
-                <p>Ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas especificas</p>
+                <p>Ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas específicas</p>
             </div>
         </div>
         <div id="help-step2-two" class="row">

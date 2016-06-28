@@ -72,6 +72,18 @@ class ownershipStep1Type extends AbstractType
                     'Penthouse'=>'Penthouse'
                 )
             ))
+            ->add('own_rental_type','choice', array(
+                'label'=>'Tipo de renta',
+                'attr'=>[
+                    'class'=>'form-control',
+//                    'placeholder'=>'y'
+                ],
+                'choices'=>array(
+                    'Propiedad completa'=>'Propiedad completa',
+                    'Por habitaciones'=>'Por habitaciones',
+
+                )
+            ))
             ->add('own_langs1','choice', array(
                 'label'=>'Idiomas que se hablan en la casa',
                 'attr'=>[

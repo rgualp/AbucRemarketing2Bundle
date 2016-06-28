@@ -26,6 +26,13 @@ class ownership {
     const ACCOMMODATION_CATEGORY_PREMIUM = "Premium";
 
     /**
+     * All allowed rental type
+     */
+    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
+    const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
+
+
+    /**
      * Contains all possible statuses
      *
      * @var array
@@ -34,6 +41,16 @@ class ownership {
         self::ACCOMMODATION_CATEGORY_ECONOMIC,
         self::ACCOMMODATION_CATEGORY_MIDDLE_RANGE,
         self::ACCOMMODATION_CATEGORY_PREMIUM
+    );
+    /**
+     * Contains all possible statuses
+     *
+     * @var array
+     */
+    private $rentalTypes = array(
+        self::ACCOMMODATION_RENTAL_TYPE_FULL,
+        self::ACCOMMODATION_RENTAL_TYPE_PER_ROOMS
+
     );
 
     /**
@@ -168,6 +185,13 @@ class ownership {
      * @ORM\Column(name="own_category", type="string", length=255, nullable=true)
      */
     private $own_category;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_rental_type", type="string", length=255, nullable=true)
+     */
+    private $own_rental_type;
 
     /**
      * @var string
@@ -2162,4 +2186,230 @@ class ownership {
         return $this->getOwnMcpCode()." - ".$this->getOwnName();
     }
 
+
+    /**
+     * Set ownRentalType
+     *
+     * @param string $ownRentalType
+     *
+     * @return ownership
+     */
+    public function setOwnRentalType($ownRentalType)
+    {
+        $this->own_rental_type = $ownRentalType;
+
+        return $this;
+    }
+
+    /**
+     * Get ownRentalType
+     *
+     * @return string
+     */
+    public function getOwnRentalType()
+    {
+        return $this->own_rental_type;
+    }
+
+    /**
+     * Get waitingForRevision
+     *
+     * @return boolean
+     */
+    public function getWaitingForRevision()
+    {
+        return $this->waiting_for_revision;
+    }
+
+    /**
+     * Add ownDescriptionLang
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang
+     *
+     * @return ownership
+     */
+    public function addOwnDescriptionLang(\MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang)
+    {
+        $this->own_description_langs[] = $ownDescriptionLang;
+
+        return $this;
+    }
+
+    /**
+     * Remove ownDescriptionLang
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang
+     */
+    public function removeOwnDescriptionLang(\MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang)
+    {
+        $this->own_description_langs->removeElement($ownDescriptionLang);
+    }
+
+    /**
+     * Add ownGeneralReservation
+     *
+     * @param \MyCp\mycpBundle\Entity\generalReservation $ownGeneralReservation
+     *
+     * @return ownership
+     */
+    public function addOwnGeneralReservation(\MyCp\mycpBundle\Entity\generalReservation $ownGeneralReservation)
+    {
+        $this->own_general_reservations[] = $ownGeneralReservation;
+
+        return $this;
+    }
+
+    /**
+     * Remove ownGeneralReservation
+     *
+     * @param \MyCp\mycpBundle\Entity\generalReservation $ownGeneralReservation
+     */
+    public function removeOwnGeneralReservation(\MyCp\mycpBundle\Entity\generalReservation $ownGeneralReservation)
+    {
+        $this->own_general_reservations->removeElement($ownGeneralReservation);
+    }
+
+    /**
+     * Add ownershipKeywordOwnership
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipKeywordLang $ownershipKeywordOwnership
+     *
+     * @return ownership
+     */
+    public function addOwnershipKeywordOwnership(\MyCp\mycpBundle\Entity\ownershipKeywordLang $ownershipKeywordOwnership)
+    {
+        $this->ownershipKeywordOwnership[] = $ownershipKeywordOwnership;
+
+        return $this;
+    }
+
+    /**
+     * Remove ownershipKeywordOwnership
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipKeywordLang $ownershipKeywordOwnership
+     */
+    public function removeOwnershipKeywordOwnership(\MyCp\mycpBundle\Entity\ownershipKeywordLang $ownershipKeywordOwnership)
+    {
+        $this->ownershipKeywordOwnership->removeElement($ownershipKeywordOwnership);
+    }
+
+    /**
+     * Add award
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationAward $award
+     *
+     * @return ownership
+     */
+    public function addAward(\MyCp\mycpBundle\Entity\accommodationAward $award)
+    {
+        $this->awards[] = $award;
+
+        return $this;
+    }
+
+    /**
+     * Remove award
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationAward $award
+     */
+    public function removeAward(\MyCp\mycpBundle\Entity\accommodationAward $award)
+    {
+        $this->awards->removeElement($award);
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \MyCp\mycpBundle\Entity\comment $comment
+     *
+     * @return ownership
+     */
+    public function addComment(\MyCp\mycpBundle\Entity\comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \MyCp\mycpBundle\Entity\comment $comment
+     */
+    public function removeComment(\MyCp\mycpBundle\Entity\comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Add owner
+     *
+     * @param \MyCp\mycpBundle\Entity\ownerAccommodation $owner
+     *
+     * @return ownership
+     */
+    public function addOwner(\MyCp\mycpBundle\Entity\ownerAccommodation $owner)
+    {
+        $this->owners[] = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Remove owner
+     *
+     * @param \MyCp\mycpBundle\Entity\ownerAccommodation $owner
+     */
+    public function removeOwner(\MyCp\mycpBundle\Entity\ownerAccommodation $owner)
+    {
+        $this->owners->removeElement($owner);
+    }
+
+    /**
+     * Add ownershipLog
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipStatistics $ownershipLog
+     *
+     * @return ownership
+     */
+    public function addOwnershipLog(\MyCp\mycpBundle\Entity\ownershipStatistics $ownershipLog)
+    {
+        $this->ownershipLogs[] = $ownershipLog;
+
+        return $this;
+    }
+
+    /**
+     * Remove ownershipLog
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipStatistics $ownershipLog
+     */
+    public function removeOwnershipLog(\MyCp\mycpBundle\Entity\ownershipStatistics $ownershipLog)
+    {
+        $this->ownershipLogs->removeElement($ownershipLog);
+    }
+
+    /**
+     * Add payment
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipPayment $payment
+     *
+     * @return ownership
+     */
+    public function addPayment(\MyCp\mycpBundle\Entity\ownershipPayment $payment)
+    {
+        $this->payments[] = $payment;
+
+        return $this;
+    }
+
+    /**
+     * Remove payment
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipPayment $payment
+     */
+    public function removePayment(\MyCp\mycpBundle\Entity\ownershipPayment $payment)
+    {
+        $this->payments->removeElement($payment);
+    }
 }
