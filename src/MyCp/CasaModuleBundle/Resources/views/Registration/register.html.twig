@@ -11,6 +11,7 @@
             #terms-error {
                 margin-top: 2px;
                 min-width: 230px;
+                font-size: 14px;
             }
         </style>
     {% endblock %}
@@ -20,7 +21,7 @@
       <div>
          <img src="{{ asset('img/mycp.png') }}">
       </div>
-      <h2 class="font-blue">Bienvenido!</h2>
+      <h2 class="font-blue">¡Bienvenido!</h2>
       <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
        {% for message in app.session.flashbag.get('message_ok') %}
            <div class="alert alert-info alert-dismissable">
@@ -52,7 +53,7 @@
                        {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
                     </select> </div></div>
            </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5" style="padding-left: 0;">
                     <div class="form-group"><label>Municipio</label>
                         <select required class="form-control" name="own_municipality" id="own_municipality">
                             {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
@@ -71,23 +72,24 @@
             <div class="form-group row">
                 <div class="col-sm-12"><label>Teléfono</label></div>
                 <div class="col-xs-1"><i class="glyphicons phone_alt form-icon"></i> </div><div class="col-xs-11">
-                <input type="text" name="own_phone" required minlength="6"  class="form-control" placeholder="Teléfono"></div>
+                <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono"></div>
                 </div>
 
 
       </div>
       <div class="bg-yellow m-t-30">
+          <h3>La inscripción de su propiedad tiene un costo de 30 CUC</h3>
           <h3>Por favor revise nuestros</h3>
           <h3 class="font-blue">Términos y condiciones de uso</h3>
           {#<i class="fa fa-check-circle register-check"></i>#}
           <div class="form-group row">
           <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
-              <div class="col-md-12"><h3>acepte para continuar</h3></div>
+              <div class="col-md-12"><h3>Acepte para continuar</h3></div>
           </label>
           </div>
 
       </div>
-       <button class="btn btn-success m-t-30 m-b-30" type="submit">Registrarse</button>
+       <button class="btn btn-primary dim m-t-30 m-b-30" type="submit">Registrarse</button>
        </form>
    </div>
 {% endblock %}
@@ -99,7 +101,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_es.js') }}"></script>
     <script type="text/javascript">
      $(document).on('ready', function(){
          $('.i-checks').iCheck({

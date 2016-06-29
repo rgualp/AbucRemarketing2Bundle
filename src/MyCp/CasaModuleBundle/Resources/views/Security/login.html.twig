@@ -23,7 +23,7 @@
     <div>
         <img src="{{ asset('img/mycp.png') }}">
     </div>
-    <h2 class="font-blue">Bienvenido!</h2>
+    <h2 class="font-blue">¡Bienvenido!</h2>
     {% for message in app.session.flashbag.get('message_ok') %}
         <div class="alert alert-info alert-dismissable">
             <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
@@ -61,8 +61,8 @@
          <button type="submit" class="btn btn-primary dim">Autenticarse</button>
         </form>
     </div>
-</div>
-<div class="footer text-center" style="border-top: none;position: relative">
+
+<div class="footer text-center" style="border-top: none;position: relative; margin-top: 50px;">
     <div>
         MyCasaParticular.com Todos los derechos reservados
     </div>
@@ -76,7 +76,7 @@
     %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-<script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_es.js') }}"></script>
     <script type="text/javascript">
         $(document).on('ready', function(){
             $('.i-checks').iCheck({

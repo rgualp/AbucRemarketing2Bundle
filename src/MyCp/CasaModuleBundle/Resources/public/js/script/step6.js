@@ -36,7 +36,7 @@ var Step6 = function () {
 
             // add a new tag form (see next code block)
             if(collectionHolderPhotos.find('li').length>51){
-                swal("Alcanzó el máximo de imagenes permitidas", "Límite alcanzado", "error");
+                swal("Alcanzó el máximo de imagenes permitidas", "", "error");
             }
             else{
             addPhotoForm(collectionHolderPhotos, newPhotoLi);
@@ -136,8 +136,8 @@ var Step6 = function () {
             // remove the li for the tag form
             if(mediaFormLi.hasClass('uploaded')){
                 swal({
-                    title: "¿Estás seguro?",
-                    text: "Se borrará la foto del servidor!",
+                    title: "",
+                    text: "¿Está seguro que desea eliminar la imagen seleccionada?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#e94b3d",
