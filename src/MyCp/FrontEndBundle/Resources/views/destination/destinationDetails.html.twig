@@ -1,17 +1,22 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
+
 {% set desName = (destination.desName | trans)  %}
 {% block title %}
     {{'DESTINATION_DETAILS' | trans ({'%destinationName%': desName})}}
 {% endblock %}
+
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS')%}
+{% set lang_code=app.session.get('app_lang_code')|lower %}
 {% block metas %}
-    {%if keyword_description != "" and keyword != ""%}
+    {{ get_metas('Destino ' ~ destination.desName, lang_code)|raw }}
+    {#{%if keyword_description != "" and keyword != ""%}
     <meta name="description" content="{{keyword_description}}">
     <meta name="keywords" content="{{keyword}}">
     {%else%}
     {{parent()}}
-    {%endif%}
+    {%endif%}#}
 {% endblock %}
+
 {% block include_javascripts_and_css %}
     <link href="{{ asset('bundles/frontend/css/filtersv2.css') }}" rel="stylesheet">
 

@@ -3,6 +3,12 @@
     {{"MYCASATRIP_TITLE" | trans}}
 {% endblock %}
 
+{% set lang_code=app.session.get('app_lang_code')|lower %}
+{% block metas %}
+    {#{{parent()}}#}
+    {{ get_metas('App MyCasa Trip', lang_code)|raw }}
+{% endblock %}
+
 {% block content_nav_top_body %}
    {# {{(("MyCasa Trip" | upper) ~ "_CONTENT") | trans}}#}
 {% endblock %}
