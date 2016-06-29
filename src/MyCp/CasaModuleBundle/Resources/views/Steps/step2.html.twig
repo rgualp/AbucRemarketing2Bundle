@@ -3,10 +3,10 @@
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-1 col-xs-1">
                 <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-step m-t-25">
             </div>
-            <div class="col-sm-11">
+            <div class="col-sm-11 col-xs-9">
                 <h2 class="font-blue">{% if dashboard %}Datos de su propiedad{% else %}Paso 1{% endif %}</h2>
                 {% if not dashboard %}<h3 class="font-blue">Complete los datos de su propiedad</h3>{% endif %}
             </div>
@@ -31,7 +31,7 @@
                     <label class="control-label">Número de la licencia</label>
                     <div class="row m-t-10">
                         <div class="col-sm-8">
-                        <div class="col-sm-1">
+                        <div class="col-sm-1 ">
                      <i class="glyphicons nameplate step-form-icon"  style="margin-top: 5px;"></i></div>
                         <div class="col-sm-10"> <span id="label_ownership_step1_own_licence_number" class="font-blue step-span">{{ ownership.ownLicenceNumber }}</span>
                         {{ form_widget(form.own_licence_number) }}
