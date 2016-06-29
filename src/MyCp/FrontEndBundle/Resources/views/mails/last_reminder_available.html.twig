@@ -15,7 +15,7 @@
         </p>
 
         {% for reservation in reservations %}
-            {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation}) }}
+            {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation, "photos": photos}) }}
             <br/>
         {% endfor %}
 

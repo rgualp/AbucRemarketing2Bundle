@@ -79,7 +79,7 @@
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                 </select>
             </td>
-            <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}" alt="{{"Pixel" | trans}}"/></td>
+            <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/></td>
             <td id="childrenAge1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                 <select
                         id="combo_kidsage_1_{{room.getRoomId}}"
@@ -104,7 +104,7 @@
                     <option value="12">12</option>
                 </select>
             </td>
-            <td id="childrenImg2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}" alt="{{"Pixel" | trans}}"/></td>
+            <td id="childrenImg2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/></td>
                 <td id="childrenAge2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                     <select
                             id="combo_kidsage_2_{{room.getRoomId}}"
@@ -128,7 +128,7 @@
                         <option value="12">12</option>
                     </select>
                 </td>
-            <td  id="childrenImg3_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img src="{{ asset("bundles/frontend/img/icons/children.png") }}" alt="{{"Children" | trans}}"/></td>
+            <td  id="childrenImg3_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Children" | trans}}"/></td>
             <td id="childrenAge3_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                 <select
                         id="combo_kidsage_3_{{room.getRoomId}}"
