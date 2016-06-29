@@ -129,7 +129,7 @@
                     </nav>
                 </div>
 
-                <div id="content_id" class="{% if dashboard %}wrapper wrapper-content white-bg{% else %}row white-bg{% endif %}" style="padding-bottom:40px">
+                <div id="content_id" class="{% if dashboard is defined and dashboard %}wrapper wrapper-content white-bg{% else %}row white-bg{% endif %}" style="padding-bottom:40px">
                      {% block content %}
                          {% include 'MyCpCasaModuleBundle:Steps:wizard.html.twig' %}
                      {% endblock content %}

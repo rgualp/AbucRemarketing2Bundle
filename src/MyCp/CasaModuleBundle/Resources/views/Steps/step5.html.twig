@@ -25,15 +25,15 @@
                     <label class="control-label">Desayuno incluido</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="breakfast" id="breakfast" {% if ownership.ownFacilitiesBreakfast %}checked{% endif %}/>
+                    <input type="checkbox" class="js-switch" name="breakfast" id="breakfast" {% if ownership.ownFacilitiesBreakfast %}checked{% else %}data-cmpenabled=".facilitiesBreakfastWithPrice"{% endif %}/>
                     <input type="hidden" name="hasBreakfast" id="hasBreakfast" value="{{ ownership.ownFacilitiesBreakfast }}"/>
                     </div>
 
-                    <div class="col-md-5 facilitiesBreakfastWithPrice">
+                    <div class="col-md-5 facilitiesBreakfastWithPrice {% if not ownership.ownFacilitiesBreakfastPrice %}hide{% endif %}">
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesBreakfastPrice }} </span>
                         <label class="control-label"> CUC</label>
                     </div>
-                    <div class="col-md-1 p-0 facilitiesBreakfastWithPrice">
+                    <div class="col-md-1 p-0 facilitiesBreakfastWithPrice  {% if not ownership.ownFacilitiesBreakfastPrice %}hide{% endif %}">
                             <a id="btn-change-breakfast" class="btn btn-primary changeBtn" data-cmpdisabled=".facilitiesBreakfastWithPrice" data-cmpenabled=".facilitiesBreakfastPrice">Cambiar</a>
                     </div>
                         <div class="col-md-6 facilitiesBreakfastPrice hide">
@@ -47,11 +47,11 @@
                     <label class="control-label">Cena</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="dinner" id="dinner" {% if ownership.ownFacilitiesDinner %}checked{% endif %}/>
+                    <input type="checkbox" class="js-switch" name="dinner" id="dinner" {% if ownership.ownFacilitiesDinner %}checked{% else %}data-cmpenabled=".facilitiesDinnerWithPrice"{% endif %}/>
                     <input type="hidden" name="hasDinner" id="hasDinner" value="{{ ownership.ownFacilitiesDinner }}"/>
                     </div>
 
-                    <div class="col-md-5 facilitiesDinnerWithPrice">
+                    <div class="col-md-5 facilitiesDinnerWithPrice {% if not ownership.ownFacilitiesDinner %}hide{% endif %}">
                         <label class="control-label">Desde</label>
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesDinnerPriceFrom }} </span>
                         <label class="control-label"> CUC</label>
@@ -59,7 +59,7 @@
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesDinnerPriceTo }} </span>
                         <label class="control-label"> CUC</label>
                     </div>
-                    <div class="col-md-1 p-0 facilitiesDinnerWithPrice">
+                    <div class="col-md-1 p-0 facilitiesDinnerWithPrice {% if not ownership.ownFacilitiesDinner %}hide{% endif %}">
                         <a id="btn-change-dinner" class="btn btn-primary changeBtn" data-cmpdisabled=".facilitiesDinnerWithPrice" data-cmpenabled=".facilitiesDinnerPrice">Cambiar</a>
                     </div>
                     <div class="col-md-6 facilitiesDinnerPrice hide">
@@ -76,15 +76,15 @@
                     <label class="control-label">Parqueo incluido</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="parking" id="parking" {% if ownership.ownFacilitiesParking %}checked{% endif %}/>
+                    <input type="checkbox" class="js-switch" name="parking" id="parking" {% if ownership.ownFacilitiesParking %}checked{% else %}data-cmpenabled=".facilitiesParkingWithPrice"{% endif %}/>
                         <input type="hidden" name="hasParking" id="hasParking" value="{{ ownership.ownFacilitiesParking }}"/>
                     </div>
-                    <div class="col-md-5 facilitiesParkingWithPrice">
+                    <div class="col-md-5 facilitiesParkingWithPrice {% if not ownership.ownFacilitiesParkingPrice %}hide{% endif %}">
                             <label class="control-label">Desde</label>
                             <span class="font-blue step-span">{{ ownership.ownFacilitiesParkingPrice }} </span>
                             <label class="control-label">CUC</label>
                     </div>
-                    <div class="col-md-1 p-0 facilitiesParkingWithPrice">
+                    <div class="col-md-1 p-0 facilitiesParkingWithPrice {% if not ownership.ownFacilitiesParkingPrice %}hide{% endif %}">
                             <a id="btn-change-parking" class="btn btn-primary changeBtn" data-cmpdisabled=".facilitiesParkingWithPrice" data-cmpenabled=".facilitiesParkingPrice">Cambiar</a>
                     </div>
                         <div class="col-md-6 facilitiesParkingPrice hide">
