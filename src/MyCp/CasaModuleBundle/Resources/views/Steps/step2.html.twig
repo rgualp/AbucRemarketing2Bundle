@@ -3,10 +3,10 @@
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-1 col-xs-1">
                 <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-step m-t-25">
             </div>
-            <div class="col-sm-11">
+            <div class="col-sm-11 col-xs-9">
                 <h2 class="font-blue">{% if dashboard %}Datos de su propiedad{% else %}Paso 1{% endif %}</h2>
                 {% if not dashboard %}<h3 class="font-blue">Complete los datos de su propiedad</h3>{% endif %}
             </div>
@@ -31,7 +31,7 @@
                     <label class="control-label">Número de la licencia</label>
                     <div class="row m-t-10">
                         <div class="col-sm-8">
-                        <div class="col-sm-1">
+                        <div class="col-sm-1 ">
                      <i class="glyphicons nameplate step-form-icon"  style="margin-top: 5px;"></i></div>
                         <div class="col-sm-10"> <span id="label_ownership_step1_own_licence_number" class="font-blue step-span">{{ ownership.ownLicenceNumber }}</span>
                         {{ form_widget(form.own_licence_number) }}
@@ -247,6 +247,30 @@
                 </div>
                 <div class="form-group row">
                     {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
+                    <label class="control-label">Tipo de renta</label>
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">#}
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">#}
+                    <div class="row p-10">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <i class="glyphicons home form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-10">
+                                    {% if ownership.ownType %}
+                                        <span class="font-blue step-span" id="label_ownership_step1_own_rental_type">{{ ownership.ownRentalType }}</span>
+                                        {{ form_widget(form.own_rental_type, {'attr':{'class':'form-control hide'}}) }}
+                                        <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_rental_type" data-cmpdisabled="#label_ownership_step1_own_rental_type">Cambiar</button>
+                                    {% else %}
+                                    {{ form_widget(form.own_rental_type) }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
                     <label class="control-label">Tipo de propiedad</label>
                     {#<img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">#}
                     {#<img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">#}
@@ -276,22 +300,22 @@
     <div class="col-md-3 oneblue-bg col-content">
         <div id="help-step2-one" class="row">
             <div class="col-md-12 m-t-20">
-                <p>ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas especificas</p>
+                <p>Ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas específicas</p>
             </div>
         </div>
         <div id="help-step2-two" class="row">
             <div class="col-md-12 m-t-40">
-                <p>especifique el destino turístico al cual pertenece su alojamiento</p>
+                <p>Especifique el destino turístico al cual pertenece su alojamiento</p>
             </div>
         </div>
         <div id="help-step2-three" class="row">
             <div class="col-md-12 m-t-40">
-                <p>usted puede ubicar su alojamiento en el mapa, o simplemente poner su dirección y el mapa le dará la opción de verificar sus datos. Haga más fácil para el cliente encontrar su alojamiento)</p>
+                <p>Usted puede ubicar su alojamiento en el mapa, o simplemente poner su dirección y el mapa le dará la opción de verificar sus datos. Haga más fácil para el cliente encontrar su alojamiento)</p>
             </div>
         </div>
         <div id="help-step2-four" class="row">
             <div class="col-md-12 m-t-40">
-                <p>especifique cuales son los idiomas que domina, a través de los cuales usted y su personal se pueden comunicar con el cliente</p>
+                <p>Especifique cuales son los idiomas que domina, a través de los cuales usted y su personal se pueden comunicar con el cliente</p>
             </div>
         </div>
 

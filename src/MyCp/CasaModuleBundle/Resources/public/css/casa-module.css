@@ -353,7 +353,7 @@ body.mini-navbar.fixed-sidebar .profile-element, .block {
     display: block;
     height: 0;
     position: absolute;
-    right: 0;
+    right: -1px;
     top: 24%;
     width: 0;
 }
@@ -732,4 +732,296 @@ a.green-link{
 .fc td.fc-today {
     background: #b7b7b7 none repeat scroll 0 0;
     border-style: double;
+}
+
+
+
+@media (max-width: 400px) {
+    .navbar-static-top {
+        position: fixed;
+        z-index: 1000;
+        width: 100%;
+    }
+
+    nav.navbar-static-top .img-mycp{
+        width: 70%;
+        margin: 15px 0 !important;
+        padding: 0;
+    }
+
+    nav.navbar-static-top .navbar-header{
+        width: 57%;
+        padding-left: 10px;
+    }
+
+    .nav.navbar-right > li > a.glyphicons.certificate:before {
+        display: none;
+    }
+
+    nav.navbar-static-top .dropdown-toggle{
+        padding: 22px 0;
+    }
+
+    nav.navbar-static-top .dropdown-toggle i{
+        float: left;
+        width: 100%;
+        text-align: center;
+    }
+
+    nav.navbar-static-top .dropdown.open .dropdown-menu{
+        right: 0px;
+        left: auto;
+    }
+
+    nav.navbar-static-top .navbar-top-links{
+        width: 25%;
+        float: left;
+    }
+
+    .body-small .navbar-static-side {
+        display: block;
+        z-index: 2001;
+        position: fixed;
+        width: 300px;
+        top: 0;
+        height: 100%;
+        background-color: #2191d2 !important;
+    }
+
+    nav.navbar-static-side .navbar-minimalize.nav-label {
+        position: absolute;
+        z-index: 9999;
+        right: 0;
+    }
+    .tab-content .oneblue-bg{
+        position: absolute;
+    }
+
+    .tab-content .col-md-9{
+        margin-top: 80px;
+        width: 100%;
+    }
+
+    .tab-content .col-sm-8{
+        width: 100%;
+        padding: 0;
+        float: left;
+    }
+
+    .tab-content .col-sm-1, .tab-content .col-md-1{
+        float: left;
+        width: 10%;
+        padding: 0;
+    }
+
+    .tab-content .col-xs-1{
+        padding: 0px 15px !important;
+        width: 20%;
+    }
+
+    .tab-content .col-sm-5{
+        float: left;
+        padding: 0;
+        width: 43%;
+    }
+
+    .tab-content .col-md-5{
+        float: left;
+        padding: 0;
+        width: 38%;
+        padding-left: 18px;
+    }
+
+    .tab-content .col-sm-10, .tab-content .col-md-10{
+        float: left;
+        float: left;
+        width: 90%;
+        padding: 0;
+        padding-left: 5px;
+    }
+
+    .tab-content .col-md-2{
+        width: 21%;
+        padding-left: 20px;
+        float: left;
+    }
+
+    .tab-content .col-md-4{
+        width: 70%;
+        padding-left: 20px;
+        float: left;
+    }
+
+    .tab-content .col-md-3{
+        width: 70%;
+        padding-left: 20px;
+        float: left;
+    }
+
+    .tab-content .col-md-8{
+        width: 31%;
+        padding-left: 20px;
+        float: left;
+    }
+
+    .tab-content .col-md-11{
+
+    }
+
+    .text-price-step3 {
+        font-size: 14px;
+    }
+
+    .tab-content .form-group{
+        margin-bottom: 20px !important;
+        margin-top: 15px !important;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    body #page-wrapper {
+        margin: 0 0 0 70px;
+    }
+
+    .bg-gray {
+        padding: 10px;
+    }
+
+    .bg-gray .row{
+        margin: 0;
+    }
+
+    .step-span {
+        font-size: 14px;
+    }
+    .btn{
+        font-size: 10px;
+    }
+    label {
+        font-size: 14px;
+        width: 70%;
+        margin-right: 9px;
+    }
+
+    .glyphicons.form-icon {
+        float: none !important;
+    }
+
+    #tab3 label {
+        width: 100%;
+    }
+
+    .mcp-pager li {
+        padding-right: 0px;
+        padding-left: 24px;
+    }
+
+    #text-save{
+        margin-bottom: 16px;
+    }
+
+    .prices-form .col-md-2{
+        width: 9%;
+        padding-left: 20px;
+        float: left;
+        padding: 0;
+    }
+
+    .prices-form .row:first-child{
+        margin-bottom: 20px;
+    }
+    .prices-form .row:first-child .col-md-1{
+        width: 17%;
+        padding: 0 12px;
+    }
+    .prices-form .row:first-child .col-md-2{
+        width: 63%;
+        padding-left: 14px;
+        float: left;
+        padding-top: 12px;
+    }
+
+    .prices-form .row:first-child .col-md-2:last-child{
+        width: 22%;
+        padding: 0;
+    }
+
+    .prices-form .col-md-1 {
+        float: left;
+        width: 13%;
+        padding: 0;
+        margin-left: 2px;
+        margin: 0;
+    }
+
+    .facilities-form .row{
+        margin-bottom: 20px;
+    }
+
+    .facilities-form .col-md-4{
+        width: 61%;
+    }
+
+    .facilities-form .col-md-3{
+        width: 78%;
+    }
+
+    .facilities-form .col-md-8{
+        margin: 0;
+        padding: 0;
+        width: 18%;
+    }
+
+    .facilities-form .col-md-5 {
+        width: 86%;
+    }
+
+    #facilities-div{
+        padding: 15px;
+        margin-left: -10px;
+    }
+
+    #facilities-div .row{
+        margin-bottom: 20px;
+    }
+
+    #facilities-div .col-md-5{
+        width: 77%;
+        padding: 0;
+    }
+
+    #facilities-div .col-md-7{
+        width: 23%;
+        margin: 0;
+        float: left;
+        padding: 0;
+    }
+
+    .facilities .control-label {
+        width: 30%;
+    }
+
+    #tab7 .col-sm-8{
+
+    }
+    #tab7 .col-sm-5{
+
+    }
+    #show-help-mobile{
+        position: fixed;
+        width: 82%;
+        display: block;
+        top: 85px;
+        z-index: 9999;
+        padding: 10px;
+        background: #C64E3A;
+        color: white;
+    }
+    #close-help{
+        position: absolute;
+        right: 0;
+        padding: 5px;
+        top:0;
+        font-size: 24px;
+    }
 }

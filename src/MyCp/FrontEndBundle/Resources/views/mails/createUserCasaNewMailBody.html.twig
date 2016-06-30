@@ -4,12 +4,20 @@
 <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
 <p style="font-family: Arial; font-size: 14px">
 Estimado Sr(a). {{user_full_name}}: <br/>
-Le informamos que hemos creado un acceso para que Ud. pueda administrar algunas propiedades de su alojamiento, {{own_name}}, publicado en MyCasaParticular.com. <br/>
-Acceda a este módulo de administración a través de este <a href="{{url('my_cp_casa_login')}}">enlace</a>. <br/>
-Su nombre de usuario se corresponde con el código de su casa en nuestro sitio: {{user_name}}<br/>
-Por favor, active su cuenta a través del siguiente enlace: <a href="{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}">Activar</a>
+Gracias por unirse a nosotros. Ahora está a pocos pasos de comenzar a gestionar sus alojamientos. Le decimos cómo:
+PRIMERO necesitará activar su cuenta a través de la siguiente dirección electrónica:<br/>
+<a target="_blank" href="{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}">{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}</a>
 <br/>
-En este módulo de administración, Usted podrá verificar los datos fundamentales de su alojamiento, el estado de las reservas realizadas en su alojamiento a través de nuestro sitio, y actualizar y verificar la disponibilidad de las habitaciones.<br/>
-Saludos Cordiales,<br/>
+Utilice como nombre de usuario el CÓDIGO de su alojamiento en el sitio ({{user_name}}), y cree su propia contraseña de acceso en el momento de la activación. Cada Código es único para cada usuario, y le permitirá acceder por igual a las dos opciones de administración de sus propiedades en nuestro sitio.
+<br/>
+Puede acceder a la administración web desde aquí:<br/>
+<a href="{{url('my_cp_casa_login')}}">{{url('my_cp_casa_login')}}</a>. <br/>
+O puede descargar la aplicación móvil MyCasa Renta para dispositivos Android, que le permitirá, desde Internet o a través de una zona wifi, indicar y modificar las fechas en que su alojamiento estará disponible para nuevos clientes turistas:
+<br/>
+<a target="_blank" href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid">https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a>
+<br/>
+Para consultar sus dudas, por favor, escríbanos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas también estará a su disposición a través del teléfono 78673574. <br/>
+Saludos Cordiales,
+<br/>
 Equipo de MyCasaParticular.com</p>
 {% endblock %}

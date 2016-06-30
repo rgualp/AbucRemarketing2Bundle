@@ -4,10 +4,10 @@
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-1 col-xs-1">
                 <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-step m-t-25">
             </div>
-            <div class="col-sm-11">
+            <div class="col-sm-11 col-xs-9">
         {% if dashboard is defined and dashboard %}
             <h2 class="font-blue">Facilidades</h2>
             <h3 class="font-blue">Seleccione las comodidades que posee su alojamiento</h3>
@@ -25,15 +25,15 @@
                     <label class="control-label">Desayuno incluido</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="breakfast" id="breakfast" {% if ownership.ownFacilitiesBreakfast %}checked{% endif %}/>
+                    <input type="checkbox" class="js-switch" name="breakfast" id="breakfast" {% if ownership.ownFacilitiesBreakfast %}checked{% else %}data-cmpenabled=".facilitiesBreakfastWithPrice"{% endif %}/>
                     <input type="hidden" name="hasBreakfast" id="hasBreakfast" value="{{ ownership.ownFacilitiesBreakfast }}"/>
                     </div>
 
-                    <div class="col-md-5 facilitiesBreakfastWithPrice">
+                    <div class="col-md-5 facilitiesBreakfastWithPrice {% if not ownership.ownFacilitiesBreakfastPrice %}hide{% endif %}">
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesBreakfastPrice }} </span>
                         <label class="control-label"> CUC</label>
                     </div>
-                    <div class="col-md-1 p-0 facilitiesBreakfastWithPrice">
+                    <div class="col-md-1 p-0 facilitiesBreakfastWithPrice  {% if not ownership.ownFacilitiesBreakfastPrice %}hide{% endif %}">
                             <a id="btn-change-breakfast" class="btn btn-primary changeBtn" data-cmpdisabled=".facilitiesBreakfastWithPrice" data-cmpenabled=".facilitiesBreakfastPrice">Cambiar</a>
                     </div>
                         <div class="col-md-6 facilitiesBreakfastPrice hide">
@@ -41,17 +41,17 @@
                             <input type="number" min="0" name="facilitiesBreakfast" id="facilitiesBreakfast" class="form-control inline" value="{{ ownership.ownFacilitiesBreakfastPrice }}"/>
                         </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons cutlery step-form-icon"></i>
                     <label class="control-label">Cena</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="dinner" id="dinner" {% if ownership.ownFacilitiesDinner %}checked{% endif %}/>
+                    <input type="checkbox" class="js-switch" name="dinner" id="dinner" {% if ownership.ownFacilitiesDinner %}checked{% else %}data-cmpenabled=".facilitiesDinnerWithPrice"{% endif %}/>
                     <input type="hidden" name="hasDinner" id="hasDinner" value="{{ ownership.ownFacilitiesDinner }}"/>
                     </div>
 
-                    <div class="col-md-5 facilitiesDinnerWithPrice">
+                    <div class="col-md-5 facilitiesDinnerWithPrice {% if not ownership.ownFacilitiesDinner %}hide{% endif %}">
                         <label class="control-label">Desde</label>
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesDinnerPriceFrom }} </span>
                         <label class="control-label"> CUC</label>
@@ -59,7 +59,7 @@
                         <span class="font-blue step-span">{{ ownership.ownFacilitiesDinnerPriceTo }} </span>
                         <label class="control-label"> CUC</label>
                     </div>
-                    <div class="col-md-1 p-0 facilitiesDinnerWithPrice">
+                    <div class="col-md-1 p-0 facilitiesDinnerWithPrice {% if not ownership.ownFacilitiesDinner %}hide{% endif %}">
                         <a id="btn-change-dinner" class="btn btn-primary changeBtn" data-cmpdisabled=".facilitiesDinnerWithPrice" data-cmpenabled=".facilitiesDinnerPrice">Cambiar</a>
                     </div>
                     <div class="col-md-6 facilitiesDinnerPrice hide">
@@ -70,21 +70,21 @@
                         <input type="number" min="0" name="facilitiesDinnerTo" id="facilitiesDinnerTo" class="form-control inline" value="{{ ownership.ownFacilitiesDinnerPriceTo }}"/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons car step-form-icon"></i>
                     <label class="control-label">Parqueo incluido</label>
                     </div>
                     <div class="col-md-1">
-                    <input type="checkbox" class="js-switch" name="parking" id="parking" {% if ownership.ownFacilitiesParking %}checked{% endif %}/>
+                    <input type="checkbox" class="js-switch" name="parking" id="parking" {% if ownership.ownFacilitiesParking %}checked{% else %}data-cmpenabled=".facilitiesParkingWithPrice"{% endif %}/>
                         <input type="hidden" name="hasParking" id="hasParking" value="{{ ownership.ownFacilitiesParking }}"/>
                     </div>
-                    <div class="col-md-5 facilitiesParkingWithPrice">
+                    <div class="col-md-5 facilitiesParkingWithPrice {% if not ownership.ownFacilitiesParkingPrice %}hide{% endif %}">
                             <label class="control-label">Desde</label>
                             <span class="font-blue step-span">{{ ownership.ownFacilitiesParkingPrice }} </span>
                             <label class="control-label">CUC</label>
                     </div>
-                    <div class="col-md-1 p-0 facilitiesParkingWithPrice">
+                    <div class="col-md-1 p-0 facilitiesParkingWithPrice {% if not ownership.ownFacilitiesParkingPrice %}hide{% endif %}">
                             <a id="btn-change-parking" class="btn btn-primary changeBtn" data-cmpdisabled=".facilitiesParkingWithPrice" data-cmpenabled=".facilitiesParkingPrice">Cambiar</a>
                     </div>
                         <div class="col-md-6 facilitiesParkingPrice hide">
@@ -92,7 +92,7 @@
                             <input type="number" min="0" name="facilitiesParking" id="facilitiesParking" class="form-control inline" value="{{ ownership.ownFacilitiesParkingPrice }}"/>
                         </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                         <img src="{{ asset('bundles/mycpcasamodule/img/jacuzze.png') }}" class="img-step4" >
                     <label class="control-label">Jacuzzi</label>
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                         <img src="{{ asset('bundles/mycpcasamodule/img/sauna.png') }}" class="img-step4" >
                     <label class="control-label">Sauna</label>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons pool step-form-icon"></i>
                     <label class="control-label">Piscina</label>
@@ -121,7 +121,7 @@
                     <input type="checkbox" class="js-switch" name="pool" id="pool" {% if ownership.ownWaterPiscina %}checked{% endif %}/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons bicycle step-form-icon"></i>
                     <label class="control-label">Parqueo de ciclos</label>
@@ -130,7 +130,7 @@
                     <input type="checkbox" class="js-switch" name="parking_bike" id="parking_bike" {% if ownership.ownDescriptionBicycleParking %}checked{% endif %}/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons dog step-form-icon"></i>
                     <label class="control-label">Mascotas</label>
@@ -139,7 +139,7 @@
                     <input type="checkbox" class="js-switch" name="pet" id="pet" {% if ownership.ownDescriptionPets %}checked{% endif %}/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons coat_hanger step-form-icon"></i>
                     <label class="control-label">Lavandería</label>
@@ -148,7 +148,7 @@
                     <input type="checkbox" class="js-switch" name="laundry" id="laundry" {% if ownership.ownDescriptionLaundry %}checked{% endif %}/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row m-t-10">
                     <div class="col-md-5">
                     <i class="glyphicons envelope step-form-icon"></i>
                     <label class="control-label">Email (Internet)</label>

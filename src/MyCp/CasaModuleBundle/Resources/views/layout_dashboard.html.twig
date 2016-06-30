@@ -106,14 +106,14 @@
                             <a class="navbar-minimalize minimalize-styl-2 pull-left hidden-sm hidden-md hidden-lg nav-label" href="#">
                                 <i class="ico_pinunpin glyphicons left_arrow"></i>
                             </a>
-                            <img src="{{ asset('img/mycp.png') }}" style="margin-top: 5px; margin-left: 25px;">
+                            <img class="img-mycp img-responsive" src="{{ asset('img/mycp.png') }}" style="margin-top: 5px; margin-left: 25px;">
 
                         </div>
                         <ul class="nav navbar-top-links navbar-right" style="background-color: #f3f3f3;height: 100%;margin-top: 0px">
                             <li class="dropdown" style="margin-top: 7px">
                                 <a class="dropdown-toggle {% if ownership is defined and ownership.ownCategory is not null %}{% if ownership.ownCategory =='Económica'  %}glyphicons white certificate{% endif %}{% if ownership.ownCategory =='Rango medio'  %}glyphicons white cup{% endif %}{% if ownership.ownCategory =='Premium'  %}glyphicons white crown{% endif %}{% endif %}" data-toggle="dropdown" href="#">
                                     <span class="pull-left" style="margin-right: 10px;font-size: 24px">{{ app.user.getName }}</span>
-                                    <span class="" style="margin-right: 10px;">{% if ownership is defined and ownership.ownCategory is not null %}{{ ownership.ownCategory }}{% endif %}</span>
+                                    <span class="hidden-xs" style="margin-right: 10px;">{% if ownership is defined and ownership.ownCategory is not null %}{{ ownership.ownCategory }}{% endif %}</span>
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -127,9 +127,13 @@
                         </ul>
 
                     </nav>
+                    <div id="show-help-mobile" style="display: none">
+                        <div class="fa fa-times-circle" id="close-help"></div>
+                        <div class="content-help"></div>
+                    </div>
                 </div>
 
-                <div id="content_id" class="{% if dashboard %}wrapper wrapper-content white-bg{% else %}row white-bg{% endif %}" style="padding-bottom:40px">
+                <div id="content_id" class="{% if dashboard is defined and dashboard %}wrapper wrapper-content white-bg{% else %}row white-bg{% endif %}" style="padding-bottom:40px">
                      {% block content %}
                          {% include 'MyCpCasaModuleBundle:Steps:wizard.html.twig' %}
                      {% endblock content %}

@@ -12,8 +12,26 @@ $(document).ready(function () {
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
         $('body').addClass('body-small')
+        $("body").toggleClass("mini-navbar");
     } else {
         $('body').removeClass('body-small')
+    }
+
+    if ( $(window).width() < 500 ){
+        $('img.help-icon').each(function(e){
+                $(this).click(function(s){
+                    if ( $(this).attr('data-href') != undefined ){
+                        var help = $("#"+$(this).attr('data-href')).clone()
+                        $("#show-help-mobile .content-help").empty()
+                        $("#show-help-mobile .content-help").append(help.html())
+                        $("#show-help-mobile").show()
+                    }
+                });
+        });
+        $("#close-help").click(function(s){
+            $("#show-help-mobile").hide()
+        });
+
     }
 
     // MetsiMenu

@@ -13,7 +13,27 @@ var Step5 = function () {
             Step5.saveFacilities(true);
         });
     }
-
+    $('span#breakfast').on('click', function(){
+       if($("#breakfast").is(':checked')){
+            data= $("input#breakfast").data('cmpenabled');
+            if(typeof(data) !== "undefined")
+            $(''+data).removeClass('hide');
+        }
+    });
+    $('span#dinner').on('click', function(){
+       if($("#dinner").is(':checked')){
+            data= $("input#dinner").data('cmpenabled');
+            if(typeof(data) !== "undefined")
+            $(''+data).removeClass('hide');
+        }
+    });
+    $('span#parking').on('click', function(){
+       if($("#parking").is(':checked')){
+            data= $("input#parking").data('cmpenabled');
+            if(typeof(data) !== "undefined")
+            $(''+data).removeClass('hide');
+        }
+    });
     return {
         //main function to initiate template pages
         init: function () {

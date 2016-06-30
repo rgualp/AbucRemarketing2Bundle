@@ -17,7 +17,6 @@ var Step7 = function () {
     var validatePassword = function() {
         var password = $("#password").val();
         var repeated = $("#repeated").val();
-
         if(password != "" || repeated != "")
         {
             if((password != "" && repeated == "") || (password == "" && repeated != "") || (password != "" && repeated != "" && password != repeated))
@@ -56,7 +55,21 @@ var Step7 = function () {
                 validate = validatePassword();
                 changePassword = validate;
             }
+           var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+            //Se muestra un texto a modo de ejemplo, luego va a ser un icono
+            if ($('#owner_email_2').val()!=''&&!emailRegex.test($('#owner_email_2').val())) {
+                validate=false;
+                $("#email2Errors").html("Email inválido.");
+                $("#email2Errors").removeClass("hide");
+                $('#owner_email_2').on('keyup', function(){
+                    if ($('#owner_email_2').val()!=''&&emailRegex.test($('#owner_email_2').val())) {
+                        $("#email2Errors").addClass("hide");
 
+                    }
+                    else $("#email2Errors").removeClass("hide");
+                });
+            }
+            else   $("#email2Errors").addClass("hide");
             if (validate) {
                 $("#loading").removeClass("hide");
                 var url = $("#submit-url").val();

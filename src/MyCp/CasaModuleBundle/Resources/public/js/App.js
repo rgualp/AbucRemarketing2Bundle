@@ -77,7 +77,7 @@ var App = function () {
      * Para cuando el usuario de click en la ayuda
      */
     var mouseHelp=function(){
-        $('.help-icon').on('click',function(){
+        $('.help-icon').on('click mouseover',function(){
             if(textHelp!=''){
                 $('#'+textHelp).css('background-color','transparent');
                 $('#'+$(this).data("href")).css('background-color','#e94b3d');

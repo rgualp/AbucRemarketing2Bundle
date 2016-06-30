@@ -292,6 +292,7 @@ class StepsController extends Controller
         $photosForm->handleRequest($request);
         if ($photosForm->isValid()) {
             $ownership->setPhotos(new ArrayCollection());
+           if(!empty($request->files->get('mycp_mycpbundle_ownership_step_photos'))){
            foreach ($request->files->get('mycp_mycpbundle_ownership_step_photos')['photos'] as $index => $file) {
                 if($request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['own_pho_id']=='') {
                    $desc = $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
@@ -383,6 +384,7 @@ class StepsController extends Controller
 //        }
             }
            $em->flush();
+           }
         }
 
         return new JsonResponse([

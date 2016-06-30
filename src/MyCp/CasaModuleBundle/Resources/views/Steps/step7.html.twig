@@ -5,16 +5,17 @@
 <div class="row row-eq-height">
     <div class="col-md-9 white-bg">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-1 col-xs-1">
                 <img src="{{ asset('bundles/mycpcasamodule/img/usuario.png') }}" class="img-title-step m-t-25">
             </div>
-            <div class="col-sm-11">
+            <div class="col-sm-11 col-xs-9">
                 <h2 class="font-blue">Paso 6</h2>
                 <h3 class="font-blue"> Ingrese otros datos de los propietarios </h3>
                 <h3 class="font-green"> Ya casi terminamos, solo un paso más...</h3>
             </div>
         </div>
         <div class="bg-gray m-t-20 col-md-11 font-black">
+            <form id="form_ownership_step7" action="" method="post">
             <div class="row">
                 <input type="hidden" name="submit-url" id="submit-url" value="{{ path("save_step7") }}"/>
                     <label class="control-label">Nombre del propietario principal</label>
@@ -36,7 +37,7 @@
                         <div class="col-sm-5">
                             <div class="input-group">
                                 <span class="input-group-addon">+53</span>
-                                <input name="own_mobile_number" id="own_mobile_number" type="text" class="form-control" maxlength="8" minlength="8" value="{{ (hasOwner) ? ownership.owners[0].owner.mobile: ownership.ownMobileNumber }}"/>
+                                <input name="own_mobile_number" id="own_mobile_number" type="text" class="form-control only-number" maxlength="8" minlength="8" value="{{ (hasOwner) ? ownership.owners[0].owner.mobile: ownership.ownMobileNumber }}"/>
                             </div>
 
                         </div>
@@ -56,7 +57,7 @@
                         <div class="col-sm-5">
                             <div class="input-group">
                                 <span class="input-group-addon" id="phoneCode">+53</span>
-                                <input name="own_phone_number" id="own_phone_number" type="text" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].owner.province.provPhoneCode: ownership.ownAddressProvince.provPhoneCode }}{{ (hasOwner) ? ownership.owners[0].owner.phone: ownership.ownPhoneNumber }}"/>
+                                <input name="own_phone_number" id="own_phone_number" type="text" class="form-control only-number" value="{{ (hasOwner) ? ownership.owners[0].owner.province.provPhoneCode: ownership.ownAddressProvince.provPhoneCode }}{{ (hasOwner) ? ownership.owners[0].owner.phone: ownership.ownPhoneNumber }}"/>
                             </div>
                         </div>
                         <div class="col-sm-6"></div>
@@ -132,7 +133,8 @@
                                 <i class="glyphicons envelope form-icon"></i>
                             </div>
                             <div class="col-sm-8">
-                                <input name="owner_email_2" id="owner_email_2" type="email" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].owner.email2: ownership.ownEmail2 }}"/>
+                                <input name="owner_email_2" id="owner_email_2" email="true"  type="email" class="form-control" value="{{ (hasOwner) ? ownership.owners[0].owner.email2: ownership.ownEmail2 }}"/>
+                                 <span class="red-text hide" id="email2Errors"></span>
                             </div>
                             <div class="col-sm-3"></div>
                         </div>
@@ -154,8 +156,9 @@
                         </div>
                     </div>
                 </div>
-        </div>
 
+
+            </form></div>
     </div>
     <div class="col-md-3 oneblue-bg col-content">
         <div id="help-step7-one" class="row">
