@@ -773,7 +773,7 @@ class StepsController extends Controller
             for ($i = 0; $i <= $days->d; $i++) {
 
                 $event = array(
-                    'title' => 'Reservada MYCP id' . $res['own_res_id'],
+                    'title' => 'Reserva CAS'.$res['gen_res_id'],
                     'start' => $fecha->format('Y-m-d'),
 //              'end'=>$unab->getUdToDate()->format('Y-m-d') ,
                     'className' => 'circle-info'
