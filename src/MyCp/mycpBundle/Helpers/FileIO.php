@@ -81,6 +81,12 @@ class FileIO  {
 
         return $response;
     }
+
+    public static function move($fromFilePath, $toFilePath)
+    {
+        if(file_exists($fromFilePath))
+            rename($fromFilePath, $toFilePath);
+    }
 }
 
 ?>
