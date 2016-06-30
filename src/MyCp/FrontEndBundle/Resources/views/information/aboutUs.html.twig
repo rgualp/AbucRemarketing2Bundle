@@ -1,8 +1,13 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_WHO_WE_ARE')%}
+
 {% block title %}
 {{"ABOUT_US" | trans}}
 {% endblock %}
+
+{% block metas %}
+    {{ get_metas('Quiénes somos', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
 
 {% set main_tab = 4 %}
 {% block content_nav_top_body %}

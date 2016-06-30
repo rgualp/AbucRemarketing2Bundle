@@ -4,6 +4,9 @@
 {{"MOST_VISITED_CITIES_TITLE"  | trans }}
 {% endblock %}
 
+{% block metas %}
+    {{ get_metas('Ciudades más visitadas', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
 
 {% block breadcrumbs %}
     <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>

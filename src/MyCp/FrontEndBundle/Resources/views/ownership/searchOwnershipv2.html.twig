@@ -27,9 +27,11 @@
 {% block title %}{{"SEARCH_RESULTS_PAGE_TITLE" | trans}}{% endblock %}
 
  {% block metas %}
-     {% if search_text=='la habana' %}
+     {#{{parent()}}#}
+     {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+     {#{% if search_text=='la habana' %}
          {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
-     {% endif %}
+     {% endif %}#}
  {% endblock metas %}
 
 {% set main_tab = 5 %}

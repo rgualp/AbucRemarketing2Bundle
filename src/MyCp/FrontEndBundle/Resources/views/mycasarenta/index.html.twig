@@ -4,6 +4,12 @@
     {{"MYCASARENTA_TITLE" | trans}}
 {% endblock %}
 
+{% set lang_code=app.session.get('app_lang_code')|lower %}
+{% block metas %}
+    {{ get_metas('App MyCasa Renta', lang_code)|raw }}
+    {#{{parent()}}#}
+{% endblock %}
+
 {% set main_tab = 4 %}
 {% block content_nav_top_body %}
     {{(("MyCasa Renta" | upper) ~ "_CONTENT") | trans}}
