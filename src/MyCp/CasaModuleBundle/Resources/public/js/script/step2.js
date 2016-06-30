@@ -13,6 +13,7 @@ var Step2 = function () {
             allowClear: true
         }
     );
+    if (typeof langs != 'undefined')
     $('#mycp_mycpbundle_ownership_step1_own_langs1').select2('val',langs);
     $('#mycp_mycpbundle_ownership_step1_own_langs1').on("select2:select", function (e) {
         //console.log("select2:select", e.params.data.id);

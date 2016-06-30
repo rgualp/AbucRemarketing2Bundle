@@ -6,6 +6,10 @@
             min-height: 200px;
             /*padding-left: 15px;*/
         }
+        .glyphicons.step-form-icon {
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
     </style>
 {% endblock %}
 {% block title %}Mis reservas{% endblock title %}
@@ -28,62 +32,70 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label class="control-label">No. de la reserva</label>
-                                    <div>
-                                     <i class="glyphicons clock step-form-icon"></i>
-                                     <input type="text" name="filter_offer_number" id="filter_offer_number" value="{{ filter_offer_number }}"/>
+                                    <div class="row">
+                                     <div class="col-sm-1"><i class="glyphicons clock step-form-icon"></i></div>
+                                        <div class="col-sm-10">
+                                     <input type="text" class="form-control" name="filter_offer_number" id="filter_offer_number" value="{{ filter_offer_number }}"/></div>
                                 </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="control-label">Estado</label>
-                                    <div>
-                                        <i class="glyphicons tag step-form-icon"></i>
-                                        <select id="filter_status" name="filter_status" class="input-block-level">
+                                    <div class="row">
+                                        <div class="col-sm-1">  <i class="glyphicons tag step-form-icon"></i></div>
+                                        <div class="col-sm-10">     <select id="filter_status" name="filter_status" class="input-block-level form-control">
                                             <option></option>
                                             <option {% if filter_status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') %} selected="true" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')}}">Reservada</option>
                                             <option {% if filter_status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %} selected="true" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')}}">Cancelada</option>
 
-                                        </select>
+                                        </select></div>
                                 </div>
                             </div>
 
                         <div class="col-sm-4">
                             <label class="control-label">Fecha de la reserva</label>
-                            <div>
-                                <i class="glyphicons calendar step-form-icon"></i>
-                                <input id="filter_date_reserve" name="filter_date_reserve" type="text" class="datepicker input-block-level" value="{{filter_date_reserve}}"/>
+                            <div class="row">
+                                <div class="col-sm-1">  <i class="glyphicons calendar step-form-icon"></i></div>
+                                <div class="col-sm-10"> <input id="filter_date_reserve" name="filter_date_reserve" type="text" class="datepicker input-block-level form-control" value="{{filter_date_reserve}}"/>
+                              </div>
                             </div>
                         </div>
                      </div>
                             <div class="row">
                             <div class="col-sm-4">
-                                <label class="control-label">Desde</label>
-                                <div>
-                                    <i class="glyphicons calendar step-form-icon"></i>
-                                    <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{filter_date_from}}"/>
-                                </div>
+                                <label class="control-label">Fecha de llegada</label>
+                                <div class="row">
+                                    <div class="col-sm-1">  <i class="glyphicons calendar step-form-icon"></i></div>
+                                    <div class="col-sm-10">  <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level form-control" value="{{filter_date_from}}"/>
+                                  </div>
+                                    </div>
                             </div>
                             <div class="col-sm-4">
-                                <label class="control-label">Hasta</label>
-                                <div>
-                                    <i class="glyphicons calendar step-form-icon"></i>
-                                    <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level" value="{{filter_date_to}}"/>
+                                <label class="control-label">Fecha de salida</label>
+                                <div class="row">
+                                    <div class="col-sm-1"> <i class="glyphicons calendar step-form-icon"></i></div>
+                                    <div class="col-sm-10">   <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level form-control" value="{{filter_date_to}}"/>
+                              </div>
                                 </div>
                             </div>
 
                             <div class="col-sm-4">
-                                <br/><br/>
-                                <a id="btnFilter" class="btn btn-primary dim m-r-5" href="javascript:action_submit();" >Filtrar</a>
-                                <a href="{{ path('my_casa_module_reservations') }}" class="btn btn-default dim">Limpiar</a>
+                                {#<br/><br/>#}
+                                <a id="btnFilter" class="btn btn-primary dim m-r-5 m-t-30" href="javascript:action_submit();" >Filtrar</a>
+                                <a href="{{ path('my_casa_module_reservations') }}" class="btn btn-default dim m-t-30">Limpiar</a>
                             </div>
                         </div>
                         </form>
 
                         {% if reservations %}
-                        <div class="row" style="margin-top: 10px;">
+                        <div class="row m-t-20">
+                            <div class="col-md-7 m-t-10">
                             <div class="text-center font-blue">
                                 {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}                             </div>
+                            </div>
+                            <div class="col-md-5">
                             <div class="pull-right">
-                                Organizar por:
+                                <div class="col-sm-5">
+                                <span class="font-blue pull-right m-t-10"> Organizar por:</span></div>
                                 {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
                                 {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
                                 {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
@@ -96,9 +108,12 @@
                                 {% if sort_by=='' %}
                                     {% set sort_by=0 %}
                                 {% endif %}
-                                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                <div class="col-sm-7">
+                                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right form-control">
                                     {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::RESERVATION_LODGING_MODULE')})) }}
                                 </select>
+                                </div>
+                            </div>
                             </div>
                         </div>
 
@@ -165,8 +180,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <
                         {% else %}
                             <p> <div class="alert alert-block">No hay reservas disponibles.</div></p>
                         {% endif %}

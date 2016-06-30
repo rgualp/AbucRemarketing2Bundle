@@ -492,9 +492,20 @@ class StepsController extends Controller
     public function showPropertyAction(Request $request)
     {
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        if($ownership->getOwnLangs()){
+            if(substr($ownership->getOwnLangs(),0,1))
+                $langs[]='1000';
+            if(substr($ownership->getOwnLangs(),1,1))
+                $langs[]='0100';
+            if(substr($ownership->getOwnLangs(),2,1))
+                $langs[]='0010';
+            if(substr($ownership->getOwnLangs(),3,1))
+                $langs[]='0001';
+        }
         return $this->render('MyCpCasaModuleBundle:Steps:property.html.twig', array(
             'ownership'=>$ownership,
-            'dashboard'=>true
+            'dashboard'=>true,
+            'langs'=>(isset($langs))?$langs:array()
         ));
     }
     /**

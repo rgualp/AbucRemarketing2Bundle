@@ -1039,8 +1039,7 @@ a.green-link{
         top:0;
         font-size: 24px;
     }
-
-    .padding-xs-0{
+   .padding-xs-0{
         padding: 0 !important;
     }
 
@@ -1106,5 +1105,9 @@ a.green-link{
     #nav-tabs-backend li a{
         padding: 2px;
         font-size: 12px;
+    }
+
+    .table-hover > tbody > tr:hover{
+        cursor: pointer;
     }
 }
