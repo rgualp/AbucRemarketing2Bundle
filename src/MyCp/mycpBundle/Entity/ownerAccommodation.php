@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * faq
  *
- * @ORM\Table(name="ownerAccommodation")
+ * @ORM\Table(name="owneraccommodation")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownerAccommodationRepository")
  */
 class ownerAccommodation
