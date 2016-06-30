@@ -9,20 +9,20 @@
 {% endblock %}
 {% block content %}
     <div class="row row-eq-height">
-        <div class="col-md-10 white-bg">
+        <div class="col-md-10 col-xs-10 white-bg">
             <div class="row">
-                <div class="col-sm-1">
+                <div class="col-sm-1 col-xs-3">
                     <img src="{{ asset('bundles/mycpcasamodule/img/Disponibilidad.png') }}" class="img-title-step m-t-10" style="margin-left: 20px;">
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-8 col-xs-6">
                     <h2 class="font-blue">Disponibilidad</h2>
                 </div>
-                <div class="col-sm-3" style="padding-left: 0;">
+                <div class="col-sm-3 col-xs-9" style="padding-left: 0;">
                     <h3 class="font-blue" style="margin-top: 15px;">Gestione la disponibilidad de sus habitaciones</h3>
                 </div>
             </div>
-     <div class="col-sm-12 m-t-20">
-         <div class="col-sm-9">
+     <div class="col-sm-12 padding-xs-0 m-t-20">
+         <div class="col-sm-9 padding-xs-0">
              <div class="tabbable font-black tab-mcp">
                  <ul id="nav-tabs-dispo" class="nav nav-tabs mcp">
                      {% for room in ownership.ownRooms %}
@@ -42,7 +42,7 @@
                          </div>
                              </div>
                          </div>
-                             <div class="row m-t-20 m-l-25">
+                             <div class="row leyend-cal m-t-20 m-l-25">
                                  <div class="col-md-4">
                                      <div class="row">
                                          <div class="col-md-1"><div class="circle circle-warning"></div> </div><span class="col-md-10">{{ 'No disponible'|upper }}</span>
@@ -72,8 +72,8 @@
                      <div class="form-group row">
                          <label class="control-label">Habitación</label>
                          <div class="row">
-                             <div class="col-sm-2"><i class="glyphicons keys form-icon pull-right"></i></div>
-                             <div class="col-sm-10">
+                             <div class="col-sm-2 col-xs-2"><i class="glyphicons keys form-icon pull-right"></i></div>
+                             <div class="col-sm-10 col-xs-9">
                                  <select class="form-control" name="room" id="">
                                      {% for room in ownership.ownRooms %}
                                      <option value="{{ room.roomId }}">
@@ -87,8 +87,8 @@
                      <div class="form-group row">
                          <label class="control-label">Desde</label>
                          <div class="row">
-                             <div class="col-sm-2"><i class="glyphicons calendar form-icon pull-right"></i></div>
-                             <div class="col-sm-10">
+                             <div class="col-sm-2 col-xs-2"><i class="glyphicons calendar form-icon pull-right"></i></div>
+                             <div class="col-sm-10 col-xs-9">
                               <input type="text" id="date_from" name="date_from" class="form-control">
                              </div>
                              </div>
@@ -96,8 +96,8 @@
                      <div class="form-group row">
                          <label class="control-label">Hasta</label>
                          <div class="row">
-                             <div class="col-sm-2"><i class="glyphicons calendar form-icon pull-right"></i></div>
-                             <div class="col-sm-10">
+                             <div class="col-sm-2 col-xs-2"><i class="glyphicons calendar form-icon pull-right"></i></div>
+                             <div class="col-sm-10 col-xs-9">
                                  <input type="text" id="date_to"  name="date_to" class="form-control">
                              </div>
                          </div>
@@ -106,8 +106,8 @@
                      <div class="form-group row">
                          <label class="control-label">Estado</label>
                          <div class="row">
-                             <div class="col-sm-2"><i class="glyphicons tag form-icon pull-right"></i></div>
-                             <div class="col-sm-10">
+                             <div class="col-sm-2 col-xs-2"><i class="glyphicons tag form-icon pull-right"></i></div>
+                             <div class="col-sm-10 col-xs-9">
                                  <select class="form-control" name="status" id="">
                                          <option value="0">No disponible</option>
                                          <option value="1">Disponible</option>
@@ -115,7 +115,7 @@
                              </div>
                          </div>
                      </div>
-                     <div class="row m-t-30 text-center">
+                     <div class="row m-t-30 text-center margin-top-xs-10">
                      <button type="submit" class="btn btn-primary dim">Guardar</button>
                      <button type="reset" class="btn btn-default dim">Cancelar</button>
                      </div>

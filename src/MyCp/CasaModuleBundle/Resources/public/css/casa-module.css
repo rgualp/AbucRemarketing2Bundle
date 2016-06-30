@@ -793,7 +793,7 @@ a.green-link{
         z-index: 9999;
         right: 0;
     }
-    .tab-content .oneblue-bg, #content_id .oneblue-bg{
+    #content_id .oneblue-bg{
         position: absolute;
     }
 
@@ -802,10 +802,16 @@ a.green-link{
         width: 100%;
     }
 
-    .tab-content .col-sm-8{
+    .tab-content .col-sm-8, .wrapper-content .col-sm-8{
         width: 100%;
         padding: 0;
         float: left;
+    }
+
+    .wrapper-content .facilities .col-sm-1, .wrapper-content .facilities .col-md-1{
+        float: left;
+        width: 10%;
+        padding: 0;
     }
 
     .tab-content .col-sm-1, .tab-content .col-md-1{
@@ -814,25 +820,26 @@ a.green-link{
         padding: 0;
     }
 
-    .tab-content .col-xs-1{
+    .tab-content .col-xs-1, .wrapper-content .col-xs-1{
         padding: 0px 15px !important;
         width: 20%;
     }
 
-    .tab-content .col-sm-5{
+    .tab-content .col-sm-5, .wrapper-content .col-sm-5{
         float: left;
         padding: 0;
         width: 43%;
     }
 
-    .tab-content .col-md-5{
+    .tab-content .col-md-5, .wrapper-content .col-md-5{
         float: left;
         padding: 0;
         width: 38%;
         padding-left: 18px;
     }
 
-    .tab-content .col-sm-10, .tab-content .col-md-10{
+    .tab-content .col-sm-10, .tab-content .col-md-10,
+    .wrapper-content .col-sm-10, .wrapper-content .col-md-10{
         float: left;
         float: left;
         width: 90%;
@@ -840,7 +847,8 @@ a.green-link{
         padding-left: 5px;
     }
 
-    .tab-content .col-md-2{
+    .tab-content .col-md-2,
+    .wrapper-content .col-md-2{
         width: 21%;
         padding-left: 20px;
         float: left;
@@ -852,7 +860,8 @@ a.green-link{
         float: left;
     }
 
-    .tab-content .col-md-3{
+    .tab-content .col-md-3,
+    .wrapper-content .col-md-3{
         width: 70%;
         padding-left: 20px;
         float: left;
@@ -864,15 +873,17 @@ a.green-link{
         float: left;
     }
 
-    .tab-content .col-md-11{
-
+    #content_id .col-xs-10{
+        margin-top: 80px;
+        width: 100%;
     }
 
     .text-price-step3 {
         font-size: 14px;
     }
 
-    .tab-content .form-group{
+    .tab-content .form-group,
+    .wrapper-content .form-group{
         margin-bottom: 20px !important;
         margin-top: 15px !important;
         margin-left: 0;
@@ -897,6 +908,10 @@ a.green-link{
     .btn{
         font-size: 10px;
     }
+    .btn i{
+        font-size: 10px;
+    }
+
     label {
         font-size: 14px;
         width: 70%;
@@ -1023,5 +1038,73 @@ a.green-link{
         padding: 5px;
         top:0;
         font-size: 24px;
+    }
+
+    .padding-xs-0{
+        padding: 0 !important;
+    }
+
+    .margin-top-xs-10{
+       margin-top: 10px !important;
+    }
+
+    #nav-tabs-dispo{
+
+    }
+    #nav-tabs-dispo li{
+
+    }
+    #nav-tabs-dispo li a{
+        font-size: 9px;
+        padding: 0px 0px;
+        word-break: break-word;
+        width: 51px;
+        text-align: center;
+        line-height: 1.4;
+    }
+
+    .fc-toolbar h2 {
+        font-size: 18px;
+    }
+
+    .leyend-cal{
+        margin: 5px 0;
+    }
+    .leyend-cal span{
+        font-size: 11px;
+        margin-left: 2px;
+        width: 84% !important;
+        margin-bottom: 11px;
+    }
+
+    body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-second-level, .mini-navbar .nav li:focus > .nav-second-level {
+        min-width: 60px;
+    }
+
+    ul.paginator {
+        margin: 0;
+        padding: 0;
+    }
+    ul.paginator > li:first-child, ul.paginator > li:last-child {
+        display: none;
+    }
+
+    .footer {
+        position: relative;
+    }
+
+    .mini-navbar li.active .nav-second-level {
+        left: 70px;
+    }
+
+    #nav-tabs-backend{
+
+    }
+    #nav-tabs-backend li{
+
+    }
+    #nav-tabs-backend li a{
+        padding: 2px;
+        font-size: 12px;
     }
 }

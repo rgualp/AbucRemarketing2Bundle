@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-11 m-l-10 bg-gray font-black" style="padding: 0">
+                <div class="col-md-11 col-xs-11 m-l-10 bg-gray font-black" style="padding: 0">
                     <div class="row" style="margin-left: 0px">
                         <div class="col-md-8"><h2 class="font-blue">{{ ownership.ownName }}</h2></div>
                         <div class="col-md-4">
@@ -23,15 +23,15 @@
                         </div>
                     </div>
                     <div class="row" style="margin-left: 0px">
-                        <div class="col-md-1">
+                        <div class="col-md-1 col-xs-2">
                             <div class="{% if ownership is defined and ownership.ownCategory is not null %}{% if ownership.ownCategory =='Económica'  %}glyphicons blue certificate{% endif %}{% if ownership.ownCategory =='Rango medio'  %}glyphicons green cup{% endif %}{% if ownership.ownCategory =='Premium'  %}glyphicons orange crown{% endif %}{% endif %}"></div>
                         </div>
-                        <div class="col-md-6 p-0">
+                        <div class="col-md-6 col-xs-6 p-0">
                             <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">{% if ownership is defined and ownership.ownCategory is not null %}{{ ownership.ownCategory }}{% endif %}</span>
                         </div>
                     </div>
-                    <div class="row m-l-10">
-                        <div class="col-md-6">
+                    <div class="row col-xs-12 m-l-10">
+                        <div class="col-md-6 col-xs-12">
                             <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">{{ ownership.ownMcpCode }}</span>
                         </div>
                         <div class="col-md-6 text-center">
