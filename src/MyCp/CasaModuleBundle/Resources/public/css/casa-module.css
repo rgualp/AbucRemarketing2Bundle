@@ -793,11 +793,11 @@ a.green-link{
         z-index: 9999;
         right: 0;
     }
-    .tab-content .oneblue-bg{
+    .tab-content .oneblue-bg, #content_id .oneblue-bg{
         position: absolute;
     }
 
-    .tab-content .col-md-9{
+    .tab-content .col-md-9, #content_id .col-md-9{
         margin-top: 80px;
         width: 100%;
     }

@@ -12,7 +12,7 @@
 
 {% block content %}
     <div class="row row-eq-height">
-                <div class="col-md-9 white-bg">
+                <div class="col-md-9 col-xs-12 white-bg">
                     <div class="row">
                     <div class="col-sm-1">
                         <img src="{{ asset('bundles/mycpcasamodule/img/Reserva.png') }}" class="img-title-step m-t-25">
@@ -103,7 +103,8 @@
                         </div>
 
                         <div class="row">
-                            <table class="table table-hover table-casa" style="font-size: 12px">
+                        <div class="table-responsive">
+                                                    <table class="table table-hover table-casa" style="font-size: 12px">
                                 <thead>
                                 <tr>
                                     <th>Fecha</th>
@@ -129,25 +130,27 @@
                                 {%set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED')%}
 
                                 {% for reservation in reservations %}
-                                    <tr>
-                                        <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
-                                        <td>{{reservation.gen_res_id | getCASId}}</td>
-                                        <td>{{reservation[1]}}</td>
-                                        <td>{{reservation[3]+reservation[5]}}</td>
-                                        <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
-                                        <td>{{reservation[9]}}</td>
-                                        <td>{{ reservation.gen_res_total_in_site }} CUC</td>
-                                        <td>
-                                            {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
-                                        </td>
-                                        <td style="text-align: right">
-                                            <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
-                                        </td>
-                                    </tr>
-                                    {% set flag = flag + 1%}
-                                {% endfor %}
+                            <tr>
+                                <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
+                                <td>{{reservation.gen_res_id | getCASId}}</td>
+                                <td>{{reservation[1]}}</td>
+                                <td>{{reservation[3]+reservation[5]}}</td>
+                                <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
+                                <td>{{reservation[9]}}</td>
+                                <td>{{ reservation.gen_res_total_in_site }} CUC</td>
+                                <td>
+                                    {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
+                                </td>
+                                <td style="text-align: right">
+                                    <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
+                                </td>
+                            </tr>
+                            {% set flag = flag + 1%}
+                        {% endfor %}
                                 </tbody>
                             </table>
+
+</div>
                             <div class="row text-center">
                                 <div class="paginator-cont">
                                     {{ simple_paginator_render('my_casa_module_reservations',null,{

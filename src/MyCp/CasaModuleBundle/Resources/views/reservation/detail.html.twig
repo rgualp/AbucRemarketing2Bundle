@@ -48,43 +48,46 @@
                         {%set total_price = total_price + roomReservation.getOwnResTotalInSite%}
                     {%endif%}
                 <div id="hab{{ roomReservation.ownResId }}" class="tab-pane fade {% if loop.index0 == 0 %}active{% endif %} in">
-                    <table class="table table-hover table-casa">
-                        <tr>
-                            <td colspan="2">{{rooms[loop.index0].getRoomType}}</td>
-                        </tr>
-                        <tr>
-                            <td>Adultos</td>
-                            <td>{{ roomReservation.getOwnResCountAdults}}</td>
-                        </tr>
-                        <tr>
-                            <td>Niños</td>
-                            <td>{{ roomReservation.getOwnResCountChildrens}}</td>
-                        </tr>
-                        <tr>
-                            <td>Entrada</td>
-                            <td>{{ roomReservation.getOwnResReservationFromDate | date("d/m/Y")}}</td>
-                        </tr>
-                        <tr>
-                            <td>Salida</td>
-                            <td>{{ roomReservation.getOwnResReservationToDate | date("d/m/Y")}}</td>
-                        </tr>
-                        <tr>
-                            <td>Noches</td>
-                            <td>{{ nights[loop.index0]}}</td>
-                        </tr>
-                        <tr>
-                            <td>Precio Total</td>
-                            <td>{{roomReservation.getOwnResTotalInSite}} CUC</td>
-                        </tr>
-                        <tr>
-                            <td>Comisión MyCP</td>
-                            <td>{{ (roomReservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent * roomReservation.getOwnResTotalInSite/100) | number_format(2) }} CUC</td>
-                        </tr>
-                        <tr>
-                            <td>Pago en casa</td>
-                            <td>{{(roomReservation.getOwnResTotalInSite * (1 - roomReservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)) | number_format(2)}} CUC</td>
-                        </tr>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-casa">
+                            <tr>
+                                <td colspan="2">{{rooms[loop.index0].getRoomType}}</td>
+                            </tr>
+                            <tr>
+                                <td>Adultos</td>
+                                <td>{{ roomReservation.getOwnResCountAdults}}</td>
+                            </tr>
+                            <tr>
+                                <td>Niños</td>
+                                <td>{{ roomReservation.getOwnResCountChildrens}}</td>
+                            </tr>
+                            <tr>
+                                <td>Entrada</td>
+                                <td>{{ roomReservation.getOwnResReservationFromDate | date("d/m/Y")}}</td>
+                            </tr>
+                            <tr>
+                                <td>Salida</td>
+                                <td>{{ roomReservation.getOwnResReservationToDate | date("d/m/Y")}}</td>
+                            </tr>
+                            <tr>
+                                <td>Noches</td>
+                                <td>{{ nights[loop.index0]}}</td>
+                            </tr>
+                            <tr>
+                                <td>Precio Total</td>
+                                <td>{{roomReservation.getOwnResTotalInSite}} CUC</td>
+                            </tr>
+                            <tr>
+                                <td>Comisión MyCP</td>
+                                <td>{{ (roomReservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent * roomReservation.getOwnResTotalInSite/100) | number_format(2) }} CUC</td>
+                            </tr>
+                            <tr>
+                                <td>Pago en casa</td>
+                                <td>{{(roomReservation.getOwnResTotalInSite * (1 - roomReservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)) | number_format(2)}} CUC</td>
+                            </tr>
+                        </table>
+
+                    </div>
                 </div>
                 {% endfor %}
             </div>
