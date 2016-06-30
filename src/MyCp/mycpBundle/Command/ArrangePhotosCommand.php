@@ -38,7 +38,7 @@ class ArrangePhotosCommand extends ContainerAwareCommand {
         foreach($provinces as $prov)
         {
             FileIO::createDirectoryIfNotExist($dir_ownership.$prov->getProvCode());
-            FileIO::createDirectoryIfNotExist($dir_ownership_thumbs."/".$prov->getProvCode());
+            FileIO::createDirectoryIfNotExist($dir_ownership_thumbs.$prov->getProvCode());
             FileIO::createDirectoryIfNotExist($dir_ownership."/originals/".$prov->getProvCode());
             $ownPhotos = $this->getAccommodations($prov->getProvId());
             $currentOwnId = 0;
@@ -51,6 +51,8 @@ class ArrangePhotosCommand extends ContainerAwareCommand {
                     $currentOwnId = $ownPhoto->getOwnPhoOwn()->getOwnId();
                     $newPathToPhoto = $prov->getProvCode()."/".$ownPhoto->getOwnPhoOwn()->getOwnMcpCode()."/";
                     FileIO::createDirectoryIfNotExist($dir_ownership.$newPathToPhoto);
+                    FileIO::createDirectoryIfNotExist($dir_ownership."/originals/".$newPathToPhoto);
+                    FileIO::createDirectoryIfNotExist($dir_ownership_thumbs.$newPathToPhoto);
                 }
 
                 FileIO::move($dir_ownership.$ownPhoto->getOwnPhoPhoto()->getPhoName(), $dir_ownership.$newPathToPhoto.$photo->getPhoName());
@@ -58,7 +60,6 @@ class ArrangePhotosCommand extends ContainerAwareCommand {
                 FileIO::move($dir_ownership."originals/".$ownPhoto->getOwnPhoPhoto()->getPhoName(), $dir_ownership."originals/".$newPathToPhoto.$photo->getPhoName());
 
                 $output->writeln($newPathToPhoto.$photo->getPhoName());
-
 
                 $photo->setPhoName($newPathToPhoto.$photo->getPhoName());
 
