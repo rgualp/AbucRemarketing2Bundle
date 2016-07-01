@@ -96,13 +96,19 @@ class ownershipPhotoRepository extends EntityRepository {
             $em->persist($ownership);
         }
         else {
+            $newPathToPhoto = $ownership->getOwnAddressProvince()->getProvCode()."/".$ownership->getOwnMcpCode();
+            FileIO::createDirectoryIfNotExist($dir.$newPathToPhoto);
+            FileIO::createDirectoryIfNotExist($dir."/originals/".$newPathToPhoto);
+            FileIO::createDirectoryIfNotExist($dir_thumbs.$newPathToPhoto);
+
             $fileName = uniqid('ownership-') . '-photo.jpg';
-            $file->move($dir, $fileName);
-            $photo->setPhoName($fileName);
+            $file->move($dir."/".$newPathToPhoto, $fileName);
+            $photo->setPhoName($newPathToPhoto."/".$fileName);
+            $photo->setPhoNotes($fileName);
 
             //Creando thumbnail, redimensionando y colocando marca de agua
-            Images::createThumbnail($dir . $fileName, $dir_thumbs . $fileName, $thumbs_size);
-            Images::resizeAndWatermark($dir, $fileName, $dir_watermark, $photo_size, $container);
+            Images::createThumbnail($dir.$newPathToPhoto."/". $fileName, $dir_thumbs .$newPathToPhoto."/" . $fileName, $thumbs_size);
+            Images::resizeAndWatermark($dir.$newPathToPhoto, $fileName, $dir_watermark, $photo_size, $container, $newPathToPhoto);
 
             $ownershipPhoto->setOwnPhoOwn($ownership);
             $ownershipPhoto->setOwnPhoPhoto($photo);
