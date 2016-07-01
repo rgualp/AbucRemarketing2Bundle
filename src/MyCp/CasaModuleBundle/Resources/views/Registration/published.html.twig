@@ -1,0 +1,24 @@
+{% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
+{% block alerts %}
+{% endblock %}
+{% block content %}
+    <style>
+        p{
+            font-size: 16px;
+        }
+    </style>
+        <div class="text-center animated fadeInDown" style="margin-top: 170px;">
+        <div>
+            <img src="{{ asset('bundles/mycpcasamodule/img/hand-ok.png') }}">
+        </div>
+        <h2 class="font-blue">Gracias. Ha sido un éxito</h2>
+         <p>Sus datos se encuentran en la plataforma de MyCasaParticular.com</p>
+         <p>Será un placer hacer negocios juntos. Bienvenido!</p>
+            <br>
+            <p class="font-blue">Si lo desea, compruebe sus datos publicados!</p>
+            <br>
+            <a href="{{ path('frontend_welcome.es') }}" class="btn btn-primary dim" style="margin-bottom: 20px;">Ver casa en el sitio</a>
+            <br>
+            <a href="{{ path('my_cp_casa_module_homepage') }}" style="font-size: 16px; color: #83b65c;"><i class="fa fa-arrow-left"></i> Volver a su cuenta</a>
+    </div>
+{% endblock %}

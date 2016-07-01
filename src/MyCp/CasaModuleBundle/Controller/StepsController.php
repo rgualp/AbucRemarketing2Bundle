@@ -407,6 +407,46 @@ class StepsController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="casa_publish_ownership", path="/ownership/publish")
+     */
+    public function publishOwnershipAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $templatingService = $this->container->get('templating');
+        $emailSubject='Proceso de registro de propiedad completado';
+        $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership'=>$ownership,'user_full_name'=>$this->getUser()->getUserUserName().' '.$this->getUser()->getUserLastName()));
+//        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
+        $service_email = $this->get('Email');
+        $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
+        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array());
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="casa_contact_services", path="/ownership/services/{id}")
+     */
+    public function contactForServicesAction(Request $request, $id)
+    {   $services=array(
+        '','Contenido profesional (70 CUC)', 'Fotografía profesional (160 CUC)','Video promocional (195 CUC)','Paquete Contenido profesional + Video promocional (235 CUC)',
+        'Paquete Fotografía profesional + Video promocional (320 CUC)','Paquete Contenido profesional + Fotografía profesional + Video promocional (380 CUC)'
+    );
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $templatingService = $this->container->get('templating');
+        $emailSubject='Solicitud de servicios profesionales';
+        $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:services-mail.html.twig', array('user'=>$this->getUser(), 'servicio'=>$services[$id]));
+//        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
+        $service_email = $this->get('Email');
+        $service_email->sendEmail($emailSubject, $this->getUser()->getUsername(), $this->getUser()->getUsername(), 'sales@mycasaparticular.com', $body);
+//        $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
+        return $this->render('MyCpCasaModuleBundle:Registration:services_success.html.twig', array());
+    }
+
+    /**
      * Para enviar el correo que se desactivo o elimino una habitacion
      * @return bool
      */

@@ -1110,4 +1110,7 @@ a.green-link{
     .table-hover > tbody > tr:hover{
         cursor: pointer;
     }
+    .col-content {
+        font-size: 16px;
+    }
 }

@@ -107,6 +107,10 @@ var App = function () {
             $($(this).data("cmpenabled")).removeClass('hide');
             $(this).addClass('hide');
         });
+        $('.changeBtn1').on('click',function(){
+            $($(this).data("cmpdisabled")).addClass('hide');
+            $($(this).data("cmpenabled")).removeClass('hide');
+        });
     }
     /**
      * Funcion para validar la entrada de numeros
