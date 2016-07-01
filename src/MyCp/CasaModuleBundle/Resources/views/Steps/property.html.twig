@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-11 m-l-10 bg-gray font-black" style="padding: 0">
+                <div class="col-md-11 col-xs-11 m-l-10 bg-gray font-black" style="padding: 0">
                     <div class="row" style="margin-left: 0px">
                         <div class="col-md-8"><h2 class="font-blue">{{ ownership.ownName }}</h2></div>
                         <div class="col-md-4">
@@ -23,15 +23,15 @@
                         </div>
                     </div>
                     <div class="row" style="margin-left: 0px">
-                        <div class="col-md-1">
+                        <div class="col-md-1 col-xs-2">
                             <div class="{% if ownership is defined and ownership.ownCategory is not null %}{% if ownership.ownCategory =='Económica'  %}glyphicons blue certificate{% endif %}{% if ownership.ownCategory =='Rango medio'  %}glyphicons green cup{% endif %}{% if ownership.ownCategory =='Premium'  %}glyphicons orange crown{% endif %}{% endif %}"></div>
                         </div>
-                        <div class="col-md-6 p-0">
+                        <div class="col-md-6 col-xs-6 p-0">
                             <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">{% if ownership is defined and ownership.ownCategory is not null %}{{ ownership.ownCategory }}{% endif %}</span>
                         </div>
                     </div>
-                    <div class="row m-l-10">
-                        <div class="col-md-6">
+                    <div class="row col-xs-12 m-l-10">
+                        <div class="col-md-6 col-xs-12">
                             <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">{{ ownership.ownMcpCode }}</span>
                         </div>
                         <div class="col-md-6 text-center">
@@ -46,31 +46,31 @@
             <div class="row m-l-10">
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('show_casa') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px">Datos de su propiedad</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-dashboard m-t-25" height="100px"><span style="font-size: 16px">Datos de su propiedad</span>
                     </a>
                 </div>
 
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('show_description') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Descripción</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-dashboard m-t-25" height="100px"><span style="font-size: 16px;padding: 18px">Descripción</span>
                     </a>
                 </div>
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('show_room') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Habitaciones</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Habitaciones.png') }}" class="img-title-dashboard m-t-25" height="100px"><span style="font-size: 16px;padding: 18px">Habitaciones</span>
                     </a>
                 </div>
             </div>
             <div class="row m-l-10">
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path("show_facilities") }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Facilidades</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Facilidades.png') }}" class="img-title-dashboard m-t-25" height="100px"><span style="font-size: 16px;padding: 18px">Facilidades</span>
                     </a>
                 </div>
 
                 <div class="infont col-md-4 col-sm-4">
                     <a href="{{ path('casa_show_photos') }}">
-                        <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-dashboard m-t-25" width="50px"><span style="font-size: 12px;padding: 18px">Imágenes</span>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-dashboard m-t-25" height="" h="100px"><span style="font-size: 16px;padding: 18px">Imágenes</span>
                     </a>
                 </div>
             </div>

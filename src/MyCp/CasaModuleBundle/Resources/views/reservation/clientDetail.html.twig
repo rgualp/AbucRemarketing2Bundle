@@ -37,43 +37,44 @@
         </div>
         <div class="row m-t-20" style="padding-left: 40px">
             <h3 class="font-blue">Reservas de {{ client.userCompleteName }}</h3>
-
-            <table class="table table-hover table-casa" style="font-size: 12px; width:95%">
-                <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Fecha</th>
-                    <th>No. Reserva</th>
-                    <th>Habit.</th>
-                    <th>Adult.</th>
-                    <th>Niños</th>
-                    <th>Llegada</th>
-                    <th>Noches</th>
-                    <th>Precio</th>
-                    <th>Estado</th>
-                    <th></th>
-                </tr>
-                </thead>
-                {% for reservation in reservations %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
-                        <td>{{reservation.gen_res_id | getCASId}}</td>
-                        <td>{{reservation.rooms}}</td>
-                        <td>{{reservation.adults}}</td>
-                        <td>{{reservation.childrens}}</td>
-                        <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
-                        <td>{{reservation.totalNights}}</td>
-                        <td>{{reservation.gen_res_total_in_site}} CUC</td>
-                        <td>
-                            {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
-                        </td>
-                        <td style="text-align: right">
-                            <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+<div class="table-responsive">
+    <table class="table table-hover table-casa" style="font-size: 12px; width:95%">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th>No. Reserva</th>
+            <th>Habit.</th>
+            <th>Adult.</th>
+            <th>Niños</th>
+            <th>Llegada</th>
+            <th>Noches</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+        </thead>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
+                <td>{{reservation.gen_res_id | getCASId}}</td>
+                <td>{{reservation.rooms}}</td>
+                <td>{{reservation.adults}}</td>
+                <td>{{reservation.childrens}}</td>
+                <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
+                <td>{{reservation.totalNights}}</td>
+                <td>{{reservation.gen_res_total_in_site}} CUC</td>
+                <td>
+                    {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
+                </td>
+                <td style="text-align: right">
+                    <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
         </div>
     </div>
 </div>

@@ -13,6 +13,27 @@ var Step7 = function () {
             Step7.saveProfile(true);
         });
     }
+    var onclickBtnPublish=function(){
+        $('#btnPublish').on('click',function(){
+            ajaxControllersPublish();
+            Step7.saveProfile(false);
+        });
+    }
+    var countAjax=0;
+    var ajaxControllersPublish= function(){
+        $(document).ajaxSend(function (event, jqXHR, ajaxOptions) {
+            if (ajaxOptions.dataType != 'script') {
+                countAjax++;
+            }
+        });
+        $(document).ajaxComplete(function () {
+            countAjax--;
+            if(countAjax==0) window.location=publishUrl;
+        });
+        $(document).ajaxError(function () {
+            countAjax--;if(countAjax==0) window.location=publishUrl;
+        });
+    }
 
     var validatePassword = function() {
         var password = $("#password").val();
@@ -42,10 +63,13 @@ var Step7 = function () {
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             onclickBtnSaveProfile();
+            onclickBtnPublish();
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep7,this);
-
-            $("#btnPublish").click(App.fireEventSaveTab());
+            //
+            //$("#btnPublish").click(
+            //    ajaxControllersPublish(),
+            //    App.fireEventSaveTab());
         },
         saveProfile:function(flag) {
             var validate = true;
@@ -71,7 +95,8 @@ var Step7 = function () {
             }
             else   $("#email2Errors").addClass("hide");
             if (validate) {
-                $("#loading").removeClass("hide");
+                //$("#loading").removeClass("hide");
+                HoldOn.open();
                 var url = $("#submit-url").val();
                 var homeownerName = $("#homeownerName").val();
                 var mobile = $("#own_mobile_number").val();
@@ -109,7 +134,11 @@ var Step7 = function () {
                         dashboard: flag
                     },
                     success: function (data) {
-                        $("#loading").addClass("hide");
+                        //$("#loading").addClass("hide");
+                        HoldOn.close();
+                    },
+                    error: function(data){
+                        HoldOn.close();
                     }
                 });
             }

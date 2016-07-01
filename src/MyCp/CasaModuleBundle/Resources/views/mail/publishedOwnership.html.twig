@@ -1,0 +1,35 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+{% set user_locale='es' %}
+{% block content %}
+    <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
+    <p style="font-family: Arial; font-size: 14px">
+        Estimado Sr(a). {{user_full_name}}: <br/>
+        Gracias por unirse a <b>MyCasaParticular</b>. Será un placer trabajar y hacer negocios juntos.
+        <br/>
+        Usted ha completado con éxito el formulario de registro de su propiedad y la misma acaba de ser publicada. El equipo de <b>MyCasaParticular</b> procederá a revisar sus informaciones para validar que no incluya contenido inapropiado. En caso de encontrar contenido inapropiado, le notificaremos y su propiedad quedará inactiva.
+       <br/>
+        Recuerde que la inscripción de su propiedad tiene un costo de 30 cuc. Una vez terminado el proceso de inscripción, su casa se hará pública y usted tiene un plazo de 15 días para efectuar el pago. De no hacerlo, su casa se desactiva temporalmente hasta tanto se deposite el efectivo.
+        <br/>
+        {% if ownership.ownDestination is not null and  ownership.ownDestination.desId==3 %}
+            El pago debe ser efectuado a través de nuestro Asistente de Operaciones Locales en Trinidad, Gonzalo Alfredo López Turiño. Usted puede localizarlo a través de los números (41) 992032 y 58071643.
+        {% elseif ownership.ownDestination is not null and ownership.ownDestination.desId==5%}
+            El pago debe ser efectuado a través de nuestro Asistente de Operaciones Locales en Viñales, Elieset Crespo Cuello. Usted puede localizarlo a través de los números (48) 695200, (48) 695215 o por el 52559958.
+        {% else %}
+            Para efectuar el pago, comuníquese con el equipo InfoPoint en nuestras oficinas centrales en La Habana por el (7) 8671111.
+        {% endif %}
+        <br/>
+        Reiteramos que el precio de su alojamiento lo establece usted. Por su parte, <b>MyCasaParticular</b> cobra al TURISTA una comisión correspondiente al 20% del precio publicado en el sitio. Usted NO PAGA COMISIÓN. El valor que hacemos público incluye el precio que usted pone a su alojamiento más la comisión nuestra.
+        <br/>
+        Véalo de este modo:
+        <br/>
+        El Precio Público en la web = Ingreso determinado por usted para su Casa Particular + Comisión <b>MyCasaParticular</b>.
+       <br/>
+        Donde:<br/>
+        El Ingreso de su Casa Particular = 80% del Precio Público <br/>
+        Y la Comisión de <b>MyCasaParticular</b> = 20% del Precio Público
+        <br/>
+        Para consultar sus dudas, por favor, escríbanos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas también estará a su disposición a través del teléfono 78673574. <br/>
+        Saludos Cordiales,
+        <br/>
+        Equipo de <b>MyCasaParticular.com</b></p>
+{% endblock %}
