@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use MyCp\mycpBundle\Entity\destinationCategory;
 use MyCp\mycpBundle\Entity\destinationCategoryLang;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -520,6 +521,12 @@ class BackendDestinationController extends Controller
         $photo_size = $this->container->getParameter('destination.dir.photos.size');
         $thumbs_size = $this->container->getParameter('thumbnail.size');
 
+        $location = $em->getRepository("mycpBundle:destinationLocation")->findOneBy(array("des_loc_destination" => $id_destination));
+        $subPath = $location->getDesLocProvince()->getProvCode()."/";
+
+        FileIO::createDirectoryIfNotExist($dir.$subPath);
+        FileIO::createDirectoryIfNotExist($dir_thumbs.$subPath);
+
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
             $files = $request->files->get('images');
@@ -560,13 +567,14 @@ class BackendDestinationController extends Controller
                         $destinationPhoto= new destinationPhoto();
                         $photo= new photo();
                         $fileName = uniqid('destination-').'-photo.jpg';
-                        $file->move($dir, $fileName);
+                        $file->move($dir.$subPath, $fileName);
                         //Creando thumbnail, redimensionando y colocando marca de agua
-                        \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir.$fileName, $dir_thumbs.$fileName, $thumbs_size);
+                        \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir.$subPath.$fileName, $dir_thumbs.$subPath.$fileName, $thumbs_size);
                         //\MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir, $fileName, $dir_watermark, 480, $this->container);
-                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, $photo_size);
+                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$subPath.$fileName, $photo_size);
 
-                        $photo->setPhoName($fileName);
+                        $photo->setPhoName($subPath.$fileName);
+                        $photo->setPhoNotes($fileName);
                         $destinationPhoto->setDesPhoDestination($destination);
                         $destinationPhoto->setDesPhoPhoto($photo);
                         $em->persist($destinationPhoto);
