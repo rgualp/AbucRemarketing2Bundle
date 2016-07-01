@@ -35,6 +35,13 @@ class photo
      */
     private $pho_order;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pho_notes", type="string", length=255, nullable=true)
+     */
+    private $pho_notes;
+
 
     /**
      * Get pho_id
@@ -91,4 +98,22 @@ class photo
     {
         return $this->pho_order;
     }
+
+    /**
+     * @return string
+     */
+    public function getPhoNotes()
+    {
+        return $this->pho_notes;
+    }
+
+    /**
+     * @param string $pho_notes
+     */
+    public function setPhoNotes($pho_notes)
+    {
+        $this->pho_notes = $pho_notes;
+    }
+
+
 }

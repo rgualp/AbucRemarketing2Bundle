@@ -124,12 +124,18 @@ class destination {
     private $des_categories;
 
     /**
+     * @ORM\OneToMany(targetEntity="destination",mappedBy="des_loc_destination")
+     */
+    private $locations;
+
+    /**
      * Constructor
      */
     public function __construct() {
         $this->destinationsLang = new ArrayCollection();
         $this->des_categories = new ArrayCollection();
         $this->des_keyword_langs = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     /**
@@ -531,4 +537,21 @@ class destination {
     {
         return "Destino ".$this->getDesName();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLocations()
+    {
+        return $this->locations;
+    }
+
+    /**
+     * @param mixed $locations
+     */
+    public function setLocations($locations)
+    {
+        $this->locations = $locations;
+    }
+
 }
