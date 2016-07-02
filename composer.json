@@ -9,7 +9,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@gitlab.hdshub.net:ander/remarketingbundle.git"
+            "url": "git@bitbucket.org:abucmn/remarketingbundle.git"
         }
     ],
     "require": {
