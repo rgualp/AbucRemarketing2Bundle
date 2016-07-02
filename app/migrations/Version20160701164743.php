@@ -19,7 +19,7 @@ class Version20160701164743 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
 
-        $this->addSql('ALTER TABLE photo ADD pho_notes VARCHAR(255) DEFAULT NULL, CHANGE pho_id pho_id INT AUTO_INCREMENT NOT NULL, ADD PRIMARY KEY (pho_id)');
+        $this->addSql('ALTER TABLE photo ADD pho_notes VARCHAR(255) DEFAULT NULL');
 
     }
 
@@ -32,6 +32,6 @@ class Version20160701164743 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
 
-        $this->addSql('ALTER TABLE photo DROP pho_notes, CHANGE pho_id pho_id INT NOT NULL');
+        $this->addSql('ALTER TABLE photo DROP pho_notes');
     }
 }
