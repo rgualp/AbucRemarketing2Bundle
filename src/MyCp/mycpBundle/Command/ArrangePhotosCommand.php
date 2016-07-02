@@ -131,7 +131,9 @@ class ArrangePhotosCommand extends ContainerAwareCommand {
             ->from("mycpBundle:ownershipPhoto", "op")
             ->select("op")
             ->join("op.own_pho_own", "o")
+            ->join("op.own_pho_photo", "p")
             ->where("o.own_address_province = :provId")
+            ->andWhere("p.pho_notes is null")
             ->orderBy("o.own_id")
             ->setParameter("provId", $provId)->getQuery()->getResult();
     }
