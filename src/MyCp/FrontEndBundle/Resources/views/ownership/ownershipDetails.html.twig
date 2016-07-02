@@ -242,7 +242,8 @@
                                 <div class="col-sm-7">
                                     {% if automaticTranslation %}
                                         <p style="text-align: right"><img
-                                                    src="{{ asset("bundles/frontend/img/icons/icono_google_translator.png") }}"
+                                                    src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                    class="icon-services google-translator"
                                                     title="{{ "AUTOMATIC_TRANSLATED" | trans }}"
                                                     alt="{{ "AUTOMATIC_TRANSLATED" | trans }}"/></p>
                                     {% endif %}
@@ -751,7 +752,7 @@
                 <div>
                     <a class="click" onclick="facebookPopup();">
                         <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left">
-                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-facebook" alt="{{"Facebook" | trans}}"/>
+                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-services  icon-facebook" alt="{{"Facebook" | trans}}"/>
                             {{ "SHARE_FACEBOOK" | trans }}
                         </button>
                     </a>

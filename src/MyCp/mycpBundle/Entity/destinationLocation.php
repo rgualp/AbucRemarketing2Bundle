@@ -22,7 +22,7 @@ class destinationLocation
     private $des_loc_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="destination",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="destination",inversedBy="locations")
      * @ORM\JoinColumn(name="des_loc_des_id",referencedColumnName="des_id")
      */
     private $des_loc_destination;

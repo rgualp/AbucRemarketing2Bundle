@@ -107,7 +107,7 @@ hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
 .icon-avatar{
     height: 35px;margin: -8px 0 0 -50px;position: absolute;width: 35px;border:2px solid #98CD34;
 }
-.icon-facebook{background: url("../img/icons/facebook.png"); width: 22px; height: 22px;vertical-align: middle;}
+.icon-facebook{background-position: -62px -211px; width: 22px; height: 22px;vertical-align: middle;}
 
 .tt-dropdown-menu{
     z-index: 251 !important;
@@ -236,4 +236,8 @@ div#div_b h4{
 .big-heart-icon{background-position: -64px 0px; width: 26px; height: 23px; }
 .map-marker{background-position: -79px -237px; background-size: 45%; background-position: bottom left; width: 19px; height: 26px}
 .children{background-position: -72px -395px;}
-.question{background-position: -75px -288px;}
+.question{background-position: -75px -288px; width: 24px; height: 25px;}
+.google-translator{background-position: -62px -73px; width: 37px; height: 36px;}
+.mycasatrip-alert{background-position: -59px -110px; width: 27px; height: 25px;}
+.start-on{background-position: -78px -343px; width: 16px; height: 16px;}
+.start-off{background-position: -59px -345px; width: 16px; height: 16px;}

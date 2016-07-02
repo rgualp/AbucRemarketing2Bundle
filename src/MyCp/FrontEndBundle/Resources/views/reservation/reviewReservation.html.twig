@@ -38,7 +38,8 @@
     </div>
     {% if services %}
     <div class="pull-right">
-    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
+    <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+         class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
     </div>
     {% endif %}
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
