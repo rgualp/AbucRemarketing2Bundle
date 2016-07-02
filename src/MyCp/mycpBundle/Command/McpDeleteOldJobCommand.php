@@ -24,7 +24,8 @@ class McpDeleteOldJobCommand extends ContainerAwareCommand {
                 ->addOption('count-job', '', InputOption::VALUE_OPTIONAL, 'Ver total de job a ejecutarse como parametro se pasa true para los job listo a procesar y false para los que no')
                 ->addOption('count-all-job', null, InputOption::VALUE_NONE, 'Ver total de job')
                 ->addOption('count-old-job', '', InputOption::VALUE_OPTIONAL, 'Ver total de job menores que una fecha')
-                ->addOption('delete-job', '', InputOption::VALUE_OPTIONAL, 'Eliminar todos los job pasandole una fecha de entrada')
+                ->addOption('delete-job', '', InputOption::VALUE_OPTIONAL, 'Eliminar todos los job pasandole una fecha de entrada que se compara con la fecha de creación')
+                ->addOption('delete-job-by-name', '', InputOption::VALUE_OPTIONAL, 'Eliminar todos los job  filtrandolos por nombre')
                 ->setDescription('Table job');
     }
 
@@ -33,7 +34,7 @@ class McpDeleteOldJobCommand extends ContainerAwareCommand {
         $count_all_job= $input->getOption('count-all-job');
         $delete_job= $input->getOption('delete-job');
         $count_old_job=$input->getOption('count-old-job');
-
+        $delete_job_by_name= $input->getOption('delete-job-by-name');
         if(isset($count_job)){
             $job=$this->findJobs($count_job);
             if($count_job==1)
@@ -51,6 +52,11 @@ class McpDeleteOldJobCommand extends ContainerAwareCommand {
             $job=$this->findJobsByDate($delete_job);
             $this->deleteJobsByDate($delete_job);
             $output->writeln('<info>Se eliminaron  '.count($job).' job.</info>');
+            return;
+        }
+        if($delete_job_by_name){
+            $this->deleteJobsByName($delete_job_by_name);
+            $output->writeln('<info>Se eliminaron  los job.</info>');
             return;
         }
         if($count_old_job){
@@ -120,17 +126,38 @@ class McpDeleteOldJobCommand extends ContainerAwareCommand {
 
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-
+        $processed=1;
         $repository = $em->getRepository('AbucRemarketingBundle:Job');
         $repository->createQueryBuilder('r')
             ->delete()
             ->where('r.creationDate < :date')
+            ->andWhere('r.processed < :processed')
             ->setParameter('date', $day)
+            ->setParameter('processed', $processed)
             ->getQuery()
             ->execute();
         return true;
 
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
+    private function deleteJobsByName($name){
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $repository = $em->getRepository('AbucRemarketingBundle:Job');
+        $processed=1;
+        $repository->createQueryBuilder('r')
+            ->delete()
+            ->where('r.name = :name')
+            ->andWhere('r.processed < :processed')
+            ->setParameter('name', $name)
+            ->setParameter('processed', $processed)
+            ->getQuery()
+            ->execute();
+        return true;
+    }
 
 }
