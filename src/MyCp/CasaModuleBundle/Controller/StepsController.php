@@ -890,7 +890,7 @@ class StepsController extends Controller
         $start=\DateTime::createFromFormat('d/m/Y',$request->get('date_from'));
         $end=\DateTime::createFromFormat('d/m/Y',$request->get('date_to'));
         $status=$request->get('status');
-        $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoom($room,$start->format('Y-m-d'), $end->format('Y-m-d'));
+        $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomCasaModule($room,$start->format('Y-m-d'), $end->format('Y-m-d'));
          if(count($reserved)>0){
             return new JsonResponse([
                 'success' => false,
