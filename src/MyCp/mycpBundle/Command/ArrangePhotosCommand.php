@@ -100,8 +100,8 @@ class ArrangePhotosCommand extends ContainerAwareCommand {
                         FileIO::createDirectoryIfNotExist($dir_destination_thumbs.$newPathToPhoto);
                     }
 
-                    FileIO::move($dir_destination.$desPhoto->getOwnPhoPhoto()->getPhoName(), $dir_destination.$newPathToPhoto.$photo->getPhoName());
-                    FileIO::move($dir_destination_thumbs.$desPhoto->getOwnPhoPhoto()->getPhoName(), $dir_destination_thumbs.$newPathToPhoto.$photo->getPhoName());
+                    FileIO::move($dir_destination.$photo->getPhoName(), $dir_destination.$newPathToPhoto.$photo->getPhoName());
+                    FileIO::move($dir_destination_thumbs.$photo->getPhoName(), $dir_destination_thumbs.$newPathToPhoto.$photo->getPhoName());
 
                     $output->writeln($newPathToPhoto.$photo->getPhoName());
 

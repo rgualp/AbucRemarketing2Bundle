@@ -124,7 +124,7 @@ class destination {
     private $des_categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="destination",mappedBy="des_loc_destination")
+     * @ORM\OneToMany(targetEntity="destinationLocation",mappedBy="des_loc_destination")
      */
     private $locations;
 
