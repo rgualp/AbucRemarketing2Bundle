@@ -41,16 +41,16 @@ class SendEmailInformationCommand extends ContainerAwareCommand
 		$mail_success= array();
 
 		$mails= array(
-			'livanvaldes084@gmail.com'
+			'ander@mycasaparticular.com'
 		);
-		/*$ownerships= $this->getOwnerships();
+		$ownerships= $this->getOwnerships();
 		foreach ($ownerships as $ownership) {
 			$mail = trim($ownership->getOwnEmail1());
 			if (empty($mail))
 				$mail = trim($ownership->getOwnEmail2());
 
 			$mails[]= $mail;
-		}*/
+		}
 
 		foreach ($mails as $mail) {
 
