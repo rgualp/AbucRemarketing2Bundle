@@ -3819,6 +3819,14 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Ihre Unterkunft ist nur der Anfang. Wir machen Ihre Reise zu einem einzigartigen Erlebnis.</target>
                  </trans-unit>
+                                  <trans-unit id="963">
+                                  <source>NEW</source>
+                                  <target>¡Noi!</target>
+                                  </trans-unit>
+                <trans-unit id="964">
+                 <source>JOIN_CASA</source>
+                 <target>¡Join us! Sign you as owner</target>
+                 </trans-unit>
     </body>
     </file>
 </xliff>

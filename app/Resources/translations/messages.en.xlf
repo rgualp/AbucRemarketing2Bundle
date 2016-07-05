@@ -3814,6 +3814,14 @@
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Staying is just the beginning. We make your trip a unique experience.</target>
                  </trans-unit>
+                 <trans-unit id="963">
+                  <source>NEW</source>
+                   <target>¡New!</target>
+                  </trans-unit>
+                <trans-unit id="964">
+                 <source>JOIN_CASA</source>
+                 <target>¡Join us! Sign you as owner</target>
+                 </trans-unit>
         </body>
     </file>
 </xliff>
