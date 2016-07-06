@@ -98,11 +98,11 @@ class ownershipPhotoRepository extends EntityRepository {
         else {
             $newPathToPhoto = $ownership->getOwnAddressProvince()->getProvCode()."/".$ownership->getOwnMcpCode();
             FileIO::createDirectoryIfNotExist($dir.$newPathToPhoto);
-            FileIO::createDirectoryIfNotExist($dir."/originals/".$newPathToPhoto);
+            FileIO::createDirectoryIfNotExist($dir."originals/".$newPathToPhoto);
             FileIO::createDirectoryIfNotExist($dir_thumbs.$newPathToPhoto);
 
             $fileName = uniqid('ownership-') . '-photo.jpg';
-            $file->move($dir."/".$newPathToPhoto, $fileName);
+            $file->move($dir.$newPathToPhoto, $fileName);
             $photo->setPhoName($newPathToPhoto."/".$fileName);
             $photo->setPhoNotes($fileName);
 
