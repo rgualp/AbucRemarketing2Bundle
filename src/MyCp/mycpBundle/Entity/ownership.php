@@ -499,6 +499,11 @@ class ownership {
     private $own_sms_notifications;
 
     /**
+     * @ORM\OneToOne(targetEntity="ownershipData", mappedBy="accommodation")
+     */
+    private $data;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -2025,4 +2030,25 @@ class ownership {
     {
         return "Alojamiento ".$this->getOwnMcpCode();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+
 }
