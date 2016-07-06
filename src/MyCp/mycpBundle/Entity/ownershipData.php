@@ -32,34 +32,34 @@ class ownershipData
     /**
      * @var int
      *
-     * @ORM\Column(name="activeRooms", type="integer")
+     * @ORM\Column(name="activeRooms", type="integer", nullable=true)
      */
     private $activeRooms;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="publishedComments", type="integer")
+     * @ORM\Column(name="publishedComments", type="integer", nullable=true)
      */
     private $publishedComments;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="reservedRooms", type="integer")
+     * @ORM\Column(name="reservedRooms", type="integer", nullable=true)
      */
     private $reservedRooms;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="touristClients", type="integer")
+     * @ORM\Column(name="touristClients", type="integer", nullable=true)
      */
     private $touristClients;
 
     /**
      * @ORM\OneToOne(targetEntity="ownershipPhoto",inversedBy="data")
-     * @ORM\JoinColumn(name="principalPhoto",referencedColumnName="own_pho_id")
+     * @ORM\JoinColumn(name="principalPhoto",referencedColumnName="own_pho_id", nullable=true)
      */
     private $principalPhoto;
 
