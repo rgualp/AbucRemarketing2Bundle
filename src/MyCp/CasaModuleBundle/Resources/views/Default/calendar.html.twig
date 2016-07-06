@@ -4,25 +4,25 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('/bundles/mycpcasamodule/css/plugins/fullcalendar/fullcalendar.css') }}">
+    {#<link rel="stylesheet" href="{{ asset('/bundles/mycpcasamodule/css/plugins/fullcalendar/fullcalendar.css') }}">#}
     <link rel="stylesheet" href="{{ asset('/bundles/mycp/css/datepicker.css') }}">
 {% endblock %}
 {% block content %}
-    <div class="row row-eq-height">
-        <div class="col-md-10 col-xs-10 white-bg">
+    <div class="row-eq-height">
+        <div class="col-md-10 col-xs-12 white-bg">
             <div class="row">
                 <div class="col-sm-1 col-xs-3">
-                    <img src="{{ asset('bundles/mycpcasamodule/img/Disponibilidad.png') }}" class="img-title-step m-t-10" style="margin-left: 20px;">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Disponibilidad.png') }}" class="img-title-step m-t-10">
                 </div>
-                <div class="col-sm-8 col-xs-6">
+                <div class="col-sm-8 col-xs-9">
                     <h2 class="font-blue">Disponibilidad</h2>
                 </div>
-                <div class="col-sm-3 col-xs-9" style="padding-left: 0;">
+                <div class="col-sm-3 col-xs-12">
                     <h3 class="font-blue" style="margin-top: 15px;">Gestione la disponibilidad de sus habitaciones</h3>
                 </div>
             </div>
      <div class="col-sm-12 padding-xs-0 m-t-20">
-         <div class="col-sm-9 padding-xs-0">
+         <div class="col-sm-9 col-xs-12 padding-xs-0">
              <div class="tabbable font-black tab-mcp">
                  <ul id="nav-tabs-dispo" class="nav nav-tabs mcp">
                      {% for room in ownership.ownRooms %}
@@ -43,20 +43,20 @@
                              </div>
                          </div>
                              <div class="row leyend-cal m-t-20 m-l-25">
-                                 <div class="col-md-4">
+                                 <div class="col-md-4 col-xs-12">
                                      <div class="row">
-                                         <div class="col-md-1"><div class="circle circle-warning"></div> </div><span class="col-md-10">{{ 'No disponible'|upper }}</span>
+                                         <div class="col-md-1 col-xs-1"><div class="circle circle-warning"></div> </div><span class="col-md-10 col-xs-10">{{ 'No disponible'|upper }}</span>
                                      </div>
                                  </div>
-                                 <div class="col-md-4">
+                                 <div class="col-md-4 col-xs-12">
                                      <div class="row">
-                                         <div class="col-md-1"><div class="circle circle-info"></div></div><span class="col-md-10">{{ 'Reservada MYCP'|upper }}</span>
+                                         <div class="col-md-1 col-xs-1"><div class="circle circle-info"></div></div><span class="col-md-10 col-xs-10">{{ 'Reservada MYCP'|upper }}</span>
                                      </div>
 
                                  </div>
-                                 <div class="col-md-4">
+                                 <div class="col-md-4 col-xs-12">
                                    <div class="row">
-                                   <div class="col-md-1"><div class="circle circle-danger"></div></div><span class="col-md-10">{{ 'Cancelada por cliente'|upper }}</span>
+                                   <div class="col-md-1 col-xs-1"><div class="circle circle-danger"></div></div><span class="col-md-10 col-xs-10">{{ 'Cancelada por cliente'|upper }}</span>
                                    </div>
                                  </div>
 
@@ -66,7 +66,7 @@
                  </div>
              </div>
          </div>
-         <div class="col-sm-3">
+         <div class="col-sm-3 col-xs-12">
              <div class="bg-gray row font-black">
                  <form class="form-horizontal" id="form-unab" method="post" action="{{ path('save_unabailability') }}">
                      <div class="form-group row">

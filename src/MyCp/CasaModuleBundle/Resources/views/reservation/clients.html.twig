@@ -12,7 +12,7 @@
 
 {% block content %}
 
-   <div class="row row-eq-height">
+   <div class="row-eq-height">
                 <div class="col-md-9 col-xs-12 white-bg">
                     <div class="row">
                     <div class="col-sm-1 col-xs-3">
@@ -26,40 +26,40 @@
                     </div>
                     <div id="clientDetail" class="hidden">
                     </div>
-                    <div class="bg-gray m-t-20 col-md-12 font-black">
+                    <div class="bg-gray m-t-20 col-md-12 col-xs-12 font-black">
                         <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('my_casa_module_clients')}}">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-xs-12">
                                     <label class="control-label">Nombre</label>
                                     <div class="row">
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-1 col-xs-1">
                                      <i class="glyphicons user step-form-icon"></i></div>
-                                        <div class="col-sm-10"> <input type="text" name="filter_user_name" class="form-control" id="filter_user_name" value="{{ filter_user_name }}"/></div>
+                                        <div class="col-sm-10 col-xs-10"> <input type="text" name="filter_user_name" class="form-control" id="filter_user_name" value="{{ filter_user_name }}"/></div>
                                 </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-xs-12">
                                     <label class="control-label">Correo</label>
                                     <div class="row">
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-1 col-xs-1">
                                         <i class="glyphicons envelope step-form-icon"></i></div>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-10 col-xs-10">
                                             <input type="email" class="form-control" name="filter_user_email" id="filter_user_email" value="{{ filter_user_email }}"/>
                                         </div>
                                 </div>
                             </div>
 
-                        <div class="col-sm-4 pull-right">
+                        <div class="col-sm-4 col-xs-12 pull-right">
 
                             <a href="{{ path('my_casa_module_clients') }}" class="btn btn-default dim pull-right m-t-30">Limpiar</a>
                             <a id="btnFilter" class="btn btn-primary dim m-r-5 pull-right m-t-30" href="javascript:action_submit();" >Filtrar</a>
                         </div>
                      </div>
                             <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 col-xs-12">
                                 <label class="control-label">País</label>
                                 <div class="row">
-                                    <div class="col-sm-1">  <i class="glyphicons globe step-form-icon"></i></div>
-                                    <div class="col-sm-10"><select id="filter_user_country" name="filter_user_country" class="form-control">
+                                    <div class="col-sm-1 col-xs-1">  <i class="glyphicons globe step-form-icon"></i></div>
+                                    <div class="col-sm-10 col-xs-10"><select id="filter_user_country" name="filter_user_country" class="form-control">
                                         {{ render(controller('mycpBundle:Public:get_countries', {'selected': filter_user_country})) }}
                                     </select></div>
 
@@ -77,25 +77,25 @@
                                 {% set sort_by=0 %}
                             {% endif %}
                             <div class="row m-t-20">
-                                <div class="col-sm-7">
+                                <div class="col-sm-7 col-xs-12">
                             <div class="row text-center font-blue m-t-10" style="margin-top: 10px;">
                                 {% if items_per_page * current_page >  total_items%}
                                     {{total_items }}
                                 {% else %}
                                     {{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}
                             </div></div>
-                                <div class="col-sm-5 pull-right">
+                                <div class="col-sm-5 col-xs-12 pull-right">
                                     <div class="row">
-                                      <div class="col-sm-5">
+                                      <div class="col-sm-5 col-xs-5">
                                 <span class="font-blue pull-right m-t-10">   Organizar por:</span></div>
-                                     <div class="col-sm-7">   <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="form-control pull-right">
+                                     <div class="col-sm-7 col-xs-7">   <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="form-control pull-right">
                                             {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CLIENT')})) }}
                                         </select>
                                     </div>
                                     </div>
                                 </div>
                             </div>
-                        <div class="row">
+                        <div class="m-t-20">
                         <div class="table-responsive">
                                                     <table class="table table-hover table-casa" style="font-size: 12px">
                                 <thead>
