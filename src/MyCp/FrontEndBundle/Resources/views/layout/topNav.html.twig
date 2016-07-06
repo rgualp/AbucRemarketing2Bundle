@@ -1,6 +1,6 @@
 <div id="top-nav" class="col-sm-9">
     <div class="row">
-        <div class="col-sm-6" style="display: table">
+        <div class="col-sm-6" style="display: table; padding: 0;">
             <ul class="nav nav-pills">
                 <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                 <li><a class="count-info" title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}">
@@ -33,7 +33,7 @@
                     </ul>
                 </li>#}
                 {#<li class="nav-divider pull-right">&nbsp;</li>#}
-                <li class="pull-right"><span style="font-size: 8px; color: #F4981D;     margin-left: -15px; position: absolute;"><b>{{ 'NEW'|trans|upper }}</b></span><a title="{{"JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration')}}">{{"¡Únete! Inscribe tu casa"| trans }}</a></li>
+                <li class="pull-right"><span style="font-size: 8px; color: #F4981D;     margin-left: -15px; position: absolute;"><b>{{ 'NEW'|trans|upper }}</b></span><a title="{{"JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration')}}">{{"JOIN_CASA"| trans }}</a></li>
 
                 <li class="dropdown">
                     <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
