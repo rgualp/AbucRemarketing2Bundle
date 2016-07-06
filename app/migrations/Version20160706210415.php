@@ -21,7 +21,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Triggers en ownership
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER ownership_after_insert_trigger AFTER INSERT ON ownership
+                CREATE TRIGGER ownership_after_insert_trigger AFTER INSERT ON ownership
                   FOR EACH ROW
                 BEGIN
                     insert into ownershipdata (accommodation) VALUES(NEW.own_id);
@@ -29,7 +29,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER ownership_before_delete_trigger BEFORE DELETE ON ownership
+                CREATE TRIGGER ownership_before_delete_trigger BEFORE DELETE ON ownership
                   FOR EACH ROW
                 BEGIN
                     delete from ownershipdata where accommodation = OLD.own_id;
@@ -38,7 +38,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Triggers en rooms
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER room_after_insert_trigger AFTER INSERT ON room
+                CREATE TRIGGER room_after_insert_trigger AFTER INSERT ON room
                   FOR EACH ROW
                 BEGIN
                     IF NEW.room_active = 1 THEN
@@ -50,7 +50,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER room_after_update_trigger AFTER UPDATE ON room
+                CREATE TRIGGER room_after_update_trigger AFTER UPDATE ON room
                   FOR EACH ROW
                 BEGIN
                     IF OLD.room_active = 0 AND NEW.room_active = 1 THEN
@@ -66,7 +66,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER room_after_delete_trigger AFTER DELETE ON room
+                CREATE TRIGGER room_after_delete_trigger AFTER DELETE ON room
                   FOR EACH ROW
                 BEGIN
                     IF OLD.room_active = 1 THEN
@@ -79,7 +79,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Triggers en comments
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER comment_after_insert_trigger AFTER INSERT ON comment
+                CREATE TRIGGER comment_after_insert_trigger AFTER INSERT ON comment
                   FOR EACH ROW
                 BEGIN
                     IF NEW.com_public = 1 THEN
@@ -91,7 +91,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER comment_after_update_trigger AFTER UPDATE ON comment
+                CREATE TRIGGER comment_after_update_trigger AFTER UPDATE ON comment
                   FOR EACH ROW
                 BEGIN
                     IF OLD.com_public = 0 AND NEW.com_public = 1 THEN
@@ -107,7 +107,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER comment_after_delete_trigger AFTER DELETE ON comment
+                CREATE TRIGGER comment_after_delete_trigger AFTER DELETE ON comment
                   FOR EACH ROW
                 BEGIN
                     IF OLD.com_public = 1 THEN
@@ -120,7 +120,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Tabla ownershipreservation
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER `ownershipreservation_after_update_trigger` AFTER UPDATE ON `ownershipreservation`
+                CREATE TRIGGER `ownershipreservation_after_update_trigger` AFTER UPDATE ON `ownershipreservation`
                   FOR EACH ROW
                 BEGIN
                     IF OLD.own_res_status != 5  AND NEW.own_res_status = 5  THEN
@@ -137,7 +137,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Triggers en photo
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER `photo_after_insert_trigger` AFTER INSERT ON `photo`
+                CREATE TRIGGER `photo_after_insert_trigger` AFTER INSERT ON `photo`
                   FOR EACH ROW
                 BEGIN
                       UPDATE ownershipdata
@@ -148,7 +148,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER `photo_after_update_trigger` AFTER UPDATE ON `photo`
+                CREATE TRIGGER `photo_after_update_trigger` AFTER UPDATE ON `photo`
                   FOR EACH ROW
                 BEGIN
                     UPDATE ownershipdata
@@ -159,7 +159,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE DEFINER = ''@'localhost' TRIGGER `photo_after_delete_trigger` AFTER DELETE ON `photo`
+                CREATE TRIGGER `photo_after_delete_trigger` AFTER DELETE ON `photo`
                   FOR EACH ROW
                 BEGIN
                     UPDATE ownershipdata
