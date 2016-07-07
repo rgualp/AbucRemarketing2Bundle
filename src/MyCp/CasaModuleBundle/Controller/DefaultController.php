@@ -8,6 +8,7 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use MyCp\mycpBundle\Entity\ownershipStatus;
@@ -32,11 +33,12 @@ class DefaultController extends Controller
                 $langs[]='0001';
         }
         if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
-            return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array(
-                'ownership'=>$ownership,
-                'dashboard'=>true,
-                'langs'=>(isset($langs))?$langs:array()
-            ));
+//            return $this->render('MyCpCasaModuleBundle:Default:dashboard.html.twig', array(
+//                'ownership'=>$ownership,
+//                'dashboard'=>true,
+//                'langs'=>(isset($langs))?$langs:array()
+//            ));
+            return new RedirectResponse($this->generateUrl('show_property'));
         }
         else{
             $form=$this->createForm(new ownershipStep1Type(),$ownership);

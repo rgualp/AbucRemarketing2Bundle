@@ -357,8 +357,14 @@ body.mini-navbar.fixed-sidebar .profile-element, .block {
     top: 24%;
     width: 0;
 }
+#side-menu li.with-sons.active::after {
+ display: none;
+}
 #side-menu li.active.m-t-20::after {
     top: 30%;
+}
+#side-menu li.with-sons.active.m-t-20::after {
+    top: auto ;
 }
 .nav > li.active {
     border-left: none;

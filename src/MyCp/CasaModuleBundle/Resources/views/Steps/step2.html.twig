@@ -35,7 +35,9 @@
                      <i class="glyphicons nameplate step-form-icon"  style="margin-top: 5px;"></i></div>
                         <div class="col-sm-10"> <span id="label_ownership_step1_own_licence_number" class="font-blue step-span">{{ ownership.ownLicenceNumber }}</span>
                         {{ form_widget(form.own_licence_number) }}
+                            {% if dashboard is defined and not dashboard %}
                             <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_licence_number" data-cmpdisabled="#label_ownership_step1_own_licence_number">Cambiar</button>
+                            {% endif %}
                         </div>
                       </div>
                     </div>
@@ -106,7 +108,7 @@
                             <span class="font-blue step-span">{{ ownership.ownAddressStreet }}, No. {{ ownership.ownAddressNumber }}, entre {{ ownership.ownAddressBetweenStreet1 }} y {{ ownership.ownAddressBetweenStreet2 }},
                             {{ ownership.ownAddressMunicipality }}, {{ ownership.ownAddressProvince }}
                             </span>
-                            <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled=".ownAddDisabled" data-cmpdisabled=".ownAddEnable">Cambiar</button>
+                            <button type="button" class="btn btn-primary dim changeBtn hide" data-cmpenabled=".ownAddDisabled" data-cmpdisabled=".ownAddEnable">Cambiar</button>
                         </div>
 
                             <div class="col-sm-10 ownAddDisabled hide">
