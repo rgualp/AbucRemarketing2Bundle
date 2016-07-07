@@ -120,7 +120,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Tabla ownershipreservation
         $this->addSql("
-                CREATE TRIGGER `ownershipreservation_after_update_trigger` AFTER UPDATE ON `ownershipreservation`
+                CREATE TRIGGER ownershipreservation_after_update_trigger AFTER UPDATE ON ownershipreservation
                   FOR EACH ROW
                 BEGIN
                     IF OLD.own_res_status != 5  AND NEW.own_res_status = 5  THEN
@@ -137,7 +137,7 @@ class Version20160706210415 extends AbstractMigration
 
         //Triggers en photo
         $this->addSql("
-                CREATE TRIGGER `photo_after_insert_trigger` AFTER INSERT ON `photo`
+                CREATE TRIGGER photo_after_insert_trigger AFTER INSERT ON photo
                   FOR EACH ROW
                 BEGIN
                       UPDATE ownershipdata
@@ -148,7 +148,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE TRIGGER `photo_after_update_trigger` AFTER UPDATE ON `photo`
+                CREATE TRIGGER photo_after_update_trigger AFTER UPDATE ON photo
                   FOR EACH ROW
                 BEGIN
                     UPDATE ownershipdata
@@ -159,7 +159,7 @@ class Version20160706210415 extends AbstractMigration
         ");
 
         $this->addSql("
-                CREATE TRIGGER `photo_after_delete_trigger` AFTER DELETE ON `photo`
+                CREATE TRIGGER photo_after_delete_trigger AFTER DELETE ON photo
                   FOR EACH ROW
                 BEGIN
                     UPDATE ownershipdata
@@ -178,6 +178,20 @@ class Version20160706210415 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql("DROP TRIGGER IF EXISTS ownership_after_insert_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS ownership_before_delete_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS room_after_insert_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS room_after_update_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS room_after_delete_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS comment_after_insert_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS comment_after_update_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS comment_after_delete_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS ownershipreservation_after_update_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS photo_after_insert_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS photo_after_update_trigger");
+        $this->addSql("DROP TRIGGER IF EXISTS photo_after_delete_trigger");
 
     }
 }
