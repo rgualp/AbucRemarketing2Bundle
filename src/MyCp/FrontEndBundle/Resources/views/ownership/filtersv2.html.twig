@@ -108,7 +108,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="+6" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '+6' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_beds_+5']}})
+                        <input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="+6" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '+6' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_more_5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_beds_more_5']}})
                     </label>
                 </div>
             </div>
@@ -167,7 +167,7 @@
             {#</div>#}
             {#<div class="checkbox">#}
             {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="+6" {%if check_filters is defined and '+6' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['rooms_total_+5']}})#}
+            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="+6" {%if check_filters is defined and '+6' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_more_5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['rooms_total_more_5']}})#}
             {#</label>#}
             {#</div>#}
             {#</div>#}
@@ -355,7 +355,7 @@
     {#</div>#}
     {#<div class="checkbox">#}
         {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="+6" {%if check_filters is defined and '+6' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_windows_+5']}})#}
+            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="+6" {%if check_filters is defined and '+6' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_more_5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_windows_more_5']}})#}
         {#</label>#}
     {#</div>#}
 
