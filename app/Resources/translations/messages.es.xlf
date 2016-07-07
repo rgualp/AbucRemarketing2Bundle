@@ -3820,6 +3820,14 @@
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Alojarse es solo el comienzo. Hacemos de su viaje una experiencia única.</target>
                  </trans-unit>
+                 <trans-unit id="963">
+                 <source>NEW</source>
+                 <target>¡Nuevo!</target>
+                 </trans-unit>
+                <trans-unit id="964">
+                 <source>JOIN_CASA</source>
+                 <target>¡Únete! Inscribe tu casa</target>
+                 </trans-unit>
 
         </body>
     </file>

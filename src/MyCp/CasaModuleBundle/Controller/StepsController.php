@@ -14,6 +14,7 @@ use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
+use MyCp\mycpBundle\Entity\ownershipStatistics;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
@@ -679,7 +680,8 @@ class StepsController extends Controller
 
         $em->persist($ownerAccommodation);
 
-        if ($request->get('dashboard') and $request->get("changePassword")) {
+        if ($request->get('dashboard')=="true" && $request->get("changePassword")=="true") {
+            die(dump($request));
             $password = $request->get('password');
 
                 $factory = $this->get('security.encoder_factory');
@@ -693,7 +695,7 @@ class StepsController extends Controller
                 $em->persist($user);
         }
 
-        if(!$request->get("dashboard"))
+        if($request->get("dashboard")=='false')
         {
             //Preguntar si los datos primarios estan llenos
             $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
