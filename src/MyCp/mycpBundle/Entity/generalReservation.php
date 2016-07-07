@@ -186,6 +186,12 @@ class generalReservation {
     private $gen_res_last_in_report;
 
     /**
+     * @ORM\ManyToOne(targetEntity="serviceFee",inversedBy="reservations")
+     * @ORM\JoinColumn(name="service_fee",referencedColumnName="id", nullable=true)
+     */
+    private $service_fee;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -717,6 +723,24 @@ class generalReservation {
     public function setGenResDateHour($gen_res_date_hour)
     {
         $this->gen_res_date_hour = $gen_res_date_hour;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getServiceFee()
+    {
+        return $this->service_fee;
+    }
+
+    /**
+     * @param mixed $service_fee
+     * @return mixed
+     */
+    public function setServiceFee($service_fee)
+    {
+        $this->service_fee = $service_fee;
         return $this;
     }
 

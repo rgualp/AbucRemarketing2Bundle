@@ -1,39 +1,75 @@
 reservationsBody();
 function totalPrice(curr,percent, totalNights)
 {
-    real_price=0;
-    total_price_var=0;
-    rooms_price='';
+    var real_price=0;
+    var total_price_var=0;
+    var rooms_price='';
     $('.price-room').each(function() {
         total_price_var=total_price_var+parseFloat(this.innerHTML);
         real_price=real_price+parseFloat(this.innerHTML/curr);
     });
 
-    ids_rooms='';
+    var ids_rooms='';
     $('.id_room').each(function() {
         ids_rooms=ids_rooms+'&'+(this.innerHTML);});
 
-    count_guests='';
+    var count_guests='';
     $('.guest').each(function() {
         count_guests=count_guests+'&'+(this.innerHTML);});
 
-    count_kids='';
+    var count_kids='';
     $('.kids').each(function() {
         count_kids=count_kids+'&'+(this.innerHTML);});
 
-    from_date=$('#data_reservation').attr('from_date');
-    to_date=$('#data_reservation').attr('to_date');
+    var from_date=$('#data_reservation').attr('from_date');
+    var to_date=$('#data_reservation').attr('to_date');
 
-    string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids;
+    var string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids;
+
+    var avgPrice = normalize_prices(total_price_var / totalNights);
+    var tourist_fee_percent = 0;
+    var roomsTotal = $('.id_room').size();
+
+    if(totalNights == 1)
+    {
+        if(roomsTotal == 1)
+        {
+            if(avgPrice < 20*curr )
+                tourist_fee_percent = $("#tourist_service").data("one-nr-until-20-percent");
+            else if(avgPrice >= 20*curr && avgPrice < 25*curr)
+                tourist_fee_percent = $("#tourist_service").data("one-nr-from-20-to-25-percent");
+            else if(avgPrice >= 25*curr)
+                tourist_fee_percent = $("#tourist_service").data("one-nr-from-more-25-percent");
+        }
+        else
+            tourist_fee_percent = $("#tourist_service").data("one-night-several-rooms-percent");
+    }
+    else if(totalNights == 2)
+        tourist_fee_percent = $("#tourist_service").data("one-2-nights-percent");
+    else if(totalNights == 3)
+        tourist_fee_percent = $("#tourist_service").data("one-3-nights-percent");
+    else if(totalNights == 4)
+        tourist_fee_percent = $("#tourist_service").data("one-4-nights-percent");
+    else if(totalNights >= 5)
+        tourist_fee_percent = $("#tourist_service").data("one-5-nights-percent");
+
+
     $('#data_reservation').val(string_url);
     $('#total_price').html( normalize_prices(total_price_var) );
     $('#subtotal_price').html(normalize_prices(total_price_var));
-    percent_value=total_price_var * percent / 100;
+    var percent_value=total_price_var * percent / 100;
+    var tourist_service = total_price_var*tourist_fee_percent;
+    $("#tourist_service").html(normalize_prices(tourist_service));
     $('#initial_deposit').html(normalize_prices(percent_value));
+    $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
+
+    var fixed_tax = $("#tourist_service").data("fixed-tax");
+    var prepayment = parseFloat(percent_value)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
+    console.log(prepayment);
+    $('#total_prepayment').html(normalize_prices(prepayment));
+
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
-    $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
-    $('#total_prepayment').html(normalize_prices(percent_value + 10*curr));
     $('.calendar-results').css({display: 'block'});
 
     if(checkTotalPrice) {

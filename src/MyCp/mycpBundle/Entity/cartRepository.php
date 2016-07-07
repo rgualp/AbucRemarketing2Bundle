@@ -16,7 +16,7 @@ class cartRepository extends EntityRepository {
     public function getCartItems($user_ids) {
         try {
             $em = $this->getEntityManager();
-            $query_string = "SELECT c FROM mycpBundle:cart c ";
+            $query_string = "SELECT c FROM mycpBundle:cart c JOIN c.cart_room r JOIN r.room_ownership o ";
             $where = "";
 
             if ($user_ids["user_id"] != null)
@@ -24,8 +24,10 @@ class cartRepository extends EntityRepository {
             else if ($user_ids["session_id"] != null)
                 $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
 
+            $orderBy = " ORDER BY o.own_id ASC";
+
             if ($where != "")
-                return $em->createQuery($query_string . $where)->getResult();
+                return $em->createQuery($query_string . $where . $orderBy)->getResult();
             else
                 return null;
         } catch (Exception $e) {
@@ -196,6 +198,33 @@ class cartRepository extends EntityRepository {
         array_push($cartItems, $cart);
 
         return $cartItems;
+    }
+
+    public function getCartItemsForCalculateTaxes($user_ids) {
+        try {
+            $em = $this->getEntityManager();
+            $qb = $em->createQueryBuilder()
+                ->from("mycpBundle:cart", "c")
+                ->join("c.cart_room", "r")
+                ->join("r.room_ownership", "o")
+                ->groupBy("r.room_ownership", "c.service_fee", "c.cart_date_from", "c.cart_date_to")
+                ->select("o", "c.service_fee", "count(c.cart_room) as rooms", "DATE_DIFF(c.cart_date_to, c.cart_date_from) as nights")
+                ->addSelect("c.cart_date_from as fromDate", "c.cart_date_to as toDate")
+                ->addSelect("MIN(r.room_price_up_to) as highSeason", " MIN(r.room_price_down_to) as lowSeason", "MIN(r.room_price_special) as specialSeason")
+                ->orderBy("o.own_id")
+            ;
+
+            if ($user_ids["user_id"] != null)
+                $qb->where("c.cart_user = :userId")
+                    ->setParameter("userId", $user_ids['user_id']);
+            else if ($user_ids["session_id"] != null)
+                $qb->where("c.cart_session_id = :sessionId")
+                    ->setParameter("sessionId", $user_ids['session_id']);
+
+            return $qb->getQuery()->getResult();
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
 }

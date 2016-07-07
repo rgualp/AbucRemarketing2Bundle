@@ -174,8 +174,9 @@
             </a>
         </div>
 
+        {% if app.request.get('_route') %}
         {{ render_esi(url('frontend_public_top_nav_control', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
-
+        {% endif %}
     </div>
 </div>
 <div id="top-menu-cont" style="height: {% block nav_heigth %}{% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}{% endblock %}">

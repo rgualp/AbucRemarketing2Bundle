@@ -140,6 +140,10 @@ class LastReservationReminderWorkerCommand extends Worker
         $initialPayment = 0;
         $userTourist = $this->em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
 
+        $totalNights = 0;
+        $totalRooms = count($ownershipReservations);
+        $totalPrice = 0;
+
         foreach($ownershipReservations as $ownershipReservation)
         {
             $photos = $this->em
@@ -161,13 +165,25 @@ class LastReservationReminderWorkerCommand extends Worker
 
             array_push($arrayNights, $nights);
 
+            $totalNights += $nights;
+
             $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
             //Initial down payment
             if($ownershipReservation->getOwnResNightPrice() > 0)
+            {
+                $totalPrice += $ownershipReservation->getOwnResNightPrice() * $nights;
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * $nights * $comission;
+            }
             else
+            {
+                $totalPrice += $ownershipReservation->getOwnResTotalInSite();
                 $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
+            }
         }
+
+        $tax = $this->em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $generalReservation->getGenResTotalInSite() / $totalNights * $totalRooms, $generalReservation->getServiceFee());
+
+        $initialPayment +=  $tax * $totalPrice;
 
         $userLocale = $this->emailManager->getUserLocale($user);
         $genResId = $generalReservation->getGenResId();

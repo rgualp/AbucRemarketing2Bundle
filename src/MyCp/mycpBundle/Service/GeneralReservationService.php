@@ -104,6 +104,8 @@ class GeneralReservationService extends Controller
         $general_reservation->setGenResOwnId($ownership);
         $general_reservation->setModified(new \DateTime());
         $general_reservation->setModifiedBy($this->getLoggedUserId());
+        $currentServiceFee = $this->em->getRepository("mycpBundle:serviceFee")->getCurrent();
+        $general_reservation->setServiceFee($currentServiceFee);
         $this->em->persist($general_reservation);
 
         $total_price = 0;

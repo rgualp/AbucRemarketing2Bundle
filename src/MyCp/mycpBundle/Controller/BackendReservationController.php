@@ -65,6 +65,8 @@ class BackendReservationController extends Controller {
                 $arrayNightsByOwnershipReservation = $resultReservations['nights'];
                 $general_reservation = $resultReservations['generalReservation'];
 
+                $general_reservation->setServiceFee($gen_res->getServiceFee());
+
                 //Deleting booking association from cancelled and payed reservation
                 foreach ($reservations as $res) {
                     $res->setOwnResReservationBooking(null);
@@ -116,6 +118,7 @@ class BackendReservationController extends Controller {
             $message = 'Solo se puede ofrecer una nueva oferta si la reservación original está cancelada y tiene algún pago asociado.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
         }
+        $currentServiceFee = $gen_res->getServiceFee();
 
         return $this->render('mycpBundle:reservation:new_offer.html.twig', array(
                     'reservation' => $gen_res,
@@ -127,7 +130,8 @@ class BackendReservationController extends Controller {
                     'reservations' => $reservations,
                     'rooms' => $rooms,
                     'nights' => $array_nights,
-                    'payment' => $payment
+                    'payment' => $payment,
+                    'currentServiceFee' => $currentServiceFee
         ));
     }
 
@@ -670,6 +674,7 @@ class BackendReservationController extends Controller {
 
         $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null);
         $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($id_reservation);
+        $currentServiceFee = $reservation->getServiceFee();
 
         return $this->render('mycpBundle:reservation:reservationDetailsPartial.html.twig', array(
                     'nights' => $total_nights,
@@ -679,7 +684,8 @@ class BackendReservationController extends Controller {
                     'rooms' => $rooms,
                     'id_reservation' => $id_reservation,
                     'bookings' => $bookings,
-                    'logs' => $logs
+                    'logs' => $logs,
+                    'currentServiceFee' => $currentServiceFee
         ));
     }
 
@@ -723,6 +729,8 @@ class BackendReservationController extends Controller {
         }
 
         array_pop($dates);
+        $currentServiceFee = $reservation->getServiceFee();
+
         return $this->render('mycpBundle:reservation:reservationDetails.html.twig', array(
                     'post' => $post,
                     'errors' => $errors,
@@ -732,7 +740,8 @@ class BackendReservationController extends Controller {
                     'rooms' => $rooms,
                     'nights' => $array_nights,
                     'id_reservation' => $id_reservation,
-                    "offerLog" => $offerLog
+                    "offerLog" => $offerLog,
+                    'currentServiceFee' => $currentServiceFee
         ));
     }
 
@@ -1158,9 +1167,13 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $destinations = $em->getRepository("mycpBundle:destination")->findBy(array(), array("des_name" => "ASC"));
         $ownerships = $em->getRepository("mycpBundle:ownership")->findBy(array("own_status" => OwnershipStatuses::ACTIVE), array("own_mcp_code" => "ASC"));
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
         return $this->render('mycpBundle:utils:offerAccommodationControl.html.twig', array(
-            'ownerships' => $ownerships, "destinations" => $destinations));
+            'ownerships' => $ownerships,
+            "destinations" => $destinations,
+            'currentServiceFee' => $currentServiceFee
+        ));
     }
 
     public function syncPaymentsAction()

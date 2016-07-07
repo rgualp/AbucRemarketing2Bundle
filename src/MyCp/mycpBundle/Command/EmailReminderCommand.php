@@ -52,6 +52,10 @@ class EmailReminderCommand extends ContainerAwareCommand
                 ->getRepository('mycpBundle:ownershipReservation')
                 ->findBy(array('own_res_gen_res_id' => $generalReservationId));
 
+            $totalNights = 0;
+            $totalRooms = count($reservations);
+            $totalPrice = 0;
+
             foreach($reservations as $res)
             {
                 $photos = $em
@@ -71,13 +75,24 @@ class EmailReminderCommand extends ContainerAwareCommand
                     );
                 array_push($arrayNights, $nights);
 
+                $totalNights += $nights;
+
                 $comission = $res->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
                 //Initial down payment
                 if($res->getOwnResNightPrice() > 0)
+                {
+                    $totalPrice += $res->getOwnResNightPrice() * $nights;
                     $initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
-                else
+                }
+                else{
+                    $totalPrice += $res->getOwnResTotalInSite();
                     $initialPayment += $res->getOwnResTotalInSite() * $comission;
+                }
             }
+
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $generalReservation->getGenResTotalInSite() / $totalNights * $totalRooms, $generalReservation->getServiceFee());
+
+            $initialPayment +=  $tax * $totalPrice;
 
             // Enviando mail al cliente
             $user_tourist = $em

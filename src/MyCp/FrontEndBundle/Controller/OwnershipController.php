@@ -518,6 +518,8 @@ class OwnershipController extends Controller {
 
         $brief_description = Utils::removeNewlines($ownership_array['brief_description']);
 
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+
         return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
                     'avail_array_prices' => $avail_array_prices,
                     'available_rooms' => $available_rooms,
@@ -550,7 +552,8 @@ class OwnershipController extends Controller {
                     'real_category' => $real_category,
                     'languages' => $languages,
                     'keywords' => $ownership_array['keywords'],
-                    'locale' => $locale
+                    'locale' => $locale,
+                    'currentServiceFee' => $currentServiceFee
         ));
     }
 
