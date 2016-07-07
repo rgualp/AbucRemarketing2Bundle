@@ -730,14 +730,17 @@ class ownershipRepository extends EntityRepository {
         ow.own_comment,
         ow.own_id,
         ow.own_cubacoupon,
-        (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership = ow.own_id AND room.room_active = 1) as own_rooms_total,
-        (SELECT min(d.des_name) FROM mycpBundle:destination d WHERE d.des_id = ow.own_destination) as des_name,
-        (SELECT min(s.status_id) FROM mycpBundle:ownershipStatus s WHERE s.status_id = ow.own_status) as status_id,
-        (SELECT min(s1.status_name) FROM mycpBundle:ownershipStatus s1 WHERE s1.status_id = ow.own_status) as status_name,
-        (SELECT count(op) FROM mycpBundle:ownershipPhoto op WHERE op.own_pho_own = ow.own_id) as photos_count
+        data.activeRooms as own_rooms_total,
+        d.des_name,
+        s.status_id,
+        s.status_name,
+        data.photosCount as photos_count
         FROM mycpBundle:ownership ow
         JOIN ow.own_address_municipality mun
         JOIN ow.own_address_province prov
+        JOIN ow.data data
+        LEFT JOIN ow.own_destination d
+        LEFT JOIN ow.own_status s
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')
@@ -778,7 +781,7 @@ class ownershipRepository extends EntityRepository {
         if ($filter_commission != 'null' && $filter_commission != '')
             $query->setParameter('filter_commission', $filter_commission);
 
-        return $query->getResult();
+        return $query;
     }
 
 
