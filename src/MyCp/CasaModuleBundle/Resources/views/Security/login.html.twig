@@ -40,11 +40,11 @@
     {% endif %}
     <form class="form-horizontal" action="{{ path('my_cp_casa_login_check') }}" method="post" id="login">
     <div class="bg-gray m-t-20" style="text-align: center;">
-            <div class="form-group row">
+            <div class="m-t-20">
                     <label class="control-label" for="inputUsername">Código de la Casa </label>
                      <input type="text" class="form-control" id="inputUsername" placeholder="Usuario" name="_username"   value="{{ last_username|default('') }}"/>
             </div>
-            <div class="form-group row">
+            <div class="m-t-20">
                 <label class="control-label" for="inputPassword">Contraseña</label>
 
                     <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>

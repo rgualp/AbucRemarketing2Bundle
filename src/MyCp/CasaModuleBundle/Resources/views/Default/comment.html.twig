@@ -11,13 +11,13 @@
 {% block title %}Mis comentarios{% endblock title %}
 
 {% block content %}
-    <div class="row row-eq-height">
-                <div class="col-md-9 white-bg">
+    <div class="row-eq-height">
+                <div class="col-md-9 col-xs-12 white-bg">
                     <div class="row">
-                    <div class="col-sm-1">
+                    <div class="col-sm-1 col-xs-3">
                         <img src="{{ asset('bundles/mycpcasamodule/img/opiniones.png') }}" class="img-title-step m-t-25">
                     </div>
-                    <div class="col-sm-11">
+                    <div class="col-sm-11 col-xs-9">
                         <h2 class="font-blue">Opiniones de los Clientes</h2>
                         {% if  comments | length%}
                         <h4 class="orange-text">Tienes {{ comments | length }} comentarios</h4>

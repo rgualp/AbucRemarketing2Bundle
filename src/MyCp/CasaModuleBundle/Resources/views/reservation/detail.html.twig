@@ -1,33 +1,33 @@
-<div class="bg-gray font-black p-0 m-t-10 detailsContainer">
-    <div class="row">
-        <div class="col-sm-4 p-40">
+<div class="col-sm-12 bg-gray font-black p-0 m-t-10 detailsContainer">
+    <div style="padding: 5px;position: relative;z-index: 200;" class="pull-right"><a class="closeDetails"><i class="glyphicons remove_2"></i></a></div>
+        <div class="col-sm-4 m-t-10">
             <span class="font-blue step-span">Reserva {{ reservation.casId }}</span>
-            <div class="row" style="margin: 20px 0">
+            <div class="" style="margin: 20px 0">
                 <img  class='img-circle img-grey-border' title='{{ user.userTouristUser.userCompleteName }}' src='{{ (user.userTouristUser.userPhoto != null) ? asset("uploads/userImages/") ~ user.userTouristUser.userPhoto.phoName : asset("uploads/userImages/no_photo.gif") }}' alt="{{"Photo" | trans}}"/>
             </div>
-            <div class="row">
+            <div class="">
                 <span class="control-label">Nombre: </span> <span class="font-blue">{{ user.userTouristUser.userCompleteName }}</span>
             </div>
-            <div class="row m-t-5">
+            <div class=" m-t-5">
                 <span class="control-label">Correo: </span> <span class="font-blue">{{ user.userTouristUser.userEmail | lower }}</span>
             </div>
-            <div class="row m-t-5">
+            <div class=" m-t-5">
                 <span class="control-label">Ciudad: </span> <span class="font-blue">{{ (user.userTouristUser.userCity != null and user.userTouristUser.userCity != "") ? user.userTouristUser.userCity : " - " }}</span>
             </div>
-            <div class="row m-t-5">
+            <div class=" m-t-5">
                 <span class="control-label">Idioma: </span> <span class="font-blue">{{ user.userTouristLanguage.langName }}</span>
             </div>
-            <div class="row m-t-5">
+            <div class=" m-t-5">
                 <span class="control-label">Moneda: </span> <span class="font-blue">{{ user.userTouristCurrency.currCode }}</span>
             </div>
-            <div class="row m-t-5">
+            <div class=" m-t-5">
                 <span class="control-label">País: </span> <span class="font-blue">{{ user.userTouristUser.userCountry}}</span>
             </div>
-            <div class="row m-t-10">
+            <div class=" m-t-10">
                 <span class="control-label">Estado </span> {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.genResStatus,'wrap': false, 'showInDiv': true} %}
             </div>
         </div>
-        <div class="col-sm-4 lighter-gray  p-40 p-l-r-5">
+        <div class="col-sm-4 m-t-10 p-0 lighter-gray">
             <ul class="nav nav-tabs">
                 {% for roomReservation in reservations %}
                 <li {% if loop.index0 == 0 %}class="active"{% endif %}><a href="#hab{{ roomReservation.ownResId }}" data-toggle="tab">Hab. # {{ rooms[loop.index0].roomNum }}</a></li>
@@ -92,10 +92,9 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-sm-4 ">
-            <div class="pull-right"><a class="closeDetails"><i class="glyphicons remove_2"></i></a></div>
-            <div class="p-40">
-            <div class="row">
+        <div class="col-sm-4 m-t-10">
+            <div class="">
+            <div class="">
                 <div class="pull-left">
                 <span class="font-blue bold">Resumen de la reserva</span>
                 </div>
@@ -132,7 +131,6 @@
                 </table>
             </div>
         </div>
-    </div>
 </div>
 
 <script>

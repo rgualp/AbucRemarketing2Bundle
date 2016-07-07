@@ -734,7 +734,30 @@ a.green-link{
     border-style: double;
 }
 
+.infont{
+    height: 150px;
+}
+.infont span{
+    margin-top: 5px;
+    text-align: center;
+    display: block;
+}
 
+.tab-content{
+    padding: 15px;
+}
+
+#page-wrapper {
+    padding: 0;
+    overflow: hidden;
+}
+
+#rootwizard .tab-content{
+    padding: 0;
+}
+#rootwizard #tab-content-backend.tab-content{
+    padding: 15px;
+}
 
 @media (max-width: 768px) {
     body.mini-navbar #page-wrapper {
@@ -807,10 +830,12 @@ a.green-link{
         margin-top: 80px;
     }
 
-    /*.tab-content .col-md-9, #content_id .col-md-9{*/
-        /*margin-top: 80px;*/
-        /*width: 100%;*/
-    /*}*/
+    .tab-content .form-horizontal a.glyphicons{
+        font-size: 16px;
+    }
+    .tab-content .form-horizontal span.step-span{
+        font-size: 11px;
+    }
 
     /*.tab-content .col-sm-8{*/
         /*width: 100%;*/
@@ -909,8 +934,8 @@ a.green-link{
 
     .tab-content .form-group,
     .wrapper-content .form-group{
-        margin-bottom: 20px !important;
-        margin-top: 15px !important;
+        /*margin-bottom: 20px !important;*/
+        /*margin-top: 15px !important;*/
         margin-left: 0;
         margin-right: 0;
     }
@@ -935,8 +960,11 @@ a.green-link{
 
     label {
         font-size: 14px;
-        width: 70%;
-        margin-right: 9px;
+        margin-right: 0;
+    }
+
+    .facilities .control-label {
+        margin-right: 5px;
     }
 
     .glyphicons.form-icon {
@@ -949,92 +977,46 @@ a.green-link{
 
     .mcp-pager li {
         padding-right: 0px;
-        padding-left: 24px;
+        padding-left: 9%;
     }
 
     #text-save{
         margin-bottom: 16px;
     }
 
-    .prices-form .col-md-2{
-        width: 9%;
-        padding-left: 20px;
-        float: left;
-        padding: 0;
+    .prices-form label{
+        font-size: 12px;
     }
 
-    .prices-form .row:first-child{
-        margin-bottom: 20px;
-    }
-    .prices-form .row:first-child .col-md-1{
-        width: 17%;
-        padding: 0 12px;
-    }
-    .prices-form .row:first-child .col-md-2{
-        width: 63%;
-        padding-left: 14px;
-        float: left;
-        padding-top: 12px;
-    }
+    /*.prices-form .row:first-child{*/
+        /*margin-bottom: 20px;*/
+    /*}*/
+    /*.prices-form .row:first-child .col-md-1{*/
+        /*width: 17%;*/
+        /*padding: 0 12px;*/
+    /*}*/
+    /*.prices-form .row:first-child .col-md-2{*/
+        /*width: 63%;*/
+        /*padding-left: 14px;*/
+        /*float: left;*/
+        /*padding-top: 12px;*/
+    /*}*/
 
-    .prices-form .row:first-child .col-md-2:last-child{
-        width: 22%;
-        padding: 0;
-    }
+    /*.prices-form .row:first-child .col-md-2:last-child{*/
+        /*width: 22%;*/
+        /*padding: 0;*/
+    /*}*/
 
-    .prices-form .col-md-1 {
-        float: left;
-        width: 13%;
-        padding: 0;
-        margin-left: 2px;
-        margin: 0;
-    }
-
-    .facilities-form .row{
-        margin-bottom: 20px;
-    }
-
-    .facilities-form .col-md-4{
-        width: 61%;
-    }
-
-    .facilities-form .col-md-3{
-        width: 78%;
-    }
-
-    .facilities-form .col-md-8{
-        margin: 0;
-        padding: 0;
-        width: 18%;
-    }
-
-    .facilities-form .col-md-5 {
-        width: 86%;
-    }
-
-    #facilities-div{
-        padding: 15px;
-        margin-left: -10px;
-    }
+    /*.prices-form .col-md-1 {*/
+        /*float: left;*/
+        /*width: 13%;*/
+        /*padding: 0;*/
+        /*margin-left: 2px;*/
+        /*margin: 0;*/
+    /*}*/
 
     #facilities-div .row{
         margin-bottom: 20px;
-    }
-
-    #facilities-div .col-md-5{
-        width: 77%;
-        padding: 0;
-    }
-
-    #facilities-div .col-md-7{
-        width: 23%;
-        margin: 0;
-        float: left;
-        padding: 0;
-    }
-
-    .facilities .control-label {
-        width: 30%;
     }
 
     #tab7 .col-sm-8{
@@ -1045,13 +1027,14 @@ a.green-link{
     }
     #show-help-mobile{
         position: fixed;
-        width: 82%;
+        width: 84%;
         display: block;
         top: 85px;
         z-index: 9999;
         padding: 10px;
         background: #C64E3A;
         color: white;
+        right: 0;
     }
     #close-help{
         position: absolute;
@@ -1115,7 +1098,7 @@ a.green-link{
     }
 
     .mini-navbar li.active .nav-second-level {
-        left: 70px;
+        left: 100%;
     }
 
     #nav-tabs-backend{
@@ -1134,5 +1117,13 @@ a.green-link{
     }
     .col-content {
         font-size: 16px;
+    }
+
+    .form-control.inline {
+        width: 80%;
+    }
+
+    .email .step-span{
+        font-size:10px
     }
 }
