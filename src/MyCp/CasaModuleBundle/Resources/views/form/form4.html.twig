@@ -58,16 +58,6 @@
                         <option {% if room is defined and room.RoomBeds == 3 %} selected="TRUE" {% endif %} value="3">3</option>
                     </select>
                 </div>
-    </div>
-    <div class="m-t-20 m-l-25">
-        <label for="comment">No. De camas </label>
-        <img class="help-icon" data-href="help-step3-two" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
-        <img class="help-icon" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
-        <div class="row m-t-5">
-            <div class="col-md-1">
-                <img class="m-t-5 m-l-10" src="{{ asset('/bundles/mycpcasamodule/img/vbed.png') }}">
-            </div>
-            <div class="col-md-5 p-l-0">
                 {% if room is defined %}
                     <button data-cmpdisabled="#label_number_beds_{{ room.RoomId }}" data-cmpenabled="#select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar</button>
                 {% endif %}
@@ -84,14 +74,6 @@
                 <div class="col-md-2 col-xs-3">
                     <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
                     <img class="help-icon hidden-xs" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
-                </div>
-            </div>
-            <div class="col-md-2 p-l-0">
-                <span class="text-price-step3">Precios</span>
-            </div>
-            <div class="col-md-2 p-l-0 m-t-10 m-n-l-25">
-                <img class="help-icon" data-href="help-step3-three" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
-                <img class="help-icon" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
             </div>
         </div>
 
