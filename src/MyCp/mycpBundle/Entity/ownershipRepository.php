@@ -1242,6 +1242,62 @@ class ownershipRepository extends EntityRepository {
         return array_merge($statistics, $roomsStatistics);
     }
 
+    function getSearchNumbers($own_ids = null)
+    {
+        $em = $this->getEntityManager();
+        $types = array();
+        $results = array();
+        $prices_result = array();
+        $categories = array();
+
+        $query_string = "SELECT SUM(IF(o.own_type='Penthouse', 1, 0)) as penthouse,
+                         SUM(IF(o.own_type='Villa con piscina', 1, 0)) as villa,
+                         SUM(IF(o.own_type='Apartamento', 1, 0)) as apartamento,
+                         SUM(IF(o.own_type='Propiedad completa', 1, 0)) as propiedad,
+                         SUM(IF(o.own_type='Casa particular', 1, 0)) as casa,
+                         SUM(IF(o.own_minimum_price< 25 AND o.own_minimum_price >=0, 1, 0)) as primero,
+                         SUM(IF(o.own_minimum_price< 50 AND o.own_minimum_price >=25, 1, 0)) as segundo,
+                         SUM(IF(o.own_minimum_price< 75 AND o.own_minimum_price >=50, 1, 0)) as tercero,
+                         SUM(IF(o.own_minimum_price< 100 AND o.own_minimum_price >=75, 1, 0)) as cuarto,
+                         SUM(IF(o.own_minimum_price< 125 AND o.own_minimum_price >=100, 1, 0)) as quinto,
+                         SUM(IF(o.own_minimum_price< 150 AND o.own_minimum_price >=125, 1, 0)) as sexto,
+                         SUM(IF(o.own_minimum_price< 175 AND o.own_minimum_price >=150, 1, 0)) as septimo,
+                         SUM(IF(o.own_minimum_price< 200 AND o.own_minimum_price >=175, 1, 0)) as octavo,
+                         SUM(IF(o.own_minimum_price< 300 AND o.own_minimum_price >=200, 1, 0)) as noveno,
+                         SUM(IF(o.own_category='Económica', 1, 0)) as economic,
+                         SUM(IF(o.own_category='Rango medio', 1, 0)) as middle_range,
+                         SUM(IF(o.own_category='Premium', 1, 0)) as premium
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status".((isset($own_ids)) ? " AND o.own_id IN ($own_ids) ": "");
+
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
+
+        $types[] = array("Penthouse", $counts['penthouse']);
+        $types[] = array("Villa con piscina", $counts['villa']);
+        $types[] = array("Apartamento", $counts['apartamento']);
+        $types[] = array("Propiedad completa", $counts['propiedad']);
+        $types[] = array("Casa particular", $counts['casa']);
+        $results["types"] = $types;
+
+        $prices_result[] = array(0, 25, $counts['primero']);
+        $prices_result[] = array(25, 50, $counts['segundo']);
+        $prices_result[] = array(50, 75, $counts['tercero']);
+        $prices_result[] = array(75, 100, $counts['cuarto']);
+        $prices_result[] = array(100, 125, $counts['quinto']);
+        $prices_result[] = array(125, 150, $counts['sexto']);
+        $prices_result[] = array(150, 175, $counts['septimo']);
+        $prices_result[] = array(175, 200, $counts['octavo']);
+        $prices_result[] = array(200, 300, $counts['noveno']);
+        $results["prices"] = $prices_result;
+
+        $categories[] = array(trim("Económica"), $counts['economic']);
+        $categories[] = array(trim("Rango medio"), $counts['middle_range']);
+        $categories[] = array(trim("Premium"), $counts['premium']);
+        $results["categories"] = $categories;
+
+        return $results;
+    }
+
     function getCompleteListByIds($own_ids, $user_id, $session_id) {
         $em = $this->getEntityManager();
         $results = array();
