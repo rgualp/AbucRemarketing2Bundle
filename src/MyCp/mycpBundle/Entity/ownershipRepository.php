@@ -1551,11 +1551,17 @@ class ownershipRepository extends EntityRepository {
         if (is_array($own_list)) {
             foreach ($own_list as $own) {
                 $own_id = $own->getOwnId();
-                $query = $em->createQuery("SELECT count(res) as reservations,
+                /*$query = $em->createQuery("SELECT count(res) as reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments
                         FROM mycpBundle:generalReservation res
                         WHERE res.gen_res_own_id = $own_id
-                        AND res.gen_res_status=" . generalReservation::STATUS_RESERVED);
+                        AND res.gen_res_status=" . generalReservation::STATUS_RESERVED);*/
+
+                $query = $em->createQuery("SELECT data.reservedRooms as reservations,
+                        data.publishedComments  as comments
+                        FROM mycpBundle:ownershipData data
+                        WHERE data.accommodation = $own_id");
+
                 $counts[$own_id] = $query->getArrayResult();
             }
         }
@@ -1624,9 +1630,7 @@ class ownershipRepository extends EntityRepository {
     private function getBasicQuery($user_id = null, $session_id = null) {
         $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
+                            pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
                             o.own_comments_total as comments_total,
@@ -1636,19 +1640,22 @@ class ownershipRepository extends EntityRepository {
                             o.own_minimum_price as minimum_price,
                             o.own_inmediate_booking as OwnInmediateBooking,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                            data.activeRooms as rooms_count,
+                            data.reservedRooms as count_reservations,
+                            data.publishedComments  as comments,
                             (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun ";
+                         JOIN o.own_address_municipality mun
+                         JOIN o.data data
+                         LEFT JOIN data.principalPhoto op
+                         LEFT JOIN op.own_pho_photo pho";
         return $query_string;
     }
 
     private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
-                        (SELECT max(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
+                        dest.des_id,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
@@ -1683,24 +1690,28 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
                         o.own_inmediate_booking as OwnInmediateBooking,
-                        (select min(op.pho_name) from mycpBundle:photo op where op.pho_id = o.own_owner_photo) as ownerPhotoName,
-                        (SELECT min(os.status_id) FROM mycpBundle:ownershipStatus os where o.own_status = os.status_id) as status_id,
+                        pho.pho_name as ownerPhotoName,
+                        status.status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                        data.activeRooms as rooms_count,
+                        data.reservedRooms as count_reservations,
+                        data.publishedComments  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
                         (SELECT min(auto.odl_automatic_translation) FROM mycpBundle:ownershipDescriptionLang auto JOIN auto.odl_id_lang lauto WHERE auto.odl_ownership = o.own_id AND lauto.lang_code = '$locale') as autotomaticTranslation,
                         (SELECT min(kl.okl_keywords) FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
-                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
-                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
-                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
-                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian,
+                        SUM(IF(o.own_langs LIKE '1___', 1, 0)) as english,
+                        SUM(IF(o.own_langs LIKE '_1__', 1, 0)) as french,
+                        SUM(IF(o.own_langs LIKE '__1_', 1, 0)) as german,
+                        SUM(IF(o.own_langs LIKE '___1', 1, 0)) as italian,
                         (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun  ";
+                         JOIN o.own_address_municipality mun
+                         LEFT JOIN o.own_destination dest
+                         JOIN o.data data
+                         LEFT JOIN o.own_owner_photo pho
+                         LEFT JOIN o.own_status status";
         return $query_string;
     }
 
