@@ -104,7 +104,7 @@
             </trans-unit>
             <trans-unit id="26">
                 <source>LEGAL_TERMS</source>
-                <target>Terms and Condition</target>
+                <target>Legal Terms</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Rent of casas particulares, apartments and rooms in Cuba</target>
+                <target>Lodging, where Cuba Cuba is!</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -679,16 +679,16 @@
                 <target>Offers</target>
             </trans-unit>
             <trans-unit id="179">
-                            <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
-                            <target>Best tourism destinations in Cuba </target>
-                        </trans-unit>
+                <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
+                <target>Popular Destinations</target>
+            </trans-unit>
             <trans-unit id="180">
                 <source>ALL_ITEMS</source>
                 <target>(All)</target>
             </trans-unit>
             <trans-unit id="181">
                 <source>SEARCH_RESULTS_PAGE_TITLE</source>
-                <target>The best casas particulares in Cuba </target>
+                <target>Search Results</target>
             </trans-unit>
             <trans-unit id="182">
                 <source>ROOM_FEATURES_HEADING_FILTER</source>
@@ -1248,7 +1248,7 @@
             </trans-unit>
             <trans-unit id="321">
                 <source>SECURITY_PRIVACITY</source>
-                <target>Security and Privacy</target>
+                <target>Privacy and Security</target>
             </trans-unit>
             <trans-unit id="322">
                 <source>SECURITY_PRIVACITY_CONTENT</source>
@@ -1364,7 +1364,7 @@
             </trans-unit>
             <trans-unit id="350">
                 <source>SITEMAP</source>
-                <target>Sitemap</target>
+                <target>Site Map</target>
             </trans-unit>
             <trans-unit id="351">
                 <source>SITEMAP_CONTENT</source>
@@ -3814,50 +3814,6 @@
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Staying is just the beginning. We make your trip a unique experience.</target>
                  </trans-unit>
-            <trans-unit id="963">
-                <source>La Habana Vieja</source>
-                <target>Old Havana</target>
-            </trans-unit>
-            <trans-unit id="965">
-                <source>Isla de la Juventud</source>
-                <target>Isle of Youth</target>
-            </trans-unit>
-            <trans-unit id="966">
-                <source>Península de Zapata</source>
-                <target>Zapata Marsh</target>
-            </trans-unit>
-            <trans-unit id="967">
-                <source>La Habana</source>
-                <target>Havana</target>
-            </trans-unit>
-            <trans-unit id="968">
-              <source>ESCAPE_TEXT</source>
-              <target><![CDATA[Escape to Cuba! ...<br/> Whole adventure for half price]]></target>
-            </trans-unit>
-             <trans-unit id="969">
-              <source>DOUBLE_TEXT</source>
-              <target>Double the fun with each Coupon</target>
-              </trans-unit>
-             <trans-unit id="970">
-                 <source>CODE_TEXT</source>
-                 <target>Keep this promo code try it here</target>
-                 </trans-unit>
-             <trans-unit id="971">
-               <source>MYCASARENTA_TITLE</source>
-               <target>MyCasa Renta, mobile app </target>
-             </trans-unit>
-             <trans-unit id="972">
-                                                       <source>MYCASATRIP_TITLE</source>
-                                                       <target>MyCasa Trip, mobile app </target>
-                                                     </trans-unit>
-             <trans-unit id="973">
-                                                                         <source>DESTINATION_DETAILS</source>
-                                                                         <target>The best casas particulares in %destinationName%, Cuba </target>
-                                                                     </trans-unit>
-             <trans-unit id="974">
-                                                                                             <source>MOST_VISITED_CITIES_TITLE</source>
-                                                                                             <target>Most visited cities in Cuba </target>
-                                                                                         </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,0 +1,86 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+    '@mycpBundle/Resources/public/vendors/select2/css/select2.min.css'
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_payments') }}">Pagos</a> <span class="divider">/</span></li>
+    {% if edit_payment is defined %}
+    <li class="active">Editar pago</li>
+    {% else %}
+    <li class="active">Adicionar pago</li>
+    {% endif %}
+    <li class="pull-right"><a href="{{ path('mycp_list_payments') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_payments') }}">Pagos</a> <span class="divider">/</span></li>
+    {% if edit_payment is defined %}
+    <li class="active">Editar pago</li>
+    {% else %}
+    <li class="active">Adicionar pago</li>
+    {% endif %}
+    <li class="pull-right"><a href="{{ path('mycp_list_payments') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_payments') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>{% if edit_payment is defined %}Editar pago # {{payment.number}}{% else %} Adicionar pago {% endif %}</h2>
+        <hr/>
+{% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+<form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment', {'id': edit_payment})}}{% else %}{{ path('mycp_new_payment')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
+{% if edit_payment is defined %}<input style="display: none;" name="edit_payment" value="{{edit_payment}}"> {% endif %}
+
+    {{form_widget(form)}}
+{% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript">
+            var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+        </script>
+
+        {% javascripts
+        '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
+        '@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
+        '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
+        '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script>
+            $('.textarea').wysihtml5();
+
+            $(document).on('ready', function(){
+                $('.select').select2();
+
+                $('.datepicker_textbox').datepicker({
+                    language: 'es',
+                    format:'dd/mm/yyyy'
+                }).on('changeDate', function(ev){
+                    $('.datepicker').hide();
+
+                });
+            });
+
+
+        </script>
+    {% endblock %}

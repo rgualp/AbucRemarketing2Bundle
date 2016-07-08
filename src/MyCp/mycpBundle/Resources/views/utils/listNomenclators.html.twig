@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for nomenclator in nomenclators %}
+    <option{% if(selected is defined and selected == nomenclator.nomId) %} selected="TRUE" {% endif %} value="{{ nomenclator.nomId }}"> {{ nomenclator.translations[0].nomLangDescription }}</option>
+{% endfor %}

@@ -1,0 +1,73 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <p style="font-size: 14px;font-family: arial">
+        <b>Código de la casa:</b> {{ ownership.ownMcpCode }}<br>
+        <b>Dirección de la casa:</b> {{ ownership.ownAddressStreet }} No: {{ ownership.ownAddressNumber }} entre {{ ownership.ownAddressBetweenStreet1 }} {{ ownership.ownAddressBetweenStreet2 }}<br>
+        <b>Habitación No:</b> {{ room.roomNum }}
+    </p>
+    {% for reserved in reserveds %}
+        {% set diferencia = reserved.own_res_reservation_from_date.diff(reserved.own_res_reservation_to_date) %}
+        {% set diasRestantes = diferencia.days %}
+        <table width="100%" cellpadding="10" cellspacing="0" border="1px solid #EEEEEE">
+            <tr>
+               <td>
+                   Número de la reservación
+               </td>
+               <td>
+                   {{ reserved.gen_res_id }}
+               </td>
+            </tr>
+            <tr>
+                <td>
+                    Nombre del cliente
+                </td>
+                <td>
+                    {{ reserved.user_name }} {{ reserved.user_last_name }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Cantidad de adultos
+                </td>
+                <td>
+                    {{ reserved.own_res_count_adults }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Cantidad de niños
+                </td>
+                <td>
+                    {{ reserved.own_res_count_childrens }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Desde
+                </td>
+                <td>
+                    {{ reserved.own_res_reservation_from_date | date('d/m/Y')}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Hasta
+                </td>
+                <td>
+                    {{ reserved.own_res_reservation_to_date | date('d/m/Y')}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Cantidad de noches
+                </td>
+                <td>
+                    {{ diasRestantes }}
+                </td>
+            </tr>
+        </table>
+        <br/>
+    {% endfor %}
+
+{% endblock %}

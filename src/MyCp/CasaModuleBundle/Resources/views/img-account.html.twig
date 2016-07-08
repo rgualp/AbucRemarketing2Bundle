@@ -1,0 +1,33 @@
+<form id="image-upload-form" action="{{ path('save_avatar') }}" class="direct-upload hide">
+    <input type="file" name="file" id="imputfile" />
+</form>
+<div class="row dashboard-picture">
+    <div class="col-md-6">
+        <i class="fa fa-file-picture-o" style="color: #fff;font-size: 24px;cursor: pointer" id="img-file"></i>
+    </div>
+    <div class="col-md-6">
+        <i class="fa fa-camera" style="color: #fff;font-size: 24px;cursor: pointer" data-toggle="modal" data-target="#myModal"></i>
+    </div>
+</div>
+    {#Modal picture#}
+    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight" style="width: 66%;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <i class="fa fa-camera modal-icon"></i>
+                    <h4 class="modal-title">Tomar foto</h4>
+                </div>
+                <div class="modal-body">
+                    <video src="mediastream:null/0d941a8c-daeb-4a52-993d-172ff1f8ab08" id="video" autoplay="autoplay"
+                           width="320px" height="220px" class="picture-video"></video>
+                    <canvas id="canvas" width="340px" height="240px" class="hide canvasMovil"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="take-picture">Tomar</button>
+                    <button type="button" class="btn btn-primary hide" id="use-take-picture">Usar</button>
+                </div>
+            </div>
+        </div>
+    </div>

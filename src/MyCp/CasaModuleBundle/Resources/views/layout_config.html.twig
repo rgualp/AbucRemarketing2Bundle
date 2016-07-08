@@ -1,0 +1,166 @@
+<script>
+    $(document).ready(function() {//INIT
+
+        <!-- Toastr -->
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeOut: 5000
+        };
+
+//$(document).ready(function() {
+//    setTimeout(function() {
+//        toastr.options = {
+//            closeButton: true,
+//            progressBar: true,
+//            showMethod: 'slideDown',
+//            timeOut: 4000
+//        };
+//        toastr.error('msg error', 'Title error');
+//        toastr.info('msg info', 'Title info');
+//        toastr.success('msj success', 'Title success');
+//        toastr.warning('msg warning', 'Title warning');
+//
+//    }, 5000);
+//});
+
+        <!-- DataTable -->
+        if(typeof $.fn.dataTable!= 'undefined'){
+
+            $.fn.dataTable.defaults.oLanguage= {
+                "sProcessing": "{{ 'datatable.processing' | trans }}...",//"Procesando...",
+                "sLengthMenu": "{{ 'datatable.show_entries' |trans({'%records%': '_MENU_'}) }}",//"Mostrar _MENU_ registros",
+                "sZeroRecords": "{{ 'datatable.not_found_result' | trans }}",//"No se encontraron resultados",
+                "sEmptyTable": "{{ 'datatable.not_available_data' | trans }}",//"Ningún dato disponible en esta tabla",
+                "sInfo": "{{ 'datatable.show_records_start_end' |trans({'%start%': '_START_', '%end%': '_END_', '%total%': '_TOTAL_'}) }}",//"Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "{{ 'datatable.search' | trans }}:",//"Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "{{ 'datatable.loading' | trans }}...",//"Cargando...",
+                "oPaginate": {
+                    "sFirst": "{{ 'datatable.first' | trans }}",//"Primero",
+                    "sLast": "{{ 'datatable.last' | trans }}",//"Último",
+                    "sNext": "{{ 'datatable.next' | trans }}",//"Siguiente",
+                    "sPrevious": "{{ 'datatable.previus' | trans }}"//"Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            };
+
+            $.fn.dataTable.defaults.ajax= {
+                type: 'POST'
+            };
+
+            $.fn.dataTable.defaults.bProcessing= true;
+
+            $.fn.dataTable.defaults.bServerSide= true;
+        }
+
+        <!-- PIN UNPIN Menu -->
+        $('.navbar-minimalize').click(function () {
+
+            var collapse = localStorage.getItem("collapse_menu");
+            if (collapse == 'on')
+                localStorage.setItem("collapse_menu",'off');
+            else
+                localStorage.setItem("collapse_menu",'on');
+        });
+
+    });//INIT End
+
+
+    <!-- Flashes MSG -->
+    function showMsg(request){
+        try{
+            if(typeof request.msg!= 'undefined'){
+
+                if(typeof request.msg.error!= 'undefined')
+                    toastr.error(request.msg.error, '{{ 'toast.title.error' | trans }}');
+
+                if(typeof request.msg.info!= 'undefined')
+                    toastr.info(request.msg.info, '{{ 'toast.title.info' | trans }}');
+
+                if(typeof request.msg.success!= 'undefined')
+                    toastr.success(request.msg.success, '{{ 'toast.title.success' | trans }}');
+
+                if(typeof request.msg.warning!= 'undefined')
+                    toastr.warning(request.msg.warning, '{{ 'toast.title.warning' | trans }}');
+            }
+        }
+        catch(e){
+            console.info(e);
+        }
+    }
+
+    {% for flashMessage in app.session.flashbag.get('error') %}
+    toastr.error('{{ flashMessage }}', '{{ 'toast.title.error' | trans }}');
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('info') %}
+    toastr.info('{{ flashMessage }}', '{{ 'toast.title.info' | trans }}');
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('success') %}
+    toastr.success('{{ flashMessage }}', '{{ 'toast.title.success' | trans }}');
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+    toastr.warning('{{ flashMessage }}', '{{ 'toast.title.warning' | trans }}');
+    {% endfor %}
+
+    <!-- Choosen -->
+    var config = {
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+    $('.chosen-container-single').attr('style', 'width:100%');
+
+    <!-- MSG validator -->
+    jQuery.validator.setDefaults({
+        errorClass: 'errorCls',//Clase que aplica al field con error
+        errorElement: 'span'
+    });
+
+    function applyMsgValidation(selectorElement, options){
+
+        var element= $(selectorElement);
+
+        if(typeof options.msg== 'undefined' || options.msg== null){
+            options.msg= element.attr('data-msg-' + options.type);
+        }
+
+        element.attr('data-container', 'body');
+        element.attr('title', options.msg);
+        element.attr('data-original-title', options.msg);
+        //element.tooltip('destroy');
+        element.tooltip('show');
+
+        $('.icon-tooltip').tooltip();
+        return false;
+    }
+
+    //    function applyMsgValidation(element, type){
+    //        element= $(element);
+    //        var msg= element.attr('data-msg-' + type);
+    //        //element.attr('title', msg);
+    //        element.attr('data-original-title', msg);
+    //        //element.tooltip('destroy');
+    //        element.tooltip('show');
+    //        $('.icon-tooltip').tooltip();
+    //        return false;
+    //    }
+
+    $('.icon-tooltip').tooltip();
+</script>

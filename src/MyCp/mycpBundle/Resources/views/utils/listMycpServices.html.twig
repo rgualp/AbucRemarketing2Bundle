@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for service in services %}
+    <option{% if(selected is defined and selected == service.id) %} selected="TRUE" {% endif %} value="{{ service.id }}"> {{ service.name }}</option>
+{% endfor %}

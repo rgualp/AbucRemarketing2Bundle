@@ -1,0 +1,22 @@
+{% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
+{% block alerts %}
+{% endblock %}
+{% block content %}
+    <style>
+        p{
+            font-size: 16px;
+        }
+    </style>
+        <div class="text-center animated fadeInDown" style="margin-top: 170px;">
+        <div>
+            <img src="{{ asset('bundles/mycpcasamodule/img/lightning.png') }}">
+        </div>
+        <h2 class="font-blue">Gracias</h2>
+         <p>Su solicitud de servicios profesionales ha sido recibida.</p>
+         <p>Pronto nuestro equipo le contactará para comenzar a trabajar.</p>
+            <br>
+            <br>
+            <a href="{{ path('frontend_welcome.es') }}" class="btn btn-primary dim" style="margin-bottom: 20px;">Volver al sitio</a>
+            <br>
+        </div>
+{% endblock %}

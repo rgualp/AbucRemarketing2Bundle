@@ -1,0 +1,17 @@
+services:
+#    my_cp_casa_module.example:
+#        class: MyCp\CasaModuleBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+    utils.twig.extension:
+        class: MyCp\CasaModuleBundle\Extension\UtilsExtension
+        arguments:
+            - @service_container
+        tags:
+            - { name: twig.extension }
+
+    authentication_handler:
+        class:        MyCp\CasaModuleBundle\Handler\AuthenticationHandler
+        public: false
+        arguments:
+            - @router
+            - @session

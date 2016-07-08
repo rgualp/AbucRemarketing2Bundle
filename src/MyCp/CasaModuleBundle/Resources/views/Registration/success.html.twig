@@ -1,0 +1,16 @@
+{% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
+{% block alerts %}
+{% endblock %}
+{% block content %}
+        <div class="text-center animated fadeInDown" style="margin-top: 170px;">
+        <div>
+            <img src="{{ asset('bundles/mycpcasamodule/img/envelope.png') }}">
+        </div>
+        <h2 class="font-blue">Gracias</h2>
+         <p>Ahora usted recibirá un correo electrónico con el código de su propiedad</p>
+         <p>Active su cuenta para gestionar los datos de su alojamiento.</p>
+            <br>
+            <p class="font-blue">Lo esperamos!</p>
+            <a href="{{ path('frontend_welcome.es') }}" class="btn btn-default">Volver al sitio</a>
+    </div>
+{% endblock %}

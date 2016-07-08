@@ -89,7 +89,7 @@ class commentRepository extends EntityRepository {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
         JOIN c.com_ownership own
         JOIN c.com_user us
-        JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
+        JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE c.com_public = 1 and own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
         return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr);
     }
 

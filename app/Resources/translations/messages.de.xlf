@@ -104,7 +104,7 @@
             </trans-unit>
             <trans-unit id="26">
                 <source>LEGAL_TERMS</source>
-                <target>Geschäftsbedingungen</target>
+                <target>AGB</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Mieten von Privathäusern, Appartements und Zimmer in Kuba</target>
+                <target>Übernachten, wo Kuba Kuba ist!</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -679,16 +679,16 @@
                 <target>Angebote</target>
             </trans-unit>
             <trans-unit id="179">
-                            <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
-                            <target>Die besten reiseziele in Kuba </target>
-                        </trans-unit>
+                <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
+                <target>Beliebte Destinationen</target>
+            </trans-unit>
             <trans-unit id="180">
                 <source>ALL_ITEMS</source>
                 <target>(Alle)</target>
             </trans-unit>
             <trans-unit id="181">
                 <source>SEARCH_RESULTS_PAGE_TITLE</source>
-                <target>Die besten casas particulares in Kuba </target>
+                <target>Suchergebnisse</target>
             </trans-unit>
             <trans-unit id="182">
                 <source>ROOM_FEATURES_HEADING_FILTER</source>
@@ -3819,50 +3819,6 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Ihre Unterkunft ist nur der Anfang. Wir machen Ihre Reise zu einem einzigartigen Erlebnis.</target>
                  </trans-unit>
-        <trans-unit id="963">
-            <source>La Habana Vieja</source>
-            <target>Alt-Havanna</target>
-        </trans-unit>
-        <trans-unit id="965">
-            <source>Isla de la Juventud</source>
-            <target>Insel der Jugend</target>
-        </trans-unit>
-        <trans-unit id="966">
-            <source>Península de Zapata</source>
-            <target>Zapata Marsh</target>
-        </trans-unit>
-        <trans-unit id="967">
-            <source>La Habana</source>
-            <target>Havanna</target>
-        </trans-unit>
-        <trans-unit id="968">
-          <source>ESCAPE_TEXT</source>
-          <target><![CDATA[Flüchten Sie nach Kuba! ... <br/>Das ganze Abenteuer zum halben Preis]]></target>
-        </trans-unit>
-        <trans-unit id="969">
-          <source>DOUBLE_TEXT</source>
-          <target>Der doppelte Spaß mit jedem Coupon</target>
-          </trans-unit>
-          <trans-unit id="970">
-           <source>CODE_TEXT</source>
-           <target>Behalten Sie diesen Code und probieren Sie!</target>
-           </trans-unit>
-           <trans-unit id="971">
-                <source>MYCASARENTA_TITLE</source>
-                <target>MyCasa Renta, Mobilgeräte Applikation</target>
-           </trans-unit>
-           <trans-unit id="972">
-                                                     <source>MYCASATRIP_TITLE</source>
-                                                     <target>MyCasa Trip, Mobilgeräte Applikation </target>
-                                                   </trans-unit>
-           <trans-unit id="973">
-                                                                       <source>DESTINATION_DETAILS</source>
-                                                                       <target>Die besten casas particulares in %destinationName%, Kuba </target>
-                                                                   </trans-unit>
-           <trans-unit id="974">
-                                                                                                        <source>MOST_VISITED_CITIES_TITLE</source>
-                                                                                                        <target>Meistbesuchte Städte in Kuba </target>
-                                                                                                    </trans-unit>
     </body>
     </file>
 </xliff>

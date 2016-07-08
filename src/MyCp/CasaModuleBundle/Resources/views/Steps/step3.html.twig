@@ -1,0 +1,38 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+{% block content %}
+<div class="row-eq-height animated fadeInRight">
+    <div class="col-md-9 col-xs-12 white-bg">
+        <div class="row">
+            <div class="col-sm-1 col-xs-3">
+                <img src="{{ asset('bundles/mycpcasamodule/img/Descripcion.png') }}" class="img-title-step m-t-25">
+            </div>
+            <div class="col-sm-11 col-xs-9">
+                <h2 class="font-blue">Paso 2</h2>
+                <h3 class="font-blue">Describa su casa de renta de manera sencilla y breve</h3>
+            </div>
+        </div>
+        <div class="bg-gray m-t-20 col-md-11 font-black">
+            {% include 'MyCpCasaModuleBundle:form:description.html.twig'%}
+        </div>
+    </div>
+    <div class="col-md-3 oneblue-bg col-content">
+        <div id="help-step3-one" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>Mientras más sencilla sea su descripción mejor, recuerde que no siempre los futuros huéspedes comprenden el español. Escriba de manera simple y lineal, para que las traducciones conserven la esencia de su texto</p>
+            </div>
+        </div>
+        {#<div id="help-step3-two" class="row">#}
+            {#<div class="col-md-12 m-t-40">#}
+                {#<p>Puede apoyarse en estas descripciones de los destinos para enriquecer la suya.</p>#}
+            {#</div>#}
+        {#</div>#}
+    </div>
+</div>
+    {% if dashboard is defined and dashboard %}
+        <div class="row">
+            <div class="col-md-8 text-center m-t-10">
+                <button id="saveStepDescription" class="btn btn-primary dim" type="button">Guardar</button>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

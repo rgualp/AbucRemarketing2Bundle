@@ -22,7 +22,7 @@ class userCasa
     private $user_casa_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="user",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="user",inversedBy="user_user_casa")
      * @ORM\JoinColumn(name="user_casa_user",referencedColumnName="user_id")
      */
     private $user_casa_user;

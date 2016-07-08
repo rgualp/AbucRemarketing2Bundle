@@ -247,7 +247,20 @@ class ownershipRepository extends EntityRepository {
         //save owner photo
         $this->saveOwnerPhoto($em, $ownership, $dir, $request);
 
+        //Insertar un ownershipStatistics
+        $statistic = new ownershipStatistics();
+        $statistic->setAccommodation($ownership)
+            ->setCreated(true)
+            ->setStatus($status)
+            ->setUser($controller->getUser())
+            ->setNotes("Inserted in Backend")
+        ;
+
+        $em->persist($statistic);
+
         $em->flush();
+
+        $this->calculateAccommodationCategory($ownership);
 
         return $ownership;
     }
@@ -505,7 +518,20 @@ class ownershipRepository extends EntityRepository {
         //save owner photo
         $this->saveOwnerPhoto($em, $ownership, $dir, $request);
 
+        //Insertar un ownershipStatistics
+        $statistic = new ownershipStatistics();
+        $statistic->setAccommodation($ownership)
+            ->setCreated(false)
+            ->setStatus($status)
+            ->setUser($controller->getUser())
+            ->setNotes("Modify in Backend")
+        ;
+
+        $em->persist($statistic);
+
         $em->flush();
+
+        $this->calculateAccommodationCategory($ownership);
         return $ownership;
     }
 
@@ -2114,5 +2140,110 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
+    function updateGeneralData($accommodation)
+    {
+        $em = $this->getEntityManager();
+        $maximum_guest_total = 0;
+        $roomsActiveTotal = 0;
+        $roomsInactiveTotal = 0;
+        $rooms = $em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $accommodation->getOwnId()));
+
+        foreach($rooms as $room) {
+            if ($room->getRoomActive()) {
+                $roomsActiveTotal++;
+                if (($accommodation->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $accommodation->getOwnMinimumPrice()))
+                    $accommodation->setOwnMinimumPrice($room->getRoomPriceDownTo());
+
+                if (($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $accommodation->getOwnMaximumPrice()))
+                    $accommodation->setOwnMaximumPrice($room->getRoomPriceUpTo());
+
+                if (($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $accommodation->getOwnMaximumPrice()))
+                    $accommodation->setOwnMaximumPrice($room->getRoomPriceSpecial());
+
+                $maximum_guest_total += $room->getMaximumNumberGuests();
+            }
+            else
+                $roomsInactiveTotal++;
+        }
+
+        $accommodation->setOwnMaximumNumberGuests($maximum_guest_total);
+        $accommodation->setOwnRoomsTotal($roomsActiveTotal);
+
+        if($roomsInactiveTotal == count($rooms))
+        {
+            $inactiveStatus = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
+            $accommodation->setOwnStatus($inactiveStatus);
+        }
+
+        $em->persist($accommodation);
+        $em->flush();
+    }
+
+    /**
+     * Calcula automaticamente la categoria de un alojamiento
+     * @param ownership $accommodation
+     */
+    function calculateAccommodationCategory($accommodation)
+    {
+        $em = $this->getEntityManager();
+        $category = "";
+
+        $average = $em->createQueryBuilder()
+            ->from("mycpBundle:room", "r")
+            ->select("AVG(r.room_price_down_to) as average")
+            ->where("r.room_ownership = :idAccommodation")
+            ->setParameter("idAccommodation", $accommodation->getOwnId())
+            ->getQuery()
+            ->getSingleScalarResult();
+
+
+        if($average < 15 || ($average >= 15 && $average <= 35))
+            $category = ownership::ACCOMMODATION_CATEGORY_ECONOMIC;
+        else if($average > 35 && $average <= 50)
+            $category = ownership::ACCOMMODATION_CATEGORY_MIDDLE_RANGE;
+        else
+            $category = ownership::ACCOMMODATION_CATEGORY_PREMIUM;
+
+        $accommodation->setOwnCategory($category);
+        $em->persist($accommodation);
+
+        $em->flush();
+    }
+
+    function logs($filter_user = '', $filter_status= '', $filter_date= '', $filter_created= '', $filter_description= ''){
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipStatistics", "os")
+            ->select("os")
+            ->join("os.accommodation", "acc")
+            ->join("os.user", "user")
+            ->join("acc.own_status", "status")
+        ;
+
+        if($filter_user != "")
+            $qb->andWhere("user.user_id = :userId")
+                ->setParameter("userId", $filter_user);
+
+        if($filter_status != "")
+            $qb->andWhere("status.status_id = :statusIs")
+                ->setParameter("userId", $filter_status);
+
+        if($filter_date != "")
+            $qb->andWhere("os.date LIKE :date")
+                ->setParameter("date", $filter_date."%");
+
+        if($filter_created != "") {
+
+            if($filter_created == FilterHelper::ACCOMMODATION_GENERAL_DATA_CREATED)
+            $qb->andWhere("os.created = 1");
+        }
+
+        if($filter_description != "")
+            $qb->andWhere("os.notes LIKE :description")
+                ->setParameter("description", "%".$filter_description."%");
+
+        return $qb->getQuery();
+    }
 
 }

@@ -1,0 +1,48 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <p style="font-size: 14px;font-family: arial">
+        <b>Código de la casa:</b> {{ ownership.ownMcpCode }}<br>
+        <b>Dirección de la casa:</b> {{ ownership.ownAddressStreet }} No: {{ ownership.ownAddressNumber }} entre {{ ownership.ownAddressBetweenStreet1 }} {{ ownership.ownAddressBetweenStreet2 }}<br>
+    </p>
+    {% for reserved in reserveds %}
+        {% set diferencia = reserved.ownResGenResId.genResFromDate.diff(reserved.ownResGenResId.genResToDate) %}
+        {% set diasRestantes = diferencia.days %}
+        <table width="100%" cellpadding="10" cellspacing="0" border="1px solid #EEEEEE">
+            <tr>
+               <td>
+                   Número de la reservación
+               </td>
+               <td>
+                   {{ reserved.ownResGenResId.genResId }}
+               </td>
+            </tr>
+            <tr>
+                <td>
+                    Desde
+                </td>
+                <td>
+                    {{ reserved.ownResGenResId.genResFromDate | date('d/m/Y')}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Hasta
+                </td>
+                <td>
+                    {{ reserved.ownResGenResId.genResToDate | date('d/m/Y')}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Cantidad de noches
+                </td>
+                <td>
+                    {{ diasRestantes }}
+                </td>
+            </tr>
+        </table>
+        <br/>
+    {% endfor %}
+
+{% endblock %}

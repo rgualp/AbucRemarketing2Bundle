@@ -80,8 +80,8 @@ class ownershipPhotoRepository extends EntityRepository {
         $userPhotoSize = $container->getParameter('user.photo.size');
 
         $langs = $em->getRepository('mycpBundle:lang')->findAll();
-        $nameOrder = str_replace(".".$file->getClientOriginalExtension(),"",$file->getClientOriginalName());
 
+        $nameOrder = str_replace(".".$file->getClientOriginalExtension(),"",$file->getClientOriginalName());
         $ownershipPhoto = new ownershipPhoto();
         $photo = new photo();
 
@@ -91,7 +91,6 @@ class ownershipPhotoRepository extends EntityRepository {
             $file->move($dirUserPhoto, $fileName);
             Images::resize($dirUserPhoto . $fileName, $userPhotoSize);
             $photo->setPhoName($fileName);
-
             $ownership->setOwnOwnerPhoto($photo);
             $em->persist($ownership);
         }
