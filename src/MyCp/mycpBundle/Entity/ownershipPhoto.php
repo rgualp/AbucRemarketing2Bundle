@@ -33,6 +33,11 @@ class ownershipPhoto
      */
     private $own_pho_own;
 
+    /**
+     * @ORM\OneToOne(targetEntity="ownershipData", mappedBy="principalPhoto")
+     */
+    private $data;
+
 
     /**
      * Get own_pho_id
@@ -93,4 +98,24 @@ class ownershipPhoto
     {
         return 'foto_'.$this->getOwnPhoPhoto().'_own_'.$this->getOwnPhoOwn();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+
 }

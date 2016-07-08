@@ -723,9 +723,11 @@ class OwnershipController extends Controller {
 //        if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'PHOTOS');
 
-        $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories();
-        $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes();
-        $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices();
+        $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
+
+        $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories();
+        $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes();
+        $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices();
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
         $awards = $em->getRepository('mycpBundle:award')->findAll();
         if ($check_filters != null)
@@ -1188,9 +1190,10 @@ class OwnershipController extends Controller {
         $check_filters['own_others_pets'] = ($request->request->get('own_others_pets') == 'true' || $request->request->get('own_others_pets') == '1') ? true : false;
         $check_filters['own_others_internet'] = ($request->request->get('own_others_internet') == 'true' || $request->request->get('own_others_internet') == '1') ? true : false;
 
-        $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
-        $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
-        $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
+        $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
+        $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
+        $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
+        $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
 
         $response = $this->renderView('FrontEndBundle:ownership:filters.html.twig', array(
             'own_statistics' => $statisics,
@@ -1368,9 +1371,10 @@ class OwnershipController extends Controller {
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
 
-        $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
-        $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
-        $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
+        $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
+        $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
+        $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
+        $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 		$awards = $em->getRepository('mycpBundle:award')->findAll();
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
@@ -1441,9 +1445,10 @@ class OwnershipController extends Controller {
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
 
-        $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
-        $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
-        $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
+        $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
+        $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
+        $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
+        $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
         $check_filters = array();

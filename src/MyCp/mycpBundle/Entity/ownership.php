@@ -563,6 +563,11 @@ class ownership {
     private $payments;
 
     /**
+     * @ORM\OneToOne(targetEntity="ownershipData", mappedBy="accommodation")
+     */
+    private $data;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -2412,4 +2417,27 @@ class ownership {
     {
         $this->payments->removeElement($payment);
     }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+
 }
