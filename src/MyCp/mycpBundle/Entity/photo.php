@@ -104,4 +104,42 @@ class photo
     {
         return $this->pho_order;
     }
+
+    /**
+     * @return string
+     */
+    public function getPhoNotes()
+    {
+        return $this->pho_notes;
+    }
+
+    /**
+     * @param string $pho_notes
+     * @return mixed
+     */
+    public function setPhoNotes($pho_notes)
+    {
+        $this->pho_notes = $pho_notes;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPhotoLangs()
+    {
+        return $this->photo_langs;
+    }
+
+    /**
+     * @param ArrayCollection $photo_langs
+     * @return mixed
+     */
+    public function setPhotoLangs($photo_langs)
+    {
+        $this->photo_langs = $photo_langs;
+        return $this;
+    }
+
+
 }
