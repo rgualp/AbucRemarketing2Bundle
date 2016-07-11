@@ -19,8 +19,9 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $user=$this->getUser();
-        if(empty($user->getUserUserCasa()))
-            return new NotFoundHttpException('El usuario no es usuario casa');
+
+        if($user->getUserUserCasa()->isEmpty())
+            throw new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         if($ownership->getOwnLangs()){
             if(substr($ownership->getOwnLangs(),0,1))
