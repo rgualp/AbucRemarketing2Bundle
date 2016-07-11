@@ -1404,10 +1404,10 @@ class ownershipRepository extends EntityRepository {
         $query_string = $this->getBasicQuery($user_id, $session_id);
 
         if ($exclude_id == null)
-            $query_string .= "WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
+            $query_string .= " WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                               ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         else
-            $query_string .= "WHERE o.own_category= :category
+            $query_string .= " WHERE o.own_category= :category
                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
