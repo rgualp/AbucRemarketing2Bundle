@@ -141,5 +141,19 @@ class photo
         return $this;
     }
 
+    /*
+     * Remove photoLang
+     *
+     * @param \MyCp\mycpBundle\Entity\photoLang $photoLang
+     */
+    public function removePhotoLang(\MyCp\mycpBundle\Entity\photoLang $photoLang)
+    {
+        $this->photo_langs->removeElement($photoLang);
+    }
+   public function __construct()
+   {
+       $this->photo_langs=new ArrayCollection();
+   }
+
 
 }
