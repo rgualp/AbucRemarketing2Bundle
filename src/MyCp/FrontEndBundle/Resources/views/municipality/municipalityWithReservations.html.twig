@@ -24,7 +24,7 @@
                 <div class="col-sm-3">
                     <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{{item.reservation_total}} {{"VISITS" | trans | lower }}&nbsp;&nbsp;&nbsp;">
                         <a href="{{ path('frontend_search_ownership',{'text':item.municipality | urlNormalize, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
-                            <img class="lazy" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ item.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}" alt="{{"No photo" | trans}}"/>
+                            <img class="lazy" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ item.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
                             <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ item.photo)}}" alt="{{"Destination" | trans}}"></noscript>
                         </a>
                     </div>

@@ -5,7 +5,7 @@
             {% if app.user.UserPhoto is not null %}
                 {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
             {% else %}
-                {% set avatar_img = asset('bundles/frontend/img/user-no-photo.gif') %}
+                {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
             {% endif %}
             <span class="img-circle dashboard-avatar" style="background: url({{ avatar_img}}) transparent no-repeat scroll center center / cover;display: block;width: 140px;height: 140px;margin-left: 50px">
                 {% if app.user.UserPhoto is not null %}
@@ -16,7 +16,7 @@
                {# {% if app.user.UserPhoto is not null %}
                     <img class="img-circle dashboard-avatar" alt="{{"User image" | trans}}" width="140px" height="140px" style="background: url('{{ asset('uploads/userImages/'~app.user.UserPhoto.phoName)}}')"/>
                 {% else %}
-                    <img alt="image" class="img-circle dashboard-avatar" src="{{ asset('bundles/frontend/img/user-no-photo.gif') }}" width="140px" height="140px"/>
+                    <img alt="image" class="img-circle dashboard-avatar" src="{{ asset('bundles/frontend/img/user-no-photo.png') }}" width="140px" height="140px"/>
                 {% endif %}
 #}
             </span>
