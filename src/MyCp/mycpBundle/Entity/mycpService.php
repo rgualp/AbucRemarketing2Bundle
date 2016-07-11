@@ -37,7 +37,7 @@ class mycpService
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="ownershipPayment",mappedBy="accommodation")
+     * @ORM\OneToMany(targetEntity="ownershipPayment",mappedBy="service")
      */
     private $payments;
 
