@@ -16,10 +16,10 @@
             <div class="col-sm-4"></div>
         <div class="col-sm-4 houses-list thumbs-houses lazy-cont ">
         {%if user.UserPhoto != ""%}
-            <img class="lazy thumbnail" style="width: 150px" data-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}" alt="{{"No photo" | trans}}"/>
+            <img class="lazy thumbnail" style="width: 150px" data-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
             <noscript><img class="nolazy" src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" alt="{{"User" | trans}}"/></noscript>
         {%else%}
-            <img class="lazy" data-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}" alt="{{"No photo" | trans}}"/>
+            <img class="lazy" data-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
             <noscript><img class="nolazy" src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" alt="{{"No photo" | trans}}"/></noscript>
         {%endif%}
         </div>
