@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 
@@ -19,8 +20,9 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $user=$this->getUser();
-        if(empty($user->getUserUserCasa()))
-            return new NotFoundHttpException('El usuario no es usuario casa');
+
+        if($user->getUserUserCasa()->isEmpty())
+            throw new AccessDeniedHttpException('Sorry, this section is only for owners!!!');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
         if($ownership->getOwnLangs()){
             if(substr($ownership->getOwnLangs(),0,1))
