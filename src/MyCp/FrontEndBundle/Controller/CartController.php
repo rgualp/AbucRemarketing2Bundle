@@ -2,6 +2,8 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Entity\season;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,6 +105,7 @@ class CartController extends Controller {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
 
                 if($room != null) {
+                    $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
                     $cart = new cart();
                     $fromDate = new \DateTime();
                     $fromDate->setTimestamp($start_timestamp);
@@ -112,6 +115,7 @@ class CartController extends Controller {
                     $toDate->setTimestamp($end_timestamp);
                     $cart->setCartDateTo($toDate);
                     $cart->setCartRoom($room);
+                    $cart->setServiceFee($serviceFee);
 
                     if (isset($array_count_guests[$a]))
                         $cart->setCartCountAdults($array_count_guests[$a]);
@@ -236,6 +240,7 @@ class CartController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+        $service_time = $this->get('Time');
 
         $min_date = 0;
         $max_date = 0;
@@ -252,7 +257,7 @@ class CartController extends Controller {
                 $max_date = $item->getCartDateTo()->getTimestamp();
         }
 
-        $service_time = $this->get('Time');
+
         $array_dates = $service_time->datesBetween($min_date, $max_date);
         $array_dates_string_day = array();
         $array_dates_string = array();
@@ -277,6 +282,7 @@ class CartController extends Controller {
                     if ($date >= $item->getCartDateFrom()->getTimestamp() && $date <= $item->getCartDateTo()->getTimestamp()) {
                         $insert = 0;
                     }
+
                 }
                 if ($insert == 1) {
                     $array_clear_date[$date] = 1;
@@ -284,7 +290,11 @@ class CartController extends Controller {
 
                 $array_season[$date] = $array_season_temp;
             }
+
+            $touristTax = $this->calculateTouristTax($cartItems, $em, $service_time);
         }
+
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
         return $this->render('FrontEndBundle:cart:bodyCart.html.twig', array(
                     'dates_string' => $array_dates_string,
@@ -292,8 +302,62 @@ class CartController extends Controller {
                     'dates_timestamp' => $array_dates,
                     'cartItems' => $cartItems,
                     'array_season' => $array_season,
-                    'array_clear_date' => $array_clear_date
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee,
+                    'touristTax' => $touristTax
         ));
+    }
+
+    private function calculateTouristTax($cartItems, $em, $service_time){
+        $touristTax = 0;
+        $accommodationId = (count($cartItems)) ? $cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnId() : 0;
+        $destination = (count($cartItems)) ? $cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnDestination(): null;
+        $destination_id = isset($destination) ? $destination->getDesId() : null;
+
+        $nights = 0;
+        $totalPrice = 0;
+        $totalRooms = 0;
+        foreach($cartItems as $item)
+        {
+
+               if($accommodationId != $item->getCartRoom()->getRoomOwnership()->getOwnId())
+               {
+                   $accommodationId = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+                   $destination = (count($cartItems)) ? $cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnDestination(): null;
+                   $destination_id = isset($destination) ? $destination->getDesId() : null;
+
+                   $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
+                   $touristTax += $tax * $totalPrice;
+
+                   $nights = 0;
+                   $totalPrice = 0;
+                   $totalRooms = 0;
+               }
+
+               $totalRooms++;
+               $roomNights = $service_time->nights($item->getCartDateFrom()->format("Y-m-d"), $item->getCartDateTo()->format("Y-m-d"));
+               $nights += $roomNights;
+
+               $interval = \DateInterval::createFromDateString('1 day');
+               $period = new \DatePeriod($item->getCartDateFrom(), $interval, $item->getCartDateTo());
+
+               foreach ( $period as $date ){
+                   $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item->getCartDateFrom()->format("Y-m-d"), $item->getCartDateTo()->format("Y-m-d"), $destination_id);
+                   $seasonTypes = $service_time->seasonByDate($seasons, $date->format("Y-m-d"));
+
+                   $tripleFee = ($item->getTripleRoomCharged()) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                   $price = ($item->getCartRoom()->getPriceBySeasonTypeString($seasonTypes) + $tripleFee);
+                   $totalPrice += ($item->getCartRoom()->getPriceBySeasonTypeString($seasonTypes) + $tripleFee);
+               }
+        }
+        if($totalRooms > 0){
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
+            $touristTax += $tax * $totalPrice;
+        }
+
+
+        return $touristTax;
+
     }
 
     public function checkAvailabilitySubmitAction(Request $request) {
@@ -352,6 +416,8 @@ class CartController extends Controller {
             foreach ($res_array as $resByOwn) {
                 if (isset($resByOwn[0])) {
                     $ownership = $em->getRepository('mycpBundle:ownership')->find($resByOwn[0]->getCartRoom()->getRoomOwnership()->getOwnId());
+
+                    $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
                     $general_reservation = new generalReservation();
                     $general_reservation->setGenResUserId($user);
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
@@ -363,6 +429,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
+                    $general_reservation->setServiceFee($serviceFee);
 
 
                     $total_price = 0;

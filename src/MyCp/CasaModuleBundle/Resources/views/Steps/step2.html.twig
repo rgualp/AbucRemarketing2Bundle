@@ -1,0 +1,350 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+{% block content %}
+<div class="row-eq-height animated fadeInRight">
+    <div class="col-md-9 col-xs-12 white-bg">
+        <div class="row">
+            <div class="col-sm-1 col-xs-3">
+                <img src="{{ asset('bundles/mycpcasamodule/img/Casa.png') }}" class="img-title-step m-t-25">
+            </div>
+            <div class="col-sm-11 col-xs-9">
+                <h2 class="font-blue">{% if dashboard %}Datos de su propiedad{% else %}Paso 1{% endif %}</h2>
+                {% if not dashboard %}<h3 class="font-blue">Complete los datos de su propiedad</h3>{% endif %}
+            </div>
+        </div>
+
+        <form id="mycp_mycpbundle_ownership_step1" novalidate class="form-horizontal" action="{{ path('casa_module_edit_step1') }}" method="post">
+            <div class="bg-gray m-t-20 col-md-11 col-xs-12 font-black">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                        <label class="col-xs-10 p-0">Nombre de la casa</label>
+                        <div class="m-t-10">
+                            <div class="col-sm-8 col-xs-12 p-0">
+                                <div class="col-sm-1 col-xs-1 p-0">
+                                    <i class="glyphicons home step-form-icon" style="margin-top: 5px;"></i>
+                                </div>
+                                <div class="col-sm-10 col-xs-11">
+                                    <span class="font-blue step-span" id="label_ownership_step1_own_name">
+                                        {{ ownership.ownName }}
+                                    </span>
+                                    <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_name" data-cmpdisabled="#label_ownership_step1_own_name">Cambiar</button>
+                                    {{ form_widget(form.own_name) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                    <label class="col-xs-10 p-0">Número de la licencia</label>
+                        <div class="m-t-10">
+                            <div class="col-sm-8 col-xs-12 p-0">
+                                <div class="col-sm-1 col-xs-1 p-0">
+                                    <i class="glyphicons nameplate step-form-icon"  style="margin-top: 5px;"></i>
+                                </div>
+                                <div class="col-sm-10 col-xs-11"> <span id="label_ownership_step1_own_licence_number" class="font-blue step-span">{{ ownership.ownLicenceNumber }}</span>
+                                    {{ form_widget(form.own_licence_number) }}
+                                    {% if dashboard is defined and not dashboard %}
+                                        <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_licence_number" data-cmpdisabled="#label_ownership_step1_own_licence_number">Cambiar</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                    <label class="col-xs-10 p-0">Dirección(Calle, No., Entre calles, Provincia, Municipio)</label>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-one" class="help-icon">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon hidden-xs">
+                    <div class="">
+                        {% if dashboard is defined and not dashboard %}
+                    <div class="col-sm-8 col-xs-12 m-t-10">
+                        <div class="row">
+                         <div class="col-sm-1 col-xs-1 p-0">
+                             <i class="glyphicons google_maps form-icon pull-right"></i>
+                         </div>
+                         <div class="col-sm-5 col-xs-5">
+                             {{ form_widget(form.own_address_street) }}
+                         </div>
+                         <div class="col-sm-5 col-xs-5">
+                             {{ form_widget(form.own_address_number) }}
+                         </div>
+                         <div class="col-sm-1 col-xs-1"></div>
+                     </div>
+                        <div class="row m-t-10">
+                         <div class="col-sm-1 col-xs-1 p-0">
+
+                         </div>
+                         <div class="col-sm-5 col-xs-5">
+                             {{ form_widget(form.own_address_between_street_1) }}
+                         </div>
+                         <div class="col-sm-5 col-xs-5">
+                             {{ form_widget(form.own_address_between_street_2) }}
+                         </div>
+                         <div class="col-sm-1 col-xs-1"></div>
+                     </div>
+                        <div class="row m-t-10">
+
+                            <div class="col-sm-1 col-xs-1 p-0">
+
+                            </div>
+                            <div class="col-sm-5 col-xs-5">
+                                <label class="control-label">Provincia</label>
+                                <div>
+                                    <span class="font-blue step-span">{{ ownership.ownAddressProvince }}</span>
+                                    {{ form_widget(form.own_address_province, {'attr':{'class':'form-control hide'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-5 col-xs-5">
+                                <label class="control-label">Municipio</label>
+                                <div>
+                                    <span class="font-blue step-span">{{ ownership.ownAddressMunicipality }}</span>
+                                    {{ form_widget(form.own_address_municipality, {'attr':{'class':'form-control hide'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-xs-1"></div>
+                        </div>
+                    </div>
+                        {% else %}
+                        <div class="col-sm-8 col-xs-12 p-0 m-t-10">
+                        <div class="col-sm-1 col-xs-1 p-0">
+                            <i class="glyphicons google_maps form-icon pull-right"></i>
+                        </div>
+                        <div class="ownAddEnable col-sm-10 col-xs-10">
+                            <span class="font-blue step-span">{{ ownership.ownAddressStreet }}, No. {{ ownership.ownAddressNumber }}, entre {{ ownership.ownAddressBetweenStreet1 }} y {{ ownership.ownAddressBetweenStreet2 }},
+                            {{ ownership.ownAddressMunicipality }}, {{ ownership.ownAddressProvince }}
+                            </span>
+                            <button type="button" class="btn btn-primary dim changeBtn hide" data-cmpenabled=".ownAddDisabled" data-cmpdisabled=".ownAddEnable">Cambiar</button>
+                        </div>
+
+                            <div class="col-sm-10 col-xs-12 ownAddDisabled hide">
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6">
+                                        {{ form_widget(form.own_address_street, {'attr':{'class':'form-control'}}) }}
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        {{ form_widget(form.own_address_number, {'attr':{'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-sm-6 col-xs-6">
+                                        {{ form_widget(form.own_address_between_street_1, {'attr':{'class':'form-control'}}) }}
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        {{ form_widget(form.own_address_between_street_2 , {'attr':{'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-sm-6 col-xs-6">
+                                        <label class="control-label">Provincia</label>
+                                        <div>
+                                            {{ form_widget(form.own_address_province, {'attr':{'class':'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        <label class="control-label">Municipio</label>
+                                        <div>
+                                            {{ form_widget(form.own_address_municipality, {'attr':{'class':'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                    <label class="col-xs-10 p-0">Destino</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon hidden-xs">
+
+                    <div class="col-sm-8 col-xs-12 p-0">
+
+                             <div class="col-sm-1 col-xs-1 p-0">
+                                 <i class="glyphicons pin form-icon pull-right"></i>
+                             </div>
+                             <div class="col-sm-10 col-xs-11">
+                                 {% if ownership.ownDestination %}
+                                 <span id="label_ownership_step1_own_destination" class="font-blue step-span">{{ ownership.ownDestination }}</span>
+                                     {{ form_widget(form.own_destination, {'attr':{'class':'form-control hide'}}) }}
+                              <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_destination" data-cmpdisabled="#label_ownership_step1_own_destination">Cambiar</button>
+
+                             {% else %}
+                                 {{ form_widget(form.own_destination, {'attr':{'class':'form-control'}}) }}
+                                 {% endif %}
+                             </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                        <label class="col-xs-10 p-0">Geolocalización</label>
+                        <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-three" class="help-icon">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon hidden-xs">
+                        <div class="col-sm-8 col-xs-12 p-0">
+
+                                <div class="col-sm-1 col-xs-1 p-0">
+                                    <i class="glyphicons globe form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-10 col-xs-11">
+                                    {% if ownership.ownGeolocateX and  ownership.ownGeolocateY%}
+                                        <span id="label_ownership_step1_geolocate" class="font-blue step-span">{{ ownership.ownGeolocateY|number_format(4) }}, {{ ownership.ownGeolocateX|number_format(4) }}</span>
+                                        {{ form_widget(form.geolocate, {'attr':{'class':'form-control hide'}}) }}
+                                        <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_geolocate" data-cmpdisabled="#label_ownership_step1_geolocate">Cambiar</button>
+
+                                    {% else %}
+                                    {{ form_widget(form.geolocate) }}
+                                    {% endif %}
+                                </div>
+
+                        </div>
+                        <div class="col-md-12 col-xs-12 p-0 m-t-10">
+                            <div id="map_canvas">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row m-t-10">
+                        <label class="col-xs-10 p-0">Teléfono</label>
+                        <div class="col-sm-8 col-xs-12 p-0">
+                            <div class="col-sm-1 col-xs-1 p-0"> <i class="glyphicons phone_alt step-form-icon"  style="margin-top: 5px;"></i></div>
+                            <div class="col-sm-10 col-xs-11">
+                                {% if ownership.ownPhoneNumber %}
+                                    <span class="font-blue step-span" id="label_ownership_step1_own_phone_number">{{ ownership.ownPhoneNumber }}</span>
+                                {{ form_widget(form.own_phone_number, {'attr':{'class':'form-control hide'}}) }}
+                              <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_phone_number" data-cmpdisabled="#label_ownership_step1_own_phone_number">Cambiar</button>
+                                {% else %}
+                               {{ form_widget(form.own_phone_number, {'attr':{'class':'form-control'}}) }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                    {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
+                    <label class="col-xs-10 p-0">Idiomas que se hablan en la casa</label>
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-four" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon hidden-xs">
+                        <div class="col-sm-8 col-xs-12 p-0">
+                               <div class="col-sm-1 col-xs-1 p-0">
+                                    <i class="glyphicons conversation form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-10 col-xs-11">
+                                    {#{% if ownership.ownLangs|length>0 %}#}
+                                        {#<span class="font-blue step-span" id="label_ownership_step1_own_langs1">#}
+                                        {#{% for lang in langs %}#}
+                                        {#{{ lang }}{% if not loop.last %},{% endif %}#}
+                                        {#{% endfor %}#}
+                                        {#</span>#}
+                                        {#{{ form_widget(form.own_langs1, {'attr':{'class':'form-control hide', 'multiple':'multiple'}}) }}#}
+                                        {#<button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_langs1" data-cmpdisabled="#label_ownership_step1_own_langs1">Cambiar</button>#}
+
+                                    {#{% else %}#}
+                                    {{ form_widget(form.own_langs1, {'attr':{'class':'form-control', 'multiple':'multiple'}}) }}
+                                    {#{% endif %}#}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                    {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
+                        <label class="col-xs-10 p-0">Tipo de renta</label>
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">#}
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">#}
+
+                        <div class="col-sm-8 col-xs-12 p-0">
+                            <div class="col-sm-1 col-xs-1 p-0">
+                                <i class="glyphicons home form-icon pull-right"></i>
+                            </div>
+                            <div class="col-sm-10 col-xs-11">
+                                    {% if ownership.ownType %}
+                                        <span class="font-blue step-span" id="label_ownership_step1_own_rental_type">{{ ownership.ownRentalType }}</span>
+                                        {{ form_widget(form.own_rental_type, {'attr':{'class':'form-control hide'}}) }}
+                                        <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_rental_type" data-cmpdisabled="#label_ownership_step1_own_rental_type">Cambiar</button>
+                                    {% else %}
+                                    {{ form_widget(form.own_rental_type) }}
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <div class="row">
+                    {#{{ form_label(form.own_langs, {'attr':{'class':'control-label'}}) }}#}
+                    <label class="col-xs-10 p-0">Tipo de propiedad</label>
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step2-two" class="help-icon">#}
+                    {#<img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon">#}
+                        <div class="col-sm-8 col-xs-12 p-0">
+
+                                <div class="col-sm-1 col-xs-1 p-0">
+                                    <i class="glyphicons home form-icon pull-right"></i>
+                                </div>
+                                <div class="col-sm-10 col-xs-11">
+                                    {% if ownership.ownType %}
+                                        <span class="font-blue step-span" id="label_ownership_step1_own_type">{{ ownership.ownType }}</span>
+                                        {{ form_widget(form.own_type, {'attr':{'class':'form-control hide'}}) }}
+                                        <button type="button" class="btn btn-primary dim changeBtn" data-cmpenabled="#mycp_mycpbundle_ownership_step1_own_type" data-cmpdisabled="#label_ownership_step1_own_type">Cambiar</button>
+                                    {% else %}
+                                    {{ form_widget(form.own_type) }}
+                                    {% endif %}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_rest(form) }}
+                </div>
+            </form>
+    </div>
+    <div class="col-md-3 oneblue-bg col-content">
+        <div id="help-step2-one" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>Ingrese de manera clara la dirección de su alojamiento. Así proporcionamos al visitante referencias geográficas específicas</p>
+            </div>
+        </div>
+        <div id="help-step2-two" class="row">
+            <div class="col-md-12 m-t-40">
+                <p>Especifique el destino turístico al cual pertenece su alojamiento</p>
+            </div>
+        </div>
+        <div id="help-step2-three" class="row">
+            <div class="col-md-12 m-t-40">
+                <p>Usted puede ubicar su alojamiento en el mapa, o simplemente poner su dirección y el mapa le dará la opción de verificar sus datos. Haga más fácil para el cliente encontrar su alojamiento)</p>
+            </div>
+        </div>
+        <div id="help-step2-four" class="row">
+            <div class="col-md-12 m-t-40">
+                <p>Especifique cuales son los idiomas que domina, a través de los cuales usted y su personal se pueden comunicar con el cliente</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    var province='{{ ownership.ownAddressProvince }}';
+    var iconUrl='{{ asset('bundles/frontend/img/map_marker.png', absolute=true) }}';
+    var langs=[
+        {% for lang in langs %}
+          '{{ lang }}'{% if not loop.last %},{% endif %}
+         {% endfor %}
+    ];
+    {% if ownership.ownGeolocateX and  ownership.ownGeolocateY%}
+    var lat='{{ownership.ownGeolocateX  }}';
+    var lng='{{ownership.ownGeolocateY  }}';
+    {% endif %}
+</script>
+
+    {% if dashboard is defined and dashboard %}
+        <div class="row">
+            <div class="col-md-8 text-center m-t-10">
+                <button id="saveStepCasa" class="btn btn-primary dim" type="button">Guardar</button>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

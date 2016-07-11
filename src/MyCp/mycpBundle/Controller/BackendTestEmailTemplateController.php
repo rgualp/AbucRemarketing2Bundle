@@ -58,6 +58,9 @@ class BackendTestEmailTemplateController extends Controller {
         $arrayNights = array();
 
         $initialPayment = 0;
+        $totalNights = 0;
+        $totalRooms = count($ownershipReservations);
+        $totalPrice = 0;
 
         foreach ($ownershipReservations as $ownershipReservation) {
             $photos = $em
@@ -77,14 +80,25 @@ class BackendTestEmailTemplateController extends Controller {
             );
 
             array_push($arrayNights, $nights);
+            $totalNights += $nights;
 
             $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
             //Initial down payment
-            if ($ownershipReservation->getOwnResNightPrice() > 0)
+            if($ownershipReservation->getOwnResNightPrice() > 0)
+            {
+                $totalPrice += $ownershipReservation->getOwnResNightPrice() * $nights;
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * $nights * $comission;
+            }
             else
+            {
+                $totalPrice += $ownershipReservation->getOwnResTotalInSite();
                 $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
+            }
         }
+
+        $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $generalReservation->getGenResTotalInSite() / $totalNights * $totalRooms, $generalReservation->getServiceFee());
+
+        $initialPayment +=  $tax * $totalPrice;
 
         return $this->render('FrontEndBundle:mails:last_reminder_available.html.twig', array(
                     'user' => $user,
@@ -189,6 +203,9 @@ class BackendTestEmailTemplateController extends Controller {
         $arrayNights = array();
 
         $initialPayment = 0;
+        $totalNights = 0;
+        $totalRooms = count($ownershipReservations);
+        $totalPrice = 0;
 
         foreach ($ownershipReservations as $ownershipReservation) {
             $photos = $em
@@ -209,13 +226,24 @@ class BackendTestEmailTemplateController extends Controller {
 
             array_push($arrayNights, $nights);
 
+            $totalNights += $nights;
+
             $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
             //Initial down payment
             if ($ownershipReservation->getOwnResNightPrice() > 0)
+            {
+                $totalPrice += $ownershipReservation->getOwnResNightPrice() * $nights;
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * $nights * $comission;
+            }
             else
+            {
+                $totalPrice += $ownershipReservation->getOwnResTotalInSite();
                 $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
+            }
         }
+
+        $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $generalReservation->getGenResTotalInSite() / $totalNights * $totalRooms, $generalReservation->getServiceFee());
+        $initialPayment +=  $tax * $totalPrice;
 
         return $this->render('FrontEndBundle:mails:reminder_available.html.twig', array(
                     'user' => $user,

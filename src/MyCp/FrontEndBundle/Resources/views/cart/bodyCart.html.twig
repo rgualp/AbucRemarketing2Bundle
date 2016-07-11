@@ -1,6 +1,7 @@
 {% set flag = 0%}
 {% set service_flag = 0%}
 {% set total_price = 0 %}
+{% set totalRoomPrice = 0 %}
 {% set total_percent = 0 %}
 {% for date in dates_string %}
     {% set service_flag = 0%}
@@ -31,9 +32,11 @@
                                                         {% if item.tripleRoomCharged%}
                                                             {{ roomPrice | price}}
                                                             {% set total_price = total_price +  (roomPrice + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                            {% set totalRoomPrice = totalRoomPrice +  (roomPrice + plus) %}
                                                         {% else %}
                                                             {{ roomPrice | price}}
                                                             {% set total_price = total_price + roomPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                            {% set totalRoomPrice = totalRoomPrice +  roomPrice %}
                                                         {% endif %}
 
 
@@ -58,14 +61,23 @@
     {% endif %}
     {% set flag = flag + 1 %}
 {% endfor %}
+{% set nights = dates_string | length %}
 <!--label>Comentarios:</label-->
 <form method="POST" action="{{ path('frontend_check_availability_submit_cart') }}">
 <!--textarea style="height: 100px" name="comment_cart" class="form-control"></textarea-->
-<div class="row text-right h-blue prices-cart">
-    <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} {{ceil_round(total_price)}}</span></div>
-    <div class="col-sm-3">{{"INITIAL_DEPOSIT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} {{ceil_round(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
-    <div class="col-sm-3">{{"SERVICE_RECHARGE" | trans}}: <span>{{configuration_service_fee | price}}</span></div>
-    <div class="col-sm-3">{{"TOTAL_PREPAYMENT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} {{ceil_round((total_percent +configuration_service_fee) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
+<div class="row h-blue prices-cart">
+    <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <br/><span>{{total_price | price}}</span></div>
+    <div class="col-sm-3">{{"SERVICE_ACCOMMODATION_TAX_LONG" | trans}}: <br/><span>{{total_percent | price}}</span></div>
+    <div class="col-sm-3">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
+    <div class="col-sm-3">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
+</div>
+<div class="row h-blue prices-cart">
+    <div class="col-sm-6">
+        {{"TOTAL_PREPAYMENT" | trans}}: <span>{{(total_percent +touristTax + currentServiceFee.fixedFee) | price}}</span>
+    </div>
+    <div class="col-sm-6">
+        {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span>{{(totalRoomPrice - total_percent) | price}}</span>
+    </div>
 </div>
 <script type="text/javascript">
 

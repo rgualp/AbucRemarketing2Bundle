@@ -1,57 +1,93 @@
 reservations_in_details();
 function total_price(curr,percent)
 {
-    real_price=0;
-    total_price_var=0;
-    rooms_price='';
+    var real_price=0;
+    var total_price_var=0;
+    var rooms_price='';
     $('.price-room').each(function() {
         total_price_var=total_price_var+parseFloat(this.innerHTML);
         real_price=real_price+parseFloat(this.innerHTML/curr);
     });
 
-    ids_rooms='';
+    var ids_rooms='';
     $('.id_room').each(function() {
         ids_rooms=ids_rooms+'&'+(this.innerHTML);});
 
-    count_guests='';
+    var count_guests='';
     $('.guest').each(function() {
         count_guests=count_guests+'&'+(this.innerHTML);});
 
-    count_kids='';
+    var count_kids='';
     $('.kids').each(function() {
         count_kids=count_kids+'&'+(this.innerHTML);});
 
-    count_kids_age1='';
+    var count_kids_age1='';
     $('.guest_age_1').each(function(){
         count_kids_age1=count_kids_age1+'&'+$(this).val();
-        console.log("Age1:" + $(this).val());
+        //console.log("Age1:" + $(this).val());
     });
 
-    count_kids_age2='';
+    var count_kids_age2='';
     $('.guest_age_2').each(function(){
         count_kids_age2=count_kids_age2+'&'+$(this).val();
-        console.log("Age2:" + $(this).val());
+        //console.log("Age2:" + $(this).val());
     });
 
-    count_kids_age3='';
+    var count_kids_age3='';
     $('.guest_age_3').each(function(){
         count_kids_age3=count_kids_age3+'&'+$(this).val();
-        console.log("Age3:" + $(this).val());
+        //console.log("Age3:" + $(this).val());
     });
 
-    from_date=$('#data_reservation').attr('from_date');
-    to_date=$('#data_reservation').attr('to_date');
+    var from_date=$('#data_reservation').attr('from_date');
+    var to_date=$('#data_reservation').attr('to_date');
 
-    string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids +'/'+count_kids_age1 +'/'+count_kids_age2 +'/'+count_kids_age3;
-    console.log(string_url);
+    var string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids +'/'+count_kids_age1 +'/'+count_kids_age2 +'/'+count_kids_age3;
+
+    var nights = $("#totalNights").val();
+    var avgPrice = normalize_prices(total_price_var / nights);
+    var tourist_fee_percent = 0;
+    var roomsTotal = $('.id_room').size();
+
+    if(nights == 1)
+    {
+        if(roomsTotal == 1)
+        {
+            if(avgPrice < 20*curr )
+                tourist_fee_percent = $("#tourist_service").data("one-nr-until-20-percent");
+            else if(avgPrice >= 20*curr && avgPrice < 25*curr)
+                tourist_fee_percent = $("#tourist_service").data("one-nr-from-20-to-25-percent");
+            else if(avgPrice >= 25*curr)
+                tourist_fee_percent = $("#tourist_service").data("one-nr-from-more-25-percent");
+        }
+        else
+            tourist_fee_percent = $("#tourist_service").data("one-night-several-rooms-percent");
+    }
+    else if(nights == 2)
+        tourist_fee_percent = $("#tourist_service").data("one-2-nights-percent");
+    else if(nights == 3)
+        tourist_fee_percent = $("#tourist_service").data("one-3-nights-percent");
+    else if(nights == 4)
+        tourist_fee_percent = $("#tourist_service").data("one-4-nights-percent");
+    else if(nights >= 5)
+        tourist_fee_percent = $("#tourist_service").data("one-5-nights-percent");
+
+
     $('#data_reservation').val(string_url);
     $('#total_price').html( normalize_prices(total_price_var) );
     $('#subtotal_price').html(normalize_prices(total_price_var));
-    percent_value=total_price_var * percent / 100;
+    var percent_value=total_price_var * percent / 100;
+    var tourist_service = total_price_var*parseFloat(tourist_fee_percent);
+    $("#tourist_service").html(normalize_prices(tourist_service));
     $('#initial_deposit').html(normalize_prices(percent_value));
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
-    $('#total_prepayment').html(normalize_prices(percent_value + 10*curr));
+
+    var fixed_tax = $("#tourist_service").data("fixed-tax");
+    var prepayment = parseFloat(percent_value)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
+    console.log(prepayment);
+    $('#total_prepayment').html(normalize_prices(prepayment));
     $('.calendar-results').css({display: 'block'});
+
 }
 
 function showAgesCombos(rowId)

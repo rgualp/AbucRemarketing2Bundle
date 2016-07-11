@@ -35,6 +35,7 @@ class BackendModuleName {
     const MODULE_CLIENT_COMMENTS = 22;
     const MODULE_AWARD = 23;
     const MODULE_RBAC = 24;
+    const MODULE_ACCOMMODATION_PAYMENT = 25;
 
     public static function getModuleName($module_number)
     {
@@ -63,6 +64,7 @@ class BackendModuleName {
             case BackendModuleName::MODULE_CLIENT_COMMENTS: return "Comentarios de los clientes";
             case BackendModuleName::MODULE_AWARD: return "Premios";
             case BackendModuleName::MODULE_RBAC: return "Roles y permisos";
+            case BackendModuleName::MODULE_ACCOMMODATION_PAYMENT: return "Pagos Alojamientos";
 
             default: return "MyCP";
         }
@@ -103,5 +105,6 @@ class DataBaseTables {
     const MAIL_LIST = "mailList";
     const MAIL_LIST_USER = "mailListUser";
     const MAIL_ROLE_PERMISSION = "rolePermission";
+    const ACCOMMODATION_PAYMENT = "ownershipPayment";
 }
 ?>

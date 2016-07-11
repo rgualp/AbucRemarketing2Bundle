@@ -166,7 +166,7 @@ class generalReservationRepository extends EntityRepository {
             $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_to_date <= '$filter_date_to'";
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null")
-            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_date >= '$filter_date_reserve'";
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_date = '$filter_date_reserve'";
 
         if($filter_reference != "" && $filter_reference != "null")
             $where .= (($where != "") ? " AND ": " WHERE "). " own.own_mcp_code LIKE '%$filter_reference%'";
@@ -187,6 +187,7 @@ class generalReservationRepository extends EntityRepository {
         }
 
         $queryStr = $queryStr. $where . $string_order;
+
         $query = $em->createQuery($queryStr);
 
         return ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
@@ -2106,5 +2107,19 @@ class generalReservationRepository extends EntityRepository {
                 ->groupBy("owres.own_res_reservation_from_date")
                 ->setParameter("genResId", $idGeneralReservation);
         return $qb->setMaxResults(1)->getQuery()->getResult();
+    }
+
+    function getReservationsByIdAccommodationByDateFrom($idAccommodation,$start)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->where("gres.gen_res_own_id = :idAccommodation")
+            ->andWhere("gres.gen_res_from_date >= :start")
+            ->setParameter("idAccommodation", $idAccommodation)
+            ->setParameter("start", $start);
+        return $qb->getQuery()->getResult();
     }
 }

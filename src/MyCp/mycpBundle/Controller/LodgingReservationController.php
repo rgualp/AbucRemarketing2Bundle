@@ -148,7 +148,7 @@ class LodgingReservationController extends Controller {
 
         $sort_by = $request->get('sort_by');
         if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' &&
-                $filter_user_country == 'null') {
+            $filter_user_country == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_readonly_reservations'));
@@ -191,15 +191,15 @@ class LodgingReservationController extends Controller {
         }*/
 
         return $this->render('mycpBundle:reservation:list_client_readonly.html.twig', array(
-                    //'languages' => $languages,
-                    'reservations' => $reservations,
-                    'items_per_page' => $items_per_page,
-                    'current_page' => $page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'filter_user_name' => $filter_user_name,
-                    'filter_user_email' => $filter_user_email,
-                    'filter_user_country' => $filter_user_country,
-                    'sort_by' => $sort_by
+            //'languages' => $languages,
+            'reservations' => $reservations,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_user_name' => $filter_user_name,
+            'filter_user_email' => $filter_user_email,
+            'filter_user_country' => $filter_user_country,
+            'sort_by' => $sort_by
         ));
     }
 

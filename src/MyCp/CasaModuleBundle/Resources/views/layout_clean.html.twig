@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
+    {% stylesheets
+    '@MyCpCasaModuleBundle/Resources/public/css/bootstrap.min.css'
+    '@MyCpCasaModuleBundle/Resources/public/font-awesome/css/font-awesome.min.css'
+    '@MyCpCasaModuleBundle/Resources/public/css/glyphicons.css'
+    '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
+    '@MyCpCasaModuleBundle/Resources/public/css/style.min.css'
+    '@MyCpCasaModuleBundle/Resources/public/css/casa-module.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+
+<body class="{% block body_class %}white-bg{% endblock %}">
+
+{% block alerts %}
+<div class="col-md-12 m-t-30">
+{% for message in app.session.flashbag.get('message_ok') %}
+    <div class="alert alert-info alert-dismissable">
+        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}</div>
+{% endfor %}
+{% for message in app.session.flashbag.get('message_error') %}
+    <div class="alert alert-danger alert-dismissable">
+        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}</div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+{% block footer %}
+{% endblock %}
+</body>
+{% javascripts
+'@MyCpCasaModuleBundle/Resources/public/js/jquery-2.1.1.js'
+'@MyCpCasaModuleBundle/Resources/public/js/bootstrap.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% block javascripts %}
+
+{% endblock %}
+</html>

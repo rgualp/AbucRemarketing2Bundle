@@ -3165,6 +3165,47 @@
             <target>penthouse</target>
         </trans-unit>
 
+        <trans-unit id="944">
+            <source>SERVICE_ACCOMMODATION_TAX</source>
+            <target>Servicio al alojamiento</target>
+        </trans-unit>
+
+        <trans-unit id="945">
+            <source>SERVICE_TOURIST_TAX</source>
+            <target>Servicio al turista</target>
+        </trans-unit>
+
+        <trans-unit id="946">
+            <source>SERVICE_FIXED_TAX</source>
+            <target>Tarifa fija</target>
+        </trans-unit>
+
+        <trans-unit id="947">
+            <source>SERVICE_ACCOMMODATION_TAX_TITLE</source>
+            <target>Depósito inicial por concepto de alojamiento</target>
+        </trans-unit>
+
+        <trans-unit id="948">
+            <source>SERVICE_TOURIST_TAX_TITLE</source>
+            <target>Cubre los gastos de nuestra plataforma, comisión por pre-reserva y reservación</target>
+        </trans-unit>
+
+        <trans-unit id="949">
+            <source>SERVICE_FIXED_TAX_TITLE</source>
+            <target>Incluye las app móviles MyCasa Trip y MyCuba Map</target>
+        </trans-unit>
+
+        <trans-unit id="950">
+            <source>TOTAL_PAY_AT_SERVICE</source>
+            <target>Pago en casa</target>
+        </trans-unit>
+
+        <trans-unit id="951">
+            <source>SERVICE_ACCOMMODATION_TAX_LONG</source>
+            <target>Servicio al alojamiento</target>
+        </trans-unit>
+
+
         </body>
     </file>
 </xliff>

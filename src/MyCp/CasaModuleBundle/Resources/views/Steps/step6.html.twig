@@ -1,0 +1,113 @@
+{% macro widget_prototype(widget, remove_text) %}
+    {% if widget.vars.prototype is defined %}
+        {% set form = widget.vars.prototype %}
+        {% set name = widget.vars.full_name~'[__name__]'%}
+        {#{% set name = widget.vars.prototype.vars.name %}#}
+        {% set id = widget.vars.id~'___name__' %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.vars.full_name %}
+        {% set id = widget.vars.id %}
+    {% endif %}
+    <div data-content="{{ name }}">
+        <div class="formMedia">
+               <div class="col-sm-12 preview" style="padding: 0;">
+                   {% if form.vars.value is null %}
+                   <img src="" class="hide picture-link" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%">
+                   <i class="fa fa-camera" style=" margin-top: 45px;"></i>
+                   {% else %}
+                       <img src="{{ asset('uploads/ownershipImages/thumbnails/'~form.vars.value.ownPhoPhoto.phoName) }}" class="picture-link-m" data-input="{{ name }}[file]" id="thumb-{{ id }}" width="100%" height="100%">
+                       <a href="#" class="picture-link hide" data-input="{{ name }}[file]"> <i class="fa fa-camera" style=" margin-top: 45px;"></i></a>
+
+                   {% endif %}
+               </div>
+                {{ form_row(form.file) }}
+
+                <div class="form-group">
+                    {% if form.vars.value is null %}
+                      <label class="control-label">Descripción</label>
+                    {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
+                    {% else %}
+                        {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
+                        <span class="font-blue step-span">{% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}{% else  %}-{% endif %}</span>
+                        <label class="control-label hide">Descripción</label>
+                        {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
+                    {% endif %}
+                </div>
+            {#{{ dump(form.vars.value) }}#}
+            {{ form_widget(form.own_pho_id, {'attr':{'value':(form.vars.value!=null)?form.vars.value.ownPhoId:''}}) }}
+
+
+        </div>
+
+
+    </div>
+{% endmacro %}
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig'%}
+{% block content %}
+<div class="row-eq-height animated fadeInRight">
+    <div class="col-md-9 white-bg">
+        <div class="row">
+            <div class="col-sm-1 col-xs-3">
+                <img src="{{ asset('bundles/mycpcasamodule/img/Imagenes.png') }}" class="img-title-step m-t-25">
+            </div>
+            <div class="col-sm-11 col-xs-9">
+                <h2 class="font-blue">Paso 5</h2>
+                <h3 class="font-blue">Suba las fotos que desea
+                    <img src="{{ asset('bundles/mycpcasamodule/img/ayuda.png') }}" data-href="help-step6-one" class="help-icon">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}" class="help-icon hidden-xs">
+                </h3>
+            </div>
+        </div>
+
+        <div class="bg-gray m-t-20 col-md-11 font-black">
+            {{ form_start(photoForm) }}
+
+            <ul id="ownPhotos" class="ownPhotos" data-prototype="{{ _self.widget_prototype(photoForm.photos, 'Eliminar elemento')|escape }}">
+                {% for i,photo in photoForm.photos %}
+                    <li class="col-sm-4 uploaded" data-id="{{ ownership.photos[i].OwnPhoPhoto.phoId }}" data-url="{{ path('delete_uploaded_photo',{'id':ownership.photos[i].OwnPhoPhoto.phoId }) }}">
+                    {{ _self.widget_prototype(photo, 'Eliminar elemento') }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {#<ul id="upload-images" class="hide"></ul>#}
+            <div id="addPhotoLink" class="col-sm-4">
+                <div class="col-sm-12 add-photo text-center btn-add-link">
+                <button type="button" class="btn btn-primary btn-circle btn-lg">
+                    <i class="glyphicons white plus"></i>
+                </button>
+
+                <p class="m-t-20">Adicionar imagen</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 text-center m-t-20">
+                    <h2 style="color: #b3b3b3;"> Puede subir hasta 50 imágenes</h2>
+                    <h3 style="color: #adadad; font-size: 27px; font-weight: 100;"> La primera imagen será la principal</h3>
+                </div>
+            </div>
+            {#{{ form_widget(photoForm) }}#}
+            {{ form_rest(photoForm) }}
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3 oneblue-bg col-content">
+        <div id="help-step6-one" class="row">
+            <div class="col-md-12 m-t-20">
+                <p>Por favor es necesario ingresar al menos una foto, de 50 permitidas. Trate de que sus imágenes tengan buena calidad, pero que no excedan el tamaño máximo de 1 megabyte. Se recomienda una resolución mayor de 640x480 píxeles. Para un mejor funcionamiento, suba imágenes tomadas horizontalmente. Verifique que no muestren teléfonos, logos, marcas de agua, o señales de edición. Recuerde que las personas hacen más énfasis en las propuestas que contienen varias fotografías.  </p>
+            </div>
+        </div>
+    </div>
+</div>
+    {% if dashboard is defined and dashboard %}
+        <div class="row">
+            <div class="col-md-8 text-center m-t-10">
+                <button id="saveStepPhotos" class="btn btn-primary dim" type="button">Guardar</button>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

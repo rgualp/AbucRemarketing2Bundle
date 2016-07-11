@@ -685,6 +685,16 @@ class room {
         }
     }
 
+    public function getPriceBySeasonTypeString($seasonType)
+    {
+        switch($seasonType)
+        {
+            case "top": return $this->room_price_up_to;
+            case "special": return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
+            default: return $this->room_price_down_to;
+        }
+    }
+
     /**
      * Set room_sync_st
      *

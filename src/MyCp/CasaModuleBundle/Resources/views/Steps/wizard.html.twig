@@ -1,0 +1,63 @@
+<div class="col-md-12 col-xs-12">
+    <div class="row-eq-height">
+        <div class="col-md-12 col-xs-12 p-0 white-bg">
+            <div id="rootwizard">
+                <div class="navbar" id="steps">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <ul>
+                                <li><a href="#tab1" data-toggle="tab">First</a></li>
+                                <li><a href="#tab2" data-toggle="tab">Second</a></li>
+                                <li><a href="#tab3" data-toggle="tab">Third</a></li>
+                                <li><a href="#tab4" data-toggle="tab">Fourth</a></li>
+                                <li><a href="#tab5" data-toggle="tab">Fifth</a></li>
+                                <li><a href="#tab6" data-toggle="tab">Sixth</a></li>
+                                <li><a href="#tab7" data-toggle="tab">Seventh</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane" id="tab1">
+                        {% include 'MyCpCasaModuleBundle:Steps:step1.html.twig' %}
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                        {% include 'MyCpCasaModuleBundle:Steps:step2.html.twig' %}
+                    </div>
+                    <div class="tab-pane" id="tab3">
+                        {% include 'MyCpCasaModuleBundle:Steps:step3.html.twig' %}
+                    </div>
+                    <div class="tab-pane" id="tab4">
+                        {% include 'MyCpCasaModuleBundle:Steps:step4.html.twig' %}
+                    </div>
+                    <div class="tab-pane" id="tab5">
+                        {% include 'MyCpCasaModuleBundle:Steps:step5.html.twig' %}
+                    </div>
+                    <div class="tab-pane" id="tab6">
+                        {% include 'MyCpCasaModuleBundle:Steps:step6.html.twig' %}
+                    </div>
+                    <div class="tab-pane" id="tab7">
+                        {% include 'MyCpCasaModuleBundle:Steps:step7.html.twig' %}
+                    </div>
+                    <ul class="pager wizard col-md-9 mcp-pager hide">
+                        <li><button type="button" class="btn btn-warning  dim" id="saveStep">Continuar después</button></li>
+                        <li class="previous"><button class="btn btn-default  dim" type="button"><img src="{{ asset('bundles/mycpcasamodule/img/previous.png') }}" class="m-r-5"> Anterior</button></li>
+                        <li class="next">
+                            <button id="btnNext" class="btn btn-primary dim" type="button">Siguiente <img src="{{ asset('bundles/mycpcasamodule/img/next.png') }}" class="m-r-5"/></button>
+                            <button id="btnPublish" class="btn btn-primary dim hidden" type="button">Publicar <img src="{{ asset('bundles/mycpcasamodule/img/thumbs_up.png') }}" class="m-r-5"/></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row hide" id="text-save">
+        <div class="col-md-9 text-center text-save">
+            <p>Sus datos se guardarán<br>en caso de que usted quiera seguir más adelante</p>
+        </div>
+    </div>
+</div>
+<script>
+    var logoutUrl='{{ url('my_cp_casa_logout') }}';
+    var publishUrl='{{ url('casa_publish_ownership') }}';
+</script>

@@ -61,7 +61,7 @@ class BookingService extends Controller
      */
     public function calculateBookingDetails($bookingId)
     {
-        $serviceChargeInCuc = $this->serviceChargeInCuc;
+        $serviceChargeInCuc = 0;
 
         $timeService = $this->get('Time');
         $em = $this->em;
@@ -74,6 +74,7 @@ class BookingService extends Controller
         $currency = $payment->getCurrency();
         $currencySymbol = $currency->getCurrSymbol();
         $currencyRate = $currency->getCurrCucChange();
+        $touristTaxTotal = 0;
 
         $nights = array();
         $rooms = array();
@@ -95,6 +96,7 @@ class BookingService extends Controller
                 ->getByBookingAndOwnership($bookingId,$own_r["id"]);
             $totalPrice = 0;
             $totalPercentPrice = 0;
+            $totalNights = 0;
 
             foreach ($ownReservations as $own) {
                 $array_dates = $timeService->datesBetween(
@@ -102,13 +104,30 @@ class BookingService extends Controller
                         $own->getOwnResReservationToDate()->getTimestamp()
                     );
                 $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
+
+                $totalNights += $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
+
+
             }
 
+            if($serviceChargeInCuc == 0)
+            {
+                $serviceChargeInCuc = $own_r["fixedFee"];
+            }
+            else if($serviceChargeInCuc != $own_r["fixedFee"] && $own_r["currentFee"])
+                $serviceChargeInCuc = $own_r["fixedFee"];
+
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
+            $totalRooms = count($ownReservations);
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
+
+            $touristTaxTotal += $totalPrice * $tax;
+
 
             $payments[$own_r["id"]] = array(
                 'total_price' => $totalPrice * $currencyRate,
                 'prepayment' => $totalPercentPrice * $currencyRate,
+                'touristTax' => $totalPrice * $tax * $currencyRate,
                 'pay_at_service_cuc' => $totalPrice - $totalPercentPrice,
                 'pay_at_service' => ($totalPrice - $totalPercentPrice) * $currencyRate
             );
@@ -151,7 +170,8 @@ class BookingService extends Controller
         $accommodationServiceCharge = $totalPrice * $currencyRate;
         $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
         $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
-        $totalPrepayment = $serviceChargeTotal + $prepaymentAccommodations;
+        $touristTaxTotal = $touristTaxTotal * $currencyRate;
+        $totalPrepayment = $serviceChargeTotal + $prepaymentAccommodations + $touristTaxTotal;
         $totalPrepaymentInCuc = $totalPrepayment / $currencyRate;
         $totalServicingPrice = ($totalPrice - $totalPercentPrice) * $currencyRate;
 
@@ -175,7 +195,8 @@ class BookingService extends Controller
             'total_prepayment' => $totalPrepayment,
             'total_prepayment_cuc' => $totalPrepaymentInCuc,
             'total_servicing_price' => $totalServicingPrice,
-            'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC
+            'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC,
+            'tourist_tax_total' => $touristTaxTotal
         );
     }
 

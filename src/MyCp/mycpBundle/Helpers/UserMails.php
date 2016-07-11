@@ -51,6 +51,26 @@ class UserMails {
             $controller->get('session')->getFlashBag()->add('message_error_main', $message);
         }
     }
+   public static function sendCreateUserCasaMailNew($controller,$user_email,$user_name, $user_full_name, $secret_token, $own_name, $own_mycp_code) {
+        if ((isset($user_email) && $user_email != "")) {
+            $service_email = $controller->get('Email');
+            try {
+                if (isset($user_email) && $user_email != "") {
+                  $service_email->sendCreateUserCasaMailNew($user_email, $user_name, $user_full_name, $secret_token, $own_mycp_code, $own_name);
+                }
+                $message = 'El correo notificando la creación de la cuenta de usuario ha sido enviado satisfactoriamente al usuario '.$user_full_name;
+                $controller->get('session')->getFlashBag()->add('message_ok', $message);
+            } catch (\Exception $e) {
+                $message = 'Ha ocurrido un error en el envio del correo de notificación de creación de la cuenta de usuario al propietario. ' . $e->getMessage();
+                $controller->get('session')->getFlashBag()->add('message_error_main', $message);
+            }
+        }
+        else
+        {
+            $message = 'No se ha enviado la notificación porque el correo electrónico está en blanco.';
+            $controller->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+    }
 
 }
 

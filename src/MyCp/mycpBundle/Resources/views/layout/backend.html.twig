@@ -78,6 +78,18 @@
         </div>
         <div class="accordion-group">
             <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2a" href="#collapseTwoA">
+                    Contabilidad <i class="icon-chevron-right pull-right"></i>
+                </a>
+            </div>
+            <div id="collapseTwoA" class="accordion-body collapse {%if temp == 'BackendPaymentController'%}in{%endif%}">
+                <div class="accordion-inner">
+                    <a href="{{ path("mycp_list_payments") }}"><i class="glyphicons money"></i> Pagos - Alojamientos</a>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
                     Generales <i class="icon-chevron-right  pull-right"></i>
                 </a>

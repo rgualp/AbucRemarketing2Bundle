@@ -1,0 +1,20 @@
+  <div class="form-group">
+        <label for="comment">Explique a los huéspedes cómo es su espacio: luminoso, ventilado, acogedor, amplio…Promocione su destino. Cuénteles de las principales atracciones de su ciudad. Qué lugares podrían visitar y cuán cerca están de su alojamiento.</label>
+        <div class="row">
+            <div class="col-md-12">
+                <p id="label_odlbriefdescription" class="font-blue step-span">{{ ownDescriptionLang.OdlBriefDescription|raw }}</p>
+                <textarea id="textarea_odlbriefdescription" class="form-control hide" rows="10" name="comment-one">{{ ownDescriptionLang.OdlBriefDescription }}</textarea>
+                <button data-cmpdisabled="#label_odlbriefdescription" data-cmpenabled="#textarea_odlbriefdescription" class="btn btn-primary dim changeBtn" type="button">Cambiar</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="comment">No pierda oportunidad de encantar a sus futuros huéspedes. Añada información sobre su alojamiento y sus experiencias como anfitrión. No olvide incluir qué lo distingue y hace único. Comente sobre sus intereses y cuánto disfruta recibirlos en casa como invitados. Comparta detalles personales, como la música o la comida que prefiere.</label>
+        <div class="row">
+            <div class="col-md-12">
+                <p id="label_odldescription" class="font-blue step-span">{{ ownDescriptionLang.OdlDescription|raw }}</p>
+                <textarea id="textarea_odldescription" class="form-control hide" rows="2" name="comment-two">{{ ownDescriptionLang.OdlDescription }}</textarea>
+                <button data-cmpdisabled="#label_odldescription" data-cmpenabled="#textarea_odldescription" class="btn btn-primary dim changeBtn" type="button">Cambiar</button>
+            </div>
+        </div>
+    </div>

@@ -181,9 +181,7 @@ class SearchUtils {
         if (!$room_filter) {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
+                            pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
                             o.own_comments_total as comments_total,
@@ -194,9 +192,9 @@ class SearchUtils {
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(a1.id) FROM mycpBundle:accommodationAward aw1 JOIN aw1.award a1 WHERE aw1.accommodation = o.own_id ORDER BY aw1.year DESC, a1.ranking_value DESC) as award1,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id AND room.room_active = 1) as rooms_count,
-                            (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                            data.activeRooms as rooms_count,
+                            data.reservedRooms as count_reservations,
+                            data.publishedComments  as comments,
                             o.own_facilities_breakfast as breakfast,
                             o.own_facilities_dinner as dinner,
                             o.own_facilities_parking as parking,
@@ -211,13 +209,14 @@ class SearchUtils {
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.data data
+                             LEFT JOIN data.principalPhoto op
+                             LEFT JOIN op.own_pho_photo pho
                              WHERE o.own_status = 1 ";
         } else {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
+                            pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
                             o.own_comments_total as comments_total,
@@ -228,9 +227,9 @@ class SearchUtils {
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(a1.id) FROM mycpBundle:accommodationAward aw1 JOIN aw1.award a1 WHERE aw1.accommodation = o.own_id ORDER BY aw1.year DESC, a1.ranking_value DESC) as award1,
                               (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id AND room.room_active = 1) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
+                            data.activeRooms as rooms_count,
+                            data.reservedRooms as count_reservations,
+                            data.publishedComments  as comments,
                             o.own_facilities_breakfast as breakfast,
                             o.own_facilities_dinner as dinner,
                             o.own_facilities_parking as parking,
@@ -246,6 +245,9 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.data data
+                             LEFT JOIN data.principalPhoto op
+                             LEFT JOIN op.own_pho_photo pho
                              WHERE o.own_status = 1
                                AND r.room_active = 1 ";
         }

@@ -1,0 +1,54 @@
+my_cp_casa_module_index:
+    path:     /
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: my_cp_casa_module_homepage, permanent: true  }
+my_cp_casa_module_homepage:
+    path:     /dashboard
+    defaults: { _controller: MyCpCasaModuleBundle:Default:index }
+my_cp_casa_module_calendar:
+    path:     /dashboard/calendar
+    defaults: { _controller: MyCpCasaModuleBundle:Default:ownershipCalendar }
+my_cp_casa_module_registration:
+    path:     /registro
+    defaults: { _controller: MyCpCasaModuleBundle:Registration:register }
+my_cp_casa_module_activateAccount:
+    path: /registro/activar/{token}
+    defaults: { _controller: MyCpCasaModuleBundle:Registration:activateAccount }
+    requirements:
+        token: .*
+my_cp_casa_login:
+    path: /login
+    defaults: { _controller: MyCpCasaModuleBundle:Security:login , urlLogin: 'my_cp_casa_login_check'}
+my_cp_casa_login_check:
+    path: /login_check
+my_cp_casa_logout:
+    path: /logout
+my_cp_forget_password:
+    path:  /olvido-contrasenna/
+    defaults: { _controller: MyCpCasaModuleBundle:Security:forgotPassword}
+
+my_cp_change_password_user:
+    path:  /cambiar-contrasenna/{string}
+    defaults: { _controller: MyCpCasaModuleBundle:Security:changePassword }
+my_casa_module_ownership_steps:
+    resource: "@MyCpCasaModuleBundle/Controller/StepsController.php"
+    type: annotation
+
+my_casa_module_reservations:
+    pattern:  /reservations/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_status}
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:reservations,items_per_page:10,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',sort_by:0,filter_status:''}
+
+my_casa_module_reservation_detail:
+    pattern:  /reservations-detail
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:detail}
+
+my_casa_module_clients:
+    pattern:  /clients/{items_per_page}/{filter_user_name}/{filter_user_email}/{filter_user_country}/{sort_by}
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:clients,items_per_page:10,filter_user_name:'',filter_user_email:'',filter_user_country:'',sort_by:0}
+
+my_casa_module_client_detail:
+    pattern:  /client-detail
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:clientDetail}
+
+my_casa_module_comments:
+    pattern:  /comments/{sort_by}
+    defaults: { _controller: MyCpCasaModuleBundle:Default:comments,sort_by:0}

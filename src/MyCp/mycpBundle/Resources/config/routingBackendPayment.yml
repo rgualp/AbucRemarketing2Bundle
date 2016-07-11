@@ -1,0 +1,23 @@
+mycp_list_payments:
+    pattern:  /list/{items_per_page}/{filter_number}/{filter_code}/{filter_service}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
+    defaults: { _controller: mycpBundle:BackendPayment:list, items_per_page: 100,filter_number:'',filter_code:'',filter_service:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:''}
+
+mycp_new_payment:
+    pattern:  /new
+    defaults: { _controller: mycpBundle:BackendPayment:new }
+
+mycp_edit_payment:
+    pattern:  /edit/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:edit }
+
+mycp_delete_payment:
+    pattern:  /delete/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:delete }
+
+mycp_accommodations_no_payment:
+    pattern:  /accommodations/{items_per_page}/{filter_code}/{filter_name}/{filter_destination}/{filter_creation_date_from}/{filter_creation_date_to}
+    defaults: { _controller: mycpBundle:BackendPayment:accommodationsNoPayments, items_per_page: 100, filter_code:'', filter_name:'', filter_destination:'', filter_creation_date_from:'', filter_creation_date_to:'' }
+
+mycp_set_payment_callback:
+    pattern:  /set-payment-callback/
+    defaults: { _controller: mycpBundle:BackendPayment:setPaymentCallback }

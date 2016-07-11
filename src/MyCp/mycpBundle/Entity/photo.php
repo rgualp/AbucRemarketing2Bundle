@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,11 @@ class photo
      * @ORM\Column(name="pho_order", type="integer",nullable=true)
      */
     private $pho_order;
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="photoLang", mappedBy="pho_lang_id_photo")
+     */
+    protected $photo_langs;
 
     /**
      * @var string
@@ -98,22 +104,4 @@ class photo
     {
         return $this->pho_order;
     }
-
-    /**
-     * @return string
-     */
-    public function getPhoNotes()
-    {
-        return $this->pho_notes;
-    }
-
-    /**
-     * @param string $pho_notes
-     */
-    public function setPhoNotes($pho_notes)
-    {
-        $this->pho_notes = $pho_notes;
-    }
-
-
 }

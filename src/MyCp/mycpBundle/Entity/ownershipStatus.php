@@ -21,6 +21,7 @@ class ownershipStatus
     const STATUS_IN_PROCESS = 3;
     const STATUS_DELETED = 4;
     const STATUS_BATCH_PROCESS = 5;
+    const STATUS_INSERTED_BY_OWNER = 6;
 
     /**
      * Contains all possible statuses
@@ -33,7 +34,8 @@ class ownershipStatus
         self::STATUS_INACTIVE,
         self::STATUS_IN_PROCESS,
         self::STATUS_DELETED,
-        self::STATUS_BATCH_PROCESS
+        self::STATUS_BATCH_PROCESS,
+        self::STATUS_INSERTED_BY_OWNER
     );
 
 
@@ -94,6 +96,7 @@ class ownershipStatus
             case ownershipStatus::STATUS_DELETED: return "OWN_STATUS_DELETED";
             case ownershipStatus::STATUS_INACTIVE: return "OWN_STATUS_INACTIVE";
             case ownershipStatus::STATUS_IN_PROCESS: return "OWN_STATUS_IN_PROCESS";
+            case ownershipStatus::STATUS_INSERTED_BY_OWNER: return "OWN_STATUS_INSERTED_BY_OWNER";
             default: return "OWN_NO_STATUS";
         }
     }

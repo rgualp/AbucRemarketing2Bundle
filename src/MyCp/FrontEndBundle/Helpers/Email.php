@@ -43,7 +43,6 @@ class Email {
 
 // </editor-fold>
 //-----------------------------------------------------------------------------
-
 	public function sendTemplatedEmail($subject, $email_from, $email_to, $content) {
 		$templating = $this->container->get('templating');
 		$body = $templating->render("FrontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
@@ -149,7 +148,23 @@ class Email {
 			"Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
 		);
 	}
+	public function sendCreateUserCasaMailNew($email_to, $userName, $userFullName, $secret_token, $own_mycp_code, $own_name) {
+		$templating = $this->container->get('templating');
+		if (!isset($email_to) || $email_to == "")
+			throw new \InvalidArgumentException("The email to can not be empty");
 
+		$content = $templating->render('FrontEndBundle:mails:createUserCasaNewMailBody.html.twig', array(
+			'user_name' => $userName,
+			'user_full_name' => $userFullName,
+			'own_name' => $own_name,
+			'own_mycp_code' => $own_mycp_code,
+			'secret_token' => $secret_token
+		));
+
+		$this->sendEmail(
+			"Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+		);
+	}
 	public function sendCreateUserCasaMailCommand($user_casa, $ownership) {
 		$user = $user_casa->getUserCasaUser();
 		$user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());
@@ -233,5 +248,21 @@ class Email {
 			$this->container->get('mailer')->send($message);
 		}
 	}
+
+    public function sendCasaModulePublishAccommodation($user) {
+        $user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());
+        $email_to= $user->getUserEmail();
+
+        if (!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $data= array();
+        $data['user_locale']= 'es';
+
+        $templating = $this->container->get('templating');
+        $content = $templating->render('FrontEndBundle:mails:casaModulePublishAccommodation.html.twig', $data);
+        $subject= 'Bienvenido a MyCasaParticular';
+        $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
+    }
 
 }

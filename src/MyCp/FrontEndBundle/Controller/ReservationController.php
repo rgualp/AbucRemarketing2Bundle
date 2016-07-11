@@ -54,6 +54,7 @@ class ReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $reservations = array();
         foreach ($array_ids as $id) {
             array_push($reservations, $em->getRepository('mycpBundle:ownershipReservation')->find($id));
@@ -69,8 +70,10 @@ class ReservationController extends Controller {
         $total_percent_price = 0;
         $commissions = array();
         $rooms = array();
+        $generalReservationIds = array();
         $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
         foreach ($reservations as $reservation) {
+            $generalReservationIds[] = $reservation->getOwnResGenResId()->getGenResId();
             if ($min_date > $reservation->getOwnResReservationFromDate()->getTimestamp()) {
                 $min_date = $reservation->getOwnResReservationFromDate()->getTimestamp();
             }
@@ -103,6 +106,17 @@ class ReservationController extends Controller {
                 array_push($commissions, $commission);
             }
         }
+
+        $generalReservationIds = array_unique($generalReservationIds);
+        $touristTax = 0;
+
+        foreach($generalReservationIds as $genResId){
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($genResId, $service_time);
+            $touristTax += $tax;
+
+            /*var_dump($tax);*/
+        }
+
         $array_dates_string = array();
         $array_dates_string_day = array();
         $array_dates = $service_time->datesBetween($min_date, $max_date);
@@ -216,12 +230,14 @@ class ReservationController extends Controller {
                 }
 
                 $booking->setBookingCurrency($currency);
-                $configuration_service_fee = $this->container->getParameter('configuration.service.fee');
-                $booking->setBookingPrepay(($total_percent_price + $configuration_service_fee) * $currency->getCurrCucChange());
+                $configuration_service_fee = floatval($currentServiceFee->getFixedFee());
+                //$totalNights = count($array_dates_string) - 1;
+                //$touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(count($reservations), $totalNights, $total_price / $totalNights);
+                $prepayment = ($touristTax  + $configuration_service_fee + $total_percent_price)* $currency->getCurrCucChange();
+                $booking->setBookingPrepay($prepayment);
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
                 $em->persist($booking);
-                //var_dump($booking); exit();
 
                 foreach ($own_reservations as $own_res) {
                     $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
@@ -244,10 +260,12 @@ class ReservationController extends Controller {
                   $em->flush(); */
 
                 $bookingId = $booking->getBookingId();
+
                 return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
+
 
         return $this->render('FrontEndBundle:reservation:reservation.html.twig', array(
                     'limit_dates' => $array_limits_dates,
@@ -267,7 +285,9 @@ class ReservationController extends Controller {
                     'post' => $post,
                     'post_country' => $post_country,
                     'total_errors' => $count_errors,
-                    'seasons' => $season_types
+                    'seasons' => $season_types,
+                    'currentServiceFee' => $currentServiceFee,
+                    'touristTax' => $touristTax
         ));
     }
 

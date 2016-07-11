@@ -32,34 +32,34 @@ class ownershipData
     /**
      * @var int
      *
-     * @ORM\Column(name="activeRooms", type="integer")
+     * @ORM\Column(name="activeRooms", type="integer", nullable=true)
      */
     private $activeRooms;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="publishedComments", type="integer")
+     * @ORM\Column(name="publishedComments", type="integer", nullable=true)
      */
     private $publishedComments;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="reservedRooms", type="integer")
+     * @ORM\Column(name="reservedRooms", type="integer", nullable=true)
      */
     private $reservedRooms;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="touristClients", type="integer")
+     * @ORM\Column(name="photosCount", type="integer", nullable=true)
      */
-    private $touristClients;
+    private $photosCount;
 
     /**
      * @ORM\OneToOne(targetEntity="ownershipPhoto",inversedBy="data")
-     * @ORM\JoinColumn(name="principalPhoto",referencedColumnName="own_pho_id")
+     * @ORM\JoinColumn(name="principalPhoto",referencedColumnName="own_pho_id", nullable=true)
      */
     private $principalPhoto;
 
@@ -164,19 +164,21 @@ class ownershipData
     /**
      * @return int
      */
-    public function getTouristClients()
+    public function getPhotosCount()
     {
-        return $this->touristClients;
+        return $this->photosCount;
     }
 
     /**
-     * @param int $touristClients
+     * @param int $photosCount
      * @return mixed
      */
-    public function setTouristClients($touristClients)
+    public function setPhotosCount($photosCount)
     {
-        $this->touristClients = $touristClients;
+        $this->photosCount = $photosCount;
         return $this;
     }
+
+
 
 }
