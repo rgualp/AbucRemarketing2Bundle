@@ -78,7 +78,7 @@ frontend_carrousel_last_added_callback:
     defaults: { _controller: FrontEndBundle:Ownership:getCarrouselLastAddedCallback }
 
 frontend_carrousel_bycategory_callback:
-    pattern:  /carrousel-bycategory/
+    path:  /carrousel-bycategory/
     defaults: { _controller: FrontEndBundle:Ownership:getCarrouselByCategoryCallback }
 
 frontend_photo_thumbnail:

@@ -1411,7 +1411,6 @@ class ownershipRepository extends EntityRepository {
                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
-
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
