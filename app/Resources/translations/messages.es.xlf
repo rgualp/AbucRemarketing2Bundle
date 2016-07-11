@@ -3825,8 +3825,8 @@
                  <target>¡Nuevo!</target>
                  </trans-unit>
                 <trans-unit id="964">
-                 <source>JOIN_CASA</source>
-                 <target>¡Únete! Inscribe tu casa</target>
+                  <source>JOIN_CASA</source>
+                  <target>¡Únete! Inscribe tu casa</target>
                  </trans-unit>
 
         </body>
