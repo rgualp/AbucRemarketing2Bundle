@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>HOW_IT_WORKS</source>
-                <target>So funktioniert es</target>
+                <target>Wie es funktioniert</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>REGISTER</source>
@@ -112,7 +112,7 @@
             </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
-                <target>Kontaktieren Sie uns</target>
+                <target>Kontaktieren Sie uns!</target>
             </trans-unit>
             <trans-unit id="29">
                 <source>SITE_MAP</source>
@@ -1228,7 +1228,7 @@
             </trans-unit>
             <trans-unit id="316">
                 <source>ABOUT_US</source>
-                <target>Über uns</target>
+                <target>Wer sind wir?</target>
             </trans-unit>
             <trans-unit id="317">
                 <source>ABOUT_US_CONTENT</source>
@@ -3818,6 +3818,14 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                  <trans-unit id="962">
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Ihre Unterkunft ist nur der Anfang. Wir machen Ihre Reise zu einem einzigartigen Erlebnis.</target>
+                 </trans-unit>
+                 <trans-unit id="963">
+                 <source>NEW</source>
+                 <target>Neu!</target>
+                 </trans-unit>
+                <trans-unit id="964">
+                 <source>JOIN_CASA</source>
+                 <target>Registrier deine Unterkunft</target>
                  </trans-unit>
     </body>
     </file>
