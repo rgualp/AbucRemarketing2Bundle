@@ -3163,17 +3163,17 @@
 
         <trans-unit id="944">
             <source>SERVICE_ACCOMMODATION_TAX</source>
-            <target>Zimmervermittlung</target>
+            <target>Betrag für die Unterkunft</target>
         </trans-unit>
 
         <trans-unit id="945">
             <source>SERVICE_TOURIST_TAX</source>
-            <target>Tourist service</target>
+            <target>Betrag für den Kundendienst</target>
         </trans-unit>
 
         <trans-unit id="946">
             <source>SERVICE_FIXED_TAX</source>
-            <target>Festen zinssatz</target>
+            <target>Fixgebühr</target>
         </trans-unit>
 
         <trans-unit id="947">
@@ -3193,12 +3193,12 @@
 
         <trans-unit id="950">
             <source>TOTAL_PAY_AT_SERVICE</source>
-            <target>Pago en casa</target>
+            <target>Zu bezahlender Betrag in der Unterkunft</target>
         </trans-unit>
 
         <trans-unit id="951">
             <source>SERVICE_ACCOMMODATION_TAX_LONG</source>
-            <target>Servicio al alojamiento</target>
+            <target>Betrag für die Unterkunft</target>
         </trans-unit>
 
 

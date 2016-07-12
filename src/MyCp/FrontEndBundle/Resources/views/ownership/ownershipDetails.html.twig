@@ -177,12 +177,12 @@
                                             {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                                             <span id="total_price"></span>
                                         </div>
-                                        <div class="col-sm-3" rel="tooltip" title="{{ 'SERVICE_ACCOMMODATION_TAX_TITLE' | trans({"%accommodation_percent%": ownership.OwnCommissionPercent}) }}">
+                                        <div class="col-sm-3"> <!--rel="tooltip" title="{#{ 'SERVICE_ACCOMMODATION_TAX_TITLE' | trans({"%accommodation_percent%": ownership.OwnCommissionPercent}) }#}"-->
                                             {{ 'SERVICE_ACCOMMODATION_TAX' | trans }}  ({{ ownership.OwnCommissionPercent }}%)<br/>
                                             {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                                             <span id="initial_deposit"></span>
                                         </div>
-                                        <div class="col-sm-3" rel="tooltip" title="{{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}}">
+                                        <div class="col-sm-3"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
                                             {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
                                             {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                                             <span id="tourist_service"
@@ -196,7 +196,7 @@
                                                   data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                                                   data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
                                         </div>
-                                        <div class="col-sm-3" rel="tooltip" title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}">
+                                        <div class="col-sm-3"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
                                             {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
                                              {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                                             <span id="service_recharge">{{ currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</span>
