@@ -30,7 +30,7 @@ class SendEmailInformationGesproCommand extends ContainerAwareCommand
 	protected function configure()
 	{
 		$this
-			->setName('mycp_task:send_email_Gespro_information')
+			->setName('mycp_task:send_email_information_gespro')
 			->setDescription('Send notification to user ');
 	}
 
@@ -43,7 +43,7 @@ class SendEmailInformationGesproCommand extends ContainerAwareCommand
 		$mails= array(
 			'ander@mycasaparticular.com'
 		);
-		$ownerships= $this->getOwnerships();
+//		$ownerships= $this->getOwnerships();
 //		foreach ($ownerships as $ownership) {
 //			$mail = trim($ownership->getOwnEmail1());
 //			if (empty($mail))
