@@ -412,18 +412,23 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     private function sendEmail($newMethod, $mail, $body, $subject) {
-        if ($newMethod) {
-            $service_email = $this->get('mycp.service.email_manager');
-            $service_email->sendEmail($mail, $subject . " (Nuevo)", $body);
+        try {
+            if ($newMethod) {
+                $service_email = $this->get('mycp.service.email_manager');
+                $service_email->sendEmail($mail, $subject . " (Nuevo)", $body);
 
-            $message = 'Mensaje enviado utilizando el método actual.';
-            $this->get('session')->getFlashBag()->add('message_ok', $message);
-        } else {
-            $service_email = $this->get('Email');
-            $service_email->sendEmail($subject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
+                $message = 'Mensaje enviado utilizando el método actual.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+            } else {
+                $service_email = $this->get('Email');
+                $service_email->sendEmail($subject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
 
-            $message = 'Mensaje enviado utilizando el método antiguo.';
-            $this->get('session')->getFlashBag()->add('message_ok', $message);
+                $message = 'Mensaje enviado utilizando el método antiguo.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+            }
+        }
+        catch(\Exception $e){
+            $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
         }
         return $this->redirect($this->generateUrl('mycp_test_home'));
     }
