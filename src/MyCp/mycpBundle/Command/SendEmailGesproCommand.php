@@ -63,7 +63,7 @@ class SendEmailGesproCommand extends ContainerAwareCommand
 			$email_manager = $this->container->get('mycp.service.email_manager');
 			$data= array();
 			$data['user_locale']= 'es';
-			$body = $email_manager->getViewContent('FrontEndBundle:mails:SendEmailGesproCommand.html.twig', $data);
+			$body = $email_manager->getViewContent('FrontEndBundle:mails:sendEmailGesproCommand.html.twig', $data);
 
 			$this->notification_email->setTo($to);
 			$this->notification_email->setSubject($subject);
