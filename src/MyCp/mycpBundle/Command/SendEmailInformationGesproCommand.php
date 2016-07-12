@@ -16,7 +16,7 @@ use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
 
-class SendEmailInformationCommand extends ContainerAwareCommand
+class SendEmailInformationGesproCommand extends ContainerAwareCommand
 {
 	private $em;
 
