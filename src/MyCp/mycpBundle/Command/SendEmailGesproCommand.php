@@ -16,7 +16,7 @@ use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
 
-class SendEmailInformationGesproCommand extends ContainerAwareCommand
+class SendEmailGesproCommand extends ContainerAwareCommand
 {
 	private $em;
 
@@ -30,7 +30,7 @@ class SendEmailInformationGesproCommand extends ContainerAwareCommand
 	protected function configure()
 	{
 		$this
-			->setName('mycp_task:send_email_information_gespro')
+			->setName('mycp_task:send_email_gespro')
 			->setDescription('Send notification to user ');
 	}
 
