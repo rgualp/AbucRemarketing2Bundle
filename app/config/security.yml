@@ -150,7 +150,8 @@ security:
         - { path: ^/mycasa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
-        - { path: ^/casa, roles: IS_AUTHENTICATED_REMEMBERED}
+#        - { path: ^/casa, roles: IS_AUTHENTICATED_REMEMBERED}
+        - { path: ^/casa, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/mycasa, roles: IS_AUTHENTICATED_REMEMBERED}
        # - { path: ^/alojamiento/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
