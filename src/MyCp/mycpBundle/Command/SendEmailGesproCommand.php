@@ -43,14 +43,14 @@ class SendEmailGesproCommand extends ContainerAwareCommand
 		$mails= array(
 			'ander@mycasaparticular.com'
 		);
-//		$ownerships= $this->getOwnerships();
-//		foreach ($ownerships as $ownership) {
-//			$mail = trim($ownership->getOwnEmail1());
-//			if (empty($mail))
-//				$mail = trim($ownership->getOwnEmail2());
-//
-//			$mails[]= $mail;
-//		}
+		$ownerships= $this->getOwnerships();
+		foreach ($ownerships as $ownership) {
+			$mail = trim($ownership->getOwnEmail1());
+			if (empty($mail))
+				$mail = trim($ownership->getOwnEmail2());
+
+			$mails[]= $mail;
+		}
 
 		foreach ($mails as $mail) {
 
