@@ -3778,12 +3778,12 @@
 
         <trans-unit id="950">
             <source>TOTAL_PAY_AT_SERVICE</source>
-            <target>Pago en casa</target>
+            <target>Pay at accommodation</target>
         </trans-unit>
 
         <trans-unit id="951">
             <source>SERVICE_ACCOMMODATION_TAX_LONG</source>
-            <target>Servicio al alojamiento</target>
+            <target>Accommodation service</target>
         </trans-unit>
 
         </body>
