@@ -233,7 +233,7 @@ class userRepository extends EntityRepository {
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT u FROM mycpBundle:user u JOIN u.user_subrole sr
-        WHERE u.user_name LIKE :filter_user_name $string_role $string_city $string_country $string_name $string_last_name $string_email");
+        WHERE (u.locked is null or u.locked = 0) AND  u.user_name LIKE :filter_user_name $string_role $string_city $string_country $string_name $string_last_name $string_email");
 
         if ($filter_role != 'null' && $filter_role != '')
             $query->setParameter('filter_role', $filter_role);
