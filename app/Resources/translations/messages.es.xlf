@@ -3848,14 +3848,6 @@
                                                                                 <source>MOST_VISITED_CITIES_TITLE</source>
                                                                                 <target>Las ciudades más visitadas en Cuba </target>
                                                                             </trans-unit>
-                 <source>NEW</source>
-                 <target>¡Nuevo!</target>
-                 </trans-unit>
-                <trans-unit id="964">
-                  <source>JOIN_CASA</source>
-                  <target>¡Únete! Inscribe tu casa</target>
-                 </trans-unit>
-
         </body>
     </file>
 </xliff>
