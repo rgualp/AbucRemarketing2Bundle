@@ -48,9 +48,16 @@ class RegistrationController extends Controller
             $errors['own_name'] = 'Ya existe una propiedad con este nombre.';
             $data["count_errors"] += 1;
         }
+        if($this->get('validator')->validateValue($request->get('own_email_1'), $emailConstraint)){
 
-        $errors['own_email_1'] = $this->get('validator')->validateValue($request->get('own_email_1'), $emailConstraint);
-        $data['count_errors']+=count($errors['own_email_1']);
+        }
+        else{
+            $errors['own_email_1'] = $emailConstraint->message;
+            $data['count_errors']+=count($this->get('validator')->validateValue($request->get('own_email_1'), $emailConstraint));
+        }
+       //        $errors['own_email_1'] = $this->get('validator')->validateValue($request->get('own_email_1'), $emailConstraint);
+
+
         if ($request->get('own_email_1') != "" && !\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($request->get('own_email_1'))) {
             $errors['own_email_1'] = $emailConstraint->message;
             $data['count_errors']++;

@@ -37,6 +37,14 @@
            <div class="alert alert-danger alert-dismissable">
                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
        {% endif %}
+       {% if errors is defined and errors is not empty %}
+           <div class="alert alert-danger alert-dismissable">
+               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+               {% for error in errors %}
+               {{ error | trans }}
+               {% endfor %}
+               </div>
+       {% endif %}
        <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn">
        <div class="col-xs-12">
            <div class="bg-gray">
