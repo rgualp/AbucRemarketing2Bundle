@@ -44,7 +44,17 @@ class ownershipPhotoRepository extends EntityRepository {
 
         $ownPhotos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_photo' => $id_photo));
         foreach ($ownPhotos as $ownPhoto)
+        {
+            $data = $ownPhoto->getData();
+            if($data != null)
+            {
+                $data->setPrincipalPhoto(null);
+                $em->persist($data);
+            }
+
             $em->remove($ownPhoto);
+        }
+
 
         $em->remove($photo);
         $em->flush();
