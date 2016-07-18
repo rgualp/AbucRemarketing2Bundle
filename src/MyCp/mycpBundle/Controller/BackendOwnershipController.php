@@ -217,11 +217,13 @@ class BackendOwnershipController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($id_photo, $this->container);
+        $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
         $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($id_ownership);
         $message = 'El fichero se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+
 
         $service_log = $this->get('log');
         $service_log->saveLog($ownership->getLogDescription().' (Fotos)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_DELETE, DataBaseTables::OWNERSHIP_PHOTO);
@@ -1378,6 +1380,7 @@ class BackendOwnershipController extends Controller {
 
             $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($idOwnership);
             $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
+            $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
 
             $message = 'Fotografías eliminadas satisfactoriamente.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);

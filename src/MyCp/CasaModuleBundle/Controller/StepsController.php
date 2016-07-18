@@ -517,6 +517,9 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         try {
             $em->getRepository('mycpBundle:ownershipPhoto')->deleteOwnPhoto($id, $this->get('service_container'));
+            $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+            $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
+
         } catch (\Exception $exc) {
             return new JsonResponse([
                 'success' => false,
