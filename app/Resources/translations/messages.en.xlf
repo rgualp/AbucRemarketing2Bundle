@@ -3814,13 +3814,33 @@
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Staying is just the beginning. We make your trip a unique experience.</target>
                  </trans-unit>
-                 <trans-unit id="963">
-                  <source>NEW</source>
-                  <target>New!</target>
-                  </trans-unit>
-                <trans-unit id="964">
-                 <source>JOIN_CASA</source>
-                 <target>Go! List your place</target>
+            <trans-unit id="963">
+                <source>La Habana Vieja</source>
+                <target>Old Havana</target>
+            </trans-unit>
+            <trans-unit id="965">
+                <source>Isla de la Juventud</source>
+                <target>Isle of Youth</target>
+            </trans-unit>
+            <trans-unit id="966">
+                <source>Península de Zapata</source>
+                <target>Zapata Marsh</target>
+            </trans-unit>
+            <trans-unit id="967">
+                <source>La Habana</source>
+                <target>Havana</target>
+            </trans-unit>
+            <trans-unit id="968">
+              <source>ESCAPE_TEXT</source>
+              <target><![CDATA[Escape to Cuba! ...<br/> Whole adventure for half price]]></target>
+            </trans-unit>
+             <trans-unit id="969">
+              <source>DOUBLE_TEXT</source>
+              <target>Double the fun with each Coupon</target>
+              </trans-unit>
+             <trans-unit id="970">
+                 <source>CODE_TEXT</source>
+                 <target>Keep this promo code try it here</target>
                  </trans-unit>
              <trans-unit id="971">
                <source>MYCASARENTA_TITLE</source>
