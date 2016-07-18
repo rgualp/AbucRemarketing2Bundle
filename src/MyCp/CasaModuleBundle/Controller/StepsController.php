@@ -812,7 +812,7 @@ class StepsController extends Controller
         foreach ($reserved as $res) {
             $days = date_diff($res['own_res_reservation_to_date'], $res['own_res_reservation_from_date']);
             $fecha = $res['own_res_reservation_from_date'];
-            for ($i = 0; $i <= $days->d; $i++) {
+            for ($i = 0; $i < $days->d; $i++) {
 
                 $event = array(
                     'title' => 'Reserva CAS'.$res['gen_res_id'],
