@@ -45,7 +45,7 @@ class ownershipPhotoRepository extends EntityRepository {
         $ownPhotos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_photo' => $id_photo));
         foreach ($ownPhotos as $ownPhoto)
         {
-            $data = $ownPhoto->getData();
+            $data = $ownPhoto->getOwnPhoOwn()->getData();
             if($data != null)
             {
                 $data->setPrincipalPhoto(null);
@@ -53,13 +53,36 @@ class ownershipPhotoRepository extends EntityRepository {
             }
 
             $em->remove($ownPhoto);
+            $em->flush();
         }
-
 
         $em->remove($photo);
         $em->flush();
         FileIO::deleteFile($dir . $photoName);
         FileIO::deleteFile($dir_thumbnails . $photoName);
+    }
+
+    public function updatePrincipalPhoto($accommodation)
+    {
+        $em = $this->getEntityManager();
+        if($accommodation != null) {
+            //Actualizar foto de portada
+            $newPrincipalPhoto = $em->createQueryBuilder()
+                ->from("mycpBundle:ownershipPhoto", "op")
+                ->join("op.own_pho_photo", "pho")
+                ->select("op")
+                ->orderBy("pho.pho_order", "DESC")
+                ->where("op.own_pho_own = :accommodation")
+                ->setParameter("accommodation", $accommodation->getOwnId())
+                ->setMaxResults(1)
+                ->getQuery()->getOneOrNullResult();
+
+            $data = $accommodation->getData();
+            $data->setPrincipalPhoto($newPrincipalPhoto);
+            $em->persist($data);
+            $em->flush();
+        }
+
     }
 
     public function checkOwnershipToInactivate($ownershipId) {
