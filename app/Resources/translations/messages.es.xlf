@@ -3820,15 +3820,42 @@
                  <source>VOUCHER_CUCOU_HEAD</source>
                  <target>Alojarse es solo el comienzo. Hacemos de su viaje una experiencia única.</target>
                  </trans-unit>
-             <trans-unit id="963">
-                 <source>NEW</source>
-                 <target>¡Nuevo!</target>
-             </trans-unit>
-             <trans-unit id="964">
-                  <source>JOIN_CASA</source>
-                  <target>¡Únete! Inscribe tu casa</target>
-             </trans-unit>
-
+                 <trans-unit id="963">
+                  <source>ESCAPE_TEXT</source>
+                  <target><![CDATA[¡Escápese a Cuba! ...<br/>Toda la aventura a mitad de precio]]></target>
+                  </trans-unit>
+                    <trans-unit id="964">
+                  <source>DOUBLE_TEXT</source>
+                  <target>El doble de diversión con cada cupón</target>
+                  </trans-unit>
+                   <trans-unit id="965">
+                    <source>CODE_TEXT</source>
+                    <target>Quédese este código y pruébelo! </target>
+                    </trans-unit>
+                    <trans-unit id="971">
+                      <source>MYCASARENTA_TITLE</source>
+                      <target>MyCasa Renta, aplicación móvil </target>
+                    </trans-unit>
+                    <trans-unit id="972">
+                                          <source>MYCASATRIP_TITLE</source>
+                                          <target>MyCasa Trip, aplicación móvil </target>
+                                        </trans-unit>
+                    <trans-unit id="973">
+                                                            <source>DESTINATION_DETAILS</source>
+                                                            <target>Las mejores casas particulares en %destinationName%, Cuba </target>
+                                                        </trans-unit>
+                    <trans-unit id="974">
+                                                                                <source>MOST_VISITED_CITIES_TITLE</source>
+                                                                                <target>Las ciudades más visitadas en Cuba </target>
+                                                                            </trans-unit>
+                                                                            <trans-unit id="975">
+                                                                                             <source>NEW</source>
+                                                                                             <target>¡Nuevo!</target>
+                                                                                         </trans-unit>
+                                                                                         <trans-unit id="976">
+                                                                                              <source>JOIN_CASA</source>
+                                                                                              <target>¡Únete! Inscribe tu casa</target>
+                                                                                         </trans-unit>
         </body>
     </file>
 </xliff>
