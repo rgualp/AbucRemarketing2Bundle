@@ -117,6 +117,9 @@ class StepsController extends Controller
                 $ownership->setOwnLangs('000' . $langs);
             }
 
+            if($ownership->getOwnCommissionPercent() == null || $ownership->getOwnCommissionPercent() == "")
+                $ownership->setOwnCommissionPercent(20);
+
             $em->persist($ownership);
             $em->flush();
             return new JsonResponse('ok');
