@@ -2036,4 +2036,22 @@ class ownershipRepository extends EntityRepository {
         return $qb->getQuery();
     }
 
+    public function canActive($ownership){
+        $em = $this->getEntityManager();
+
+        $haveRooms = ($ownership->getOwnRoomsTotal() > 0);
+        $havePhotos = ($ownership->getData()->getPhotosCount() > 0);
+
+        $haveDescriptions = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipDescriptionLang", "odl")
+            ->select("count(odl)")
+            ->where("odl.odl_ownership = :accommodation")
+            ->setParameter("accommodation", $ownership->getOwnId())
+            ->getQuery()->getSingleScalarResult();
+
+        $haveDescriptions = ($haveDescriptions > 0);
+
+        return $haveDescriptions && $havePhotos && $haveRooms;
+    }
+
 }

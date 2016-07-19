@@ -944,11 +944,17 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         if($request->get('active')=='true'){
-            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
-            $ownership->setOwnStatus($status);
-            $em->persist($ownership);
-            $em->flush();
-            $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+            $canPublish = $em->getRepository("mycpBundle:ownership")->canActive($ownership);
+
+            if($canPublish) {
+                $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+                $ownership->setOwnStatus($status);
+                $em->persist($ownership);
+                $em->flush();
+                $response = array('success' => true, 'msg' => 'Se ha cambiado el estado');
+            }
+            else
+                $response=array( 'success' => false,'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.');
         }
         else{
             $time = new \DateTime();
