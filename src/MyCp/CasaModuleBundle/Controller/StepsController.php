@@ -641,6 +641,8 @@ class StepsController extends Controller
         $secondOwner = $request->get('secondOwner');
         $homeownerName = $request->get('homeownerName');
         $email = $request->get('email');
+        $publishAccommodation = $request->get("publishAccommodation");
+        $hasError = false;
 
         $em = $this->getDoctrine()->getManager();
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
@@ -701,7 +703,7 @@ class StepsController extends Controller
                 $em->persist($user);
         }
 
-        if($request->get("dashboard")=='false')
+        if($request->get("dashboard")=='false' && $publishAccommodation)
         {
             $canPublish = $em->getRepository("mycpBundle:ownership")->canActive($accommodation);
 
@@ -724,10 +726,7 @@ class StepsController extends Controller
                 $em->persist($statistic);
             }
             else {
-                return new JsonResponse([
-                    'success' => false,
-                    'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.'
-                ]);
+                $hasError = true;
             }
         }
 
@@ -738,7 +737,7 @@ class StepsController extends Controller
         $em->getRepository("mycpBundle:ownership")->updateGeneralData($accommodation);
 
         //Enviar correo
-        if(!$request->get("dashboard"))
+        if(!$request->get("dashboard") && $publishAccommodation)
         {
             $service_email = $this->get('Email');
             $service_email->sendInfoCasaRentaCommand($this->getUser());
@@ -751,9 +750,15 @@ class StepsController extends Controller
             ));
         }
         else {
-            return new JsonResponse([
-                'success' => true
-            ]);
+            if($hasError)
+                return new JsonResponse([
+                    'success' => false,
+                    'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.'
+                ]);
+            else
+                return new JsonResponse([
+                    'success' => true
+                ]);
         }
     }
 

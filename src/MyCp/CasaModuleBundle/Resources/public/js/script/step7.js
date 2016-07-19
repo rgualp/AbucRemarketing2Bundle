@@ -4,18 +4,18 @@
  *========================================================================*/
 var Step7 = function () {
     var saveStep7=function(){
-        Step7.saveProfile(false);
+        Step7.saveProfile(false, false);
     }
 
     var onclickBtnSaveProfile=function(){
         $('#saveProfile').on('click',function(){
-            Step7.saveProfile(true);
+            Step7.saveProfile(true, false);
         });
     }
     var onclickBtnPublish=function(){
         $('#btnPublish').on('click',function(){
-            //ajaxControllersPublish();
-            Step7.saveProfile(false);
+            ajaxControllersPublish();
+            Step7.saveProfile(false, true);
         });
     }
     var countAjax=0;
@@ -71,7 +71,7 @@ var Step7 = function () {
             //    ajaxControllersPublish(),
             //    App.fireEventSaveTab());
         },
-        saveProfile:function(flag) {
+        saveProfile:function(flag, publishAccommodation) {
             var validate = true;
             var changePassword = false;
 
@@ -131,34 +131,39 @@ var Step7 = function () {
                         secondOwner: secondOwner,
                         password: password,
                         changePassword: changePassword,
-                        dashboard: flag
+                        dashboard: flag,
+                        publishAccommodation: publishAccommodation
                     },
                     success: function (data) {
                         //$("#loading").addClass("hide");
                         HoldOn.close();
-                        if(!data.success){
-                            swal({
-                                title: "Ooops!",
-                                text: data.msg,
-                                type: "error"
-                            });
-                           return false;
+                        if(publishAccommodation) {
+                            if (!data.success) {
+                                swal({
+                                    title: "Ooops!",
+                                    text: data.msg,
+                                    type: "error"
+                                });
+                                return false;
+                            }
+                            else
+                                window.location = publishUrl;
                         }
-                        else
-                            window.location=publishUrl;
                     },
                     error: function(data){
                         HoldOn.close();
-                        if(!data.success){
-                            swal({
-                                title: "Ooops!",
-                                text: data.msg,
-                                type: "error"
-                            });
-                            return false;
+                        if(publishAccommodation) {
+                            if (!data.success) {
+                                swal({
+                                    title: "Ooops!",
+                                    text: data.msg,
+                                    type: "error"
+                                });
+                                return false;
+                            }
+                            else
+                                window.location = publishUrl;
                         }
-                        else
-                            window.location=publishUrl;
                     }
                 });
             }
