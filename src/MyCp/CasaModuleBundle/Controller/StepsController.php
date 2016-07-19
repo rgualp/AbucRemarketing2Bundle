@@ -687,7 +687,7 @@ class StepsController extends Controller
         $em->persist($ownerAccommodation);
 
         if ($request->get('dashboard')=="true" && $request->get("changePassword")=="true") {
-            die(dump($request));
+            //die(dump($request));
             $password = $request->get('password');
 
                 $factory = $this->get('security.encoder_factory');
@@ -703,24 +703,32 @@ class StepsController extends Controller
 
         if($request->get("dashboard")=='false')
         {
-            //Preguntar si los datos primarios estan llenos
-            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
-            $accommodation->setOwnStatus($status)
-                ->setWaitingForRevision(true)
-                ->setOwnPublishDate(new \DateTime())
-            ;
-            $em->persist($accommodation);
+            $canPublish = $em->getRepository("mycpBundle:ownership")->canActive($accommodation);
 
-            //Insertar un ownershipStatistics
-            $statistic = new ownershipStatistics();
-            $statistic->setAccommodation($accommodation)
-                ->setCreated(true)
-                ->setStatus($status)
-                ->setUser($this->getUser())
-                ->setNotes("Inserted in Casa Module")
-            ;
+            if($canPublish) {
+                //Preguntar si los datos primarios estan llenos
+                $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+                $accommodation->setOwnStatus($status)
+                    ->setWaitingForRevision(true)
+                    ->setOwnPublishDate(new \DateTime());
+                $em->persist($accommodation);
 
-            $em->persist($statistic);
+                //Insertar un ownershipStatistics
+                $statistic = new ownershipStatistics();
+                $statistic->setAccommodation($accommodation)
+                    ->setCreated(true)
+                    ->setStatus($status)
+                    ->setUser($this->getUser())
+                    ->setNotes("Inserted in Casa Module");
+
+                $em->persist($statistic);
+            }
+            else {
+                return new JsonResponse([
+                    'success' => false,
+                    'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.'
+                ]);
+            }
         }
 
 

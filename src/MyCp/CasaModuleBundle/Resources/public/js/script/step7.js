@@ -3,7 +3,6 @@
  * Copyright 2016.
  *========================================================================*/
 var Step7 = function () {
-
     var saveStep7=function(){
         Step7.saveProfile(false);
     }
@@ -15,7 +14,7 @@ var Step7 = function () {
     }
     var onclickBtnPublish=function(){
         $('#btnPublish').on('click',function(){
-            ajaxControllersPublish();
+            //ajaxControllersPublish();
             Step7.saveProfile(false);
         });
     }
@@ -64,8 +63,9 @@ var Step7 = function () {
             //IMPORTANT!!!: Do not modify the call order.
             onclickBtnSaveProfile();
             onclickBtnPublish();
-            var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep7,this);
+
+            var event = App.getEvent();
+            event.clickBtnContinueAfter.add(saveStep7, this);
             //
             //$("#btnPublish").click(
             //    ajaxControllersPublish(),
@@ -136,9 +136,29 @@ var Step7 = function () {
                     success: function (data) {
                         //$("#loading").addClass("hide");
                         HoldOn.close();
+                        if(!data.success){
+                            swal({
+                                title: "Ooops!",
+                                text: data.msg,
+                                type: "error"
+                            });
+                           return false;
+                        }
+                        else
+                            window.location=publishUrl;
                     },
                     error: function(data){
                         HoldOn.close();
+                        if(!data.success){
+                            swal({
+                                title: "Ooops!",
+                                text: data.msg,
+                                type: "error"
+                            });
+                            return false;
+                        }
+                        else
+                            window.location=publishUrl;
                     }
                 });
             }

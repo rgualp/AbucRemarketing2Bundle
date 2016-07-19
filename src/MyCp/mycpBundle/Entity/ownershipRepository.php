@@ -2040,7 +2040,14 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $haveRooms = ($ownership->getOwnRoomsTotal() > 0);
-        $havePhotos = ($ownership->getData()->getPhotosCount() > 0);
+        $havePhotos = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipPhoto", "op")
+            ->select("count(op)")
+            ->where("op.own_pho_own = :accommodation")
+            ->setParameter("accommodation", $ownership->getOwnId())
+            ->getQuery()->getSingleScalarResult();
+
+        $havePhotos = ($havePhotos > 0);
 
         $haveDescriptions = $em->createQueryBuilder()
             ->from("mycpBundle:ownershipDescriptionLang", "odl")
