@@ -425,7 +425,7 @@ class StepsController extends Controller
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
         $service_email = $this->get('Email');
         $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
-        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array());
+        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array("code" => $ownership->getOwnMcpCode()));
     }
 
     /**
