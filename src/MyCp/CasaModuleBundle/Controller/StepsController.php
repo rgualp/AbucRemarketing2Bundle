@@ -117,6 +117,9 @@ class StepsController extends Controller
                 $ownership->setOwnLangs('000' . $langs);
             }
 
+            if($ownership->getOwnCommissionPercent() == null || $ownership->getOwnCommissionPercent() == "")
+                $ownership->setOwnCommissionPercent(20);
+
             $em->persist($ownership);
             $em->flush();
             return new JsonResponse('ok');
@@ -152,8 +155,10 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $rooms = $request->get('rooms');
         $ids=array();
+        $avgRoomPrice = 0;
         if (count($rooms)) {
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
+            $commisionPercent = $ownership->getOwnCommissionPercent() / 100;
             $i = 1;
             foreach ($rooms as $room) {
                 //Se esta modificando
@@ -186,6 +191,8 @@ class StepsController extends Controller
                     $ownership_room->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $em->persist($ownership_room);
                     $em->flush();
+
+                    $avgRoomPrice += $ownership_room->getRoomPriceDownTo();
                 } else {
                     //Se esta insertando
                     $obj = new room();
@@ -211,9 +218,27 @@ class StepsController extends Controller
                     $em->persist($obj);
                     $em->flush();
                     $ids[]=$obj->getRoomId();
+
+                    $avgRoomPrice += $obj->getRoomPriceDownTo();
                 }
+
                 $i++;
             }
+
+            //Calcular la categoria de la casa
+            $avgRoomPrice = $avgRoomPrice / count($rooms);
+            $accommodationCategory = "";
+
+            if($avgRoomPrice < 35)
+                $accommodationCategory = ownership::ACCOMMODATION_CATEGORY_ECONOMIC;
+            elseif ($avgRoomPrice >= 32 && $avgRoomPrice < 50)
+                $accommodationCategory = ownership::ACCOMMODATION_CATEGORY_MIDDLE_RANGE;
+            else
+                $accommodationCategory = ownership::ACCOMMODATION_CATEGORY_PREMIUM;
+
+            $ownership->setOwnCategory($accommodationCategory);
+            $em->persist($ownership);
+            $em->flush();
         }
         return new JsonResponse([
             'success' => true,
@@ -422,7 +447,7 @@ class StepsController extends Controller
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
         $service_email = $this->get('Email');
         $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
-        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array());
+        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array("code" => $ownership->getOwnMcpCode()));
     }
 
     /**
@@ -638,6 +663,8 @@ class StepsController extends Controller
         $secondOwner = $request->get('secondOwner');
         $homeownerName = $request->get('homeownerName');
         $email = $request->get('email');
+        $publishAccommodation = $request->get("publishAccommodation");
+        $hasError = false;
 
         $em = $this->getDoctrine()->getManager();
         $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
@@ -684,7 +711,7 @@ class StepsController extends Controller
         $em->persist($ownerAccommodation);
 
         if ($request->get('dashboard')=="true" && $request->get("changePassword")=="true") {
-            die(dump($request));
+            //die(dump($request));
             $password = $request->get('password');
 
                 $factory = $this->get('security.encoder_factory');
@@ -698,26 +725,31 @@ class StepsController extends Controller
                 $em->persist($user);
         }
 
-        if($request->get("dashboard")=='false')
+        if($request->get("dashboard")=='false' && $publishAccommodation)
         {
-            //Preguntar si los datos primarios estan llenos
-            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
-            $accommodation->setOwnStatus($status)
-                ->setWaitingForRevision(true)
-                ->setOwnPublishDate(new \DateTime())
-            ;
-            $em->persist($accommodation);
+            $canPublish = $em->getRepository("mycpBundle:ownership")->canActive($accommodation);
 
-            //Insertar un ownershipStatistics
-            $statistic = new ownershipStatistics();
-            $statistic->setAccommodation($accommodation)
-                ->setCreated(true)
-                ->setStatus($status)
-                ->setUser($this->getUser())
-                ->setNotes("Inserted in Casa Module")
-            ;
+            if($canPublish) {
+                //Preguntar si los datos primarios estan llenos
+                $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+                $accommodation->setOwnStatus($status)
+                    ->setWaitingForRevision(true)
+                    ->setOwnPublishDate(new \DateTime());
+                $em->persist($accommodation);
 
-            $em->persist($statistic);
+                //Insertar un ownershipStatistics
+                $statistic = new ownershipStatistics();
+                $statistic->setAccommodation($accommodation)
+                    ->setCreated(true)
+                    ->setStatus($status)
+                    ->setUser($this->getUser())
+                    ->setNotes("Inserted in Casa Module");
+
+                $em->persist($statistic);
+            }
+            else {
+                $hasError = true;
+            }
         }
 
 
@@ -727,7 +759,7 @@ class StepsController extends Controller
         $em->getRepository("mycpBundle:ownership")->updateGeneralData($accommodation);
 
         //Enviar correo
-        if(!$request->get("dashboard"))
+        if(!$request->get("dashboard") && $publishAccommodation)
         {
             $service_email = $this->get('Email');
             $service_email->sendInfoCasaRentaCommand($this->getUser());
@@ -740,9 +772,15 @@ class StepsController extends Controller
             ));
         }
         else {
-            return new JsonResponse([
-                'success' => true
-            ]);
+            if($hasError)
+                return new JsonResponse([
+                    'success' => false,
+                    'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.'
+                ]);
+            else
+                return new JsonResponse([
+                    'success' => true
+                ]);
         }
     }
 
@@ -941,11 +979,17 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         if($request->get('active')=='true'){
-            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
-            $ownership->setOwnStatus($status);
-            $em->persist($ownership);
-            $em->flush();
-            $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
+            $canPublish = $em->getRepository("mycpBundle:ownership")->canActive($ownership);
+
+            if($canPublish) {
+                $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+                $ownership->setOwnStatus($status);
+                $em->persist($ownership);
+                $em->flush();
+                $response = array('success' => true, 'msg' => 'Se ha cambiado el estado');
+            }
+            else
+                $response=array( 'success' => false,'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.');
         }
         else{
             $time = new \DateTime();
@@ -963,7 +1007,7 @@ class StepsController extends Controller
                     $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
                 }
                 else
-                    $response=array( 'success' => false);
+                    $response=array( 'success' => false, "msg" => "La casa no puede desactivarse porque tiene reservas pagadas futuras.");
             }
             else{
                 $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
