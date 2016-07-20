@@ -155,6 +155,7 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $rooms = $request->get('rooms');
         $ids=array();
+        $avgRoomPrice = 0;
         if (count($rooms)) {
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
             $i = 1;
@@ -189,6 +190,8 @@ class StepsController extends Controller
                     $ownership_room->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
                     $em->persist($ownership_room);
                     $em->flush();
+
+                    $avgRoomPrice += $ownership_room->getRoomPriceDownTo();
                 } else {
                     //Se esta insertando
                     $obj = new room();
@@ -214,9 +217,27 @@ class StepsController extends Controller
                     $em->persist($obj);
                     $em->flush();
                     $ids[]=$obj->getRoomId();
+
+                    $avgRoomPrice += $obj->getRoomPriceDownTo();
                 }
+
                 $i++;
             }
+
+            //Calcular la categoria de la casa
+            $avgRoomPrice = $avgRoomPrice / count($rooms);
+            $accommodationCategory = "";
+
+            if($avgRoomPrice < 35)
+                $accommodationCategory = ownership::ACCOMMODATION_CATEGORY_ECONOMIC;
+            elseif ($avgRoomPrice >= 32 && $avgRoomPrice < 50)
+                $accommodationCategory = ownership::ACCOMMODATION_CATEGORY_MIDDLE_RANGE;
+            else
+                $accommodationCategory = ownership::ACCOMMODATION_CATEGORY_PREMIUM;
+
+            $ownership->setOwnCategory($accommodationCategory);
+            $em->persist($ownership);
+            $em->flush();
         }
         return new JsonResponse([
             'success' => true,

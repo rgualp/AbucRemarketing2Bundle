@@ -152,20 +152,22 @@ var Step4 = function () {
         saveRoom:function(flag){
             var rooms = new Array();
             var url='';
-            for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+            for(var i=0;i<$('#nav-tabs-backend li').size();i++){
                 var data={};
                 if(url==''){
-                    var form = $("#form-number-"+i);
+                    var form = $("#form-number-"+(i + 1));
                     url= form.attr('action');
                 }
-                $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+                $("#form-number-"+(i + 1)).serializeArray().map(function(x){data[x.name] = x.value;});
                 rooms.push(data);
             }
-            if(!App.equals(rooms,dataStep4)){
+            //if(!App.equals(rooms,dataStep4)){
+
                 dataStep4=rooms;
                 /**
                  * Para salvar las rooms
                  */
+                console.log(rooms);
                 $.ajax({
                     type: 'post',
                     url: url,
@@ -183,7 +185,7 @@ var Step4 = function () {
                         }
                     }
                 });
-            }
+           // }
         },
         getActiveTab:function(){
             return id_active;
