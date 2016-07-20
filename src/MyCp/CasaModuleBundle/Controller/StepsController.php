@@ -985,7 +985,7 @@ class StepsController extends Controller
                     $response=array( 'success' => true,'msg' => 'Se ha cambiado el estado');
                 }
                 else
-                    $response=array( 'success' => false);
+                    $response=array( 'success' => false, "msg" => "La casa no puede desactivarse porque tiene reservas pagadas futuras.");
             }
             else{
                 $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
