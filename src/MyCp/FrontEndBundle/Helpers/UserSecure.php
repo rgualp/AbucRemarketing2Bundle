@@ -61,7 +61,7 @@ class UserSecure {
                     $this->container->get('session')->set("curr_symbol", $curr_by_default->getCurrSymbol());
                     $this->container->get('session')->set("curr_acronym", $curr_by_default->getCurrCode());
                 } else {
-                    $price_in_currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
+                    $price_in_currency = $this->em->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
                     $session->set("curr_rate", $price_in_currency->getCurrCucChange());
                     $session->set("curr_symbol", $price_in_currency->getCurrSymbol());
                     $session->set("curr_acronym", $price_in_currency->getCurrCode());
