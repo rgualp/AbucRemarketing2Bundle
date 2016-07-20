@@ -158,6 +158,7 @@ class StepsController extends Controller
         $avgRoomPrice = 0;
         if (count($rooms)) {
             $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idown'));
+            $commisionPercent = $ownership->getOwnCommissionPercent() / 100;
             $i = 1;
             foreach ($rooms as $room) {
                 //Se esta modificando

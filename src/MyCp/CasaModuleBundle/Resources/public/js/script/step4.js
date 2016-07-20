@@ -12,10 +12,10 @@ var Step4 = function () {
      * Para llenar un arreglo con los datos del paso 4
      */
     var fillDataStep4=function(){
-        for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+        for(var i=0;i<$('#nav-tabs-backend li').size();i++){
             var data={};
             var form = $("#form-number-"+i);
-            $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+            $("#form-number-"+(i+1)).serializeArray().map(function(x){data[x.name] = x.value;});
             dataStep4.push(data);
         }
     }
@@ -75,6 +75,17 @@ var Step4 = function () {
         $('#saveStepRoom').on('click',function(){
             Step4.saveRoom(true);
         })
+    }
+
+    /**
+     * Para cuando se modifica el precio de una habitación
+     */
+    var showRealPriceRoom=function(){
+        for(var i=0;i<$('#nav-tabs-backend li').size();i++) {
+            $("#input_price_high_season_"+(i + 1)).on('input', function (){
+               Step4.calculateRealRoomPrice("#input_price_high_season_"+(i + 1), ".input_price_high_season_"+(i + 1));
+            });
+        }
     }
 
     /**
@@ -167,7 +178,7 @@ var Step4 = function () {
                 /**
                  * Para salvar las rooms
                  */
-                console.log(rooms);
+
                 $.ajax({
                     type: 'post',
                     url: url,
