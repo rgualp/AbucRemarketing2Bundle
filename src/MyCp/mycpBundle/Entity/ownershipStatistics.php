@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * ownershipStatistics
  *
  * @ORM\Table(name="ownershipstatistics")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipStatisticsRepository")
+ * @ORM\Entity
  */
 class ownershipStatistics {
 
