@@ -12,10 +12,10 @@ var Step4 = function () {
      * Para llenar un arreglo con los datos del paso 4
      */
     var fillDataStep4=function(){
-        for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+        for(var i=0;i<$('#nav-tabs-backend li').size();i++){
             var data={};
             var form = $("#form-number-"+i);
-            $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+            $("#form-number-"+(i+1)).serializeArray().map(function(x){data[x.name] = x.value;});
             dataStep4.push(data);
         }
     }
@@ -55,6 +55,7 @@ var Step4 = function () {
                     $('#nav1'+id_active+'').addClass('active');
                     $('#tab1'+id_active+'').addClass('active');
                     Step4.addEndTab();
+                    showRealPriceRoom();
                     App.initializePlugins('.js-switch-'+($('#nav-tabs-backend li').size()-1));
                     HoldOn.close();
                 }
@@ -75,6 +76,26 @@ var Step4 = function () {
         $('#saveStepRoom').on('click',function(){
             Step4.saveRoom(true);
         })
+    }
+
+    /**
+     * Para cuando se modifica el precio de una habitación
+     */
+    var showRealPriceRoom=function(){
+            $(".price_low_season").on('change', function (){
+                var roomId = $(this).data("roomid");
+               Step4.calculateRealRoomPrice("#input_price_low_season_"+roomId, "span.input_price_low_season_"+roomId);
+            });
+
+            $(".price_high_season").on('change', function (){
+                var roomId = $(this).data("roomid");
+                Step4.calculateRealRoomPrice("#input_price_high_season_"+roomId, "span.input_price_high_season_"+roomId);
+            });
+
+            $(".price_special_season").on('change', function (){
+                var roomId = $(this).data("roomid");
+                Step4.calculateRealRoomPrice("#input_price_special_season_"+roomId, "span.input_price_special_season_"+roomId);
+            });
     }
 
     /**
@@ -143,6 +164,7 @@ var Step4 = function () {
             onclickBtnDeleteRoom();
             onclickBtnSaveRoom();
             fillDataStep4();
+            showRealPriceRoom();
             //Se captura el evento de guardar el paso
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep4,this);
@@ -152,20 +174,22 @@ var Step4 = function () {
         saveRoom:function(flag){
             var rooms = new Array();
             var url='';
-            for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+            for(var i=0;i<$('#nav-tabs-backend li').size();i++){
                 var data={};
                 if(url==''){
-                    var form = $("#form-number-"+i);
+                    var form = $("#form-number-"+(i + 1));
                     url= form.attr('action');
                 }
-                $("#form-number-"+i).serializeArray().map(function(x){data[x.name] = x.value;});
+                $("#form-number-"+(i + 1)).serializeArray().map(function(x){data[x.name] = x.value;});
                 rooms.push(data);
             }
-            if(!App.equals(rooms,dataStep4)){
+            //if(!App.equals(rooms,dataStep4)){
+
                 dataStep4=rooms;
                 /**
                  * Para salvar las rooms
                  */
+
                 $.ajax({
                     type: 'post',
                     url: url,
@@ -183,7 +207,7 @@ var Step4 = function () {
                         }
                     }
                 });
-            }
+           // }
         },
         getActiveTab:function(){
             return id_active;
@@ -208,6 +232,19 @@ var Step4 = function () {
             html_nav_addTab=$('#addTab').html();
             $('#addTab').remove(); //remove li of tab
             $('#tab25').remove(); //remove respective tab content
+        },
+        calculateRealRoomPrice: function(inputElement, spanElement){
+            var price = $(inputElement).val();
+
+            var commission = $("#inputCommission").val();
+            var realPrice = parseFloat(price) * (1 - commission / 100);
+
+
+            if(realPrice > 0) {
+                $(spanElement).html("Usted recibe " + realPrice + " CUC.");
+                $(spanElement).removeClass("hide");
+            }
+
         },
         changeActiveRoom:function(val,idroom,url){
             HoldOn.open();

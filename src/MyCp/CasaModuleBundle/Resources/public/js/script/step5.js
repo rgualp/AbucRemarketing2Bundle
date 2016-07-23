@@ -43,7 +43,7 @@ var Step5 = function () {
             event.clickBtnContinueAfter.add(saveStep5,this);
         },
         saveFacilities:function(flag){
-            $("#loading").removeClass("hide");
+            HoldOn.open();
             var url= $("#facilities-div").data("url");
             var hasBreakfast = $("#breakfast").is(':checked');
             var breakfastPrice = $("#facilitiesBreakfast").val();
@@ -83,7 +83,7 @@ var Step5 = function () {
                 url: url,
                 data:  data,
                 success: function (data) {
-                    $("#loading").addClass("hide");
+                    HoldOn.close();
                 }
             });
         }

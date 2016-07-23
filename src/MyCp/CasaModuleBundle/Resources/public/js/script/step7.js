@@ -3,23 +3,23 @@
  * Copyright 2016.
  *========================================================================*/
 var Step7 = function () {
-
     var saveStep7=function(){
-        Step7.saveProfile(false);
+        Step7.saveProfile(false, false);
     }
 
     var onclickBtnSaveProfile=function(){
         $('#saveProfile').on('click',function(){
-            Step7.saveProfile(true);
+            Step7.saveProfile(true, false);
         });
     }
     var onclickBtnPublish=function(){
         $('#btnPublish').on('click',function(){
             ajaxControllersPublish();
-            Step7.saveProfile(false);
+            Step7.saveProfile(false, true);
         });
     }
     var countAjax=0;
+    var hasError = false;
     var ajaxControllersPublish= function(){
         $(document).ajaxSend(function (event, jqXHR, ajaxOptions) {
             if (ajaxOptions.dataType != 'script') {
@@ -28,10 +28,10 @@ var Step7 = function () {
         });
         $(document).ajaxComplete(function () {
             countAjax--;
-            if(countAjax==0) window.location=publishUrl;
+            if(countAjax==0 && !hasError) window.location=publishUrl;
         });
         $(document).ajaxError(function () {
-            countAjax--;if(countAjax==0) window.location=publishUrl;
+            countAjax--;if(countAjax==0 && !hasError) window.location=publishUrl;
         });
     }
 
@@ -64,14 +64,15 @@ var Step7 = function () {
             //IMPORTANT!!!: Do not modify the call order.
             onclickBtnSaveProfile();
             onclickBtnPublish();
-            var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep7,this);
+
+            var event = App.getEvent();
+            event.clickBtnContinueAfter.add(saveStep7, this);
             //
             //$("#btnPublish").click(
             //    ajaxControllersPublish(),
             //    App.fireEventSaveTab());
         },
-        saveProfile:function(flag) {
+        saveProfile:function(flag, publishAccommodation) {
             var validate = true;
             var changePassword = false;
 
@@ -131,14 +132,41 @@ var Step7 = function () {
                         secondOwner: secondOwner,
                         password: password,
                         changePassword: changePassword,
-                        dashboard: flag
+                        dashboard: flag,
+                        publishAccommodation: publishAccommodation
                     },
                     success: function (data) {
                         //$("#loading").addClass("hide");
                         HoldOn.close();
+                        if(publishAccommodation) {
+                            if (data.success === false) {
+                                swal({
+                                    title: "Ooops!",
+                                    text: data.msg,
+                                    type: "error"
+                                });
+                                hasError = true;
+                                return false;
+                            }
+                            else
+                                window.location = publishUrl;
+                        }
                     },
                     error: function(data){
                         HoldOn.close();
+                        if(publishAccommodation) {
+                            if (data.success  === false) {
+                                swal({
+                                    title: "Ooops!",
+                                    text: data.msg,
+                                    type: "error"
+                                });
+                                hasError = true;
+                                return false;
+                            }
+                            else
+                                window.location = publishUrl;
+                        }
                     }
                 });
             }

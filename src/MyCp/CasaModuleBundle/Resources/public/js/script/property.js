@@ -42,6 +42,13 @@ var Property = function () {
                          $('#activate-property').addClass('hide');
                          $('#deactive-property').removeClass('hide');
                     }
+                    else{
+                        swal({
+                            title: "Ooops!",
+                            text: data.msg,
+                            type: "error"
+                        });
+                    }
                 }
             });
         })
