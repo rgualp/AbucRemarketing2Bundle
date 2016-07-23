@@ -19,6 +19,7 @@ var Step7 = function () {
         });
     }
     var countAjax=0;
+    var hasError = false;
     var ajaxControllersPublish= function(){
         $(document).ajaxSend(function (event, jqXHR, ajaxOptions) {
             if (ajaxOptions.dataType != 'script') {
@@ -27,10 +28,10 @@ var Step7 = function () {
         });
         $(document).ajaxComplete(function () {
             countAjax--;
-            if(countAjax==0) window.location=publishUrl;
+            if(countAjax==0 && !hasError) window.location=publishUrl;
         });
         $(document).ajaxError(function () {
-            countAjax--;if(countAjax==0) window.location=publishUrl;
+            countAjax--;if(countAjax==0 && !hasError) window.location=publishUrl;
         });
     }
 
@@ -138,12 +139,13 @@ var Step7 = function () {
                         //$("#loading").addClass("hide");
                         HoldOn.close();
                         if(publishAccommodation) {
-                            if (!data.success) {
+                            if (data.success === false) {
                                 swal({
                                     title: "Ooops!",
                                     text: data.msg,
                                     type: "error"
                                 });
+                                hasError = true;
                                 return false;
                             }
                             else
@@ -153,12 +155,13 @@ var Step7 = function () {
                     error: function(data){
                         HoldOn.close();
                         if(publishAccommodation) {
-                            if (!data.success) {
+                            if (data.success  === false) {
                                 swal({
                                     title: "Ooops!",
                                     text: data.msg,
                                     type: "error"
                                 });
+                                hasError = true;
                                 return false;
                             }
                             else

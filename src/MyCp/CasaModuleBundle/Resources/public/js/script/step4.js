@@ -55,6 +55,7 @@ var Step4 = function () {
                     $('#nav1'+id_active+'').addClass('active');
                     $('#tab1'+id_active+'').addClass('active');
                     Step4.addEndTab();
+                    showRealPriceRoom();
                     App.initializePlugins('.js-switch-'+($('#nav-tabs-backend li').size()-1));
                     HoldOn.close();
                 }
