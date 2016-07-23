@@ -313,7 +313,12 @@ class StepsController extends Controller
     public function saveStep6Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        //$ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $user = $this->getUser();
+        if(empty($user->getUserUserCasa()))
+            return new NotFoundHttpException('El usuario no es usuario casa');
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+
         $photosForm = $this->createForm(new ownershipStepPhotosType(), $ownership, array('action' => $this->generateUrl('save_step6'), 'attr' => ['id' => 'mycp_mycpbundle_ownership_step_photos']));
         $photosForm->handleRequest($request);
         if ($photosForm->isValid()) {

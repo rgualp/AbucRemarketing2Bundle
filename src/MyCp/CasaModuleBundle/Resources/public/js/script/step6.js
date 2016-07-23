@@ -210,6 +210,7 @@ var Step6 = function () {
                 data: new FormData(form),
                 processData: false,
                 contentType: false,
+                idAccommodation: App.getOwnId(),
                 type: 'POST'
             });
             $envio.error(function (data) {
