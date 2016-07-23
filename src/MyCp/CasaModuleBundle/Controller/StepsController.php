@@ -253,21 +253,21 @@ class StepsController extends Controller
      */
     public function saveStep5Action(Request $request)
     {
-        $hasBreakfast = $request->get('hasBreakfast');
+        $hasBreakfast = ($request->get('hasBreakfast') == "true");
         $idAccommodation = $request->get('idAccommodation');
         $breakfastPrice = $request->get('breakfastPrice');
-        $hasDinner = $request->get('hasDinner');
+        $hasDinner = ($request->get('hasDinner') == "true");
         $dinnerPriceFrom = $request->get('dinnerPriceFrom');
         $dinnerPriceTo = $request->get('dinnerPriceTo');
-        $hasParking = $request->get('hasParking');
+        $hasParking = ($request->get('hasParking') == "true");
         $parkingPrice = $request->get('parkingPrice');
-        $hasJacuzzy = $request->get('hasJacuzzy');
-        $hasSauna = $request->get('hasSauna');
-        $hasPool = $request->get('hasPool');
-        $hasParkingBike = $request->get('hasParkingBike');
-        $hasPet = $request->get('hasPet');
-        $hasLaundry = $request->get('hasLaundry');
-        $hasEmail = $request->get('hasEmail');
+        $hasJacuzzy = ($request->get('hasJacuzzy') == "true");
+        $hasSauna = ($request->get('hasSauna') == "true");
+        $hasPool = ($request->get('hasPool') == "true");
+        $hasParkingBike = ($request->get('hasParkingBike') == "true");
+        $hasPet = ($request->get('hasPet') == "true");
+        $hasLaundry = ($request->get('hasLaundry') == "true");
+        $hasEmail = ($request->get('hasEmail') == "true");
 
         $em = $this->getDoctrine()->getManager();
 
