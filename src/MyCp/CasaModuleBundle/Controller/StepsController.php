@@ -331,10 +331,15 @@ class StepsController extends Controller
                         if ($lang->getLangCode() == 'ES') {
                             $post['description_' . $lang->getLangId()] = $desc;
                         } else {
-                            $response = $translator->translate($desc, 'ES', $lang->getLangCode());
-                            if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                                $post['description_' . $lang->getLangId()] = $response->getTranslation();
-                            else $post['description_' . $lang->getLangId()] = $desc;
+                            try {
+                                $response = $translator->translate($desc, 'ES', $lang->getLangCode());
+                                if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                                    $post['description_' . $lang->getLangId()] = $response->getTranslation();
+                                else $post['description_' . $lang->getLangId()] = $desc;
+                            }
+                            catch (\Exception $exc){
+                                $post['description_' . $lang->getLangId()] = $desc;
+                            }
 
                         }
                     }
@@ -374,10 +379,15 @@ class StepsController extends Controller
                              if ($photoLang->getPhoLangIdLang()->getLangCode() == 'ES')
                                  $photoLang->setPhoLangDescription($desc);
                              else{
+                                 try{
                                  $response = $translator->translate($desc, 'ES', $photoLang->getPhoLangIdLang()->getLangCode());
                                  if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
                                      $photoLang->setPhoLangDescription($response->getTranslation());
                                  else $photoLang->setPhoLangDescription($desc);
+                                 }
+                                 catch (\Exception $exc){
+                                     $photoLang->setPhoLangDescription($desc);
+                                 }
                              }
                              $em->persist($photoLang);
                          }
