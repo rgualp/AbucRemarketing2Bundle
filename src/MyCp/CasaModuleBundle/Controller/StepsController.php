@@ -626,23 +626,23 @@ class StepsController extends Controller
             if ($lang->getLangCode() == 'ES') {
                 $ownershipDescriptionLang->setOdlOwnership($ownership)
                     ->setOdlIdLang($lang)//id del lenguage
-                    ->setOdlDescription($request->get('comment-one'))//descripcion corta que corresponde al primer parrafo
-                    ->setOdlBriefDescription($description)
+                    ->setOdlBriefDescription($request->get('comment-one'))//descripcion corta que corresponde al primer parrafo
+                    ->setOdlDescription($description)
                     ->setOdlAutomaticTranslation(0);
             } else {
                 $response = $translator->translate($description, 'ES', $lang->getLangCode());
                 if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                    $briefDescription = $response->getTranslation();
+                    $translatedDescription = $response->getTranslation();
 
                 $response = $translator->translate($request->get('comment-one'), 'ES', $lang->getLangCode());
                 if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                    $shortDescription = $response->getTranslation();
+                    $translatedBriefDescription = $response->getTranslation();
 
 
                 $ownershipDescriptionLang->setOdlOwnership($ownership)
                     ->setOdlIdLang($lang)//id del lenguage
-                    ->setOdlDescription($shortDescription)//descripcion corta que corresponde al primer parrafo
-                    ->setOdlBriefDescription($briefDescription)
+                    ->setOdlDescription($translatedDescription)
+                    ->setOdlBriefDescription($translatedBriefDescription) //descripcion corta que corresponde al primer parrafo
                     ->setOdlAutomaticTranslation(1);
             }
             $em->persist($ownershipDescriptionLang);

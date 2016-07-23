@@ -25,6 +25,7 @@ var Step3 = function () {
             event.clickBtnContinueAfter.add(saveStep3,this);
         },
         saveDescription:function(flag){
+            HoldOn.open();
             var data={};
             $("#form-description-room").serializeArray().map(function(x){data[x.name] = x.value;});
             if(!App.equals(data,dataStep3)){ //Sino son iguales los dos objetos no los salvo
@@ -36,6 +37,7 @@ var Step3 = function () {
                     url: $("#form-description-room").attr('action'),
                     data:  data,
                     success: function (data) {
+                        HoldOn.close();
                     }
                 });
             }
