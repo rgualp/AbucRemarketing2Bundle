@@ -215,8 +215,6 @@ var App = function () {
             initializeMenu();
             showAction();
             showNormal();
-
-
         },
         initializePlugins:function(selector,color){
             var elems = Array.prototype.slice.call(document.querySelectorAll((typeof(selector) === "undefined")?'.js-switch':selector));
