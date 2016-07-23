@@ -710,7 +710,14 @@ class ownershipRepository extends EntityRepository {
         }
 
         if ($filter_active != 'null' && $filter_active != '') {
-            $condition .= "AND ow.own_status = :filter_active ";
+            $condition .= "AND (ow.own_status = :filter_active ";
+
+            if($filter_active == ownershipStatus::STATUS_INSERTED_BY_OWNER)
+            {
+                $condition .= " OR dat.insertedInCasaModule = 1 ";
+            }
+
+            $condition .= ") ";
         }
         if ($filter_category != 'null' && $filter_category != '') {
             $condition .= " AND ow.own_category = :filter_category ";
@@ -767,6 +774,7 @@ class ownershipRepository extends EntityRepository {
         JOIN ow.data data
         LEFT JOIN ow.own_destination d
         LEFT JOIN ow.own_status s
+        LEFT JOIN ow.data dat
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')

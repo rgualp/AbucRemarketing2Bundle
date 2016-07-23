@@ -99,7 +99,7 @@ class RegistrationController extends Controller
             ->setOwnInmediateBooking(0)
             ->setOwnNotRecommendable(0)
             ->setOwnCubaCoupon(0)
-            ->setOwnSmsNotifications(0);
+            ->setOwnSmsNotifications(1);
         ;
 
         $em->persist($ownership);
@@ -128,8 +128,14 @@ class RegistrationController extends Controller
                ->setOwner($owner);
 
            $em->persist($ownerAccommodation);
-
         $em->flush();
+
+           $data = $ownership->getData();
+           $data->setInsertedInCasaModule(true);
+           $em->persist($data);
+
+           $em->flush();
+
            $data['id_ownership']=$ownership->getOwnId();
            $data['ownership_mcp_code']=$ownership->getOwnMcpCode();
            $data['status_id']=$ownership->getOwnStatus()->getStatusId();

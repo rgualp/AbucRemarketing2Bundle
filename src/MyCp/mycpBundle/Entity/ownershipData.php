@@ -64,6 +64,13 @@ class ownershipData
     private $principalPhoto;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="insertedInCasaModule", type="boolean", nullable=true)
+     */
+    private $insertedInCasaModule;
+
+    /**
      * @return mixed
      */
     public function getAccommodation()
@@ -179,6 +186,21 @@ class ownershipData
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getInsertedInCasaModule()
+    {
+        return $this->insertedInCasaModule;
+    }
 
-
+    /**
+     * @param int $insertedInCasaModule
+     * @return mixed
+     */
+    public function setInsertedInCasaModule($insertedInCasaModule)
+    {
+        $this->insertedInCasaModule = $insertedInCasaModule;
+        return $this;
+    }
 }
