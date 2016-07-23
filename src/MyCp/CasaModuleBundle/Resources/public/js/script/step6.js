@@ -236,7 +236,7 @@ var Step6 = function () {
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep6,this);
+            event.clickBtnContinueAfter.add(saveStep6,this, -1);
             //onclickBtnSavePhoto();
         },
         saveStep6: saveStep6

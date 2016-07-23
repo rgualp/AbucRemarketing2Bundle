@@ -678,7 +678,7 @@ class StepsController extends Controller
         $secondOwner = $request->get('secondOwner');
         $homeownerName = $request->get('homeownerName');
         $email = $request->get('email');
-        $publishAccommodation = $request->get("publishAccommodation");
+        $publishAccommodation = ($request->get("publishAccommodation") == "true");
         $hasError = false;
 
         $em = $this->getDoctrine()->getManager();

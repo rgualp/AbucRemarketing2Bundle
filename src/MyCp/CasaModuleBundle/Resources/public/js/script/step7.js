@@ -97,7 +97,8 @@ var Step7 = function () {
             else   $("#email2Errors").addClass("hide");
             if (validate) {
                 //$("#loading").removeClass("hide");
-                HoldOn.open();
+                //if(flag)
+                    HoldOn.open();
                 var url = $("#submit-url").val();
                 var homeownerName = $("#homeownerName").val();
                 var mobile = $("#own_mobile_number").val();
@@ -137,7 +138,8 @@ var Step7 = function () {
                     },
                     success: function (data) {
                         //$("#loading").addClass("hide");
-                        HoldOn.close();
+                        if(flag)
+                            HoldOn.close();
                         if(publishAccommodation) {
                             if (data.success === false) {
                                 swal({
@@ -153,7 +155,8 @@ var Step7 = function () {
                         }
                     },
                     error: function(data){
-                        HoldOn.close();
+                        if(flag)
+                            HoldOn.close();
                         if(publishAccommodation) {
                             if (data.success  === false) {
                                 swal({
