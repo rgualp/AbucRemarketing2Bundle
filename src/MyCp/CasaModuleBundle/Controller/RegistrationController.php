@@ -99,8 +99,9 @@ class RegistrationController extends Controller
             ->setOwnInmediateBooking(0)
             ->setOwnNotRecommendable(0)
             ->setOwnCubaCoupon(0)
-            ->setOwnSmsNotifications(0);
-        ;
+            ->setOwnSmsNotifications(1)
+            ->setInsertedInCasaModule(true);
+
 
         $em->persist($ownership);
         $dir = $this->container->getParameter('user.dir.photos');
@@ -128,8 +129,8 @@ class RegistrationController extends Controller
                ->setOwner($owner);
 
            $em->persist($ownerAccommodation);
-
         $em->flush();
+
            $data['id_ownership']=$ownership->getOwnId();
            $data['ownership_mcp_code']=$ownership->getOwnMcpCode();
            $data['status_id']=$ownership->getOwnStatus()->getStatusId();

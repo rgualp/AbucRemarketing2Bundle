@@ -710,7 +710,14 @@ class ownershipRepository extends EntityRepository {
         }
 
         if ($filter_active != 'null' && $filter_active != '') {
-            $condition .= "AND ow.own_status = :filter_active ";
+            $condition .= "AND (ow.own_status = :filter_active ";
+
+            if($filter_active == ownershipStatus::STATUS_INSERTED_BY_OWNER)
+            {
+                $condition .= " OR ow.insertedInCasaModule = 1 ";
+            }
+
+            $condition .= ") ";
         }
         if ($filter_category != 'null' && $filter_category != '') {
             $condition .= " AND ow.own_category = :filter_category ";

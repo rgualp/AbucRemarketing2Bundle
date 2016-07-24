@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * faq
  *
  * @ORM\Table(name="owner")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownerRepository")
+ * @ORM\Entity
  */
 class owner
 {

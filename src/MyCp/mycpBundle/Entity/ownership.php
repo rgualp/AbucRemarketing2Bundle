@@ -568,6 +568,14 @@ class ownership {
     private $data;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="insertedInCasaModule", type="boolean", nullable=true)
+     */
+    private $insertedInCasaModule;
+
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -588,6 +596,7 @@ class ownership {
         $this->own_inmediate_booking = false;
         $this->owners = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->insertedInCasaModule = false;
     }
 
     /**
@@ -2439,5 +2448,21 @@ class ownership {
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getInsertedInCasaModule()
+    {
+        return $this->insertedInCasaModule;
+    }
 
+    /**
+     * @param int $insertedInCasaModule
+     * @return mixed
+     */
+    public function setInsertedInCasaModule($insertedInCasaModule)
+    {
+        $this->insertedInCasaModule = $insertedInCasaModule;
+        return $this;
+    }
 }
