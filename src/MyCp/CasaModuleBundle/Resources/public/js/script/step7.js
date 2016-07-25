@@ -3,7 +3,8 @@
  * Copyright 2016.
  *========================================================================*/
 var Step7 = function () {
-    var saveStep7=function(){
+    var saveStep7=function(index){
+        if(index==7)
         Step7.saveProfile(false, false);
     }
 
@@ -14,7 +15,7 @@ var Step7 = function () {
     }
     var onclickBtnPublish=function(){
         $('#btnPublish').on('click',function(){
-            ajaxControllersPublish();
+            // ajaxControllersPublish();
             Step7.saveProfile(false, true);
         });
     }

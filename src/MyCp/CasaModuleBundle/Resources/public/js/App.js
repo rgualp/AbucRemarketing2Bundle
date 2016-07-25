@@ -25,7 +25,10 @@ var App = function () {
     var initializeWizard=function(){
         $('#rootwizard').bootstrapWizard({
             onNext: function (tab, navigation, index) {
-                event.clickBtnContinueAfter.dispatch();
+                event.clickBtnContinueAfter.dispatch(index);
+                // console.log(tab);
+                // console.log(navigation);
+                // console.log(index);
             },
             onPrevious: function (tab, navigation, index) {
             },

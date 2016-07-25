@@ -4,7 +4,8 @@
  *========================================================================*/
 var Step3 = function () {
     var dataStep3={};
-    var saveStep3=function(){
+    var saveStep3=function(index){
+        if(index==3)
         Step3.saveDescription(false);
     }
     var fillDataStep3=function(){
@@ -26,11 +27,12 @@ var Step3 = function () {
         },
         saveDescription:function(flag){
             //if(flag)
-                HoldOn.open();
+
             var data={};
             $("#form-description-room").serializeArray().map(function(x){data[x.name] = x.value;});
             if(!App.equals(data,dataStep3)){ //Sino son iguales los dos objetos no los salvo
                 $("#form-description-room").serializeArray().map(function(x){dataStep3[x.name] = x.value;});
+                HoldOn.open();
                 data['idown']=App.getOwnId();
                 data['dashboard']=flag;
                 $.ajax({
