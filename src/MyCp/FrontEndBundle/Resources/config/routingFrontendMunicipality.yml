@@ -1,9 +1,11 @@
 frontend_find_municipality:
     pattern:  /find-municipality/
+    locales:  { en: "/find-municipality/", es: "/buscar-municipio/", de: "/find-municipality/" }
     defaults: { _controller: FrontEndBundle:Municipality:find }
 
 frontend_find_for_destinations_municipality:
     pattern:  /find-for-destinations-municipality/
+    locales:  { en: "/find-for-destinations-municipality/", es: "/buscar-municipio-por-destino/", de: "/find-for-destinations-municipality/" }
     defaults: { _controller: FrontEndBundle:Municipality:findForDestinations }
 
 frontend_get_with_reservations_municipality:
