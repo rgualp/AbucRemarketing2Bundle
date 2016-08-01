@@ -68,8 +68,8 @@ var Step7 = function () {
             onclickBtnSaveProfile();
             onclickBtnPublish();
 
-            var event = App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep7, this);
+            // var event = App.getEvent();
+            // event.clickBtnContinueAfter.add(saveStep7, this);
             //
             //$("#btnPublish").click(
             //    ajaxControllersPublish(),
