@@ -98,7 +98,7 @@ var App = function () {
     var saveStep=function(){
         $('#saveStep').on('click',function(){
             ajaxControllers();
-            event.clickBtnContinueAfter.dispatch();
+            event.clickBtnContinueAfter.dispatch(idWizardActive);
         })
     }
     /**

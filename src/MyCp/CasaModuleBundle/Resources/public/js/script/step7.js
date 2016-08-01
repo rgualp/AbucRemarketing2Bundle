@@ -9,7 +9,9 @@ var Step7 = function () {
     }
 
     var onclickBtnSaveProfile=function(){
-        $('#saveProfile').on('click',function(){
+        $('#saveProfile').on('click',function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
             Step7.saveProfile(true, false);
         });
     }
