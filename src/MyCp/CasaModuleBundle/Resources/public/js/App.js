@@ -70,10 +70,10 @@ var App = function () {
         //Para cuando se selecciona un link del menu
         jQuery('.sidebar-collapse').on('click', ' li > a.ajaxify', function (e) {
             e.preventDefault();
+            event.clickBtnContinueAfter.dispatch(idWizardActive);
             $('#tab' + idWizardActive).removeClass('active');
             $('#rootwizard').bootstrapWizard('show',$(this).data("href"));
             idWizardActive=$(this).data("href");
-            event.clickBtnContinueAfter.dispatch();
             //App.fix_height();
         })
     }
@@ -98,7 +98,8 @@ var App = function () {
     var saveStep=function(){
         $('#saveStep').on('click',function(){
             ajaxControllers();
-            event.clickBtnContinueAfter.dispatch();
+            event.clickBtnContinueAfter.dispatch(idWizardActive);
+
         })
     }
     /**
@@ -247,7 +248,7 @@ var App = function () {
             return idown;
         },
         fireEventSaveTab: function (){
-            event.clickBtnContinueAfter.dispatch();
+            event.clickBtnContinueAfter.dispatch(idWizardActive);
         },
         equals : function () {
 

@@ -9,7 +9,9 @@ var Step7 = function () {
     }
 
     var onclickBtnSaveProfile=function(){
-        $('#saveProfile').on('click',function(){
+        $('#saveProfile').on('click',function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
             Step7.saveProfile(true, false);
         });
     }
@@ -66,8 +68,8 @@ var Step7 = function () {
             onclickBtnSaveProfile();
             onclickBtnPublish();
 
-            var event = App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep7, this);
+            // var event = App.getEvent();
+            // event.clickBtnContinueAfter.add(saveStep7, this);
             //
             //$("#btnPublish").click(
             //    ajaxControllersPublish(),
