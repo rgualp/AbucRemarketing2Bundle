@@ -434,7 +434,7 @@ class BookingService extends Controller
         try {
             $emailService->sendEmail(
                 $subject,
-                'ander@mycasaparticular.com',
+                'send@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
@@ -443,7 +443,7 @@ class BookingService extends Controller
 
            /*$emailService->sendEmail(
                 $subject,
-                'ander@mycasaparticular.com',
+                'send@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 "luiseduardo@hds.li",
                 $body,
