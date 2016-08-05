@@ -146,6 +146,7 @@
                         </table>
         {%endfor%}
                         <br/>
+    {% if own_res | length > 1 %}
                         <h4 class="voucher-subtitle no-margin">
                             <img src="bundles/frontend/img/icons/vcurrency.png" alt="{{"CURRENCY" | trans}}">
         {{"PAYMENT_DETAILS"|trans({}, "messages", user_locale)}}:
@@ -182,6 +183,7 @@
                                         </td>
                                     </tr>
                             </table>
+    {% endif %}
 {% endfor %}
                         <br/>
                         <table style="width: 100%;">
@@ -194,6 +196,7 @@
                     </td>
                 </tr>
             </table>
+
             <br/>
             <h3 class="h-green h-green-line"  style="padding-bottom: 5px">{{"PAYMENTS"|trans({}, "messages", user_locale)}}</h3>
             <table style="width:100%">
