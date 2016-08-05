@@ -1112,7 +1112,7 @@
             </trans-unit>
             <trans-unit id="287">
                 <source>RESERVATION_PAYMENT</source>
-                <target>Zahlung</target>
+                <target>Zahlungsdetails</target>
             </trans-unit>
             <trans-unit id="288">
                 <source>RESERVATION_CONFIRMATION</source>
