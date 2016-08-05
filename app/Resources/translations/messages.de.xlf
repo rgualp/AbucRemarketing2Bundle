@@ -1824,7 +1824,7 @@
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Vorausbezahlung</target>
+                <target>Vorauszahlung</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2432,7 +2432,7 @@
                 </trans-unit>
                 <trans-unit id="618">
                     <source>TOTAL_ALL_PREPAYMENT</source>
-                    <target>Vorausbezahlung</target>
+                    <target>Vorauszahlung</target>
                 </trans-unit>
                 <trans-unit id="619">
                     <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>
