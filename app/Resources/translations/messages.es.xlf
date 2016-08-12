@@ -3845,17 +3845,21 @@
                                                             <target>Las mejores casas particulares en %destinationName%, Cuba </target>
                                                         </trans-unit>
                     <trans-unit id="974">
-                                                                                <source>MOST_VISITED_CITIES_TITLE</source>
-                                                                                <target>Las ciudades más visitadas en Cuba </target>
-                                                                            </trans-unit>
-                                                                            <trans-unit id="975">
-                                                                                             <source>NEW</source>
-                                                                                             <target>¡Nuevo!</target>
-                                                                                         </trans-unit>
-                                                                                         <trans-unit id="976">
-                                                                                              <source>JOIN_CASA</source>
-                                                                                              <target>¡Únete! Inscribe tu casa</target>
-                                                                                         </trans-unit>
+                        <source>MOST_VISITED_CITIES_TITLE</source>
+                        <target>Las ciudades más visitadas en Cuba </target>
+                    </trans-unit>
+                    <trans-unit id="975">
+                     <source>NEW</source>
+                     <target>¡Nuevo!</target>
+                 </trans-unit>
+                 <trans-unit id="976">
+                      <source>JOIN_CASA</source>
+                      <target>¡Únete! Inscribe tu casa</target>
+                 </trans-unit>
+  <trans-unit id="977">
+       <source>PRICE_TOTAL_TO_PAY</source>
+       <target>Total a pagar</target>
+  </trans-unit>
         </body>
     </file>
 </xliff>

@@ -3876,6 +3876,11 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                                                           <target>Registrier deine Unterkunft</target>
                                                                       </trans-unit>
 
+         <trans-unit id="977">
+              <source>PRICE_TOTAL_TO_PAY</source>
+              <target>Total zu bezahlen</target>
+         </trans-unit>
+
     </body>
     </file>
 </xliff>
