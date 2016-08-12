@@ -2106,7 +2106,7 @@ class generalReservationRepository extends EntityRepository {
                 ->where("owres.own_res_gen_res_id = :genResId")
                 ->groupBy("owres.own_res_reservation_from_date")
                 ->setParameter("genResId", $idGeneralReservation);
-        return $qb->setMaxResults(1)->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
     }
 
     function getReservationsByIdAccommodationByDateFrom($idAccommodation,$start)
