@@ -35,7 +35,7 @@ monolog:
         swift:
             type: swift_mailer
             from_email: errors@mycasaparticular.com
-            to_email: [ander@mycasaparticular.com]
+            to_email: [ander@hds.li]
             subject: An Error Occurred!
             level: debug
         console:

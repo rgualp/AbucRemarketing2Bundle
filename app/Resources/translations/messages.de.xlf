@@ -1112,7 +1112,7 @@
             </trans-unit>
             <trans-unit id="287">
                 <source>RESERVATION_PAYMENT</source>
-                <target>Zahlung</target>
+                <target>Zahlungsdetails</target>
             </trans-unit>
             <trans-unit id="288">
                 <source>RESERVATION_CONFIRMATION</source>
@@ -1824,7 +1824,7 @@
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Gesamt Anzahlung</target>
+                <target>Vorauszahlung</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2432,7 +2432,7 @@
                 </trans-unit>
                 <trans-unit id="618">
                     <source>TOTAL_ALL_PREPAYMENT</source>
-                    <target>Gesamt Anzahlung</target>
+                    <target>Vorauszahlung</target>
                 </trans-unit>
                 <trans-unit id="619">
                     <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>
@@ -3875,6 +3875,11 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                                                           <source>JOIN_CASA</source>
                                                                           <target>Registrier deine Unterkunft</target>
                                                                       </trans-unit>
+
+         <trans-unit id="977">
+              <source>PRICE_TOTAL_TO_PAY</source>
+              <target>Total zu bezahlen</target>
+         </trans-unit>
 
     </body>
     </file>

@@ -253,21 +253,21 @@ class StepsController extends Controller
      */
     public function saveStep5Action(Request $request)
     {
-        $hasBreakfast = $request->get('hasBreakfast');
+        $hasBreakfast = ($request->get('hasBreakfast') == "true");
         $idAccommodation = $request->get('idAccommodation');
         $breakfastPrice = $request->get('breakfastPrice');
-        $hasDinner = $request->get('hasDinner');
+        $hasDinner = ($request->get('hasDinner') == "true");
         $dinnerPriceFrom = $request->get('dinnerPriceFrom');
         $dinnerPriceTo = $request->get('dinnerPriceTo');
-        $hasParking = $request->get('hasParking');
+        $hasParking = ($request->get('hasParking') == "true");
         $parkingPrice = $request->get('parkingPrice');
-        $hasJacuzzy = $request->get('hasJacuzzy');
-        $hasSauna = $request->get('hasSauna');
-        $hasPool = $request->get('hasPool');
-        $hasParkingBike = $request->get('hasParkingBike');
-        $hasPet = $request->get('hasPet');
-        $hasLaundry = $request->get('hasLaundry');
-        $hasEmail = $request->get('hasEmail');
+        $hasJacuzzy = ($request->get('hasJacuzzy') == "true");
+        $hasSauna = ($request->get('hasSauna') == "true");
+        $hasPool = ($request->get('hasPool') == "true");
+        $hasParkingBike = ($request->get('hasParkingBike') == "true");
+        $hasPet = ($request->get('hasPet') == "true");
+        $hasLaundry = ($request->get('hasLaundry') == "true");
+        $hasEmail = ($request->get('hasEmail') == "true");
 
         $em = $this->getDoctrine()->getManager();
 
@@ -313,7 +313,12 @@ class StepsController extends Controller
     public function saveStep6Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        //$ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $user = $this->getUser();
+        if(empty($user->getUserUserCasa()))
+            return new NotFoundHttpException('El usuario no es usuario casa');
+        $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+
         $photosForm = $this->createForm(new ownershipStepPhotosType(), $ownership, array('action' => $this->generateUrl('save_step6'), 'attr' => ['id' => 'mycp_mycpbundle_ownership_step_photos']));
         $photosForm->handleRequest($request);
         if ($photosForm->isValid()) {
@@ -331,10 +336,15 @@ class StepsController extends Controller
                         if ($lang->getLangCode() == 'ES') {
                             $post['description_' . $lang->getLangId()] = $desc;
                         } else {
-                            $response = $translator->translate($desc, 'ES', $lang->getLangCode());
-                            if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                                $post['description_' . $lang->getLangId()] = $response->getTranslation();
-                            else $post['description_' . $lang->getLangId()] = $desc;
+                            try {
+                                $response = $translator->translate($desc, 'ES', $lang->getLangCode());
+                                if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                                    $post['description_' . $lang->getLangId()] = $response->getTranslation();
+                                else $post['description_' . $lang->getLangId()] = $desc;
+                            }
+                            catch (\Exception $exc){
+                                $post['description_' . $lang->getLangId()] = $desc;
+                            }
 
                         }
                     }
@@ -374,10 +384,15 @@ class StepsController extends Controller
                              if ($photoLang->getPhoLangIdLang()->getLangCode() == 'ES')
                                  $photoLang->setPhoLangDescription($desc);
                              else{
+                                 try{
                                  $response = $translator->translate($desc, 'ES', $photoLang->getPhoLangIdLang()->getLangCode());
                                  if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
                                      $photoLang->setPhoLangDescription($response->getTranslation());
                                  else $photoLang->setPhoLangDescription($desc);
+                                 }
+                                 catch (\Exception $exc){
+                                     $photoLang->setPhoLangDescription($desc);
+                                 }
                              }
                              $em->persist($photoLang);
                          }
@@ -443,7 +458,7 @@ class StepsController extends Controller
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         $templatingService = $this->container->get('templating');
         $emailSubject='Proceso de registro de propiedad completado';
-        $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership'=>$ownership,'user_full_name'=>$this->getUser()->getUserUserName().' '.$this->getUser()->getUserLastName()));
+        $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership'=>$ownership, 'user_locale' => "es",'user_full_name'=>$this->getUser()->getUserUserName().' '.$this->getUser()->getUserLastName()));
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
         $service_email = $this->get('Email');
         $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
@@ -616,23 +631,23 @@ class StepsController extends Controller
             if ($lang->getLangCode() == 'ES') {
                 $ownershipDescriptionLang->setOdlOwnership($ownership)
                     ->setOdlIdLang($lang)//id del lenguage
-                    ->setOdlDescription($request->get('comment-one'))//descripcion corta que corresponde al primer parrafo
-                    ->setOdlBriefDescription($description)
+                    ->setOdlBriefDescription($request->get('comment-one'))//descripcion corta que corresponde al primer parrafo
+                    ->setOdlDescription($description)
                     ->setOdlAutomaticTranslation(0);
             } else {
                 $response = $translator->translate($description, 'ES', $lang->getLangCode());
                 if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                    $briefDescription = $response->getTranslation();
+                    $translatedDescription = $response->getTranslation();
 
                 $response = $translator->translate($request->get('comment-one'), 'ES', $lang->getLangCode());
                 if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                    $shortDescription = $response->getTranslation();
+                    $translatedBriefDescription = $response->getTranslation();
 
 
                 $ownershipDescriptionLang->setOdlOwnership($ownership)
                     ->setOdlIdLang($lang)//id del lenguage
-                    ->setOdlDescription($shortDescription)//descripcion corta que corresponde al primer parrafo
-                    ->setOdlBriefDescription($briefDescription)
+                    ->setOdlDescription($translatedDescription)
+                    ->setOdlBriefDescription($translatedBriefDescription) //descripcion corta que corresponde al primer parrafo
                     ->setOdlAutomaticTranslation(1);
             }
             $em->persist($ownershipDescriptionLang);
@@ -663,7 +678,7 @@ class StepsController extends Controller
         $secondOwner = $request->get('secondOwner');
         $homeownerName = $request->get('homeownerName');
         $email = $request->get('email');
-        $publishAccommodation = $request->get("publishAccommodation");
+        $publishAccommodation = ($request->get("publishAccommodation") == "true");
         $hasError = false;
 
         $em = $this->getDoctrine()->getManager();

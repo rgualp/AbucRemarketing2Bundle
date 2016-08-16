@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ownershipData
  *
  * @ORM\Table(name="ownershipdata")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipDataRepository")
+ * @ORM\Entity
  *
  */
 class ownershipData
@@ -62,6 +62,7 @@ class ownershipData
      * @ORM\JoinColumn(name="principalPhoto",referencedColumnName="own_pho_id", nullable=true)
      */
     private $principalPhoto;
+
 
     /**
      * @return mixed
@@ -178,7 +179,6 @@ class ownershipData
         $this->photosCount = $photosCount;
         return $this;
     }
-
 
 
 }

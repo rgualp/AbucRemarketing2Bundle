@@ -77,17 +77,19 @@
             </div>
         </div>
 
-            {% set commission =  room.roomOwnership.ownCommissionPercent%}
+            {% set commission = (room is defined) ? room.roomOwnership.ownCommissionPercent : 20%}
 
             <div class="row m-t-5">
                 <div class="col-md-3 col-xs-6">
                     <label>Temporada Baja</label>
                 </div>
                 <div class="col-md-5 col-xs-1 p-0">
+                    <input type="hidden" id="inputCommission" value="{{ commission }}">
                     {% if room is defined %}
                     <label class="label_price_low_season_{{ room.RoomId }}">{{ (room.RoomPriceDownTo * ( 1 - commission / 100))}} CUC + {{ commission }}% = </label>  <span id="label_price_low_season_{{ room.RoomId }}" class="font-blue step-span label_price_low_season_{{ room.RoomId }}"> {{ room.RoomPriceDownTo }} CUC</span>
                     {% endif %}
-                    <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %} only-number" name="price_low_season" value="{% if room is defined %}{{ room.RoomPriceDownTo }}{% endif %}">
+                    <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %} only-number price_low_season" name="price_low_season" value="{% if room is defined %}{{ room.RoomPriceDownTo }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                    <span class="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
                 </div>
                 {% if room is defined %}
                     <div class="col-md-1 col-xs-4">
@@ -104,8 +106,8 @@
                         <label class="label_price_high_season_{{ room.RoomId }}">{{ (room.RoomPriceUpTo * ( 1 - commission / 100))}} CUC + {{ commission }}% = </label>  <span id="label_price_high_season_{{ room.RoomId }}" class="font-blue step-span label_price_high_season_{{ room.RoomId }}"> {{ room.RoomPriceUpTo }} CUC</span>
 
                     {% endif %}
-                    <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}  {% if room is defined %}hide{% endif %} only-number" name="price_high_season" value="{% if room is defined %}{{ room.RoomPriceUpTo }}{% endif %}">
-                    <span class="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}">Usted recibe 24 CUC</span>
+                    <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}  {% if room is defined %}hide{% endif %} only-number price_high_season" name="price_high_season" value="{% if room is defined %}{{ room.RoomPriceUpTo }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                    <span class="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
                 </div>
                 {% if room is defined %}
                     <div class="col-md-1 col-xs-4">
@@ -123,7 +125,8 @@
                         <label class="label_price_special_season_{{ room.RoomId }}">{{ (room.RoomPriceSpecial * ( 1 - commission / 100))}} CUC + {{ commission }}% = </label>  <span id="label_price_special_season_{{ room.RoomId }}" class="font-blue step-span label_price_special_season_{{ room.RoomId }}"> {{ room.RoomPriceSpecial }} CUC</span>
 
                     {% endif %}
-                    <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %} only-number" name="price_special_season" value="{% if room is defined %}{{ room.RoomPriceSpecial }}{% endif %}">
+                    <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %} only-number price_special_season" name="price_special_season" value="{% if room is defined %}{{ room.RoomPriceSpecial }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                    <span class="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
                 </div>
                 {% if room is defined %}
                     <div class="col-md-1 col-xs-4">

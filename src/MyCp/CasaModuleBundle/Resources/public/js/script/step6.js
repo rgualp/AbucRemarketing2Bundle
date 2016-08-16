@@ -201,7 +201,7 @@ var Step6 = function () {
     var saveStep6=function(){
         var _url=$('#mycp_mycpbundle_ownership_step_photos').attr('action');
         //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
-        //var form=$('#mycp_mycpbundle_ownership_step_photos');
+        var form=$('#mycp_mycpbundle_ownership_step_photos');
         if (typeof form != 'undefined') {
             var form = document.getElementById("mycp_mycpbundle_ownership_step_photos");
             var $envio = $.ajax({
@@ -210,6 +210,7 @@ var Step6 = function () {
                 data: new FormData(form),
                 processData: false,
                 contentType: false,
+                idAccommodation: App.getOwnId(),
                 type: 'POST'
             });
             $envio.error(function (data) {
@@ -235,7 +236,7 @@ var Step6 = function () {
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep6,this);
+            event.clickBtnContinueAfter.add(saveStep6,this, -1);
             //onclickBtnSavePhoto();
         },
         saveStep6: saveStep6
