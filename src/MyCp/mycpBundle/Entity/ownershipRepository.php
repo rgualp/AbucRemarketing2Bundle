@@ -603,13 +603,13 @@ class ownershipRepository extends EntityRepository {
             {
                 $response = $translator->multipleTranslations(array($sourceDescription, $sourceBriefDescription), $sourceLanguageCode, $targetLanguageCode);
 
-                if($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                if(isset($response[0]) && $response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200)
                 {
                     $description = $response[0]->getTranslation();
                     $translated = true;
                 }
 
-                if($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                if(isset($response[1]) && $response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200)
                 {
                     $briefDescription = $response[1]->getTranslation();
                     //$translated = true;
