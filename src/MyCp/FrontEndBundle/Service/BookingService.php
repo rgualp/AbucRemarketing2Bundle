@@ -414,8 +414,8 @@ class BookingService extends Controller
         $emailService = $this->get('Email');
 
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-        $body = $this->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
-            'booking' => $bookingId,
+        $body = $this->render('FrontEndBundle:mails:boletin.html.twig', array(
+            'bookId' => $bookingId,
             'user' => $user,
             'reservations' => $ownershipReservations,
             'photos' => $arrayPhotos,
