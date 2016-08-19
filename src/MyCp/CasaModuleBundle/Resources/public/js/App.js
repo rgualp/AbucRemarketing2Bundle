@@ -26,9 +26,6 @@ var App = function () {
         $('#rootwizard').bootstrapWizard({
             onNext: function (tab, navigation, index) {
                 event.clickBtnContinueAfter.dispatch(index);
-                // console.log(tab);
-                // console.log(navigation);
-                // console.log(index);
             },
             onPrevious: function (tab, navigation, index) {
             },
@@ -70,7 +67,7 @@ var App = function () {
         //Para cuando se selecciona un link del menu
         jQuery('.sidebar-collapse').on('click', ' li > a.ajaxify', function (e) {
             e.preventDefault();
-            event.clickBtnContinueAfter.dispatch(idWizardActive);
+            //event.clickBtnContinueAfter.dispatch(idWizardActive);
             $('#tab' + idWizardActive).removeClass('active');
             $('#rootwizard').bootstrapWizard('show',$(this).data("href"));
             idWizardActive=$(this).data("href");
