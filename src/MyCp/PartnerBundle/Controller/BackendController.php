@@ -5,15 +5,17 @@ namespace MyCp\PartnerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
+/**
+ * @Route("/partner")
+ *
+ */
 class BackendController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
-     * @Template()
+     * @Route("/backend", name="partner_backend")
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        return array('name' => $name);
+        return $this->render('PartnerBundle:Backend:index.html.twig');
     }
 }

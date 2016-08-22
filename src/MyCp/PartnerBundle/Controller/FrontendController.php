@@ -8,11 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/partner")
+ *
  */
 class FrontendController extends Controller
 {
     /**
-     * @Route("/", name="partner_home")
+     * @Route("/home", name="partner_home")
      */
     public function indexAction()
     {
