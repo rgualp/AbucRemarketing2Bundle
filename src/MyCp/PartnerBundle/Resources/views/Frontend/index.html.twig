@@ -4,8 +4,12 @@
     {{ parent() }}
 {% endblock %}
 {% block body %}
-    {#-----Section-----#}
-    Home
+    {#-----Section win-----#}
+    {{ include('PartnerBundle:Section:win-partner.html.twig') }}
+    {#-----Section package-----#}
+    {{ include('PartnerBundle:Section:package-partner.html.twig') }}
+    {#-----Section offer-----#}
+    {{ include('PartnerBundle:Section:offer-partner.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
