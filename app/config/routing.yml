@@ -1,3 +1,8 @@
+partner:
+    resource: "@PartnerBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 my_cp_casa_module:
     resource: "@MyCpCasaModuleBundle/Resources/config/routing.yml"
     prefix:   /mycasa
