@@ -60,6 +60,7 @@
     '@PartnerBundle/Resources/public/js/plugins/wow/wow.min.js'
     '@PartnerBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
     '@PartnerBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@PartnerBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
     '@PartnerBundle/Resources/public/js/classie.js'
     '@PartnerBundle/Resources/public/js/plugins/OverlayStyles/modernizr.custom.js'
     '@PartnerBundle/Resources/public/js/plugins/OverlayStyles/classie.js'
@@ -69,9 +70,6 @@
     filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {% if app.request.locale != 'en' %}
-    <script src="{{ asset('bundles/frontend/js/plugins/jquery-validation-1.13.1/dist/localization/messages_') }}{{ app.request.locale }}.js"></script>
-    {% endif %}
 {% endblock %}
 </body>
 </html>
