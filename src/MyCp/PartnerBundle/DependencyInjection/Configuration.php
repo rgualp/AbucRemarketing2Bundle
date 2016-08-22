@@ -1,6 +1,6 @@
 <?php
 
-namespace PartnerBundle\DependencyInjection;
+namespace MyCp\PartnerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PartnerBundle;
+namespace MyCp\PartnerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace PartnerBundle\Controller;
+namespace MyCp\PartnerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
