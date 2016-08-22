@@ -801,6 +801,13 @@ a.green-link{
     list-style: none;
 }
 
+.paSearcher{
+    background-color: #dddddd;
+    height: 160px;
+    padding: 10px;
+}
+
+
 @media (max-width: 768px) {
     body.mini-navbar #page-wrapper {
         margin: 0;
