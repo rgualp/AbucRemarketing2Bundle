@@ -1,1 +1,46 @@
-Este es el super footer
+<div class="paFooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8"></div>
+            <div class="col-xs-4">
+                <h3>My Casa Partner</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <ul>
+                    <li><a href="#">{{ "pa_about_us" | trans }}</a></li>
+                    <li><a href="#">{{ "pa_contact_us" | trans }}</a></li>
+                    <li><a href="#">{{ "pa_sitemap" | trans }}</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-4">
+                <ul>
+                    <li><a href="#">{{ "pa_legal" | trans }}</a></li>
+                    <li><a href="#">{{ "pa_faqs" | trans }}</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-4">
+                <ul>
+                    <li><a href="{{ path('frontend_mycasatrip_apps') }}">{{ "pa_mycasa_trip" | trans }}</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycubamap">{{ "pa_mycuba_map" | trans }}</a></li>
+                    <li><a href="https://www.cubacoupon.com">CubaCoupon</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="text-align: center">
+            <ul class="nav navbar-top-links">
+                <li><a href="#"><i class="fa fa-envelope-o fa-2x"></i></a></li>
+                <li><a href="#"><i class="fa fa-facebook fa-2x"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter fa-2x"></i></a></li>
+                <li><a href="#"><i class="fa fa-pinterest fa-2x"></i></a></li>
+                <li><a href="#"><i class="fa fa-youtube fa-2x"></i></a></li>
+            </ul>
+
+        </div>
+        <div class="row" style="text-align: center">
+            <p>&copy; 2016 {% if 'today'|date('Y') != 2016 %} - {{'today'|date('Y')}} {% endif %}. <a style="color: #ffffff" href=#">MyCasaPartner</a>.
+                {{"pa_footer_copyright" | trans}}.</p>
+        </div>
+    </div>
+</div>

@@ -1,83 +1,9 @@
-{% extends 'PartnerBundle::layout.html.twig' %}
+{% extends 'PartnerBundle:Backend:layout.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
-    {% stylesheets
-    '@PartnerBundle/Resources/public/css/bootstrap.min.css'
-    '@PartnerBundle/Resources/public/font-awesome/css/font-awesome.css'
-    '@PartnerBundle/Resources/public/css/partner.css'
-    '@PartnerBundle/Resources/public/css/glyphicons.css'
-    '@PartnerBundle/Resources/public/css/animate.css'
-    '@PartnerBundle/Resources/public/css/style.css'
-    '@PartnerBundle/Resources/public/css/plugins/chosen/chosen.css'
-    '@PartnerBundle/Resources/public/css/plugins/select2/select2.min.css'
-    '@PartnerBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
-    '@PartnerBundle/Resources/public/css/plugins/toastr/toastr.min.css'
-    '@PartnerBundle/Resources/public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
-    '@PartnerBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
-    '@PartnerBundle/Resources/public/css/plugins/switchery/switchery.css'
-    '@PartnerBundle/Resources/public/css/plugins/fullcalendar/fullcalendar.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-{% endblock %}
-{% block body %}
-    <div id="wrapper">
-        <div class="row">
-            {% include 'PartnerBundle:Layout:header_backend.html.twig' %}
-        </div>
-
-        {% block nav %}
-            <nav class="navbar-default navbar-static-side" role="navigation">
-                <div class="sidebar-collapse">
-
-                    <ul class="nav metismenu" id="side-menu">
-
-                        {% block profile %}
-                            {% include 'PartnerBundle::layout_profile.html.twig' %}
-                        {% endblock profile %}
-
-                        {% block menu %}
-                            {% include 'PartnerBundle:Layout:menu.html.twig' %}
-                        {% endblock menu %}
-
-                    </ul>
-                </div>
-            </nav>
-        {% endblock nav %}
-
-        <div id="page-wrapper" class="white-bg">
-            <div id="content_id" class="wrapper wrapper-content white-bg" style="padding-bottom:40px">
-                {% block content %}
-
-                {% endblock content %}
-            </div>
-        </div>
-    </div>
+{% block header %}
+    {% include 'PartnerBundle:Layout:header_backend.html.twig' %}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts
-    '@PartnerBundle/Resources/public/js/jquery-2.1.1.js'
-    '@PartnerBundle/Resources/public/js/bootstrap.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/metisMenu/jquery.metisMenu.js'
-    '@PartnerBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.js'
-    '@PartnerBundle/Resources/public/js/plugins/pace/pace.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/toastr/toastr.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
-    '@PartnerBundle/Resources/public/js/plugins/select2/select2.full.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/switchery/switchery.js'
-    '@PartnerBundle/Resources/public/js/inspinia.js'
-    '@PartnerBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
-    '@PartnerBundle/Resources/public/js/plugins/signals/signals.js'
-    '@PartnerBundle/Resources/public/js/plugins/jquery-ui/jquery-ui.min.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock %}
+{% block content %}
+contenido aqui
+{% endblock content %}

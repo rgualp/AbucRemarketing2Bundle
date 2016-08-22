@@ -774,6 +774,33 @@ a.green-link{
     margin: 10px 50px;
 }
 
+.nav li.separator{
+    background-color: #ccc;
+    height: 70px;
+}
+
+.paFooter{
+    background-color: #888888;
+    min-height: 300px;
+    padding: 100px 0;
+    font-size: 14px;
+}
+
+.paFooter a, .paFooter a:link, .paFooter a:active, .paFooter a:visited{
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.paFooter h3{
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.paFooter ul{
+    list-style: none;
+}
+
 @media (max-width: 768px) {
     body.mini-navbar #page-wrapper {
         margin: 0;
