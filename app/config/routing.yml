@@ -1,7 +1,15 @@
 partner:
     resource: "@PartnerBundle/Resources/config/routingPartner.yml"
-    prefix:   /{_locale}/
+    prefix:   /{_locale}/partner
     type: be_simple_i18n
+
+
+frontend_partner_login_check:
+    pattern:  /partner/login_check
+
+frontend_partner_login:
+    pattern:  /partner/login/
+    defaults: { _controller: PartnerBundle:Security:login, urlLogin: 'frontend_partner_login_check'}
 
 my_cp_casa_module:
     resource: "@MyCpCasaModuleBundle/Resources/config/routing.yml"
