@@ -71,11 +71,17 @@ class paTravelAgency extends baseEntity
      */
     private $contacts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paAgencyPackage", mappedBy="travelAgency")
+     */
+    private $agencyPackages;
+
 
     public function __construct() {
         parent::__construct();
 
         $this->contacts = new ArrayCollection();
+        $this->agencyPackages = new ArrayCollection();
     }
 
     /**
@@ -235,5 +241,46 @@ class paTravelAgency extends baseEntity
         $this->contacts->removeElement($contact);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAgencyPackages()
+    {
+        return $this->agencyPackages;
+    }
+
+    /**
+     * @param mixed $agencyPackages
+     * @return mixed
+     */
+    public function setAgencyPackages($agencyPackages)
+    {
+        $this->agencyPackages = $agencyPackages;
+        return $this;
+    }
+
+    /**
+     * Add agencyPackage
+     *
+     * @param paAgencyPackage $agencyPackage
+     *
+     * @return mixed
+     */
+    public function addAgencyPackage(paAgencyPackage $agencyPackage)
+    {
+        $this->agencyPackages[] = $agencyPackage;
+
+        return $this;
+    }
+
+    /**
+     * Remove agencyPackage
+     *
+     * @param paAgencyPackage $agencyPackage
+     */
+    public function removeAgencyPackage(paAgencyPackage $agencyPackage)
+    {
+        $this->agencyPackages->removeElement($agencyPackage);
+    }
 
 }

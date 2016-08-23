@@ -38,9 +38,16 @@ class paPackage extends baseEntity
      */
     private $price;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paAgencyPackage", mappedBy="package")
+     */
+    private $agencyPackages;
+
 
     public function __construct() {
         parent::__construct();
+
+        $this->agencyPackages = new ArrayCollection();
     }
 
     /**
@@ -87,5 +94,46 @@ class paPackage extends baseEntity
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAgencyPackages()
+    {
+        return $this->agencyPackages;
+    }
+
+    /**
+     * @param mixed $agencyPackages
+     * @return mixed
+     */
+    public function setAgencyPackages($agencyPackages)
+    {
+        $this->agencyPackages = $agencyPackages;
+        return $this;
+    }
+
+    /**
+     * Add agencyPackage
+     *
+     * @param paAgencyPackage $agencyPackage
+     *
+     * @return mixed
+     */
+    public function addAgencyPackage(paAgencyPackage $agencyPackage)
+    {
+        $this->agencyPackages[] = $agencyPackage;
+
+        return $this;
+    }
+
+    /**
+     * Remove agencyPackage
+     *
+     * @param paAgencyPackage $agencyPackage
+     */
+    public function removeAgencyPackage(paAgencyPackage $agencyPackage)
+    {
+        $this->agencyPackages->removeElement($agencyPackage);
+    }
 
 }

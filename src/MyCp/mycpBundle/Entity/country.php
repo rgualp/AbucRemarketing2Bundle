@@ -47,10 +47,16 @@ class country
      */
     private $travelAgencies;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paClient", mappedBy="country")
+     */
+    private $travelAgencyClients;
+
 
     public function __construct() {
         $this->users = new ArrayCollection();
         $this->travelAgencies = new ArrayCollection();
+        $this->travelAgencyClients = new ArrayCollection();
     }
     
     public function getUsers(){
@@ -196,4 +202,48 @@ class country
         $this->travelAgencies->removeElement($travelAgency);
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTravelAgencyClients()
+    {
+        return $this->travelAgencyClients;
+    }
+
+    /**
+     * @param mixed $travelAgencyClients
+     * @return mixed
+     */
+    public function setTravelAgencyClients($travelAgencyClients)
+    {
+        $this->travelAgencyClients = $travelAgencyClients;
+        return $this;
+    }
+
+    /**
+     * Add travel agency client
+     *
+     * @param paClient $client
+     *
+     * @return mixed
+     */
+    public function addTravelAgencyclient(paClient $client)
+    {
+        $this->travelAgencyClients[] = $client;
+
+        return $this;
+    }
+
+    /**
+     * Remove travel agency client
+     * @param paClient $client
+     * @return $this
+     */
+    public function removeTravelAgencyClient(paClient $client)
+    {
+        $this->travelAgencyClients->removeElement($client);
+        return $this;
+    }
+
 }
