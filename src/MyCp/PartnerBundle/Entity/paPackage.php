@@ -39,6 +39,13 @@ class paPackage extends baseEntity
     private $price;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="maxTourOperators", type="integer")
+     */
+    private $maxTourOperators;
+
+    /**
      * @ORM\OneToMany(targetEntity="paAgencyPackage", mappedBy="package")
      */
     private $agencyPackages;
@@ -135,5 +142,25 @@ class paPackage extends baseEntity
     {
         $this->agencyPackages->removeElement($agencyPackage);
     }
+
+    /**
+     * @return int
+     */
+    public function getMaxTourOperators()
+    {
+        return $this->maxTourOperators;
+    }
+
+    /**
+     * @param int $maxTourOperators
+     * @return mixed
+     */
+    public function setMaxTourOperators($maxTourOperators)
+    {
+        $this->maxTourOperators = $maxTourOperators;
+        return $this;
+    }
+
+
 
 }

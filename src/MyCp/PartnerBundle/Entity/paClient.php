@@ -27,6 +27,13 @@ class paClient extends baseEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="passport", type="string", length=255, nullable=true)
+     */
+    private $passport;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -45,10 +52,16 @@ class paClient extends baseEntity
      */
     private $country;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paClientReservation", mappedBy="client")
+     */
+    private $travelAgencyClientReservations;
+
 
     public function __construct() {
         parent::__construct();
 
+        $this->travelAgencyClientReservations = new ArrayCollection();
     }
 
     /**
@@ -121,5 +134,64 @@ class paClient extends baseEntity
         return $this->name. " " .$this->lastname;
     }
 
+    /**
+     * @return string
+     */
+    public function getPassport()
+    {
+        return $this->passport;
+    }
+
+    /**
+     * @param string $passport
+     * @return mixed
+     */
+    public function setPassport($passport)
+    {
+        $this->passport = $passport;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTravelAgencyClientReservations()
+    {
+        return $this->travelAgencyClientReservations;
+    }
+
+    /**
+     * @param mixed $clientReservations
+     * @return mixed
+     */
+    public function setTravelAgencyClientReservations($clientReservations)
+    {
+        $this->travelAgencyClientReservations = $clientReservations;
+        return $this;
+    }
+
+    /**
+     * Add paClientReservation
+     *
+     * @param paClientReservation $clientReservations
+     *
+     * @return mixed
+     */
+    public function addTravelAgencyClientReservation(paClientReservation $clientReservations)
+    {
+        $this->travelAgencyClientReservations[] = $clientReservations;
+
+        return $this;
+    }
+
+    /**
+     * Remove paClientReservation
+     *
+     * @param paClientReservation $clientReservations
+     */
+    public function removeTravelAgencyClientReservation(paClientReservation $clientReservations)
+    {
+        $this->travelAgencyClientReservations->removeElement($clientReservations);
+    }
 
 }
