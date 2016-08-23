@@ -1,0 +1,22 @@
+#Rounting PARTNER-HOME
+#Home PARTNER
+frontend_partner_home:
+    locales:  { en: "/partner/welcome", es: "/partner/bienvenido", de: "/partner/willkommen" }
+    defaults: { _controller: PartnerBundle:Frontend:index }
+
+#Printing language and currency in navbar
+frontend_partner_navbar:
+    locales:  { en: "/partner/navbar/{route}/{routeParams}", es: "/partner/navbar/{route}/{routeParams}", de: "/partner/navbar/{route}/{routeParams}" }
+    defaults: { _controller: PartnerBundle:Frontend:navBar }
+
+#Login content
+frontend_partner_logincontent:
+    locales:  { en: "/partner/login/content", es: "/partner/login/content", de: "/partner/login/content" }
+    defaults: { _controller: PartnerBundle:Frontend:contentLogin }
+
+#Register content
+frontend_partner_registercontent:
+    locales:  { en: "/partner/register/content", es: "/partner/register/content", de: "/partner/register/content" }
+    defaults: { _controller: PartnerBundle:Frontend:contentRegister }
+
+#Rounting PARTNER-BACKEND

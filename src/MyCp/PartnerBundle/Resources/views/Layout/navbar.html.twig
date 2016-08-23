@@ -13,9 +13,13 @@
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active"><a href="#page-top" class="page-scroll">Como Funciona</a></li>
-                    <li class=""><a href="#features" class="page-scroll">Features</a></li>
-                    <li><a href="#team" class="page-scroll">Team</a></li>
-                    <li><a href="#testimonials" class="page-scroll">Inicia Sesión</a></li>
+
+                    {% if app.request.get('_route') %}
+                        {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
+                    {% endif %}
+
+
+                    <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">Inicia Sesión</a></li>
                 </ul>
             </div>
         </div>

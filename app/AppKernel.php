@@ -16,6 +16,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new JMS\TranslationBundle\JMSTranslationBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
@@ -32,6 +33,7 @@ class AppKernel extends Kernel
 			new hds\SeoBundle\SeoBundle(),
             new MyCp\CasaModuleBundle\MyCpCasaModuleBundle(),
             new MyCp\PartnerBundle\PartnerBundle(),
+            new MyCp\LayoutBundle\LayoutBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

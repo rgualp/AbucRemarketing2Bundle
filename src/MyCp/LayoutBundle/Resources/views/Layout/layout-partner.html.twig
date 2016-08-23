@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link type="image/x-icon" href="{{ asset('bundles/frontend/img/favicon.png') }}" rel="icon">
+    <link type="image/x-icon" href="{{ asset('bundles/frontend/img/favicon.png') }}" rel="shortcut icon">
+
+    <title>{% block title %}Home{% endblock %} | Partner</title>
+
+    {% block stylesheets %}
+        {% stylesheets
+        '@LayoutBundle/Resources/public/css/plugins/OverlayStyles/style8.css'
+        '@LayoutBundle/Resources/public/css/bootstrap.min.css'
+        '@LayoutBundle/Resources/public/css/animate.css'
+        '@LayoutBundle/Resources/public/font-awesome/css/font-awesome.min.css'
+        '@LayoutBundle/Resources/public/css/style.css'
+        '@LayoutBundle/Resources/public/css/plugins/datapicker/datepicker3.css'
+        '@LayoutBundle/Resources/public/css/plugins/chosen/chosen.css'
+        '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+        '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+        '@LayoutBundle/Resources/public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
+        '@LayoutBundle/Resources/public/css/normalize.css'
+        '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
+        filter='?uglifycss' %}
+        <link type="text/css" rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+
+    {% endblock %}
+
+</head>
+<body id="page-top" class="{% block body_class %}landing-page{% endblock %}">
+
+{% block navbar %}
+    {{ include('PartnerBundle:Layout:navbar.html.twig') }}
+{% endblock %}
+{% block carousel %}
+    {{ include('PartnerBundle:Layout:carousel.html.twig') }}
+{% endblock %}
+{% block login_register %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block footer %}
+    <div id="adjust-footer-section" class="clearfix"></div>
+    {{ include('PartnerBundle:Layout:footer.html.twig') }}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@LayoutBundle/Resources/public/js/jquery-2.1.1.js'
+    '@LayoutBundle/Resources/public/js/bootstrap.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/metisMenu/jquery.metisMenu.js'
+    '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/pace/pace.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/wow/wow.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@LayoutBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
+    '@LayoutBundle/Resources/public/js/classie.js'
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/modernizr.custom.js'
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/classie.js'
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/page-overlay.js'
+    '@LayoutBundle/Resources/public/js/adjustContainer/adjustHeight.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>

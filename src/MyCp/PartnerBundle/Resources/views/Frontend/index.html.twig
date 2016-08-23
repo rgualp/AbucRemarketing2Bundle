@@ -1,7 +1,11 @@
-{% extends 'PartnerBundle::layout.html.twig' %}
+{% extends 'LayoutBundle:Layout:layout-partner.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:login.html.twig' %}
+    {% include 'LayoutBundle:Security:register.html.twig' %}
 {% endblock %}
 {% block body %}
     {#-----Section win-----#}
@@ -14,6 +18,57 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+
+            {% if remoteLogin is defined %}
+            {% if type_login is defined %}
+            {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+                var currentPath = '{{ currentPath }}';
+            {% else %}
+            var currentPath = '{{ app.request.headers.get('referer') }}';
+            {% endif %}
+
+            function initLoginOverlay(){
+                var b = $("#login-overlay");
+                b.one('click', function () {
+                    HoldOn.open();
+                    var overlay = $(b.data('overlay'));
+                    var xpath ='{{ path('frontend_partner_logincontent') }}';
+                    var params = {action:1};
+                    overlay.load(xpath, params, function (e) {
+                        HoldOn.close();
+                        $("#login-overlay").pageOverlay();
+                        $("#login-overlay").click();
+                        initRegisterOverlay();
+                        $('input[name="_target_path"]').val(currentPath);
+                    });
+                });
+            }
+
+            function initRegisterOverlay(){
+                var b = $("#trigger-overlay-register");
+                b.one('click', function () {
+                    HoldOn.open();
+                    var overlay = $(b.data('overlay'));
+                    var xpath ='{{ path('frontend_partner_registercontent') }}';
+                    var params = {action:1};
+                    overlay.load(xpath, params, function (e) {
+                        HoldOn.close();
+                        $("#trigger-overlay-register").pageOverlay();
+                        $("#trigger-overlay-register").click();
+                    });
+                });
+            }
+
+            initLoginOverlay();
+            {% else %}
+                $("#login-overlay").pageOverlay();
+                $("#trigger-overlay-register").pageOverlay();
+            {% endif %}
+
+        });
+    </script>
 {% endblock %}
 
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-08-22T21:51:49Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="7f2f6a15cf8da2b27e5a4af47b58e7ad71c0b3d9" resname="Error">
+        <jms:reference-file line="28">views/Exception/error.html.twig</jms:reference-file>
+        <jms:reference-file line="34">views/Exception/error.html.twig</jms:reference-file>
+        <jms:reference-file line="40">views/Exception/error.html.twig</jms:reference-file>
+        <source>Error</source>
+        <target state="new">Error</target>
+      </trans-unit>
+      <trans-unit id="8ed88331ff7896cbf67ef909ec1c57317c2030a0" resname="HOMEPAGE_TITLE">
+        <jms:reference-file line="11">views/Exception/error.html.twig</jms:reference-file>
+        <source>HOMEPAGE_TITLE</source>
+        <target state="new">HOMEPAGE_TITLE</target>
+      </trans-unit>
+      <trans-unit id="2ae8050c4664cf3ff746720df20c988eccdfb834" resname="MyCP">
+        <jms:reference-file line="12">views/Exception/error.html.twig</jms:reference-file>
+        <source>MyCP</source>
+        <target state="new">MyCP</target>
+      </trans-unit>
+      <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
+        <jms:reference-file line="4">views/Section/offer-partner.html.twig</jms:reference-file>
+        <source>title.section.offer</source>
+        <target state="new">Anímate a probar lo mejor de MyCasa Partner</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

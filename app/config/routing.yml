@@ -1,7 +1,7 @@
 partner:
-    resource: "@PartnerBundle/Controller/"
-    type:     annotation
-    prefix:   /{_locale}
+    resource: "@PartnerBundle/Resources/config/routingPartner.yml"
+    prefix:   /{_locale}/
+    type: be_simple_i18n
 
 my_cp_casa_module:
     resource: "@MyCpCasaModuleBundle/Resources/config/routing.yml"
