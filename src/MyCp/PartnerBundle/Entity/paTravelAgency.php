@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paTravelAgencyRepository")
  *
  */
-class paTravelAgency
+class paTravelAgency extends baseEntity
 {
     /**
      * @var integer
@@ -49,6 +49,13 @@ class paTravelAgency
     /**
      * @var string
      *
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="address", type="string", length=500)
      */
     private $address;
@@ -59,8 +66,16 @@ class paTravelAgency
      */
     private $country;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paContact", mappedBy="travelAgency")
+     */
+    private $contacts;
+
 
     public function __construct() {
+        parent::__construct();
+
+        $this->contacts = new ArrayCollection();
     }
 
     /**
@@ -158,5 +173,67 @@ class paTravelAgency
     {
         $this->email = $email;
     }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return mixed
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * @param mixed $contacts
+     * @return mixed
+     */
+    public function setContacts($contacts)
+    {
+        $this->contacts = $contacts;
+        return $this;
+    }
+
+
+    /**
+     * Add contact
+     *
+     * @param paContact $contact
+     *
+     * @return mixed
+     */
+    public function addContact(paContact $contact)
+    {
+        $this->contacts[] = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param paContact $contact
+     */
+    public function removeContact(paContact $contact)
+    {
+        $this->contacts->removeElement($contact);
+    }
+
 
 }

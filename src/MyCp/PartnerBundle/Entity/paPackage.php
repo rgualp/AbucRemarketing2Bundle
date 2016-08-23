@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPackageRepository")
  *
  */
-class paPackage
+class paPackage extends baseEntity
 {
     /**
      * @var integer
@@ -40,6 +40,7 @@ class paPackage
 
 
     public function __construct() {
+        parent::__construct();
     }
 
     /**
