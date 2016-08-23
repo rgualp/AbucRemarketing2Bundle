@@ -4,8 +4,8 @@
     {{ parent() }}
 {% endblock %}
 {% block login_register %}
-    {% include 'LayoutBundle:Security:login.html.twig' %}
-    {% include 'LayoutBundle:Security:register.html.twig' %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+    {% include 'LayoutBundle:Security:overlay_register.html.twig' %}
 {% endblock %}
 {% block body %}
     {#-----Section win-----#}

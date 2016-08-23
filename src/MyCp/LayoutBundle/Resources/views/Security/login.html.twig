@@ -1,5 +1,14 @@
-<div id="overlay-login" class="login overlay overlay-contentscale gray-bg">
-   {% if remoteLogin is not defined %}
+{% extends 'LayoutBundle:Layout:layout_partner.html.twig' %}
+{% block navbar %}
+{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+{% endblock %}
+{% block body %}
+    {% if remoteLogin is not defined %}
         {% include 'LayoutBundle:Security:login-content.html.twig' %}
     {% endif %}
-</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}
