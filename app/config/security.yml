@@ -95,6 +95,30 @@ security:
                     REMEMBERME: { path: ~, domain: ~}
             anonymous: ~
 
+        modulo_partner:
+            pattern:    ^/partner
+            provider: chain_for_backend
+            form_login:
+                check_path: frontend_partner_login_check
+                login_path: frontend_partner_login
+                remember_me: true
+                default_target_path: /partner/dashboard
+                use_referer: false
+            remember_me:
+                key: '%secret%'
+                #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                lifetime: 86400
+                path: /
+                domain: ~
+            logout:
+                path:   /partner/logout
+                target: /partner/dashboard
+                invalidate_session: false
+                delete_cookies:
+                    REMEMBERME: { path: ~, domain: ~}
+            anonymous: ~
+
+
         #lodging:
         #    pattern:    ^/alojamiento
         #    provider: lodging
@@ -138,6 +162,7 @@ security:
             anonymous: ~
 
     access_control:
+        - { path: ^/partner/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
