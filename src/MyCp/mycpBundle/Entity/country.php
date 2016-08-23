@@ -2,7 +2,9 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MyCp\PartnerBundle\Entity\paTravelAgency;
 
 /**
  * country
@@ -40,14 +42,56 @@ class country
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paTravelAgency", mappedBy="country")
+     */
+    private $travelAgencies;
+
 
     public function __construct() {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->travelAgencies = new ArrayCollection();
     }
     
     public function getUsers(){
         return $this->users;
     }
+
+    /**
+     * @param mixed $users
+     * @return mixed
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+        return $this;
+    }
+
+    /**
+     * Add user
+     *
+     * @param user $user
+     * @return user
+     */
+    public function addUser(user $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     * @param user $user
+     * @return $this
+     */
+    public function removeUser(user $user)
+    {
+        $this->users->removeElement($user);
+        return $this;
+    }
+
+
     
     /**
      * Get co_id
@@ -108,5 +152,48 @@ class country
     public function __toString()
     {
         return $this->co_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTravelAgencies()
+    {
+        return $this->travelAgencies;
+    }
+
+    /**
+ * @param mixed $travelAgencies
+ * @return mixed
+ */
+    public function setTravelAgencies($travelAgencies)
+    {
+        $this->travelAgencies = $travelAgencies;
+        return $this;
+    }
+
+    /**
+     * Add travel agency
+     *
+     * @param travelAgency|paTravelAgency $travelAgency
+     *
+     * @return user
+     */
+    public function addTravelAgency(paTravelAgency $travelAgency)
+    {
+        $this->travelAgencies[] = $travelAgency;
+
+        return $this;
+    }
+
+    /**
+     * Remove travel agency
+     * @param travelAgency|paTravelAgency $travelAgency
+     * @return $this
+     */
+    public function removeTravelAgency(paTravelAgency $travelAgency)
+    {
+        $this->travelAgencies->removeElement($travelAgency);
+        return $this;
     }
 }
