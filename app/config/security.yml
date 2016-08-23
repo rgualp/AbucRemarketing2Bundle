@@ -102,7 +102,7 @@ security:
                 check_path: frontend_partner_login_check
                 login_path: frontend_partner_login
                 remember_me: true
-                default_target_path: /partner/dashboard
+                default_target_path: backend_partner_dashboard
                 use_referer: false
             remember_me:
                 key: '%secret%'
@@ -112,7 +112,7 @@ security:
                 domain: ~
             logout:
                 path:   /partner/logout
-                target: /partner/dashboard
+                target: backend_partner_dashboard
                 invalidate_session: false
                 delete_cookies:
                     REMEMBERME: { path: ~, domain: ~}
