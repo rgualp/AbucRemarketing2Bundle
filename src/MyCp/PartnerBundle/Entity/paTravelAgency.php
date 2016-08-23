@@ -27,16 +27,17 @@ class paTravelAgency
     /**
      * @var string
      *
+     * @ORM\Column(name="code", type="string", length=255)
+     */
+    private $code;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
-    /**
-     * @var decimal
-     *
-     * @ORM\Column(name="price", type="decimal", precision=2)
-     */
-    private $price;
 
     /**
      * @var string
@@ -89,22 +90,73 @@ class paTravelAgency
     }
 
     /**
-     * @return decimal
+     * @return string
      */
-    public function getPrice()
+    public function getAddress()
     {
-        return $this->price;
+        return $this->address;
     }
 
     /**
-     * @param decimal $price
+     * @param string $address
      * @return mixed
      */
-    public function setPrice($price)
+    public function setAddress($address)
     {
-        $this->price = $price;
+        $this->address = $address;
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     * @return mixed
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     * @return mixed
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
 }
