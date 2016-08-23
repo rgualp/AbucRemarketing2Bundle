@@ -1,13 +1,9 @@
-{% extends 'PartnerBundle::layout.html.twig' %}
+{% extends 'PartnerBundle:Backend:layout.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-{% block body %}
-    {#-----Section-----#}
-    Backend
+{% block header %}
+    {% include 'PartnerBundle:Layout:header_backend.html.twig' %}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
+{% block content %}
+    {% include 'PartnerBundle:Backend/Controls:searcher.html.twig' %}
+{% endblock content %}
