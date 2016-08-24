@@ -67,7 +67,7 @@ class paReservation extends baseEntity
     private $client;
 
     /**
-     * @ORM\OneToMany(targetEntity="paReservationDetail", mappedBy="client")
+     * @ORM\OneToMany(targetEntity="paReservationDetail", mappedBy="reservation")
      */
     private $details;
 
@@ -221,7 +221,7 @@ class paReservation extends baseEntity
      *
      * @return mixed
      */
-    public function addTravelAgencyClientReservation(paReservationDetail $detail)
+    public function addDetail(paReservationDetail $detail)
     {
         $this->details[] = $detail;
 
@@ -233,7 +233,7 @@ class paReservation extends baseEntity
      *
      * @param paReservationDetail $detail
      */
-    public function removeTravelAgencyClientReservation(paReservationDetail $detail)
+    public function removeDetail(paReservationDetail $detail)
     {
         $this->details->removeElement($detail);
     }

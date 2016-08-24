@@ -47,7 +47,7 @@ class paClient extends baseEntity
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCP\mycpBundle\Entity\country",inversedBy="travelAgencyClients")
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\country",inversedBy="travelAgencyClients")
      * @ORM\JoinColumn(name="country",referencedColumnName="co_id")
      */
     private $country;
@@ -58,10 +58,16 @@ class paClient extends baseEntity
      */
     private $travelAgency;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paReservation", mappedBy="client")
+     */
+    private $reservations;
+
 
     public function __construct() {
         parent::__construct();
 
+        $this->reservations = new ArrayCollection();
     }
 
     /**
@@ -170,6 +176,47 @@ class paClient extends baseEntity
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getReservations()
+    {
+        return $this->reservations;
+    }
+
+    /**
+     * @param mixed $reservations
+     * @return mixed
+     */
+    public function setReservations($reservations)
+    {
+        $this->reservations = $reservations;
+        return $this;
+    }
+
+    /**
+     * Add paReservation
+     *
+     * @param paReservation $reservation
+     *
+     * @return mixed
+     */
+    public function addReservation(paReservation $reservation)
+    {
+        $this->reservations[] = $reservation;
+
+        return $this;
+    }
+
+    /**
+     * Remove paReservation
+     *
+     * @param paReservation $reservation
+     */
+    public function removeReservation(paReservation $reservation)
+    {
+        $this->reservations->removeElement($reservation);
+    }
 
 
 }

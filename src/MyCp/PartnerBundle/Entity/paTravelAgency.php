@@ -61,7 +61,7 @@ class paTravelAgency extends baseEntity
     private $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCP\mycpBundle\Entity\country",inversedBy="travelAgencies")
+     * @ORM\ManyToOne(targetEntity="\MyCp\mycpBundle\Entity\country",inversedBy="travelAgencies")
      * @ORM\JoinColumn(name="country",referencedColumnName="co_id")
      */
     private $country;
