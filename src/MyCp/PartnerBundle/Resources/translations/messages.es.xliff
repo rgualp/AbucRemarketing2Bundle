@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-08-24T09:37:48Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-08-24T10:33:04Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -75,7 +75,7 @@
         <target state="new">Inicia Sesión</target>
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
-        <jms:reference-file line="15">views/Section/win-partner.html.twig</jms:reference-file>
+        <jms:reference-file line="16">views/Section/win-partner.html.twig</jms:reference-file>
         <source>label.section.easy_description</source>
         <target state="new">Reservar se vuelve lo más sencillo del mundo. Un sitio pensado para ayudarte y facilitar tu gestión de forma rápida y profesional.</target>
       </trans-unit>
@@ -85,17 +85,17 @@
         <target state="new">¿Qué ganas si apuestas por MyCasa Partner?</target>
       </trans-unit>
       <trans-unit id="b8e77ab3d18bc597d0cb6568fa7ade37e97779d7" resname="label.section.one_easy">
-        <jms:reference-file line="14">views/Section/win-partner.html.twig</jms:reference-file>
+        <jms:reference-file line="15">views/Section/win-partner.html.twig</jms:reference-file>
         <source>label.section.one_easy</source>
         <target state="new">Más sencillo, imposible</target>
       </trans-unit>
       <trans-unit id="02afdeac3e92589ed7043409a9c2d73148cd89e1" resname="label.section.one_service">
-        <jms:reference-file line="18">views/Section/win-partner.html.twig</jms:reference-file>
+        <jms:reference-file line="20">views/Section/win-partner.html.twig</jms:reference-file>
         <source>label.section.one_service</source>
         <target state="new">Servicios asombrosos</target>
       </trans-unit>
       <trans-unit id="7174bfbffaa7ee7020fc37dedab25c8dde2441b0" resname="label.section.one_sites">
-        <jms:reference-file line="22">views/Section/win-partner.html.twig</jms:reference-file>
+        <jms:reference-file line="25">views/Section/win-partner.html.twig</jms:reference-file>
         <source>label.section.one_sites</source>
         <target state="new">Un sitio único</target>
       </trans-unit>
@@ -105,14 +105,19 @@
         <target state="new">Vacaciones a toda velocidad</target>
       </trans-unit>
       <trans-unit id="4f9e0b63642cf61f023b9ea6bb7e22159b271e28" resname="label.section.service_description">
-        <jms:reference-file line="19">views/Section/win-partner.html.twig</jms:reference-file>
+        <jms:reference-file line="21">views/Section/win-partner.html.twig</jms:reference-file>
         <source>label.section.service_description</source>
         <target state="new">Te ayudamos a planear las vacaciones de tus clientes. Aprovecha nuestras casas particulares para disfrutar en familia, hablar de negocios o vivir una aventura diferente.</target>
       </trans-unit>
       <trans-unit id="1592dd8c15a6a596f6c1171d82a9e670453250c0" resname="label.section.sites_description">
-        <jms:reference-file line="23">views/Section/win-partner.html.twig</jms:reference-file>
+        <jms:reference-file line="26">views/Section/win-partner.html.twig</jms:reference-file>
         <source>label.section.sites_description</source>
         <target state="new">Decídete por alguna de nuestras casas particulares mejor ubicadas. Tenemos más de 5 000 alojamientos garantizados por toda Cuba, ¡con ofertas increíbles!</target>
+      </trans-unit>
+      <trans-unit id="ac5afc9cd7171a3d506745e65b0ecff18507abb1" resname="label.section.two">
+        <jms:reference-file line="4">views/Section/package-partner.html.twig</jms:reference-file>
+        <source>label.section.two</source>
+        <target state="new">Anímate a probar lo mejor de MyCasa Partner</target>
       </trans-unit>
       <trans-unit id="0840b163e20870c161cd882e5ddb30b78b4ba27f" resname="label.section.vacation_description">
         <jms:reference-file line="11">views/Section/win-partner.html.twig</jms:reference-file>
