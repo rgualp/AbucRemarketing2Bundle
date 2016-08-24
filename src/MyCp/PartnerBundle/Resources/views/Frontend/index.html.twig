@@ -19,9 +19,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-
         $(function () {
-
             {% if remoteLogin is defined %}
             {% if type_login is defined %}
             {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
