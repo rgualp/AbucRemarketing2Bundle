@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\PartnerBundle\Entity\paClientReservation;
 
 /**
  * generalreservation
@@ -192,6 +193,11 @@ class generalReservation {
     private $service_fee;
 
     /**
+     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paClientReservation", mappedBy="reservation")
+     */
+    private $travelAgencyClientReservations;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -199,6 +205,8 @@ class generalReservation {
         $this->own_reservations = new ArrayCollection();
         $this->gen_res_status = generalReservation::STATUS_PENDING;
         $this->gen_res_status_date = new \DateTime();
+
+        $this->travelAgencyClientReservations = new ArrayCollection();
     }
 
     /**
@@ -744,5 +752,46 @@ class generalReservation {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTravelAgencyClientReservations()
+    {
+        return $this->travelAgencyClientReservations;
+    }
+
+    /**
+     * @param mixed $clientReservations
+     * @return mixed
+     */
+    public function setTravelAgencyClientReservations($clientReservations)
+    {
+        $this->travelAgencyClientReservations = $clientReservations;
+        return $this;
+    }
+
+    /**
+     * Add paClientReservation
+     *
+     * @param paClientReservation $clientReservations
+     *
+     * @return mixed
+     */
+    public function addTravelAgencyClientReservation(paClientReservation $clientReservations)
+    {
+        $this->travelAgencyClientReservations[] = $clientReservations;
+
+        return $this;
+    }
+
+    /**
+     * Remove paClientReservation
+     *
+     * @param paClientReservation $clientReservations
+     */
+    public function removeTravelAgencyClientReservation(paClientReservation $clientReservations)
+    {
+        $this->travelAgencyClientReservations->removeElement($clientReservations);
+    }
 
 }

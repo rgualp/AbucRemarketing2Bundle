@@ -11,7 +11,7 @@ class baseEntity {
 
     /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\user", inversedBy="")
-     * @ORM\JoinColumn(name="id_created_by", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="id_created_by", referencedColumnName="user_id", nullable=true)
      */
     protected $createdBy;
 
@@ -24,7 +24,7 @@ class baseEntity {
 
     /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\user", inversedBy="")
-     * @ORM\JoinColumn(name="id_modified_by", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="id_modified_by", referencedColumnName="user_id", nullable=true)
      */
     protected $modifiedBy;
 
