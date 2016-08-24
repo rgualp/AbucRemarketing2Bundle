@@ -25,9 +25,9 @@
             {% if remoteLogin is defined %}
             {% if type_login is defined %}
             {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-            var currentPath = '{{ currentPath }}';
+                var currentPath = '{{ currentPath }}';
             {% else %}
-            var currentPath = '{{ app.request.headers.get('referer') }}';
+                var currentPath = '{{ app.request.headers.get('referer') }}';
             {% endif %}
 
             function initLoginOverlay(){
@@ -46,7 +46,6 @@
                     });
                 });
             }
-
             function initRegisterOverlay(){
                 var b = $("#trigger-overlay-register");
                 b.one('click', function () {
@@ -61,12 +60,11 @@
                     });
                 });
             }
-
             initLoginOverlay();
-            {% else %}
+        {% else %}
             $("#login-overlay").pageOverlay();
             $("#trigger-overlay-register").pageOverlay();
-            {% endif %}
+        {% endif %}
 
         });
     </script>
