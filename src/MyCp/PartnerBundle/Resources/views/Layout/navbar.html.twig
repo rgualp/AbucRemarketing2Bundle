@@ -8,18 +8,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="index.html" class="navbar-brand">Logo</a>
+                <a href="{{ path('frontend_partner_home') }}"><img class="icon tiny-lang-icon" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}"/></a>
             </div>
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#page-top" class="page-scroll">Como Funciona</a></li>
-
+                    <li class=""><a href="#page-top" class="page-scroll">{{ 'label.how_work'|trans }}</a></li>
                     {% if app.request.get('_route') %}
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
                     {% endif %}
-
-
-                    <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">Inicia Sesión</a></li>
+                    <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">{{ 'label.login'|trans }}</a></li>
                 </ul>
             </div>
         </div>

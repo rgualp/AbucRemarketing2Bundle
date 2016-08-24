@@ -14,3 +14,50 @@
     height: 334px;
     width: 100%;
 }
+.landing-page .carousel .item {
+    height: 334px;
+    background-color: #777;
+}
+.landing-page .carousel {
+    height: 360px;
+}
+.landing-page .navbar-default .navbar-nav > .active > a,
+.landing-page .navbar-default .navbar-nav > .active > a:hover {
+    border-top: none;
+}
+.landing-page .navbar-default .nav li a {
+    color: #fff;
+    font-family: 'Open Sans', helvetica, arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: none;
+    font-size: 14px;
+}
+.landing-page .carousel-caption h1 {
+    font-weight: 700;
+    font-size: 38px;
+    text-transform: none;
+    text-shadow: none;
+    letter-spacing: -1.5px;
+}
+.landing-page .carousel-caption p {
+    font-weight: 700;
+    text-transform: none;
+    text-shadow: none;
+}
+.landing-page .carousel-caption {
+    position: absolute;
+    top: 160px;
+    right: 0;
+    bottom: auto;
+    text-align: right;
+}
+.landing-page .navbar-nav > li > a {
+    padding-top: 25px;
+    border-top: none;
+}
+.landing-page .navbar-default.navbar-scroll {
+    background-color: #3f69bf;
+    background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
+    padding: 15px 0;
+}
