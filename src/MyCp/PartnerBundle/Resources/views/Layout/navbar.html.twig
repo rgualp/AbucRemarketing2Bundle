@@ -17,14 +17,7 @@
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
                     {% endif %}
 
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        # This user entered their credentials THIS session
-                    {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        # User logged in via a cookie (ie: Auth again before doing sensitive things)
-                    {% elseif is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
-                        # This is a `guest` or anonymous user
-                    {% endif %}
-                    {% if app.user.getUserUserName is defined %}
+                   {% if app.user.getUserUserName is defined %}
                         <li>
                             <a href="{{ path('frontend_partner_logout') }}">
                                 <i class="fa fa-sign-out"></i> {{ 'page.logout' | trans }}
