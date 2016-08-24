@@ -181,11 +181,11 @@ class country
     /**
      * Add travel agency
      *
-     * @param travelAgency|paTravelAgency $travelAgency
+     * @param \MyCp\PartnerBundle\Entity\paTravelAgency $travelAgency
      *
      * @return user
      */
-    public function addTravelAgency(paTravelAgency $travelAgency)
+    public function addTravelAgency(\MyCp\PartnerBundle\Entity\paTravelAgency $travelAgency)
     {
         $this->travelAgencies[] = $travelAgency;
 
@@ -194,10 +194,10 @@ class country
 
     /**
      * Remove travel agency
-     * @param travelAgency|paTravelAgency $travelAgency
+     * @param \MyCp\PartnerBundle\Entity\paTravelAgency $travelAgency
      * @return $this
      */
-    public function removeTravelAgency(paTravelAgency $travelAgency)
+    public function removeTravelAgency(\MyCp\PartnerBundle\Entity\paTravelAgency $travelAgency)
     {
         $this->travelAgencies->removeElement($travelAgency);
         return $this;
@@ -224,11 +224,11 @@ class country
     /**
      * Add travel agency client
      *
-     * @param paClient $client
+     * @param \MyCp\PartnerBundle\Entity\paClient  $client
      *
      * @return mixed
      */
-    public function addTravelAgencyclient(paClient $client)
+    public function addTravelAgencyClient(\MyCp\PartnerBundle\Entity\paClient $client)
     {
         $this->travelAgencyClients[] = $client;
 
@@ -237,10 +237,10 @@ class country
 
     /**
      * Remove travel agency client
-     * @param paClient $client
+     * @param \MyCp\PartnerBundle\Entity\paClient $client
      * @return $this
      */
-    public function removeTravelAgencyClient(paClient $client)
+    public function removeTravelAgencyClient(\MyCp\PartnerBundle\Entity\paClient $client)
     {
         $this->travelAgencyClients->removeElement($client);
         return $this;
