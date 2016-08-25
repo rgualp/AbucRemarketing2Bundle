@@ -4,6 +4,37 @@
  *
 */
 
+.nav.navbar-right > li > a {
+    color: #fff;
+}
+.navbar-fixed-top {
+    background: #fff;
+    transition-duration: 0.5s;
+    border-bottom: 0px solid #e7eaec !important;
+    z-index: 2030;
+}
+.pace-running .header-back.one {
+    background: url('../bundles/partner/img/slideshow/1/1.jpg') 50% 0 no-repeat;
+}
+.pace-running .header-back.two {
+    background: url('../bundles/partner/img/slideshow/1/2.jpg') 50% 0 no-repeat;
+}
+.pace-running .header-back {
+    height: 334px;
+    width: 100%;
+}
+.pace-running .carousel .item {
+    height: 334px;
+    background-color: #777;
+}
+.pace-running .carousel {
+    height: 334px;
+}
+
+.pace-running .navbar-fixed-top,
+.navbar-static-top {
+    background: transparent;
+}
 .landing-page .header-back.one {
     background: url('../bundles/partner/img/slideshow/1/1.jpg') 50% 0 no-repeat;
 }
