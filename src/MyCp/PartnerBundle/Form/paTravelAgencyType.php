@@ -6,20 +6,40 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class paTravelAgencyType extends AbstractType
 {
+    private $translate;
+    private $data;
+
+    function __construct($trans_entity, $data)
+    {
+        $this->translate = $trans_entity;
+        $this->data=$data;
+    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $array_countries=array();
+        foreach($this->data['countries'] as $country)
+        {
+            $array_countries[$country->getCoId()]=$country->getCoName();
+        }
         $builder
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('email', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('address', 'textarea', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phone', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('country','choice',array(
+                'choices'=>$array_countries,
+                'empty_value' => '',
+                'attr'=>array('class'=>'form-control user_country'),
+                'constraints'=>array(new NotBlank())
+            ))
             ->add('contacts', 'collection', array(
                 'required' => true,
                 'type' => new paContactType(),

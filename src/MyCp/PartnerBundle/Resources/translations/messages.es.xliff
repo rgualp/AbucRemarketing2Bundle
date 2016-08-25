@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2">
-  <file date="2016-08-25T10:02:34Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-08-25T16:34:22Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
+      <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
+        <source></source>
+        <target state="new"></target>
+      </trans-unit>
       <trans-unit id="429833e551333cfbf96a3275bf32e8c635c8e541" resname="CURRENCY">
         <source>CURRENCY</source>
         <target state="new">CURRENCY</target>
@@ -42,6 +46,18 @@
         <source>label.carousel_two_text_two</source>
         <target state="new">label.carousel_two_text_two</target>
       </trans-unit>
+      <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
+        <source>label.form.agency.one</source>
+        <target state="new">label.form.agency.one</target>
+      </trans-unit>
+      <trans-unit id="3ca0fb8286be8eb248d9fbb73bbf775be01cff5a" resname="label.form.agency.three">
+        <source>label.form.agency.three</source>
+        <target state="new">label.form.agency.three</target>
+      </trans-unit>
+      <trans-unit id="e5f06f475b52b29acb722c80b7fd0387ab97a974" resname="label.form.agency.two">
+        <source>label.form.agency.two</source>
+        <target state="new">label.form.agency.two</target>
+      </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
         <target state="new">label.home</target>
@@ -53,6 +69,42 @@
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">label.login</target>
+      </trans-unit>
+      <trans-unit id="4b8db389f9696db5926182496378bdf7b3d70b7f" resname="label.name.address">
+        <source>label.name.address</source>
+        <target state="new">label.name.address</target>
+      </trans-unit>
+      <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
+        <source>label.name.agency</source>
+        <target state="new">label.name.agency</target>
+      </trans-unit>
+      <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
+        <source>label.name.country</source>
+        <target state="new">label.name.country</target>
+      </trans-unit>
+      <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
+        <source>label.name.email</source>
+        <target state="new">label.name.email</target>
+      </trans-unit>
+      <trans-unit id="c4e630afc5311e3b16b436ac4c269823a67fe3ca" resname="label.name.mobile">
+        <source>label.name.mobile</source>
+        <target state="new">label.name.mobile</target>
+      </trans-unit>
+      <trans-unit id="17b23a149a439a3e7e6367916e7f842da79d2ee8" resname="label.name.nameresponse">
+        <source>label.name.nameresponse</source>
+        <target state="new">label.name.nameresponse</target>
+      </trans-unit>
+      <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
+        <source>label.name.phone</source>
+        <target state="new">label.name.phone</target>
+      </trans-unit>
+      <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
+        <source>label.password</source>
+        <target state="new">label.password</target>
+      </trans-unit>
+      <trans-unit id="17662a08cbcbd1fdf5771590c789bbfdbd724542" resname="label.password.repeat">
+        <source>label.password.repeat</source>
+        <target state="new">label.password.repeat</target>
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>

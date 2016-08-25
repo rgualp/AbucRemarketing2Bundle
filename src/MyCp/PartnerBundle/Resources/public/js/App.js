@@ -95,6 +95,9 @@ var App = function () {
                 rules:  {
                     'partner_agency[email]':{
                         email: true
+                    },
+                    confirm: {
+                        equalTo: "#password"
                     }
                 }
             });
