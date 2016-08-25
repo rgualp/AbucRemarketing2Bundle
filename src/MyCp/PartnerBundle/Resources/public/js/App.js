@@ -28,6 +28,7 @@ var App = function () {
         var form = $("#form-agency");
         App.validateFormAgency();
         form.on("submit", function (e) {
+            if(form.valid()){
                 e.preventDefault();
                 var formData = new FormData(form[0]);
                 HoldOn.open();
@@ -57,6 +58,7 @@ var App = function () {
                         swal("Error", "", "error");
                     }
                 });
+            }
         });
     }
     return {
@@ -85,7 +87,17 @@ var App = function () {
         $newLinkLi.before($newFormLi);
     },
         validateFormAgency:function(){
-
+            var form = $("#form-agency");
+            form.validate({
+                errorElement: 'label',
+                errorClass: 'error',
+                ignore: "",
+                rules:  {
+                    'partner_agency[email]':{
+                        email: true
+                    }
+                }
+            });
         }
     };
 }();
