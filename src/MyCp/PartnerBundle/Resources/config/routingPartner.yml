@@ -19,6 +19,11 @@ frontend_partner_registercontent:
     locales:  { en: "/register/content", es: "/register/content", de: "/register/content" }
     defaults: { _controller: PartnerBundle:Frontend:contentRegister }
 
+#Register agency
+frontend_partner_registeragency:
+    locales:  { en: "/register/agency", es: "/registrar/agencia", de: "/register/agency" }
+    defaults: { _controller: PartnerBundle:Frontend:registerAgency }
+
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }

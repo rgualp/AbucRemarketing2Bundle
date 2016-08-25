@@ -22,28 +22,6 @@
             <div class="alert alert-danger alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
         {% endif %}
-        {#<form class="form-horizontal" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">#}
-            {#<div class="bg-gray m-t-20" style="text-align: center;">#}
-                {#<div class="m-t-20">#}
-                    {#<label class="control-label" for="inputUsername">Usuario</label>#}
-                    {#<input type="text" class="form-control" id="inputUsername" placeholder="Usuario" name="_username"   value="{{ last_username|default('') }}"/>#}
-                {#</div>#}
-                {#<div class="m-t-20">#}
-                    {#<label class="control-label" for="inputPassword">Contraseña</label>#}
-
-                    {#<input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>#}
-                    {#<br/>#}
-                    {#<label>#}
-                        {#<input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña#}
-                    {#</label>#}
-
-                {#</div>#}
-            {#</div>#}
-            {#<div class="col-md-12 m-t-20 m-b-20">#}
-                {#<a class="forgotLink" href="{{ path("my_cp_forget_password") }}">¿Olvidó su clave?</a>#}
-            {#</div>#}
-            {#<button type="submit" class="btn btn-primary">Autenticarse</button>#}
-        {#</form>#}
         <form class="form-horizontal" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">
             <div class="form-group"><label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
                 <div class="col-lg-10">

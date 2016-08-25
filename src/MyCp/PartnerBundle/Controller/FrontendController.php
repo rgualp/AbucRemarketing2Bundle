@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use MyCp\PartnerBundle\Entity\paTravelAgency;
+use MyCp\PartnerBundle\Form\paTravelAgencyType;
 
 class FrontendController extends Controller
 {
@@ -14,8 +16,12 @@ class FrontendController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(){
+        $obj = new paTravelAgency();
+        $newForm= new paTravelAgencyType();
+        $form = $this->createForm($newForm, $obj);
         return $this->render('PartnerBundle:Frontend:index.html.twig',array(
-            'remoteLogin'=>true
+            'remoteLogin'=>true,
+            'form'=>$form->createView()
         ));
     }
 
@@ -57,5 +63,27 @@ class FrontendController extends Controller
     {
        // $form = $this->container->get('fos_user.registration.form');
         return $this->render('LayoutBundle:Security:register-content.html.twig', array());
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function registerAgencyAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $obj = new paTravelAgency();
+        $newForm= new paTravelAgencyType();
+        $form = $this->createForm($newForm, $obj);
+
+        if(!$request->get('formEmpty')){
+            $form->handleRequest($request);
+            if($form->isValid()){
+                $em->persist($obj);
+                $em->flush();
+                return new JsonResponse(['success' => true, 'msg' => 'Se ha adicionado satisfactoriamente']);
+            }
+        }
+
+        $data['form']= $form->createView();
+        return $this->render('BackendBundle:Promotion:modal_promotion.html.twig', $data);
     }
 }
