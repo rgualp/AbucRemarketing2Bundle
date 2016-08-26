@@ -58,6 +58,11 @@
                 <source>GALLERIES</source>
                 <target>Fotogalerien</target>
             </trans-unit>
+
+             <trans-unit id="15535">
+                                                         <source>SKRILL_PAY_WITH_POSTFINACE</source>
+                                                         <target>Bezahlen mit Visa und Mastercard  </target>
+                                                     </trans-unit>
             <trans-unit id="15">
                 <source>YOUR_PHOTOS</source>
                 <target>Ihre Fotos</target>
