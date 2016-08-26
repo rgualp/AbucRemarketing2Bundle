@@ -3885,6 +3885,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
               <source>PRICE_TOTAL_TO_PAY</source>
               <target>Total zu bezahlen</target>
          </trans-unit>
+         <trans-unit id="978">
+             <source>POSTFINANCE_PAYMENT</source>
+             <target>Bezahlen Sie über Postfinance-Konto</target>
+         </trans-unit>
 
     </body>
     </file>
