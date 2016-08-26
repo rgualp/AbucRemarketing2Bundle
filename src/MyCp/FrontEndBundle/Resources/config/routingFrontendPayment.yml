@@ -30,3 +30,6 @@ frontend_payment_skrill_test_payment:
     pattern:  /payment/skrill-test-payment/{bookingId}
     defaults: { _controller: FrontEndBundle:Payment:skrillTestPayment, bookingId: 0 }
 
+frontend_payment_back_url:
+    pattern:  /payment/back
+    defaults: { _controller: FrontEndBundle:Mycasatrip:available }
