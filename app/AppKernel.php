@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new MyCp\CasaModuleBundle\MyCpCasaModuleBundle(),
             new MyCp\PartnerBundle\PartnerBundle(),
             new MyCp\LayoutBundle\LayoutBundle(),
+            //new JMS\TranslationBundle\JMSTranslationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
