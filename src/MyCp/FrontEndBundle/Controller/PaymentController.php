@@ -433,6 +433,7 @@ class PaymentController extends Controller
 
 
             'PSPID' => "AnderABUC",
+            'USERID' => "AnderABUC",
             'orderID' => $bookingId,//ORDER
             'amount' => $booking->getBookingPrepay(),
             'currency' => $booking->getBookingCurrency()->getCurrCode(),
@@ -443,6 +444,7 @@ class PaymentController extends Controller
             'CANCELURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'BACKURL' => $this->generateUrl('frontend_payment_back_url', array(), true),
             'CN' => $user->getName(),
+            'PM' =>  'ACC,DID,SFT',
             'EMAIL' => $user->getUserEmail(),
             'logo_url' => $logoUrl,
             'first_name' => $user->getName(),

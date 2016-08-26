@@ -5,51 +5,97 @@ IMPORTANT:
 #}
 <html>
     <body>
-        <form action="{{ action_url }}" target="_self" id="skrillForm" style="display:none">
-            <input type="hidden" name="pay_to_email" value="{{ pay_to_email }}">
-            <input type="hidden" name="recipient_description" value="{{ recipient_description }}">
-            <input type="hidden" name="transaction_id" value="{{ transaction_id }}">
-            <input type="hidden" name="return_url" value="{{ return_url }}">
-            <input type="hidden" name="return_url_text" value="{{ return_url_text }}">
-            <input type="hidden" name="return_url_target" value="1">
-            <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
-            <input type="hidden" name="cancel_url_target" value="1">
-            <input type="hidden" name="status_url" value="{{ status_url }}">
-            <input type="hidden" name="status_url2" value="{{ status_url2 }}">
-            <input type="hidden" name="dynamic_descriptor" value="Descriptor">
-            <input type="hidden" name="language" value="{{ language }}">
-            <input type="hidden" name="confirmation_note" value="{{ confirmation_note }}">
-            <input type="hidden" name="pay_from_email" value="{{ pay_from_email }}">
-            <input type="hidden" name="logo_url" value="{{ logo_url }}">
-            <input type="hidden" name="firstname" value="{{ first_name }}">
-            <input type="hidden" name="lastname" value="{{ last_name }}">
-            <input type="hidden" name="address" value="{{ address }}">
-            <input type="hidden" name="postal_code" value="{{ postal_code }}">
-            <input type="hidden" name="city" value="{{ city }}">
-            <input type="hidden" name="country" value="{{ country }}">
-            <input type="hidden" name="amount" value="{{ amount }}">
-            <input type="hidden" name="currency" value="{{ currency }}">
-            <input type="hidden" name="detail1_description" value="{{ detail1_description }}">
-            <input type="hidden" name="detail1_text" value="{{ detail1_text }}">
-            {% if detail2_description is defined %}
-                <input type="hidden" name="detail2_description" value="{{ detail2_description }}">
-                <input type="hidden" name="detail2_text" value="{{ detail2_text }}">
-            {% endif %}
-            {% if detail3_description is defined %}
-                <input type="hidden" name="detail3_description" value="{{ detail3_description }}">
-                <input type="hidden" name="detail3_text" value="{{ detail3_text }}">
-            {% endif %}
-            {% if detail4_description is defined %}
-                <input type="hidden" name="detail4_description" value="{{ detail4_description }}">
-                <input type="hidden" name="detail4_text" value="{{ detail4_text }}">
-            {% endif %}
-            {% if detail5_description is defined %}
-                <input type="hidden" name="detail5_description" value="{{ detail5_description }}">
-                <input type="hidden" name="detail5_text" value="{{ detail5_text }}">
-            {% endif %}
-            <input type="hidden" name="payment_methods" value="{{ payment_methods }}">
-            <input type="hidden" name="hide_login" value="1">
+        <form action="{{ action_url }}" target="_self" id="postfinanceForm" style="display:none">
+            <input type="hidden" NAME="PSPID" value="{{ PSPID }}">
+            <input type="hidden" NAME="ORDERID" value="{{ orderID }}">
+            <input type="hidden" NAME="AMOUNT" value="{{ amount }}">
+            <input type="hidden" NAME="CURRENCY" value="{{ currency }}">
+            <input type="hidden" NAME="LANGUAGE" value="{{ language }}">
+            <!-- lay out information -->
+
+            <input type="hidden" NAME="TITLE" value="fill here your title">
+            <input type="hidden" NAME="BGCOLOR" value="fill here your background color">
+            <input type="hidden" NAME="TXTCOLOR" value="fill here your text color">
+            <input type="hidden" NAME="TBLBGCOLOR" value="fill here your table background color">
+            <input type="hidden" NAME="TBLTXTCOLOR" value="fill here your table text color">
+            <input type="hidden" NAME="BUTTONBGCOLOR" value="fill here your background button color">
+            <input type="hidden" NAME="BUTTONTXTCOLOR" value="fill here your button text color">
+            <input type="hidden" NAME="FONTTYPE" value="fill here your font">
+            <input type="hidden" NAME="LOGO" value="fill here your logo file name">            <!-- or dynamic template page -->
+            <input type="hidden" NAME="TP" value="fill here your template page">
+
+            <!-- post-payment redirection -->
+            <input type="hidden" NAME="ACCEPTURL" VALUE="{{ ACCEPTURL }}">
+            <input type="hidden" NAME="DECLINEURL" VALUE="{{ DECLINEURL }}">
+            <input type="hidden" NAME="EXCEPTIONURL" VALUE="{{ EXCEPTIONURL }}">
+            <input type="hidden" NAME="CANCELURL" VALUE="{{ CANCELURL }}">
+            <input type="hidden" NAME="BACKURL" VALUE="{{ BACKURL }}">
+            <!-- miscellanous -->
+            <input type="hidden" NAME="HOMEURL" VALUE="">
+            <input type="hidden" NAME="CATALOGURL" VALUE="">
+            <input type="hidden" NAME="CN" value="{{ first_name }}">
+            <input type="hidden" name="EMAIL" value="{{ EMAIL }}">
+            <input type="hidden" NAME="PM" VALUE="{{ PM }}">
+            <input type="hidden" NAME="BRAND" VALUE="">
+            <input type="hidden" NAME="OWNERZIP" VALUE="{{ ownerZIP }}">
+            <input type="hidden" NAME="OWNERADDRESS" VALUE="{{ owneraddress }}">
+            <input type="hidden" NAME="OWNERADDRESS2" VALUE="{{ owneraddress }}">
+            <input type="hidden" NAME="OWNERADDRESS3" VALUE="{{ owneraddress }}">
+            <input type="hidden" NAME="SHASIGN" value="">
+            <input type="hidden" NAME="ALIAS" VALUE="">
+            <input type="hidden" NAME="ALIASUSAGE" VALUE="">
+            <input type="hidden" NAME="ALIASOPERATION" VALUE="">
+            <input type="hidden" NAME="COM" VALUE="">
+            <input type="hidden" NAME="COMPLUS" VALUE="">
+            <input type="hidden" NAME="PARAMPLUS" VALUE="">
+            <input type="hidden" NAME="USERID" VALUE="{{ USERID }}">
+            <input type="hidden" NAME="CREDITCODE" VALUE="">
             <input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >
+
+            {#<input type="hidden" name="pay_to_email" value="{{ pay_to_email }}">#}
+            {#<input type="hidden" name="recipient_description" value="{{ recipient_description }}">#}
+            {#<input type="hidden" name="transaction_id" value="{{ transaction_id }}">#}
+            {#<input type="hidden" name="return_url" value="{{ return_url }}">#}
+            {#<input type="hidden" name="return_url_text" value="{{ return_url_text }}">#}
+            {#<input type="hidden" name="return_url_target" value="1">#}
+            {#<input type="hidden" name="cancel_url" value="{{ cancel_url }}">#}
+            {#<input type="hidden" name="cancel_url_target" value="1">#}
+            {#<input type="hidden" name="status_url" value="{{ status_url }}">#}
+            {#<input type="hidden" name="status_url2" value="{{ status_url2 }}">#}
+            {#<input type="hidden" name="dynamic_descriptor" value="Descriptor">#}
+            {#<input type="hidden" name="language" value="{{ language }}">#}
+            {#<input type="hidden" name="confirmation_note" value="{{ confirmation_note }}">#}
+            {#<input type="hidden" name="pay_from_email" value="{{ pay_from_email }}">#}
+            {#<input type="hidden" name="logo_url" value="{{ logo_url }}">#}
+            {#<input type="hidden" name="firstname" value="{{ first_name }}">#}
+            {#<input type="hidden" name="lastname" value="{{ last_name }}">#}
+            {#<input type="hidden" name="address" value="{{ address }}">#}
+            {#<input type="hidden" name="postal_code" value="{{ postal_code }}">#}
+            {#<input type="hidden" name="city" value="{{ city }}">#}
+            {#<input type="hidden" name="country" value="{{ country }}">#}
+            {#<input type="hidden" name="amount" value="{{ amount }}">#}
+            {#<input type="hidden" name="currency" value="{{ currency }}">#}
+            {#<input type="hidden" name="detail1_description" value="{{ detail1_description }}">#}
+            {#<input type="hidden" name="detail1_text" value="{{ detail1_text }}">#}
+            {#{% if detail2_description is defined %}#}
+                {#<input type="hidden" name="detail2_description" value="{{ detail2_description }}">#}
+                {#<input type="hidden" name="detail2_text" value="{{ detail2_text }}">#}
+            {#{% endif %}#}
+            {#{% if detail3_description is defined %}#}
+                {#<input type="hidden" name="detail3_description" value="{{ detail3_description }}">#}
+                {#<input type="hidden" name="detail3_text" value="{{ detail3_text }}">#}
+            {#{% endif %}#}
+            {#{% if detail4_description is defined %}#}
+                {#<input type="hidden" name="detail4_description" value="{{ detail4_description }}">#}
+                {#<input type="hidden" name="detail4_text" value="{{ detail4_text }}">#}
+            {#{% endif %}#}
+            {#{% if detail5_description is defined %}#}
+                {#<input type="hidden" name="detail5_description" value="{{ detail5_description }}">#}
+                {#<input type="hidden" name="detail5_text" value="{{ detail5_text }}">#}
+            {#{% endif %}#}
+            {#<input type="hidden" name="payment_methods" value="{{ payment_methods }}">#}
+            {#<input type="hidden" name="hide_login" value="1">#}
+            {#<input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >#}
         </form>
 
         <script language="javascript">
