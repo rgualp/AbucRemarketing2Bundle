@@ -427,12 +427,17 @@ class PaymentController extends Controller
         $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
 
+        $pspid = "AnderABUC";
+        $secretPassword = "MySecretPassword";
+
+        $sha1 = sha1($bookingId.$booking->getBookingPrepay().$booking->getBookingCurrency()->getCurrCode().$pspid.$secretPassword);
+
 //        $skrillData = array(
         $postFinanceData = array(
             'action_url' => self::$postFinance,
 
 
-            'PSPID' => "AnderABUC",
+            'PSPID' => $pspid,
             'USERID' => "AnderABUC",
             'orderID' => $bookingId,//ORDER
             'amount' => $booking->getBookingPrepay(),
@@ -443,6 +448,8 @@ class PaymentController extends Controller
             'EXCEPTIONURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'CANCELURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'BACKURL' => $this->generateUrl('frontend_payment_back_url', array(), true),
+            'catalogUrl' => $this->generateUrl('frontend_search_ownership', array(), true),
+            'homeUrl' => "https://www.mycasaparticular.com",
             'CN' => $user->getName(),
             'PM' =>  'CreditCard',
             'BRAND' =>  'VISA',
@@ -456,6 +463,7 @@ class PaymentController extends Controller
             'ownercty' => $user->getUserCountry()->getCoCode(),
             'ownertelno' => $user->getUserPhone(),
             'COM' => 'MyCasaParticular.com',
+            'SHASign' => $sha1,
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
 

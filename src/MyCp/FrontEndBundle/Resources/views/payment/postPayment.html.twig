@@ -32,7 +32,6 @@ IMPORTANT:
             <input type="hidden" NAME="BACKURL" VALUE="{{ BACKURL }}">
             <!-- miscellanous -->
             {#<input type="hidden" NAME="HOMEURL" VALUE="">#}
-            <input type="hidden" NAME="CATALOGURL" VALUE="">
             <input type="hidden" NAME="CN" value="{{ first_name }}">
             <input type="hidden" name="EMAIL" value="{{ EMAIL }}">
             <input type="hidden" NAME="PM" VALUE="{{ PM }}">
@@ -50,6 +49,9 @@ IMPORTANT:
             <input type="hidden" NAME="PARAMPLUS" VALUE="">
             <input type="hidden" NAME="USERID" VALUE="{{ USERID }}">
             <input type="hidden" NAME="CREDITCODE" VALUE="">
+            <input type="hidden" name="CATALOGURL" value="{{ catalogUrl }}">
+            <input type="hidden" name="HOMEURL" value="{{ homeUrl }}">
+            <input type="hidden" name="SHASign" value="{{ SHASign }}">
             <input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >
 
         </form>
