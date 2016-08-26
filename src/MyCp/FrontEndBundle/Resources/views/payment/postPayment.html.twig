@@ -1,0 +1,62 @@
+{#
+IMPORTANT:
+    This page is not displayed to a user. Instead the form is immediately posted to Skrill by Javascript.
+    That is why it should contain only barebone HTML and nothing else to keep the load time low.
+#}
+<html>
+    <body>
+        <form action="{{ action_url }}" target="_self" id="skrillForm" style="display:none">
+            <input type="hidden" name="pay_to_email" value="{{ pay_to_email }}">
+            <input type="hidden" name="recipient_description" value="{{ recipient_description }}">
+            <input type="hidden" name="transaction_id" value="{{ transaction_id }}">
+            <input type="hidden" name="return_url" value="{{ return_url }}">
+            <input type="hidden" name="return_url_text" value="{{ return_url_text }}">
+            <input type="hidden" name="return_url_target" value="1">
+            <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
+            <input type="hidden" name="cancel_url_target" value="1">
+            <input type="hidden" name="status_url" value="{{ status_url }}">
+            <input type="hidden" name="status_url2" value="{{ status_url2 }}">
+            <input type="hidden" name="dynamic_descriptor" value="Descriptor">
+            <input type="hidden" name="language" value="{{ language }}">
+            <input type="hidden" name="confirmation_note" value="{{ confirmation_note }}">
+            <input type="hidden" name="pay_from_email" value="{{ pay_from_email }}">
+            <input type="hidden" name="logo_url" value="{{ logo_url }}">
+            <input type="hidden" name="firstname" value="{{ first_name }}">
+            <input type="hidden" name="lastname" value="{{ last_name }}">
+            <input type="hidden" name="address" value="{{ address }}">
+            <input type="hidden" name="postal_code" value="{{ postal_code }}">
+            <input type="hidden" name="city" value="{{ city }}">
+            <input type="hidden" name="country" value="{{ country }}">
+            <input type="hidden" name="amount" value="{{ amount }}">
+            <input type="hidden" name="currency" value="{{ currency }}">
+            <input type="hidden" name="detail1_description" value="{{ detail1_description }}">
+            <input type="hidden" name="detail1_text" value="{{ detail1_text }}">
+            {% if detail2_description is defined %}
+                <input type="hidden" name="detail2_description" value="{{ detail2_description }}">
+                <input type="hidden" name="detail2_text" value="{{ detail2_text }}">
+            {% endif %}
+            {% if detail3_description is defined %}
+                <input type="hidden" name="detail3_description" value="{{ detail3_description }}">
+                <input type="hidden" name="detail3_text" value="{{ detail3_text }}">
+            {% endif %}
+            {% if detail4_description is defined %}
+                <input type="hidden" name="detail4_description" value="{{ detail4_description }}">
+                <input type="hidden" name="detail4_text" value="{{ detail4_text }}">
+            {% endif %}
+            {% if detail5_description is defined %}
+                <input type="hidden" name="detail5_description" value="{{ detail5_description }}">
+                <input type="hidden" name="detail5_text" value="{{ detail5_text }}">
+            {% endif %}
+            <input type="hidden" name="payment_methods" value="{{ payment_methods }}">
+            <input type="hidden" name="hide_login" value="1">
+            <input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >
+        </form>
+
+        <script language="javascript">
+            window.onload = function(e){
+                document.getElementById("submit_button").click();
+            }
+        </script>
+
+    </body>
+</html>
