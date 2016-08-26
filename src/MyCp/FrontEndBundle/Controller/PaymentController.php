@@ -112,7 +112,7 @@ class PaymentController extends Controller
 
         $postFinanceData = $this->getPostFinanceViewData($booking, $user, $userTourist);
 
-        return $this->render('FrontEndBundle:payment:skrillPayment.html.twig', $postFinanceData);
+        return $this->render('FrontEndBundle:payment:postPayment.html.twig', $postFinanceData);
     }
 
 
