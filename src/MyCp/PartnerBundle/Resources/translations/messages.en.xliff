@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-08-25T17:16:29Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-08-26T13:35:59Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
+      <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
+        <source></source>
+        <target state="new"></target>
+      </trans-unit>
       <trans-unit id="429833e551333cfbf96a3275bf32e8c635c8e541" resname="CURRENCY">
         <source>CURRENCY</source>
         <target state="new">CURRENCY</target>
+      </trans-unit>
+      <trans-unit id="99135559ed087a7c52831c306cb445b9b034b0c4" resname="EMAIL_INVALID_MESSAGE">
+        <source>EMAIL_INVALID_MESSAGE</source>
+        <target state="new">EMAIL_INVALID_MESSAGE</target>
       </trans-unit>
       <trans-unit id="7f2f6a15cf8da2b27e5a4af47b58e7ad71c0b3d9" resname="Error">
         <source>Error</source>
@@ -25,6 +33,10 @@
       <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
         <source>Pixel</source>
         <target state="new">Pixel</target>
+      </trans-unit>
+      <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
+        <source>USER_EMAIL_IN_USE</source>
+        <target state="new">USER_EMAIL_IN_USE</target>
       </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
@@ -73,6 +85,10 @@
       <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
         <source>label.name.agency</source>
         <target state="new">label.name.agency</target>
+      </trans-unit>
+      <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
+        <source>label.name.country</source>
+        <target state="new">label.name.country</target>
       </trans-unit>
       <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
         <source>label.name.email</source>
@@ -137,6 +153,10 @@
       <trans-unit id="0840b163e20870c161cd882e5ddb30b78b4ba27f" resname="label.section.vacation_description">
         <source>label.section.vacation_description</source>
         <target state="new">label.section.vacation_description</target>
+      </trans-unit>
+      <trans-unit id="005bbb4efaab3fe7d99e4bdb7edc9e2f7a18f434" resname="operation.succesfull">
+        <source>operation.succesfull</source>
+        <target state="new">operation.succesfull</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>

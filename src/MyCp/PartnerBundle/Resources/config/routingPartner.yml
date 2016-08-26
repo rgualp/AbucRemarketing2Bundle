@@ -24,6 +24,11 @@ frontend_partner_registeragency:
     locales:  { en: "/register/agency", es: "/registrar/agencia", de: "/register/agency" }
     defaults: { _controller: PartnerBundle:Frontend:registerAgency }
 
+#Activate account
+frontend_partner_activateacount:
+    locales:  { en: "/activateaccount/{token}", es: "/activateaccount/{token}", de: "/activateaccount/{token}" }
+    defaults: { _controller: PartnerBundle:Security:activateAccount }
+
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }

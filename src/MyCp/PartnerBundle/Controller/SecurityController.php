@@ -10,6 +10,26 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 class SecurityController extends Controller
 {
+    /**
+     * @param $token
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function activateAccountAction($token, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($token);
+        $user->setUserEnabled(1);
+        $em->persist($user);
+        $em->flush();
+        return $this->render('PartnerBundle:Layout:activateAccount.html.twig', array(
+            'user' => $user
+        ));
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function loginAction(Request $request)
     {
         $session = $request->getSession();
