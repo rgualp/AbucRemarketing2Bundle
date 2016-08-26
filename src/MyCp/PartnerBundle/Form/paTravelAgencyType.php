@@ -25,10 +25,13 @@ class paTravelAgencyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $array_countries=array();
-        foreach($this->data['countries'] as $country)
-        {
-            $array_countries[$country->getCoId()]=$country->getCoName();
+        if(isset($this->data['countries'])){
+            foreach($this->data['countries'] as $country)
+            {
+                $array_countries[$country->getCoId()]=$country->getCoName();
+            }
         }
+
         $builder
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('email', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))

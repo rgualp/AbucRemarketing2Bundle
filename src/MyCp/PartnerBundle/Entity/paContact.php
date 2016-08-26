@@ -73,24 +73,6 @@ class paContact extends baseEntity
     }
 
     /**
-     * @return mixed
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param mixed $country
-     * @return mixed
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
@@ -179,5 +161,4 @@ class paContact extends baseEntity
         $this->travelAgency = $travelAgency;
         return $this;
     }
-
 }

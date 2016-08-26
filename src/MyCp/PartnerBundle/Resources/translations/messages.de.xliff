@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file date="2016-08-25T16:34:28Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file date="2016-08-25T17:16:32Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
-      <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
-        <source></source>
-        <target state="new"></target>
-      </trans-unit>
       <trans-unit id="429833e551333cfbf96a3275bf32e8c635c8e541" resname="CURRENCY">
         <source>CURRENCY</source>
         <target state="new">CURRENCY</target>
@@ -77,10 +73,6 @@
       <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
         <source>label.name.agency</source>
         <target state="new">label.name.agency</target>
-      </trans-unit>
-      <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
-        <source>label.name.country</source>
-        <target state="new">label.name.country</target>
       </trans-unit>
       <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
         <source>label.name.email</source>

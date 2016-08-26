@@ -7,28 +7,16 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class AgencyListener {
 
-    public function prePersist(provider $entity, LifecycleEventArgs $args)
-    {
-        //$entity = $args->getEntity();
-        $em = $args->getEntityManager();
-        $this->generateAutomaticCode($em, $entity, $entity->getCountry());
-    }
-
-    public function preUpdate(provider $entity, PreUpdateEventArgs $args)
+    public function prePersist(paTravelAgency $entity, LifecycleEventArgs $args)
     {
         $em = $args->getEntityManager();
-        $changeSet = $args->getEntityChangeSet();
-        if(isset($changeSet["country"]))
-        {
-            if($args->hasChangedField('province'))
-                $this->generateAutomaticCode($em, $entity, $args->getNewValue("country"));
-        }
+        $country=$em->getRepository('mycpBundle:country')->find($entity->getCountry());
+        $this->generateAutomaticCode($em, $entity,$country );
     }
-
     private function generateAutomaticCode($em, $entity, $country)
     {
             $prefix='P';
-            $code = $country->getCode();
+            $code = $country->getCoCode();
             $query = "SELECT MAX(SUBSTRING(o.code, 5)*1) AS code FROM PartnerBundle:paTravelAgency o WHERE o.code LIKE :mycode";
             $codeMCP = $em->createQuery($query)->setParameter('mycode', "%" . $prefix.$code . "%")->getSingleScalarResult();
             if (count($codeMCP)) {
