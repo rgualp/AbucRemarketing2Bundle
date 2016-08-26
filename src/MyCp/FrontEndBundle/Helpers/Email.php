@@ -183,13 +183,11 @@ class Email {
         $content = $templating->render('PartnerBundle:Mail:createUserPartner.html.twig', array(
             'user_name' => $userName,
             'user_full_name' => $userFullName,
-            'own_name' => $own_name,
-            'own_mycp_code' => $own_mycp_code,
             'secret_token' => $secret_token
         ));
 
         $this->sendEmail(
-            "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+            "Creación de cuenta de usuario", 'partner@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 	public function sendCreateUserCasaMailCommand($user_casa, $ownership) {
