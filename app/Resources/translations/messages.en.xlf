@@ -3862,6 +3862,10 @@
             <source>PRICE_TOTAL_TO_PAY</source>
             <target>Total to pay</target>
        </trans-unit>
+        <trans-unit id="978">
+           <source>POSTFINANCE_PAYMENT</source>
+           <target>You can pay using Postfinance</target>
+       </trans-unit>
         </body>
     </file>
 </xliff>
