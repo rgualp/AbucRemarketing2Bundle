@@ -3,7 +3,46 @@
  *   Partner.css
  *
 */
-
+body {
+    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.644;
+    color: #7d7d7d;
+    background-color: #2f4050;
+}
+@font-face{
+    font-family: 'HelveticaRoman'; src: url('../font/HelveticaLTStd-Roman.otf');
+}
+@font-face{
+    font-family: 'CaeciliaRoman';
+    src: url('../font/CaeciliaLTStd-Roman.otf');
+}
+.color-td-onepackage{
+    background-color: #2f4050 !important;
+    color: #fff;
+}
+.color-td-twopackage{
+    background-color: #3f69bf !important;
+    color: #fff;
+}
+.color-td-threepackage{
+    background-color: #3f69bf !important;
+    color: #fff;
+}
+.color-td-fourpackage{
+    background-color: #3f69bf !important;
+    color: #fff;
+}
+.color-td-fivepackage{
+    background-color: #3f69bf !important;
+    color: #fff;
+}
+.caecilia-roman{
+    font-family: CaeciliaRoman;
+}
+.helvetica-roman{
+    font-family: HelveticaRoman;
+}
 .nav.navbar-right > li > a {
     color: #fff;
 }
@@ -86,6 +125,17 @@
 .landing-page .navbar-nav > li > a {
     padding-top: 25px;
     border-top: none;
+}
+.pace-running .navbar-default.navbar-scroll {
+    background-color: #3f69bf;
+    background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
+    padding: 15px 0;
+}
+.pace-running .navbar-scroll.navbar-default .nav li a {
+    color: #fff;
+}
+.pace-running .navbar-scroll.navbar-default .nav li a:hover {
+    color: #fff;
 }
 .landing-page .navbar-default.navbar-scroll {
     background-color: #3f69bf;
