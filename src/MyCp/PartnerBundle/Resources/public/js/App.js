@@ -43,16 +43,13 @@ var App = function () {
                     processData: false,
                     success: function(data, textStatus, jqXHR){
                         HoldOn.close();
-                        if(typeof data.error === 'undefined'){
-                            var xdata = jQuery.parseJSON(data);
-                            if(xdata.success){
-                                $('#modal-new-provider').modal('hide');
-                                swal('La operación ha sido satisfactoria', "", "success");
-                            }
+                        var xdata = jQuery.parseJSON(data);
+                        if(xdata.success){
+                            $('#modal-new-provider').modal('hide');
+                            swal(xdata.msg, "", "success");
                         }
-                        else{
-                            swal("Error", "", "error");
-                        }
+                        else
+                            swal(xdata.msg, "", "error");
                     },
                     error: function(jqXHR, textStatus, errorThrown){
                         HoldOn.close();

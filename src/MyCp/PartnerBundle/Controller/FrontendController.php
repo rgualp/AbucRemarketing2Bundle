@@ -68,21 +68,37 @@ class FrontendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $obj = new paTravelAgency();
         $data = array();
+        $errors = array();
         $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
         $form = $this->createForm(new paTravelAgencyType($this->get('translator'), $data),$obj);
 
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
-            //if($form->isValid()){
-                $post = $request->get('partner_agency');
+            $post = $request->get('partner_agency');
+
+            $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
+                'user_email' => $post['email'],
+                'user_created_by_migration' => false));
+            if ($user_db) {
+                $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
+            }
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['email']);
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
+            if(count($errors)){
+                return new JsonResponse(['success' => false, 'msg' => (array_key_exists('used_email',$errors))?$errors['used_email']:$errors['user_email']]);
+            }
+            else{
                 $obj->setCountry($em->getRepository('mycpBundle:country')->find($post['country']));
                 $em->persist($obj);
                 $em->flush();
                 //Create user
                 $factory = $this->get('security.encoder_factory');
                 $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'));
-                return new JsonResponse(['success' => true, 'msg' => 'Se ha adicionado satisfactoriamente']);
-           // }
+                //Create tour operator
+                return new JsonResponse(['success' => true, 'msg' => $this->get('translator')->trans("operation.succesfull")]);
+            }
+
         }
     }
 }
