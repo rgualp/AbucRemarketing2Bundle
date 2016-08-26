@@ -79,8 +79,8 @@ class FrontendController extends Controller
                 $em->persist($obj);
                 $em->flush();
                 //Create user
-//                $factory = $this->get('security.encoder_factory');
-//                $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'));
+                $factory = $this->get('security.encoder_factory');
+                $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'));
                 return new JsonResponse(['success' => true, 'msg' => 'Se ha adicionado satisfactoriamente']);
            // }
         }

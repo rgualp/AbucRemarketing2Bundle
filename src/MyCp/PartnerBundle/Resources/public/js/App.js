@@ -31,6 +31,7 @@ var App = function () {
             if(form.valid()){
                 e.preventDefault();
                 var formData = new FormData(form[0]);
+                formData.append("password", $('#password').val());
                 HoldOn.open();
                 $.ajax({
                     url: form.attr('action'),
