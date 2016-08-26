@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\ORM\EntityNotFoundException;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\SkrillHelper;
+use MyCp\FrontEndBundle\Helpers\PostFinanceHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
@@ -24,6 +25,7 @@ class PaymentController extends Controller
 {
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
+    private static $postFinance = 'https://e-payment.postfinance.ch/ncol/test/orderstandard.asp';
 
     const MAX_SKRILL_NUM_DETAILS = 5;
     const MAX_SKRILL_DETAIL_STRING_LENGTH = 240;
@@ -73,6 +75,46 @@ class PaymentController extends Controller
 
         return $this->render('FrontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
+
+
+    public function postFinancePaymentAction($bookingId)
+    {
+        $booking = $this->getBookingFrom($bookingId);
+
+        if (empty($booking)) {
+            throw new EntityNotFoundException($bookingId);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+
+        if (empty($user)) {
+            throw new EntityNotFoundException("user($user)");
+        }
+
+        $loggedInUser = $this->getUser();
+
+        if (empty($loggedInUser)) {
+            throw new AuthenticationException('User not logged in.');
+        }
+
+        if ($user->getUserId() !== $loggedInUser->getUserId()) {
+            throw new AuthenticationException('Access to resource not permitted.');
+        }
+
+        $userTourist = $em
+            ->getRepository('mycpBundle:userTourist')
+            ->findOneBy(array('user_tourist_user' => $user->getUserId()));
+
+        if (empty($userTourist)) {
+            throw new EntityNotFoundException("userTourist($userTourist)");
+        }
+
+        $postFinanceData = $this->getPostFinanceViewData($booking, $user, $userTourist);
+
+        return $this->render('FrontEndBundle:payment:skrillPayment.html.twig', $postFinanceData);
+    }
+
 
     /**
      * Action method the user should be directed to when returning from
@@ -344,8 +386,8 @@ class PaymentController extends Controller
     {
         try {
             return $this->getDoctrine()
-                        ->getRepository('mycpBundle:booking')
-                        ->find($bookingId);
+                ->getRepository('mycpBundle:booking')
+                ->find($bookingId);
         } catch (\Exception $e) {
             return null;
         }
@@ -355,8 +397,8 @@ class PaymentController extends Controller
     {
         try {
             return $this->getDoctrine()
-                        ->getRepository('mycpBundle:payment')
-                        ->findOneBy(array('booking' => $booking));
+                ->getRepository('mycpBundle:payment')
+                ->findOneBy(array('booking' => $booking));
         } catch (\Exception $e) {
             return null;
         }
@@ -368,12 +410,62 @@ class PaymentController extends Controller
 
         try {
             return $this->getDoctrine()
-                        ->getRepository('mycpBundle:currency')
-                        ->findOneBy(array('curr_code' => $currencyIsoCode));
+                ->getRepository('mycpBundle:currency')
+                ->findOneBy(array('curr_code' => $currencyIsoCode));
         } catch (\Exception $e) {
             return null;
         }
     }
+
+
+
+    private function getPostFinanceViewData(booking $booking, user $user, userTourist $userTourist)
+    {
+        $bookingId = $booking->getBookingId();
+        $translator = $this->get('translator');
+        $locale = $this->getRequest()->getLocale();
+        $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
+        $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
+
+//        $skrillData = array(
+        $postFinanceData = array(
+            'action_url' => self::$postFinance,
+
+
+            'PSPID' => "AnderABUC",
+            'orderID' => $bookingId,//ORDER
+            'amount' => $booking->getBookingPrepay(),
+            'currency' => $booking->getBookingCurrency()->getCurrCode(),
+            'language' => PostFinanceHelper::getPostFinanceLanguageFromLocale($locale),
+            'ACCEPTURL' => $this->generateUrl('frontend_payment_skrill_return', array('bookingId' => $bookingId), true), //ESTE ES EL PARAMETRO ACCEPTURL
+            'DECLINEURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
+            'EXCEPTIONURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
+            'CANCELURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
+            'BACKURL' => $this->generateUrl('frontend_payment_back_url', array(), true),
+            'CN' => $user->getName(),
+            'EMAIL' => $user->getUserEmail(),
+            'logo_url' => $logoUrl,
+            'first_name' => $user->getName(),
+            'last_name' => $user->getUserLastName(),
+            'owneraddress' => $user->getUserAddress(),
+            'ownerZIP' => $userTourist->getUserTouristPostalCode(),
+            'ownertown' => $user->getUserCity(),
+            'ownercty' => $user->getUserCountry()->getCoCode(),
+            'ownertelno' => $user->getUserPhone(),
+            'COM' => 'MyCasaParticular.com',
+            'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
+        );
+
+        $postFinanceDetails = $this->getSkrillDetailsData($bookingId);
+        $postFinanceData = array_merge($postFinanceData, $postFinanceDetails);
+
+        $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ .
+            ": Data sent to Skrill: \n" . print_r($postFinanceData, true));
+
+        return $postFinanceData;
+    }
+
+
 
     private function getSkrillViewData(booking $booking, user $user, userTourist $userTourist)
     {

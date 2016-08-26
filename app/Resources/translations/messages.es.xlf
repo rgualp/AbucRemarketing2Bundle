@@ -3836,6 +3836,13 @@
                       <source>MYCASARENTA_TITLE</source>
                       <target>MyCasa Renta, aplicación móvil </target>
                     </trans-unit>
+
+                     <trans-unit id="15535">
+                                                                 <source>SKRILL_PAY_WITH_POSTFINACE</source>
+                                                                 <target>Pagar con visa y MasterCard </target>
+                                                             </trans-unit>
+
+
                     <trans-unit id="972">
                                           <source>MYCASATRIP_TITLE</source>
                                           <target>MyCasa Trip, aplicación móvil </target>
