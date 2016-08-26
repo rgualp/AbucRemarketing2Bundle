@@ -99,8 +99,8 @@ security:
             pattern:    ^/partner
             provider: chain_for_backend
             form_login:
-                check_path: frontend_partner_login_check
-                login_path: frontend_partner_login
+                check_path: /partner/login_check
+                login_path: /partner/login
                 remember_me: true
                 default_target_path: backend_partner_dashboard
                 use_referer: false
@@ -112,7 +112,7 @@ security:
                 domain: ~
             logout:
                 path:   /partner/logout
-                target: backend_partner_dashboard
+                target: frontend_partner_home
                 invalidate_session: false
                 delete_cookies:
                     REMEMBERME: { path: ~, domain: ~}

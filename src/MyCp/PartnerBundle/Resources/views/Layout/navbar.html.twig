@@ -16,7 +16,16 @@
                     {% if app.request.get('_route') %}
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
                     {% endif %}
-                    <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">{{ 'label.login'|trans }}</a></li>
+
+                   {% if app.user.getUserUserName is defined %}
+                        <li>
+                            <a href="{{ path('frontend_partner_logout') }}">
+                                <i class="fa fa-sign-out"></i> {{ 'page.logout' | trans }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">{{ 'label.login'|trans }}</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

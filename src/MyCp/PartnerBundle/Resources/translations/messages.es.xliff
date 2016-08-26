@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-08-24T10:33:04Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-08-24T10:58:49Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -203,6 +203,31 @@
         <jms:reference-file line="5">views/Backend/layout.html.twig</jms:reference-file>
         <source>pa_welcome_text</source>
         <target state="new">pa_welcome_text</target>
+      </trans-unit>
+      <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
+        <jms:reference-file line="16">views/Section/package-partner.html.twig</jms:reference-file>
+        <source>title.column_five</source>
+        <target state="new">Premium Próximamente</target>
+      </trans-unit>
+      <trans-unit id="9f3de9d222df6e6e4c87d82ea81b78a65f8987d9" resname="title.column_four">
+        <jms:reference-file line="15">views/Section/package-partner.html.twig</jms:reference-file>
+        <source>title.column_four</source>
+        <target state="new">Especial Próximamente</target>
+      </trans-unit>
+      <trans-unit id="370faba084ef4757f0f5fbca8d3f8c26eb2da6d0" resname="title.column_one">
+        <jms:reference-file line="12">views/Section/package-partner.html.twig</jms:reference-file>
+        <source>title.column_one</source>
+        <target state="new">Plan</target>
+      </trans-unit>
+      <trans-unit id="d7be7b3a0c87a3691340371db09348365be55194" resname="title.column_three">
+        <jms:reference-file line="14">views/Section/package-partner.html.twig</jms:reference-file>
+        <source>title.column_three</source>
+        <target state="new">Económico YA VIENE !!!</target>
+      </trans-unit>
+      <trans-unit id="b85a1e524e3d00993ce03d2b5d127632d9c557db" resname="title.column_two">
+        <jms:reference-file line="13">views/Section/package-partner.html.twig</jms:reference-file>
+        <source>title.column_two</source>
+        <target state="new">Básico GRATIS !!!</target>
       </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <jms:reference-file line="4">views/Section/offer-partner.html.twig</jms:reference-file>

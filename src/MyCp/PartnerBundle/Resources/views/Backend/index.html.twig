@@ -1,12 +1,56 @@
-{% extends 'PartnerBundle:Backend:layout.html.twig' %}
+{% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
 
-{% block header %}
-    {% include 'PartnerBundle:Layout:header_backend.html.twig' %}
+{% block body %}
+    <div id="wrapper">
+
+        {% block nav %}
+              {% include 'PartnerBundle:Layout:menu.html.twig' %}
+        {% endblock nav %}
+
+        <div id="page-wrapper" class="gray-bg">
+
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
+                            <i class="ico_pinunpin fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a href="{{ path('frontend_partner_home') }}">
+                                <span class="m-r-sm text-muted welcome-message">{{ 'page.welcome' | trans }}</span>
+                            </a>
+
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-envelope"></i>  <span class="label label-warning">0</span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i>  <span class="label label-primary">0</span>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{ path('frontend_partner_logout') }}">
+                                <i class="fa fa-sign-out"></i> {{ 'page.logout' | trans }}
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+            {% block content %}{% endblock content %}
+
+        </div>
+    </div>
 {% endblock %}
 
-{% block content %}
-    {% include 'PartnerBundle:Backend/Controls:searcher.html.twig' %}
-{% endblock content %}
+
 
 {% block javascripts %}
     <script type="text/javascript">

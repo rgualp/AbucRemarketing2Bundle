@@ -61,3 +61,9 @@
     background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
     padding: 15px 0;
 }
+.landing-page .navbar-scroll.navbar-default .nav li a {
+    color: #fff;
+}
+.landing-page .navbar-scroll.navbar-default .nav li a:hover {
+    color: #fff;
+}
