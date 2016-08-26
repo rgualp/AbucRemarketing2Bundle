@@ -49,7 +49,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle,PartnerBundle  ]
+    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle,PartnerBundle, LayoutBundle ]
     #java: /usr/bin/java
     node: "%nodejs_path%"
     filters:
@@ -277,4 +277,7 @@ abuc_remarketing:
     job_queue: beanstalk
     job_manager: doctrine
     job_server: "@leezy.pheanstalk"
+
+
+
 
