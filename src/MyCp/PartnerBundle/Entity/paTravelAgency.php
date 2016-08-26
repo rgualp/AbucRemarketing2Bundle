@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="pa_travel_agency")
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paTravelAgencyRepository")
+ * @ORM\EntityListeners({"MyCp\PartnerBundle\Listener\AgencyListener"})
  *
  */
 class paTravelAgency extends baseEntity
@@ -67,7 +68,7 @@ class paTravelAgency extends baseEntity
     private $country;
 
     /**
-     * @ORM\OneToMany(targetEntity="paContact", mappedBy="travelAgency")
+     * @ORM\OneToMany(targetEntity="paContact", mappedBy="travelAgency",cascade={"persist", "remove"})
      */
     private $contacts;
 
@@ -226,6 +227,7 @@ class paTravelAgency extends baseEntity
      */
     public function addContact(paContact $contact)
     {
+        $contact->setTravelAgency($this);
         $this->contacts[] = $contact;
 
         return $this;

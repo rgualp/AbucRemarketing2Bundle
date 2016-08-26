@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\mycpBundle\Entity;
+namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

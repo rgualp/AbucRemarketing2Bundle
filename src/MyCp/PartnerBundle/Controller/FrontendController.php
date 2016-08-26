@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FrontendController extends Controller
 {
@@ -66,16 +67,22 @@ class FrontendController extends Controller
     public function registerAgencyAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $obj = new paTravelAgency();
-        $newForm = new paTravelAgencyType();
-        $form = $this->createForm($newForm, $obj);
+        $data = array();
+        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator'), $data),$obj);
 
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
-            if($form->isValid()){
+            //if($form->isValid()){
+                $post = $request->get('partner_agency');
+                $obj->setCountry($em->getRepository('mycpBundle:country')->find($post['country']));
                 $em->persist($obj);
                 $em->flush();
+                //Create user
+//                $factory = $this->get('security.encoder_factory');
+//                $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'));
                 return new JsonResponse(['success' => true, 'msg' => 'Se ha adicionado satisfactoriamente']);
-            }
+           // }
         }
     }
 }
