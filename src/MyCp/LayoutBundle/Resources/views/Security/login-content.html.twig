@@ -1,27 +1,13 @@
-<button type="button" class="login overlay-close">{{ 'btn.close'|trans }}</button>
+{% if btn_close is not defined %}
+    <button type="button" class="login overlay-close">{{ 'btn.close'|trans }}</button>
+{% endif %}
 <div class="middle-box text-center loginscreen animated fadeInDown">
-    {#<div>#}
-        {#<h3>Lorem impsum</h3>#}
-        {#<p>Login in. To see it in action.</p>#}
-        {#<div id="msg-error" class="alert alert-danger alert-dismissable hide">#}
-            {#Nombre de usuario o Contraseña inválido#}
-        {#</div>#}
-        {#<form class="m-t" method="post" id="login-form" action="{{ path('frontend_partner_login_check') }}">#}
-                {#<div class="form-group">#}
-                    {#<input type="text" class="form-control" id="inputUsername" placeholder="Correo" name="_username"   value="{{ last_username|default('') }}"/>#}
-                {#</div>#}
-                {#<div class="form-group">#}
-                    {#<input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>#}
-                {#</div>#}
-            {#<button type="submit" class="btn btn-primary block full-width m-b">Login</button>#}
-            {#<a href="#"><small>Forgot password?</small></a>#}
-        {#</form>#}
-    {#</div>#}
     <div class="middle-box loginscreen text-center animated fadeInDown">
         <div>
-            <a href="{{ path('frontend_welcome') }}">  <img src="{{ asset('img/mycp.png') }}"></a>
+            <a href="{{ path('frontend_partner_home') }}">  <img src="{{ asset('img/mycp.png') }}"></a>
         </div>
-        <h2 class="font-blue">¡Bienvenido!</h2>
+        <h1 class="font-blue">¡Bienvenido!</h1>
+        <p>Estas listo para reservar a lo grande</p>
         {% for message in app.session.flashbag.get('message_ok') %}
             <div class="alert alert-info alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
@@ -37,26 +23,30 @@
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
         {% endif %}
         <form class="form-horizontal" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">
-            <div class="bg-gray m-t-20" style="text-align: center;">
-                <div class="m-t-20">
-                    <label class="control-label" for="inputUsername">Código de la Casa </label>
+            <div class="form-group"><label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
+                <div class="col-lg-10">
                     <input type="text" class="form-control" id="inputUsername" placeholder="Usuario" name="_username"   value="{{ last_username|default('') }}"/>
                 </div>
-                <div class="m-t-20">
-                    <label class="control-label" for="inputPassword">Contraseña</label>
-
+            </div>
+            <div class="form-group"><label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
+                <div class="col-lg-10">
                     <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>
-                    <br/>
-                    <label>
-                        <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña
-                    </label>
-
                 </div>
             </div>
-            <div class="col-md-12 m-t-20 m-b-20">
-                <a class="forgotLink" href="{{ path("my_cp_forget_password") }}">¿Olvidó su clave?</a>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <div class="i-checks">
+                        <label>
+                            <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña
+                        </label>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary dim">Autenticarse</button>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-sm btn-white">Sign in</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

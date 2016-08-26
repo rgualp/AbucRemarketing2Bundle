@@ -26,8 +26,6 @@
         '@LayoutBundle/Resources/public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
         '@LayoutBundle/Resources/public/css/normalize.css'
         '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
-        '@LayoutBundle/Resources/public/css/bootstrap-slider.min.css'
-        '@LayoutBundle/Resources/public/css/slider.css'
         '@LayoutBundle/Resources/public/css/partner.css'
         filter='?uglifycss' %}
         <link type="text/css" rel="stylesheet" href="{{ asset_url }}"/>
@@ -69,12 +67,13 @@
     '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/page-overlay.js'
     '@LayoutBundle/Resources/public/js/adjustContainer/adjustHeight.js'
     '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
-    '@LayoutBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
-    '@LayoutBundle/Resources/public/js/jquery-ui-1.10.4.min.js'
-    '@LayoutBundle/Resources/public/js/jquery-ui.custom.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/jquery-validation-1.13.1/dist/jquery.validate.min.js'
     filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    {% if app.request.locale != 'en' %}
+    <script src="{{ asset('bundles/layout/js/plugins/jquery-validation-1.13.1/dist/localization/messages_') }}{{ app.request.locale }}.js"></script>
+    {% endif %}
 {% endblock %}
 {% block scroll_javascripts %}
     <script type="text/javascript">

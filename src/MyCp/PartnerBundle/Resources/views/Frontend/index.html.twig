@@ -8,6 +8,8 @@
     {% include 'LayoutBundle:Security:overlay_register.html.twig' %}
 {% endblock %}
 {% block body %}
+    {#-----Modal-----#}
+    {{ include('PartnerBundle:Modal:modal-register-partner.html.twig') }}
     {#-----Section win-----#}
     {{ include('PartnerBundle:Section:win-partner.html.twig') }}
     {#-----Section package-----#}
@@ -18,6 +20,11 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {% javascripts
+    '@PartnerBundle/Resources/public/js/App.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script type="text/javascript">
         $(function () {
             {% if remoteLogin is defined %}

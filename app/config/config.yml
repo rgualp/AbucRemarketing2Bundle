@@ -49,7 +49,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle,PartnerBundle, LayoutBundle  ]
+    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle,PartnerBundle, LayoutBundle ]
     #java: /usr/bin/java
     node: "%nodejs_path%"
     filters:
@@ -278,13 +278,6 @@ abuc_remarketing:
     job_manager: doctrine
     job_server: "@leezy.pheanstalk"
 
-jms_translation:
-    configs:
-        app:
-            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src/MyCp/PartnerBundle, %kernel.root_dir%, %kernel.root_dir%/../src/MyCp/LayoutBundle ]
-            output_dir: %kernel.root_dir%/../src/MyCp/PartnerBundle/Resources/translations
-#            ignored_domains: [routes, validators]
-            excluded_names: ["*TestCase.php", "*Test.php"]
-            excluded_dirs: [cache, data, logs]
-            #extractors: [alias_of_the_extractor]
+
+
 

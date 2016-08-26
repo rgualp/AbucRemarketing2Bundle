@@ -1,0 +1,65 @@
+<div class="modal inmodal fade" id="myModalRegisterAgency" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="height: 550px">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-9">
+                    <form class="form-horizontal" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
+                        <div class="row">
+                            <p>{{ 'label.form.agency.one' | trans }}</p>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>{{ 'label.form.agency.two' | trans }}</p>
+                            <div class="contact" data-prototype="{% filter escape %}{% include 'PartnerBundle:Prototype:prototype.html.twig' with { 'item': form.contacts.vars.prototype } %}{% endfilter %}"></div>
+                        </div>
+                        <div class="row">
+                            <p>{{ 'label.form.agency.three' | trans }}</p>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="input-group m-b"><span class="input-group-addon">@</span> <input placeholder="{{ 'label.password' | trans }}" type="text" class="form-control required valid" name="password" id="password" aria-required="true" aria-invalid="false"></div>
+                                <div class="input-group m-b"><span class="input-group-addon">@</span> <input placeholder="{{ 'label.password.repeat' | trans }}" type="text" class="form-control required error" name="confirm" id="confirm" aria-required="true" aria-invalid="true"></div>
+                            </div>
+                        </div>
+                        <button id="regi" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

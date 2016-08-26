@@ -96,11 +96,11 @@ security:
             anonymous: ~
 
         modulo_partner:
-            pattern:    ^/partner
+            pattern:  /partner/(.*)
             provider: chain_for_backend
             form_login:
-                check_path: /partner/login_check
-                login_path: /partner/login
+                check_path: frontend_partner_login_check
+                login_path: frontend_partner_login
                 remember_me: true
                 default_target_path: backend_partner_dashboard
                 use_referer: false
@@ -162,7 +162,11 @@ security:
             anonymous: ~
 
     access_control:
-        - { path: ^/partner/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /partner/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /partner/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /partner/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /partner/dashboard, role: IS_AUTHENTICATED_FULLY }
+
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
