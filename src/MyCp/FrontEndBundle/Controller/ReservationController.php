@@ -265,7 +265,9 @@ class ReservationController extends Controller {
 
                 switch($paymentMethod){
                     case "skrill": return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
-                    case "postfinance": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId));
+                    case "postfinance": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
+                    case "visa": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
+                    case "mastercard": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "MASTERCARD"));
                     default: return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
                 }
 

@@ -3872,6 +3872,15 @@
            <source>POSTFINANCE_PAYMENT</source>
            <target>You can pay using Postfinance</target>
        </trans-unit>
+
+        <trans-unit id="979">
+          <source>VISA_PAYMENT</source>
+          <target>You can pay using Visa</target>
+        </trans-unit>
+        <trans-unit id="980">
+          <source>MASTERCARD_PAYMENT</source>
+          <target>You can pay using Mastercard</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>

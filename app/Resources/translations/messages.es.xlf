@@ -3871,6 +3871,14 @@
           <source>POSTFINANCE_PAYMENT</source>
           <target>Pague usando cuenta Postfinance</target>
         </trans-unit>
+        <trans-unit id="979">
+          <source>VISA_PAYMENT</source>
+          <target>Pague usando Visa</target>
+        </trans-unit>
+        <trans-unit id="980">
+          <source>MASTERCARD_PAYMENT</source>
+          <target>Pague usando Mastercard</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>

@@ -3890,6 +3890,15 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
              <target>Bezahlen Sie über Postfinance-Konto</target>
          </trans-unit>
 
+        <trans-unit id="979">
+          <source>VISA_PAYMENT</source>
+          <target>Bezahlen Sie über Visa-Konto</target>
+        </trans-unit>
+        <trans-unit id="980">
+          <source>MASTERCARD_PAYMENT</source>
+          <target>Bezahlen Sie über Mastercard-Konto</target>
+        </trans-unit>
+
     </body>
     </file>
 </xliff>

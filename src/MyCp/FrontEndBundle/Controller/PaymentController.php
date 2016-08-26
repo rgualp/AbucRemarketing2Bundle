@@ -77,7 +77,7 @@ class PaymentController extends Controller
     }
 
 
-    public function postFinancePaymentAction($bookingId)
+    public function postFinancePaymentAction($bookingId, $method = "VISA")
     {
         $booking = $this->getBookingFrom($bookingId);
 
@@ -110,7 +110,7 @@ class PaymentController extends Controller
             throw new EntityNotFoundException("userTourist($userTourist)");
         }
 
-        $postFinanceData = $this->getPostFinanceViewData($booking, $user, $userTourist);
+        $postFinanceData = $this->getPostFinanceViewData($booking, $user, $userTourist, $method);
 
         return $this->render('FrontEndBundle:payment:postPayment.html.twig', $postFinanceData);
     }
@@ -419,7 +419,7 @@ class PaymentController extends Controller
 
 
 
-    private function getPostFinanceViewData(booking $booking, user $user, userTourist $userTourist)
+    private function getPostFinanceViewData(booking $booking, user $user, userTourist $userTourist, $method = "VISA")
     {
         $bookingId = $booking->getBookingId();
         $translator = $this->get('translator');
@@ -427,7 +427,7 @@ class PaymentController extends Controller
         $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
 
-        $pspid = "AnderABUC";
+        $pspid = "abucTEST";
         $secretPassword = "MySecretPassword";
 
         $sha1 = sha1($bookingId.$booking->getBookingPrepay().$booking->getBookingCurrency()->getCurrCode().$pspid.$secretPassword);
@@ -438,7 +438,7 @@ class PaymentController extends Controller
 
 
             'PSPID' => $pspid,
-            'USERID' => "AnderABUC",
+            'USERID' => "abucTEST",//"AnderABUC",
             'orderID' => $bookingId,//ORDER
             'amount' => $booking->getBookingPrepay(),
             'currency' => $booking->getBookingCurrency()->getCurrCode(),
@@ -452,7 +452,7 @@ class PaymentController extends Controller
             'homeUrl' => "https://www.mycasaparticular.com",
             'CN' => $user->getName(),
             'PM' =>  'CreditCard',
-            'BRAND' =>  'VISA',
+            'BRAND' =>  $method,
             'EMAIL' => $user->getUserEmail(),
             'logo_url' => $logoUrl,
             'first_name' => $user->getName(),
@@ -464,6 +464,7 @@ class PaymentController extends Controller
             'ownertelno' => $user->getUserPhone(),
             'COM' => 'MyCasaParticular.com',
             'SHASign' => $sha1,
+            'PM_list_type' => "VISA, Mastercard",
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
 
