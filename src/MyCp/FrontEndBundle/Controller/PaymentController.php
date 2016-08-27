@@ -533,16 +533,17 @@ class PaymentController extends Controller
 
         $pspid = "abucTEST";
         $secretPassword = "MySecretPassword";
+        $amount = round($booking->getBookingPrepay(), 2) * 100;
 
-        $sha1 = sha1($bookingId.$booking->getBookingPrepay().$booking->getBookingCurrency()->getCurrCode().$pspid.$secretPassword);
-        $amount = round($booking->getBookingPrepay(), 2);
+        $sha1 = sha1($bookingId.$amount.$booking->getBookingCurrency()->getCurrCode().$pspid.$secretPassword);
+
 
 //        $skrillData = array(
         $postFinanceData = array(
             'action_url' => self::$postFinance,
             'PSPID' => $pspid,
             'orderID' => $bookingId,//ORDER
-            'amount' => $amount * 100,
+            'amount' => $amount,
             'currency' => $booking->getBookingCurrency()->getCurrCode(),
             'language' => PostFinanceHelper::getPostFinanceLanguageFromLocale($locale),
             'ACCEPTURL' => $this->generateUrl('frontend_payment_postfinance_status', array(), true), //esta es la url que se llama si el pago fue exitoso
