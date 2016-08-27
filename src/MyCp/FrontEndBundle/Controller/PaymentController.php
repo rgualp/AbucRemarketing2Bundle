@@ -566,7 +566,7 @@ class PaymentController extends Controller
             'ownercty' => $user->getUserCountry()->getCoCode(),
             'ownertelno' => $user->getUserPhone(),
             'COM' => 'MyCasaParticular.com',
-            'SHASign' => "3w2bWAgHt147852veiuno*",//$sha1,
+            'SHASign' => $sha1, //"3w2bWAgHt147852veiuno*"
             'PM_list_type' => "VISA, Mastercard",
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
