@@ -532,7 +532,7 @@ class PaymentController extends Controller
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
 
         $pspid = "abucTEST";
-        $secretPassword = "MySecretPassword";
+        $secretPassword = "3w2bWAgHt147852veiuno*";
         $amount = round($booking->getBookingPrepay(), 2) * 100;
 
         $sha1 = sha1($bookingId.$amount.$booking->getBookingCurrency()->getCurrCode().$pspid.$secretPassword);
