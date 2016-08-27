@@ -431,16 +431,14 @@ class PaymentController extends Controller
         $secretPassword = "MySecretPassword";
 
         $sha1 = sha1($bookingId.$booking->getBookingPrepay().$booking->getBookingCurrency()->getCurrCode().$pspid.$secretPassword);
+        $amount = round($booking->getBookingPrepay(), 2);
 
 //        $skrillData = array(
         $postFinanceData = array(
             'action_url' => self::$postFinance,
-
-
             'PSPID' => $pspid,
-            'USERID' => "abucTEST",//"AnderABUC",
             'orderID' => $bookingId,//ORDER
-            'amount' => $booking->getBookingPrepay(),
+            'amount' => $amount * 100,
             'currency' => $booking->getBookingCurrency()->getCurrCode(),
             'language' => PostFinanceHelper::getPostFinanceLanguageFromLocale($locale),
             'ACCEPTURL' => $this->generateUrl('frontend_payment_skrill_return', array('bookingId' => $bookingId), true), //ESTE ES EL PARAMETRO ACCEPTURL

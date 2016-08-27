@@ -5,7 +5,7 @@ IMPORTANT:
 #}
 <html>
     <body>
-        <form action="{{ action_url }}" target="_self" id="postfinanceForm" style="display:none">
+        <form action="{{ action_url }}" method="post" id="postfinanceForm" style="display:none">
             <input type="hidden" NAME="PSPID" value="{{ PSPID }}">
             <input type="hidden" NAME="ORDERID" value="{{ orderID }}">
             <input type="hidden" NAME="AMOUNT" value="{{ amount }}">
@@ -34,26 +34,27 @@ IMPORTANT:
             {#<input type="hidden" NAME="HOMEURL" VALUE="">#}
             <input type="hidden" NAME="CN" value="{{ first_name }}">
             <input type="hidden" name="EMAIL" value="{{ EMAIL }}">
-            <input type="hidden" NAME="PM" VALUE="{{ PM }}">
+            {#<input type="hidden" NAME="PM" VALUE="{{ PM }}">
             <input type="hidden" NAME="BRAND" VALUE="{{ BRAND }}">
             <input type="hidden" NAME="OWNERZIP" VALUE="{{ ownerZIP }}">
             <input type="hidden" NAME="OWNERADDRESS" VALUE="{{ owneraddress }}">
             <input type="hidden" NAME="OWNERADDRESS2" VALUE="{{ owneraddress }}">
-            <input type="hidden" NAME="OWNERADDRESS3" VALUE="{{ owneraddress }}">
-            <input type="hidden" NAME="SHASIGN" value="">
-            <input type="hidden" NAME="ALIAS" VALUE="">
+            <input type="hidden" NAME="OWNERADDRESS3" VALUE="{{ owneraddress }}">#}
+            {#<input type="hidden" NAME="SHASIGN" value="{{ SHASign }}">#}
+            {#<input type="hidden" NAME="ALIAS" VALUE="">
             <input type="hidden" NAME="ALIASUSAGE" VALUE="">
-            <input type="hidden" NAME="ALIASOPERATION" VALUE="">
-            <input type="hidden" NAME="COM" VALUE="">
-            <input type="hidden" NAME="COMPLUS" VALUE="">
+            <input type="hidden" NAME="ALIASOPERATION" VALUE="">#}
+            <input type="hidden" NAME="COM" VALUE="MyCasaParticular.com">
+            {#<input type="hidden" NAME="COMPLUS" VALUE="">
             <input type="hidden" NAME="PARAMPLUS" VALUE="">
             <input type="hidden" NAME="USERID" VALUE="{{ USERID }}">
             <input type="hidden" NAME="CREDITCODE" VALUE="">
             <input type="hidden" name="CATALOGURL" value="{{ catalogUrl }}">
             <input type="hidden" name="HOMEURL" value="{{ homeUrl }}">
             <input type="hidden" name="SHASign" value="{{ SHASign }}">
-            <input type="hidden" name="PM list type" value="{{ PM_list_type }}">
-            <input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >
+            <input type="hidden" name="PM list type" value="{{ PM_list_type }}">#}
+
+            <input type="submit" id="submit_button" value="{{ button_text }}" >
 
         </form>
 
