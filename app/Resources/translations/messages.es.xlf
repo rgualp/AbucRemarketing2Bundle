@@ -3879,6 +3879,10 @@
           <source>MASTERCARD_PAYMENT</source>
           <target>Pague usando Mastercard</target>
         </trans-unit>
+        <trans-unit id="981">
+          <source>PAYMENT_SUCCESS</source>
+          <target>El pago fue exitoso. Gracias!</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>

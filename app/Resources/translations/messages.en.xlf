@@ -3881,6 +3881,10 @@
           <source>MASTERCARD_PAYMENT</source>
           <target>You can pay using Mastercard</target>
         </trans-unit>
+        <trans-unit id="981">
+          <source>PAYMENT_SUCCESS</source>
+          <target>Payment success. Thank you!</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>

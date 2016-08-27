@@ -10,6 +10,7 @@ use MyCp\FrontEndBundle\Helpers\SkrillHelper;
 use MyCp\FrontEndBundle\Helpers\PostFinanceHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\postfinancePayment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
@@ -237,6 +238,47 @@ class PaymentController extends Controller
     }
 
     /**
+     * Action method called by Postfinance with http POST data which
+     * contains all information about a payment a user made.
+     *
+     * The information is stored in the database (postfinancePayment and payment tables)
+     * and a http Response (status 200 for success, 400 for failure) is returned as an answer.
+     *
+     * @return Response
+     */
+    public function postfinanceStatusAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest()->request->all();
+
+        $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ . ': Received Postfinance status.');
+
+        if (empty($request)) {
+            return new Response('Empty post data', 400);
+        }
+
+        $this->log('PaymentController line ' . __LINE__ . "Request: \n" . print_r($request, true));
+
+        list($postfinancePayment, $payment) = $this->updatePostfinancePaymentData($em, $request);
+
+        $bookingService = $this->get('front_end.services.booking');
+        $bookingService->postProcessBookingPayment($payment);
+
+        /*$dispatcher = $this->get('event_dispatcher');
+        $eventData = new PaymentJobData($payment->getId());
+        $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));*/
+
+        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $postfinancePayment->getId());
+
+        //return new Response('Thanks', 200);
+        $trans = $this->get('translator');
+        $message = $trans->trans('PAYMENT_SUCCESS');
+        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+        return $this->redirect($this->generateUrl("frontend_mycasatrip_payment"));
+    }
+
+    /**
      * Updates or creates the payment and skrillPayment data according
      * to the POST request received from Skrill.
      *
@@ -296,6 +338,68 @@ class PaymentController extends Controller
         $em->flush();
 
         return array($skrillPayment, $payment);
+    }
+
+    /**
+     * Updates or creates the payment and skrillPayment data according
+     * to the POST request received from Skrill.
+     *
+     * @param $em
+     * @param $request
+     * @return array
+     * @throws \LogicException
+     */
+    private function updatePostfinancePaymentData($em, $request)
+    {
+        $postfinancePayment = new postfinancePayment($request);
+        $bookingId = $postfinancePayment->getOrderId();
+        $this->log('PaymentController line ' . __LINE__ . ': Booking id=' . $bookingId . '');
+        $booking = $this->getBookingFrom($bookingId);
+
+        if (empty($booking)) {
+            $this->log('PaymentController line ' . __LINE__ . ': Booking (id=' . $bookingId . ') not found.');
+            return new Response('', 200);
+        }
+
+        $payment = $this->getPaymentFrom($booking);
+
+        $this->log('PaymentController line ' . __LINE__ . "Payment found: " . empty($payment) ? 'yes' : 'no');
+
+        if (empty($payment)) {
+            $payment = new payment();
+            $payment->setCreated(new DateTime());
+            $payment->setBooking($booking);
+        }
+
+        $this->log('Postfinance:');
+        $this->log('merchant amount: ' . $postfinancePayment->getAmount());
+        $this->log('merchant currency: ' . $postfinancePayment->getCurrency());
+        $this->log('status: ' . $postfinancePayment->getStatus());
+        $this->log('order id (booking_id): ' . $postfinancePayment->getOrderId());
+
+        $payment->setPayedAmount($postfinancePayment->getAmount());
+
+        $currencyIsoCode = $postfinancePayment->getCurrency();
+        $currency = $this->getCurrencyFrom($currencyIsoCode);
+
+        if (empty($currency)) {
+            $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+                ': Currency ' . $currencyIsoCode . ' not found.');
+            throw new \LogicException('Currency not found: ' . $currencyIsoCode);
+        }
+
+        $payment->setCurrency($currency);
+        $payment->setModified(new DateTime());
+        $payment->setStatus(PostFinanceHelper::getInternalStatusCodeFrom($postfinancePayment->getStatus()));
+        $currencyRate = $currency->getCurrCucChange();
+        $payment->setCurrentCucChangeRate($currencyRate);
+
+        $postfinancePayment->setPayment($payment);
+        $em->persist($payment);
+        $em->persist($postfinancePayment);
+        $em->flush();
+
+        return array($postfinancePayment, $payment);
     }
 
     /**
@@ -441,7 +545,7 @@ class PaymentController extends Controller
             'amount' => $amount * 100,
             'currency' => $booking->getBookingCurrency()->getCurrCode(),
             'language' => PostFinanceHelper::getPostFinanceLanguageFromLocale($locale),
-            'ACCEPTURL' => $this->generateUrl('frontend_payment_skrill_return', array('bookingId' => $bookingId), true), //ESTE ES EL PARAMETRO ACCEPTURL
+            'ACCEPTURL' => $this->generateUrl('frontend_payment_postfinance_status', array(), true), //esta es la url que se llama si el pago fue exitoso
             'DECLINEURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'EXCEPTIONURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'CANCELURL' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),

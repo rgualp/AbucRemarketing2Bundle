@@ -13,11 +13,15 @@ final class PostFinanceHelper
     );
 
     private static $statusSkrillToInternal = array(
-        '2' => PaymentHelper::STATUS_SUCCESS,
-        '0' => PaymentHelper::STATUS_PENDING,
-        '-1' => PaymentHelper::STATUS_CANCELLED,
-        '-2' => PaymentHelper::STATUS_FAILED,
-        '-3' => PaymentHelper::STATUS_FAILED
+        '5' => PaymentHelper::STATUS_SUCCESS,
+        '9' => PaymentHelper::STATUS_SUCCESS,
+        '95' => PaymentHelper::STATUS_SUCCESS,
+        '51' => PaymentHelper::STATUS_PENDING,
+        '91' => PaymentHelper::STATUS_PENDING,
+        '2' => PaymentHelper::STATUS_DECLINED,
+        '52' => PaymentHelper::STATUS_FAILED,
+        '92' => PaymentHelper::STATUS_FAILED,
+        '1' => PaymentHelper::STATUS_CANCELLED
     );
 
     // TODO: This map has to be tested!

@@ -13,4 +13,6 @@ final class PaymentHelper
     const STATUS_CANCELLED = 2;
     const STATUS_FAILED = 3;
     const STATUS_PROCESSED = 4;
+
+    const STATUS_DECLINED = 5;
 }
