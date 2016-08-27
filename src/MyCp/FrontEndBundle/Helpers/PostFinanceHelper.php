@@ -21,7 +21,7 @@ final class PostFinanceHelper
         '2' => PaymentHelper::STATUS_DECLINED,
         '52' => PaymentHelper::STATUS_FAILED,
         '92' => PaymentHelper::STATUS_FAILED,
-        '1' => PaymentHelper::STATUS_CANCELLED
+        '1' => PaymentHelper::STATUS_CANCELLED 
     );
 
     // TODO: This map has to be tested!
