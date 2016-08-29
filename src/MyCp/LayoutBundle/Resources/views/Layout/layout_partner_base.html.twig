@@ -50,6 +50,7 @@
     <div id="adjust-footer-section" class="clearfix"></div>
     {{ include('PartnerBundle:Layout:footer.html.twig') }}
 {% endblock %}
+<!-- Custom and plugin javascript -->
 {% block javascripts %}
     {% javascripts
     '@LayoutBundle/Resources/public/js/jquery-2.1.1.js'
@@ -67,6 +68,8 @@
     '@LayoutBundle/Resources/public/js/adjustContainer/adjustHeight.js'
     '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
     '@LayoutBundle/Resources/public/js/plugins/jquery-validation-1.13.1/dist/jquery.validate.min.js'
+    '@LayoutBundle/Resources/public/js/inspinia.js'
+    '@LayoutBundle/Resources/public/js/plugins/pace/pace.min.js'
     filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

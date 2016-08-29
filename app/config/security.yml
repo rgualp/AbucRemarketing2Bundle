@@ -165,7 +165,7 @@ security:
         - { path: /partner/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /partner/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /partner/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /partner/dashboard, role: IS_AUTHENTICATED_FULLY }
+        - { path: /partner/dashboard, role: ROLE_CLIENT_PARTNER }
 
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }

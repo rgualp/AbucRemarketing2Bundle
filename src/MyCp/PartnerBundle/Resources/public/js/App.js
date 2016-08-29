@@ -45,7 +45,7 @@ var App = function () {
                         HoldOn.close();
                         var xdata = jQuery.parseJSON(data);
                         if(xdata.success){
-                            $('#modal-new-provider').modal('hide');
+                            $('#myModalRegisterAgency').modal('hide');
                             swal(xdata.msg, "", "success");
                         }
                         else
@@ -92,6 +92,9 @@ var App = function () {
                 ignore: "",
                 rules:  {
                     'partner_agency[email]':{
+                        email: true
+                    },
+                    'partner_agency[contacts][0][email]':{
                         email: true
                     },
                     confirm: {
