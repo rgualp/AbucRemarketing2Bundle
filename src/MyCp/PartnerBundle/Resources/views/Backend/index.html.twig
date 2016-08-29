@@ -16,3 +16,41 @@
 
 
 
+{% block javascripts %}
+    <script type="text/javascript">
+        var today_date="{{"now"|date("d/m/Y") }}";
+        var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+
+        /*$.fn.typeahead &&
+         $('[data-provide="typeahead"]').typeahead({
+         name: "states",
+         local: '{#{ autocomplete_text_list |raw}#}',
+         limit: 4
+         });*/
+        $("#priceFilter").slider({});
+        $('#more_filters').on('click',function(){
+            if($('#more_filters').hasClass('collapsed')){
+                $('#button_research').addClass('hide');
+                $('#more_filters').removeClass('collapsed');
+
+                var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height() + 20);
+                var scroll_h = full_height - 100;
+
+                $('#collapseFilters .thumbnail').css("height",full_height+"px");
+
+                $('#collapseFilters .thumbnail .content-filter').slimScroll({
+                    height: scroll_h+'px',
+                    start: 'top'
+                });
+
+
+            }
+            else{
+                $('#button_research').removeClass('hide');
+                $('#more_filters').addClass('collapsed');
+            }
+        });
+
+    </script>
+{% endblock %}

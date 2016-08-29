@@ -193,9 +193,9 @@ class generalReservation {
     private $service_fee;
 
     /**
-     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paClientReservation", mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="\MyCp\PartnerBundle\Entity\paReservationDetail", mappedBy="reservationDetail")
      */
-    private $travelAgencyClientReservations;
+    private $travelAgencyDetailReservations;
 
     /**
      * Constructor
@@ -206,7 +206,7 @@ class generalReservation {
         $this->gen_res_status = generalReservation::STATUS_PENDING;
         $this->gen_res_status_date = new \DateTime();
 
-        $this->travelAgencyClientReservations = new ArrayCollection();
+        $this->$travelAgencyDetailReservations = new ArrayCollection();
     }
 
     /**
@@ -755,43 +755,43 @@ class generalReservation {
     /**
      * @return mixed
      */
-    public function getTravelAgencyClientReservations()
+    public function getTravelAgencyDetailReservations()
     {
-        return $this->travelAgencyClientReservations;
+        return $this->travelAgencyDetailReservations;
     }
 
     /**
-     * @param mixed $clientReservations
+     * @param mixed $detailReservations
      * @return mixed
      */
-    public function setTravelAgencyClientReservations($clientReservations)
+    public function setTravelAgencyDetailReservations($detailReservations)
     {
-        $this->travelAgencyClientReservations = $clientReservations;
+        $this->travelAgencyDetailReservations = $detailReservations;
         return $this;
     }
 
     /**
-     * Add paClientReservation
+     * Add paReservationDetail
      *
-     * @param paClientReservation $clientReservations
+     * @param \MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail
      *
      * @return mixed
      */
-    public function addTravelAgencyClientReservation(paClientReservation $clientReservations)
+    public function addTravelAgencyDetailReservation(\MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail)
     {
-        $this->travelAgencyClientReservations[] = $clientReservations;
+        $this->travelAgencyDetailReservations[] = $reservationDetail;
 
         return $this;
     }
 
     /**
-     * Remove paClientReservation
+     * Remove paReservationDetail
      *
-     * @param paClientReservation $clientReservations
+     * @param \MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail
      */
-    public function removeTravelAgencyClientReservation(paClientReservation $clientReservations)
+    public function removeTravelAgencyDetailReservation(\MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail)
     {
-        $this->travelAgencyClientReservations->removeElement($clientReservations);
+        $this->travelAgencyDetailReservations->removeElement($reservationDetail);
     }
 
 }

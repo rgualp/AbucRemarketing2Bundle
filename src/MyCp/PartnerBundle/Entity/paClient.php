@@ -47,21 +47,27 @@ class paClient extends baseEntity
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCP\mycpBundle\Entity\country",inversedBy="travelAgencyClients")
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\country",inversedBy="travelAgencyClients")
      * @ORM\JoinColumn(name="country",referencedColumnName="co_id")
      */
     private $country;
 
     /**
-     * @ORM\OneToMany(targetEntity="paClientReservation", mappedBy="client")
+     * @ORM\ManyToOne(targetEntity="paTravelAgency",inversedBy="clients")
+     * @ORM\JoinColumn(name="travelAgency",referencedColumnName="id")
      */
-    private $travelAgencyClientReservations;
+    private $travelAgency;
+
+    /**
+     * @ORM\OneToMany(targetEntity="paReservation", mappedBy="client")
+     */
+    private $reservations;
 
 
     public function __construct() {
         parent::__construct();
 
-        $this->travelAgencyClientReservations = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     /**
@@ -155,43 +161,62 @@ class paClient extends baseEntity
     /**
      * @return mixed
      */
-    public function getTravelAgencyClientReservations()
+    public function getTravelAgency()
     {
-        return $this->travelAgencyClientReservations;
+        return $this->travelAgency;
     }
 
     /**
-     * @param mixed $clientReservations
+     * @param mixed $travelAgency
      * @return mixed
      */
-    public function setTravelAgencyClientReservations($clientReservations)
+    public function setTravelAgency($travelAgency)
     {
-        $this->travelAgencyClientReservations = $clientReservations;
+        $this->travelAgency = $travelAgency;
         return $this;
     }
 
     /**
-     * Add paClientReservation
+     * @return mixed
+     */
+    public function getReservations()
+    {
+        return $this->reservations;
+    }
+
+    /**
+     * @param mixed $reservations
+     * @return mixed
+     */
+    public function setReservations($reservations)
+    {
+        $this->reservations = $reservations;
+        return $this;
+    }
+
+    /**
+     * Add paReservation
      *
-     * @param paClientReservation $clientReservations
+     * @param paReservation $reservation
      *
      * @return mixed
      */
-    public function addTravelAgencyClientReservation(paClientReservation $clientReservations)
+    public function addReservation(paReservation $reservation)
     {
-        $this->travelAgencyClientReservations[] = $clientReservations;
+        $this->reservations[] = $reservation;
 
         return $this;
     }
 
     /**
-     * Remove paClientReservation
+     * Remove paReservation
      *
-     * @param paClientReservation $clientReservations
+     * @param paReservation $reservation
      */
-    public function removeTravelAgencyClientReservation(paClientReservation $clientReservations)
+    public function removeReservation(paReservation $reservation)
     {
-        $this->travelAgencyClientReservations->removeElement($clientReservations);
+        $this->reservations->removeElement($reservation);
     }
+
 
 }

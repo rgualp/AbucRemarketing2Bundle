@@ -62,7 +62,7 @@ class paTravelAgency extends baseEntity
     private $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCP\mycpBundle\Entity\country",inversedBy="travelAgencies")
+     * @ORM\ManyToOne(targetEntity="\MyCp\mycpBundle\Entity\country",inversedBy="travelAgencies")
      * @ORM\JoinColumn(name="country",referencedColumnName="co_id")
      */
     private $country;
@@ -77,12 +77,18 @@ class paTravelAgency extends baseEntity
      */
     private $agencyPackages;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paClient", mappedBy="travelAgency")
+     */
+    private $clients;
+
 
     public function __construct() {
         parent::__construct();
 
         $this->contacts = new ArrayCollection();
         $this->agencyPackages = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     /**
@@ -244,8 +250,8 @@ class paTravelAgency extends baseEntity
     }
 
     /**
-     * @return mixed
-     */
+ * @return mixed
+ */
     public function getAgencyPackages()
     {
         return $this->agencyPackages;
@@ -283,6 +289,48 @@ class paTravelAgency extends baseEntity
     public function removeAgencyPackage(paAgencyPackage $agencyPackage)
     {
         $this->agencyPackages->removeElement($agencyPackage);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClients()
+    {
+        return $this->clients;
+    }
+
+    /**
+     * @param mixed $clients
+     * @return mixed
+     */
+    public function setClients($clients)
+    {
+        $this->clients = $clients;
+        return $this;
+    }
+
+    /**
+     * Add client
+     *
+     * @param paClient $client
+     *
+     * @return mixed
+     */
+    public function addClient(paClient $client)
+    {
+        $this->clients[] = $client;
+
+        return $this;
+    }
+
+    /**
+     * Remove client
+     *
+     * @param paClient $client
+     */
+    public function removeClient(paClient $client)
+    {
+        $this->clients->removeElement($client);
     }
 
 }
