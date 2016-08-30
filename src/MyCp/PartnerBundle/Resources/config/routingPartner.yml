@@ -29,6 +29,16 @@ frontend_partner_activateacount:
     locales:  { en: "/activateaccount/{token}", es: "/activateaccount/{token}", de: "/activateaccount/{token}" }
     defaults: { _controller: PartnerBundle:Security:activateAccount }
 
+#Register account page
+frontend_partner_registeracountpage:
+    locales:  { en: "/registeraccount", es: "/cuentaregistrada", de: "/registeraccount" }
+    defaults: { _controller: PartnerBundle:Frontend:registerAccountPage }
+
+#Activate account page
+frontend_partner_activateacountpage:
+    locales:  { en: "/crongatulations", es: "/felicidades", de: "/crongatulations" }
+    defaults: { _controller: PartnerBundle:Frontend:activateAccountPage }
+
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }

@@ -29,10 +29,10 @@ var App = function () {
         form.on("submit", function (e) {
             App.validateFormAgency();
             if(form.valid()){
-                e.preventDefault();
                 var formData = new FormData(form[0]);
                 formData.append("password", $('#password').val());
-                HoldOn.open();
+                form.submit();
+               /* HoldOn.open();
                 $.ajax({
                     url: form.attr('action'),
                     type: "post",
@@ -55,7 +55,7 @@ var App = function () {
                         HoldOn.close();
                         swal("Error", "", "error");
                     }
-                });
+                });*/
             }
             else{
                 toastr.error("{{ 'label.an_error_occurred'|trans }}!", 'error');
