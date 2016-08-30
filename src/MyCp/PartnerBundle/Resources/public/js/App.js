@@ -21,35 +21,13 @@ var App = function () {
     var addFormContactInAgency=function(){
         App.addTagForm($collectionHolder, $newLinkLi);
     }
-    var initPluginsImg=function(){
-        $(".cstiles").CSTiles({
-            shareTile: false,
-            shareTypes: ["pinterest"],
-            adaptivSize: {
-                "big-desktop": [3,"auto"],
-                "desktop": [3,"auto"],
-                "tablet": [3,"auto"],
-                "phone-landscape": [2,"auto"],
-                "phone": [1,"auto"]
-            },
-            adaptivMedia: {
-                "big-desktop":"screen and (min-width: 1279px)",
-                "desktop":"screen and (max-width: 1279px)",
-                "tablet":"screen and (max-width: 1023px)",
-                "phone-landscape":"screen and (max-width: 767px)",
-                "phone":"screen and (max-width: 479px)"
-            },
-            margin: 5,
-            imagePosition: ["center","center"]
-        });
-    }
     /**
      * Register Agency
      */
     var initForm=function(){
         var form = $("#form-agency");
-        App.validateFormAgency();
         form.on("submit", function (e) {
+            App.validateFormAgency();
             if(form.valid()){
                 e.preventDefault();
                 var formData = new FormData(form[0]);
@@ -79,6 +57,9 @@ var App = function () {
                     }
                 });
             }
+            else{
+                toastr.error("{{ 'label.an_error_occurred'|trans }}!", 'error');
+            }
         });
     }
     return {
@@ -87,7 +68,6 @@ var App = function () {
           //IMPORTANT!!!: Do not modify the call order.
             addFormContactInAgency();
             initForm();
-            initPluginsImg();
         },
         addTagForm:function($collectionHolder, $newLinkLi) {
         // Get the data-prototype explained earlier
@@ -110,8 +90,8 @@ var App = function () {
         validateFormAgency:function(){
             var form = $("#form-agency");
             form.validate({
-                errorElement: 'label',
-                errorClass: 'error',
+                errorElement: '', //default input error message container
+                errorClass: 'help-inline', // default input error message class
                 ignore: "",
                 rules:  {
                     'partner_agency[email]':{

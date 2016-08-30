@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-08-29T14:30:30Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-08-30T14:17:37Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -62,13 +62,9 @@
         <source>label.carousel_text_two</source>
         <target state="new">Especial para agencias y turoperadores de viaje</target>
       </trans-unit>
-      <trans-unit id="a59756e9a47883603e7f8be7071ac4bd9b9297b9" resname="label.carousel_two_text_one">
-        <source>label.carousel_two_text_one</source>
-        <target state="new">Reserva las mejores casas particulares de Cuba</target>
-      </trans-unit>
-      <trans-unit id="6fb0e9c83ac248de3bc21561a8a8043849408011" resname="label.carousel_two_text_two">
-        <source>label.carousel_two_text_two</source>
-        <target state="new">Especial para agencias y turoperadores de viaje</target>
+      <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
+        <source>label.check.term</source>
+        <target state="new"><![CDATA[Al Crear mi cuenta acepto todos los <b>Términos Legales y Políticas de Seguridad</b>]]></target>
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
@@ -76,11 +72,11 @@
       </trans-unit>
       <trans-unit id="3ca0fb8286be8eb248d9fbb73bbf775be01cff5a" resname="label.form.agency.three">
         <source>label.form.agency.three</source>
-        <target state="new">label.form.agency.three</target>
+        <target state="new">Contraseña</target>
       </trans-unit>
       <trans-unit id="e5f06f475b52b29acb722c80b7fd0387ab97a974" resname="label.form.agency.two">
         <source>label.form.agency.two</source>
-        <target state="new">label.form.agency.two</target>
+        <target state="new">Ingresa los Datos de la Persona de Contacto de la Agencia</target>
       </trans-unit>
       <trans-unit id="ead3b00a31c3fbf025363d5d465cbc7fc554dfa7" resname="label.free">
         <source>label.free</source>
@@ -104,11 +100,11 @@
       </trans-unit>
       <trans-unit id="4b8db389f9696db5926182496378bdf7b3d70b7f" resname="label.name.address">
         <source>label.name.address</source>
-        <target state="new">label.name.address</target>
+        <target state="new">Domicilio Legal o Dirección</target>
       </trans-unit>
       <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
         <source>label.name.agency</source>
-        <target state="new">label.name.agency</target>
+        <target state="new">Nombre de la Agencia</target>
       </trans-unit>
       <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
         <source>label.name.country</source>
@@ -116,31 +112,35 @@
       </trans-unit>
       <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
         <source>label.name.email</source>
-        <target state="new">label.name.email</target>
+        <target state="new">Correo de Contacto</target>
       </trans-unit>
       <trans-unit id="c4e630afc5311e3b16b436ac4c269823a67fe3ca" resname="label.name.mobile">
         <source>label.name.mobile</source>
-        <target state="new">label.name.mobile</target>
+        <target state="new">Teléfono de Contacto</target>
       </trans-unit>
       <trans-unit id="17b23a149a439a3e7e6367916e7f842da79d2ee8" resname="label.name.nameresponse">
         <source>label.name.nameresponse</source>
-        <target state="new">label.name.nameresponse</target>
+        <target state="new">Nombre de la Persona</target>
       </trans-unit>
       <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
         <source>label.name.phone</source>
-        <target state="new">label.name.phone</target>
+        <target state="new">Teléfono de Contacto</target>
       </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
-        <target state="new">label.password</target>
+        <target state="new">Contraseña</target>
       </trans-unit>
       <trans-unit id="17662a08cbcbd1fdf5771590c789bbfdbd724542" resname="label.password.repeat">
         <source>label.password.repeat</source>
-        <target state="new">label.password.repeat</target>
+        <target state="new">Confirma Contraseña</target>
       </trans-unit>
       <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
         <source>label.prox</source>
         <target state="new">Próximamente</target>
+      </trans-unit>
+      <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
+        <source>label.register.agency</source>
+        <target state="new">Empezar!!!</target>
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>

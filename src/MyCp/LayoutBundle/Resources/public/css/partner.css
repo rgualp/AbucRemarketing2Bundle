@@ -26,6 +26,11 @@ body.landing-page {
     font-family: 'MyriadProRegular';
     src: url('../bundles/partner/font/MyriadPro-Regular.otf');
 }
+@font-face{
+    font-family: 'MyriadProCond';
+    src: url('../bundles/partner/font/MyriadPro-Cond.otf');
+}
+
 .MyriadProSemiCnIt{
     font-family: MyriadProSemiCnIt;
 }
@@ -34,6 +39,9 @@ body.landing-page {
 }
 .MyriadProRegular{
     font-family: MyriadProRegular;
+}
+.MyriadProCond{
+    font-family: MyriadProCond;
 }
 .color-td-onepackage{
     background-color: #093653 !important;
@@ -69,12 +77,6 @@ body.landing-page {
     border-bottom: 0px solid #e7eaec !important;
     z-index: 2030;
 }
-.pace-running .header-back.one {
-    background: url('../bundles/partner/img/slideshow/1/1.jpg') 50% 0 no-repeat;
-}
-.pace-running .header-back.two {
-    background: url('../bundles/partner/img/slideshow/1/2.jpg') 50% 0 no-repeat;
-}
 .pace-running .header-back {
     height: 334px;
     width: 100%;
@@ -90,12 +92,6 @@ body.landing-page {
 .pace-running .navbar-fixed-top,
 .navbar-static-top {
     background: transparent;
-}
-.landing-page .header-back.one {
-    background: url('../bundles/partner/img/slideshow/1/1.jpg') 50% 0 no-repeat;
-}
-.landing-page .header-back.two {
-    background: url('../bundles/partner/img/slideshow/1/2.jpg') 50% 0 no-repeat;
 }
 .landing-page .header-back {
     height: 334px;
@@ -114,7 +110,7 @@ body.landing-page {
 }
 .landing-page .navbar-default .nav li a {
     color: #fff;
-    font-family: MyriadProBoldCond;
+    font-family: MyriadProCond;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: none;
@@ -145,9 +141,18 @@ body.landing-page {
     padding-top: 25px;
     border-top: none;
 }
+.landing-page .navbar-default .navbar-nav > li > a:hover,
+.landing-page .navbar-default .navbar-nav > li > a:focus {
+    color: #fff;
+    background: inherit;
+}
+.pace-running .navbar-default .navbar-nav > li > a:hover,
+.pace-running .navbar-default .navbar-nav > li > a:focus {
+    color: #fff;
+    background: inherit;
+}
 .pace-running .navbar-default.navbar-scroll {
     background-color: #3f69bf;
-    background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
     padding: 15px 0;
 }
 .pace-running .navbar-scroll.navbar-default .nav li a {
@@ -158,7 +163,6 @@ body.landing-page {
 }
 .landing-page .navbar-default.navbar-scroll {
     background-color: #093653;
-    background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
     padding: 15px 0;
 }
 .landing-page .navbar-scroll.navbar-default .nav li a {
@@ -234,6 +238,36 @@ body.landing-page {
 .m-l-10{
     margin-left: -10px;
 }
+.m-l-25{
+    margin-left: 25px;
+}
+.m-r-12{
+    margin-right: 12px;
+}
+.modal-agency{
+    background-color: #25323b !important;
+    color: #fff;
+    font-size: 30px;
+    height: 620px;
+}
+.modal-header-agency{
+    border-bottom: none;
+}
+.inmodal .modal-header .modal-header-agency{
+    padding: 11px 15px;
+    text-align: center;
+}
+.modal-header-agency .close {
+    color: #fff;
+    float: right;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 1;
+    position: relative;
+    text-shadow: 0 1px 0 #fff;
+    z-index: 999;
+}
 .agency .input-group-addon {
     background-color: #fff;
     border: 1px solid #e5e6e7;
@@ -244,4 +278,79 @@ body.landing-page {
     line-height: 1;
     padding: 4px 6px;
     text-align: center;
+}
+
+.agency .glyphicons {
+    color: #1b6690;
+    display: inline-block;
+    font: 24px/1em "Glyphicons Regular";
+    position: relative;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.agency .form-control::-moz-placeholder {
+    color: #1b6690;
+    opacity: 1;
+    font-family: MyriadProRegular;
+    font-size: 18px;
+}
+.contact .input-group-addon {
+    background-color: #fff;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+.contact .glyphicons {
+    color: #63a333;
+    display: inline-block;
+    font: 24px/1em "Glyphicons Regular";
+    position: relative;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.contact .form-control::-moz-placeholder {
+    color: #63a333;
+    opacity: 1;
+    font-family: MyriadProRegular;
+    font-size: 18px;
+}
+.btn-register-partner{
+    background-color: rgb(255, 255, 255) !important;
+    color: rgb(99, 163, 51) !important;
+    font-size: 48px !important;
+    margin-left: -30px;
+    margin-top: 140%;
+}
+.form-agency label.error {
+    color: #fff;
+    display: inline-block;
+    margin-left: 5px;
+    font-family: MyriadProRegular;
+    font-size: 12px;
+}
+.form-agency .input-group .form-control {
+    color: black;
+    float: left;
+    margin-bottom: 0;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+    font-family: MyriadProRegular;
+}
+.form-control.error {
+    border: 2px dotted #cc5965;
+}
+.checkbox-info input[type="checkbox"]:checked + label::before, .checkbox-info input[type="radio"]:checked + label::before {
+    background-color: #f59821;
+    border-color: #fff;
+}
+.checkbox input[type="checkbox"]:checked + label::after, .checkbox input[type="radio"]:checked + label::after {
+    content: none;
+    font-family: "FontAwesome";
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-08-29T14:30:38Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-08-30T14:17:45Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -62,13 +62,9 @@
         <source>label.carousel_text_two</source>
         <target state="new">label.carousel_text_two</target>
       </trans-unit>
-      <trans-unit id="a59756e9a47883603e7f8be7071ac4bd9b9297b9" resname="label.carousel_two_text_one">
-        <source>label.carousel_two_text_one</source>
-        <target state="new">label.carousel_two_text_one</target>
-      </trans-unit>
-      <trans-unit id="6fb0e9c83ac248de3bc21561a8a8043849408011" resname="label.carousel_two_text_two">
-        <source>label.carousel_two_text_two</source>
-        <target state="new">label.carousel_two_text_two</target>
+      <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
+        <source>label.check.term</source>
+        <target state="new">label.check.term</target>
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
@@ -141,6 +137,10 @@
       <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
         <source>label.prox</source>
         <target state="new">label.prox</target>
+      </trans-unit>
+      <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
+        <source>label.register.agency</source>
+        <target state="new">label.register.agency</target>
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
