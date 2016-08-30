@@ -3901,7 +3901,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
 
         <trans-unit id="981">
           <source>PAYMENT_SUCCESS</source>
-          <target>Payment success. Thank you!</target>
+          <target>Prima! Alle ihre Reservierungen wurden erfolgreich bezahlt. Kuba wartet auf Sie!!!</target>
         </trans-unit>
 
     </body>

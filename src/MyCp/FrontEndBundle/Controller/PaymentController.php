@@ -15,6 +15,7 @@ use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
 use MyCp\mycpBundle\JobData\PaymentJobData;
+use Omnipay\Omnipay;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -251,6 +252,9 @@ class PaymentController extends Controller
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest()->request->all();
 
+        $queryString = $this->getRequest()->getQueryString();
+        $request = $this->getArrayFromRequest($queryString);
+
         $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ . ': Received Postfinance status.');
 
         if (empty($request)) {
@@ -276,6 +280,22 @@ class PaymentController extends Controller
         $message = $trans->trans('PAYMENT_SUCCESS');
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
         return $this->redirect($this->generateUrl("frontend_mycasatrip_payment"));
+    }
+
+    private function getArrayFromRequest($queryString){
+        $arrayFromQuestyString = explode("&", $queryString);
+        $result = array();
+
+        foreach($arrayFromQuestyString as $pair)
+        {
+            $pair = explode("=", $pair);
+            $key = $pair[0];
+            $value = $pair[1];
+
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
 
     /**
@@ -530,8 +550,33 @@ class PaymentController extends Controller
         $locale = $this->getRequest()->getLocale();
         $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
-
         $pspid = "abucTEST";
+        $amount = round($booking->getBookingPrepay(), 2);
+
+        $gateway = Omnipay::create('Postfinance'); //Omnipay::create('Postfinance');
+        $gateway->setPspId($pspid);
+        $gateway->setShaIn('abcdefghi1234567');
+        $gateway->setShaOut('abcdefghi1234567');
+        $gateway->setLanguage(PostFinanceHelper::getPostFinanceLanguageFromLocale($locale));
+        $gateway->setTestMode(true);
+        $gateway->setLogo($logoUrl);
+
+        // Send purchase request
+        $response = $gateway->purchase(
+            [
+                'transactionId' => $bookingId,
+                'amount' => $amount,
+                'currency' => $booking->getBookingCurrency()->getCurrCode(),
+                'returnUrl' => $this->generateUrl('frontend_payment_postfinance_status', array(), true),
+                'notifyUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
+                'cancelUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true)
+            ]
+        )->send();
+
+        // This is a redirect gateway, so redirect right away
+        $response->redirect();
+
+        /*$pspid = "abucTEST";
         $secretPassword = "3w2bWAgHt147852veiuno*";
         $amount = round($booking->getBookingPrepay(), 2) * 100;
 
@@ -577,7 +622,7 @@ class PaymentController extends Controller
         $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ .
             ": Data sent to Skrill: \n" . print_r($postFinanceData, true));
 
-        return $postFinanceData;
+        return $postFinanceData;*/
     }
 
 

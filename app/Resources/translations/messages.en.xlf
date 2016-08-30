@@ -3883,7 +3883,7 @@
         </trans-unit>
         <trans-unit id="981">
           <source>PAYMENT_SUCCESS</source>
-          <target>Payment success. Thank you!</target>
+          <target>Great! You´ve paid all your reservations successfully. Cuba awaits.</target>
         </trans-unit>
         </body>
     </file>
