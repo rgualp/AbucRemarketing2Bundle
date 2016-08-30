@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-08-26T13:35:56Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-08-29T14:30:30Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
         <target state="new"></target>
       </trans-unit>
+      <trans-unit id="eeeebd6a9127fa56358435ac6b7550558ce62bc2" resname="ARRIVAL_WATERMARK">
+        <source>ARRIVAL_WATERMARK</source>
+        <target state="new">ARRIVAL_WATERMARK</target>
+      </trans-unit>
       <trans-unit id="429833e551333cfbf96a3275bf32e8c635c8e541" resname="CURRENCY">
         <source>CURRENCY</source>
         <target state="new">CURRENCY</target>
+      </trans-unit>
+      <trans-unit id="22f00518c167f2a031d6e5197f4abda68d242301" resname="DEPARTURE_WATERMARK">
+        <source>DEPARTURE_WATERMARK</source>
+        <target state="new">DEPARTURE_WATERMARK</target>
       </trans-unit>
       <trans-unit id="99135559ed087a7c52831c306cb445b9b034b0c4" resname="EMAIL_INVALID_MESSAGE">
         <source>EMAIL_INVALID_MESSAGE</source>
@@ -30,9 +38,17 @@
         <source>MyCP</source>
         <target state="new">MyCP</target>
       </trans-unit>
+      <trans-unit id="106b02e2935ca1dbd6d7abd6d1c78fd4562b500a" resname="PLACE_WATERMARK">
+        <source>PLACE_WATERMARK</source>
+        <target state="new">PLACE_WATERMARK</target>
+      </trans-unit>
       <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
         <source>Pixel</source>
         <target state="new">Pixel</target>
+      </trans-unit>
+      <trans-unit id="a62a7a3d235c34720bba36b65a056b4d3c6d005d" resname="SEARCH">
+        <source>SEARCH</source>
+        <target state="new">SEARCH</target>
       </trans-unit>
       <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
         <source>USER_EMAIL_IN_USE</source>
@@ -40,23 +56,23 @@
       </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
-        <target state="new">label.carousel_text_one</target>
+        <target state="new">Reserva las mejores casas particulares de Cuba</target>
       </trans-unit>
       <trans-unit id="3f4183dac64c481db7185a24e5016ee6a2217e30" resname="label.carousel_text_two">
         <source>label.carousel_text_two</source>
-        <target state="new">label.carousel_text_two</target>
+        <target state="new">Especial para agencias y turoperadores de viaje</target>
       </trans-unit>
       <trans-unit id="a59756e9a47883603e7f8be7071ac4bd9b9297b9" resname="label.carousel_two_text_one">
         <source>label.carousel_two_text_one</source>
-        <target state="new">label.carousel_two_text_one</target>
+        <target state="new">Reserva las mejores casas particulares de Cuba</target>
       </trans-unit>
       <trans-unit id="6fb0e9c83ac248de3bc21561a8a8043849408011" resname="label.carousel_two_text_two">
         <source>label.carousel_two_text_two</source>
-        <target state="new">label.carousel_two_text_two</target>
+        <target state="new">Especial para agencias y turoperadores de viaje</target>
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
-        <target state="new">label.form.agency.one</target>
+        <target state="new">Ingresa los Datos de la Agencia para crear una Cuenta</target>
       </trans-unit>
       <trans-unit id="3ca0fb8286be8eb248d9fbb73bbf775be01cff5a" resname="label.form.agency.three">
         <source>label.form.agency.three</source>
@@ -66,17 +82,25 @@
         <source>label.form.agency.two</source>
         <target state="new">label.form.agency.two</target>
       </trans-unit>
+      <trans-unit id="ead3b00a31c3fbf025363d5d465cbc7fc554dfa7" resname="label.free">
+        <source>label.free</source>
+        <target state="new">GRATIS !!!</target>
+      </trans-unit>
+      <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
+        <source>label.gonow</source>
+        <target state="new">YA VIENE !!!</target>
+      </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
         <target state="new">label.home</target>
       </trans-unit>
       <trans-unit id="409228771ab9c0c9a85cfefcd2bfdbcef453e476" resname="label.how_work">
         <source>label.how_work</source>
-        <target state="new">label.how_work</target>
+        <target state="new">Cómo funciona</target>
       </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
-        <target state="new">label.login</target>
+        <target state="new">Inicia Sesión</target>
       </trans-unit>
       <trans-unit id="4b8db389f9696db5926182496378bdf7b3d70b7f" resname="label.name.address">
         <source>label.name.address</source>
@@ -114,45 +138,97 @@
         <source>label.password.repeat</source>
         <target state="new">label.password.repeat</target>
       </trans-unit>
+      <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
+        <source>label.prox</source>
+        <target state="new">Próximamente</target>
+      </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
-        <target state="new">label.section.easy_description</target>
+        <target state="new">Reservar se vuelve lo más sencillo del mundo. Un sitio pensado para ayudarte y facilitar tu gestión de forma rápida y profesional.</target>
+      </trans-unit>
+      <trans-unit id="7dfdac4964db4400d8ea98123235e157a1bf2a18" resname="label.section.offer_atention">
+        <source>label.section.offer_atention</source>
+        <target state="new">Atención</target>
+      </trans-unit>
+      <trans-unit id="d834fea028054b5e34eb8b4446a795a3ea82546b" resname="label.section.offer_atention_description">
+        <source>label.section.offer_atention_description</source>
+        <target state="new">Respondemos a la disponibilidad de los alojamientos en un plazo máximo de 24 horas.</target>
+      </trans-unit>
+      <trans-unit id="2b9d92b46617e6de1bac9436b01c441565b29d77" resname="label.section.offer_check">
+        <source>label.section.offer_check</source>
+        <target state="new">Compruébalo</target>
+      </trans-unit>
+      <trans-unit id="886a9a0fdc00f6c22166a48707000d944f98186b" resname="label.section.offer_chek_description">
+        <source>label.section.offer_chek_description</source>
+        <target state="new">Puede ver todos los detalles e imágenes de una propiedad cuando quiera. Siempre están a su disposición.</target>
+      </trans-unit>
+      <trans-unit id="1b14f8d2dfab4e87b994e8d7f50b03ac070cb7df" resname="label.section.offer_direct">
+        <source>label.section.offer_direct</source>
+        <target state="new">Trato directo</target>
+      </trans-unit>
+      <trans-unit id="3c09cead9f6b21a69489528a26732d593b13ab26" resname="label.section.offer_direct_description">
+        <source>label.section.offer_direct_description</source>
+        <target state="new">Si quiere comunicarse con los anfitriones, una vez que ha efectuado una reserva, ¿qué se lo impide?.</target>
+      </trans-unit>
+      <trans-unit id="e711e6dfe2ae67d6aa8d136a9ebb883f2fcb57e0" resname="label.section.offer_facility">
+        <source>label.section.offer_facility</source>
+        <target state="new">Facilidades de pago</target>
+      </trans-unit>
+      <trans-unit id="03c9e7c279eb2aecb56a1f55d44bd7b6128f32cb" resname="label.section.offer_facility_description">
+        <source>label.section.offer_facility_description</source>
+        <target state="new">Planifica el viaje de tus clientes con entera comodidad. El pago no es un problema, nos ajustamos a tu conveniencia.</target>
+      </trans-unit>
+      <trans-unit id="387ee642e9792e2fc3a957cd77b82af583bdf4a9" resname="label.section.offer_professional">
+        <source>label.section.offer_professional</source>
+        <target state="new">Profesionalidad</target>
+      </trans-unit>
+      <trans-unit id="ab7b6ea97dee19aaa452448db9953ba86f4da5eb" resname="label.section.offer_professional_description">
+        <source>label.section.offer_professional_description</source>
+        <target state="new">Los anfitriones Partner respetan las reservaciones. Ofrecemos una oferta similar o mejor si se produce una cancelación.</target>
+      </trans-unit>
+      <trans-unit id="132c109820743a51d29460a8d5f2656c0873259f" resname="label.section.offer_vote">
+        <source>label.section.offer_vote</source>
+        <target state="new">Valoraciones</target>
+      </trans-unit>
+      <trans-unit id="7cf5150b12bf45454941eebddc0e8d4d4b08a320" resname="label.section.offer_vote_description">
+        <source>label.section.offer_vote_description</source>
+        <target state="new">El 90% de las valoraciones sobre la calidad del servicio y el confort de los hospedajes es muy positiva.</target>
       </trans-unit>
       <trans-unit id="4491206d1c2b39230e4e481496cd6b0f512a0bd3" resname="label.section.one">
         <source>label.section.one</source>
-        <target state="new">label.section.one</target>
+        <target state="new">¿Qué ganas si apuestas por MyCasa Partner?</target>
       </trans-unit>
       <trans-unit id="b8e77ab3d18bc597d0cb6568fa7ade37e97779d7" resname="label.section.one_easy">
         <source>label.section.one_easy</source>
-        <target state="new">label.section.one_easy</target>
+        <target state="new">Más sencillo, imposible</target>
       </trans-unit>
       <trans-unit id="02afdeac3e92589ed7043409a9c2d73148cd89e1" resname="label.section.one_service">
         <source>label.section.one_service</source>
-        <target state="new">label.section.one_service</target>
+        <target state="new">Servicios asombrosos</target>
       </trans-unit>
       <trans-unit id="7174bfbffaa7ee7020fc37dedab25c8dde2441b0" resname="label.section.one_sites">
         <source>label.section.one_sites</source>
-        <target state="new">label.section.one_sites</target>
+        <target state="new">Un sitio único</target>
       </trans-unit>
       <trans-unit id="a2c20cf6e92d96ba9e68eea5cf8f6f390a176c73" resname="label.section.one_vacation">
         <source>label.section.one_vacation</source>
-        <target state="new">label.section.one_vacation</target>
+        <target state="new">Vacaciones a toda velocidad</target>
       </trans-unit>
       <trans-unit id="4f9e0b63642cf61f023b9ea6bb7e22159b271e28" resname="label.section.service_description">
         <source>label.section.service_description</source>
-        <target state="new">label.section.service_description</target>
+        <target state="new">Te ayudamos a planear las vacaciones de tus clientes. Aprovecha nuestras casas particulares para disfrutar en familia, hablar de negocios o vivir una aventura diferente.</target>
       </trans-unit>
       <trans-unit id="1592dd8c15a6a596f6c1171d82a9e670453250c0" resname="label.section.sites_description">
         <source>label.section.sites_description</source>
-        <target state="new">label.section.sites_description</target>
+        <target state="new">Decídete por alguna de nuestras casas particulares mejor ubicadas. Tenemos más de 5 000 alojamientos garantizados por toda Cuba, ¡con ofertas increíbles!.</target>
       </trans-unit>
       <trans-unit id="ac5afc9cd7171a3d506745e65b0ecff18507abb1" resname="label.section.two">
         <source>label.section.two</source>
-        <target state="new">label.section.two</target>
+        <target state="new">Anímate a probar lo mejor de MyCasa Partner</target>
       </trans-unit>
       <trans-unit id="0840b163e20870c161cd882e5ddb30b78b4ba27f" resname="label.section.vacation_description">
         <source>label.section.vacation_description</source>
-        <target state="new">label.section.vacation_description</target>
+        <target state="new">Encuentra lo que tus clientes desean, más rápido que en cualquier otro lugar. Tenemos opciones disponibles para los gustos más exigentes. </target>
       </trans-unit>
       <trans-unit id="005bbb4efaab3fe7d99e4bdb7edc9e2f7a18f434" resname="operation.succesfull">
         <source>operation.succesfull</source>
@@ -160,23 +236,35 @@
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>
-        <target state="new">pa_about_us</target>
+        <target state="new">Quiénes somos</target>
+      </trans-unit>
+      <trans-unit id="7d3990974f366066fe1061dfbdbdbdcd932b886d" resname="pa_adults">
+        <source>pa_adults</source>
+        <target state="new">pa_adults</target>
+      </trans-unit>
+      <trans-unit id="b68f26d6b0b0ce04a3979c9406f6cd9d9eeaf142" resname="pa_children">
+        <source>pa_children</source>
+        <target state="new">pa_children</target>
       </trans-unit>
       <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
         <source>pa_contact_us</source>
-        <target state="new">pa_contact_us</target>
+        <target state="new">Contáctenos</target>
       </trans-unit>
       <trans-unit id="0f013d1bad418bc3dc1df6f1151482a3035c2b8e" resname="pa_faqs">
         <source>pa_faqs</source>
-        <target state="new">pa_faqs</target>
+        <target state="new">FAQ's</target>
       </trans-unit>
       <trans-unit id="c32359f28aa22cacbec6704c255d9f497ce023be" resname="pa_footer_copyright">
         <source>pa_footer_copyright</source>
-        <target state="new">pa_footer_copyright</target>
+        <target state="new">Un producto de ABUC Media Network Gmbh. Todos los derechos reservados</target>
+      </trans-unit>
+      <trans-unit id="98f87d3457d8d01953aaed05ba8f8a6f5b8bcaec" resname="pa_infants">
+        <source>pa_infants</source>
+        <target state="new">pa_infants</target>
       </trans-unit>
       <trans-unit id="cf653348d63f83debe0b3eee6efd3af76e2730e2" resname="pa_legal">
         <source>pa_legal</source>
-        <target state="new">pa_legal</target>
+        <target state="new">Términos Legales</target>
       </trans-unit>
       <trans-unit id="ea94b54f977e7c441dd74b9e6ae0390c9f762a53" resname="pa_logout">
         <source>pa_logout</source>
@@ -184,15 +272,23 @@
       </trans-unit>
       <trans-unit id="7f0cebe8c76ea60d0ca8c9d3dbe6ed029f1feac8" resname="pa_mycasa_trip">
         <source>pa_mycasa_trip</source>
-        <target state="new">pa_mycasa_trip</target>
+        <target state="new">MyCasa Trip</target>
       </trans-unit>
       <trans-unit id="b58348b7bbecd9d675ac53eb8f4e1462a2531f94" resname="pa_mycuba_map">
         <source>pa_mycuba_map</source>
-        <target state="new">pa_mycuba_map</target>
+        <target state="new">MyCuba Map</target>
+      </trans-unit>
+      <trans-unit id="f2aab8d145207fba0aa148627142bb83f5ab817e" resname="pa_rooms">
+        <source>pa_rooms</source>
+        <target state="new">pa_rooms</target>
+      </trans-unit>
+      <trans-unit id="a1042ea6e5f68fd2b24ca5b5c7e82c9063088762" resname="pa_searcher_title">
+        <source>pa_searcher_title</source>
+        <target state="new">pa_searcher_title</target>
       </trans-unit>
       <trans-unit id="b5353511c5bdb9faa8409ae927146514672ccbd9" resname="pa_sitemap">
         <source>pa_sitemap</source>
-        <target state="new">pa_sitemap</target>
+        <target state="new">Mapa del sitio</target>
       </trans-unit>
       <trans-unit id="46faae895cb582d48112c5ddb697a31062b73150" resname="pa_user_profile">
         <source>pa_user_profile</source>
@@ -204,27 +300,31 @@
       </trans-unit>
       <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
         <source>title.column_five</source>
-        <target state="new">title.column_five</target>
+        <target state="new">Premium</target>
       </trans-unit>
       <trans-unit id="9f3de9d222df6e6e4c87d82ea81b78a65f8987d9" resname="title.column_four">
         <source>title.column_four</source>
-        <target state="new">title.column_four</target>
+        <target state="new">Especial</target>
       </trans-unit>
       <trans-unit id="370faba084ef4757f0f5fbca8d3f8c26eb2da6d0" resname="title.column_one">
         <source>title.column_one</source>
-        <target state="new">title.column_one</target>
+        <target state="new">Plan</target>
       </trans-unit>
       <trans-unit id="d7be7b3a0c87a3691340371db09348365be55194" resname="title.column_three">
         <source>title.column_three</source>
-        <target state="new">title.column_three</target>
+        <target state="new">Económico</target>
       </trans-unit>
       <trans-unit id="b85a1e524e3d00993ce03d2b5d127632d9c557db" resname="title.column_two">
         <source>title.column_two</source>
-        <target state="new">title.column_two</target>
+        <target state="new">Básico</target>
       </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <source>title.section.offer</source>
-        <target state="new">title.section.offer</target>
+        <target state="new"><![CDATA[Ofrece a tus clientes una experiencia </br> única para sus vacaciones]]></target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
+        <source>title.section.we</source>
+        <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
     </body>
   </file>

@@ -4,44 +4,61 @@
  *
 */
 body {
-    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    font-family: 'MyriadProBoldCond';
     font-size: 14px;
     line-height: 1.644;
     color: #7d7d7d;
     background-color: #2f4050;
 }
-@font-face{
-    font-family: 'HelveticaRoman'; src: url('../font/HelveticaLTStd-Roman.otf');
+body.landing-page {
+    color: #676a6c;
+    font-family: MyriadProBoldCond;
 }
 @font-face{
-    font-family: 'CaeciliaRoman';
-    src: url('../font/CaeciliaLTStd-Roman.otf');
+    font-family: 'MyriadProSemiCnIt';
+    src: url('../bundles/partner/font/MyriadPro-SemiCnIt.otf');
+}
+@font-face{
+    font-family: 'MyriadProBoldCond';
+    src: url('../bundles/partner/font/MyriadPro-BoldCond.otf');
+}
+@font-face{
+    font-family: 'MyriadProRegular';
+    src: url('../bundles/partner/font/MyriadPro-Regular.otf');
+}
+.MyriadProSemiCnIt{
+    font-family: MyriadProSemiCnIt;
+}
+.MyriadProBoldCond{
+    font-family: MyriadProBoldCond;
+}
+.MyriadProRegular{
+    font-family: MyriadProRegular;
 }
 .color-td-onepackage{
-    background-color: #2f4050 !important;
+    background-color: #093653 !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-twopackage{
-    background-color: #3f69bf !important;
+    background-color: #a8d1e7 !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-threepackage{
-    background-color: #3f69bf !important;
+    background-color: #52a0ce !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-fourpackage{
-    background-color: #3f69bf !important;
+    background-color: #1c658e !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-fivepackage{
-    background-color: #3f69bf !important;
+    background-color: #0b4b77 !important;
     color: #fff;
-}
-.caecilia-roman{
-    font-family: CaeciliaRoman;
-}
-.helvetica-roman{
-    font-family: HelveticaRoman;
+    text-align: center;
 }
 .nav.navbar-right > li > a {
     color: #fff;
@@ -97,23 +114,25 @@ body {
 }
 .landing-page .navbar-default .nav li a {
     color: #fff;
-    font-family: 'Open Sans', helvetica, arial, sans-serif;
+    font-family: MyriadProBoldCond;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: none;
-    font-size: 14px;
+    font-size: 18px;
 }
 .landing-page .carousel-caption h1 {
-    font-weight: 700;
-    font-size: 38px;
+    font-size: 48px;
     text-transform: none;
     text-shadow: none;
     letter-spacing: -1.5px;
+    font-family: MyriadProBoldCond;
 }
 .landing-page .carousel-caption p {
-    font-weight: 700;
+    font-size: 24px;
+    font-family: MyriadProSemiCnIt;
     text-transform: none;
     text-shadow: none;
+    margin-top: -27px;
 }
 .landing-page .carousel-caption {
     position: absolute;
@@ -138,7 +157,7 @@ body {
     color: #fff;
 }
 .landing-page .navbar-default.navbar-scroll {
-    background-color: #3f69bf;
+    background-color: #093653;
     background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
     padding: 15px 0;
 }
@@ -147,4 +166,82 @@ body {
 }
 .landing-page .navbar-scroll.navbar-default .nav li a:hover {
     color: #fff;
+}
+.landing-page .win h2 {
+    color: #165078;
+    font-family: MyriadProBoldCond;
+    font-size: 48px;
+}
+.landing-page .win p {
+    color: #094e75;
+    font-family: MyriadProSemiCnIt;
+    font-size: 18px;
+    text-align:left !important;
+}
+.landing-page .win h3 {
+    color: #61a43b;
+    font-family: MyriadProBoldCond;
+    font-size: 36px;
+}
+.blue-section{
+    background-color: #093653;
+}
+.landing-page .blue-section h2 {
+    color: #fff;
+    font-family: MyriadProBoldCond;
+    font-size: 48px;
+}
+.table > thead > tr > th {
+    border-bottom: 2px solid #093653;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    border-top: 2px solid #093653;
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+}
+.landing-page .offer h2 {
+    color: #165078;
+    font-family: MyriadProBoldCond;
+    font-size: 36px;
+}
+
+.landing-page .offer h3 {
+    color: #61a335;
+    font-family: MyriadProBoldCond;
+    font-size: 24px;
+}
+.landing-page .offer p {
+    color: #094e75;
+    font-family: MyriadProSemiCnIt;
+    font-size: 18px;
+    text-align:left !important;
+}
+.paFooter{
+    background-color: #093653;
+    color: #fff;
+    font-size: 18px;
+}
+.paFooter a {
+    color: #fff;
+}
+.pl-0{
+    padding-left: 0px;
+}
+.pr-0{
+    padding-right: 0px;
+}
+.m-l-10{
+    margin-left: -10px;
+}
+.agency .input-group-addon {
+    background-color: #fff;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 4px 6px;
+    text-align: center;
 }

@@ -21,6 +21,28 @@ var App = function () {
     var addFormContactInAgency=function(){
         App.addTagForm($collectionHolder, $newLinkLi);
     }
+    var initPluginsImg=function(){
+        $(".cstiles").CSTiles({
+            shareTile: false,
+            shareTypes: ["pinterest"],
+            adaptivSize: {
+                "big-desktop": [3,"auto"],
+                "desktop": [3,"auto"],
+                "tablet": [3,"auto"],
+                "phone-landscape": [2,"auto"],
+                "phone": [1,"auto"]
+            },
+            adaptivMedia: {
+                "big-desktop":"screen and (min-width: 1279px)",
+                "desktop":"screen and (max-width: 1279px)",
+                "tablet":"screen and (max-width: 1023px)",
+                "phone-landscape":"screen and (max-width: 767px)",
+                "phone":"screen and (max-width: 479px)"
+            },
+            margin: 5,
+            imagePosition: ["center","center"]
+        });
+    }
     /**
      * Register Agency
      */
@@ -65,6 +87,7 @@ var App = function () {
           //IMPORTANT!!!: Do not modify the call order.
             addFormContactInAgency();
             initForm();
+            initPluginsImg();
         },
         addTagForm:function($collectionHolder, $newLinkLi) {
         // Get the data-prototype explained earlier
@@ -96,6 +119,15 @@ var App = function () {
                     },
                     'partner_agency[contacts][0][email]':{
                         email: true
+                    },
+                    'partner_agency[phone]':{
+                        number: true
+                    },
+                    'partner_agency[contacts][0][phone]':{
+                        number: true
+                    },
+                    'partner_agency[contacts][0][mobile]':{
+                        number: true
                     },
                     confirm: {
                         equalTo: "#password"
