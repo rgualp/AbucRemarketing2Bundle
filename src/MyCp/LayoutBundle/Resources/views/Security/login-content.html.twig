@@ -3,8 +3,8 @@
 {% endif %}
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div class="middle-box loginscreen text-center animated fadeInDown">
-        <h1 class="font-blue" style="font-size: 64px;font-family: MyriadProRegular;line-height: 0px">{{ 'label.welcome' | trans }}</h1>
-        <p style="font-size: 24px;font-family: MyriadProRegular">{{ 'label.ready.reserved' | trans }}</p>
+        <h1 class="color-white" style="font-size: 64px;font-family: MyriadProRegular;line-height: 0px">{{ 'label.welcome' | trans }}</h1>
+        <p class="color-white" style="font-size: 24px;font-family: MyriadProRegular">{{ 'label.ready.reserved' | trans }}</p>
         {% for message in app.session.flashbag.get('message_ok') %}
             <div class="alert alert-info alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
@@ -22,11 +22,11 @@
         <form class="form-horizontal form-login" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">
             <div class="input-group m-b">
                 <span class="input-group-addon"><i class="glyphicons user"></i></span>
-                <input type="text" class="form-control" id="inputUsername" placeholder="{{ 'label.user' | trans }}" name="_username"   value="{{ last_username|default('') }}"/>
+                <input type="text" class="form-control MyriadProRegular" id="inputUsername" placeholder="{{ 'label.user' | trans }}" name="_username"   value="{{ last_username|default('') }}"/>
             </div>
             <div class="input-group m-b">
                 <span class="input-group-addon"><i class="glyphicons keys"></i></span>
-                <input type="password" class="form-control" placeholder="{{ 'label.password' | trans }}" id="inputPassword"  name="_password"/>
+                <input type="password" class="form-control MyriadProRegular" placeholder="{{ 'label.password' | trans }}" id="inputPassword"  name="_password"/>
             </div>
             <div class="form-group">
                 <div class="col-lg-12">
@@ -37,7 +37,7 @@
                 <div class="col-lg-offset-1 col-lg-11">
                     <div class="i-checks">
                         <label  class="MyriadProRegular">
-                            <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> {{ 'label.remember.password' | trans }}
+                            <input type="checkbox" id="remember_me" class="i-checks color-white" name="_remember_me" /> {{ 'label.remember.password' | trans }}
                         </label>
                     </div>
                 </div>
