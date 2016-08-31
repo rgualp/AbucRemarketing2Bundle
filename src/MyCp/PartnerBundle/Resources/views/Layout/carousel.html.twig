@@ -1,25 +1,25 @@
 <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
     <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>{{ 'label.carousel_text_one' | trans }}</h1>
-                    <p>{{ 'label.carousel_text_two' | trans }}</p>
+        {% for i in 1..4 %}
+            {% set image_url = ['bundles/partner/img/slideshow/1/', i, '.jpg']|join %}
+            <div class="item {% if loop.first %} active {% endif %}">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>{{ 'label.carousel_text_one' | trans }}</h1>
+                        <p>{{ 'label.carousel_text_two' | trans }}</p>
+                    </div>
                 </div>
-            </div>
-            <!-- Set background for slide in css -->
-            <div class="header-back one"></div>
+                <!-- Set background for slide in css -->
+                <div class="" style="
+                        background-blend-mode: overlay;
+                        background: rgba(0, 0, 0, 0.1) url('{{ asset(image_url) }}') no-repeat scroll center center / cover ;
+                        position: absolute;
+                        height: 100%;
+                        width: 100%;
+                        margin: 0px -15px;
+                        "></div>
 
-        </div>
-        <div class="item">
-            <div class="container">
-                <div class="carousel-caption blank">
-                    <h1>{{ 'label.carousel_two_text_one' | trans }}</h1>
-                    <p>{{ 'label.carousel_two_text_two' | trans }}</p>
-                </div>
             </div>
-            <!-- Set background for slide in css -->
-            <div class="header-back two"></div>
-        </div>
+        {% endfor %}
     </div>
 </div>

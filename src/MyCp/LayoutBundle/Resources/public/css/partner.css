@@ -4,44 +4,69 @@
  *
 */
 body {
-    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    font-family: 'MyriadProBoldCond';
     font-size: 14px;
     line-height: 1.644;
     color: #7d7d7d;
     background-color: #2f4050;
 }
-@font-face{
-    font-family: 'HelveticaRoman'; src: url('../font/HelveticaLTStd-Roman.otf');
+body.landing-page {
+    color: #676a6c;
+    font-family: MyriadProBoldCond;
 }
 @font-face{
-    font-family: 'CaeciliaRoman';
-    src: url('../font/CaeciliaLTStd-Roman.otf');
+    font-family: 'MyriadProSemiCnIt';
+    src: url('../bundles/partner/font/MyriadPro-SemiCnIt.otf');
+}
+@font-face{
+    font-family: 'MyriadProBoldCond';
+    src: url('../bundles/partner/font/MyriadPro-BoldCond.otf');
+}
+@font-face{
+    font-family: 'MyriadProRegular';
+    src: url('../bundles/partner/font/MyriadPro-Regular.otf');
+}
+@font-face{
+    font-family: 'MyriadProCond';
+    src: url('../bundles/partner/font/MyriadPro-Cond.otf');
+}
+
+.MyriadProSemiCnIt{
+    font-family: MyriadProSemiCnIt;
+}
+.MyriadProBoldCond{
+    font-family: MyriadProBoldCond;
+}
+.MyriadProRegular{
+    font-family: MyriadProRegular;
+}
+.MyriadProCond{
+    font-family: MyriadProCond;
 }
 .color-td-onepackage{
-    background-color: #2f4050 !important;
+    background-color: #093653 !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-twopackage{
-    background-color: #3f69bf !important;
+    background-color: #a8d1e7 !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-threepackage{
-    background-color: #3f69bf !important;
+    background-color: #52a0ce !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-fourpackage{
-    background-color: #3f69bf !important;
+    background-color: #1c658e !important;
     color: #fff;
+    text-align: center;
 }
 .color-td-fivepackage{
-    background-color: #3f69bf !important;
+    background-color: #0b4b77 !important;
     color: #fff;
-}
-.caecilia-roman{
-    font-family: CaeciliaRoman;
-}
-.helvetica-roman{
-    font-family: HelveticaRoman;
+    text-align: center;
 }
 .nav.navbar-right > li > a {
     color: #fff;
@@ -51,12 +76,6 @@ body {
     transition-duration: 0.5s;
     border-bottom: 0px solid #e7eaec !important;
     z-index: 2030;
-}
-.pace-running .header-back.one {
-    background: url('../bundles/partner/img/slideshow/1/1.jpg') 50% 0 no-repeat;
-}
-.pace-running .header-back.two {
-    background: url('../bundles/partner/img/slideshow/1/2.jpg') 50% 0 no-repeat;
 }
 .pace-running .header-back {
     height: 334px;
@@ -73,12 +92,6 @@ body {
 .pace-running .navbar-fixed-top,
 .navbar-static-top {
     background: transparent;
-}
-.landing-page .header-back.one {
-    background: url('../bundles/partner/img/slideshow/1/1.jpg') 50% 0 no-repeat;
-}
-.landing-page .header-back.two {
-    background: url('../bundles/partner/img/slideshow/1/2.jpg') 50% 0 no-repeat;
 }
 .landing-page .header-back {
     height: 334px;
@@ -97,23 +110,25 @@ body {
 }
 .landing-page .navbar-default .nav li a {
     color: #fff;
-    font-family: 'Open Sans', helvetica, arial, sans-serif;
+    font-family: MyriadProCond;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: none;
-    font-size: 14px;
+    font-size: 18px;
 }
 .landing-page .carousel-caption h1 {
-    font-weight: 700;
-    font-size: 38px;
+    font-size: 48px;
     text-transform: none;
     text-shadow: none;
     letter-spacing: -1.5px;
+    font-family: MyriadProBoldCond;
 }
 .landing-page .carousel-caption p {
-    font-weight: 700;
+    font-size: 24px;
+    font-family: MyriadProSemiCnIt;
     text-transform: none;
     text-shadow: none;
+    margin-top: -27px;
 }
 .landing-page .carousel-caption {
     position: absolute;
@@ -126,9 +141,18 @@ body {
     padding-top: 25px;
     border-top: none;
 }
+.landing-page .navbar-default .navbar-nav > li > a:hover,
+.landing-page .navbar-default .navbar-nav > li > a:focus {
+    color: #fff;
+    background: inherit;
+}
+.pace-running .navbar-default .navbar-nav > li > a:hover,
+.pace-running .navbar-default .navbar-nav > li > a:focus {
+    color: #fff;
+    background: inherit;
+}
 .pace-running .navbar-default.navbar-scroll {
     background-color: #3f69bf;
-    background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
     padding: 15px 0;
 }
 .pace-running .navbar-scroll.navbar-default .nav li a {
@@ -138,8 +162,7 @@ body {
     color: #fff;
 }
 .landing-page .navbar-default.navbar-scroll {
-    background-color: #3f69bf;
-    background-image: linear-gradient(to bottom, #3f69bf 30%, #1d4b99);
+    background-color: #093653;
     padding: 15px 0;
 }
 .landing-page .navbar-scroll.navbar-default .nav li a {
@@ -198,3 +221,186 @@ body {
     background: rgba(0, 0, 0, 0) url("../bundles/layout/css/plugins/chosen/chosen-sprite.png") no-repeat scroll 0 2px;
 }
 /******************************************************/
+.landing-page .win h2 {
+    color: #165078;
+    font-family: MyriadProBoldCond;
+    font-size: 48px;
+}
+.landing-page .win p {
+    color: #094e75;
+    font-family: MyriadProSemiCnIt;
+    font-size: 18px;
+    text-align:left !important;
+}
+.landing-page .win h3 {
+    color: #61a43b;
+    font-family: MyriadProBoldCond;
+    font-size: 36px;
+}
+.blue-section{
+    background-color: #093653;
+}
+.landing-page .blue-section h2 {
+    color: #fff;
+    font-family: MyriadProBoldCond;
+    font-size: 48px;
+}
+.table > thead > tr > th {
+    border-bottom: 2px solid #093653;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    border-top: 2px solid #093653;
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+}
+.landing-page .offer h2 {
+    color: #165078;
+    font-family: MyriadProBoldCond;
+    font-size: 36px;
+}
+
+.landing-page .offer h3 {
+    color: #61a335;
+    font-family: MyriadProBoldCond;
+    font-size: 24px;
+}
+.landing-page .offer p {
+    color: #094e75;
+    font-family: MyriadProSemiCnIt;
+    font-size: 18px;
+    text-align:left !important;
+}
+.paFooter{
+    background-color: #093653;
+    color: #fff;
+    font-size: 18px;
+}
+.paFooter a {
+    color: #fff;
+}
+.pl-0{
+    padding-left: 0px;
+}
+.pr-0{
+    padding-right: 0px;
+}
+.m-l-10{
+    margin-left: -10px;
+}
+.m-l-25{
+    margin-left: 25px;
+}
+.m-r-12{
+    margin-right: 12px;
+}
+.modal-agency{
+    background-color: #25323b !important;
+    color: #fff;
+    font-size: 30px;
+    height: 620px;
+}
+.modal-header-agency{
+    border-bottom: none;
+}
+.inmodal .modal-header .modal-header-agency{
+    padding: 11px 15px;
+    text-align: center;
+}
+.modal-header-agency .close {
+    color: #fff;
+    float: right;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 1;
+    position: relative;
+    text-shadow: 0 1px 0 #fff;
+    z-index: 999;
+}
+.agency .input-group-addon {
+    background-color: #fff;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+.agency .glyphicons {
+    color: #1b6690;
+    display: inline-block;
+    font: 24px/1em "Glyphicons Regular";
+    position: relative;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.agency .form-control::-moz-placeholder {
+    color: #1b6690;
+    opacity: 1;
+    font-family: MyriadProRegular;
+    font-size: 18px;
+}
+.contact .input-group-addon {
+    background-color: #fff;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+.contact .glyphicons {
+    color: #63a333;
+    display: inline-block;
+    font: 24px/1em "Glyphicons Regular";
+    position: relative;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.contact .form-control::-moz-placeholder {
+    color: #63a333;
+    opacity: 1;
+    font-family: MyriadProRegular;
+    font-size: 18px;
+}
+.btn-register-partner{
+    background-color: rgb(255, 255, 255) !important;
+    color: rgb(99, 163, 51) !important;
+    font-size: 48px !important;
+    margin-left: -30px;
+    margin-top: 140%;
+}
+.form-agency label.error {
+    color: #fff;
+    display: inline-block;
+    margin-left: 5px;
+    font-family: MyriadProRegular;
+    font-size: 12px;
+}
+.form-agency .input-group .form-control {
+    color: black;
+    float: left;
+    margin-bottom: 0;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+    font-family: MyriadProRegular;
+}
+.form-control.error {
+    border: 2px dotted #cc5965;
+}
+.checkbox-info input[type="checkbox"]:checked + label::before, .checkbox-info input[type="radio"]:checked + label::before {
+    background-color: #f59821;
+    border-color: #fff;
+}
+.checkbox input[type="checkbox"]:checked + label::after, .checkbox input[type="radio"]:checked + label::after {
+    content: none;
+    font-family: "FontAwesome";
+}

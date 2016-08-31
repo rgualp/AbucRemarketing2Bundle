@@ -1,7 +1,87 @@
-<section class="container">
+<section class="container offer">
     <div class="row">
-        <div class="col-lg-12 text-center">
-            <h1>{{ 'title.section.offer'|trans }}</h1>
+        <div class="col-lg-6 text-center">
+            <h2>{{ 'title.section.offer'|trans |raw }}</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="background: url({{ asset('bundles/partner/img/icon/valoraciones.png')}})  no-repeat scroll 50%;position:relative;width: 60px;height: 60px;left:40%"></div>
+                            <h3>{{ 'label.section.offer_vote'| trans }}</h3>
+                            <p>{{ 'label.section.offer_vote_description'| trans }}</p>
+                        </div>
+                        <div class="col-md-6">
+                                <div style="background: url({{ asset('bundles/partner/img/icon/atencion.png')}})  no-repeat scroll 50%;position:relative;width: 60px;height: 60px;left:40%"></div>
+                                <h3>{{ 'label.section.offer_atention'| trans }}</h3>
+                                <p>{{ 'label.section.offer_atention_description'| trans }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="background: url({{ asset('bundles/partner/img/icon/compruebalo.png')}})  no-repeat scroll 50%;position:relative;width: 60px;height: 60px;left:40%"></div>
+                            <h3>{{ 'label.section.offer_check'| trans }}</h3>
+                            <p>{{ 'label.section.offer_chek_description'| trans }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="background: url({{ asset('bundles/partner/img/icon/facilidades.png')}})  no-repeat scroll 50%;position:relative;width: 60px;height: 60px;left:40%"></div>
+                            <h3>{{ 'label.section.offer_facility'| trans }}</h3>
+                            <p>{{ 'label.section.offer_facility_description'| trans }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="background: url({{ asset('bundles/partner/img/icon/trato_directo.png')}})  no-repeat scroll 50%;position:relative;width: 60px;height: 60px;left:40%"></div>
+                            <h3>{{ 'label.section.offer_direct'| trans }}</h3>
+                            <p>{{ 'label.section.offer_direct_description'| trans }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="background: url({{ asset('bundles/partner/img/icon/profesionalidad.png')}})  no-repeat scroll 50%;position:relative;width: 60px;height: 60px;left:40%"></div>
+                            <h3>{{ 'label.section.offer_professional'| trans }}</h3>
+                            <p>{{ 'label.section.offer_professional_description'| trans }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-6 text-center">
+            <h2>{{ 'title.section.we'|trans |raw }}</h2>
+            <div class="row">
+                <div class="col-md-8" style="background: url({{ asset('bundles/partner/img/home/1.jpg')}})  no-repeat scroll 50%;height: 210px;background-size: 100%">
+                </div>
+                <div class="col-md-4 legendLabel">
+                    <div class="col-lg-12 col-xs-6" style="background: url({{ asset('bundles/partner/img/home/2.jpg')}})  no-repeat scroll 50%;height: 102px;background-size: 100%"></div>
+                    <div class="col-lg-12 col-xs-6 m-t-xs" style="background: url({{ asset('bundles/partner/img/home/3.jpg')}})  no-repeat scroll 50%;height: 102px;background-size: 100%"></div>
+                </div>
+            </div>
+            <div class="row m-t-xs">
+                <div class="col-md-4 pl-0">
+                    <div class="col-lg-12 col-xs-6" style="background: url({{ asset('bundles/partner/img/home/5.jpg')}})  no-repeat scroll 50%;height: 102px;background-size: 100%"></div>
+                    <div class="col-lg-12 col-xs-6 m-t-xs" style="background: url({{ asset('bundles/partner/img/home/6.jpg')}})  no-repeat scroll 50%;height: 102px;background-size: 100%"></div>
+                </div>
+                <div class="col-md-8 m-l-10" style="background: url({{ asset('bundles/partner/img/home/4.jpg')}})  no-repeat scroll 50%;height: 210px;background-size: 100%">
+                </div>
+            </div>
+            <div class="row m-t-xs">
+                <div class="col-md-8" style="background: url({{ asset('bundles/partner/img/home/7.jpg')}})  no-repeat scroll 50%;height: 210px;background-size: 100%">
+                </div>
+                <div class="col-md-4 legendLabel">
+                    <div class="col-lg-12 col-xs-6" style="background: url({{ asset('bundles/partner/img/home/8.jpg')}})  no-repeat scroll 50%;height: 210px;width:180px;background-size: 100%"></div>
+                </div>
+            </div>
+            <div class="row m-t-xs">
+                <div class="col-md-4 legendLabel">
+                    <div class="col-xs-4" style="background: url({{ asset('bundles/partner/img/home/9.jpg')}})  no-repeat scroll 50%;height: 102px;width:180px;background-size: 100%"></div>
+                </div>
+                <div class="col-md-4 legendLabel">
+                    <div class="col-xs-4" style="background: url({{ asset('bundles/partner/img/home/10.jpg')}})  no-repeat scroll 50%;height: 102px;width:180px;background-size: 100%"></div>
+                </div>
+                <div class="col-md-4 legendLabel">
+                    <div class="col-xs-4" style="background: url({{ asset('bundles/partner/img/home/11.jpg')}})  no-repeat scroll 50%;height: 102px;width:180px;background-size: 100%"></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

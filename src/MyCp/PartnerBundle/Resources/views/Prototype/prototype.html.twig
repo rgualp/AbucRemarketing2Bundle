@@ -1,28 +1,20 @@
 <div class="col-md-6">
-    <div class="form-group">
-        <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-        <div class="col-lg-10">
-            {{ form_widget(item.name,{ 'attr': {'placeholder': 'label.name.nameresponse'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-        </div>
+    <div class="input-group m-b">
+        <span class="input-group-addon"><i class="glyphicons user"></i></span>
+        {{ form_widget(item.name,{ 'attr': {'placeholder': 'label.name.nameresponse'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
     </div>
-    <div class="form-group">
-        <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-        <div class="col-lg-10">
-            {{ form_widget(item.phone,{ 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-        </div>
+    <div class="input-group m-b">
+        <span class="input-group-addon"><i class="glyphicons iphone"></i></span>
+        {{ form_widget(item.phone,{ 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
     </div>
 </div>
 <div class="col-md-6">
-    <div class="form-group">
-        <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-        <div class="col-lg-10">
-            {{ form_widget(item.email,{ 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-        </div>
+    <div class="input-group m-b">
+        <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+        {{ form_widget(item.email,{ 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
     </div>
-    <div class="form-group">
-        <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-        <div class="col-lg-10">
-            {{ form_widget(item.mobile,{ 'attr': {'placeholder': 'label.name.mobile'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-        </div>
+    <div class="input-group m-b">
+        <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+        {{ form_widget(item.mobile,{ 'attr': {'placeholder': 'label.name.mobile'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
     </div>
 </div>

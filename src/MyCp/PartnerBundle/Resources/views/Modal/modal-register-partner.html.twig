@@ -1,64 +1,76 @@
 <div class="modal inmodal fade" id="myModalRegisterAgency" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-body" style="height: 550px">
-                <div class="col-md-3">
+            <div class="modal-header modal-header-agency" style="background-color: #25323b !important;">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body modal-agency">
+                <form class="form-horizontal form-agency" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
+                <div class="col-md-3" >
+                    <div class="row" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_es.png')}})  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
+                    </div>
+                    <div class="row">
+                        <button id="regi" class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>
+                    </div>
                 </div>
                 <div class="col-md-9">
-                    <form class="form-horizontal" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
-                        <div class="row">
-                            <p>{{ 'label.form.agency.one' | trans }}</p>
+
+                        <div class="row agency text-right">
+                            <p class="m-r-12">{{ 'label.form.agency.one' | trans }}</p>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons user"></i></span>
+                                    {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons google_maps"></i></span>
+                                    {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons globe_af"></i></span>
+                                    {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+                                    {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+                                    {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <p>{{ 'label.form.agency.two' | trans }}</p>
+                        <div class="row text-right">
+                            <p class="m-r-12">{{ 'label.form.agency.two' | trans }}</p>
                             <div class="contact" data-prototype="{% filter escape %}{% include 'PartnerBundle:Prototype:prototype.html.twig' with { 'item': form.contacts.vars.prototype } %}{% endfilter %}"></div>
                         </div>
-                        <div class="row">
-                            <p>{{ 'label.form.agency.three' | trans }}</p>
+                        <div class="row agency text-right" >
+                            <p class="m-r-12">{{ 'label.form.agency.three' | trans }}</p>
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
-                                <div class="input-group m-b"><span class="input-group-addon">@</span> <input placeholder="{{ 'label.password' | trans }}" type="text" class="form-control required valid" name="password" id="password" aria-required="true" aria-invalid="false"></div>
-                                <div class="input-group m-b"><span class="input-group-addon">@</span> <input placeholder="{{ 'label.password.repeat' | trans }}" type="text" class="form-control required error" name="confirm" id="confirm" aria-required="true" aria-invalid="true"></div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons keys"></i></span>
+                                    <input placeholder="{{ 'label.password' | trans }}" type="text" class="form-control required valid" name="password" id="password" aria-required="true" aria-invalid="false">
+                                </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons keys"></i></span>
+                                    <input placeholder="{{ 'label.password.repeat' | trans }}" type="text" class="form-control required error" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
+                                </div>
                             </div>
                         </div>
-                        <button id="regi" class="btn btn-primary">Save changes</button>
-                    </form>
-                </div>
+                        <div class="row">
+                            <div class="checkbox checkbox-info" style="margin-left: 40px">
+                                <input id="checkbox4" type="checkbox">
+                                <label for="checkbox4" style="font-size: 16px;font-family: MyriadProRegular">
+                                    {{ 'label.check.term' | trans | raw }}
+                                </label>
+                            </div>
+                        </div>
 
+                </div>
+                </form>
             </div>
         </div>
     </div>

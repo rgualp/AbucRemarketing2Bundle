@@ -26,8 +26,8 @@ var App = function () {
      */
     var initForm=function(){
         var form = $("#form-agency");
-        App.validateFormAgency();
         form.on("submit", function (e) {
+            App.validateFormAgency();
             if(form.valid()){
                 e.preventDefault();
                 var formData = new FormData(form[0]);
@@ -56,6 +56,9 @@ var App = function () {
                         swal("Error", "", "error");
                     }
                 });
+            }
+            else{
+                toastr.error("{{ 'label.an_error_occurred'|trans }}!", 'error');
             }
         });
     }
@@ -87,8 +90,8 @@ var App = function () {
         validateFormAgency:function(){
             var form = $("#form-agency");
             form.validate({
-                errorElement: 'label',
-                errorClass: 'error',
+                errorElement: '', //default input error message container
+                errorClass: 'help-inline', // default input error message class
                 ignore: "",
                 rules:  {
                     'partner_agency[email]':{
@@ -96,6 +99,15 @@ var App = function () {
                     },
                     'partner_agency[contacts][0][email]':{
                         email: true
+                    },
+                    'partner_agency[phone]':{
+                        number: true
+                    },
+                    'partner_agency[contacts][0][phone]':{
+                        number: true
+                    },
+                    'partner_agency[contacts][0][mobile]':{
+                        number: true
                     },
                     confirm: {
                         equalTo: "#password"

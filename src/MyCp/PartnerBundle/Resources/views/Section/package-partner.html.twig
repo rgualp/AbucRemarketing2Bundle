@@ -1,99 +1,102 @@
-<section class="gray-section container">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h1>{{ 'label.section.two'| trans }}</h1>
+<section class="blue-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{ 'label.section.two'| trans }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table text-center" style="font-size: 18px">
+                    <thead>
+                    <tr>
+                        <th class="color-td-onepackage" width="14%">{{ 'title.column_one' | trans }}</th>
+                        <th class="color-td-twopackage"><img class="" src="{{ asset('bundles/partner/img/icon/basico.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_two' | trans }}</br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
+                        <th class="color-td-threepackage"><img class="" src="{{ asset('bundles/partner/img/icon/economico.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_three' | trans }}</br><span style="color: #aab4b6">{{ 'label.gonow' | trans }}</span></th>
+                        <th class="color-td-fourpackage"><img class="" src="{{ asset('bundles/partner/img/icon/especial.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_four' | trans }}</br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                        <th class="color-td-fivepackage"><img class="" src="{{ asset('bundles/partner/img/icon/premiun.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_five' | trans }}</br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="color-td-onepackage">Usuarios</td>
+                        <td class="color-td-twopackage">1 turoperador</td>
+                        <td class="color-td-threepackage">2 a 5 turoperadores</td>
+                        <td class="color-td-fourpackage">Más de 5 turoperadores</td>
+                        <td class="color-td-fivepackage">Sitios Web</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage">Tipo de cuenta</td>
+                        <td class="color-td-twopackage">Cuenta única</td>
+                        <td class="color-td-threepackage">Cuenta para agencia y administración
+                            Cuenta para turoperadores</td>
+                        <td class="color-td-fourpackage">Cuenta de agencia, administración y gestión de reservas
+                            Cuenta para turoperadores</td>
+                        <td class="color-td-fivepackage"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="color-td-onepackage">Forma de Pago</td>
+                        <td rowspan="2" class="color-td-twopackage">Prepago vía Skrill</td>
+                        <td class="color-td-threepackage">Pago completo por transferencia bancaria</td>
+                        <td class="color-td-fourpackage">Pago completo por transferencia bancaria</td>
+                        <td class="color-td-fivepackage">Pago completo por transferencia bancaria</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-threepackage">Prepago vía Skrill</td>
+                        <td class="color-td-fourpackage">Prepago vía Skrill</td>
+                        <td class="color-td-fivepackage">Prepago vía Skrill</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage">Servicios</td>
+                        <td class="color-td-twopackage">Gestión de reservas</br>
+                            Opción de reserva rápida</br>
+                            Atención al cliente 24h</td>
+                        <td class="color-td-threepackage">Gestión de reservas</br>
+                            Opción de reserva rápida</br>
+                            Atención al cliente 24h</td>
+                        <td class="color-td-fourpackage">Gestión de reservas</br>
+                            Opción de reserva rápida</br>
+                            Atención al cliente 24h</br>
+                            Opción de reserva inmediata</br>
+                            Consulta de estadísticas</td>
+                        <td class="color-td-fivepackage">Gestión de reservas</br>
+                            Opción de reserva rápida</br>
+                            Atención al cliente 24h</br>
+                            Opción de reserva inmediata</br>
+                            Consulta de estadísticas</br>
+                            Gestión de la disponibilidad</br>
+                            Política de cobros y devoluciones</br>
+                            Diseño web creativo</br>
+                            Campañas de email marketing
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage">Extra!</td>
+                        <td class="color-td-twopackage"></td>
+                        <td class="color-td-threepackage">Historial de reservas y facturas</td>
+                        <td class="color-td-fourpackage">Historial de reservas y facturas</br>
+                            Creación de sección privada para los clientes</br>
+                        </td>
+                        <td class="color-td-fivepackage">Historial de reservas y facturas</br>
+                            Creación de sección privada para los clientes</br>
+                            Cupones de descuento
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage"></td>
+                        <td style="background-color: #63b2d1;color:#00385d">
+                            <a type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
+                                HAZTE PARTNER!
+                            </a>
+                        </td>
+                        <td style="background-color: #29789f;color:#00385d">{{ 'label.gonow' | trans }}</td>
+                        <td style="background-color: #11517d;color:#4793ba">{{ 'label.prox' | trans }}</td>
+                        <td style="background-color: #063b5b;color:#4793ba">{{ 'label.prox' | trans }}...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th class="color-td-onepackage">{{ 'title.column_one' | trans }}</th>
-                    <th class="color-td-twopackage">{{ 'title.column_two' | trans }}</th>
-                    <th class="color-td-threepackage">{{ 'title.column_three' | trans }}</th>
-                    <th class="color-td-fourpackage">{{ 'title.column_four' | trans }}</th>
-                    <th class="color-td-fivepackage">{{ 'title.column_five' | trans }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="color-td-onepackage">Usuarios</td>
-                    <td class="color-td-twopackage">1 turoperador</td>
-                    <td class="color-td-threepackage">2 a 5 turoperadores</td>
-                    <td class="color-td-fourpackage">Más de 5 turoperadores</td>
-                    <td class="color-td-fivepackage">Sitios Web</td>
-                </tr>
-                <tr>
-                    <td class="color-td-onepackage">Tipo de cuenta</td>
-                    <td class="color-td-twopackage">Cuenta única</td>
-                    <td class="color-td-threepackage">Cuenta para agencia y administración
-                        Cuenta para turoperadores</td>
-                    <td class="color-td-fourpackage">Cuenta de agencia, administración y gestión de reservas
-                        Cuenta para turoperadores</td>
-                    <td class="color-td-fivepackage"></td>
-                </tr>
-                <tr>
-                    <td rowspan="2" class="color-td-onepackage">Forma de Pago</td>
-                    <td rowspan="2" class="color-td-twopackage">Prepago vía Skrill</td>
-                    <td class="color-td-threepackage">Pago completo por transferencia bancaria</td>
-                    <td class="color-td-fourpackage">Pago completo por transferencia bancaria</td>
-                    <td class="color-td-fivepackage">Pago completo por transferencia bancaria</td>
-                </tr>
-                <tr>
-                    <td class="color-td-threepackage">Prepago vía Skrill</td>
-                    <td class="color-td-fourpackage">Prepago vía Skrill</td>
-                    <td class="color-td-fivepackage">Prepago vía Skrill</td>
-                </tr>
-                <tr>
-                    <td class="color-td-onepackage">Servicios</td>
-                    <td class="color-td-twopackage">Gestión de reservas</br>
-                        Opción de reserva rápida</br>
-                        Atención al cliente 24h</td>
-                    <td class="color-td-threepackage">Gestión de reservas</br>
-                        Opción de reserva rápida</br>
-                        Atención al cliente 24h</td>
-                    <td class="color-td-fourpackage">Gestión de reservas</br>
-                        Opción de reserva rápida</br>
-                        Atención al cliente 24h</br>
-                        Opción de reserva inmediata</br>
-                        Consulta de estadísticas</td>
-                    <td class="color-td-fivepackage">Gestión de reservas</br>
-                        Opción de reserva rápida</br>
-                        Atención al cliente 24h</br>
-                        Opción de reserva inmediata</br>
-                        Consulta de estadísticas</br>
-                        Gestión de la disponibilidad</br>
-                        Política de cobros y devoluciones</br>
-                        Diseño web creativo</br>
-                        Campañas de email marketing
-                    </td>
-                </tr>
-                <tr>
-                    <td class="color-td-onepackage">Extra!</td>
-                    <td class="color-td-twopackage"></td>
-                    <td class="color-td-threepackage">Historial de reservas y facturas</td>
-                    <td class="color-td-fourpackage">Historial de reservas y facturas</br>
-                        Creación de sección privada para los clientes</br>
-                    </td>
-                    <td class="color-td-fivepackage">Historial de reservas y facturas</br>
-                        Creación de sección privada para los clientes</br>
-                        Cupones de descuento
-                    </td>
-                </tr>
-                <tr>
-                    <td class="color-td-onepackage"></td>
-                    <td class="color-td-twopackage">
-                        <button type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
-                            HAZTE PARTNER!
-                        </button>
-                    </td>
-                    <td class="color-td-threepackage">YA VIENE !!!</td>
-                    <td class="color-td-fourpackage">Próximamente</td>
-                    <td class="color-td-fivepackage">Próximamente...</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+
 </section>
