@@ -30,7 +30,20 @@ body.landing-page {
     font-family: 'MyriadProCond';
     src: url('../bundles/partner/font/MyriadPro-Cond.otf');
 }
-
+@font-face{
+    font-family: 'MyriadProBold';
+    src: url('../bundles/partner/font/MyriadPro-Bold.otf');
+}
+@font-face{
+    font-family: 'MyriadProBoldIt';
+    src: url('../bundles/partner/font/MyriadPro-BoldIt.otf');
+}
+.MyriadProBold{
+    font-family: MyriadProBold;
+}
+.MyriadProBoldIt{
+    font-family: MyriadProBoldIt;
+}
 .MyriadProSemiCnIt{
     font-family: MyriadProSemiCnIt;
 }
@@ -379,7 +392,7 @@ body.landing-page {
 }
 .form-agency label.error {
     color: #fff;
-    display: inline-block;
+    display: none !important;
     margin-left: 5px;
     font-family: MyriadProRegular;
     font-size: 12px;

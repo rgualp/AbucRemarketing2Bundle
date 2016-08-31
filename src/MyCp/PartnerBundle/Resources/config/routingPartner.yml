@@ -42,6 +42,11 @@ frontend_partner_activateacount:
     locales:  { en: "/activateaccount/{token}", es: "/activateaccount/{token}", de: "/activateaccount/{token}" }
     defaults: { _controller: PartnerBundle:Security:activateAccount }
 
+#Register account page
+frontend_partner_registeracountpage:
+    locales:  { en: "/registeraccount", es: "/cuentaregistrada", de: "/registeraccount" }
+    defaults: { _controller: PartnerBundle:Frontend:registerAccountPage }
+
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }

@@ -110,9 +110,16 @@ class FrontendController extends Controller
                 $factory = $this->get('security.encoder_factory');
                 $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'));
                 //Create tour operator
-                return new JsonResponse(['success' => true, 'msg' => $this->get('translator')->trans("operation.succesfull")]);
+                return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
             }
 
         }
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function registerAccountPageAction(){
+        return $this->render('PartnerBundle:Layout:registerAgency.html.twig', array());
     }
 }

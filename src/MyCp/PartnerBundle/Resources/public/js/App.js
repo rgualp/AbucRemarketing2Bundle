@@ -26,41 +26,89 @@ var App = function () {
      */
     var initForm=function(){
         var form = $("#form-agency");
-        form.on("submit", function (e) {
-            App.validateFormAgency();
-            if(form.valid()){
-                e.preventDefault();
-                var formData = new FormData(form[0]);
-                formData.append("password", $('#password').val());
-                HoldOn.open();
-                $.ajax({
-                    url: form.attr('action'),
-                    type: "post",
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(data, textStatus, jqXHR){
-                        HoldOn.close();
-                        var xdata = jQuery.parseJSON(data);
-                        if(xdata.success){
-                            $('#myModalRegisterAgency').modal('hide');
-                            swal(xdata.msg, "", "success");
-                        }
-                        else
-                            swal(xdata.msg, "", "error");
+
+        var formData = new FormData(form[0]);
+        formData.append("password", $('#password').val());
+
+        $('.btn-register-partner').on('click',function(){
+            $("#form-agency").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                ignore: "",
+                errorClass: 'error', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                invalidHandler: function(event, validator) { //display error alert on form submit
+
+                },
+                rules: {
+                    'partner_agency[email]':{
+                        email: true
                     },
-                    error: function(jqXHR, textStatus, errorThrown){
-                        HoldOn.close();
-                        swal("Error", "", "error");
+                    'partner_agency[contacts][0][email]':{
+                        email: true
+                    },
+                    'partner_agency[phone]':{
+                        number: true
+                    },
+                    'partner_agency[contacts][0][phone]':{
+                        number: true
+                    },
+                    'partner_agency[contacts][0][mobile]':{
+                        number: true
+                    },
+                    confirm: {
+                        equalTo: "#password"
                     }
-                });
-            }
-            else{
-                toastr.error("{{ 'label.an_error_occurred'|trans }}!", 'error');
-            }
+                },
+                highlight: function(element) { // hightlight error inputs
+                    $(element)
+                        .closest('.input-group').addClass('has-error'); // set error class to the control group
+                },
+
+                success: function(label) {
+                    label.closest('.input-group').removeClass('has-error');
+                    label.remove();
+                }
+            });
         });
+
+
+        /*var form = $("#form-agency");
+        form.on("submit", function (e) {
+           App.validateFormAgency();
+           if(form.valid()){
+               e.preventDefault();
+
+               $.ajax({
+                   url: form.attr('action'),
+                   type: "post",
+                   dataType: "html",
+                   data: formData,
+                   cache: false,
+                   contentType: false,
+                   processData: false,
+                   success: function(data, textStatus, jqXHR){
+                       HoldOn.close();
+                       var xdata = jQuery.parseJSON(data);
+                       if(xdata.success){
+                           $('#myModalRegisterAgency').modal('hide');
+                           swal(xdata.msg, "", "success");
+                       }
+                       else
+                           swal(xdata.msg, "", "error");
+                   },
+                   error: function(jqXHR, textStatus, errorThrown){
+                       HoldOn.close();
+                       swal("Error", "", "error");
+                   }
+               });
+           }
+           else{
+               toastr.error("{{ 'label.an_error_occurred'|trans }}!", 'error');
+           }
+       });*/
+
     }
     return {
         //main function to initiate template pages
@@ -88,10 +136,11 @@ var App = function () {
         $newLinkLi.before($newFormLi);
     },
         validateFormAgency:function(){
+            alert(2);
             var form = $("#form-agency");
             form.validate({
-                errorElement: '', //default input error message container
-                errorClass: 'help-inline', // default input error message class
+                errorElement: 'label',
+                errorClass: 'error',
                 ignore: "",
                 rules:  {
                     'partner_agency[email]':{
