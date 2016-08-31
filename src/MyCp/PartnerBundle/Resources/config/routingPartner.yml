@@ -33,3 +33,7 @@ frontend_partner_activateacount:
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }
     defaults: { _controller: PartnerBundle:Backend:index }
+
+partner_dashboard_requests:
+    locales:  { en: "/dashboard/requests", es: "/dashboard/requests", de: "/dashboard/requests" }
+    defaults: { _controller: PartnerBundle:Dashboard:index }

@@ -285,7 +285,7 @@ function WinMove() {
             forcePlaceholderSize: true,
             opacity: 0.8
         })
-        .disableSelection();
+        /*.disableSelection()*/;
 }
 
 
