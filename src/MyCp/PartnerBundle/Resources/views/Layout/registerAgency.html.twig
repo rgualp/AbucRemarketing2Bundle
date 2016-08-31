@@ -7,9 +7,23 @@
     {% include 'LayoutBundle:Security:overlay_register.html.twig' %}
 {% endblock %}
 {% block body %}
-    <div class="container">
+    <div class="container m-t-xl text-center">
+        <div class="row text-left" style="margin-left: 11%">
+            <img class="" src="{{ asset('bundles/partner/img/icon/mcp-with-text.png')}}"/>
+        </div>
+        <div class="row m-t-md">
+            <div class="col-md-6 col-xs-6">
+                <img class="" src="{{ asset('bundles/partner/img/icon/correo.png')}}"/>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <span style="font-size: 146px;color:#03283b">{{ 'label.thanks'| trans }}</span>
+            </div>
+        </div>
+        <div class="row text-left">
+            <p style="font-size: 24px;color:#64a531;margin-left: 11%">{{ 'label.resgister.description.one' | trans | raw }}</p>
+        </div>
         <div class="row">
-            <img class="" src="{{ asset('bundles/partner/img/icon/mcp-with-text.png')}}" alt="{{"label.home" | trans}}"/>
+            <p style="font-size: 72px;color: #094e75">{{ 'label.resgister.description.two' | trans }}</p>
         </div>
     </div>
 {% endblock %}

@@ -108,10 +108,4 @@ class FrontendController extends Controller
     public function registerAccountPageAction(){
         return $this->render('PartnerBundle:Layout:registerAgency.html.twig', array());
     }
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function activateAccountPageAction(){
-        return $this->render('PartnerBundle:Layout:activateAccount.html.twig', array());
-    }
 }

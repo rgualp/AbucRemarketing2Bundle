@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-08-30T14:17:37Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-08-30T16:56:53Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -53,6 +53,26 @@
       <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
         <source>USER_EMAIL_IN_USE</source>
         <target state="new">USER_EMAIL_IN_USE</target>
+      </trans-unit>
+      <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
+        <source>label.activateaccount.five</source>
+        <target state="new">¡COMIENZA YA!</target>
+      </trans-unit>
+      <trans-unit id="d13fed14f0a38d0a0f6a22297a39be135a940ac7" resname="label.activateaccount.four">
+        <source>label.activateaccount.four</source>
+        <target state="new">Tu inscripción ha sido un éxito,</target>
+      </trans-unit>
+      <trans-unit id="e135bc18c70e0f767d8a973cff682dcfbb24d5e5" resname="label.activateaccount.six">
+        <source>label.activateaccount.six</source>
+        <target state="new">¡Somos un equipo!</target>
+      </trans-unit>
+      <trans-unit id="e6fafd43185c49886228941f39241973b8776273" resname="label.activateaccount.three">
+        <source>label.activateaccount.three</source>
+        <target state="new">nuestra amistad comienza ahora</target>
+      </trans-unit>
+      <trans-unit id="1af53840ba0ee6c7e7e214cc4321e72951e29c2b" resname="label.activateaccount.two">
+        <source>label.activateaccount.two</source>
+        <target state="new">por convertirte en Partner...</target>
       </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
@@ -142,6 +162,14 @@
         <source>label.register.agency</source>
         <target state="new">Empezar!!!</target>
       </trans-unit>
+      <trans-unit id="b5c9af60111af4277f44b89fb59fd2a2aaba9eb4" resname="label.resgister.description.one">
+        <source>label.resgister.description.one</source>
+        <target state="new"><![CDATA[En breve recibirás vía email la confirmación de tu cuenta en Partner.</br>Gracias por unirte al equipo]]></target>
+      </trans-unit>
+      <trans-unit id="fcfacf71ec893568ad8e50148741ee6efe95a379" resname="label.resgister.description.two">
+        <source>label.resgister.description.two</source>
+        <target state="new">¡Te esperamos!</target>
+      </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
         <target state="new">Reservar se vuelve lo más sencillo del mundo. Un sitio pensado para ayudarte y facilitar tu gestión de forma rápida y profesional.</target>
@@ -230,9 +258,9 @@
         <source>label.section.vacation_description</source>
         <target state="new">Encuentra lo que tus clientes desean, más rápido que en cualquier otro lugar. Tenemos opciones disponibles para los gustos más exigentes. </target>
       </trans-unit>
-      <trans-unit id="005bbb4efaab3fe7d99e4bdb7edc9e2f7a18f434" resname="operation.succesfull">
-        <source>operation.succesfull</source>
-        <target state="new">operation.succesfull</target>
+      <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
+        <source>label.thanks</source>
+        <target state="new">¡Gracias!</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>

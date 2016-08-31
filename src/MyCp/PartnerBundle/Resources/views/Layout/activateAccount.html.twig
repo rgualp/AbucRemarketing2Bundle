@@ -7,7 +7,29 @@
     {% include 'LayoutBundle:Security:overlay_register.html.twig' %}
 {% endblock %}
 {% block body %}
-    Alert
+    <div class="container m-t-xl text-center">
+        <div class="row text-left" style="margin-left: 11%">
+            <img class="" src="{{ asset('bundles/partner/img/icon/mcp-with-text.png')}}"/>
+        </div>
+        <div class="row" style="margin-top: 7%; line-height: 65px;">
+            <div class="col-md-12">
+                <span style="font-size: 146px;color:#03283b">{{ 'label.thanks'| trans }}</span></br>
+                <span style="font-size: 48px;color:#65a432">{{ 'label.activateaccount.two' | trans }}</span></br>
+                <span style="font-size: 32px;color:#65a432;font-family: MyriadProRegular">{{ 'label.activateaccount.three' | trans }}</span>
+            </div>
+
+        </div>
+            <div class="col-md-12" style="line-height: 50px">
+                <span style="font-size: 36px;color:#f59620;font-family: MyriadProRegular">{{ 'label.activateaccount.four' | trans }}</span></br>
+                <span style="font-size: 68px;color:#f59620;font-family: MyriadProBold">{{ 'label.activateaccount.five' | trans }}</span>
+            </div>
+            <a style="color: #0580ff;font-size: 18px" href="{{ url('frontend_partner_home') }}">{{ url('frontend_partner_home') }}</a>
+            <div class="col-md-12">
+                <span style="font-size: 60px;color:#0a4d77;font-family: MyriadProBoldIt">{{ 'label.activateaccount.six' | trans }}</span>
+            </div>
+
+
+    </div>
 {% endblock %}
 
 
