@@ -31,6 +31,16 @@
 
     </div>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                window.location.href = "{{ url('frontend_partner_home') }}";
+            }, 5000);
+        });
+    </script>
+{% endblock javascripts %}
 
 
 
