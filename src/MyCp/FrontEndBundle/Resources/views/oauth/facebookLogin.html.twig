@@ -1,3 +1,15 @@
-<div class="text-center">
-{{ form(fbLoginForm) }}
-</div>
+<form novalidate class="form-horizontal" action="{{ path('facebook_login') }}" method="post">
+    <div class="row">
+        <div class="col-sm-2">{{ "FORMS_EMAIL" | trans }}</div>
+        <div class="col-sm-10">{{ form_widget(fbLoginForm.email) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">{{ "COUNTRY" | trans }}</div>
+        <div class="col-sm-10">{{ form_widget(fbLoginForm.country) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><input type="submit" class="btn btn-success" value="{{ "FACEBOOK_BUTTON_TEXT" | trans }}"/></div>
+    </div>
+    {{ form_rest(fbLoginForm) }}
+</form>

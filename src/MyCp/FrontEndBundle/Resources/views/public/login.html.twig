@@ -52,6 +52,7 @@
                         <div class="alert alert-danger text-center"
                              style="margin-bottom: 15px">{{ message |trans }}</div>
                     {% endfor %}
+                    <div id="status" class="hide flash-message alert alert-info"></div>
                 </div>
             </div>
 
@@ -67,8 +68,7 @@
                                     <span style="color: #3C5A98; font-size: 20px; margin-left: 10px;">{{ 'with Facebook'|trans }}</span>
                                 </a>
                                 <span style="color: #777777; font-size: 20px;"> {{ 'or'|trans }}...</span>
-                                <div id="status" class="hide flash-message alert alert-info"></div>
-
+                                <h3 id="facebookTitle" class="hide">{{ "FACEBOOK_TITLE" | trans }}</h3>
                                 <div id="continueAfterLogin" class="hide">
                                     {{ render(controller('FrontEndBundle:OAuth:facebookLogin')) }}
                                 </div>

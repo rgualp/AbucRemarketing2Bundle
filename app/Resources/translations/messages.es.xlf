@@ -3856,10 +3856,22 @@
                       <source>JOIN_CASA</source>
                       <target>¡Únete! Inscribe tu casa</target>
                  </trans-unit>
-  <trans-unit id="977">
-       <source>PRICE_TOTAL_TO_PAY</source>
-       <target>Total a pagar</target>
-  </trans-unit>
+                  <trans-unit id="977">
+                       <source>PRICE_TOTAL_TO_PAY</source>
+                       <target>Total a pagar</target>
+                  </trans-unit>
+                  <trans-unit id="978">
+                       <source>FACEBOOK_SECOND_STEP</source>
+                       <target>Tenemos tus datos a través de Facebook, solo necesitamos una información más para completar tu registro en MyCasaParticular.</target>
+                  </trans-unit>
+                  <trans-unit id="979">
+                       <source>FACEBOOK_BUTTON_TEXT</source>
+                       <target>Entrar</target>
+                  </trans-unit>
+                  <trans-unit id="980">
+                       <source>FACEBOOK_TITLE</source>
+                       <target>Solo un paso más...</target>
+                  </trans-unit>
         </body>
     </file>
 </xliff>

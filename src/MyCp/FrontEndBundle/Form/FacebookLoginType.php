@@ -29,12 +29,12 @@ class FacebookLoginType extends AbstractType
         $builder
             ->setMethod("POST")
             ->setAction($options['action'])
-            ->add("name", "hidden")
-            ->add("lastName", "hidden")
+            ->add("name", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
+            ->add("lastName", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
             ->add("gender", "hidden")
-            ->add("email", "hidden")
+            ->add("email", "text", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
            ->add("country", 'entity', array(
-                'label'=> 'Select your country',
+                'label'=> 'Country',
                 'attr'=>array(
                     'class'=>'hide'
                 ),
@@ -52,6 +52,6 @@ class FacebookLoginType extends AbstractType
 
             ))
             ->add("language", "hidden")
-            ->add("Continue to My Casa Particular", "submit", array("attr" => array("class" => "btn btn-success")));
+            /*->add("Continue to My Casa Particular", "submit", array("attr" => array("class" => "btn btn-success")))*/;
     }
 }

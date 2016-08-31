@@ -3862,6 +3862,18 @@
             <source>PRICE_TOTAL_TO_PAY</source>
             <target>Total to pay</target>
        </trans-unit>
+                  <trans-unit id="978">
+                       <source>FACEBOOK_SECOND_STEP</source>
+                       <target>Have your data over Facebook, we just need something else to complete your registration in MyCasaParticular.</target>
+                  </trans-unit>
+                  <trans-unit id="979">
+                       <source>FACEBOOK_BUTTON_TEXT</source>
+                       <target>Log in</target>
+                  </trans-unit>
+                  <trans-unit id="980">
+                       <source>FACEBOOK_TITLE</source>
+                       <target>Just one more step...</target>
+                  </trans-unit>
         </body>
     </file>
 </xliff>
