@@ -285,6 +285,8 @@ class cart {
         $clone->setCartRoom($this->cart_room);
         $clone->setCartSessionId($this->cart_session_id);
         $clone->setCartUser($this->cart_user);
+        $clone->setChildrenAges($this->childrenAges);
+        $clone->setServiceFee($this->service_fee);
 
         return $clone;
     }
