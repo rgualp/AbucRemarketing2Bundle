@@ -7,14 +7,15 @@
 	left: 0;
 	background: #f9f9fa;
 	z-index:999;*/
-	background: #fff none repeat scroll 0 0;
+	background: #1f5d82 none repeat scroll 0 0;
 	height: 100%;
 	left: 0;
-	opacity: 0.96;
+	opacity: 0.97;
 	position: fixed;
 	top: 0;
 	width: 100%;
 	z-index: 9999;
+    color: #fff;
 }
 
 /* Overlay closing cross */

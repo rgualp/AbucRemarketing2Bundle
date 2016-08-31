@@ -417,3 +417,51 @@ body.landing-page {
     content: none;
     font-family: "FontAwesome";
 }
+.form-login .input-group-addon {
+    background-color: #195476;
+    border-radius: 1px;
+    border:none;
+    border-right: 1px solid #fff !important;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 4px 6px;
+    text-align: center;
+}
+.form-login .glyphicons {
+    color: #fff;
+    display: inline-block;
+    font: 24px/1em "Glyphicons Regular";
+    position: relative;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.form-login .form-control, .single-line {
+    background-color: #195476;
+    border: none;
+    color: inherit;
+    font-size: 14px;
+}
+.form-login .form-control::-moz-placeholder {
+    color: #fff;
+    opacity: 1;
+    font-size: 14px;
+    font-family: MyriadProRegular;
+}
+.form-login .form-control, .single-line{
+    padding: 4px;
+}
+.btn-login{
+    font-size: 18px;
+    opacity: 1;
+    background: rgb(25, 84, 118) none repeat scroll 0px 0px;
+    font-family: MyriadProBoldCond;
+    width: 100%;
+}
+.btn-login.focus, .btn-login:focus, .btn-login:hover {
+    color: #fff;
+}
+.loginscreen.middle-box {
+    width: 377px;
+}
