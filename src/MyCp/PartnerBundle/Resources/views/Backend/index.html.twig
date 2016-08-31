@@ -1,54 +1,70 @@
 {% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+
+    </style>
+{% endblock stylesheets %}
+
 {% block body %}
     <div id="wrapper">
 
         {% block nav %}
-              {% include 'PartnerBundle:Layout:menu.html.twig' %}
+            {% include 'PartnerBundle:Layout:menu.html.twig' %}
         {% endblock nav %}
 
         <div id="page-wrapper" class="gray-bg">
-            {% block content %}{% endblock content %}
-
+            {% block content %}
+                <div class="wrapper wrapper-content  animated fadeInRight">
+                    <div class="row" id="sortable-view">
+                        <div id="content-box" class="col-lg-12">
+                        </div>
+                    </div>
+                </div>
+            {% endblock content %}
         </div>
     </div>
 {% endblock %}
 
-
-
 {% block javascripts %}
+    {{ parent() }}
     <script type="text/javascript">
-        var today_date="{{"now"|date("d/m/Y") }}";
-        var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
-        var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+        var today_date = "{{"now"|date("d/m/Y") }}";
+        var start_date = "{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date = "{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
 
-        /*$.fn.typeahead &&
-         $('[data-provide="typeahead"]').typeahead({
-         name: "states",
-         local: '{#{ autocomplete_text_list |raw}#}',
-         limit: 4
-         });*/
-        $("#priceFilter").slider({});
-        $('#more_filters').on('click',function(){
-            if($('#more_filters').hasClass('collapsed')){
-                $('#button_research').addClass('hide');
-                $('#more_filters').removeClass('collapsed');
+        $(document).ready(function () {
+            WinMove();
 
-                var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height() + 20);
-                var scroll_h = full_height - 100;
+            jQuery('#side-menu').on('click', ' li > a.ajaxify', function (e) {
+                e.preventDefault();
+                var href = $(this).data('href');
 
-                $('#collapseFilters .thumbnail').css("height",full_height+"px");
+                $.ajax({
+                    type: "POST",
+                    url: href,
+                    success: function(result) {
+                        var a = $('#content-box').append('<div class="row">' + result.html + '</div>');
 
-                $('#collapseFilters .thumbnail .content-filter').slimScroll({
-                    height: scroll_h+'px',
-                    start: 'top'
+                        renderPlugins(a);
+                    }
+                });
+            });
+
+            function renderPlugins(element){
+                element.find('.input-group.date').datepicker({
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true
                 });
 
-
-            }
-            else{
-                $('#button_research').removeClass('hide');
-                $('#more_filters').addClass('collapsed');
+                element.find('.chosen-select').chosen();
+                element.find('.chosen-select-deselect').chosen({allow_single_deselect: true});
+                element.find('.chosen-container-single').width('100%');
+                element.find('.chosen-container-multi').width('100%');
             }
         });
 

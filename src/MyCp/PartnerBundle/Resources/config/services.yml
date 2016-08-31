@@ -1,0 +1,16 @@
+services:
+    requests.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - requests_filter_form            # name of the form
+            - requests_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    requests.filter.formtype:
+        class: MyCp\PartnerBundle\Form\FilterType
+        public: true
+        tags:
+           - { name: form.type, alias: requests_filter }

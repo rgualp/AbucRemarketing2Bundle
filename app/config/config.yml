@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: "@FrontEndBundle/Resources/config/services.yml" }
     - { resource: "@mycpBundle/Resources/config/services.yml" }
+    - { resource: "@PartnerBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~
@@ -44,6 +45,7 @@ twig:
          fb_app_id: "%fb_app_id%"
          mail_base_url: "%router.request_context.scheme%://%router.request_context.host%"
          translator_google_api_key: "%translator_google_api_key%"
+         form_search_requests: "@requests.filter.form"
 
 # Assetic Configuration
 assetic:
