@@ -1,39 +1,13 @@
-{% if btn_close is not defined %}
-    <button type="button" class="login overlay-close">{{ 'btn.close'|trans }}</button>
-{% endif %}
-<div class="middle-box text-center loginscreen animated fadeInDown">
-    <div class="middle-box loginscreen text-center animated fadeInDown">
-        <div>
-            <a href="{{ path('frontend_partner_home') }}">  <img src="{{ asset('img/mycp.png') }}"></a>
+<form novalidate class="form-horizontal" action="{{ path("frontend_partner_restore_password_user") }}" method="post">
+    {{ form_widget(form._token) }}
+    <div class="row">
+        <div class="col-sm-3 text-right to-left">
+            {{ form_label(form.user_email) }}:
         </div>
-        <p>Olvidaste tu contraseña?</p>
-
-        <div class="row">
-
-                {% if errors['no_email'] is defined%}
-                    <div class="alert alert-danger text-center">{{errors['no_email']}}</div>
-                {% endif %}
-                {% if form_errors(form.user_email) %}
-                    <div class="alert alert-danger text-center">{{ form_errors(form.user_email)}}</div>
-                {% endif %}
-
+        <div class="col-sm-7">
+            {{ form_widget(form.user_email) }}
+            <button class="btn btn-primary btn-block" type="submit"
+                    style="margin: 20px 0">{{ "FORGOT_PASSWORD_BUTTON" | trans }}</button>
         </div>
-        <div class="row">
-
-                <form novalidate class="form-horizontal" action="{{ path("frontend_partner_restore_password_user") }}" method="post">
-                    {{ form_widget(form._token) }}
-                    <div class="row">
-                        <div class="col-sm-3 text-right to-left">
-                            {{ form_label(form.user_email) }}:
-                        </div>
-                        <div class="col-sm-7">
-                            {{ form_widget(form.user_email) }}
-                            <button class="btn btn-primary btn-block" type="submit" style="margin: 20px 0">{{"FORGOT_PASSWORD_BUTTON" | trans}}</button>
-                        </div>
-                    </div>
-                </form>
-
-        </div>
-
     </div>
-</div>
+</form>
