@@ -1,7 +1,7 @@
 <div class="modal inmodal fade" id="myModalRegisterAgency" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-body" style="height: 550px;background-color: #25323b">
+            <div class="modal-body modal-agency">
                 <div class="col-md-3">
                 </div>
                 <div class="col-md-9">
@@ -17,25 +17,19 @@
                                     <span class="input-group-addon"><i class="glyphicons google_maps"></i></span>
                                     {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons globe_af"></i></span>
+                                    {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+                                    {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                                    <div class="col-lg-10">
-                                        {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                    </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+                                    {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
                             </div>
                         </div>

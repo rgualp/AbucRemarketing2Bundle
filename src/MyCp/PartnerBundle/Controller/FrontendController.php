@@ -2,6 +2,7 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -59,6 +60,19 @@ class FrontendController extends Controller
      */
     public function contentRegisterAction(Request $request){
         return $this->render('LayoutBundle:Security:register-content.html.twig', array());
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function contentForgotAction(Request $request){
+        $errors = array();
+        $form = $this->createForm(new \MyCp\FrontEndBundle\Form\restorePasswordUserType($this->get('translator')));
+        return $this->render('LayoutBundle:Security:forgot-content.html.twig', array(
+            'form' => $form->createView(),
+            'errors' => $errors
+        ));
     }
 
     /**

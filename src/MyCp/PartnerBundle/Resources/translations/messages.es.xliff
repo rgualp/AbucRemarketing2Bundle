@@ -108,7 +108,7 @@
       </trans-unit>
       <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
         <source>label.name.agency</source>
-        <target state="new">label.name.agency</target>
+        <target state="new">Nombre de la Agencia</target>
       </trans-unit>
       <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
         <source>label.name.country</source>

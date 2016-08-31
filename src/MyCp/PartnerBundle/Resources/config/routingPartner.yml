@@ -19,6 +19,19 @@ frontend_partner_registercontent:
     locales:  { en: "/register/content", es: "/register/content", de: "/register/content" }
     defaults: { _controller: PartnerBundle:Frontend:contentRegister }
 
+#Forgot Password
+frontend_partner_forgopassword:
+    locales:  { en: "/forgot_password", es: "/forgot_password", de: "/forgot_password" }
+    defaults: { _controller: PartnerBundle:Frontend:contentForgot }
+
+frontend_partner_restore_password_user:
+    locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/" }
+    defaults: { _controller: PartnerBundle:Security:restorePassword }
+
+frontend_partner_change_password_user:
+    locales:  { en: "/change-password/{string}/{token}", es: "/cambiar-clave/{string}/{token}", de: "/passwort-aendern/{string}/{token}" }
+    defaults: { _controller: PartnerBundle:Security:changePassword }
+
 #Register agency
 frontend_partner_registeragency:
     locales:  { en: "/register/agency", es: "/registrar/agencia", de: "/register/agency" }

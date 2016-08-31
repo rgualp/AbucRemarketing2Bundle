@@ -245,3 +245,9 @@ body.landing-page {
     padding: 4px 6px;
     text-align: center;
 }
+.modal-agency{
+    background-color: #25323b !important;
+    color: #fff;
+    font-size: 30px;
+    height: 550px;
+}
