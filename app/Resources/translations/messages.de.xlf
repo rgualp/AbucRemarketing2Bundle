@@ -3882,15 +3882,15 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
          </trans-unit>
                   <trans-unit id="978">
                        <source>FACEBOOK_SECOND_STEP</source>
-                       <target>Have your data over Facebook, we just need something else to complete your registration in MyCasaParticular.</target>
+                       <target>Wir haben Deine Daten via Facebook erhalten, wir brauchen nur noch eine Information um Deine Registrierung in MyCasaParticular zu vervollständigen.</target>
                   </trans-unit>
                   <trans-unit id="979">
                        <source>FACEBOOK_BUTTON_TEXT</source>
-                       <target>Start now</target>
+                       <target>Anmelden</target>
                   </trans-unit>
                   <trans-unit id="980">
                        <source>FACEBOOK_TITLE</source>
-                       <target>Just one more step...</target>
+                       <target>Nur noch ein Schritt...</target>
                   </trans-unit>
 
     </body>
