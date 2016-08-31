@@ -32,15 +32,11 @@ class FacebookLoginType extends AbstractType
             ->add("name", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
             ->add("lastName", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
             ->add("gender", "hidden")
-            ->add("email", "text", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
+            ->add("email", "text", array('required'=> true, 'attr'=>array('class'=>'hide', 'style'=> 'width: 90%'), 'label_attr'=>array('class'=>'hide')))
            ->add("country", 'entity', array(
                 'label'=> 'Country',
-                'attr'=>array(
-                    'class'=>'hide'
-                ),
-               'label_attr'=>array(
-                    'class'=>'hide'
-                ),
+                'attr'=>array('class'=>'hide', 'style'=> 'width: 90%'),
+               'label_attr'=>array('class'=>'hide'),
                 'required'=> true,
                 'class' => 'mycpBundle:country',
                 'query_builder' => function (EntityRepository $er) {
