@@ -17,7 +17,6 @@ class FilterType extends AbstractType
     {
         $builder
             //TEXT ************************
-            /*->add('multiple', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))*/
             ->add('code', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('accommodation', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))

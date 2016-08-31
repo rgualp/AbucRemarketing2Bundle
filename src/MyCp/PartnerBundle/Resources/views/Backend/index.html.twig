@@ -4,6 +4,77 @@
     {{ parent() }}
     <style>
 
+        .filter-form .field-filter{
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .ibox-title div.title-card {
+            display: inline-block;
+            float: left;
+            font-size: 30px;
+            margin: 0 0 7px;
+            padding: 0;
+            color:  #0d4e76;
+            text-overflow: ellipsis;
+        }
+
+        .ibox-title.card, .ibox-content.card, .ibox.card{
+            background-color: #dfe9f4;
+        }
+
+        .filter-form .form-control::-moz-placeholder, .filter-form .form-control {
+            font-size: 12px;
+            color: #64a433;
+            background-color: #d6d7da;
+        }
+
+        .filter-form  .input-group-addon {
+            background-color: #d6d7da;
+        }
+
+        .chosen-single.chosen-default, .chosen-container-single .chosen-single {
+            background: #d6d7da none repeat scroll 0 0;
+        }
+
+        .filter-form .fa, .filter-form .fa-letter, .filter-form .chosen-single span {
+            font-size: 12px;
+            color: #64a433 !important;
+            opacity: 1 !important;
+        }
+
+        .btn-search{
+            background-color: #d6d7da;
+            /*border-color: #1ab394;*/
+            font-size: 12px;
+            color: #64a433;
+        }
+
+        .date .form-control{
+            border-right: 0px;
+        }
+
+        .filter-form .input-group-addon {
+            padding: 6px;
+        }
+
+        .card .table-responsive {
+            overflow-x: inherit;
+        }
+
+        .rt, .rst {
+            font-size: 18px;
+            color: #0d4e76;
+        }
+
+        .rt {
+            font-family: MyriadProCond;
+        }
+
+        .rst {
+            font-family: MyriadProLightCondIt;
+        }
+
     </style>
 {% endblock stylesheets %}
 

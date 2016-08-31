@@ -37,3 +37,7 @@ backend_partner_dashboard:
 partner_dashboard_requests:
     locales:  { en: "/dashboard/requests", es: "/dashboard/requests", de: "/dashboard/requests" }
     defaults: { _controller: PartnerBundle:Dashboard:index }
+
+partner_dashboard_requests_list:
+    locales:  { en: "/dashboard/requests/list", es: "/dashboard/requests/list", de: "/dashboard/requests/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:list }
