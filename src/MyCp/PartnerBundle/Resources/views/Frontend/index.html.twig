@@ -5,6 +5,7 @@
 {% endblock %}
 {% block login_register %}
     {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+    {% include 'LayoutBundle:Security:overlay_forgot.html.twig' %}
     {% include 'LayoutBundle:Security:overlay_register.html.twig' %}
 {% endblock %}
 {% block body %}
@@ -47,10 +48,27 @@
                         $("#login-overlay").pageOverlay();
                         $("#login-overlay").click();
                         initRegisterOverlay();
+                        initForgotOverlay()
                         $('input[name="_target_path"]').val(currentPath);
                     });
                 });
             }
+
+            function initForgotOverlay(){
+                var b = $("#forgot-overlay");
+                b.one('click', function () {
+                    HoldOn.open();
+                    var overlay = $(b.data('overlay'));
+                    var xpath ='{{ path('frontend_partner_forgopassword') }}';
+                    var params = {action:1};
+                    overlay.load(xpath, params, function (e) {
+                        HoldOn.close();
+                        $("#forgot-overlay").pageOverlay();
+                        $("#forgot-overlay").click();
+                    });
+                });
+            }
+
             function initRegisterOverlay(){
                 var b = $("#trigger-overlay-register");
                 b.one('click', function () {

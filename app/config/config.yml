@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: "@FrontEndBundle/Resources/config/services.yml" }
     - { resource: "@mycpBundle/Resources/config/services.yml" }
+    - { resource: "@PartnerBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~
@@ -44,12 +45,13 @@ twig:
          fb_app_id: "%fb_app_id%"
          mail_base_url: "%router.request_context.scheme%://%router.request_context.host%"
          translator_google_api_key: "%translator_google_api_key%"
+         form_search_requests: "@requests.filter.form"
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle,PartnerBundle, LayoutBundle ]
+    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle,PartnerBundle,LayoutBundle  ]
     #java: /usr/bin/java
     node: "%nodejs_path%"
     filters:
@@ -278,6 +280,12 @@ abuc_remarketing:
     job_manager: doctrine
     job_server: "@leezy.pheanstalk"
 
-
-
-
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src/MyCp/PartnerBundle ]
+            output_dir: %kernel.root_dir%/../src/MyCp/PartnerBundle/Resources/translations
+#            ignored_domains: [routes, validators]
+            excluded_names: ["*TestCase.php", "*Test.php"]
+            excluded_dirs: [cache, data, logs]
+            #extractors: [alias_of_the_extractor]

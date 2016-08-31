@@ -184,6 +184,56 @@ body.landing-page {
 .landing-page .navbar-scroll.navbar-default .nav li a:hover {
     color: #fff;
 }
+
+/****************style chosen*************************/
+.chosen-container-single .chosen-single {
+    background: #ffffff none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    font-size: 14px;
+    padding: 4px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    box-shadow: none;
+}
+.chosen-container-single .chosen-single div {
+    top: 6px;
+    cursor: pointer;
+}
+.chosen-container-active.chosen-with-drop .chosen-single {
+    background-image: linear-gradient(#fff 20%, #ffffff 80%);
+    border: 1px solid #e5e6e7;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 1px 0 #fff inset;
+}
+.chosen-container .chosen-drop {
+    border-top-color: -moz-use-text-color;
+    border-right-color: #e5e6e7;
+    border-left-color: #e5e6e7;
+    border-bottom-color: #e5e6e7;
+    box-shadow: none;
+}
+.chosen-container-single .chosen-single abbr{
+    top: 11px;
+    cursor: pointer;
+}
+.chosen-choices .search-field input, .chosen-default span {
+    color: #999 !important;
+    opacity: 0.5 !important;
+    font-size: 14px !important;
+    font-family: inherit !important;
+    /*padding: 0 5px 0 10px !important;*/
+}
+.chosen-container-single .chosen-single abbr {
+    background: rgba(0, 0, 0, 0) url("../bundles/layout/css/plugins/chosen/chosen-sprite.png") no-repeat scroll -42px 1px;
+}
+.chosen-container-single .chosen-single div b {
+    background: rgba(0, 0, 0, 0) url("../bundles/layout/css/plugins/chosen/chosen-sprite.png") no-repeat scroll 0 2px;
+}
+/******************************************************/
 .landing-page .win h2 {
     color: #165078;
     font-family: MyriadProBoldCond;
