@@ -24,6 +24,7 @@ class log
     const OPERATION_LOGOUT = 6;
     const OPERATION_NONE = 7;
     const OPERATION_REMOVE = 8;
+    const OPERATION_EMAIL = 9;
 
     /**
      * Contains all possible statuses
@@ -38,7 +39,8 @@ class log
         self::OPERATION_LOGIN,
         self::OPERATION_LOGOUT,
         self::OPERATION_NONE,
-        self::OPERATION_REMOVE
+        self::OPERATION_REMOVE,
+        self::OPERATION_EMAIL
     );
 
     /**
@@ -269,6 +271,7 @@ class log
             case self::OPERATION_UPDATE: return "Actualizar";
             case self::OPERATION_VISIT: return "Visita";
             case self::OPERATION_REMOVE: return "Remover";
+            case self::OPERATION_EMAIL: return "Enviar correo";
             default: return "(No especificada)";
         }
     }

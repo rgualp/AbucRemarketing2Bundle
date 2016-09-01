@@ -21,3 +21,11 @@ mycp_accommodations_no_payment:
 mycp_set_payment_callback:
     pattern:  /set-payment-callback/
     defaults: { _controller: mycpBundle:BackendPayment:setPaymentCallback }
+
+mycp_inactive_accommodation_payment:
+    pattern:  /inactive-accommodation/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:inactiveAccommodation }
+
+mycp_send_email_reminder_payment:
+    pattern:  /send-email-reminder/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:sendEmailReminder }

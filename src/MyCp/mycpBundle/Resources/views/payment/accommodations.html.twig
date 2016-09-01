@@ -85,23 +85,23 @@
         <div class="well well-small">
             <div class="row-fluid">
                 <div class="span2" style="margin-top: 4px; font-size: 12px">
-                    Servicio:
+                    Servicio:<br/>
                     <select name="service" id="service" class="input-block-level">
                         {{ render(controller('mycpBundle:Public:getMycpService', {'selectedValue': ''})) }}
                     </select>
                 </div>
                 <div class="span2" style="margin-top: 4px; font-size: 12px">
-                    Método:
+                    Método:<br/>
                     <select name="method" id="method" class="input-block-level">
                         {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': '', 'category': 'accommodationPaymentType'})) }}
                     </select>
                 </div>
                 <div class="span3" style="margin-top: 4px; font-size: 12px">
-                    Cantidad:
+                    Cantidad:<br/>
                     <input type="text" name="amount" id="amount" />
                 </div>
                 <div class="span3" style="margin-top: 4px; font-size: 12px">
-                    Fecha:
+                    Fecha:<br/>
                     <input type="text" name="paymentDate" id="paymentDate" class="input-block-level datepicker"/>
                 </div>
                 <div class="span2 pull-left" style="margin-top: 4px; font-size: 12px">
@@ -136,16 +136,23 @@
             <th>Nombre</th>
             <th>Destino</th>
             <th>Fecha Registro</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for accommodation in list %}
         <tr>
             <td><input type="checkbox" name="check_to_pay" class="ch_accommodation" data-id="{{accommodation.ownId}}"/></td>
-            <td>{{accommodation.ownMcpCode}}</td>
-            <td>{{accommodation.ownName}}</td>
+            <td><a title="Editar alojamiento" href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.ownid}) }}" target="_blank">{{accommodation.ownMcpCode}}</a></td>
+            <td><a title="Editar alojamiento" href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.ownid}) }}" target="_blank">{{accommodation.ownName}}</a></td>
             <td>{{ (accommodation.ownDestination != null) ? accommodation.ownDestination.desName : " - " }} </td>
             <td>{{ (accommodation.ownCreationDate != null) ? accommodation.ownCreationDate | date("d/m/Y") : " - " }}</td>
+            <td>
+                {% if nights(accommodation.ownCreationDate | date("d/m/Y"), "today" | date("d/m/Y")) + 1 > 15 %}
+                    <a class="btn btn-mini btn-info" href="{{ path("mycp_send_email_reminder_payment", {"id": accommodation.ownid}) }}">Enviar recordatorio</a>
+                    <button data='{{ path("mycp_inactive_accommodation_payment", {"id": accommodation.ownid}) }}' class="btn btn-mini btn-danger delete">Desactivar</button>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
         </tbody>
@@ -167,7 +174,7 @@
     {% endif %}
    </div>
     </div>
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea inactivar este alojamiento?','confirmation_action_label':'Desactivar'}%}
 {% endblock %}
 {% block javascripts %}
     {% javascripts
