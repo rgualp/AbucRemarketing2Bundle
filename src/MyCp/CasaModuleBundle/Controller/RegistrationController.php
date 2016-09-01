@@ -106,9 +106,10 @@ class RegistrationController extends Controller
         $em->persist($ownership);
         $dir = $this->container->getParameter('user.dir.photos');
         $factory = $this->get('security.encoder_factory');
-        $userCasa=$em->getRepository('mycpBundle:userCasa')->createUserNew($ownership, null, $factory, true, $this, $this->get('service_container'));
+        $userCasa=$em->getRepository('mycpBundle:userCasa')->createUserNew($ownership, null, $factory, false, $this, $this->get('service_container'));
 
-//        UserMails::sendOwnersMail($this, $request->get('own_email_1'), null, $request->get('own_homeowner_1'), null, $request->get('own_name'), $ownership->getOwnMcpCode());
+        //Enviar correo a los propietarios
+
 
         $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
 

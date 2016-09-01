@@ -101,7 +101,7 @@ class CasaModuleInscriptionWorkerCommand extends Worker
                   'user_locale' => "es"));
 
         $output->writeln("Send email to $accommodationEmail, subject '$emailSubject' for accommodation ID $accommodationId");
-        $this->emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody);
+        $this->emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
     }
 
     /**

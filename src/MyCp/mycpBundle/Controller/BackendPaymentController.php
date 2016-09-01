@@ -265,7 +265,7 @@ class BackendPaymentController extends Controller {
                     'termsUrl' => $termsUrl,
                     'user_locale' => "es"));
 
-            $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody);
+            $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
 
             $message = 'Se ha enviado satisfactoriamente un correo de recordatorio de pago al alojamiento ' . $accommodation->getOwnMcpCode();
             $this->get('session')->getFlashBag()->add('message_ok', $message);
