@@ -9,6 +9,7 @@
 namespace MyCp\CasaModuleBundle\Controller;
 
 
+use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\FrontEndBundle\Form\enableUserCasaType;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\owner;
@@ -19,6 +20,7 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\UserMails;
+use MyCp\mycpBundle\JobData\AccommodationJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Email;
@@ -101,8 +103,6 @@ class RegistrationController extends Controller
             ->setOwnCubaCoupon(0)
             ->setOwnSmsNotifications(1)
             ->setInsertedInCasaModule(true);
-
-
         $em->persist($ownership);
         $dir = $this->container->getParameter('user.dir.photos');
         $factory = $this->get('security.encoder_factory');
@@ -130,6 +130,11 @@ class RegistrationController extends Controller
 
            $em->persist($ownerAccommodation);
         $em->flush();
+
+           //Agregar evento del remarketing, informar que una registro fue realizado
+           $dispatcher = $this->get('event_dispatcher');
+           $eventData = new AccommodationJobData($ownership->getOwnId());
+           $dispatcher->dispatch('mycp.event.casamodule.newregister', new JobEvent($eventData));
 
            $data['id_ownership']=$ownership->getOwnId();
            $data['ownership_mcp_code']=$ownership->getOwnMcpCode();
