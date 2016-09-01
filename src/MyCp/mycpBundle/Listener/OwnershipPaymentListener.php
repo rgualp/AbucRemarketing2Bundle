@@ -37,9 +37,9 @@ class OwnershipPaymentListener {
     {
             $year = $paymentDate->format("Y");
 
-            $queryString = "SELECT MAX(op.number) from mycpBundle:ownershipPayment op WHERE op.number LIKE :number";
+            $queryString = "SELECT op.number from mycpBundle:ownershipPayment op WHERE op.number LIKE :number ORDER BY LENGTH(op.number) DESC, op.number DESC";
 
-            $maxPaymentNumber = $em->createQuery($queryString)->setParameter('number', $year . "%")->getSingleScalarResult();
+            $maxPaymentNumber = $em->createQuery($queryString)->setParameter('number', $year . "%")->setMaxResults(1)->getSingleScalarResult();
 
             if ($maxPaymentNumber === null)
                 $maxPaymentNumber = 1;
