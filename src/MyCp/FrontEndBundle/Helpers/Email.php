@@ -162,7 +162,7 @@ class Email {
 		));
 
 		$this->sendEmail(
-			"Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+			"Active su cuenta en MyCasaParticular.com", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
 		);
 	}
 	public function sendCreateUserCasaMailCommand($user_casa, $ownership) {

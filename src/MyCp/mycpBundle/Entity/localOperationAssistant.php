@@ -62,10 +62,10 @@ class localOperationAssistant {
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity="destination")
-     * @ORM\JoinColumn(name="destination", referencedColumnName="des_id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="municipality")
+     * @ORM\JoinColumn(name="municipality", referencedColumnName="mun_id", nullable=true)
      */
-    private $destination;
+    private $municipality;
 
     /**
      * @return int
@@ -78,18 +78,18 @@ class localOperationAssistant {
     /**
      * @return mixed
      */
-    public function getDestination()
+    public function getMunicipality()
     {
-        return $this->destination;
+        return $this->municipality;
     }
 
     /**
-     * @param mixed $destination
+     * @param mixed $municipality
      * @return mixed
      */
-    public function setDestination($destination)
+    public function setMunicipality($municipality)
     {
-        $this->destination = $destination;
+        $this->municipality = $municipality;
         return $this;
     }
 
