@@ -96,7 +96,7 @@ class CasaModuleInscriptionWorkerCommand extends Worker
 
         $emailSubject ="Únete a MyCasaParticular.com";
 
-        $emailBody = $this->emailManager->getViewContent('CasaModuleBundle:mail:inscription_reminder.html.twig',
+        $emailBody = $this->emailManager->getViewContent('MyCpCasaModuleBundle:mail:inscription_reminder.html.twig',
             array('user_name' => $userName,
                   'user_locale' => "es"));
 

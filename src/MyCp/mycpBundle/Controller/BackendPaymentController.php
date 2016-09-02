@@ -260,7 +260,7 @@ class BackendPaymentController extends Controller {
                 '_locale' => 'es'
             ), true);
 
-            $emailBody = $emailManager->getViewContent('CasaModuleBundle:mail:payment_reminder.html.twig',
+            $emailBody = $emailManager->getViewContent('MyCpCasaModuleBundle:mail:payment_reminder.html.twig',
                 array('user_name' => $userName,
                     'termsUrl' => $termsUrl,
                     'user_locale' => "es"));

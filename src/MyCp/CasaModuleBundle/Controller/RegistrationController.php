@@ -111,13 +111,13 @@ class RegistrationController extends Controller
         //Enviar correo a los propietarios
            $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
            $userName = ($ownership->getOwnHomeowner1()) ? $ownership->getOwnHomeowner1() : $ownership->getOwnHomeowner2();
-           $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnDestination()->getDesId()));
+           $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId()));
 
            $emailSubject = "Bienvenido a MyCasaParticular.com";
 
            $emailManager = $this->get('mycp.service.email_manager');
 
-           $emailBody = $emailManager->getViewContent('CasaModuleBundle:mail:inscription.html.twig',
+           $emailBody = $emailManager->getViewContent('MyCpCasaModuleBundle:mail:inscription.html.twig',
                array('user_name' => $userName,
                    'assistant' => $localOperationAssistant,
                    'accommodation' => $ownership,
