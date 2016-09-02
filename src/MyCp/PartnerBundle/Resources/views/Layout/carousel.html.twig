@@ -5,19 +5,19 @@
             <div class="item {% if loop.first %} active {% endif %}">
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>{{ 'label.carousel_text_one' | trans }}</h1>
-                        <p>{{ 'label.carousel_text_two' | trans }}</p>
+                        {% block textCarousel %}
+                            <h1>{{ 'label.carousel_text_one' | trans }}</h1>
+                            <p>{{ 'label.carousel_text_two' | trans }}</p>
+                        {% endblock %}
                     </div>
                 </div>
                 <!-- Set background for slide in css -->
-                <div class="" style="
-                        background-blend-mode: overlay;
+                <div style="background-blend-mode: overlay;
                         background: rgba(0, 0, 0, 0.1) url('{{ asset(image_url) }}') no-repeat scroll center center / cover ;
                         position: absolute;
                         height: 100%;
-                        width: 100%;
-                        margin: 0px -15px;
-                        "></div>
+                        width: 100%;">
+                </div>
 
             </div>
         {% endfor %}

@@ -37,6 +37,7 @@ class paTravelAgencyType extends AbstractType
             ->add('email', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('address', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phone', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('phoneAux', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('country','choice',array(
                 'choices'=>$array_countries,
                 'empty_value' => '',

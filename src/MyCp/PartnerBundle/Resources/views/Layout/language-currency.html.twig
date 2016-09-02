@@ -1,12 +1,12 @@
 <li class="dropdown">
-    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
+    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle language-partner" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
     <ul class="dropdown-menu">
         {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
     </ul>
 </li>
 <li class="dropdown">
-    <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
+    <a style="background:rgba(0, 0, 0, 0.44) none repeat scroll 0 0; margin-top: 22px;padding: 3px 5px 3px 3px;" title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
         {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
     <ul class="dropdown-menu">
         {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}

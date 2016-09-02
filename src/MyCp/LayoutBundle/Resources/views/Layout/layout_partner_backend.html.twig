@@ -1,5 +1,6 @@
 {% extends 'LayoutBundle:Layout:layout_partner_base.html.twig' %}
 {% block body_class %}pace-running{% endblock %}
+
 {% block body %}
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
@@ -7,3 +8,12 @@
         </div>
     </div>
 {% endblock body %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@LayoutBundle/Resources/public/js/plugins/slider/bootstrap-slider.js'
+    '@PartnerBundle/Resources/public/js/Dashboard.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
