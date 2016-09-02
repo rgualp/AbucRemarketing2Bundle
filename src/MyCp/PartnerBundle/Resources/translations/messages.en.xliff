@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-08-30T14:17:41Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-01T17:02:30Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -22,9 +22,33 @@
         <source>EMAIL_INVALID_MESSAGE</source>
         <target state="new">EMAIL_INVALID_MESSAGE</target>
       </trans-unit>
+      <trans-unit id="696e470058bcc7249b61750e5172fd20a925533a" resname="EMAIL_NEW_PASSWORD">
+        <source>EMAIL_NEW_PASSWORD</source>
+        <target state="new">EMAIL_NEW_PASSWORD</target>
+      </trans-unit>
+      <trans-unit id="cf7fec9d844c5e93d700a9fec128d0581406a79a" resname="EMAIL_PASS_CHANGED">
+        <source>EMAIL_PASS_CHANGED</source>
+        <target state="new">EMAIL_PASS_CHANGED</target>
+      </trans-unit>
+      <trans-unit id="9334a60262f4ec0f5610fda40cb3deced0715170" resname="EMAIL_RESTORE_ACCOUNT">
+        <source>EMAIL_RESTORE_ACCOUNT</source>
+        <target state="new">EMAIL_RESTORE_ACCOUNT</target>
+      </trans-unit>
+      <trans-unit id="a66b06c6b97c85f9dc8aa01f2fd7fccda2005176" resname="EMAIL_VISIT_LINK">
+        <source>EMAIL_VISIT_LINK</source>
+        <target state="new">EMAIL_VISIT_LINK</target>
+      </trans-unit>
       <trans-unit id="7f2f6a15cf8da2b27e5a4af47b58e7ad71c0b3d9" resname="Error">
         <source>Error</source>
         <target state="new">Error</target>
+      </trans-unit>
+      <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
+        <source>FORGOT_PASSWORD_BUTTON</source>
+        <target state="new">FORGOT_PASSWORD_BUTTON</target>
+      </trans-unit>
+      <trans-unit id="e57590b80cd6874490039969bd4f68b8be78f496" resname="FORGOT_PASSWORD_PAGE_TITLE">
+        <source>FORGOT_PASSWORD_PAGE_TITLE</source>
+        <target state="new">FORGOT_PASSWORD_PAGE_TITLE</target>
       </trans-unit>
       <trans-unit id="8ed88331ff7896cbf67ef909ec1c57317c2030a0" resname="HOMEPAGE_TITLE">
         <source>HOMEPAGE_TITLE</source>
@@ -38,9 +62,13 @@
         <source>MyCP</source>
         <target state="new">MyCP</target>
       </trans-unit>
-      <trans-unit id="106b02e2935ca1dbd6d7abd6d1c78fd4562b500a" resname="PLACE_WATERMARK">
-        <source>PLACE_WATERMARK</source>
-        <target state="new">PLACE_WATERMARK</target>
+      <trans-unit id="2bdbca8d54c5de7744de8e2c0cbe95e03fcc419a" resname="PASSWORD_RECOVERY_BUTTON_TEXT">
+        <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
+        <target state="new">PASSWORD_RECOVERY_BUTTON_TEXT</target>
+      </trans-unit>
+      <trans-unit id="f41a06ea1bf32a6f512ae555f05e8f4a4a7ddaf2" resname="PASSWORD_RECOVERY_PAGE_TITLE">
+        <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
+        <target state="new">PASSWORD_RECOVERY_PAGE_TITLE</target>
       </trans-unit>
       <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
         <source>Pixel</source>
@@ -54,6 +82,62 @@
         <source>USER_EMAIL_IN_USE</source>
         <target state="new">USER_EMAIL_IN_USE</target>
       </trans-unit>
+      <trans-unit id="14d45090e6f1e434eef7b96208247c21b3fc6cee" resname="USER_PASSWORD_CHANGE_ERROR">
+        <source>USER_PASSWORD_CHANGE_ERROR</source>
+        <target state="new">USER_PASSWORD_CHANGE_ERROR</target>
+      </trans-unit>
+      <trans-unit id="c5dc6ac915b0cb5408a6e9b5c4d9816475a2be58" resname="USER_PASSWORD_RECOVERY">
+        <source>USER_PASSWORD_RECOVERY</source>
+        <target state="new">USER_PASSWORD_RECOVERY</target>
+      </trans-unit>
+      <trans-unit id="1637f0e61ba954c31bb10f84f24d43b3d9dc95f4" resname="USER_PASSWORD_RECOVERY_ERROR">
+        <source>USER_PASSWORD_RECOVERY_ERROR</source>
+        <target state="new">USER_PASSWORD_RECOVERY_ERROR</target>
+      </trans-unit>
+      <trans-unit id="b7d066e9ea9a8bd518b7e3614ab8e7300b560721" resname="btn.close">
+        <source>btn.close</source>
+        <target state="new">btn.close</target>
+      </trans-unit>
+      <trans-unit id="d2d5facd29f30b24849e8fcc8a14ab08161c0c4e" resname="btn.filter">
+        <source>btn.filter</source>
+        <target state="new">btn.filter</target>
+      </trans-unit>
+      <trans-unit id="17f0c1300aa7ef56b4a08efc8312f248bc395a72" resname="dashboard.booking">
+        <source>dashboard.booking</source>
+        <target state="new">dashboard.booking</target>
+      </trans-unit>
+      <trans-unit id="0f4c3e49b3707c3bdf4e608af075c82425964dca" resname="dashboard.requests.pending">
+        <source>dashboard.requests.pending</source>
+        <target state="new">dashboard.requests.pending</target>
+      </trans-unit>
+      <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
+        <source>label.activateaccount.five</source>
+        <target state="new">label.activateaccount.five</target>
+      </trans-unit>
+      <trans-unit id="d13fed14f0a38d0a0f6a22297a39be135a940ac7" resname="label.activateaccount.four">
+        <source>label.activateaccount.four</source>
+        <target state="new">label.activateaccount.four</target>
+      </trans-unit>
+      <trans-unit id="e135bc18c70e0f767d8a973cff682dcfbb24d5e5" resname="label.activateaccount.six">
+        <source>label.activateaccount.six</source>
+        <target state="new">label.activateaccount.six</target>
+      </trans-unit>
+      <trans-unit id="e6fafd43185c49886228941f39241973b8776273" resname="label.activateaccount.three">
+        <source>label.activateaccount.three</source>
+        <target state="new">label.activateaccount.three</target>
+      </trans-unit>
+      <trans-unit id="1af53840ba0ee6c7e7e214cc4321e72951e29c2b" resname="label.activateaccount.two">
+        <source>label.activateaccount.two</source>
+        <target state="new">label.activateaccount.two</target>
+      </trans-unit>
+      <trans-unit id="a9832d6bfdfd97cc4afda321431f4e6d684266a8" resname="label.carousel_text_backend_one">
+        <source>label.carousel_text_backend_one</source>
+        <target state="new">label.carousel_text_backend_one</target>
+      </trans-unit>
+      <trans-unit id="e39254f99ac1dc7ef27d192c91de4e07bef29567" resname="label.carousel_text_backend_two">
+        <source>label.carousel_text_backend_two</source>
+        <target state="new">label.carousel_text_backend_two</target>
+      </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
         <target state="new">label.carousel_text_one</target>
@@ -65,6 +149,18 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
+      </trans-unit>
+      <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
+        <source>label.filter.arrival</source>
+        <target state="new">label.filter.arrival</target>
+      </trans-unit>
+      <trans-unit id="922c358adc3b36c93a128e90f931f5810d2cf26c" resname="label.filter.exit">
+        <source>label.filter.exit</source>
+        <target state="new">label.filter.exit</target>
+      </trans-unit>
+      <trans-unit id="3597de2b60f98bcc1a9f829350f319b99844fb97" resname="label.forgot_password">
+        <source>label.forgot_password</source>
+        <target state="new">label.forgot_password</target>
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
@@ -82,6 +178,14 @@
         <source>label.free</source>
         <target state="new">label.free</target>
       </trans-unit>
+      <trans-unit id="bd906f18ec9225517037cc9f88213b611b4e5833" resname="label.gest.reserv_one">
+        <source>label.gest.reserv_one</source>
+        <target state="new">label.gest.reserv_one</target>
+      </trans-unit>
+      <trans-unit id="64ed2865bace4ac888e59251021f8dbcd00a622b" resname="label.gest.reserv_two">
+        <source>label.gest.reserv_two</source>
+        <target state="new">label.gest.reserv_two</target>
+      </trans-unit>
       <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
         <source>label.gonow</source>
         <target state="new">label.gonow</target>
@@ -98,6 +202,10 @@
         <source>label.login</source>
         <target state="new">label.login</target>
       </trans-unit>
+      <trans-unit id="370c11f6615f95d2a6eab2e62ec91d72c3b0e7cd" resname="label.more">
+        <source>label.more</source>
+        <target state="new">label.more</target>
+      </trans-unit>
       <trans-unit id="4b8db389f9696db5926182496378bdf7b3d70b7f" resname="label.name.address">
         <source>label.name.address</source>
         <target state="new">label.name.address</target>
@@ -109,6 +217,10 @@
       <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
         <source>label.name.country</source>
         <target state="new">label.name.country</target>
+      </trans-unit>
+      <trans-unit id="259fd25f4c7a43c61fd54072c5a78ed93f529d78" resname="label.name.destination">
+        <source>label.name.destination</source>
+        <target state="new">label.name.destination</target>
       </trans-unit>
       <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
         <source>label.name.email</source>
@@ -138,9 +250,29 @@
         <source>label.prox</source>
         <target state="new">label.prox</target>
       </trans-unit>
+      <trans-unit id="0b3d0c1e561828be361f20b094b3518e0ad907f8" resname="label.range-price">
+        <source>label.range-price</source>
+        <target state="new">label.range-price</target>
+      </trans-unit>
+      <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
+        <source>label.ready.reserved</source>
+        <target state="new">label.ready.reserved</target>
+      </trans-unit>
       <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
         <source>label.register.agency</source>
         <target state="new">label.register.agency</target>
+      </trans-unit>
+      <trans-unit id="ebfccfc3ce9807288f420d7b56db31eae85befc3" resname="label.remember.password">
+        <source>label.remember.password</source>
+        <target state="new">label.remember.password</target>
+      </trans-unit>
+      <trans-unit id="b5c9af60111af4277f44b89fb59fd2a2aaba9eb4" resname="label.resgister.description.one">
+        <source>label.resgister.description.one</source>
+        <target state="new">label.resgister.description.one</target>
+      </trans-unit>
+      <trans-unit id="fcfacf71ec893568ad8e50148741ee6efe95a379" resname="label.resgister.description.two">
+        <source>label.resgister.description.two</source>
+        <target state="new">label.resgister.description.two</target>
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
@@ -230,17 +362,41 @@
         <source>label.section.vacation_description</source>
         <target state="new">label.section.vacation_description</target>
       </trans-unit>
-      <trans-unit id="005bbb4efaab3fe7d99e4bdb7edc9e2f7a18f434" resname="operation.succesfull">
-        <source>operation.succesfull</source>
-        <target state="new">operation.succesfull</target>
+      <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
+        <source>label.sigin</source>
+        <target state="new">label.sigin</target>
+      </trans-unit>
+      <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
+        <source>label.thanks</source>
+        <target state="new">label.thanks</target>
+      </trans-unit>
+      <trans-unit id="f2d3006ba62b89ef481bd6d52cc75e09c2d1f4a5" resname="label.user">
+        <source>label.user</source>
+        <target state="new">label.user</target>
+      </trans-unit>
+      <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
+        <source>label.welcome</source>
+        <target state="new">label.welcome</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>
         <target state="new">pa_about_us</target>
       </trans-unit>
-      <trans-unit id="7d3990974f366066fe1061dfbdbdbdcd932b886d" resname="pa_adults">
-        <source>pa_adults</source>
-        <target state="new">pa_adults</target>
+      <trans-unit id="e506af1f2680cc03beebb2d2a5760e533c632377" resname="pa_age">
+        <source>pa_age</source>
+        <target state="new">pa_age</target>
+      </trans-unit>
+      <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
+        <source>pa_bath_room</source>
+        <target state="new">pa_bath_room</target>
+      </trans-unit>
+      <trans-unit id="e5631758b4809351331d154a30059d0e3830723e" resname="pa_bed">
+        <source>pa_bed</source>
+        <target state="new">pa_bed</target>
+      </trans-unit>
+      <trans-unit id="fda6e9df956d12a7cf675d0a835667481c17616a" resname="pa_cate">
+        <source>pa_cate</source>
+        <target state="new">pa_cate</target>
       </trans-unit>
       <trans-unit id="b68f26d6b0b0ce04a3979c9406f6cd9d9eeaf142" resname="pa_children">
         <source>pa_children</source>
@@ -258,9 +414,13 @@
         <source>pa_footer_copyright</source>
         <target state="new">pa_footer_copyright</target>
       </trans-unit>
-      <trans-unit id="98f87d3457d8d01953aaed05ba8f8a6f5b8bcaec" resname="pa_infants">
-        <source>pa_infants</source>
-        <target state="new">pa_infants</target>
+      <trans-unit id="68b672245bd87235b822ace9659b970434ad2e03" resname="pa_hab">
+        <source>pa_hab</source>
+        <target state="new">pa_hab</target>
+      </trans-unit>
+      <trans-unit id="27e172985c2a0f7a811cf8989d5f556d70a83f02" resname="pa_hues">
+        <source>pa_hues</source>
+        <target state="new">pa_hues</target>
       </trans-unit>
       <trans-unit id="cf653348d63f83debe0b3eee6efd3af76e2730e2" resname="pa_legal">
         <source>pa_legal</source>
@@ -278,9 +438,13 @@
         <source>pa_mycuba_map</source>
         <target state="new">pa_mycuba_map</target>
       </trans-unit>
-      <trans-unit id="f2aab8d145207fba0aa148627142bb83f5ab817e" resname="pa_rooms">
-        <source>pa_rooms</source>
-        <target state="new">pa_rooms</target>
+      <trans-unit id="b2cb900684ed73dff71690385ff903bb18d43ee8" resname="pa_property">
+        <source>pa_property</source>
+        <target state="new">pa_property</target>
+      </trans-unit>
+      <trans-unit id="452e97333657d45be9ce76e78991dab56ec92681" resname="pa_room_type">
+        <source>pa_room_type</source>
+        <target state="new">pa_room_type</target>
       </trans-unit>
       <trans-unit id="a1042ea6e5f68fd2b24ca5b5c7e82c9063088762" resname="pa_searcher_title">
         <source>pa_searcher_title</source>
@@ -297,6 +461,62 @@
       <trans-unit id="5ba388cb7b46eb896c64d4a644c9d0b73922e453" resname="page.logout">
         <source>page.logout</source>
         <target state="new">page.logout</target>
+      </trans-unit>
+      <trans-unit id="725c567ae7399fdc3b48cbf97ec3fcd1d703c069" resname="requests.placeholder.accommodation">
+        <source>requests.placeholder.accommodation</source>
+        <target state="new">requests.placeholder.accommodation</target>
+      </trans-unit>
+      <trans-unit id="9b6be39895b871e998fbf95a1f5154d83a7f0e36" resname="requests.placeholder.arrival">
+        <source>requests.placeholder.arrival</source>
+        <target state="new">requests.placeholder.arrival</target>
+      </trans-unit>
+      <trans-unit id="61ef7a081f72ce226feb746d6fea40550f5d959d" resname="requests.placeholder.code">
+        <source>requests.placeholder.code</source>
+        <target state="new">requests.placeholder.code</target>
+      </trans-unit>
+      <trans-unit id="8f95ee0d6d202169a70ce1686b656dfd8ae22a0d" resname="requests.placeholder.destination">
+        <source>requests.placeholder.destination</source>
+        <target state="new">requests.placeholder.destination</target>
+      </trans-unit>
+      <trans-unit id="48f20841dc2526f4a564c87c9c80676c3f8b5577" resname="requests.placeholder.exit">
+        <source>requests.placeholder.exit</source>
+        <target state="new">requests.placeholder.exit</target>
+      </trans-unit>
+      <trans-unit id="502b92862bf8bb3f4f1388b12a5de61205f0559f" resname="requests.placeholder.name">
+        <source>requests.placeholder.name</source>
+        <target state="new">requests.placeholder.name</target>
+      </trans-unit>
+      <trans-unit id="61a719ca44c6b38be7b20a932e7d63d51d3902c9" resname="requests.placeholder.request">
+        <source>requests.placeholder.request</source>
+        <target state="new">requests.placeholder.request</target>
+      </trans-unit>
+      <trans-unit id="c68d4964f805744f3d13b3d4941a13ed11219882" resname="requests.title.accommodation">
+        <source>requests.title.accommodation</source>
+        <target state="new">requests.title.accommodation</target>
+      </trans-unit>
+      <trans-unit id="4c29a33344e9188c1a3c6f72c8cad0fb5afb4ce9" resname="requests.title.arrival">
+        <source>requests.title.arrival</source>
+        <target state="new">requests.title.arrival</target>
+      </trans-unit>
+      <trans-unit id="35852d03b2da629e647a0d98833afae532c031c1" resname="requests.title.code">
+        <source>requests.title.code</source>
+        <target state="new">requests.title.code</target>
+      </trans-unit>
+      <trans-unit id="34513302df42a510fd24817deca53b867616d6b0" resname="requests.title.destination">
+        <source>requests.title.destination</source>
+        <target state="new">requests.title.destination</target>
+      </trans-unit>
+      <trans-unit id="baa2c7e4af82c1a4a0788b40ccb629e431e74863" resname="requests.title.exit">
+        <source>requests.title.exit</source>
+        <target state="new">requests.title.exit</target>
+      </trans-unit>
+      <trans-unit id="f25a0509fff5d56acec4415baffba0a55798e3df" resname="requests.title.name">
+        <source>requests.title.name</source>
+        <target state="new">requests.title.name</target>
+      </trans-unit>
+      <trans-unit id="537767b8bc55c978ac3d17789111cf93fa606ba7" resname="requests.title.request">
+        <source>requests.title.request</source>
+        <target state="new">requests.title.request</target>
       </trans-unit>
       <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
         <source>title.column_five</source>

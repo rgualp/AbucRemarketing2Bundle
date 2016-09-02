@@ -10,7 +10,7 @@
                 </button>
                 <a href="{{ path('frontend_partner_home') }}"><img class="icon tiny-lang-icon" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}" style="margin-top: 7px" width="200px"/></a>
             </div>
-            <div class="navbar-collapse collapse" id="navbar">
+            <div class="navbar-collapse collapse navbar-partner" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     {% if app.request.get('_route') %}
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
@@ -19,9 +19,23 @@
 
                    {% if app.user.getUserUserName is defined %}
                         <li>
-                            <a href="{{ path('frontend_partner_logout') }}">
-                                <i class="fa fa-sign-out"></i> {{ 'page.logout' | trans }}
-                            </a>
+                            <div class="dropdown profile-element">
+                                <span>
+                                    <img src="{{ asset('bundles/partner/img/icon/profile_small.jpg')}}" class="img-circle" alt="image">
+                                </span>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 8px;margin-top: 7px;">
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                             </span> <span class="text-muted text-xs block">David Williams <b class="caret"></b></span> </span> </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li>
+                                        <a href="{{ path('frontend_partner_logout') }}">
+                                            <i class="fa fa-sign-out"></i> {{ 'page.logout' | trans }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </li>
                     {% else %}
                         <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">{{ 'label.login'|trans }}</a></li>

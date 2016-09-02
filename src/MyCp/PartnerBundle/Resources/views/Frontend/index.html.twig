@@ -47,10 +47,26 @@
                         $("#login-overlay").pageOverlay();
                         $("#login-overlay").click();
                         initRegisterOverlay();
+                        initForgotOverlay()
                         $('input[name="_target_path"]').val(currentPath);
                     });
                 });
             }
+
+            function initForgotOverlay(){
+                var b = $("#forgot-link");
+                b.one('click', function () {
+                    HoldOn.open();
+                    var overlay = $(b.data('overlay'));
+                    var xpath ='{{ path('frontend_partner_forgopassword') }}';
+                    var params = {action:1};
+                    $('.f-content',overlay).load(xpath, params, function (e) {
+                        HoldOn.close();
+                        overlay.show();
+                    });
+                });
+            }
+
             function initRegisterOverlay(){
                 var b = $("#trigger-overlay-register");
                 b.one('click', function () {

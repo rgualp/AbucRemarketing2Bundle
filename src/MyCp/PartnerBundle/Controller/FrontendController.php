@@ -2,6 +2,7 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -63,6 +64,19 @@ class FrontendController extends Controller
 
     /**
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function contentForgotAction(Request $request){
+        $errors = array();
+        $form = $this->createForm(new \MyCp\FrontEndBundle\Form\restorePasswordUserType($this->get('translator')));
+        return $this->render('LayoutBundle:Security:forgot-content.html.twig', array(
+            'form' => $form->createView(),
+            'errors' => $errors
+        ));
+    }
+
+    /**
+     * @param Request $request
      */
     public function registerAgencyAction(Request $request){
         $em = $this->getDoctrine()->getManager();
@@ -96,9 +110,16 @@ class FrontendController extends Controller
                 $factory = $this->get('security.encoder_factory');
                 $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'));
                 //Create tour operator
-                return new JsonResponse(['success' => true, 'msg' => $this->get('translator')->trans("operation.succesfull")]);
+                return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
             }
 
         }
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function registerAccountPageAction(){
+        return $this->render('PartnerBundle:Layout:registerAgency.html.twig', array());
     }
 }

@@ -57,6 +57,13 @@ class paTravelAgency extends baseEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="phoneAux", type="string", length=255, nullable=true)
+     */
+    private $phoneAux;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="address", type="string", length=500)
      */
     private $address;
@@ -202,6 +209,23 @@ class paTravelAgency extends baseEntity
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getPhoneAux()
+    {
+        return $this->phoneAux;
+    }
+
+    /**
+     * @param string $phoneAux
+     * @return mixed
+     */
+    public function setPhoneAux($phoneAux)
+    {
+        $this->phoneAux = $phoneAux;
         return $this;
     }
 

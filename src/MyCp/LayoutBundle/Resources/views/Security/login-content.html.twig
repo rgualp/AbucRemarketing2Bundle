@@ -3,11 +3,8 @@
 {% endif %}
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div class="middle-box loginscreen text-center animated fadeInDown">
-        <div>
-            <a href="{{ path('frontend_partner_home') }}">  <img src="{{ asset('img/mycp.png') }}"></a>
-        </div>
-        <h1 class="font-blue">¡Bienvenido!</h1>
-        <p>Estas listo para reservar a lo grande</p>
+        <h1 class="color-white" style="font-size: 64px;font-family: MyriadProRegular;line-height: 0px">{{ 'label.welcome' | trans }}</h1>
+        <p class="color-white" style="font-size: 24px;font-family: MyriadProRegular">{{ 'label.ready.reserved' | trans }}</p>
         {% for message in app.session.flashbag.get('message_ok') %}
             <div class="alert alert-info alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
@@ -22,31 +19,44 @@
             <div class="alert alert-danger alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
         {% endif %}
-        <form class="form-horizontal" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">
-            <div class="form-group"><label class="col-lg-2 control-label"><i class="fa fa-user"></i></label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputUsername" placeholder="Usuario" name="_username"   value="{{ last_username|default('') }}"/>
-                </div>
+        <form class="form-horizontal form-login" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">
+            <div class="input-group m-b">
+                <span class="input-group-addon"><i class="glyphicons user"></i></span>
+                <input type="text" class="form-control MyriadProRegular" id="inputUsername" placeholder="{{ 'label.user' | trans }}" name="_username"   value="{{ last_username|default('') }}"/>
             </div>
-            <div class="form-group"><label class="col-lg-2 control-label"><i class="fa fa-lock"></i></label>
-                <div class="col-lg-10">
-                    <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>
+            <div class="input-group m-b">
+                <span class="input-group-addon"><i class="glyphicons keys"></i></span>
+                <input type="password" class="form-control MyriadProRegular" placeholder="{{ 'label.password' | trans }}" id="inputPassword"  name="_password"/>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-sm btn-login">{{ 'label.sigin' | trans }}</button>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-offset-2 col-lg-10">
+                <div class="col-lg-offset-1 col-lg-11">
                     <div class="i-checks">
-                        <label>
-                            <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña
+                        <label  class="MyriadProRegular">
+                            <input type="checkbox" id="remember_me" class="i-checks color-white" name="_remember_me" /> {{ 'label.remember.password' | trans }}
                         </label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-sm btn-white">Sign in</button>
+                <div class="col-lg-12">
+                    <div class="i-checks">
+                        <label>
+                            <a id="forgot-link" data-overlay="#poput-forgot" class="page-scroll MyriadProRegular" style="color: #fff">{{ 'label.forgot_password'|trans }}</a>
+                        </label>
+                    </div>
                 </div>
             </div>
+
         </form>
+        <div id="poput-forgot" style="display: none;" class="poput_forgot">
+            <div class="f-header MyriadProRegular">Indica tu cuenta de correo establecida para la agencia. Te enviaremos una contraseña nueva. </div>
+            <div class="f-content"></div>
+            <div class="f-footer MyriadProRegular">¡Gracias!</div>
+        </div>
     </div>
 </div>

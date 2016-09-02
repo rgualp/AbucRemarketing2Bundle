@@ -106,10 +106,46 @@
 
     </style>
 {% endblock stylesheets %}
+{% block carousel %}
+    <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            {% for i in 1..8 %}
+                {% set image_url = ['bundles/partner/img/slideshow/1/', i, '.jpg']|join %}
+                <div class="item {% if loop.first %} active {% endif %}">
+                    <div class="container">
+                        <div class="carousel-caption" style="right: 72px !important;top: 110px !important;">
+                            {% block textCarousel %}
+                                <h1>{{ 'label.carousel_text_backend_one' | trans | raw }}</h1>
+                                <p>{{ 'label.carousel_text_backend_two' | trans | raw }}</p>
+                            {% endblock %}
+                        </div>
+                    </div>
+                    <!-- Set background for slide in css -->
+                    <div style="background-blend-mode: overlay;
+                            background: rgba(0, 0, 0, 0.1) url('{{ asset(image_url) }}') no-repeat scroll center center / cover ;
+                            position: absolute;
+                            height: 100%;
+                            width: 100%;">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
 
 {% block body %}
+    <div class="row" style="background-color: #06354f">
+        <div class="container m-t-sm" style="width: 96%">
+            <div class="col-md-7">
+                {% include 'PartnerBundle:Backend:searcher.html.twig' %}
+            </div>
+            <div class="col-md-5 text-right">
+                <span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>
+                <span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>
+            </div>
+        </div>
+    </div>
     <div id="wrapper">
-
         {% block nav %}
             {% include 'PartnerBundle:Layout:menu.html.twig' %}
         {% endblock nav %}

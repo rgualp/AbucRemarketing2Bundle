@@ -1,0 +1,23 @@
+<form novalidate class="form-horizontal form-login" action="{{ path("frontend_partner_restore_password_user") }}" method="post">
+    {{ form_widget(form._token) }}
+    <div class="input-group m-b">
+        <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+        {{ form_widget(form.user_email) }}
+    </div>
+    <div class="col-sm-12">
+        {{ form_widget(form.user_email) }}
+        <button class="btn btn-login" type="submit">{{ "FORGOT_PASSWORD_BUTTON" | trans }}
+        </button>
+    </div>
+    {#<div class="row">
+        <div class="col-sm-3 text-right to-left">
+            {{ form_label(form.user_email) }}:
+        </div>
+        <div class="col-sm-7">
+            {{ form_widget(form.user_email) }}
+            <button class="btn btn-primary btn-block" type="submit"
+                    style="margin: 20px 0">{{ "FORGOT_PASSWORD_BUTTON" | trans }}
+            </button>
+        </div>
+    </div>#}
+</form>

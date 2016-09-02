@@ -10,7 +10,7 @@
                     <div class="row" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_es.png')}})  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
                     </div>
                     <div class="row">
-                        <button id="regi" class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>
+                        <button class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -39,6 +39,10 @@
                                 <div class="input-group m-b">
                                     <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
                                     {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                </div>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+                                    {{ form_widget(form.phoneAux, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
                             </div>
                         </div>
