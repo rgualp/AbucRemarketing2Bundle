@@ -326,6 +326,30 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb21" resname="dashboard.booking">
+        <source>dashboard.booking</source>
+        <target state="new">Booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb22" resname="dashboard.booking.pending">
+        <source>dashboard.booking.pending</source>
+        <target state="new">Pendientes</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb23" resname="dashboard.booking.availability">
+        <source>dashboard.booking.availability</source>
+        <target state="new">Disponibles</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb24" resname="dashboard.booking.beaten">
+        <source>dashboard.booking.beaten</source>
+        <target state="new">Vencidas</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb25" resname="dashboard.booking.reserved">
+        <source>dashboard.booking.reserved</source>
+        <target state="new">Reservadas</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb26" resname="dashboard.booking.canceled">
+        <source>dashboard.booking.canceled</source>
+        <target state="new">Canceladas</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

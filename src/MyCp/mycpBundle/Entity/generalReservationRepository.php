@@ -38,6 +38,7 @@ class generalReservationRepository extends EntityRepository {
 
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page);
     }
+
     function getUserReservationsFiltered($user_id, $filter_date_from, $filter_date_to, $filter_status, $filter_province, $filter_destination, $filter_nights) {
         $em=$this->getEntityManager();
         $where="";
@@ -369,6 +370,7 @@ class generalReservationRepository extends EntityRepository {
                         ))
                         ->getArrayResult();
     }
+
     function getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency) {
         $em = $this->getEntityManager();
 
@@ -2121,5 +2123,72 @@ class generalReservationRepository extends EntityRepository {
             ->setParameter("idAccommodation", $idAccommodation)
             ->setParameter("start", $start);
         return $qb->getQuery()->getResult();
+    }
+
+    /****************** partner ****************
+     * @param $idUser
+     * @param $status
+     * @param array $filters
+     * @param $start
+     * @param $limit
+     * @return mixed
+     */
+
+    function getReservationsPartner($idUser, $status, array $filters, $start, $limit){
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->join('r.gen_res_user_id', 'u');
+        $qb->andWhere('u.user_id = :user_id');
+        $qb->setParameter('user_id', $idUser);
+
+        $qb->andWhere('r.gen_res_status = :gen_res_status');
+        $qb->setParameter('gen_res_status', $status);
+
+        if(isset($filters)){
+            if(array_key_exists('cas', $filters) && isset($filters['cas'])){
+                $qb->andWhere('r.gen_res_id = :gen_res_id');
+                $qb->setParameter('gen_res_id', $filters['cas']);
+            }
+            if((array_key_exists('own_name', $filters) && isset($filters['own_name'])) || (array_key_exists('code', $filters) && isset($filters['code'])) || (array_key_exists('destination', $filters) && isset($filters['destination']))){
+
+                $qb->join('r.gen_res_own_id', 'o');
+
+                if(array_key_exists('own_name', $filters) && isset($filters['own_name'])){
+                    $qb->andWhere('o.own_name LIKE :own_name');
+                    $qb->setParameter('own_name', '%'.trim($filters['own_name']).'%');
+                }
+                if(array_key_exists('code', $filters) && isset($filters['code'])){
+                    $qb->andWhere('o.own_mcp_code LIKE :own_mcp_code');
+                    $qb->setParameter('own_mcp_code', '%'.trim($filters['code']).'%');
+                }
+                if (array_key_exists('destination', $filters) && isset($filters['destination'])){
+                    $qb->join('o.own_destination', 'd');
+                    $qb->andWhere('d.des_id = :des_id');
+                    $qb->setParameter('des_id', $filters['destination']);
+                }
+            }
+            if(array_key_exists('from', $filters) && isset($filters['from'])){
+                $qb->andWhere('r.gen_res_from_date = :gen_res_from_date');
+                $qb->setParameter('gen_res_from_date', Dates::createForQuery($filters['from'], 'd-m-Y'));
+            }
+            if(array_key_exists('to', $filters) && isset($filters['to'])){
+                $qb->andWhere('r.gen_res_to_date = :gen_res_to_date');
+                $qb->setParameter('gen_res_to_date', Dates::createForQuery($filters['to'], 'd-m-Y'));
+            }
+            if(array_key_exists('date', $filters) && isset($filters['date'])){
+                $qb->andWhere('r.gen_res_date = :gen_res_date');
+                $qb->setParameter('gen_res_date', Dates::createForQuery($filters['date'], 'd-m-Y'));
+            }
+        }
+
+        $qbAux = clone $qb;
+        $qbAux->select('count(r.gen_res_id)');
+        $count = $qbAux->getQuery()->getSingleScalarResult();
+
+        $qb->setFirstResult($start);
+        $qb->setMaxResults($limit);
+
+        $data = $qb->getQuery()->execute();
+        return array('data'=>$data, 'count'=>$count);
     }
 }

@@ -17,11 +17,11 @@ class FilterType extends AbstractType
     {
         $builder
             //TEXT ************************
+            ->add('cas', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('own_name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('code', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('accommodation', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('arrival', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('exit', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('from', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('to', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('destination', 'entity', array(
                 'class' => 'MyCp\mycpBundle\Entity\destination',
                 'query_builder' => function (EntityRepository $er) {
@@ -33,7 +33,7 @@ class FilterType extends AbstractType
                 'required' => true,
                 'multiple' => false
             ))
-            ->add('request', 'text', array('required' => true, 'attr' => array('class' => 'form-control')));
+            ->add('date', 'text', array('required' => true, 'attr' => array('class' => 'form-control')));
     }
     
     /**
@@ -51,6 +51,6 @@ class FilterType extends AbstractType
      */
     public function getName()
     {
-        return 'requests_filter';
+        return 'booking_filter';
     }
 }
