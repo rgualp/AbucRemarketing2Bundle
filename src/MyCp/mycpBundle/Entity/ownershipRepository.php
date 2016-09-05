@@ -910,6 +910,8 @@ class ownershipRepository extends EntityRepository {
             $filters['own_price_from']=array($prices[0]);
             $filters['own_price_to']=array($prices[1]);
         }
+        if($filters['own_award']!='')
+            $filters['own_award']=array(1);
 
         $order_by = 'BEST_VALUED';
         $em = $this->getEntityManager();

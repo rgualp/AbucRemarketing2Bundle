@@ -83,7 +83,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-3">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="filter_best_owner">
+                                    {{ form_widget(formFilterOwnerShip.own_award, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label for="filter_best_owner">
                                         {{ 'label.best.ownership' | trans }}
                                     </label>
