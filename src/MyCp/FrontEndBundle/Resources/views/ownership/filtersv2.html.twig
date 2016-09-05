@@ -54,7 +54,8 @@
                 {% set count=owns_prices|length-1 %}
                 <div class="row" style="margin-top: 20px; padding-left: 15px;">
                     <b style="margin-right: 7px;">${{ owns_prices[0][0] }}</b>
-                    <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/> <b style="margin-left: 7px;">${{ owns_prices[count][1] }}</b>
+                    <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
+                    <b style="margin-left: 7px;">${{ owns_prices[count][1] }}</b>
                 </div>
 
                 {#<div id="ionrange_prices" style="margin-top: 20px; position: relative;"></div>#}

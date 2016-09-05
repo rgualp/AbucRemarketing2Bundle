@@ -895,6 +895,92 @@ class ownershipRepository extends EntityRepository {
         }
         return $results;
     }
+    /**
+     * Realiza busquedas segun los criterios seleccionados
+     * @param integer $province_id
+     * @param datetime $arrivalDate
+     * @param datetime $leavingDate
+     * @param integer $guest_total
+     * @param string $order_by
+     * @return array of MyCp\mycpBundle\Entity\ownership
+     */
+    function searchOwnership($controller,$filters=array()) {
+        if($filters['priceFilter']!=''){
+            $prices=explode(',',$filters['priceFilter']);
+            $filters['own_price_from']=array($prices[0]);
+            $filters['own_price_to']=array($prices[1]);
+        }
+
+        $order_by = 'BEST_VALUED';
+        $em = $this->getEntityManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
+        $user_id = $user_ids['user_id'];
+        $session_id = $user_ids['session_id'];
+        $dateArrival=array();
+        $dateExit=array();
+        if($filters['arrival'] !='')
+            $dateArrival=explode('/',$filters['arrival']);
+        if($filters['exit'] !='')
+            $dateExit=explode('/',$filters['exit']);
+
+        $reservations_where = SearchUtils::createDatesWhere($em, (count($dateArrival))?$dateArrival[0].'-'.$dateArrival[1].'-'.$dateArrival[2]:null, (count($dateExit))?$dateExit[0].'-'.$dateExit[1].'-'.$dateExit[2]:null);
+
+        $query_string = SearchUtils::getBasicQuery($filters['room'], $user_id, $session_id);
+        $parameters = array();
+
+        $parameters[] = array('session_id', $session_id);
+        $where = '';
+        $destinationWhere = SearchUtils::getDestinationWhere($filters['destination']);
+        $where .= ($destinationWhere != "") ? " AND " . $destinationWhere : "";
+
+        if ($filters['huesp'] != "")
+            $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
+
+        if ($filters['room'] != "")
+            $where .= " AND " . "o.own_rooms_total >= :rooms_total";
+
+
+        if ($reservations_where != "")
+            $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
+
+        $filterWhere = SearchUtils::getFilterWhere($filters);
+
+        $where .= ($filterWhere != "") ? $filterWhere : "";
+
+        if ($where != '')
+            $query_string .= $where;
+        $order = SearchUtils::getOrder($order_by);
+
+        $query_string .= $order;
+        $query = $em->createQuery($query_string);
+        if ($user_id != null)
+            $query->setParameter('user_id', $user_id);
+
+        if ($session_id != null)
+            $query->setParameter('session_id', $session_id);
+
+        if ($filters['destination'] != '')
+            $query->setParameter('destination', $filters['destination'] );
+
+        if ($filters['huesp'] != "")
+            $query->setParameter('guests_total', $filters['huesp']);
+
+        if ($filters['room'] != "")
+            $query->setParameter('rooms_total', $filters['room']);
+        $results = $query->getResult();
+
+
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+
+            if (file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
+                $results[$i]['photo'] = "originals/". $results[$i]['photo'];
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+                $results[$i]['photo'] = "no_photo.png";
+        }
+        return $results;
+    }
 
     /**
      * Muestra todas las casas que son top20, para mostrar en la portada

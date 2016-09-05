@@ -55,3 +55,7 @@ backend_partner_dashboard:
 partner_dashboard_requests:
     locales:  { en: "/dashboard/requests", es: "/dashboard/requests", de: "/dashboard/requests" }
     defaults: { _controller: PartnerBundle:Dashboard:index }
+
+backend_partner_seacrh:
+    locales:  { en: "/dashboard/search", es: "/dashboard/buscar", de: "/dashboard/search" }
+    defaults: { _controller: PartnerBundle:Backend:search }

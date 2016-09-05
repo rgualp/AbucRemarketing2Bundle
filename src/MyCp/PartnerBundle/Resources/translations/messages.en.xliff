@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-01T17:02:30Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-02T21:45:46Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
         <target state="new"></target>
       </trans-unit>
+      <trans-unit id="2a2cbae170aa26b97373cb189327262d9ac118e6" resname="AIR_CONDITIONING_FILTER">
+        <source>AIR_CONDITIONING_FILTER</source>
+        <target state="new">AIR_CONDITIONING_FILTER</target>
+      </trans-unit>
       <trans-unit id="eeeebd6a9127fa56358435ac6b7550558ce62bc2" resname="ARRIVAL_WATERMARK">
         <source>ARRIVAL_WATERMARK</source>
         <target state="new">ARRIVAL_WATERMARK</target>
+      </trans-unit>
+      <trans-unit id="513be4aa1e78970ef0ec83a6e3d129d77b316123" resname="AUDIOVISUALS_FILTER">
+        <source>AUDIOVISUALS_FILTER</source>
+        <target state="new">AUDIOVISUALS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="75226d73db5b6dee213a72b35c48e69757473009" resname="Awards">
+        <source>Awards</source>
+        <target state="new">Awards</target>
+      </trans-unit>
+      <trans-unit id="d58be04dd17afc47fc3d13b12f26d27f7f68d586" resname="BALCONY_FILTER">
+        <source>BALCONY_FILTER</source>
+        <target state="new">BALCONY_FILTER</target>
+      </trans-unit>
+      <trans-unit id="e85a58873672c5286790924e628a39ce4669d70a" resname="COURTYARD_FILTER">
+        <source>COURTYARD_FILTER</source>
+        <target state="new">COURTYARD_FILTER</target>
       </trans-unit>
       <trans-unit id="429833e551333cfbf96a3275bf32e8c635c8e541" resname="CURRENCY">
         <source>CURRENCY</source>
@@ -50,13 +70,29 @@
         <source>FORGOT_PASSWORD_PAGE_TITLE</source>
         <target state="new">FORGOT_PASSWORD_PAGE_TITLE</target>
       </trans-unit>
+      <trans-unit id="c3be17b5a23d2e02581ea55dceb655e56f217a06" resname="FORMS_COMMENTS">
+        <source>FORMS_COMMENTS</source>
+        <target state="new">FORMS_COMMENTS</target>
+      </trans-unit>
+      <trans-unit id="a10da216ff98797c5f14962437e48547ac5b1151" resname="FROM_PRICES">
+        <source>FROM_PRICES</source>
+        <target state="new">FROM_PRICES</target>
+      </trans-unit>
       <trans-unit id="8ed88331ff7896cbf67ef909ec1c57317c2030a0" resname="HOMEPAGE_TITLE">
         <source>HOMEPAGE_TITLE</source>
         <target state="new">HOMEPAGE_TITLE</target>
       </trans-unit>
+      <trans-unit id="15495a2a265717259202a98f3ccdd4f9b96254f5" resname="KIDS_FILTER">
+        <source>KIDS_FILTER</source>
+        <target state="new">KIDS_FILTER</target>
+      </trans-unit>
       <trans-unit id="2a3ffd9ebb6961e4e446366efa8d0013586561fb" resname="LANGUAGE">
         <source>LANGUAGE</source>
         <target state="new">LANGUAGE</target>
+      </trans-unit>
+      <trans-unit id="a55b2b1c87133b9d8fd3da2c9baf1e3f7be260b3" resname="LAUNDRY_OTHERS_FILTER">
+        <source>LAUNDRY_OTHERS_FILTER</source>
+        <target state="new">LAUNDRY_OTHERS_FILTER</target>
       </trans-unit>
       <trans-unit id="2ae8050c4664cf3ff746720df20c988eccdfb834" resname="MyCP">
         <source>MyCP</source>
@@ -70,13 +106,37 @@
         <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
         <target state="new">PASSWORD_RECOVERY_PAGE_TITLE</target>
       </trans-unit>
+      <trans-unit id="3582d4b13b17e606edcfd7130c6a8c3a3eb3ae4d" resname="PETS_OTHERS_FILTER">
+        <source>PETS_OTHERS_FILTER</source>
+        <target state="new">PETS_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="d10dfdde36d30de6b173a1d541686140e840a212" resname="POOL_OTHERS_FILTER">
+        <source>POOL_OTHERS_FILTER</source>
+        <target state="new">POOL_OTHERS_FILTER</target>
+      </trans-unit>
       <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
         <source>Pixel</source>
         <target state="new">Pixel</target>
       </trans-unit>
+      <trans-unit id="910e678ac154a65c2497075ea394056203c35301" resname="ROOM_PLURAL">
+        <source>ROOM_PLURAL</source>
+        <target state="new">ROOM_PLURAL</target>
+      </trans-unit>
+      <trans-unit id="9ff2c03cea544701a41eb1e619aca1c02b73d35a" resname="ROOM_SINGULAR">
+        <source>ROOM_SINGULAR</source>
+        <target state="new">ROOM_SINGULAR</target>
+      </trans-unit>
       <trans-unit id="a62a7a3d235c34720bba36b65a056b4d3c6d005d" resname="SEARCH">
         <source>SEARCH</source>
         <target state="new">SEARCH</target>
+      </trans-unit>
+      <trans-unit id="352e64c3cb645f9af252953f23d4570e7df61011" resname="SMOKER_FILTER">
+        <source>SMOKER_FILTER</source>
+        <target state="new">SMOKER_FILTER</target>
+      </trans-unit>
+      <trans-unit id="b6363ef432713a63c262aff0e8014bca4b11fd6a" resname="TERRACE_FILTER">
+        <source>TERRACE_FILTER</source>
+        <target state="new">TERRACE_FILTER</target>
       </trans-unit>
       <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
         <source>USER_EMAIL_IN_USE</source>
@@ -130,6 +190,10 @@
         <source>label.activateaccount.two</source>
         <target state="new">label.activateaccount.two</target>
       </trans-unit>
+      <trans-unit id="984323045a553ade29b3d44cbb0014551ca59507" resname="label.best.ownership">
+        <source>label.best.ownership</source>
+        <target state="new">label.best.ownership</target>
+      </trans-unit>
       <trans-unit id="a9832d6bfdfd97cc4afda321431f4e6d684266a8" resname="label.carousel_text_backend_one">
         <source>label.carousel_text_backend_one</source>
         <target state="new">label.carousel_text_backend_one</target>
@@ -149,6 +213,10 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
+      </trans-unit>
+      <trans-unit id="500a18e4940efa511fae68edea73fb767485f07e" resname="label.facitily">
+        <source>label.facitily</source>
+        <target state="new">label.facitily</target>
       </trans-unit>
       <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
         <source>label.filter.arrival</source>
@@ -266,6 +334,14 @@
         <source>label.remember.password</source>
         <target state="new">label.remember.password</target>
       </trans-unit>
+      <trans-unit id="4042d95c3f9fd76b0f49f10684aa8406e369529f" resname="label.required.owner">
+        <source>label.required.owner</source>
+        <target state="new">label.required.owner</target>
+      </trans-unit>
+      <trans-unit id="56b28b86455ad505c0481ee4c6f86bc1bcf4919b" resname="label.reserv.inmediatly">
+        <source>label.reserv.inmediatly</source>
+        <target state="new">label.reserv.inmediatly</target>
+      </trans-unit>
       <trans-unit id="b5c9af60111af4277f44b89fb59fd2a2aaba9eb4" resname="label.resgister.description.one">
         <source>label.resgister.description.one</source>
         <target state="new">label.resgister.description.one</target>
@@ -374,6 +450,10 @@
         <source>label.user</source>
         <target state="new">label.user</target>
       </trans-unit>
+      <trans-unit id="c5dee5212aeb54faded7ba7f2403f0010f1c7fb0" resname="label.view.more">
+        <source>label.view.more</source>
+        <target state="new">label.view.more</target>
+      </trans-unit>
       <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
         <source>label.welcome</source>
         <target state="new">label.welcome</target>
@@ -461,6 +541,14 @@
       <trans-unit id="5ba388cb7b46eb896c64d4a644c9d0b73922e453" resname="page.logout">
         <source>page.logout</source>
         <target state="new">page.logout</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000f9b263e5fb867a49fe" resname="quick_booking_tooltip">
+        <source>quick_booking_tooltip</source>
+        <target state="new">quick_booking_tooltip</target>
+      </trans-unit>
+      <trans-unit id="44da2b0e8f57b8cc638997894c57505d32bbbcf8" resname="quick_bookinhg">
+        <source>quick_bookinhg</source>
+        <target state="new">quick_bookinhg</target>
       </trans-unit>
       <trans-unit id="725c567ae7399fdc3b48cbf97ec3fcd1d703c069" resname="requests.placeholder.accommodation">
         <source>requests.placeholder.accommodation</source>
