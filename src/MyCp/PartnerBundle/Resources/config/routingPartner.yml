@@ -55,3 +55,9 @@ backend_partner_dashboard:
 partner_dashboard_requests:
     locales:  { en: "/dashboard/requests", es: "/dashboard/requests", de: "/dashboard/requests" }
     defaults: { _controller: PartnerBundle:Dashboard:index }
+
+partner_dashboard_page_detail:
+    locales:  { en: "/dashboard/accomodation/{ids}", es: "/dashboard/accomodation/{ids}", de: "/dashboard/accomodation/{ids}" }
+    defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
+
+
