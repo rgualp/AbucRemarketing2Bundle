@@ -1,90 +1,108 @@
 {% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
 
-    </style>
-{% endblock stylesheets %}
 {% block carousel %}
 
 {% endblock %}
 
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+
+
 {% block body %}
-    <div class="col-sm-12">
-        <div class="for-header-pages">
-            <h1>Reserva la casa particular que tus clientes prefieren en Cuba.</h1>
-            <h2>Consulta todos los detalles del alojamiento.</h2>
+    <div class="space space-70"></div>
+    <div class="col-sm-12 bg-white">
+        <div class="container">
+            <div class="for-header-pages">
+                <h1>Reserva la casa particular que tus clientes prefieren en Cuba.</h1>
+                <h2>Consulta todos los detalles del alojamiento.</h2>
+            </div>
         </div>
     </div>
     <div class="col-sm-12 for-body-page-detail">
         <div class="row">
-            <div class="col-sm-12 for-body-page-detail-tab">
-                <div class="col-sm-4"><a href="">Detalles de la casa</a></div>
-                <div class="col-sm-4"><a href="">Detalles de la casa</a></div>
-                <div class="col-sm-4"><a href="">Detalles de la casa</a></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 for-body-page-detail-tab-content">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="for-accomodation-main-image">
-                            <img class="img-responsive" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 for-accomodation-main-image-thumb">
-                            <ul>
-                                <li>
-                                    <a href=""><img class="img-responsive" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"></a>
-                                </li>
-                                <li>
-                                    <a href=""><img class="img-responsive" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"></a>
-                                </li>
-                                <li>
-                                    <a href=""><img class="img-responsive" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"></a>
-                                </li>
-                                <li>
-                                    <a href=""><img class="img-responsive" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"></a>
-                                </li>
-                                <li>
-                                    <a href=""><img class="img-responsive" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="col-sm-12">
-                                <h2>Casa Particular En Guanabo La Casa De Elena</h2>
-                            </div>
-                            <div class="col-sm-6">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1">Detalles de la casa</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2">Informaciones y servicios</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3">Habitaciones y facilidades</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="col-sm-12 for-body-page-detail-tab-content">
                                 <div class="row">
-                                    <div class="col-sm-12"><span>La Habana, Habana del Este</span></div>
-                                    <div class="col-sm-12"><span>Penthouse / 2 habitaciones</span></div>
-                                    <div class="col-sm-12"><span>CH 1403</span></div>
-                                    <div class="col-sm-6"><span>20.00 Euro</span><span>/noche</span></div>
-                                    <div class="col-sm-4"><span>Premium</span></div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="gallery">
+                                                    <div id="preview" class="image-preview">
+
+                                                    </div>
+                                                    <!-- Elastislide Carousel -->
+                                                    <ul id="carousel" class="elastislide-list">
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                    </ul>
+                                                    <!-- End Elastislide Carousel -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-12 property-title">
+                                                        <h2>Casa Particular En Guanabo La Casa De Elena</h2>
+                                                    </div>
+                                                    <div class="col-sm-6 property-datas">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><span>La Habana, Habana del Este</span></div>
+                                                            <div class="col-sm-12"><span>Penthouse / 2 habitaciones</span></div>
+                                                            <div class="col-sm-12"><span>Anfitriones: Pedro / Pepe</span></div>
+                                                            <div class="col-sm-12"><span>CH 1403</span></div>
+                                                            <div class="col-sm-9"><span class="price">20.00 Euro<i>/noche</i></span></div>
+                                                            <div class="col-sm-3"><span><i style="background-image: url('{{ asset('bundles/frontend/img/icons/big-icons.png') }}')" class="img-icon"></i> Premium</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 property-evaluation">
+                                                        <div class="col-sm-6">
+                                                            <div class="col-sm-12">Reserva Rapida</div>
+                                                            <div class="col-sm-12">5 Estrellas</div>
+                                                        </div>
+                                                        <div class="col-sm-4"><img src="{{ asset('apple-touch-icon.png') }}" /></div>
+                                                    </div>
+                                                    <div class="col-sm-12 property-actions">
+                                                        <div class="col-sm-4"><button class="btn">Solicitar Casa</button></div>
+                                                        <div class="col-sm-4"><button class="btn">Favoritos <i class="fa fa-star"></i></button></div>
+                                                        <div class="col-sm-4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="col-sm-6">
-                                    <div class="col-sm-12">Reserva Rapida</div>
-                                    <div class="col-sm-12">5 Estrellas</div>
-                                </div>
-                                <div class="col-sm-4"><img src="{{ asset('apple-touch-icon.png') }}" /></div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="col-sm-4"><button class="btn">Solicitar Casa</button></div>
-                                <div class="col-sm-4"><button class="btn">Favoritos <i class="fa fa-star"></i></button></div>
-                                <div class="col-sm-4"></div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body">
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,6 +113,34 @@
     {{ parent() }}
     <script type="text/javascript">
 
+        var current = 0,
+                $preview = $( '#preview' ),
+                $carouselEl = $( '#carousel' ),
+                $carouselItems = $carouselEl.children(),
+                carousel = $carouselEl.elastislide( {
+                    current : current,
+                    minItems : 4,
+                    onClick : function( el, pos, evt ) {
+
+                        changeImage( el, pos );
+                        evt.preventDefault();
+
+                    },
+                    onReady : function() {
+
+                        changeImage( $carouselItems.eq( current ), current );
+
+                    }
+                } );
+
+        function changeImage( el, pos ) {
+
+            $preview.css( 'background-image', 'url('+el.data( 'preview' )+')' );
+            $carouselItems.removeClass( 'current-img' );
+            el.addClass( 'current-img' );
+            carousel.setCurrent( pos );
+
+        }
         $(document).ready(function () {
 
         });

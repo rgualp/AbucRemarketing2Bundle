@@ -103,6 +103,11 @@ body.landing-page {
     border-bottom: 0px solid #e7eaec !important;
     z-index: 2030;
 }
+
+.navbar-wrapper.bg-blue .navbar-default.navbar-fixed-top{
+    background-color: #063550 !important;
+}
+
 .pace-running .carousel {
     height: 334px;
 }
@@ -568,4 +573,86 @@ body.landing-page {
     font-family: inherit !important;
     font-size: 14px !important;
     opacity: 1 !important;
+}
+
+
+
+/* ========= Detalles de la Casa =========== */
+
+.for-header-pages{
+
+}
+
+.for-header-pages h1{
+    color: #094e75;
+    font-size: 36px;
+    margin-bottom: 0;
+    text-align: right;
+}
+.for-header-pages h2{
+    color: #64a433;
+    font-family: MyriadProLightCond;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 100;
+    margin-top: 0;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.tabs-container .nav-tabs > li.active > a, .tabs-container .nav-tabs > li.active > a:hover, .tabs-container .nav-tabs > li.active > a:focus {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    color: #f49821;
+    outline: medium none;
+}
+.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+    color: #8d8a8a;
+    font-size: 25px;
+    font-weight: 100;
+    outline: medium none;
+    padding: 20px 0;
+}
+
+.tabs-container .nav-tabs {
+    background-color: #063550;
+    border: 0 none;
+}
+
+.nav.nav-tabs li {
+    width: 33.3%;
+    text-align: center;
+}
+
+.tabs-container .panel-body {
+    background: #063550 none repeat scroll 0 0;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    position: relative;
+}
+
+.property-title h2{
+    color: #fff;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px 0;
+}
+
+.property-datas span{
+    color: #dcdcdc;
+    font-family: Arial;
+    font-size: 18px;
+}
+.property-datas span.price{
+    color: #fff;
+    font-size: 30px;
+}
+.property-datas span.price i{
+    color: #fff;
+    font-size: 18px;
+}
+.property-actions .btn{
+
 }
