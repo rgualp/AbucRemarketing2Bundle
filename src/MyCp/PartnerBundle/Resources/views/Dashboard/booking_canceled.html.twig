@@ -12,6 +12,7 @@
             </a>
         </div>
     </div>
+
     <div class="ibox-content card">
         <form id="form-booking-canceled" class="filter-form">
             <div class="row">
@@ -23,22 +24,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
-                            {{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.title.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-1 field-filter">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
                             {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.title.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                            {{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.title.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group date">
@@ -57,15 +59,15 @@
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
-                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.title.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
                         <div class="input-group date">
                             {{ form_widget(formFilter.date, { 'attr': {'placeholder': 'booking.placeholder.date'|trans, 'title':'booking.title.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.title.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                     </div>
                 </div>
             </div>
@@ -105,7 +107,8 @@
 
     $(document).ready(function () {
         oTableCanceled = $('#table-booking-canceled').DataTable({
-            bFilter: false,//true: Para sustituirlo por el add user
+            "bServerSide": true,
+            "bFilter": false,
             "bLengthChange": false,
             "scrollX": false,
             "ajax": {
@@ -128,20 +131,24 @@
                     "mData": null,
                     "aTargets": [0],
                     "mRender": function (data, type, full) {
+                        var rooms = '';
+                        var clientDates = '';
+                        for(var i = 0; i < data.rooms.length; i++){
+                            var room = data.rooms[i];
+                            /*clientDates = room.booking.client_name;*/
+                        }
+                        rooms += '<em class="rt">Datos cliente:</em> <span class="rst">' + clientDates + '</span> ';
+
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
-                                '<em class="rt">CAS:</em> <span class="rst">' + data.code + '</span> ' +
-                                '<em class="rt">Llegada:</em> <span class="rst">' + data.arrival + '</span> ' +
-                                '<em class="rt">Salida:</em> <span class="rst">' + data.exit + '</span> ' +
-                                '<em class="rt">Casa:</em> <span class="rst">' + data.name + '</span> ' +
-                                '<em class="rt">Cliente:</em> <span class="rst">' + data.client + '</span> ' +
-                                '<em class="rt">Habitación:</em> <span class="rst">' + data.room + '</span> ' +
-                                '<em class="rt">Precio/noche:</em> <span class="rst">' + data.price + '</span> ' +
-                                '</div> ' +
-                                '<div class="col-xs-12"> ' +
-                                '<em class="rt">Prepago:</em> <span class="rst">' + data.payment + '</span> ' +
-                                '</div> ' +
-                                '</div>';
+                                '<em class="rt">Llegada:</em> <span class="rst">' + data.from + '</span> ' +
+                                '<em class="rt">Salida:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">Código:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
+                                '<em class="rt">Casa:</em> <span class="rst">' + data.own_name + '</span> ' +
+                                '<em class="rt">Destino:</em> <span class="rst">' + data.destination + '</span> ' +
+                                rooms
+                        '</div> ' +
+                        '</div>';
                         return html;
                     }
                 }

@@ -47,6 +47,7 @@ twig:
          translator_google_api_key: "%translator_google_api_key%"
          form_search_booking_pending: "@booking.pending.filter.form"
          form_search_booking_availability: "@booking.availability.filter.form"
+         form_search_booking_notavailability: "@booking.notavailability.filter.form"
          form_search_booking_beaten: "@booking.beaten.filter.form"
          form_search_booking_reserved: "@booking.reserved.filter.form"
          form_search_booking_canceled: "@booking.canceled.filter.form"

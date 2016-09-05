@@ -68,6 +68,14 @@ partner_dashboard_booking_list_availability:
     locales:  { en: "/dashboard/booking/availability/list", es: "/dashboard/booking/availability/list", de: "/dashboard/booking/availability/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingAvailability }
 
+partner_dashboard_booking_notavailability:
+    locales:  { en: "/dashboard/booking/notavailability", es: "/dashboard/booking/notavailability", de: "/dashboard/booking/notavailability" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingNotavailability }
+
+partner_dashboard_booking_list_notavailability:
+    locales:  { en: "/dashboard/booking/notavailability/list", es: "/dashboard/booking/notavailability/list", de: "/dashboard/booking/notavailability/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:listBookingNotavailability }
+
 partner_dashboard_booking_beaten:
     locales:  { en: "/dashboard/booking/beaten", es: "/dashboard/booking/beaten", de: "/dashboard/booking/beaten" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingBeaten }

@@ -558,6 +558,10 @@
         <source>dashboard.booking.availability</source>
         <target state="new">Disponibles</target>
       </trans-unit>
+      <trans-unit id="3ee5d45f8f3e4ffb90e747c019a34c678a7bdb23" resname="dashboard.booking.notavailability">
+        <source>dashboard.booking.notavailability</source>
+        <target state="new">No Disponibles</target>
+      </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb24" resname="dashboard.booking.beaten">
         <source>dashboard.booking.beaten</source>
         <target state="new">Vencidas</target>
