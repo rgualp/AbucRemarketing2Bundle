@@ -578,7 +578,62 @@
         <source>dashboard.booking.checkin</source>
         <target state="new">Checkin</target>
       </trans-unit>
-
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb28" resname="dashboard.booking.code">
+        <source>dashboard.booking.code</source>
+        <target state="new">Código</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb29" resname="booking.placeholder.own_name">
+        <source>booking.placeholder.own_name</source>
+        <target state="new">Nombre Casa</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb30" resname="booking.placeholder.code">
+        <source>booking.placeholder.code</source>
+        <target state="new">Código de Casa</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb31" resname="booking.placeholder.from">
+        <source>booking.placeholder.from</source>
+        <target state="new">Llegada</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb32" resname="booking.placeholder.to">
+        <source>booking.placeholder.to</source>
+        <target state="new">Salida</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb33" resname="booking.placeholder.destination">
+        <source>booking.placeholder.destination</source>
+        <target state="new">Destino</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb34" resname="booking.placeholder.room_number">
+        <source>booking.placeholder.room_number</source>
+        <target state="new">Cantidad de Habitaciones</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb35" resname="booking.placeholder.date">
+        <source>booking.placeholder.date</source>
+        <target state="new">Fecha creada</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb36" resname="booking.placeholder.adults_number">
+        <source>booking.placeholder.adults_number</source>
+        <target state="new">Cantidad de Adultos</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb37" resname="btn.search">
+        <source>btn.search</source>
+        <target state="new">Buscar</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb38" resname="btn.clear">
+        <source>btn.clear</source>
+        <target state="new">Limpiar</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb39" resname="booking.placeholder.cas">
+        <source>booking.placeholder.cas</source>
+        <target state="new">CAS</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb40" resname="booking.placeholder.booking_code">
+        <source>booking.placeholder.booking_code</source>
+        <target state="new">Código booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb41" resname="booking.placeholder.booking_date">
+        <source>booking.placeholder.booking_date</source>
+        <target state="new">Fecha de booking</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

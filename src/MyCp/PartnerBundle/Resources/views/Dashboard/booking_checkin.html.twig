@@ -15,34 +15,34 @@
     <div class="ibox-content card">
         <form id="form-booking-checkin" class="filter-form">
             <div class="row">
-                <div class="col-lg-1 field-filter">
+                <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon fa-letter">CAS</span>
-                            {{ form_widget(formFilter.cas, { 'attr': {'placeholder': 'booking.placeholder.cas'|trans, 'title':'booking.title.cas'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.cas, { 'attr': {'placeholder': 'booking.placeholder.cas'|trans, 'title':'booking.placeholder.cas'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-1 field-filter">
+                <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
-                            {{ form_widget(formFilter.booking_code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.title.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.booking_code, { 'attr': {'placeholder': 'booking.placeholder.booking_code'|trans, 'title':'booking.placeholder.booking_code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 field-filter">
+                {#<div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-male"></i></span>
-                            {{ form_widget(formFilter.client_dates, { 'attr': {'placeholder': 'booking.placeholder.client_dates'|trans, 'title':'booking.title.client_dates'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.client_dates, { 'attr': {'placeholder': 'booking.placeholder.client_dates'|trans, 'title':'booking.placeholder.client_dates'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
-                </div>
+                </div>#}
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group date">
-                            {{ form_widget(formFilter.from, { 'attr': {'placeholder': 'booking.placeholder.from'|trans, 'title':'booking.title.from'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.from, { 'attr': {'placeholder': 'booking.placeholder.from'|trans, 'title':'booking.placeholder.from'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
@@ -50,20 +50,20 @@
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group date">
-                            {{ form_widget(formFilter.to, { 'attr': {'placeholder': 'booking.placeholder.to'|trans, 'title':'booking.title.to'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.to, { 'attr': {'placeholder': 'booking.placeholder.to'|trans, 'title':'booking.placeholder.to'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
-                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.title.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                     </div>
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group date">
-                            {{ form_widget(formFilter.booking_date, { 'attr': {'placeholder': 'booking.placeholder.booking_date'|trans, 'title':'booking.title.booking_date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.booking_date, { 'attr': {'placeholder': 'booking.placeholder.booking_date'|trans, 'title':'booking.placeholder.booking_date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                                 '<em class="rt">CAS:</em> <span class="rst">' + data.cas + '</span> ' +
                                 '<em class="rt">Llegada:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">Salida:</em> <span class="rst">' + data.to + '</span> ' +
-                                '<em class="rt">Código:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
                                 '<em class="rt">Casa:</em> <span class="rst">' + data.own_name + '</span> ' +
                                 '<em class="rt">Destino:</em> <span class="rst">' + data.destination + '</span> ' +
                                 rooms
