@@ -3758,7 +3758,7 @@
 
         <trans-unit id="946">
             <source>SERVICE_FIXED_TAX</source>
-            <target>Fixed rate</target>
+            <target>Fixed rate (Apps)</target>
         </trans-unit>
 
         <trans-unit id="947">

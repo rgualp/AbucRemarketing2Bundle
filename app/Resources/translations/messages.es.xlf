@@ -3892,6 +3892,22 @@
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
                        <target>%percent% del Importe por Alojamiento</target>
                   </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>Importes por alojamientos</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Prepago</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Precio / Noche</target>
+                </trans-unit>
+                  <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>Costo Reserva</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

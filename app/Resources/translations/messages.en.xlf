@@ -3895,6 +3895,22 @@
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
                        <target>%percent% of Lodging Amount</target>
                   </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>Lodging Amounts</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Online Prepayments</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Price / Night</target>
+                </trans-unit>
+                  <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>Booking Price</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

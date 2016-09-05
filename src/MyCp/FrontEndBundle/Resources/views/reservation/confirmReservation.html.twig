@@ -123,10 +123,10 @@
                 <tr>
                     <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans}}:</b></td>
                     <td>{{ res_room.room_bathroom|trans }}</td>
-                    <td><b>Precio / Noche</b></td>
-                    <td>{{ currency_symbol }} {{ ((res_room.priceNight) ? res_room.priceNight : res_room.priceInSite / nights[res_room.own_res_id]) * currency_rate }}</td>
-                    <td><b>Costo Reserva</b></td>
-                    <td>{{ currency_symbol }} {{ res_room.priceInSite * currency_rate }}</td>
+                    <td><b>{{ "PRICE_NIGHT" | trans }}</b></td>
+                    <td>{{ currency_symbol }} {{ (((res_room.priceNight) ? res_room.priceNight : res_room.priceInSite / nights[res_room.own_res_id]) * currency_rate) | number_format(2) }}</td>
+                    <td><b>{{ "RESERVATION_COST" | trans }}</b></td>
+                    <td>{{ currency_symbol }} {{ (res_room.priceInSite * currency_rate) | number_format(2) }}</td>
                 </tr>
             </tbody>
         </table>
@@ -153,8 +153,8 @@
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</h4></td>
             </tr>
             {% endif %}
-            <tr  class="b-cyan">
-                <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans }}</b></td>
+            <tr class="b-cyan">
+                <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans }} - {{"ACCOMMODATION"|trans}} {{loop.index}}</b></td>
                 <td class="text-right">
                     <h4 class="no-margin">
                         {{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)| number_format(2) }}
@@ -214,38 +214,49 @@
             <h3 class="h-green">{{"PAYMENTS"|trans}}</h3>
     <table style="width:100%">
         <tr>
-            <td><b>{{"PRICE_TOTAL_TO_PAY"|trans}}</b></td>
-            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (total_prepayment + total_servicing_price)| number_format(2) }}</h4></td>
+            <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (accommodations_service_charge)| number_format(2) }}</h4></td>
         </tr>
         <tr>
-            <td style="border-top: 1px solid #bbb"><b>{{"TOTAL_ALL_PREPAYMENT" | trans}}</b></td>
-            <td style="border-top: 1px solid #bbb" class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((total_prepayment)) | number_format(2) }}</h4></td>
+            <td><b>{{"SERVICES_TOTAL_COST"|trans}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td><b>{{"SERVICE_FIXED_TAX"|trans}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>
+        </tr>
+        <tr class="b-cyan">
+            <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((total_prepayment + total_servicing_price)) | number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td><b>{{ "PREPAYMENT" | trans }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ total_prepayment | number_format(2)}}</h4></td>
         </tr>
         <tr>
             <td>- {{"SERVICE_ACCOMMODATION_TAX"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
             <td class="text-right">{{ currency_symbol }} {{ (prepayment_accommodations) | number_format(2) }}</td>
         </tr>
         <tr>
-            <td>- {{"SERVICE_TOURIST_TAX"|trans}}</td>
+            <td>- {{"SERVICES_TOTAL_COST"|trans}}</td>
             <td class="text-right">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</td>
         </tr>
         <tr>
             <td>- {{"SERVICE_FIXED_TAX"|trans}}</td>
             <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
         </tr>
+
         <tr>
-            <td>- {{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
-            <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}} </td>
+            <td colspan="2"><b>{{ "PAY_AT_ACCOMMODATION" | trans }}</b></td>
         </tr>
 
-
         <tr>
-            <td style="border-top: 1px solid #bbb"><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
-            <td style="border-top: 1px solid #bbb" class="text-right"><h4 class="no-margin">
-                    CUC {{ (total_price_to_pay_at_service_in_cuc) | number_format(2) }}
+            <td>-{{"ACCOMMODATION_TOTAL_COST_PLURAL" | trans}} ({% for comm in commissions %}{{100-comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+            <td class="text-right"><h4 class="no-margin">
+                    {{ currency_symbol }} {{ (total_servicing_price) | number_format(2)}}
                 </h4>
                 <h6 class="no-margin">
-                    {{ currency_symbol }} {{ (total_servicing_price) | number_format(2)}}
+                    CUC {{ (total_price_to_pay_at_service_in_cuc) | number_format(2) }}
                 </h6>
                 <!--h6 class="no-margin cursive h-only-blue">
                     1 CUC = {#{currency_rate}#} {#{currency_symbol}#}

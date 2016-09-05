@@ -3878,7 +3878,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
 
          <trans-unit id="977">
               <source>PRICE_TOTAL_TO_PAY</source>
-              <target>Total zu bezahlen</target>
+              <target>GESAMTBETRAG</target>
          </trans-unit>
                   <trans-unit id="978">
                        <source>FACEBOOK_SECOND_STEP</source>
@@ -3895,7 +3895,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
 
                   <trans-unit id="981">
                        <source>ACCOMMODATION_TOTAL_COST</source>
-                       <target>GESAMTBETRAG</target>
+                       <target>Betrag für Unterkunft</target>
                   </trans-unit>
                   <trans-unit id="982">
                        <source>SERVICES_TOTAL_COST</source>
@@ -3913,6 +3913,22 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
                        <target>%percent% des Preises der Unterkunft</target>
                   </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>Beträge der Unterkünfte</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Online Vorauszahlung</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Preis / Nacht</target>
+                </trans-unit>
+                  <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>Preis  der Reservierung</target>
+                </trans-unit>
 
     </body>
     </file>
