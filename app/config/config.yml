@@ -45,7 +45,11 @@ twig:
          fb_app_id: "%fb_app_id%"
          mail_base_url: "%router.request_context.scheme%://%router.request_context.host%"
          translator_google_api_key: "%translator_google_api_key%"
-         form_search_requests: "@requests.filter.form"
+         form_search_booking_pending: "@booking.pending.filter.form"
+         form_search_booking_availability: "@booking.availability.filter.form"
+         form_search_booking_beaten: "@booking.beaten.filter.form"
+         form_search_booking_reserved: "@booking.reserved.filter.form"
+         form_search_booking_canceled: "@booking.canceled.filter.form"
 
 # Assetic Configuration
 assetic:

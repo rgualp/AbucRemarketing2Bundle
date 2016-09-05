@@ -46,6 +46,11 @@ body.landing-page {
     font-family: MyriadProLightCond;
 }
 
+@font-face{
+    font-family: 'MyriadProLightCondIt';
+    src: url('../bundles/partner/font/MyriadPro-LightCondIt.otf');
+}
+
 .MyriadProBold{
     font-family: MyriadProBold;
 }
