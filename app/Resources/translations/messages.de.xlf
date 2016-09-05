@@ -3893,6 +3893,27 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                        <target>Nur noch ein Schritt...</target>
                   </trans-unit>
 
+                  <trans-unit id="981">
+                       <source>ACCOMMODATION_TOTAL_COST</source>
+                       <target>GESAMTBETRAG</target>
+                  </trans-unit>
+                  <trans-unit id="982">
+                       <source>SERVICES_TOTAL_COST</source>
+                       <target>Dienstgebühr</target>
+                  </trans-unit>
+                  <trans-unit id="983">
+                       <source>PAY_AT_ACCOMMODATION</source>
+                       <target>Barzahlung vor Ort</target>
+                  </trans-unit>
+                  <trans-unit id="984">
+                       <source>ONLINE_PREPAYMENT</source>
+                       <target>Online Vorauszahlung</target>
+                  </trans-unit>
+                  <trans-unit id="985">
+                       <source>PERCENT_ACCOMMODATION_AMOUNT</source>
+                       <target>%percent% des Preises der Unterkunft</target>
+                  </trans-unit>
+
     </body>
     </file>
 </xliff>
