@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="filter_reserv_inmidiatly">
+                                    {{ form_widget(formFilterOwnerShip.own_inmediate_booking, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label for="filter_reserv_inmidiatly">
                                         {{ 'label.reserv.inmediatly' | trans }}
                                     </label>
@@ -112,7 +112,7 @@
                         <div class="col-md-12 color-blue" style="margin-left: 30px;padding-right: 0;width: 94%;">
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_airconditioner">
+                                    {{ form_widget(formFilterOwnerShip.room_climatization, { 'attr': {'data-value':'Aire acondicionado','data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"AIR_CONDITIONING_FILTER" | trans}}
                                     </label>

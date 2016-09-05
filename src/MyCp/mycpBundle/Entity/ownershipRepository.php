@@ -910,8 +910,10 @@ class ownershipRepository extends EntityRepository {
             $filters['own_price_from']=array($prices[0]);
             $filters['own_price_to']=array($prices[1]);
         }
-        if($filters['own_award']!='')
-            $filters['own_award']=array(1);
+        if (array_key_exists('own_award', $filters)){
+            if($filters['own_award']!='')
+                $filters['own_award']=array(1);
+        }
 
         $order_by = 'BEST_VALUED';
         $em = $this->getEntityManager();
@@ -927,7 +929,14 @@ class ownershipRepository extends EntityRepository {
 
         $reservations_where = SearchUtils::createDatesWhere($em, (count($dateArrival))?$dateArrival[0].'-'.$dateArrival[1].'-'.$dateArrival[2]:null, (count($dateExit))?$dateExit[0].'-'.$dateExit[1].'-'.$dateExit[2]:null);
 
-        $query_string = SearchUtils::getBasicQuery($filters['room'], $user_id, $session_id);
+        $room_filter=false;
+        if(array_key_exists('room_climatization', $filters) ){
+            $filters['room_climatization']='Aire acondicionado';
+            $room_filter=true;
+        }
+
+
+        $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);

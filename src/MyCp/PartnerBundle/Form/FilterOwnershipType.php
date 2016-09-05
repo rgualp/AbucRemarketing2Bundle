@@ -98,6 +98,9 @@ class FilterOwnershipType extends AbstractType
                 'choices'=>array('Interior privado'=>$this->translate->trans('INNER_PRIVATE_BATHROOM_FILTER'),'Exterior privado'=>$this->translate->trans('OUTER_PRIVATE_BATHROOM_FILTER'),'Compartido'=>$this->translate->trans('SHARED_BATHROOM_FILTER'))
             ))
             ->add('own_award', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('own_inmediate_booking', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_climatization', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+
             ;
     }
     
