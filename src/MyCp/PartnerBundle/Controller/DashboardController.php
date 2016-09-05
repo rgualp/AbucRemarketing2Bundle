@@ -360,7 +360,7 @@ class DashboardController extends Controller
     }
     public function listBookingCanceledAction(Request $request)
     {
-        $filters = $request->get('booking_Canceled_filter_form');
+        $filters = $request->get('booking_canceled_filter_form');
         $filters = (isset($filters)) ? ($filters) : (array());
 
         #region PAGINADO
@@ -407,8 +407,88 @@ class DashboardController extends Controller
                         'type'=>$ownReservation->getOwnResRoomType(),
                         'totalPrice'=>$totalPrice/*,
                         'booking'=>array(
-                            'client_name'=>$ownReservation->getOwnResReservationBooking()->getBookingUserDates()
+                            'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
                         )*/
+                    );
+                    $ownReservation = $ownReservations->next();
+                } while ($ownReservation);
+            }
+
+            $data['aaData'][] = $arrTmp;
+        }
+
+        return new JsonResponse($data);
+    }
+
+    public function indexBookingCheckinAction()
+    {
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_checkin',
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_checkin.html.twig', array()),
+            'msg' => 'Vista del listado de reservas reservadas Checkin']);
+    }
+    public function listBookingCheckinAction(Request $request)
+    {
+        $filters = $request->get('booking_checkin_filter_form');
+        $filters = (isset($filters)) ? ($filters) : (array());
+
+
+        $date = new \DateTime();
+        $date_a = $date->format('d-m-Y');
+        $date->modify('+5 day');
+        $date_b = $date->format('d-m-Y');
+        $filters['from_between'] = array($date_a, $date_b);
+
+        #region PAGINADO
+        $start = $request->get('start', 0);
+        $limit = $request->get('length', 10);
+        $draw = $request->get('draw') + 1;
+        #endregion PAGINADO
+
+        $data = $this->getReservationsData($filters, $start, $limit, $draw, generalReservation::STATUS_RESERVED);
+        $reservations = $data['aaData'];
+        $data['aaData'] = array();
+
+        $timeService = $this->get('time');
+
+        foreach ($reservations as $reservation) {
+            $arrTmp = array();
+            $arrTmp['id'] = $reservation->getGenResId();
+            $arrTmp['data'] = array(
+                'cas'=>'CAS'.$reservation->getGenResId(),
+                'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
+                'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
+                'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
+                'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
+                'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'own_name'=>$reservation->getGenResOwnId()->getOwnName()/*,
+                'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
+            );
+
+            $ownReservations = $reservation->getOwn_reservations();
+            $arrTmp['data']['rooms'] = array();
+            if (!$ownReservations->isEmpty()) {
+                $ownReservation = $ownReservations->first();
+                do {
+                    $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
+                    $totalPrice = 0;
+                    if($ownReservation->getOwnResNightPrice() > 0){
+                        $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
+                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
+                    }
+                    else{
+                        $totalPrice += $ownReservation->getOwnResTotalInSite();
+                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
+                    }
+
+                    $arrTmp['data']['rooms'][] = array(
+                        'type'=>$ownReservation->getOwnResRoomType(),
+                        'totalPrice'=>$totalPrice,
+                        'booking'=>array(
+                            'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
+                            'date'=>$ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y')
+                        )
                     );
                     $ownReservation = $ownReservations->next();
                 } while ($ownReservation);

@@ -100,3 +100,10 @@ partner_dashboard_booking_list_canceled:
     locales:  { en: "/dashboard/booking/canceled/list", es: "/dashboard/booking/canceled/list", de: "/dashboard/booking/canceled/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCanceled }
 
+partner_dashboard_booking_checkin:
+    locales:  { en: "/dashboard/booking/checkin", es: "/dashboard/booking/checkin", de: "/dashboard/booking/checkin" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingCheckin }
+
+partner_dashboard_booking_list_checkin:
+    locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }

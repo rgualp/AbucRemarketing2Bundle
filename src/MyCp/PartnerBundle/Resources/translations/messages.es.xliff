@@ -574,6 +574,11 @@
         <source>dashboard.booking.canceled</source>
         <target state="new">Canceladas</target>
       </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb27" resname="dashboard.booking.checkin">
+        <source>dashboard.booking.checkin</source>
+        <target state="new">Checkin</target>
+      </trans-unit>
+
     </body>
   </file>
 </xliff>
