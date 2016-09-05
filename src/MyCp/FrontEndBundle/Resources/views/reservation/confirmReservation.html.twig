@@ -131,6 +131,7 @@
             </tbody>
         </table>
         {%endfor%}
+        {% if own_res | length > 1 %}
         <h4 class="voucher-subtitle">
             <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency" alt="{{"Pixel" | trans}}">
         {{"PAYMENT_DETAILS"|trans}}:
@@ -198,6 +199,7 @@
                 </td>
             </tr>
         </table>
+        {% endif %}
     {% endfor %}
 
             <table class="table">
