@@ -110,6 +110,12 @@ class FilterOwnershipType extends AbstractType
             ->add('room_courtyard', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('laundry', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('parking', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('jacuzzy', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('own_others_internet', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('dinner', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('breakfast', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_safe', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+
             ;
     }
     

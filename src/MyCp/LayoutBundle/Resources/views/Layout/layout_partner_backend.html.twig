@@ -1,4 +1,18 @@
 {% extends 'LayoutBundle:Layout:layout_partner_base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@LayoutBundle/Resources/public/css/plugins/elastislide/elastislide.css'
+
+    filter='?uglifycss' %}
+    <link type="text/css" rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    <style>
+
+    </style>
+{% endblock stylesheets %}
+
 {% block body_class %}pace-running{% endblock %}
 
 {% block body %}
@@ -12,6 +26,8 @@
     {{ parent() }}
     {% javascripts
     '@LayoutBundle/Resources/public/js/plugins/slider/bootstrap-slider.js'
+    '@LayoutBundle/Resources/public/js/plugins/elastislide/jquery.elastislide.js'
+    '@LayoutBundle/Resources/public/js/plugins/elastislide/jquerypp.custom.js'
     '@PartnerBundle/Resources/public/js/Dashboard.js'
     filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>

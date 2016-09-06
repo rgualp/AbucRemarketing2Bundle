@@ -934,11 +934,17 @@ class ownershipRepository extends EntityRepository {
             $filters['room_climatization']='Aire acondicionado';
             $room_filter=true;
         }
-        if(array_key_exists('room_audiovisuals', $filters) || array_key_exists('room_kids', $filters) || array_key_exists('room_smoker', $filters) || array_key_exists('room_balcony', $filters) || array_key_exists('room_terraza', $filters) ){
+        if(array_key_exists('room_audiovisuals', $filters) || array_key_exists('room_kids', $filters) || array_key_exists('room_smoker', $filters) || array_key_exists('room_balcony', $filters) || array_key_exists('room_terraza', $filters) || array_key_exists('room_safe', $filters)){
             $room_filter=true;
         }
         if(array_key_exists('pool', $filters) ){
             $filters['own_others_included']='POOL';
+        }
+        if(array_key_exists('jacuzzy', $filters) ){
+            $filters['own_others_included']='POOL';
+        }
+        if(array_key_exists('dinner', $filters) ){
+            $filters['others_not_included']='DINNER';
         }
         if(array_key_exists('parking', $filters) ){
             $filters['others_not_included']='PARKING';
@@ -947,6 +953,10 @@ class ownershipRepository extends EntityRepository {
         if(array_key_exists('laundry', $filters) ){
             $filters['others_not_included']='LAUNDRY';
         }
+        if(array_key_exists('breakfast', $filters) ){
+            $filters['others_not_included']='BREAKFAST';
+        }
+
 
 
 
