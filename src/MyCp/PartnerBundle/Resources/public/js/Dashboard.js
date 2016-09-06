@@ -25,6 +25,8 @@ var Dashboard = function () {
            format:'dd/mm/yyyy'
        });
        $("#priceFilter").slider({});
+
+
     }
     var onclickBtnMoreFilter=function(){
         $('#more-filter').addClass('hide');
@@ -48,7 +50,7 @@ var Dashboard = function () {
             var data={};
             var form = $("#form-filter-ownership");
             var result = $('#search-result');
-            var _url = form.attr('action');
+            var _url = $(this).data('url');
 
             form.serializeArray().map(function(x){data[x.name] = x.value;});
             HoldOn.open();
@@ -62,6 +64,23 @@ var Dashboard = function () {
                     color: '#0d3044',
                     opacity : 1,
                     alwaysVisible : true
+                });
+                $('#priceFilter').infinitescroll({
+                    navSelector  	: "#next:last",
+                    nextSelector 	: "a#next:last",
+                    itemSelector 	: "#priceFilter div",
+                    debug		 	: true,
+                    dataType	 	: 'html',
+                    maxPage         : 3,
+                    prefill			: true,
+                    path: ["http://nuvique/infinite-scroll/test/index", ".html"],
+                    path: function(index) {
+                        return "index" + index + ".html";
+                    }
+                    // behavior		: 'twitter',
+                    // appendCallback	: false, // USE FOR PREPENDING
+                    // pathParse     	: function( pathStr, nextPage ){ return pathStr.replace('2', nextPage ); }
+                }, function(newElements, data, url){
                 });
 
             });

@@ -53,43 +53,51 @@ class FilterOwnershipType extends AbstractType
             ->add('huesp','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
+                'required' => false,
                 'choices'=>$huesp
             ))
             ->add('child','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
+                'required' => false,
                 'choices'=>$child
             ))
             ->add('age','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
+                'required' => false,
                 'choices'=>$age
             ))
             ->add('room','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
+                'required' => false,
                 'choices'=>$room
             ))
             ->add('own_category','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
                 'multiple' => true,
+                'required' => false,
                 'choices'=>array('Económica'=>$this->translate->trans('Económica'),'Rango medio'=>$this->translate->trans('Rango medio'),'Premium'=>$this->translate->trans('Premium'))
             ))
             ->add('own_type','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
                 'multiple' => true,
+                'required' => false,
                 'choices'=>array('Penthouse'=>$this->translate->trans('Penthouse'),'Villa con piscina'=>$this->translate->trans('Villa con piscina'),'Apartamento'=>$this->translate->trans('Apartamento'),'Propiedad completa'=>$this->translate->trans('Propiedad completa'),'Casa particular'=>$this->translate->trans('Casa particular'))
             ))
             ->add('own_beds_total','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
+                'required' => false,
                 'choices'=>array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6)
             ))
             ->add('room_type','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
+                'required' => false,
                 'choices'=>array('Habitación individual'=>$this->translate->trans('SINGLE_ROOM_FILTER'),'Habitación doble'=>$this->translate->trans('DOUBLE_ROOM_FILTER'),'Habitación doble (Dos camas)'=>$this->translate->trans('DOUBLE_2_BEDS_FILTER'),'Habitación Triple'=>$this->translate->trans('TRIPLE_ROOM_FILTER'))
             ))
             ->add('room_bathroom','choice', array(
