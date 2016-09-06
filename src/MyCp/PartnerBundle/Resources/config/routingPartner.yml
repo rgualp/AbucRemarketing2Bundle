@@ -52,6 +52,15 @@ backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }
     defaults: { _controller: PartnerBundle:Backend:index }
 
+
+partner_dashboard_requests:
+    locales:  { en: "/dashboard/requests", es: "/dashboard/requests", de: "/dashboard/requests" }
+    defaults: { _controller: PartnerBundle:Dashboard:index }
+
+partner_dashboard_seacrh:
+    locales:  { en: "/dashboard/search", es: "/dashboard/buscar", de: "/dashboard/search" }
+    defaults: { _controller: PartnerBundle:Backend:search }
+
 partner_dashboard_booking_pending:
     locales:  { en: "/dashboard/booking/pending", es: "/dashboard/booking/pending", de: "/dashboard/booking/pending" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingPending }
@@ -67,6 +76,14 @@ partner_dashboard_booking_availability:
 partner_dashboard_booking_list_availability:
     locales:  { en: "/dashboard/booking/availability/list", es: "/dashboard/booking/availability/list", de: "/dashboard/booking/availability/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingAvailability }
+
+partner_dashboard_booking_notavailability:
+    locales:  { en: "/dashboard/booking/notavailability", es: "/dashboard/booking/notavailability", de: "/dashboard/booking/notavailability" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingNotavailability }
+
+partner_dashboard_booking_list_notavailability:
+    locales:  { en: "/dashboard/booking/notavailability/list", es: "/dashboard/booking/notavailability/list", de: "/dashboard/booking/notavailability/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:listBookingNotavailability }
 
 partner_dashboard_booking_beaten:
     locales:  { en: "/dashboard/booking/beaten", es: "/dashboard/booking/beaten", de: "/dashboard/booking/beaten" }
@@ -92,6 +109,13 @@ partner_dashboard_booking_list_canceled:
     locales:  { en: "/dashboard/booking/canceled/list", es: "/dashboard/booking/canceled/list", de: "/dashboard/booking/canceled/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCanceled }
 
+partner_dashboard_booking_checkin:
+    locales:  { en: "/dashboard/booking/checkin", es: "/dashboard/booking/checkin", de: "/dashboard/booking/checkin" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingCheckin }
+
+partner_dashboard_booking_list_checkin:
+    locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }
 
 partner_dashboard_page_detail:
     locales:  { en: "/dashboard/accomodation/{ids}", es: "/dashboard/accomodation/{ids}", de: "/dashboard/accomodation/{ids}" }

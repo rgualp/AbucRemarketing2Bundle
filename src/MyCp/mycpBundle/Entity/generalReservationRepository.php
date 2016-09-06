@@ -2133,7 +2133,6 @@ class generalReservationRepository extends EntityRepository {
      * @param $limit
      * @return mixed
      */
-
     function getReservationsPartner($idUser, $status, array $filters, $start, $limit){
         $qb = $this->createQueryBuilder('r');
 
@@ -2145,39 +2144,89 @@ class generalReservationRepository extends EntityRepository {
         $qb->setParameter('gen_res_status', $status);
 
         if(isset($filters)){
-            if(array_key_exists('cas', $filters) && isset($filters['cas'])){
+            $cas = (array_key_exists('cas', $filters) && isset($filters['cas']));
+            $own_name = (array_key_exists('own_name', $filters) && isset($filters['own_name']));
+            $code = (array_key_exists('code', $filters) && isset($filters['code']));
+            $destination = (array_key_exists('destination', $filters) && isset($filters['destination']));
+            $from = (array_key_exists('from', $filters) && isset($filters['from']));
+            $from_between = (array_key_exists('from_between', $filters) && isset($filters['from_between']));
+            $to = (array_key_exists('to', $filters) && isset($filters['to']));
+            $date = (array_key_exists('date', $filters) && isset($filters['date']));
+            $room_number = (array_key_exists('room_number', $filters) && isset($filters['room_number']));
+            $adults_number = (array_key_exists('adults_number', $filters) && isset($filters['adults_number']));
+            $booking_code = (array_key_exists('booking_code', $filters) && isset($filters['booking_code']));
+            $booking_date = (array_key_exists('booking_date', $filters) && isset($filters['booking_date']));
+            $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
+
+            if($cas){
                 $qb->andWhere('r.gen_res_id = :gen_res_id');
                 $qb->setParameter('gen_res_id', $filters['cas']);
             }
-            if((array_key_exists('own_name', $filters) && isset($filters['own_name'])) || (array_key_exists('code', $filters) && isset($filters['code'])) || (array_key_exists('destination', $filters) && isset($filters['destination']))){
-
+            if($own_name || $code || $destination){
                 $qb->join('r.gen_res_own_id', 'o');
 
-                if(array_key_exists('own_name', $filters) && isset($filters['own_name'])){
+                if($own_name){
                     $qb->andWhere('o.own_name LIKE :own_name');
                     $qb->setParameter('own_name', '%'.trim($filters['own_name']).'%');
                 }
-                if(array_key_exists('code', $filters) && isset($filters['code'])){
+                if($code){
                     $qb->andWhere('o.own_mcp_code LIKE :own_mcp_code');
                     $qb->setParameter('own_mcp_code', '%'.trim($filters['code']).'%');
                 }
-                if (array_key_exists('destination', $filters) && isset($filters['destination'])){
+                if($destination){
                     $qb->join('o.own_destination', 'd');
                     $qb->andWhere('d.des_id = :des_id');
                     $qb->setParameter('des_id', $filters['destination']);
                 }
             }
-            if(array_key_exists('from', $filters) && isset($filters['from'])){
+            if($from){
                 $qb->andWhere('r.gen_res_from_date = :gen_res_from_date');
                 $qb->setParameter('gen_res_from_date', Dates::createForQuery($filters['from'], 'd-m-Y'));
             }
-            if(array_key_exists('to', $filters) && isset($filters['to'])){
+            if($from_between){
+                $qb->andWhere('r.gen_res_from_date >= :date_a');
+                $qb->andWhere('r.gen_res_from_date <= :date_b');
+                $qb->setParameter('date_a', Dates::createForQuery($filters['from_between'][0], 'd-m-Y'));
+                $qb->setParameter('date_b', Dates::createForQuery($filters['from_between'][1], 'd-m-Y'));
+            }
+            if($to){
                 $qb->andWhere('r.gen_res_to_date = :gen_res_to_date');
                 $qb->setParameter('gen_res_to_date', Dates::createForQuery($filters['to'], 'd-m-Y'));
             }
-            if(array_key_exists('date', $filters) && isset($filters['date'])){
+            if($date){
                 $qb->andWhere('r.gen_res_date = :gen_res_date');
                 $qb->setParameter('gen_res_date', Dates::createForQuery($filters['date'], 'd-m-Y'));
+            }
+            if($room_number){
+                $subSelect = "SELECT COUNT(owres_r) FROM mycpBundle:ownershipReservation AS owres_r WHERE owres_r.own_res_gen_res_id = r.gen_res_id";
+                $subSelect = "(".$subSelect.") = :room_number";
+                /*$qb->addSelect($subSelect);*/
+                $qb->andWhere($subSelect);
+                $qb->setParameter('room_number', $filters['room_number']);
+            }
+            if($adults_number){
+                $subSelect = "SELECT SUM(owres_a.own_res_count_adults) FROM mycpBundle:ownershipReservation AS owres_a WHERE owres_a.own_res_gen_res_id = r.gen_res_id";
+                $subSelect = "(".$subSelect.") = :adults_number";
+                $qb->andWhere($subSelect);
+                $qb->setParameter('adults_number', $filters['adults_number']);
+            }
+            if($booking_code){
+                $subSelect = "SELECT COUNT(owres_1) FROM mycpBundle:ownershipReservation AS owres_1
+JOIN owres_1.own_res_reservation_booking AS b WHERE owres_1.own_res_gen_res_id = r.gen_res_id AND b.booking_id = :booking_id";
+                $subSelect = "(".$subSelect.") > 0";
+                $qb->andWhere($subSelect);
+                $qb->setParameter('booking_id', $filters['booking_code']);
+            }
+            if($booking_date){
+                $subSelect = "SELECT COUNT(owres_2) FROM mycpBundle:ownershipReservation AS owres_2
+JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres_2.own_res_gen_res_id = r.gen_res_id AND p.created >= :created1  AND p.created <= :created2";
+                $subSelect = "(".$subSelect.") > 0";
+                $qb->andWhere($subSelect);
+                $a = Dates::createForQuery($filters['booking_date'], 'd-m-Y');
+                $a1 = $a." 00:00:00.000000";
+                $a2 = $a." 23:59:59.000000";
+                $qb->setParameter('created1', $a1);
+                $qb->setParameter('created2', $a2);
             }
         }
 

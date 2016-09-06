@@ -47,9 +47,11 @@ twig:
          translator_google_api_key: "%translator_google_api_key%"
          form_search_booking_pending: "@booking.pending.filter.form"
          form_search_booking_availability: "@booking.availability.filter.form"
+         form_search_booking_notavailability: "@booking.notavailability.filter.form"
          form_search_booking_beaten: "@booking.beaten.filter.form"
          form_search_booking_reserved: "@booking.reserved.filter.form"
          form_search_booking_canceled: "@booking.canceled.filter.form"
+         form_search_booking_checkin: "@booking.checkin.filter.form"
 
 # Assetic Configuration
 assetic:
@@ -284,12 +286,3 @@ abuc_remarketing:
     job_manager: doctrine
     job_server: "@leezy.pheanstalk"
 
-jms_translation:
-    configs:
-        app:
-            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src/MyCp/PartnerBundle ]
-            output_dir: %kernel.root_dir%/../src/MyCp/PartnerBundle/Resources/translations
-#            ignored_domains: [routes, validators]
-            excluded_names: ["*TestCase.php", "*Test.php"]
-            excluded_dirs: [cache, data, logs]
-            #extractors: [alias_of_the_extractor]

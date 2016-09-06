@@ -237,6 +237,17 @@ body.landing-page {
 .chosen-container-single .chosen-single div b {
     background: rgba(0, 0, 0, 0) url("../bundles/layout/css/plugins/chosen/chosen-sprite.png") no-repeat scroll 0 2px;
 }
+.chosen-container-single .chosen-search input[type="text"]{
+    background: white url('../bundles/layout/css/plugins/chosen/chosen-sprite.png') no-repeat 100% -20px;
+    background: url('../bundles/layout/css/plugins/chosen/chosen-sprite.png') no-repeat 100% -20px;
+}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
+    background: url('../bundles/layout/css/plugins/chosen/chosen-sprite.png') -42px 1px no-repeat;
+}
+.chosen-rtl .chosen-search input[type="text"]{
+    background: white url('../bundles/layout/css/plugins/chosen/chosen-sprite.png') no-repeat -30px -20px;
+    background: url('../bundles/layout/css/plugins/chosen/chosen-sprite.png') no-repeat -30px -20px;
+}
 /******************************************************/
 .landing-page .win h2 {
     color: #165078;
@@ -295,6 +306,9 @@ body.landing-page {
 }
 .paFooter a {
     color: #fff;
+}
+.pb-0{
+    padding-bottom: 0px;
 }
 .pl-0{
     padding-left: 0px;
@@ -444,7 +458,7 @@ body.landing-page {
 .form-login .form-control, .single-line {
     background-color: #195476;
     border: none;
-    color: inherit;
+    color: #fff;
     font-size: 14px;
 }
 .form-login .form-control::-moz-placeholder {
@@ -474,6 +488,15 @@ body.landing-page {
 }
 .color-white{
     color: #fff;
+}
+.color-blue{
+    background: #0d3044;
+}
+.navbar-wrapper .navbar.navbar-scroll {
+    padding-top: 0;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #e7eaec !important;
+    border-radius: 0;
 }
 .navbar-partner .dropdown-menu{
     background: rgba(0, 0, 0, 0.44) none repeat scroll 0 0;
@@ -525,7 +548,7 @@ body.landing-page {
 .paSearcher .glyphicons {
     color: #fff;
     display: inline-block;
-    font: 24px/1em "Glyphicons Regular";
+    font: 18px/1em "Glyphicons Regular";
     position: relative;
     text-decoration: none;
     vertical-align: middle;
@@ -538,7 +561,7 @@ body.landing-page {
     background: #0f2e42;
     border: 0px solid #e5e6e7;
     border-radius: 1px;
-    color: inherit;
+    color: #fff;
     display: block;
     font-size: 14px;
     padding: 4px 12px;
@@ -551,6 +574,7 @@ body.landing-page {
     color: #fff;
     font-size: 27px;
     text-transform: uppercase;
+    height: 45px;
 }
 .paSearcher .slider-selection {
     background-color: #152b39;
@@ -582,6 +606,213 @@ body.landing-page {
     font-size: 14px !important;
     opacity: 1 !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.paSearcher .checkbox label::before {
+    background-color: #0d3044 !important;
+    border: 2px solid #fff;
+}
+
+.paSearcher .checkbox-primary input[type="checkbox"]:checked + label::before, .checkbox-primary input[type="radio"]:checked + label::before {
+    background-color: #fff !important;
+    border-color: #fff;
+}
+.paSearcher.chosen-container-multi .chosen-choices {
+    background-color: #0f2e42;
+    border: 0px solid #cbd5dd;
+    border-radius: 2px;
+    box-sizing: border-box;
+    cursor: text;
+    height: auto !important;
+    margin: 0;
+    min-height: 30px;
+    overflow: hidden;
+    padding: 2px;
+    position: relative;
+    width: 100%;
+}
+.paSearcher .chosen-container-multi .chosen-choices {
+    background-color: #0f2e42;
+    border: 0px solid #cbd5dd;
+}
+.thumbnail {
+    background-color: #fcfcff;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    display: block;
+    height: auto;
+    line-height: 1.644;
+    max-width: 100%;
+    padding: 4px;
+    transition: all 0.2s ease-in-out 0s;
+}
+.h-blue {
+    font-size: 16px;
+}
+.houses-list h1{
+    margin: 0;
+}
+.houses-list span {
+    color: #6d6c6c;
+}
+.thumbnail {
+    position: relative;
+}
+.thumbnail-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 15px;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: #fff;
+
+}
+.irs-from, .irs-to, .irs-single {
+    background: #027ed4 none repeat scroll 0 0;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 2px 5px;
+
+}
+.irs-from::after, .irs-to::after, .irs-single::after {
+
+    border-color: #027ed4 transparent transparent;
+}
+.irs-min, .irs-max {
+    font-size: 12px;
+}
+.loading-signal {
+    left: 50%;
+    padding: 5px;
+    position: absolute;
+    top: 50%;
+    z-index: 101;
+}
+.layer-loading {
+    background-color: #ffffff;
+    height: 98%;
+    opacity: 0.6;
+    position: absolute;
+    width: 98%;
+    z-index: 100;
+}
+[data-toggle="buttons"] > .btn input[type="checkbox"], [data-toggle="buttons"] > .btn input[type="radio"], [data-toggle="buttons"] > .btn-group > .btn input[type="checkbox"], [data-toggle="buttons"] > .btn-group > .btn input[type="radio"] {
+    clip: rect(0px, 0px, 0px, 0px);
+    pointer-events: none;
+    position: absolute;
+}
+.breadcrumb-top {
+    border-bottom: none;
+}
+.checkbox-searcher{
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+.ownerships_mosaic div.thumbnail{
+    height: 250px;
+    text-align: center;
+}
+.ownerships_mosaic div.thumbnail > a > img.taller {
+    height: 100%;
+    width: auto;
+}
+.ownerships_mosaic div.thumbnail > a > img {
+    height: 100%;
+}
+.quick-ribbon {
+    background-color: #e44f37;
+    box-shadow: 4px 5px 5px #444;
+    color: white;
+    font-size: 14px;
+    left: -10px;
+    padding: 6px 10px;
+    position: absolute;
+    top: 45%;
+    z-index: 1;
+}
+.quick-ribbon::before {
+    border-color: #945e18 transparent;
+    border-style: solid;
+    border-width: 10px 0 0 10px;
+    bottom: -10px;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 0;
+}
+
+.quick-ribbon > span {
+    color: white !important;
+    font-size: 14px;
+}
+.efect-blur{
+    background-color: #6f909f;
+    left: 0;
+    overflow: hidden;
+    padding-top: 15px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.28;
+
+}
+.description-ownwership{
+    width: 100%;
+    margin-top: -20px;
+    margin-left: 0px;
+    background: #06354f;
+}
+.tiny-star-icon {
+    background-position: -14px -28px !important;
+}
+.tiny-star-off-icon{
+    background-position: 0px -114px !important;
+}
+.icon, .icon-medium, .icon-services {
+    background: rgba(0, 0, 0, 0) url("../img/icons/icons.png") no-repeat scroll 0 0;
+    height: 14px;
+    vertical-align: middle;
+    width: 13px;
+}
+.ownerships_mosaic div.thumbnail > a > img {
+    height: 100%;
+}
+.lazy-cont .lazy {
+    background: rgba(0, 0, 0, 0) url("../img/loading.gif") no-repeat scroll center center;
+}
+.full-width, .thumbnail img, .thumbs-houses table {
+    width: 100%;
+}
+.tiny-lang-icon{
+    background-position: -14px -14px !important;
+}
+.tiny-curr-icon{
+    background-position: 0 -28px !important;
+}
+.cart-icon{
+    background-position: 0 -42px !important;
+}
+.cart-full-icon{
+    background-position: 0 -65px !important;
+}
+
 
 
 
@@ -856,4 +1087,17 @@ body.landing-page {
 }
 .flags.eng{
     background-position: -50px 0;
+}
+
+@media (min-width:1400px) {
+    .ownerships_mosaic div.thumbnail{
+        height: 320px;
+        text-align: center;
+    }
+}
+@media (min-width:2000px) {
+    .ownerships_mosaic div.thumbnail{
+        height: 400px;
+        text-align: center;
+    }
 }

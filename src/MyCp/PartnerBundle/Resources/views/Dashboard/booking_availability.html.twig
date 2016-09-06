@@ -15,56 +15,56 @@
     <div class="ibox-content card">
         <form id="form-booking-availability" class="filter-form">
             <div class="row">
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+                            {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.placeholder.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                            {{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.placeholder.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group date">
+                            {{ form_widget(formFilter.from, { 'attr': {'placeholder': 'booking.placeholder.from'|trans, 'title':'booking.placeholder.from'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group date">
+                            {{ form_widget(formFilter.to, { 'attr': {'placeholder': 'booking.placeholder.to'|trans, 'title':'booking.placeholder.to'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                    </div>
+                </div>
                 <div class="col-lg-1 field-filter">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon fa-letter">CAS</span>
-                            {{ form_widget(formFilter.cas, { 'attr': {'placeholder': 'booking.placeholder.cas'|trans, 'title':'booking.title.cas'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
-                            {{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.title.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-group"></i></span>
+                            {{ form_widget(formFilter.adults_number, { 'attr': {'placeholder': 'booking.placeholder.adults_number'|trans, 'title':'booking.placeholder.adults_number'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-1 field-filter">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
-                            {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.title.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.from, { 'attr': {'placeholder': 'booking.placeholder.from'|trans, 'title':'booking.title.from'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.to, { 'attr': {'placeholder': 'booking.placeholder.to'|trans, 'title':'booking.title.to'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.title.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.date, { 'attr': {'placeholder': 'booking.placeholder.date'|trans, 'title':'booking.title.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                            {{ form_widget(formFilter.room_number, { 'attr': {'placeholder': 'booking.placeholder.room_number'|trans, 'title':'booking.placeholder.room_number'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                         <div class="table-responsive">
                             <table id="table-booking-availability" class="table table-striped table-bordered table-hover  dataTable " role="grid" aria-describedby="editable_info">
                                 <thead>
-                                <tr role="row">
+                                <tr role="row" class="hide">
                                     <th>{{ 'booking.title.name' | trans }}</th>
                                 </tr>
                                 </thead>
@@ -105,7 +105,8 @@
 
     $(document).ready(function () {
         oTableAvailability = $('#table-booking-availability').DataTable({
-            bFilter: false,//true: Para sustituirlo por el add user
+            "bServerSide": true,
+            "bFilter": false,//true: Para sustituirlo por el add user
             "bLengthChange": false,
             "scrollX": false,
             "ajax": {
@@ -128,20 +129,33 @@
                     "mData": null,
                     "aTargets": [0],
                     "mRender": function (data, type, full) {
+                        var rooms = '<em class="rt">Habitaciones:</em> <span class="rst">' + data.rooms.length + '</span> ';
+
+                        var adults = 0;
+                        var childrens = 0;
+                        var totalPrice = 0;
+                        for(var i = 0; i < data.rooms.length; i++){
+                            var room = data.rooms[i];
+                            adults += room.adults;
+                            childrens += room.childrens;
+                            totalPrice += room.totalPrice;
+                        }
+                        rooms += '<em class="rt">Adultos:</em> <span class="rst">' + adults + '</span> ' +
+                                '<em class="rt">Niños:</em> <span class="rst">' + childrens + '</span> ' +
+                                '<em class="rt">Precio Total:</em> <span class="rst">' + totalPrice + '</span> ';
+
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
-                                    '<em class="rt">CAS:</em> <span class="rst">' + data.code + '</span> ' +
-                                    '<em class="rt">Llegada:</em> <span class="rst">' + data.arrival + '</span> ' +
-                                    '<em class="rt">Salida:</em> <span class="rst">' + data.exit + '</span> ' +
-                                    '<em class="rt">Casa:</em> <span class="rst">' + data.name + '</span> ' +
-                                    '<em class="rt">Cliente:</em> <span class="rst">' + data.client + '</span> ' +
-                                    '<em class="rt">Habitación:</em> <span class="rst">' + data.room + '</span> ' +
-                                    '<em class="rt">Precio/noche:</em> <span class="rst">' + data.price + '</span> ' +
-                                '</div> ' +
-                                '<div class="col-xs-12"> ' +
-                                    '<em class="rt">Prepago:</em> <span class="rst">' + data.payment + '</span> ' +
-                                '</div> ' +
-                                '</div>';
+                                '<em class="rt">CAS:</em> <span class="rst">' + data.cas + '</span> ' +
+                                '<em class="rt">Llegada:</em> <span class="rst">' + data.from + '</span> ' +
+                                '<em class="rt">Salida:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">Fecha:</em> <span class="rst">' + data.date + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
+                                '<em class="rt">Casa:</em> <span class="rst">' + data.own_name + '</span> ' +
+                                '<em class="rt">Destino:</em> <span class="rst">' + data.destination + '</span> ' +
+                                 rooms
+                        '</div> ' +
+                        '</div>';
                         return html;
                     }
                 }
@@ -153,6 +167,7 @@
                 $("#table-booking-availability thead").remove();
             }
         });
+
     });
 
     function filterAvailabilityAction() {
