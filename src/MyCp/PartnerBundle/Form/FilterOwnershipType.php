@@ -100,7 +100,16 @@ class FilterOwnershipType extends AbstractType
             ->add('own_award', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('own_inmediate_booking', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('room_climatization', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
-
+            ->add('own_others_pets', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_audiovisuals', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_kids', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_smoker', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('pool', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_balcony', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_terraza', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('room_courtyard', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('laundry', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('parking', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ;
     }
     

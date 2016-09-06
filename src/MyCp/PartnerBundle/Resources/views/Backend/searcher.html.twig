@@ -121,6 +121,7 @@
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
                                     <input type="checkbox" id="room_others_pets">
+                                    {{ form_widget(formFilterOwnerShip.own_others_pets, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"PETS_OTHERS_FILTER" | trans}}
                                     </label>
@@ -128,7 +129,7 @@
                             </div>
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_audiovisuals">
+                                    {{ form_widget(formFilterOwnerShip.room_audiovisuals, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"AUDIOVISUALS_FILTER" | trans}}
                                     </label>
@@ -136,7 +137,7 @@
                             </div>
                             <div class="col-md-4 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_kids">
+                                    {{ form_widget(formFilterOwnerShip.room_kids, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"KIDS_FILTER" | trans}}
                                     </label>
@@ -144,7 +145,7 @@
                             </div>
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_smoker">
+                                    {{ form_widget(formFilterOwnerShip.room_smoker, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"SMOKER_FILTER" | trans}}
                                     </label>
@@ -156,7 +157,7 @@
                         <div class="col-md-12 color-blue" style="margin-left: 30px;padding-right: 0;width: 94%;">
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_pool">
+                                    {{ form_widget(formFilterOwnerShip.pool, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"POOL_OTHERS_FILTER" | trans}}
                                     </label>
@@ -164,7 +165,7 @@
                             </div>
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_balcony">
+                                    {{ form_widget(formFilterOwnerShip.room_balcony, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"BALCONY_FILTER" | trans}}
                                     </label>
@@ -172,7 +173,7 @@
                             </div>
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_terraza">
+                                    {{ form_widget(formFilterOwnerShip.room_terraza, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"TERRACE_FILTER" | trans}}
                                     </label>
@@ -180,7 +181,7 @@
                             </div>
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_courtyard">
+                                    {{ form_widget(formFilterOwnerShip.room_courtyard, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
                                     <label>
                                         {{"COURTYARD_FILTER" | trans}}
                                     </label>
@@ -188,9 +189,19 @@
                             </div>
                             <div class="col-md-2 pl-0">
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="room_laundry">
+                                    {{ form_widget(formFilterOwnerShip.laundry, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+
                                     <label>
                                         {{"LAUNDRY_OTHERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.parking, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+
+                                    <label>
+                                        {{"PARKING_THERS_FILTER" | trans}}
                                     </label>
                                 </div>
                             </div>
