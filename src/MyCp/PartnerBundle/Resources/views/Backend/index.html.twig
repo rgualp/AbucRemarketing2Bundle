@@ -210,6 +210,10 @@
             });
 
             function renderPlugins(element){
+                $('html,body').animate({
+                            scrollTop: $("#content-box").offset().top - 100},
+                        'slow');
+
                 element.find('.input-group.date').datepicker({
                     todayBtn: "linked",
                     format:'dd-mm-yyyy',

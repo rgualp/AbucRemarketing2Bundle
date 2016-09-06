@@ -722,6 +722,54 @@
         <source>booking.placeholder.booking_date</source>
         <target state="new">Fecha de booking</target>
       </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb42" resname="dashboard.booking.home">
+        <source>dashboard.booking.home</source>
+        <target state="new">Casa</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb43" resname="dashboard.booking.from">
+        <source>dashboard.booking.from</source>
+        <target state="new">Llegada</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb44" resname="dashboard.booking.to">
+        <source>dashboard.booking.to</source>
+        <target state="new">Salida</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb44" resname="dashboard.booking.destination">
+        <source>dashboard.booking.destination</source>
+        <target state="new">Destino</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb45" resname="dashboard.booking.date">
+        <source>dashboard.booking.date</source>
+        <target state="new">Fecha</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb46" resname="dashboard.booking.cas">
+        <source>dashboard.booking.cas</source>
+        <target state="new">CAS</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb47" resname="dashboard.booking.totalprice">
+        <source>dashboard.booking.totalprice</source>
+        <target state="new">Precio total</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb48" resname="dashboard.booking.bookingcode">
+        <source>dashboard.booking.bookingcode</source>
+        <target state="new">Código booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb49" resname="dashboard.booking.bookingdate">
+        <source>dashboard.booking.bookingdate</source>
+        <target state="new">Fecha pago</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb50" resname="dashboard.booking.rooms">
+        <source>dashboard.booking.rooms</source>
+        <target state="new">Habitaciones</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb51" resname="dashboard.booking.adults">
+        <source>dashboard.booking.adults</source>
+        <target state="new">Adultos</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb52" resname="dashboard.booking.childrens">
+        <source>dashboard.booking.childrens</source>
+        <target state="new">Niños</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
