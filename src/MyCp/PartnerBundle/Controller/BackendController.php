@@ -2,6 +2,8 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\PartnerBundle\Form\paReservationType;
+use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,13 +26,16 @@ class BackendController extends Controller
         $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices();
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
+
+        $form = $this->createForm(new paReservationType($this->get('translator')));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
             "owns_categories" => null,
             "autocomplete_text_list" => null,
             "owns_prices" => $prices_own_list,
-            "formFilterOwnerShip"=>$formFilterOwnerShip->createView()
+            "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
+            'form'=>$form->createView()
         ));
     }
 
@@ -45,6 +50,8 @@ class BackendController extends Controller
         $filters= $request->get('requests_ownership_filter');
         $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters))->getResult();
         $page = 1;
+
+
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
             'list' => $list,
             'items_per_page' => $items_per_page,

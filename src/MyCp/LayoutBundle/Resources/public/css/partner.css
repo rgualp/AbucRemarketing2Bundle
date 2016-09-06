@@ -336,6 +336,22 @@ body.landing-page {
     text-shadow: 0 1px 0 #fff;
     z-index: 999;
 }
+
+.modal-reservation{
+    background-color: #25323b !important;
+    color: #fff;
+    font-size: 20px;
+    height: 400px;
+}
+
+.modal-reservation h3{
+    font-size: 25px;
+}
+
+.modal-reservation a, .modal-reservation a:link, .modal-reservation a:visited, .modal-reservation a:hover{color: #fff;}
+.modal-reservation a:hover{text-decoration: none;}
+
+
 .agency .input-group-addon {
     background-color: #fff;
     border: 1px solid #e5e6e7;
