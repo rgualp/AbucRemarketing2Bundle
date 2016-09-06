@@ -96,7 +96,7 @@ class NotificationService extends Controller
                 //$message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights" . "noches. CAS$reservationId. Son $rooms" . "hab./$guests" . "personas. Si está disponible, llame en menos de 1h al 78673574";
 				$noches= ($nights>1)?'s':'';
 				$personas= ($guests>1)?'s':'';
-				$message = 'Mycasaparticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al 78644502 o 58419821.';
+				$message = 'Mycasaparticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al 78673574 o 58419821.';
 
                 $subType = "INMEDIATE_BOOKING";
                 $reservationObj = array(
