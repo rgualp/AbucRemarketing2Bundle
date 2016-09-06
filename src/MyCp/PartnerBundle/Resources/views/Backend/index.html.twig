@@ -4,6 +4,106 @@
     {{ parent() }}
     <style>
 
+        .filter-form .field-filter{
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .ibox-title span.title-card {
+            display: inline-block;
+            font-family: MyriadProRegular;
+            float: left;
+            font-size: 30px;
+            margin: 0 0 7px;
+            padding: 0;
+            color:  #0d4e76;
+            text-overflow: ellipsis;
+        }
+
+        .ibox-title.card {
+            padding: 0 15px;
+        }
+
+        .card .ibox-tools{
+            margin-top: 10px;
+        }
+
+        .ibox-title.card, .ibox-content.card, .ibox.card{
+            background-color: #dfe9f4;
+        }
+
+        .ibox.card{
+            margin-bottom: 5px;
+        }
+
+        .filter-form .form-control::-moz-placeholder, .filter-form .form-control {
+            font-size: 12px;
+            color: #64a433;
+            background-color: #d6d7da;
+        }
+
+        .filter-form  .input-group-addon {
+            background-color: #d6d7da;
+        }
+
+        .chosen-single.chosen-default, .chosen-container-single .chosen-single {
+            background: #d6d7da none repeat scroll 0 0;
+        }
+
+        .filter-form .fa, .filter-form .fa-letter, .filter-form .chosen-single span {
+            font-size: 12px;
+            color: #64a433 !important;
+            opacity: 1 !important;
+        }
+
+        .btn-search{
+            background-color: #d6d7da;
+            /*border-color: #1ab394;*/
+            font-size: 14px;
+            color: #64a433;
+        }
+
+        .date .form-control{
+            border-right: 0px;
+        }
+
+        .filter-form .input-group-addon {
+            padding: 6px;
+        }
+
+        .card .table-responsive {
+            overflow-x: inherit;
+        }
+
+        .rt, .rst {
+            font-size: 18px;
+            color: #0d4e76;
+        }
+
+        .rt {
+            font-family: MyriadProCond;
+        }
+
+        .rst {
+            font-family: MyriadProLightCondIt;
+        }
+
+        .card .table > tbody > tr > td, .card .table > tfoot > tr > td {
+            border-top: inherit;
+        }
+
+        .card .ibox-tools a {
+            color: #0d4e76;
+        }
+
+        .card .dataTables_wrapper {
+            padding-bottom: 0;
+        }
+
+        .card.ibox-content, .card .ibox-content {
+            padding: 0 20px 0;
+        }
+
     </style>
 {% endblock stylesheets %}
 {% block carousel %}
@@ -75,15 +175,36 @@
 
             jQuery('#side-menu').on('click', ' li > a.ajaxify', function (e) {
                 e.preventDefault();
-                var href = $(this).data('href');
 
+                HoldOn.open();
+
+                var href = $(this).data('href');
                 $.ajax({
                     type: "POST",
                     url: href,
                     success: function(result) {
-                        var a = $('#content-box').append('<div class="row">' + result.html + '</div>');
+                        HoldOn.close();
 
-                        renderPlugins(a);
+                        var oldItem = $('#'+result.id);
+                        if (oldItem.length > 0){
+                            oldItem.remove();
+                        }
+
+                        var element = $('#content-box');
+                        var firstChild = element.children();
+                        var newItem = $('<div id=' + result.id + ' class="row">' + result.html + '</div>');
+
+                        if (firstChild.length == 0){
+                            element.append(newItem);
+                        }
+                        else {
+                            newItem.insertBefore(firstChild[0]);
+                        }
+
+                        renderPlugins(newItem);
+                    },
+                    error: function() {
+                        HoldOn.close();
                     }
                 });
             });
@@ -91,6 +212,7 @@
             function renderPlugins(element){
                 element.find('.input-group.date').datepicker({
                     todayBtn: "linked",
+                    format:'dd-mm-yyyy',
                     keyboardNavigation: false,
                     forceParse: false,
                     calendarWeeks: true,
@@ -101,6 +223,26 @@
                 element.find('.chosen-select-deselect').chosen({allow_single_deselect: true});
                 element.find('.chosen-container-single').width('100%');
                 element.find('.chosen-container-multi').width('100%');
+
+                // Close ibox function
+                element.find('.close-link').click(function () {
+                    var content = $(this).closest('div.ibox');
+                    content.remove();
+                });
+
+                // Collapse ibox function
+                 element.find('.collapse-link').click(function () {
+                    var ibox = $(this).closest('div.ibox');
+                    var button = $(this).find('i');
+                    var content = ibox.find('div.ibox-content');
+                    content.slideToggle(200);
+                    button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+                    ibox.toggleClass('').toggleClass('border-bottom');
+                    setTimeout(function () {
+                        ibox.resize();
+                        ibox.find('[id^=map-]').resize();
+                    }, 50);
+                });
             }
         });
 
