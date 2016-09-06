@@ -140,19 +140,19 @@
                             childrens += room.childrens;
                             totalPrice += room.totalPrice;
                         }
-                        rooms += '<em class="rt">Adultos:</em> <span class="rst">' + adults + '</span> ' +
-                                '<em class="rt">Niños:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">Precio Total:</em> <span class="rst">' + totalPrice + '</span> ';
+                        rooms += '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + '</span> ';
 
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
-                                '<em class="rt">CAS:</em> <span class="rst">' + data.cas + '</span> ' +
-                                '<em class="rt">Llegada:</em> <span class="rst">' + data.from + '</span> ' +
-                                '<em class="rt">Salida:</em> <span class="rst">' + data.to + '</span> ' +
-                                '<em class="rt">Fecha:</em> <span class="rst">' + data.date + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.date" | trans}}:</em> <span class="rst">' + data.date + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
-                                '<em class="rt">Casa:</em> <span class="rst">' + data.own_name + '</span> ' +
-                                '<em class="rt">Destino:</em> <span class="rst">' + data.destination + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.home" | trans}}:</em> <span class="rst">' + data.own_name + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
                                  rooms
                         '</div> ' +
                         '</div>';
