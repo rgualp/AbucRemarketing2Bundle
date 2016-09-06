@@ -134,15 +134,17 @@
                         var adults = 0;
                         var childrens = 0;
                         var totalPrice = 0;
+                        var curr_code;
                         for(var i = 0; i < data.rooms.length; i++){
                             var room = data.rooms[i];
                             adults += room.adults;
                             childrens += room.childrens;
                             totalPrice += room.totalPrice;
+                            curr_code = room.curr_code;
                         }
                         rooms += '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + '</span> ';
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ';
 
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +

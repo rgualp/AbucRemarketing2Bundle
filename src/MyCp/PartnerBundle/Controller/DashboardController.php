@@ -107,6 +107,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -123,8 +124,9 @@ class DashboardController extends Controller
                         'type'=>$ownReservation->getOwnResRoomType(),
                         'adults'=>$ownReservation->getOwnResCountAdults(),
                         'childrens'=>$ownReservation->getOwnResCountChildrens(),
-                        'totalPrice'=>$totalPrice/*,
-                        'booking'=>array(
+                        'totalPrice'=>($totalPrice * $curr['change']),
+                        'curr_code'=>$curr['code']
+                        /*'booking'=>array(
                             'prepay'=>$ownReservation->getOwnResReservationBooking()->getBookingPrepay()
                         )*/
                     );
@@ -179,6 +181,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -195,7 +198,8 @@ class DashboardController extends Controller
                         'type'=>$ownReservation->getOwnResRoomType(),
                         'adults'=>$ownReservation->getOwnResCountAdults(),
                         'childrens'=>$ownReservation->getOwnResCountChildrens(),
-                        'totalPrice'=>$totalPrice
+                        'totalPrice'=>($totalPrice * $curr['change']),
+                        'curr_code'=>$curr['code']
                     );
                     $ownReservation = $ownReservations->next();
                 } while ($ownReservation);
@@ -250,6 +254,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -264,7 +269,8 @@ class DashboardController extends Controller
 
                     $arrTmp['data']['rooms'][] = array(
                         'type'=>$ownReservation->getOwnResRoomType(),
-                        'totalPrice'=>$totalPrice,
+                        'totalPrice'=>($totalPrice * $curr['change']),
+                        'curr_code'=>$curr['code'],
                         'booking'=>array(
                             'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
                             'date'=>$ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y')
@@ -321,6 +327,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -335,7 +342,8 @@ class DashboardController extends Controller
 
                     $arrTmp['data']['rooms'][] = array(
                         'type'=>$ownReservation->getOwnResRoomType(),
-                        'totalPrice'=>$totalPrice/*,
+                        'totalPrice'=>($totalPrice * $curr['change']),
+                        'curr_code'=>$curr['code']/*,
                         'booking'=>array(
                             'client_name'=>$ownReservation->getOwnResReservationBooking()->getBookingUserDates()
                         )*/
@@ -391,6 +399,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -405,7 +414,8 @@ class DashboardController extends Controller
 
                     $arrTmp['data']['rooms'][] = array(
                         'type'=>$ownReservation->getOwnResRoomType(),
-                        'totalPrice'=>$totalPrice/*,
+                        'totalPrice'=>($totalPrice * $curr['change']),
+                        'curr_code'=>$curr['code']/*,
                         'booking'=>array(
                             'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
                         )*/
@@ -470,6 +480,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -484,7 +495,8 @@ class DashboardController extends Controller
 
                     $arrTmp['data']['rooms'][] = array(
                         'type'=>$ownReservation->getOwnResRoomType(),
-                        'totalPrice'=>$totalPrice,
+                        'totalPrice'=>($totalPrice * $curr['change']),
+                        'curr_code'=>$curr['code'],
                         'booking'=>array(
                             'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
                             'date'=>$ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y')
@@ -519,5 +531,14 @@ class DashboardController extends Controller
         $data['aaData'] = $reservations;
 
         return $data;
+    }
+
+    public function getCurr(Request $request){
+        $session = $request->getSession();
+        $a = $session->get("curr_rate");
+        $b = $session->get("curr_symbol");
+        $c = $session->get("curr_acronym");
+
+        return array("change"=>$a, "code"=>$c);
     }
 }

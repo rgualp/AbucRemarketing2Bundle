@@ -133,13 +133,15 @@
                         var totalPrice = 0;
                         var booking_code ='';
                         var date = '';
+                        var curr_code;
                         for(var i = 0; i < data.rooms.length; i++){
                             var room = data.rooms[i];
                             totalPrice += room.totalPrice;
+                            curr_code = room.curr_code;
                             booking_code = room.booking.code;
                             date= room.booking.date;
                         }
-                        rooms += '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + '</span> ' +
+                        rooms += '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ' +
                                  '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                                  '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ' ;
 

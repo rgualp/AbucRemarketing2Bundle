@@ -131,15 +131,17 @@
                     "mRender": function (data, type, full) {
                         var rooms = '';
                         var totalPrice = 0;
+                        var curr_code;
                         var booking_code ='';
                         var date = '';
                         for(var i = 0; i < data.rooms.length; i++){
                             var room = data.rooms[i];
                             totalPrice += room.totalPrice;
+                            curr_code = room.curr_code;
                             booking_code = room.booking.code;
                             date= room.booking.date;
                         }
-                        rooms += '<em class="rt">Precio Total:</em> <span class="rst">' + totalPrice + '</span> ' +
+                        rooms += '<em class="rt">Precio Total:</em> <span class="rst">' + totalPrice + curr_code + '</span> ' +
                                  '<em class="rt">Código booking:</em> <span class="rst">' + booking_code + '</span> ' +
                                  '<em class="rt">Fecha pago:</em> <span class="rst">' + date + '</span> ' ;
 
