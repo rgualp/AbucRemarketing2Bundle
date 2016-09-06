@@ -6,6 +6,14 @@
  *   version 2.3
  *
 */
+.p-0{
+    padding: 0 !important;
+}
+
+.m-0{
+    margin: 0 !important;
+}
+
 h1,
 h2,
 h3,
@@ -8010,6 +8018,7 @@ body.md-skin {
   display: block;
   width: 100%;
   float: left;
+    margin: 0 !important;
 }
 .space.space-5{
   height: 5px;

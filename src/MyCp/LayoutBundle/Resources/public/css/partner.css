@@ -69,6 +69,14 @@ body.landing-page {
 .MyriadProCond{
     font-family: MyriadProCond;
 }
+
+.fa.with-circle{
+    background: #fff none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #093653 !important;
+    font-size: 22px !important;
+    padding: 7px;
+}
 .color-td-onepackage{
     background-color: #093653 !important;
     color: #fff;
@@ -626,9 +634,9 @@ body.landing-page {
 
 .tabs-container .panel-body {
     background: #063550 none repeat scroll 0 0;
-    border: none;
+    border: medium none;
     border-radius: 0;
-    padding: 0;
+    padding: 0 0 30px;
     position: relative;
 }
 
@@ -654,5 +662,198 @@ body.landing-page {
     font-size: 18px;
 }
 .property-actions .btn{
+    background: #094e75 none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 0;
+    color: #fff;
+    font-size: 25px;
+    padding: 9px 0 3px;
+    width: 100%;
+}
 
+.property-actions .btn i{
+    font-size: 40px;
+    left: 20px;
+    position: absolute;
+    top: 0;
+}
+
+.box-for-bookagil{
+    background: #e94b3d none repeat scroll 0 0;
+    box-shadow: 1px 0 4px #000;
+    color: #fff;
+    font-family: arial;
+    font-size: 18px;
+    padding: 6px;
+    text-shadow: 1px 1px 1px #000;
+}
+.box-for-bookagil i{
+    float: left;
+    font-size: 36px;
+    margin: 12px 4px;
+    text-shadow: none;
+}
+
+.with-icon{
+    background-image: url("../bundles/partner/img/icon/categorys.png");
+    background-position: left top;
+    background-size: 87px auto;
+    height: 30px;
+    margin-right: 5px;
+    width: 30px;
+}
+.with-icon.absolute{
+    position: absolute;
+    bottom: 0;
+    left: -20px;
+}
+.with-icon.premium{
+
+}
+
+.rating i{
+    font-size: 33px;
+    text-shadow: 1px 0 1px #000;
+}
+.rating i.yellow-color{
+    color: #f3ac00;
+}
+
+.for-comments{
+
+}
+.for-comments .comments-title{
+    color: #063550;
+    font-size: 25px;
+}
+.for-comments .comments-title i{
+    font-size: 40px;
+}
+.for-comments .comments-item{
+    border: 2px solid #a9a9a9;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+.for-comments .comments-item .comment-autor span{
+    font-family: MyriadProBoldCond;
+    font-size: 25px;
+    font-weight: lighter;
+}
+.for-comments .comments-item .comment-date{
+
+}
+.for-comments .comments-item .comment-date span{
+    font-size: 25px;
+    margin-right: 8px;
+}
+.for-comments .comments-item .comment-text span{
+    font-family: MyriadProLightCond;
+    font-size: 25px;
+}
+
+.for-info-service{
+
+}
+.for-info-service .for-info-title{
+    color: #fff;
+    font-size: 25px;
+}
+.for-info-service .for-info-title i{
+    color: #fff;
+    font-size: 40px;
+    margin-right: 5px;
+}
+.for-info-service .for-info-house-desc{
+    background: #fff none repeat scroll 0 0;
+    color: #063550;
+    font-family: MyriadProRegular;
+    font-size: 24px;
+    line-height: 1.05;
+    padding: 5px;
+    font-weight: 100;
+}
+.detail-title{
+    color: #c7c5c5;
+    font-family: MyriadProRegular;
+    font-size: 24px;
+    font-weight: 100;
+}
+.detail-value{
+    color: #fff;
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+.list-services{
+    padding: 0;
+}
+.list-services li{
+    display: inline-block;
+    margin-right: 10px;
+    padding-left: 25px;
+    position: relative;
+}
+.icono-with-check{
+
+}
+.icono-with-check:before{
+    background: #f49821 none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 3px;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 12px;
+    left: 3px;
+    margin: auto 0;
+    position: absolute;
+    top: 0;
+    width: 12px;
+}
+.icono-with-check:after{
+    background: transparent none repeat scroll 0 0;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 18px;
+    left: 0;
+    margin: auto 0;
+    position: absolute;
+    top: 0;
+    width: 18px;
+}
+.icono-with-check span{
+
+}
+.icono-with-check span i{
+
+}
+.flags{
+    background-image: url("../bundles/partner/img/icon/flags.png");
+    background-repeat: no-repeat;
+    background-size: 600% auto;
+    display: block;
+    height: 50px;
+    margin: 0 auto;
+    width: 50px;
+}
+.flags.esp{
+    background-position: 0 0;
+}
+.flags.ger{
+    background-position: -100px 0;
+}
+.flags.ita{
+    background-position: -150px 0;
+}
+.flags.chi{
+    background-position: -250px 0;
+}
+.flags.fra{
+    background-position: -200px 0;
+}
+.flags.eng{
+    background-position: -50px 0;
 }

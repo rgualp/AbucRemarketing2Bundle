@@ -62,27 +62,58 @@
                                                     <div class="col-sm-12 property-title">
                                                         <h2>Casa Particular En Guanabo La Casa De Elena</h2>
                                                     </div>
-                                                    <div class="col-sm-6 property-datas">
+                                                    <div class="space space-20"></div>
+                                                    <div class="col-sm-7 property-datas">
                                                         <div class="row">
                                                             <div class="col-sm-12"><span>La Habana, Habana del Este</span></div>
                                                             <div class="col-sm-12"><span>Penthouse / 2 habitaciones</span></div>
                                                             <div class="col-sm-12"><span>Anfitriones: Pedro / Pepe</span></div>
                                                             <div class="col-sm-12"><span>CH 1403</span></div>
                                                             <div class="col-sm-9"><span class="price">20.00 Euro<i>/noche</i></span></div>
-                                                            <div class="col-sm-3"><span><i style="background-image: url('{{ asset('bundles/frontend/img/icons/big-icons.png') }}')" class="img-icon"></i> Premium</span></div>
+                                                            <div class="col-sm-3">
+                                                                <div class="space space-10"></div>
+                                                                <span><i class="fa with-icon absolute premium"></i> Premium</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-4 property-evaluation">
-                                                        <div class="col-sm-6">
-                                                            <div class="col-sm-12">Reserva Rapida</div>
-                                                            <div class="col-sm-12">5 Estrellas</div>
+                                                    <div class="col-sm-5 property-evaluation">
+                                                        <div class="row">
+                                                            <div class="col-sm-7">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12 p-0">
+                                                                        <div class="box-for-bookagil">
+                                                                            <i class="glyphicons white electricity"></i> Reserva Rapida
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-12">
+                                                                        <div class="space space-10"></div>
+                                                                        <div class="row rating">
+                                                                            {% set rating = 4 %}
+                                                                            {%if rating > 0%}
+                                                                                {%for i in 1..rating%}
+                                                                                    <i class="ion-ios-star yellow-color"></i>
+                                                                                {%endfor%}
+                                                                            {%endif%}
+
+                                                                            {%if rating < 5%}
+                                                                                {%for i in 1..(5-rating)%}
+                                                                                    <i class="ion-ios-star"></i>
+                                                                                {%endfor%}
+                                                                            {%endif%}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-5" style="padding-right:0"><img class="img-responsive" src="{{ asset('apple-touch-icon.png') }}"></div>
                                                         </div>
-                                                        <div class="col-sm-4"><img src="{{ asset('apple-touch-icon.png') }}" /></div>
                                                     </div>
+                                                    <div class="space space-10"></div>
                                                     <div class="col-sm-12 property-actions">
-                                                        <div class="col-sm-4"><button class="btn">Solicitar Casa</button></div>
-                                                        <div class="col-sm-4"><button class="btn">Favoritos <i class="fa fa-star"></i></button></div>
-                                                        <div class="col-sm-4"></div>
+                                                        <div class="row">
+                                                            <div class="col-sm-4"><button class="btn">Solicitar Casa</button></div>
+                                                            <div class="col-sm-4"><button class="btn"><i class="ion-ios-star"></i> Favoritos</button></div>
+                                                            <div class="col-sm-4"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,15 +128,170 @@
                     </div>
                     <div id="tab-2" class="tab-pane">
                         <div class="panel-body">
+                            <div class="col-sm-12 for-info-service">
+                                <div class="container">
+                                    <div class="col-sm-4 for-info-title">
+                                        <i class="fa fa-comment"></i> Descripcion de la Casa
+                                    </div>
+                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-12">
+                                        <div class="for-info-house-desc">
+                                            Campos incorrectos: Si el usuario introduce datos incorrectos se le mostrará el mensaje “Introduzca correctamente los valores para filtrar”. Se señalizarán los campos incorrectos. Campos vacíos: Si el usuario no completa ningún criterio de búsqueda y selecciona el botón Filtrar se mostrará el mensaje “Introduzca alguno de los filtros”.
+                                        </div>
+                                    </div>
+                                    <div class="space space-30"></div>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <div class="row">
+                                                    <div class="col-sm-12"><label class="detail-title">Tipo de Propiedad:</label><span class="detail-value">Villa con piscina</span></div>
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><label class="detail-title">Provincia:</label><span class="detail-value">La Habana</span></div>
+                                                            <div class="col-sm-12"><label class="detail-title">Categoria:</label><span class="detail-value"><i class="fa with-icon premium"></i>Premium</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><label class="detail-title">Destino:</label><span class="detail-value">Baracoa</span></div>
+                                                            <div class="col-sm-12"><label class="detail-title">Capacidad:</label><span class="detail-value">6 Hespedes</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="col-sm-12"><span style="font-family: MyriadProRegular;" class="detail-value">Idiomas que  se Hablan en la Casa</span></div>
+                                                <div class="col-sm-4">
+                                                    <span class="icono-with-check"><i class="flags esp"></i></span>
+                                                    <div class="space space-10"></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span class="icono-with-check"><i class="flags eng"></i></span>
+                                                    <div class="space space-10"></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span class="icono-with-check"><i class="flags ger"></i></span>
+                                                    <div class="space space-10"></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span class="icono-with-check"><i class="flags fra"></i></span>
+                                                    <div class="space space-10"></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span class="icono-with-check"><i class="flags chi"></i></span>
+                                                    <div class="space space-10"></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span class="icono-with-check"><i class="flags ita"></i></span>
+                                                    <div class="space space-10"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space space-30"></div>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12 for-info-title">
+                                                <i class="fa fa-tags with-circle"></i> Servicios
+                                            </div>
+                                            <div class="space space-20"></div>
+                                            <div class="col-sm-12">
+                                                    <ul class="list-services">
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                        </li>
+                                                    </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="tab-3" class="tab-pane">
                         <div class="panel-body">
+                            <div class="col-sm-12">
+                                <div class="container">
+                                    <div class="col-sm-5"><label class="detail-title">Provincia:</label><span class="detail-value">La Habana</span></div>
+                                    <div class="col-sm-7"><label class="detail-title">Provincia:</label><span class="detail-value">La Habana</span></div>
+                                    <div class="col-sm-12"><label class="detail-title">Provincia:</label><span class="detail-value">La Habana</span></div>
+                                    <div class="col-sm-12"><label class="detail-title">Provincia:</label><span class="detail-value">La Habana</span></div>
+                                    <div class="space space-30"></div>
+                                    <div class="col-sm-12 for-info-service">
+                                        <div class="row">
+                                            <div class="col-sm-12 for-info-title">
+                                                <i class="glyphicons shopping_bag"></i> Facilidades
+                                            </div>
+                                            <div class="space space-20"></div>
+                                            <div class="col-sm-12">
+                                                <ul class="list-services">
+                                                    <li>
+                                                        <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="icono-with-check detail-value"><i class="fa fa-star"></i> Lavanderia</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-sm-12 bg-white">
+        <div class="space space-30"></div>
+        <div class="container">
+            <div class="for-comments col-sm-12">
+                <div class="row">
+                    <div class="comments-title col-sm-3"><i class="fa fa-comments"></i> Comentarios</div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="comments-item col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-3 comment-autor">
+                                        <span># 500 Pedro Torres</span>
+                                    </div>
+                                    <div class="col-sm-5"></div>
+                                    <div class="col-sm-4 comment-date text-right">
+                                            <span class="for-date">28/8/2016</span>
+                                            <span class="rating_star">
+                                                {% for i in 1 .. 5 %}{% if i <= 4 %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}" alt="{{"Start on" | trans}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}" alt="{{"Start off" | trans}}"/>{% endif %} {% endfor %}
+                                            </span>
+                                    </div>
+                                    <div class="col-sm-12 comment-text">
+                                          <span>
+                                              Por defecto se mostrarán 100 elementos por cada página. Se le brindará al usuario la posibilidad de elegir cuántos elementos desea mostrar en cada página (50, 100, 300, 500). Además, el usuario podrá elegir, en el paginado, el número de página que desea most.
+                                          </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space space-30"></div>
     </div>
 {% endblock %}
 
