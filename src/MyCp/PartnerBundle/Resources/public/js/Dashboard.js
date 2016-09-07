@@ -88,8 +88,6 @@ var Dashboard = function () {
                 form.serializeArray().map(function(x){data_params[x.name] = x.value;});
                 HoldOn.open();
                 $.post(_url, data_params, function(response) {
-                    slice
-                    $('.slimScrollBar').css('top', $('.slimScrollBar').css('top')*1-50+'px');
                     HoldOn.close();
                     result.append(response);
                     start=limit+1;

@@ -515,7 +515,7 @@ class DashboardController extends Controller
         $user=$this->getUser();
 
         $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository(generalReservation::class);
+        $repository = $em->getRepository('mycpBundle:generalReservation');
 
         #region PAGINADO
         $page = ($start > 0) ? $start / $limit + 1 : 1;

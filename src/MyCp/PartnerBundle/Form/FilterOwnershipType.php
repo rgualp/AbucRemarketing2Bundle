@@ -79,31 +79,31 @@ class FilterOwnershipType extends AbstractType
                 'empty_value' => "",
                 'multiple' => true,
                 'required' => false,
-                'choices'=>array('Económica'=>$this->translate->trans('Económica'),'Rango medio'=>$this->translate->trans('Rango medio'),'Premium'=>$this->translate->trans('Premium'))
+                'choices'=>array('Económica'=>/** @Ignore */$this->translate->trans('Económica'),'Rango medio'=>/** @Ignore */$this->translate->trans('Rango medio'),'Premium'=>/** @Ignore */$this->translate->trans('Premium'))
             ))
             ->add('own_type','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
                 'multiple' => true,
                 'required' => false,
-                'choices'=>array('Penthouse'=>$this->translate->trans('Penthouse'),'Villa con piscina'=>$this->translate->trans('Villa con piscina'),'Apartamento'=>$this->translate->trans('Apartamento'),'Propiedad completa'=>$this->translate->trans('Propiedad completa'),'Casa particular'=>$this->translate->trans('Casa particular'))
+                'choices'=>array('Penthouse'=>/** @Ignore */$this->translate->trans('Penthouse'),'Villa con piscina'=>/** @Ignore */$this->translate->trans('Villa con piscina'),'Apartamento'=>/** @Ignore */$this->translate->trans('Apartamento'),'Propiedad completa'=>/** @Ignore */$this->translate->trans('Propiedad completa'),'Casa particular'=>/** @Ignore */$this->translate->trans('Casa particular'))
             ))
             ->add('own_beds_total','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
                 'required' => false,
-                'choices'=>array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6)
+                'choices'=>array(1=>/** @Ignore */1,2=>/** @Ignore */2,3=>/** @Ignore */3,4=>/** @Ignore */4,5=>/** @Ignore */5,6=>/** @Ignore */6)
             ))
             ->add('room_type','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
                 'required' => false,
-                'choices'=>array('Habitación individual'=>$this->translate->trans('SINGLE_ROOM_FILTER'),'Habitación doble'=>$this->translate->trans('DOUBLE_ROOM_FILTER'),'Habitación doble (Dos camas)'=>$this->translate->trans('DOUBLE_2_BEDS_FILTER'),'Habitación Triple'=>$this->translate->trans('TRIPLE_ROOM_FILTER'))
+                'choices'=>array('Habitación individual'=>/** @Ignore */$this->translate->trans('SINGLE_ROOM_FILTER'),'Habitación doble'=>/** @Ignore */$this->translate->trans('DOUBLE_ROOM_FILTER'),'Habitación doble (Dos camas)'=>/** @Ignore */$this->translate->trans('DOUBLE_2_BEDS_FILTER'),'Habitación Triple'=>/** @Ignore */$this->translate->trans('TRIPLE_ROOM_FILTER'))
             ))
             ->add('room_bathroom','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",
-                'choices'=>array('Interior privado'=>$this->translate->trans('INNER_PRIVATE_BATHROOM_FILTER'),'Exterior privado'=>$this->translate->trans('OUTER_PRIVATE_BATHROOM_FILTER'),'Compartido'=>$this->translate->trans('SHARED_BATHROOM_FILTER'))
+                'choices'=>array('Interior privado'=>/** @Ignore */$this->translate->trans('INNER_PRIVATE_BATHROOM_FILTER'),'Exterior privado'=>/** @Ignore */$this->translate->trans('OUTER_PRIVATE_BATHROOM_FILTER'),'Compartido'=>/** @Ignore */$this->translate->trans('SHARED_BATHROOM_FILTER'))
             ))
             ->add('own_award', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('own_inmediate_booking', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))

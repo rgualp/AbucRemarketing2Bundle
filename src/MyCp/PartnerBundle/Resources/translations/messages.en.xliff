@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-02T21:45:46Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-07T14:48:41Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -18,6 +18,10 @@
         <source>AUDIOVISUALS_FILTER</source>
         <target state="new">AUDIOVISUALS_FILTER</target>
       </trans-unit>
+      <trans-unit id="745d9d40dfb5c886baed990f26b27169e05a8629" resname="Apartamento">
+        <source>Apartamento</source>
+        <target state="new">Apartamento</target>
+      </trans-unit>
       <trans-unit id="75226d73db5b6dee213a72b35c48e69757473009" resname="Awards">
         <source>Awards</source>
         <target state="new">Awards</target>
@@ -25,6 +29,10 @@
       <trans-unit id="d58be04dd17afc47fc3d13b12f26d27f7f68d586" resname="BALCONY_FILTER">
         <source>BALCONY_FILTER</source>
         <target state="new">BALCONY_FILTER</target>
+      </trans-unit>
+      <trans-unit id="5a0806ea69a1315668bed3726c94dee6de209e09" resname="BREAKFAST_FILTER">
+        <source>BREAKFAST_FILTER</source>
+        <target state="new">BREAKFAST_FILTER</target>
       </trans-unit>
       <trans-unit id="e85a58873672c5286790924e628a39ce4669d70a" resname="COURTYARD_FILTER">
         <source>COURTYARD_FILTER</source>
@@ -34,9 +42,25 @@
         <source>CURRENCY</source>
         <target state="new">CURRENCY</target>
       </trans-unit>
+      <trans-unit id="8c4ba06655fe9ad70cd2d66d33c42e649f3bb439" resname="Casa particular">
+        <source>Casa particular</source>
+        <target state="new">Casa particular</target>
+      </trans-unit>
       <trans-unit id="22f00518c167f2a031d6e5197f4abda68d242301" resname="DEPARTURE_WATERMARK">
         <source>DEPARTURE_WATERMARK</source>
         <target state="new">DEPARTURE_WATERMARK</target>
+      </trans-unit>
+      <trans-unit id="071af81dd375fbe3ba045c32a7f1a2eaec7a4312" resname="DINNER_OTHERS_FILTER">
+        <source>DINNER_OTHERS_FILTER</source>
+        <target state="new">DINNER_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="cb9785cc75785b25b8f1800b9945968bff5b5c10" resname="DOUBLE_2_BEDS_FILTER">
+        <source>DOUBLE_2_BEDS_FILTER</source>
+        <target state="new">DOUBLE_2_BEDS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="df09da62e46b24f45f7df9334343652d7d21d978" resname="DOUBLE_ROOM_FILTER">
+        <source>DOUBLE_ROOM_FILTER</source>
+        <target state="new">DOUBLE_ROOM_FILTER</target>
       </trans-unit>
       <trans-unit id="99135559ed087a7c52831c306cb445b9b034b0c4" resname="EMAIL_INVALID_MESSAGE">
         <source>EMAIL_INVALID_MESSAGE</source>
@@ -58,13 +82,13 @@
         <source>EMAIL_VISIT_LINK</source>
         <target state="new">EMAIL_VISIT_LINK</target>
       </trans-unit>
+      <trans-unit id="9133af28489d6c277e89df86cc1fa9db870c13e9" resname="Económica">
+        <source>Económica</source>
+        <target state="new">Económica</target>
+      </trans-unit>
       <trans-unit id="7f2f6a15cf8da2b27e5a4af47b58e7ad71c0b3d9" resname="Error">
         <source>Error</source>
         <target state="new">Error</target>
-      </trans-unit>
-      <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
-        <source>FORGOT_PASSWORD_BUTTON</source>
-        <target state="new">FORGOT_PASSWORD_BUTTON</target>
       </trans-unit>
       <trans-unit id="e57590b80cd6874490039969bd4f68b8be78f496" resname="FORGOT_PASSWORD_PAGE_TITLE">
         <source>FORGOT_PASSWORD_PAGE_TITLE</source>
@@ -82,6 +106,18 @@
         <source>HOMEPAGE_TITLE</source>
         <target state="new">HOMEPAGE_TITLE</target>
       </trans-unit>
+      <trans-unit id="5c612d9bf505629daf50345ebf2c0f487efae2d8" resname="INNER_PRIVATE_BATHROOM_FILTER">
+        <source>INNER_PRIVATE_BATHROOM_FILTER</source>
+        <target state="new">INNER_PRIVATE_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="834fdbf58f3187405b56fd46b84973d1b39f9d37" resname="INTERNET_OTHERS_FILTER">
+        <source>INTERNET_OTHERS_FILTER</source>
+        <target state="new">INTERNET_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="e5d45b35f34d12b08980cda0f7d1c47bea796612" resname="JACUZZI_BATROOM_FILTER">
+        <source>JACUZZI_BATROOM_FILTER</source>
+        <target state="new">JACUZZI_BATROOM_FILTER</target>
+      </trans-unit>
       <trans-unit id="15495a2a265717259202a98f3ccdd4f9b96254f5" resname="KIDS_FILTER">
         <source>KIDS_FILTER</source>
         <target state="new">KIDS_FILTER</target>
@@ -98,9 +134,13 @@
         <source>MyCP</source>
         <target state="new">MyCP</target>
       </trans-unit>
-      <trans-unit id="2bdbca8d54c5de7744de8e2c0cbe95e03fcc419a" resname="PASSWORD_RECOVERY_BUTTON_TEXT">
-        <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
-        <target state="new">PASSWORD_RECOVERY_BUTTON_TEXT</target>
+      <trans-unit id="d9631652872b40ab4135c802055a10aeb8273093" resname="OUTER_PRIVATE_BATHROOM_FILTER">
+        <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
+        <target state="new">OUTER_PRIVATE_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="69b239c27704486fd3733b4c9eb32bfe9ca72d93" resname="PARKING_THERS_FILTER">
+        <source>PARKING_THERS_FILTER</source>
+        <target state="new">PARKING_THERS_FILTER</target>
       </trans-unit>
       <trans-unit id="f41a06ea1bf32a6f512ae555f05e8f4a4a7ddaf2" resname="PASSWORD_RECOVERY_PAGE_TITLE">
         <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
@@ -114,9 +154,21 @@
         <source>POOL_OTHERS_FILTER</source>
         <target state="new">POOL_OTHERS_FILTER</target>
       </trans-unit>
+      <trans-unit id="4ca99968174c1d0f23c8a4de315390b8b970b472" resname="Penthouse">
+        <source>Penthouse</source>
+        <target state="new">Penthouse</target>
+      </trans-unit>
       <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
         <source>Pixel</source>
         <target state="new">Pixel</target>
+      </trans-unit>
+      <trans-unit id="6c2f2888c561e02a5e6f8c02b41144b531092c57" resname="Premium">
+        <source>Premium</source>
+        <target state="new">Premium</target>
+      </trans-unit>
+      <trans-unit id="0602f1c567677469f802d877da99a6d9dd2b6725" resname="Propiedad completa">
+        <source>Propiedad completa</source>
+        <target state="new">Propiedad completa</target>
       </trans-unit>
       <trans-unit id="910e678ac154a65c2497075ea394056203c35301" resname="ROOM_PLURAL">
         <source>ROOM_PLURAL</source>
@@ -126,17 +178,45 @@
         <source>ROOM_SINGULAR</source>
         <target state="new">ROOM_SINGULAR</target>
       </trans-unit>
+      <trans-unit id="de88de2ffe63b72feb4d1e386248cbf9e16364bd" resname="Rango medio">
+        <source>Rango medio</source>
+        <target state="new">Rango medio</target>
+      </trans-unit>
+      <trans-unit id="6479552f058fb81927e2e26b5263f8215a670193" resname="SAFE_FILTER">
+        <source>SAFE_FILTER</source>
+        <target state="new">SAFE_FILTER</target>
+      </trans-unit>
       <trans-unit id="a62a7a3d235c34720bba36b65a056b4d3c6d005d" resname="SEARCH">
         <source>SEARCH</source>
         <target state="new">SEARCH</target>
+      </trans-unit>
+      <trans-unit id="5c35037c7eb54cb13fceaef6cf5db04c14b29007" resname="SHARED_BATHROOM_FILTER">
+        <source>SHARED_BATHROOM_FILTER</source>
+        <target state="new">SHARED_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="6336bff8c75fc9204bb6cc4ef5fea9b1a63e7642" resname="SINGLE_ROOM_FILTER">
+        <source>SINGLE_ROOM_FILTER</source>
+        <target state="new">SINGLE_ROOM_FILTER</target>
       </trans-unit>
       <trans-unit id="352e64c3cb645f9af252953f23d4570e7df61011" resname="SMOKER_FILTER">
         <source>SMOKER_FILTER</source>
         <target state="new">SMOKER_FILTER</target>
       </trans-unit>
+      <trans-unit id="f37a597cfb9068a45a2556773184e7d702a0a073" resname="Start off">
+        <source>Start off</source>
+        <target state="new">Start off</target>
+      </trans-unit>
+      <trans-unit id="f6702a1554c658bed33de33fa3001883b42d1c1d" resname="Start on">
+        <source>Start on</source>
+        <target state="new">Start on</target>
+      </trans-unit>
       <trans-unit id="b6363ef432713a63c262aff0e8014bca4b11fd6a" resname="TERRACE_FILTER">
         <source>TERRACE_FILTER</source>
         <target state="new">TERRACE_FILTER</target>
+      </trans-unit>
+      <trans-unit id="8f28b28558e65b8d2741bad530c878f65db35617" resname="TRIPLE_ROOM_FILTER">
+        <source>TRIPLE_ROOM_FILTER</source>
+        <target state="new">TRIPLE_ROOM_FILTER</target>
       </trans-unit>
       <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
         <source>USER_EMAIL_IN_USE</source>
@@ -154,21 +234,149 @@
         <source>USER_PASSWORD_RECOVERY_ERROR</source>
         <target state="new">USER_PASSWORD_RECOVERY_ERROR</target>
       </trans-unit>
-      <trans-unit id="b7d066e9ea9a8bd518b7e3614ab8e7300b560721" resname="btn.close">
-        <source>btn.close</source>
-        <target state="new">btn.close</target>
+      <trans-unit id="af997344b7df027690807b386f73efe7852b9217" resname="Villa con piscina">
+        <source>Villa con piscina</source>
+        <target state="new">Villa con piscina</target>
       </trans-unit>
-      <trans-unit id="d2d5facd29f30b24849e8fcc8a14ab08161c0c4e" resname="btn.filter">
-        <source>btn.filter</source>
-        <target state="new">btn.filter</target>
+      <trans-unit id="2f4cf5d8fe5a1afa530aceaa99a8273363a99793" resname="booking.placeholder.adults_number">
+        <source>booking.placeholder.adults_number</source>
+        <target state="new">booking.placeholder.adults_number</target>
+      </trans-unit>
+      <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
+        <source>booking.placeholder.booking_code</source>
+        <target state="new">booking.placeholder.booking_code</target>
+      </trans-unit>
+      <trans-unit id="d2a6e5f7cf7a32a846403c34a9ec8717613788be" resname="booking.placeholder.booking_date">
+        <source>booking.placeholder.booking_date</source>
+        <target state="new">booking.placeholder.booking_date</target>
+      </trans-unit>
+      <trans-unit id="b7c5457efbf21714ca6b8704d878bc172345d07a" resname="booking.placeholder.cas">
+        <source>booking.placeholder.cas</source>
+        <target state="new">booking.placeholder.cas</target>
+      </trans-unit>
+      <trans-unit id="3da775b40b82c8f1d2966feb9242d481f97368bd" resname="booking.placeholder.code">
+        <source>booking.placeholder.code</source>
+        <target state="new">booking.placeholder.code</target>
+      </trans-unit>
+      <trans-unit id="11705cd99657cc532e24921529792a4bf116cc40" resname="booking.placeholder.date">
+        <source>booking.placeholder.date</source>
+        <target state="new">booking.placeholder.date</target>
+      </trans-unit>
+      <trans-unit id="4d895b6c2702d2fc85bd98572291338fe2db6a42" resname="booking.placeholder.destination">
+        <source>booking.placeholder.destination</source>
+        <target state="new">booking.placeholder.destination</target>
+      </trans-unit>
+      <trans-unit id="93bc210a155b528c65985cdf1f49ff9892552544" resname="booking.placeholder.from">
+        <source>booking.placeholder.from</source>
+        <target state="new">booking.placeholder.from</target>
+      </trans-unit>
+      <trans-unit id="8c56abd51240832b996eabeaddb3f85bdd1728b9" resname="booking.placeholder.own_name">
+        <source>booking.placeholder.own_name</source>
+        <target state="new">booking.placeholder.own_name</target>
+      </trans-unit>
+      <trans-unit id="03bce386fed58823058be72e14f84d32b471b250" resname="booking.placeholder.room_number">
+        <source>booking.placeholder.room_number</source>
+        <target state="new">booking.placeholder.room_number</target>
+      </trans-unit>
+      <trans-unit id="6e495488a7dfe01536b55e6cf9fe7d9f817011d5" resname="booking.placeholder.to">
+        <source>booking.placeholder.to</source>
+        <target state="new">booking.placeholder.to</target>
+      </trans-unit>
+      <trans-unit id="67a8d0f731765c6f02d8d674589b677f87680d55" resname="booking.title.name">
+        <source>booking.title.name</source>
+        <target state="new">booking.title.name</target>
+      </trans-unit>
+      <trans-unit id="4b62b0b4fa7a6c5ee4ddccfbae0f2e5ec6ecb0b6" resname="btn.clear">
+        <source>btn.clear</source>
+        <target state="new">btn.clear</target>
+      </trans-unit>
+      <trans-unit id="7580fa85de8adc47d2e89b748fefb65e1b32708c" resname="btn.search">
+        <source>btn.search</source>
+        <target state="new">btn.search</target>
       </trans-unit>
       <trans-unit id="17f0c1300aa7ef56b4a08efc8312f248bc395a72" resname="dashboard.booking">
         <source>dashboard.booking</source>
         <target state="new">dashboard.booking</target>
       </trans-unit>
-      <trans-unit id="0f4c3e49b3707c3bdf4e608af075c82425964dca" resname="dashboard.requests.pending">
-        <source>dashboard.requests.pending</source>
-        <target state="new">dashboard.requests.pending</target>
+      <trans-unit id="c5bb395fc47aff980f197f0f10c444fa127a5094" resname="dashboard.booking.adults">
+        <source>dashboard.booking.adults</source>
+        <target state="new">dashboard.booking.adults</target>
+      </trans-unit>
+      <trans-unit id="324bb7417012c8652984cc3aa333ed1c17fddf19" resname="dashboard.booking.availability">
+        <source>dashboard.booking.availability</source>
+        <target state="new">dashboard.booking.availability</target>
+      </trans-unit>
+      <trans-unit id="e89da00c2b67b6b9036554a9b6dbfa526b9fee03" resname="dashboard.booking.beaten">
+        <source>dashboard.booking.beaten</source>
+        <target state="new">dashboard.booking.beaten</target>
+      </trans-unit>
+      <trans-unit id="7bbad48b382770bbdfe91a7fed8dd353520044bf" resname="dashboard.booking.bookingcode">
+        <source>dashboard.booking.bookingcode</source>
+        <target state="new">dashboard.booking.bookingcode</target>
+      </trans-unit>
+      <trans-unit id="84ad439600199b8b4e104878f8cfe3492f1bb6f6" resname="dashboard.booking.bookingdate">
+        <source>dashboard.booking.bookingdate</source>
+        <target state="new">dashboard.booking.bookingdate</target>
+      </trans-unit>
+      <trans-unit id="bd22d4c0c8723cc77b07e71ecbdd53b28b772bf1" resname="dashboard.booking.canceled">
+        <source>dashboard.booking.canceled</source>
+        <target state="new">dashboard.booking.canceled</target>
+      </trans-unit>
+      <trans-unit id="e7c9a8616a2f5ba15d242f7c6970548d4c748bbb" resname="dashboard.booking.cas">
+        <source>dashboard.booking.cas</source>
+        <target state="new">dashboard.booking.cas</target>
+      </trans-unit>
+      <trans-unit id="cdd665d1fc87fe6a341aa3d2c7565776e6b58624" resname="dashboard.booking.checkin">
+        <source>dashboard.booking.checkin</source>
+        <target state="new">dashboard.booking.checkin</target>
+      </trans-unit>
+      <trans-unit id="b6cea4f60596bda74db84665cc323200a873ddaa" resname="dashboard.booking.childrens">
+        <source>dashboard.booking.childrens</source>
+        <target state="new">dashboard.booking.childrens</target>
+      </trans-unit>
+      <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
+        <source>dashboard.booking.code</source>
+        <target state="new">dashboard.booking.code</target>
+      </trans-unit>
+      <trans-unit id="1c269f572f8f01c4595453abe4aed0079536c677" resname="dashboard.booking.date">
+        <source>dashboard.booking.date</source>
+        <target state="new">dashboard.booking.date</target>
+      </trans-unit>
+      <trans-unit id="34ba312277029f3e54a52ea3857f8c94a9369295" resname="dashboard.booking.destination">
+        <source>dashboard.booking.destination</source>
+        <target state="new">dashboard.booking.destination</target>
+      </trans-unit>
+      <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
+        <source>dashboard.booking.from</source>
+        <target state="new">dashboard.booking.from</target>
+      </trans-unit>
+      <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
+        <source>dashboard.booking.home</source>
+        <target state="new">dashboard.booking.home</target>
+      </trans-unit>
+      <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
+        <source>dashboard.booking.notavailability</source>
+        <target state="new">dashboard.booking.notavailability</target>
+      </trans-unit>
+      <trans-unit id="a99b851a11eebdf8f293ac73cf4d8fc812e7fa58" resname="dashboard.booking.pending">
+        <source>dashboard.booking.pending</source>
+        <target state="new">dashboard.booking.pending</target>
+      </trans-unit>
+      <trans-unit id="4d58eba7b655963a4e1d273ef8e10b965e525afc" resname="dashboard.booking.reserved">
+        <source>dashboard.booking.reserved</source>
+        <target state="new">dashboard.booking.reserved</target>
+      </trans-unit>
+      <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
+        <source>dashboard.booking.rooms</source>
+        <target state="new">dashboard.booking.rooms</target>
+      </trans-unit>
+      <trans-unit id="c60beb261c10cda25ac50bc9a67779e766402b99" resname="dashboard.booking.to">
+        <source>dashboard.booking.to</source>
+        <target state="new">dashboard.booking.to</target>
+      </trans-unit>
+      <trans-unit id="35408b83cf258c7c24cccb02385a107b78bc2223" resname="dashboard.booking.totalprice">
+        <source>dashboard.booking.totalprice</source>
+        <target state="new">dashboard.booking.totalprice</target>
       </trans-unit>
       <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
         <source>label.activateaccount.five</source>
@@ -226,10 +434,6 @@
         <source>label.filter.exit</source>
         <target state="new">label.filter.exit</target>
       </trans-unit>
-      <trans-unit id="3597de2b60f98bcc1a9f829350f319b99844fb97" resname="label.forgot_password">
-        <source>label.forgot_password</source>
-        <target state="new">label.forgot_password</target>
-      </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
         <target state="new">label.form.agency.one</target>
@@ -282,6 +486,10 @@
         <source>label.name.agency</source>
         <target state="new">label.name.agency</target>
       </trans-unit>
+      <trans-unit id="db2601afdbf8756c4a63192e8b537cf6e95bb571" resname="label.name.client">
+        <source>label.name.client</source>
+        <target state="new">label.name.client</target>
+      </trans-unit>
       <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
         <source>label.name.country</source>
         <target state="new">label.name.country</target>
@@ -322,17 +530,9 @@
         <source>label.range-price</source>
         <target state="new">label.range-price</target>
       </trans-unit>
-      <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
-        <source>label.ready.reserved</source>
-        <target state="new">label.ready.reserved</target>
-      </trans-unit>
       <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
         <source>label.register.agency</source>
         <target state="new">label.register.agency</target>
-      </trans-unit>
-      <trans-unit id="ebfccfc3ce9807288f420d7b56db31eae85befc3" resname="label.remember.password">
-        <source>label.remember.password</source>
-        <target state="new">label.remember.password</target>
       </trans-unit>
       <trans-unit id="4042d95c3f9fd76b0f49f10684aa8406e369529f" resname="label.required.owner">
         <source>label.required.owner</source>
@@ -341,6 +541,14 @@
       <trans-unit id="56b28b86455ad505c0481ee4c6f86bc1bcf4919b" resname="label.reserv.inmediatly">
         <source>label.reserv.inmediatly</source>
         <target state="new">label.reserv.inmediatly</target>
+      </trans-unit>
+      <trans-unit id="ddfafcc087f00f7abfd2ea216401daf72aa0dfbc" resname="label.reservation.adults">
+        <source>label.reservation.adults</source>
+        <target state="new">label.reservation.adults</target>
+      </trans-unit>
+      <trans-unit id="89fa21ff59068b8e201d19e92311020ddc6aad84" resname="label.reservation.children">
+        <source>label.reservation.children</source>
+        <target state="new">label.reservation.children</target>
       </trans-unit>
       <trans-unit id="b5c9af60111af4277f44b89fb59fd2a2aaba9eb4" resname="label.resgister.description.one">
         <source>label.resgister.description.one</source>
@@ -438,25 +646,41 @@
         <source>label.section.vacation_description</source>
         <target state="new">label.section.vacation_description</target>
       </trans-unit>
-      <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
-        <source>label.sigin</source>
-        <target state="new">label.sigin</target>
-      </trans-unit>
       <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
         <source>label.thanks</source>
         <target state="new">label.thanks</target>
-      </trans-unit>
-      <trans-unit id="f2d3006ba62b89ef481bd6d52cc75e09c2d1f4a5" resname="label.user">
-        <source>label.user</source>
-        <target state="new">label.user</target>
       </trans-unit>
       <trans-unit id="c5dee5212aeb54faded7ba7f2403f0010f1c7fb0" resname="label.view.more">
         <source>label.view.more</source>
         <target state="new">label.view.more</target>
       </trans-unit>
-      <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
-        <source>label.welcome</source>
-        <target state="new">label.welcome</target>
+      <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
+        <source>pa.modal.reservation.add</source>
+        <target state="new">pa.modal.reservation.add</target>
+      </trans-unit>
+      <trans-unit id="3791c02b8729e890f79d56e9b81597c0bb2bcd44" resname="pa.modal.reservation.end_reservation">
+        <source>pa.modal.reservation.end_reservation</source>
+        <target state="new">pa.modal.reservation.end_reservation</target>
+      </trans-unit>
+      <trans-unit id="1afc9315503b6a341dc65cbe91fb1bcb6dbd1648" resname="pa.modal.reservation.guest_total">
+        <source>pa.modal.reservation.guest_total</source>
+        <target state="new">pa.modal.reservation.guest_total</target>
+      </trans-unit>
+      <trans-unit id="bad9ccc661ff6fbff302e215cfe9a087b45e6850" resname="pa.modal.reservation.guest_with_reservation">
+        <source>pa.modal.reservation.guest_with_reservation</source>
+        <target state="new">pa.modal.reservation.guest_with_reservation</target>
+      </trans-unit>
+      <trans-unit id="9d48b322040565903f03257319b60a3777c11cdc" resname="pa.modal.reservation.new_reservation">
+        <source>pa.modal.reservation.new_reservation</source>
+        <target state="new">pa.modal.reservation.new_reservation</target>
+      </trans-unit>
+      <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
+        <source>pa.modal.reservation.reserve</source>
+        <target state="new">pa.modal.reservation.reserve</target>
+      </trans-unit>
+      <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
+        <source>pa.modal.reservation.title</source>
+        <target state="new">pa.modal.reservation.title</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>
@@ -549,62 +773,6 @@
       <trans-unit id="44da2b0e8f57b8cc638997894c57505d32bbbcf8" resname="quick_bookinhg">
         <source>quick_bookinhg</source>
         <target state="new">quick_bookinhg</target>
-      </trans-unit>
-      <trans-unit id="725c567ae7399fdc3b48cbf97ec3fcd1d703c069" resname="requests.placeholder.accommodation">
-        <source>requests.placeholder.accommodation</source>
-        <target state="new">requests.placeholder.accommodation</target>
-      </trans-unit>
-      <trans-unit id="9b6be39895b871e998fbf95a1f5154d83a7f0e36" resname="requests.placeholder.arrival">
-        <source>requests.placeholder.arrival</source>
-        <target state="new">requests.placeholder.arrival</target>
-      </trans-unit>
-      <trans-unit id="61ef7a081f72ce226feb746d6fea40550f5d959d" resname="requests.placeholder.code">
-        <source>requests.placeholder.code</source>
-        <target state="new">requests.placeholder.code</target>
-      </trans-unit>
-      <trans-unit id="8f95ee0d6d202169a70ce1686b656dfd8ae22a0d" resname="requests.placeholder.destination">
-        <source>requests.placeholder.destination</source>
-        <target state="new">requests.placeholder.destination</target>
-      </trans-unit>
-      <trans-unit id="48f20841dc2526f4a564c87c9c80676c3f8b5577" resname="requests.placeholder.exit">
-        <source>requests.placeholder.exit</source>
-        <target state="new">requests.placeholder.exit</target>
-      </trans-unit>
-      <trans-unit id="502b92862bf8bb3f4f1388b12a5de61205f0559f" resname="requests.placeholder.name">
-        <source>requests.placeholder.name</source>
-        <target state="new">requests.placeholder.name</target>
-      </trans-unit>
-      <trans-unit id="61a719ca44c6b38be7b20a932e7d63d51d3902c9" resname="requests.placeholder.request">
-        <source>requests.placeholder.request</source>
-        <target state="new">requests.placeholder.request</target>
-      </trans-unit>
-      <trans-unit id="c68d4964f805744f3d13b3d4941a13ed11219882" resname="requests.title.accommodation">
-        <source>requests.title.accommodation</source>
-        <target state="new">requests.title.accommodation</target>
-      </trans-unit>
-      <trans-unit id="4c29a33344e9188c1a3c6f72c8cad0fb5afb4ce9" resname="requests.title.arrival">
-        <source>requests.title.arrival</source>
-        <target state="new">requests.title.arrival</target>
-      </trans-unit>
-      <trans-unit id="35852d03b2da629e647a0d98833afae532c031c1" resname="requests.title.code">
-        <source>requests.title.code</source>
-        <target state="new">requests.title.code</target>
-      </trans-unit>
-      <trans-unit id="34513302df42a510fd24817deca53b867616d6b0" resname="requests.title.destination">
-        <source>requests.title.destination</source>
-        <target state="new">requests.title.destination</target>
-      </trans-unit>
-      <trans-unit id="baa2c7e4af82c1a4a0788b40ccb629e431e74863" resname="requests.title.exit">
-        <source>requests.title.exit</source>
-        <target state="new">requests.title.exit</target>
-      </trans-unit>
-      <trans-unit id="f25a0509fff5d56acec4415baffba0a55798e3df" resname="requests.title.name">
-        <source>requests.title.name</source>
-        <target state="new">requests.title.name</target>
-      </trans-unit>
-      <trans-unit id="537767b8bc55c978ac3d17789111cf93fa606ba7" resname="requests.title.request">
-        <source>requests.title.request</source>
-        <target state="new">requests.title.request</target>
       </trans-unit>
       <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
         <source>title.column_five</source>
