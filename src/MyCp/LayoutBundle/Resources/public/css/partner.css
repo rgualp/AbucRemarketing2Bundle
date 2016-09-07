@@ -325,6 +325,8 @@ body.landing-page {
 .m-r-12{
     margin-right: 12px;
 }
+.m-0{margin: 0;}
+
 .modal-agency{
     background-color: #25323b !important;
     color: #fff;
@@ -363,6 +365,37 @@ body.landing-page {
 
 .modal-reservation a, .modal-reservation a:link, .modal-reservation a:visited, .modal-reservation a:hover{color: #fff;}
 .modal-reservation a:hover{text-decoration: none;}
+
+.reservation-details{
+    background-color: #fff;
+    padding: 3px;
+    color: #1b6690;
+    margin: 0 0 10px;
+}
+
+.reservation-details .input-group-addon.borderless{
+    border: none;
+    padding-right: 5px;
+    border-right: 2px solid #e5e6e7;
+}
+
+.reservation-details .smaller
+{
+    font-size: 20px;
+    display: inline;
+    font-family: MyriadProLightCond;
+    margin-left: 10px;
+}
+
+.reservation-details .smaller.green
+{
+    color: #63a333;
+    margin: 0;
+}
+
+.reservation-details .smaller.green b.bigger{
+    font-weight: bold;
+}
 
 
 .agency .input-group-addon {
