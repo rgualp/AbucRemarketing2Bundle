@@ -2,6 +2,8 @@
  Dashboard script to handle the entire layout and base functions
  **/
 var Dashboard = function () {
+    var start=0;
+    var limit=4;
    /**
     * Dashboard form init plugins
     */
@@ -47,16 +49,21 @@ var Dashboard = function () {
     }
     var onclickBtnSearch=function(){
         $('#btn_search').on('click',function(){
-            var data={};
+            var data_params={};
             var form = $("#form-filter-ownership");
-            var result = $('#search-result');
+            var result = $('#list-ownership');
+            result.html();
             var _url = $(this).data('url');
 
-            form.serializeArray().map(function(x){data[x.name] = x.value;});
+            form.serializeArray().map(function(x){data_params[x.name] = x.value;});
             HoldOn.open();
-            $.post(_url, data, function(data) {
+            data_params['start']=start;
+            data_params['limit']=limit;
+            $.post(_url, data_params, function(response) {
                 HoldOn.close();
-                result.html(data);
+                result.html(response);
+                start=limit+1;
+                limit=limit+5;
                 $('#search-result').removeClass('hide');
                 $('#search-result').slimScroll({
                     height: '580px',
@@ -65,27 +72,31 @@ var Dashboard = function () {
                     opacity : 1,
                     alwaysVisible : true
                 });
-                $('#priceFilter').infinitescroll({
-                    navSelector  	: "#next:last",
-                    nextSelector 	: "a#next:last",
-                    itemSelector 	: "#priceFilter div",
-                    debug		 	: true,
-                    dataType	 	: 'html',
-                    maxPage         : 3,
-                    prefill			: true,
-                    path: ["http://nuvique/infinite-scroll/test/index", ".html"],
-                    path: function(index) {
-                        return "index" + index + ".html";
-                    }
-                    // behavior		: 'twitter',
-                    // appendCallback	: false, // USE FOR PREPENDING
-                    // pathParse     	: function( pathStr, nextPage ){ return pathStr.replace('2', nextPage ); }
-                }, function(newElements, data, url){
-                });
-
             });
         });
 
+    }
+    var infiniteScroll=function(){
+        $('#search-result').scroll(function () {
+            if ($('#search-result').scrollTop() >=$('#list-ownership').height()-$('#search-result').height()){
+               var data_params={};
+                var form = $("#form-filter-ownership");
+                var result = $('#list-ownership');
+                var _url = $('#btn_search').data('url');
+                data_params['start']=start;
+                data_params['limit']=limit;
+                form.serializeArray().map(function(x){data_params[x.name] = x.value;});
+                HoldOn.open();
+                $.post(_url, data_params, function(response) {
+                    slice
+                    $('.slimScrollBar').css('top', $('.slimScrollBar').css('top')*1-50+'px');
+                    HoldOn.close();
+                    result.append(response);
+                    start=limit+1;
+                    limit=limit+5;
+                });
+            }
+        })
     }
     return {
         //main function to initiate template pages
@@ -93,6 +104,19 @@ var Dashboard = function () {
             initPlugins();
             onclickBtnMoreFilter();
             onclickBtnSearch();
+            infiniteScroll();
+        },
+        setStart:function(a){
+            start=a
+        },
+        getStart:function(a){
+            return start;
+        },
+        setLimit:function(a){
+            limit=a
+        },
+        getLimit:function(a){
+            return limit;
         }
     };
 }();

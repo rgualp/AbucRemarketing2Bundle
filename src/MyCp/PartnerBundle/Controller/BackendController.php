@@ -43,14 +43,11 @@ class BackendController extends Controller
         $items_per_page = 8;
         $paginator->setItemsPerPage($items_per_page);
         $filters= $request->get('requests_ownership_filter');
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters))->getResult();
-        $page = 1;
+        $start=$request->request->get('start');
+        $limit=$request->request->get('limit');
+        $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
-            'list' => $list,
-            'items_per_page' => $items_per_page,
-            'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
-            'show_paginator' => true
+            'list' => $list
         ));
 
         return new Response($response, 200);

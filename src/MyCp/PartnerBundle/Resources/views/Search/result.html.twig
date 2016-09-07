@@ -1,5 +1,5 @@
 {% if list | length%}
-        <div class="col-md-12 m-t-md" >
+
             {%for ownership in list%}
                     <div class="col-md-6" style="padding-bottom: 25px">
                             <div class="color-blue thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
@@ -73,9 +73,7 @@
                             </div>
 
                     </div>
-
-        {% endfor %}
-        </div>
+            {% endfor %}
 {% else %}
 <div class="row">
     <div class="col-md-12">
