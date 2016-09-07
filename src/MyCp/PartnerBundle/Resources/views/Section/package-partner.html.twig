@@ -10,11 +10,11 @@
                 <table class="table text-center" style="font-size: 18px">
                     <thead>
                     <tr>
-                        <th class="color-td-onepackage" width="14%">{{ 'title.column_one' | trans }}</th>
-                        <th class="color-td-twopackage"><img class="" src="{{ asset('bundles/partner/img/icon/basico.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_two' | trans }}</br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
-                        <th class="color-td-threepackage"><img class="" src="{{ asset('bundles/partner/img/icon/economico.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_three' | trans }}</br><span style="color: #aab4b6">{{ 'label.gonow' | trans }}</span></th>
-                        <th class="color-td-fourpackage"><img class="" src="{{ asset('bundles/partner/img/icon/especial.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_four' | trans }}</br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
-                        <th class="color-td-fivepackage"><img class="" src="{{ asset('bundles/partner/img/icon/premiun.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_five' | trans }}</br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                        <th class="color-td-onepackage" width="20%">{{ 'title.column_one' | trans }}</th>
+                        <th class="color-td-twopackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/basico.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_two' | trans }}</br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
+                        <th class="color-td-threepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/economico.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_three' | trans }}</br><span style="color: #aab4b6">{{ 'label.gonow' | trans }}</span></th>
+                        <th class="color-td-fourpackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/especial.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_four' | trans }}</br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                        <th class="color-td-fivepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/premiun.png')}}" alt="{{"label.home" | trans}}"/>{{ 'title.column_five' | trans }}</br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,10 +84,12 @@
                     </tr>
                     <tr>
                         <td class="color-td-onepackage"></td>
-                        <td style="background-color: #63b2d1;color:#00385d">
-                            <a type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
-                                HAZTE PARTNER!
-                            </a>
+                        <td style="background-color: #eea733">
+                            {% if app.user.getUserUserName is not defined %}
+                                <a style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
+                                    HAZTE PARTNER!
+                                </a>
+                            {% endif %}
                         </td>
                         <td style="background-color: #29789f;color:#00385d">{{ 'label.gonow' | trans }}</td>
                         <td style="background-color: #11517d;color:#4793ba">{{ 'label.prox' | trans }}</td>
