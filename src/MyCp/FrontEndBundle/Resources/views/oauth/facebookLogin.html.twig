@@ -1,9 +1,9 @@
 <form novalidate class="form-horizontal" action="{{ path('facebook_login') }}" method="post">
-    <div class="row" id="emailRow">
+    <div class="row" id="emailRow" class="hide">
         <div class="col-sm-2">{{ "FORMS_EMAIL" | trans }}</div>
         <div class="col-sm-10">{{ form_widget(fbLoginForm.email) }}</div>
     </div>
-    <div class="row"  id="countryRow">
+    <div class="row"  id="countryRow" class="hide">
         <div class="col-sm-2">{{ "COUNTRY" | trans }}</div>
         <div class="col-sm-10">{{ form_widget(fbLoginForm.country) }}</div>
     </div>

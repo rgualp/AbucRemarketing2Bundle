@@ -1,0 +1,16 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
+
+{% block content %}
+    <p style="font-family: Arial; font-size: 14px">
+    <p>Hola {{ user_name }},</p>
+    <p>¡Enhorabuena! Fabuloso que te unas a la familia de <b>MyCasaParticular.com</b>.</p>
+    <p>Tu propiedad(es) ya está registrada en el sitio y visible para los usuarios. Ya es posible reservar tu alojamiento.</p>
+    <p>Es estupendo hacer negocios juntos, solo es preciso que efectúes el pago acordado (30CUC) por el proceso de inscripción en nuestra plataforma web.</p>
+    <p>Recuerda que este es un pago único que garantiza la visibilidad de tu propiedad en el sitio de manera ininterrumpida.</p>
+    <p>Según lo establecido en nuestros <a href="{{ termsUrl }}">Términos y Condiciones</a>  una vez que tu alojamiento (s) ha sido publicado, debes efectuar el pago en un plazo de 15 días. Hasta hoy no hemos podido confirmar tu aporte.</p>
+    <p>De manera que tu propiedad será deshabilitada temporalmente como habíamos advertido en comunicaciones anteriores, hasta tanto el pago convenido sea efectuado.</p>
+    <p>Una vez realizada la transferencia volveremos a publicar tu alojamiento inmediatamente. Este proceso no incluye ningún recargo económico adicional.</p>
+    <p>¡Te esperamos! Deseamos que tu propiedad sea reservada cuanto antes.</p>
+    <br/>
+    <p><b>Equipo de MyCasaParticular.com</b></p>
+{% endblock %}

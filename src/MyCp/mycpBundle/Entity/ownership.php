@@ -2465,4 +2465,9 @@ class ownership {
         $this->insertedInCasaModule = $insertedInCasaModule;
         return $this;
     }
+
+    public function isActive()
+    {
+        return $this->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_ACTIVE;
+    }
 }
