@@ -74,10 +74,18 @@ var Dashboard = function () {
     var onShowReservationModal=function(){
         $(".createReservation").on('click',function() {
             selectedAccommodationForReserve = $(this).data("ownid");
-            console.log("Accommodation Id: " + selectedAccommodationForReserve);
             $('#myModalReservation').modal("show");
+            var result = $('#openReservationsList');
+            var _url = result.data("url");
+            var hasContent = result.data("content");
+            var data={};
 
-            //Mostrar listado de reservaciones abiertas
+            if(!hasContent) {
+                //Mostrar listado de reservaciones abiertas
+                $.post(_url, data, function (data) {
+                    result.html(data);
+                });
+            }
         });
     }
 

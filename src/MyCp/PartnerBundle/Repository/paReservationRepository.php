@@ -1,8 +1,9 @@
 <?php
 
-namespace MyCp\mycpBundle\Entity;
+namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\PartnerBundle\Entity\paTravelAgency;
 
 /**
  * paReservationRepository
@@ -20,4 +21,15 @@ class paReservationRepository extends EntityRepository {
             ->join("own.data", "data")
             ->leftJoin("own.awards", "award")
     }*/
+
+    public function getOpenReservationsList($agency){
+        return $this->createQueryBuilder("query")
+            ->select("res.adults, res.number, res.id, res.children")
+            ->from("PartnerBundle:paReservation", "res")
+            ->join("res.client", "client")
+            ->where("client.travelAgency = :travelAgency")
+            ->andWhere("res.closed = 0")
+            ->setParameter("travelAgency", $agency->getId())
+            ->getQuery()->getResult();
+    }
 }

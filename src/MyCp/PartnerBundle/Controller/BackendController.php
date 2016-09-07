@@ -62,4 +62,27 @@ class BackendController extends Controller
 
         return new Response($response, 200);
     }
+
+    public function openReservationsListAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 4;
+        $paginator->setItemsPerPage($items_per_page);
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $list = $paginator->paginate($em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency()))->getResult();
+        $page = 1;
+
+
+        $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
+            'list' => $list,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+            'show_paginator' => true
+        ));
+
+        return new Response($response, 200);
+    }
 }

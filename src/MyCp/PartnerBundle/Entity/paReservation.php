@@ -48,16 +48,23 @@ class paReservation extends baseEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="infants", type="integer")
+     * @ORM\Column(name="children", type="integer")
      */
-    private $infants;
+    private $children;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="children", type="integer")
+     * @ORM\Column(name="adults_with_accommodation", type="integer")
      */
-    private $children;
+    private $adultsWithAccommodation;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="children_with_accommodation", type="integer")
+     */
+    private $childrenWithAccommodation;
 
     /**
      * @var boolean
@@ -261,6 +268,42 @@ class paReservation extends baseEntity
     public function setClosed($closed)
     {
         $this->closed = $closed;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdultsWithAccommodation()
+    {
+        return $this->adultsWithAccommodation;
+    }
+
+    /**
+     * @param int $adultsWithAccommodation
+     * @return mixed
+     */
+    public function setAdultsWithAccommodation($adultsWithAccommodation)
+    {
+        $this->adultsWithAccommodation = $adultsWithAccommodation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getChildrenWithAccommodation()
+    {
+        return $this->childrenWithAccommodation;
+    }
+
+    /**
+     * @param int $childrenWithAccommodation
+     * @return mixed
+     */
+    public function setChildrenWithAccommodation($childrenWithAccommodation)
+    {
+        $this->childrenWithAccommodation = $childrenWithAccommodation;
         return $this;
     }
 
