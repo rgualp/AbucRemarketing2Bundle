@@ -5,6 +5,8 @@ var Dashboard = function () {
    /**
     * Dashboard form init plugins
     */
+       var selectedAccommodationForReserve = 0;
+
     var initPlugins=function(){
        var config = {
            '.chosen-select'           : {},
@@ -55,6 +57,7 @@ var Dashboard = function () {
             $.post(_url, data, function(data) {
                 HoldOn.close();
                 result.html(data);
+                onShowReservationModal();
                 $('#search-result').removeClass('hide');
                 $('#search-result').slimScroll({
                     height: '580px',
@@ -68,12 +71,30 @@ var Dashboard = function () {
         });
 
     }
+    var onShowReservationModal=function(){
+        $(".createReservation").on('click',function() {
+            selectedAccommodationForReserve = $(this).data("ownid");
+            console.log("Accommodation Id: " + selectedAccommodationForReserve);
+            $('#myModalReservation').modal("show");
+
+            //Mostrar listado de reservaciones abiertas
+        });
+    }
+
+    var onAddNewOpenReservationButton = function(){
+        $("#btnAddNewOpenReservation").on('click',function() {
+            console.log("Adding new open reservation");
+        });
+    }
+
     return {
         //main function to initiate template pages
         init: function () {
             initPlugins();
             onclickBtnMoreFilter();
             onclickBtnSearch();
+            onShowReservationModal();
+            onAddNewOpenReservationButton();
         }
     };
 }();
