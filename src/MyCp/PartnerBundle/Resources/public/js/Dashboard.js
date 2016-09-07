@@ -78,12 +78,15 @@ var Dashboard = function () {
             var result = $('#openReservationsList');
             var _url = result.data("url");
             var hasContent = result.data("content");
+            var loadingText = result.data("loadingtext");
             var data={};
 
             if(!hasContent) {
+                result.html(loadingText);
                 //Mostrar listado de reservaciones abiertas
                 $.post(_url, data, function (data) {
                     result.html(data);
+                    result.data("content", true);
                 });
             }
         });

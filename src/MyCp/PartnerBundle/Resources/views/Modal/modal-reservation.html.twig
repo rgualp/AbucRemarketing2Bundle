@@ -8,7 +8,7 @@
                 <form class="form-horizontal form-agency agency" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
                     <div class="col-md-8">
                         <h3>{{ "pa.modal.reservation.title" | trans }}</h3>
-                        <div class="row m-0" id="openReservationsList" data-content="false" data-url="{{ path("partnet_dashboard_open_reservations_list") }}">
+                        <div class="row m-0" id="openReservationsList" data-content="false" data-url="{{ path("partnet_dashboard_open_reservations_list") }}" data-loadingtext ="{{ "pa.loading" | trans }}">
 
                         </div>
                     </div>
