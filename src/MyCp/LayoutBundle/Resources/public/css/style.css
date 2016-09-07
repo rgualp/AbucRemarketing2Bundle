@@ -1,11 +1,19 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
+/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en");*/
+/*@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");*/
 /*
  *
  *   INSPINIA - Responsive Admin Theme
  *   version 2.3
  *
 */
+.p-0{
+    padding: 0 !important;
+}
+
+.m-0{
+    margin: 0 !important;
+}
+
 h1,
 h2,
 h3,
@@ -8003,6 +8011,55 @@ body.md-skin {
     margin-left: auto;
   }
 }
+
+/* Spaces */
+
+.space{
+  display: block;
+  width: 100%;
+  float: left;
+    margin: 0 !important;
+}
+.space.space-5{
+  height: 5px;
+}
+
+.space.space-10{
+  height: 10px;
+}
+
+.space.space-20{
+  height: 20px;
+}
+.space.space-30{
+  height: 30px;
+}
+.space.space-40{
+  height: 40px;
+}
+.space.space-50{
+  height: 50px;
+}
+.space.space-60{
+  height: 60px;
+}
+.space.space-70{
+  height: 70px;
+}
+.space.space-80{
+  height: 80px;
+}
+.space.space-90{
+  height: 90px;
+}
+.space.space-100{
+  height: 100px;
+}
+
+.bg-white{
+    background-color: #fff !important;
+}
+
 @media (max-width: 768px) {
   #page-wrapper {
     position: inherit;

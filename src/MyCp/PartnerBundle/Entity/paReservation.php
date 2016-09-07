@@ -59,6 +59,13 @@ class paReservation extends baseEntity
      */
     private $children;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="closed", type="boolean")
+     */
+    private $closed;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="paClient",inversedBy="reservations")
@@ -76,6 +83,7 @@ class paReservation extends baseEntity
         parent::__construct();
 
         $this->details = new ArrayCollection();
+        $this->closed = false;
     }
 
     /**
@@ -237,5 +245,25 @@ class paReservation extends baseEntity
     {
         $this->details->removeElement($detail);
     }
+
+    /**
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        return $this->closed;
+    }
+
+    /**
+     * @param boolean $closed
+     * @return mixed
+     */
+    public function setClosed($closed)
+    {
+        $this->closed = $closed;
+        return $this;
+    }
+
+
 
 }
