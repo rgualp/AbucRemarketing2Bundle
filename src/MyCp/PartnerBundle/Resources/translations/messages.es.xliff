@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-08T09:38:32Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-08T11:51:22Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -129,6 +129,26 @@
       <trans-unit id="2a3ffd9ebb6961e4e446366efa8d0013586561fb" resname="LANGUAGE">
         <source>LANGUAGE</source>
         <target state="new">LANGUAGE</target>
+      </trans-unit>
+      <trans-unit id="f4fa7382a3602c808e099d7fe19925d018096d16" resname="LANG_ENGLISH">
+        <source>LANG_ENGLISH</source>
+        <target state="new">LANG_ENGLISH</target>
+      </trans-unit>
+      <trans-unit id="47acebfff78034be189a67b8ac0cad1c9af08123" resname="LANG_FRENCH">
+        <source>LANG_FRENCH</source>
+        <target state="new">LANG_FRENCH</target>
+      </trans-unit>
+      <trans-unit id="3de1d2169f6d62c241e79d214af430de748ca102" resname="LANG_GERMAN">
+        <source>LANG_GERMAN</source>
+        <target state="new">LANG_GERMAN</target>
+      </trans-unit>
+      <trans-unit id="8fc58c476491c09b4593593c2ac69b8b43652652" resname="LANG_ITALIAN">
+        <source>LANG_ITALIAN</source>
+        <target state="new">LANG_ITALIAN</target>
+      </trans-unit>
+      <trans-unit id="4f5034b6504519fe4fdb085c657eae637511e432" resname="LANG_SPANISH">
+        <source>LANG_SPANISH</source>
+        <target state="new">LANG_SPANISH</target>
       </trans-unit>
       <trans-unit id="a55b2b1c87133b9d8fd3da2c9baf1e3f7be260b3" resname="LAUNDRY_OTHERS_FILTER">
         <source>LAUNDRY_OTHERS_FILTER</source>
@@ -401,6 +421,14 @@
       <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
         <source>dashboard.profile</source>
         <target state="new">Mi Perfil</target>
+      </trans-unit>
+      <trans-unit id="800d9cf2f6cfbe44c52f821f371d51fa99371192" resname="dashboard.text_reserv_one">
+        <source>dashboard.text_reserv_one</source>
+        <target state="new">Gestiona tus reservas ¡con un solo click!</target>
+      </trans-unit>
+      <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
+        <source>dashboard.text_reserv_two</source>
+        <target state="new">Aprovecha esta fantástica guía para tenerlo todo a la mano</target>
       </trans-unit>
       <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
         <source>dashboard.user</source>

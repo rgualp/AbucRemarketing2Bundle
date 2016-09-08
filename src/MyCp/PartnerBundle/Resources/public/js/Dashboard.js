@@ -66,7 +66,11 @@ var Dashboard = function () {
             limit=4;
             $.post(_url, data_params, function(response) {
                 HoldOn.close();
-                result.html(response);
+                result.html(response.response_twig);
+                //se manda a eliminar los market
+                Map.removeMarkers();
+                //Se manda a pintar al map
+                Map.createMarkerAndListenerEvent(response.response_json);
                 start=limit+1;
                 limit=limit+5;
                 onShowReservationModal();
@@ -94,11 +98,14 @@ var Dashboard = function () {
                 form.serializeArray().map(function(x){data_params[x.name] = x.value;});
                 HoldOn.open();
                 $.post(_url, data_params, function(response) {
+                    //Se manda a pintar al map
+                    Map.createMarkerAndListenerEvent(response.response_json);
+
                     var top=$('.slimScrollBar').css('top').split('px');
                     var newTop=top[0]-50;
                     $('.slimScrollBar').css('top',newTop+'px');
                     HoldOn.close();
-                    result.append(response);
+                    result.append(response.response_twig);
                     start=limit+1;
                     limit=limit+5;
                 });

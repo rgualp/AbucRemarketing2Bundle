@@ -538,6 +538,7 @@ body.landing-page {
 .bg-blue{
     background: #1f5d82
 }
+
 .color-white{
     color: #fff;
 }
@@ -1160,6 +1161,12 @@ body.landing-page {
 .dashboard-partner .metismenu .arrow {
     float: right;
     line-height: 0;
+}
+/*custom map*/
+.infoBox .map_image{background-size: cover;display: inline-block;height: 65px;width: 65px;margin-left: 15px}
+.infoBox img{
+    width: 10px !important;
+    height: 10px !important;
 }
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{

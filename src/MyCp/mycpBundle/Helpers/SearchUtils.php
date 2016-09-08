@@ -182,6 +182,8 @@ class SearchUtils {
         if (!$room_filter) {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
+                             o.own_geolocate_y as longitude,
+                             o.own_geolocate_x as latitude,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -217,6 +219,8 @@ class SearchUtils {
         } else {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
+                             o.own_geolocate_y as longitude,
+                             o.own_geolocate_x as latitude,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
