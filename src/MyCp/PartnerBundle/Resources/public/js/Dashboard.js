@@ -40,6 +40,7 @@ var Dashboard = function () {
                 $('#icon-top').removeClass('hide');
                 $('#icon-back').addClass('hide');
                 $('#text-more').addClass('hide');
+                $('.container-map').css('margin-top','351px');
             }
         });
         $('#icon-top').on('click',function(){
@@ -47,6 +48,7 @@ var Dashboard = function () {
             $('#icon-top').addClass('hide');
             $('#icon-back').removeClass('hide');
             $('#text-more').removeClass('hide');
+            $('.container-map').css('margin-top','100px');
         });
     }
     var onclickBtnSearch=function(){

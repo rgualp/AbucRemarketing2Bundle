@@ -23,15 +23,15 @@
     </div>
 {% endblock body %}
 {% block javascripts %}
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
-
+    {#<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>#}
     {{ parent() }}
     {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
-    {% javascripts
-    '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.js'
+    {#'@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.js'
     '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.infobox.js'
     '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.markerclusterer.js'
-    '@PartnerBundle/Resources/public/js/Map.js'
+    '@PartnerBundle/Resources/public/js/Map.js'#}
+    {% javascripts
+
     '@LayoutBundle/Resources/public/js/plugins/slider/bootstrap-slider.js'
     '@LayoutBundle/Resources/public/js/plugins/elastislide/jquery.elastislide.js'
     '@LayoutBundle/Resources/public/js/plugins/elastislide/jquerypp.custom.js'

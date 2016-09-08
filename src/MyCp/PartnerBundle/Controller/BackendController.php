@@ -80,4 +80,15 @@ class BackendController extends Controller
 
         return new Response($response, 200);
     }
+
+    /**
+     *
+     */
+    public function profileAgencyAction(){
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_profile_agency',
+            'html' => $this->renderView('PartnerBundle:Dashboard:profile_agency.html.twig', array()),
+          ]);
+    }
 }

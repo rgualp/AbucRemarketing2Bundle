@@ -1,1 +1,51 @@
 {% extends 'LayoutBundle:Layout:layout_partner_base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            {% if remoteLogin is defined %}
+            {% if type_login is defined %}
+            {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+            var currentPath = '{{ currentPath }}';
+            {% else %}
+            var currentPath = '{{ app.request.headers.get('referer') }}';
+            {% endif %}
+
+            function initLoginOverlay(){
+                var b = $("#login-overlay");
+                b.one('click', function () {
+                    HoldOn.open();
+                    var overlay = $(b.data('overlay'));
+                    var xpath ='{{ path('frontend_partner_logincontent') }}';
+                    var params = {action:1};
+                    overlay.load(xpath, params, function (e) {
+                        HoldOn.close();
+                        $("#login-overlay").pageOverlay();
+                        $("#login-overlay").click();
+
+                        initForgotOverlay()
+                        $('input[name="_target_path"]').val(currentPath);
+                    });
+                });
+            }
+
+            function initForgotOverlay(){
+                var b = $("#forgot-link");
+                b.one('click', function () {
+                    HoldOn.open();
+                    var overlay = $(b.data('overlay'));
+                    var xpath ='{{ path('frontend_partner_forgopassword') }}';
+                    var params = {action:1};
+                    $('.f-content',overlay).load(xpath, params, function (e) {
+                        HoldOn.close();
+                        overlay.show();
+                    });
+                });
+            }
+            initLoginOverlay();
+            {% else %}
+            $("#login-overlay").pageOverlay();
+            {% endif %}
+        });
+    </script>
+{% endblock %}
