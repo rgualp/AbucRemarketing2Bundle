@@ -70,6 +70,53 @@ body.landing-page {
     font-family: MyriadProCond;
 }
 
+.glyphicons {
+    color: #fff !important;
+}
+.glyphicons.lundry:before {
+    background: rgba(0, 0, 0, 0) url("../bundles/frontend/img/icons/lundry-icon.png") no-repeat scroll center center;
+    content: "";
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+.glyphicons.patio:before {
+    background: rgba(0, 0, 0, 0) url("../bundles/frontend/img/icons/patio.png") no-repeat scroll center center;
+    content: "";
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+.glyphicons.terraza:before {
+    background: rgba(0, 0, 0, 0) url("../bundles/frontend/img/icons/terraza.png") no-repeat scroll center center;
+    content: "";
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+.glyphicons.safe:before {
+    background: rgba(0, 0, 0, 0) url("../bundles/frontend/img/icons/safe.png") no-repeat scroll center center;
+    content: "";
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+.glyphicons.ventana:before {
+    background: rgba(0, 0, 0, 0) url("../bundles/frontend/img/icons/ventana.png") no-repeat scroll center center;
+    content: "";
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+.glyphicons.balcon:before {
+    background: rgba(0, 0, 0, 0) url("../bundles/frontend/img/icons/balcon.png") no-repeat scroll center center;
+    content: "";
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+
+
 .fa.with-circle{
     background: #fff none repeat scroll 0 0;
     border-radius: 50%;
@@ -989,7 +1036,13 @@ body.landing-page {
     left: -20px;
 }
 .with-icon.premium{
-
+    background-position: 0 0;
+}
+.with-icon.economica{
+    background-position: -57px 0;
+}
+.with-icon.rango_medio{
+    background-position: -29px 1px;
 }
 
 .rating i{
@@ -1065,6 +1118,10 @@ body.landing-page {
     margin-left: 10px;
 }
 
+.detail-value i{
+    margin-right: 5px;
+}
+
 .list-services{
     padding: 0;
 }
@@ -1104,6 +1161,9 @@ body.landing-page {
     position: absolute;
     top: 0;
     width: 18px;
+}
+.icono-with-check.uncheck:before{
+    display: none;
 }
 .icono-with-check span{
 

@@ -1810,6 +1810,7 @@ class ownershipRepository extends EntityRepository {
     private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
                         dest.des_id,
+                        dest.des_name as destination,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
