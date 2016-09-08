@@ -54,13 +54,16 @@ var Dashboard = function () {
             var data_params={};
             var form = $("#form-filter-ownership");
             var result = $('#list-ownership');
-            result.html();
+            $('.slimScrollBar').css('top','0px');
+            result.innerHTML="";
             var _url = $(this).data('url');
 
             form.serializeArray().map(function(x){data_params[x.name] = x.value;});
             HoldOn.open();
-            data_params['start']=start;
-            data_params['limit']=limit;
+            data_params['start']=0;
+            data_params['limit']=4;
+            start=0;
+            limit=4;
             $.post(_url, data_params, function(response) {
                 HoldOn.close();
                 result.html(response);
