@@ -116,4 +116,9 @@ partner_dashboard_page_detail:
     locales:  { en: "/dashboard/accomodation/{ids}", es: "/dashboard/accomodation/{ids}", de: "/dashboard/accomodation/{ids}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
 
+#Rounting showing list of open reservations - callback
+partnet_dashboard_open_reservations_list:
+    locales:  { en: "/dashboard/open-reservations", es: "/dashboard/open-reservations", de: "/dashboard/open-reservations" }
+    defaults: { _controller: PartnerBundle:Backend:openReservationsList }
+
 
