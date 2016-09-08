@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-07T17:11:08Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-08T09:38:49Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -394,6 +394,10 @@
         <source>dashboard.booking.totalprice</source>
         <target state="new">dashboard.booking.totalprice</target>
       </trans-unit>
+      <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
+        <source>dashboard.payment</source>
+        <target state="new">dashboard.payment</target>
+      </trans-unit>
       <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
         <source>dashboard.profile</source>
         <target state="new">dashboard.profile</target>
@@ -401,6 +405,38 @@
       <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
         <source>dashboard.user</source>
         <target state="new">dashboard.user</target>
+      </trans-unit>
+      <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
+        <source>frontend.account_type</source>
+        <target state="new">frontend.account_type</target>
+      </trans-unit>
+      <trans-unit id="d47ff1d108be6b98a557b086d08cd4710401ad17" resname="frontend.account_unic">
+        <source>frontend.account_unic</source>
+        <target state="new">frontend.account_unic</target>
+      </trans-unit>
+      <trans-unit id="39b9f58bd50df1735fa2cac0a6d046566d55b89a" resname="frontend.five_tour">
+        <source>frontend.five_tour</source>
+        <target state="new">frontend.five_tour</target>
+      </trans-unit>
+      <trans-unit id="bc358a98e46f450213b262ee7e095c3d71bcb9db" resname="frontend.one_tour">
+        <source>frontend.one_tour</source>
+        <target state="new">frontend.one_tour</target>
+      </trans-unit>
+      <trans-unit id="7713ef173ad910c8c85f98c130c74ca476db13c0" resname="frontend.partner">
+        <source>frontend.partner</source>
+        <target state="new">frontend.partner</target>
+      </trans-unit>
+      <trans-unit id="a7704077e6426c5cbca649552948683007b3b9b3" resname="frontend.twofive_tour">
+        <source>frontend.twofive_tour</source>
+        <target state="new">frontend.twofive_tour</target>
+      </trans-unit>
+      <trans-unit id="791a73e628de3dfbfe0f1f618a63856f0ba07ff7" resname="frontend.users">
+        <source>frontend.users</source>
+        <target state="new">frontend.users</target>
+      </trans-unit>
+      <trans-unit id="53928e82d89f5055e532d7643a2feb374313598a" resname="frontend.web_site">
+        <source>frontend.web_site</source>
+        <target state="new">frontend.web_site</target>
       </trans-unit>
       <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
         <source>label.activateaccount.five</source>
@@ -702,6 +738,10 @@
         <source>label.welcome</source>
         <target state="new">label.welcome</target>
       </trans-unit>
+      <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
+        <source>pa.loading</source>
+        <target state="new">pa.loading</target>
+      </trans-unit>
       <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
         <source>pa.modal.reservation.add</source>
         <target state="new">pa.modal.reservation.add</target>
@@ -721,6 +761,10 @@
       <trans-unit id="9d48b322040565903f03257319b60a3777c11cdc" resname="pa.modal.reservation.new_reservation">
         <source>pa.modal.reservation.new_reservation</source>
         <target state="new">pa.modal.reservation.new_reservation</target>
+      </trans-unit>
+      <trans-unit id="b4171ddfaa2430920f7b992a4f6a1fdb569a0c3a" resname="pa.modal.reservation.no_data_open_reservation_list">
+        <source>pa.modal.reservation.no_data_open_reservation_list</source>
+        <target state="new">pa.modal.reservation.no_data_open_reservation_list</target>
       </trans-unit>
       <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
         <source>pa.modal.reservation.reserve</source>

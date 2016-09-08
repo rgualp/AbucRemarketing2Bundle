@@ -91,6 +91,9 @@ var Dashboard = function () {
                 form.serializeArray().map(function(x){data_params[x.name] = x.value;});
                 HoldOn.open();
                 $.post(_url, data_params, function(response) {
+                    var top=$('.slimScrollBar').css('top').split('px');
+                    var newTop=top[0]-50;
+                    $('.slimScrollBar').css('top',newTop+'px');
                     HoldOn.close();
                     result.append(response);
                     start=limit+1;
