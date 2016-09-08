@@ -18,7 +18,7 @@ class Version20160901090640 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql('ALTER TABLE `mycasapa_prod`.`pa_travel_agency`
+        $this->addSql('ALTER TABLE `pa_travel_agency`
                         ADD COLUMN `phoneAux` VARCHAR(255) NULL AFTER `phone`;
                         ');
 

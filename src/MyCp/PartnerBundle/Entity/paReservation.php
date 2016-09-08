@@ -48,16 +48,30 @@ class paReservation extends baseEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="infants", type="integer")
+     * @ORM\Column(name="children", type="integer")
      */
-    private $infants;
+    private $children;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="children", type="integer")
+     * @ORM\Column(name="adults_with_accommodation", type="integer")
      */
-    private $children;
+    private $adultsWithAccommodation;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="children_with_accommodation", type="integer")
+     */
+    private $childrenWithAccommodation;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="closed", type="boolean")
+     */
+    private $closed;
 
 
     /**
@@ -76,6 +90,7 @@ class paReservation extends baseEntity
         parent::__construct();
 
         $this->details = new ArrayCollection();
+        $this->closed = false;
     }
 
     /**
@@ -237,5 +252,61 @@ class paReservation extends baseEntity
     {
         $this->details->removeElement($detail);
     }
+
+    /**
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        return $this->closed;
+    }
+
+    /**
+     * @param boolean $closed
+     * @return mixed
+     */
+    public function setClosed($closed)
+    {
+        $this->closed = $closed;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdultsWithAccommodation()
+    {
+        return $this->adultsWithAccommodation;
+    }
+
+    /**
+     * @param int $adultsWithAccommodation
+     * @return mixed
+     */
+    public function setAdultsWithAccommodation($adultsWithAccommodation)
+    {
+        $this->adultsWithAccommodation = $adultsWithAccommodation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getChildrenWithAccommodation()
+    {
+        return $this->childrenWithAccommodation;
+    }
+
+    /**
+     * @param int $childrenWithAccommodation
+     * @return mixed
+     */
+    public function setChildrenWithAccommodation($childrenWithAccommodation)
+    {
+        $this->childrenWithAccommodation = $childrenWithAccommodation;
+        return $this;
+    }
+
+
 
 }

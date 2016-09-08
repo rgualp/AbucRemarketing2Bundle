@@ -100,7 +100,9 @@ class FrontendController extends Controller
             if(!$validate_email)
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
             if(count($errors)){
-                return new JsonResponse(['success' => false, 'msg' => (array_key_exists('used_email',$errors))?$errors['used_email']:$errors['user_email']]);
+                $message=(array_key_exists('used_email',$errors))?$errors['used_email']:$errors['user_email'];
+                $this->get('session')->getFlashBag()->add('message_error_emailagency',$message );
+                return $this->redirect($this->generateUrl('frontend_partner_home'));
             }
             else{
                 $obj->setCountry($em->getRepository('mycpBundle:country')->find($post['country']));

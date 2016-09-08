@@ -904,7 +904,7 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function searchOwnership($controller,$filters=array()) {
+    function searchOwnership($controller,$filters=array(),$start=0,$limit=4) {
         if($filters['priceFilter']!=''){
             $prices=explode(',',$filters['priceFilter']);
             $filters['own_price_from']=array($prices[0]);
@@ -987,7 +987,8 @@ class ownershipRepository extends EntityRepository {
         $order = SearchUtils::getOrder($order_by);
 
         $query_string .= $order;
-        $query = $em->createQuery($query_string);
+
+        $query = $em->createQuery($query_string)->setFirstResult($start)->setMaxResults($limit);
         if ($user_id != null)
             $query->setParameter('user_id', $user_id);
 

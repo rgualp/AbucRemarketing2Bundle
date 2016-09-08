@@ -325,6 +325,8 @@ body.landing-page {
 .m-r-12{
     margin-right: 12px;
 }
+.m-0{margin: 0;}
+
 .modal-agency{
     background-color: #25323b !important;
     color: #fff;
@@ -349,6 +351,53 @@ body.landing-page {
     text-shadow: 0 1px 0 #fff;
     z-index: 999;
 }
+
+.modal-reservation{
+    background-color: #25323b !important;
+    color: #fff;
+    font-size: 20px;
+    height: 400px;
+}
+
+.modal-reservation h3{
+    font-size: 25px;
+}
+
+.modal-reservation a, .modal-reservation a:link, .modal-reservation a:visited, .modal-reservation a:hover{color: #fff;}
+.modal-reservation a:hover{text-decoration: none;}
+
+.reservation-details{
+    background-color: #fff;
+    padding: 3px;
+    color: #1b6690;
+    margin: 0 0 10px;
+}
+
+.reservation-details .input-group-addon.borderless{
+    border: none;
+    padding-right: 5px;
+    border-right: 2px solid #e5e6e7;
+}
+
+.reservation-details .smaller
+{
+    font-size: 20px;
+    display: inline;
+    font-family: MyriadProLightCond;
+    margin-left: 10px;
+}
+
+.reservation-details .smaller.green
+{
+    color: #63a333;
+    margin: 0;
+}
+
+.reservation-details .smaller.green b.bigger{
+    font-weight: bold;
+}
+
+
 .agency .input-group-addon {
     background-color: #fff;
     border: 1px solid #e5e6e7;
@@ -778,6 +827,7 @@ body.landing-page {
     margin-top: -20px;
     margin-left: 0px;
     background: #06354f;
+    height: 100px;
 }
 .tiny-star-icon {
     background-position: -14px -28px !important;
@@ -1088,7 +1138,22 @@ body.landing-page {
 .flags.eng{
     background-position: -50px 0;
 }
-
+.dashboard-aprtner .nav > li.active {
+    background: #0c4d77 none repeat scroll 0 0;
+    border-left: 0 solid #19aa8d;
+}
+.dashboard-aprtner .navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
+    background-color: #0c4d77;
+    color: white;
+}
+.dashboard-aprtner .navbar-default .nav li a {
+    color: #fff !important;
+    font-family: MyriadProBold !important;
+    font-size: 20px !important;
+    font-weight: unset !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;

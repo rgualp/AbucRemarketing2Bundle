@@ -52,12 +52,7 @@ backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }
     defaults: { _controller: PartnerBundle:Backend:index }
 
-
-partner_dashboard_requests:
-    locales:  { en: "/dashboard/requests", es: "/dashboard/requests", de: "/dashboard/requests" }
-    defaults: { _controller: PartnerBundle:Dashboard:index }
-
-partner_dashboard_seacrh:
+backend_partner_seacrh:
     locales:  { en: "/dashboard/search", es: "/dashboard/buscar", de: "/dashboard/search" }
     defaults: { _controller: PartnerBundle:Backend:search }
 
@@ -120,5 +115,10 @@ partner_dashboard_booking_list_checkin:
 partner_dashboard_page_detail:
     locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
+
+#Rounting showing list of open reservations - callback
+partnet_dashboard_open_reservations_list:
+    locales:  { en: "/dashboard/open-reservations", es: "/dashboard/open-reservations", de: "/dashboard/open-reservations" }
+    defaults: { _controller: PartnerBundle:Backend:openReservationsList }
 
 

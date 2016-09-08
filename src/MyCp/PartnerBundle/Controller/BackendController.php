@@ -2,6 +2,8 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\PartnerBundle\Form\paReservationType;
+use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,13 +26,16 @@ class BackendController extends Controller
         $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices();
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
+
+        $form = $this->createForm(new paReservationType($this->get('translator')));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
             "owns_categories" => null,
             "autocomplete_text_list" => null,
             "owns_prices" => $prices_own_list,
-            "formFilterOwnerShip"=>$formFilterOwnerShip->createView()
+            "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
+            'form'=>$form->createView()
         ));
     }
 
@@ -43,9 +48,29 @@ class BackendController extends Controller
         $items_per_page = 8;
         $paginator->setItemsPerPage($items_per_page);
         $filters= $request->get('requests_ownership_filter');
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters))->getResult();
-        $page = 1;
+        $start=$request->request->get('start');
+        $limit=$request->request->get('limit');
+        $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
+            'list' => $list
+        ));
+
+        return new Response($response, 200);
+    }
+
+    public function openReservationsListAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 4;
+        $paginator->setItemsPerPage($items_per_page);
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $list = $paginator->paginate($em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency()))->getResult();
+        $page = 1;
+
+
+        $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
             'list' => $list,
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),

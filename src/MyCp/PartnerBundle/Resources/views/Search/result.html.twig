@@ -1,5 +1,6 @@
-{% if list | length%}
-        <div class="col-md-12 m-t-md" >
+
+{% if list | length%}        <div class="col-md-12 m-t-md" id="list-ownership">
+
             {%for ownership in list%}
                     <div class="col-md-6" style="padding-bottom: 25px">
                             <div class="color-blue thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
@@ -24,7 +25,7 @@
                                         <h1 class="h-blue color-white">{{ownership.own_name | title }}</h1>
                                     </a>
                                 </div>
-                                <div class="col-sm-9 p-0 color-white">
+                                <div class="col-sm-9 color-white">
                                     {%if ownership.category == "Premium"%}
                                         <img rel="tooltip" title="{{ownership.category | trans}}"  src="{{ asset('bundles/partner/img/icon/premiun.png') }}" style="margin-top: -5px;width: 30px" alt="{{"Pixel" | trans}}"/>
                                     {%else%}
@@ -65,17 +66,18 @@
                             <div class="row description-ownwership">
                                 <div class="col-sm-5"></div>
                                 <div class="col-sm-4 color-white">
+                                    <a class="createReservation" type="button" data-ownid="{{ ownership.own_id }}">
                                     {{ 'label.required.owner' | trans }}
+                                    </a>
                                 </div>
                                 <div class="col-sm-3 color-white">
-                                    {{ 'label.view.more' | trans }}
+                                    {{ 'labe
+        </div>l.view.more' | trans }}
                                 </div>
                             </div>
 
                     </div>
-
-        {% endfor %}
-        </div>
+            {% endfor %}
 {% else %}
 <div class="row">
     <div class="col-md-12">
