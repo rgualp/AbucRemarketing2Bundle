@@ -1138,7 +1138,22 @@ body.landing-page {
 .flags.eng{
     background-position: -50px 0;
 }
-
+.dashboard-aprtner .nav > li.active {
+    background: #0c4d77 none repeat scroll 0 0;
+    border-left: 0 solid #19aa8d;
+}
+.dashboard-aprtner .navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
+    background-color: #0c4d77;
+    color: white;
+}
+.dashboard-aprtner .navbar-default .nav li a {
+    color: #fff !important;
+    font-family: MyriadProBold !important;
+    font-size: 20px !important;
+    font-weight: unset !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;

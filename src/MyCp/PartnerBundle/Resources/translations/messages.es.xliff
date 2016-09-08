@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-07T14:48:36Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-07T17:10:51Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -90,6 +90,10 @@
         <source>Error</source>
         <target state="new">Error</target>
       </trans-unit>
+      <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
+        <source>FORGOT_PASSWORD_BUTTON</source>
+        <target state="new">FORGOT_PASSWORD_BUTTON</target>
+      </trans-unit>
       <trans-unit id="e57590b80cd6874490039969bd4f68b8be78f496" resname="FORGOT_PASSWORD_PAGE_TITLE">
         <source>FORGOT_PASSWORD_PAGE_TITLE</source>
         <target state="new">FORGOT_PASSWORD_PAGE_TITLE</target>
@@ -141,6 +145,10 @@
       <trans-unit id="69b239c27704486fd3733b4c9eb32bfe9ca72d93" resname="PARKING_THERS_FILTER">
         <source>PARKING_THERS_FILTER</source>
         <target state="new">PARKING_THERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="2bdbca8d54c5de7744de8e2c0cbe95e03fcc419a" resname="PASSWORD_RECOVERY_BUTTON_TEXT">
+        <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
+        <target state="new">PASSWORD_RECOVERY_BUTTON_TEXT</target>
       </trans-unit>
       <trans-unit id="f41a06ea1bf32a6f512ae555f05e8f4a4a7ddaf2" resname="PASSWORD_RECOVERY_PAGE_TITLE">
         <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
@@ -290,9 +298,17 @@
         <source>btn.clear</source>
         <target state="new">Limpiar</target>
       </trans-unit>
+      <trans-unit id="b7d066e9ea9a8bd518b7e3614ab8e7300b560721" resname="btn.close">
+        <source>btn.close</source>
+        <target state="new">btn.close</target>
+      </trans-unit>
       <trans-unit id="7580fa85de8adc47d2e89b748fefb65e1b32708c" resname="btn.search">
         <source>btn.search</source>
         <target state="new">Buscar</target>
+      </trans-unit>
+      <trans-unit id="a2529e799ddb47e31b7d5d23c24e526d83d69779" resname="dashboard.admin">
+        <source>dashboard.admin</source>
+        <target state="new">Administración</target>
       </trans-unit>
       <trans-unit id="17f0c1300aa7ef56b4a08efc8312f248bc395a72" resname="dashboard.booking">
         <source>dashboard.booking</source>
@@ -378,6 +394,14 @@
         <source>dashboard.booking.totalprice</source>
         <target state="new">Precio total</target>
       </trans-unit>
+      <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
+        <source>dashboard.profile</source>
+        <target state="new">Mi Perfil</target>
+      </trans-unit>
+      <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
+        <source>dashboard.user</source>
+        <target state="new">Usuario</target>
+      </trans-unit>
       <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
         <source>label.activateaccount.five</source>
         <target state="new">¡COMIENZA YA!</target>
@@ -433,6 +457,10 @@
       <trans-unit id="922c358adc3b36c93a128e90f931f5810d2cf26c" resname="label.filter.exit">
         <source>label.filter.exit</source>
         <target state="new">Salida</target>
+      </trans-unit>
+      <trans-unit id="3597de2b60f98bcc1a9f829350f319b99844fb97" resname="label.forgot_password">
+        <source>label.forgot_password</source>
+        <target state="new">¿Olvidaste tu contraseña?</target>
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
@@ -530,9 +558,17 @@
         <source>label.range-price</source>
         <target state="new">Rango de Precio</target>
       </trans-unit>
+      <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
+        <source>label.ready.reserved</source>
+        <target state="new">¿Estás listo para reservar a lo grande?</target>
+      </trans-unit>
       <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
         <source>label.register.agency</source>
         <target state="new">Empezar!!!</target>
+      </trans-unit>
+      <trans-unit id="ebfccfc3ce9807288f420d7b56db31eae85befc3" resname="label.remember.password">
+        <source>label.remember.password</source>
+        <target state="new">¿Deseas recordar tu contraseña para este sitio?</target>
       </trans-unit>
       <trans-unit id="4042d95c3f9fd76b0f49f10684aa8406e369529f" resname="label.required.owner">
         <source>label.required.owner</source>
@@ -646,13 +682,25 @@
         <source>label.section.vacation_description</source>
         <target state="new">Encuentra lo que tus clientes desean, más rápido que en cualquier otro lugar. Tenemos opciones disponibles para los gustos más exigentes. </target>
       </trans-unit>
+      <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
+        <source>label.sigin</source>
+        <target state="new">Ir Ahora</target>
+      </trans-unit>
       <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
         <source>label.thanks</source>
         <target state="new">¡Gracias!</target>
       </trans-unit>
+      <trans-unit id="f2d3006ba62b89ef481bd6d52cc75e09c2d1f4a5" resname="label.user">
+        <source>label.user</source>
+        <target state="new">Correo de la agencia</target>
+      </trans-unit>
       <trans-unit id="c5dee5212aeb54faded7ba7f2403f0010f1c7fb0" resname="label.view.more">
         <source>label.view.more</source>
         <target state="new">Ver Más</target>
+      </trans-unit>
+      <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
+        <source>label.welcome</source>
+        <target state="new">Bienvenido</target>
       </trans-unit>
       <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
         <source>pa.modal.reservation.add</source>
