@@ -118,7 +118,7 @@ partner_dashboard_booking_list_checkin:
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }
 
 partner_dashboard_page_detail:
-    locales:  { en: "/dashboard/accomodation/{ids}", es: "/dashboard/accomodation/{ids}", de: "/dashboard/accomodation/{ids}" }
+    locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
 
 
