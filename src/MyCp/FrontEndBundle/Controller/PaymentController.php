@@ -566,6 +566,7 @@ class PaymentController extends Controller
             [
                 'transactionId' => $bookingId,
                 'amount' => $amount,
+                'method' => $method,
                 'currency' => $booking->getBookingCurrency()->getCurrCode(),
                 'returnUrl' => $this->generateUrl('frontend_payment_postfinance_status', array(), true),
                 'notifyUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),

@@ -34,6 +34,11 @@ IMPORTANT:
             {#<input type="hidden" NAME="HOMEURL" VALUE="">#}
             <input type="hidden" NAME="CN" value="{{ first_name }}">
             <input type="hidden" name="EMAIL" value="{{ EMAIL }}">
+            {% if method != "POSTFINANCE" %}
+                <input type="hidden" NAME="PM" VALUE="CreditCard">
+                <input type="hidden" NAME="BRAND" VALUE="{{ method | upper }}">
+                <input type="hidden" name="PMLIST" value="{{ method | upper }}">
+            {% endif %}
             {#<input type="hidden" NAME="PM" VALUE="{{ PM }}">
             <input type="hidden" NAME="BRAND" VALUE="{{ BRAND }}">
             <input type="hidden" NAME="OWNERZIP" VALUE="{{ ownerZIP }}">
