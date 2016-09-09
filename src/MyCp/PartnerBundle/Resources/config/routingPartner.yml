@@ -116,6 +116,14 @@ partner_dashboard_page_detail:
     locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
 
+partner_dashboard_add_favorites:
+    locales:  { en: "/dashboard/add_favorites", es: "/dashboard/add_favorites", de: "/dashboard/add_favorites" }
+    defaults: { _controller: PartnerBundle:Dashboard:addFavorites }
+
+partner_dashboard_remove_favorites:
+    locales:  { en: "/dashboard/remove_favorites", es: "/dashboard/remove_favorites", de: "/dashboard/remove_favorites" }
+    defaults: { _controller: PartnerBundle:Dashboard:removeFavorites }
+
 #Rounting showing list of open reservations - callback
 partnet_dashboard_open_reservations_list:
     locales:  { en: "/dashboard/open-reservations", es: "/dashboard/open-reservations", de: "/dashboard/open-reservations" }
