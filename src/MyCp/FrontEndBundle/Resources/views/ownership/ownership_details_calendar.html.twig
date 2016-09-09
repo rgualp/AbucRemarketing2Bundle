@@ -85,7 +85,8 @@
                 {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
                 {{ currSymbol }}
                 <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
-            </div><div class="col-sm-1" style="width: 5%">
+            </div>
+            <div class="col-sm-1" style="width: 5%">
                 <label>=</label>
             </div>
             <div class="col-sm-2">
