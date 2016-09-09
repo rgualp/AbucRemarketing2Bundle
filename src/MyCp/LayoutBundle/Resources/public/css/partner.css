@@ -1233,7 +1233,7 @@ body.landing-page {
 }
 .profile-agency{
     background-color: #0d4e76;
-    height: 500px;
+    height: 550px;
 }
 .profile-agency .ibox-content {
     border-style: none;
@@ -1280,6 +1280,26 @@ body.landing-page {
     padding: 0;
     width: 32px;
     margin-right: 0;
+}
+/**Avatar*/
+.dashboard-avatar {
+    border: 6px solid #c0c0c0;
+    position: relative;
+    box-shadow: 0 0 0 3px #f1a037;
+}
+.dashboard-picture{
+    z-index: 999;
+    margin-left: 0px;
+    margin-top: 8%;
+    position: absolute;
+    display: none;
+}
+.profile-element:hover .dashboard-picture {
+    display: block;
+}
+.dashboard-avatar:hover{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.7;
 }
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
