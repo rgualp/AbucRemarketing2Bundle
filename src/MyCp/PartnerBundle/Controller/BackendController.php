@@ -46,9 +46,7 @@ class BackendController extends Controller
      */
     public function searchAction(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 8;
-        $paginator->setItemsPerPage($items_per_page);
+        $session = $request->getSession();
         $filters= $request->get('requests_ownership_filter');
         $start=$request->request->get('start');
         $limit=$request->request->get('limit');
@@ -56,7 +54,20 @@ class BackendController extends Controller
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
             'list' => $list
         ));
-        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$list));
+        $result = array();
+        if (count($list)) {
+            foreach ($list as $own) {
+                $prize = ($own['minimum_price']) * ($session->get('curr_rate') == null ? 1 : $session->get('curr_rate'));
+                $result[] = array('latitude' => $own['latitude'],
+                    'longitude' => $own['longitude'],
+                    'title' => $own['own_name'],
+                    'content' => $this->get('translator')->trans('FROM_PRICES') . ($session->get("curr_symbol") != null ? " " . $session->get('curr_symbol') . " " : " $ ") . $prize . " " . strtolower($this->get('translator')->trans("BYNIGHTS_PRICES")),
+                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/thumbnails/' . $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($own['own_id'])),
+                    'id' => $own['own_id'],
+                    'url'=>$this->generateUrl('frontend_details_ownership', array('own_name' => $own['own_name'])));
+            }
+        }
+        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result));
     }
 
     public function openReservationsListAction(Request $request)

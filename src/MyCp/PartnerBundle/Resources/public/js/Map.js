@@ -45,12 +45,11 @@ var Map = function () {
             };
             ib = new InfoBox(myOptions);
             markers_big = [];
-
-            /* var mcOptions = {
-             gridSize: 50,
-             maxZoom: 15
+             var mcOptions = {
+                 gridSize: 50,
+                 maxZoom: 15
              };
-             var markerClusterBig = new MarkerClusterer(map_big, markers_big, mcOptions);*/
+             var markerClusterBig = new MarkerClusterer(map_big, markers_big, mcOptions);
         }
     }
 
@@ -61,14 +60,16 @@ var Map = function () {
             initializeMap();
         },
         createMarkerAndListenerEvent:function(data){
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
                 var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
                 var marker_bullet = new google.maps.Marker({
-                    id: data[i].own_id,
+                    id: data[i].id,
                     map: map_big,
                     position: latlng,
-                    content: "<tr><td class='map_image' style='background-image:url(" + data[i].photo + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].own_name + "<br/><b>" + data[i].prov_name + "</b></td></tr>",
-                    icon: icon_small
+                    title: data[i].title,
+                    icon: icon_small,
+                    content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
+
                 });
                 Map.mouseoverAddEvent(data,marker_bullet,i);
                 Map.mouseoutAddEvent(data,marker_bullet,i);
@@ -81,14 +82,12 @@ var Map = function () {
             {
                 return function()
                 {
-
                     var boxText = document.createElement("div");
                     boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #373737;color:#fff; padding: 5px; font-size:11px";
                     boxText.innerHTML = "<div class='row'>" +
-                        "<div class='map_image col-sm-4' style='background-image:url(" + data[i].photo + ")'></div>" +
-                        "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].own_name + "<br/>" +
-                        "<b>" + data[i].type + "</b> <br/>" +
-                        "<b>" + data[i].type + "</b>" +
+                        "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ");height: 60px !important; margin: 0 10px;width: 65px !important;'></div>" +
+                        "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
+                        "<b>" + data[i].content + "</b>" +
                         "</div>" +
                         "</div>";
 
