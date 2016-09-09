@@ -122,16 +122,16 @@
                                                     <div class="col-sm-12 property-actions">
                                                         <div class="row">
                                                             <div class="col-sm-4"><button class="createReservation btn" data-ownid="{{ ownership.own_id }}">{{ 'Solicitar Casa' | trans }}</button></div>
-                                                            <div class="col-sm-4">
-                                                                {%  set favorite_type = 'ownership' %}
-                                                                {%  set element_id = ownership.own_id %}
+                                                            {#<div class="col-sm-4">#}
+                                                                {#{%  set favorite_type = 'ownership' %}#}
+                                                                {#{%  set element_id = ownership.own_id %}#}
 
-                                                                {%if is_in_favorite%}
-                                                                    <button id="delete_from_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star"></i> {{ 'FAVORITIES' | trans }}</button>
-                                                                {%else%}
-                                                                    <button id="add_to_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star-outline"></i> {{ 'FAVORITIES' | trans }}</button>
-                                                                {%endif%}
-                                                            </div>
+                                                                {#{%if is_in_favorite%}#}
+                                                                    {#<button id="delete_from_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star"></i> {{ 'FAVORITIES' | trans }}</button>#}
+                                                                {#{%else%}#}
+                                                                    {#<button id="add_to_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star-outline"></i> {{ 'FAVORITIES' | trans }}</button>#}
+                                                                {#{%endif%}#}
+                                                            {#</div>#}
                                                             <div class="col-sm-4"></div>
                                                         </div>
                                                     </div>
