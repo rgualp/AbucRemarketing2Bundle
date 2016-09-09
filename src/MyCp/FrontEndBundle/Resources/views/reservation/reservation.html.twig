@@ -60,25 +60,37 @@
     {% set nights = (dates_string | length) - 1 %}
     {#% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %#}
     {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)) | price%}
-<div class="row">
-    <div class="col-xs-6" style="line-height: 25px">
-        {{"RESERVATION_TOTAL_PRICE" | trans}}
-        <span>{{ceil_round( total_price) | price}}</span>
+    <div class="row">
+        <div class="col-sm-3">{{"ACCOMMODATION_TOTAL_COST" | trans}} <br/><span>{{total_price | price}}</span></div>
+        <div class="col-sm-1">
+            <label>+</label>
+        </div>
+        <div class="col-sm-2">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
+        <div class="col-sm-1">
+            <label>+</label>
+        </div>
+        <div class="col-sm-2">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
+        <div class="col-sm-1">
+            <label>=</label>
+        </div>
+        <div class="col-sm-2 text-right" style="font-size: larger; font-weight: bold">
+            {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
+            <span>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</span>
+        </div>
     </div>
-    <div class="col-xs-6 text-right" style="line-height: 25px; color: #218CDC">
-        {{"SERVICE_ACCOMMODATION_TAX" | trans}}:
-        <span>{{ceil_round(total_percent_price) | price}}</span>
-        <br/>
-        {{"SERVICE_TOURIST_TAX" | trans}}:
-        <span>{{touristTax | price}}</span>
-        <br/>
-        {{"SERVICE_FIXED_TAX" | trans}}:
-        <span>{{currentServiceFee.fixedFee | price}}</span>
-        <br/>
-        {{"TOTAL_PREPAYMENT" | trans}}:
-        <span>{{prepayment}}</span>
+    <div class="row" style="line-height: 25px; color: #218CDC">
+        <div class="col-sm-6">
+            {{"TOTAL_PREPAYMENT" | trans}}: <span>{{(total_percent_price +touristTax + currentServiceFee.fixedFee) | price}}</span>
+        </div>
+        <div class="col-sm-6 text-right">
+            {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span>{{(total_price - total_percent_price) | price}}</span> <br/>
+            {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+            {% if currSymbol != "CUC" %}
+                <span style="font-size: small">CUC {{ (total_price - total_percent_price) | number_format(2) }}</span>
+            {% endif %}
+        </div>
     </div>
-</div>
+
 <div class="row">
 <div class="pull-right">
     <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"

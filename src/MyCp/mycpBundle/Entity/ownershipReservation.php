@@ -593,4 +593,9 @@ class ownershipReservation {
         }
     }
 
+    public function getPricePerNight()
+    {
+
+    }
+
 }

@@ -184,7 +184,9 @@ class ownershipReservationRepository extends EntityRepository {
             ore.own_res_reservation_to_date,
             ore.own_res_count_adults,
             ore.own_res_count_childrens,
-            (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom
+            (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
+            ore.own_res_total_in_site as priceInSite,
+            ore.own_res_night_price as priceNight
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getArrayResult();

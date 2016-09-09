@@ -29,18 +29,14 @@ class FacebookLoginType extends AbstractType
         $builder
             ->setMethod("POST")
             ->setAction($options['action'])
-            ->add("name", "hidden")
-            ->add("lastName", "hidden")
+            ->add("name", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
+            ->add("lastName", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
             ->add("gender", "hidden")
-            ->add("email", "hidden")
+            ->add("email", "text", array('required'=> true, 'attr'=>array('class'=>'hide', 'style'=> 'width: 90%'), 'label_attr'=>array('class'=>'hide')))
            ->add("country", 'entity', array(
-                'label'=> 'Select your country',
-                'attr'=>array(
-                    'class'=>'hide'
-                ),
-               'label_attr'=>array(
-                    'class'=>'hide'
-                ),
+                'label'=> 'Country',
+                'attr'=>array('class'=>'hide', 'style'=> 'width: 90%'),
+               'label_attr'=>array('class'=>'hide'),
                 'required'=> true,
                 'class' => 'mycpBundle:country',
                 'query_builder' => function (EntityRepository $er) {
@@ -52,6 +48,6 @@ class FacebookLoginType extends AbstractType
 
             ))
             ->add("language", "hidden")
-            ->add("Continue to My Casa Particular", "submit", array("attr" => array("class" => "btn btn-success")));
+            /*->add("Continue to My Casa Particular", "submit", array("attr" => array("class" => "btn btn-success")))*/;
     }
 }
