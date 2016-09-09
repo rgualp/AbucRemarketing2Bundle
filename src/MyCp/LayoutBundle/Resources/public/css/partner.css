@@ -1259,6 +1259,16 @@ body.landing-page {
 .profile-agency .profile-agency-email .input-group-addon  {
     background-color: #fff !important;
 }
+.icon-footer{
+    border-radius: 50px;
+    color: #fff;
+    font-size: 23px;
+    height: 32px;
+    line-height: 1.4;
+    padding: 0;
+    width: 32px;
+    margin-right: 0;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;
