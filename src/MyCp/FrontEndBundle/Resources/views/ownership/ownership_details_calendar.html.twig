@@ -81,29 +81,32 @@
                 <label>+</label>
             </div>
             <div class="col-sm-2"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+                {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
                 {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
-                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                {{ currSymbol }}
                 <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
             </div><div class="col-sm-1" style="width: 5%">
                 <label>=</label>
             </div>
             <div class="col-sm-2">
                 {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
-                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                {{ currSymbol }}
                 <span id="total_price"></span>
             </div>
         </div>
         <div class="row" style="font-size: 20px; margin-top: 10px">
             <div class="col-sm-6">
                 {{ 'PREPAYMENT'|trans }}
-                : {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                : {{ currSymbol }}
                 <span id="total_prepayment"></span>
             </div>
             <div class="col-sm-6 text-right" style="padding-right: 25px">
                 {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
-                : {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                : {{ currSymbol }}
                 <span id="pay_at_service"></span><br/>
+                {% if currSymbol != "CUC" %}
                 <span id="pay_at_service_cuc" style="font-size: small"></span>
+                {% endif %}
             </div>
         </div>
     </li>
