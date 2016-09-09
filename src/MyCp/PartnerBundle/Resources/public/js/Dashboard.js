@@ -40,6 +40,8 @@ var Dashboard = function () {
                 $('#icon-top').removeClass('hide');
                 $('#icon-back').addClass('hide');
                 $('#text-more').addClass('hide');
+                if(!$('#search-result').hasClass('hide'))
+                    $('#big_map').removeClass('hide');
                 $('.container-map').css('margin-top','351px');
             }
         });
@@ -48,6 +50,8 @@ var Dashboard = function () {
             $('#icon-top').addClass('hide');
             $('#icon-back').removeClass('hide');
             $('#text-more').removeClass('hide');
+            if($('#search-result').hasClass('hide'))
+                $('#big_map').addClass('hide');
             $('.container-map').css('margin-top','100px');
         });
     }
@@ -59,7 +63,8 @@ var Dashboard = function () {
             $('.slimScrollBar').css('top','0px');
             result.innerHTML="";
             var _url = $(this).data('url');
-
+            $('#big_map').removeClass('hide');
+            Map.removeMarkers();
             form.serializeArray().map(function(x){data_params[x.name] = x.value;});
             HoldOn.open();
             data_params['start']=0;

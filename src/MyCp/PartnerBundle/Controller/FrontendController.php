@@ -21,9 +21,7 @@ class FrontendController extends Controller
      */
     public function indexAction(){
         $em = $this->getDoctrine()->getManager();
-        $data = array();
-        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
-        $form = $this->createForm(new paTravelAgencyType($this->get('translator'), $data));
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
         return $this->render('PartnerBundle:Frontend:index.html.twig',array(
             'remoteLogin'=>true,
             'form'=>$form->createView()
@@ -83,10 +81,8 @@ class FrontendController extends Controller
     public function registerAgencyAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $obj = new paTravelAgency();
-        $data = array();
         $errors = array();
-        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
-        $form = $this->createForm(new paTravelAgencyType($this->get('translator'), $data),$obj);
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$obj);
 
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);

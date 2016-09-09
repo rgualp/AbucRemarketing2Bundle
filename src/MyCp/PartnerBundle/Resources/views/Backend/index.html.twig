@@ -145,7 +145,7 @@
                     <span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>
                 </div>
                 <div class="row bg-white container-map" style="margin-top: 100px">
-                    <div id="big_map" style="width:100%;height: 580px;" class="google-maps" data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}" data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+                    <div id="big_map" style="width:100%;height: 580px;" class="google-maps hide" data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}" data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
                 </div>
             </div>
 
@@ -194,6 +194,7 @@
                 HoldOn.open();
 
                 var href = $(this).data('href');
+                var attribute = ($(this).data('class'))?$(this).data('class'):'';
                 $.ajax({
                     type: "POST",
                     url: href,
@@ -207,7 +208,7 @@
 
                         var element = $('#content-box');
                         var firstChild = element.children();
-                        var newItem = $('<div id=' + result.id + ' class="row">' + result.html + '</div>');
+                        var newItem = $('<div id=' + result.id + ' class="row '+ attribute +'">' + result.html + '</div>');
 
                         if (firstChild.length == 0){
                             element.append(newItem);

@@ -11,6 +11,7 @@ use MyCp\PartnerBundle\Form\FilterOwnershipType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use MyCp\PartnerBundle\Entity\paTravelAgency;
 
 class BackendController extends Controller
 {
@@ -82,13 +83,18 @@ class BackendController extends Controller
     }
 
     /**
-     *
+     * @return JsonResponse
      */
     public function profileAgencyAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_profile_agency',
-            'html' => $this->renderView('PartnerBundle:Dashboard:profile_agency.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:profile_agency.html.twig', array( 'form'=>$form->createView())),
+
           ]);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-08T11:51:22Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-08T16:55:01Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -466,6 +466,18 @@
         <source>frontend.web_site</source>
         <target state="new">Sitios Web</target>
       </trans-unit>
+      <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
+        <source>label.account.agency.contact</source>
+        <target state="new">Datos de la Persona de Contacto</target>
+      </trans-unit>
+      <trans-unit id="ee5976edf8759672e53132178c1135a68beaed44" resname="label.account.agency.one">
+        <source>label.account.agency.one</source>
+        <target state="new"><![CDATA[<strong>Bienvenido</strong> a tu cuenta de agencia en <strong>MyCasa Partner</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="99c0626f42bf823de70a15d3e5b4cca1d74bf522" resname="label.account.agency.two">
+        <source>label.account.agency.two</source>
+        <target state="new">Los datos de contacto son esenciales para que todo funcione a la perfección.</target>
+      </trans-unit>
       <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
         <source>label.activateaccount.five</source>
         <target state="new">¡COMIENZA YA!</target>
@@ -509,6 +521,10 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new"><![CDATA[Al Crear mi cuenta acepto todos los <b>Términos Legales y Políticas de Seguridad</b>]]></target>
+      </trans-unit>
+      <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
+        <source>label.data_agency</source>
+        <target state="new">Datos de la Agencia</target>
       </trans-unit>
       <trans-unit id="500a18e4940efa511fae68edea73fb767485f07e" resname="label.facitily">
         <source>label.facitily</source>
@@ -657,6 +673,10 @@
       <trans-unit id="fcfacf71ec893568ad8e50148741ee6efe95a379" resname="label.resgister.description.two">
         <source>label.resgister.description.two</source>
         <target state="new">¡Te esperamos!</target>
+      </trans-unit>
+      <trans-unit id="ec0ce453bb0c38e9566d5cb152edbdc9ec730101" resname="label.save_change">
+        <source>label.save_change</source>
+        <target state="new">Guardar Cambios</target>
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>

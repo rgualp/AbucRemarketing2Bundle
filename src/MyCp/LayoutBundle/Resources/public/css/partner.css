@@ -1168,6 +1168,31 @@ body.landing-page {
     width: 10px !important;
     height: 10px !important;
 }
+.profile-agency{
+    background-color: #0d4e76;
+    height: 500px;
+}
+.profile-agency .ibox-content {
+    border-style: none;
+}
+.profile-agency .form-control, .single-line {
+    background-color: #cfeeff;
+}
+.profile-agency .contact .form-control, .single-line {
+    background-color: #e6fcd5;
+}
+.profile-agency .agency .input-group-addon {
+    background-color: #cfeeff;
+}
+.profile-agency .contact .input-group-addon {
+    background-color: #e6fcd5;
+}
+.profile-agency .agency .input-group-addon {
+    border-right: 2px solid #1b6690;
+}
+.profile-agency .contact .input-group-addon {
+    border-right: 2px solid #62a532;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;
