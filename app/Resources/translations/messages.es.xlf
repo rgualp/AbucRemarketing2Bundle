@@ -3856,10 +3856,58 @@
                       <source>JOIN_CASA</source>
                       <target>¡Únete! Inscribe tu casa</target>
                  </trans-unit>
-  <trans-unit id="977">
-       <source>PRICE_TOTAL_TO_PAY</source>
-       <target>Total a pagar</target>
-  </trans-unit>
+                  <trans-unit id="977">
+                       <source>PRICE_TOTAL_TO_PAY</source>
+                       <target>Total a pagar</target>
+                  </trans-unit>
+                  <trans-unit id="978">
+                       <source>FACEBOOK_SECOND_STEP</source>
+                       <target>Tenemos tus datos a través de Facebook, solo necesitamos una información más para completar tu registro en MyCasaParticular.</target>
+                  </trans-unit>
+                  <trans-unit id="979">
+                       <source>FACEBOOK_BUTTON_TEXT</source>
+                       <target>Entrar</target>
+                  </trans-unit>
+                  <trans-unit id="980">
+                       <source>FACEBOOK_TITLE</source>
+                       <target>Solo un paso más...</target>
+                  </trans-unit>
+                  <trans-unit id="981">
+                       <source>ACCOMMODATION_TOTAL_COST</source>
+                       <target>Importe por alojamiento</target>
+                  </trans-unit>
+                  <trans-unit id="982">
+                       <source>SERVICES_TOTAL_COST</source>
+                       <target>Tarifas de servicio</target>
+                  </trans-unit>
+                  <trans-unit id="983">
+                       <source>PAY_AT_ACCOMMODATION</source>
+                       <target>Pago en Casa</target>
+                  </trans-unit>
+                  <trans-unit id="984">
+                       <source>ONLINE_PREPAYMENT</source>
+                       <target>Prepago Online</target>
+                  </trans-unit>
+                  <trans-unit id="985">
+                       <source>PERCENT_ACCOMMODATION_AMOUNT</source>
+                       <target>%percent% del Importe por Alojamiento</target>
+                  </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>Importes por alojamientos</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Prepago</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Precio / Noche</target>
+                </trans-unit>
+                  <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>Costo Reserva</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

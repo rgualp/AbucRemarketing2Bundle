@@ -9,6 +9,7 @@
 namespace MyCp\CasaModuleBundle\Controller;
 
 
+use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\FrontEndBundle\Form\enableUserCasaType;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\owner;
@@ -19,6 +20,7 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\UserMails;
+use MyCp\mycpBundle\JobData\AccommodationJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Email;
@@ -101,16 +103,30 @@ class RegistrationController extends Controller
             ->setOwnCubaCoupon(0)
             ->setOwnSmsNotifications(1)
             ->setInsertedInCasaModule(true);
-
-
         $em->persist($ownership);
         $dir = $this->container->getParameter('user.dir.photos');
         $factory = $this->get('security.encoder_factory');
         $userCasa=$em->getRepository('mycpBundle:userCasa')->createUserNew($ownership, null, $factory, true, $this, $this->get('service_container'));
 
-//        UserMails::sendOwnersMail($this, $request->get('own_email_1'), null, $request->get('own_homeowner_1'), null, $request->get('own_name'), $ownership->getOwnMcpCode());
+        //Enviar correo a los propietarios
+           $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
+           $userName = ($ownership->getOwnHomeowner1()) ? $ownership->getOwnHomeowner1() : $ownership->getOwnHomeowner2();
+           $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId()));
 
-        $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
+           $emailSubject = "Bienvenido a MyCasaParticular.com";
+
+           $emailManager = $this->get('mycp.service.email_manager');
+
+           $emailBody = $emailManager->getViewContent('MyCpCasaModuleBundle:mail:inscription.html.twig',
+               array('user_name' => $userName,
+                   'assistant' => $localOperationAssistant,
+                   'accommodation' => $ownership,
+                   'secret_token' => $userCasa->getUserCasaSecretToken(),
+                   'user_locale' => "es"));
+
+           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
+
+           $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
 
            //Create new owner
            $owner = new owner();
@@ -130,6 +146,11 @@ class RegistrationController extends Controller
 
            $em->persist($ownerAccommodation);
         $em->flush();
+
+           //Agregar evento del remarketing, informar que una registro fue realizado
+           $dispatcher = $this->get('event_dispatcher');
+           $eventData = new AccommodationJobData($ownership->getOwnId());
+           $dispatcher->dispatch('mycp.event.casamodule.newregister', new JobEvent($eventData));
 
            $data['id_ownership']=$ownership->getOwnId();
            $data['ownership_mcp_code']=$ownership->getOwnMcpCode();
