@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use MyCp\PartnerBundle\Form\FilterOwnershipType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use MyCp\PartnerBundle\Entity\paTravelAgency;
 
 class BackendController extends Controller
 {
@@ -21,9 +23,9 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
 
-        $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories();
-        $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes();
-        $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices();
+        $categories_own_list = $results["categories"];
+        $types_own_list = $results["types"];
+        $prices_own_list = $results["prices"];
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
 
@@ -54,8 +56,7 @@ class BackendController extends Controller
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
             'list' => $list
         ));
-
-        return new Response($response, 200);
+        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$list));
     }
 
     public function openReservationsListAction(Request $request)
@@ -79,5 +80,21 @@ class BackendController extends Controller
         ));
 
         return new Response($response, 200);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function profileAgencyAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_profile_agency',
+            'html' => $this->renderView('PartnerBundle:Dashboard:profile_agency.html.twig', array( 'form'=>$form->createView())),
+
+          ]);
     }
 }

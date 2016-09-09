@@ -140,8 +140,13 @@
                 {% include 'PartnerBundle:Backend:searcher.html.twig' %}
             </div>
             <div class="col-md-5 text-right m-t-md" style="line-height: 1">
-                <span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>
-                <span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>
+                <div class="row">
+                    <span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>
+                    <span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>
+                </div>
+                <div class="row bg-white container-map" style="margin-top: 100px">
+                    <div id="big_map" style="width:100%;height: 580px;" class="google-maps hide" data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}" data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+                </div>
             </div>
 
         </div>
@@ -151,11 +156,11 @@
 
             </div>
             <div class="col-md-8 m-t-md" style="line-height: 1;padding-bottom: 20px;margin-left: -40px">
-                <span class="color-white MyriadProBold" style="font-size: 36px">Gestiona tus reservas ¡con un solo click!</span></br>
-                <span class="color-white MyriadProBoldIt" style="font-size: 24px">Aprovecha esta fantástica guía para tenerlo todo a la mano</span>
+                <span class="color-white MyriadProBold" style="font-size: 36px">{{ 'dashboard.text_reserv_one' | trans }}</span></br>
+                <span class="color-white MyriadProBoldIt" style="font-size: 24px">{{ 'dashboard.text_reserv_two' | trans }}</span>
             </div>
     </div>
-    <div id="wrapper" style="background-color: #0c4d77" class="dashboard-aprtner">
+    <div id="wrapper" style="background-color: #0c4d77" class="dashboard-partner">
         {% block nav %}
             {% include 'PartnerBundle:Layout:menu.html.twig' %}
         {% endblock nav %}
@@ -189,6 +194,7 @@
                 HoldOn.open();
 
                 var href = $(this).data('href');
+                var attribute = ($(this).data('class'))?$(this).data('class'):'';
                 $.ajax({
                     type: "POST",
                     url: href,
@@ -202,7 +208,7 @@
 
                         var element = $('#content-box');
                         var firstChild = element.children();
-                        var newItem = $('<div id=' + result.id + ' class="row">' + result.html + '</div>');
+                        var newItem = $('<div id=' + result.id + ' class="row '+ attribute +'">' + result.html + '</div>');
 
                         if (firstChild.length == 0){
                             element.append(newItem);

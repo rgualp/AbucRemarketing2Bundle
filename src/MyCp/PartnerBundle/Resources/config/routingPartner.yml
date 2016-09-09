@@ -121,4 +121,7 @@ partnet_dashboard_open_reservations_list:
     locales:  { en: "/dashboard/open-reservations", es: "/dashboard/open-reservations", de: "/dashboard/open-reservations" }
     defaults: { _controller: PartnerBundle:Backend:openReservationsList }
 
+partnet_dashboard_profile_agency:
+    locales:  { en: "/dashboard/agency/profile", es: "/dashboard/agency/perfil", de: "/dashboard/agency/profile" }
+    defaults: { _controller: PartnerBundle:Backend:profileAgency }
 

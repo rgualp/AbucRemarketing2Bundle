@@ -40,6 +40,9 @@ var Dashboard = function () {
                 $('#icon-top').removeClass('hide');
                 $('#icon-back').addClass('hide');
                 $('#text-more').addClass('hide');
+                if(!$('#search-result').hasClass('hide'))
+                    $('#big_map').removeClass('hide');
+                $('.container-map').css('margin-top','351px');
             }
         });
         $('#icon-top').on('click',function(){
@@ -47,6 +50,9 @@ var Dashboard = function () {
             $('#icon-top').addClass('hide');
             $('#icon-back').removeClass('hide');
             $('#text-more').removeClass('hide');
+            if($('#search-result').hasClass('hide'))
+                $('#big_map').addClass('hide');
+            $('.container-map').css('margin-top','100px');
         });
     }
     var onclickBtnSearch=function(){
@@ -54,16 +60,24 @@ var Dashboard = function () {
             var data_params={};
             var form = $("#form-filter-ownership");
             var result = $('#list-ownership');
-            result.html();
+            $('.slimScrollBar').css('top','0px');
+            result.innerHTML="";
             var _url = $(this).data('url');
-
+            $('#big_map').removeClass('hide');
+            Map.removeMarkers();
             form.serializeArray().map(function(x){data_params[x.name] = x.value;});
             HoldOn.open();
-            data_params['start']=start;
-            data_params['limit']=limit;
+            data_params['start']=0;
+            data_params['limit']=4;
+            start=0;
+            limit=4;
             $.post(_url, data_params, function(response) {
                 HoldOn.close();
-                result.html(response);
+                result.html(response.response_twig);
+                //se manda a eliminar los market
+                Map.removeMarkers();
+                //Se manda a pintar al map
+                Map.createMarkerAndListenerEvent(response.response_json);
                 start=limit+1;
                 limit=limit+5;
                 onShowReservationModal();
@@ -91,8 +105,14 @@ var Dashboard = function () {
                 form.serializeArray().map(function(x){data_params[x.name] = x.value;});
                 HoldOn.open();
                 $.post(_url, data_params, function(response) {
+                    //Se manda a pintar al map
+                    Map.createMarkerAndListenerEvent(response.response_json);
+
+                    var top=$('.slimScrollBar').css('top').split('px');
+                    var newTop=top[0]-50;
+                    $('.slimScrollBar').css('top',newTop+'px');
                     HoldOn.close();
-                    result.append(response);
+                    result.append(response.response_twig);
                     start=limit+1;
                     limit=limit+5;
                 });

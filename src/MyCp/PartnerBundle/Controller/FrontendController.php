@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
+use MyCp\PartnerBundle\Entity\paTourOperator;
+
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -19,9 +21,7 @@ class FrontendController extends Controller
      */
     public function indexAction(){
         $em = $this->getDoctrine()->getManager();
-        $data = array();
-        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
-        $form = $this->createForm(new paTravelAgencyType($this->get('translator'), $data));
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
         return $this->render('PartnerBundle:Frontend:index.html.twig',array(
             'remoteLogin'=>true,
             'form'=>$form->createView()
@@ -81,10 +81,8 @@ class FrontendController extends Controller
     public function registerAgencyAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $obj = new paTravelAgency();
-        $data = array();
         $errors = array();
-        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
-        $form = $this->createForm(new paTravelAgencyType($this->get('translator'), $data),$obj);
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$obj);
 
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
@@ -112,6 +110,11 @@ class FrontendController extends Controller
                 $factory = $this->get('security.encoder_factory');
                 $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'));
                 //Create tour operator
+                $tourOperator = new paTourOperator();
+                $tourOperator->setTourOperator($user);
+                $tourOperator->setTravelAgency($obj);
+                $em->persist($tourOperator);
+                $em->flush();
                 return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
             }
 

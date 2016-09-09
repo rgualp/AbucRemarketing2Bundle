@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-07T17:10:59Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-08T16:55:10Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -129,6 +129,26 @@
       <trans-unit id="2a3ffd9ebb6961e4e446366efa8d0013586561fb" resname="LANGUAGE">
         <source>LANGUAGE</source>
         <target state="new">LANGUAGE</target>
+      </trans-unit>
+      <trans-unit id="f4fa7382a3602c808e099d7fe19925d018096d16" resname="LANG_ENGLISH">
+        <source>LANG_ENGLISH</source>
+        <target state="new">LANG_ENGLISH</target>
+      </trans-unit>
+      <trans-unit id="47acebfff78034be189a67b8ac0cad1c9af08123" resname="LANG_FRENCH">
+        <source>LANG_FRENCH</source>
+        <target state="new">LANG_FRENCH</target>
+      </trans-unit>
+      <trans-unit id="3de1d2169f6d62c241e79d214af430de748ca102" resname="LANG_GERMAN">
+        <source>LANG_GERMAN</source>
+        <target state="new">LANG_GERMAN</target>
+      </trans-unit>
+      <trans-unit id="8fc58c476491c09b4593593c2ac69b8b43652652" resname="LANG_ITALIAN">
+        <source>LANG_ITALIAN</source>
+        <target state="new">LANG_ITALIAN</target>
+      </trans-unit>
+      <trans-unit id="4f5034b6504519fe4fdb085c657eae637511e432" resname="LANG_SPANISH">
+        <source>LANG_SPANISH</source>
+        <target state="new">LANG_SPANISH</target>
       </trans-unit>
       <trans-unit id="a55b2b1c87133b9d8fd3da2c9baf1e3f7be260b3" resname="LAUNDRY_OTHERS_FILTER">
         <source>LAUNDRY_OTHERS_FILTER</source>
@@ -394,13 +414,69 @@
         <source>dashboard.booking.totalprice</source>
         <target state="new">dashboard.booking.totalprice</target>
       </trans-unit>
+      <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
+        <source>dashboard.payment</source>
+        <target state="new">dashboard.payment</target>
+      </trans-unit>
       <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
         <source>dashboard.profile</source>
         <target state="new">dashboard.profile</target>
       </trans-unit>
+      <trans-unit id="800d9cf2f6cfbe44c52f821f371d51fa99371192" resname="dashboard.text_reserv_one">
+        <source>dashboard.text_reserv_one</source>
+        <target state="new">dashboard.text_reserv_one</target>
+      </trans-unit>
+      <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
+        <source>dashboard.text_reserv_two</source>
+        <target state="new">dashboard.text_reserv_two</target>
+      </trans-unit>
       <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
         <source>dashboard.user</source>
         <target state="new">dashboard.user</target>
+      </trans-unit>
+      <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
+        <source>frontend.account_type</source>
+        <target state="new">frontend.account_type</target>
+      </trans-unit>
+      <trans-unit id="d47ff1d108be6b98a557b086d08cd4710401ad17" resname="frontend.account_unic">
+        <source>frontend.account_unic</source>
+        <target state="new">frontend.account_unic</target>
+      </trans-unit>
+      <trans-unit id="39b9f58bd50df1735fa2cac0a6d046566d55b89a" resname="frontend.five_tour">
+        <source>frontend.five_tour</source>
+        <target state="new">frontend.five_tour</target>
+      </trans-unit>
+      <trans-unit id="bc358a98e46f450213b262ee7e095c3d71bcb9db" resname="frontend.one_tour">
+        <source>frontend.one_tour</source>
+        <target state="new">frontend.one_tour</target>
+      </trans-unit>
+      <trans-unit id="7713ef173ad910c8c85f98c130c74ca476db13c0" resname="frontend.partner">
+        <source>frontend.partner</source>
+        <target state="new">frontend.partner</target>
+      </trans-unit>
+      <trans-unit id="a7704077e6426c5cbca649552948683007b3b9b3" resname="frontend.twofive_tour">
+        <source>frontend.twofive_tour</source>
+        <target state="new">frontend.twofive_tour</target>
+      </trans-unit>
+      <trans-unit id="791a73e628de3dfbfe0f1f618a63856f0ba07ff7" resname="frontend.users">
+        <source>frontend.users</source>
+        <target state="new">frontend.users</target>
+      </trans-unit>
+      <trans-unit id="53928e82d89f5055e532d7643a2feb374313598a" resname="frontend.web_site">
+        <source>frontend.web_site</source>
+        <target state="new">frontend.web_site</target>
+      </trans-unit>
+      <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
+        <source>label.account.agency.contact</source>
+        <target state="new">label.account.agency.contact</target>
+      </trans-unit>
+      <trans-unit id="ee5976edf8759672e53132178c1135a68beaed44" resname="label.account.agency.one">
+        <source>label.account.agency.one</source>
+        <target state="new">label.account.agency.one</target>
+      </trans-unit>
+      <trans-unit id="99c0626f42bf823de70a15d3e5b4cca1d74bf522" resname="label.account.agency.two">
+        <source>label.account.agency.two</source>
+        <target state="new">label.account.agency.two</target>
       </trans-unit>
       <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
         <source>label.activateaccount.five</source>
@@ -445,6 +521,10 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
+      </trans-unit>
+      <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
+        <source>label.data_agency</source>
+        <target state="new">label.data_agency</target>
       </trans-unit>
       <trans-unit id="500a18e4940efa511fae68edea73fb767485f07e" resname="label.facitily">
         <source>label.facitily</source>
@@ -594,6 +674,10 @@
         <source>label.resgister.description.two</source>
         <target state="new">label.resgister.description.two</target>
       </trans-unit>
+      <trans-unit id="ec0ce453bb0c38e9566d5cb152edbdc9ec730101" resname="label.save_change">
+        <source>label.save_change</source>
+        <target state="new">label.save_change</target>
+      </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
         <target state="new">label.section.easy_description</target>
@@ -702,6 +786,10 @@
         <source>label.welcome</source>
         <target state="new">label.welcome</target>
       </trans-unit>
+      <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
+        <source>pa.loading</source>
+        <target state="new">pa.loading</target>
+      </trans-unit>
       <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
         <source>pa.modal.reservation.add</source>
         <target state="new">pa.modal.reservation.add</target>
@@ -721,6 +809,10 @@
       <trans-unit id="9d48b322040565903f03257319b60a3777c11cdc" resname="pa.modal.reservation.new_reservation">
         <source>pa.modal.reservation.new_reservation</source>
         <target state="new">pa.modal.reservation.new_reservation</target>
+      </trans-unit>
+      <trans-unit id="b4171ddfaa2430920f7b992a4f6a1fdb569a0c3a" resname="pa.modal.reservation.no_data_open_reservation_list">
+        <source>pa.modal.reservation.no_data_open_reservation_list</source>
+        <target state="new">pa.modal.reservation.no_data_open_reservation_list</target>
       </trans-unit>
       <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
         <source>pa.modal.reservation.reserve</source>

@@ -149,6 +149,9 @@ body.landing-page {
     color: #fff;
     text-align: center;
 }
+.landing-page .navbar-scroll .navbar-nav > li > a {
+    padding: 26px 12px;
+}
 .nav.navbar-right > li > a {
     color: #fff;
 }
@@ -582,6 +585,7 @@ body.landing-page {
 .bg-blue{
     background: #1f5d82
 }
+
 .color-white{
     color: #fff;
 }
@@ -1198,21 +1202,56 @@ body.landing-page {
 .flags.eng{
     background-position: -50px 0;
 }
-.dashboard-aprtner .nav > li.active {
+.dashboard-partner .nav > li.active {
     background: #0c4d77 none repeat scroll 0 0;
     border-left: 0 solid #19aa8d;
 }
-.dashboard-aprtner .navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
+.dashboard-partner .navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
     background-color: #0c4d77;
     color: white;
 }
-.dashboard-aprtner .navbar-default .nav li a {
+.dashboard-partner .navbar-default .nav li a {
     color: #fff !important;
     font-family: MyriadProBold !important;
     font-size: 20px !important;
     font-weight: unset !important;
     letter-spacing: 0 !important;
     text-transform: none !important;
+}
+.dashboard-partner .metismenu .arrow {
+    float: right;
+    line-height: 0;
+}
+/*custom map*/
+.infoBox .map_image{background-size: cover;display: inline-block;height: 65px;width: 65px;margin-left: 15px}
+.infoBox img{
+    width: 10px !important;
+    height: 10px !important;
+}
+.profile-agency{
+    background-color: #0d4e76;
+    height: 500px;
+}
+.profile-agency .ibox-content {
+    border-style: none;
+}
+.profile-agency .form-control, .single-line {
+    background-color: #cfeeff;
+}
+.profile-agency .contact .form-control, .single-line {
+    background-color: #e6fcd5;
+}
+.profile-agency .agency .input-group-addon {
+    background-color: #cfeeff;
+}
+.profile-agency .contact .input-group-addon {
+    background-color: #e6fcd5;
+}
+.profile-agency .agency .input-group-addon {
+    border-right: 2px solid #1b6690;
+}
+.profile-agency .contact .input-group-addon {
+    border-right: 2px solid #62a532;
 }
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{

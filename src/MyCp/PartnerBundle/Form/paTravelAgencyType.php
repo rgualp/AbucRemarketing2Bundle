@@ -11,12 +11,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class paTravelAgencyType extends AbstractType
 {
     private $translate;
-    private $data;
-
-    function __construct($trans_entity, $data)
+    function __construct($trans_entity)
     {
         $this->translate = $trans_entity;
-        $this->data=$data;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -24,26 +21,20 @@ class paTravelAgencyType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $array_countries=array();
-        if(isset($this->data['countries'])){
-            foreach($this->data['countries'] as $country)
-            {
-                $array_countries[$country->getCoId()]=$country->getCoName();
-            }
-        }
-
         $builder
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('email', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('address', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phone', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phoneAux', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
-            ->add('country','choice',array(
-                'choices'=>$array_countries,
-                'empty_value' => '',
-                'attr'=>array('class'=>'form-control user_country'),
-                'constraints'=>array(new NotBlank())
-            ))
+            ->add('country', 'entity', [
+                'class' => 'MyCp\mycpBundle\Entity\country',
+                'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u');
+                    },
+                'property' => 'co_name',
+                'required' => false,
+                'multiple' => false])
             ->add('contacts', 'collection', array(
                 'required' => true,
                 'type' => new paContactType(),
