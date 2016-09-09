@@ -1193,6 +1193,12 @@ body.landing-page {
 .profile-agency .contact .input-group-addon {
     border-right: 2px solid #62a532;
 }
+.profile-agency .profile-agency-email .form-control, .single-line {
+    background-color: #fff !important;
+}
+.profile-agency .profile-agency-email .input-group-addon  {
+    background-color: #fff !important;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;
