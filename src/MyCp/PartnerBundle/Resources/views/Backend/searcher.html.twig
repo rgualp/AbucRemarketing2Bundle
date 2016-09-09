@@ -8,12 +8,12 @@
                         <div class="col-sm-2">
                             {{ form_widget(formFilterOwnerShip.destination, { 'attr': {'data-placeholder': 'label.name.destination'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                         </div>
-                        <div class="col-sm-2"><div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group" style="padding: 0">
+                        <div class="col-sm-2"><div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group date" style="padding: 0">
                                 {{ form_widget(formFilterOwnerShip.arrival, { 'attr': {'placeholder': 'label.filter.arrival'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
                                 <span class="input-group-addon"><i class="glyphicons calendar"></i></span>
                             </div></div>
                         <div class="col-sm-2">
-                            <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group" style="padding: 0">
+                            <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group date" style="padding: 0">
                                 {{ form_widget(formFilterOwnerShip.exit, { 'attr': {'placeholder': 'label.filter.exit'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
                                 <span class="input-group-addon"><i class="glyphicons calendar"></i></span>
                             </div>

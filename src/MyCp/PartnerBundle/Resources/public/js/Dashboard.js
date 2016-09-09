@@ -103,7 +103,6 @@ var Dashboard = function () {
                 data_params['start']=start;
                 data_params['limit']=limit;
                 form.serializeArray().map(function(x){data_params[x.name] = x.value;});
-                HoldOn.open();
                 $.post(_url, data_params, function(response) {
                     //Se manda a pintar al map
                     Map.createMarkerAndListenerEvent(response.response_json);
@@ -111,7 +110,6 @@ var Dashboard = function () {
                     var top=$('.slimScrollBar').css('top').split('px');
                     var newTop=top[0]-50;
                     $('.slimScrollBar').css('top',newTop+'px');
-                    HoldOn.close();
                     result.append(response.response_twig);
                     start=limit+1;
                     limit=limit+5;
