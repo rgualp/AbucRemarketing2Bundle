@@ -461,7 +461,7 @@ body.landing-page {
 }
 
 .agency .glyphicons {
-    color: #1b6690;
+    color: #1b6690 !important;
     display: inline-block;
     font: 24px/1em "Glyphicons Regular";
     position: relative;
@@ -487,7 +487,7 @@ body.landing-page {
 }
 
 .contact .glyphicons {
-    color: #63a333;
+    color: #63a333 !important;
     display: inline-block;
     font: 24px/1em "Glyphicons Regular";
     position: relative;
@@ -506,6 +506,9 @@ body.landing-page {
     font-size: 48px !important;
     margin-left: -30px;
     margin-top: 140%;
+}
+.form-agency .has-error .form-control {
+    border: 2px solid #ed5565;
 }
 .form-agency label.error {
     color: #fff;
@@ -1230,7 +1233,7 @@ body.landing-page {
 }
 .profile-agency{
     background-color: #0d4e76;
-    height: 500px;
+    height: 550px;
 }
 .profile-agency .ibox-content {
     border-style: none;
@@ -1248,16 +1251,55 @@ body.landing-page {
     background-color: #e6fcd5;
 }
 .profile-agency .agency .input-group-addon {
-    border-right: 2px solid #1b6690;
+    border-right: 3px solid #1b6690;
 }
 .profile-agency .contact .input-group-addon {
-    border-right: 2px solid #62a532;
+    border-right: 3px solid #62a532;
 }
 .profile-agency .profile-agency-email .form-control, .single-line {
     background-color: #fff !important;
+    border: 0;
 }
 .profile-agency .profile-agency-email .input-group-addon  {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
     background-color: #fff !important;
+    border-color: -moz-use-text-color #196692 -moz-use-text-color -moz-use-text-color;
+    border-image: none;
+    border-style: none solid none none;
+    border-width: 0 3px 0 0;
+}
+.icon-footer{
+    border-radius: 50px;
+    color: #fff;
+    font-size: 23px;
+    height: 32px;
+    line-height: 1.4;
+    padding: 0;
+    width: 32px;
+    margin-right: 0;
+}
+/**Avatar*/
+.dashboard-avatar {
+    border: 6px solid #c0c0c0;
+    position: relative;
+    box-shadow: 0 0 0 3px #f1a037;
+}
+.dashboard-picture{
+    z-index: 999;
+    margin-left: 0px;
+    margin-top: 8%;
+    position: absolute;
+    display: none;
+}
+.profile-element:hover .dashboard-picture {
+    display: block;
+}
+.dashboard-avatar:hover{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.7;
 }
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{

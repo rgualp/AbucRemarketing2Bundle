@@ -33,7 +33,7 @@ class paTravelAgencyType extends AbstractType
                         return $er->createQueryBuilder('u');
                     },
                 'property' => 'co_name',
-                'required' => false,
+                'required' => true,
                 'multiple' => false])
             ->add('contacts', 'collection', array(
                 'required' => true,

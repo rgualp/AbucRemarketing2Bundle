@@ -139,11 +139,12 @@ class ownershipPaymentRepository extends EntityRepository {
                     ->setPaymentDate($paymentDate)
                 ;
                 $em->persist($payment);
+                $em->flush();
             }
         }
 
         $serviceLog->saveLog("Pago por lote otorgado a ".count($accommodations_ids)." alojamientos", BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_INSERT, DataBaseTables::ACCOMMODATION_PAYMENT);
-        $em->flush();
+
     }
 
 

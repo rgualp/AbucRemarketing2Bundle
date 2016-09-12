@@ -36,8 +36,11 @@
     function loginSuccessful() {
 
         //hide all non-facebook related forms
-        $(".hidden-fb-auth").hide();
-        $(".btn-fb-login").hide();
+        /*$(".hidden-fb-auth").hide();
+        $(".btn-fb-login").hide();*/
+        $(".hidden-fb-auth *").attr("disabled", "disabled").off('click');
+        $(".btn-fb-login").attr("disabled", "disabled").off('click');
+        $(".fb-login-form").css("padding-top", 0);
 
         FB.api('/me', function (response) {
             var name = response.name;
@@ -63,15 +66,24 @@
                 data: data,
                 success: function(data){
                     $("#continueAfterLogin").removeClass("hide").fadeIn();
-
-                    $("#status")
-                            .html("Thanks for logging in, " + response.name + "!")
-                            .removeClass('hide')
-                            .fadeIn();
+                    $("#facebookTitle").removeClass("hide").fadeIn();
                  if (data['exists']==false){
+                     $("#status")
+                             .html('{{ "FACEBOOK_SECOND_STEP" | trans }}')
+                             .removeClass('hide')
+                             .fadeIn();
                   //alert(true);
                      $("#FacebookLoginType_country").removeClass('hide').fadeIn();
                      $("#FacebookLoginType_country").prev().removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_name").removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_name").prev().removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_lastName").removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_lastName").prev().removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_email").removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_email").prev().removeClass('hide').fadeIn();
+
+                     $("#emailRow").removeClass('hide').fadeIn();
+                     $("#countryRow").removeClass('hide').fadeIn();
                  }
                  //
                 }

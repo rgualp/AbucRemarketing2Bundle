@@ -131,6 +131,7 @@ class VoucherHelper {
                     'user' => $user,
                     //'reservations' => $ownershipReservations,
                     'message' => $message,
+                    'bookId' => $bookId
                     //'nights' => $nights
                 ));
 
