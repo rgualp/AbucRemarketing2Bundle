@@ -123,5 +123,12 @@ partnet_dashboard_open_reservations_list:
 
 partnet_dashboard_profile_agency:
     locales:  { en: "/dashboard/agency/profile", es: "/dashboard/agency/perfil", de: "/dashboard/agency/profile" }
-    defaults: { _controller: PartnerBundle:Backend:profileAgency }
+    defaults: { _controller: PartnerBundle:Profile:profileAgency }
 
+partnet_dashboard_changepassword_agency:
+    locales:  { en: "/dashboard/agency/cambiarclave", es: "/dashboard/agency/changepassword", de: "/dashboard/agency/changepassword" }
+    defaults: { _controller: PartnerBundle:Profile:changePassword }
+
+partnet_dashboard_deactivate_agency:
+    locales:  { en: "/dashboard/agency/desactivar", es: "/dashboard/agency/deactivate", de: "/dashboard/agency/deactivate" }
+    defaults: { _controller: PartnerBundle:Profile:deactivateAgency }
