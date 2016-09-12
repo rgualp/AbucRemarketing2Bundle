@@ -54,4 +54,107 @@ class paTravelAgencyRepository extends EntityRepository {
 
         return $user;
     }
+
+    function getAll($filter_active='', $filter_name='', $filter_country='', $filter_owner='', $filter_email='', $filter_date_created='') {
+        $condition = "";
+
+        if ($filter_active != 'null' && $filter_active != '') {
+            $condition .= "AND (us.user_enabled = :filter_active ";
+            $condition .= ") ";
+        }
+
+//        if ($filter_category != 'null' && $filter_category != '') {
+//            $condition .= " AND ow.own_category = :filter_category ";
+//        }
+//        if ($filter_province != 'null' && $filter_province != '') {
+//            $condition .= " AND ow.own_address_province = :filter_province ";
+//        }
+//        if ($filter_municipality != 'null' && $filter_municipality != '') {
+//            $condition .= " AND ow.own_address_municipality = :filter_municipality ";
+//        }
+//        if ($filter_type != 'null' && $filter_type != '') {
+//            $condition .= " AND ow.own_type = :filter_type ";
+//        }
+//
+//        if ($filter_saler != 'null' && $filter_saler != '') {
+//            $condition .= " AND ow.own_saler LIKE :filter_saler ";
+//        }
+//        if ($filter_visit_date != 'null' && $filter_visit_date != '') {
+//            $condition .= " AND ow.own_visit_date >= :filter_visit_date AND ow.own_visit_date < :filter_visit_date_plus_day";
+//        }
+//        if ($filter_destination != 'null' && $filter_destination != '') {
+//
+//            $condition .= " AND ow.own_destination = :filter_destination ";
+//        }
+//        if ($filter_commission != 'null' && $filter_commission != '') {
+//
+//            $condition .= " AND ow.own_commission_percent = :filter_commission ";
+//        }
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT
+          ag.id as id,
+          ag.name as name,
+          ag.email as contact_mail,
+          us.user_user_name as touroperador,
+          co.co_name as name_country,
+          (SELECT MIN(pack.name) FROM PartnerBundle:paAgencyPackage packAgency 
+          JOIN PartnerBundle:paPackage pack WITH packAgency.package = pack.id 
+          WHERE packAgency.travelAgency = ag.id 
+          ORDER BY packAgency.datePayment DESC) as name_package,
+          us.user_enabled as status,
+          ag.created as date_register
+        FROM PartnerBundle:paTravelAgency ag
+        JOIN PartnerBundle:paTourOperator pat WITH ag.id = pat.travelAgency
+        JOIN mycpBundle:user us WITH pat.tourOperator = us.user_id
+        JOIN mycpBundle:country co WITH co.co_id = ag.country
+        
+        WHERE ag.name LIKE :filter_name $condition
+        
+        ");
+
+        if (isset($filter_name))
+            $query->setParameter('filter_name', "%" . $filter_name . "%");
+
+        if ($filter_active != 'null' && $filter_active != '')
+            $query->setParameter('filter_active', $filter_active);
+
+//
+//        if ($filter_category != 'null' && $filter_category != '')
+//            $query->setParameter('filter_category', $filter_category);
+//
+//        if ($filter_province != 'null' && $filter_province != '')
+//            $query->setParameter('filter_province', $filter_province);
+//
+//        if ($filter_municipality != 'null' && $filter_municipality != '')
+//            $query->setParameter('filter_municipality', $filter_municipality);
+//
+//        if ($filter_type != 'null' && $filter_type != '')
+//            $query->setParameter('filter_type', $filter_type);
+//
+//        if ($filter_name != 'null' && $filter_name != '')
+//            $query->setParameter('filter_name', "%" . $filter_name . "%");
+//
+//        if ($filter_saler != 'null' && $filter_saler != '')
+//            $query->setParameter('filter_saler', "%" . $filter_saler . "%");
+//
+//        if ($filter_visit_date != 'null' && $filter_visit_date != '') {
+//            $filter_date = \DateTime::createFromFormat('d-m-Y', $filter_visit_date);
+//            $query->setParameter('filter_visit_date', $filter_date->format("Y-m-d"));
+//
+//            $filter_date->add(new \DateInterval("P1D"));
+//            $query->setParameter('filter_visit_date_plus_day', $filter_date->format("Y-m-d"));
+//        }
+//
+//        if ($filter_destination != 'null' && $filter_destination != '')
+//            $query->setParameter('filter_destination', $filter_destination);
+//
+//        if (isset($filter_code))
+//            $query->setParameter('filter_code', "%" . $filter_code . "%");
+//
+//        if ($filter_commission != 'null' && $filter_commission != '')
+//            $query->setParameter('filter_commission', $filter_commission);
+
+        return $query;
+    }
 }

@@ -11,5 +11,15 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class paTourOperatorRepository extends EntityRepository {
+    /**
+     * @return array
+     */
+    public function getOwners()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT us FROM mycpBundle:user us join PartnerBundle:paTourOperator pat 
+        Where us.user_id = pat.tourOperator");
+        return $query->getResult();
+    }
 
 }
