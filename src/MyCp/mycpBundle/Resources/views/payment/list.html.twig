@@ -118,7 +118,7 @@
             <td>{{ payment.payedAmount }} CUC</td>
             <td>{{ payment.service.name }}</td>
             <td>{{ payment.method.translations[0].nomLangDescription }}</td>
-            <td>{{ payment.accommodation.ownMcpCode }}</td>
+            <td><a title="Editar alojamiento" href="{{ path("mycp_edit_ownership", {"id_ownership": payment.accommodation.ownid}) }}" target="_blank">{{ payment.accommodation.ownMcpCode }}</a></td>
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path("mycp_edit_payment", {"id": payment.id}) }}">Editar</a>
                 <button data='{{ path("mycp_delete_payment", {"id": payment.id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>

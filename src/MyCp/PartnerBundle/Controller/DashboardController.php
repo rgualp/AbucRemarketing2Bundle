@@ -4,10 +4,12 @@ namespace MyCp\PartnerBundle\Controller;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\PartnerBundle\Form\paReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
@@ -755,7 +757,10 @@ class DashboardController extends Controller
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
+        $form = $this->createForm(new paReservationType($this->get('translator')));
+
         return $this->render('@Partner/Dashboard/accomodation_detail.html.twig', array(
+            'form' => $form->createView(),
             'avail_array_prices' => $avail_array_prices,
             'available_rooms' => $available_rooms,
             'price_subtotal' => $price_subtotal,
@@ -790,6 +795,57 @@ class DashboardController extends Controller
             'locale' => $locale,
             'currentServiceFee' => $currentServiceFee
         ));
+
+    }
+
+    public function addFavoritesAction() {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $favorite_type = $request->request->get("favorite_type");
+        $element_id = $request->request->get("element_id");
+
+        $data = array();
+        $data['favorite_user_id'] = $user_ids["user_id"];
+        $data['favorite_session_id'] = $user_ids["session_id"];
+        $data['favorite_ownership_id'] = ($favorite_type == "ownership") ? $element_id : null;
+        $data['favorite_destination_id'] = ($favorite_type == "destination") ? $element_id : null;
+
+        $em->getRepository('mycpBundle:favorite')->insert($data);
+
+        $response = $this->renderView('FrontEndBundle:favorite:detailsFavorite.html.twig', array(
+            'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
+            'favorite_type' => $favorite_type,
+            'element_id' => $element_id
+        ));
+
+        return new Response($response, 200);
+    }
+
+    public function removeFavoritesAction() {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $favorite_type = $request->request->get("favorite_type");
+        $element_id = $request->request->get("element_id");
+
+        $data = array();
+        $data['favorite_user_id'] = $user_ids["user_id"];
+        $data['favorite_session_id'] = $user_ids["session_id"];
+        $data['favorite_ownership_id'] = ($favorite_type == "ownership") ? $element_id : null;
+        $data['favorite_destination_id'] = ($favorite_type == "destination") ? $element_id : null;
+
+        $em->getRepository('mycpBundle:favorite')->delete($data);
+
+        $response = $this->renderView('FrontEndBundle:favorite:detailsFavorite.html.twig', array(
+            'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
+            'favorite_type' => $favorite_type,
+            'element_id' => $element_id
+        ));
+
+        return new Response($response, 200);
     }
 
 

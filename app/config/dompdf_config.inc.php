@@ -8,3 +8,4 @@ define("DOMPDF_ENABLE_REMOTE", true);
 define("DOMPDF_ENABLE_AUTOLOAD", false);
 
 include('../vendor/dompdf/dompdf/dompdf_config.inc.php');
+//include('../vendor/dompdf/dompdf/autoload.inc.php');

@@ -162,7 +162,7 @@ class Email {
 		));
 
 		$this->sendEmail(
-			"Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+			"Active su cuenta en MyCasaParticular.com", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
 		);
 	}
 
@@ -285,7 +285,7 @@ class Email {
         $data['user_locale']= 'es';
 
         $templating = $this->container->get('templating');
-        $content = $templating->render('FrontEndBundle:mails:casaModulePublishAccommodation.html.twig', $data);
+        $content = $templating->render('MyCpCasaModuleBundle:mail:publish_accommodation.html.twig', $data);
         $subject= 'Bienvenido a MyCasaParticular';
         $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
     }

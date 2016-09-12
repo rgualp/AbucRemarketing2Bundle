@@ -3862,6 +3862,55 @@
             <source>PRICE_TOTAL_TO_PAY</source>
             <target>Total to pay</target>
        </trans-unit>
+                  <trans-unit id="978">
+                       <source>FACEBOOK_SECOND_STEP</source>
+                       <target>Have your data over Facebook, we just need something else to complete your registration in MyCasaParticular.</target>
+                  </trans-unit>
+                  <trans-unit id="979">
+                       <source>FACEBOOK_BUTTON_TEXT</source>
+                       <target>Log in</target>
+                  </trans-unit>
+                  <trans-unit id="980">
+                       <source>FACEBOOK_TITLE</source>
+                       <target>Just one more step...</target>
+                  </trans-unit>
+
+                  <trans-unit id="981">
+                       <source>ACCOMMODATION_TOTAL_COST</source>
+                       <target>Lodging Amount</target>
+                  </trans-unit>
+                  <trans-unit id="982">
+                       <source>SERVICES_TOTAL_COST</source>
+                       <target>Service Fee</target>
+                  </trans-unit>
+                  <trans-unit id="983">
+                       <source>PAY_AT_ACCOMMODATION</source>
+                       <target>Cash Payment on Arrival</target>
+                  </trans-unit>
+                  <trans-unit id="984">
+                       <source>ONLINE_PREPAYMENT</source>
+                       <target>Online Prepayment</target>
+                  </trans-unit>
+                  <trans-unit id="985">
+                       <source>PERCENT_ACCOMMODATION_AMOUNT</source>
+                       <target>%percent% of Lodging Amount</target>
+                  </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>Lodging Amounts</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Online Prepayments</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Price / Night</target>
+                </trans-unit>
+                  <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>Booking Price</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

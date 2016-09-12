@@ -138,6 +138,45 @@ var onShowReservationModal=function(){
         });
     }
 
+    var details_favorites = function (favorite_button)
+    {
+        var url;
+        $(favorite_button).unbind();
+        $(favorite_button).click(function() {
+
+            var temp=$('#count-fav').text();
+            if(favorite_button=='#delete_from_favorites'){
+                temp--;
+                $('i',favorite_button).removeClass('ion-ios-star').removeClass('ion-ios-star-outline').addClass('ion-ios-star-outline');
+                $(favorite_button).attr('id', "add_to_favorites");
+                url = $(this).attr('data-remove-url');
+            }else{
+                temp++;
+                $('i',favorite_button).removeClass('ion-ios-star').removeClass('ion-ios-star-outline').addClass('ion-ios-star');
+                $(favorite_button).attr('id', "delete_from_favorites");
+                url = $(this).attr('data-add-url');
+            }
+
+            $('#count-fav').text(temp);
+            $('#count-fav').html(temp);
+
+            var favorite_type = $(this).attr('data-type');
+            var element_id = $(this).attr('data-id');
+
+            $.post(url,
+                {
+                    'favorite_type': favorite_type,
+                    'element_id': element_id
+                }
+                , function(data) {
+                    $(".favorites_details").html(data);
+
+                    details_favorites("#delete_from_favorites");
+                    details_favorites("#add_to_favorites");
+                });
+        });
+    }
+
     var onAddNewOpenReservationButton = function(){
         $("#btnAddNewOpenReservation").on('click',function() {
             console.log("Adding new open reservation");
@@ -152,6 +191,8 @@ var onShowReservationModal=function(){
 			onShowReservationModal();
             onAddNewOpenReservationButton();
             infiniteScroll();
+            details_favorites("#delete_from_favorites");
+            details_favorites("#add_to_favorites");
         },
         setStart:function(a){
             start=a
