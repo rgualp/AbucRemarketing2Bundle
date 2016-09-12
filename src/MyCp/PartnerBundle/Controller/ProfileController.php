@@ -35,6 +35,7 @@ class ProfileController extends Controller
      * @param Request $request
      */
     public function changePasswordAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
         $password=$request->get('password');
         $old_password=$request->get('old-password');
 
@@ -50,10 +51,33 @@ class ProfileController extends Controller
         $password = $encoder->encodePassword($password, $user->getSalt());
         if($user_password==$oldpass){
             $user->setUserPassword($password);
+            $em->persist($user);
+            $em->flush();
             return new JsonResponse(array('success'=>true,'message'=>$this->get('translator')->trans("msg.change.password.satisfactory")));
         }
         else
             return new JsonResponse(array('success'=>false,'message'=>$this->get('translator')->trans("msg.change.password.invalid")));
     }
-    public function deactivateAgencyAction(){}
+
+    /**
+     * @param Request $request
+     */
+    public function deactivateAgencyAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $emailAgency=$request->get('emailAgency');
+        $passwordAgency=$request->get('passwordAgency');
+        $user = $this->getUser();
+        $factory = $this->get('security.encoder_factory');
+        $user2 = new user();
+        $encoder = $factory->getEncoder($user2);
+        $pass = $encoder->encodePassword($passwordAgency, $user2->getSalt());
+        if(($emailAgency==$user->getUserName()) && ($pass==$user->getPassword())){
+            $user->setUserEnabled(false);
+            $em->persist($user);
+            $em->flush();
+            return new JsonResponse(array('success'=>true));
+        }
+        else
+            return new JsonResponse(array('success'=>false,'message'=>$this->get('translator')->trans("msg.password.email.invalid")));
+    }
 }

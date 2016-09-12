@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-12T15:04:53Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-12T16:11:09Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -1021,6 +1021,10 @@
       <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
         <source>msg.change.password.satisfactory</source>
         <target state="new">La contraseña se ha cambiado de modo satisfactorio</target>
+      </trans-unit>
+      <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
+        <source>msg.password.email.invalid</source>
+        <target state="new">El correo de la agencia o su contraseña no coinciden</target>
       </trans-unit>
       <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
         <source>pa.loading</source>

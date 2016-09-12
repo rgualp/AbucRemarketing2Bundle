@@ -156,7 +156,6 @@
     });
     $(".deactivate-agency-form").validate({
         submitHandler: function(form) {
-            alert(1);
             var data = $(form).serialize();
             HoldOn.open();
             $.post($(".deactivate-agency-form").attr("action"),
@@ -164,8 +163,7 @@
                     function (response) {
                         HoldOn.close();
                         if (response.success) {
-                            $("button.btn-clouseOverlayBlackDeactivate").trigger("click");
-                            swal(response.message, "", "success");
+                            window.location.href = "{{ url('frontend_partner_logout') }}";
                         }
                         else
                             swal(response.message, "", "error");
@@ -183,8 +181,12 @@
 
         },
         rules: {
-            'email-contact': {
+            'emailAgency': {
+                required:true,
                 email: true
+            },
+            'passwordAgency': {
+                required:true
             }
         },
 
