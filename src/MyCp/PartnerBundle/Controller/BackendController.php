@@ -108,4 +108,49 @@ class BackendController extends Controller
 
           ]);
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function newReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Adding new reservation
+        $clientName = $request->get("clientName");
+        $dateFrom = $request->get("dateFrom");
+        $dateTo = $request->get("dateTo");
+        $adults = $request->get("adults");
+        $children = $request->get("children");
+
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 4;
+        $paginator->setItemsPerPage($items_per_page);
+
+        $list = $paginator->paginate($em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency))->getResult();
+        $page = 1;
+
+        $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
+            'list' => $list,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+            'show_paginator' => true
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_profile_agency',
+            'html' => $response,
+
+        ]);
+
+
+
+
+    }
 }

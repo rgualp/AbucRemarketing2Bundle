@@ -3,6 +3,7 @@
 namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\PartnerBundle\Entity\paClient;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
 
 /**
@@ -31,5 +32,29 @@ class paReservationRepository extends EntityRepository {
             ->andWhere("res.closed = 0")
             ->setParameter("travelAgency", $agency->getId())
             ->getQuery()->getResult();
+    }
+
+    public function newReservation($agency, $clientName, $adults, $children, $dateFrom, $dateTo)
+    {
+        $em = $this->getEntityManager();
+        $client = $this->createQueryBuilder("query")
+            ->from("PartnerBundle:paClient", "client")
+            ->where("client.name LIKE :fullname")
+            ->andWhere("client.travelAgency = :travelAgencyId")
+            ->setParameter("fullname", "%".$clientName."%")
+            ->setParameter("travelAgencyId", $agency->getId())
+            ->getQuery()->getOneOrNullResult();
+
+        if($client == null)
+        {
+            $client = new paClient();
+            $client->setFullName($clientName)
+                ->setTravelAgency($agency);
+
+            $em->persist($client);
+
+
+        }
+
     }
 }
