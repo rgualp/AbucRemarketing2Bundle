@@ -140,6 +140,7 @@ var Dashboard = function () {
 
     var onAddNewOpenReservationButton = function(){
         $("#btnAddNewOpenReservation").on('click',function() {
+            var result = $('#openReservationsList');
             var dateFrom = $("#requests_ownership_filter_arrival").val();
             var dateTo = $("#requests_ownership_filter_exit").val();
             var clientName = $("#partner_reservation_name").val();
@@ -155,10 +156,14 @@ var Dashboard = function () {
                 'dateTo': dateTo,
                 'clientName': clientName,
                 'adults': adults,
-                'children': children
+                'children': children,
+                'accommodationId': selectedAccommodationForReserve
             }, function (response) {
-                result.html(response.html);
-                result.data("content", true);
+
+                if(response.success) {
+                    result.html(response.html);
+                    result.data("content", true);
+                }
             });
 
         });

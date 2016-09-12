@@ -2,6 +2,7 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\PartnerBundle\Form\paReservationType;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -122,10 +123,17 @@ class BackendController extends Controller
         $dateTo = $request->get("dateTo");
         $adults = $request->get("adults");
         $children = $request->get("children");
+        $accommodationId = $request->get("accommodationId");
+
+        $dateFrom = Dates::createFromString($dateFrom,"/", 1);
+        $dateTo = Dates::createFromString($dateTo,"/", 1);
 
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
+
+        $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4;

@@ -423,6 +423,10 @@ body.landing-page {
     margin: 0 0 10px;
 }
 
+.reservation-details a, .reservation-details a:hover, .reservation-details a:active, .reservation-details a:link{
+    color: #1b6690;
+}
+
 .reservation-details .input-group-addon.borderless{
     border: none;
     padding-right: 5px;
