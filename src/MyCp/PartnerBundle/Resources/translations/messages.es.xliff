@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-08T16:55:01Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-12T16:11:09Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
         <target state="new"></target>
+      </trans-unit>
+      <trans-unit id="b21db04ba29a00a52400d992b480a5847b282ad1" resname="/Noche">
+        <source>/Noche</source>
+        <target state="new">/Noche</target>
       </trans-unit>
       <trans-unit id="2a2cbae170aa26b97373cb189327262d9ac118e6" resname="AIR_CONDITIONING_FILTER">
         <source>AIR_CONDITIONING_FILTER</source>
@@ -18,6 +22,10 @@
         <source>AUDIOVISUALS_FILTER</source>
         <target state="new">AUDIOVISUALS_FILTER</target>
       </trans-unit>
+      <trans-unit id="51f4bc5f193c2b0e3a0cb6c4ff5f0369f8279877" resname="AUDIOVISUALS_ROOMS">
+        <source>AUDIOVISUALS_ROOMS</source>
+        <target state="new">AUDIOVISUALS_ROOMS</target>
+      </trans-unit>
       <trans-unit id="745d9d40dfb5c886baed990f26b27169e05a8629" resname="Apartamento">
         <source>Apartamento</source>
         <target state="new">Apartamento</target>
@@ -30,9 +38,33 @@
         <source>BALCONY_FILTER</source>
         <target state="new">BALCONY_FILTER</target>
       </trans-unit>
+      <trans-unit id="9cfc40b795322dcacd1bbf6b340ea3bdded0eb87" resname="BALCONY_ROOMS">
+        <source>BALCONY_ROOMS</source>
+        <target state="new">BALCONY_ROOMS</target>
+      </trans-unit>
       <trans-unit id="5a0806ea69a1315668bed3726c94dee6de209e09" resname="BREAKFAST_FILTER">
         <source>BREAKFAST_FILTER</source>
         <target state="new">BREAKFAST_FILTER</target>
+      </trans-unit>
+      <trans-unit id="29a6a805c6cdd622a21c934375ea380ade2d9d11" resname="BREAKFAST_TAB_DESCRIPTION">
+        <source>BREAKFAST_TAB_DESCRIPTION</source>
+        <target state="new">BREAKFAST_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="7ce41718e3f5accae9cfad654083ddf90bf8772c" resname="BYNIGHTS_PRICES">
+        <source>BYNIGHTS_PRICES</source>
+        <target state="new">BYNIGHTS_PRICES</target>
+      </trans-unit>
+      <trans-unit id="77fdf2415a8536929e9393f9b133b8832e3bf629" resname="CAPACITY_TAB_DESCRIPTION">
+        <source>CAPACITY_TAB_DESCRIPTION</source>
+        <target state="new">CAPACITY_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="e0440741973f68b4cacd4d5c57073cdc33ed87e9" resname="CATEGORY_TAB_DESCRIPTION">
+        <source>CATEGORY_TAB_DESCRIPTION</source>
+        <target state="new">CATEGORY_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="415a31bb025f6cc709bcd9e4524a82841159657b" resname="CLIMATIZATION_ROOMS">
+        <source>CLIMATIZATION_ROOMS</source>
+        <target state="new">CLIMATIZATION_ROOMS</target>
       </trans-unit>
       <trans-unit id="e85a58873672c5286790924e628a39ce4669d70a" resname="COURTYARD_FILTER">
         <source>COURTYARD_FILTER</source>
@@ -42,9 +74,17 @@
         <source>CURRENCY</source>
         <target state="new">CURRENCY</target>
       </trans-unit>
+      <trans-unit id="aadbdb8d8376c7ef5e3671ef4f018cabbfe11bc7" resname="Cantidad de Camas">
+        <source>Cantidad de Camas</source>
+        <target state="new">Cantidad de Camas</target>
+      </trans-unit>
       <trans-unit id="8c4ba06655fe9ad70cd2d66d33c42e649f3bb439" resname="Casa particular">
         <source>Casa particular</source>
         <target state="new">Casa particular</target>
+      </trans-unit>
+      <trans-unit id="d45d99c557bfe62ab6756b932bbad996d4d1582a" resname="Consulta todos los detalles del alojamiento.">
+        <source>Consulta todos los detalles del alojamiento.</source>
+        <target state="new">Consulta todos los detalles del alojamiento.</target>
       </trans-unit>
       <trans-unit id="22f00518c167f2a031d6e5197f4abda68d242301" resname="DEPARTURE_WATERMARK">
         <source>DEPARTURE_WATERMARK</source>
@@ -54,6 +94,10 @@
         <source>DINNER_OTHERS_FILTER</source>
         <target state="new">DINNER_OTHERS_FILTER</target>
       </trans-unit>
+      <trans-unit id="ff1505feb0c04c267031a9e620df7b5964f0cbc0" resname="DINNER_TAB_DESCRIPTION">
+        <source>DINNER_TAB_DESCRIPTION</source>
+        <target state="new">DINNER_TAB_DESCRIPTION</target>
+      </trans-unit>
       <trans-unit id="cb9785cc75785b25b8f1800b9945968bff5b5c10" resname="DOUBLE_2_BEDS_FILTER">
         <source>DOUBLE_2_BEDS_FILTER</source>
         <target state="new">DOUBLE_2_BEDS_FILTER</target>
@@ -61,6 +105,14 @@
       <trans-unit id="df09da62e46b24f45f7df9334343652d7d21d978" resname="DOUBLE_ROOM_FILTER">
         <source>DOUBLE_ROOM_FILTER</source>
         <target state="new">DOUBLE_ROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="a32af8681500d12ae7d765cd7c563fdb1c254945" resname="Descripción de la Casa">
+        <source>Descripción de la Casa</source>
+        <target state="new">Descripción de la Casa</target>
+      </trans-unit>
+      <trans-unit id="5476cac6478fc6d76eab7962ce9562ba5fe0c8f3" resname="Detalles de la casa">
+        <source>Detalles de la casa</source>
+        <target state="new">Detalles de la casa</target>
       </trans-unit>
       <trans-unit id="99135559ed087a7c52831c306cb445b9b034b0c4" resname="EMAIL_INVALID_MESSAGE">
         <source>EMAIL_INVALID_MESSAGE</source>
@@ -90,6 +142,10 @@
         <source>Error</source>
         <target state="new">Error</target>
       </trans-unit>
+      <trans-unit id="5d6f77af1e0245b504e613cb81eae2e22d22e407" resname="FAVORITIES">
+        <source>FAVORITIES</source>
+        <target state="new">FAVORITIES</target>
+      </trans-unit>
       <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
         <source>FORGOT_PASSWORD_BUTTON</source>
         <target state="new">FORGOT_PASSWORD_BUTTON</target>
@@ -106,9 +162,21 @@
         <source>FROM_PRICES</source>
         <target state="new">FROM_PRICES</target>
       </trans-unit>
+      <trans-unit id="66891d7904876914b98495205e61e11f4644ab0f" resname="Facilidades">
+        <source>Facilidades</source>
+        <target state="new">Facilidades</target>
+      </trans-unit>
+      <trans-unit id="36f8e8300aa516eedbda8539e6291852d73afdbf" resname="GUESTS_RESERVATION">
+        <source>GUESTS_RESERVATION</source>
+        <target state="new">GUESTS_RESERVATION</target>
+      </trans-unit>
       <trans-unit id="8ed88331ff7896cbf67ef909ec1c57317c2030a0" resname="HOMEPAGE_TITLE">
         <source>HOMEPAGE_TITLE</source>
         <target state="new">HOMEPAGE_TITLE</target>
+      </trans-unit>
+      <trans-unit id="747aa79c382116057086b9cfe3d57bc02afcde86" resname="Habitaciones y facilidades">
+        <source>Habitaciones y facilidades</source>
+        <target state="new">Habitaciones y facilidades</target>
       </trans-unit>
       <trans-unit id="5c612d9bf505629daf50345ebf2c0f487efae2d8" resname="INNER_PRIVATE_BATHROOM_FILTER">
         <source>INNER_PRIVATE_BATHROOM_FILTER</source>
@@ -118,6 +186,14 @@
         <source>INTERNET_OTHERS_FILTER</source>
         <target state="new">INTERNET_OTHERS_FILTER</target>
       </trans-unit>
+      <trans-unit id="2fc74a2ae8878c2cac3eb7d566dec7e2d06f01f8" resname="Idiomas que  se Hablan en la Casa">
+        <source>Idiomas que  se Hablan en la Casa</source>
+        <target state="new">Idiomas que  se Hablan en la Casa</target>
+      </trans-unit>
+      <trans-unit id="673a763b36f83c9d327b8b32cb972f979186e937" resname="Informaciones y servicios">
+        <source>Informaciones y servicios</source>
+        <target state="new">Informaciones y servicios</target>
+      </trans-unit>
       <trans-unit id="e5d45b35f34d12b08980cda0f7d1c47bea796612" resname="JACUZZI_BATROOM_FILTER">
         <source>JACUZZI_BATROOM_FILTER</source>
         <target state="new">JACUZZI_BATROOM_FILTER</target>
@@ -125,6 +201,10 @@
       <trans-unit id="15495a2a265717259202a98f3ccdd4f9b96254f5" resname="KIDS_FILTER">
         <source>KIDS_FILTER</source>
         <target state="new">KIDS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="40ce3d28bd9d0ff32777d0560d25213acf8b7bd6" resname="KIDS_ROOMS">
+        <source>KIDS_ROOMS</source>
+        <target state="new">KIDS_ROOMS</target>
       </trans-unit>
       <trans-unit id="2a3ffd9ebb6961e4e446366efa8d0013586561fb" resname="LANGUAGE">
         <source>LANGUAGE</source>
@@ -154,6 +234,10 @@
         <source>LAUNDRY_OTHERS_FILTER</source>
         <target state="new">LAUNDRY_OTHERS_FILTER</target>
       </trans-unit>
+      <trans-unit id="fb605a3447077ae551d49b7abda8a47340b15197" resname="LAUNDRY_TAB_DESCRIPTION">
+        <source>LAUNDRY_TAB_DESCRIPTION</source>
+        <target state="new">LAUNDRY_TAB_DESCRIPTION</target>
+      </trans-unit>
       <trans-unit id="2ae8050c4664cf3ff746720df20c988eccdfb834" resname="MyCP">
         <source>MyCP</source>
         <target state="new">MyCP</target>
@@ -161,6 +245,10 @@
       <trans-unit id="d9631652872b40ab4135c802055a10aeb8273093" resname="OUTER_PRIVATE_BATHROOM_FILTER">
         <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
         <target state="new">OUTER_PRIVATE_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="9382484523c03d8b0fdc50450da9dc8bef6a7745" resname="PARKING_TAB_DESCRIPTION">
+        <source>PARKING_TAB_DESCRIPTION</source>
+        <target state="new">PARKING_TAB_DESCRIPTION</target>
       </trans-unit>
       <trans-unit id="69b239c27704486fd3733b4c9eb32bfe9ca72d93" resname="PARKING_THERS_FILTER">
         <source>PARKING_THERS_FILTER</source>
@@ -178,9 +266,17 @@
         <source>PETS_OTHERS_FILTER</source>
         <target state="new">PETS_OTHERS_FILTER</target>
       </trans-unit>
+      <trans-unit id="7841d2fc7b4aec4becd9f9ac86f16c5eadf4c623" resname="PETS_TAB_DESCRIPTION">
+        <source>PETS_TAB_DESCRIPTION</source>
+        <target state="new">PETS_TAB_DESCRIPTION</target>
+      </trans-unit>
       <trans-unit id="d10dfdde36d30de6b173a1d541686140e840a212" resname="POOL_OTHERS_FILTER">
         <source>POOL_OTHERS_FILTER</source>
         <target state="new">POOL_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="af4ca7a0bbbd209d4969bee11ae373bf0ccc200a" resname="PROVINCE_TAB_DESCRIPTION">
+        <source>PROVINCE_TAB_DESCRIPTION</source>
+        <target state="new">PROVINCE_TAB_DESCRIPTION</target>
       </trans-unit>
       <trans-unit id="4ca99968174c1d0f23c8a4de315390b8b970b472" resname="Penthouse">
         <source>Penthouse</source>
@@ -189,6 +285,10 @@
       <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
         <source>Pixel</source>
         <target state="new">Pixel</target>
+      </trans-unit>
+      <trans-unit id="d9ad13f8bf704e29c3eb3e654b9b4c8996e0de30" resname="Precio/noche">
+        <source>Precio/noche</source>
+        <target state="new">Precio/noche</target>
       </trans-unit>
       <trans-unit id="6c2f2888c561e02a5e6f8c02b41144b531092c57" resname="Premium">
         <source>Premium</source>
@@ -210,13 +310,29 @@
         <source>Rango medio</source>
         <target state="new">Rango medio</target>
       </trans-unit>
+      <trans-unit id="ce3edd02cc7a001f7d7b6da3212a7896a3b839d4" resname="Reserva la casa particular que tus clientes prefieren en Cuba.">
+        <source>Reserva la casa particular que tus clientes prefieren en Cuba.</source>
+        <target state="new">Reserva la casa particular que tus clientes prefieren en Cuba.</target>
+      </trans-unit>
       <trans-unit id="6479552f058fb81927e2e26b5263f8215a670193" resname="SAFE_FILTER">
         <source>SAFE_FILTER</source>
         <target state="new">SAFE_FILTER</target>
       </trans-unit>
+      <trans-unit id="0c06453d1a2fe879a2d5999466a1fb5e0dafe6d9" resname="SAFE_ROOMS">
+        <source>SAFE_ROOMS</source>
+        <target state="new">SAFE_ROOMS</target>
+      </trans-unit>
       <trans-unit id="a62a7a3d235c34720bba36b65a056b4d3c6d005d" resname="SEARCH">
         <source>SEARCH</source>
         <target state="new">SEARCH</target>
+      </trans-unit>
+      <trans-unit id="328cb91324b3e2ba3106c6a7a1f378b58efc57d2" resname="SELECT_ROOM_TYPE_OPTION">
+        <source>SELECT_ROOM_TYPE_OPTION</source>
+        <target state="new">SELECT_ROOM_TYPE_OPTION</target>
+      </trans-unit>
+      <trans-unit id="8b5f70994e0f32e58749f16f823959d3f6fe673f" resname="SERVICES_TAB_DETAILS">
+        <source>SERVICES_TAB_DETAILS</source>
+        <target state="new">SERVICES_TAB_DETAILS</target>
       </trans-unit>
       <trans-unit id="5c35037c7eb54cb13fceaef6cf5db04c14b29007" resname="SHARED_BATHROOM_FILTER">
         <source>SHARED_BATHROOM_FILTER</source>
@@ -230,6 +346,18 @@
         <source>SMOKER_FILTER</source>
         <target state="new">SMOKER_FILTER</target>
       </trans-unit>
+      <trans-unit id="9bfcde7c4e6fa99c14f3c2a9335ac121a0fdbf40" resname="SMOKER_ROOMS">
+        <source>SMOKER_ROOMS</source>
+        <target state="new">SMOKER_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="4fb174ba221aa931110aec64fc2e70929dd9649d" resname="STEREO_ROOMS">
+        <source>STEREO_ROOMS</source>
+        <target state="new">STEREO_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="2873242b7fb5b76431a3ad1917a61e16b7338124" resname="Solicitar Casa">
+        <source>Solicitar Casa</source>
+        <target state="new">Solicitar Casa</target>
+      </trans-unit>
       <trans-unit id="f37a597cfb9068a45a2556773184e7d702a0a073" resname="Start off">
         <source>Start off</source>
         <target state="new">Start off</target>
@@ -242,9 +370,21 @@
         <source>TERRACE_FILTER</source>
         <target state="new">TERRACE_FILTER</target>
       </trans-unit>
+      <trans-unit id="a3de1ef1d3fd1d584547961b3e1b6495dccaf6aa" resname="TERRACE_ROOMS">
+        <source>TERRACE_ROOMS</source>
+        <target state="new">TERRACE_ROOMS</target>
+      </trans-unit>
       <trans-unit id="8f28b28558e65b8d2741bad530c878f65db35617" resname="TRIPLE_ROOM_FILTER">
         <source>TRIPLE_ROOM_FILTER</source>
         <target state="new">TRIPLE_ROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="599e48d14063bd506a8a34fc8565bbdc4b89f715" resname="Tipo de Baño">
+        <source>Tipo de Baño</source>
+        <target state="new">Tipo de Baño</target>
+      </trans-unit>
+      <trans-unit id="10548e2bb7a386ae3affacc745b6a477796446c4" resname="Tipo de Propiedad">
+        <source>Tipo de Propiedad</source>
+        <target state="new">Tipo de Propiedad</target>
       </trans-unit>
       <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
         <source>USER_EMAIL_IN_USE</source>
@@ -265,6 +405,14 @@
       <trans-unit id="af997344b7df027690807b386f73efe7852b9217" resname="Villa con piscina">
         <source>Villa con piscina</source>
         <target state="new">Villa con piscina</target>
+      </trans-unit>
+      <trans-unit id="07f44d089d8f5fee57878ab1c5fb6e958891b4a1" resname="WINDOWS_ROOMS">
+        <source>WINDOWS_ROOMS</source>
+        <target state="new">WINDOWS_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="bb7e2f653f095609d2a94384c4036a8c25926270" resname="YARD_ROOMS">
+        <source>YARD_ROOMS</source>
+        <target state="new">YARD_ROOMS</target>
       </trans-unit>
       <trans-unit id="2f4cf5d8fe5a1afa530aceaa99a8273363a99793" resname="booking.placeholder.adults_number">
         <source>booking.placeholder.adults_number</source>
@@ -502,6 +650,14 @@
         <source>label.best.ownership</source>
         <target state="new">Premios Best Casa</target>
       </trans-unit>
+      <trans-unit id="5e6b878999601078fa0322694ba4208c104e9687" resname="label.btn.accept">
+        <source>label.btn.accept</source>
+        <target state="new">Aceptar</target>
+      </trans-unit>
+      <trans-unit id="4dc1c435d4fd7d5d81029e66e75d7f9bf920be3e" resname="label.cancel">
+        <source>label.cancel</source>
+        <target state="new">Cancelar</target>
+      </trans-unit>
       <trans-unit id="a9832d6bfdfd97cc4afda321431f4e6d684266a8" resname="label.carousel_text_backend_one">
         <source>label.carousel_text_backend_one</source>
         <target state="new"><![CDATA[MyCasa Partner, el placer de reservar</br> en las mejores casas de Cuba]]></target>
@@ -518,6 +674,10 @@
         <source>label.carousel_text_two</source>
         <target state="new">Especial para agencias y turoperadores de viaje</target>
       </trans-unit>
+      <trans-unit id="4aa0fc260fc5883b6d1e2d4fa4095b9a1fae6a24" resname="label.change.password">
+        <source>label.change.password</source>
+        <target state="new">Cambiar Contraseña</target>
+      </trans-unit>
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new"><![CDATA[Al Crear mi cuenta acepto todos los <b>Términos Legales y Políticas de Seguridad</b>]]></target>
@@ -525,6 +685,22 @@
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
         <target state="new">Datos de la Agencia</target>
+      </trans-unit>
+      <trans-unit id="9587f2bfc14aba400e9b2431636520dc1c22ad8f" resname="label.deactivate.account">
+        <source>label.deactivate.account</source>
+        <target state="new">Desactivar Cuenta</target>
+      </trans-unit>
+      <trans-unit id="a4a47f8b780d42d32bac87cccc4e5bbee643089a" resname="label.deactivate.before">
+        <source>label.deactivate.before</source>
+        <target state="new"><![CDATA[Antes de desactivar tu cuenta</br>queremos estar seguro de que eres tú.]]></target>
+      </trans-unit>
+      <trans-unit id="e8a61775a84d3fec6ff63763809939019daa04e9" resname="label.email.agency">
+        <source>label.email.agency</source>
+        <target state="new">Introduce e-mail de contacto de la Agencia</target>
+      </trans-unit>
+      <trans-unit id="3d8fe77eac80dd369ddad182f519ba59d57db124" resname="label.facebook">
+        <source>label.facebook</source>
+        <target state="new">Facebook</target>
       </trans-unit>
       <trans-unit id="500a18e4940efa511fae68edea73fb767485f07e" resname="label.facitily">
         <source>label.facitily</source>
@@ -569,6 +745,10 @@
       <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
         <source>label.gonow</source>
         <target state="new">YA VIENE !!!</target>
+      </trans-unit>
+      <trans-unit id="815ac4e932c44426836c9e81ca3c5c3cdf0c4c55" resname="label.google.map">
+        <source>label.google.map</source>
+        <target state="new">label.google.map</target>
       </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
@@ -622,6 +802,18 @@
         <source>label.name.phone</source>
         <target state="new">Teléfono de Contacto</target>
       </trans-unit>
+      <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
+        <source>label.new.password</source>
+        <target state="new">Nueva Contraseña</target>
+      </trans-unit>
+      <trans-unit id="25d46e6a016811dac212c927dc5e06ab040b5b55" resname="label.new.password.repeat">
+        <source>label.new.password.repeat</source>
+        <target state="new">Confirma Nueva Contraseña</target>
+      </trans-unit>
+      <trans-unit id="4c90150805029b762fa0a283fd33f4b737f2902f" resname="label.old.password">
+        <source>label.old.password</source>
+        <target state="new">Introduce tu Contraseña Actual</target>
+      </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
         <target state="new">Contraseña</target>
@@ -630,9 +822,21 @@
         <source>label.password.repeat</source>
         <target state="new">Confirma Contraseña</target>
       </trans-unit>
+      <trans-unit id="8e1da1387f1662231b752e473150049de194ca64" resname="label.pinterest">
+        <source>label.pinterest</source>
+        <target state="new">label.pinterest</target>
+      </trans-unit>
       <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
         <source>label.prox</source>
         <target state="new">Próximamente</target>
+      </trans-unit>
+      <trans-unit id="b74888b33d2a4174b97ca54a68924b0daa85fe43" resname="label.question.deactivate">
+        <source>label.question.deactivate</source>
+        <target state="new">¿Seguro de querer hacerlo?</target>
+      </trans-unit>
+      <trans-unit id="d45983cf9aa4bd76c1c7cfab63e8233368f68cc7" resname="label.question.deactivate.yes">
+        <source>label.question.deactivate.yes</source>
+        <target state="new">Sí, Seguro</target>
       </trans-unit>
       <trans-unit id="0b3d0c1e561828be361f20b094b3518e0ad907f8" resname="label.range-price">
         <source>label.range-price</source>
@@ -766,13 +970,33 @@
         <source>label.section.vacation_description</source>
         <target state="new">Encuentra lo que tus clientes desean, más rápido que en cualquier otro lugar. Tenemos opciones disponibles para los gustos más exigentes. </target>
       </trans-unit>
+      <trans-unit id="d340ec5743ecc911369880f1d8b131fb0379b59f" resname="label.secure.deactivate">
+        <source>label.secure.deactivate</source>
+        <target state="new">Estás a punto de desactivar tu cuenta de agencia en Partner.</target>
+      </trans-unit>
       <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
         <source>label.sigin</source>
         <target state="new">Ir Ahora</target>
       </trans-unit>
+      <trans-unit id="2e6d2f051a2c1c75d4cc8c949d7c105d6397adc8" resname="label.take">
+        <source>label.take</source>
+        <target state="new">Tomar</target>
+      </trans-unit>
+      <trans-unit id="8e0d8ae84bdfbb10c7c5353569e999e3083e019a" resname="label.take.picture">
+        <source>label.take.picture</source>
+        <target state="new">Tomar foto</target>
+      </trans-unit>
       <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
         <source>label.thanks</source>
         <target state="new">¡Gracias!</target>
+      </trans-unit>
+      <trans-unit id="79f063aa528b399f245005757fde5f9ce66959f9" resname="label.twitter">
+        <source>label.twitter</source>
+        <target state="new">Twitter</target>
+      </trans-unit>
+      <trans-unit id="67edb24f0a70ef3415d2292d5a1795978d7db2da" resname="label.use">
+        <source>label.use</source>
+        <target state="new">Usar</target>
       </trans-unit>
       <trans-unit id="f2d3006ba62b89ef481bd6d52cc75e09c2d1f4a5" resname="label.user">
         <source>label.user</source>
@@ -785,6 +1009,22 @@
       <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
         <source>label.welcome</source>
         <target state="new">Bienvenido</target>
+      </trans-unit>
+      <trans-unit id="d88fc28ac3fd58523421f4274aa13ec37dc9affd" resname="label.youtube">
+        <source>label.youtube</source>
+        <target state="new">Youtube</target>
+      </trans-unit>
+      <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
+        <source>msg.change.password.invalid</source>
+        <target state="new">Su contraseña actual no coincide con la especificada</target>
+      </trans-unit>
+      <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
+        <source>msg.change.password.satisfactory</source>
+        <target state="new">La contraseña se ha cambiado de modo satisfactorio</target>
+      </trans-unit>
+      <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
+        <source>msg.password.email.invalid</source>
+        <target state="new">El correo de la agencia o su contraseña no coinciden</target>
       </trans-unit>
       <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
         <source>pa.loading</source>
