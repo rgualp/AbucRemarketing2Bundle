@@ -174,6 +174,19 @@
             </div>
         </div>
         {%endif%}
+
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwoAg">
+                    Reservaciones Ag<i class="icon-chevron-right  pull-right"></i>
+                </a>
+            </div>
+            <div id="collapseTwoAg" class="accordion-body collapse {%if temp == 'BackendReservationAgController'%}in{%endif%}">
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_reservations_ag_booking') }}"><i class="glyphicons money"></i> Bookings</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="span9">

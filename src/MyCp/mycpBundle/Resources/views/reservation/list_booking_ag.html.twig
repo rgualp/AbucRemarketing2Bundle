@@ -1,0 +1,229 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{%set number = (filter_booking_number == "") ? "null" : filter_booking_number%}
+{%set date = (filter_date_booking == "") ? "null" : filter_date_booking | replace("/", "_")%}
+{%set user = (filter_user_booking == "") ? "null" : filter_user_booking%}
+{%set arrive = (filter_arrive_date_booking == "") ? "null" : filter_arrive_date_booking | replace("/", "_")%}
+{%set reservation = (filter_reservation == "") ? "null" : filter_reservation%}
+{% set ownership = (filter_ownership == "") ? "null" : filter_ownership %}
+{% set currency = (filter_currency == "") ? "null" : filter_currency %}
+
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Bookings</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Reservas</h2>
+<hr/>
+<ul class="nav nav-tabs" id="myTab">
+    <li class=""><a href="{{ path('mycp_list_reservations_byuser') }}">Clientes</a></li>
+    <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
+    <li class="active"><a data-toggle="tab" href="#booking">Booking</a></li>
+    <li class=""><a href="{{ path('mycp_list_reservations_checkin') }}">Check-in</a></li>
+</ul>
+    <div class="tab-content" id="myTabContent">
+        <div id="reservas" class="tab-pane fade active in">
+
+            {% for message in app.session.flashbag.get('message_error_local') %}
+            <div class="alert alert-error">{{ message }}</div>
+            {% endfor %}
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_booking')}}">
+                <div class="well well-small">
+                    <div class="row-fluid">
+                        <div class="span2"><label>ID Booking:</label>
+                            <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
+                        </div>
+                        <div class="span2"><label>Fecha Booking:</label>
+                            <input id="filter_date_booking" name="filter_date_booking" type="text" class="datepicker input-block-level" value="{{ filter_date_booking }}"/>
+                        </div>
+                        <div class="span3"><label>Usuario:</label>
+                            <input id="filter_user_booking" name="filter_user_booking" type="text" class="input-block-level" value="{{ filter_user_booking }}"/>
+                        </div>
+                        <div class="span3"><label>Fecha Llegada:</label>
+                            <input id="filter_arrive_date_booking" name="filter_arrive_date_booking" type="text" class="datepicker input-block-level" value="{{ filter_arrive_date_booking }}"/>
+                        </div>
+                        <div class="span2">
+                            <label>Reserva:</label>
+                            <input id="filter_reservation" name="filter_reservation" type="text" class="input-block-level" value="{{ filter_reservation }}"/>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <label>Alojamiento:</label>
+                            <input id="filter_ownership" name="filter_ownership" type="text" class="input-block-level" value="{{ filter_ownership }}"/>
+                        </div>
+                        <div class="span4">
+                            <label>Moneda:</label>
+                            <select id="filter_currency" class="input-block-level" name="filter_currency">
+                                {{ render(controller('mycpBundle:Public:getCurrencies', {'selected': filter_currency})) }}
+                            </select>
+                        </div>
+                        <div class="span4">
+                            <label>&nbsp;</label>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                                </div>
+                                <div class="span6">
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_booking') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% if bookings %}
+            <div class="alert">
+                <div class="row-fluid">
+                    <div class="pull-left">
+                        Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+                    </div>
+                    <div class="pull-right">
+                        Mostrar:
+                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">50</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">500</a>
+                        <input class="hidden" name="items_per_page" value="100">
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span9">
+                    <div class="paginator-cont">
+                        {{ simple_paginator_render('mycp_list_reservations_booking',null,{
+                        'container_class': 'paginator',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'Primera',
+                        'lastPageText': 'Última',
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency}
+                        }) }}
+                    </div>
+                </div>
+
+            </div>
+            </form>
+            <table class="table table-hover table-striped" style="font-size: 12px">
+                <thead>
+                <tr>
+                    <th>ID Booking</th>
+                    <th>Fecha Booking</th>
+                    <th>Prepago</th>
+                    <th>Moneda</th>
+                    <th>Usuario</th>
+                    <th>País</th>
+                    <th title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">Fecha Llegada</th>
+                    <th style="text-align: right">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set flag=0 %}
+                {% for booking in bookings %}
+                <tr>
+
+                    <td>{{ booking.booking_id}}</td>
+                    <td>{{ booking.created|date("d/m/Y") }}</td>
+                    <td>{{ booking.payed_amount }} {{ booking.curr_code }}</td>
+                    <td>{{ booking.curr_code }}</td>
+                    <td>{{ booking.booking_user_dates }}</td>
+                    <td>{{ booking.country }}</td>
+                    <td title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">{%if booking.arrivalDate != null%}{{ booking.arrivalDate | date("d/m/Y") }}{%else%} - {%endif%}</td>
+                    <td style="text-align: right">
+                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
+                    </td>
+                </tr>
+                {% set flag = flag + 1%}
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="row-fluid">
+                <div class="span9">
+                    <div class="paginator-cont">
+                        {{ simple_paginator_render('mycp_list_reservations_booking',null,{
+                        'container_class': 'paginator',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'Primera',
+                        'lastPageText': 'Última',
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency}
+                        }) }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p> <div class="alert alert-block">No hay Reservas disponibles.</div></p>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        language: 'es'
+    });
+
+    function submit_filters(ev)
+    {
+        if(ev.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+        items_per_page={{items_per_page}};
+        filter_booking_number=$('#filter_booking_number').val();
+        if(filter_booking_number=='')filter_booking_number='null';
+        filter_date_booking=$('#filter_date_booking').val();
+        filter_date_booking=filter_date_booking.replace('/',"_");
+        filter_date_booking=filter_date_booking.replace('/',"_");
+        if(filter_date_booking=='')filter_date_booking='null';
+        filter_user_booking=$('#filter_user_booking').val();
+        if(filter_user_booking=='')filter_user_booking='null';
+        filter_arrive_date_booking=$('#filter_arrive_date_booking').val();
+        filter_arrive_date_booking=filter_arrive_date_booking.replace('/',"_");
+        filter_arrive_date_booking=filter_arrive_date_booking.replace('/',"_");
+        if(filter_arrive_date_booking=='')filter_arrive_date_booking='null';
+
+        filter_reservation=$('#filter_reservation').val();
+        if(filter_reservation=='')filter_reservation='null';
+
+        filter_ownership=$('#filter_ownership').val();
+        if(filter_ownership=='')filter_ownership='null';
+
+        filter_currency=$('#filter_currency').val();
+        if(filter_currency=='')filter_currency='null';
+
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_booking_number+'/'+filter_date_booking+'/'+filter_user_booking+'/'+filter_arrive_date_booking+'/'+filter_reservation+'/'+filter_ownership+'/'+filter_currency;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+
+</script>
+{% endblock %}

@@ -179,3 +179,7 @@ mycp_get_accommodations_by_destination:
 mycp_backend_payment:
     resource: "@mycpBundle/Resources/config/routingBackendPayment.yml"
     prefix:   backend/payments/
+
+mycp_reservations_ag:
+    resource: "@mycpBundle/Resources/config/routingBackendReservationsAg.yml"
+    prefix:   backend/reservation_ag/

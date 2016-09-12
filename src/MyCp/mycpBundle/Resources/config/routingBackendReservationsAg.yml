@@ -1,0 +1,7 @@
+mycp_list_reservations_ag_booking:
+    pattern:  /booking_ag/list/{items_per_page}/{filter_booking_number}/{filter_date_booking}/{filter_user_booking}/{filter_arrive_date_booking}/{filter_reservation}/{filter_ownership}/{filter_currency}
+    defaults: { _controller: mycpBundle:BackendReservationAg:list_reservations_booking,items_per_page:100,filter_booking_number:'',filter_date_booking:'',filter_user_booking:'',filter_arrive_date_booking:'', filter_reservation:'', filter_ownership:'', filter_currency:''}
+
+mycp_details_reservations_ag_booking:
+    pattern:  /booking_ag/details/{id_booking}
+    defaults: { _controller: mycpBundle:BackendReservation:details_booking }
