@@ -74,3 +74,7 @@ services:
             - booking_filter                 # alias of the form type
             - null                             # data to bind, this is where your entity could go if you have that defined as a service
             - { validation_groups: [Default] } # validation groups
+
+    base_entity.listener:
+        class: MyCp\PartnerBundle\Listener\BaseEntityListener
+        arguments: ["@service_container"]

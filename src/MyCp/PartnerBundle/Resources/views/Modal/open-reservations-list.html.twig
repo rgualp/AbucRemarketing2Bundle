@@ -2,7 +2,7 @@
 <div class="row reservation-details">
     <div class="row m-0">
         <div class="col-sm-6 p-0">
-            {{ "pa.modal.reservation.reserve" | trans | upper }} {{ reservation.number }}
+            {{ "pa.modal.reservation.reserve" | trans | upper }} {{ loop.index }}
             <div class="smaller">{{ reservation.created | date("d/m/Y") }}</div>
         </div>
         <div class="col-sm-4 pr-0"><a>{{ "pa.modal.reservation.end_reservation" | trans }}</a></div>
