@@ -3872,6 +3872,58 @@
                        <source>FACEBOOK_TITLE</source>
                        <target>Solo un paso más...</target>
                   </trans-unit>
+                  <trans-unit id="981">
+                       <source>ACCOMMODATION_TOTAL_COST</source>
+                       <target>Importe por alojamiento</target>
+                  </trans-unit>
+                  <trans-unit id="982">
+                       <source>SERVICES_TOTAL_COST</source>
+                       <target>Tarifas de servicio</target>
+                  </trans-unit>
+                  <trans-unit id="983">
+                       <source>PAY_AT_ACCOMMODATION</source>
+                       <target>Pago en Casa</target>
+                  </trans-unit>
+                  <trans-unit id="984">
+                       <source>ONLINE_PREPAYMENT</source>
+                       <target>Prepago Online</target>
+                  </trans-unit>
+                  <trans-unit id="985">
+                       <source>PERCENT_ACCOMMODATION_AMOUNT</source>
+                       <target>%percent% del Importe por Alojamiento</target>
+                  </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>Importes por alojamientos</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Prepago</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Precio / Noche</target>
+                </trans-unit>
+                <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>Costo Reserva</target>
+                </trans-unit>
+                <trans-unit id="990">
+                     <source>CREATE_ACCOUNT_SUCCESS</source>
+                     <target>Se ha registrado exitosamente en MyCasaParticular </target>
+                </trans-unit>
+                <trans-unit id="991">
+                     <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
+                     <target>Gracias por registrarse en MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="992">
+                     <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
+                     <target>Se ha registrado exitosamente en MyCasaParticular.</target>
+                </trans-unit>
+                <trans-unit id="993">
+                     <source>NEW_USER_ACCOUNT</source>
+                     <target>Nueva cuenta de usuario</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
