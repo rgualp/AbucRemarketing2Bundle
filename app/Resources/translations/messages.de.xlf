@@ -3929,6 +3929,22 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                      <source>RESERVATION_COST</source>
                      <target>Preis  der Reservierung</target>
                 </trans-unit>
+                <trans-unit id="990">
+                     <source>CREATE_ACCOUNT_SUCCESS</source>
+                     <target>Sie haben erfolgreich Ihre Registrierung auf MyCasaParticular beendet</target>
+                </trans-unit>
+                <trans-unit id="991">
+                     <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
+                     <target>Vielen Dank für Ihre Registrierung auf MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="992">
+                     <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
+                     <target>Sie haben erfolgreich Ihre Registrierung auf MyCasaParticular beendet.</target>
+                </trans-unit>
+                <trans-unit id="993">
+                     <source>NEW_USER_ACCOUNT</source>
+                     <target>Neues Benutzeraccount</target>
+                </trans-unit>
 
     </body>
     </file>
