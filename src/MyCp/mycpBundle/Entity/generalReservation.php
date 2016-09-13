@@ -206,7 +206,7 @@ class generalReservation {
         $this->gen_res_status = generalReservation::STATUS_PENDING;
         $this->gen_res_status_date = new \DateTime();
 
-        $this->$travelAgencyDetailReservations = new ArrayCollection();
+        $this->travelAgencyDetailReservations = new ArrayCollection();
     }
 
     /**

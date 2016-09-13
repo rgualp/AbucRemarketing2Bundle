@@ -141,6 +141,11 @@ partnet_dashboard_deactivate_agency:
     locales:  { en: "/dashboard/agency/desactivar", es: "/dashboard/agency/deactivate", de: "/dashboard/agency/deactivate" }
     defaults: { _controller: PartnerBundle:Profile:deactivateAgency }
 
+#Adding new open reservation - callback
+partnet_dashboard_new_open_reservation:
+    locales:  { en: "/dashboard/new-reservation", es: "/dashboard/new-reservation", de: "/dashboard/new-reservation" }
+    defaults: { _controller: PartnerBundle:Backend:newReservation }
+
 partnet_dashboard_avatar_agency:
     locales:  { en: "/dashboard/agency/avatar", es: "/dashboard/agency/avatar", de: "/dashboard/agency/avatar" }
     defaults: { _controller: PartnerBundle:Profile:saveAvatar }

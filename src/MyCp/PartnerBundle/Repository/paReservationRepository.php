@@ -3,7 +3,11 @@
 namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\PartnerBundle\Entity\paClient;
+use MyCp\PartnerBundle\Entity\paReservation;
+use MyCp\PartnerBundle\Entity\paReservationDetail;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
+use MyCp\mycpBundle\Entity\generalReservation;
 
 /**
  * paReservationRepository
@@ -24,12 +28,74 @@ class paReservationRepository extends EntityRepository {
 
     public function getOpenReservationsList($agency){
         return $this->createQueryBuilder("query")
-            ->select("res.adults, res.number, res.id, res.children")
+            ->select("res", "client")
             ->from("PartnerBundle:paReservation", "res")
             ->join("res.client", "client")
-            ->where("client.travelAgency = :travelAgency")
+            ->join("client.travelAgency", "agency")
+            ->where("agency.id = :travelAgency")
             ->andWhere("res.closed = 0")
             ->setParameter("travelAgency", $agency->getId())
             ->getQuery()->getResult();
+    }
+
+    public function newReservation($agency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container)
+    {
+        $em = $this->getEntityManager();
+        $client = $this->createQueryBuilder("query")
+            ->select("client")
+            ->from("PartnerBundle:paClient", "client")
+            ->join("client.travelAgency", "agency")
+            ->where("client.fullname LIKE :fullname")
+            ->andWhere("agency.id = :travelAgencyId")
+            ->setParameter("fullname", "%".$clientName."%")
+            ->setParameter("travelAgencyId", $agency->getId())
+            ->getQuery()->getOneOrNullResult();
+
+        if($client == null)
+        {
+            $client = new paClient();
+            $client->setFullName($clientName)
+                ->setTravelAgency($agency)
+            ;
+
+            $em->persist($client);
+        }
+
+        //Buscar a ver si el cliente tiene una reserva abierta
+        $openReservation = $this->createQueryBuilder("query")
+            ->from("PartnerBundle:paReservation", "reservation")
+            ->select("reservation")
+            ->join("reservation.client", "client")
+            ->join("client.travelAgency", "agency")
+            ->where("agency.id = :travelAgencyId")
+            ->andWhere("client.id = :idClient")
+            ->andWhere("reservation.closed = 0")
+            ->setParameter("travelAgencyId", $agency->getId())
+            ->setParameter("idClient", $client->getId())
+            ->getQuery()->getOneOrNullResult();
+
+        if($openReservation == null)
+        {
+            $openReservation = new paReservation();
+            $openReservation->setAdults($adults)
+                ->setChildren($children)
+                ->setClient($client);
+        }
+        //Actualizar total de ubicados
+        $openReservation->setAdultsWithAccommodation($openReservation->getAdultsWithAccommodation() + $adults)
+            ->setChildrenWithAccommodation($openReservation->getChildrenWithAccommodation() + $children);
+
+        $em->persist($openReservation);
+
+        //Agregar un generalReservation por casa
+        $general_reservation = $em->getRepository("mycpBundle:generalReservation")->createReservation($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container);
+
+        $detail = new paReservationDetail();
+        $detail->setReservation($openReservation)
+            ->setReservationDetail($general_reservation);
+
+        $em->persist($detail);
+        $em->flush();
+
     }
 }
