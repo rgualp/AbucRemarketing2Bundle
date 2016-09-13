@@ -87,7 +87,7 @@ remarketing_security_privacity:
         permanent: true
 
 remarketing_mycasatrip_available:
-    pattern:  /mycasatrip-email/available/{_locale}/{locale}
+    pattern:  /email-mycasatrip/available/{_locale}/{locale}
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: frontend_mycasatrip_available
