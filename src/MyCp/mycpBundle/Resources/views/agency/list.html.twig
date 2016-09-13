@@ -128,11 +128,17 @@
         <td>{{ agency.name_country }}</td>
         <td>{{ agency.contact_mail }}</td>
         <td>{{ agency.name_package }}</td>
-        <td>{{ agency.status }}</td>
+        <td>
+            {% if agency.status %}
+                <div class="badge badge-success" style="text-align: center">Activa</div>
+            {% else %}
+                <div class="badge badge-danger" style="text-align: center">Inactiva</div>
+            {% endif %}
+        </td>
         <td>{{ agency.date_register | date("d/m/Y") }}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" title="Detalles - {{agency.name}}" href="{{ path('mycp_details_agency', {'id':agency.id}) }}">Detalles</a>
-            <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_ownership',{'id_ownership':agency.id}) }}" title="Editar - {{agency.name}}"><i class="icon-edit"></i></a>
+            <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_agency',{'id':agency.id}) }}" title="Editar - {{agency.name}}"><i class="icon-edit"></i></a>
         </td>
     </tr>
 

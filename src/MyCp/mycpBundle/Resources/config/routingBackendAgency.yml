@@ -5,3 +5,11 @@ mycp_list_agency:
 mycp_details_agency:
     pattern:  /details/{id}
     defaults: { _controller: mycpBundle:BackendAgency:details_Agency, id:''}
+
+mycp_edit_agency:
+    pattern:  /edit/{id}
+    defaults: { _controller: mycpBundle:BackendAgency:edit_Agency, id:''}
+
+mycp_enable_agency:
+    pattern:  /enable/{id}/{activar}
+    defaults: { _controller: mycpBundle:BackendAgency:enable_Agency, id:'',activar:''}

@@ -7,7 +7,9 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -99,6 +101,52 @@ class BackendAgencyController extends Controller {
         return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency));
     }
 
+    public function edit_AgencyAction($id, Request $request) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+
+        $em = $this->getDoctrine()->getManager();
+        $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
+        $errors = array();
+
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$obj);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()){
+                $agency = $form->getData();
+                $em->persist($agency);
+                $em->flush();
+                $message = 'La agencia se ha actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+            }
+        }else{
+
+        }
+
+        return $this->render('mycpBundle:agency:edit.html.twig', array(
+            'form' => $form->createView(),
+            'id_agency' => $id,
+            'agency' => $agency
+        ));
+    }
+
+    public function enable_AgencyAction($id,$activar){
+
+        $em = $this->getDoctrine()->getManager();
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
+
+        $user_id = $agency['touroperador_id'];
+
+        if ( $em->getRepository('mycpBundle:user')->changeStatus($user_id) ){
+            $result = true;
+        }else{
+            $result = false;
+        }
+
+        return new JsonResponse(array('result'=>$result,'id'=>$id));
+    }
 
     public function get_agency_namesAction() {
         $em = $this->getDoctrine()->getManager();

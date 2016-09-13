@@ -1,0 +1,36 @@
+<table style="font-size: 12px" class="table table-striped ">
+    <tbody>
+    <tr>
+        <td>
+            <span class="input-group-addon"><i class="glyphicons user"></i> {{ 'label.name.nameresponse'|trans }}</span>
+        </td>
+        <td>
+            {{ form_widget(item.name,{ 'attr': {'placeholder': 'label.name.nameresponse'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span class="input-group-addon"><i class="glyphicons iphone"></i> {{ 'label.name.phone'|trans }}</span>
+        </td>
+        <td>
+            {{ form_widget(item.phone,{ 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span class="input-group-addon"><i class="glyphicons envelope"></i> {{ 'label.name.email'|trans }}</span>
+        </td>
+        <td>
+            {{ form_widget(item.email,{ 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span class="input-group-addon"><i class="glyphicons phone_alt"></i> {{ 'label.name.mobile'|trans }}</span>
+        </td>
+        <td>
+            {{ form_widget(item.mobile,{ 'attr': {'placeholder': 'label.name.mobile'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+        </td>
+    </tr>
+    </tbody>
+</table>

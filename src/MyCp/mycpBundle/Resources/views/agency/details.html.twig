@@ -60,12 +60,15 @@
                 <tbody><tr>
                     <td style="width: 100px" rowspan="4"><a href="#"><img alt="Photo" src="/uploads/userImages/no_photo.gif" title="Yanet Morales" class="img-polaroid">
                         </a></td>
-                    <td colspan="2"><b>Nombre: </b> {{ agency.touroperador }}</td>
+                    <td colspan="2"><b>Nombre: </b> {{ agency.touroperador }} {{ agency.touroperador_last_name }}</td>
                 </tr>
                 <tr><td colspan="2"><b>Correo: </b><a href="mailto:{{ agency.user_email }}">{{ agency.user_email }}</a></td></tr>
                 <tr><td colspan="2"><b>Teléfono de Contacto: </b>{{ agency.user_phone }}</td></tr>
                 </tbody></table>
         </div>
+    </div>
+    <div class="row-fluid">
+        <a class="btn btn-success pull-right" href="{{ path('mycp_edit_agency',{'id':agency.id}) }}" title="Editar - {{agency.name}}"><i class="icon-edit"></i> Editar</a>
     </div>
 
 {% endblock %}
