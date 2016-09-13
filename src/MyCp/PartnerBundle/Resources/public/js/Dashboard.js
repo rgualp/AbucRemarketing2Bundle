@@ -127,6 +127,14 @@ var Dashboard = function () {
             var loadingText = result.data("loadingtext");
             var data={};
 
+            result.slimScroll({
+                height: '300px',
+                railOpacity: 0.9,
+                color: '#ffffff',
+                opacity : 1,
+                alwaysVisible : false
+            });
+
             if(!hasContent) {
                 result.html(loadingText);
                 //Mostrar listado de reservaciones abiertas
@@ -164,6 +172,8 @@ var Dashboard = function () {
                     result.html(response.html);
                     result.data("content", true);
                 }
+
+                onShowReservationModal();
             });
 
         });

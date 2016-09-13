@@ -421,6 +421,7 @@ body.landing-page {
     padding: 3px;
     color: #1b6690;
     margin: 0 0 10px;
+    width: 98%;
 }
 
 .reservation-details a, .reservation-details a:hover, .reservation-details a:active, .reservation-details a:link{

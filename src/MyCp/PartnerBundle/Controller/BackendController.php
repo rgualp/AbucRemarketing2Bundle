@@ -74,21 +74,12 @@ class BackendController extends Controller
     public function openReservationsListAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 4;
-        $paginator->setItemsPerPage($items_per_page);
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $list = $paginator->paginate($em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency()))->getResult();
-        $page = 1;
-
+        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
-            'list' => $list,
-            'items_per_page' => $items_per_page,
-            'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
-            'show_paginator' => true
+            'list' => $list
         ));
 
         return new Response($response, 200);
@@ -125,8 +116,8 @@ class BackendController extends Controller
         $children = $request->get("children");
         $accommodationId = $request->get("accommodationId");
 
-        $dateFrom = Dates::createFromString($dateFrom,"/", 1);
-        $dateTo = Dates::createFromString($dateTo,"/", 1);
+        $dateFrom = Dates::createDateFromString($dateFrom,"/", 1);
+        $dateTo = Dates::createDateFromString($dateTo,"/", 1);
 
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
@@ -135,24 +126,14 @@ class BackendController extends Controller
 
         $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container);
 
-        $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 4;
-        $paginator->setItemsPerPage($items_per_page);
-
-        $list = $paginator->paginate($em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency))->getResult();
-        $page = 1;
+        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
-            'list' => $list,
-            'items_per_page' => $items_per_page,
-            'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
-            'show_paginator' => true
+            'list' => $list
         ));
 
         return new JsonResponse([
             'success' => true,
-            'id' => 'id_dashboard_profile_agency',
             'html' => $response,
 
         ]);
