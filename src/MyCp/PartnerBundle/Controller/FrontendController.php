@@ -127,4 +127,11 @@ class FrontendController extends Controller
     public function registerAccountPageAction(){
         return $this->render('PartnerBundle:Layout:registerAgency.html.twig', array());
     }
+
+    /**
+     *
+     */
+    public function whoAreAction(){
+        return $this->render('PartnerBundle:Pages:who_we_are.html.twig', array());
+    }
 }

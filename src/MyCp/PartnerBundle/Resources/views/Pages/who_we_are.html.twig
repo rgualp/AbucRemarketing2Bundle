@@ -1,0 +1,42 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block body %}
+    <section class="container">
+       <div class="row" style="background-color: #094e75">
+        <div class="col-md-4">
+            <a class="glyphicons group" href="" style="font-size: 150px"></a>
+        </div>
+        <div class="col-md-8"></div>
+       </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>MyCasa Partner es un producto asociado a la plataforma MyCasa Particular.com, líder en reserva online de alojamientos privados en Cuba.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Partner es un directorio de reservaciones que pretende facilitar la colaboración de las agencias y turoperadores de viaje, que desean operar con el amplio y creciente mercado de casas particulares cubanas.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Partner es la mejor vía de llegar a Cuba.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ asset('bundles/partner/img/icon/conocenuestroeq.png')}}" />
+            </div>
+            <div class="col-md-8">
+                <p>Partner es la mejor vía de llegar a Cuba.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

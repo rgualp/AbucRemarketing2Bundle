@@ -47,6 +47,12 @@ frontend_partner_registeracountpage:
     locales:  { en: "/registeraccount", es: "/cuentaregistrada", de: "/registeraccount" }
     defaults: { _controller: PartnerBundle:Frontend:registerAccountPage }
 
+#Register account page
+frontend_partner_who_are:
+    locales:  { en: "/who_are", es: "/quienes_son", de: "/who_are" }
+    defaults: { _controller: PartnerBundle:Frontend:whoAre }
+
+
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }
