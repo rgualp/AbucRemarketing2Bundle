@@ -38,7 +38,7 @@ class BackendAgencyController extends Controller {
         $filter_owner = $request->get('filter_owner');
         $filter_email = $request->get('filter_email');
         $filter_package = $request->get('filter_package');
-        $filter_date_created = $request->get('filter_code');
+        $filter_date_created = $request->get('filter_date_created');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_country == 'null' && $filter_package == 'null' &&
                 $filter_email == 'null' && $filter_date_created == 'null'
         ) {
@@ -71,7 +71,8 @@ class BackendAgencyController extends Controller {
             $filter_country,
             $filter_owner,
             $filter_email,
-            $filter_date_created
+            $filter_date_created,
+            $filter_package
         ))->getResult();
 
         return $this->render('mycpBundle:agency:list.html.twig', array(
@@ -89,46 +90,13 @@ class BackendAgencyController extends Controller {
         ));
     }
 
-    public function activeRoomAction($id_room, $activate) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+    public function details_AgencyAction($id, Request $request) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $service_log = $this->get('log');
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
 
-        $ro = $em->getRepository('mycpBundle:room')->find($id_room);
-        $own = $ro->getRoomOwnership();
-
-        $ro->setRoomActive($activate);
-        $em->persist($ro);
-        $em->flush();
-
-        $service_log->saveLog($own->getLogDescription().' (Activar / Desactivar '.$ro->getLogDescription().')', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::ROOM);
-
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
-        $count = count($rooms);
-        $count_active = 0;
-        $maximum_guests = 0;
-        foreach ($rooms as $room) {
-            if (!$room->getRoomActive())
-                $count--;
-            else {
-                $count_active++;
-                $maximum_guests += $room->getMaximumNumberGuests();
-            }
-        }
-
-        $own->setOwnMaximumNumberGuests($maximum_guests);
-        $own->setOwnRoomsTotal($count_active);
-        if ($count <= 0) {
-            $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
-            $own->setOwnStatus($status);
-            $em->persist($own);
-            $service_log->saveLog($own->getLogDescription()." (Estado Inactivo por desactivar todas las habitaciones)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
-        }
-
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own->getOwnId())));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency));
     }
 
 
