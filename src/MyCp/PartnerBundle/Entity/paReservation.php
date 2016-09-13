@@ -27,42 +27,42 @@ class paReservation extends baseEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="number", type="integer")
+     * @ORM\Column(name="number", type="integer", nullable=true)
      */
     private $number;
 
     /**
      * @var time
      *
-     * @ORM\Column(name="arrivalHour", type="time")
+     * @ORM\Column(name="arrivalHour", type="time", nullable=true)
      */
     private $arrivalHour;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="adults", type="integer")
+     * @ORM\Column(name="adults", type="integer", nullable=true)
      */
     private $adults;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="children", type="integer")
+     * @ORM\Column(name="children", type="integer", nullable=true)
      */
     private $children;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="adults_with_accommodation", type="integer")
+     * @ORM\Column(name="adults_with_accommodation", type="integer", nullable=true)
      */
     private $adultsWithAccommodation;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="children_with_accommodation", type="integer")
+     * @ORM\Column(name="children_with_accommodation", type="integer", nullable=true)
      */
     private $childrenWithAccommodation;
 
@@ -91,6 +91,9 @@ class paReservation extends baseEntity
 
         $this->details = new ArrayCollection();
         $this->closed = false;
+        $this->number = 0;
+        $this->adultsWithAccommodation = 0;
+        $this->childrenWithAccommodation = 0;
     }
 
     /**

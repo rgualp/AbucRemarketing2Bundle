@@ -34,21 +34,14 @@ class paClient extends baseEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="fullname", type="string", length=255)
      */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastname", type="string", length=255)
-     */
-    private $lastname;
+    private $fullname;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\country",inversedBy="travelAgencyClients")
-     * @ORM\JoinColumn(name="country",referencedColumnName="co_id")
+     * @ORM\JoinColumn(name="country",referencedColumnName="co_id", nullable=true)
      */
     private $country;
 
@@ -97,47 +90,21 @@ class paClient extends baseEntity
     }
 
     /**
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    /**
-     * @param string $lastname
      * @return mixed
      */
-    public function setLastname($lastname)
+    public function getFullName()
     {
-        $this->lastname = $lastname;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
+        return $this->fullname;
     }
 
     /**
      * @param mixed $name
      * @return mixed
      */
-    public function setName($name)
+    public function setFullName($name)
     {
-        $this->name = $name;
+        $this->fullname = $name;
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFullName()
-    {
-        return $this->name. " " .$this->lastname;
     }
 
     /**

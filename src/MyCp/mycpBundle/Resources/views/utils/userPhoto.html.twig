@@ -3,11 +3,11 @@
 <br/>
 <a href="{% if app.user.getUserRole =='ROLE_CLIENT_STAFF'%}
                     {{ path('mycp_edit_user_staff',{'id_user':app.user.getUserId})}}
-                {% elseif user_auth.getUserRole =='ROLE_CLIENT_CASA'%}
+                {% elseif app.user.getUserRole =='ROLE_CLIENT_CASA'%}
                    {{ path('mycp_edit_user_casa',{'id_user':app.user.getUserId})}}
-                {% elseif user_auth.getUserRole =='ROLE_CLIENT_TOURIST'%}
+                {% elseif app.user.getUserRole =='ROLE_CLIENT_TOURIST'%}
                 {{ path('mycp_edit_user_tourist',{'id_user':app.user.getUserId})}}
-                {% elseif user_auth.getUserRole =='ROLE_CLIENT_PARTNER'%}
+                {% elseif app.user.getUserRole =='ROLE_CLIENT_PARTNER'%}
                 {{ path('mycp_edit_user_partner',{'id_user':app.user.getUserId})}}
                 {% else %}
                     {{ path('mycp_edit_user',{'idUser':app.user.getUserId})}}

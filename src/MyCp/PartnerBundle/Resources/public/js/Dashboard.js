@@ -117,7 +117,7 @@ var Dashboard = function () {
             }
         })
     }
-var onShowReservationModal=function(){
+    var onShowReservationModal=function(){
         $(".createReservation").on('click',function() {
             selectedAccommodationForReserve = $(this).data("ownid");
             $('#myModalReservation').modal("show");
@@ -126,6 +126,14 @@ var onShowReservationModal=function(){
             var hasContent = result.data("content");
             var loadingText = result.data("loadingtext");
             var data={};
+
+            result.slimScroll({
+                height: '300px',
+                railOpacity: 0.9,
+                color: '#ffffff',
+                opacity : 1,
+                alwaysVisible : false
+            });
 
             if(!hasContent) {
                 result.html(loadingText);
@@ -179,7 +187,34 @@ var onShowReservationModal=function(){
 
     var onAddNewOpenReservationButton = function(){
         $("#btnAddNewOpenReservation").on('click',function() {
-            console.log("Adding new open reservation");
+            var result = $('#openReservationsList');
+            var dateFrom = $("#requests_ownership_filter_arrival").val();
+            var dateTo = $("#requests_ownership_filter_exit").val();
+            var clientName = $("#partner_reservation_name").val();
+            var adults = $("#partner_reservation_adults").val();
+            var children = $("#partner_reservation_children").val();
+            var _url = $("#btnAddNewOpenReservation").data("url");
+
+            var loadingText = result.data("loadingtext");
+            result.html(loadingText);
+
+            $.post(_url, {
+                'dateFrom': dateFrom,
+                'dateTo': dateTo,
+                'clientName': clientName,
+                'adults': adults,
+                'children': children,
+                'accommodationId': selectedAccommodationForReserve
+            }, function (response) {
+
+                if(response.success) {
+                    result.html(response.html);
+                    result.data("content", true);
+                }
+
+                onShowReservationModal();
+            });
+
         });
     }
     return {
