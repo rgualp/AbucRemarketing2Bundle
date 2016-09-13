@@ -4,4 +4,4 @@ mycp_list_reservations_ag_booking:
 
 mycp_details_reservations_ag_booking:
     pattern:  /booking_ag/details/{id_booking}
-    defaults: { _controller: mycpBundle:BackendReservation:details_booking }
+    defaults: { _controller: mycpBundle:BackendReservationAg:details_booking }

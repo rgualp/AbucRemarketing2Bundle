@@ -323,7 +323,7 @@ class generalReservationRepository extends EntityRepository {
         return $array_genres;
     }
 
-    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency) {
+    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency, $filter_agencia_booking="", $filter_partner=false) {
         $em = $this->getEntityManager();
 
         $filter_date_booking_array = explode('_', $filter_date_booking);
@@ -346,29 +346,41 @@ class generalReservationRepository extends EntityRepository {
         if($filter_ownership != "")
             $where .= " AND (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow3 JOIN ow3.own_res_gen_res_id gres3 JOIN gres3.gen_res_own_id own WHERE ow3.own_res_reservation_booking = booking.booking_id) = '$filter_ownership' ";
 
+        $s = "";
+        if($filter_partner){
+            $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH booking.booking_user_id = up.tourOperator JOIN up.travelAgency agency";
+            $s = "agency.name aName, agency.email aEmail,";
+            if($filter_agencia_booking != ""){
+                $where .= " AND agency.name LIKE :filter_agencia_booking ";
+            }
+        }
 
         $query = $em->createQuery("SELECT payment.created,
         payment.payed_amount,
         booking.booking_id,
         curr.curr_code,
         booking.booking_user_dates,
+        $s
         (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
         (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate
         FROM mycpBundle:payment payment JOIN payment.booking booking
-        JOIN payment.currency curr
+        JOIN payment.currency curr $filter_partner
         WHERE booking.booking_id LIKE :filter_booking_number
         AND booking.booking_user_dates LIKE :filter_user_booking
         AND payment.created LIKE :filter_date_booking
         ANd curr.curr_id LIKE :filter_currency
         $where
         ORDER BY payment.id DESC");
-        return $query->setParameters(array(
+        $query->setParameters(array(
                             'filter_booking_number' => "%" . $filter_booking_number . "%",
                             'filter_user_booking' => "%" . $filter_user_booking . "%",
                             'filter_date_booking' => "%" . $filter_date_booking . "%",
                             'filter_currency' => "%" . $filter_currency . "%",
-                        ))
-                        ->getArrayResult();
+                        ));
+        if($filter_partner && $filter_agencia_booking != ""){
+            $query->setParameter('filter_agencia_booking', "%".$filter_agencia_booking."%");
+        }
+        return $query->getArrayResult();
     }
 
     function getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency) {

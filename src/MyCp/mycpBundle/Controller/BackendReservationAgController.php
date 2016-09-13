@@ -30,13 +30,14 @@ class BackendReservationAgController extends Controller {
 
         $filter_booking_number = $request->get('filter_booking_number');
         $filter_date_booking = $request->get('filter_date_booking');
-        $filter_user_booking = $request->get('filter_user_booking');
+        $filter_user_booking = 'null';
+        $filter_agencia_booking = $request->get('filter_user_booking');
         $filter_arrive_date_booking = $request->get('filter_arrive_date_booking');
         $filter_reservation = $request->get("filter_reservation");
         $filter_ownership = $request->get("filter_ownership");
         $filter_currency = $request->get("filter_currency");
 
-        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking == 'null' && $filter_user_booking == 'null' && $filter_arrive_date_booking == 'null' && $filter_reservation == 'null' && $filter_ownership == 'null' && $filter_currency == 'null') {
+        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking == 'null' && $filter_agencia_booking == 'null' && $filter_arrive_date_booking == 'null' && $filter_reservation == 'null' && $filter_ownership == 'null' && $filter_currency == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_reservations_booking'));
@@ -48,6 +49,8 @@ class BackendReservationAgController extends Controller {
             $filter_date_booking = '';
         if ($filter_user_booking == 'null')
             $filter_user_booking = '';
+        if ($filter_agencia_booking == 'null')
+            $filter_agencia_booking = '';
         if ($filter_arrive_date_booking == 'null')
             $filter_arrive_date_booking = '';
         if ($filter_reservation == 'null')
@@ -66,7 +69,7 @@ class BackendReservationAgController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency))->getResult();
+                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency, $filter_agencia_booking, true))->getResult();
 //        $service_log = $this->get('log');
 //        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
@@ -79,7 +82,7 @@ class BackendReservationAgController extends Controller {
                     'current_page' => $page,
                     'filter_booking_number' => $filter_booking_number,
                     'filter_date_booking' => $filter_date_booking,
-                    'filter_user_booking' => $filter_user_booking,
+                    'filter_user_booking' => $filter_agencia_booking,
                     'filter_arrive_date_booking' => $filter_arrive_date_booking,
                     'filter_reservation' => $filter_reservation,
                     'filter_ownership' => $filter_ownership,
@@ -93,9 +96,9 @@ class BackendReservationAgController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
-        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $payment->getBooking()->getBookingUserId()));
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
-        return $this->render('mycpBundle:reservation:bookingDetails.html.twig', array(
+        return $this->render('mycpBundle:reservation:booking_agDetails.html.twig', array(
                     'user' => $user,
                     'reservations' => $reservations,
                     'payment' => $payment

@@ -26,10 +26,7 @@
 <h2>Reservas</h2>
 <hr/>
 <ul class="nav nav-tabs" id="myTab">
-    <li class=""><a href="{{ path('mycp_list_reservations_byuser') }}">Clientes</a></li>
-    <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
     <li class="active"><a data-toggle="tab" href="#booking">Booking</a></li>
-    <li class=""><a href="{{ path('mycp_list_reservations_checkin') }}">Check-in</a></li>
 </ul>
     <div class="tab-content" id="myTabContent">
         <div id="reservas" class="tab-pane fade active in">
@@ -37,7 +34,7 @@
             {% for message in app.session.flashbag.get('message_error_local') %}
             <div class="alert alert-error">{{ message }}</div>
             {% endfor %}
-            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_booking')}}">
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_ag_booking')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
                         <div class="span2"><label>ID Booking:</label>
@@ -46,7 +43,7 @@
                         <div class="span2"><label>Fecha Booking:</label>
                             <input id="filter_date_booking" name="filter_date_booking" type="text" class="datepicker input-block-level" value="{{ filter_date_booking }}"/>
                         </div>
-                        <div class="span3"><label>Usuario:</label>
+                        <div class="span3"><label>Agencia:</label>
                             <input id="filter_user_booking" name="filter_user_booking" type="text" class="input-block-level" value="{{ filter_user_booking }}"/>
                         </div>
                         <div class="span3"><label>Fecha Llegada:</label>
@@ -75,7 +72,7 @@
                                     <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                                 </div>
                                 <div class="span6">
-                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_booking') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_ag_booking') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -90,10 +87,10 @@
                     </div>
                     <div class="pull-right">
                         Mostrar:
-                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">50</a>
-                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">100</a>
-                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">300</a>
-                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">500</a>
+                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_ag_booking',{'items_per_page':50,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">50</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_ag_booking',{'items_per_page':100,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_ag_booking',{'items_per_page':300,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_ag_booking',{'items_per_page':500,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership, 'filter_currency': currency})}}">500</a>
                         <input class="hidden" name="items_per_page" value="100">
                     </div>
                 </div>
@@ -101,7 +98,7 @@
             <div class="row-fluid">
                 <div class="span9">
                     <div class="paginator-cont">
-                        {{ simple_paginator_render('mycp_list_reservations_booking',null,{
+                        {{ simple_paginator_render('mycp_list_reservations_ag_booking',null,{
                         'container_class': 'paginator',
                         'previousPageText': '«',
                         'nextPageText': '»',
@@ -122,7 +119,8 @@
                     <th>Fecha Booking</th>
                     <th>Prepago</th>
                     <th>Moneda</th>
-                    <th>Usuario</th>
+                    <th>Agencia</th>
+                    <th>Correo</th>
                     <th>País</th>
                     <th title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">Fecha Llegada</th>
                     <th style="text-align: right">Acciones</th>
@@ -137,11 +135,12 @@
                     <td>{{ booking.created|date("d/m/Y") }}</td>
                     <td>{{ booking.payed_amount }} {{ booking.curr_code }}</td>
                     <td>{{ booking.curr_code }}</td>
-                    <td>{{ booking.booking_user_dates }}</td>
+                    <td>{{ booking.aName }}</td>
+                    <td>{{ booking.aEmail }}</td>
                     <td>{{ booking.country }}</td>
                     <td title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">{%if booking.arrivalDate != null%}{{ booking.arrivalDate | date("d/m/Y") }}{%else%} - {%endif%}</td>
                     <td style="text-align: right">
-                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_ag_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
@@ -151,7 +150,7 @@
             <div class="row-fluid">
                 <div class="span9">
                     <div class="paginator-cont">
-                        {{ simple_paginator_render('mycp_list_reservations_booking',null,{
+                        {{ simple_paginator_render('mycp_list_reservations_ag_booking',null,{
                         'container_class': 'paginator',
                         'previousPageText': '«',
                         'nextPageText': '»',
