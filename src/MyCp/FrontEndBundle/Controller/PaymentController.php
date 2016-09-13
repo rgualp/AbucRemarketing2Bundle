@@ -543,7 +543,7 @@ class PaymentController extends Controller
 
 
 
-    private function getPostFinanceViewData(booking $booking, user $user, userTourist $userTourist, $method = "VISA")
+    private function getPostFinanceViewData(booking $booking, user $user, userTourist $userTourist, $method = "POSTFINANCE")
     {
         $bookingId = $booking->getBookingId();
         $translator = $this->get('translator');
