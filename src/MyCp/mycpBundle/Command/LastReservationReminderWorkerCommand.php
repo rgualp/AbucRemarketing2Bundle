@@ -50,6 +50,7 @@ class LastReservationReminderWorkerCommand extends Worker
      * @var EmailManager
      */
     private $emailManager;
+    private $logger;
 
 
     /**
@@ -116,6 +117,7 @@ class LastReservationReminderWorkerCommand extends Worker
         $emailSubject = $this->translatorService->trans('LAST_CHANCE_TO_BOOK_SUBJECT');
 
         $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
+        $this->logger->logMail(date('Y-m-d H:i:s') ." Worker LastReservationReminder Email: ".$userEmail." ".print_r($emailBody));
 
         $this->emailManager->sendEmail(
             $userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
@@ -212,5 +214,6 @@ class LastReservationReminderWorkerCommand extends Worker
         $this->em = $this->getService('doctrine.orm.entity_manager');
         $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
+        $this->logger = $this->getService('mycp.logger');
     }
 }
