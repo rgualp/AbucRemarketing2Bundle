@@ -42,6 +42,13 @@ class FeedbackReminderWorkerCommand extends Worker {
     private $em;
 
     /**
+     * 'Logger' logger
+     *
+     * @var
+     */
+    private $logger;
+
+    /**
      * {@inheritDoc}
      */
     protected function configureWorker() {
@@ -135,6 +142,7 @@ class FeedbackReminderWorkerCommand extends Worker {
             ));
 
         $output->writeln("Send email to $userEmail, subject '$emailSubject'");
+        $this->logger->logMail(date('Y-m-d H:i:s') ." Worker FeedbackReminder Email: ".$userEmail." ".print_r($emailBody));
         $this->emailManager->sendEmail($userEmail, $emailSubject, $emailBody);
     }
 
@@ -147,6 +155,7 @@ class FeedbackReminderWorkerCommand extends Worker {
         $this->securityService = $this->getService('Secure');
         $this->timer = $this->getService('Time');
         $this->em = $this->getService('doctrine.orm.entity_manager');
+        $this->logger = $this->getService('mycp.logger');
 
         //if ($this->em->getConnection()->ping() === false) {
         //    $this->em->getConnection()->close();
