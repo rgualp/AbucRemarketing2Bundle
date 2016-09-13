@@ -144,6 +144,7 @@ security:
         - { path: ^/casa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/casa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/casa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
         - { path: ^/mycasa/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -171,8 +172,6 @@ security:
         - { path: '^/[a-z]{2}/payment', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/pago', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/zahlung', roles: [ROLE_CLIENT_TOURIST] }
-
-        - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/perfil', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/profile', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/profil', roles: [ROLE_CLIENT_TOURIST] }
