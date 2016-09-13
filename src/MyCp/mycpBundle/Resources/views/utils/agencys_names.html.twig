@@ -1,0 +1,11 @@
+{% if agencys %}
+{% set string ='[' %}
+{% for agency in agencys %}
+{% if loop.last %}
+{% set string = string ~ '"'~agency.name~'"' %}
+{% else %}
+{% set string = string ~ '"'~agency.name~'",' %}
+{% endif %}
+{% endfor %}
+{% set string = string ~ ']' %}
+{{string}}{% endif %}
