@@ -4,7 +4,7 @@
     {{ parent() }}
     {% stylesheets
     '@LayoutBundle/Resources/public/css/plugins/elastislide/elastislide.css'
-
+    '@LayoutBundle/Resources/public/css/plugins/OverlayStyles/style3.css'
     filter='?uglifycss' %}
     <link type="text/css" rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -30,6 +30,7 @@
     '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.infobox.js'
     '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.markerclusterer.js'
     '@PartnerBundle/Resources/public/js/Map.js'#}
+
     {% javascripts
     '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.js'
     '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.infobox.js'

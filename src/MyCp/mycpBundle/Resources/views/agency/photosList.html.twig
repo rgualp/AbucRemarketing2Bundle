@@ -1,0 +1,243 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías </li>
+    <li class="pull-right"><a href="{{ path('mycp_list_ownerships') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías </li>
+    <li class="pull-right"><a href="{{ path('mycp_list_ownerships') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Fotografías: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}
+</h2>
+<hr/>
+    {% set photoError = (app.session.flashbag.get('hasError') | length)  %}
+{% for message in app.session.flashbag.get('message_error_local') %}
+    <div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+{% for message in app.session.flashbag.get('message_error_local_owner') %}
+    <div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<a class="btn" href="{{ path('mycp_new_photos_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-plus"></i> Adicionar fotografía</a>
+{% if photos and ownership.ownStatus.statusId != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
+<a class="btn" href="{{ path('mycp_publish_ownership',{'idOwnership':id_ownership}) }}"><i class="icon-globe"></i> Publicar propiedad</a>
+{%endif%}
+<br/><br/>
+    <div class="row-fluid">
+        {% if is_granted('ROLE_CLIENT_STAFF') and ownership.ownMcpCode != null and ownership.ownMcpCode != ""%}
+            <a class="btn btn-info pull-right" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
+        {%endif%}
+    </div>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li {% if not photoError %}class="active"{% else %} class=""{% endif %}><a data-toggle="tab" href="#accommodation">Alojamiento</a></li>
+    <li {% if photoError %}class="active"{% else %} class=""{% endif %}><a data-toggle="tab" href="#owner" {% if photoError %} class="tab_errors" {% endif %}>Propietario(a)</a></li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div id="accommodation" class="tab-pane fade {% if not photoError %}active in{% endif %}">
+    {% if photos %}
+        <div class="alert">
+            <div class="row-fluid">
+                <div class="pull-left">
+                    Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+                </div>
+                <div class="pull-right">
+                    Mostrar:
+                    <a class="{% if items_per_page == 10 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':10, 'id_ownership':id_ownership})}}">10</a>
+                    <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':50, 'id_ownership':id_ownership})}}">50</a>
+                    <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':100, 'id_ownership':id_ownership})}}">100</a>
+                </div>
+            </div>
+        </div>
+        <div class="paginator-cont row-fluid">
+            <div class="span3"  style="margin-top: 10px">
+                <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();"data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
+                    <i class="icon-trash"></i> Eliminar seleccionadas
+                </a>
+            </div>
+            <div id="loading" class="span1 load-div hidden">
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
+            </div>
+            <div class="span8">
+                {{ simple_paginator_render('mycp_list_photos_ownership',null,{
+                'container_class': 'paginator',
+                'previousPageText': '«',
+                'nextPageText': '»',
+                'currentClass': 'current',
+                'firstPageText': 'Primera',
+                'lastPageText': 'Última',
+                'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
+                }) }}
+            </div>
+
+        </div>
+        <div class="row-fluid">
+            <div class="span1"></div>
+            <div class="span9"><b>Fotografía</b></div>
+            <div class="span2" style="text-align: right"><b>Acciones</b></div>
+        </div>
+        <ul id="sortable" class="ui-sortable">
+            {% set cont=0 %}
+            {% for item in photos %}
+                <li id="{{item.getOwnPhoPhoto.getPhoId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
+                    <div class="row-fluid" style="padding: 0">
+                        <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo" data-id="{{item.getOwnPhoPhoto.getPhoId}}"/></div>
+                        <div class="span2">
+                            <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid" alt="{{"Thumbnails" | trans}}"/></a>
+                         </div>
+                        <div class="span6">
+                            {% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
+                        <div class="span3 actions" style="margin-top: 0">
+                            <div class="row-fluid" style="padding: 0; margin-bottom: 40px;">
+                                {% if is_granted('ROLE_CLIENT_STAFF')%}
+                                    <a class="btn btn-mini btn-info" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i></a>
+                                {%endif%}
+                                <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i></a>
+                            </div>
+                            <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="paginator-cont row-fluid">
+            <div class="span3"  style="margin-top: 10px">
+                <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();" data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
+                    <i class="icon-trash"></i> Eliminar seleccionadas
+                </a>
+            </div>
+            <div id="loading" class="span1 load-div hidden">
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
+            </div>
+            <div class="span5">
+                {{ simple_paginator_render('mycp_list_photos_ownership',null,{
+                'container_class': 'paginator',
+                'previousPageText': '«',
+                'nextPageText': '»',
+                'currentClass': 'current',
+                'firstPageText': 'Primera',
+                'lastPageText': 'Última',
+                'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
+                }) }}
+            </div>
+        </div>
+    </div>
+    <div id="owner" class="tab-pane fade {% if photoError %}active in{% endif %}">
+        <form action="{{ path('mycp_save_photo_owner_ownership', {'idOwnership': id_ownership})}}" method="POST" enctype="multipart/form-data">
+        <div class="row-fluid photoOwnerContainer">
+            {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': null, 'ownershipId': id_ownership, 'fromPhotoList': true})) }}
+        </div>
+            <div class="row-fluid">
+                <button type="submit" class="btn btn-success pull-right">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<p> <div class="alert alert-block">No hay fotografías disponibles.</div></p>
+{% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Desea realizar esta acción?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% if photos %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var idOwnership = {{ id_ownership }}
+                $(function() {
+
+                    $( "#sortable" ).sortable({
+                        stop: function(event, ui) {
+                            $(".load-div").removeClass("hidden");
+                            var result = $('#sortable').sortable('toArray');
+                            url = "{{ path('mycp_set_img_order_utils', {'ids': '-1' }) }}";
+                            url=url.replace('/-1','');
+
+                            $.ajax({
+                                type:"POST",
+                                url:url + '/' + result,
+                                success:function (msg) {
+                                    $(".load-div").addClass("hidden");
+                                }
+                            });
+                        }
+
+                    });
+                    $( "#sortable" ).disableSelection();
+
+
+                });
+
+        function deleteSelected()
+        {
+            $(".load-div").removeClass("hidden");
+            var checkValues = $('input[name=check_photo]:checked').map(function() {
+                return $(this).attr('data-id');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                alert("Seleccione alguno de los elementos");
+                return;
+            }
+
+            var url = $(".btn-action-photo").attr("data-url");
+            $.post(url, {
+                'photos_ids': checkValues
+            }, function(data) {
+                if(data != "ERROR")
+                    window.location = data;
+                else
+                    alert(data);
+            });
+        }
+    </script>
+    <script>
+        var idOwnership = {{ id_ownership }};
+
+        $('#deletePhotoOwner').click(function () {
+            deletePhotoOwner();
+        });
+
+        function deletePhotoOwner() {
+            var url = $("#deletePhotoOwner").attr("data-url");
+            $("#loadingImg").removeClass("hidden");
+
+            $.post(url, {
+                        idOwnership: idOwnership
+                    },
+                    function (data) {
+                        $(".photoOwnerContainer").html(data);
+                        $("#loadingImg").addClass("hidden");
+                    });
+            return false;
+        }
+
+    </script>
+{% endif %}
+{% endblock %}

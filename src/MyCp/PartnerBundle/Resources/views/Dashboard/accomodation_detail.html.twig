@@ -43,13 +43,9 @@
                                                     </div>
                                                     <!-- Elastislide Carousel -->
                                                     <ul id="carousel" class="elastislide-list">
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
-                                                        <li data-preview="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}"><a href="#" style="background-image: url('{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}');"></a></li>
+                                                        {% for photo in gallery_photos %}
+                                                            <li data-preview="{{asset('uploads/ownershipImages/'~photo.photo_name)}}"><a href="#" style="background-image: url('{{asset('uploads/ownershipImages/'~photo.photo_name)}}');"></a></li>
+                                                        {% endfor %}
                                                     </ul>
                                                     <!-- End Elastislide Carousel -->
                                                 </div>
@@ -57,6 +53,7 @@
                                         </div>
                                         </div>
                                         <div class="row">
+                                            <div class="space space-20"></div>
                                             <div class="col-sm-12">
                                                 <div class="row">
                                                     <div class="col-sm-12 property-title">
@@ -124,8 +121,17 @@
                                                     <div class="space space-10"></div>
                                                     <div class="col-sm-12 property-actions">
                                                         <div class="row">
-                                                            <div class="col-sm-4"><button class="btn">{{ 'Solicitar Casa' | trans }}</button></div>
-                                                            <div class="col-sm-4"><button class="btn"><i class="ion-ios-star"></i> {{ 'FAVORITIES' | trans }}</button></div>
+                                                            <div class="col-sm-4"><button class="createReservation btn" data-ownid="{{ ownership.own_id }}">{{ 'Solicitar Casa' | trans }}</button></div>
+                                                            {#<div class="col-sm-4">#}
+                                                                {#{%  set favorite_type = 'ownership' %}#}
+                                                                {#{%  set element_id = ownership.own_id %}#}
+
+                                                                {#{%if is_in_favorite%}#}
+                                                                    {#<button id="delete_from_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star"></i> {{ 'FAVORITIES' | trans }}</button>#}
+                                                                {#{%else%}#}
+                                                                    {#<button id="add_to_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star-outline"></i> {{ 'FAVORITIES' | trans }}</button>#}
+                                                                {#{%endif%}#}
+                                                            {#</div>#}
                                                             <div class="col-sm-4"></div>
                                                         </div>
                                                     </div>
@@ -134,14 +140,16 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
-                                        <div id="big_map_details" class="google-maps" style="width:100%;height: 500px;"
-                                             data-x="{{ownership.OwnGeolocateX}}"
-                                             data-y="{{ownership.OwnGeolocateY}}"
-                                             data-name="{{ownership.ownname}}"
-                                             data-description="{{description | striptags}}"
-                                             data-image="{{asset('uploads/ownershipImages/thumbnails/'~image)}}"
-                                             data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
+                                        <div class="row">
+                                            {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
+                                            <div id="big_map_details" class="google-maps" style="width:100%;height: 466px;"
+                                                 data-x="{{ownership.OwnGeolocateX}}"
+                                                 data-y="{{ownership.OwnGeolocateY}}"
+                                                 data-name="{{ownership.ownname}}"
+                                                 data-description="{{description | striptags}}"
+                                                 data-image="{{asset('uploads/ownershipImages/thumbnails/'~image)}}"
+                                                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -439,121 +447,118 @@
         </div>
         <div class="space space-30"></div>
     </div>
+    {{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+
     <script type="text/javascript">
+        var $carousel;
+        var own_id = "{{ownership.own_id}}";
+
 
         var current = 0,
                 $preview = $( '#preview' ),
                 $carouselEl = $( '#carousel' ),
-                $carouselItems = $carouselEl.children(),
-                carousel = $carouselEl.elastislide( {
-                    current : current,
-                    minItems : 4,
-                    onClick : function( el, pos, evt ) {
+                $carouselItems = $carouselEl.children();
 
-                        changeImage( el, pos );
-                        evt.preventDefault();
-
-                    },
-                    onReady : function() {
-
-                        changeImage( $carouselItems.eq( current ), current );
-
-                    }
-                } );
+        $carousel = $carouselEl.elastislide( {
+            current : current,
+            minItems : 4,
+            onClick : function( el, pos, evt ) {
+                evt.preventDefault();
+                changeImage( el, pos);
+            },
+            onReady : function() {
+                changeImage( $carouselItems.eq( current ), current );
+            }
+        } );
 
         function changeImage( el, pos ) {
 
             $preview.css( 'background-image', 'url('+el.data( 'preview' )+')' );
             $carouselItems.removeClass( 'current-img' );
             el.addClass( 'current-img' );
-            carousel.setCurrent( pos );
 
-        }
-        $(document).ready(function () {
-
-            if(document.getElementById("big_map_details") !== null)
-            {
-                var x = $("#big_map_details").attr("data-x");
-                var y = $("#big_map_details").attr("data-y");
-                var name = $("#big_map_details").attr("data-name");
-                var description = $("#big_map_details").attr("data-description");
-                var image = $("#big_map_details").attr("data-image");
-                var icon = $("#big_map_details").attr("data-icon");
-
-                var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
-                var options_details = {
-                    zoom: 17,
-                    center: center_details,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                var big_map_details = new google.maps.Map(document.getElementById("big_map_details"), options_details);
-
-                var marker = new google.maps.Marker({
-                    position: center_details,
-                    map: big_map_details,
-                    title: name,
-                    icon: icon
-                });
-
-
-
-                var boxText = document.createElement("div");
-                /*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-                 boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*/
-
-                boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-                boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
-                /*boxText.innerHTML = "<div class='row'>" +
-                 "<div class='map_image col-sm-4' style='background-image:url(" + image + ")'></div>" +
-                 "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + name + "<br/>" +
-                 "<b>" + description + "</b>" +
-                 "</div>" +
-                 "</div>";
-                 */
-                var myOptions = {
-                    content: boxText
-                    ,disableAutoPan: false
-                    ,maxWidth: 0
-                    ,pixelOffset: new google.maps.Size(-140, 0)
-                    ,zIndex: null
-                    ,boxStyle: {
-                        //background: "url('tipbox.gif') no-repeat",
-                        opacity: 0.85,
-                        width: "280px"
-                    }
-                    ,closeBoxMargin: "10px 2px 2px 2px"
-                    ,infoBoxClearance: new google.maps.Size(1, 1)
-                    ,isHidden: false
-                    ,pane: "floatPane"
-                    ,enableEventPropagation: false
-                };
-
-                var ib = new InfoBox(myOptions);
-
-                google.maps.event.addListener(marker, 'mouseover', function() {
-                    ib.open(big_map_details, marker);
-                });
-
-                google.maps.event.addListener(marker, 'mouseout', function() {
-                    ib.close();
-                });
-
-                $("#mapTab").on('shown.bs.tab', function() {
-
-                    /* Trigger map resize event */
-                    var center = big_map_details.getCenter();
-                    google.maps.event.trigger(big_map_details, 'resize');
-                    big_map_details.setCenter(center);
-                });
+            if ($carousel != undefined){
+                $carousel.setCurrent( pos );
             }
 
-        });
+        }
+
+        if(document.getElementById("big_map_details") !== null)
+        {
+            var x = $("#big_map_details").attr("data-x");
+            var y = $("#big_map_details").attr("data-y");
+            var name = $("#big_map_details").attr("data-name");
+            var description = $("#big_map_details").attr("data-description");
+            var image = $("#big_map_details").attr("data-image");
+            var icon = $("#big_map_details").attr("data-icon");
+
+            var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
+            var options_details = {
+                zoom: 17,
+                center: center_details,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var big_map_details = new google.maps.Map(document.getElementById("big_map_details"), options_details);
+
+            var marker = new google.maps.Marker({
+                position: center_details,
+                map: big_map_details,
+                title: name,
+                icon: icon
+            });
+
+
+
+            var boxText = document.createElement("div");
+            /*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+             boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*/
+
+            boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+            boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
+            /*boxText.innerHTML = "<div class='row'>" +
+             "<div class='map_image col-sm-4' style='background-image:url(" + image + ")'></div>" +
+             "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + name + "<br/>" +
+             "<b>" + description + "</b>" +
+             "</div>" +
+             "</div>";
+             */
+            var myOptions = {
+                content: boxText
+                ,disableAutoPan: false
+                ,maxWidth: 0
+                ,pixelOffset: new google.maps.Size(-140, 0)
+                ,zIndex: null
+                ,boxStyle: {
+                    //background: "url('tipbox.gif') no-repeat",
+                    opacity: 0.85,
+                    width: "280px"
+                }
+                ,closeBoxMargin: "10px 2px 2px 2px"
+                ,closeBoxURL: "https://www.google.com/intl/en_us/mapfiles/close.gif"
+                ,infoBoxClearance: new google.maps.Size(1, 1)
+                ,isHidden: false
+                ,pane: "floatPane"
+                ,enableEventPropagation: false
+            };
+
+            var ib = new InfoBox(myOptions);
+
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                ib.open(big_map_details, marker);
+            });
+
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                ib.close();
+            });
+
+        }
+
+
 
     </script>
 {% endblock %}

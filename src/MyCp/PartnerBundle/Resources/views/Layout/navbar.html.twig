@@ -20,9 +20,12 @@
                    {% if app.user.getUserUserName is defined %}
                         <li>
                             <div class="dropdown profile-element">
-                                <span>
-                                    <img src="{{ asset('bundles/partner/img/icon/profile_small.jpg')}}" class="img-circle" alt="image">
-                                </span>
+                                {% if app.user.UserPhoto is not null %}
+                                    {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
+                                {% else %}
+                                    {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
+                                {% endif %}
+                                <span class="img-circle navbar-avatar" style="background: url({{ avatar_img}}) transparent no-repeat scroll center center / cover;display: block;width: 50px;height: 50px;margin-left: 14px"></span>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 8px;margin-top: 7px;">
                             <span class="clear">
                                 <span class="block m-t-xs">

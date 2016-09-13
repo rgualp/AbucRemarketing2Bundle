@@ -13,3 +13,22 @@
 {% endblock %}
 {% block footer %}
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            var b = $("#forgot-link");
+            b.one('click', function () {
+                HoldOn.open();
+                var overlay = $(b.data('overlay'));
+                var xpath ='{{ path('frontend_partner_forgopassword') }}';
+                var params = {action:1};
+                $('.f-content',overlay).load(xpath, params, function (e) {
+                    HoldOn.close();
+                    overlay.show();
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

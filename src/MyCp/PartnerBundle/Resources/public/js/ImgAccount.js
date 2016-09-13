@@ -151,6 +151,8 @@ var ImgAccount = function () {
         showResponse:function(obj){
             var imageURL='/uploads/userImages/' + obj.dir + '?timestamp=' + new Date().getTime();
             $(".dashboard-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
+            $(".navbar-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
+
         }
     };
 }();

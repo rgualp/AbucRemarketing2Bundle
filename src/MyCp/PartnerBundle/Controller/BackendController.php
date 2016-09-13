@@ -85,21 +85,6 @@ class BackendController extends Controller
         return new Response($response, 200);
     }
 
-    /**
-     * @return JsonResponse
-     */
-    public function profileAgencyAction(){
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
-        return new JsonResponse([
-            'success' => true,
-            'id' => 'id_dashboard_profile_agency',
-            'html' => $this->renderView('PartnerBundle:Dashboard:profile_agency.html.twig', array( 'form'=>$form->createView())),
-
-          ]);
-    }
 
     /**
      * @return JsonResponse

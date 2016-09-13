@@ -1,0 +1,60 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership': id_ownership}) }}">Fotografías</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership': id_ownership}) }}">Fotografías</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <div class="btn-toolbar" role="toolbar">
+    <button class="btn btn-success" type="submit">Guardar</button>
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                Alojamiento <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar</a></li>
+            </ul>
+        </div>
+    <a class="btn" href="{{path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}">Cancelar</a>
+        </div>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<div class="row-fluid">
+<h2>Fotografía de {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2>
+<hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+</div>
+{% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+<form action="{{ path('mycp_edit_photos_ownership',{'id_photo':id_photo,'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
+    <div class="row-fluid">
+        <div class="pull-right text-center">
+    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid"  alt="Thumbnails"/>
+    {% if is_granted('ROLE_CLIENT_STAFF')%}
+                <br/><br/><a class="btn btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':photo.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
+                {%endif%}
+    </div>
+    </div>
+    {% for language in data['languages'] %}
+    <label>{{language.lang_name |title}}:</label>
+    {%if errors["description_"~language.lang_id] is defined %}<label class="error">{{errors["description_"~language.lang_id]|trim(':')}}</label>{%endif%}
+    <input type="text" class="span12 textarea" name="description_{{language.lang_id}}" value="{%if post["description_"~language.lang_id] is defined %}{{post["description_"~language.lang_id]}}{% else %}{%if data["description_"~language.lang_id] is defined %}{{data["description_"~language.lang_id]}}{%endif%}{%endif%}"/><br/>
+    {% endfor %}
+{% endblock %}
