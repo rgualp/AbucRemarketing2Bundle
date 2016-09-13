@@ -3911,7 +3911,7 @@
 
 		<trans-unit id="990">
           <source>POSTFINANCE_PAYMENT</source>
-          <target>Pague usando cuenta Postfinance</target>
+          <target>Pague usando cuenta Postfinance,VISA o MASTERCARD</target>
         </trans-unit>
         <trans-unit id="991">
           <source>VISA_PAYMENT</source>

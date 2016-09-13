@@ -3914,7 +3914,7 @@
 
 			<trans-unit id="990">
            <source>POSTFINANCE_PAYMENT</source>
-           <target>You can pay using Postfinance</target>
+           <target>You can pay using Postfinance, VISA o MASTERCARD</target>
        </trans-unit>
 
         <trans-unit id="991">

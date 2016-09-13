@@ -3931,7 +3931,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 </trans-unit>
 			<trans-unit id="990">
              <source>POSTFINANCE_PAYMENT</source>
-             <target>Bezahlen Sie über Postfinance-Konto</target>
+             <target>Bezahlen Sie mit Postfinance,VISA o MASTERCARD</target>
          </trans-unit>
 
          <trans-unit id="991">
