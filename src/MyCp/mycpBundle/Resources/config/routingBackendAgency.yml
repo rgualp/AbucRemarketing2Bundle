@@ -13,3 +13,7 @@ mycp_edit_agency:
 mycp_enable_agency:
     pattern:  /enable/{id}/{activar}
     defaults: { _controller: mycpBundle:BackendAgency:enable_Agency, id:'',activar:''}
+
+mycp_list_agency_checkin:
+    pattern:  /check-in/{startDate}/{sort_by}
+    defaults: { _controller: mycpBundle:BackendReservationAg:checkin,startDate:'',sort_by:'' }

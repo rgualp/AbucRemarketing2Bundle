@@ -31,8 +31,8 @@ use Symfony\Component\Validator\Constraints\RegexValidator;
 class BackendAgencyController extends Controller {
 
     public function list_AgencyAction($items_per_page, Request $request) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $page = 1;
         $filter_active = $request->get('filter_active');
         $filter_country = $request->get('filter_country');
@@ -93,8 +93,8 @@ class BackendAgencyController extends Controller {
     }
 
     public function details_AgencyAction($id, Request $request) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
 
@@ -102,8 +102,8 @@ class BackendAgencyController extends Controller {
     }
 
     public function edit_AgencyAction($id, Request $request) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);

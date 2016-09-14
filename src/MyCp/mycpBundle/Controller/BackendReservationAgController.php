@@ -105,5 +105,36 @@ class BackendReservationAgController extends Controller {
         ));
     }
 
+    public function checkinAction(Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $filter_date_from = $request->get('filter_date_from');
+        $sort_by = $request->get('sort_by');
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+
+        if ($sort_by == 'null')
+            $sort_by = \MyCp\mycpBundle\Helpers\OrderByHelper::DEFAULT_ORDER_BY;
+
+        if ($filter_date_from == "") {
+            $filter_date_from = new \DateTime();
+            $startTimeStamp = $filter_date_from->getTimestamp();
+            $startTimeStamp = strtotime("+5 day", $startTimeStamp);
+            $filter_date_from->setTimestamp($startTimeStamp);
+            $filter_date_from = $filter_date_from->format("d/m/Y");
+        } else {
+            $filter_date_from = str_replace('_', '/', $filter_date_from);
+        }
+
+        $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckins($filter_date_from, $sort_by);
+
+        return $this->render('mycpBundle:agency:checkIn.html.twig', array(
+            'list' => $checkins,
+            'filter_date_from' => $filter_date_from,
+            'sort_by' => $sort_by));
+    }
+
 }
 
