@@ -30,7 +30,6 @@ class ProfileController extends Controller
             'success' => true,
             'id' => 'id_dashboard_profile_agency',
             'html' => $this->renderView('PartnerBundle:Profile:profile_agency.html.twig', array( 'form'=>$form->createView(), 'email'=>$agency->getEmail()))
-
         ]);
     }
 

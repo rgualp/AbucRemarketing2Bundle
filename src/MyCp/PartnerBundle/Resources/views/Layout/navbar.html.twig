@@ -8,14 +8,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="{{ path('frontend_partner_home') }}"><img class="" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}" style="margin-top: 7px" width="200px"/></a>
+                <a href="{{ path('frontend_partner_home') }}"><img class="" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}" style="margin-top: 7px" width="376px"/></a>
             </div>
             <div class="navbar-collapse collapse navbar-partner" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     {% if app.request.get('_route') %}
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
                     {% endif %}
-                    <li class=""><a href="#page-top" class="page-scroll">{{ 'label.how_work'|trans }}</a></li>
+                    <li class=""><a href="{{ path('frontend_partner_how_work') }}" class="page-scroll">{{ 'label.how_work'|trans }}</a></li>
 
                    {% if app.user.getUserUserName is defined %}
                         <li>

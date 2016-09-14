@@ -9,7 +9,7 @@
             </a>
         </div>
         <div class="row">
-            <div class="col-md-4 profile-element">
+            <div class="col-md-2 profile-element">
                 {{include('PartnerBundle:Profile:img-account.html.twig')}}
                 {% if app.user.UserPhoto is not null %}
                     {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
@@ -20,6 +20,9 @@
                     <span class="img-circle dashboard-avatar" style="background: url({{ avatar_img}}) transparent no-repeat scroll center center / cover;display: block;width: 80px;height: 80px;margin-left: 14px">
                     </span>
                 </div>
+            </div>
+            <div class="col-md-2">
+                <span class="color-white MyriadProBold" style="font-size: 24px">{{ 'dashboard.profile' | trans }}</span>
             </div>
             <div class="col-md-8 text-right">
                 <span style="color: #fff;font-size: 24px;font-family: MyriadProRegular">{{ 'label.account.agency.one' | trans | raw }}</span></br>
