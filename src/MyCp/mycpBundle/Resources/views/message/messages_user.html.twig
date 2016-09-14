@@ -1,0 +1,44 @@
+<div class="row-fluid" id="divMessageContainer">
+    <ul class="nav nav-tabs" id="tabs">
+        <li class="active">
+            <a href="#new_message" data-toggle="tab">Nuevo mensaje al cliente</a>
+        </li>
+        <li class="" id="tabClientMessages">
+            <a href="#client_messages" data-toggle="tab">Mensajes al cliente</a>
+        </li>
+        <li class="">
+            <a href="#comment" data-toggle="tab">Comentarios <span id="lblCommentsTotal" title="Hay {{ commentsTotal }} comentario(s) sobre este cliente" class="badge {% if commentsTotal == 0 %}hidden{% endif %}">{{ commentsTotal }}</span></a>
+        </li>
+    </ul>
+    <div class="tab-content" id="senMessageDiv" data-url="{{path("mycp_send_message")}}">
+        <div id="new_message" class="tab-pane fade in active">
+            <label class="alert alert-info hidden" id="lblSuccess">El mensaje ha sido enviado satisfactoriamente</label>
+            <div class="row-fluid"><b>Cliente:</b> {#{{user.UserUserName}} #}{{user.UserLastName}}</div>
+            {% if showSubject is defined and showSubject%}
+
+            <div class="row-fluid" style="vertical-align: middle">
+                <b>Asunto:</b> <input type="text" id="messageSubject" style="width: 91%" name="messge_subject"/>
+                <label class="error hidden" id="lblSubjectAlert">Por favor, introduzca el asunto del mensaje</label>
+            </div>
+            {% endif %}
+            <div class="row-fluid">
+                <textarea class="textarea" id="messageBody" style="width: 97%" name="message_to_client"></textarea>
+                <label class="error hidden" id="lblBodyAlert">Por favor, introduzca el cuerpo del mensaje</label>
+
+            </div>
+            <div class="row-fluid">
+                <em>
+                    A este cliente debe escribirle en <b>English{#{{user.userTouristLanguage.langName}}#}</b>.<br/>
+                    El mensaje que escriba en esta área sólo se enviará cuando accione sobre el botón <b>Enviar</b>.<br/>
+                    <b>Nota de redacción: </b> Escriba en un lenguaje cordial y respetuoso al cliente.
+                    El correo llegará en forma de plantilla de correo MyCasa con el texto que usted ha introducido por tanto le corresponde saludar y despedirse del cliente.
+                </em></div>
+
+            <img id="loadingImg" class="pull-right hidden" src="{{asset("bundles/mycp/images/loading.gif")}}" style="margin-right: 5px;" alt="{{"Loading" | trans}}"/>
+            <input type="hidden" id="userId" value="{{user.userId}}"/>
+            {#<input type="hidden" id="touristId" value="{{user.userTouristId}}"/>#}
+        </div>
+        <div id="client_messages" class="tab-pane fade" data-url="{{ path("mycp_list_message") }}"></div>
+        <div id="comment" class="tab-pane fade" data-url="{{ path("mycp_list_clientComment") }}"></div>
+        </div>
+    </div>

@@ -83,6 +83,10 @@
 	width: 100%;
 }
 
+.elastislide-carousel ul li.current-img a {
+    opacity: 0.3;
+}
+
 .elastislide-carousel ul li a img {
 	display: block;
 	border: 2px solid white;

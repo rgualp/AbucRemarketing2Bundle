@@ -1,0 +1,182 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{path('mycp_list_agency')}}">Agencias</a> <span class="divider">/</span></li>
+    <li class="active">Editar</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Editar la Agencia: {{ form.name.vars.value }}</h2>
+<hr/>
+    <form method="post" action="{{ path('mycp_edit_agency', {'id': id_agency}) }}">
+        {{ form_errors(form) }}
+        <div class="row-fluid">
+        <div class="span12">
+            <div class="span6">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#" data-toggle="tab">Agencia</a>
+                    </li>
+                </ul>
+                <table style="font-size: 12px" class="table table-striped ">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon"><i class="glyphicons user"></i> Nombre</span>
+                            </td>
+                            <td>
+                                {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon"><i class="glyphicons google_maps"></i> Dirección</span>
+                            </td>
+                            <td>
+                                {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon"><i class="glyphicons globe_af"></i> País</span>
+                            </td>
+                            <td>
+                                {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon"><i class="glyphicons envelope"></i> Correo de Contacto</span>
+                            </td>
+                            <td>
+                                <input type="hidden" value="{{ form.email.vars.value }}" name="{{ form.email.vars.full_name }}">
+                                <span>{{ form.email.vars.value }}</span>
+                                {#{{ form_widget(form.email, { 'attr': { 'type':'hidden' ,'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}#}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon"><i class="glyphicons phone_alt"></i> Teléfono</span>
+                            </td>
+                            <td>
+                                {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon"><i class="glyphicons phone_alt"></i> Teléfono Auxiliar</span>
+                            </td>
+                            <td>
+                                {{ form_widget(form.phoneAux, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if agency.status %}
+                                    <a id="link-activate" class="btn btn-danger desactivate" href="" title="Desactivar la agencia"><i class="glyphicons check"></i> Desactivar</a>
+                                {% else %}
+                                    <a id="link-activate" class="btn btn-success activate" href="" title="Activar la agencia"><i class="glyphicons unchecked"></i> Activar</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ form_widget(form.phoneAux, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="span6">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#reservas">Tour Operador</a>
+                    </li>
+                </ul>
+                <div class="row-fluid">
+                    <div data-prototype="{% filter escape %}{% include 'mycpBundle:agency:prototype.html.twig' with { 'item': form.contacts.vars.prototype } %}{% endfilter %}"></div>
+                    {% for m in form.contacts %}
+                        {% include 'mycpBundle:agency:prototype.html.twig' with { 'item': m } %}
+                        <hr/>
+                    {% endfor %}
+                </div>
+                {{ form_widget(form._token) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block form_actions %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="{{path('mycp_list_agency')}}">Agencias</a> <span class="divider">/</span></li>
+        <li class="active">Editar</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_agency') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+    <div class="form-actions">
+        <button class="btn btn-success" type="submit">Guardar</button>
+        <a class="btn" href="{{ path('mycp_list_agency') }}">Cancelar</a>
+    </div>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+           $("#link-activate").click(function (e) {
+               var elem = $(this);
+               e.preventDefault();
+               if ($(this).hasClass("activate")){
+                   activarAgencia(true, function (e) {
+                       elem.removeClass("btn-success").removeClass('activate');
+                       elem.addClass("btn-danger").addClass('desactivate');
+                       elem.empty();
+                       elem.append("<i class='glyphicons check'></i> Desactivar");
+                   });
+               }else{
+                   activarAgencia(false, function (e) {
+                       elem.removeClass("btn-danger").removeClass('desactivate');
+                       elem.addClass("btn-success").addClass('activate');
+                       elem.empty();
+                       elem.append("<i class='glyphicons unchecked'></i> Activar");
+                   });
+
+               }
+           })
+        });
+
+        function activarAgencia(enabled, callback) {
+            var url = '{{ path('mycp_enable_agency', {'id': agency.id, 'activar': true}) }}';
+            if (!enabled){
+                url = '{{ path('mycp_enable_agency', {'id': agency.id, 'activar': false}) }}';
+            }
+
+            $.get(url, function(data){
+                if(data['result']){
+                    callback();
+                }else{
+                    return false;
+                }
+            })
+        }
+    </script>
+
+    <script src="{{ asset('bundles/mycp/js/bootstrap-typeahead.js') }}" type="text/javascript"></script>
+
+{% endblock %}

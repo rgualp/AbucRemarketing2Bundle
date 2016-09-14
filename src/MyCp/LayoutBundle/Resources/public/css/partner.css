@@ -1102,6 +1102,7 @@ body.landing-page {
 .for-comments .comments-item .comment-text span{
     font-family: MyriadProLightCond;
     font-size: 25px;
+    line-height: 1.05;
 }
 
 .for-info-service{
@@ -1113,7 +1114,7 @@ body.landing-page {
 }
 .for-info-service .for-info-title i{
     color: #fff;
-    font-size: 40px;
+    font-size: 24px;
     margin-right: 5px;
 }
 .for-info-service .for-info-house-desc{
@@ -1149,6 +1150,7 @@ body.landing-page {
     margin-right: 10px;
     padding-left: 25px;
     position: relative;
+    width: 40%;
 }
 .icono-with-check{
 

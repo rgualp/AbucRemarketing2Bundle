@@ -134,7 +134,7 @@
                     Agencias <i class="icon-chevron-right  pull-right"></i>
                 </a>
             </div>
-            <div id="collapseAgency" class="accordion-body collapse {%if temp == 'BackendMailListController' or temp == 'BackendExportController' or temp == 'BackendRbacController' or temp == 'BlockController' or temp == 'MetaController'%}in{%endif%}">
+            <div id="collapseAgency" class="accordion-body collapse {%if temp == 'BackendAgencyController' %}in{%endif%}">
 
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_agency') }}"><i class="icon-bullhorn"></i> Lista de Agencias</a>
@@ -188,6 +188,22 @@
             </div>
         </div>
         {%endif%}
+
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwoAg">
+                    Reservaciones Ag<i class="icon-chevron-right  pull-right"></i>
+                </a>
+            </div>
+            <div id="collapseTwoAg" class="accordion-body collapse {%if temp == 'BackendReservationAgController'%}in{%endif%}">
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_reservations_ag_booking') }}"><i class="glyphicons money"></i> Bookings</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_agency_checkin') }}"><i class="icon-check"></i> Check-in</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="span9">
