@@ -42,15 +42,20 @@ body.landing-page {
     font-family: 'MyriadProLightCond';
     src: url('../bundles/partner/font/MyriadPro-LightCond.otf');
 }
-.MyriadProLightCond{
-    font-family: MyriadProLightCond;
+@font-face{
+    font-family: 'MyriadProBlack';
+    src: url('../bundles/partner/font/MyriadPro-Black.otf');
 }
-
 @font-face{
     font-family: 'MyriadProLightCondIt';
     src: url('../bundles/partner/font/MyriadPro-LightCondIt.otf');
 }
-
+.MyriadProLightCond{
+    font-family: MyriadProLightCond;
+}
+.MyriadProBlack{
+    font-family: MyriadProBlack;
+}
 .MyriadProBold{
     font-family: MyriadProBold;
 }
@@ -201,7 +206,7 @@ body.landing-page {
     font-size: 48px !important;
     text-transform: none !important;
     text-shadow: none !important;
-    letter-spacing: -1.5px !important;
+    letter-spacing: 1.5px !important;
     font-family: MyriadProBoldCond !important;
     font-weight: 100 !important;
 }
@@ -211,6 +216,7 @@ body.landing-page {
     text-transform: none !important;
     text-shadow: none !important;
     margin-top: -27px !important;
+    color: #bfbfbf !important;
 }
 .carousel-caption {
     position: absolute !important;
@@ -356,6 +362,7 @@ body.landing-page {
 }
 .paFooter a {
     color: #fff;
+    font-family: MyriadProRegular;
 }
 .pb-0{
     padding-bottom: 0px;
@@ -1360,6 +1367,20 @@ body.landing-page {
     background-color: #f4a232;
     border: 0 none;
     margin-top: 20px;
+}
+.about-us p {
+    font-size: 24px;
+    color:#094d74;
+    font-family: MyriadProRegular;
+    text-align: justify;
+}
+.how_work p {
+    color: #fff;
+    font-family: MyriadProBoldIt;
+    font-size: 18px;
+    margin-left: 36px;
+    margin-top: 10px;
+    text-align: left;
 }
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{

@@ -21,18 +21,24 @@
                         <div class="col-sm-2">
                             {{ form_widget(formFilterOwnerShip.huesp, { 'attr': {'data-placeholder': 'pa_hues'|trans,'data-toggle':'tooltip', 'data-container':'body','class':'form-control chosen-select-deselect'}}) }}
                         </div>
-                        <div class="col-sm-2">
+                       {# <div class="col-sm-2">
                             {{ form_widget(formFilterOwnerShip.child, { 'attr': {'data-placeholder': 'pa_children'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                         </div>
                         <div class="col-sm-2">
                             {{ form_widget(formFilterOwnerShip.age, { 'attr': {'data-placeholder': 'pa_age'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>#}
+                        <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.room_type, { 'attr': {'data-placeholder': 'pa_room_type'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                         </div>
                     </div>
                 </div>
                 <div class="row m-t-lg">
                     <div class="col-sm-12">
                         <div class="col-sm-3">
-                            {{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                            {#{{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}#}
                         </div>
                         <div class="col-sm-7 m-t-xs">
                             {% set count=owns_prices|length-1 %}
@@ -70,10 +76,10 @@
                             <div class="col-md-2">
                                 {{ form_widget(formFilterOwnerShip.own_beds_total, { 'attr': {'data-placeholder': 'pa_bed'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                             </div>
-                            <div class="col-md-2">
+                          {#  <div class="col-md-2">
                                 {{ form_widget(formFilterOwnerShip.room_type, { 'attr': {'data-placeholder': 'pa_room_type'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
-                            </div>
-                            <div class="col-md-2">
+                            </div>#}
+                            <div class="col-md-4">
                                 {{ form_widget(formFilterOwnerShip.room_bathroom, { 'attr': {'data-placeholder': 'pa_bath_room'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                             </div>
                         </div>

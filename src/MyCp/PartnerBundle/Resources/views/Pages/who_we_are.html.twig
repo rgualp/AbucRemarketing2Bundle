@@ -5,38 +5,101 @@
 {% block login_register %}
     {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
 {% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
 {% block body %}
-    <section class="container">
-       <div class="row" style="background-color: #094e75">
-        <div class="col-md-4">
-            <a class="glyphicons group" href="" style="font-size: 150px"></a>
-        </div>
-        <div class="col-md-8"></div>
-       </div>
-        <div class="row">
-            <div class="col-md-12">
-                <p>MyCasa Partner es un producto asociado a la plataforma MyCasa Particular.com, líder en reserva online de alojamientos privados en Cuba.</p>
+    <div class="space space-70"></div>
+    <div class="col-md-12">
+        <div class="row" style="background-color: rgb(9, 78, 117);">
+            <div class="col-md-2"></div>
+            <div class="col-md-5">
+                <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/quienessomos.png')}}" style="margin-top: -5px"/>
+            </div>
+            <div class="col-md-5 color-white">
+                <span style="font-size: 48px; position: absolute; padding: 42px 0px 0px;font-family: MyriadProBlack">{{ 'label.aboutus' | trans }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="container m-t-lg about-us" style="padding-bottom: 20px">
             <div class="col-md-12">
-                <p>Partner es un directorio de reservaciones que pretende facilitar la colaboración de las agencias y turoperadores de viaje, que desean operar con el amplio y creciente mercado de casas particulares cubanas.</p>
+                <p>{{ 'label.aboutus.one' | trans | raw }}</p>
+            </div>
+            <div class="col-md-12">
+                <p>{{ 'label.aboutus.two' | trans | raw }}</p>
+            </div>
+            <div class="col-md-12">
+                <p>{{ 'label.aboutus.three' | trans | raw}}</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <p>Partner es la mejor vía de llegar a Cuba.</p>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row" style="background-color: #64a432;height: 170px">
+            <div class="col-md-2"></div>
             <div class="col-md-4">
-                <img src="{{ asset('bundles/partner/img/icon/conocenuestroeq.png')}}" />
+                <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/nuestroequipo.png')}}" style="margin-top: -5px"/>
             </div>
-            <div class="col-md-8">
-                <p>Partner es la mejor vía de llegar a Cuba.</p>
+            <div class="col-md-6 color-white">
+                <span style="font-size: 48px; position: absolute; padding: 42px 0px 0px;font-family: MyriadProBlack">{{ 'label.aboutus.four' | trans }}</span>
             </div>
         </div>
-    </section>
+        <div class="container m-t-lg">
+            <div class="col-md-4">
+                <div class="col-md-6 pl-0">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/Pedro.png')}}" alt="CEO" width="140px" height="140px"/>
+                </div>
+                <div class="col-md-6 pl-0" style="margin-top: 50px">
+                    <span style="font-size: 30px;font-family: MyriadProBoldCond;color:#64a432">Pedro Torres</span></br>
+                    <span style="font-size: 30px;font-family: MyriadProLightCond;color:#4e4e4e">CEO</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6 pl-0">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/Damian.png')}}" alt="Product Manager" width="140px" height="140px"/>
+                </div>
+                <div class="col-md-6 pl-0" style="margin-top: 50px">
+                    <span style="font-size: 30px;font-family: MyriadProBoldCond;color:#64a432">Damián Flores</span></br>
+                    <span style="font-size: 30px;font-family: MyriadProLightCond;color:#4e4e4e">Product Manager</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6 pl-0">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/Andy.png')}}" alt="Product Owner" width="140px" height="140px"/>
+                </div>
+                <div class="col-md-6 pl-0" style="margin-top: 50px">
+                    <span style="font-size: 30px;font-family: MyriadProBoldCond;color:#64a432">Andy Cabrera</span></br>
+                    <span style="font-size: 30px;font-family: MyriadProLightCond;color:#4e4e4e">Product Owner</span>
+                </div>
+            </div>
+        </div>
+        <div class="container m-t-lg" style="padding-bottom: 20px">
+            <div class="col-md-4">
+                <div class="col-md-6 pl-0">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/Olga.png')}}" alt="Content Manager" width="140px" height="140px"/>
+                </div>
+                <div class="col-md-6 pl-0" style="margin-top: 50px">
+                    <span style="font-size: 30px;font-family: MyriadProBoldCond;color:#64a432">Olga Díaz</span></br>
+                    <span style="font-size: 30px;font-family: MyriadProLightCond;color:#4e4e4e">Content Manager</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6 pl-0">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/Emilio.png')}}" alt="Web Designer" width="140px" height="140px"/>
+                </div>
+                <div class="col-md-6 pl-0" style="margin-top: 50px">
+                    <span style="font-size: 30px;font-family: MyriadProBoldCond;color:#64a432">Emilio Lino</span></br>
+                    <span style="font-size: 30px;font-family: MyriadProLightCond;color:#4e4e4e">Web Designer</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6 pl-0">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/Andy.png')}}" alt="{{"label.pedro" | trans}}" width="140px" height="140px"/>
+                </div>
+                <div class="col-md-6 pl-0" style="margin-top: 50px">
+                    <span style="font-size: 30px;font-family: MyriadProBoldCond;color:#64a432">Andy Cabrera</span></br>
+                    <span style="font-size: 30px;font-family: MyriadProLightCond;color:#4e4e4e">Developer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 

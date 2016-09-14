@@ -10,7 +10,8 @@
     {% for message in app.session.flashbag.get('message_error_emailagency') %}
         <div class="alert alert-danger alert-dismissable container">
             <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-            {{ message }}</div>
+            {{ message }}
+        </div>
     {% endfor %}
     {#-----Modal-----#}
     {{ include('PartnerBundle:Modal:modal-register-partner.html.twig') }}

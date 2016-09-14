@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-12T16:11:28Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-14T15:25:23Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -141,10 +141,6 @@
       <trans-unit id="7f2f6a15cf8da2b27e5a4af47b58e7ad71c0b3d9" resname="Error">
         <source>Error</source>
         <target state="new">Error</target>
-      </trans-unit>
-      <trans-unit id="5d6f77af1e0245b504e613cb81eae2e22d22e407" resname="FAVORITIES">
-        <source>FAVORITIES</source>
-        <target state="new">FAVORITIES</target>
       </trans-unit>
       <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
         <source>FORGOT_PASSWORD_BUTTON</source>
@@ -614,6 +610,26 @@
         <source>frontend.web_site</source>
         <target state="new">frontend.web_site</target>
       </trans-unit>
+      <trans-unit id="89de5cba6413438c28f1d5ca5ae806253a1098db" resname="label.aboutus">
+        <source>label.aboutus</source>
+        <target state="new">label.aboutus</target>
+      </trans-unit>
+      <trans-unit id="78c00085461fa4391eaad088248997968bcaf05a" resname="label.aboutus.four">
+        <source>label.aboutus.four</source>
+        <target state="new">label.aboutus.four</target>
+      </trans-unit>
+      <trans-unit id="41ae0f0cd8f8e385bce609f5357fadf865ced7ae" resname="label.aboutus.one">
+        <source>label.aboutus.one</source>
+        <target state="new">label.aboutus.one</target>
+      </trans-unit>
+      <trans-unit id="6653ac6a880aac4ca47cadbed047b907afafa166" resname="label.aboutus.three">
+        <source>label.aboutus.three</source>
+        <target state="new">label.aboutus.three</target>
+      </trans-unit>
+      <trans-unit id="1cdfd3b32d70fea8de1269aefd0aa5bf4c40d4ed" resname="label.aboutus.two">
+        <source>label.aboutus.two</source>
+        <target state="new">label.aboutus.two</target>
+      </trans-unit>
       <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
         <source>label.account.agency.contact</source>
         <target state="new">label.account.agency.contact</target>
@@ -754,6 +770,70 @@
         <source>label.home</source>
         <target state="new">label.home</target>
       </trans-unit>
+      <trans-unit id="45af845d42457f5f2a7f349c90c9be13b1f116ff" resname="label.how.sectionone.five">
+        <source>label.how.sectionone.five</source>
+        <target state="new">label.how.sectionone.five</target>
+      </trans-unit>
+      <trans-unit id="a5c6d1895f915f590b1472d21eb3a1aecebaa446" resname="label.how.sectionone.four">
+        <source>label.how.sectionone.four</source>
+        <target state="new">label.how.sectionone.four</target>
+      </trans-unit>
+      <trans-unit id="f5c64255343694048db6534393616f92de4ab77e" resname="label.how.sectionone.one">
+        <source>label.how.sectionone.one</source>
+        <target state="new">label.how.sectionone.one</target>
+      </trans-unit>
+      <trans-unit id="8f3f16b0edf86fe4f011ca3472071b940843549d" resname="label.how.sectionone.three">
+        <source>label.how.sectionone.three</source>
+        <target state="new">label.how.sectionone.three</target>
+      </trans-unit>
+      <trans-unit id="5a94955fba607f861ac3713b56535f638709e1dc" resname="label.how.sectionone.title">
+        <source>label.how.sectionone.title</source>
+        <target state="new">label.how.sectionone.title</target>
+      </trans-unit>
+      <trans-unit id="eeb93e368b10a42c780f325cbb83cec721683ddc" resname="label.how.sectionone.two">
+        <source>label.how.sectionone.two</source>
+        <target state="new">label.how.sectionone.two</target>
+      </trans-unit>
+      <trans-unit id="c487b1f4d2f2bdd7e5f80ecd10d1486041147751" resname="label.how.sectiontwo.five">
+        <source>label.how.sectiontwo.five</source>
+        <target state="new">label.how.sectiontwo.five</target>
+      </trans-unit>
+      <trans-unit id="8b58c77c1fe37b3d86f79c09b8fabdf22a68493a" resname="label.how.sectiontwo.four">
+        <source>label.how.sectiontwo.four</source>
+        <target state="new">label.how.sectiontwo.four</target>
+      </trans-unit>
+      <trans-unit id="288db81e7258cc8801d6dae37e6201c4f3a3a818" resname="label.how.sectiontwo.one">
+        <source>label.how.sectiontwo.one</source>
+        <target state="new">label.how.sectiontwo.one</target>
+      </trans-unit>
+      <trans-unit id="93a985931123c9533d4be89b0ae5a4df94bd3d45" resname="label.how.sectiontwo.six">
+        <source>label.how.sectiontwo.six</source>
+        <target state="new">label.how.sectiontwo.six</target>
+      </trans-unit>
+      <trans-unit id="2e796e525c9a40962e58bef9cbf489f9d1256465" resname="label.how.sectiontwo.three">
+        <source>label.how.sectiontwo.three</source>
+        <target state="new">label.how.sectiontwo.three</target>
+      </trans-unit>
+      <trans-unit id="1356570beac41628d2a339730f8ee9a9fd14b9de" resname="label.how.sectiontwo.title">
+        <source>label.how.sectiontwo.title</source>
+        <target state="new">label.how.sectiontwo.title</target>
+      </trans-unit>
+      <trans-unit id="78213eb194b46bdc03c445c4d858b36868f1e288" resname="label.how.sectiontwo.two">
+        <source>label.how.sectiontwo.two</source>
+        <target state="new">label.how.sectiontwo.two</target>
+      </trans-unit>
+      <trans-unit id="31c917f98470cd72451382ff8f60356d654ba396" resname="label.how.workheader.one">
+        <source>label.how.workheader.one</source>
+        <target state="new">label.how.workheader.one</target>
+      </trans-unit>
+      <trans-unit id="40ea265a599dc9273cf581f807c993adeb36ac36" resname="label.how.workheader.three">
+        <source>label.how.workheader.three</source>
+        <target state="new">label.how.workheader.three</target>
+      </trans-unit>
+      <trans-unit id="e315f9b774e276307957b37f49703e2694197292" resname="label.how.workheader.two">
+        <source>label.how.workheader.two</source>
+        <target state="new">label.how.workheader.two</target>
+      </trans-unit>
       <trans-unit id="409228771ab9c0c9a85cfefcd2bfdbcef453e476" resname="label.how_work">
         <source>label.how_work</source>
         <target state="new">label.how_work</target>
@@ -821,6 +901,10 @@
       <trans-unit id="17662a08cbcbd1fdf5771590c789bbfdbd724542" resname="label.password.repeat">
         <source>label.password.repeat</source>
         <target state="new">label.password.repeat</target>
+      </trans-unit>
+      <trans-unit id="0e364189a6a1ae205dd69fe566b2bdd4807f40a7" resname="label.pedro">
+        <source>label.pedro</source>
+        <target state="new">label.pedro</target>
       </trans-unit>
       <trans-unit id="8e1da1387f1662231b752e473150049de194ca64" resname="label.pinterest">
         <source>label.pinterest</source>
