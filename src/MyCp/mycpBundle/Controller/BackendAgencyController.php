@@ -140,6 +140,12 @@ class BackendAgencyController extends Controller {
         $user_id = $agency['touroperador_id'];
 
         if ( $em->getRepository('mycpBundle:user')->changeStatus($user_id) ){
+            if (!$activar){
+                $body = $this->render('@mycp/mail/disabledAgency.html.twig', array('agency' => $agency));
+                $service_email = $this->get('Email');
+                $service_email->sendTemplatedEmail(
+                    $this->get('translator')->trans('EMAIL_AGENCY_DISABLE_ACCOUNT'), 'noreply@mycasaparticular.com', $agency['contact_mail'], $body->getContent());
+            }
             $result = true;
         }else{
             $result = false;
