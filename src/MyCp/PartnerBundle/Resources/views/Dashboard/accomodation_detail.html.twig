@@ -65,7 +65,7 @@
                                                             <div class="col-sm-12"><span>{{ ownership.ownAddressProvince }}, {{ ownership.ownaddressmunicipality }}</span></div>
                                                             <div class="col-sm-12"><span>{{ ownership.owntype }} / {{ ownership.rooms_count }} {% if ownership.rooms_count == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}</span></div>
                                                             <div class="col-sm-12"><span>Anfitriones: {{ ownership.owner1 | split(' ')[0] }} {% if ownership.owner2 != "" %} / {{ ownership.owner2 | split(' ')[0] }} {% endif %}</span></div>
-                                                            <div class="col-sm-12"><span>{{ "Código de la Casa" | trans }}: {{ ownership.mycpcode }}</span></div>
+                                                            <div class="col-sm-12"><span>{{ "Código" | trans }}: {{ ownership.mycpcode }}</span></div>
                                                             <div class="col-sm-9"><span class="price">{{ ownership.ownminimumprice | price }} <i>{{ "/Noche" | trans }}</i></span></div>
                                                             <div class="col-sm-3">
                                                                 <div class="space space-10"></div>
@@ -205,13 +205,13 @@
                                                     <div class="col-sm-2"></div>
                                                     {% if ownership.english != '0'  %}
                                                         <div class="col-sm-4">
-                                                            <span class="icono-with-check"><i class="flags eng"></i></span>
+                                                            <i class="flags eng"></i>
                                                             <div class="space space-10"></div>
                                                         </div>
                                                     {% endif %}
                                                     {% if ownership.german != '0'  %}
                                                     <div class="col-sm-4">
-                                                        <span class="icono-with-check"><i class="flags ger"></i></span>
+                                                        <i class="flags ger"></i>
                                                         <div class="space space-10"></div>
                                                     </div>
                                                     {% endif %}
@@ -221,13 +221,13 @@
                                                     <div class="col-sm-2"></div>
                                                     {% if ownership.french != '0'  %}
                                                     <div class="col-sm-4">
-                                                        <span class="icono-with-check"><i class="flags fra"></i></span>
+                                                        <i class="flags fra"></i>
                                                         <div class="space space-10"></div>
                                                     </div>
                                                     {% endif %}
                                                     {% if ownership.italian != '0'  %}
                                                     <div class="col-sm-4">
-                                                        <span class="icono-with-check"><i class="flags ita"></i></span>
+                                                        <i class="flags ita"></i>
                                                         <div class="space space-10"></div>
                                                     </div>
                                                     {% endif %}
@@ -246,22 +246,22 @@
                                             <div class="col-sm-12">
                                                     <ul class="list-services">
                                                         {%if ownership.ownFacilitiesBreakfast %}
-                                                        <li>
+                                                        <li style="width: auto;">
                                                             <span class="icono-with-check detail-value"><i class="glyphicons tea_kettle"></i> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</span>
                                                         </li>
                                                         {% endif %}
                                                         {%if ownership.ownFacilitiesDinner %}
-                                                            <li>
+                                                            <li style="width: auto;">
                                                                 <span class="icono-with-check detail-value"><i class="glyphicons pot"></i> {{"DINNER_TAB_DESCRIPTION" | trans}}</span>
                                                             </li>
                                                         {%endif%}
                                                         {%if ownership.ownDescriptionLaundry %}
-                                                            <li>
+                                                            <li style="width: auto;">
                                                                 <span class="icono-with-check detail-value"><i class="glyphicons lundry"></i> {{"LAUNDRY_TAB_DESCRIPTION" | trans}}</span>
                                                             </li>
                                                         {%endif%}
                                                         {%if ownership.ownFacilitiesParking %}
-                                                            <li>
+                                                            <li style="width: auto;">
                                                                 <span class="icono-with-check detail-value"><i class="glyphicons truck"></i> {{"PARKING_TAB_DESCRIPTION" | trans}}</span>
                                                             </li>
                                                         {%endif%}
