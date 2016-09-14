@@ -38,6 +38,9 @@
                     <td><b>Fecha de registro: </b>{{ agency.date_register | date("d/m/Y") }}</td>
                     <td><b>Paquete de servicio contratado: </b>{{ agency.name_package }}</td>
                 </tr>
+                <tr>
+                    <td colspan="2"><b>Teléfonos: </b>{{ agency.ag_phone }}, {{ agency.ag_phone_aux }}</td>
+                </tr>
                 <tr><td colspan="2"><b class="pull-left">Estado de la Cuenta: </b>
                         <div class="span1"></div>
                         <div class="span4">
@@ -53,17 +56,17 @@
         <div class="span6">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a data-toggle="tab" href="#reservas">Tour Operador</a>
+                    <a data-toggle="tab" href="#reservas">Responsable</a>
                 </li>
             </ul>
             <table style="font-size: 12px" class="table table-striped">
                 <tbody><tr>
-                    <td style="width: 100px" rowspan="4"><a href="#"><img alt="Photo" src="/uploads/userImages/no_photo.gif" title="Yanet Morales" class="img-polaroid">
+                    <td style="width: 100px" rowspan="4"><a href="#"><img alt="Photo" src="/uploads/userImages/no_photo.gif" title="{{ agency.touroperador }} {{ agency.touroperador_last_name }}" class="img-polaroid">
                         </a></td>
                     <td colspan="2"><b>Nombre: </b> {{ agency.touroperador }} {{ agency.touroperador_last_name }}</td>
                 </tr>
                 <tr><td colspan="2"><b>Correo: </b><a href="mailto:{{ agency.user_email }}">{{ agency.user_email }}</a></td></tr>
-                <tr><td colspan="2"><b>Teléfono de Contacto: </b>{{ agency.user_phone }}</td></tr>
+                <tr><td colspan="2"><b>Teléfono de Contacto: </b>{{ agency.contact_phone }}, {{ agency.contact_mobile }}</td></tr>
                 </tbody></table>
         </div>
     </div>
