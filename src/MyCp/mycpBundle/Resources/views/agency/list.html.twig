@@ -11,7 +11,7 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li class="active">Propiedades</li>
+    <li class="active">Agencias</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -62,9 +62,9 @@
             <div class="span3">
                 <label>Estado de la cuenta:</label>
                 <select id="filter_active" class="input-block-level" name="filter_active">
-                    <option value="-1" selected ></option>
-                    <option value="1">Activa</option>
-                    <option value="0">Inactiva</option>
+                    <option value=""></option>
+                    <option value="1" {% if filter_active == '1' %} selected {% endif %}>Activa</option>
+                    <option value="0" {% if filter_active == '0' %} selected {% endif %}>Inactiva</option>
                 </select>
             </div>
         </div>
@@ -110,13 +110,14 @@
 <table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th>Nombre</th>
-        <th>Nombre Tour Operador</th>
-        <th>País</th>
+        <th>Agencia</th>
         <th>Correo de Contacto</th>
-        <th>Paquete de servicios contratado</th>
-        <th>Estado de la Cuenta</th>
-        <th>Fecha de registro</th>
+        <th>País</th>
+        <th>Responsable</th>
+
+        <th>Paquete</th>
+        <th>Estado</th>
+        <th>Registro</th>
         <th style="text-align: right">Acciones</th>
     </tr>
     </thead>
@@ -124,17 +125,21 @@
     {% for agency in agencys %}
     <tr>
         <td>{{ agency.name }}</td>
-        <td>{{ agency.touroperador }}</td>
-        <td>{{ agency.name_country }}</td>
         <td>{{ agency.contact_mail }}</td>
+        <td>{{ agency.name_country }}</td>
+        <td>{{ agency.touroperador }}</td>
         <td>{{ agency.name_package }}</td>
-        <td>{{ agency.status }}</td>
+        <td>
+            {% if agency.status %}
+                <div class="badge badge-success" style="text-align: center">Activa</div>
+            {% else %}
+                <div class="badge badge-danger" style="text-align: center">Inactiva</div>
+            {% endif %}
+        </td>
         <td>{{ agency.date_register | date("d/m/Y") }}</td>
         <td style="text-align: right">
-            {% if not agency.status %}
-                {#<a class="btn btn-mini btn-info" href="{{ path("mycp_change_status_user", {"userId": user.userId}) }}">Activar</a>#}
-            {% endif %}
-            <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_ownership',{'id_ownership':agency.id}) }}" title="Editar - {{agency.name}}"><i class="icon-edit"></i></a>
+            <a class="btn btn-mini" title="Detalles - {{agency.name}}" href="{{ path('mycp_details_agency', {'id':agency.id}) }}">Detalles</a>
+            <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_agency',{'id':agency.id}) }}" title="Editar - {{agency.name}}"><i class="icon-edit"></i></a>
         </td>
     </tr>
 
@@ -181,27 +186,10 @@
         url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
         url = url.replace('/-1', '');
         $('.datepicker').datepicker({
-            format: 'dd-mm-yyyy',
+            format: 'yyyy-mm-dd',
             todayBtn: 'linked',
             autoclose: true,
             language: 'es'
-        });
-        $('#filter_province').change(function() {
-            code = $('#filter_province').val();
-            if (code != '')
-            {
-                $('#filter_municipality').html('<option value="">Cargando...</option>');
-
-
-                $.ajax({
-                    type: "POST",
-                    url: url + '/' + code,
-                    success: function(msg) {
-
-                        $('#filter_municipality').html(msg);
-                    }
-                });
-            }
         });
 
         function submit_filters(ev)
@@ -211,52 +199,41 @@
                 action_submit();
             }
         }
-        filter_code = $('#filter_code').val();
         function action_submit()
         {
 
             items_per_page ={{items_per_page}} ;
-            filter_code = $('#filter_code').val();
-            if (filter_code == '')
-                filter_code = 'null';
-            filter_province = $('#filter_province').val();
-            if (filter_province == '')
-                filter_province = 'null';
-            filter_municipality = $('#filter_municipality').val();
-            if (filter_municipality == '')
-                filter_municipality = 'null';
-            filter_destination = $('#filter_destination').val();
-            if (filter_destination == '')
-                filter_destination = 'null';
-            filter_type = $('#filter_type').val();
-            if (filter_type == '')
-                filter_type = 'null';
-            filter_category = $('#filter_category').val();
-            if (filter_category == '')
-                filter_category = 'null';
+            filter_country = $('#filter_country').val();
+            if (filter_country == '')
+                filter_country = 'null';
+
+            filter_active = $('#filter_active').val();
+            if (filter_active == '')
+                filter_active = 'null';
+
+            filter_owner = $('#filter_owner').val();
+            if (filter_owner == '')
+                filter_owner = 'null';
+
+            filter_email = $('#filter_email').val();
+            if (filter_email == '')
+                filter_email = 'null';
+
+            filter_package = $('#filter_package').val();
+            if (filter_package == '')
+                filter_package = 'null';
+
+            filter_date_created = $('#filter_date_created').val();
+            if (filter_date_created == '')
+                filter_date_created = 'null';
 
             filter_name = $('#filter_name').val();
             if (filter_name == '')
                 filter_name = 'null';
-            filter_saler = $('#filter_saler').val();
-            if (filter_saler == '')
-                filter_saler = 'null';
-            filter_visit_date = $('#filter_visit_date').val();
-            //filter_visit_date = filter_visit_date.replace()('/','-');
-            if (filter_visit_date == '')
-                filter_visit_date = 'null';
-            filter_active = $('#filter_active').val();
-            if (filter_active == '')
-                filter_active = 'null';
-            filter_other = $('#filter_other').val();
-            if (filter_other == '')
-                filter_other = 'null';
-            filter_commission = $('#filter_commission').val();
-            if (filter_commission == '')
-                filter_commission = 'null';
+
 
             url_submit = $('#filter').attr('action');
-            url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date + '/' + filter_other + '/' + filter_commission;
+            url_submit = url_submit + '/' + items_per_page + '/' + filter_name + '/' + filter_active + '/' + filter_country + '/' + filter_date_created + '/' + filter_owner + '/' + filter_email + '/' + filter_package;
             $('#filter').attr('action', url_submit);
             $('#filter').submit();
         }

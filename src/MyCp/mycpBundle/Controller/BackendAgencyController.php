@@ -7,7 +7,9 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -29,8 +31,8 @@ use Symfony\Component\Validator\Constraints\RegexValidator;
 class BackendAgencyController extends Controller {
 
     public function list_AgencyAction($items_per_page, Request $request) {
-        //$service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $page = 1;
         $filter_active = $request->get('filter_active');
         $filter_country = $request->get('filter_country');
@@ -38,13 +40,13 @@ class BackendAgencyController extends Controller {
         $filter_owner = $request->get('filter_owner');
         $filter_email = $request->get('filter_email');
         $filter_package = $request->get('filter_package');
-        $filter_date_created = $request->get('filter_code');
+        $filter_date_created = $request->get('filter_date_created');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_country == 'null' && $filter_package == 'null' &&
-                $filter_email == 'null' && $filter_date_created == 'null'
+                $filter_email == 'null' && $filter_date_created == 'null' && $filter_owner == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+            return $this->redirect($this->generateUrl('mycp_list_agency'));
         }
 
         if ($filter_active == 'null')
@@ -62,16 +64,18 @@ class BackendAgencyController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
+//        dump($filter_name);die;
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $agencys = $paginator->paginate($em->getRepository('PartnerBundle:paTravelAgency')->getAll(
-            $filter_active,
             $filter_name,
             $filter_country,
             $filter_owner,
             $filter_email,
-            $filter_date_created
+            $filter_date_created,
+            $filter_package,
+            $filter_active
         ))->getResult();
 
         return $this->render('mycpBundle:agency:list.html.twig', array(
@@ -89,48 +93,67 @@ class BackendAgencyController extends Controller {
         ));
     }
 
-    public function activeRoomAction($id_room, $activate) {
+    public function details_AgencyAction($id, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $service_log = $this->get('log');
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
 
-        $ro = $em->getRepository('mycpBundle:room')->find($id_room);
-        $own = $ro->getRoomOwnership();
-
-        $ro->setRoomActive($activate);
-        $em->persist($ro);
-        $em->flush();
-
-        $service_log->saveLog($own->getLogDescription().' (Activar / Desactivar '.$ro->getLogDescription().')', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::ROOM);
-
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
-        $count = count($rooms);
-        $count_active = 0;
-        $maximum_guests = 0;
-        foreach ($rooms as $room) {
-            if (!$room->getRoomActive())
-                $count--;
-            else {
-                $count_active++;
-                $maximum_guests += $room->getMaximumNumberGuests();
-            }
-        }
-
-        $own->setOwnMaximumNumberGuests($maximum_guests);
-        $own->setOwnRoomsTotal($count_active);
-        if ($count <= 0) {
-            $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
-            $own->setOwnStatus($status);
-            $em->persist($own);
-            $service_log->saveLog($own->getLogDescription()." (Estado Inactivo por desactivar todas las habitaciones)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
-        }
-
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own->getOwnId())));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency));
     }
 
+    public function edit_AgencyAction($id, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+
+        $em = $this->getDoctrine()->getManager();
+        $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
+        $errors = array();
+
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$obj);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()){
+                $agency_data = $form->getData();
+                $em->persist($agency_data);
+                $em->flush();
+                $message = 'La agencia se ha actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+            }
+        }else{
+
+        }
+
+        return $this->render('mycpBundle:agency:edit.html.twig', array(
+            'form' => $form->createView(),
+            'id_agency' => $id,
+            'agency' => $agency
+        ));
+    }
+
+    public function enable_AgencyAction($id,$activar){
+
+        $em = $this->getDoctrine()->getManager();
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
+
+        $user_id = $agency['touroperador_id'];
+
+        if ( $em->getRepository('mycpBundle:user')->changeStatus($user_id) ){
+            if (!$activar){
+                $body = $this->render('@mycp/mail/disabledAgency.html.twig', array('agency' => $agency));
+                $service_email = $this->get('Email');
+                $service_email->sendTemplatedEmail(
+                    $this->get('translator')->trans('EMAIL_AGENCY_DISABLE_ACCOUNT'), 'noreply@mycasaparticular.com', $agency['contact_mail'], $body->getContent());
+            }
+            $result = true;
+        }else{
+            $result = false;
+        }
+
+        return new JsonResponse(array('result'=>$result,'id'=>$id));
+    }
 
     public function get_agency_namesAction() {
         $em = $this->getDoctrine()->getManager();

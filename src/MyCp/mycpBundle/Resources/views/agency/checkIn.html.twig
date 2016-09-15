@@ -1,0 +1,156 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
+{% if sort_by ==''%}{% set sort_by='null'%}{%endif%}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Check-in</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Check-in</h2>
+<hr/>
+<ul class="nav nav-tabs" id="myTab">
+    <li class=""><a href="{{ path('mycp_list_reservations_ag_booking') }}">Booking</a></li>
+    <li class="active"><a data-toggle="tab" href="#checkin">Check-in</a></li>
+</ul>
+    <div class="tab-content" id="myTabContent">
+        <div id="reservas" class="tab-pane fade active in">
+
+            {% for message in app.session.flashbag.get('message_error_local') %}
+            <div class="alert alert-error">{{ message }}</div>
+            {% endfor %}
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_agency_checkin')}}">
+                <div class="well well-small">
+                    <div class="row-fluid">
+                        <div class="span3"><label>Fecha Check-in:</label>
+                            <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{ filter_date_from }}"/>
+                        </div>
+
+                        <div class="span2">
+                            <label>&nbsp;</label>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                                </div>
+                                <div class="span6">
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_agency_checkin') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% if list %}
+            </form>
+
+            <table class="table table-hover table-striped" style="font-size: 12px">
+                <thead>
+                <tr>
+                    <th><h4>Día {{ filter_date_from }}</h4></th>
+            <th style="text-align: right;padding-right: 50px;"><a href="{{path("mycp_checkin_export_excel", {'date':filter_date_from | replace("/","_"),'sort_by': sort_by})}}">Descargar Excel</a></th>
+            <th style="width: 200px">
+                Ordenar por
+                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                    {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CHECKIN')})) }}
+                </select>
+            </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set flag=0 %}
+                {% for check in list %}
+                <tr>
+                    <td colspan="3">
+                        <table style="width:100%" class="stylessTable">
+                            <tr>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Reserva:</b> {{check.gen_res_id | getCASId}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Fecha:</b> {{check.gen_res_date |date("d/m/Y")}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Habitaciones:</b> {{check.rooms}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Huéspedes:</b> {{check.adults+check.children}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Pagado:</b> {{check.payed|date("d/m/Y")}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Noches:</b> {{check.nights / check.rooms}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"><b>Pago en casa:</b> {{ check.to_pay_at_service - check.to_pay_at_service * check.own_commission_percent /100 | number_format(2, '.', '') }} CUC</td>
+                            </tr>
+                            <tr>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"> <b>Propiedad:</b> {{check.own_mcp_code}} {% if check.own_inmediate_booking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="3"> <b>Propietario(s):</b> {{check.own_homeowner_1}} {%if check.own_homeowner_2%} / {{check.own_homeowner_2}}{%endif%}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="2"> <b>Teléfonos(s):</b> {%if check.own_phone_number%} (+53) {{check.prov_phone_code}} {{check.own_phone_number}} {%endif%}
+                                {%if check.own_phone_number and check.own_mobile_number%} / {%endif%}
+                                {{check.own_mobile_number}}
+                                </td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff;{% endif %} text-align: right" title="Propietario notificado por SMS">
+                                    {%  if check.notification is defined and check.notification != null %}
+                                    <i class="icon-2x icon-bell"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="2"> <b>Cliente:</b> {{check.user_user_name}} {{check.user_last_name}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="4"> <b>País:</b> {{check.co_name}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff;{% endif %} text-align: right"><a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':check.gen_res_id}) }}">Detalles</a></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {% set flag = flag + 1%}
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p> <div class="alert alert-block">No hay check-ins disponibles.</div></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        language: 'es'
+    });
+
+    function submit_filters(ev)
+    {
+        if(ev.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+        filter_date_from=$('#filter_date_from').val();
+        filter_date_from=filter_date_from.replace('/',"_");
+        filter_date_from=filter_date_from.replace('/',"_");
+        if(filter_date_from=='')filter_date_from='null';
+        sort_by=$('#sort_by').val();
+        if(sort_by=='')sort_by='null';
+
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+filter_date_from+'/'+sort_by;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+
+</script>
+{% endblock %}

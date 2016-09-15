@@ -65,7 +65,7 @@
                                                             <div class="col-sm-12"><span>{{ ownership.ownAddressProvince }}, {{ ownership.ownaddressmunicipality }}</span></div>
                                                             <div class="col-sm-12"><span>{{ ownership.owntype }} / {{ ownership.rooms_count }} {% if ownership.rooms_count == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}</span></div>
                                                             <div class="col-sm-12"><span>Anfitriones: {{ ownership.owner1 | split(' ')[0] }} {% if ownership.owner2 != "" %} / {{ ownership.owner2 | split(' ')[0] }} {% endif %}</span></div>
-                                                            <div class="col-sm-12"><span>{{ ownership.mycpcode }}</span></div>
+                                                            <div class="col-sm-12"><span>{{ "Código" | trans }}: {{ ownership.mycpcode }}</span></div>
                                                             <div class="col-sm-9"><span class="price">{{ ownership.ownminimumprice | price }} <i>{{ "/Noche" | trans }}</i></span></div>
                                                             <div class="col-sm-3">
                                                                 <div class="space space-10"></div>
@@ -203,26 +203,34 @@
                                                 <div class="col-sm-12"><span style="font-family: MyriadProRegular;" class="detail-value">{{ 'Idiomas que  se Hablan en la Casa' | trans }}</span></div>
                                                 <div class="row">
                                                     <div class="col-sm-2"></div>
+                                                    {% if ownership.english != '0'  %}
+                                                        <div class="col-sm-4">
+                                                            <i class="flags eng"></i>
+                                                            <div class="space space-10"></div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if ownership.german != '0'  %}
                                                     <div class="col-sm-4">
-                                                        <span class="icono-with-check {% if ownership.english == '0'  %}uncheck{% endif %}"><i class="flags eng"></i></span>
+                                                        <i class="flags ger"></i>
                                                         <div class="space space-10"></div>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <span class="icono-with-check {% if ownership.german == '0'  %}uncheck{% endif %}"><i class="flags ger"></i></span>
-                                                        <div class="space space-10"></div>
-                                                    </div>
+                                                    {% endif %}
                                                     <div class="col-sm-2"></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-2"></div>
+                                                    {% if ownership.french != '0'  %}
                                                     <div class="col-sm-4">
-                                                        <span class="icono-with-check {% if ownership.french == '0'  %}uncheck{% endif %}"><i class="flags fra"></i></span>
+                                                        <i class="flags fra"></i>
                                                         <div class="space space-10"></div>
                                                     </div>
+                                                    {% endif %}
+                                                    {% if ownership.italian != '0'  %}
                                                     <div class="col-sm-4">
-                                                        <span class="icono-with-check {% if ownership.italian == '0'  %}uncheck{% endif %}"><i class="flags ita"></i></span>
+                                                        <i class="flags ita"></i>
                                                         <div class="space space-10"></div>
                                                     </div>
+                                                    {% endif %}
                                                     <div class="col-sm-2"></div>
                                                 </div>
                                             </div>
@@ -238,22 +246,22 @@
                                             <div class="col-sm-12">
                                                     <ul class="list-services">
                                                         {%if ownership.ownFacilitiesBreakfast %}
-                                                        <li>
+                                                        <li style="width: auto;">
                                                             <span class="icono-with-check detail-value"><i class="glyphicons tea_kettle"></i> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</span>
                                                         </li>
                                                         {% endif %}
                                                         {%if ownership.ownFacilitiesDinner %}
-                                                            <li>
+                                                            <li style="width: auto;">
                                                                 <span class="icono-with-check detail-value"><i class="glyphicons pot"></i> {{"DINNER_TAB_DESCRIPTION" | trans}}</span>
                                                             </li>
                                                         {%endif%}
                                                         {%if ownership.ownDescriptionLaundry %}
-                                                            <li>
+                                                            <li style="width: auto;">
                                                                 <span class="icono-with-check detail-value"><i class="glyphicons lundry"></i> {{"LAUNDRY_TAB_DESCRIPTION" | trans}}</span>
                                                             </li>
                                                         {%endif%}
                                                         {%if ownership.ownFacilitiesParking %}
-                                                            <li>
+                                                            <li style="width: auto;">
                                                                 <span class="icono-with-check detail-value"><i class="glyphicons truck"></i> {{"PARKING_TAB_DESCRIPTION" | trans}}</span>
                                                             </li>
                                                         {%endif%}
@@ -286,89 +294,45 @@
                                             <div class="col-sm-12"><label class="detail-title">{{ 'Cantidad de Camas' | trans }}:</label><span class="detail-value">{{room.roomBeds}}</span></div>
                                             <div class="col-sm-12"><label class="detail-title">{{ 'Tipo de Baño' | trans }}:</label><span class="detail-value">{{ room.roomBathroom | trans | title }}</span></div>
                                             <div class="col-sm-12"><label class="detail-title">{{ 'Precio/noche' | trans }}:</label><span class="detail-value"><i class="price" style="font-size: 36px; font-style: normal;">{{room.roomPriceDownTo | price}}</i></span></div>
-                                            <div class="space space-50"></div>
-                                        </div>
-                                        {% if room.roomBaby %}
-                                            {% set roomBaby = roomBaby + 1 %}
-                                        {% endif %}
-                                        {% if room.roomSafe %}
-                                            {% set roomSafe = roomSafe + 1 %}
-                                        {% endif %}
-                                        {% if room.roomStereo %}
-                                            {% set roomStereo = roomStereo + 1 %}
-                                        {% endif %}
-                                        {% if room.roomSmoker %}
-                                            {% set roomSmoker = roomSmoker + 1 %}
-                                        {% endif %}
-                                        {% if room.roomYard %}
-                                            {% set roomYard = roomYard + 1 %}
-                                        {% endif %}
-                                        {% if room.roomTerrace %}
-                                            {% set roomTerrace = roomTerrace + 1 %}
-                                        {% endif %}
-                                        {% if room.roomAudiovisual %}
-                                            {% set roomAudiovisual = roomAudiovisual + 1 %}
-                                        {% endif %}
-                                        {% if room.roomBalcony %}
-                                            {% set roomBalcony = roomBalcony + 1 %}
-                                        {% endif %}
-                                        {% if room.roomClimate %}
-                                            {% set roomClimate = roomClimate + 1 %}
-                                        {% endif %}
-                                        {% if room.roomWindows %}
-                                            {% set roomWindows = roomWindows + 1 %}
-                                        {% endif %}
-                                    {% endfor %}
-                                    <div class="space space-30"></div>
-                                    <div class="col-sm-12 for-info-service">
-                                        <div class="row">
-                                            <div class="col-sm-12 for-info-title">
-                                                <i class="glyphicons shopping_bag"></i> {{ 'Facilidades' | trans }}
-                                            </div>
-                                            <div class="space space-20"></div>
-                                            <div class="col-sm-12">
+                                            <div class="space space-30"></div>
+                                            <div class="col-sm-12 for-info-service">
+                                                <div class="col-sm-12 for-info-title">
+                                                    <div class="row">
+                                                        <i class="glyphicons shopping_bag"></i> {{ 'Facilidades' | trans }}
+                                                    </div>
+                                                </div>
                                                 <ul class="list-services">
-                                                    {#room.roomBaby#}
-                                                    {#room.roomSafe#}
-                                                    {#room.roomStereo#}
-                                                    {#room.roomSmoker#}
-                                                    {#room.roomYard#}
-                                                    {#room.roomTerrace#}
-                                                    {#room.roomAudiovisual#}
-                                                    {#room.roomBalcony#}
-                                                    {#room.roomClimate#}
-                                                    {#room.roomWindows#}
-                                                    {% if roomClimate > 0 %}
+                                                    {% if room.roomClimate %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons snowflake"></i> {{ 'CLIMATIZATION_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomAudiovisual > 0 %}
+                                                    {% if room.roomAudiovisual %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons film"></i> {{ 'AUDIOVISUALS_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomSmoker > 0 %}
+                                                    {% if room.roomSmoker %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons smoking"></i> {{ 'SMOKER_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomSafe > 0 %}
+                                                    {% if room.roomSafe %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons safe"></i> {{ 'SAFE_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomBalcony > 0 %}
+                                                    {% if room.roomBalcony %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons balcon"></i> {{ 'BALCONY_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomTerrace > 0 %}
+                                                    {% if room.roomTerrace %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'TERRACE_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomYard > 0 %}
+                                                    {% if room.roomYard %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'YARD_ROOMS' | trans }}</span>
                                                         </li>
@@ -378,25 +342,95 @@
                                                             <span class="icono-with-check detail-value"><i class="glyphicons dog"></i> {{ 'PETS_TAB_DESCRIPTION' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomBaby > 0 %}
+                                                    {% if room.roomBaby %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons stroller"></i> {{ 'KIDS_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomStereo > 0 %}
+                                                    {% if room.roomStereo %}
                                                         <li>
                                                             <span class="icono-with-check detail-value"><i class="glyphicons projector"></i> {{ 'STEREO_ROOMS' | trans }}</span>
                                                         </li>
                                                     {% endif %}
-                                                    {% if roomWindows > 0 %}
+                                                    {% if room.roomWindows %}
                                                         <li>
-                                                            <span class="icono-with-check detail-value"><i class="glyphicons ventana"></i> {{ 'WINDOWS_ROOMS' | trans }} {{ roomWindows }}</span>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons ventana"></i> {{ 'WINDOWS_ROOMS' | trans }} </span>
                                                         </li>
                                                     {% endif %}
                                                 </ul>
                                             </div>
+                                            <div class="space space-50"></div>
                                         </div>
-                                    </div>
+
+                                    {% endfor %}
+
+                                    {#<div class="col-sm-12 for-info-service">#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-sm-12 for-info-title">#}
+                                                {#<i class="glyphicons shopping_bag"></i> {{ 'Facilidades' | trans }}#}
+                                            {#</div>#}
+                                            {#<div class="space space-20"></div>#}
+                                            {#<div class="col-sm-12">#}
+                                                {#<ul class="list-services">#}
+                                                    {#{% if roomClimate > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons snowflake"></i> {{ 'CLIMATIZATION_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomAudiovisual > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons film"></i> {{ 'AUDIOVISUALS_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomSmoker > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons smoking"></i> {{ 'SMOKER_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomSafe > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons safe"></i> {{ 'SAFE_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomBalcony > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons balcon"></i> {{ 'BALCONY_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomTerrace > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'TERRACE_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomYard > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'YARD_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if ownership.ownDescriptionPets %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons dog"></i> {{ 'PETS_TAB_DESCRIPTION' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomBaby > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons stroller"></i> {{ 'KIDS_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomStereo > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons projector"></i> {{ 'STEREO_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomWindows > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons ventana"></i> {{ 'WINDOWS_ROOMS' | trans }} {{ roomWindows }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                {#</ul>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
                                 </div>
                             </div>
                         </div>

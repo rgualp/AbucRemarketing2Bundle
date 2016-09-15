@@ -55,41 +55,66 @@ var Dashboard = function () {
             $('.container-map').css('margin-top','100px');
         });
     }
+    var form = $('#form-filter-ownership');
+    var validatorForm = form.validate({
+        errorElement: 'span',
+        errorClass: 'has-error',
+        ignore: "",
+        //errorLabelContainer: $("#error-container-form-user"),
+        rules: {
+            'requests_ownership_filter[arrival]': {
+                required: true
+            }
+        },
+        invalidHandler: function (event, validator) {},
+        highlight: function (element, clsError) { // hightlight error inputs
+            element = $(element);
+            element.parent().addClass(clsError);
+        },
+        unhighlight: function (element, clsError) { // revert the change done by hightlight
+            element = $(element);
+            element.parent().removeClass(clsError);
+        }
+    });
     var onclickBtnSearch=function(){
         $('#btn_search').on('click',function(){
-            var data_params={};
-            var form = $("#form-filter-ownership");
-            var result = $('#list-ownership');
-            $('.slimScrollBar').css('top','0px');
-            result.innerHTML="";
-            var _url = $(this).data('url');
-            $('#big_map').removeClass('hide');
-            Map.removeMarkers();
-            form.serializeArray().map(function(x){data_params[x.name] = x.value;});
-            HoldOn.open();
-            data_params['start']=0;
-            data_params['limit']=4;
-            start=0;
-            limit=4;
-            $.post(_url, data_params, function(response) {
-                HoldOn.close();
-                result.html(response.response_twig);
-                //se manda a eliminar los market
-                Map.removeMarkers();
-                //Se manda a pintar al map
-                Map.createMarkerAndListenerEvent(response.response_json);
-                start=limit+1;
-                limit=limit+5;
-                onShowReservationModal();
-                $('#search-result').removeClass('hide');
-                $('#search-result').slimScroll({
-                    height: '580px',
-                    railOpacity: 0.9,
-                    color: '#0d3044',
-                    opacity : 1,
-                    alwaysVisible : true
+            if(validatorForm.form()){
+                var data_params={};
+                var form = $("#form-filter-ownership");
+                var result = $('#list-ownership');
+                $('.slimScrollBar').css('top','0px');
+                result.innerHTML="";
+                var _url = $(this).data('url');
+                $('#big_map').removeClass('hide');
+                if (typeof Map != "undefined")
+                    Map.removeMarkers();
+                form.serializeArray().map(function(x){data_params[x.name] = x.value;});
+                HoldOn.open();
+                data_params['start']=0;
+                data_params['limit']=4;
+                start=0;
+                limit=4;
+                $.post(_url, data_params, function(response) {
+                    HoldOn.close();
+                    result.html(response.response_twig);
+                    //se manda a eliminar los market
+                    Map.removeMarkers();
+                    //Se manda a pintar al map
+                    Map.createMarkerAndListenerEvent(response.response_json);
+                    start=limit+1;
+                    limit=limit+5;
+                    onShowReservationModal();
+                    $('#search-result').removeClass('hide');
+                    $('#search-result').slimScroll({
+                        height: '580px',
+                        railOpacity: 0.9,
+                        color: '#0d3044',
+                        opacity : 1,
+                        alwaysVisible : true
+                    });
                 });
-            });
+            }
+
         });
 
     }

@@ -13,6 +13,7 @@ use MyCp\PartnerBundle\Entity\paTourOperator;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Entity\user;
+use MyCp\mycpBundle\Entity\photo;
 
 class ProfileController extends Controller
 {
@@ -23,11 +24,12 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
+        $agency = $tourOperator->getTravelAgency();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator'),true),$agency);
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_profile_agency',
-            'html' => $this->renderView('PartnerBundle:Profile:profile_agency.html.twig', array( 'form'=>$form->createView())),
+            'html' => $this->renderView('PartnerBundle:Profile:profile_agency.html.twig', array( 'form'=>$form->createView(), 'email'=>$agency->getEmail()))
         ]);
     }
 
@@ -79,5 +81,50 @@ class ProfileController extends Controller
         }
         else
             return new JsonResponse(array('success'=>false,'message'=>$this->get('translator')->trans("msg.password.email.invalid")));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateAgencyAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $obj=$tourOperator->getTravelAgency();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
+        if(!$request->get('formEmpty')){
+            $form->handleRequest($request);
+                $em->persist($obj);
+                $em->flush();
+                return new JsonResponse(['success' => true, 'message' => 'Se ha modificado satisfactoriamente']);
+        }
+    }
+    /**
+     * @param Request $request
+     */
+    public function saveAvatarAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        //subir photo
+        $dir = $this->container->getParameter('user.dir.photos');
+        $file = $request->files->get('file');
+        if (isset($file)) {
+            $photo = new photo();
+            $fileName = uniqid('user-') . '-photo.jpg';
+            $file->move($dir, $fileName);
+            //Redimensionando la foto del usuario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+            $photo->setPhoName($fileName);
+            $user->setUserPhoto($photo);
+            $em->persist($photo);
+        }
+        $em->persist($user);
+        $em->flush();
+        return new JsonResponse([
+            'success' => true,
+            'dir'=>$fileName
+        ]);
     }
 }

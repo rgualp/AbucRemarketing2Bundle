@@ -1,0 +1,94 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{path('mycp_list_agency')}}">Agencias</a> <span class="divider">/</span></li>
+    <li class="active">Detalles</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Detalles de la Agencia: {{ agency.name }}</h2>
+<hr/>
+    <div class="row-fluid">
+        <div class="span6">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#reservas">Agencia</a>
+                </li>
+            </ul>
+            <table class="table table-striped " style="font-size: 12px">
+                <tbody><tr>
+                    <td colspan="2"><b>Nombre: </b>{{ agency.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>País: </b>{{ agency.name_country }}</td>
+                    <td><b>Correo de Contacto:</b> </br> <a href="mailto:{{ agency.contact_mail }}">{{ agency.contact_mail }}</a></td>
+                </tr>
+                <tr>
+                    <td><b>Fecha de registro: </b>{{ agency.date_register | date("d/m/Y") }}</td>
+                    <td><b>Paquete de servicio contratado: </b>{{ agency.name_package }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Teléfonos: </b>{{ agency.ag_phone }}, {{ agency.ag_phone_aux }}</td>
+                </tr>
+                <tr><td colspan="2"><b class="pull-left">Estado de la Cuenta: </b>
+                        <div class="span1"></div>
+                        <div class="span4">
+                            {% if agency.status %}
+                                <div class="badge badge-success" style="text-align: center">Activa</div>
+                            {% else %}
+                                <div class="badge badge-danger" style="text-align: center">Inactiva</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr></tbody></table>
+        </div>
+        <div class="span6">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#reservas">Responsable</a>
+                </li>
+            </ul>
+            <table style="font-size: 12px" class="table table-striped">
+                <tbody><tr>
+                    <td style="width: 100px" rowspan="4"><a href="#"><img alt="Photo" src="/uploads/userImages/no_photo.gif" title="{{ agency.touroperador }} {{ agency.touroperador_last_name }}" class="img-polaroid">
+                        </a></td>
+                    <td colspan="2"><b>Nombre: </b> {{ agency.touroperador }} {{ agency.touroperador_last_name }}</td>
+                </tr>
+                <tr><td colspan="2"><b>Correo: </b><a href="mailto:{{ agency.user_email }}">{{ agency.user_email }}</a></td></tr>
+                <tr><td colspan="2"><b>Teléfono de Contacto: </b>{{ agency.contact_phone }}, {{ agency.contact_mobile }}</td></tr>
+                </tbody></table>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <a class="btn btn-success pull-right" href="{{ path('mycp_edit_agency',{'id':agency.id}) }}" title="Editar - {{agency.name}}"><i class="icon-edit"></i> Editar</a>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+
+    </script>
+
+    <script src="{{ asset('bundles/mycp/js/bootstrap-typeahead.js') }}" type="text/javascript"></script>
+
+{% endblock %}

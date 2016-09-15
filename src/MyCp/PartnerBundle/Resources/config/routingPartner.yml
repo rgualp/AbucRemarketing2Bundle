@@ -47,6 +47,17 @@ frontend_partner_registeracountpage:
     locales:  { en: "/registeraccount", es: "/cuentaregistrada", de: "/registeraccount" }
     defaults: { _controller: PartnerBundle:Frontend:registerAccountPage }
 
+#About us page
+frontend_partner_who_are:
+    locales:  { en: "/who_are", es: "/quienes_son", de: "/who_are" }
+    defaults: { _controller: PartnerBundle:Frontend:whoAre }
+
+#About us page
+frontend_partner_how_work:
+    locales:  { en: "/how_work", es: "/como_funciona", de: "/how_work" }
+    defaults: { _controller: PartnerBundle:Frontend:howWork }
+
+
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
     locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }
@@ -145,3 +156,11 @@ partnet_dashboard_deactivate_agency:
 partnet_dashboard_new_open_reservation:
     locales:  { en: "/dashboard/new-reservation", es: "/dashboard/new-reservation", de: "/dashboard/new-reservation" }
     defaults: { _controller: PartnerBundle:Backend:newReservation }
+
+partnet_dashboard_avatar_agency:
+    locales:  { en: "/dashboard/agency/avatar", es: "/dashboard/agency/avatar", de: "/dashboard/agency/avatar" }
+    defaults: { _controller: PartnerBundle:Profile:saveAvatar }
+
+partnet_dashboard_updateprofile_agency:
+    locales:  { en: "/dashboard/agency/update", es: "/dashboard/agency/actualizar", de: "/dashboard/agency/update" }
+    defaults: { _controller: PartnerBundle:Profile:updateAgency }

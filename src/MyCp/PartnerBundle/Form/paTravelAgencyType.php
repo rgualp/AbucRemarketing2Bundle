@@ -11,9 +11,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class paTravelAgencyType extends AbstractType
 {
     private $translate;
-    function __construct($trans_entity)
+    private $hidden;
+
+    function __construct($trans_entity,$hidden=false)
     {
         $this->translate = $trans_entity;
+        $this->hidden = $hidden;
+
     }
     /**
      * @param FormBuilderInterface $builder
@@ -23,7 +27,7 @@ class paTravelAgencyType extends AbstractType
     {
         $builder
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('email', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('email', ($this->hidden)?'hidden':'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('address', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phone', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phoneAux', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
