@@ -129,12 +129,14 @@
                 var sy = scrollY();
                 if (sy >= changeHeaderOn) {
                     $(header).addClass('navbar-scroll');
-                    $("#img-partner").css("width", "230px");
+                    if(!$("#img-partner").hasClass('fixed-nav'))
+                        $("#img-partner").css("width", "230px");
 
                 }
                 else {
                     $(header).removeClass('navbar-scroll');
-                    $("#img-partner").css("width", "376px");
+                    if(!$("#img-partner").hasClass('fixed-nav'))
+                        $("#img-partner").css("width", "376px");
                 }
                 didScroll = false;
             }

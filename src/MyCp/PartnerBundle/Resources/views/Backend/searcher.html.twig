@@ -1,5 +1,5 @@
 <div class="paSearcher row">
-    <span class="color-white MyriadProBoldCond" style="font-size: 24px">{{ "pa_searcher_title" | trans }}</span>
+    <span class="color-white MyriadProBoldCond hidden-xs" style="font-size: 24px">{{ "pa_searcher_title" | trans }}</span>
     <div class="row">
         <div class="filters-container">
             <form enctype="multipart/form-data" method="post" id="form-filter-ownership">
@@ -11,7 +11,7 @@
                         <div class="col-sm-2">
                             <div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="form-control date" style="padding: 0">
                                 <div class="col-sm-10"  style="padding: 0">
-                                    {{ form_widget(formFilterOwnerShip.arrival, { 'attr': {'placeholder': 'label.filter.arrival'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
+                                    {{ form_widget(formFilterOwnerShip.arrival, { 'attr': {'placeholder': 'label.filter.arrival'|trans,'data-toggle':'tooltip', 'data-container':'body','data-localization':locale,'value':"+2 days" |date("d/m/Y")}}) }}
                                 </div>
                                 <div class="col-sm-2"  style="padding: 0">
                                     <i class="glyphicons calendar" style="margin-left: -9px;margin-top: 8px;"></i>
@@ -21,7 +21,7 @@
                         <div class="col-sm-2">
                             <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="form-control date" style="padding: 0">
                                 <div class="col-sm-10"  style="padding: 0">
-                                    {{ form_widget(formFilterOwnerShip.exit, { 'attr': {'placeholder': 'label.filter.exit'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
+                                    {{ form_widget(formFilterOwnerShip.exit, { 'attr': {'placeholder': 'label.filter.exit'|trans,'data-toggle':'tooltip', 'data-container':'body','data-localization':locale,'value':"+3 days" |date("d/m/Y")}}) }}
                                 </div>
                                 <div class="col-sm-2"  style="padding: 0">
                                     <i class="glyphicons calendar" style="margin-left: -9px;margin-top: 8px;"></i>
