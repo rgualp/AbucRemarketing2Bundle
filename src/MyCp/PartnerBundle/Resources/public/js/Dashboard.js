@@ -166,6 +166,7 @@ var Dashboard = function () {
                 $.post(_url, data, function (data) {
                     result.html(data);
                     result.data("content", true);
+                    onEndReservationButton();
                 });
             }
         });
@@ -219,29 +220,66 @@ var Dashboard = function () {
             var adults = $("#partner_reservation_adults").val();
             var children = $("#partner_reservation_children").val();
             var _url = $("#btnAddNewOpenReservation").data("url");
+            $(".alertLabel").addClass("hidden");
+
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
+
+            if(isValid) {
+                var loadingText = result.data("loadingtext");
+                result.html(loadingText);
+
+                $.post(_url, {
+                    'dateFrom': dateFrom,
+                    'dateTo': dateTo,
+                    'clientName': clientName,
+                    'adults': adults,
+                    'children': children,
+                    'accommodationId': selectedAccommodationForReserve
+                }, function (response) {
+
+                    if (response.success) {
+                        result.html(response.html);
+                        result.data("content", true);
+                        onEndReservationButton();
+
+                        //Clear data from inputs
+                        $("#partner_reservation_name").val("");
+                        $("#partner_reservation_adults").val("");
+                        $("#partner_reservation_children").val("");
+                    }
+
+
+                });
+            }
+            else{
+                $(".alertLabel").removeClass("hidden");
+            }
+
+        });
+    }
+
+    var onEndReservationButton = function(){
+        $(".closeReservation").on('click',function() {
+            var id = $(this).data("id");
+            var result = $('#openReservationsList');
+            var _url = $(this).data("url");
 
             var loadingText = result.data("loadingtext");
             result.html(loadingText);
 
             $.post(_url, {
-                'dateFrom': dateFrom,
-                'dateTo': dateTo,
-                'clientName': clientName,
-                'adults': adults,
-                'children': children,
-                'accommodationId': selectedAccommodationForReserve
+                'id': id
             }, function (response) {
 
                 if(response.success) {
                     result.html(response.html);
                     result.data("content", true);
+                    onEndReservationButton();
                 }
-
-                onShowReservationModal();
             });
-
         });
     }
+
     return {
         //main function to initiate template pages
         init: function () {
@@ -250,6 +288,7 @@ var Dashboard = function () {
             onclickBtnSearch();
 			onShowReservationModal();
             onAddNewOpenReservationButton();
+            onEndReservationButton();
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");

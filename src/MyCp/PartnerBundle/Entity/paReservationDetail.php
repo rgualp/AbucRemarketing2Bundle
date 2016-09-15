@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="pa_reservation_detail")
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paReservationDetailRepository")
+ * @ORM\EntityListeners({"MyCp\PartnerBundle\Listener\BaseEntityListener"})
  *
  */
 class paReservationDetail extends baseEntity

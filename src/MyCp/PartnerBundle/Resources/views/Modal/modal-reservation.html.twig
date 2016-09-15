@@ -36,8 +36,13 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="row text-right">
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left: 0">
+                            <span class="hidden alertLabel">{{ "missing_data" | trans }}</span>
+                        </div>
+                        <div class="col-md-6 text-right" style="padding-right: 0">
                         <a id="btnAddNewOpenReservation" data-url="{{ path("partnet_dashboard_new_open_reservation") }}">{{ "pa.modal.reservation.add" | trans }}</a>
+                        </div>
                     </div>
                 </div>
                 </form>
