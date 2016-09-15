@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
-class BackendController extends Controller {
+class BackendController extends Controller
+{
 
-    public function backend_frontAction(Request $request) {
-        if(!$this->getUser() instanceof UserInterface)
+    public function backend_frontAction(Request $request)
+    {
+        if (!$this->getUser() instanceof UserInterface)
             return $this->redirect($this->generateUrl('backend_login'));
         if ($this->get('security.context')->isGranted('ROLE_CLIENT_TOURIST')) {
             $this->get('security.context')->setToken(null);
@@ -30,7 +32,7 @@ class BackendController extends Controller {
             else
                 $photo = null;
 
-            if ($this->get('security.context')->isGranted('ROLE_CLIENT_STAFF') || $this->get('security.context')->isGranted('ROLE_CLIENT_STAFF_RESERVATION_TEAM') || $this->get('security.context')->isGranted('ROLE_CLIENT_STAFF_ADMIN')){
+            if ($this->get('security.context')->isGranted('ROLE_CLIENT_STAFF') || $this->get('security.context')->isGranted('ROLE_CLIENT_STAFF_RESERVATION_TEAM') || $this->get('security.context')->isGranted('ROLE_CLIENT_STAFF_ADMIN')) {
                 $reporData = $em->getRepository("mycpBundle:report")->dashBoardSummary();
             }
 
@@ -81,7 +83,18 @@ class BackendController extends Controller {
         ));
     }
 
-    public function changePasswordAction($string, Request $request) {
+
+    public function  boletinesAction()
+    {
+
+
+        return $this->render("@FrontEnd/mails/boletin.html.twig", array(
+
+            'user_locale' => "de", 'bookId' => "1007"));
+    }
+
+    public function changePasswordAction($string, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new changePasswordUserType());
