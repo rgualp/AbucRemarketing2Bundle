@@ -42,11 +42,11 @@ class BackendAgencyController extends Controller {
         $filter_package = $request->get('filter_package');
         $filter_date_created = $request->get('filter_date_created');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_country == 'null' && $filter_package == 'null' &&
-                $filter_email == 'null' && $filter_date_created == 'null'
+                $filter_email == 'null' && $filter_date_created == 'null' && $filter_owner == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+            return $this->redirect($this->generateUrl('mycp_list_agency'));
         }
 
         if ($filter_active == 'null')
@@ -64,17 +64,18 @@ class BackendAgencyController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
+//        dump($filter_name);die;
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $agencys = $paginator->paginate($em->getRepository('PartnerBundle:paTravelAgency')->getAll(
-            $filter_active,
             $filter_name,
             $filter_country,
             $filter_owner,
             $filter_email,
             $filter_date_created,
-            $filter_package
+            $filter_package,
+            $filter_active
         ))->getResult();
 
         return $this->render('mycpBundle:agency:list.html.twig', array(
@@ -115,8 +116,8 @@ class BackendAgencyController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()){
-                $agency = $form->getData();
-                $em->persist($agency);
+                $agency_data = $form->getData();
+                $em->persist($agency_data);
                 $em->flush();
                 $message = 'La agencia se ha actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);

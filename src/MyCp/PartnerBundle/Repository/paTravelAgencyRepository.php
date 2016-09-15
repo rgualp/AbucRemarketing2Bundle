@@ -55,7 +55,7 @@ class paTravelAgencyRepository extends EntityRepository {
         return $user;
     }
 
-    function getAll($filter_active='', $filter_name='', $filter_country='', $filter_owner='', $filter_email='', $filter_date_created='', $filter_package='') {
+    function getAll($filter_name='', $filter_country='', $filter_owner='', $filter_email='', $filter_date_created='', $filter_package='', $filter_active='') {
         $condition = "";
         $join = "";
 
@@ -112,8 +112,10 @@ class paTravelAgencyRepository extends EntityRepository {
         
         ");
 
-        if (isset($filter_name))
+        if (isset($filter_name)){
             $query->setParameter('filter_name', "%" . $filter_name . "%");
+        }
+
 
         if ($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
@@ -145,6 +147,8 @@ class paTravelAgencyRepository extends EntityRepository {
         $query = $em->createQuery("SELECT
           ag.id as id,
           ag.name as name,
+          ag.phone as ag_phone,
+          ag.phoneAux as ag_phone_aux,
           ag.email as contact_mail,
           us.user_id as touroperador_id,
           us.user_user_name as touroperador,
@@ -152,6 +156,8 @@ class paTravelAgencyRepository extends EntityRepository {
           us.user_email as user_email,
           us.user_phone as user_phone,
           co.co_name as name_country,
+          contact.phone as contact_phone,
+          contact.mobile as contact_mobile,
           (SELECT MIN(pack.name) FROM PartnerBundle:paAgencyPackage packAgency 
           JOIN PartnerBundle:paPackage pack WITH packAgency.package = pack.id 
           WHERE packAgency.travelAgency = ag.id 
@@ -160,6 +166,7 @@ class paTravelAgencyRepository extends EntityRepository {
           ag.created as date_register
         FROM PartnerBundle:paTravelAgency ag
         JOIN PartnerBundle:paTourOperator pat WITH ag.id = pat.travelAgency
+        JOIN PartnerBundle:paContact contact WITH ag.id = contact.travelAgency
         JOIN mycpBundle:user us WITH pat.tourOperator = us.user_id
         JOIN mycpBundle:country co WITH co.co_id = ag.country
         
