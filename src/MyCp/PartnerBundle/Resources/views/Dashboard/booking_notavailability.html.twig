@@ -41,30 +41,22 @@
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.date, { 'attr': {'placeholder': 'booking.placeholder.date'|trans, 'title':'booking.placeholder.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                    </div>
+                </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                            {{ form_widget(formFilter.client_dates, { 'attr': {'placeholder': 'dashboard.booking.client_dates'|trans, 'title':'dashboard.booking.client_dates'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
-                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
-                    </div>
-                </div>
-                <div class="col-lg-1 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-group"></i></span>
-                            {{ form_widget(formFilter.adults_number, { 'attr': {'placeholder': 'booking.placeholder.adults_number'|trans, 'title':'booking.placeholder.adults_number'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-1 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                            {{ form_widget(formFilter.room_number, { 'attr': {'placeholder': 'booking.placeholder.room_number'|trans, 'title':'booking.placeholder.room_number'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        <div class="input-group date">
+                            {{ form_widget(formFilter.date, { 'attr': {'placeholder': 'booking.placeholder.date'|trans, 'title':'booking.placeholder.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
                 </div>
@@ -129,7 +121,7 @@
                     "mData": null,
                     "aTargets": [0],
                     "mRender": function (data, type, full) {
-                        var rooms = '<em class="rt">Habitaciones:</em> <span class="rst">' + data.rooms.length + '</span> ';
+                        /*var rooms = '<em class="rt">Habitaciones:</em> <span class="rst">' + data.rooms.length + '</span> ';*/
 
                         var adults = 0;
                         var childrens = 0;
@@ -138,18 +130,19 @@
                             adults += room.adults;
                             childrens += room.childrens;
                         }
-                        rooms += '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
+                        var rooms= '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' ;
 
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
                                 '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.date" | trans}}:</em> <span class="rst">' + data.date + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.home" | trans}}:</em> <span class="rst">' + data.own_name + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.date" | trans}}:</em> <span class="rst">' + data.date + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
                                  rooms
                         '</div> ' +
                         '</div>';

@@ -38,7 +38,6 @@ class paClient extends baseEntity
      */
     private $fullname;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\country",inversedBy="travelAgencyClients")
      * @ORM\JoinColumn(name="country",referencedColumnName="co_id", nullable=true)
@@ -55,7 +54,6 @@ class paClient extends baseEntity
      * @ORM\OneToMany(targetEntity="paReservation", mappedBy="client")
      */
     private $reservations;
-
 
     public function __construct() {
         parent::__construct();
