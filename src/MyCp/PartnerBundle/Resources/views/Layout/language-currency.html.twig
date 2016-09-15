@@ -1,8 +1,8 @@
 <li class="dropdown">
-    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle language-partner" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
-        {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
+    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle language-partner" href="#" style="text-transform: uppercase !important"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
+        {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "ESP" : app.session.get('app_lang_name')|slice(0, 3)|upper}} <b class="caret caret-new"></b></a>
     <ul class="dropdown-menu">
-        {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
+        {{ render_esi(controller('PartnerBundle:Frontend:getLanguages', {'route': route, 'routeParams': routeParams})) }}
     </ul>
 </li>
 <li class="dropdown">

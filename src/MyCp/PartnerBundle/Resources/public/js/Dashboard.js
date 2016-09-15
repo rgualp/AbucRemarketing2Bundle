@@ -20,14 +20,42 @@ var Dashboard = function () {
        for (var selector in config) {
            $(selector).chosen(config[selector]);
        }
-       $('.input-date').datepicker({
-           todayBtn: "linked",
-           keyboardNavigation: false,
-           forceParse: false,
-           calendarWeeks: true,
+
+       $('#requests_ownership_filter_arrival').datepicker({
+           format: 'dd/mm/yyyy',
+           todayBtn: true,
            autoclose: true,
-           format:'dd/mm/yyyy'
-       });
+           startDate: start_date,
+           date: start_date,
+           language: $('#requests_ownership_filter_arrival').attr('data-localization')
+       }).on('changeDate', function(ev) {
+               var startDate = new Date(ev.date);
+               startDate.setDate(startDate.getDate() + 1);
+               departure_datepicker.setStartDate(startDate);
+               var valueDate = new Date(ev.date);
+               valueDate.setDate(valueDate.getDate() + 1);
+               departure_datepicker.setDate(valueDate);
+           });
+        var departure_datepicker = $('#requests_ownership_filter_exit').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: false,
+            autoclose: true,
+            startDate: '+3d',
+            date: end_date,
+            language: $('#requests_ownership_filter_exit').attr('data-localization')
+        }).data('datepicker');
+
+    /*    $('#requests_ownership_filter_exit').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format:'dd/mm/yyyy',
+            startDate: '+3d',
+            date: end_date,
+            language: $('#requests_ownership_filter_exit').attr('data-localization')
+        });*/
        $("#priceFilter").slider({});
 
 

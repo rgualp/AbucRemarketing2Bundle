@@ -74,7 +74,6 @@ class paReservation extends baseEntity
      */
     private $closed;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="paClient",inversedBy="reservations")
      * @ORM\JoinColumn(name="client",referencedColumnName="id", nullable=true)
@@ -86,8 +85,8 @@ class paReservation extends baseEntity
      */
     private $details;
 
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->details = new ArrayCollection();
@@ -213,8 +212,6 @@ class paReservation extends baseEntity
         return $this;
     }
 
-
-
     /**
      * @return mixed
      */
@@ -310,7 +307,6 @@ class paReservation extends baseEntity
         $this->childrenWithAccommodation = $childrenWithAccommodation;
         return $this;
     }
-
 
 
 }

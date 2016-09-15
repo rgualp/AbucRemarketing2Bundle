@@ -1,0 +1,4 @@
+{% for language in languages %}
+    <li><a href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': routeParams }) }}">{{ language.getLangName |slice(0, 3)|upper}}</a></li>
+{% endfor %}
+

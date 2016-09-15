@@ -141,4 +141,24 @@ class FrontendController extends Controller
     public function howWorkAction(){
         return $this->render('PartnerBundle:Pages:how_work.html.twig', array());
     }
+
+    public function getLanguagesAction($route, $routeParams = null)
+    {
+        $routeParams = empty($routeParams) ? array() : $routeParams;
+
+        $em = $this->getDoctrine()->getManager();
+        $languages["ES"] = $em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => "ES"));
+        $languages["EN"] = $em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => "EN"));
+
+        $response = $this->render('PartnerBundle:language:languages.html.twig', array(
+            'languages' => $languages,
+            'route' => $route,
+            'routeParams' => $routeParams
+        ));
+
+        // cache controol -> languages rarely change
+        $response->setSharedMaxAge(3600);
+
+        return $response;
+    }
 }
