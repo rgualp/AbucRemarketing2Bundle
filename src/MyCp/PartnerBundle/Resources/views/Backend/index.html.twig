@@ -111,16 +111,16 @@
     </style>
 {% endblock stylesheets %}
 {% block carousel %}
-    <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div id="inSlider" class="carousel carousel-fade hidden-xs" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            {% for i in 1..8 %}
+            {% for i in 1..2 %}
                 {% set image_url = ['bundles/partner/img/slideshow/1/', i, '.jpg']|join %}
                 <div class="item {% if loop.first %} active {% endif %}">
                     <div class="container">
                         <div class="carousel-caption" style="right: 72px !important;top: 110px !important;">
                             {% block textCarousel %}
-                                <h1>{{ 'label.carousel_text_backend_one' | trans | raw }}</h1>
-                                <p>{{ 'label.carousel_text_backend_two' | trans | raw }}</p>
+                                <h1 style="line-height: 1 !important">{{ 'label.carousel_text_backend_one' | trans | raw }}</h1>
+                                <p style="color: #d5f2fa !important;margin-top: -40px !important">{{ 'label.carousel_text_backend_two' | trans | raw }}</p>
                             {% endblock %}
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                 {% include 'PartnerBundle:Backend:searcher.html.twig' %}
             </div>
             <div class="col-md-5 text-right m-t-md" style="line-height: 1">
-                <div class="row">
+                <div class="row hidden-xs">
                     <span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>
                     <span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>
                 </div>
@@ -155,7 +155,7 @@
 
         </div>
     </div>
-    <div class="row text-right" style="background-color: #0c4d77">
+    <div class="row text-right hidden-xs" style="background-color: #0c4d77">
             <div class="col-md-4">
 
             </div>
@@ -196,7 +196,7 @@
                 e.preventDefault();
 
                 HoldOn.open();
-
+                $(this).css('color','#f39921 !important');
                 var href = $(this).data('href');
                 var attribute = ($(this).data('class'))?$(this).data('class'):'';
                 $.ajax({
