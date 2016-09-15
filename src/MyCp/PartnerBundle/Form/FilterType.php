@@ -36,6 +36,7 @@ class FilterType extends AbstractType
             ->add('date', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('room_number', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('adults_number', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('childrens_number', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('booking_code', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('client_dates', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('booking_date', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))

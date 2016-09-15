@@ -30,8 +30,8 @@ class paReservationDetail extends baseEntity
      */
     private $reservationDetail;
 
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
     }

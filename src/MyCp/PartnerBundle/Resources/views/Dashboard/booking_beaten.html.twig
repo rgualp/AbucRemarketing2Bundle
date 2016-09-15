@@ -23,19 +23,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group date">
+                            {{ form_widget(formFilter.date, { 'attr': {'placeholder': 'booking.placeholder.date'|trans, 'title':'booking.placeholder.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-1 field-filter">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
                             {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.placeholder.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                            {{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.placeholder.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
@@ -57,18 +57,17 @@
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.date, { 'attr': {'placeholder': 'booking.placeholder.date'|trans, 'title':'booking.placeholder.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
+                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                     </div>
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
-                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                            {{ form_widget(formFilter.client_dates, { 'attr': {'placeholder': 'dashboard.booking.client_dates'|trans, 'title':'dashboard.booking.client_dates'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="row">
@@ -130,25 +129,46 @@
                     "mData": null,
                     "aTargets": [0],
                     "mRender": function (data, type, full) {
-                        var rooms = '<em class="rt">Habitaciones:</em> <span class="rst">' + data.rooms.length + '</span> ';
                         var totalPrice = 0;
                         var curr_code;
+                        var room_types = [];
                         for(var i = 0; i < data.rooms.length; i++){
                             var room = data.rooms[i];
                             totalPrice += room.totalPrice;
                             curr_code = room.curr_code;
+
+                            if (room_types.hasOwnProperty(room.type)){
+                                room_types[room.type]++;
+                            }
+                            else {
+                                room_types[room.type] = 1;
+                            }
                         }
-                        rooms += '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ';
+
+                        var s_room_types = '';
+                        for (var key in room_types) {
+                            if (room_types.hasOwnProperty(key)) {
+                                if(s_room_types == ''){
+                                    s_room_types += " " + key + "(" + room_types[key] + ")";
+                                }
+                                else {
+                                    s_room_types += " ," + key + "(" + room_types[key] + ")";
+                                }
+                            }
+                        }
+                        var rooms = '<em class="rt">{{"dashboard.booking.room_types" | trans}}:</em> <span class="rst">' + s_room_types + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ';
 
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
                                 '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.date" | trans}}:</em> <span class="rst">' + data.date + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.home" | trans}}:</em> <span class="rst">' + data.own_name + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
                                 rooms
                         '</div> ' +
                         '</div>';

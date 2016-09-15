@@ -103,6 +103,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates'=>"Miguel Gómez León",
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -177,6 +178,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates'=>"Miguel Gómez León",
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -248,6 +250,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates'=>"Miguel Gómez León",
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName()/*,
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
@@ -271,6 +274,8 @@ class DashboardController extends Controller
 
                     $arrTmp['data']['rooms'][] = array(
                         'type'=>$ownReservation->getOwnResRoomType(),
+                        'adults'=>$ownReservation->getOwnResCountAdults(),
+                        'childrens'=>$ownReservation->getOwnResCountChildrens(),
                         'totalPrice'=>($totalPrice * $curr['change']),
                         'curr_code'=>$curr['code'],
                         'booking'=>array(
@@ -323,6 +328,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates'=>"Miguel Gómez León",
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -395,6 +401,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates'=>"Miguel Gómez León",
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -467,13 +474,15 @@ class DashboardController extends Controller
         foreach ($reservations as $reservation) {
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
+            $h = $reservation->getGenResArrivalHour();
             $arrTmp['data'] = array(
                 'cas'=>'CAS'.$reservation->getGenResId(),
-                'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
+                'from'=>$reservation->getGenResFromDate()->format('d-m-Y')." $h",
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates'=>"Miguel Gómez León",
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName()/*,
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
@@ -499,6 +508,8 @@ class DashboardController extends Controller
                         'type'=>$ownReservation->getOwnResRoomType(),
                         'totalPrice'=>($totalPrice * $curr['change']),
                         'curr_code'=>$curr['code'],
+                        'adults'=>$ownReservation->getOwnResCountAdults(),
+                        'childrens'=>$ownReservation->getOwnResCountChildrens(),
                         'booking'=>array(
                             'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
                             'date'=>$ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y')
