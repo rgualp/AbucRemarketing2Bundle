@@ -1,14 +1,14 @@
 <div class="navbar-wrapper {% if navbar_bg_class is defined %} bg-blue {% endif %}">
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header page-scroll">
+            <dnavbar_bg_classiv class="navbar-header page-scroll">
                 <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="{{ path('frontend_partner_home') }}"><img class="" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}" style="margin-top: 7px" width="376px"/></a>
+                <a href="{{ path('frontend_partner_home') }}"><img id="img-partner" class="img-responsive" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}" style="margin-top: 7px"/></a>
             </div>
             <div class="navbar-collapse collapse navbar-partner" id="navbar">
                 <ul class="nav navbar-nav navbar-right">

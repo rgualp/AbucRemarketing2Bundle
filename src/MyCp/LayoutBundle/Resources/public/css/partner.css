@@ -195,7 +195,7 @@ body.landing-page {
     border-top: none;
 }
 .navbar-default .nav li a {
-    color: #fff !important;
+    color: #fff ;
     font-family: MyriadProCond !important;
     font-weight: 700 !important;
     letter-spacing: 0px !important;
@@ -1206,6 +1206,9 @@ body.landing-page {
 .flags.eng{
     background-position: -50px 0;
 }
+.bluemenu-bb {
+    border-bottom: 1px solid #062539;
+}
 .dashboard-partner .nav > li.active {
     background: #0c4d77 none repeat scroll 0 0;
     border-left: 0 solid #19aa8d;
@@ -1215,7 +1218,7 @@ body.landing-page {
     color: white;
 }
 .dashboard-partner .navbar-default .nav li a {
-    color: #fff !important;
+    color: #d7d7d7;
     font-family: MyriadProBold !important;
     font-size: 20px !important;
     font-weight: unset !important;
@@ -1231,10 +1234,6 @@ body.landing-page {
 .infoBox img{
     width: 10px !important;
     height: 10px !important;
-}
-.profile-agency{
-    background-color: #0d4e76;
-    height: 550px;
 }
 .profile-agency .ibox-content {
     border-style: none;

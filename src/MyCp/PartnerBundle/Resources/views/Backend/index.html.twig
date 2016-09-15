@@ -116,7 +116,7 @@
                         <div class="carousel-caption" style="right: 72px !important;top: 110px !important;">
                             {% block textCarousel %}
                                 <h1>{{ 'label.carousel_text_backend_one' | trans | raw }}</h1>
-                                <p>{{ 'label.carousel_text_backend_two' | trans | raw }}</p>
+                                <p style="color: #d5f2fa !important">{{ 'label.carousel_text_backend_two' | trans | raw }}</p>
                             {% endblock %}
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                 e.preventDefault();
 
                 HoldOn.open();
-
+                $(this).css('color','#f39921 !important');
                 var href = $(this).data('href');
                 var attribute = ($(this).data('class'))?$(this).data('class'):'';
                 $.ajax({

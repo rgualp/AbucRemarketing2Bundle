@@ -47,10 +47,10 @@
                 </div>
                 <div class="row m-t-lg">
                     <div class="col-sm-12">
-                        <div class="col-sm-3">
-                            {#{{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}#}
-                        </div>
-                        <div class="col-sm-7 m-t-xs">
+                       {# <div class="col-sm-3">
+                            {{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>#}
+                        <div class="col-sm-10 m-t-xs">
                             {% set count=owns_prices|length-1 %}
                             <input id="priceFilter" name="requests_ownership_filter[priceFilter]" type="text" class="span2" style="width: 400px;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
                         </div>
@@ -61,8 +61,6 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12" style="margin-top: -23px">
-                        <div class="col-sm-3">
-                        </div>
                         <div class="col-sm-3">
                             <b class="color-white" style="margin-right: 7px;">{{ owns_prices[0][0] }} cuc</b>
                         </div>
