@@ -797,7 +797,7 @@ class generalReservationRepository extends EntityRepository {
         AND gre.gen_res_from_date == owreservation.own_res_reservation_from_date
         GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date";
 */
-        $queryStr = "SELECT owreservation,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+        $queryStr = "SELECT owreservation,owreservation.own_res_id as booking_id,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
         COUNT(owreservation) as rooms,
         SUM(owreservation.own_res_count_adults) as adults,
         SUM(owreservation.own_res_count_childrens) as children,
