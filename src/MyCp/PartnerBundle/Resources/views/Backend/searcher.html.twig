@@ -8,14 +8,24 @@
                         <div class="col-sm-2">
                             {{ form_widget(formFilterOwnerShip.destination, { 'attr': {'data-placeholder': 'label.name.destination'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                         </div>
-                        <div class="col-sm-2"><div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group date" style="padding: 0">
-                                {{ form_widget(formFilterOwnerShip.arrival, { 'attr': {'placeholder': 'label.filter.arrival'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
-                                <span class="input-group-addon"><i class="glyphicons calendar"></i></span>
-                            </div></div>
                         <div class="col-sm-2">
-                            <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group date" style="padding: 0">
-                                {{ form_widget(formFilterOwnerShip.exit, { 'attr': {'placeholder': 'label.filter.exit'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
-                                <span class="input-group-addon"><i class="glyphicons calendar"></i></span>
+                            <div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="form-control date" style="padding: 0">
+                                <div class="col-sm-10"  style="padding: 0">
+                                    {{ form_widget(formFilterOwnerShip.arrival, { 'attr': {'placeholder': 'label.filter.arrival'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
+                                </div>
+                                <div class="col-sm-2"  style="padding: 0">
+                                    <i class="glyphicons calendar" style="margin-left: -9px;margin-top: 8px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="form-control date" style="padding: 0">
+                                <div class="col-sm-10"  style="padding: 0">
+                                    {{ form_widget(formFilterOwnerShip.exit, { 'attr': {'placeholder': 'label.filter.exit'|trans,'data-toggle':'tooltip', 'data-container':'body'}}) }}
+                                </div>
+                                <div class="col-sm-2"  style="padding: 0">
+                                    <i class="glyphicons calendar" style="margin-left: -9px;margin-top: 8px;"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -45,7 +55,7 @@
                             <input id="priceFilter" name="requests_ownership_filter[priceFilter]" type="text" class="span2" style="width: 400px;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
                         </div>
                         <div class="col-sm-2">
-                            <button id="btn_search" class="btn btn-search-ownership" data-url="{{ path('backend_partner_seacrh') }}">{{"SEARCH" | trans}}</button>
+                            <span id="btn_search" class="btn btn-search-ownership" data-url="{{ path('backend_partner_seacrh') }}">{{"SEARCH" | trans}}</span>
                         </div>
                     </div>
                 </div>
