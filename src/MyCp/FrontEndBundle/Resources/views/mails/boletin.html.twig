@@ -4,8 +4,8 @@
 <style type="text/css">
     p{font-family: arial; font-size: 13px; line-height: 18px}
     </style>
-    {#<h4 style="font-family: Arial; font-size: 14px;">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}},</h4>#}
-    <h4 style="font-family: Arial; font-size: 14px;">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} "ANDER" "SANCHEZ",</h4>
+    <h4 style="font-family: Arial; font-size: 14px;">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}},</h4>
+    {#<h4 style="font-family: Arial; font-size: 14px;">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} "ANDER" "SANCHEZ",</h4>#}
     {% if message is defined and message|length %}{{ message | raw }}{% endif %}
 
     {#{% for reservation in reservations %}#}

@@ -84,14 +84,6 @@ class BackendController extends Controller
     }
 
 
-    public function  boletinesAction()
-    {
-
-
-        return $this->render("@FrontEnd/mails/boletin.html.twig", array(
-
-            'user_locale' => "de", 'bookId' => "1007"));
-    }
 
     public function changePasswordAction($string, Request $request)
     {

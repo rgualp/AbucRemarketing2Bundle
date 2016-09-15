@@ -19,6 +19,3 @@ frontend_how_it_works_information:
     defaults: { _controller: FrontEndBundle:Information:howItWorks }
 
 
-boletin:
-    locales:  { en: "/boletines/", es: "/boletines/", de: "/boletines/" }
-    defaults: {_controller: mycpBundle:Backend:boletines }
