@@ -86,3 +86,5 @@ frontend_cart:
 frontend_mycasarenta:
     resource: "@FrontEndBundle/Resources/config/routingFrontendMyCasaRenta.yml"
     type: be_simple_i18n
+
+

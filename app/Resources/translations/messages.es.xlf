@@ -3796,10 +3796,27 @@
                  <source>VOUCHER_MOVIL_TEXT</source>
                  <target>Ahora también disponible en su dispositivo móvil.</target>
                  </trans-unit>
+
                  <trans-unit id="957">
                  <source>VOUCHER_MOVIL_TEXT1</source>
                  <target>¡Es gratis!</target>
                  </trans-unit>
+
+
+
+   <trans-unit id="10957">
+                 <source>MYTAXICUBA</source>
+                 <target>MyTaxiCuba</target>
+                 </trans-unit>
+ <trans-unit id="10958">
+                 <source>MYTAXICUBACONTE1</source>
+                 <target>Reserve su taxi y  garantice la llegada segura a su alojamiento.</target>
+                 </trans-unit>
+
+<trans-unit id="10959">
+                                      <source>MYTAXICUBACONTE2</source>
+                                      <target>Reserva nuestros servicios a través de:</target>
+                                    </trans-unit>
                  <trans-unit id="958">
                  <source>VOUCHER_ON_SITE</source>
                  <target>Ver en el sitio</target>
