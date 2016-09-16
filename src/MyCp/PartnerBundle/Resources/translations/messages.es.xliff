@@ -528,11 +528,11 @@
       </trans-unit>
       <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
         <source>dashboard.booking.from</source>
-        <target state="new">Llegada</target>
+        <target state="new">Fecha de inicio</target>
       </trans-unit>
       <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
         <source>dashboard.booking.home</source>
-        <target state="new">Casa</target>
+        <target state="new">Nombre de la casa</target>
       </trans-unit>
       <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
         <source>dashboard.booking.notavailability</source>
@@ -1268,15 +1268,19 @@
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
         <source>dashboard.booking.client_dates</source>
-        <target state="new">Cliente</target>
+        <target state="new">Nombre cliente</target>
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
-        <target state="new">Habitaciones</target>
+        <target state="new">Tipo de hab.</target>
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2g" resname="dashboard.booking.booking_code">
         <source>dashboard.booking.booking_code</source>
         <target state="new">Código booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2r" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">Pago en casa</target>
       </trans-unit>
     </body>
   </file>

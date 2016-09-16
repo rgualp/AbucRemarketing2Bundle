@@ -504,7 +504,7 @@
       </trans-unit>
       <trans-unit id="e7c9a8616a2f5ba15d242f7c6970548d4c748bbb" resname="dashboard.booking.cas">
         <source>dashboard.booking.cas</source>
-        <target state="new">dashboard.booking.cas</target>
+        <target state="new">CAS</target>
       </trans-unit>
       <trans-unit id="cdd665d1fc87fe6a341aa3d2c7565776e6b58624" resname="dashboard.booking.checkin">
         <source>dashboard.booking.checkin</source>
@@ -524,7 +524,7 @@
       </trans-unit>
       <trans-unit id="34ba312277029f3e54a52ea3857f8c94a9369295" resname="dashboard.booking.destination">
         <source>dashboard.booking.destination</source>
-        <target state="new">dashboard.booking.destination</target>
+        <target state="new">Destination</target>
       </trans-unit>
       <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
         <source>dashboard.booking.from</source>
@@ -532,7 +532,7 @@
       </trans-unit>
       <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
         <source>dashboard.booking.home</source>
-        <target state="new">dashboard.booking.home</target>
+        <target state="new">Name of the Casa</target>
       </trans-unit>
       <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
         <source>dashboard.booking.notavailability</source>
@@ -1265,6 +1265,14 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new">title.section.we</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
+        <source>dashboard.booking.client_dates</source>
+        <target state="new">Name of the Client</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
+        <source>dashboard.booking.room_types</source>
+        <target state="new">Type of room</target>
       </trans-unit>
     </body>
   </file>

@@ -71,11 +71,9 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-4"></div>
-                <div class="col-xs-4"></div>
-                <div class="col-xs-4 field-filter">
-                    <div class="btn-group pull-right m-t-n-xs"><a class="btn btn-sm btn-search" onClick="filterBeatenAction(this)"> {{ 'btn.search' | trans }} </a></div>
-                    <div class="btn-group pull-right m-t-n-xs" style="margin-right: 4px"><a class="btn btn-sm btn-search" onClick="clearBeatenAction(this)"> {{ 'btn.clear' | trans }} </a></div>
+                <div class="col-xs-12 field-filter pull-right">
+                    <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" onClick="filterBeatenAction(this)"> {{ 'btn.search' | trans }} </a></div>
+                    <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" onClick="clearBeatenAction(this)"> {{ 'btn.clear' | trans }} </a></div>
                 </div>
             </div>
         </form>
@@ -169,7 +167,7 @@
                                 '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
-                                rooms
+                                rooms +
                         '</div> ' +
                         '</div>';
                         return html;
