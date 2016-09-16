@@ -103,6 +103,9 @@
 
     $(document).ready(function () {
         oTableReserved = $('#table-booking-reserved').DataTable({
+            "language": {
+                "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
+            },
             "bServerSide": true,
             "bFilter": false,
             "bLengthChange": false,
