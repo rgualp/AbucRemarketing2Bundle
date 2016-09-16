@@ -2242,12 +2242,14 @@ class generalReservationRepository extends EntityRepository {
         $qb->andWhere('u.user_id = :user_id');
         $qb->setParameter('user_id', $idUser);
 
-        /*$qb->join('r.travelAgencyDetailReservations', 'pard');
+        $qb->join('r.travelAgencyDetailReservations', 'pard');
         $qb->join('pard.reservation', 'par');
-        $qb->join('par.client', 'client');*/
+        $qb->join('par.client', 'client');
 
         $qb->andWhere('r.gen_res_status = :gen_res_status');
         $qb->setParameter('gen_res_status', $status);
+
+        $qb->orderBy("r.gen_res_id", "DESC");
 
         if(isset($filters)){
             $cas = (array_key_exists('cas', $filters) && isset($filters['cas']));
@@ -2333,6 +2335,10 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
                 $a2 = $a." 23:59:59.000000";
                 $qb->setParameter('created1', $a1);
                 $qb->setParameter('created2', $a2);
+            }
+            if($client_dates){
+                $qb->andWhere('client.fullname LIKE :client_dates');
+                $qb->setParameter('client_dates', '%'.trim($filters['client_dates']).'%');
             }
         }
 

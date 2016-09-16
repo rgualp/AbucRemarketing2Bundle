@@ -71,11 +71,9 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-4"></div>
-                <div class="col-xs-4"></div>
-                <div class="col-xs-4 field-filter">
-                    <div class="btn-group pull-right m-t-n-xs"><a class="btn btn-sm btn-search" onClick="filterCheckinAction(this)"> {{ 'btn.search' | trans }} </a></div>
-                    <div class="btn-group pull-right m-t-n-xs" style="margin-right: 4px"><a class="btn btn-sm btn-search" onClick="clearCheckinAction(this)"> {{ 'btn.clear' | trans }} </a></div>
+                <div class="col-xs-12 field-filter pull-right">
+                    <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" onClick="filterCheckinAction(this)"> {{ 'btn.search' | trans }} </a></div>
+                    <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" onClick="clearCheckinAction(this)"> {{ 'btn.clear' | trans }} </a></div>
                 </div>
             </div>
         </form>
@@ -130,6 +128,8 @@
                     "aTargets": [0],
                     "mRender": function (data, type, full) {
                         var totalPrice = 0;
+                        var totalPriceInHome = 0;
+                        var totalPriceInHomeX = 0;
                         var curr_code;
                         var booking_code ='';
                         var date = '';
@@ -140,9 +140,16 @@
                             adults += room.adults;
                             childrens += room.childrens;
                             totalPrice += room.totalPrice;
+                            totalPriceInHome += room.totalPriceInHome;
+                            totalPriceInHomeX += room.totalPriceInHomeX;
                             curr_code = room.curr_code;
                             booking_code = room.booking.code;
                             date= room.booking.date;
+                        }
+
+                        var tp = '<em class="rt">{{"dashboard.booking.totalprice_inhome" | trans}}:</em> <span class="rst">' + totalPriceInHomeX + 'CUC(' + totalPriceInHome + curr_code + ')</span> ';
+                        if(curr_code == "CUC"){
+                            tp = '<em class="rt">{{"dashboard.booking.totalprice_inhome" | trans}}:</em> <span class="rst">' + totalPriceInHome + curr_code + '</span> ';
                         }
 
                         var html = '<div class="row"> ' +
@@ -157,7 +164,8 @@
                                 '<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> '
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ' +
+                                tp +
                         '</div> ' +
                         '</div>';
                         return html;

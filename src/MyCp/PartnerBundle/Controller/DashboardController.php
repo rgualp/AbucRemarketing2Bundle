@@ -46,6 +46,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'));
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -103,7 +104,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
-                'client_dates'=>"Miguel Gómez León",
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -178,7 +179,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
-                'client_dates'=>"Miguel Gómez León",
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -250,7 +251,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
-                'client_dates'=>"Miguel Gómez León",
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName()/*,
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
@@ -328,7 +329,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
-                'client_dates'=>"Miguel Gómez León",
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -401,7 +402,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
-                'client_dates'=>"Miguel Gómez León",
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -482,7 +483,7 @@ class DashboardController extends Controller
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
-                'client_dates'=>"Miguel Gómez León",
+                'client_dates'=>$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name'=>$reservation->getGenResOwnId()->getOwnName()/*,
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
@@ -493,20 +494,13 @@ class DashboardController extends Controller
                 $ownReservation = $ownReservations->first();
                 $curr = $this->getCurr($request);
                 do {
-                    $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
-                    $totalPrice = 0;
-                    if($ownReservation->getOwnResNightPrice() > 0){
-                        $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
-                    }
-                    else{
-                        $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
-                    }
+                    $totalPrice = $ownReservation->getPriceTotal($timeService);
 
                     $arrTmp['data']['rooms'][] = array(
                         'type'=>$ownReservation->getOwnResRoomType(),
                         'totalPrice'=>($totalPrice * $curr['change']),
+                        'totalPriceInHome'=>$ownReservation->getPricePerInHome($timeService) * $curr['change'],
+                        'totalPriceInHomeX'=>$ownReservation->getPricePerInHome($timeService),
                         'curr_code'=>$curr['code'],
                         'adults'=>$ownReservation->getOwnResCountAdults(),
                         'childrens'=>$ownReservation->getOwnResCountChildrens(),
