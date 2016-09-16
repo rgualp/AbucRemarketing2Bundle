@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="pa_package")
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPackageRepository")
+ * @ORM\EntityListeners({"MyCp\PartnerBundle\Listener\BaseEntityListener"})
  *
  */
 class paPackage extends baseEntity

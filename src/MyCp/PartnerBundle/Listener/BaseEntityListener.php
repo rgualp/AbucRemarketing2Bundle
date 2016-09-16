@@ -16,28 +16,28 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BaseEntityListener {
 
-    private $container;
+   /* private $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
+    }*/
 
 
     public function preUpdate($entity, PreUpdateEventArgs $args)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        //$user = $this->container->get('security.context')->getToken()->getUser();
         $entity->setModified(new \DateTime())
-            ->setModifiedBy($user)
+            //->setModifiedBy($user)
         ;
     }
 
     public function prePersist($entity, LifecycleEventArgs $args)
     {
-        if($entity->getCreatedBy() == null) {
+       /* if($entity->getCreatedBy() == null) {
             $user = $this->container->get('security.context')->getToken()->getUser();
             $entity->setCreatedBy($user);
-        }
+        }*/
 
     }
 

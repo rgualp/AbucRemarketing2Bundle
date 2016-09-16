@@ -2218,6 +2218,10 @@ class generalReservationRepository extends EntityRepository {
         $qb->andWhere('u.user_id = :user_id');
         $qb->setParameter('user_id', $idUser);
 
+        /*$qb->join('r.travelAgencyDetailReservations', 'pard');
+        $qb->join('pard.reservation', 'par');
+        $qb->join('par.client', 'client');*/
+
         $qb->andWhere('r.gen_res_status = :gen_res_status');
         $qb->setParameter('gen_res_status', $status);
 

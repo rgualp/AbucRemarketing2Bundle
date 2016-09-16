@@ -45,6 +45,13 @@ class ExpiredOfferReminderWorkerCommand extends Worker
     private $securityService;
 
     /**
+     * 'Logger' logger
+     *
+     * @var
+     */
+    private $logger;
+
+    /**
      * 'mycp.service.email_manager' service
      *
      * @var EmailManager
@@ -110,6 +117,9 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         $emailBody = $this->renderEmailBody($user, $generalReservation);
 
         $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
+
+        $this->logger->logMail(date('Y-m-d H:i:s') ." Worker ExpiredOfferReminder. Email: ".$userEmail." ".print_r($emailBody));
+
         $this->emailManager->sendEmail($userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
     }
 
@@ -196,6 +206,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
         $this->securityService = $this->getService('Secure');
+        $this->logger = $this->getService('mycp.logger');
     }
 
 }

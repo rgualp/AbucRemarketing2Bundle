@@ -20,14 +20,42 @@ var Dashboard = function () {
        for (var selector in config) {
            $(selector).chosen(config[selector]);
        }
-       $('.input-date').datepicker({
-           todayBtn: "linked",
-           keyboardNavigation: false,
-           forceParse: false,
-           calendarWeeks: true,
+
+       $('#requests_ownership_filter_arrival').datepicker({
+           format: 'dd/mm/yyyy',
+           todayBtn: true,
            autoclose: true,
-           format:'dd/mm/yyyy'
-       });
+           startDate: start_date,
+           date: start_date,
+           language: $('#requests_ownership_filter_arrival').attr('data-localization')
+       }).on('changeDate', function(ev) {
+               var startDate = new Date(ev.date);
+               startDate.setDate(startDate.getDate() + 1);
+               departure_datepicker.setStartDate(startDate);
+               var valueDate = new Date(ev.date);
+               valueDate.setDate(valueDate.getDate() + 1);
+               departure_datepicker.setDate(valueDate);
+           });
+        var departure_datepicker = $('#requests_ownership_filter_exit').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: false,
+            autoclose: true,
+            startDate: '+3d',
+            date: end_date,
+            language: $('#requests_ownership_filter_exit').attr('data-localization')
+        }).data('datepicker');
+
+    /*    $('#requests_ownership_filter_exit').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format:'dd/mm/yyyy',
+            startDate: '+3d',
+            date: end_date,
+            language: $('#requests_ownership_filter_exit').attr('data-localization')
+        });*/
        $("#priceFilter").slider({});
 
 
@@ -55,41 +83,66 @@ var Dashboard = function () {
             $('.container-map').css('margin-top','100px');
         });
     }
+    var form = $('#form-filter-ownership');
+    var validatorForm = form.validate({
+        errorElement: 'span',
+        errorClass: 'has-error',
+        ignore: "",
+        //errorLabelContainer: $("#error-container-form-user"),
+        rules: {
+            'requests_ownership_filter[arrival]': {
+                required: true
+            }
+        },
+        invalidHandler: function (event, validator) {},
+        highlight: function (element, clsError) { // hightlight error inputs
+            element = $(element);
+            element.parent().addClass(clsError);
+        },
+        unhighlight: function (element, clsError) { // revert the change done by hightlight
+            element = $(element);
+            element.parent().removeClass(clsError);
+        }
+    });
     var onclickBtnSearch=function(){
         $('#btn_search').on('click',function(){
-            var data_params={};
-            var form = $("#form-filter-ownership");
-            var result = $('#list-ownership');
-            $('.slimScrollBar').css('top','0px');
-            result.innerHTML="";
-            var _url = $(this).data('url');
-            $('#big_map').removeClass('hide');
-            Map.removeMarkers();
-            form.serializeArray().map(function(x){data_params[x.name] = x.value;});
-            HoldOn.open();
-            data_params['start']=0;
-            data_params['limit']=4;
-            start=0;
-            limit=4;
-            $.post(_url, data_params, function(response) {
-                HoldOn.close();
-                result.html(response.response_twig);
-                //se manda a eliminar los market
-                Map.removeMarkers();
-                //Se manda a pintar al map
-                Map.createMarkerAndListenerEvent(response.response_json);
-                start=limit+1;
-                limit=limit+5;
-                onShowReservationModal();
-                $('#search-result').removeClass('hide');
-                $('#search-result').slimScroll({
-                    height: '580px',
-                    railOpacity: 0.9,
-                    color: '#0d3044',
-                    opacity : 1,
-                    alwaysVisible : true
+            if(validatorForm.form()){
+                var data_params={};
+                var form = $("#form-filter-ownership");
+                var result = $('#list-ownership');
+                $('.slimScrollBar').css('top','0px');
+                result.innerHTML="";
+                var _url = $(this).data('url');
+                $('#big_map').removeClass('hide');
+                if (typeof Map != "undefined")
+                    Map.removeMarkers();
+                form.serializeArray().map(function(x){data_params[x.name] = x.value;});
+                HoldOn.open();
+                data_params['start']=0;
+                data_params['limit']=4;
+                start=0;
+                limit=4;
+                $.post(_url, data_params, function(response) {
+                    HoldOn.close();
+                    result.html(response.response_twig);
+                    //se manda a eliminar los market
+                    Map.removeMarkers();
+                    //Se manda a pintar al map
+                    Map.createMarkerAndListenerEvent(response.response_json);
+                    start=limit+1;
+                    limit=limit+5;
+                    onShowReservationModal();
+                    $('#search-result').removeClass('hide');
+                    $('#search-result').slimScroll({
+                        height: '580px',
+                        railOpacity: 0.9,
+                        color: '#0d3044',
+                        opacity : 1,
+                        alwaysVisible : true
+                    });
                 });
-            });
+            }
+
         });
 
     }
@@ -141,6 +194,7 @@ var Dashboard = function () {
                 $.post(_url, data, function (data) {
                     result.html(data);
                     result.data("content", true);
+                    onEndReservationButton();
                 });
             }
         });
@@ -194,29 +248,66 @@ var Dashboard = function () {
             var adults = $("#partner_reservation_adults").val();
             var children = $("#partner_reservation_children").val();
             var _url = $("#btnAddNewOpenReservation").data("url");
+            $(".alertLabel").addClass("hidden");
+
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
+
+            if(isValid) {
+                var loadingText = result.data("loadingtext");
+                result.html(loadingText);
+
+                $.post(_url, {
+                    'dateFrom': dateFrom,
+                    'dateTo': dateTo,
+                    'clientName': clientName,
+                    'adults': adults,
+                    'children': children,
+                    'accommodationId': selectedAccommodationForReserve
+                }, function (response) {
+
+                    if (response.success) {
+                        result.html(response.html);
+                        result.data("content", true);
+                        onEndReservationButton();
+
+                        //Clear data from inputs
+                        $("#partner_reservation_name").val("");
+                        $("#partner_reservation_adults").val("");
+                        $("#partner_reservation_children").val("");
+                    }
+
+
+                });
+            }
+            else{
+                $(".alertLabel").removeClass("hidden");
+            }
+
+        });
+    }
+
+    var onEndReservationButton = function(){
+        $(".closeReservation").on('click',function() {
+            var id = $(this).data("id");
+            var result = $('#openReservationsList');
+            var _url = $(this).data("url");
 
             var loadingText = result.data("loadingtext");
             result.html(loadingText);
 
             $.post(_url, {
-                'dateFrom': dateFrom,
-                'dateTo': dateTo,
-                'clientName': clientName,
-                'adults': adults,
-                'children': children,
-                'accommodationId': selectedAccommodationForReserve
+                'id': id
             }, function (response) {
 
                 if(response.success) {
                     result.html(response.html);
                     result.data("content", true);
+                    onEndReservationButton();
                 }
-
-                onShowReservationModal();
             });
-
         });
     }
+
     return {
         //main function to initiate template pages
         init: function () {
@@ -225,6 +316,7 @@ var Dashboard = function () {
             onclickBtnSearch();
 			onShowReservationModal();
             onAddNewOpenReservationButton();
+            onEndReservationButton();
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");

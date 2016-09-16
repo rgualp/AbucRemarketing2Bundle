@@ -164,3 +164,8 @@ partnet_dashboard_avatar_agency:
 partnet_dashboard_updateprofile_agency:
     locales:  { en: "/dashboard/agency/update", es: "/dashboard/agency/actualizar", de: "/dashboard/agency/update" }
     defaults: { _controller: PartnerBundle:Profile:updateAgency }
+
+#Adding new open reservation - callback
+partner_dashboard_close_reservation:
+    locales:  { en: "/dashboard/close-reservation", es: "/dashboard/close-reservation", de: "/dashboard/close-reservation" }
+    defaults: { _controller: PartnerBundle:Backend:closeReservation }

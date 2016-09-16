@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="pa_tour_operator")
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paTourOperatorRepository")
+ * @ORM\EntityListeners({"MyCp\PartnerBundle\Listener\BaseEntityListener"})
  *
  */
 class paTourOperator extends baseEntity
