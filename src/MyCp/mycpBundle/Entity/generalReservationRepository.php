@@ -739,6 +739,30 @@ class generalReservationRepository extends EntityRepository {
         return $general_reservation;
     }
 
+    public function getAvailableRooms($accommodation, $dateFrom, $dateTo)
+    {
+        $em = $this->getEntityManager();
+        $rooms = $accommodation->getRooms();
+        $capacity = 0;
+
+        $returnedRooms = array();
+
+
+        foreach($rooms as $room)
+        {
+            $uDetailsCount = $em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($room->getRoomId(), $dateFrom, $dateTo);
+            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getCountReservationsByRoomAndDates($room->getRoomId(), $dateFrom, $dateTo);
+
+            if(($uDetailsCount + $reservations) == 0)
+            {
+                $returnedRooms[] = $room;
+                $capacity += $room->getMaximumNumberGuests();
+            }
+        }
+
+        return array("availableRooms" => $returnedRooms, "availableCapacity" => $capacity);
+    }
+
     public function updateDates(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
         $ownReservations = $em

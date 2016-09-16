@@ -169,3 +169,7 @@ partnet_dashboard_updateprofile_agency:
 partner_dashboard_close_reservation:
     locales:  { en: "/dashboard/close-reservation", es: "/dashboard/close-reservation", de: "/dashboard/close-reservation" }
     defaults: { _controller: PartnerBundle:Backend:closeReservation }
+
+partner_dashboard_add_to_open_reservation:
+    locales:  { en: "/dashboard/add-reservation", es: "/dashboard/add-reservation", de: "/dashboard/add-reservation" }
+    defaults: { _controller: PartnerBundle:Backend:addReservation }
