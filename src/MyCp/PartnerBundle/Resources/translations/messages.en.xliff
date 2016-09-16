@@ -416,7 +416,7 @@
       </trans-unit>
       <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
         <source>booking.placeholder.booking_code</source>
-        <target state="new">booking.placeholder.booking_code</target>
+        <target state="new">Booking Code</target>
       </trans-unit>
       <trans-unit id="d2a6e5f7cf7a32a846403c34a9ec8717613788be" resname="booking.placeholder.booking_date">
         <source>booking.placeholder.booking_date</source>
