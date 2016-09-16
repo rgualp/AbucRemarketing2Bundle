@@ -127,4 +127,37 @@ class BackendController extends Controller
 
 
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function closeReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Closing reservation
+        $id = $request->get("id");
+
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $reservation = $em->getRepository("PartnerBundle:paReservation")->find($id);
+
+        $reservation->setClosed(true);
+        $em->persist($reservation);
+        $em->flush();
+
+        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
+
+        $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
+            'list' => $list
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+
+        ]);
+
+    }
 }
