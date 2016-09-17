@@ -66,33 +66,39 @@ class UserController extends Controller {
                 $encode_string = $service_security->getEncodedUserString($user_db);
                 $userName = $user_db->getUserCompleteName();
 
+                //authenticate the user
+                $providerKey = 'user'; //the name of the firewall
+                $token = new UsernamePasswordToken($user_db, null, $providerKey, $user_db->getRoles());
+                $this->get("security.context")->setToken($token);
+                $this->get('session')->set('_security_user', serialize($token));
+
                 //mailing
                 $enableRoute = 'frontend_enable_user';
                 $userTourist = $em->getRepository('mycpBundle:userTourist')
                                        ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
                     $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
 
-                $enableUrl = $this->get('router')->generate($enableRoute, array(
+                /*$enableUrl = $this->get('router')->generate($enableRoute, array(
                     'string' => $encode_string,
                     '_locale' => $userLocale,
-                    'locale' => $userLocale), true);
-                $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
-                    'enableUrl' => $enableUrl,
+                    'locale' => $userLocale), true);*/
+                $body = $this->render('FrontEndBundle:mails:userAccount.html.twig', array(
                     'user_name' => $userName,
                     'user_locale' => $userLocale));
 
                 $service_email = $this->get('Email');
-                $service_email->sendTemplatedEmail($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
+                $service_email->sendTemplatedEmail($this->get('translator')->trans('CREATE_ACCOUNT_EMAIL_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
 
-                $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
+                $message = $this->get('translator')->trans("CREATE_ACCOUNT_SUCCESS");
                 $this->get('session')->getFlashBag()->add('message_global_success', $message);
 
                 // inform listeners that a new user has signed up
-                $dispatcher = $this->get('event_dispatcher');
+                /*$dispatcher = $this->get('event_dispatcher');
                 $eventData = new UserIdentificationJobData($user_db->getUserId());
-                $dispatcher->dispatch(PredefinedEvents::USER_SIGN_UP, new JobEvent($eventData));
+                $dispatcher->dispatch(PredefinedEvents::USER_SIGN_UP, new JobEvent($eventData));*/
 
-                return $this->redirect($this->generateUrl('frontend_login'));
+                //return $this->redirect($this->generateUrl('frontend_login'));
+                return $this->redirect($this->generateUrl('frontend_welcome'));
             }
         }
 

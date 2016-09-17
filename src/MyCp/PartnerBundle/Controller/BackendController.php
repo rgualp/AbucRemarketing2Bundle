@@ -3,6 +3,7 @@
 namespace MyCp\PartnerBundle\Controller;
 
 use MyCp\mycpBundle\Helpers\Dates;
+use MyCp\PartnerBundle\Entity\paReservationDetail;
 use MyCp\PartnerBundle\Form\paReservationType;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -125,6 +126,97 @@ class BackendController extends Controller
 
 
 
+
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function closeReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Closing reservation
+        $id = $request->get("id");
+
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $reservation = $em->getRepository("PartnerBundle:paReservation")->find($id);
+
+        $reservation->setClosed(true);
+        $em->persist($reservation);
+        $em->flush();
+
+        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
+
+        $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
+            'list' => $list
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+
+        ]);
+
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function addReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Adding to opened reservation
+        $id = $request->get("id");
+        $dateFrom = $request->get("dateFrom");
+        $dateTo = $request->get("dateTo");
+        $accommodationId = $request->get("accommodationId");
+
+        $dateFrom = Dates::createDateFromString($dateFrom,"/", 1);
+        $dateTo = Dates::createDateFromString($dateTo,"/", 1);
+
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
+
+        $reservation = $em->getRepository("PartnerBundle:paReservation")->findOneBy(array("id" => $id, "closed" => false));
+
+        if(isset($reservation))
+        {
+            $adults = $reservation->getAdults();
+            $children = $reservation->getChildren();
+            //Actualizar total de ubicados
+            $reservation->setAdultsWithAccommodation($reservation->getAdultsWithAccommodation() + $adults);
+            $reservation->setChildrenWithAccommodation($reservation->getChildrenWithAccommodation() + $children);
+            $em->persist($reservation);
+
+            //Agregar un generalReservation por casa
+            $general_reservation = $em->getRepository("mycpBundle:generalReservation")->createReservation($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $this->container);
+
+            $detail = new paReservationDetail();
+            $detail->setReservation($reservation)
+                ->setReservationDetail($general_reservation);
+
+            $em->persist($detail);
+            $em->flush();
+        }
+
+
+        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
+
+        $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
+            'list' => $list
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+
+        ]);
 
     }
 }

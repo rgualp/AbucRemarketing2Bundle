@@ -7,11 +7,31 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class AgencyListener {
 
+    /*private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }*/
+
+    public function preUpdate($entity, PreUpdateEventArgs $args)
+    {
+       // $user = $this->container->get('security.context')->getToken()->getUser();
+        $entity->setModified(new \DateTime())
+            //->setModifiedBy($user)
+        ;
+    }
+
     public function prePersist(paTravelAgency $entity, LifecycleEventArgs $args)
     {
         $em = $args->getEntityManager();
         $country=$em->getRepository('mycpBundle:country')->find($entity->getCountry());
         $this->generateAutomaticCode($em, $entity,$country );
+
+        /*if($entity->getCreatedBy() == null) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $entity->setCreatedBy($user);
+        }*/
     }
     private function generateAutomaticCode($em, $entity, $country)
     {

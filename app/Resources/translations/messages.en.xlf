@@ -3911,6 +3911,22 @@
                      <source>RESERVATION_COST</source>
                      <target>Booking Price</target>
                 </trans-unit>
+                <trans-unit id="990">
+                     <source>CREATE_ACCOUNT_SUCCESS</source>
+                     <target>You have successfulyl registered in MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="991">
+                     <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
+                     <target>Thank you for registering yourself in MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="992">
+                     <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
+                     <target>You have successfulyl registered in MyCasaParticular.</target>
+                </trans-unit>
+                <trans-unit id="993">
+                     <source>NEW_USER_ACCOUNT</source>
+                     <target>New User Account</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

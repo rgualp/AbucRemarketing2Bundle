@@ -490,6 +490,7 @@ class ownershipReservationRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
     public function getReservationByRoomByStartDate($roomId,$startParam) {
     $em = $this->getEntityManager();
     $reservedCode = ownershipReservation::STATUS_RESERVED;
@@ -503,5 +504,21 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start");
         return $query->setParameter('start', $startParam)->setParameter('roomId', $roomId)->getResult();
 }
+
+    public function getCountReservationsByRoomAndDates($roomId,$startDate, $endDate) {
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $query = $em->createQuery("SELECT COUNT(ore.own_res_id)
+            FROM mycpBundle:ownershipReservation ore
+            JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
+            JOIN ore.own_res_gen_res_id gre
+            JOIN gre.gen_res_user_id user
+            JOIN gre.gen_res_own_id own
+            JOIN user.user_country coun
+        WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :endDate");
+        return $query->setParameter('start', $startDate)->setParameter('endDate', $endDate)->setParameter('roomId', $roomId)->getSingleScalarResult();
+    }
+
+
 
 }

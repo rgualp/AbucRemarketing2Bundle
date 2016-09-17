@@ -39,6 +39,7 @@ class FullCartReminderWorkerCommand extends Worker {
      */
     private $emailManager;
     private $em;
+    private $logger;
 
     /**
      * {@inheritDoc}
@@ -141,6 +142,7 @@ class FullCartReminderWorkerCommand extends Worker {
         ));
 
         $output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
+        $this->logger->logMail(date('Y-m-d H:i:s') ." Worker FullCartReminder Email: ".$userEmail." ".print_r($emailBody));
         $this->emailManager->sendEmail($userEmail, $emailSubject, $emailBody);
     }
 
@@ -153,6 +155,7 @@ class FullCartReminderWorkerCommand extends Worker {
         $this->securityService = $this->getService('Secure');
         $this->timer = $this->getService('Time');
         $this->em = $this->getService('doctrine.orm.entity_manager');
+        $this->logger = $this->getService('mycp.logger');
     }
 
 }

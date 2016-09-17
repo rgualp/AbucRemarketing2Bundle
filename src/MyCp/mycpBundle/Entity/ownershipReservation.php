@@ -576,7 +576,7 @@ class ownershipReservation {
         switch ($seasonType) {
             case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $this->own_res_room_price_up;
             case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($this->own_res_room_price_special != null && $this->own_res_room_price_special > 0) ? $this->own_res_room_price_special : $this->own_res_room_price_up;
-            default: return $this->own_res_room_price_down;
+            default: return $this->own_res_room_pgetOwnResRoomTyperice_down;
         }
     }
 
@@ -596,6 +596,27 @@ class ownershipReservation {
     public function getPricePerNight()
     {
 
+    }
+
+    public function getPriceTotal($timeService)
+    {
+        $nights = $timeService->nights($this->getOwnResReservationFromDate()->getTimestamp(), $this->getOwnResReservationToDate()->getTimestamp());
+        $totalPrice = 0;
+        if($this->getOwnResNightPrice() > 0){
+            $totalPrice += $this->getOwnResNightPrice() * $nights;
+        }
+        else{
+            $totalPrice += $this->getOwnResTotalInSite();
+        }
+
+        return $totalPrice;
+    }
+
+    public function getPricePerInHome($timeService)
+    {
+        $c = $this->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
+        $p = $this->getPriceTotal($timeService);
+        return  $p * (1 - $c);
     }
 
 }

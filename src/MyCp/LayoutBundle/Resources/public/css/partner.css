@@ -129,6 +129,10 @@ body.landing-page {
     width: 30px;
 }
 
+.alertLabel{
+    font-size: 15px;
+}
+
 
 .fa.with-circle{
     background: #fff none repeat scroll 0 0;

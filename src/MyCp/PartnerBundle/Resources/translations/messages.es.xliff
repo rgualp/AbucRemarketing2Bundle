@@ -414,6 +414,10 @@
         <source>YARD_ROOMS</source>
         <target state="new">YARD_ROOMS</target>
       </trans-unit>
+      <trans-unit id="2f4cf5d8fe5a1afa530aceaa99a8273363a99793" resname="booking.placeholder.adults_number">
+        <source>booking.placeholder.adults_number</source>
+        <target state="new">Cantidad de Adultos</target>
+      </trans-unit>
       <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
         <source>booking.placeholder.booking_code</source>
         <target state="new">Código booking</target>
@@ -536,11 +540,11 @@
       </trans-unit>
       <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
         <source>dashboard.booking.from</source>
-        <target state="new">Llegada</target>
+        <target state="new">Fecha de inicio</target>
       </trans-unit>
       <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
         <source>dashboard.booking.home</source>
-        <target state="new">Casa</target>
+        <target state="new">Nombre de la casa</target>
       </trans-unit>
       <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
         <source>dashboard.booking.notavailability</source>
@@ -585,6 +589,10 @@
       <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
         <source>dashboard.text_reserv_two</source>
         <target state="new">Aprovecha esta fantástica guía para tenerlo todo a la mano</target>
+      </trans-unit>
+      <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
+        <source>dashboard.user</source>
+        <target state="new">Usuario</target>
       </trans-unit>
       <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
         <source>frontend.account_type</source>
@@ -1243,6 +1251,10 @@
         <source>pa_about_us</source>
         <target state="new">Quiénes somos</target>
       </trans-unit>
+      <trans-unit id="e506af1f2680cc03beebb2d2a5760e533c632377" resname="pa_age">
+        <source>pa_age</source>
+        <target state="new">Edad</target>
+      </trans-unit>
       <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
         <source>pa_bath_room</source>
         <target state="new">Tipo de Baño</target>
@@ -1254,6 +1266,10 @@
       <trans-unit id="fda6e9df956d12a7cf675d0a835667481c17616a" resname="pa_cate">
         <source>pa_cate</source>
         <target state="new">Categoría</target>
+      </trans-unit>
+      <trans-unit id="b68f26d6b0b0ce04a3979c9406f6cd9d9eeaf142" resname="pa_children">
+        <source>pa_children</source>
+        <target state="new">Niños</target>
       </trans-unit>
       <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
         <source>pa_contact_us</source>
@@ -1350,6 +1366,22 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
+        <source>dashboard.booking.client_dates</source>
+        <target state="new">Nombre cliente</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
+        <source>dashboard.booking.room_types</source>
+        <target state="new">Tipo de hab.</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2g" resname="dashboard.booking.booking_code">
+        <source>dashboard.booking.booking_code</source>
+        <target state="new">Código booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2r" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">Pago en casa</target>
       </trans-unit>
     </body>
   </file>
