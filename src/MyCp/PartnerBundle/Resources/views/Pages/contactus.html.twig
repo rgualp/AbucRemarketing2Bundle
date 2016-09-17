@@ -1,0 +1,43 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div style="height: 200px"></div>
+    <div class="col-md-12">
+        <div class="container">
+            <div class="col-lg-12">
+                <div class="contact-box" style="font-family: MyriadProRegular;color: #64a433;">
+                    <a>
+                        <div class="col-sm-6">
+                            <div class="text-center">
+                                <img alt="image" class="m-t-xs img-responsive" src="{{ asset('bundles/partner/img/icon/mcp-with-text.png')}}">
+                                <div class="m-t-lg font-bold">MyCasa Partner forma parte de la empresa ABUC Media Network GmbH</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <h3><strong>MyCasaPartner</strong></h3>
+                            <p><i class="fa fa-map-marker"></i> Postfach, Breisacherstrasse 63 CH-4057 Basel Suiza</p>
+                            <address>
+                                <p><i class="fa fa-phone"></i> (41) 44 586 64 44</p>
+                                <p><i class="fa fa-envelope-o"></i> <strong>info@mycasapartner.com</strong></p>
+                                <p><strong>Comercial Register Number:</strong> CH-270.4.002.844-1</p>
+                            </address>
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 450px"></div>
+{% endblock %}
+
+

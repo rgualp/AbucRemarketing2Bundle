@@ -7,7 +7,7 @@
             <div class="modal-body modal-agency pb-0">
                 <form class="form-horizontal form-agency" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
                 <div class="col-md-3" >
-                    <div class="row" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_es.png')}})  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
+                    <div class="row hidden-xs" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_es.png')}})  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
                     </div>
                     <div class="row">
                         <button class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>
@@ -16,32 +16,32 @@
                 <div class="col-md-9">
 
                         <div class="row agency text-right">
-                            <p class="m-r-12">{{ 'label.form.agency.one' | trans }}</p>
+                            <p class="m-r-12 hidden-xs">{{ 'label.form.agency.one' | trans }}</p>
                             <div class="col-md-6">
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons user"></i></span>
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons user"></i>
                                     {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons google_maps"></i></span>
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons google_maps"></i>
                                     {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons globe_af"></i></span>
-                                    {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons globe_af"></i>
+                                    {{ form_widget(form.country, { 'attr': {'data-placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons envelope"></i>
                                     {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons phone_alt"></i>
                                     {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons phone_alt"></i>
                                     {{ form_widget(form.phoneAux, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                 </div>
                             </div>
@@ -54,13 +54,13 @@
                             <p class="m-r-12">{{ 'label.form.agency.three' | trans }}</p>
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons keys"></i></span>
-                                    <input placeholder="{{ 'label.password' | trans }}" type="password" class="form-control required valid" name="password" id="password" aria-required="true" aria-invalid="false">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons keys"></i>
+                                    <input placeholder="{{ 'label.password' | trans }}" type="password" class="form-control" name="password" id="password" aria-required="true" aria-invalid="false">
                                 </div>
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon"><i class="glyphicons keys"></i></span>
-                                    <input placeholder="{{ 'label.password.repeat' | trans }}" type="password" class="form-control required error" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons keys"></i>
+                                    <input placeholder="{{ 'label.password.repeat' | trans }}" type="password" class="form-control" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
                                 </div>
                             </div>
                         </div>
@@ -75,6 +75,8 @@
 
                 </div>
                 </form>
+            </div>
+            <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
             </div>
         </div>
     </div>

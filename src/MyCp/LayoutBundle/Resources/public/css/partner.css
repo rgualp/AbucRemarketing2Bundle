@@ -14,6 +14,11 @@ body.landing-page {
     color: #676a6c;
     font-family: MyriadProBoldCond;
 }
+
+@font-face{
+    font-family: 'MyriadProLight';
+    src: url('../bundles/partner/font/MyriadPro-Light.otf');
+}
 @font-face{
     font-family: 'MyriadProSemiCnIt';
     src: url('../bundles/partner/font/MyriadPro-SemiCnIt.otf');
@@ -49,6 +54,9 @@ body.landing-page {
 @font-face{
     font-family: 'MyriadProLightCondIt';
     src: url('../bundles/partner/font/MyriadPro-LightCondIt.otf');
+}
+.MyriadProLight{
+    font-family: MyriadProLight;
 }
 .MyriadProLightCond{
     font-family: MyriadProLightCond;
@@ -166,7 +174,9 @@ body.landing-page {
     border-bottom: 0px solid #e7eaec !important;
     z-index: 2030;
 }
-
+.navbar-wrapper .navbar {
+    border-radius: 0px !important;
+}
 .navbar-wrapper.bg-blue .navbar-default.navbar-fixed-top{
     background-color: #063550 !important;
 }
@@ -389,10 +399,47 @@ body.landing-page {
     background-color: #25323b !important;
     color: #fff;
     font-size: 30px;
-    height: 620px;
 }
+.modal-agency .has-error{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.modal-agency .chosen-container.chosen-container-single{
+    width: 100% !important;
+    margin-top: -14px;
+}
+
 .modal-header-agency{
     border-bottom: none;
+    padding: 10px 15px !important;
+}
+.modal-agency .chosen-container-single .chosen-single span {
+    color: #1b6690;
+    display: block;
+    font-family: MyriadProRegular;
+    font-size: 18px;
+    margin-left: 28px;
+    margin-right: 26px;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.modal-agency .chosen-container .chosen-results {
+    margin: 0 4px 4px 0;
+    max-height: 240px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0 0 0 4px;
+    position: relative;
+    color: black;
+    font-family: MyriadProRegular;
+    font-size: 14px;
+}
+.modal-agency .chosen-container-single .chosen-search input[type="text"] {
+    color: black;
+    font-family: MyriadProRegular;
+    font-size: 14px;
 }
 .inmodal .modal-header .modal-header-agency{
     padding: 11px 15px;
@@ -530,7 +577,7 @@ body.landing-page {
     font-family: MyriadProRegular;
     font-size: 12px;
 }
-.form-agency .input-group .form-control {
+.form-agency .form-control {
     color: black;
     float: left;
     margin-bottom: 0;
@@ -1370,6 +1417,50 @@ body.landing-page {
     margin-left: 36px;
     margin-top: 10px;
     text-align: left;
+}
+/* enable absolute positioning */
+.inner-addon {
+    padding: 7px 7px;
+    position: relative;
+    height: 52px;
+    padding-right: 0px;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+    border-right: 1px solid #196692 !important;
+    margin-left: 5px;
+    margin-top: 10px;
+    padding: 0 5px 0 7px;
+    pointer-events: none;
+    position: absolute;
+    z-index: 999;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  38px; }
+.right-addon input { padding-right: 30px; }
+
+.faqs .faqs-title{
+    display: inline-block;
+}
+.faqs .faqs-title img{
+    position: absolute;
+}
+.faqs .faqs-title span{
+    font-size: 30px;
+    font-family: MyriadProBold;
+    color: #1e5476;
+    margin-left: 50px;
+}
+.faqs .faqs-description p{
+    font-size: 30px;
+    font-family: MyriadProRegular;
+    color: #64a433;
 }
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{

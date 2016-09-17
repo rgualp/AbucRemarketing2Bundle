@@ -1,0 +1,17 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="col-md-12">
+    </div>
+{% endblock %}
+
+

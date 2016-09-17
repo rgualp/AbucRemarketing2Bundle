@@ -44,21 +44,7 @@ var Dashboard = function () {
             date: end_date,
             language: $('#requests_ownership_filter_exit').attr('data-localization')
         }).data('datepicker');
-
-    /*    $('#requests_ownership_filter_exit').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true,
-            format:'dd/mm/yyyy',
-            startDate: '+3d',
-            date: end_date,
-            language: $('#requests_ownership_filter_exit').attr('data-localization')
-        });*/
        $("#priceFilter").slider({});
-
-
     }
     var onclickBtnMoreFilter=function(){
         $('#more-filter').addClass('hide');
@@ -88,7 +74,6 @@ var Dashboard = function () {
         errorElement: 'span',
         errorClass: 'has-error',
         ignore: "",
-        //errorLabelContainer: $("#error-container-form-user"),
         rules: {
             'requests_ownership_filter[arrival]': {
                 required: true

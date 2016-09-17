@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-14T15:25:23Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-16T23:55:52Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -85,6 +85,10 @@
       <trans-unit id="d45d99c557bfe62ab6756b932bbad996d4d1582a" resname="Consulta todos los detalles del alojamiento.">
         <source>Consulta todos los detalles del alojamiento.</source>
         <target state="new">Consulta todos los detalles del alojamiento.</target>
+      </trans-unit>
+      <trans-unit id="c355102341eae99e6edcbda7108c48bff1693ead" resname="Código">
+        <source>Código</source>
+        <target state="new">Código</target>
       </trans-unit>
       <trans-unit id="22f00518c167f2a031d6e5197f4abda68d242301" resname="DEPARTURE_WATERMARK">
         <source>DEPARTURE_WATERMARK</source>
@@ -410,10 +414,6 @@
         <source>YARD_ROOMS</source>
         <target state="new">YARD_ROOMS</target>
       </trans-unit>
-      <trans-unit id="2f4cf5d8fe5a1afa530aceaa99a8273363a99793" resname="booking.placeholder.adults_number">
-        <source>booking.placeholder.adults_number</source>
-        <target state="new">booking.placeholder.adults_number</target>
-      </trans-unit>
       <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
         <source>booking.placeholder.booking_code</source>
         <target state="new">booking.placeholder.booking_code</target>
@@ -490,6 +490,10 @@
         <source>dashboard.booking.beaten</source>
         <target state="new">dashboard.booking.beaten</target>
       </trans-unit>
+      <trans-unit id="8af33304dea36839c320c323563f7a88f1af209e" resname="dashboard.booking.booking_code">
+        <source>dashboard.booking.booking_code</source>
+        <target state="new">dashboard.booking.booking_code</target>
+      </trans-unit>
       <trans-unit id="7bbad48b382770bbdfe91a7fed8dd353520044bf" resname="dashboard.booking.bookingcode">
         <source>dashboard.booking.bookingcode</source>
         <target state="new">dashboard.booking.bookingcode</target>
@@ -513,6 +517,10 @@
       <trans-unit id="b6cea4f60596bda74db84665cc323200a873ddaa" resname="dashboard.booking.childrens">
         <source>dashboard.booking.childrens</source>
         <target state="new">dashboard.booking.childrens</target>
+      </trans-unit>
+      <trans-unit id="3fc81229a25b82a826b047756941a75f7501c819" resname="dashboard.booking.client_dates">
+        <source>dashboard.booking.client_dates</source>
+        <target state="new">dashboard.booking.client_dates</target>
       </trans-unit>
       <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
         <source>dashboard.booking.code</source>
@@ -546,6 +554,10 @@
         <source>dashboard.booking.reserved</source>
         <target state="new">dashboard.booking.reserved</target>
       </trans-unit>
+      <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
+        <source>dashboard.booking.room_types</source>
+        <target state="new">dashboard.booking.room_types</target>
+      </trans-unit>
       <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
         <source>dashboard.booking.rooms</source>
         <target state="new">dashboard.booking.rooms</target>
@@ -573,10 +585,6 @@
       <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
         <source>dashboard.text_reserv_two</source>
         <target state="new">dashboard.text_reserv_two</target>
-      </trans-unit>
-      <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
-        <source>dashboard.user</source>
-        <target state="new">dashboard.user</target>
       </trans-unit>
       <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
         <source>frontend.account_type</source>
@@ -721,6 +729,78 @@
       <trans-unit id="500a18e4940efa511fae68edea73fb767485f07e" resname="label.facitily">
         <source>label.facitily</source>
         <target state="new">label.facitily</target>
+      </trans-unit>
+      <trans-unit id="ef622eca51c5d4ea784d7533b74d20f5c3ca03fa" resname="label.faqs.five">
+        <source>label.faqs.five</source>
+        <target state="new">label.faqs.five</target>
+      </trans-unit>
+      <trans-unit id="843e2b6220e04f467570bab444940a9e3d8d951b" resname="label.faqs.four">
+        <source>label.faqs.four</source>
+        <target state="new">label.faqs.four</target>
+      </trans-unit>
+      <trans-unit id="655c126c90fcefb62ee97d4171c0f8082cb84db1" resname="label.faqs.height">
+        <source>label.faqs.height</source>
+        <target state="new">label.faqs.height</target>
+      </trans-unit>
+      <trans-unit id="a3f2b3bcd88e921e186a5a3e1df2af0b1727619c" resname="label.faqs.nine">
+        <source>label.faqs.nine</source>
+        <target state="new">label.faqs.nine</target>
+      </trans-unit>
+      <trans-unit id="d521dd945c6ad8904ab8748cbc9868408b72bdb5" resname="label.faqs.one">
+        <source>label.faqs.one</source>
+        <target state="new">label.faqs.one</target>
+      </trans-unit>
+      <trans-unit id="d522f69aebcbdb5120b1e8d3dd17f99f90e890a9" resname="label.faqs.one.description">
+        <source>label.faqs.one.description</source>
+        <target state="new">label.faqs.one.description</target>
+      </trans-unit>
+      <trans-unit id="0b07bac9f59e6ba333189468ad8832420fb52387" resname="label.faqs.seven">
+        <source>label.faqs.seven</source>
+        <target state="new">label.faqs.seven</target>
+      </trans-unit>
+      <trans-unit id="7ab62ee0602bac7305af7f87aca987a279cb8478" resname="label.faqs.six">
+        <source>label.faqs.six</source>
+        <target state="new">label.faqs.six</target>
+      </trans-unit>
+      <trans-unit id="ff4b5c5f16d2cc82259786181eff2e68ebcdb983" resname="label.faqs.three">
+        <source>label.faqs.three</source>
+        <target state="new">label.faqs.three</target>
+      </trans-unit>
+      <trans-unit id="d8976b24ab1da373ba304be332d8d2a5b6a9a6cc" resname="label.faqs.two">
+        <source>label.faqs.two</source>
+        <target state="new">label.faqs.two</target>
+      </trans-unit>
+      <trans-unit id="bbd4b96feb5164f25dae3ce6a20d219c2e2cc086" resname="label.faqs.two.description">
+        <source>label.faqs.two.description</source>
+        <target state="new">label.faqs.two.description</target>
+      </trans-unit>
+      <trans-unit id="15873ae3f2b725a7e8baabab3b0beba3848a71b0" resname="label.faqs.two.five">
+        <source>label.faqs.two.five</source>
+        <target state="new">label.faqs.two.five</target>
+      </trans-unit>
+      <trans-unit id="d176513ab7a20b5cb70205f175f0662e9a0b1967" resname="label.faqs.two.four">
+        <source>label.faqs.two.four</source>
+        <target state="new">label.faqs.two.four</target>
+      </trans-unit>
+      <trans-unit id="24562fd6c2d7eb756fa57ecf10b85b25ffd16049" resname="label.faqs.two.height">
+        <source>label.faqs.two.height</source>
+        <target state="new">label.faqs.two.height</target>
+      </trans-unit>
+      <trans-unit id="a78d57ca1a8f820c73aad4aa7c8ba7336c6fbad5" resname="label.faqs.two.nine">
+        <source>label.faqs.two.nine</source>
+        <target state="new">label.faqs.two.nine</target>
+      </trans-unit>
+      <trans-unit id="7b5c7fb9f99721e0e3ef9870859988da803daca4" resname="label.faqs.two.seven">
+        <source>label.faqs.two.seven</source>
+        <target state="new">label.faqs.two.seven</target>
+      </trans-unit>
+      <trans-unit id="ff57db5b1f30f7c007a0aec2b28d499a670b655e" resname="label.faqs.two.six">
+        <source>label.faqs.two.six</source>
+        <target state="new">label.faqs.two.six</target>
+      </trans-unit>
+      <trans-unit id="93ddef83c24819706af678468c4b1ee1b3d17c8c" resname="label.faqs.two.three">
+        <source>label.faqs.two.three</source>
+        <target state="new">label.faqs.two.three</target>
       </trans-unit>
       <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
         <source>label.filter.arrival</source>
@@ -1074,6 +1154,14 @@
         <source>label.thanks</source>
         <target state="new">label.thanks</target>
       </trans-unit>
+      <trans-unit id="af69c13208b7c2c4abe077c443e9b7cbc6d6b6f8" resname="label.title.faqs.one">
+        <source>label.title.faqs.one</source>
+        <target state="new">label.title.faqs.one</target>
+      </trans-unit>
+      <trans-unit id="eb45e5b610c64824bbcab7b772af8a2173931dd9" resname="label.title.faqs.two">
+        <source>label.title.faqs.two</source>
+        <target state="new">label.title.faqs.two</target>
+      </trans-unit>
       <trans-unit id="79f063aa528b399f245005757fde5f9ce66959f9" resname="label.twitter">
         <source>label.twitter</source>
         <target state="new">label.twitter</target>
@@ -1150,10 +1238,6 @@
         <source>pa_about_us</source>
         <target state="new">pa_about_us</target>
       </trans-unit>
-      <trans-unit id="e506af1f2680cc03beebb2d2a5760e533c632377" resname="pa_age">
-        <source>pa_age</source>
-        <target state="new">pa_age</target>
-      </trans-unit>
       <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
         <source>pa_bath_room</source>
         <target state="new">pa_bath_room</target>
@@ -1165,10 +1249,6 @@
       <trans-unit id="fda6e9df956d12a7cf675d0a835667481c17616a" resname="pa_cate">
         <source>pa_cate</source>
         <target state="new">pa_cate</target>
-      </trans-unit>
-      <trans-unit id="b68f26d6b0b0ce04a3979c9406f6cd9d9eeaf142" resname="pa_children">
-        <source>pa_children</source>
-        <target state="new">pa_children</target>
       </trans-unit>
       <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
         <source>pa_contact_us</source>

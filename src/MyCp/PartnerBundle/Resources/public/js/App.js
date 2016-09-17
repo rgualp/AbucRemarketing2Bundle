@@ -25,8 +25,17 @@ var App = function () {
      * Register Agency
      */
     var initForm=function(){
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
         var form = $("#form-agency");
-
         var formData = new FormData(form[0]);
         formData.append("password", $('#password').val());
 
@@ -35,9 +44,9 @@ var App = function () {
                 submitHandler: function(form) {
                     form.submit();
                 },
+                errorElement: 'span',
+                errorClass: 'has-error',
                 ignore: "",
-                errorClass: 'error', // default input error message class
-                focusInvalid: false, // do not focus the last invalid input
                 invalidHandler: function(event, validator) { //display error alert on form submit
 
                 },
@@ -61,11 +70,14 @@ var App = function () {
                         equalTo: "#password"
                     }
                 },
-                highlight: function(element) { // hightlight error inputs
-                    $(element)
-                        .closest('.input-group').addClass('has-error'); // set error class to the control group
+                highlight: function (element, clsError) { // hightlight error inputs
+                    element = $(element);
+                    element.parent().addClass(clsError);
                 },
-
+                unhighlight: function (element, clsError) { // revert the change done by hightlight
+                    element = $(element);
+                    element.parent().removeClass(clsError);
+                },
                 success: function(label) {
                     label.closest('.input-group').removeClass('has-error');
                     label.remove();
@@ -136,7 +148,6 @@ var App = function () {
         $newLinkLi.before($newFormLi);
     },
         validateFormAgency:function(){
-            alert(2);
             var form = $("#form-agency");
             form.validate({
                 errorElement: 'label',
