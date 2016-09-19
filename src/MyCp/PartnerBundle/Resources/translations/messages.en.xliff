@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-17T12:10:14Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-19T11:29:53Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -592,35 +592,35 @@
       </trans-unit>
       <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
         <source>frontend.account_type</source>
-        <target state="new">frontend.account_type</target>
+        <target state="new">Type of Account</target>
       </trans-unit>
       <trans-unit id="d47ff1d108be6b98a557b086d08cd4710401ad17" resname="frontend.account_unic">
         <source>frontend.account_unic</source>
-        <target state="new">frontend.account_unic</target>
+        <target state="new">Unique Account</target>
       </trans-unit>
       <trans-unit id="39b9f58bd50df1735fa2cac0a6d046566d55b89a" resname="frontend.five_tour">
         <source>frontend.five_tour</source>
-        <target state="new">frontend.five_tour</target>
+        <target state="new">More than 5 Tour Operators</target>
       </trans-unit>
       <trans-unit id="bc358a98e46f450213b262ee7e095c3d71bcb9db" resname="frontend.one_tour">
         <source>frontend.one_tour</source>
-        <target state="new">frontend.one_tour</target>
+        <target state="new">1 Tour Operator</target>
       </trans-unit>
       <trans-unit id="7713ef173ad910c8c85f98c130c74ca476db13c0" resname="frontend.partner">
         <source>frontend.partner</source>
-        <target state="new">frontend.partner</target>
+        <target state="new">BECOME A PARTNER</target>
       </trans-unit>
       <trans-unit id="a7704077e6426c5cbca649552948683007b3b9b3" resname="frontend.twofive_tour">
         <source>frontend.twofive_tour</source>
-        <target state="new">frontend.twofive_tour</target>
+        <target state="new">From 2 to 5 Tour Operators</target>
       </trans-unit>
       <trans-unit id="791a73e628de3dfbfe0f1f618a63856f0ba07ff7" resname="frontend.users">
         <source>frontend.users</source>
-        <target state="new">frontend.users</target>
+        <target state="new">Users</target>
       </trans-unit>
       <trans-unit id="53928e82d89f5055e532d7643a2feb374313598a" resname="frontend.web_site">
         <source>frontend.web_site</source>
-        <target state="new">frontend.web_site</target>
+        <target state="new">Websites</target>
       </trans-unit>
       <trans-unit id="89de5cba6413438c28f1d5ca5ae806253a1098db" resname="label.aboutus">
         <source>label.aboutus</source>
@@ -641,6 +641,14 @@
       <trans-unit id="1cdfd3b32d70fea8de1269aefd0aa5bf4c40d4ed" resname="label.aboutus.two">
         <source>label.aboutus.two</source>
         <target state="new">label.aboutus.two</target>
+      </trans-unit>
+      <trans-unit id="2efa9a7c4a2675a90a3a3d4ab59e974de2aaf251" resname="label.account.agency.admin">
+        <source>label.account.agency.admin</source>
+        <target state="new"><![CDATA[Account for  Agency and Administration</br> Account for Tour Operators]]></target>
+      </trans-unit>
+      <trans-unit id="3da54246a9d001fc2d1a27e3d42b03a48c0afcf8" resname="label.account.agency.admin.reserved">
+        <source>label.account.agency.admin.reserved</source>
+        <target state="new"><![CDATA[Agency Account, administration, and reservation management. </br>Account for Tour Operators.]]></target>
       </trans-unit>
       <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
         <source>label.account.agency.contact</source>
@@ -696,11 +704,11 @@
       </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
-        <target state="new">label.carousel_text_one</target>
+        <target state="new">Reserve the best Casas Particulares in Cuba</target>
       </trans-unit>
       <trans-unit id="3f4183dac64c481db7185a24e5016ee6a2217e30" resname="label.carousel_text_two">
         <source>label.carousel_text_two</source>
-        <target state="new">label.carousel_text_two</target>
+        <target state="new">Special for Agencies and Tour Operators.</target>
       </trans-unit>
       <trans-unit id="4aa0fc260fc5883b6d1e2d4fa4095b9a1fae6a24" resname="label.change.password">
         <source>label.change.password</source>
@@ -708,7 +716,11 @@
       </trans-unit>
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
-        <target state="new">label.check.term</target>
+        <target state="new"><![CDATA[By creating my account, I accept all <b>Legal Terms and Conditions, as well as Security Policies</b>]]></target>
+      </trans-unit>
+      <trans-unit id="e7bff0b8b5894b778f9670412e1876b03d698ff9" resname="label.congratulations">
+        <source>label.congratulations</source>
+        <target state="new">label.congratulations</target>
       </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
@@ -725,6 +737,10 @@
       <trans-unit id="e8a61775a84d3fec6ff63763809939019daa04e9" resname="label.email.agency">
         <source>label.email.agency</source>
         <target state="new">label.email.agency</target>
+      </trans-unit>
+      <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
+        <source>label.extra</source>
+        <target state="new">Extra!</target>
       </trans-unit>
       <trans-unit id="3d8fe77eac80dd369ddad182f519ba59d57db124" resname="label.facebook">
         <source>label.facebook</source>
@@ -816,23 +832,23 @@
       </trans-unit>
       <trans-unit id="3597de2b60f98bcc1a9f829350f319b99844fb97" resname="label.forgot_password">
         <source>label.forgot_password</source>
-        <target state="new">label.forgot_password</target>
+        <target state="new">Did you forget your password?</target>
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
-        <target state="new">label.form.agency.one</target>
+        <target state="new">Enter agency  data to create an account</target>
       </trans-unit>
       <trans-unit id="3ca0fb8286be8eb248d9fbb73bbf775be01cff5a" resname="label.form.agency.three">
         <source>label.form.agency.three</source>
-        <target state="new">label.form.agency.three</target>
+        <target state="new">Write a password</target>
       </trans-unit>
       <trans-unit id="e5f06f475b52b29acb722c80b7fd0387ab97a974" resname="label.form.agency.two">
         <source>label.form.agency.two</source>
-        <target state="new">label.form.agency.two</target>
+        <target state="new">Indicate the data of the contact person  the agency</target>
       </trans-unit>
       <trans-unit id="ead3b00a31c3fbf025363d5d465cbc7fc554dfa7" resname="label.free">
         <source>label.free</source>
-        <target state="new">label.free</target>
+        <target state="new">FREE!!!</target>
       </trans-unit>
       <trans-unit id="bd906f18ec9225517037cc9f88213b611b4e5833" resname="label.gest.reserv_one">
         <source>label.gest.reserv_one</source>
@@ -842,13 +858,45 @@
         <source>label.gest.reserv_two</source>
         <target state="new">label.gest.reserv_two</target>
       </trans-unit>
+      <trans-unit id="01e84723ea73e6fd1c2fb4c26ef55b747b6516ea" resname="label.gest.reserved.atention">
+        <source>label.gest.reserved.atention</source>
+        <target state="new"><![CDATA[Reservation Management</br>Fast Booking Option</br>Customer Service 24 hours]]></target>
+      </trans-unit>
+      <trans-unit id="c641702eaf288e0c6ef5dd42aafcb5f90adb5fc4" resname="label.gest.reserved.atention.stadistic">
+        <source>label.gest.reserved.atention.stadistic</source>
+        <target state="new"><![CDATA[Reservation Management</br>Fast Booking Option</br>Customer Service 24 hours</br>Immediate Booking Option</br>Checking on statistics]]></target>
+      </trans-unit>
+      <trans-unit id="25864374edc9a279881a29e1080171adf2abc1d0" resname="label.gest.reserved.atention.stadistic.remarketing">
+        <source>label.gest.reserved.atention.stadistic.remarketing</source>
+        <target state="new"><![CDATA[Reservation Management</br>
+                                    Fast Booking Option</br>
+                                    Customer Service 24 hours</br>
+                                    Immediate Booking Option</br>
+                                    Checking on statistics</br>
+                                    Availability Management</br>
+                                    Payment and reimbursement Policy</br>
+                                    Creative web design</br>
+                                    Email marketing campaigns]]></target>
+      </trans-unit>
       <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
         <source>label.gonow</source>
-        <target state="new">label.gonow</target>
+        <target state="new">ON THE WAY!</target>
       </trans-unit>
       <trans-unit id="815ac4e932c44426836c9e81ca3c5c3cdf0c4c55" resname="label.google.map">
         <source>label.google.map</source>
         <target state="new">label.google.map</target>
+      </trans-unit>
+      <trans-unit id="f631d633015eff0138cf09be8320c82630ef4924" resname="label.history.reserved">
+        <source>label.history.reserved</source>
+        <target state="new">History of Bookings and Invoices</target>
+      </trans-unit>
+      <trans-unit id="78154adf0edf56c4c9833cdf6b75403fd311ce32" resname="label.history.reserved.creation">
+        <source>label.history.reserved.creation</source>
+        <target state="new"><![CDATA[History of Bookings and Invoices</br>Creation of a private section for customers]]></target>
+      </trans-unit>
+      <trans-unit id="3ad9c9f2fd8a663ebe50cc4ebb86e18c7d7f3cf4" resname="label.history.reserved.creation.cc">
+        <source>label.history.reserved.creation.cc</source>
+        <target state="new"><![CDATA[History of Bookings and Invoices</br>Creation of a private section for customers</br>Discount coupons]]></target>
       </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
@@ -920,11 +968,15 @@
       </trans-unit>
       <trans-unit id="409228771ab9c0c9a85cfefcd2bfdbcef453e476" resname="label.how_work">
         <source>label.how_work</source>
-        <target state="new">label.how_work</target>
+        <target state="new">How does it work?</target>
+      </trans-unit>
+      <trans-unit id="48d5bef79fbea71649d63c5c7fe11e263d8d604e" resname="label.indic.email">
+        <source>label.indic.email</source>
+        <target state="new">Check your determinate account for the Agency. We will send you a new password. Thank you!</target>
       </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
-        <target state="new">label.login</target>
+        <target state="new">How to log in?</target>
       </trans-unit>
       <trans-unit id="370c11f6615f95d2a6eab2e62ec91d72c3b0e7cd" resname="label.more">
         <source>label.more</source>
@@ -932,11 +984,11 @@
       </trans-unit>
       <trans-unit id="4b8db389f9696db5926182496378bdf7b3d70b7f" resname="label.name.address">
         <source>label.name.address</source>
-        <target state="new">label.name.address</target>
+        <target state="new">Legal address</target>
       </trans-unit>
       <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
         <source>label.name.agency</source>
-        <target state="new">label.name.agency</target>
+        <target state="new">Name of the agency</target>
       </trans-unit>
       <trans-unit id="db2601afdbf8756c4a63192e8b537cf6e95bb571" resname="label.name.client">
         <source>label.name.client</source>
@@ -944,7 +996,7 @@
       </trans-unit>
       <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
         <source>label.name.country</source>
-        <target state="new">label.name.country</target>
+        <target state="new">Country</target>
       </trans-unit>
       <trans-unit id="259fd25f4c7a43c61fd54072c5a78ed93f529d78" resname="label.name.destination">
         <source>label.name.destination</source>
@@ -952,19 +1004,27 @@
       </trans-unit>
       <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
         <source>label.name.email</source>
-        <target state="new">label.name.email</target>
+        <target state="new">Email of the agency</target>
       </trans-unit>
-      <trans-unit id="c4e630afc5311e3b16b436ac4c269823a67fe3ca" resname="label.name.mobile">
-        <source>label.name.mobile</source>
-        <target state="new">label.name.mobile</target>
+      <trans-unit id="0065b6b0ad9e18b0733de9e115bf8c1ba66fd3a8" resname="label.name.email.contact">
+        <source>label.name.email.contact</source>
+        <target state="new">Email of the contact</target>
+      </trans-unit>
+      <trans-unit id="7fb23904236572000e8d89d0a3ed0c89703e068e" resname="label.name.mobile.contact">
+        <source>label.name.mobile.contact</source>
+        <target state="new">Mobile of the contact person</target>
       </trans-unit>
       <trans-unit id="17b23a149a439a3e7e6367916e7f842da79d2ee8" resname="label.name.nameresponse">
         <source>label.name.nameresponse</source>
-        <target state="new">label.name.nameresponse</target>
+        <target state="new">Name</target>
       </trans-unit>
       <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
         <source>label.name.phone</source>
-        <target state="new">label.name.phone</target>
+        <target state="new">Agency telephone</target>
+      </trans-unit>
+      <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
+        <source>label.name.phone.contact</source>
+        <target state="new">Telephone of the contact person</target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
         <source>label.new.password</source>
@@ -980,11 +1040,15 @@
       </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
-        <target state="new">label.password</target>
+        <target state="new">Password</target>
       </trans-unit>
       <trans-unit id="17662a08cbcbd1fdf5771590c789bbfdbd724542" resname="label.password.repeat">
         <source>label.password.repeat</source>
-        <target state="new">label.password.repeat</target>
+        <target state="new">Confirm password</target>
+      </trans-unit>
+      <trans-unit id="ced9c5d2c547febce6c658c7f0c970dfa9c260a1" resname="label.payment.transfer">
+        <source>label.payment.transfer</source>
+        <target state="new">Full payment through bank transfer</target>
       </trans-unit>
       <trans-unit id="0e364189a6a1ae205dd69fe566b2bdd4807f40a7" resname="label.pedro">
         <source>label.pedro</source>
@@ -994,9 +1058,13 @@
         <source>label.pinterest</source>
         <target state="new">label.pinterest</target>
       </trans-unit>
+      <trans-unit id="034b90083d0ec560baa59f63d9b5ee3be36110bc" resname="label.prepayment.skrill">
+        <source>label.prepayment.skrill</source>
+        <target state="new">Prepayment via Skrill</target>
+      </trans-unit>
       <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
         <source>label.prox</source>
-        <target state="new">label.prox</target>
+        <target state="new">COMING SOON!</target>
       </trans-unit>
       <trans-unit id="b74888b33d2a4174b97ca54a68924b0daa85fe43" resname="label.question.deactivate">
         <source>label.question.deactivate</source>
@@ -1012,15 +1080,15 @@
       </trans-unit>
       <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
         <source>label.ready.reserved</source>
-        <target state="new">label.ready.reserved</target>
+        <target state="new">¿Are you ready to book big time?</target>
       </trans-unit>
       <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
         <source>label.register.agency</source>
-        <target state="new">label.register.agency</target>
+        <target state="new">START</target>
       </trans-unit>
       <trans-unit id="ebfccfc3ce9807288f420d7b56db31eae85befc3" resname="label.remember.password">
         <source>label.remember.password</source>
-        <target state="new">label.remember.password</target>
+        <target state="new">Do you want to remember your password for this site?</target>
       </trans-unit>
       <trans-unit id="4042d95c3f9fd76b0f49f10684aa8406e369529f" resname="label.required.owner">
         <source>label.required.owner</source>
@@ -1052,99 +1120,103 @@
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
-        <target state="new">label.section.easy_description</target>
+        <target state="new">To reserve becomes the easiest thing in the world. A Site thought to help you and ease your search, in a fast an professional way</target>
       </trans-unit>
       <trans-unit id="7dfdac4964db4400d8ea98123235e157a1bf2a18" resname="label.section.offer_atention">
         <source>label.section.offer_atention</source>
-        <target state="new">label.section.offer_atention</target>
+        <target state="new">Service</target>
       </trans-unit>
       <trans-unit id="d834fea028054b5e34eb8b4446a795a3ea82546b" resname="label.section.offer_atention_description">
         <source>label.section.offer_atention_description</source>
-        <target state="new">label.section.offer_atention_description</target>
+        <target state="new">We answer the availability of accommodations within 24 hours maximum.</target>
       </trans-unit>
       <trans-unit id="2b9d92b46617e6de1bac9436b01c441565b29d77" resname="label.section.offer_check">
         <source>label.section.offer_check</source>
-        <target state="new">label.section.offer_check</target>
+        <target state="new">Check it out</target>
       </trans-unit>
       <trans-unit id="886a9a0fdc00f6c22166a48707000d944f98186b" resname="label.section.offer_chek_description">
         <source>label.section.offer_chek_description</source>
-        <target state="new">label.section.offer_chek_description</target>
+        <target state="new">You can see all details and images of a property any time you want.They are always at your disposal.</target>
       </trans-unit>
       <trans-unit id="1b14f8d2dfab4e87b994e8d7f50b03ac070cb7df" resname="label.section.offer_direct">
         <source>label.section.offer_direct</source>
-        <target state="new">label.section.offer_direct</target>
+        <target state="new">Direct dealing</target>
       </trans-unit>
       <trans-unit id="3c09cead9f6b21a69489528a26732d593b13ab26" resname="label.section.offer_direct_description">
         <source>label.section.offer_direct_description</source>
-        <target state="new">label.section.offer_direct_description</target>
+        <target state="new">If you want to communicate with the Hosts, once you have made a reservation? What stops you?</target>
       </trans-unit>
       <trans-unit id="e711e6dfe2ae67d6aa8d136a9ebb883f2fcb57e0" resname="label.section.offer_facility">
         <source>label.section.offer_facility</source>
-        <target state="new">label.section.offer_facility</target>
+        <target state="new">Payment Facilities</target>
       </trans-unit>
       <trans-unit id="03c9e7c279eb2aecb56a1f55d44bd7b6128f32cb" resname="label.section.offer_facility_description">
         <source>label.section.offer_facility_description</source>
-        <target state="new">label.section.offer_facility_description</target>
+        <target state="new">Plan your clients’ trip comfortably. Payment is not an issue; we adjust ourselves to your convenience.</target>
       </trans-unit>
       <trans-unit id="387ee642e9792e2fc3a957cd77b82af583bdf4a9" resname="label.section.offer_professional">
         <source>label.section.offer_professional</source>
-        <target state="new">label.section.offer_professional</target>
+        <target state="new">Professionalism</target>
       </trans-unit>
       <trans-unit id="ab7b6ea97dee19aaa452448db9953ba86f4da5eb" resname="label.section.offer_professional_description">
         <source>label.section.offer_professional_description</source>
-        <target state="new">label.section.offer_professional_description</target>
+        <target state="new">The Partner hosts respect bookings. We give a similar or better offer in case of a cancelation.</target>
       </trans-unit>
       <trans-unit id="132c109820743a51d29460a8d5f2656c0873259f" resname="label.section.offer_vote">
         <source>label.section.offer_vote</source>
-        <target state="new">label.section.offer_vote</target>
+        <target state="new">Reviews</target>
       </trans-unit>
       <trans-unit id="7cf5150b12bf45454941eebddc0e8d4d4b08a320" resname="label.section.offer_vote_description">
         <source>label.section.offer_vote_description</source>
-        <target state="new">label.section.offer_vote_description</target>
+        <target state="new">90% of reviews about service quality and comfort of the lodgings are  very positive</target>
       </trans-unit>
       <trans-unit id="4491206d1c2b39230e4e481496cd6b0f512a0bd3" resname="label.section.one">
         <source>label.section.one</source>
-        <target state="new">label.section.one</target>
+        <target state="new">What do you gain by betting on MyCasa Partner?</target>
       </trans-unit>
       <trans-unit id="b8e77ab3d18bc597d0cb6568fa7ade37e97779d7" resname="label.section.one_easy">
         <source>label.section.one_easy</source>
-        <target state="new">label.section.one_easy</target>
+        <target state="new">Easier, impossible</target>
       </trans-unit>
       <trans-unit id="02afdeac3e92589ed7043409a9c2d73148cd89e1" resname="label.section.one_service">
         <source>label.section.one_service</source>
-        <target state="new">label.section.one_service</target>
+        <target state="new">Amazing Services</target>
       </trans-unit>
       <trans-unit id="7174bfbffaa7ee7020fc37dedab25c8dde2441b0" resname="label.section.one_sites">
         <source>label.section.one_sites</source>
-        <target state="new">label.section.one_sites</target>
+        <target state="new">A unique Site</target>
       </trans-unit>
       <trans-unit id="a2c20cf6e92d96ba9e68eea5cf8f6f390a176c73" resname="label.section.one_vacation">
         <source>label.section.one_vacation</source>
-        <target state="new">label.section.one_vacation</target>
+        <target state="new">Holidays in full speed</target>
       </trans-unit>
       <trans-unit id="4f9e0b63642cf61f023b9ea6bb7e22159b271e28" resname="label.section.service_description">
         <source>label.section.service_description</source>
-        <target state="new">label.section.service_description</target>
+        <target state="new">We help you plan your customers´ holidays. Take advantage of our Casas Particulares to enjoy a family environment, discuss business, or live a different adventure.</target>
       </trans-unit>
       <trans-unit id="1592dd8c15a6a596f6c1171d82a9e670453250c0" resname="label.section.sites_description">
         <source>label.section.sites_description</source>
-        <target state="new">label.section.sites_description</target>
+        <target state="new">Make your decision for one of our best rated Casas Particulares. We have more than 5000 guaranteed accommodations all over Cuba, with incredible offers!</target>
       </trans-unit>
       <trans-unit id="ac5afc9cd7171a3d506745e65b0ecff18507abb1" resname="label.section.two">
         <source>label.section.two</source>
-        <target state="new">label.section.two</target>
+        <target state="new">Cheer up  and try the best of MyCasa Partner</target>
       </trans-unit>
       <trans-unit id="0840b163e20870c161cd882e5ddb30b78b4ba27f" resname="label.section.vacation_description">
         <source>label.section.vacation_description</source>
-        <target state="new">label.section.vacation_description</target>
+        <target state="new">Find what your clients desire, faster than in any other site. We have all available choices for the most demanding tastes.</target>
       </trans-unit>
       <trans-unit id="d340ec5743ecc911369880f1d8b131fb0379b59f" resname="label.secure.deactivate">
         <source>label.secure.deactivate</source>
         <target state="new">label.secure.deactivate</target>
       </trans-unit>
+      <trans-unit id="3757d9ab33c99ecc8363ef13631538735c5fddf0" resname="label.service">
+        <source>label.service</source>
+        <target state="new">Services</target>
+      </trans-unit>
       <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
         <source>label.sigin</source>
-        <target state="new">label.sigin</target>
+        <target state="new">Go now</target>
       </trans-unit>
       <trans-unit id="2e6d2f051a2c1c75d4cc8c949d7c105d6397adc8" resname="label.take">
         <source>label.take</source>
@@ -1156,7 +1228,7 @@
       </trans-unit>
       <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
         <source>label.thanks</source>
-        <target state="new">label.thanks</target>
+        <target state="new">¡Thanks!</target>
       </trans-unit>
       <trans-unit id="af69c13208b7c2c4abe077c443e9b7cbc6d6b6f8" resname="label.title.faqs.one">
         <source>label.title.faqs.one</source>
@@ -1176,15 +1248,19 @@
       </trans-unit>
       <trans-unit id="f2d3006ba62b89ef481bd6d52cc75e09c2d1f4a5" resname="label.user">
         <source>label.user</source>
-        <target state="new">label.user</target>
+        <target state="new">Email agency</target>
       </trans-unit>
       <trans-unit id="c5dee5212aeb54faded7ba7f2403f0010f1c7fb0" resname="label.view.more">
         <source>label.view.more</source>
         <target state="new">label.view.more</target>
       </trans-unit>
+      <trans-unit id="d8ad88a26917068c242a8cdcea394cbd6f59372b" resname="label.way.payment">
+        <source>label.way.payment</source>
+        <target state="new">Way of Payment</target>
+      </trans-unit>
       <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
         <source>label.welcome</source>
-        <target state="new">label.welcome</target>
+        <target state="new">Welcome</target>
       </trans-unit>
       <trans-unit id="d88fc28ac3fd58523421f4274aa13ec37dc9affd" resname="label.youtube">
         <source>label.youtube</source>
@@ -1244,7 +1320,7 @@
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>
-        <target state="new">pa_about_us</target>
+        <target state="new">Who are we?</target>
       </trans-unit>
       <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
         <source>pa_bath_room</source>
@@ -1260,15 +1336,15 @@
       </trans-unit>
       <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
         <source>pa_contact_us</source>
-        <target state="new">pa_contact_us</target>
+        <target state="new">Contact us</target>
       </trans-unit>
       <trans-unit id="0f013d1bad418bc3dc1df6f1151482a3035c2b8e" resname="pa_faqs">
         <source>pa_faqs</source>
-        <target state="new">pa_faqs</target>
+        <target state="new">FAQ’s</target>
       </trans-unit>
       <trans-unit id="c32359f28aa22cacbec6704c255d9f497ce023be" resname="pa_footer_copyright">
         <source>pa_footer_copyright</source>
-        <target state="new">pa_footer_copyright</target>
+        <target state="new">A product of ABUC Media Network GmbH. All Rights Reserved</target>
       </trans-unit>
       <trans-unit id="68b672245bd87235b822ace9659b970434ad2e03" resname="pa_hab">
         <source>pa_hab</source>
@@ -1280,7 +1356,7 @@
       </trans-unit>
       <trans-unit id="cf653348d63f83debe0b3eee6efd3af76e2730e2" resname="pa_legal">
         <source>pa_legal</source>
-        <target state="new">pa_legal</target>
+        <target state="new">Term and Conditions</target>
       </trans-unit>
       <trans-unit id="ea94b54f977e7c441dd74b9e6ae0390c9f762a53" resname="pa_logout">
         <source>pa_logout</source>
@@ -1288,11 +1364,11 @@
       </trans-unit>
       <trans-unit id="7f0cebe8c76ea60d0ca8c9d3dbe6ed029f1feac8" resname="pa_mycasa_trip">
         <source>pa_mycasa_trip</source>
-        <target state="new">pa_mycasa_trip</target>
+        <target state="new">MyCasa Trip Apps</target>
       </trans-unit>
       <trans-unit id="b58348b7bbecd9d675ac53eb8f4e1462a2531f94" resname="pa_mycuba_map">
         <source>pa_mycuba_map</source>
-        <target state="new">pa_mycuba_map</target>
+        <target state="new">MyCuba Map App</target>
       </trans-unit>
       <trans-unit id="b2cb900684ed73dff71690385ff903bb18d43ee8" resname="pa_property">
         <source>pa_property</source>
@@ -1308,7 +1384,7 @@
       </trans-unit>
       <trans-unit id="b5353511c5bdb9faa8409ae927146514672ccbd9" resname="pa_sitemap">
         <source>pa_sitemap</source>
-        <target state="new">pa_sitemap</target>
+        <target state="new">Site Map</target>
       </trans-unit>
       <trans-unit id="46faae895cb582d48112c5ddb697a31062b73150" resname="pa_user_profile">
         <source>pa_user_profile</source>
@@ -1328,23 +1404,23 @@
       </trans-unit>
       <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
         <source>title.column_five</source>
-        <target state="new">title.column_five</target>
+        <target state="new">Premium</target>
       </trans-unit>
       <trans-unit id="9f3de9d222df6e6e4c87d82ea81b78a65f8987d9" resname="title.column_four">
         <source>title.column_four</source>
-        <target state="new">title.column_four</target>
+        <target state="new">Special</target>
       </trans-unit>
       <trans-unit id="370faba084ef4757f0f5fbca8d3f8c26eb2da6d0" resname="title.column_one">
         <source>title.column_one</source>
-        <target state="new">title.column_one</target>
+        <target state="new">Plan</target>
       </trans-unit>
       <trans-unit id="d7be7b3a0c87a3691340371db09348365be55194" resname="title.column_three">
         <source>title.column_three</source>
-        <target state="new">title.column_three</target>
+        <target state="new">Economic</target>
       </trans-unit>
       <trans-unit id="b85a1e524e3d00993ce03d2b5d127632d9c557db" resname="title.column_two">
         <source>title.column_two</source>
-        <target state="new">title.column_two</target>
+        <target state="new">Basic</target>
       </trans-unit>
       <trans-unit id="8940f011f09226aa1c7918fda9a1d46ce06a26cb" resname="title.page.aboutus">
         <source>title.page.aboutus</source>
@@ -1372,11 +1448,11 @@
       </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <source>title.section.offer</source>
-        <target state="new">title.section.offer</target>
+        <target state="new"><![CDATA[Offer your clients a unique </br> experience for their Holidays!   ]]></target>
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
-        <target state="new">title.section.we</target>
+        <target state="new"><![CDATA[Trust us…! </br>Make yourself a Partner!]]></target>
       </trans-unit>
     </body>
   </file>
