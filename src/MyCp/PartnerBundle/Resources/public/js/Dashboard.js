@@ -263,6 +263,13 @@ var Dashboard = function () {
                         $("#partner_reservation_children").val("");
                     }
 
+                    if(response.message != "")
+                    {
+                        //crear otro para mensajes
+                        $(".alertLabel").html(response.message);
+                        $(".alertLabel").removeClass("hidden");
+                    }
+
 
                 });
             }
@@ -322,6 +329,13 @@ var Dashboard = function () {
                         result.data("content", true);
                         onEndReservationButton();
                         onAddToOpeneservationButton();
+                    }
+
+                    if(response.message != "")
+                    {
+                        //crear otro para mensajes
+                        $(".alertLabel").html(response.message);
+                        $(".alertLabel").removeClass("hidden");
                     }
                 });
             }

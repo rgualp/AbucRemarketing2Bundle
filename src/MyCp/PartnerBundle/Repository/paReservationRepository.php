@@ -88,14 +88,17 @@ class paReservationRepository extends EntityRepository {
         $em->persist($openReservation);
 
         //Agregar un generalReservation por casa
-        $general_reservation = $em->getRepository("mycpBundle:generalReservation")->createReservation($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container);
+        $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container);
 
-        $detail = new paReservationDetail();
-        $detail->setReservation($openReservation)
-            ->setReservationDetail($general_reservation);
+        if($returnedObject["successful"]) {
+            $detail = new paReservationDetail();
+            $detail->setReservation($openReservation)
+                ->setOpenReservationDetail($returnedObject["reservation"]);
 
-        $em->persist($detail);
-        $em->flush();
+            $em->persist($detail);
+            $em->flush();
+        }
 
+        return $returnedObject;
     }
 }

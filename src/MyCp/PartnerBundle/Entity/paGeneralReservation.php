@@ -38,7 +38,7 @@ class paGeneralReservation {
      *
      * @ORM\Column(name="date", type="date")
      */
-    private $date;
+    private $creationDate;
 
     /**
      * @var \DateTime
@@ -75,11 +75,6 @@ class paGeneralReservation {
     private $totalPrice;
 
     /**
-     * @OneToMany(targetEntity="paOwnershipReservation", mappedBy="gen_res_id")
-     */
-    private $paOwnershipReservations;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="arrival_hour", type="text",nullable=true)
@@ -107,10 +102,21 @@ class paGeneralReservation {
     private $service_fee;
 
     /**
+     * @OneToMany(targetEntity="paOwnershipReservation", mappedBy="gen_res_id")
+     */
+    private $paOwnershipReservations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\MyCp\PartnerBundle\Entity\paReservationDetail", mappedBy="openReservationDetail")
+     */
+    private $travelAgencyOpenReservationsDetails;
+
+    /**
      * Constructor
      */
     public function __construct() {
         $this->paOwnershipReservations = new ArrayCollection();
+        $this->travelAgencyOpenReservationsDetails = new ArrayCollection();
     }
 
     /**
@@ -171,8 +177,8 @@ class paGeneralReservation {
      * @param DateTime $genResDate
      * @return generalReservation
      */
-    public function setDate($genResDate) {
-        $this->date = $genResDate;
+    public function setCreationDate($genResDate) {
+        $this->creationDate = $genResDate;
 
         return $this;
     }
@@ -182,8 +188,8 @@ class paGeneralReservation {
      *
      * @return DateTime
      */
-    public function getDate() {
-        return $this->date;
+    public function getCreationDate() {
+        return $this->creationDate;
     }
 
     /**
@@ -273,7 +279,7 @@ class paGeneralReservation {
     /**
      * Set gen_res_hour
      *
-     * @param integer $genResHour
+     * @param time $genResHour
      * @return generalReservation
      */
     public function setHour($genResHour) {
@@ -285,7 +291,7 @@ class paGeneralReservation {
     /**
      * Get gen_res_hour
      *
-     * @return integer
+     * @return time
      */
     public function getHour() {
         return $this->hour;
@@ -406,7 +412,6 @@ class paGeneralReservation {
         return $this;
     }
 
-
     /**
      * @return mixed
      */
@@ -425,5 +430,46 @@ class paGeneralReservation {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTravelAgencyOpenReservationsDetails()
+    {
+        return $this->travelAgencyOpenReservationsDetails;
+    }
+
+    /**
+     * @param mixed $detailReservations
+     * @return mixed
+     */
+    public function setTravelAgencyOpenReservationsDetails($detailReservations)
+    {
+        $this->travelAgencyOpenReservationsDetails = $detailReservations;
+        return $this;
+    }
+
+    /**
+     * Add paReservationDetail
+     *
+     * @param \MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail
+     *
+     * @return mixed
+     */
+    public function addTravelAgencyOpenReservationsDetails(\MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail)
+    {
+        $this->travelAgencyOpenReservationsDetails[] = $reservationDetail;
+
+        return $this;
+    }
+
+    /**
+     * Remove paReservationDetail
+     *
+     * @param \MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail
+     */
+    public function removeTravelAgencyOpenReservationsDetails(\MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail)
+    {
+        $this->travelAgencyOpenReservationsDetails->removeElement($reservationDetail);
+    }
 
 }

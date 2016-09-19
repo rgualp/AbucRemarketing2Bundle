@@ -30,7 +30,7 @@ class paOwnershipReservation {
     private $paGenRes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\room",inversedBy="paOwnershipReservations")
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\room")
      * @ORM\JoinColumn(name="room",referencedColumnName="room_id")
      */
     private $room;

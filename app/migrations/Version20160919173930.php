@@ -39,5 +39,6 @@ class Version20160919173930 extends AbstractMigration
         $this->addSql('ALTER TABLE pa_ownershipreservation DROP FOREIGN KEY FK_BED26706210BDFE4');
         $this->addSql('DROP TABLE pa_generalreservation');
         $this->addSql('DROP TABLE pa_ownershipreservation');
+
     }
 }
