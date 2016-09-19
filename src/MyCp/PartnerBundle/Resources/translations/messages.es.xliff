@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-16T23:55:31Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-17T12:10:04Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -414,10 +414,6 @@
         <source>YARD_ROOMS</source>
         <target state="new">YARD_ROOMS</target>
       </trans-unit>
-      <trans-unit id="2f4cf5d8fe5a1afa530aceaa99a8273363a99793" resname="booking.placeholder.adults_number">
-        <source>booking.placeholder.adults_number</source>
-        <target state="new">Cantidad de Adultos</target>
-      </trans-unit>
       <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
         <source>booking.placeholder.booking_code</source>
         <target state="new">Código booking</target>
@@ -524,7 +520,7 @@
       </trans-unit>
       <trans-unit id="3fc81229a25b82a826b047756941a75f7501c819" resname="dashboard.booking.client_dates">
         <source>dashboard.booking.client_dates</source>
-        <target state="new">Cliente</target>
+        <target state="new">Nombre cliente</target>
       </trans-unit>
       <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
         <source>dashboard.booking.code</source>
@@ -560,7 +556,7 @@
       </trans-unit>
       <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
-        <target state="new">Habitaciones</target>
+        <target state="new">Tipo de hab.</target>
       </trans-unit>
       <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
         <source>dashboard.booking.rooms</source>
@@ -573,6 +569,10 @@
       <trans-unit id="35408b83cf258c7c24cccb02385a107b78bc2223" resname="dashboard.booking.totalprice">
         <source>dashboard.booking.totalprice</source>
         <target state="new">Precio total</target>
+      </trans-unit>
+      <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">Pago en casa</target>
       </trans-unit>
       <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
         <source>dashboard.payment</source>
@@ -589,10 +589,6 @@
       <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
         <source>dashboard.text_reserv_two</source>
         <target state="new">Aprovecha esta fantástica guía para tenerlo todo a la mano</target>
-      </trans-unit>
-      <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
-        <source>dashboard.user</source>
-        <target state="new">Usuario</target>
       </trans-unit>
       <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
         <source>frontend.account_type</source>
@@ -782,7 +778,7 @@
         <source>label.faqs.two.description</source>
         <target state="new"><![CDATA[MyCasa Partner ofrece servicios de gestión de disponibilidad y agiliza el proceso de reservaciones en casas particulares de Cuba.</br>
                             Pone a disposición de las agencias y turoperadores la posibilidad de reservar para sus clientes las mejores casas particulares del país, pues contamos con una base de datos de más de 2 500 alojamientos garantizados por toda Cuba.</br>
-                            Según los paquetes seleccionados por cada cliente, MyCasa Partner brinda diferentes funcionalidades que abarcan desde el diseño web creativo, sistema de estadísticas, atención al cliente, campañas de email marketing, hasta opciones para reservar al instante.]]> </target>
+                            Según los paquetes seleccionados por cada cliente, MyCasa Partner brinda diferentes funcionalidades que abarcan desde el diseño web creativo, sistema de estadísticas, atención al cliente, campañas de email marketing, hasta opciones para reservar al instante. ]]></target>
       </trans-unit>
       <trans-unit id="15873ae3f2b725a7e8baabab3b0beba3848a71b0" resname="label.faqs.two.five">
         <source>label.faqs.two.five</source>
@@ -1199,6 +1195,10 @@
         <source>label.youtube</source>
         <target state="new">Youtube</target>
       </trans-unit>
+      <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
+        <source>missing_data</source>
+        <target state="new">missing_data</target>
+      </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
         <target state="new">Su contraseña actual no coincide con la especificada</target>
@@ -1251,10 +1251,6 @@
         <source>pa_about_us</source>
         <target state="new">Quiénes somos</target>
       </trans-unit>
-      <trans-unit id="e506af1f2680cc03beebb2d2a5760e533c632377" resname="pa_age">
-        <source>pa_age</source>
-        <target state="new">Edad</target>
-      </trans-unit>
       <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
         <source>pa_bath_room</source>
         <target state="new">Tipo de Baño</target>
@@ -1266,10 +1262,6 @@
       <trans-unit id="fda6e9df956d12a7cf675d0a835667481c17616a" resname="pa_cate">
         <source>pa_cate</source>
         <target state="new">Categoría</target>
-      </trans-unit>
-      <trans-unit id="b68f26d6b0b0ce04a3979c9406f6cd9d9eeaf142" resname="pa_children">
-        <source>pa_children</source>
-        <target state="new">Niños</target>
       </trans-unit>
       <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
         <source>pa_contact_us</source>
@@ -1359,6 +1351,30 @@
         <source>title.column_two</source>
         <target state="new">Básico</target>
       </trans-unit>
+      <trans-unit id="8940f011f09226aa1c7918fda9a1d46ce06a26cb" resname="title.page.aboutus">
+        <source>title.page.aboutus</source>
+        <target state="new">Quiénes somos</target>
+      </trans-unit>
+      <trans-unit id="d1c84c7046ccb52472a8fb16084375b16a99046b" resname="title.page.contactus">
+        <source>title.page.contactus</source>
+        <target state="new">Contactos</target>
+      </trans-unit>
+      <trans-unit id="4383c55fb58f52b3c51737696ceab4b45d7cdac0" resname="title.page.faqs">
+        <source>title.page.faqs</source>
+        <target state="new">Preguntas frecuentes</target>
+      </trans-unit>
+      <trans-unit id="d33b92535e199c7a9fb8217895760ae3a7beb68a" resname="title.page.howwork">
+        <source>title.page.howwork</source>
+        <target state="new">Cómo funciona</target>
+      </trans-unit>
+      <trans-unit id="4408686dbc1c48e454b5cdc987e06f78b1c227a2" resname="title.page.legal">
+        <source>title.page.legal</source>
+        <target state="new">Términos legales</target>
+      </trans-unit>
+      <trans-unit id="4441817f4bccf3ff28b7c5af081cfa0820d1bf03" resname="title.page.sitemap">
+        <source>title.page.sitemap</source>
+        <target state="new">Mapa del Sitio</target>
+      </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <source>title.section.offer</source>
         <target state="new"><![CDATA[Ofrece a tus clientes una experiencia </br> única para sus vacaciones]]></target>
@@ -1366,22 +1382,6 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
-        <source>dashboard.booking.client_dates</source>
-        <target state="new">Nombre cliente</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
-        <source>dashboard.booking.room_types</source>
-        <target state="new">Tipo de hab.</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2g" resname="dashboard.booking.booking_code">
-        <source>dashboard.booking.booking_code</source>
-        <target state="new">Código booking</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2r" resname="dashboard.booking.totalprice_inhome">
-        <source>dashboard.booking.totalprice_inhome</source>
-        <target state="new">Pago en casa</target>
       </trans-unit>
     </body>
   </file>

@@ -7,7 +7,7 @@
             <div class="modal-body modal-agency pb-0">
                 <form class="form-horizontal form-agency" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
                 <div class="col-md-3" >
-                    <div class="row hidden-xs" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_es.png')}})  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
+                    <div class="row hidden-xs" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_'~app.session.get('app_lang_code')|lower)}}.png)  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
                     </div>
                     <div class="row">
                         <button class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>

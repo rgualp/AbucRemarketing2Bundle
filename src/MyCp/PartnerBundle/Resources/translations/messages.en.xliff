@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-16T23:55:42Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-17T12:10:14Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -520,7 +520,7 @@
       </trans-unit>
       <trans-unit id="3fc81229a25b82a826b047756941a75f7501c819" resname="dashboard.booking.client_dates">
         <source>dashboard.booking.client_dates</source>
-        <target state="new">dashboard.booking.client_dates</target>
+        <target state="new">Name of the Client</target>
       </trans-unit>
       <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
         <source>dashboard.booking.code</source>
@@ -556,7 +556,7 @@
       </trans-unit>
       <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
-        <target state="new">dashboard.booking.room_types</target>
+        <target state="new">Type of room</target>
       </trans-unit>
       <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
         <source>dashboard.booking.rooms</source>
@@ -569,6 +569,10 @@
       <trans-unit id="35408b83cf258c7c24cccb02385a107b78bc2223" resname="dashboard.booking.totalprice">
         <source>dashboard.booking.totalprice</source>
         <target state="new">dashboard.booking.totalprice</target>
+      </trans-unit>
+      <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">dashboard.booking.totalprice_inhome</target>
       </trans-unit>
       <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
         <source>dashboard.payment</source>
@@ -1186,6 +1190,10 @@
         <source>label.youtube</source>
         <target state="new">label.youtube</target>
       </trans-unit>
+      <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
+        <source>missing_data</source>
+        <target state="new">missing_data</target>
+      </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
         <target state="new">msg.change.password.invalid</target>
@@ -1338,6 +1346,30 @@
         <source>title.column_two</source>
         <target state="new">title.column_two</target>
       </trans-unit>
+      <trans-unit id="8940f011f09226aa1c7918fda9a1d46ce06a26cb" resname="title.page.aboutus">
+        <source>title.page.aboutus</source>
+        <target state="new">title.page.aboutus</target>
+      </trans-unit>
+      <trans-unit id="d1c84c7046ccb52472a8fb16084375b16a99046b" resname="title.page.contactus">
+        <source>title.page.contactus</source>
+        <target state="new">title.page.contactus</target>
+      </trans-unit>
+      <trans-unit id="4383c55fb58f52b3c51737696ceab4b45d7cdac0" resname="title.page.faqs">
+        <source>title.page.faqs</source>
+        <target state="new">title.page.faqs</target>
+      </trans-unit>
+      <trans-unit id="d33b92535e199c7a9fb8217895760ae3a7beb68a" resname="title.page.howwork">
+        <source>title.page.howwork</source>
+        <target state="new">title.page.howwork</target>
+      </trans-unit>
+      <trans-unit id="4408686dbc1c48e454b5cdc987e06f78b1c227a2" resname="title.page.legal">
+        <source>title.page.legal</source>
+        <target state="new">title.page.legal</target>
+      </trans-unit>
+      <trans-unit id="4441817f4bccf3ff28b7c5af081cfa0820d1bf03" resname="title.page.sitemap">
+        <source>title.page.sitemap</source>
+        <target state="new">title.page.sitemap</target>
+      </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <source>title.section.offer</source>
         <target state="new">title.section.offer</target>
@@ -1345,14 +1377,6 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new">title.section.we</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
-        <source>dashboard.booking.client_dates</source>
-        <target state="new">Name of the Client</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
-        <source>dashboard.booking.room_types</source>
-        <target state="new">Type of room</target>
       </trans-unit>
     </body>
   </file>
