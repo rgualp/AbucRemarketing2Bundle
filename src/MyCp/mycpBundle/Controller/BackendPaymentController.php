@@ -7,6 +7,7 @@ use MyCp\mycpBundle\Entity\ownershipPayment;
 use MyCp\mycpBundle\Form\ownershipPaymentType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
+use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -214,4 +215,71 @@ class BackendPaymentController extends Controller {
         return new Response($response);
     }
 
+    function inactiveAccommodationAction($id) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+
+        $em = $this->getDoctrine()->getManager();
+        $accommodation= $em->getRepository('mycpBundle:ownership')->find($id);
+
+        if ($accommodation)
+        {
+            $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
+            $accommodation->setOwnStatus($status);
+            $em->persist($accommodation);
+            $em->flush();
+        }
+
+        $message = 'Se ha inactivado satisfactoriamente el alojamiento '. $accommodation->getOwnMcpCode();
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($message, BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
+
+
+        return $this->redirect($this->generateUrl('mycp_accommodations_no_payment'));
+    }
+
+    function sendEmailReminderAction($id, Request $request) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+
+        try {
+            $emailManager = $this->get('mycp.service.email_manager');
+
+            $em = $this->getDoctrine()->getManager();
+            $accommodation = $em->getRepository('mycpBundle:ownership')->find($id);
+
+            $accommodationEmail = ($accommodation->getOwnEmail1()) ? $accommodation->getOwnEmail1() : $accommodation->getOwnEmail2();
+            $userName = ($accommodation->getOwnHomeowner1()) ? $accommodation->getOwnHomeowner1() : $accommodation->getOwnHomeowner2();
+
+            $emailSubject = "Esperamos por ti en MyCasaParticular.com";
+
+            $termsUrl = $this->generateUrl('frontend_legal_terms', array(
+                'locale' => 'es',
+                '_locale' => 'es'
+            ), true);
+
+            $emailBody = $emailManager->getViewContent('MyCpCasaModuleBundle:mail:payment_reminder.html.twig',
+                array('user_name' => $userName,
+                    'termsUrl' => $termsUrl,
+                    'user_locale' => "es"));
+
+            $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
+
+            $message = 'Se ha enviado satisfactoriamente un correo de recordatorio de pago al alojamiento ' . $accommodation->getOwnMcpCode();
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog($message, BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_EMAIL);
+        }
+        catch(\Exception $e)
+        {
+            $message = 'Ha ocurrido un error: '.$e->getMessage();
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+
+            return $this->redirect($this->generateUrl('mycp_accommodations_no_payment'));
+
+    }
 }

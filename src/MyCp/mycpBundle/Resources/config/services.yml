@@ -84,3 +84,9 @@ services:
    mycp.notification.mail.service:
        class: MyCp\mycpBundle\Service\NotificationMailService
        arguments: ["%notification_service_url%", "%notification_service_api_key%"]
+
+   mycp.job.casamodule.inscription.listener:
+       class: Abuc\RemarketingBundle\Event\DefaultEventListener
+       arguments: [@abuc_remarketing.job.manager, "mycp.job.casamodule.inscription.reminder", "24 hours"]
+       tags:
+           - { name: kernel.event_listener, event: mycp.event.casamodule.newregister,  method: onEvent }

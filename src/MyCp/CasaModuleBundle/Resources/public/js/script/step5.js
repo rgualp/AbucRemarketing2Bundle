@@ -4,7 +4,8 @@
  *========================================================================*/
 var Step5 = function () {
 
-    var saveStep5=function(){
+    var saveStep5=function(index){
+        if(index==5)
         Step5.saveFacilities(false);
     }
 
@@ -84,7 +85,7 @@ var Step5 = function () {
                 url: url,
                 data:  data,
                 success: function (data) {
-                    if(flag)
+                    // if(flag)
                         HoldOn.close();
                 }
             });

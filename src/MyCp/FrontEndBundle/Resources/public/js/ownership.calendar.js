@@ -74,17 +74,24 @@ function total_price(curr,percent)
 
 
     $('#data_reservation').val(string_url);
-    $('#total_price').html( normalize_prices(total_price_var) );
+    $('#accommodation_price').html( normalize_prices(total_price_var) );
     $('#subtotal_price').html(normalize_prices(total_price_var));
     var percent_value=total_price_var * percent / 100;
     var tourist_service = total_price_var*parseFloat(tourist_fee_percent);
+    var fixed_tax = parseFloat($("#tourist_service").data("fixed-tax")) *curr;
     $("#tourist_service").html(normalize_prices(tourist_service));
-    $('#initial_deposit').html(normalize_prices(percent_value));
-    $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
+    var total_price = total_price_var + tourist_service + fixed_tax;
+    $('#total_price').html(normalize_prices(total_price));
+    var pay_at_service = total_price_var - percent_value;
+    $('#pay_at_service').html(normalize_prices(pay_at_service));
+    $("#pay_at_service_cuc").html("CUC " + normalize_prices(pay_at_service/curr));
 
-    var fixed_tax = $("#tourist_service").data("fixed-tax");
-    var prepayment = parseFloat(percent_value)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
-    console.log(prepayment);
+
+    var prepayment = percent_value + fixed_tax + tourist_service;
+    /*console.log("Porciento" + percent_value);
+    console.log("Turista" + tourist_service);
+    console.log("Tarifa fija" + fixed_tax);
+    console.log(prepayment);*/
     $('#total_prepayment').html(normalize_prices(prepayment));
     $('.calendar-results').css({display: 'block'});
 
@@ -234,5 +241,6 @@ function reservations_in_details()
 
 function normalize_prices(price)
 {
-    return Math.round(price * Math.pow(10,2))/Math.pow(10,2);
+    //return (Math.round(price * Math.pow(10,2))/Math.pow(10,2));
+    return parseFloat(Math.round(price*100)/100).toFixed(2);
 }

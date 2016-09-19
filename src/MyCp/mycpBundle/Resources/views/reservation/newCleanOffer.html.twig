@@ -144,15 +144,20 @@
             from = $('#filter_date_from').val();
             to = $('#filter_date_to').val();
             own = $('#ownership').val();
-            refresh_calendar(from, to, own);
-            $('#data_ownership').val(own);
+
+            if(own != "" && own != "Cargando...") {
+                refresh_calendar(from, to, own);
+                $('#data_ownership').val(own);
+            }
 
         });
 
         from = $('#filter_date_from').val();
         to = $('#filter_date_to').val();
         own = $('#ownership').val();
-        refresh_calendar(from, to,own);
+
+        if(own != "" && own != "Cargando...")
+         refresh_calendar(from, to,own);
 
 
         function datePickersStarUp(){
@@ -173,7 +178,9 @@
                 $('.datepicker').hide();
 
                 own = $('#ownership').val();
-                refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
+
+                if(own != "" && own != "Cargando...")
+                    refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
 
             });
 
@@ -188,7 +195,8 @@
         }
         datePickersStarUp();
         own = $('#ownership').val();
-        $('#data_ownership').val(own);
+        if(own != "" && own != "Cargando...")
+            $('#data_ownership').val(own);
     </script>
     <script type="text/javascript">
         $('.textarea').wysihtml5();
@@ -214,6 +222,7 @@
                 success: function(msg) {
 
                     $('#ownership').html(msg);
+                    $('#ownership').val($('#ownership option:first-child').val()).trigger('change');
                 }
             });
         });

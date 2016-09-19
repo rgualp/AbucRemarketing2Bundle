@@ -198,30 +198,31 @@ var Step6 = function () {
             //alert(reader.readAsDataURL(input.files[0]));
         }}
 
-    var saveStep6=function(){
-        var _url=$('#mycp_mycpbundle_ownership_step_photos').attr('action');
-        //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
-        var form=$('#mycp_mycpbundle_ownership_step_photos');
-        if (typeof form != 'undefined') {
-            var form = document.getElementById("mycp_mycpbundle_ownership_step_photos");
-            var $envio = $.ajax({
-                url: _url,
-                //data: values,
-                data: new FormData(form),
-                processData: false,
-                contentType: false,
-                idAccommodation: App.getOwnId(),
-                type: 'POST'
-            });
-            $envio.error(function (data) {
-                HoldOn.close();
-            });
-            $envio.success(function (data) {
-                HoldOn.close();
-            });
+    var saveStep6=function(index){
+        if(index==6) {
+            var _url = $('#mycp_mycpbundle_ownership_step_photos').attr('action');
+            //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
+            var form = $('#mycp_mycpbundle_ownership_step_photos');
+            if (typeof form != 'undefined') {
+                var form = document.getElementById("mycp_mycpbundle_ownership_step_photos");
+                var $envio = $.ajax({
+                    url: _url,
+                    //data: values,
+                    data: new FormData(form),
+                    processData: false,
+                    contentType: false,
+                    idAccommodation: App.getOwnId(),
+                    type: 'POST'
+                });
+                $envio.error(function (data) {
+                    HoldOn.close();
+                });
+                $envio.success(function (data) {
+                    HoldOn.close();
+                });
 
+            }
         }
-
     }
 
     //var onclickBtnSavePhoto=function(){

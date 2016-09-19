@@ -65,7 +65,8 @@ var Step4 = function () {
     /**
      * Para salvar el paso
      */
-    var saveStep4=function(){
+    var saveStep4=function(index){
+        if(index==4)
         Step4.saveRoom(false);
     }
 

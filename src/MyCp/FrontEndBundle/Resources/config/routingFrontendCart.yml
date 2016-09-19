@@ -7,7 +7,7 @@ frontend_add_to_cart:
     defaults: { _controller: FrontEndBundle:Cart:addToCart }
 
 frontend_remove_from_cart_callback:
-    pattern:  /user/cart/remove/{data}
+    locales:  { en: "/user/cart/remove/{data}", es: "/usuario/cesta/eliminar/{data}", de: "/user/cart/remove/{data}" }
     defaults: { _controller: FrontEndBundle:Cart:removeFromCart }
 
 frontend_empty_cart:
@@ -19,7 +19,7 @@ frontend_check_availability_cart:
     defaults: { _controller: FrontEndBundle:Cart:checkAvailability }
 
 frontend_check_availability_submit_cart:
-    pattern:  /review_submit
+    locales:  { en: "/review-submit", es: "/review-submit", de: "/review-submit" }
     defaults: { _controller: FrontEndBundle:Cart:checkAvailabilitySubmit }
 
 

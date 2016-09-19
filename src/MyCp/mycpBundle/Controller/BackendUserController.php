@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
+use MyCp\mycpBundle\Helpers\RedirectCode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\user;
@@ -724,20 +725,24 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
-    function changeStatusAction($userId) {
+    function changeStatusAction($userId, Request $request) {
         try {
             $em = $this->getDoctrine()->getManager();
             $em->getRepository('mycpBundle:user')->changeStatus($userId);
 
-            $message = 'Se ha modificado satisfactoriamente el estado del usuario casa asociado.';
+            $message = 'Se ha modificado satisfactoriamente el estado del usuario asociado.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         } catch (\Exception $e) {
-            $message = 'Ha ocurrido un error durante el cambio del estado del usuario casa asociado.';
+            $message = 'Ha ocurrido un error durante el cambio del estado del usuario asociado.';
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
 
-        return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+        $previousUrl = $this->getRequest()->headers->get('referer');
+
+        return $this->redirect($previousUrl);
+            // return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+
     }
 
     public function getUserPhotoPathAction($userId, $changePhotoLink = false)
