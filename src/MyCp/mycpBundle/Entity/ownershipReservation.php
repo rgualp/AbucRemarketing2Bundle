@@ -576,7 +576,7 @@ class ownershipReservation {
         switch ($seasonType) {
             case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $this->own_res_room_price_up;
             case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($this->own_res_room_price_special != null && $this->own_res_room_price_special > 0) ? $this->own_res_room_price_special : $this->own_res_room_price_up;
-            default: return $this->own_res_room_pgetOwnResRoomTyperice_down;
+            default: return $this->own_res_room_price_down;
         }
     }
 
