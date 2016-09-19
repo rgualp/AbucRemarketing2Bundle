@@ -143,9 +143,34 @@ class BackendController extends Controller
         $travelAgency = $tourOperator->getTravelAgency();
         $reservation = $em->getRepository("PartnerBundle:paReservation")->find($id);
 
-        //Pasar el paGeneralReservation a generalReservation. Eliminar
+        //Pasar el paGeneralReservation a generalReservation
+        $reservationDetails = $reservation->getDetails();
 
-        //Pasar los paOwnershipReservation a ownershipReservation. Eliminar
+        foreach($reservationDetails as $detail)
+        {
+            $paGeneralReservation = $detail->getOpenReservationDetail(); // a eliminar
+            $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
+
+            $generalReservation = $paGeneralReservation->createReservation();
+
+            //Pasar los paOwnershipReservation a ownershipReservation
+            foreach($paOwnershipReservations as $paORes){
+                $ownershipReservation = $paORes->createReservation();
+                $ownershipReservation->setOwnResGenResId($generalReservation);
+
+                $em->remove($paORes); //Eliminar paOwnershipReservation
+                $em->persist($ownershipReservation);
+            }
+
+            //Eliminar el OpenReservationDetail y actualizar el ReservationDetail
+            $detail->setOpenReservationDetail(null);
+            $detail->setReservationDetail($generalReservation);
+            $em->persist($detail);
+
+            $em->persist($generalReservation);
+            $em->remove($paGeneralReservation); //Eliminar paGeneralReservation
+            $em->flush();
+        }
 
         $reservation->setClosed(true);
         $em->persist($reservation);

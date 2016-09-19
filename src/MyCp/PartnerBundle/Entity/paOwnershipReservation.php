@@ -4,6 +4,7 @@ namespace MyCp\PartnerBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
@@ -386,6 +387,7 @@ class paOwnershipReservation {
         $ownRes->setOwnResSyncSt(SyncStatuses::ADDED);
         $ownRes->setOwnResTotalInSite($this->totalPrice);
         $ownRes->setOwnResNights($this->nights);
+        $ownRes->setOwnResNightPrice(0);
 
         return $ownRes;
     }

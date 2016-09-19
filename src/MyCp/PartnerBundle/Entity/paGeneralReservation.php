@@ -102,7 +102,7 @@ class paGeneralReservation {
     private $service_fee;
 
     /**
-     * @OneToMany(targetEntity="paOwnershipReservation", mappedBy="gen_res_id")
+     * @OneToMany(targetEntity="paOwnershipReservation", mappedBy="paGenRes")
      */
     private $paOwnershipReservations;
 
@@ -373,7 +373,7 @@ class paGeneralReservation {
 
     public function createReservation() {
         $genRes = new generalReservation();
-        $genRes->setGenResArrivalHour($this->hour);
+        $genRes->setGenResArrivalHour($this->hour->format("G"));
         $genRes->setGenResDate(new \DateTime(date('Y-m-d')));
         $genRes->setGenResFromDate($this->dateFrom);
         $genRes->setGenResHour(date('G'));
