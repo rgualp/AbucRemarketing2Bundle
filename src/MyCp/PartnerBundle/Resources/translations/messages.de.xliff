@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-20T08:37:38Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-20T16:19:38Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -717,6 +717,10 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
+      </trans-unit>
+      <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
+        <source>label.contactus.mcpartner</source>
+        <target state="new">label.contactus.mcpartner</target>
       </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
