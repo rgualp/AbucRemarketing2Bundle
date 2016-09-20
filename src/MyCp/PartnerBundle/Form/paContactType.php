@@ -19,7 +19,7 @@ class paContactType extends AbstractType
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('email', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phone', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('mobile', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('mobile', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
         ;
     }
     

@@ -12,6 +12,11 @@
             </div>
             <div class="navbar-collapse collapse navbar-partner" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="false">
+                            <i class="glyphicons shopping_cart" style="margin-top: -3px"></i>  <span class="label label-warning">16</span>
+                        </a>
+                    </li>
                     {% if app.request.get('_route') %}
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
                     {% endif %}

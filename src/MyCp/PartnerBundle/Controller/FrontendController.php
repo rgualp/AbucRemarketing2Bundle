@@ -129,17 +129,45 @@ class FrontendController extends Controller
     }
 
     /**
-     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function whoAreAction(){
         return $this->render('PartnerBundle:Pages:who_we_are.html.twig', array());
     }
 
     /**
-     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function howWorkAction(){
         return $this->render('PartnerBundle:Pages:how_work.html.twig', array());
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function faqsAction(){
+        return $this->render('PartnerBundle:Pages:faqs.html.twig', array());
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function legalAction(){
+        return $this->render('PartnerBundle:Pages:legal.html.twig', array());
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function sitemapAction(){
+        return $this->render('PartnerBundle:Pages:sitemap.html.twig', array());
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function contactusAction(){
+        return $this->render('PartnerBundle:Pages:contactus.html.twig', array());
     }
 
     public function getLanguagesAction($route, $routeParams = null)

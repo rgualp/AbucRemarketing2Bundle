@@ -44,19 +44,38 @@ frontend_partner_activateacount:
 
 #Register account page
 frontend_partner_registeracountpage:
-    locales:  { en: "/registeraccount", es: "/cuentaregistrada", de: "/registeraccount" }
+    locales:  { en: "/activation", es: "/activacion", de: "/aktivierung" }
     defaults: { _controller: PartnerBundle:Frontend:registerAccountPage }
 
 #About us page
 frontend_partner_who_are:
-    locales:  { en: "/who_are", es: "/quienes_son", de: "/who_are" }
+    locales:  { en: "/about", es: "/nosotros", de: "/about" }
     defaults: { _controller: PartnerBundle:Frontend:whoAre }
 
-#About us page
+#How work page
 frontend_partner_how_work:
-    locales:  { en: "/how_work", es: "/como_funciona", de: "/how_work" }
+    locales:  { en: "/help", es: "/ayuda", de: "/hilfe" }
     defaults: { _controller: PartnerBundle:Frontend:howWork }
 
+#Faq's page
+frontend_partner_faqs:
+    locales:  { en: "/faqs", es: "/faqs", de: "/faqs" }
+    defaults: { _controller: PartnerBundle:Frontend:faqs }
+
+#Legal page
+frontend_partner_legal:
+    locales:  { en: "/legal", es: "/legal", de: "/rechtlich" }
+    defaults: { _controller: PartnerBundle:Frontend:legal }
+
+#Site map page
+frontend_partner_sitemap:
+    locales:  { en: "/sitemap", es: "/mapa", de: "/sitemap" }
+    defaults: { _controller: PartnerBundle:Frontend:sitemap }
+
+#Contactus page
+frontend_partner_contactus:
+    locales:  { en: "/contactus", es: "/contactos", de: "/kontaktiere" }
+    defaults: { _controller: PartnerBundle:Frontend:contactus }
 
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
@@ -169,3 +188,7 @@ partnet_dashboard_updateprofile_agency:
 partner_dashboard_close_reservation:
     locales:  { en: "/dashboard/close-reservation", es: "/dashboard/close-reservation", de: "/dashboard/close-reservation" }
     defaults: { _controller: PartnerBundle:Backend:closeReservation }
+
+partner_dashboard_add_to_open_reservation:
+    locales:  { en: "/dashboard/add-reservation", es: "/dashboard/add-reservation", de: "/dashboard/add-reservation" }
+    defaults: { _controller: PartnerBundle:Backend:addReservation }

@@ -97,7 +97,7 @@ class ProfileController extends Controller
             $form->handleRequest($request);
                 $em->persist($obj);
                 $em->flush();
-                return new JsonResponse(['success' => true, 'message' => 'Se ha modificado satisfactoriamente']);
+                return new JsonResponse(['success' => true, 'message' => $this->get('translator')->trans("msg.modific.satisfactory")]);
         }
     }
     /**
