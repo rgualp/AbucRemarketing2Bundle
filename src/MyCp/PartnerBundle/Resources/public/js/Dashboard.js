@@ -424,9 +424,7 @@ var Dashboard = function () {
 
                 if (response.success) {
                     result.html(response.html);
-                    onEndReservationButton();
-                    onAddToOpeneservationButton();
-                    //onShowOpenReservationsListDetailsButton();
+                    onCloseOpenReservationDetailedListButton();
                 }
 
                 if(response.message != "")
@@ -440,8 +438,15 @@ var Dashboard = function () {
         });
     }
 
+    var onCloseOpenReservationDetailedListButton = function(){
+        $("#closeDetailedOpenReservationList").on('click',function() {
+            var result = $('#openReservationsList');
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
+        });
+    }
+
     return {
-        //main function to initiate template pages
         init: function () {
             initPlugins();
             onclickBtnMoreFilter();
@@ -451,6 +456,7 @@ var Dashboard = function () {
             onEndReservationButton();
             onAddToOpeneservationButton();
             onShowOpenReservationsListDetailsButton();
+            onCloseOpenReservationDetailedListButton();
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");

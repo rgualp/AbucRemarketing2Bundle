@@ -112,7 +112,7 @@ class BackendController extends Controller
 
         $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container);
         $locale = $this->get('translator');
-        $message = $locale->trans($returnedObject["message"]);
+        $message = ($returnedObject != null) ? $locale->trans($returnedObject["message"]) : "";
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
@@ -215,7 +215,9 @@ class BackendController extends Controller
         $reservation = $em->getRepository("PartnerBundle:paReservation")->findOneBy(array("id" => $id, "closed" => false));
         $message = "";
 
-        if(isset($reservation))
+        $canCreateReservation = $em->getRepository("PartnerBundle:paReservation")->canCreateReservation($reservation, $accommodation, $dateFrom, $dateTo);
+
+        if(isset($reservation) && $canCreateReservation)
         {
             $adults = $reservation->getAdults();
             $children = $reservation->getChildren();
@@ -258,8 +260,8 @@ class BackendController extends Controller
     public function detailedOpenReservationsListAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        /*$user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));*/
         $reservationId = $request->get("reservationId");
         $reservationNumber = $request->get("reservationNumber");
         $clientName = $request->get("clientName");

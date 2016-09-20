@@ -82,24 +82,48 @@ class paReservationRepository extends EntityRepository {
                 ->setChildren($children)
                 ->setClient($client);
         }
-        //Actualizar total de ubicados
-        $openReservation->setAdultsWithAccommodation($openReservation->getAdultsWithAccommodation() + $adults)
-            ->setChildrenWithAccommodation($openReservation->getChildrenWithAccommodation() + $children);
 
-        $em->persist($openReservation);
+        if($this->canCreateReservation($openReservation, $accommodation, $dateFrom, $dateTo)) {
+            //Actualizar total de ubicados
+            $openReservation->setAdultsWithAccommodation($openReservation->getAdultsWithAccommodation() + $adults)
+                ->setChildrenWithAccommodation($openReservation->getChildrenWithAccommodation() + $children);
 
-        //Agregar un generalReservation por casa
-        $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container);
+            $em->persist($openReservation);
 
-        if($returnedObject["successful"]) {
-            $detail = new paReservationDetail();
-            $detail->setReservation($openReservation)
-                ->setOpenReservationDetail($returnedObject["reservation"]);
+            //Agregar un generalReservation por casa
+            $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container);
 
-            $em->persist($detail);
-            $em->flush();
+            if ($returnedObject["successful"]) {
+                $detail = new paReservationDetail();
+                $detail->setReservation($openReservation)
+                    ->setOpenReservationDetail($returnedObject["reservation"]);
+
+                $em->persist($detail);
+                $em->flush();
+            }
+
+            return $returnedObject;
         }
 
-        return $returnedObject;
+        return null;
+    }
+
+    public function canCreateReservation($reservation, $accommodation, $dateFrom, $dateTo)
+    {
+        $em = $this->getEntityManager();
+        $countReservations = $em->createQueryBuilder()
+            ->from("PartnerBundle:paGeneralReservation", "pa_gres")
+            ->join("pa_gres.accommodation", "accommodation")
+            ->join("pa_gres.travelAgencyOpenReservationsDetails", "paDetail")
+            ->leftJoin("paDetail.reservation", "reservation")
+            ->select("count(pa_gres)")
+            ->where("accommodation.own_id = :ownId")
+            ->andWhere("reservation.id = :reservationId")
+            ->andWhere("pa_gres.dateFrom = :dateFrom")
+            ->andWhere("pa_gres.dateTo = :dateTo")
+            ->setParameters(array("dateFrom" => $dateFrom, "dateTo" => $dateTo, "ownId" => $accommodation->getOwnId(), "reservationId" => $reservation->getId()))
+            ->setMaxResults(1)->getQuery()->getSingleScalarResult();
+
+        return ($countReservations == 0);
     }
 }
