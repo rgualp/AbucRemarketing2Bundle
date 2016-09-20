@@ -552,7 +552,7 @@
       </trans-unit>
       <trans-unit id="4d58eba7b655963a4e1d273ef8e10b965e525afc" resname="dashboard.booking.reserved">
         <source>dashboard.booking.reserved</source>
-        <target state="new">Reservadas</target>
+        <target state="new">Pagadas</target>
       </trans-unit>
       <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
