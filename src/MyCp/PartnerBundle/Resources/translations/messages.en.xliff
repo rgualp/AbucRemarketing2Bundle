@@ -1470,7 +1470,6 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2r" resname="dashboard.booking.totalprice_inhome">
         <source>dashboard.booking.totalprice_inhome</source>
         <target state="new">Casa Payment</target>
-        <target state="new"><![CDATA[Trust us…! </br>Make yourself a Partner!]]></target>
       </trans-unit>
     </body>
   </file>
