@@ -420,7 +420,7 @@
       </trans-unit>
       <trans-unit id="d2a6e5f7cf7a32a846403c34a9ec8717613788be" resname="booking.placeholder.booking_date">
         <source>booking.placeholder.booking_date</source>
-        <target state="new">booking.placeholder.booking_date</target>
+        <target state="new">Date of Booking</target>
       </trans-unit>
       <trans-unit id="b7c5457efbf21714ca6b8704d878bc172345d07a" resname="booking.placeholder.cas">
         <source>booking.placeholder.cas</source>
