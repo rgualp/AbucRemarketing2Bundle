@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-19T11:29:43Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-20T08:37:17Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -700,7 +700,7 @@
       </trans-unit>
       <trans-unit id="e39254f99ac1dc7ef27d192c91de4e07bef29567" resname="label.carousel_text_backend_two">
         <source>label.carousel_text_backend_two</source>
-        <target state="new">Un directorio útil y práctico para gestionar tus reservas fácilmente. </target>
+        <target state="new">Un directorio útil y práctico para gestionar tus reservas fácilmente</target>
       </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
@@ -717,10 +717,6 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new"><![CDATA[Al Crear mi cuenta acepto todos los <b>Términos Legales y Políticas de Seguridad</b>]]></target>
-      </trans-unit>
-      <trans-unit id="e7bff0b8b5894b778f9670412e1876b03d698ff9" resname="label.congratulations">
-        <source>label.congratulations</source>
-        <target state="new">label.congratulations</target>
       </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
@@ -1282,6 +1278,10 @@
       <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
         <source>msg.change.password.satisfactory</source>
         <target state="new">La contraseña se ha cambiado de modo satisfactorio</target>
+      </trans-unit>
+      <trans-unit id="aec53e2be2febd0abc914eba5edb9bbba67e5ba4" resname="msg.modific.satisfactory">
+        <source>msg.modific.satisfactory</source>
+        <target state="new">Se ha modificado satisfactoriamente</target>
       </trans-unit>
       <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
         <source>msg.password.email.invalid</source>

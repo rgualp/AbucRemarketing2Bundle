@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-19T11:30:03Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-20T08:37:38Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -718,10 +718,6 @@
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
       </trans-unit>
-      <trans-unit id="e7bff0b8b5894b778f9670412e1876b03d698ff9" resname="label.congratulations">
-        <source>label.congratulations</source>
-        <target state="new">label.congratulations</target>
-      </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
         <target state="new">label.data_agency</target>
@@ -1269,6 +1265,10 @@
       <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
         <source>msg.change.password.satisfactory</source>
         <target state="new">msg.change.password.satisfactory</target>
+      </trans-unit>
+      <trans-unit id="aec53e2be2febd0abc914eba5edb9bbba67e5ba4" resname="msg.modific.satisfactory">
+        <source>msg.modific.satisfactory</source>
+        <target state="new">msg.modific.satisfactory</target>
       </trans-unit>
       <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
         <source>msg.password.email.invalid</source>
