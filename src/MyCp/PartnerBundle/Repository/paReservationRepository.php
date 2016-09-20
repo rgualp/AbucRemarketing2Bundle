@@ -47,6 +47,7 @@ class paReservationRepository extends EntityRepository {
             ->join("client.travelAgency", "agency")
             ->where("client.fullname LIKE :fullname")
             ->andWhere("agency.id = :travelAgencyId")
+            ->setMaxResults(1)
             ->setParameter("fullname", "%".$clientName."%")
             ->setParameter("travelAgencyId", $agency->getId())
             ->getQuery()->getOneOrNullResult();

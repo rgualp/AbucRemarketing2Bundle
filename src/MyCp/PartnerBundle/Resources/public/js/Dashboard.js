@@ -44,6 +44,32 @@ var Dashboard = function () {
             date: end_date,
             language: $('#requests_ownership_filter_exit').attr('data-localization')
         }).data('datepicker');
+
+        //Datepickers en modal
+        $('#modalDateFrom').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: true,
+            autoclose: true,
+            startDate: start_date,
+            date: start_date,
+            language: $('#modalDateFrom').attr('data-localization')
+        }).on('changeDate', function(ev) {
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            Modal_departure_datepicker.setStartDate(startDate);
+            var valueDate = new Date(ev.date);
+            valueDate.setDate(valueDate.getDate() + 1);
+            Modal_departure_datepicker.setDate(valueDate);
+        });
+        var Modal_departure_datepicker = $('#modalDateTo').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: false,
+            autoclose: true,
+            startDate: '+3d',
+            date: end_date,
+            language: $('#modalDateTo').attr('data-localization')
+        }).data('datepicker');
+
        $("#priceFilter").slider({});
     }
     var onclickBtnMoreFilter=function(){
@@ -163,7 +189,22 @@ var Dashboard = function () {
             var _url = result.data("url");
             var hasContent = result.data("content");
             var loadingText = result.data("loadingtext");
+            var accommodationName = $(this).data("accommodation");
             var data={};
+
+            var searcherDateFrom = $("#requests_ownership_filter_arrival");
+            if (typeof searcherDateFrom != "undefined")
+            {
+                $("#modalDateFrom").val(searcherDateFrom.val());
+            }
+
+            var searcherDateTo = $("#requests_ownership_filter_exit");
+            if (typeof searcherDateTo != "undefined")
+            {
+                $("#modalDateTo").val(searcherDateTo.val());
+            }
+
+            $("#accommodationName").html(accommodationName);
 
             result.slimScroll({
                 height: '300px',
@@ -228,8 +269,8 @@ var Dashboard = function () {
     var onAddNewOpenReservationButton = function(){
         $("#btnAddNewOpenReservation").on('click',function() {
             var result = $('#openReservationsList');
-            var dateFrom = $("#requests_ownership_filter_arrival").val();
-            var dateTo = $("#requests_ownership_filter_exit").val();
+            var dateFrom = $("#modalDateFrom").val();
+            var dateTo = $("#modalDateTo").val();
             var clientName = $("#partner_reservation_name").val();
             var adults = $("#partner_reservation_adults").val();
             var children = $("#partner_reservation_children").val();
@@ -309,8 +350,8 @@ var Dashboard = function () {
             var result = $('#openReservationsList');
             var _url = $(this).data("url");
 
-            var dateFrom = $("#requests_ownership_filter_arrival").val();
-            var dateTo = $("#requests_ownership_filter_exit").val();
+            var dateFrom = $("#modalDateFrom").val();
+            var dateTo = $("#modalDateTo").val();
             $(".alertLabel").addClass("hidden");
 
             if(dateFrom != "" && dateTo != "" && selectedAccommodationForReserve != "") {

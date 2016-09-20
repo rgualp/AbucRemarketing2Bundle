@@ -13,6 +13,25 @@
                         </div>
                     </div>
                 <div class="col-md-4">
+                    <h4 class="text-right" id="accommodationName"></h4>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left: 0">
+                            <div class="col-sm-10"  style="padding: 0">
+                                <input type="text" value="{{ "+2 days" |date("d/m/Y") }}" data-localization="{{ locale }}" data-container="body" data-toggle="tooltip" placeholder="{{ 'label.filter.arrival'|trans }}" class="form-control input-date" required="required" name="modalDateFrom" id="modalDateFrom" aria-required="true"/>
+                            </div>
+                            <div class="col-sm-2"  style="padding: 0">
+                                <i class="glyphicons calendar" style="margin-left: 5px; color: #fff !important"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pull-right" style="padding-right: 0">
+                            <div class="col-sm-10"  style="padding: 0">
+                                <input type="text" value="{{ "+3 days" |date("d/m/Y") }}" data-localization="{{ locale }}" data-container="body" data-toggle="tooltip" placeholder="{{ 'label.filter.exit'|trans }}" class="form-control input-date" required="required" name="modalDateTo" id="modalDateTo" aria-required="true"/>
+                            </div>
+                            <div class="col-sm-2"  style="padding: 0">
+                                <i class="glyphicons calendar" style="margin-left: 5px; color: #fff !important"></i>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                     <h3 class="text-right">{{ "pa.modal.reservation.new_reservation" | trans }}</h3>
                     </div>

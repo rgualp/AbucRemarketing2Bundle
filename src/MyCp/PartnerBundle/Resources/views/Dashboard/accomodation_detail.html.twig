@@ -121,7 +121,7 @@
                                                     <div class="space space-10"></div>
                                                     <div class="col-sm-12 property-actions">
                                                         <div class="row">
-                                                            <div class="col-sm-4"><button class="createReservation btn" data-ownid="{{ ownership.own_id }}">{{ 'Solicitar Casa' | trans }}</button></div>
+                                                            <div class="col-sm-4"><button class="createReservation btn" data-ownid="{{ ownership.own_id }}"  data-accommodation = "{{ ownership.ownname }}">{{ 'Solicitar Casa' | trans }}</button></div>
                                                             {#<div class="col-sm-4">#}
                                                                 {#{%  set favorite_type = 'ownership' %}#}
                                                                 {#{%  set element_id = ownership.own_id %}#}
