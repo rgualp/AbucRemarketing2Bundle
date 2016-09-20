@@ -460,7 +460,7 @@
       </trans-unit>
       <trans-unit id="4b62b0b4fa7a6c5ee4ddccfbae0f2e5ec6ecb0b6" resname="btn.clear">
         <source>btn.clear</source>
-        <target state="new">btn.clear</target>
+        <target state="new">clear</target>
       </trans-unit>
       <trans-unit id="b7d066e9ea9a8bd518b7e3614ab8e7300b560721" resname="btn.close">
         <source>btn.close</source>
@@ -468,7 +468,7 @@
       </trans-unit>
       <trans-unit id="7580fa85de8adc47d2e89b748fefb65e1b32708c" resname="btn.search">
         <source>btn.search</source>
-        <target state="new">btn.search</target>
+        <target state="new">Buscar</target>
       </trans-unit>
       <trans-unit id="a2529e799ddb47e31b7d5d23c24e526d83d69779" resname="dashboard.admin">
         <source>dashboard.admin</source>
