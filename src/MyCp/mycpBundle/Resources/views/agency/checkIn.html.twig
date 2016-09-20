@@ -95,7 +95,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="2"> <b>Cliente:</b> {{check.user_user_name}} {{check.user_last_name}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"> <b>Responsable:</b> {{check.user_user_name}} {{check.user_last_name}}</td>
+                                <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}"> <b>Agencia:</b> {{check.agency}}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff{% endif %}" colspan="4"> <b>País:</b> {{check.co_name}}</td>
                                 <td style="{%  if check.notification is defined and check.notification != null %}; background: #d6e9c6;{% else %}background: #fff;{% endif %} text-align: right"><a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':check.gen_res_id}) }}">Detalles</a></td>
                             </tr>
