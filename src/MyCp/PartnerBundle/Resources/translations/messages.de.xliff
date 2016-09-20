@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-16T23:55:52Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-20T16:19:38Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -570,6 +570,10 @@
         <source>dashboard.booking.totalprice</source>
         <target state="new">dashboard.booking.totalprice</target>
       </trans-unit>
+      <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">dashboard.booking.totalprice_inhome</target>
+      </trans-unit>
       <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
         <source>dashboard.payment</source>
         <target state="new">dashboard.payment</target>
@@ -637,6 +641,14 @@
       <trans-unit id="1cdfd3b32d70fea8de1269aefd0aa5bf4c40d4ed" resname="label.aboutus.two">
         <source>label.aboutus.two</source>
         <target state="new">label.aboutus.two</target>
+      </trans-unit>
+      <trans-unit id="2efa9a7c4a2675a90a3a3d4ab59e974de2aaf251" resname="label.account.agency.admin">
+        <source>label.account.agency.admin</source>
+        <target state="new">label.account.agency.admin</target>
+      </trans-unit>
+      <trans-unit id="3da54246a9d001fc2d1a27e3d42b03a48c0afcf8" resname="label.account.agency.admin.reserved">
+        <source>label.account.agency.admin.reserved</source>
+        <target state="new">label.account.agency.admin.reserved</target>
       </trans-unit>
       <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
         <source>label.account.agency.contact</source>
@@ -706,6 +718,10 @@
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
       </trans-unit>
+      <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
+        <source>label.contactus.mcpartner</source>
+        <target state="new">label.contactus.mcpartner</target>
+      </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
         <target state="new">label.data_agency</target>
@@ -721,6 +737,10 @@
       <trans-unit id="e8a61775a84d3fec6ff63763809939019daa04e9" resname="label.email.agency">
         <source>label.email.agency</source>
         <target state="new">label.email.agency</target>
+      </trans-unit>
+      <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
+        <source>label.extra</source>
+        <target state="new">label.extra</target>
       </trans-unit>
       <trans-unit id="3d8fe77eac80dd369ddad182f519ba59d57db124" resname="label.facebook">
         <source>label.facebook</source>
@@ -838,6 +858,18 @@
         <source>label.gest.reserv_two</source>
         <target state="new">label.gest.reserv_two</target>
       </trans-unit>
+      <trans-unit id="01e84723ea73e6fd1c2fb4c26ef55b747b6516ea" resname="label.gest.reserved.atention">
+        <source>label.gest.reserved.atention</source>
+        <target state="new">label.gest.reserved.atention</target>
+      </trans-unit>
+      <trans-unit id="c641702eaf288e0c6ef5dd42aafcb5f90adb5fc4" resname="label.gest.reserved.atention.stadistic">
+        <source>label.gest.reserved.atention.stadistic</source>
+        <target state="new">label.gest.reserved.atention.stadistic</target>
+      </trans-unit>
+      <trans-unit id="25864374edc9a279881a29e1080171adf2abc1d0" resname="label.gest.reserved.atention.stadistic.remarketing">
+        <source>label.gest.reserved.atention.stadistic.remarketing</source>
+        <target state="new">label.gest.reserved.atention.stadistic.remarketing</target>
+      </trans-unit>
       <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
         <source>label.gonow</source>
         <target state="new">label.gonow</target>
@@ -845,6 +877,18 @@
       <trans-unit id="815ac4e932c44426836c9e81ca3c5c3cdf0c4c55" resname="label.google.map">
         <source>label.google.map</source>
         <target state="new">label.google.map</target>
+      </trans-unit>
+      <trans-unit id="f631d633015eff0138cf09be8320c82630ef4924" resname="label.history.reserved">
+        <source>label.history.reserved</source>
+        <target state="new">label.history.reserved</target>
+      </trans-unit>
+      <trans-unit id="78154adf0edf56c4c9833cdf6b75403fd311ce32" resname="label.history.reserved.creation">
+        <source>label.history.reserved.creation</source>
+        <target state="new">label.history.reserved.creation</target>
+      </trans-unit>
+      <trans-unit id="3ad9c9f2fd8a663ebe50cc4ebb86e18c7d7f3cf4" resname="label.history.reserved.creation.cc">
+        <source>label.history.reserved.creation.cc</source>
+        <target state="new">label.history.reserved.creation.cc</target>
       </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
@@ -918,6 +962,10 @@
         <source>label.how_work</source>
         <target state="new">label.how_work</target>
       </trans-unit>
+      <trans-unit id="48d5bef79fbea71649d63c5c7fe11e263d8d604e" resname="label.indic.email">
+        <source>label.indic.email</source>
+        <target state="new">label.indic.email</target>
+      </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">label.login</target>
@@ -950,9 +998,13 @@
         <source>label.name.email</source>
         <target state="new">label.name.email</target>
       </trans-unit>
-      <trans-unit id="c4e630afc5311e3b16b436ac4c269823a67fe3ca" resname="label.name.mobile">
-        <source>label.name.mobile</source>
-        <target state="new">label.name.mobile</target>
+      <trans-unit id="0065b6b0ad9e18b0733de9e115bf8c1ba66fd3a8" resname="label.name.email.contact">
+        <source>label.name.email.contact</source>
+        <target state="new">label.name.email.contact</target>
+      </trans-unit>
+      <trans-unit id="7fb23904236572000e8d89d0a3ed0c89703e068e" resname="label.name.mobile.contact">
+        <source>label.name.mobile.contact</source>
+        <target state="new">label.name.mobile.contact</target>
       </trans-unit>
       <trans-unit id="17b23a149a439a3e7e6367916e7f842da79d2ee8" resname="label.name.nameresponse">
         <source>label.name.nameresponse</source>
@@ -961,6 +1013,10 @@
       <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
         <source>label.name.phone</source>
         <target state="new">label.name.phone</target>
+      </trans-unit>
+      <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
+        <source>label.name.phone.contact</source>
+        <target state="new">label.name.phone.contact</target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
         <source>label.new.password</source>
@@ -982,6 +1038,10 @@
         <source>label.password.repeat</source>
         <target state="new">label.password.repeat</target>
       </trans-unit>
+      <trans-unit id="ced9c5d2c547febce6c658c7f0c970dfa9c260a1" resname="label.payment.transfer">
+        <source>label.payment.transfer</source>
+        <target state="new">label.payment.transfer</target>
+      </trans-unit>
       <trans-unit id="0e364189a6a1ae205dd69fe566b2bdd4807f40a7" resname="label.pedro">
         <source>label.pedro</source>
         <target state="new">label.pedro</target>
@@ -989,6 +1049,10 @@
       <trans-unit id="8e1da1387f1662231b752e473150049de194ca64" resname="label.pinterest">
         <source>label.pinterest</source>
         <target state="new">label.pinterest</target>
+      </trans-unit>
+      <trans-unit id="034b90083d0ec560baa59f63d9b5ee3be36110bc" resname="label.prepayment.skrill">
+        <source>label.prepayment.skrill</source>
+        <target state="new">label.prepayment.skrill</target>
       </trans-unit>
       <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
         <source>label.prox</source>
@@ -1138,6 +1202,10 @@
         <source>label.secure.deactivate</source>
         <target state="new">label.secure.deactivate</target>
       </trans-unit>
+      <trans-unit id="3757d9ab33c99ecc8363ef13631538735c5fddf0" resname="label.service">
+        <source>label.service</source>
+        <target state="new">label.service</target>
+      </trans-unit>
       <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
         <source>label.sigin</source>
         <target state="new">label.sigin</target>
@@ -1178,6 +1246,10 @@
         <source>label.view.more</source>
         <target state="new">label.view.more</target>
       </trans-unit>
+      <trans-unit id="d8ad88a26917068c242a8cdcea394cbd6f59372b" resname="label.way.payment">
+        <source>label.way.payment</source>
+        <target state="new">label.way.payment</target>
+      </trans-unit>
       <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
         <source>label.welcome</source>
         <target state="new">label.welcome</target>
@@ -1186,6 +1258,10 @@
         <source>label.youtube</source>
         <target state="new">label.youtube</target>
       </trans-unit>
+      <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
+        <source>missing_data</source>
+        <target state="new">missing_data</target>
+      </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
         <target state="new">msg.change.password.invalid</target>
@@ -1193,6 +1269,10 @@
       <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
         <source>msg.change.password.satisfactory</source>
         <target state="new">msg.change.password.satisfactory</target>
+      </trans-unit>
+      <trans-unit id="aec53e2be2febd0abc914eba5edb9bbba67e5ba4" resname="msg.modific.satisfactory">
+        <source>msg.modific.satisfactory</source>
+        <target state="new">msg.modific.satisfactory</target>
       </trans-unit>
       <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
         <source>msg.password.email.invalid</source>
@@ -1337,6 +1417,30 @@
       <trans-unit id="b85a1e524e3d00993ce03d2b5d127632d9c557db" resname="title.column_two">
         <source>title.column_two</source>
         <target state="new">title.column_two</target>
+      </trans-unit>
+      <trans-unit id="8940f011f09226aa1c7918fda9a1d46ce06a26cb" resname="title.page.aboutus">
+        <source>title.page.aboutus</source>
+        <target state="new">title.page.aboutus</target>
+      </trans-unit>
+      <trans-unit id="d1c84c7046ccb52472a8fb16084375b16a99046b" resname="title.page.contactus">
+        <source>title.page.contactus</source>
+        <target state="new">title.page.contactus</target>
+      </trans-unit>
+      <trans-unit id="4383c55fb58f52b3c51737696ceab4b45d7cdac0" resname="title.page.faqs">
+        <source>title.page.faqs</source>
+        <target state="new">title.page.faqs</target>
+      </trans-unit>
+      <trans-unit id="d33b92535e199c7a9fb8217895760ae3a7beb68a" resname="title.page.howwork">
+        <source>title.page.howwork</source>
+        <target state="new">title.page.howwork</target>
+      </trans-unit>
+      <trans-unit id="4408686dbc1c48e454b5cdc987e06f78b1c227a2" resname="title.page.legal">
+        <source>title.page.legal</source>
+        <target state="new">title.page.legal</target>
+      </trans-unit>
+      <trans-unit id="4441817f4bccf3ff28b7c5af081cfa0820d1bf03" resname="title.page.sitemap">
+        <source>title.page.sitemap</source>
+        <target state="new">title.page.sitemap</target>
       </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <source>title.section.offer</source>

@@ -1,5 +1,5 @@
-<div class="ibox card" style="background-color: #0d4e76">
-    <div class="ibox-title card" style="background-color: #0d4e76">
+<div class="ibox" style="background-color: #0d4e76">
+    <div class="ibox-title" style="background-color: #0d4e76">
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up" style="color: #fff"></i>
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="ibox-content card" style="background-color: #0d4e76">
+    <div class="ibox-content" style="background-color: #0d4e76">
         {#Include twig profile#}
         {% include 'PartnerBundle:Profile:change_password.html.twig' %}
         {% include 'PartnerBundle:Profile:deactivate_account.html.twig' %}
@@ -46,17 +46,17 @@
                 </div>
                 <div class="row agency text-right">
                     <div class="col-md-6">
-                        <div class="input-group m-b">
-                            <span class="input-group-addon"><i class="glyphicons user"></i></span>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons user"></i>
                             {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
-                        <div class="input-group m-b">
-                            <span class="input-group-addon"><i class="glyphicons google_maps"></i></span>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons google_maps"></i>
                             {{ form_widget(form.address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
-                        <div class="input-group m-b">
-                            <span class="input-group-addon"><i class="glyphicons globe_af"></i></span>
-                            {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons globe_af"></i>
+                            {{ form_widget(form.country, { 'attr': {'data-placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -65,12 +65,12 @@
                             <input type="text" class="form-control" placeholder="{{ email }}" disabled="">
                             {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
-                        <div class="input-group m-b">
-                            <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons phone_alt"></i>
                             {{ form_widget(form.phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
-                        <div class="input-group m-b">
-                            <span class="input-group-addon"><i class="glyphicons phone_alt"></i></span>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons phone_alt"></i>
                             {{ form_widget(form.phoneAux, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>

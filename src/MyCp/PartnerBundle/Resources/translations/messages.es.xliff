@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-16T23:55:31Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-20T16:19:18Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -414,10 +414,6 @@
         <source>YARD_ROOMS</source>
         <target state="new">YARD_ROOMS</target>
       </trans-unit>
-      <trans-unit id="2f4cf5d8fe5a1afa530aceaa99a8273363a99793" resname="booking.placeholder.adults_number">
-        <source>booking.placeholder.adults_number</source>
-        <target state="new">Cantidad de Adultos</target>
-      </trans-unit>
       <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
         <source>booking.placeholder.booking_code</source>
         <target state="new">Código booking</target>
@@ -428,15 +424,15 @@
       </trans-unit>
       <trans-unit id="b7c5457efbf21714ca6b8704d878bc172345d07a" resname="booking.placeholder.cas">
         <source>booking.placeholder.cas</source>
-        <target state="new">CAS</target>
+        <target state="new">Código de Reserva</target>
       </trans-unit>
       <trans-unit id="3da775b40b82c8f1d2966feb9242d481f97368bd" resname="booking.placeholder.code">
         <source>booking.placeholder.code</source>
-        <target state="new">Código de Casa</target>
+        <target state="new">Código Casa</target>
       </trans-unit>
       <trans-unit id="11705cd99657cc532e24921529792a4bf116cc40" resname="booking.placeholder.date">
         <source>booking.placeholder.date</source>
-        <target state="new">Fecha creada</target>
+        <target state="new">Fecha Solicitud</target>
       </trans-unit>
       <trans-unit id="4d895b6c2702d2fc85bd98572291338fe2db6a42" resname="booking.placeholder.destination">
         <source>booking.placeholder.destination</source>
@@ -444,7 +440,7 @@
       </trans-unit>
       <trans-unit id="93bc210a155b528c65985cdf1f49ff9892552544" resname="booking.placeholder.from">
         <source>booking.placeholder.from</source>
-        <target state="new">Llegada</target>
+        <target state="new">Fecha llegada</target>
       </trans-unit>
       <trans-unit id="8c56abd51240832b996eabeaddb3f85bdd1728b9" resname="booking.placeholder.own_name">
         <source>booking.placeholder.own_name</source>
@@ -452,11 +448,11 @@
       </trans-unit>
       <trans-unit id="03bce386fed58823058be72e14f84d32b471b250" resname="booking.placeholder.room_number">
         <source>booking.placeholder.room_number</source>
-        <target state="new">Cantidad de Habitaciones</target>
+        <target state="new">Cant. Habitaciones</target>
       </trans-unit>
       <trans-unit id="6e495488a7dfe01536b55e6cf9fe7d9f817011d5" resname="booking.placeholder.to">
         <source>booking.placeholder.to</source>
-        <target state="new">Salida</target>
+        <target state="new">Fecha salida</target>
       </trans-unit>
       <trans-unit id="67a8d0f731765c6f02d8d674589b677f87680d55" resname="booking.title.name">
         <source>booking.title.name</source>
@@ -480,7 +476,7 @@
       </trans-unit>
       <trans-unit id="17f0c1300aa7ef56b4a08efc8312f248bc395a72" resname="dashboard.booking">
         <source>dashboard.booking</source>
-        <target state="new">Booking</target>
+        <target state="new">Reservas</target>
       </trans-unit>
       <trans-unit id="c5bb395fc47aff980f197f0f10c444fa127a5094" resname="dashboard.booking.adults">
         <source>dashboard.booking.adults</source>
@@ -500,11 +496,11 @@
       </trans-unit>
       <trans-unit id="7bbad48b382770bbdfe91a7fed8dd353520044bf" resname="dashboard.booking.bookingcode">
         <source>dashboard.booking.bookingcode</source>
-        <target state="new">Código booking</target>
+        <target state="new">Código Booking</target>
       </trans-unit>
       <trans-unit id="84ad439600199b8b4e104878f8cfe3492f1bb6f6" resname="dashboard.booking.bookingdate">
         <source>dashboard.booking.bookingdate</source>
-        <target state="new">Fecha pago</target>
+        <target state="new">Fecha Booking</target>
       </trans-unit>
       <trans-unit id="bd22d4c0c8723cc77b07e71ecbdd53b28b772bf1" resname="dashboard.booking.canceled">
         <source>dashboard.booking.canceled</source>
@@ -516,7 +512,7 @@
       </trans-unit>
       <trans-unit id="cdd665d1fc87fe6a341aa3d2c7565776e6b58624" resname="dashboard.booking.checkin">
         <source>dashboard.booking.checkin</source>
-        <target state="new">Checkin</target>
+        <target state="new">Check in</target>
       </trans-unit>
       <trans-unit id="b6cea4f60596bda74db84665cc323200a873ddaa" resname="dashboard.booking.childrens">
         <source>dashboard.booking.childrens</source>
@@ -524,15 +520,15 @@
       </trans-unit>
       <trans-unit id="3fc81229a25b82a826b047756941a75f7501c819" resname="dashboard.booking.client_dates">
         <source>dashboard.booking.client_dates</source>
-        <target state="new">Cliente</target>
+        <target state="new">Nombre cliente</target>
       </trans-unit>
       <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
         <source>dashboard.booking.code</source>
-        <target state="new">Código</target>
+        <target state="new">Código Casa</target>
       </trans-unit>
       <trans-unit id="1c269f572f8f01c4595453abe4aed0079536c677" resname="dashboard.booking.date">
         <source>dashboard.booking.date</source>
-        <target state="new">Fecha</target>
+        <target state="new">Fecha Solicitud</target>
       </trans-unit>
       <trans-unit id="34ba312277029f3e54a52ea3857f8c94a9369295" resname="dashboard.booking.destination">
         <source>dashboard.booking.destination</source>
@@ -540,11 +536,11 @@
       </trans-unit>
       <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
         <source>dashboard.booking.from</source>
-        <target state="new">Fecha de inicio</target>
+        <target state="new">Fecha llegada</target>
       </trans-unit>
       <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
         <source>dashboard.booking.home</source>
-        <target state="new">Nombre de la casa</target>
+        <target state="new">Nombre Casa</target>
       </trans-unit>
       <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
         <source>dashboard.booking.notavailability</source>
@@ -556,11 +552,11 @@
       </trans-unit>
       <trans-unit id="4d58eba7b655963a4e1d273ef8e10b965e525afc" resname="dashboard.booking.reserved">
         <source>dashboard.booking.reserved</source>
-        <target state="new">Reservadas</target>
+        <target state="new">Pagadas</target>
       </trans-unit>
       <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
-        <target state="new">Habitaciones</target>
+        <target state="new">Tipo de hab.</target>
       </trans-unit>
       <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
         <source>dashboard.booking.rooms</source>
@@ -568,11 +564,15 @@
       </trans-unit>
       <trans-unit id="c60beb261c10cda25ac50bc9a67779e766402b99" resname="dashboard.booking.to">
         <source>dashboard.booking.to</source>
-        <target state="new">Salida</target>
+        <target state="new">Fecha salida</target>
       </trans-unit>
       <trans-unit id="35408b83cf258c7c24cccb02385a107b78bc2223" resname="dashboard.booking.totalprice">
         <source>dashboard.booking.totalprice</source>
-        <target state="new">Precio total</target>
+        <target state="new">Precio Total</target>
+      </trans-unit>
+      <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">Pago en casa</target>
       </trans-unit>
       <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
         <source>dashboard.payment</source>
@@ -589,10 +589,6 @@
       <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
         <source>dashboard.text_reserv_two</source>
         <target state="new">Aprovecha esta fantástica guía para tenerlo todo a la mano</target>
-      </trans-unit>
-      <trans-unit id="ffd8f032f14ba0f5d2801983ade5144b3d7f902e" resname="dashboard.user">
-        <source>dashboard.user</source>
-        <target state="new">Usuario</target>
       </trans-unit>
       <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
         <source>frontend.account_type</source>
@@ -646,6 +642,14 @@
         <source>label.aboutus.two</source>
         <target state="new"><![CDATA[<strong>Partner</strong> es un directorio de reservaciones que pretende facilitar la colaboración de las agencias y turoperadores de viaje, que desean operar con el amplio y creciente mercado de casas particulares cubanas.]]></target>
       </trans-unit>
+      <trans-unit id="2efa9a7c4a2675a90a3a3d4ab59e974de2aaf251" resname="label.account.agency.admin">
+        <source>label.account.agency.admin</source>
+        <target state="new"><![CDATA[Cuenta para agencia y administración</br> Cuenta para turoperadores]]></target>
+      </trans-unit>
+      <trans-unit id="3da54246a9d001fc2d1a27e3d42b03a48c0afcf8" resname="label.account.agency.admin.reserved">
+        <source>label.account.agency.admin.reserved</source>
+        <target state="new"><![CDATA[Cuenta de agencia, administración y gestión de reservas </br>Cuenta para turoperadores]]></target>
+      </trans-unit>
       <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
         <source>label.account.agency.contact</source>
         <target state="new">Datos de la Persona de Contacto</target>
@@ -696,7 +700,7 @@
       </trans-unit>
       <trans-unit id="e39254f99ac1dc7ef27d192c91de4e07bef29567" resname="label.carousel_text_backend_two">
         <source>label.carousel_text_backend_two</source>
-        <target state="new">Un directorio útil y práctico para gestionar tus reservas fácilmente. </target>
+        <target state="new">Un directorio útil y práctico para gestionar tus reservas fácilmente</target>
       </trans-unit>
       <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
         <source>label.carousel_text_one</source>
@@ -714,6 +718,10 @@
         <source>label.check.term</source>
         <target state="new"><![CDATA[Al Crear mi cuenta acepto todos los <b>Términos Legales y Políticas de Seguridad</b>]]></target>
       </trans-unit>
+      <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
+        <source>label.contactus.mcpartner</source>
+        <target state="new">MyCasaPartner forma parte de la empresa ABUC Media Network GmbH</target>
+      </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
         <target state="new">Datos de la Agencia</target>
@@ -730,6 +738,10 @@
         <source>label.email.agency</source>
         <target state="new">Introduce e-mail de contacto de la Agencia</target>
       </trans-unit>
+      <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
+        <source>label.extra</source>
+        <target state="new">Extra!</target>
+      </trans-unit>
       <trans-unit id="3d8fe77eac80dd369ddad182f519ba59d57db124" resname="label.facebook">
         <source>label.facebook</source>
         <target state="new">Facebook</target>
@@ -744,7 +756,7 @@
       </trans-unit>
       <trans-unit id="843e2b6220e04f467570bab444940a9e3d8d951b" resname="label.faqs.four">
         <source>label.faqs.four</source>
-        <target state="new">¿Qué seguridad puedo ofrecer a mis clientes con MyCasa Partner?</target>
+        <target state="new">¿Qué seguridad puedo ofrecer a mis clientes con MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="655c126c90fcefb62ee97d4171c0f8082cb84db1" resname="label.faqs.height">
         <source>label.faqs.height</source>
@@ -756,23 +768,23 @@
       </trans-unit>
       <trans-unit id="d521dd945c6ad8904ab8748cbc9868408b72bdb5" resname="label.faqs.one">
         <source>label.faqs.one</source>
-        <target state="new">¿Qué es MyCasa Partner?</target>
+        <target state="new">¿Qué es MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="d522f69aebcbdb5120b1e8d3dd17f99f90e890a9" resname="label.faqs.one.description">
         <source>label.faqs.one.description</source>
-        <target state="new">MyCasa Partner es un directorio rápido y fácil de comprender, destinado al trabajo de los turoperadores y agencias de viaje con interés en Cuba como destino turístico. </target>
+        <target state="new">MyCasaPartner es un directorio rápido y fácil de comprender, destinado al trabajo de los turoperadores y agencias de viaje con interés en Cuba como destino turístico. </target>
       </trans-unit>
       <trans-unit id="0b07bac9f59e6ba333189468ad8832420fb52387" resname="label.faqs.seven">
         <source>label.faqs.seven</source>
-        <target state="new">¿Por qué apostar por MyCasa Partner?</target>
+        <target state="new">¿Por qué apostar por MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="7ab62ee0602bac7305af7f87aca987a279cb8478" resname="label.faqs.six">
         <source>label.faqs.six</source>
-        <target state="new">¿MyCasa Partner es una plataforma exclusiva para agencias de viaje?</target>
+        <target state="new">¿MyCasaPartner es una plataforma exclusiva para agencias de viaje?</target>
       </trans-unit>
       <trans-unit id="ff4b5c5f16d2cc82259786181eff2e68ebcdb983" resname="label.faqs.three">
         <source>label.faqs.three</source>
-        <target state="new">¿Quién es el propietario de MyCasa Partner?</target>
+        <target state="new">¿Quién es el propietario de MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="d8976b24ab1da373ba304be332d8d2a5b6a9a6cc" resname="label.faqs.two">
         <source>label.faqs.two</source>
@@ -780,18 +792,18 @@
       </trans-unit>
       <trans-unit id="bbd4b96feb5164f25dae3ce6a20d219c2e2cc086" resname="label.faqs.two.description">
         <source>label.faqs.two.description</source>
-        <target state="new"><![CDATA[MyCasa Partner ofrece servicios de gestión de disponibilidad y agiliza el proceso de reservaciones en casas particulares de Cuba.</br>
+        <target state="new"><![CDATA[MyCasaPartner ofrece servicios de gestión de disponibilidad y agiliza el proceso de reservaciones en casas particulares de Cuba.</br>
                             Pone a disposición de las agencias y turoperadores la posibilidad de reservar para sus clientes las mejores casas particulares del país, pues contamos con una base de datos de más de 2 500 alojamientos garantizados por toda Cuba.</br>
-                            Según los paquetes seleccionados por cada cliente, MyCasa Partner brinda diferentes funcionalidades que abarcan desde el diseño web creativo, sistema de estadísticas, atención al cliente, campañas de email marketing, hasta opciones para reservar al instante.]]> </target>
+                            Según los paquetes seleccionados por cada cliente, MyCasaPartner brinda diferentes funcionalidades que abarcan desde el diseño web creativo, sistema de estadísticas, atención al cliente, campañas de email marketing, hasta opciones para reservar al instante. ]]></target>
       </trans-unit>
       <trans-unit id="15873ae3f2b725a7e8baabab3b0beba3848a71b0" resname="label.faqs.two.five">
         <source>label.faqs.two.five</source>
-        <target state="new"><![CDATA[El pago en MyCasa Partner sí es seguro. El prepago de las reservas NO se realiza en nuestra página web sino a través de pasarelas de pago. Esta plataforma de liquidación garantiza la seguridad de su depósito.</br>
-                            MyCasa Partner en ningún caso tiene acceso a los datos bancarios o de tarjeta de crédito de sus clientes.]]></target>
+        <target state="new"><![CDATA[El pago en MyCasaPartner sí es seguro. El prepago de las reservas NO se realiza en nuestra página web sino a través de pasarelas de pago. Esta plataforma de liquidación garantiza la seguridad de su depósito.</br>
+                            MyCasaPartner en ningún caso tiene acceso a los datos bancarios o de tarjeta de crédito de sus clientes.]]></target>
       </trans-unit>
       <trans-unit id="d176513ab7a20b5cb70205f175f0662e9a0b1967" resname="label.faqs.two.four">
         <source>label.faqs.two.four</source>
-        <target state="new">MyCasa Partner es una plataforma web totalmente segura. Guardamos un mínimo de datos sobre nuestros clientes como nombre, e-mail y otros datos relacionados con el hospedaje. Nos avalan nuestros clientes y las referencias de nuestro servicio.</target>
+        <target state="new">MyCasaPartner es una plataforma web totalmente segura. Guardamos un mínimo de datos sobre nuestros clientes como nombre, e-mail y otros datos relacionados con el hospedaje. Nos avalan nuestros clientes y las referencias de nuestro servicio.</target>
       </trans-unit>
       <trans-unit id="24562fd6c2d7eb756fa57ecf10b85b25ffd16049" resname="label.faqs.two.height">
         <source>label.faqs.two.height</source>
@@ -804,7 +816,7 @@
       </trans-unit>
       <trans-unit id="7b5c7fb9f99721e0e3ef9870859988da803daca4" resname="label.faqs.two.seven">
         <source>label.faqs.two.seven</source>
-        <target state="new">Porque contamos con alojamientos de calidad y excelentes anfitriones por toda Cuba. Además, a través del prepago, MyCasa Partner garantiza las reservas de sus clientes. Las casas particulares en Cuba priorizan nuestras reservaciones, porque saben que son seguras.</target>
+        <target state="new">Porque contamos con alojamientos de calidad y excelentes anfitriones por toda Cuba. Además, a través del prepago, MyCasaPartner garantiza las reservas de sus clientes. Las casas particulares en Cuba priorizan nuestras reservaciones, porque saben que son seguras.</target>
       </trans-unit>
       <trans-unit id="ff57db5b1f30f7c007a0aec2b28d499a670b655e" resname="label.faqs.two.six">
         <source>label.faqs.two.six</source>
@@ -813,7 +825,7 @@
       </trans-unit>
       <trans-unit id="93ddef83c24819706af678468c4b1ee1b3d17c8c" resname="label.faqs.two.three">
         <source>label.faqs.two.three</source>
-        <target state="new">MyCasa Partner es un producto de ABUC Media Network, una empresa con sede en Basel, Suiza.</target>
+        <target state="new">MyCasaPartner es un producto de ABUC Media Network, una empresa con sede en Basel, Suiza.</target>
       </trans-unit>
       <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
         <source>label.filter.arrival</source>
@@ -851,6 +863,26 @@
         <source>label.gest.reserv_two</source>
         <target state="new">Esta es tu oportunidad de lujo</target>
       </trans-unit>
+      <trans-unit id="01e84723ea73e6fd1c2fb4c26ef55b747b6516ea" resname="label.gest.reserved.atention">
+        <source>label.gest.reserved.atention</source>
+        <target state="new"><![CDATA[Gestión de reservas</br>Opción de reserva rápida</br>Atención al cliente 24h]]></target>
+      </trans-unit>
+      <trans-unit id="c641702eaf288e0c6ef5dd42aafcb5f90adb5fc4" resname="label.gest.reserved.atention.stadistic">
+        <source>label.gest.reserved.atention.stadistic</source>
+        <target state="new"><![CDATA[Gestión de reservas</br>Opción de reserva rápida</br>Atención al cliente 24h</br>Opción de reserva inmediata</br>Consulta de estadísticas]]></target>
+      </trans-unit>
+      <trans-unit id="25864374edc9a279881a29e1080171adf2abc1d0" resname="label.gest.reserved.atention.stadistic.remarketing">
+        <source>label.gest.reserved.atention.stadistic.remarketing</source>
+        <target state="new"><![CDATA[Gestión de reservas</br>
+                                                        Opción de reserva rápida</br>
+                                                        Atención al cliente 24h</br>
+                                                        Opción de reserva inmediata</br>
+                                                        Consulta de estadísticas</br>
+                                                        Gestión de la disponibilidad</br>
+                                                        Política de cobros y devoluciones</br>
+                                                        Diseño web creativo</br>
+                                                        Campañas de email marketing]]></target>
+      </trans-unit>
       <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
         <source>label.gonow</source>
         <target state="new">YA VIENE !!!</target>
@@ -858,6 +890,18 @@
       <trans-unit id="815ac4e932c44426836c9e81ca3c5c3cdf0c4c55" resname="label.google.map">
         <source>label.google.map</source>
         <target state="new">label.google.map</target>
+      </trans-unit>
+      <trans-unit id="f631d633015eff0138cf09be8320c82630ef4924" resname="label.history.reserved">
+        <source>label.history.reserved</source>
+        <target state="new">Historial de reservas y facturas</target>
+      </trans-unit>
+      <trans-unit id="78154adf0edf56c4c9833cdf6b75403fd311ce32" resname="label.history.reserved.creation">
+        <source>label.history.reserved.creation</source>
+        <target state="new"><![CDATA[Historial de reservas y facturas</br>Creación de sección privada para los clientes</br>]]></target>
+      </trans-unit>
+      <trans-unit id="3ad9c9f2fd8a663ebe50cc4ebb86e18c7d7f3cf4" resname="label.history.reserved.creation.cc">
+        <source>label.history.reserved.creation.cc</source>
+        <target state="new"><![CDATA[Historial de reservas y facturas</br>Creación de sección privada para los clientes</br>Cupones de descuento]]></target>
       </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
@@ -931,6 +975,10 @@
         <source>label.how_work</source>
         <target state="new">Cómo funciona</target>
       </trans-unit>
+      <trans-unit id="48d5bef79fbea71649d63c5c7fe11e263d8d604e" resname="label.indic.email">
+        <source>label.indic.email</source>
+        <target state="new">Indica tu cuenta de correo establecida para la agencia. Te enviaremos una contraseña nueva. </target>
+      </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">Inicia Sesión</target>
@@ -963,9 +1011,13 @@
         <source>label.name.email</source>
         <target state="new">Correo de Contacto</target>
       </trans-unit>
-      <trans-unit id="c4e630afc5311e3b16b436ac4c269823a67fe3ca" resname="label.name.mobile">
-        <source>label.name.mobile</source>
-        <target state="new">Teléfono de Contacto</target>
+      <trans-unit id="0065b6b0ad9e18b0733de9e115bf8c1ba66fd3a8" resname="label.name.email.contact">
+        <source>label.name.email.contact</source>
+        <target state="new">Correo de contacto</target>
+      </trans-unit>
+      <trans-unit id="7fb23904236572000e8d89d0a3ed0c89703e068e" resname="label.name.mobile.contact">
+        <source>label.name.mobile.contact</source>
+        <target state="new">Movil de contacto </target>
       </trans-unit>
       <trans-unit id="17b23a149a439a3e7e6367916e7f842da79d2ee8" resname="label.name.nameresponse">
         <source>label.name.nameresponse</source>
@@ -973,6 +1025,10 @@
       </trans-unit>
       <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
         <source>label.name.phone</source>
+        <target state="new">Teléfono de la agencia</target>
+      </trans-unit>
+      <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
+        <source>label.name.phone.contact</source>
         <target state="new">Teléfono de Contacto</target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
@@ -995,6 +1051,10 @@
         <source>label.password.repeat</source>
         <target state="new">Confirma Contraseña</target>
       </trans-unit>
+      <trans-unit id="ced9c5d2c547febce6c658c7f0c970dfa9c260a1" resname="label.payment.transfer">
+        <source>label.payment.transfer</source>
+        <target state="new">Pago completo por transferencia bancaria</target>
+      </trans-unit>
       <trans-unit id="0e364189a6a1ae205dd69fe566b2bdd4807f40a7" resname="label.pedro">
         <source>label.pedro</source>
         <target state="new">label.pedro</target>
@@ -1002,6 +1062,10 @@
       <trans-unit id="8e1da1387f1662231b752e473150049de194ca64" resname="label.pinterest">
         <source>label.pinterest</source>
         <target state="new">label.pinterest</target>
+      </trans-unit>
+      <trans-unit id="034b90083d0ec560baa59f63d9b5ee3be36110bc" resname="label.prepayment.skrill">
+        <source>label.prepayment.skrill</source>
+        <target state="new">Prepago vía Skrill</target>
       </trans-unit>
       <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
         <source>label.prox</source>
@@ -1151,6 +1215,10 @@
         <source>label.secure.deactivate</source>
         <target state="new">Estás a punto de desactivar tu cuenta de agencia en Partner.</target>
       </trans-unit>
+      <trans-unit id="3757d9ab33c99ecc8363ef13631538735c5fddf0" resname="label.service">
+        <source>label.service</source>
+        <target state="new">Servicios</target>
+      </trans-unit>
       <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
         <source>label.sigin</source>
         <target state="new">Ir Ahora</target>
@@ -1173,7 +1241,7 @@
       </trans-unit>
       <trans-unit id="eb45e5b610c64824bbcab7b772af8a2173931dd9" resname="label.title.faqs.two">
         <source>label.title.faqs.two</source>
-        <target state="new">Preguntas Frecuentes sobre MyCasa Partner</target>
+        <target state="new">Preguntas Frecuentes sobre MyCasaPartner</target>
       </trans-unit>
       <trans-unit id="79f063aa528b399f245005757fde5f9ce66959f9" resname="label.twitter">
         <source>label.twitter</source>
@@ -1191,6 +1259,10 @@
         <source>label.view.more</source>
         <target state="new">Ver Más</target>
       </trans-unit>
+      <trans-unit id="d8ad88a26917068c242a8cdcea394cbd6f59372b" resname="label.way.payment">
+        <source>label.way.payment</source>
+        <target state="new">Forma de Pago</target>
+      </trans-unit>
       <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
         <source>label.welcome</source>
         <target state="new">Bienvenido</target>
@@ -1199,6 +1271,10 @@
         <source>label.youtube</source>
         <target state="new">Youtube</target>
       </trans-unit>
+      <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
+        <source>missing_data</source>
+        <target state="new">missing_data</target>
+      </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
         <target state="new">Su contraseña actual no coincide con la especificada</target>
@@ -1206,6 +1282,10 @@
       <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
         <source>msg.change.password.satisfactory</source>
         <target state="new">La contraseña se ha cambiado de modo satisfactorio</target>
+      </trans-unit>
+      <trans-unit id="aec53e2be2febd0abc914eba5edb9bbba67e5ba4" resname="msg.modific.satisfactory">
+        <source>msg.modific.satisfactory</source>
+        <target state="new">Se ha modificado satisfactoriamente</target>
       </trans-unit>
       <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
         <source>msg.password.email.invalid</source>
@@ -1251,10 +1331,6 @@
         <source>pa_about_us</source>
         <target state="new">Quiénes somos</target>
       </trans-unit>
-      <trans-unit id="e506af1f2680cc03beebb2d2a5760e533c632377" resname="pa_age">
-        <source>pa_age</source>
-        <target state="new">Edad</target>
-      </trans-unit>
       <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
         <source>pa_bath_room</source>
         <target state="new">Tipo de Baño</target>
@@ -1266,10 +1342,6 @@
       <trans-unit id="fda6e9df956d12a7cf675d0a835667481c17616a" resname="pa_cate">
         <source>pa_cate</source>
         <target state="new">Categoría</target>
-      </trans-unit>
-      <trans-unit id="b68f26d6b0b0ce04a3979c9406f6cd9d9eeaf142" resname="pa_children">
-        <source>pa_children</source>
-        <target state="new">Niños</target>
       </trans-unit>
       <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
         <source>pa_contact_us</source>
@@ -1359,6 +1431,30 @@
         <source>title.column_two</source>
         <target state="new">Básico</target>
       </trans-unit>
+      <trans-unit id="8940f011f09226aa1c7918fda9a1d46ce06a26cb" resname="title.page.aboutus">
+        <source>title.page.aboutus</source>
+        <target state="new">Quiénes somos</target>
+      </trans-unit>
+      <trans-unit id="d1c84c7046ccb52472a8fb16084375b16a99046b" resname="title.page.contactus">
+        <source>title.page.contactus</source>
+        <target state="new">Contactos</target>
+      </trans-unit>
+      <trans-unit id="4383c55fb58f52b3c51737696ceab4b45d7cdac0" resname="title.page.faqs">
+        <source>title.page.faqs</source>
+        <target state="new">Preguntas frecuentes</target>
+      </trans-unit>
+      <trans-unit id="d33b92535e199c7a9fb8217895760ae3a7beb68a" resname="title.page.howwork">
+        <source>title.page.howwork</source>
+        <target state="new">Cómo funciona</target>
+      </trans-unit>
+      <trans-unit id="4408686dbc1c48e454b5cdc987e06f78b1c227a2" resname="title.page.legal">
+        <source>title.page.legal</source>
+        <target state="new">Términos legales</target>
+      </trans-unit>
+      <trans-unit id="4441817f4bccf3ff28b7c5af081cfa0820d1bf03" resname="title.page.sitemap">
+        <source>title.page.sitemap</source>
+        <target state="new">Mapa del Sitio</target>
+      </trans-unit>
       <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
         <source>title.section.offer</source>
         <target state="new"><![CDATA[Ofrece a tus clientes una experiencia </br> única para sus vacaciones]]></target>
@@ -1369,11 +1465,11 @@
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
         <source>dashboard.booking.client_dates</source>
-        <target state="new">Nombre cliente</target>
+        <target state="new">Cliente</target>
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
-        <target state="new">Tipo de hab.</target>
+        <target state="new">Tipo de Habitación</target>
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2g" resname="dashboard.booking.booking_code">
         <source>dashboard.booking.booking_code</source>
@@ -1381,7 +1477,7 @@
       </trans-unit>
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2r" resname="dashboard.booking.totalprice_inhome">
         <source>dashboard.booking.totalprice_inhome</source>
-        <target state="new">Pago en casa</target>
+        <target state="new">Pago en Casa</target>
       </trans-unit>
     </body>
   </file>

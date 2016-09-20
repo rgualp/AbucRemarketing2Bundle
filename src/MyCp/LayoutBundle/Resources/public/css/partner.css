@@ -1466,6 +1466,9 @@ body.landing-page {
     font-family: MyriadProRegular;
     color: #64a433;
 }
+.paSearcher .chosen-container{
+    width: 100%;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;

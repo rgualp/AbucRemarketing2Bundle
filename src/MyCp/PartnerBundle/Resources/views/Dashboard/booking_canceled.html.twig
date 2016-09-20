@@ -83,6 +83,9 @@
 
     $(document).ready(function () {
         oTableCanceled = $('#table-booking-canceled').DataTable({
+            "language": {
+                "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
+            },
             "bServerSide": true,
             "bFilter": false,
             "bLengthChange": false,

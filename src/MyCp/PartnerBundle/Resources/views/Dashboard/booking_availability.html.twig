@@ -103,6 +103,9 @@
 
     $(document).ready(function () {
         oTableAvailability = $('#table-booking-availability').DataTable({
+            "language": {
+                "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
+            },
             "bServerSide": true,
             "bFilter": false,//true: Para sustituirlo por el add user
             "bLengthChange": false,
@@ -160,7 +163,6 @@
                         }
 
                         var rooms = '<em class="rt">{{"dashboard.booking.room_types" | trans}}:</em> <span class="rst">' + s_room_types + '</span> ' +
-                                /*'<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +*/
                                 '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ';

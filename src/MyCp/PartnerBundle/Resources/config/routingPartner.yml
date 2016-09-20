@@ -54,7 +54,7 @@ frontend_partner_who_are:
 
 #How work page
 frontend_partner_how_work:
-    locales:  { en: "/how_work", es: "/como_funciona", de: "/how_work" }
+    locales:  { en: "/help", es: "/ayuda", de: "/hilfe" }
     defaults: { _controller: PartnerBundle:Frontend:howWork }
 
 #Faq's page
