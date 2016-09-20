@@ -1,0 +1,34 @@
+<div class="row m-0 reservation-details">
+    <div class="row m-0">
+    <div class="col-sm-11 p-0">
+        {{ "pa.modal.reservation.reserve" | trans | upper }} {{ number }}
+        <div class="smaller">{{ creationDate }}</div>
+        <div class="smaller">{{ clientName }}</div>
+    </div>
+    <div class="col-sm-1 p-0">
+        <a class="text-center" id="closeDetailedOpenReservationList">×</a>
+    </div>
+</div>
+{% for paReservationDetail in reservation.Details %}
+    {% if paReservationDetail.openReservationDetail is defined %}
+    <hr class="m-0"/>
+    <div class="row m-0 smaller">
+        <div class="col-sm-11 p-0">
+        {{ paReservationDetail.openReservationDetail.accommodation.ownMcpCode }}
+        {{ paReservationDetail.openReservationDetail.accommodation.ownName }}
+        {{ 'label.filter.arrival'|trans }}: {{ paReservationDetail.openReservationDetail.dateFrom | date("d/m/Y") }},
+        {{ 'label.filter.exit'|trans }}: {{ paReservationDetail.openReservationDetail.dateTo | date("d/m/Y") }}.
+        {{ 'label.reservation.adults'|trans }}: {{ reservation.adults }},
+        {{ 'label.reservation.children'|trans }}: {{ reservation.children }}
+        </div>
+        <div class="col-sm-1 p-0">
+            <a class="deleteOpenReservationDetail" data-id="{{ paReservationDetail.openReservationDetail.id }}">×</a>
+        </div>
+    </div>
+{% endif %}
+{% else %}
+    <div>
+        {{ "pa.modal.reservation.no_data_open_reservation_list" | trans }}
+    </div>
+{% endfor %}
+</div>

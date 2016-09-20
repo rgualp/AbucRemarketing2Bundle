@@ -254,4 +254,31 @@ class BackendController extends Controller
         ]);
 
     }
+
+    public function detailedOpenReservationsListAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $reservationId = $request->get("reservationId");
+        $reservationNumber = $request->get("reservationNumber");
+        $clientName = $request->get("clientName");
+        $creationDate = $request->get("creationDate");
+
+        $reservation = $em->getRepository('PartnerBundle:paReservation')->find($reservationId);
+
+        $response = $this->renderView('PartnerBundle:Modal:detailed-open-reservations-list.html.twig', array(
+            'reservation' => $reservation,
+            'number' => $reservationNumber,
+            'creationDate' => $creationDate,
+            'clientName' => $clientName
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+            'message' => ""
+
+        ]);
+    }
 }

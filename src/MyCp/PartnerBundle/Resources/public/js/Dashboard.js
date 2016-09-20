@@ -192,6 +192,10 @@ var Dashboard = function () {
             var accommodationName = $(this).data("accommodation");
             var data={};
 
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
+
+
             var searcherDateFrom = $("#requests_ownership_filter_arrival");
             if (typeof searcherDateFrom != "undefined")
             {
@@ -206,7 +210,7 @@ var Dashboard = function () {
 
             $("#accommodationName").html(accommodationName);
 
-            result.slimScroll({
+            $("#divResult").slimScroll({
                 height: '300px',
                 railOpacity: 0.9,
                 color: '#ffffff',
@@ -222,6 +226,7 @@ var Dashboard = function () {
                     result.data("content", true);
                     onEndReservationButton();
                     onAddToOpeneservationButton();
+                    onShowOpenReservationsListDetailsButton();
                 });
             }
         });
@@ -276,6 +281,8 @@ var Dashboard = function () {
             var children = $("#partner_reservation_children").val();
             var _url = $("#btnAddNewOpenReservation").data("url");
             $(".alertLabel").addClass("hidden");
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
 
             var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
 
@@ -297,6 +304,7 @@ var Dashboard = function () {
                         result.data("content", true);
                         onEndReservationButton();
                         onAddToOpeneservationButton();
+                        onShowOpenReservationsListDetailsButton();
 
                         //Clear data from inputs
                         $("#partner_reservation_name").val("");
@@ -310,14 +318,11 @@ var Dashboard = function () {
                         $(".alertLabel").html(response.message);
                         $(".alertLabel").removeClass("hidden");
                     }
-
-
                 });
             }
             else{
                 $(".alertLabel").removeClass("hidden");
             }
-
         });
     }
 
@@ -326,6 +331,8 @@ var Dashboard = function () {
             var id = $(this).data("id");
             var result = $('#openReservationsList');
             var _url = $(this).data("url");
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
 
             var loadingText = result.data("loadingtext");
             result.html(loadingText);
@@ -339,6 +346,7 @@ var Dashboard = function () {
                     result.data("content", true);
                     onEndReservationButton();
                     onAddToOpeneservationButton();
+                    onShowOpenReservationsListDetailsButton();
                 }
             });
         });
@@ -349,6 +357,8 @@ var Dashboard = function () {
             var id = $(this).data("id");
             var result = $('#openReservationsList');
             var _url = $(this).data("url");
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
 
             var dateFrom = $("#modalDateFrom").val();
             var dateTo = $("#modalDateTo").val();
@@ -370,6 +380,7 @@ var Dashboard = function () {
                         result.data("content", true);
                         onEndReservationButton();
                         onAddToOpeneservationButton();
+                        onShowOpenReservationsListDetailsButton();
                     }
 
                     if(response.message != "")
@@ -378,12 +389,54 @@ var Dashboard = function () {
                         $(".alertLabel").html(response.message);
                         $(".alertLabel").removeClass("hidden");
                     }
+
                 });
             }
             else
             {
                 $(".alertLabel").removeClass("hidden");
             }
+        });
+    }
+
+    var onShowOpenReservationsListDetailsButton = function(){
+        $(".showReservationsDetails").on('click',function() {
+            var reservationId = $(this).data("id");
+            var reservationNumber = $(this).data("number");
+            var clientName = $(this).data("client");
+            var creationDate = $(this).data("date");
+
+            var result = $('#openReservationsListDetails');
+            var _url = $(this).data("url");
+
+            result.removeClass("hidden");
+            $("#openReservationsList").addClass("hidden");
+
+            var loadingText = result.data("loadingtext");
+            result.html(loadingText);
+
+            $.post(_url, {
+                'reservationId': reservationId,
+                'reservationNumber': reservationNumber,
+                'clientName': clientName,
+                'creationDate': creationDate
+            }, function (response) {
+
+                if (response.success) {
+                    result.html(response.html);
+                    onEndReservationButton();
+                    onAddToOpeneservationButton();
+                    //onShowOpenReservationsListDetailsButton();
+                }
+
+                if(response.message != "")
+                {
+                    //crear otro para mensajes
+                    $(".alertLabel").html(response.message);
+                    $(".alertLabel").removeClass("hidden");
+                }
+
+            });
         });
     }
 
@@ -397,6 +450,7 @@ var Dashboard = function () {
             onAddNewOpenReservationButton();
             onEndReservationButton();
             onAddToOpeneservationButton();
+            onShowOpenReservationsListDetailsButton();
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");
