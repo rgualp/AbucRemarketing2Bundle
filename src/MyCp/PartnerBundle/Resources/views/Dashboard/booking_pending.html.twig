@@ -103,6 +103,9 @@
 
     $(document).ready(function () {
         oTablePending = $('#table-booking-pending').DataTable({
+            "language": {
+                "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
+            },
             "bServerSide": true,
             "bFilter": false,//true: Para sustituirlo por el add user
             "bLengthChange": false,
