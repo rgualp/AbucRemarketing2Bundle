@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-20T08:37:27Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-20T16:19:28Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -718,6 +718,10 @@
         <source>label.check.term</source>
         <target state="new"><![CDATA[By creating my account, I accept all <b>Legal Terms and Conditions, as well as Security Policies</b>]]></target>
       </trans-unit>
+      <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
+        <source>label.contactus.mcpartner</source>
+        <target state="new">MyCasaPartner a product of ABUC Media Network GmbH</target>
+      </trans-unit>
       <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
         <source>label.data_agency</source>
         <target state="new">Agency data</target>
@@ -752,7 +756,7 @@
       </trans-unit>
       <trans-unit id="843e2b6220e04f467570bab444940a9e3d8d951b" resname="label.faqs.four">
         <source>label.faqs.four</source>
-        <target state="new">What type of security can I offer my clients with MyCasa Partner?</target>
+        <target state="new">What type of security can I offer my clients with MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="655c126c90fcefb62ee97d4171c0f8082cb84db1" resname="label.faqs.height">
         <source>label.faqs.height</source>
@@ -764,23 +768,23 @@
       </trans-unit>
       <trans-unit id="d521dd945c6ad8904ab8748cbc9868408b72bdb5" resname="label.faqs.one">
         <source>label.faqs.one</source>
-        <target state="new">What is MyCasa Partner?</target>
+        <target state="new">What is MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="d522f69aebcbdb5120b1e8d3dd17f99f90e890a9" resname="label.faqs.one.description">
         <source>label.faqs.one.description</source>
-        <target state="new">MyCasa Partner is a quick booking directory easy to understand and meant for Tour Operators and Travel Agencies that think of Cuba as a touristic destination.</target>
+        <target state="new">MyCasaPartner is a quick booking directory easy to understand and meant for Tour Operators and Travel Agencies that think of Cuba as a touristic destination.</target>
       </trans-unit>
       <trans-unit id="0b07bac9f59e6ba333189468ad8832420fb52387" resname="label.faqs.seven">
         <source>label.faqs.seven</source>
-        <target state="new">Why betting on MyCasa Partner?</target>
+        <target state="new">Why betting on MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="7ab62ee0602bac7305af7f87aca987a279cb8478" resname="label.faqs.six">
         <source>label.faqs.six</source>
-        <target state="new">Is MyCasa Partner an exclusive Platform for Travel Agencies?</target>
+        <target state="new">Is MyCasaPartner an exclusive Platform for Travel Agencies?</target>
       </trans-unit>
       <trans-unit id="ff4b5c5f16d2cc82259786181eff2e68ebcdb983" resname="label.faqs.three">
         <source>label.faqs.three</source>
-        <target state="new">Who owns MyCasa Partner?</target>
+        <target state="new">Who owns MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="d8976b24ab1da373ba304be332d8d2a5b6a9a6cc" resname="label.faqs.two">
         <source>label.faqs.two</source>
@@ -788,9 +792,9 @@
       </trans-unit>
       <trans-unit id="bbd4b96feb5164f25dae3ce6a20d219c2e2cc086" resname="label.faqs.two.description">
         <source>label.faqs.two.description</source>
-        <target state="new"><![CDATA[MyCasa Partner checks on availability and hastens the process of reservation in Cubans private Casas.</br>
+        <target state="new"><![CDATA[MyCasaPartner checks on availability and hastens the process of reservation in Cubans private Casas.</br>
                                                         It puts at the disposal of Tour Operators and Agencies the possibility to reserve for their clients the best Casas Particulares in the country, since we have a data base of more than 2500 guaranteed lodgings all over Cuba.</br>
-                                                        According to the selected packages by each client, MyCasa Partner provides different functions that comprise Creative Web Design, Statistic Systems, Customer Service, Marketing Email Campaign, Fast Booking Option, among others. ]]></target>
+                                                        According to the selected packages by each client, MyCasaPartner provides different functions that comprise Creative Web Design, Statistic Systems, Customer Service, Marketing Email Campaign, Fast Booking Option, among others. ]]></target>
       </trans-unit>
       <trans-unit id="15873ae3f2b725a7e8baabab3b0beba3848a71b0" resname="label.faqs.two.five">
         <source>label.faqs.two.five</source>
@@ -799,7 +803,7 @@
       </trans-unit>
       <trans-unit id="d176513ab7a20b5cb70205f175f0662e9a0b1967" resname="label.faqs.two.four">
         <source>label.faqs.two.four</source>
-        <target state="new">MyCasa Partner is totally safe web platform. We save a minimum of data about our clients such as name, email, and other data related to lodging. Our customers and the references of our service avail us.</target>
+        <target state="new">MyCasaPartner is totally safe web platform. We save a minimum of data about our clients such as name, email, and other data related to lodging. Our customers and the references of our service avail us.</target>
       </trans-unit>
       <trans-unit id="24562fd6c2d7eb756fa57ecf10b85b25ffd16049" resname="label.faqs.two.height">
         <source>label.faqs.two.height</source>
@@ -812,7 +816,7 @@
       </trans-unit>
       <trans-unit id="7b5c7fb9f99721e0e3ef9870859988da803daca4" resname="label.faqs.two.seven">
         <source>label.faqs.two.seven</source>
-        <target state="new">Because we count with quality lodgings and excellent hosts all over Cuba. Besides, through the down payment, MyCasa Partner guarantees all the bookings of your clients. Casas particulares in Cuba give priority to our reservations because they know bookings are secure.</target>
+        <target state="new">Because we count with quality lodgings and excellent hosts all over Cuba. Besides, through the down payment, MyCasaPartner guarantees all the bookings of your clients. Casas particulares in Cuba give priority to our reservations because they know bookings are secure.</target>
       </trans-unit>
       <trans-unit id="ff57db5b1f30f7c007a0aec2b28d499a670b655e" resname="label.faqs.two.six">
         <source>label.faqs.two.six</source>
@@ -821,7 +825,7 @@
       </trans-unit>
       <trans-unit id="93ddef83c24819706af678468c4b1ee1b3d17c8c" resname="label.faqs.two.three">
         <source>label.faqs.two.three</source>
-        <target state="new">MyCasa Partner is a product of ABUC Media Network, a Swiss company based on Basel, Switzerland.</target>
+        <target state="new">MyCasaPartner is a product of ABUC Media Network, a Swiss company based on Basel, Switzerland.</target>
       </trans-unit>
       <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
         <source>label.filter.arrival</source>
@@ -961,7 +965,7 @@
       </trans-unit>
       <trans-unit id="40ea265a599dc9273cf581f807c993adeb36ac36" resname="label.how.workheader.three">
         <source>label.how.workheader.three</source>
-        <target state="new">MyCasa Partner has everything to  make your job easier</target>
+        <target state="new">MyCasaPartner has everything to  make your job easier</target>
       </trans-unit>
       <trans-unit id="e315f9b774e276307957b37f49703e2694197292" resname="label.how.workheader.two">
         <source>label.how.workheader.two</source>
@@ -1173,7 +1177,7 @@
       </trans-unit>
       <trans-unit id="4491206d1c2b39230e4e481496cd6b0f512a0bd3" resname="label.section.one">
         <source>label.section.one</source>
-        <target state="new">What do you gain by betting on MyCasa Partner?</target>
+        <target state="new">What do you gain by betting on MyCasaPartner?</target>
       </trans-unit>
       <trans-unit id="b8e77ab3d18bc597d0cb6568fa7ade37e97779d7" resname="label.section.one_easy">
         <source>label.section.one_easy</source>
@@ -1201,7 +1205,7 @@
       </trans-unit>
       <trans-unit id="ac5afc9cd7171a3d506745e65b0ecff18507abb1" resname="label.section.two">
         <source>label.section.two</source>
-        <target state="new">Cheer up  and try the best of MyCasa Partner</target>
+        <target state="new">Cheer up  and try the best of MyCasaPartner</target>
       </trans-unit>
       <trans-unit id="0840b163e20870c161cd882e5ddb30b78b4ba27f" resname="label.section.vacation_description">
         <source>label.section.vacation_description</source>
@@ -1237,7 +1241,7 @@
       </trans-unit>
       <trans-unit id="eb45e5b610c64824bbcab7b772af8a2173931dd9" resname="label.title.faqs.two">
         <source>label.title.faqs.two</source>
-        <target state="new">Frequently asked questions about MyCasa Partner</target>
+        <target state="new">Frequently asked questions about MyCasaPartner</target>
       </trans-unit>
       <trans-unit id="79f063aa528b399f245005757fde5f9ce66959f9" resname="label.twitter">
         <source>label.twitter</source>
@@ -1385,7 +1389,7 @@
       </trans-unit>
       <trans-unit id="a1042ea6e5f68fd2b24ca5b5c7e82c9063088762" resname="pa_searcher_title">
         <source>pa_searcher_title</source>
-        <target state="new">pa_searcher_title</target>
+        <target state="new">Plan wonderful holidays for your clients in a few steps</target>
       </trans-unit>
       <trans-unit id="b5353511c5bdb9faa8409ae927146514672ccbd9" resname="pa_sitemap">
         <source>pa_sitemap</source>
