@@ -21,7 +21,7 @@ class paTravelAgencyRepository extends EntityRepository {
      * @param $controller
      * @param $container
      */
-    public function createUser($obj, $file, $factory, $send_creation_mail, $controller, $container,$pass){
+    public function createUser($obj, $file, $factory, $send_creation_mail, $controller, $container,$pass,$language,$currency){
         $em = $this->getEntityManager();
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->find($obj->getId());
         $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_PARTNER'));
@@ -45,6 +45,9 @@ class paTravelAgencyRepository extends EntityRepository {
         $user->setUserSubrole($subrole);
         $user->setUserUserName($obj->getEmail());
         $user->setUserLastName($obj->getName());
+
+        $user->setUserCurrency($currency);
+        $user->setUserLanguage($language);
         $em->persist($user);
         $em->flush();
 

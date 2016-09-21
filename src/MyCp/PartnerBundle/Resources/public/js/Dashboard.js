@@ -44,6 +44,32 @@ var Dashboard = function () {
             date: end_date,
             language: $('#requests_ownership_filter_exit').attr('data-localization')
         }).data('datepicker');
+
+        //Datepickers en modal
+        $('#modalDateFrom').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: true,
+            autoclose: true,
+            startDate: start_date,
+            date: start_date,
+            language: $('#modalDateFrom').attr('data-localization')
+        }).on('changeDate', function(ev) {
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            Modal_departure_datepicker.setStartDate(startDate);
+            var valueDate = new Date(ev.date);
+            valueDate.setDate(valueDate.getDate() + 1);
+            Modal_departure_datepicker.setDate(valueDate);
+        });
+        var Modal_departure_datepicker = $('#modalDateTo').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: false,
+            autoclose: true,
+            startDate: '+3d',
+            date: end_date,
+            language: $('#modalDateTo').attr('data-localization')
+        }).data('datepicker');
+
        $("#priceFilter").slider({});
     }
     var onclickBtnMoreFilter=function(){
@@ -163,9 +189,28 @@ var Dashboard = function () {
             var _url = result.data("url");
             var hasContent = result.data("content");
             var loadingText = result.data("loadingtext");
+            var accommodationName = $(this).data("accommodation");
             var data={};
 
-            result.slimScroll({
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
+
+
+            var searcherDateFrom = $("#requests_ownership_filter_arrival");
+            if (typeof searcherDateFrom != "undefined")
+            {
+                $("#modalDateFrom").val(searcherDateFrom.val());
+            }
+
+            var searcherDateTo = $("#requests_ownership_filter_exit");
+            if (typeof searcherDateTo != "undefined")
+            {
+                $("#modalDateTo").val(searcherDateTo.val());
+            }
+
+            $("#accommodationName").html(accommodationName);
+
+            $("#divResult").slimScroll({
                 height: '300px',
                 railOpacity: 0.9,
                 color: '#ffffff',
@@ -181,6 +226,7 @@ var Dashboard = function () {
                     result.data("content", true);
                     onEndReservationButton();
                     onAddToOpeneservationButton();
+                    onShowOpenReservationsListDetailsButton();
                 });
             }
         });
@@ -228,13 +274,15 @@ var Dashboard = function () {
     var onAddNewOpenReservationButton = function(){
         $("#btnAddNewOpenReservation").on('click',function() {
             var result = $('#openReservationsList');
-            var dateFrom = $("#requests_ownership_filter_arrival").val();
-            var dateTo = $("#requests_ownership_filter_exit").val();
+            var dateFrom = $("#modalDateFrom").val();
+            var dateTo = $("#modalDateTo").val();
             var clientName = $("#partner_reservation_name").val();
             var adults = $("#partner_reservation_adults").val();
             var children = $("#partner_reservation_children").val();
             var _url = $("#btnAddNewOpenReservation").data("url");
             $(".alertLabel").addClass("hidden");
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
 
             var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
 
@@ -256,6 +304,7 @@ var Dashboard = function () {
                         result.data("content", true);
                         onEndReservationButton();
                         onAddToOpeneservationButton();
+                        onShowOpenReservationsListDetailsButton();
 
                         //Clear data from inputs
                         $("#partner_reservation_name").val("");
@@ -263,13 +312,17 @@ var Dashboard = function () {
                         $("#partner_reservation_children").val("");
                     }
 
-
+                    if(response.message != "")
+                    {
+                        //crear otro para mensajes
+                        $(".alertLabel").html(response.message);
+                        $(".alertLabel").removeClass("hidden");
+                    }
                 });
             }
             else{
                 $(".alertLabel").removeClass("hidden");
             }
-
         });
     }
 
@@ -278,6 +331,8 @@ var Dashboard = function () {
             var id = $(this).data("id");
             var result = $('#openReservationsList');
             var _url = $(this).data("url");
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
 
             var loadingText = result.data("loadingtext");
             result.html(loadingText);
@@ -291,6 +346,7 @@ var Dashboard = function () {
                     result.data("content", true);
                     onEndReservationButton();
                     onAddToOpeneservationButton();
+                    onShowOpenReservationsListDetailsButton();
                 }
             });
         });
@@ -301,9 +357,11 @@ var Dashboard = function () {
             var id = $(this).data("id");
             var result = $('#openReservationsList');
             var _url = $(this).data("url");
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
 
-            var dateFrom = $("#requests_ownership_filter_arrival").val();
-            var dateTo = $("#requests_ownership_filter_exit").val();
+            var dateFrom = $("#modalDateFrom").val();
+            var dateTo = $("#modalDateTo").val();
             $(".alertLabel").addClass("hidden");
 
             if(dateFrom != "" && dateTo != "" && selectedAccommodationForReserve != "") {
@@ -322,7 +380,16 @@ var Dashboard = function () {
                         result.data("content", true);
                         onEndReservationButton();
                         onAddToOpeneservationButton();
+                        onShowOpenReservationsListDetailsButton();
                     }
+
+                    if(response.message != "")
+                    {
+                        //crear otro para mensajes
+                        $(".alertLabel").html(response.message);
+                        $(".alertLabel").removeClass("hidden");
+                    }
+
                 });
             }
             else
@@ -332,8 +399,54 @@ var Dashboard = function () {
         });
     }
 
+    var onShowOpenReservationsListDetailsButton = function(){
+        $(".showReservationsDetails").on('click',function() {
+            var reservationId = $(this).data("id");
+            var reservationNumber = $(this).data("number");
+            var clientName = $(this).data("client");
+            var creationDate = $(this).data("date");
+
+            var result = $('#openReservationsListDetails');
+            var _url = $(this).data("url");
+
+            result.removeClass("hidden");
+            $("#openReservationsList").addClass("hidden");
+
+            var loadingText = result.data("loadingtext");
+            result.html(loadingText);
+
+            $.post(_url, {
+                'reservationId': reservationId,
+                'reservationNumber': reservationNumber,
+                'clientName': clientName,
+                'creationDate': creationDate
+            }, function (response) {
+
+                if (response.success) {
+                    result.html(response.html);
+                    onCloseOpenReservationDetailedListButton();
+                }
+
+                if(response.message != "")
+                {
+                    //crear otro para mensajes
+                    $(".alertLabel").html(response.message);
+                    $(".alertLabel").removeClass("hidden");
+                }
+
+            });
+        });
+    }
+
+    var onCloseOpenReservationDetailedListButton = function(){
+        $("#closeDetailedOpenReservationList").on('click',function() {
+            var result = $('#openReservationsList');
+            result.removeClass("hidden");
+            $("#openReservationsListDetails").addClass("hidden");
+        });
+    }
+
     return {
-        //main function to initiate template pages
         init: function () {
             initPlugins();
             onclickBtnMoreFilter();
@@ -342,6 +455,8 @@ var Dashboard = function () {
             onAddNewOpenReservationButton();
             onEndReservationButton();
             onAddToOpeneservationButton();
+            onShowOpenReservationsListDetailsButton();
+            onCloseOpenReservationDetailedListButton();
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");

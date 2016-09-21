@@ -8,15 +8,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><img id="img-partner" class="img-responsive {% if navbar_bg_class is defined %} fixed-nav {% endif %}" src="{{ asset('bundles/partner/img/icon/mycasapartner.png')}}" alt="{{"label.home" | trans}}" style="margin-top: 7px;{% if navbar_bg_class is defined %} width: 230px {% endif %}"/></a>
+                <a href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><img id="img-partner" class="img-responsive {% if navbar_bg_class is defined %} fixed-nav {% endif %}" src="{{ asset('bundles/partner/img/icon/logo_'~app.session.get('app_lang_code')|lower)}}.png" alt="{{"label.home" | trans}}" style="margin-top: 7px;{% if navbar_bg_class is defined %} width: 230px {% endif %}"/></a>
             </div>
             <div class="navbar-collapse collapse navbar-partner" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="false">
-                            <i class="glyphicons shopping_cart" style="margin-top: -3px"></i>  <span class="label label-warning">16</span>
-                        </a>
-                    </li>
+                    {% if app.user.getUserUserName is defined %}
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="false">
+                                <i class="glyphicons shopping_cart" style="margin-top: -3px"></i>  <span class="label label-warning">16</span>
+                            </a>
+                        </li>
+                    {% endif %}
                     {% if app.request.get('_route') %}
                         {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
                     {% endif %}

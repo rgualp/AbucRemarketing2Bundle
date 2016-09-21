@@ -13,6 +13,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
 use Doctrine\ORM\Query\Expr;
+use MyCp\PartnerBundle\Repository\paGeneralReservationRepository;
 
 /**
  * ownershipReservationRepository
@@ -22,7 +23,7 @@ use Doctrine\ORM\Query\Expr;
  */
 class generalReservationRepository extends EntityRepository {
 
-    function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null) {
+    function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null, $partner = null) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -36,7 +37,7 @@ class generalReservationRepository extends EntityRepository {
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
 
-        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page);
+        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page, $partner);
     }
 
     function getUserReservationsFiltered($user_id, $filter_date_from, $filter_date_to, $filter_status, $filter_province, $filter_destination, $filter_nights) {
@@ -102,7 +103,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $gaQuery);
     }
 
-    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $queryStr,$items_per_page = null, $page = null) {
+    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $queryStr,$items_per_page = null, $page = null, $partner = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -150,6 +151,14 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $where = "";
+
+        if($partner === false){
+            $where = " WHERE u.user_role <> 'ROLE_CLIENT_PARTNER' ";
+        }
+        else if($partner === true){
+            $where = " WHERE u.user_role = 'ROLE_CLIENT_PARTNER' ";
+        }
+
         if(count($array_offer_number) > 1) {
             if($array_offer_number[0] < $array_offer_number[1])
                 $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id >= $array_offer_number[0] AND gre.gen_res_id <= $array_offer_number[1] ";
@@ -673,95 +682,7 @@ class generalReservationRepository extends EntityRepository {
         return $generalReservation;
     }
 
-    public function createReservation($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $rooms = null)
-    {
-        $em = $this->getEntityManager();
-        $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
-        $general_reservation = new generalReservation();
-        $general_reservation->setGenResUserId($user);
-        $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
-        $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
-        $general_reservation->setGenResHour(date('G'));
-        $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
-        $general_reservation->setGenResFromDate($dateFrom);
-        $general_reservation->setGenResToDate($dateTo);
-        $general_reservation->setGenResSaved(0);
-        $general_reservation->setGenResOwnId($accommodation);
-        $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
-        $general_reservation->setServiceFee($serviceFee);
-
-        $total_price = 0;
-        $partial_total_price = array();
-        $destination_id = ($accommodation->getOwnDestination() != null) ? $accommodation->getOwnDestination()->getDesId() : null;
-
-        $rooms = ($rooms == null) ? $accommodation->getOwnRooms() : $rooms;
-        $service_time = $container->get("Time");
-        foreach ($rooms as $room) {
-            $triple_room_recharge = (($adults + $children) >= 3) ? $container->getParameter('configuration.triple.room.charge') : 0;
-            $array_dates = $service_time->datesBetween($dateFrom->getTimestamp(), $dateTo->getTimestamp());
-            $temp_price = 0;
-            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($dateFrom->getTimestamp(), $dateTo->getTimestamp(), $destination_id);
-
-            for ($a = 0; $a < count($array_dates) - 1; $a++) {
-                $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                $roomPrice = $room->getPriceBySeasonType($seasonType);
-                $total_price += $roomPrice + $triple_room_recharge;
-                $temp_price += $roomPrice + $triple_room_recharge;
-            }
-            $partial_total_price[$room->getRoomId()] = $temp_price;
-
-        }
-        $general_reservation->setGenResTotalInSite($total_price);
-
-        foreach ($rooms as $room) {
-            $ownership_reservation = new ownershipReservation();
-            $ownership_reservation->setOwnResCountAdults($adults);
-            $ownership_reservation->setOwnResCountChildrens($children);
-            $ownership_reservation->setOwnResNightPrice(0);
-            $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
-            $ownership_reservation->setOwnResReservationFromDate($dateFrom);
-            $ownership_reservation->setOwnResReservationToDate($dateTo);
-            $ownership_reservation->setOwnResSelectedRoomId($room);
-            $ownership_reservation->setOwnResRoomPriceDown($room->getRoomPriceDownTo());
-            $ownership_reservation->setOwnResRoomPriceUp($room->getRoomPriceUpTo());
-            $ownership_reservation->setOwnResRoomPriceSpecial($room->getRoomPriceSpecial());
-            $ownership_reservation->setOwnResGenResId($general_reservation);
-            $ownership_reservation->setOwnResRoomType($room->getRoomType());
-            $ownership_reservation->setOwnResTotalInSite($partial_total_price[$room->getRoomId()]);
-
-            $em->persist($ownership_reservation);
-        }
-
-        $em->persist($general_reservation);
-        $em->flush();
-
-        return $general_reservation;
-    }
-
-    public function getAvailableRooms($accommodation, $dateFrom, $dateTo)
-    {
-        $em = $this->getEntityManager();
-        $rooms = $accommodation->getRooms();
-        $capacity = 0;
-
-        $returnedRooms = array();
-
-
-        foreach($rooms as $room)
-        {
-            $uDetailsCount = $em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($room->getRoomId(), $dateFrom, $dateTo);
-            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getCountReservationsByRoomAndDates($room->getRoomId(), $dateFrom, $dateTo);
-
-            if(($uDetailsCount + $reservations) == 0)
-            {
-                $returnedRooms[] = $room;
-                $capacity += $room->getMaximumNumberGuests();
-            }
-        }
-
-        return array("availableRooms" => $returnedRooms, "availableCapacity" => $capacity);
-    }
 
     public function updateDates(generalReservation $generalReservation) {
         $em = $this->getEntityManager();

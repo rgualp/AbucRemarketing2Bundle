@@ -103,6 +103,9 @@
 
     $(document).ready(function () {
         oTableCheckin = $('#table-booking-checkin').DataTable({
+            "language": {
+                "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
+            },
             "bServerSide": true,
             "bFilter": false,
             "bLengthChange": false,

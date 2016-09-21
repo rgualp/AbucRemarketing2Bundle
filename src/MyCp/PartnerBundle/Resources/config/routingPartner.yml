@@ -192,3 +192,7 @@ partner_dashboard_close_reservation:
 partner_dashboard_add_to_open_reservation:
     locales:  { en: "/dashboard/add-reservation", es: "/dashboard/add-reservation", de: "/dashboard/add-reservation" }
     defaults: { _controller: PartnerBundle:Backend:addReservation }
+
+partner_dashboard_detailed_open_reservations_list:
+    locales:  { en: "/dashboard/detailed-open-reservations", es: "/dashboard/detailed-open-reservations", de: "/dashboard/detailed-open-reservations" }
+    defaults: { _controller: PartnerBundle:Backend:detailedOpenReservationsList }

@@ -110,7 +110,9 @@ class BackendController extends Controller
         $travelAgency = $tourOperator->getTravelAgency();
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
-        $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container);
+        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container);
+        $locale = $this->get('translator');
+        $message = ($returnedObject != null) ? $locale->trans($returnedObject["message"]) : "";
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
@@ -121,12 +123,9 @@ class BackendController extends Controller
         return new JsonResponse([
             'success' => true,
             'html' => $response,
+            'message' => $message
 
         ]);
-
-
-
-
     }
 
     /**
@@ -144,6 +143,35 @@ class BackendController extends Controller
         $travelAgency = $tourOperator->getTravelAgency();
         $reservation = $em->getRepository("PartnerBundle:paReservation")->find($id);
 
+        //Pasar el paGeneralReservation a generalReservation
+        $reservationDetails = $reservation->getDetails();
+
+        foreach($reservationDetails as $detail)
+        {
+            $paGeneralReservation = $detail->getOpenReservationDetail(); // a eliminar
+            $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
+
+            $generalReservation = $paGeneralReservation->createReservation();
+
+            //Pasar los paOwnershipReservation a ownershipReservation
+            foreach($paOwnershipReservations as $paORes){
+                $ownershipReservation = $paORes->createReservation();
+                $ownershipReservation->setOwnResGenResId($generalReservation);
+
+                $em->remove($paORes); //Eliminar paOwnershipReservation
+                $em->persist($ownershipReservation);
+            }
+
+            //Eliminar el OpenReservationDetail y actualizar el ReservationDetail
+            $detail->setOpenReservationDetail(null);
+            $detail->setReservationDetail($generalReservation);
+            $em->persist($detail);
+
+            $em->persist($generalReservation);
+            $em->remove($paGeneralReservation); //Eliminar paGeneralReservation
+            $em->flush();
+        }
+
         $reservation->setClosed(true);
         $em->persist($reservation);
         $em->flush();
@@ -157,6 +185,7 @@ class BackendController extends Controller
         return new JsonResponse([
             'success' => true,
             'html' => $response,
+            'message' => ""
 
         ]);
 
@@ -184,8 +213,11 @@ class BackendController extends Controller
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
         $reservation = $em->getRepository("PartnerBundle:paReservation")->findOneBy(array("id" => $id, "closed" => false));
+        $message = "";
 
-        if(isset($reservation))
+        $canCreateReservation = $em->getRepository("PartnerBundle:paReservation")->canCreateReservation($reservation, $accommodation, $dateFrom, $dateTo);
+
+        if(isset($reservation) && $canCreateReservation)
         {
             $adults = $reservation->getAdults();
             $children = $reservation->getChildren();
@@ -195,16 +227,20 @@ class BackendController extends Controller
             $em->persist($reservation);
 
             //Agregar un generalReservation por casa
-            $general_reservation = $em->getRepository("mycpBundle:generalReservation")->createReservation($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $this->container);
+            $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $this->container);
+            $locale = $this->get('translator');
+            $message = $locale->trans($returnedObject["message"]);
 
-            $detail = new paReservationDetail();
-            $detail->setReservation($reservation)
-                ->setReservationDetail($general_reservation);
+            if($returnedObject["successful"])
+            {
+                $detail = new paReservationDetail();
+                $detail->setReservation($reservation)
+                    ->setOpenReservationDetail($returnedObject["reservation"]);
 
-            $em->persist($detail);
-            $em->flush();
+                $em->persist($detail);
+                $em->flush();
+            }
         }
-
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
@@ -215,8 +251,36 @@ class BackendController extends Controller
         return new JsonResponse([
             'success' => true,
             'html' => $response,
+            'message' => $message
 
         ]);
 
+    }
+
+    public function detailedOpenReservationsListAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /*$user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));*/
+        $reservationId = $request->get("reservationId");
+        $reservationNumber = $request->get("reservationNumber");
+        $clientName = $request->get("clientName");
+        $creationDate = $request->get("creationDate");
+
+        $reservation = $em->getRepository('PartnerBundle:paReservation')->find($reservationId);
+
+        $response = $this->renderView('PartnerBundle:Modal:detailed-open-reservations-list.html.twig', array(
+            'reservation' => $reservation,
+            'number' => $reservationNumber,
+            'creationDate' => $creationDate,
+            'clientName' => $clientName
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+            'message' => ""
+
+        ]);
     }
 }

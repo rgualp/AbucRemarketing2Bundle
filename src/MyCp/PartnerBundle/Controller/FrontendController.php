@@ -80,6 +80,11 @@ class FrontendController extends Controller
      */
     public function registerAgencyAction(Request $request){
         $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+        $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => strtoupper($this->get('request')->getLocale())));
+        $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $session->get('curr_acronym')));
+
+
         $obj = new paTravelAgency();
         $errors = array();
         $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$obj);
@@ -108,7 +113,7 @@ class FrontendController extends Controller
                 $em->flush();
                 //Create user
                 $factory = $this->get('security.encoder_factory');
-                $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'));
+                $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'),$language,$currency);
                 //Create tour operator
                 $tourOperator = new paTourOperator();
                 $tourOperator->setTourOperator($user);
@@ -170,6 +175,11 @@ class FrontendController extends Controller
         return $this->render('PartnerBundle:Pages:contactus.html.twig', array());
     }
 
+    /**
+     * @param $route
+     * @param null $routeParams
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getLanguagesAction($route, $routeParams = null)
     {
         $routeParams = empty($routeParams) ? array() : $routeParams;
