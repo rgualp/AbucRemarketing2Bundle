@@ -283,4 +283,76 @@ class BackendController extends Controller
 
         ]);
     }
+
+    public function deleteDetailedOpenReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $reservationDetailId = $request->get("idOpenReservationDetail");
+        $paGeneralReservationId = $request->get("idPaGeneralReservation");
+        $reservationNumber = $request->get("reservationNumber");
+        $clientName = $request->get("clientName");
+        $creationDate = $request->get("creationDate");
+        $reservationDetail = $em->getRepository('PartnerBundle:paReservationDetail')->find($reservationDetailId);
+
+        if(!isset($reservationDetail))
+            return new JsonResponse([
+                'success' => false,
+                'html' => null,
+                'message' => ""
+
+            ]);
+
+         $reservation = $reservationDetail->getReservation();
+
+        $paGeneralReservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($paGeneralReservationId);
+        $adults = 0;
+        $children = 0;
+        $deleteMainReservation = count($reservation->getDetails()) == 1;
+
+        if(isset($paGeneralReservation))
+        {
+            foreach($paGeneralReservation->getPaOwnershipReservations() as $paOwnRes)
+            {
+                $adults = $paOwnRes->getAdults();
+                $children = $paOwnRes->getChildren();
+                $em->remove($paOwnRes);
+            }
+
+            $em->remove($paGeneralReservation);
+        }
+
+        $em->remove($reservationDetail);
+
+        if($deleteMainReservation)
+            $em->remove($reservation);
+        else {
+            $reservation->setAdultsWithAccommodation($reservation->getAdultsWithAccommodation() - $adults);
+            $reservation->setChildrenWithAccommodation($reservation->getChildrenWithAccommodation() - $children);
+            $em->persist($reservation);
+        }
+        $em->flush();
+
+        $response = (!$deleteMainReservation) ? $this->renderView('PartnerBundle:Modal:detailed-open-reservations-list.html.twig', array(
+            'reservation' => $reservation,
+            'number' => $reservationNumber,
+            'creationDate' => $creationDate,
+            'clientName' => $clientName
+        )) : "";
+
+        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
+
+        $responseReservations = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
+            'list' => $list
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+            'htmlReservations' => $responseReservations,
+            'message' => ""
+
+        ]);
+    }
 }
