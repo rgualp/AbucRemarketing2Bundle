@@ -22,7 +22,7 @@ use Doctrine\ORM\Query\Expr;
  */
 class generalReservationRepository extends EntityRepository {
 
-    function getAllPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null, $partner = null) {
+    function getAllPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page=null, $page=null, $partner = null) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -36,10 +36,10 @@ class generalReservationRepository extends EntityRepository {
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
 
-        return $this->getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page, $partner);
+        return $this->getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, -1, $gaQuery,$items_per_page, $page, $partner);
     }
 
-    function getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $queryStr,$items_per_page = null, $page = null, $partner = null) {
+    function getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $user_casa, $queryStr,$items_per_page = null, $page = null, $partner = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -131,6 +131,12 @@ class generalReservationRepository extends EntityRepository {
             $where .= (($where != "") ? " AND ": " WHERE "). " (SELECT COUNT(owres6)  FROM mycpBundle:ownershipReservation owres6 WHERE gre.gen_res_id = owres6.own_res_gen_res_id AND owres6.own_res_reservation_booking = $filter_booking_number) > 0 ";
         }
 
+        if($filter_client != ""){
+            $client_name = $filter_client;
+            $client_name = "'%".trim($client_name)."%'";
+            $where .= (($where != "") ? " AND ": " WHERE "). " (SELECT COUNT(c) FROM PartnerBundle:paReservationDetail pard JOIN pard.reservation par JOIN par.client c WHERE pard.reservationDetail = gre.gen_res_id AND c.fullname LIKE $client_name) > 0";
+        }
+
         $queryStr = $queryStr. $where . $string_order;
 
         $query = $em->createQuery($queryStr);
@@ -154,6 +160,138 @@ WHERE pard.reservationDetail = :gen_res_id";
             $data[$key]['client'] = $client['fullname'];
         }
         return array("reservations"=>$data, "totalItems"=>$total);
+    }
+
+    function getReservationsAgToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $date)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("gres.gen_res_own_id", "own")
+            ->join("own.own_address_province", "prov")
+            ->join("gres.gen_res_user_id", "user");
+
+        $date = $date->format("Y-m-d");
+        $qb->where("gres.gen_res_date >= '$date'");
+
+        $qb->andWhere("user.user_role = 'ROLE_CLIENT_PARTNER'");
+
+        if($filter_date_reserve != "" && $filter_date_reserve != "null"){
+            $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_reserve'");
+        }
+
+        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null") {
+            $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
+            $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
+
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'")
+                ->andWhere("gres.gen_res_to_date <= '$filter_date_to'");
+        }
+        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null")) {
+            $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
+
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+        }
+        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null"){
+            $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
+
+            $qb->andWhere("gres.gen_res_to_date <= '$filter_date_to'");
+        }
+
+        if($filter_offer_number != "" && $filter_offer_number != "null"){
+            $filter_offer_number = strtolower($filter_offer_number);
+            $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
+            $filter_offer_number = str_replace('cas', '', $filter_offer_number);
+            $filter_offer_number = str_replace('.', '', $filter_offer_number);
+            $filter_offer_number = str_replace(' ', '', $filter_offer_number);
+            $array_offer_number = explode('-', $filter_offer_number);
+
+            if(count($array_offer_number) > 1) {
+                if($array_offer_number[0] < $array_offer_number[1])
+                {
+                    $qb->andWhere("gres.gen_res_id >= :filter_offer_number1")
+                        ->andWhere("gres.gen_res_id <= :filter_offer_number2")
+                        ->setParameter("filter_offer_number1", $array_offer_number[0])
+                        ->setParameter("filter_offer_number2", $array_offer_number[1]);
+                }
+                else{
+                    $qb->andWhere("gres.gen_res_id >= :filter_offer_number1")
+                        ->andWhere("gres.gen_res_id <= :filter_offer_number2")
+                        ->setParameter("filter_offer_number1", $array_offer_number[1])
+                        ->setParameter("filter_offer_number2", $array_offer_number[0]);
+                }
+            }
+            else if($filter_offer_number != "" and $filter_offer_number != "null"){
+                $qb->andWhere("gres.gen_res_id = :filter_offer_number")
+                    ->setParameter("filter_offer_number", $filter_offer_number);
+            }
+        }
+
+        if($filter_booking_number != "" and $filter_booking_number != "null"){
+            $filter_booking_number = strtolower($filter_booking_number);
+
+            $qb->andWhere("owres.own_res_reservation_booking = :filter_booking")
+                ->setParameter("filter_booking", $filter_booking_number);
+        }
+
+        if($filter_reference != "" && $filter_reference != "null"){
+            $filter_reference = strtolower($filter_reference);
+
+            $qb->andWhere("own.own_mcp_code LIKE ':filter_mcp_code'")
+                ->setParameter("filter_mcp_code", "%".$filter_reference."%");
+        }
+
+        if($filter_client != "" && $filter_client != "null"){
+            $client_name = $filter_client;
+            $client_name = "'%".trim($client_name)."%'";
+
+            $qb->andWhere("(SELECT COUNT(c) FROM PartnerBundle:paReservationDetail pard JOIN pard.reservation par JOIN par.client c WHERE pard.reservationDetail = gres.gen_res_id AND c.fullname LIKE $client_name) > 0");
+        }
+
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null"){
+            $qb->andWhere("gres.gen_res_status = :filter_status")
+                ->setParameter("filter_status", $filter_status);
+        }
+
+        switch ($sort_by) {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::RESERVATION_NUMBER:
+                $qb->orderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_DATE:
+                $qb->orderBy("gres.gen_res_date", "DESC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
+                $qb->orderBy("LENGTH(own.own_mcp_code)", "ASC")
+                    ->addOrderBy("own.own_mcp_code", "ASC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_DATE_ARRIVE:
+                $qb->orderBy("gres.gen_res_from_date", "DESC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_STATUS:
+                $qb->orderBy("gres.gen_res_status", "ASC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_PRICE_TOTAL:
+                $qb->orderBy("gres.gen_res_total_in_site", "DESC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_CLIENT:
+                $qb->orderBy("gres.gen_res_date", "DESC")
+                    ->addOrderBy("user.user_user_name", "ASC")
+                    ->addOrderBy("user.user_last_name", "ASC")
+                    ->addOrderBy("user.user_email", "ASC")
+                    ->addOrderBy("gres.gen_res_id", "ASC");
+                break;
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null, $partner = null) {
