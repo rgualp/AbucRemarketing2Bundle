@@ -508,6 +508,8 @@ class ownershipReservationRepository extends EntityRepository {
     public function getCountReservationsByRoomAndDates($roomId,$startDate, $endDate) {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $startDate = $startDate->format('Y-m-d');
+        $endDate = $endDate->format('Y-m-d');
         $query = $em->createQuery("SELECT COUNT(ore.own_res_id)
             FROM mycpBundle:ownershipReservation ore
             JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id

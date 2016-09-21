@@ -128,7 +128,8 @@ class BackendReservationAgController extends Controller {
             $filter_date_from = str_replace('_', '/', $filter_date_from);
         }
 
-        $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckins($filter_date_from, $sort_by);
+        $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckinsPartner($filter_date_from, $sort_by);
+
 
         return $this->render('mycpBundle:agency:checkIn.html.twig', array(
             'list' => $checkins,

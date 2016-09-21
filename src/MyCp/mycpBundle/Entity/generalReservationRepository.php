@@ -13,6 +13,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
 use Doctrine\ORM\Query\Expr;
+use MyCp\PartnerBundle\Repository\paGeneralReservationRepository;
 
 /**
  * ownershipReservationRepository
@@ -953,95 +954,7 @@ WHERE pard.reservationDetail = :gen_res_id";
         return $generalReservation;
     }
 
-    public function createReservation($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $rooms = null)
-    {
-        $em = $this->getEntityManager();
-        $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
-        $general_reservation = new generalReservation();
-        $general_reservation->setGenResUserId($user);
-        $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
-        $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
-        $general_reservation->setGenResHour(date('G'));
-        $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
-        $general_reservation->setGenResFromDate($dateFrom);
-        $general_reservation->setGenResToDate($dateTo);
-        $general_reservation->setGenResSaved(0);
-        $general_reservation->setGenResOwnId($accommodation);
-        $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
-        $general_reservation->setServiceFee($serviceFee);
-
-        $total_price = 0;
-        $partial_total_price = array();
-        $destination_id = ($accommodation->getOwnDestination() != null) ? $accommodation->getOwnDestination()->getDesId() : null;
-
-        $rooms = ($rooms == null) ? $accommodation->getOwnRooms() : $rooms;
-        $service_time = $container->get("Time");
-        foreach ($rooms as $room) {
-            $triple_room_recharge = (($adults + $children) >= 3) ? $container->getParameter('configuration.triple.room.charge') : 0;
-            $array_dates = $service_time->datesBetween($dateFrom->getTimestamp(), $dateTo->getTimestamp());
-            $temp_price = 0;
-            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($dateFrom->getTimestamp(), $dateTo->getTimestamp(), $destination_id);
-
-            for ($a = 0; $a < count($array_dates) - 1; $a++) {
-                $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                $roomPrice = $room->getPriceBySeasonType($seasonType);
-                $total_price += $roomPrice + $triple_room_recharge;
-                $temp_price += $roomPrice + $triple_room_recharge;
-            }
-            $partial_total_price[$room->getRoomId()] = $temp_price;
-
-        }
-        $general_reservation->setGenResTotalInSite($total_price);
-
-        foreach ($rooms as $room) {
-            $ownership_reservation = new ownershipReservation();
-            $ownership_reservation->setOwnResCountAdults($adults);
-            $ownership_reservation->setOwnResCountChildrens($children);
-            $ownership_reservation->setOwnResNightPrice(0);
-            $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
-            $ownership_reservation->setOwnResReservationFromDate($dateFrom);
-            $ownership_reservation->setOwnResReservationToDate($dateTo);
-            $ownership_reservation->setOwnResSelectedRoomId($room);
-            $ownership_reservation->setOwnResRoomPriceDown($room->getRoomPriceDownTo());
-            $ownership_reservation->setOwnResRoomPriceUp($room->getRoomPriceUpTo());
-            $ownership_reservation->setOwnResRoomPriceSpecial($room->getRoomPriceSpecial());
-            $ownership_reservation->setOwnResGenResId($general_reservation);
-            $ownership_reservation->setOwnResRoomType($room->getRoomType());
-            $ownership_reservation->setOwnResTotalInSite($partial_total_price[$room->getRoomId()]);
-
-            $em->persist($ownership_reservation);
-        }
-
-        $em->persist($general_reservation);
-        $em->flush();
-
-        return $general_reservation;
-    }
-
-    public function getAvailableRooms($accommodation, $dateFrom, $dateTo)
-    {
-        $em = $this->getEntityManager();
-        $rooms = $accommodation->getRooms();
-        $capacity = 0;
-
-        $returnedRooms = array();
-
-
-        foreach($rooms as $room)
-        {
-            $uDetailsCount = $em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($room->getRoomId(), $dateFrom, $dateTo);
-            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getCountReservationsByRoomAndDates($room->getRoomId(), $dateFrom, $dateTo);
-
-            if(($uDetailsCount + $reservations) == 0)
-            {
-                $returnedRooms[] = $room;
-                $capacity += $room->getMaximumNumberGuests();
-            }
-        }
-
-        return array("availableRooms" => $returnedRooms, "availableCapacity" => $capacity);
-    }
 
     public function updateDates(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
@@ -2506,6 +2419,71 @@ WHERE pard.reservationDetail = :gen_res_id";
             ->setParameter("start", $start);
         return $qb->getQuery()->getResult();
     }
+
+
+    function getCheckinsPartner($checkinDate, $orderBy = OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE) {
+
+        $queryStr = "SELECT owreservation,owreservation.own_res_id as booking_id,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+        COUNT(owreservation) as rooms,
+        SUM(owreservation.own_res_count_adults) as adults,
+        SUM(owreservation.own_res_count_childrens) as children,
+        SUM(owreservation.own_res_total_in_site) as to_pay_at_service,
+        us.user_user_name, us.user_last_name,
+        ag.name as agency,
+        cou.co_name,
+        own.own_commission_percent, own.own_mcp_code,prov,own.own_homeowner_1,own.own_homeowner_2,own.own_phone_number,own.own_mobile_number,
+        own.own_sms_notifications,
+        prov.prov_phone_code,
+        owreservation.own_res_reservation_from_date,
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
+        (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights,
+        (SELECT MIN(notif.id) FROM mycpBundle:notification notif JOIN notif.status status WHERE notif.reservation = gre.gen_res_id and notif.subtype = 'CHECKIN' and status.nom_name = 'success_ns' and status.nom_category = 'notificationStatus') as notification,
+        own.own_inmediate_booking
+        FROM mycpBundle:ownershipreservation owreservation
+        JOIN owreservation.own_res_gen_res_id gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us WITH us.user_role = 'ROLE_CLIENT_PARTNER'
+        JOIN PartnerBundle:paTourOperator pto WITH pto.tourOperator = us.user_id
+        JOIN PartnerBundle:paTravelAgency ag WITH ag.id = pto.travelAgency
+        JOIN us.user_country cou
+        JOIN own.own_address_province prov
+        WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
+        AND (gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)
+        AND owreservation.own_res_status = :reservationStatus
+        GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
+        ";
+
+        $orderByString = "";
+
+        switch($orderBy)
+        {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE:
+                $orderByString .= " ORDER BY own.own_mcp_code ASC ";break;
+            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE:
+                $orderByString .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC "; break;
+            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_CASCODE;
+                $orderByString .= " ORDER BY gre.gen_res_id ASC ";break;
+            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE;
+                $orderByString .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
+        }
+
+        $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery($queryStr.$orderByString);
+
+        $query->setParameters(array(
+            'filter_date_from' => "%".$checkinDate."%",
+            'reservationStatus' => ownershipReservation::STATUS_RESERVED,
+            'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
+            'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
+        ));
+
+        return $query->getArrayResult();
+
+    }
+
 
     /****************** partner ****************
      * @param $idUser
