@@ -21,3 +21,7 @@ mycp_send_reservation_ag:
 mycp_export_list_reservations_ag:
     pattern:  /export_ag/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}/{filter_status}/{filter_client}
     defaults: { _controller: mycpBundle:BackendReservationAg:exportReservations,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'', filter_status:'',filter_client:'',sort_by:0}
+
+mycp_set_not_available_reservation_ag_callback:
+    pattern:  /set_not_available/
+    defaults: { _controller: mycpBundle:BackendReservationAg:setNotAvailableCallback }
