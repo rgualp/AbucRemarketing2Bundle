@@ -425,6 +425,7 @@ var Dashboard = function () {
                 if (response.success) {
                     result.html(response.html);
                     onCloseOpenReservationDetailedListButton();
+                    onDeleteOpenReservationDetailButton();
                 }
 
                 if(response.message != "")
@@ -446,6 +447,59 @@ var Dashboard = function () {
         });
     }
 
+    var onDeleteOpenReservationDetailButton = function(){
+        $(".deleteOpenReservationDetail").on('click',function() {
+            var result = $('#openReservationsListDetails');
+            result.removeClass("hidden");
+            $("#openReservationsList").addClass("hidden");
+
+            var idOpenReservationDetail = $(this).data("detailsid");
+            var idPaGeneralReservation = $(this).data("pagresid");
+            var reservationNumber = $(this).data("number");
+            var clientName = $(this).data("client");
+            var creationDate = $(this).data("date");
+            var _url = $(this).data("url");
+
+            var loadingText = result.data("loadingtext");
+            result.html(loadingText);
+
+            $.post(_url, {
+                'idOpenReservationDetail': idOpenReservationDetail,
+                'idPaGeneralReservation': idPaGeneralReservation,
+                'reservationNumber': reservationNumber,
+                'clientName': clientName,
+                'creationDate': creationDate
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.html != ""){
+                        result.html(response.html);
+                        onCloseOpenReservationDetailedListButton();
+                        onDeleteOpenReservationDetailButton();
+                    }
+                    else{
+                        result.addClass("hidden");
+                        $("#openReservationsList").removeClass("hidden");
+                    }
+
+                    $("#openReservationsList").html(response.htmlReservations);
+                    onEndReservationButton();
+                    onAddToOpeneservationButton();
+                    onShowOpenReservationsListDetailsButton();
+                }
+
+                if(response.message != "")
+                {
+                    //crear otro para mensajes
+                    $(".alertLabel").html(response.message);
+                    $(".alertLabel").removeClass("hidden");
+                }
+
+            });
+
+        });
+    }
+
     return {
         init: function () {
             initPlugins();
@@ -457,6 +511,8 @@ var Dashboard = function () {
             onAddToOpeneservationButton();
             onShowOpenReservationsListDetailsButton();
             onCloseOpenReservationDetailedListButton();
+            onDeleteOpenReservationDetailButton();
+
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");
