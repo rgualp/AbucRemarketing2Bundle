@@ -11,17 +11,17 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_ag') }}">Reservas</a> <span class="divider">/</span></li>
     <li class="active">Detalles de reserva</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_reservations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
 {% block form_actions %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_ag') }}">Reservas</a> <span class="divider">/</span></li>
     <li class="active">Detalles de reserva</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_reservations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-success" type="submit">Guardar</button>
@@ -54,7 +54,7 @@
 </h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form id="form_edit_reserve" action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">
+<form id="form_edit_reserve" action="{{ path('mycp_details_reservation_ag', { 'id_reservation' : id_reservation } ) }}" method="POST">
 <div class="row-fluid">
 <div class="span6">
     <ul class="nav nav-tabs">
@@ -81,7 +81,7 @@
     </table>
 </div>
     <div class="span6">
-        {{include('mycpBundle:utils:clientAgInfoShortTab.html.twig', {"user":reservation.getGenResUserId, "tourist": user})}}
+        {{include('mycpBundle:utils:clientAgInfoShortTab.html.twig', {"user":reservation.getGenResUserId, "client": client})}}
     </div>
     <div class="row-fluid">
     <div class="span12">
@@ -270,8 +270,8 @@
             <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
             <td>{%if total_price%}{{touristTax}} CUC{%else%} - {%endif%}</td>
             <td>{%if total_price%}{{currentServiceFee.fixedFee}} CUC{%else%} - {%endif%}</td>
-            {% if user.getUserTouristCurrency.getCurrCucChange is defined %}
-            <td style="text-align: right"><b>{{ prepayment }} CUC ({{prepayment * user.getUserTouristCurrency.getCurrCucChange }} {{ user.getUserTouristCurrency.getCurrCode|upper }})</b></td>
+            {% if user.getUserCurrency.getCurrCucChange is defined %}
+            <td style="text-align: right"><b>{{ prepayment }} CUC ({{prepayment * user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }})</b></td>
             {% else %}
             <td style="text-align: right"><b>{{ prepayment }} CUC </b></td>
             {% endif %}
@@ -287,14 +287,14 @@
                 {% endfor %}
             </td>
             <td style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
-                {% if user.getUserTouristCurrency.getCurrCucChange is defined %}
-                    <b>1 CUC = {{user.getUserTouristCurrency.getCurrCucChange }} {{ user.getUserTouristCurrency.getCurrCode|upper }}</b>
+                {% if user.getUserCurrency.getCurrCucChange is defined %}
+                    <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
                 {%endif%}
             </td>
                 {% else %}
                     <td colspan="10" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
-                        {% if user.getUserTouristCurrency.getCurrCucChange is defined %}
-                            <b>1 CUC = {{user.getUserTouristCurrency.getCurrCucChange }} {{ user.getUserTouristCurrency.getCurrCode|upper }}</b>
+                        {% if user.getUserCurrency.getCurrCucChange is defined %}
+                            <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
                         {%endif%}
                     </td>
                 {% endif %}
@@ -316,7 +316,7 @@
     {% endif %}
 
     </div>
-{{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user})) }}
+{{ render(controller('mycpBundle:BackendMessage:messageUserControl', {'userTo': user})) }}
 {% if reservation.modified != null and reservation.modifiedBy != null %}
     {% include 'mycpBundle:utils:modifiedControl.html.twig' with {'modified':reservation.modified,'modifiedBy':reservation.modifiedBy, 'offer': offerLog}%}
 {% endif %}
@@ -362,7 +362,7 @@
 
             function send_message()
             {
-                url_submit="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}";
+                url_submit="{{path('mycp_send_reservation_ag',{'id_reservation':id_reservation})}}";
                 form=$('#form_edit_reserve');
                 form.attr('action',url_submit);
                 form.submit();

@@ -5,8 +5,8 @@
         </ul>
         <table class="table table-striped" style="font-size: 12px">
             <tr>
-                <td rowspan="4" style="width: 100px"><a title="Editar" href="{{ path("mycp_details_client_reservation", {'id_client': user.userId}) }}">{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': user.userId})) }}</a></td>
-                <td colspan="2"><b>Cliente: </b><a title="Editar" href="{{ path("mycp_details_client_reservation", {'id_client': user.userId}) }}">{{ user.getUserUserName }} {{ user.getUserLastName }}</a></td>
+                {#<td rowspan="4" style="width: 100px"><a title="Editar" href="{{ path("mycp_details_client_reservation", {'id_client': user.userId}) }}">{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': user.userId})) }}</a></td>#}
+                <td colspan="2"><b>Agencia: </b><a title="Editar" href="{{ path("mycp_details_client_reservation", {'id_client': user.userId}) }}">{{ user.getUserLastName }}</a></td>
             </tr>
             <tr><td colspan="2"><b>País: </b>{{ user.getUserCountry }}
                     {% if user.getUserCity != "" %}
@@ -14,7 +14,8 @@
                     {% endif %}</td></tr>
             <tr><td colspan="2"><b>Correo: </b><a href="mailto:{{ user.getUserEmail | lower }}">{{user.getUserEmail | lower}}</a></td></tr>
             <tr>
-                <td><b>Idioma: </b>{{ tourist.getUserTouristLanguage.getLangName }}</td>
-                <td><b>Moneda: </b>{% if tourist.getUserTouristCurrency.getCurrName is defined %}{{ tourist.getUserTouristCurrency.getCurrName }}{% endif %}</td>
+                <td><b>Idioma: </b>{{ user.getUserLanguage.getLangName }} </td>
+                <td><b>Moneda: </b>{% if user.getUserCurrency.getCurrName is defined %}{{ user.getUserCurrency.getCurrName }}{% endif %}</td>
             </tr>
+            <tr><td colspan="2"><b>Cliente: </b>{{ client.fullname }}</td></tr>
         </table>

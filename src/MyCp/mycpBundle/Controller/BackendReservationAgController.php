@@ -144,6 +144,7 @@ class BackendReservationAgController extends Controller {
         $filter_date_reserve = $request->get('filter_date_reserve');
         $filter_offer_number = $request->get('filter_offer_number');
         $filter_reference = $request->get('filter_reference');
+        $filter_client = $request->get('filter_client');
         $filter_date_from = $request->get('filter_date_from');
         $filter_date_to = $request->get('filter_date_to');
         $filter_booking_number = $request->get('filter_booking_number');
@@ -155,7 +156,7 @@ class BackendReservationAgController extends Controller {
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_reservations'));
+            return $this->redirect($this->generateUrl('mycp_list_reservations_ag'));
         }
 
         if ($filter_date_reserve == 'null')
@@ -166,6 +167,8 @@ class BackendReservationAgController extends Controller {
             $filter_booking_number = '';
         if ($filter_reference == 'null')
             $filter_reference = '';
+        if ($filter_client == 'null')
+            $filter_client = '';
         if ($filter_date_from == 'null')
             $filter_date_from = '';
         if ($filter_date_to == 'null')
@@ -185,8 +188,9 @@ class BackendReservationAgController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
 
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, true))->getResult();
+        $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            ->getAllPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
+        $reservations = $all['reservations'];
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
@@ -200,7 +204,7 @@ class BackendReservationAgController extends Controller {
             array_push($total_nights, $temp_total_nights);
         }*/
 
-        $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
+        $totalItems = $all['totalItems'];
         return $this->render('mycpBundle:reservation:list_ag.html.twig', array(
             //'total_nights' => $total_nights,
             'reservations' => $reservations,
@@ -218,6 +222,7 @@ class BackendReservationAgController extends Controller {
             'filter_date_from_twig' => $filter_date_from_twig,
             'filter_date_to_twig' => $filter_date_to_twig,
             'filter_status' => $filter_status,
+            'filter_client' => $filter_client,
             'last_page_number' => ceil($totalItems / $items_per_page)
         ));
     }
@@ -264,11 +269,14 @@ class BackendReservationAgController extends Controller {
         array_pop($dates);
         $currentServiceFee = $reservation->getServiceFee();
 
+        $client = $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient();
+
         return $this->render('mycpBundle:reservation:reservation_agDetails.html.twig', array(
             'post' => $post,
             'errors' => $errors,
             'reservation' => $reservation,
             'user' => $user,
+            'client'=>$client,
             'reservations' => $ownership_reservations,
             'rooms' => $rooms,
             'nights' => $array_nights,
@@ -276,6 +284,145 @@ class BackendReservationAgController extends Controller {
             "offerLog" => $offerLog,
             'currentServiceFee' => $currentServiceFee
         ));
+    }
+
+    public function send_reservationAction($id_reservation) {
+        $em = $this->getDoctrine()->getManager();
+        $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($id_reservation);
+        $custom_message = $this->getRequest()->get('message_to_client');
+
+        if($custom_message != "" && isset($custom_message))
+        {
+            // dump($custom_message); die;
+            $from = $this->getUser();
+            $to = $generalReservation->getGenResUserId();
+            $subject = "Reservación ".$generalReservation->getCASId();
+
+            $message = $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+            if($message != null) {
+                $service_log = $this->get('log');
+                $service_log->saveLog($message->getLogDescription(), BackendModuleName::MODULE_CLIENT_MESSAGES, log::OPERATION_INSERT, DataBaseTables::MESSAGE);
+            }
+        }
+
+        if ($generalReservation->getGenResStatus() == generalReservation::STATUS_RESERVED || $generalReservation->getGenResStatus() == generalReservation::STATUS_PARTIAL_RESERVED) {
+            $bookingService = $this->get('front_end.services.booking');
+            $emailService = $this->get('mycp.service.email_manager');
+            VoucherHelper::sendVoucherToClient($em, $bookingService, $emailService, $this, $generalReservation, 'SEND_VOUCHER_SUBJECT', $custom_message, false);
+        }
+        else {
+
+            $service_email = $this->get('Email');
+            $service_email->sendReservation($id_reservation, $custom_message, false);
+
+            // inform listeners that a reservation was sent out
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new GeneralReservationJobData($id_reservation);
+            $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
+        }
+
+        $message = 'Reserva enviada satisfactoriamente';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+        return $this->redirect($this->generateUrl('mycp_details_reservation_ag', array('id_reservation' => $id_reservation)));
+    }
+
+    public function exportReservationsAction(Request $request) {
+        try {
+            //$service_security = $this->get('Secure');
+            //$service_security->verifyAccess();
+            $filter_date_reserve = $request->get('filter_date_reserve');
+            $filter_offer_number = $request->get('filter_offer_number');
+            $filter_reference = $request->get('filter_reference');
+            $filter_client = $request->get('filter_client');
+            $filter_date_from = $request->get('filter_date_from');
+            $filter_date_to = $request->get('filter_date_to');
+            $filter_booking_number = $request->get('filter_booking_number');
+            $filter_status = $request->get('filter_status');
+            $sort_by = $request->get('sort_by');
+
+            if ($filter_date_reserve == 'null')
+                $filter_date_reserve = '';
+            if ($filter_offer_number == 'null')
+                $filter_offer_number = '';
+            if ($filter_booking_number == 'null')
+                $filter_booking_number = '';
+            if ($filter_reference == 'null')
+                $filter_reference = '';
+            if ($filter_client == 'null')
+                $filter_client = '';
+            if ($filter_date_from == 'null')
+                $filter_date_from = '';
+            if ($filter_date_to == 'null')
+                $filter_date_to = '';
+            if ($filter_status == 'null')
+                $filter_status = '';
+            if ($sort_by == 'null')
+                $sort_by = '';
+
+            $date = new \DateTime();
+            $date = date_modify($date, "-5 days");
+
+            $em = $this->getDoctrine()->getManager();
+            $reservations = $em->getRepository('mycpBundle:generalReservation')
+                ->getReservationsAgToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status,$filter_client,  $date);
+
+            if(count($reservations)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportReservations($reservations, $date);
+            }
+            else{
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
+            }
+        }
+        catch(\Exception $e){
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
+        }
+    }
+
+    public function setNotAvailableCallbackAction() {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $reservations_ids = $request->request->get('reservations_ids');
+        $save_option = $request->request->get('save_option');
+        $page = $request->request->get('page');
+        $service_log= $this->get('log');
+        $logMessage = "";
+        $response = null;
+
+        //Modificar el estado
+        $em->getRepository('mycpBundle:generalReservation')->setAsNotAvailable($reservations_ids, $save_option);
+
+        //Enviar por correo a los clientes
+        $service_email = $this->get('Email');
+
+        try {
+            foreach ($reservations_ids as $genResId) {
+                $service_email->sendReservation($genResId, null, false);
+                $logMessage = ($logMessage == "") ? $logMessage."CAS.".$genResId : $logMessage.", CAS.".$genResId;
+
+                // inform listeners that a reservation was sent out
+                $dispatcher = $this->get('event_dispatcher');
+                $eventData = new GeneralReservationJobData($genResId);
+                $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
+            }
+
+            $service_log->saveLog("Se han colocado ".count($reservations_ids)." reservas como no disponibles: ".$logMessage, BackendModuleName::MODULE_RESERVATION, log::OPERATION_UPDATE, DataBaseTables::GENERAL_RESERVATION);
+            $message = ($save_option == Operations::SAVE_AND_UPDATE_CALENDAR) ? 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles, se almacenaron las No Disponibilidades y se ha notificado a los clientes respectivos. Todas las operaciones fueron satisfactorias.' :
+                'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $response = ($page != "" && $page != "0") ? $this->generateUrl('mycp_list_reservations_ag', array("page" => $page)) : $this->generateUrl('mycp_list_reservations_ag');
+        } catch (\Exception $e) {
+            $message = 'Los correos no pudieron ser enviados.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            $response = "ERROR";
+        }
+        return new Response($response);
     }
 }
 

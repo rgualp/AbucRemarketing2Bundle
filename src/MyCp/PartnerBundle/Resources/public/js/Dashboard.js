@@ -29,6 +29,9 @@ var Dashboard = function () {
            date: start_date,
            language: $('#requests_ownership_filter_arrival').attr('data-localization')
        }).on('changeDate', function(ev) {
+           if(!ev.date){
+               return;
+           }
                var startDate = new Date(ev.date);
                startDate.setDate(startDate.getDate() + 1);
                departure_datepicker.setStartDate(startDate);
@@ -54,6 +57,10 @@ var Dashboard = function () {
             date: start_date,
             language: $('#modalDateFrom').attr('data-localization')
         }).on('changeDate', function(ev) {
+            if(!ev.date){
+                return;
+            }
+
             var startDate = new Date(ev.date);
             startDate.setDate(startDate.getDate() + 1);
             Modal_departure_datepicker.setStartDate(startDate);
@@ -100,11 +107,7 @@ var Dashboard = function () {
         errorElement: 'span',
         errorClass: 'has-error',
         ignore: "",
-        rules: {
-            'requests_ownership_filter[arrival]': {
-                required: true
-            }
-        },
+        rules: {},
         invalidHandler: function (event, validator) {},
         highlight: function (element, clsError) { // hightlight error inputs
             element = $(element);

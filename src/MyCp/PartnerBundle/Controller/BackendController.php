@@ -355,4 +355,16 @@ class BackendController extends Controller
 
         ]);
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function cartAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        return $this->render('PartnerBundle:Dashboard:cart.html.twig', array(
+
+        ));
+    }
 }

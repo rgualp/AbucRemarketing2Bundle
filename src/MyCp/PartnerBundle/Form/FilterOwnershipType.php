@@ -48,8 +48,8 @@ class FilterOwnershipType extends AbstractType
                 'required' => false,
                 'multiple' => false
             ))
-            ->add('arrival', 'text', array('required' => true, 'attr' => array('class' => 'form-control input-date')))
-            ->add('exit', 'text', array('required' => true, 'attr' => array('class' => 'form-control input-date')))
+            ->add('arrival', 'text', array('required' => false, 'attr' => array('class' => 'form-control input-date')))
+            ->add('exit', 'text', array('required' => false, 'attr' => array('class' => 'form-control input-date')))
             ->add('huesp','choice', array(
                 'empty_data'  => null,
                 'empty_value' => "",

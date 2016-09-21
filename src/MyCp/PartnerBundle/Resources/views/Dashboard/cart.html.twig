@@ -1,0 +1,47 @@
+{% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
+
+
+{% block carousel %}
+
+{% endblock %}
+
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+
+
+{% block body %}
+    <div class="space space-70"></div>
+<div class="col-sm-12 bg-blue">
+    <div class="container">
+        <div class="white-hearders">
+            <h1>{{ 'CART_HEADER_TEXT1' | trans }}</h1>
+            <h2>{{ 'CART_HEADER_TEXT2' | trans  }}</h2>
+            <h3>{{ 'CART_HEADER_TEXT3' | trans  }}</h3>
+        </div>
+    </div>
+
+</div>
+    <div class="col-sm-12 bg-white">
+        <div class="container">
+            <div class="for-header-pages">
+                <h1>{{ 'CART_HEADER_TEXT4' | trans }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 for-body-page-detail">
+        <div class="row">
+        </div>
+    </div>
+    <div class="col-sm-12 bg-white">
+        <div class="space space-30"></div>
+        <div class="container">
+        </div>
+        <div class="space space-30"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

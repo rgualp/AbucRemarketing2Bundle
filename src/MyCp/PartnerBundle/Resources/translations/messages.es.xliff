@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-20T16:19:18Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-21T15:32:34Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -57,6 +57,22 @@
       <trans-unit id="77fdf2415a8536929e9393f9b133b8832e3bf629" resname="CAPACITY_TAB_DESCRIPTION">
         <source>CAPACITY_TAB_DESCRIPTION</source>
         <target state="new">CAPACITY_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="216cdb9c56fb4b7d4993b7250ba0c0fc7d706508" resname="CART_HEADER_TEXT1">
+        <source>CART_HEADER_TEXT1</source>
+        <target state="new">CART_HEADER_TEXT1</target>
+      </trans-unit>
+      <trans-unit id="c538cb022a7cafcf155d85d618f727754844d8a8" resname="CART_HEADER_TEXT2">
+        <source>CART_HEADER_TEXT2</source>
+        <target state="new">CART_HEADER_TEXT2</target>
+      </trans-unit>
+      <trans-unit id="396d3a565afbbc5e74bb94b64a6465b8c3994e9a" resname="CART_HEADER_TEXT3">
+        <source>CART_HEADER_TEXT3</source>
+        <target state="new">CART_HEADER_TEXT3</target>
+      </trans-unit>
+      <trans-unit id="354bd77fd37f9acb2ce1f5b12b23772133691d5e" resname="CART_HEADER_TEXT4">
+        <source>CART_HEADER_TEXT4</source>
+        <target state="new">CART_HEADER_TEXT4</target>
       </trans-unit>
       <trans-unit id="e0440741973f68b4cacd4d5c57073cdc33ed87e9" resname="CATEGORY_TAB_DESCRIPTION">
         <source>CATEGORY_TAB_DESCRIPTION</source>
@@ -520,7 +536,7 @@
       </trans-unit>
       <trans-unit id="3fc81229a25b82a826b047756941a75f7501c819" resname="dashboard.booking.client_dates">
         <source>dashboard.booking.client_dates</source>
-        <target state="new">Nombre cliente</target>
+        <target state="new">Cliente</target>
       </trans-unit>
       <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
         <source>dashboard.booking.code</source>
@@ -556,7 +572,7 @@
       </trans-unit>
       <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
-        <target state="new">Tipo de hab.</target>
+        <target state="new">Tipo de Habitación</target>
       </trans-unit>
       <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
         <source>dashboard.booking.rooms</source>
@@ -572,7 +588,7 @@
       </trans-unit>
       <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
         <source>dashboard.booking.totalprice_inhome</source>
-        <target state="new">Pago en casa</target>
+        <target state="new">Pago en Casa</target>
       </trans-unit>
       <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
         <source>dashboard.payment</source>
@@ -1231,6 +1247,117 @@
         <source>label.take.picture</source>
         <target state="new">Tomar foto</target>
       </trans-unit>
+      <trans-unit id="709db0f50ecfa8b6c83fb61430e82bd5bc0b1188" resname="label.terms.legal">
+        <source>label.terms.legal</source>
+        <target state="new"><![CDATA[<p><strong>TÉRMINOS LEGALES Y CONDICIONES DE USO – MyCasaParticular.com</strong></br>
+                            Resulta innegable que Internet se ha transformado en una inmensa fuente de información de acceso universal, que ejerce una importante influencia en la educación y en el ámbito sociocultural; a la vez presenta buenas perspectivas en el ámbito del comercio. Se trata de un importante foro donde se desarrollan numerosas actividades, la mayoría de las cuales son realizadas con fines legítimos y provechosos; pero, obviamente, también se llevan a cabo actividades ilícitas y conductas socialmente no aceptables. </br>
+                            Es por ello que las aclaraciones que aparecerán a continuación son referencia obligatoria para el uso adecuado de nuestra plataforma. Al acceder a la plataforma o solicitar cualquiera de nuestros servicios, se declaran nuestros términos y condiciones de uso. Una vez leído y aceptado este documento, Usted estará por consiguiente sujeto a lo suscrito aquí.</br>
+                            Nos reservamos el derecho libre de poder realizar en todo momento cambios y modificaciones en estos Términos Legales. En cada caso, informaremos a todos los usuarios sobre los cambios efectuados en cuanto al uso de nuestro sitio o servicios. Usted deberá aceptar automáticamente estas modificaciones en caso de una nueva inscripción y luego de haberse efectuado cambios en las condiciones generales del contrato.</br>
+                            Usted deberá leer cuidadosamente todos los Términos, en orden de entender nuestras condiciones; ya que, este documento constituye aseguramiento legal entre los usuarios y MyCasaParticular.com.</br>
+                            Los -usuarios- serán aquellos que se han registrado de una manera u otra, para usar las bondades de nuestra plataforma. Se le llamará de ahora y en lo que resta de documento a los usuarios propietarios de casas de renta, como -anfitriones- y a los usuarios turistas, como -clientes-.</br>
+                            MyCasaParticular.com es administrado por ABUC Media Network GmbH (“Sociedad Limitada”) como un servicio dirigido a nuestros usuarios y visitantes. El mismo contiene una colección de recursos Online para el alojamiento en casas particulares (apartamentos para vacaciones y alojamientos privados) en Cuba, así como un servicio de correos electrónicos (denominados “servicios” conjuntos).</br>
+                            Reservas Todas las ofertas de arrendamiento deben ser dirigidas directamente desde los anfitriones correspondientes hacia los clientes.</br>
+                             Si un cliente se interesa por uno o más alojamientos y realiza la correspondiente solicitud de reserva, se le pedirán sus datos de contacto. MyCasaParticular.com reenvía su petición a los anfitriones en Cuba y en convenio con las Casas Particulares (apartamentos para vacaciones y alojamientos privados) confirman al cliente interesado la disponibilidad o no disponibilidad de una oferta.</br>
+                             Pagos
+                             Para clientes que no realizan reservas el acceso a nuestra página es gratis, así como el uso de nuestros servicios de búsqueda y gestión de preferencias.
+                             Si ha decidido reservar un alojamiento, MyCasaParticular.com está facultada para el cobro de tres tasas: </br>
+                             Tarifa por servicio al cliente: entre el 10 % y el 25 % del precio total del alojamiento, dependiendo de la cantidad de noches reservadas, definida como comisión, por la gestión de pre-reserva y reserva, la cual cubre los gastos de nuestra plataforma
+                              Tarifa por el servicio al alojamiento: 20 % del precio total del alojamiento.</br>
+                              Tarifa fija: de 5 CUC (4. 80 EUR) por cada pago realizado.</br>
+                              La moneda CUC (peso convertible cubano) se utiliza como norma para el pago y el anuncio de los precios. MyCasaParticular.com no realiza de ningún modo sus transacciones con esta moneda.</br>
+                              Se indican y contabilizan como moneda de pago para nuestras transacciones el franco suizo, el euro y el dólar americano.
+                              La comisión por pre-reserva y reservación debe ser exclusivamente pagada mediante el gravamen de la tarjeta de crédito (Mastercard, Visa o MoneyBooker) por el importe definido entre MyCasaParticular.com y el anfitrión. No se aceptará el pago en efectivo ni con cheques, excepto en circunstancias especiales o de mutuo acuerdo entre MyCasaParticular.com y el cliente turista. Por lo que no nos hacemos responsables por la correspondiente pérdida de dinero en efectivo o cheques.</br>
+                              MyCasaParticular.com observa en su protocolo que el cliente puede efectuar el pago de varios alojamientos en Cuba en una misma reserva o booking. En este caso, solamente se le cobrará la tarifa fija de 5 CUC en una oportunidad, y no por cada reserva. Lo anterior representa un ahorro favorable al cliente.</br>
+                              Usted como cliente está de acuerdo con que MyCasaParticular.com pueda cargarle en su tarjeta de crédito un importe por pago anticipado, como ha sido acordado en la confirmación de la reserva con su anfitrión. Con ello también da su aprobación para realizar el pago de la diferencia al anfitrión directamente, luego de su arribo y según acuerde con el mismo. Dicha diferencia se refiere al monto total de la estancia, previa deducción de la comisión por pre-reserva y reservación.</br>
+                              La comisión de MyCasaParticular.com quedará previamente descontada en el proceso de reservación y pre-reserva. A su vez, el anfitrión está en el derecho de reclamar al cliente turista el monto por habitaciones. El anfitrión NO PAGA COMISIÓN, siempre se le carga al cliente mediante pagos on-line.</br>
+                              Políticas de Cancelación</br>
+                              Cuando el cliente haya realizado un pago por una reserva y desee cancelar la misma, esta política se aplicará de la siguiente forma:</br>
+                              Si la reserva se cancela, tanto por el anfitrión o como por el cliente, con más de 7 días anteriores a la llegada del cliente a Cuba, se le devolverá a este último la tarifa de un 20% del alojamiento y la tarifa fija de 5 cuc.</br>
+                              Si la reserva se cancela por el anfitrión con menos de 7 días de la llegada del  cliente a Cuba, se le devolverá a este último la tarifa de alojamiento(20%) y la tarifa fija(5 cuc).</br>
+                              Si la reserva se cancela por el cliente con menos de 7 días antes de su llegada a Cuba, no se efectuará reembolso alguno.</br>
+                                Usos del Sitio</br>
+                                Cualquier uso de la plataforma que no esté dirigido a la consulta, edición e inserción de datos referentes a los objetivos de MyCasaParticular.com, o esté de acuerdo con estos Términos Legales y Condiciones de Uso; está explícitamente prohibido.</br>
+                                Usos no autorizados: Usted acepta que no debe hacer ninguna de las siguientes acciones, a no ser, que esté previamente autorizado por nosotros.</br>
+                                Algún uso comercial que no sea a través de nuestra membresía o suscripción previamente validada.</br>
+                                El uso de las herramientas de nuestra plataforma para rentar o seleccionar algún alojamiento que no esté listado, por alguna circunstancia, bajo una suscripción válida.</br>
+                                Subir, publicar, copiar, reproducir, distribuir o transmitir los contenidos de nuestro sitio.</br>
+                                Reproducir alguna parte de nuestra plataforma en otro sitio web, o replicar el mismo con cualquier objetivo (s).</br>
+                                Modificar o crear sitios o trabajos derivados de nuestra web, o alguna parte de ella.</br>
+                                Usar dispositivos automáticos o procesos manuales para monitorear, copiar, o almacenar datos de los contenidos del sitio.</br>
+                                De-construir alguna parte del sitio.</br>
+                                Usar nuestras bases de datos para otros asuntos diferentes de consultar, editar, o ingresar alojamientos, o las funciones para las que está diseñada MyCasaParticular.com.</br>
+                                Usar la plataforma para transmitir, publicar o expresar alguna información falsa, sospechosa o fraudulenta; incluyendo hacer alguna reservación, edición, o publicación de alojamientos con falsas intenciones.</br>
+                                Usar nuestra plataforma de forma que pueda incurrir en algún acto delictivo de cualquier índole.</br>
+                                Publicar, usar o transmitir a través de nuestra web, algún material que sea ilegal, amenazador, abusivo, difamatorio, vulgar, obsceno, sexualmente explícito, indecente, pornográfico o profanador.</br>
+                                Publicar direcciones postales, URLs o números telefónicos.</br>
+                                MyCasaPartner.com</br>
+                                MyCasaPartner.com es una plataforma web asociada a MyCasaParticular.com; con la finalidad de facilitar la gestión de reservas a través de terceros (agencias de viajes y turoperadores). Este producto propone 4 paquetes de servicios con diferentes funcionalidades. La agencia en cuestión elige el de su preferencia.</br>
+                                A través de MyCasaPartner.com se pueden gestionar más de 5 000 alojamientos, con descripciones y especificaciones en idioma español, inglés y alemán; para las cuales se pueden consultar la disponibilidad y la no disponibilidad; efectuar reservas rápidas e inmediatas, entre otros servicios y beneficios según el cliente los contrate.</br>
+                                Los sistemas de pagos funcionan del mismo modo que se aclaró con anterioridad.</br>
+                                Para establecer la seguridad de los usuarios, no podrán existir cuentas simultáneas a una misma dirección de correo electrónico, los permisos de accesibilidad al sistema solamente podrán ser modificados por su administración; y será respaldado regularmente, almacenando todos los datos pertinentes en una localización completamente segura.</br>
+                                MyCasaPartner.com garantiza la disponibilidad del alojamiento reservado en la fecha pactada, para asegurar a los clientes de las agencias de viaje inscritas así como a terceros de forma general, su feliz estancia en Cuba.</br>
+                                Asimismo, conservamos el registro histórico de las reservas, de modo que ambas partes cuenten con un histórico de sus acciones diarias, disponible para la consulta a petición en caso de ser necesario.</br>
+                                Exclusión de Garantías</br>
+                                SI VISITA NUESTRA PÁGINA Y HACE USO DE NUESTROS SERVICIOS, DEBE CONSTAR QUE LO HACE A PROPIO RIESGO. El SISTEMA DE MYCASAPARTICULAR.COM SE BASA EN LA REPUTACIÓN. PARA SU PROPIO BENEFICIO HAGA USO DE LOS COMENTARIOS DE OTROS USUARIOS Y DE LAS RECOMENDACIONES DE TERCEROS SOBRE ANFITRIONES Y CLIENTES. PERMITA QUE REINE LA RAZÓN. SEA PRECAVIDO Y PROTÉJASE.</br>
+                                NUESTRO SERVICIO SE TRANSMITE SOBRE LA BASE DE “SEGÚN SE VE” Y “SE DISPONE”. SI MANIFESTAMOS NUESTRO RECHAZO CATEGÓRICO, USTED DESISTIRÁ DE GARANTIAS DE CUALQUIER TIPO, VERBALES O EXPLICITAS, INCLUSIVE SIN RESTRICCIÓN, DESISTIRÁ ADEMÁS DE GARANTÍAS MERCANTILES IMPLÍCITAS, DE DETERMINADAS CONVENIENCIAS Y CONTRAVENCIONES.</br>
+                                Dirección de Correo electrónico, Transmisión de Datos y Privacidad</br>
+                                Cuando usted nos facilita su información privada, tal como su correo electrónico, nombre y otras informaciones para usar los servicios de nuestro sitio; usted acepta que todos sus datos pasen automáticamente a nuestra base de datos. Usted podrá recibir algún e-mail promocional de nuestros productos y ventajas en cualquier momento; si no desea recibir esos mensajes, contáctenos a través de la siguiente dirección electrónica: info@mycasaparticular.com.</br>
+                                No utilizamos herramientas de seguimiento para recoger información personal de manera secreta sin el consentimiento del usuario, ni para reenviar la información a terceras personas o plataformas de marketing, ni para relacionar la información con información personal (nombre, dirección, etc.).</br>
+                                En caso que usted extraiga su información de nuestra plataforma para usarla en otro no relacionado al nuestro, debe entender que el otro sitio será responsable por el uso que haga de sus datos.</br>
+                                Verificación de Identidad</br>
+                                Usted acepta que debe salvaguardar su propia identificación online, así como su contraseña y que dichos datos deben ser estrictamente confidenciales. Debe notificarnos inmediatamente, en caso de sospechar que sus datos personales han sido comprometidos, o son conocidos por alguna persona sospechosa o que no posee su previa autorización. Igualmente si nosotros creemos que ha existido algún uso no autorizado de su cuenta, le haremos saber y usted deberá cambiarla lo más pronto posible.</br>
+                                No aconsejamos le ofrezca su identificación en nuestra plataforma a ninguna persona; pero si lo hace, y no conserva su información personal adecuadamente, usted será el único responsable de cualquier uso que se haga de dichos datos; incluso si son usados en actos ilegales o fraudulentos, o le ocasiona pérdidas monetarias o de otra índole.</br>
+                                Los usuarios deben tener en cuenta, que en caso de ocurrir algún suceso sospechoso, ilegal o dañino para ellos o MyCasaParticular.com, procederemos a cancelar su cuenta sin previo aviso, lo que queda dentro de nuestro derecho para determinar tales actos.</br>
+                                Término</br>
+                                Nosotros, por nuestra parte, podemos prescindir en cualquier momento, según nuestro parecer y sin previa responsabilidad hacia usted, con o sin motivo alguno y sin notificación previa lo siguiente:</br>
+                                (a) el acceso a nuestra página, </br>
+                                (b) borrar y poner fuera de circulación el contenido facilitado por usted y</br>
+                                © negarle el acceso a cualquier dato u servicio.</br>
+                                Comunicaciones y usos de la Información de los Usuarios</br>
+                                Usted acepta que otros usuarios podrán usar su información personal para comunicarse con usted, de acuerdo con los servicios y opciones que brindamos. Igualmente usted deberá proteger la información personal de otros usuarios con el mismo nivel de seguridad que protege la suya propia.</br>
+                                Responsabilidad hacia la Publicación de Propiedades</br>
+                                El contenido que produzcan los anfitriones no debe:</br>
+                                Violar los derechos de otras personas o leyes, o ser de alguna manera inapropiado.</br>
+                                Incluir información personal que pueda ser usada para contactar otra persona que no esté relacionada con las informaciones solicitadas por nuestro sitio.</br>
+                                Incluir contenidos promocionales no solicitados, publicidad, contenidos políticos o concursos.</br>
+                                Ser abusivo, obsceno, discriminatorio o ilegal.</br>
+                                Ser falso o engañoso.</br>
+                                Los alojamientos incluidos en nuestra plataforma son completa responsabilidad de los anfitriones, que pueden ser los propietarios, encargados o asistentes del negocio. Nosotros salvamos nuestra responsabilidad ante los datos que el usuario ingresa; a no ser, que el mismo solicite nuestros servicios para su inclusión.</br>
+                                MyCasaParticular.com no representa o garantiza a ningún alojamiento, visitas a los mismos, comentarios o reservas. Nosotros podremos facilitar servicios, a solicitud del anfitrión, que permitan elevar la calidad de los contenidos parte de sus ofertas de alojamiento. No tenemos ninguna responsabilidad en caso que los anfitriones no ofrezcan una correcta y adecuada ubicación geográfica; el anfitrión es completamente responsable de proporcionar una descripción geográfica precisa, con el uso de las herramientas que ponemos a su disposición.</br>
+                                Licencia y Derechos de Uso</br>
+                                Al suscribirse o autorizar nuestro uso de sus contenidos, usted nos cede el derecho perpetuo, mundial, irrevocable, sin restricciones, no exclusivo y completo a usar, copiar, adaptar, licenciar, mostrar, publicitar, reproducir, transmitir, modificar, editar; disponer de las fotografías y sus datos relacionados con nuestro negocio.</br>
+                                Usted nos ofrece la capacidad de proteger todos sus contenidos, incluyendo fotografías. Igualmente nos ayudará a proteger la información de distribuciones no autorizadas e ilegales.</br>
+                                Además, cada usuario acepta que podremos reproducir y usar cualquier fotografía o información como contenido promocional, tanto de los usuarios, como del mismo sitio.</br>
+                                Traducciones y Mapas</br>
+                                Las traducciones dentro del sitio, serán realizadas por el traductor de Google, si surge algún problema de precisión gramatical o lingüística, es responsabilidad del traductor. Para evitar futuros mal entendidos o situaciones, ofrecemos servicios de traducción por profesionales; por lo cuales, podemos ser responsables.</br>
+                                Los mapas están conectados directamente a la aplicación de Google Maps, de surgir alguna duda, puede consultar sus Términos y Condiciones de Uso. (http://www.google.com/intl/en_us/help/terms_maps.html)</br>
+                                Limitaciones de Obligaciones</br>
+                                Si usted no está satisfecho con nuestro sitio, no acepta alguna parte de nuestros Términos Legales y Condiciones de Uso, o pretende hacer alguna reclamación legal contra nosotros o contra alguno de nuestros servicios o condiciones; entonces la acción que debería tomar, sería dejar de usar MyCasaParticular.com.</br>
+                                Usted debe ser consciente de que las transmisiones hacia y desde nuestro sitio, no son confidenciales y pueden ser leídas por terceros. Usted también acepta que, al publicar su información privada en nuestro sitio, nosotros no podemos hacernos responsables de su seguridad física o prevenir cualquier crimen o acción que le pueda acaecer.</br>
+                                Resultados de Búsqueda</br>
+                                No podemos garantizar que sus ofertas aparezcan en algún orden específico ante los buscadores de Internet; los resultados de búsqueda variarán dependiendo de muchas condiciones y factores. Nos reservamos el derecho de aplicar ciertas técnicas y procedimientos para optimizar los resultados de búsqueda de nuestra plataforma en general, con el objetivo de obtener más visibilidad en Internet.</br>
+                                Contenido e Informaciones</br>
+                                Nos reservamos los derechos de eliminar, modificar o no aceptar los contenidos que consideremos, bajo nuestra propia discreción, no coinciden con estos Términos o, de algún modo, puedan ser inaceptables para nosotros.</br>
+                                Los usuarios son responsables de revisar y asegurar que la información introducida coincida con sus intenciones.</br>
+                                Usted comprende y se declara conforme, con respecto a que la única responsabilidad sobre el contenido referente a cualquier tipo de reserva; mensajes, textos, datos, fotos, imágenes, videos, audio u otros materiales recogidos en “Contenido”; permanecen con el usuario, a donde se hayan originado los mismos. Todo este contenido está relacionado con nuestro servicio, y es enviado o transmitido mediante nuestro sistema.</br>
+                                Usted comprende y se declara conforme con que somos un Mercado Online y, por ello, nos comprometemos por el contenido publicado en el sitio Web. Adicionalmente moderaremos aquellos datos que contengan calumnias y ofensas, obscenidades y/o similares; incluyendo los comentarios y otras informaciones que puedan a ser ingresados por los usuarios. </br>
+                                No podemos hacernos responsables con la protección de la propiedad intelectual, datos personales, o informaciones no públicas. El contenido en este sitio estará siempre sujeto a cambios constantes, y con mucha frecuencia, podrán producirse posibles inexactitudes. </br>
+                                Nosotros no asumimos responsabilidades o garantías expresas o implícitas por la exactitud, actualidad o integridad de las informaciones que aparecen en el sitio Web. No estamos obligados a chequear, actualizar o controlar esas informaciones. Por ello recomendamos chequear todas esas informaciones que son extraídas de nuestra página. No ofrecemos garantía o seguridad, ni verbal, ni explícita, con relación a aportes o preguntas de los usuarios. Usted comprende y se declara conforme, que si llegara a tomar un acuerdo entre usted y otra persona u organización; el mismo se efectuará bajo las condiciones negociadas por usted y asumidas por ambas partes a propio riesgo.</br>
+                                En MyCasaParticular.com los usuarios tendrán acceso limitado, revocable y no exclusivo al sitio Web para la comercialización y/o búsqueda), según se marque, así como poder exponer inquietudes reales de los usuarios relacionadas con sus intereses y exigencias vacacionales para el uso personal, mientras se corresponda lo anteriormente mencionado con nuestras condiciones de uso.</br>
+                                Fotografías</br>
+                                Las fotografías no deben incluir a personas sin su previa autorización, no deben ser superior a un MB y tienen que ser mayores de 640x480 píxeles. Nos otorgamos el derecho de eliminar las imágenes que no concuerden con nuestras Condiciones.</br>
+                                Cada usuario - anfitrión - acepta que nosotros podemos reproducir completa o parcialmente cualquier fotografía subida, para su propia promoción y la de nuestro sitio.</br>
+                                Uso de nuestra Marca o Logo</br>
+                                Existen diferentes modos de que usted pueda usar nuestra marca o logo, sin nuestra explícita autorización:</br>
+                                Es usualmente permisible que usted como anfitrión se refiera a MyCasaParticular.com como la plataforma en que está inscrita su propiedad y usted pueda invitar a otros a consultar sus ofertas en nuestra plataforma.</br>
+                                Sin embargo, usted no puede referirse a nosotros de manera que se pueda confundir o intuir, que nuestra web patrocina su negocio o es socio del mismo.</br>
+                                Enlaces Externos</br>
+                                Nos reservamos el derecho de rechazar enlaces externos o direcciones de otros sitios web y de eliminarlos sin previo aviso o consentimiento de ningún usuario.</br>
+                                Derecho Aplicable y Jurisdicción</br>
+                                LAS CONDICIONES Y TODAS LAS SITUACIONES QUE SURJAN RELACIONADAS DE Y CON ESTAS SERÁN DETERMINADAS POR EL DERECHO MATERIAL SUIZO, SIN TOMAR REFERENCIA DE LAS DETERMINACIONES JURÍDICAS CIVILES INTERNACIONALES.</br>
+                                CUALQUIER DISCORDANCIA, EXIGENCIA O CONFLICTO ENTRE UN USUARIO Y MYCASAPARTICULAR.COM O ABUC MEDIA NETWORK GMBH SURGIDA DE Y CON RELACIÓN A ESTA DECLARACIÓN ESTÁ SUJETA A LA COMPETENCIA EXCLUSIVA DEL DEPARTAMENTO DE JUSTICIA DE LA CIUDAD DE BASILEA Y CADA PARTE DEBERÁ APROBAR IRREVOCABLEMENTE LA JURISDICCIÓN Y EL LUGAR DE LA MISMA.</br>
+                            </p>]]></target>
+      </trans-unit>
       <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
         <source>label.thanks</source>
         <target state="new">¡Gracias!</target>
@@ -1462,22 +1589,6 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2e" resname="dashboard.booking.client_dates">
-        <source>dashboard.booking.client_dates</source>
-        <target state="new">Cliente</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2f" resname="dashboard.booking.room_types">
-        <source>dashboard.booking.room_types</source>
-        <target state="new">Tipo de Habitación</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2g" resname="dashboard.booking.booking_code">
-        <source>dashboard.booking.booking_code</source>
-        <target state="new">Código booking</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c674a7bdb2r" resname="dashboard.booking.totalprice_inhome">
-        <source>dashboard.booking.totalprice_inhome</source>
-        <target state="new">Pago en Casa</target>
       </trans-unit>
     </body>
   </file>
