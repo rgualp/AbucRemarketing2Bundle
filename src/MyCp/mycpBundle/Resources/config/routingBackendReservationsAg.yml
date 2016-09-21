@@ -13,3 +13,7 @@ mycp_list_reservations_ag:
 mycp_details_reservation_ag:
     pattern:  /details_ag/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservationAg:details_reservation_ag }
+
+mycp_send_reservation_ag:
+    pattern:  /send_ag/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservationAg:send_reservation }

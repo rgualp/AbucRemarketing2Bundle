@@ -22,6 +22,140 @@ use Doctrine\ORM\Query\Expr;
  */
 class generalReservationRepository extends EntityRepository {
 
+    function getAllPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null, $partner = null) {
+        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT MIN(owres4.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id),
+        u.user_user_name, u.user_last_name, u.user_email,
+        (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
+        own.own_inmediate_booking
+        FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id u ";
+
+        return $this->getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page, $partner);
+    }
+
+    function getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa, $queryStr,$items_per_page = null, $page = null, $partner = null) {
+        $filter_offer_number = strtolower($filter_offer_number);
+        $filter_booking_number = strtolower($filter_booking_number);
+        $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
+        $filter_offer_number = str_replace('cas', '', $filter_offer_number);
+        $filter_offer_number = str_replace('.', '', $filter_offer_number);
+        $filter_offer_number = str_replace(' ', '', $filter_offer_number);
+        $array_offer_number = explode('-', $filter_offer_number);
+
+        $array_date_reserve = explode('/', $filter_date_reserve);
+        $array_date_from = explode('/', $filter_date_from);
+        $array_date_to = explode('/', $filter_date_to);
+        if (count($array_date_reserve) > 1)
+            $filter_date_reserve = $array_date_reserve[2] . '-' . $array_date_reserve[1] . '-' . $array_date_reserve[0];
+        if (count($array_date_from) > 1)
+            $filter_date_from = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
+        if (count($array_date_to) > 1)
+            $filter_date_to = $array_date_to[2] . '-' . $array_date_to[1] . '-' . $array_date_to[0];
+
+        $string_order = '';
+        switch ($sort_by) {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::RESERVATION_NUMBER:
+                $string_order = "ORDER BY gre.gen_res_id DESC";
+                break;
+            case OrderByHelper::RESERVATION_DATE:
+                $string_order = "ORDER BY gre.gen_res_date DESC, gre.gen_res_id DESC";
+                break;
+            case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
+                $string_order = "ORDER BY LENGTH(own.own_mcp_code) ASC, own.own_mcp_code ASC, gre.gen_res_id DESC";
+                break;
+            case OrderByHelper::RESERVATION_DATE_ARRIVE:
+                $string_order = "ORDER BY gre.gen_res_from_date DESC, gre.gen_res_id DESC";
+                break;
+            case OrderByHelper::RESERVATION_STATUS:
+                $string_order = "ORDER BY gre.gen_res_status ASC, gre.gen_res_id DESC";
+                break;
+            case OrderByHelper::RESERVATION_PRICE_TOTAL:
+                $string_order = "ORDER BY gre.gen_res_total_in_site DESC, gre.gen_res_id DESC";
+                break;
+            case OrderByHelper::RESERVATION_CLIENT:
+                $string_order = "ORDER BY gre.gen_res_date DESC, u.user_user_name ASC, u.user_last_name ASC, u.user_email ASC, gre.gen_res_id ASC";
+                break;
+        }
+        $em = $this->getEntityManager();
+
+        $where = "";
+
+        if($partner === false){
+            $where = " WHERE u.user_role <> 'ROLE_CLIENT_PARTNER' ";
+        }
+        else if($partner === true){
+            $where = " WHERE u.user_role = 'ROLE_CLIENT_PARTNER' ";
+        }
+
+        if(count($array_offer_number) > 1) {
+            if($array_offer_number[0] < $array_offer_number[1])
+                $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id >= $array_offer_number[0] AND gre.gen_res_id <= $array_offer_number[1] ";
+            else
+                $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id >= $array_offer_number[1] AND gre.gen_res_id <= $array_offer_number[0] ";
+        }
+        else if($filter_offer_number != "" and $filter_offer_number != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id = $filter_offer_number";
+
+        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
+        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_from_date >= '$filter_date_from'";
+        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_to_date <= '$filter_date_to'";
+
+        if($filter_date_reserve != "" && $filter_date_reserve != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_date = '$filter_date_reserve'";
+
+        if($filter_reference != "" && $filter_reference != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " own.own_mcp_code LIKE '%$filter_reference%'";
+
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_status = $filter_status ";
+
+        if ((is_object($user_casa) && $user_casa != null) || (is_int($user_casa) && $user_casa != -1)) {
+            $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_id = ".$user_casa->getUserCasaOwnership()->getOwnId();
+
+            if($filter_status == "" || $filter_status == "-1" || $filter_status == "null")
+                $where .= (($where != "") ? " AND " : " WHERE ") . " (gre.gen_res_status = ".generalReservation::STATUS_CANCELLED." or gre.gen_res_status = ".generalReservation::STATUS_RESERVED.") ";
+        }
+
+        if ($filter_booking_number != '' && $filter_booking_number != "-1" && $filter_booking_number != "null")
+        {
+            $where .= (($where != "") ? " AND ": " WHERE "). " (SELECT COUNT(owres6)  FROM mycpBundle:ownershipReservation owres6 WHERE gre.gen_res_id = owres6.own_res_gen_res_id AND owres6.own_res_reservation_booking = $filter_booking_number) > 0 ";
+        }
+
+        $queryStr = $queryStr. $where . $string_order;
+
+        $query = $em->createQuery($queryStr);
+
+        $qp = clone $query;
+        $total = count($qp->getScalarResult());
+
+        $data = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
+
+        $queryStr = "SELECT c.fullname
+FROM PartnerBundle:paReservationDetail pard
+JOIN pard.reservation par
+JOIN par.client c
+WHERE pard.reservationDetail = :gen_res_id";
+        $query = $em->createQuery($queryStr);
+        $query->setMaxResults(1);
+        foreach ($data as $key => $reservation) {
+            $gen_res_id = $reservation['gen_res_id'];
+            $query->setParameter('gen_res_id', $gen_res_id);
+            $client = $query->getArrayResult()[0];
+            $data[$key]['client'] = $client['fullname'];
+        }
+        return array("reservations"=>$data, "totalItems"=>$total);
+    }
+
     function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null, $partner = null) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),

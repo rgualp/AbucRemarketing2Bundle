@@ -184,8 +184,9 @@ class BackendReservationAgController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
 
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, true))->getResult();
+        $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            ->getAllPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, true))->getResult();
+        $reservations = $all['reservations'];
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
@@ -199,7 +200,7 @@ class BackendReservationAgController extends Controller {
             array_push($total_nights, $temp_total_nights);
         }*/
 
-        $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
+        $totalItems = $all['totalItems'];
         return $this->render('mycpBundle:reservation:list_ag.html.twig', array(
             //'total_nights' => $total_nights,
             'reservations' => $reservations,
@@ -275,6 +276,46 @@ class BackendReservationAgController extends Controller {
             "offerLog" => $offerLog,
             'currentServiceFee' => $currentServiceFee
         ));
+    }
+
+    public function send_reservationAction($id_reservation) {
+        $em = $this->getDoctrine()->getManager();
+        $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($id_reservation);
+        $custom_message = $this->getRequest()->get('message_to_client');
+
+        if($custom_message != "" && isset($custom_message))
+        {
+            // dump($custom_message); die;
+            $from = $this->getUser();
+            $to = $generalReservation->getGenResUserId();
+            $subject = "Reservación ".$generalReservation->getCASId();
+
+            $message = $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+            if($message != null) {
+                $service_log = $this->get('log');
+                $service_log->saveLog($message->getLogDescription(), BackendModuleName::MODULE_CLIENT_MESSAGES, log::OPERATION_INSERT, DataBaseTables::MESSAGE);
+            }
+        }
+
+        if ($generalReservation->getGenResStatus() == generalReservation::STATUS_RESERVED || $generalReservation->getGenResStatus() == generalReservation::STATUS_PARTIAL_RESERVED) {
+            $bookingService = $this->get('front_end.services.booking');
+            $emailService = $this->get('mycp.service.email_manager');
+            VoucherHelper::sendVoucherToClient($em, $bookingService, $emailService, $this, $generalReservation, 'SEND_VOUCHER_SUBJECT', $custom_message, false);
+        }
+        else {
+
+            $service_email = $this->get('Email');
+            $service_email->sendReservation($id_reservation, $custom_message, false);
+
+            // inform listeners that a reservation was sent out
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new GeneralReservationJobData($id_reservation);
+            $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
+        }
+
+        $message = 'Reserva enviada satisfactoriamente';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+        return $this->redirect($this->generateUrl('mycp_details_reservation_ag', array('id_reservation' => $id_reservation)));
     }
 }
 
