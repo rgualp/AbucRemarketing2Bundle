@@ -2148,6 +2148,71 @@ class generalReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+
+    function getCheckinsPartner($checkinDate, $orderBy = OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE) {
+
+        $queryStr = "SELECT owreservation,owreservation.own_res_id as booking_id,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+        COUNT(owreservation) as rooms,
+        SUM(owreservation.own_res_count_adults) as adults,
+        SUM(owreservation.own_res_count_childrens) as children,
+        SUM(owreservation.own_res_total_in_site) as to_pay_at_service,
+        us.user_user_name, us.user_last_name,
+        ag.name as agency,
+        cou.co_name,
+        own.own_commission_percent, own.own_mcp_code,prov,own.own_homeowner_1,own.own_homeowner_2,own.own_phone_number,own.own_mobile_number,
+        own.own_sms_notifications,
+        prov.prov_phone_code,
+        owreservation.own_res_reservation_from_date,
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = owreservation.own_res_reservation_booking) as payed,
+        (SUM(DATE_DIFF(owreservation.own_res_reservation_to_date, owreservation.own_res_reservation_from_date))) as nights,
+        (SELECT MIN(notif.id) FROM mycpBundle:notification notif JOIN notif.status status WHERE notif.reservation = gre.gen_res_id and notif.subtype = 'CHECKIN' and status.nom_name = 'success_ns' and status.nom_category = 'notificationStatus') as notification,
+        own.own_inmediate_booking
+        FROM mycpBundle:ownershipreservation owreservation
+        JOIN owreservation.own_res_gen_res_id gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us WITH us.user_role = 'ROLE_CLIENT_PARTNER'
+        JOIN PartnerBundle:paTourOperator pto WITH pto.tourOperator = us.user_id
+        JOIN PartnerBundle:paTravelAgency ag WITH ag.id = pto.travelAgency
+        JOIN us.user_country cou
+        JOIN own.own_address_province prov
+        WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
+        AND (gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)
+        AND owreservation.own_res_status = :reservationStatus
+        GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
+        ";
+
+        $orderByString = "";
+
+        switch($orderBy)
+        {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE:
+                $orderByString .= " ORDER BY own.own_mcp_code ASC ";break;
+            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE:
+                $orderByString .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC "; break;
+            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_CASCODE;
+                $orderByString .= " ORDER BY gre.gen_res_id ASC ";break;
+            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE;
+                $orderByString .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
+        }
+
+        $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery($queryStr.$orderByString);
+
+        $query->setParameters(array(
+            'filter_date_from' => "%".$checkinDate."%",
+            'reservationStatus' => ownershipReservation::STATUS_RESERVED,
+            'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
+            'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
+        ));
+
+        return $query->getArrayResult();
+
+    }
+
+
     /****************** partner ****************
      * @param $idUser
      * @param $status
