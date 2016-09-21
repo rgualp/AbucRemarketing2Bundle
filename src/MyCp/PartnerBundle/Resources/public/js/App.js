@@ -66,8 +66,15 @@ var App = function () {
                     'partner_agency[contacts][0][mobile]':{
                         number: true
                     },
+                    'password':{
+                        minlength: 8
+                    },
+                    'terms':{
+                        required:true
+                    },
                     confirm: {
-                        equalTo: "#password"
+                        equalTo: "#password",
+                        minlength: 8
                     }
                 },
                 highlight: function (element, clsError) { // hightlight error inputs
