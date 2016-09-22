@@ -208,3 +208,7 @@ partner_dashboard_cart:
 partner_dashboard_cart_show_reservation_details:
     locales:  { en: "/dashboard/cart-show-details", es: "/dashboard/cart-show-details", de: "/dashboard/cart-show-details" }
     defaults: { _controller: PartnerBundle:Cart:showReservationsDetails }
+
+partner_dashboard_delete_from_cart:
+    locales:  { en: "/dashboard/delete-from-cart", es: "/dashboard/delete-from-cart", de: "/dashboard/delete-from-cart" }
+    defaults: { _controller: PartnerBundle:Cart:deleteFromCart }

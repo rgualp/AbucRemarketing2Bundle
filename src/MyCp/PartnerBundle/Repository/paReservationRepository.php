@@ -4,6 +4,7 @@ namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\PartnerBundle\Entity\paClient;
 use MyCp\PartnerBundle\Entity\paReservation;
 use MyCp\PartnerBundle\Entity\paReservationDetail;
@@ -141,10 +142,10 @@ class paReservationRepository extends EntityRepository {
             ->join("detail.reservationDetail", "genRes")
             ->where("paReservation.closed = 1")
             ->andWhere("client.travelAgency = :travelAgency")
-            //->andWhere("genRes.gen_res_status = :availableStatus1")
+            ->andWhere("genRes.gen_res_status = :availableStatus1")
             ->setParameter("travelAgency", $travelAgency->getId())
             ->setParameter("availableStatus", generalReservation::STATUS_AVAILABLE)
-            //->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE)
         ;
         return $qb->getQuery()->getResult();
     }
@@ -163,7 +164,9 @@ class paReservationRepository extends EntityRepository {
             ownRes.own_res_count_adults as adults,
             ownRes.own_res_count_childrens as children,
             genRes.gen_res_id,
-            ownRes.own_res_total_in_site as totalInSite
+            ownRes.own_res_total_in_site as totalInSite,
+            reservation.id as idReservation,
+            ownRes.own_res_id
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join('mycpBundle:room', 'room', Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')
@@ -175,7 +178,9 @@ class paReservationRepository extends EntityRepository {
             ->join("detail.reservation", "reservation")
             ->join("reservation.client", "client")
             ->where("reservation.id = :reservationId")
+            ->andWhere("ownRes.own_res_status = :availableStatus")
             ->setParameter("reservationId", $reservationId)
+            ->setParameter("availableStatus", ownershipReservation::STATUS_AVAILABLE)
         ;
         return $qb->getQuery()->getResult();
     }

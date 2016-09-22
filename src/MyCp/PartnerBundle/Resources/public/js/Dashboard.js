@@ -545,16 +545,28 @@ var Dashboard = function () {
             $(cartItemContentId).addClass('hide');
         });
     }
+    var onDeleteFromCartButton = function(){
+        $(".deleteFromCart").on('click',function() {
+            var result = $('#cartBody');
+            var id = $(this).data("id");
+            var _url = $(this).data("url");
 
-    var validateNumbers = function(evt) {
-        var theEvent = evt || window.event;
-        var key = theEvent.keyCode || theEvent.which;
-        key = String.fromCharCode( key );
-        var regex = /[0-9]|\./;
-        if( !regex.test(key) ) {
-            theEvent.returnValue = false;
-            if(theEvent.preventDefault) theEvent.preventDefault();
-        }
+            $("#loading_" + id).removeClass('hide');
+
+            $.post(_url, {
+                'reservationId': id
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.html != ""){
+                        result.html(response.html);
+                        $("#loading_" + id).addClass('hide');
+                        onDeleteFromCartButton();
+                    }
+                }
+            });
+
+        });
     }
 
     return {
@@ -570,7 +582,7 @@ var Dashboard = function () {
             onCloseOpenReservationDetailedListButton();
             onDeleteOpenReservationDetailButton();
             onViewMoreButton();
-            validateNumbers();
+            onDeleteFromCartButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");
