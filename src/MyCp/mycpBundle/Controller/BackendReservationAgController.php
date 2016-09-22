@@ -24,6 +24,66 @@ use MyCp\mycpBundle\Helpers\VoucherHelper;
 
 class BackendReservationAgController extends Controller {
 
+
+
+    public function listReservationsByUsersAGAction($items_per_page, Request $request) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $page = 1;
+
+        $filter_name = $request->get('filter_name');
+        $filter_status = $request->get('filter_status');
+        $filter_accommodation = $request->get('filter_accommodation');
+        $filter_destination = $request->get('filter_destination');
+        $filter_range_from = $request->get('filter_range_from');
+        $filter_range_to = $request->get('filter_range_to');
+
+        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' &&
+            $filter_destination == 'null' && $filter_range_from == "null"  && $filter_range_to == "null") {
+            $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_reservations_byuser'));
+        }
+        if ($filter_name == 'null')
+            $filter_name = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($filter_accommodation == 'null')
+            $filter_accommodation = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_range_from == 'null')
+            $filter_range_from = '';
+        if ($filter_range_to == 'null')
+            $filter_range_to = '';
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+        //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
+
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        return $this->render('mycpBundle:reservation:list_byclient_ag.html.twig', array(
+            'reservations' => $reservations,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_name' => $filter_name,
+            'filter_status' => $filter_status,
+            'filter_accommodation' => $filter_accommodation,
+            'filter_destination' => $filter_destination,
+            'filter_range_from' => $filter_range_from,
+            'filter_range_to' => $filter_range_to
+        ));
+    }
+
+
     public function list_reservations_bookingAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
