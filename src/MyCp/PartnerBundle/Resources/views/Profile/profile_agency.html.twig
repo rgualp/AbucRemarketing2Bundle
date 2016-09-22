@@ -111,6 +111,7 @@
                         HoldOn.close();
                         if (response.success) {
                             swal(response.message, "", "success");
+                            $('#username').text(response.username);
                         }
                         else
                             swal(response.message, "", "error");

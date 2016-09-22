@@ -3200,7 +3200,10 @@
             <source>SERVICE_ACCOMMODATION_TAX_LONG</source>
             <target>Betrag für die Unterkunft</target>
         </trans-unit>
-
+        <trans-unit id="952">
+            <source>title.email.createuser.partner</source>
+            <target>Agency Account Activation</target>
+        </trans-unit>
 
     </body>
     </file>

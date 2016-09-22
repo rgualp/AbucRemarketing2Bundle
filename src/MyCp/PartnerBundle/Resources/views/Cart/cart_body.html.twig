@@ -1,0 +1,16 @@
+{% for item in list %}
+<div class="row">
+    <div class="col-md-1">
+        <input type="checkbox"/>
+    </div>
+    <div class="col-md-11 normal-font" style="font-size: 22px">
+        <div class="row m-0">
+            Código Casa: {{ item.own_mcp_code }} Llegada: {{ item.own_res_reservation_from_date | date("d/m/Y") }} Salida: {{ item.own_res_reservation_to_date | date("d/m/Y") }} Casa: {{ item.own_name }}
+            Destino: {{ item.des_name }}
+        </div>
+        <div class="row m-0">
+            Provincia: {{ item.prov_name}} Habitación # {{ item.room_num }}
+        </div>
+    </div>
+</div>
+{% endfor %}

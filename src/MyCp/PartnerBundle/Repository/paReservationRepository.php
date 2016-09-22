@@ -3,6 +3,7 @@
 namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use MyCp\PartnerBundle\Entity\paClient;
 use MyCp\PartnerBundle\Entity\paReservation;
 use MyCp\PartnerBundle\Entity\paReservationDetail;
@@ -125,5 +126,53 @@ class paReservationRepository extends EntityRepository {
             ->setMaxResults(1)->getQuery()->getSingleScalarResult();
 
         return ($countReservations == 0);
+    }
+
+    public function getCartItems($travelAgency)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("DISTINCT client.fullname, paReservation.id,
+            (SELECT count(rDetail) FROM PartnerBundle:paReservationDetail rDetail JOIN rDetail.reservationDetail gres WHERE gres.gen_res_status = :availableStatus AND rDetail.reservation = paReservation.id) as available,
+            (SELECT count(rDetail1) FROM PartnerBundle:paReservationDetail rDetail1 JOIN rDetail1.reservationDetail gres1 WHERE rDetail1.reservation = paReservation.id) as detailsCount")
+            ->from("PartnerBundle:paReservation", "paReservation")
+            ->join("paReservation.client", "client")
+            ->join("paReservation.details", "detail")
+            ->join("detail.reservationDetail", "genRes")
+            ->where("paReservation.closed = 1")
+            ->andWhere("client.travelAgency = :travelAgency")
+            //->andWhere("genRes.gen_res_status = :availableStatus1")
+            ->setParameter("travelAgency", $travelAgency->getId())
+            ->setParameter("availableStatus", generalReservation::STATUS_AVAILABLE)
+            //->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getDetails($reservationId){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("room.room_num,
+            room.room_type,
+            ownRes.own_res_reservation_from_date,
+            ownRes.own_res_reservation_to_date,
+            accommodation.own_name,
+            accommodation.own_mcp_code,
+            des.des_name,
+            prov.prov_name
+            ")
+            ->from("mycpBundle:ownershipReservation", "ownRes")
+            ->join('mycpBundle:room', 'room', Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')
+            ->join("ownRes.own_res_gen_res_id", "genRes")
+            ->join("genRes.gen_res_own_id", "accommodation")
+            ->join("accommodation.own_destination", "des")
+            ->join("accommodation.own_address_province", "prov")
+            ->join("genRes.travelAgencyDetailReservations", "detail")
+            ->join("detail.reservation", "reservation")
+            ->join("reservation.client", "client")
+            ->where("reservation.id = :reservationId")
+            ->setParameter("reservationId", $reservationId)
+        ;
+        return $qb->getQuery()->getResult();
     }
 }

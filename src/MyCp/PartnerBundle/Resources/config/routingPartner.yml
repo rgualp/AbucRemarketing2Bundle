@@ -203,4 +203,8 @@ partner_dashboard_detailed_open_reservations_delete:
 
 partner_dashboard_cart:
     locales:  { en: "/dashboard/cart", es: "/dashboard/carrito", de: "/dashboard/cart" }
-    defaults: { _controller: PartnerBundle:Backend:cart }
+    defaults: { _controller: PartnerBundle:Cart:index }
+
+partner_dashboard_cart_show_reservation_details:
+    locales:  { en: "/dashboard/cart-show-details", es: "/dashboard/cart-show-details", de: "/dashboard/cart-show-details" }
+    defaults: { _controller: PartnerBundle:Cart:showReservationsDetails }

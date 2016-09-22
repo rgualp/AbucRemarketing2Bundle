@@ -221,8 +221,7 @@ class BackendReservationAgController extends Controller {
         $price = 0;
         $sort_by = $request->get('sort_by');
         if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
-        ) {
+            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_reservations_ag'));
@@ -263,23 +262,22 @@ class BackendReservationAgController extends Controller {
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
-//            $service_log = $this->get('log');
-//            $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
-        /*$total_nights = array();
-        $service_time = $this->get('time');
-        foreach ($reservations as $res) {
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
-            $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
-            array_push($total_nights, $temp_total_nights);
-        }*/
 
         $totalItems = $all['totalItems'];
+        $last_page_number = ceil($totalItems / $items_per_page);
+
+        $start_page = ($page == 1) ? ($page) : ($page - 1);
+        $end_page = ($page == $last_page_number) ? ($last_page_number) : ($page + 1);
+
         return $this->render('mycpBundle:reservation:list_ag.html.twig', array(
             //'total_nights' => $total_nights,
             'reservations' => $reservations,
             'items_per_page' => $items_per_page,
             'current_page' => $page,
             'total_items' => $totalItems,
+            'last_page_number' => $last_page_number,
+            'start_page'=>$start_page,
+            'end_page'=>$end_page,
             'filter_date_reserve' => $filter_date_reserve,
             'filter_offer_number' => $filter_offer_number,
             'filter_booking_number' => $filter_booking_number,
@@ -291,8 +289,7 @@ class BackendReservationAgController extends Controller {
             'filter_date_from_twig' => $filter_date_from_twig,
             'filter_date_to_twig' => $filter_date_to_twig,
             'filter_status' => $filter_status,
-            'filter_client' => $filter_client,
-            'last_page_number' => ceil($totalItems / $items_per_page)
+            'filter_client' => $filter_client
         ));
     }
 
@@ -437,7 +434,7 @@ class BackendReservationAgController extends Controller {
 
             if(count($reservations)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportReservations($reservations, $date);
+                return $exporter->exportReservationsAg($reservations, $date);
             }
             else{
                 $message = 'No hay datos para llenar el Excel a descargar.';

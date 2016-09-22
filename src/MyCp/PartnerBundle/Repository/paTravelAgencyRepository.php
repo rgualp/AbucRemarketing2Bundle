@@ -52,7 +52,7 @@ class paTravelAgencyRepository extends EntityRepository {
         $em->flush();
 
         if ($send_creation_mail) {
-            \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserPartner($controller, $user->getUserEmail(), $user->getName(), $user->getUserUserName() . ' ' . $user->getUserLastName(), $user->getUserId());
+            \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserPartner($controller, $user->getUserEmail(), $user->getName(), $user->getUserUserName() . ' ' . $user->getUserLastName(), $user->getUserId(),strtolower($language->getLangCode()),$agency);
         }
 
         return $user;

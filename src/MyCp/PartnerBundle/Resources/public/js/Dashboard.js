@@ -180,12 +180,16 @@ var Dashboard = function () {
                     result.append(response.response_twig);
                     start=limit+1;
                     limit=limit+5;
+
+                    onShowReservationModal();
                 });
             }
         })
     }
     var onShowReservationModal=function(){
         $(".createReservation").on('click',function() {
+            if(!$('#myModalReservation').is(':visible'))
+            {
             selectedAccommodationForReserve = $(this).data("ownid");
             $('#myModalReservation').modal("show");
             var result = $('#openReservationsList');
@@ -232,9 +236,9 @@ var Dashboard = function () {
                     onShowOpenReservationsListDetailsButton();
                 });
             }
+          }
         });
     }
-
     var details_favorites = function (favorite_button)
     {
         var url;
@@ -273,7 +277,6 @@ var Dashboard = function () {
                 });
         });
     }
-
     var onAddNewOpenReservationButton = function(){
         $("#btnAddNewOpenReservation").on('click',function() {
             var result = $('#openReservationsList');
@@ -328,7 +331,6 @@ var Dashboard = function () {
             }
         });
     }
-
     var onEndReservationButton = function(){
         $(".closeReservation").on('click',function() {
             var id = $(this).data("id");
@@ -354,7 +356,6 @@ var Dashboard = function () {
             });
         });
     }
-
     var onAddToOpeneservationButton = function(){
         $(".addToOpenReservation").on('click',function() {
             var id = $(this).data("id");
@@ -401,7 +402,6 @@ var Dashboard = function () {
             }
         });
     }
-
     var onShowOpenReservationsListDetailsButton = function(){
         $(".showReservationsDetails").on('click',function() {
             var reservationId = $(this).data("id");
@@ -441,7 +441,6 @@ var Dashboard = function () {
             });
         });
     }
-
     var onCloseOpenReservationDetailedListButton = function(){
         $("#closeDetailedOpenReservationList").on('click',function() {
             var result = $('#openReservationsList');
@@ -449,7 +448,6 @@ var Dashboard = function () {
             $("#openReservationsListDetails").addClass("hidden");
         });
     }
-
     var onDeleteOpenReservationDetailButton = function(){
         $(".deleteOpenReservationDetail").on('click',function() {
             var result = $('#openReservationsListDetails');
@@ -502,6 +500,51 @@ var Dashboard = function () {
 
         });
     }
+    var onViewMoreButton=function(){
+        $('.icon-down').on('click',function(){
+            if($('.icon-up').hasClass('hide')){
+                var id = $(this).data("id");
+                var icon_up = "#icon_up_" + id;
+                var icon_down = "#icon_down_" + id;
+                var _url = $(this).data("url");
+
+                //Cargar si no tiene datos
+                var cartItemContentId = $(this).data("element");
+
+                if(!$(cartItemContentId).data("hascontent"))
+                {
+                    $("#loading_" + id).removeClass('hide');
+                    $.post(_url, {
+                        'idReservation': id
+                    }, function (response) {
+                        if (response.success) {
+                            $(cartItemContentId).html(response.html);
+                            $(cartItemContentId).data("hascontent", true);
+                            $("#loading_" + id).addClass('hide');
+                            $(icon_up).removeClass('hide');
+                            $(icon_down).addClass('hide');
+                        }
+                    });
+                }
+                else
+                {
+                    $(icon_up).removeClass('hide');
+                    $(icon_down).addClass('hide');
+                }
+
+                $(cartItemContentId).removeClass('hide');
+            }
+        });
+        $('.icon-up').on('click',function(){
+            var id = $(this).data("id");
+            var icon_up = "#icon_up_" + id;
+            var icon_down = "#icon_down_" + id;
+            $(icon_up).addClass('hide');
+            $(icon_down).removeClass('hide');
+            var cartItemContentId = $(this).data("element");
+            $(cartItemContentId).addClass('hide');
+        });
+    }
 
     return {
         init: function () {
@@ -515,6 +558,7 @@ var Dashboard = function () {
             onShowOpenReservationsListDetailsButton();
             onCloseOpenReservationDetailedListButton();
             onDeleteOpenReservationDetailButton();
+            onViewMoreButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");
@@ -531,6 +575,9 @@ var Dashboard = function () {
         },
         getLimit:function(a){
             return limit;
+        },
+        setTextCart:function(value){
+            $('cart-count').text(value);
         }
     };
 }();

@@ -147,10 +147,11 @@ class generalReservationRepository extends EntityRepository
 
         $data = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
 
-        $queryStr = "SELECT c.fullname
+        $queryStr = "SELECT c.fullname, ag.id
 FROM PartnerBundle:paReservationDetail pard
 JOIN pard.reservation par
 JOIN par.client c
+JOIN c.travelAgency ag
 WHERE pard.reservationDetail = :gen_res_id";
         $query = $em->createQuery($queryStr);
         $query->setMaxResults(1);
@@ -159,6 +160,7 @@ WHERE pard.reservationDetail = :gen_res_id";
             $query->setParameter('gen_res_id', $gen_res_id);
             $client = $query->getArrayResult()[0];
             $data[$key]['client'] = $client['fullname'];
+            $data[$key]['ag_id'] = $client['id'];
         }
         return array("reservations" => $data, "totalItems" => $total);
     }
