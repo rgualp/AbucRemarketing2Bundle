@@ -81,6 +81,7 @@ class CartController extends Controller
 
             $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
             $generalReservation->setGenResStatusDate(new \DateTime());
+            $generalReservation->setCancelledBy($this->getUser());
             $em->persist($generalReservation);
         }
 
