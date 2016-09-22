@@ -46,10 +46,10 @@ class paReservationRepository extends EntityRepository {
             ->select("client")
             ->from("PartnerBundle:paClient", "client")
             ->join("client.travelAgency", "agency")
-            ->where("client.fullname LIKE :fullname")
+            ->where("client.fullname = :fullname")
             ->andWhere("agency.id = :travelAgencyId")
             ->setMaxResults(1)
-            ->setParameter("fullname", "%".$clientName."%")
+            ->setParameter("fullname", $clientName)
             ->setParameter("travelAgencyId", $agency->getId())
             ->getQuery()->getOneOrNullResult();
 
@@ -159,7 +159,11 @@ class paReservationRepository extends EntityRepository {
             accommodation.own_name,
             accommodation.own_mcp_code,
             des.des_name,
-            prov.prov_name
+            prov.prov_name,
+            ownRes.own_res_count_adults as adults,
+            ownRes.own_res_count_childrens as children,
+            genRes.gen_res_id,
+            ownRes.own_res_total_in_site as totalInSite
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join('mycpBundle:room', 'room', Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')

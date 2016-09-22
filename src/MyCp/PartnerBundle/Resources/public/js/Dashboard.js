@@ -290,7 +290,7 @@ var Dashboard = function () {
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
 
-            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && (adults != "" || children != ""));
 
             if(isValid) {
                 var loadingText = result.data("loadingtext");
@@ -300,8 +300,8 @@ var Dashboard = function () {
                     'dateFrom': dateFrom,
                     'dateTo': dateTo,
                     'clientName': clientName,
-                    'adults': adults,
-                    'children': children,
+                    'adults': (adults == "") ? 0 : adults,
+                    'children': (children == "") ? 0 : children,
                     'accommodationId': selectedAccommodationForReserve
                 }, function (response) {
 
@@ -546,6 +546,17 @@ var Dashboard = function () {
         });
     }
 
+    var validateNumbers = function(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
     return {
         init: function () {
             initPlugins();
@@ -559,6 +570,7 @@ var Dashboard = function () {
             onCloseOpenReservationDetailedListButton();
             onDeleteOpenReservationDetailButton();
             onViewMoreButton();
+            validateNumbers();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

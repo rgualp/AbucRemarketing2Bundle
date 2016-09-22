@@ -60,19 +60,19 @@
       </trans-unit>
       <trans-unit id="216cdb9c56fb4b7d4993b7250ba0c0fc7d706508" resname="CART_HEADER_TEXT1">
         <source>CART_HEADER_TEXT1</source>
-        <target state="new">CART_HEADER_TEXT1</target>
+        <target state="new">Congratulations!</target>
       </trans-unit>
       <trans-unit id="c538cb022a7cafcf155d85d618f727754844d8a8" resname="CART_HEADER_TEXT2">
         <source>CART_HEADER_TEXT2</source>
-        <target state="new">CART_HEADER_TEXT2</target>
+        <target state="new">Your reservations and requests  for the day continue to grow</target>
       </trans-unit>
       <trans-unit id="396d3a565afbbc5e74bb94b64a6465b8c3994e9a" resname="CART_HEADER_TEXT3">
         <source>CART_HEADER_TEXT3</source>
-        <target state="new">CART_HEADER_TEXT3</target>
+        <target state="new">We remind you that you have 48 hours to do the prepayment of the desired bookings</target>
       </trans-unit>
       <trans-unit id="354bd77fd37f9acb2ce1f5b12b23772133691d5e" resname="CART_HEADER_TEXT4">
         <source>CART_HEADER_TEXT4</source>
-        <target state="new">CART_HEADER_TEXT4</target>
+        <target state="new">Tend the needs of your clients as soon as possible.</target>
       </trans-unit>
       <trans-unit id="e0440741973f68b4cacd4d5c57073cdc33ed87e9" resname="CATEGORY_TAB_DESCRIPTION">
         <source>CATEGORY_TAB_DESCRIPTION</source>
