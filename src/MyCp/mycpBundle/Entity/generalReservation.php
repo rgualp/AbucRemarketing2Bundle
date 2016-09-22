@@ -136,6 +136,12 @@ class generalReservation {
     private $modifiedBy;
 
     /**
+     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\JoinColumn(name="cancelled_by",referencedColumnName="user_id", nullable=true)
+     */
+    private $cancelledBy;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(name="modified", type="datetime",nullable=true)
@@ -796,5 +802,25 @@ class generalReservation {
     {
         $this->travelAgencyDetailReservations->removeElement($reservationDetail);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCancelledBy()
+    {
+        return $this->cancelledBy;
+    }
+
+    /**
+     * @param mixed $cancelledBy
+     * @return mixed
+     */
+    public function setCancelledBy($cancelledBy)
+    {
+        $this->cancelledBy = $cancelledBy;
+        return $this;
+    }
+
+
 
 }

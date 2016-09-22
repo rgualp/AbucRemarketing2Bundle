@@ -75,10 +75,12 @@ class CartController extends Controller
             foreach($ownershipReservations as $ownRes)
             {
                 $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                $ownRes->setGenResStatusDate(new \DateTime());
                 $em->persist($ownRes);
             }
 
             $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+            $generalReservation->setGenResStatusDate(new \DateTime());
             $em->persist($generalReservation);
         }
 

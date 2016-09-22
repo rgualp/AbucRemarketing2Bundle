@@ -560,8 +560,8 @@ var Dashboard = function () {
                 if (response.success) {
                     if(response.html != ""){
                         result.html(response.html);
-                        $("#loading_" + id).addClass('hide');
                         onDeleteFromCartButton();
+
                     }
                 }
             });
