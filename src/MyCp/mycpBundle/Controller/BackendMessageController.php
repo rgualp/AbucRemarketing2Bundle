@@ -57,7 +57,7 @@ class BackendMessageController extends Controller {
 
         //Send message to user email
         $serviceEmail = $this->get('mycp.service.email_manager');
-        $userLocale = isset($touristId) ?  $userTourist->getUserTouristLanguage()->getLangCode() : 'en';
+        $userLocale = isset($touristId) ?  $userTourist->getUserTouristLanguage()->getLangCode() : $to->getUserLanguage()->getLangCode();
         $templateBody = $this->render('FrontEndBundle:mails:standardTemplatedMailTemplate.html.twig', array(
                 'content' => $messageBody,
                 'user_locale' => $userLocale

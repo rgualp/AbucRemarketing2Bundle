@@ -19,12 +19,12 @@
 <hr/>
 <ul class="nav nav-tabs" id="myTab">
     <li class="active"><a data-toggle="tab" href="#cliente">Clientes</a></li>
-    <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
-    <li class=""><a href="{{ path('mycp_list_reservations_booking') }}">Booking</a></li>
-    <li class=""><a href="{{ path('mycp_list_reservations_checkin') }}">Check-in</a></li>
+    <li><a href="{{ path('mycp_list_reservations_ag_booking') }}">Booking</a></li>
+    <li><a href="{{ path('mycp_list_agency_checkin') }}">Check-in</a></li>
+    <li><a href="{{ path('mycp_list_reservations_ag') }}">Reservas</a></li>
 </ul>
     <div class="tab-content" id="myTabContent">
-        <div id="reservas" class="tab-pane fade active in">
+        <div id="cliente" class="tab-pane fade active in">
 
             {% for message in app.session.flashbag.get('message_error_local') %}
             <div class="alert alert-error">{{ message }}</div>
@@ -124,6 +124,8 @@
                     <th>Fecha</th>
                     <th>Hora</th>
                     <th>Id</th>
+                    <th>Agencia</th>
+
                     <th>Cliente</th>
                     <th>Solicitudes</th>
                     <th>Alojamientos Pendientes</th>
@@ -151,8 +153,11 @@
                         {% endif %}
                     </td>
                     <td>{{ reservation.gen_res_date | date('d/m/Y') }}</td>
+
                     <td>{% if reservation.hourRes != null %}{{ reservation.hourRes | date('H:i') }}{% else %}{{ reservation.hourSavedRes }}h{% endif %}</td>
-                    <td>{{ reservation.user_id }}</td>
+                    <td>{{ reservation.fullname }}</td>
+                    <td>{{ reservation.agency_name }}</td>
+
                     <td><a title="Editar datos del cliente" href="{{ path("mycp_edit_user_tourist",{"id_user": reservation.user_id}) }}">{{ reservation.user_user_name }} {{ reservation.user_last_name }}</a></td>
                     <td>{{ reservation.total }}</td>
                     <td>{% for accommodation in  accommodations %}

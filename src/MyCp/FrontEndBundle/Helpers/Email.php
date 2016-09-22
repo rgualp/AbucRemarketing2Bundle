@@ -89,7 +89,7 @@ class Email {
 			$totalNights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
 			array_push($array_nigths, $totalNights);
 		}
-		$touristLanguage = $user_tourist->getUserTouristLanguage();
+		$touristLanguage = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage() : $user->getUserLanguage();
 		$user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()): strtolower($this->defaultLanguageCode);
 
 		// Enviando mail al cliente
@@ -101,7 +101,7 @@ class Email {
 			'nights' => $array_nigths,
 			'message' => $custom_message,
 			'user_locale' => $user_locale,
-			'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null,
+			'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
 			'reservationStatus' => $reservation->getGenResStatus()
 		));
 		$locale = $this->container->get('translator');

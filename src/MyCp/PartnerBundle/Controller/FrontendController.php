@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
 use MyCp\PartnerBundle\Entity\paTourOperator;
+use MyCp\PartnerBundle\Entity\paAgencyPackage;
 
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,9 +109,20 @@ class FrontendController extends Controller
                 return $this->redirect($this->generateUrl('frontend_partner_home'));
             }
             else{
+
                 $obj->setCountry($em->getRepository('mycpBundle:country')->find($post['country']));
                 $em->persist($obj);
                 $em->flush();
+
+                //Save relations package agency
+                $package=$em->getRepository('PartnerBundle:paPackage')->findAll(); //Esperando a que venga de la vista
+                if(count($package)){
+                    $package_agency = new paAgencyPackage();
+                    $package_agency->setPackage($package[0]);
+                    $package_agency->setTravelAgency($obj);
+                    $em->persist($package_agency);
+                    $em->flush();
+                }
                 //Create user
                 $factory = $this->get('security.encoder_factory');
                 $user=$em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'),$request->get('password'),$language,$currency);
