@@ -2198,13 +2198,16 @@ WHERE pard.reservationDetail = :gen_res_id";
         return $statement->fetchAll();
     }
 
-    function getByUsersAg($filter_name = "", $filter_status = "", $filter_accommodation = "", $filter_destination = "", $filter_range_from = "", $filter_range_to = "")
+    function getByUsersAg($filter_name = "", $filter_agencia = "", $filter_status = "", $filter_accommodation = "", $filter_destination = "", $filter_range_from = "", $filter_range_to = "")
     {
         $em = $this->getEntityManager();
         $where = "";
 
         if ($filter_name != "")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " (u.user_id = :filter_user_id OR u.user_user_name LIKE :filter_name OR u.user_last_name LIKE :filter_name) ";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " (pa_client.fullname LIKE  '$filter_name' ) ";
+
+        if ($filter_agencia != "")
+            $where .= (($where != "") ? " AND " : " WHERE ") . " (age.`name` LIKE  '$filter_agencia' ) ";
 
         if ($filter_range_from != "")
             $where .= (($where != "") ? " AND " : " WHERE ") . " gres.gen_res_date >= '$filter_range_from' ";
@@ -2234,7 +2237,7 @@ WHERE pard.reservationDetail = :gen_res_id";
         }
 
 
-        $queryString = "SELECT pa_client.fullname,genRes.gen_res_date, age.`name` as agency_name,u.user_id, u.user_user_name, u.user_last_name,
+        $queryString = "SELECT pa_client.fullname,genRes.gen_res_date, age.`name` as agency_name,age.id as agencyid, u.user_id, u.user_user_name, u.user_last_name,
              SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
             COUNT(DISTINCT genRes.gen_res_id) as total,
             MAX(genRes.gen_res_date_hour) as hourRes,
@@ -2247,7 +2250,7 @@ join pa_client on pa_client.id =pa_reservation.client
 JOIN pa_travel_agency age ON age.id= pa_client.travelAgency
 join user u on genRes.gen_res_user_id = u.user_id
             $where
-            group by genRes.gen_res_date, genRes.gen_res_user_id
+            group by genRes.gen_res_date, pa_client.id
             order by genRes.gen_res_date DESC, genRes.gen_res_date_hour DESC, genRes.gen_res_hour DESC ";
         $query = $em->createQuery($queryString);
 
