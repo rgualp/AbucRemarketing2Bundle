@@ -969,6 +969,7 @@ body.landing-page {
 }
 
 /* ========= Carrito de compras =========== */
+
 .white-hearders h1{
     color: #fff;
     font-size: 42px;
@@ -991,6 +992,21 @@ body.landing-page {
     margin-top: 0;
     text-align: right;
     margin-bottom: 20px;
+}
+
+.normal-font{
+    font-family: MyriadProLightCond;
+}
+
+.cartItem a, .cartItem a:hover, .cartItem a:link, .cartItem a:active {color: #fff;}
+
+#payButton{
+    padding: 10px 30px;
+    font-size:30px;
+}
+
+#payButton, #payButton:hover, #payButton:active, #payButton:visited{
+    color: #fff;
 }
 
 
