@@ -561,6 +561,7 @@ var Dashboard = function () {
                     if(response.html != ""){
                         result.html(response.html);
                         onDeleteFromCartButton();
+                        onViewMoreButton();
 
                     }
                 }

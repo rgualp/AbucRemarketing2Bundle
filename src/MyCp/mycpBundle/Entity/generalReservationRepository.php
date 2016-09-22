@@ -158,7 +158,6 @@ WHERE pard.reservationDetail = :gen_res_id";
         $query->setMaxResults(1);
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
-            var_dump($gen_res_id);
             $query->setParameter('gen_res_id', $gen_res_id);
             $client = $query->getArrayResult()[0];
             $data[$key]['client'] = $client['fullname'];
