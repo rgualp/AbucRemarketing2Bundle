@@ -32,20 +32,26 @@ class BackendReservationAgController extends Controller {
         $page = 1;
 
         $filter_name = $request->get('filter_name');
+        $filter_agencia = $request->get('filter_agencia');
         $filter_status = $request->get('filter_status');
         $filter_accommodation = $request->get('filter_accommodation');
         $filter_destination = $request->get('filter_destination');
         $filter_range_from = $request->get('filter_range_from');
         $filter_range_to = $request->get('filter_range_to');
 
-        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' &&
+
+        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' && $filter_agencia == 'null' &&
             $filter_destination == 'null' && $filter_range_from == "null"  && $filter_range_to == "null") {
             $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_reservations_byuser'));
+            return $this->redirect($this->generateUrl('mycp_list_reservations_byuser_ag'));
         }
         if ($filter_name == 'null')
             $filter_name = '';
+
+        if ($filter_agencia == 'null')
+            $filter_agencia = '';
+
         if ($filter_status == 'null')
             $filter_status = '';
         if ($filter_accommodation == 'null')
@@ -63,7 +69,7 @@ class BackendReservationAgController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_agencia,$filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
         //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
 //        $service_log = $this->get('log');
@@ -75,7 +81,10 @@ class BackendReservationAgController extends Controller {
             'current_page' => $page,
             'total_items' => $paginator->getTotalItems(),
             'filter_name' => $filter_name,
+            'filter_agencia' => $filter_agencia,
+
             'filter_status' => $filter_status,
+
             'filter_accommodation' => $filter_accommodation,
             'filter_destination' => $filter_destination,
             'filter_range_from' => $filter_range_from,
