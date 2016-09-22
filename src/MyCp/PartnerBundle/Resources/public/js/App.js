@@ -92,42 +92,6 @@ var App = function () {
             });
         });
 
-
-        /*var form = $("#form-agency");
-        form.on("submit", function (e) {
-           App.validateFormAgency();
-           if(form.valid()){
-               e.preventDefault();
-
-               $.ajax({
-                   url: form.attr('action'),
-                   type: "post",
-                   dataType: "html",
-                   data: formData,
-                   cache: false,
-                   contentType: false,
-                   processData: false,
-                   success: function(data, textStatus, jqXHR){
-                       HoldOn.close();
-                       var xdata = jQuery.parseJSON(data);
-                       if(xdata.success){
-                           $('#myModalRegisterAgency').modal('hide');
-                           swal(xdata.msg, "", "success");
-                       }
-                       else
-                           swal(xdata.msg, "", "error");
-                   },
-                   error: function(jqXHR, textStatus, errorThrown){
-                       HoldOn.close();
-                       swal("Error", "", "error");
-                   }
-               });
-           }
-           else{
-               toastr.error("{{ 'label.an_error_occurred'|trans }}!", 'error');
-           }
-       });*/
-
     }
     return {
         //main function to initiate template pages

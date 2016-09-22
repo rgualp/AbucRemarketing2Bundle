@@ -5,11 +5,11 @@
     <div class="middle-box loginscreen text-center animated fadeInDown">
         <h1 class="color-white" style="font-size: 64px;font-family: MyriadProRegular;line-height: 0px">{{ 'label.welcome' | trans }}</h1>
         <p class="color-white" style="font-size: 24px;font-family: MyriadProRegular">{{ 'label.ready.reserved' | trans }}</p>
-        {% for message in app.session.flashbag.get('message_ok') %}
+        {#{% for message in app.session.flashbag.get('message_ok') %}
             <div class="alert alert-info alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
                 {{ message }}</div>
-        {% endfor %}
+        {% endfor %}#}
         {% for message in app.session.flashbag.get('message_error') %}
             <div class="alert alert-danger alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>

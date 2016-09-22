@@ -531,6 +531,9 @@ var Dashboard = function () {
         },
         getLimit:function(a){
             return limit;
+        },
+        setTextCart:function(value){
+            $('cart-count').text(value);
         }
     };
 }();

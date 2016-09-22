@@ -90,14 +90,21 @@ class ProfileController extends Controller
     public function updateAgencyAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
+
+        $post = $request->get('partner_agency');
+        if($post['name']!=$user->getUserLastName())
+            $user->setUserLastName($post['name']);
+
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $obj=$tourOperator->getTravelAgency();
         $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
                 $em->persist($obj);
+            if($post['name']!=$user->getUserLastName())
+                $em->persist($user);
                 $em->flush();
-                return new JsonResponse(['success' => true, 'message' => $this->get('translator')->trans("msg.modific.satisfactory")]);
+                return new JsonResponse(['success' => true, 'message' => $this->get('translator')->trans("msg.modific.satisfactory"),'username'=>$user->getUserLastName()]);
         }
     }
     /**

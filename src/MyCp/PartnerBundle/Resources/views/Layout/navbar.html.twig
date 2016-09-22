@@ -15,7 +15,7 @@
                     {% if app.user.getUserUserName is defined %}
                         <li class="dropdown">
                             <a href="{{ path("partner_dashboard_cart") }}">
-                                <i class="glyphicons shopping_cart" style="margin-top: -3px"></i>  <span class="label label-warning">16</span>
+                                <i class="glyphicons shopping_cart" style="margin-top: -3px"></i><span id="cart-count"class="label label-warning" style=" font-size: 9px;margin-left: -16px;margin-top: -13px;padding: 4px;position: absolute;">0</span>
                             </a>
                         </li>
                     {% endif %}
@@ -36,7 +36,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 8px;margin-top: 7px;">
                             <span class="clear">
                                 <span class="block m-t-xs">
-                             </span> <span class="text-muted text-xs block">{{ app.user.userLastName }} <b class="caret"></b></span> </span> </a>
+                             </span> <span class="text-muted text-xs block" id="username">{{ app.user.userLastName }} <b class="caret"></b></span> </span> </a>
                                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                     <li>
                                         <a href="{{ path('frontend_partner_logout') }}">
