@@ -18,8 +18,8 @@ class Version20160922212738 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE generalreservation ADD cancelled_by INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE generalreservation ADD CONSTRAINT FK_52BC9BBC48CCCEFB FOREIGN KEY (cancelled_by) REFERENCES user (user_id)');
+        $this->addSql('ALTER TABLE generalreservation ADD canceled_by INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE generalreservation ADD CONSTRAINT FK_52BC9BBC48CCCEFB FOREIGN KEY (canceled_by) REFERENCES user (user_id)');
 
     }
 
@@ -31,7 +31,7 @@ class Version20160922212738 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE generalreservation DROP cancelled_by');
+        $this->addSql('ALTER TABLE generalreservation DROP canceled_by');
 
     }
 }

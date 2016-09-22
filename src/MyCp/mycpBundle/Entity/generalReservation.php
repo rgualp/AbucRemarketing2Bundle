@@ -137,9 +137,9 @@ class generalReservation {
 
     /**
      * @ORM\ManyToOne(targetEntity="user")
-     * @ORM\JoinColumn(name="cancelled_by",referencedColumnName="user_id", nullable=true)
+     * @ORM\JoinColumn(name="canceled_by",referencedColumnName="user_id", nullable=true)
      */
-    private $cancelledBy;
+    private $canceledBy;
 
     /**
      * @var DateTime
@@ -806,18 +806,18 @@ class generalReservation {
     /**
      * @return mixed
      */
-    public function getCancelledBy()
+    public function getCanceledBy()
     {
-        return $this->cancelledBy;
+        return $this->canceledBy;
     }
 
     /**
-     * @param mixed $cancelledBy
+     * @param mixed $canceledBy
      * @return mixed
      */
-    public function setCancelledBy($cancelledBy)
+    public function setCanceledBy($canceledBy)
     {
-        $this->cancelledBy = $cancelledBy;
+        $this->canceledBy = $canceledBy;
         return $this;
     }
 
