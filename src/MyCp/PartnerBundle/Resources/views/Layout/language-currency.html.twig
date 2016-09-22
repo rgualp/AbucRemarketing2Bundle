@@ -2,13 +2,13 @@
     <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle language-partner" href="#" style="text-transform: uppercase !important"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "ESP" : app.session.get('app_lang_name')|slice(0, 3)|upper}} <b class="caret caret-new"></b></a>
     <ul class="dropdown-menu">
-        {{ render_esi(controller('PartnerBundle:Frontend:getLanguages', {'route': route, 'routeParams': routeParams})) }}
+        {{ render_esi(controller('PartnerBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
     </ul>
 </li>
 <li class="dropdown">
     <a style="background:rgba(0, 0, 0, 0.44) none repeat scroll 0 0; margin-top: 22px;padding: 3px 5px 3px 3px;" title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
         {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
     <ul class="dropdown-menu">
-        {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
+        {{ render_esi(controller('PartnerBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
     </ul>
 </li>
