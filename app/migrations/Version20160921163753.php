@@ -17,7 +17,7 @@ class Version20160921163753 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql('INSERT INTO `pa_package` (`name`) VALUES ('Básico')');
+        $this->addSql("insert into pa_package(name) values ('Básico')");
     }
 
     /**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-21T15:32:44Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-22T12:58:46Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -698,6 +698,10 @@
         <source>label.activateaccount.two</source>
         <target state="new">you for becoming a Partner …</target>
       </trans-unit>
+      <trans-unit id="a940beaf21e8e0b93851abf6e320774747cdc41c" resname="label.andy">
+        <source>label.andy</source>
+        <target state="new">label.andy</target>
+      </trans-unit>
       <trans-unit id="984323045a553ade29b3d44cbb0014551ca59507" resname="label.best.ownership">
         <source>label.best.ownership</source>
         <target state="new">Awards Best Casa</target>
@@ -753,6 +757,36 @@
       <trans-unit id="e8a61775a84d3fec6ff63763809939019daa04e9" resname="label.email.agency">
         <source>label.email.agency</source>
         <target state="new">Enter you agency contact email</target>
+      </trans-unit>
+      <trans-unit id="731e9915eb3e36ab9424606689e7844172a7e26a" resname="label.email.registeraccount.text.five">
+        <source>label.email.registeraccount.text.five</source>
+        <target state="new">and through the telephones</target>
+      </trans-unit>
+      <trans-unit id="a0d57e61678fda782f6f4191368a58ec4743b31a" resname="label.email.registeraccount.text.four">
+        <source>label.email.registeraccount.text.four</source>
+        <target state="new">To contact you, you stated to be available at</target>
+      </trans-unit>
+      <trans-unit id="bdf3a5ca26c9e7c9fc9cd21a8c280d756a3d348c" resname="label.email.registeraccount.text.one">
+        <source>label.email.registeraccount.text.one</source>
+        <target state="new"><![CDATA[Congratulattions!!! You have become a MyCasa Partner member. This is the first step of a great collaboration<br/>
+                            We will just offer you the best and more exclusive Casas Particulares of Cuba. We guarantee your customers a happy and welcoming stay and a wonderful service from our hosts.<br/>
+                            You just have to try your best to take the best advantage of this starting partnership. You are already in, so you already have the Partner style.<br/>]]></target>
+      </trans-unit>
+      <trans-unit id="0e960e724979b36931512ad4e82cb5634a08fd2d" resname="label.email.registeraccount.text.seven">
+        <source>label.email.registeraccount.text.seven</source>
+        <target state="new">START</target>
+      </trans-unit>
+      <trans-unit id="322db8132206ef7615bee4be0ebb615cc943776d" resname="label.email.registeraccount.text.six">
+        <source>label.email.registeraccount.text.six</source>
+        <target state="new">Confirm your registration to our website and start now</target>
+      </trans-unit>
+      <trans-unit id="b33102690fa2f2aa6e73b5e15c7ea1f3768c1bb4" resname="label.email.registeraccount.text.three">
+        <source>label.email.registeraccount.text.three</source>
+        <target state="new">located</target>
+      </trans-unit>
+      <trans-unit id="22df5789568992e39b32758eac90f9d986902681" resname="label.email.registeraccount.text.two">
+        <source>label.email.registeraccount.text.two</source>
+        <target state="new">Now just remember that you have registered as</target>
       </trans-unit>
       <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
         <source>label.extra</source>
@@ -907,6 +941,10 @@
         <source>label.google.map</source>
         <target state="new">label.google.map</target>
       </trans-unit>
+      <trans-unit id="2777ec992d183396b2780be542fd8964f8fb2166" resname="label.hellow">
+        <source>label.hellow</source>
+        <target state="new">Hello</target>
+      </trans-unit>
       <trans-unit id="f631d633015eff0138cf09be8320c82630ef4924" resname="label.history.reserved">
         <source>label.history.reserved</source>
         <target state="new">History of Bookings and Invoices</target>
@@ -999,6 +1037,10 @@
         <source>label.login</source>
         <target state="new">How to log in?</target>
       </trans-unit>
+      <trans-unit id="4956be63fdce562df4f7bbd9537033ff60ee9224" resname="label.miguel">
+        <source>label.miguel</source>
+        <target state="new">label.miguel</target>
+      </trans-unit>
       <trans-unit id="370c11f6615f95d2a6eab2e62ec91d72c3b0e7cd" resname="label.more">
         <source>label.more</source>
         <target state="new">more</target>
@@ -1070,10 +1112,6 @@
       <trans-unit id="ced9c5d2c547febce6c658c7f0c970dfa9c260a1" resname="label.payment.transfer">
         <source>label.payment.transfer</source>
         <target state="new">Full payment through bank transfer</target>
-      </trans-unit>
-      <trans-unit id="0e364189a6a1ae205dd69fe566b2bdd4807f40a7" resname="label.pedro">
-        <source>label.pedro</source>
-        <target state="new">label.pedro</target>
       </trans-unit>
       <trans-unit id="8e1da1387f1662231b752e473150049de194ca64" resname="label.pinterest">
         <source>label.pinterest</source>
