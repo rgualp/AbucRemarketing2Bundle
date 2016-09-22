@@ -26,7 +26,11 @@
 <h2>Reservas</h2>
 <hr/>
 <ul class="nav nav-tabs" id="myTab">
-    <li class="active"><a data-toggle="tab" href="#booking">Booking</a></li>
+
+
+    {#<li class="active"><a data-toggle="tab" href="#clientes">Clientes</a></li>#}
+    <li><a href="{{ path('mycp_list_reservations_byuser_ag') }}">Clientes</a></li>
+    <li class="active"><a data-toggle="tab" href="#reservas">Booking</a></li>
     <li><a href="{{ path('mycp_list_agency_checkin') }}">Check-in</a></li>
     <li><a href="{{ path('mycp_list_reservations_ag') }}">Reservas</a></li>
 </ul>
