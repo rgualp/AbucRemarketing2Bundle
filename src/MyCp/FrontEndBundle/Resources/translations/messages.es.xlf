@@ -3205,6 +3205,10 @@
             <target>Servicio al alojamiento</target>
         </trans-unit>
 
+        <trans-unit id="952">
+            <source>title.email.createuser.partner</source>
+            <target>Activación de cuenta de agencia</target>
+        </trans-unit>
 
         </body>
     </file>
