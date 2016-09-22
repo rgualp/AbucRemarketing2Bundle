@@ -9,6 +9,17 @@ frontend_partner_navbar:
     locales:  { en: "/navbar/{route}/{routeParams}", es: "/navbar/{route}/{routeParams}", de: "/navbar/{route}/{routeParams}" }
     defaults: { _controller: PartnerBundle:Frontend:navBar }
 
+#Change language update profile data
+frontend_partner_change_language_callback:
+    locales:  { en: "/partner/change-language/{lang}/{route}/{routeParams}", es: "/partner/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/partner/change-language/{lang}/{route}/{routeParams}" }
+    defaults: { _controller: PartnerBundle:Language:change, route: frontend_welcome, routeParams: null }
+
+#Change currency update profile data
+frontend_partner_change_currency_callback:
+    locales:  { en: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", es: "/partner/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", }
+    defaults: { _controller: PartnerBundle:Currency:change, route: frontend_welcome, routeParams: null }
+
+
 #Login content
 frontend_partner_logincontent:
     locales:  { en: "/login/content", es: "/login/content", de: "/login/content" }
