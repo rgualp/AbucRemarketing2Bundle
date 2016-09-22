@@ -154,8 +154,8 @@ class paReservationRepository extends EntityRepository {
         $qb = $em->createQueryBuilder()
             ->select("room.room_num,
             room.room_type,
-            ownres.own_res_reservation_from_date,
-            ownres.own_res_reservation_to_date,
+            ownRes.own_res_reservation_from_date,
+            ownRes.own_res_reservation_to_date,
             accommodation.own_name,
             accommodation.own_mcp_code,
             des.des_name,
