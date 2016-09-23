@@ -150,6 +150,24 @@ class paReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function getReservationsInCart($travelAgency)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("paReservation")
+            ->from("PartnerBundle:paReservation", "paReservation")
+            ->join("paReservation.client", "client")
+            ->join("paReservation.details", "detail")
+            ->join("detail.reservationDetail", "genRes")
+            ->where("paReservation.closed = 1")
+            ->andWhere("client.travelAgency = :travelAgency")
+            ->andWhere("genRes.gen_res_status = :availableStatus")
+            ->setParameter("travelAgency", $travelAgency->getId())
+            ->setParameter("availableStatus", generalReservation::STATUS_AVAILABLE)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
     public function getDetails($reservationId){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()

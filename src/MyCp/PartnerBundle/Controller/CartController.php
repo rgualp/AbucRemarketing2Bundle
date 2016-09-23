@@ -98,4 +98,35 @@ class CartController extends Controller
 
         ]);
     }
+
+    public function emptyCartAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        $reservations = $em->getRepository("PartnerBundle:paReservation")->getReservationsInCart($travelAgency);
+
+        foreach($reservations as $reservation) {
+            foreach ($reservation->getDetails() as $detail) {
+                $generalReservation = $detail->getReservationDetail();
+                $ownershipReservations = $generalReservation->getOwn_reservations();
+
+                foreach ($ownershipReservations as $ownRes) {
+                    $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                    $em->persist($ownRes);
+                }
+
+                $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                $generalReservation->setGenResStatusDate(new \DateTime());
+                $generalReservation->setCanceledBy($user);
+                $em->persist($generalReservation);
+            }
+        }
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl("partner_dashboard_cart"));
+    }
 }

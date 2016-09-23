@@ -564,6 +564,7 @@ var Dashboard = function () {
                         onDeleteFromCartButton();
                         onViewMoreButton();
                         onCheckDetailsInCartButton();
+                        onEmptyCartButton();
 
                     }
                 }
@@ -587,8 +588,15 @@ var Dashboard = function () {
     var onPayActionButton = function ()
     {
         $("#trigger-overlay").on('click',function() {
-            console.log("overlay!");
+            console.log("cargar reservas seleccionadas!");
         });
+    }
+
+    var onEmptyCartButton = function()
+    {
+       /* $("#emptyCart").on('click',function() {
+            $("#overlayLoading").removeClass("hide");
+        });*/
     }
 
 
@@ -609,6 +617,7 @@ var Dashboard = function () {
             onDeleteFromCartButton();
             onCheckDetailsInCartButton();
             onPayActionButton();
+            onEmptyCartButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

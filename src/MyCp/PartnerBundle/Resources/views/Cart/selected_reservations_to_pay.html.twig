@@ -18,13 +18,13 @@
                 <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}</a>
             </a>
         </div>
-        <div class="col-md-3">
-            <a class="overlay-close-second bg-blue color-white payButton" id="payNow">
+        <div class="col-md-3 text-center">
+            <a class="overlay-close-second bg-blue color-white payButton">
                 <i class="glyphicons undo"></i>  {{ "cart.back_button" | trans }}</a>
             </a>
         </div>
-        <div class="col-md-3">
-            <a class="bg-blue color-white payButton" id="emptyCar">
+        <div class="col-md-3 text-center">
+            <a class="bg-blue color-white payButton" id="emptyCart" href="{{ path("partner_dashboard_empty_cart") }}">
                 <i class="glyphicons bin"></i>  {{ "cart.empty_button" | trans }}</a>
             </a>
         </div>
@@ -33,6 +33,9 @@
                 <i class="glyphicons search"></i>  {{ "cart.search_again" | trans }}</a>
             </a>
         </div>
+    </div>
+    <div class="row text-center hide" id="overlayLoading">
+        <i class="fa fa-refresh fa-spin fa-2x" style="margin-top: 20px"></i>
     </div>
 
 </div>

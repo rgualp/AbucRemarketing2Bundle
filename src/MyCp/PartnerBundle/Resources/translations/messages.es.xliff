@@ -1629,6 +1629,50 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
+      <trans-unit id="1">
+          <source>label.overlay.cart_1</source>
+          <target>Has seleccionado estas reservas para complacer las solicitudes de tus clientes.</target>
+       </trans-unit>
+      <trans-unit id="2">
+          <source>label.overlay.cart_2</source>
+          <target>Completa los datos y revisa por última vez antes de comprar.</target>
+       </trans-unit>
+      <trans-unit id="3">
+          <source>label.overlay.cart_3</source>
+          <target>¡Buena suerte!</target>
+       </trans-unit>
+      <trans-unit id="4">
+          <source>available_casas</source>
+          <target>casas disponibles</target>
+       </trans-unit>
+      <trans-unit id="5">
+          <source>requested_casas</source>
+          <target>solicitadas</target>
+       </trans-unit>
+      <trans-unit id="6">
+          <source>pa.accommodation</source>
+          <target>Casa</target>
+       </trans-unit>
+      <trans-unit id="7">
+          <source>pay_action</source>
+          <target>Pagar</target>
+       </trans-unit>
+      <trans-unit id="8">
+          <source>cart.paynow_button</source>
+          <target>Reservar Ahora</target>
+       </trans-unit>
+      <trans-unit id="9">
+          <source>cart.back_button</source>
+          <target>Volver</target>
+       </trans-unit>
+      <trans-unit id="10">
+          <source>cart.empty_button</source>
+          <target>Vaciar cesta</target>
+       </trans-unit>
+      <trans-unit id="11">
+          <source>cart.search_again</source>
+          <target>Buscar nuevo</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>
