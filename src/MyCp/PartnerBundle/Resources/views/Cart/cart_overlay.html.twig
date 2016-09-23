@@ -1,4 +1,4 @@
-<div class="overlay deactivate overlay-slidedown m-t-lg">
+<div class="overlay deactivate overlay-slidedown m-t-lg" style="height: auto">
     <button type="button" class="fa fa-times overlay-close"></button>
 
     <div class="row text-center" style="margin-top: 100px">
@@ -12,7 +12,11 @@
         <p style="font-size: 30px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_3' | trans }}</p>
     </div>
 
-    <div class="row">
+    <div class="row" id="selectedReservations">
+
+    </div>
+
+    <div class="row" style="margin: 20px 0">
         <div class="col-md-3 text-right">
             <a class="bg-blue color-white payButton" id="payNow">
                 <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}</a>

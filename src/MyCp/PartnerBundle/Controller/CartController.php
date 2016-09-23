@@ -129,4 +129,23 @@ class CartController extends Controller
 
         return $this->redirect($this->generateUrl("partner_dashboard_cart"));
     }
+
+    public function showReservationsToPayAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownReservationIds = $request->get("checkValues");
+
+        $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
+
+        $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
+            'items' => $list
+        ));
+
+        return new JsonResponse([
+            'success' => true,
+            'html' => $response,
+            'message' => ""
+
+        ]);
+    }
 }

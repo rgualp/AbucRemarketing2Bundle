@@ -227,3 +227,7 @@ partner_dashboard_delete_from_cart:
 partner_dashboard_empty_cart:
     locales:  { en: "/dashboard/empty-cart", es: "/dashboard/vaciar-carrito", de: "/dashboard/empty-cart" }
     defaults: { _controller: PartnerBundle:Cart:emptyCart }
+
+partner_dashboard_pay_selected_reservations_cart:
+    locales:  { en: "/dashboard/show-reservations-to-pay-cart", es: "/dashboard/show-reservations-to-pay-cart", de: "/dashboard/show-reservations-to-pay-cart" }
+    defaults: { _controller: PartnerBundle:Cart:showReservationsToPay }

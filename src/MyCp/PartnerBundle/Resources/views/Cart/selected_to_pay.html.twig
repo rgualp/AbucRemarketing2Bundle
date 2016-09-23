@@ -1,0 +1,35 @@
+{% if items |length %}
+    <div>
+        {% for item in items %}
+        <div class="container">
+            <div class="row blue-font form-agency" style="font-size: 20px">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ "pa.modal.reservation.reserve" | trans | upper }} {{ loop.index }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ item.fullname }}
+                        </div>
+                        <div class="col-md-4">
+                            {#<input class="input-group-addon" placeholder="{{ "ARRIVAL_TIME" | trans }}"/>#}
+                            {{ "ARRIVAL_TIME" | trans }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ item.own_res_reservation_from_date | date("d/m") }} {{ item.own_mcp_code }} {{ item.own_name }}, {{ item.prov_name }}.
+                    </div>
+                    <div class="row">
+                        {{ item.room_type }}/{{ item.adults }} {{ "ADULTS" | trans }}/{{ item.children }} {{ "KIDS" | trans }}. CAS.{{ item.gen_res_id }}
+                    </div>
+                </div>
+
+                <div class="col-md-4 bg-blue color-white">
+                    Desglose de pago
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+{% endif %}

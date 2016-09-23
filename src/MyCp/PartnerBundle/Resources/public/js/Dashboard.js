@@ -565,6 +565,7 @@ var Dashboard = function () {
                         onViewMoreButton();
                         onCheckDetailsInCartButton();
                         onEmptyCartButton();
+                        onPayActionButton();
 
                     }
                 }
@@ -588,7 +589,42 @@ var Dashboard = function () {
     var onPayActionButton = function ()
     {
         $("#trigger-overlay").on('click',function() {
-            console.log("cargar reservas seleccionadas!");
+            $("#overlayLoading").removeClass("hide");
+            var _url = $(this).data("url");
+            var result = $("#selectedReservations");
+
+            var checkValues = $('input[name=checkAccommodationsToPay]:checked').map(function() {
+                return $(this).data('owresid');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                $("#overlayLoading").addClass("hide");
+                $("#payNow").attr("disabled", "true");
+                return;
+            }
+
+            //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+            $.post(_url, {
+                'checkValues': checkValues
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.html != ""){
+                        result.html(response.html);
+                        $("#overlayLoading").addClass("hide");
+                        $("#payNow").removeAttr("disabled");
+                    }
+                }
+            });
+
+            $('#selectedReservations').slimScroll({
+                height: '300px',
+                railOpacity: 0.9,
+                color: '#0d3044',
+                opacity : 1,
+                alwaysVisible : true
+            });
         });
     }
 
