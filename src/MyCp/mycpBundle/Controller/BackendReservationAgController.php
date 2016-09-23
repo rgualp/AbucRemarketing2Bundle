@@ -40,7 +40,7 @@ class BackendReservationAgController extends Controller {
         $filter_range_to = $request->get('filter_range_to');
 
 
-        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' && $filter_agencia == 'null' &&
+        if ($request->getMethod() == 'POST' &&  $filter_name == 'null'&&  $filter_agencia == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' && $filter_agencia == 'null' &&
             $filter_destination == 'null' && $filter_range_from == "null"  && $filter_range_to == "null") {
             $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -69,7 +69,7 @@ class BackendReservationAgController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_agencia,$filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_agencia, $filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
         //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
 //        $service_log = $this->get('log');

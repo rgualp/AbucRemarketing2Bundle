@@ -565,9 +565,9 @@ class BackendReservationController extends Controller {
 
 
         $em = $this->getDoctrine()->getManager();
-        $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $client_agency = $em->getRepository('PartnerBundle:paTravelAgency')->find($id_client);
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUserAg($id_client);
         $price = 0;
 
         if ($request->getMethod() == 'POST') {
@@ -606,7 +606,7 @@ class BackendReservationController extends Controller {
         }
         return $this->render('mycpBundle:reservation:reservationDetailsClient.html.twig', array(
                     'reservations' => $reservations,
-                    'client' => $client,
+                    'client' => $client_agency,
                     'errors' => '',
                     'tourist' => $userTourist[0]
         ));
