@@ -22,6 +22,7 @@
     </div>
 
 </div>
+    <div>
     <div class="col-sm-12 bg-white">
         <div class="container">
             <div class="for-header-pages" style="text-align: center">
@@ -32,9 +33,16 @@
     <div class="col-sm-12 bg-white" id="cartBody">
         {%  include 'PartnerBundle:Cart:cart_reservations.html.twig' with { 'items' : items }  %}
     </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+
+    {% javascripts
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/demo1.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
 {% endblock %}

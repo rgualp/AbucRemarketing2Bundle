@@ -1000,14 +1000,15 @@ body.landing-page {
 
 .cartItem a, .cartItem a:hover, .cartItem a:link, .cartItem a:active {color: #fff;}
 
-#payButton{
+.payButton{
     padding: 10px 30px;
     font-size:30px;
 }
 
-#payButton, #payButton:hover, #payButton:active, #payButton:visited{
+.payButton, .payButton:hover, .payButton:active, .payButton:visited{
     color: #fff;
 }
+
 
 .orangeCheckbox input[type=checkbox] {
     visibility: hidden;

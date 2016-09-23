@@ -1,3 +1,4 @@
+{% include 'PartnerBundle:Cart:selected_reservations_to_pay.html.twig' %}
 {% if items |length %}
     <div>
         {% for item in items %}
@@ -33,7 +34,7 @@
     </div>
 
     <div class="row text-center" style="margin-bottom: 30px">
-        <a class="bg-blue color-white" id="payButton">
+        <a class="bg-blue color-white payButton" id="trigger-overlay">
             <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
         </a>
     </div>

@@ -584,6 +584,15 @@ var Dashboard = function () {
         });
     }
 
+    var onPayActionButton = function ()
+    {
+        $("#trigger-overlay").on('click',function() {
+            console.log("overlay!");
+        });
+    }
+
+
+
     return {
         init: function () {
             initPlugins();
@@ -599,6 +608,7 @@ var Dashboard = function () {
             onViewMoreButton();
             onDeleteFromCartButton();
             onCheckDetailsInCartButton();
+            onPayActionButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");
