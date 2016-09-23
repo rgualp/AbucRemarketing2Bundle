@@ -523,6 +523,7 @@ var Dashboard = function () {
                             $("#loading_" + id).addClass('hide');
                             $(icon_up).removeClass('hide');
                             $(icon_down).addClass('hide');
+                            onCheckDetailsInCartButton();
                         }
                     });
                 }
@@ -562,11 +563,24 @@ var Dashboard = function () {
                         result.html(response.html);
                         onDeleteFromCartButton();
                         onViewMoreButton();
+                        onCheckDetailsInCartButton();
 
                     }
                 }
             });
 
+        });
+    }
+    var onCheckDetailsInCartButton = function(){
+        $(".checkAccommodations").on('change',function() {
+            var owresid = $(this).data("owresid");
+            var idreservation = $(this).data("idreservation");
+            var counter = parseInt($("#accommodationsToPay_" + idreservation).html());
+            if ($(this).is(":checked")) {
+                $("#accommodationsToPay_" + idreservation).html(counter+1);
+            }
+            else
+                $("#accommodationsToPay_" + idreservation).html(counter-1);
         });
     }
 
@@ -584,6 +598,7 @@ var Dashboard = function () {
             onDeleteOpenReservationDetailButton();
             onViewMoreButton();
             onDeleteFromCartButton();
+            onCheckDetailsInCartButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");
