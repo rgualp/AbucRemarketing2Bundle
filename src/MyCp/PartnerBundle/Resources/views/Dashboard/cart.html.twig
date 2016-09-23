@@ -16,7 +16,7 @@
     <div class="container">
         <div class="white-hearders">
             <h1>{{ 'CART_HEADER_TEXT1' | trans }}</h1>
-            <h2>{{ 'CART_HEADER_TEXT2' | trans  }}</h2>
+            <h1>{{ 'CART_HEADER_TEXT2' | trans  }}</h1>
             <h3>{{ 'CART_HEADER_TEXT3' | trans  }}</h3>
         </div>
     </div>
@@ -29,50 +29,8 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 bg-white">
-        {% if items |length %}
-        <div>
-            {% for item in items %}
-            <div class="row bg-blue color-white cartItem">
-                <div class="container">
-                    <div class="row">
-                        <div  class="col-md-4">
-                           <h2 class="normal-font">{{ "pa.modal.reservation.reserve" | trans | upper }} {{ loop.index }} - {{ item.fullname }}</h2>
-                        </div>
-                        <div  class="col-md-4">
-                            <h2> {{ item.available }} casas disponibles / {{ item.detailsCount }} solicitadas </h2>
-                        </div>
-                        <div  class="col-md-2 text-right">
-                            <h2><a><i class="glyphicons bin" style="margin-bottom: 10px"></i>  Eliminar</a></h2>
-                        </div>
-                        <div class="col-md-1" style="margin-top: 1.8%;">
-                            <img id="icon_down_{{ item.id }}" data-id ="{{ item.id }}" class="icon-down" src="{{ asset('bundles/partner/img/icon/back_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}" data-url="{{ path("partner_dashboard_cart_show_reservation_details") }}"/>
-                            <img id="icon_up_{{ item.id }}" data-id ="{{ item.id }}" class="hide icon-up" src="{{ asset('bundles/partner/img/icon/top_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}"/>
-                        </div>
-                        <div class="col-md-1" style="margin-top: 1.5%;">
-                            <div class="hide" id="loading_{{ item.id }}">
-                                <i class="fa fa-refresh fa-spin fa-2x" style="margin-bottom: 10px"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row hide" id="reservationContent_{{ item.id }}" data-hascontent="false"></div>
-                </div>
-            </div>
-                <div class="space space-30 bg-white" style="float:none"></div>
-
-            {% endfor %}
-
-        </div>
-
-        <div class="row text-center" style="margin-bottom: 30px">
-            <a class="bg-blue color-white" id="payButton">
-                <i class="glyphicons coins"></i>  Pagar</a>
-            </a>
-        </div>
-        {% else %}
-            Mensaje
-        {% endif %}
-
+    <div class="col-sm-12 bg-white" id="cartBody">
+        {%  include 'PartnerBundle:Cart:cart_reservations.html.twig' with { 'items' : items }  %}
     </div>
 {% endblock %}
 

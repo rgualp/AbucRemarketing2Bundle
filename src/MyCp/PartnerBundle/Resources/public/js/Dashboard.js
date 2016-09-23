@@ -290,7 +290,7 @@ var Dashboard = function () {
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
 
-            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && (adults != "" || children != ""));
 
             if(isValid) {
                 var loadingText = result.data("loadingtext");
@@ -300,8 +300,8 @@ var Dashboard = function () {
                     'dateFrom': dateFrom,
                     'dateTo': dateTo,
                     'clientName': clientName,
-                    'adults': adults,
-                    'children': children,
+                    'adults': (adults == "") ? 0 : adults,
+                    'children': (children == "") ? 0 : children,
                     'accommodationId': selectedAccommodationForReserve
                 }, function (response) {
 
@@ -545,6 +545,30 @@ var Dashboard = function () {
             $(cartItemContentId).addClass('hide');
         });
     }
+    var onDeleteFromCartButton = function(){
+        $(".deleteFromCart").on('click',function() {
+            var result = $('#cartBody');
+            var id = $(this).data("id");
+            var _url = $(this).data("url");
+
+            $("#loading_" + id).removeClass('hide');
+
+            $.post(_url, {
+                'reservationId': id
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.html != ""){
+                        result.html(response.html);
+                        onDeleteFromCartButton();
+                        onViewMoreButton();
+
+                    }
+                }
+            });
+
+        });
+    }
 
     return {
         init: function () {
@@ -559,6 +583,7 @@ var Dashboard = function () {
             onCloseOpenReservationDetailedListButton();
             onDeleteOpenReservationDetailButton();
             onViewMoreButton();
+            onDeleteFromCartButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

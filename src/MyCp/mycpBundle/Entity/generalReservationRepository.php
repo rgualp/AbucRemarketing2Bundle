@@ -148,6 +148,7 @@ class generalReservationRepository extends EntityRepository
 
         $data = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
 
+
         $queryStr = "SELECT c.fullname, ag.id
 FROM PartnerBundle:paReservationDetail pard
 JOIN pard.reservation par

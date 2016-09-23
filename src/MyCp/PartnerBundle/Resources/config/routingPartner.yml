@@ -9,6 +9,17 @@ frontend_partner_navbar:
     locales:  { en: "/navbar/{route}/{routeParams}", es: "/navbar/{route}/{routeParams}", de: "/navbar/{route}/{routeParams}" }
     defaults: { _controller: PartnerBundle:Frontend:navBar }
 
+#Change language update profile data
+frontend_partner_change_language_callback:
+    locales:  { en: "/partner/change-language/{lang}/{route}/{routeParams}", es: "/partner/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/partner/change-language/{lang}/{route}/{routeParams}" }
+    defaults: { _controller: PartnerBundle:Language:change, route: frontend_welcome, routeParams: null }
+
+#Change currency update profile data
+frontend_partner_change_currency_callback:
+    locales:  { en: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", es: "/partner/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", }
+    defaults: { _controller: PartnerBundle:Currency:change, route: frontend_welcome, routeParams: null }
+
+
 #Login content
 frontend_partner_logincontent:
     locales:  { en: "/login/content", es: "/login/content", de: "/login/content" }
@@ -208,3 +219,7 @@ partner_dashboard_cart:
 partner_dashboard_cart_show_reservation_details:
     locales:  { en: "/dashboard/cart-show-details", es: "/dashboard/cart-show-details", de: "/dashboard/cart-show-details" }
     defaults: { _controller: PartnerBundle:Cart:showReservationsDetails }
+
+partner_dashboard_delete_from_cart:
+    locales:  { en: "/dashboard/delete-from-cart", es: "/dashboard/delete-from-cart", de: "/dashboard/delete-from-cart" }
+    defaults: { _controller: PartnerBundle:Cart:deleteFromCart }
