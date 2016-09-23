@@ -1,23 +1,16 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 {% set user_locale='es' %}
 {% block content %}
-<h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
 <p style="font-family: Arial; font-size: 14px">
-Estimado Sr(a). {{user_full_name}}: <br/>
-Gracias por unirse a nosotros. Ahora está a pocos pasos de comenzar a gestionar sus reservas. Le decimos cómo:
-PRIMERO necesitará activar su cuenta a través de la siguiente dirección electrónica:<br/>
-<a target="_blank" href="{{ url('frontend_partner_activateacount',{'token':secret_token}) }}">{{ url('frontend_partner_activateacount',{'token':secret_token}) }}</a>
+{{ 'label.hellow'|trans({}, "messages", user_locale) }} {{user_full_name}}: <br/>
+
+    {{ 'label.email.registeraccount.text.one'|trans({}, "messages", user_locale) | raw }}
+    {{ 'label.email.registeraccount.text.two'|trans({}, "messages", user_locale) }}{{ agency.name }},{{ 'label.email.registeraccount.text.three'|trans({}, "messages", user_locale) }} {{ agency.address }}, {{ agency.country.coName }}.<br/>
+
+    {{ 'label.email.registeraccount.text.four'|trans({}, "messages", user_locale) }} {{ agency.email }}  {{ 'label.email.registeraccount.text.five'|trans({}, "messages", user_locale) }} ({{ agency.phone }} {{ agency.phoneAux }} ).<br/>
+    {{ 'label.email.registeraccount.text.six'|trans({}, "messages", user_locale) }}<br/>
+    <a target="_blank" href="{{ url('frontend_partner_activateacount',{'token':secret_token}) }}"> {{ 'label.email.registeraccount.text.seven'|trans({}, "messages", user_locale) }}</a>
 <br/>
-Utilice como nombre de usuario el email y su contraseña.
-<br/>
-Puede acceder a la administración web desde aquí:<br/>
-<a href="{{url('my_cp_casa_login')}}">{{url('my_cp_casa_login')}}</a>. <br/>
-O puede descargar la aplicación móvil MyCasa Renta para dispositivos Android, que le permitirá, desde Internet o a través de una zona wifi, indicar y modificar las fechas en que su alojamiento estará disponible para nuevos clientes turistas:
-<br/>
-<a target="_blank" href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid">https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a>
-<br/>
-Para consultar sus dudas, por favor, escríbanos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas también estará a su disposición a través del teléfono 78673574. <br/>
-Saludos Cordiales,
-<br/>
-Equipo de MyCasaParticular.com</p>
+
+</p>
 {% endblock %}

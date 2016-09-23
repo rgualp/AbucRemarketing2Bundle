@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20160921163753 extends AbstractMigration
+class Version20160922212738 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -17,7 +17,10 @@ class Version20160921163753 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql("insert into pa_package(name) values ('Básico')");
+
+        $this->addSql('ALTER TABLE generalreservation ADD canceled_by INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE generalreservation ADD CONSTRAINT FK_52BC9BBC48CCCEFB FOREIGN KEY (canceled_by) REFERENCES user (user_id)');
+
     }
 
     /**
@@ -26,6 +29,9 @@ class Version20160921163753 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('ALTER TABLE generalreservation DROP canceled_by');
 
     }
 }

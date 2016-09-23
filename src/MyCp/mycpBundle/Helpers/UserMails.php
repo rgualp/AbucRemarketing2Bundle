@@ -81,12 +81,12 @@ class UserMails {
      * @param $own_name
      * @param $own_mycp_code
      */
-    public static function sendCreateUserPartner($controller,$user_email,$user_name, $user_full_name, $secret_token) {
+    public static function sendCreateUserPartner($controller,$user_email,$user_name, $user_full_name, $secret_token,$user_locale,$agency) {
         if ((isset($user_email) && $user_email != "")) {
             $service_email = $controller->get('Email');
             try {
                 if (isset($user_email) && $user_email != "") {
-                    $service_email->sendCreateUserPartner($user_email, $user_name, $user_full_name, $secret_token);
+                    $service_email->sendCreateUserPartner($user_email, $user_name, $user_full_name, $secret_token,$user_locale,$agency);
                 }
                 $message = 'El correo notificando la creación de la cuenta de usuario ha sido enviado satisfactoriamente al usuario '.$user_full_name;
                 $controller->get('session')->getFlashBag()->add('message_ok', $message);

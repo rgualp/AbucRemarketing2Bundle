@@ -117,43 +117,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-fluid">
-                    <div class="span3" style="margin-top: 10px">
-                        <div class="btn-group dropdown btn-action-reservation" data-url="{{ path("mycp_set_not_available_reservation_ag_callback") }}" style="display:inline-table">
-                            <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE') }})">Enviar como No Disponibles</button>
-                            <!--button type="button" class="btn-mini btn-warning dropdown-toggle" data-toggle="dropdown">
+            </form>
+            <div class="row-fluid">
+                <div class="span3" style="margin-top: 10px">
+                    <div class="btn-group dropdown btn-action-reservation" data-url="{{ path("mycp_set_not_available_reservation_ag_callback") }}" style="display:inline-table">
+                        <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE') }})">Enviar como No Disponibles</button>
+                        <!--button type="button" class="btn-mini btn-warning dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only"></span>
                         </button>
                         <ul class="dropdown-menu pull-right" role="menu">
                             <li><a style="cursor: hand" onclick="javascript:sendReservation({#{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_UPDATE_CALENDAR')}#})">Actualizar calendario</a></li>
                           </ul-->
-                        </div>
-                        <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
                     </div>
-                    <div class="span6">
-                        <div class="paginator-cont">
-                            {% if total_items > items_per_page %}
-                                {% include "mycpBundle:reservation:reservationPaginator.html.twig" %}
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="span3" style="margin-top: 10px">
-                        <div class="row-fluid">
-                            <div class="span4" style="margin-top: 4px; font-size: 12px">
-                                Organizar:
-                            </div>
-                            <div class="span8">
-                                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                    {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::RESERVATION')})) }}
-                                </select>
-                            </div>
-                        </div>
-
+                    <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
+                </div>
+                <div class="span6">
+                    <div class="paginator-cont">
+                        {% if total_items > items_per_page %}
+                            {% include "mycpBundle:reservation:reservation_agPaginator.html.twig" %}
+                        {% endif %}
                     </div>
                 </div>
-            </form>
+            </div>
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
                 <tr>
@@ -237,17 +223,8 @@
 
                 <div class="paginator-cont span6">
                     {% if total_items > items_per_page %}
-                        {% include "mycpBundle:reservation:reservationPaginator.html.twig" %}
+                        {% include "mycpBundle:reservation:reservation_agPaginator.html.twig" %}
                     {% endif %}
-                    {#{ simple_paginator_render('mycp_details_reservation_ag',null,{
-                'container_class': 'paginator',
-                'previousPageText': '«',
-                'nextPageText': '»',
-                'currentClass': 'current',
-                'firstPageText': 'Primera',
-                'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}
-                }) }#}
                 </div>
             </div>
             {% else %}
@@ -341,7 +318,7 @@
             filter_date_reserve = filter_date_reserve.replace('/', "_");
             filter_date_reserve = filter_date_reserve.replace('/', "_");
             var filter_client = $('#filter_client').val();
-            if (filter_reference == '')filter_reference = 'null';
+            if (filter_client == '')filter_client = 'null';
             var url_submit = $('#filter').attr('action');
             url_submit = url_submit + '/' + items_per_page + '/' + filter_date_reserve + '/' + filter_offer_number + '/' + filter_reference + '/' + filter_date_from + '/' + filter_date_to + '/' + sort_by + '/' + filter_booking_number + '/' + filter_status + '/' + filter_client;
             $('#filter').attr('action', url_submit);

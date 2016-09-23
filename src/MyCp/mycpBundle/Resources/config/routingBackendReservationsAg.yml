@@ -29,5 +29,5 @@ mycp_set_not_available_reservation_ag_callback:
 
 
 mycp_list_reservations_byuser_ag:
-    pattern:  /by-users/list_user_ag/{items_per_page}/{filter_name}/{filter_status}/{filter_accommodation}/{filter_destination}/{filter_range_from}/{filter_range_to}
-    defaults: { _controller: mycpBundle:BackendReservationAg:listReservationsByUsersAG,items_per_page:100,filter_name:'',filter_status:'',filter_accommodation:'',filter_destination:'',filter_range_from:'',filter_range_to:''}
+    pattern:  /by-users/list_user_ag/{items_per_page}/{filter_name}/{filter_agencia}/{filter_status}/{filter_accommodation}/{filter_destination}/{filter_range_from}/{filter_range_to}
+    defaults: { _controller: mycpBundle:BackendReservationAg:listReservationsByUsersAG,items_per_page:100,filter_name:'',filter_agencia:'',filter_status:'',filter_accommodation:'',filter_destination:'',filter_range_from:'',filter_range_to:''}

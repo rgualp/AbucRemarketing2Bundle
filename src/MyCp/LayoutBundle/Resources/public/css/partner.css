@@ -969,6 +969,7 @@ body.landing-page {
 }
 
 /* ========= Carrito de compras =========== */
+
 .white-hearders h1{
     color: #fff;
     font-size: 42px;
@@ -991,6 +992,40 @@ body.landing-page {
     margin-top: 0;
     text-align: right;
     margin-bottom: 20px;
+}
+
+.normal-font{
+    font-family: MyriadProLightCond;
+}
+
+.cartItem a, .cartItem a:hover, .cartItem a:link, .cartItem a:active {color: #fff;}
+
+#payButton{
+    padding: 10px 30px;
+    font-size:30px;
+}
+
+#payButton, #payButton:hover, #payButton:active, #payButton:visited{
+    color: #fff;
+}
+
+.orangeCheckbox input[type=checkbox] {
+    visibility: hidden;
+}
+
+.orangeCheckbox input[type=checkbox] label  {
+    width: 40px;
+    height: 40px;
+    background: #ddd;
+    margin: 20px 90px;
+
+    border-radius: 2%;
+    position: relative;
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+.orangeCheckbox input[type=checkbox]:checked + label{
+    background: #26ca28;
 }
 
 

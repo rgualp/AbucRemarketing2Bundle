@@ -32,20 +32,26 @@ class BackendReservationAgController extends Controller {
         $page = 1;
 
         $filter_name = $request->get('filter_name');
+        $filter_agencia = $request->get('filter_agencia');
         $filter_status = $request->get('filter_status');
         $filter_accommodation = $request->get('filter_accommodation');
         $filter_destination = $request->get('filter_destination');
         $filter_range_from = $request->get('filter_range_from');
         $filter_range_to = $request->get('filter_range_to');
 
-        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' &&
+
+        if ($request->getMethod() == 'POST' &&  $filter_name == 'null' && $filter_status == 'null' && $filter_accommodation == 'null' && $filter_agencia == 'null' &&
             $filter_destination == 'null' && $filter_range_from == "null"  && $filter_range_to == "null") {
             $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_reservations_byuser'));
+            return $this->redirect($this->generateUrl('mycp_list_reservations_byuser_ag'));
         }
         if ($filter_name == 'null')
             $filter_name = '';
+
+        if ($filter_agencia == 'null')
+            $filter_agencia = '';
+
         if ($filter_status == 'null')
             $filter_status = '';
         if ($filter_accommodation == 'null')
@@ -63,7 +69,7 @@ class BackendReservationAgController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')->getByUsersAg($filter_name, $filter_agencia,$filter_status, $filter_accommodation, $filter_destination, $filter_range_from, $filter_range_to))->getResult();//$paginator->paginate($em->getRepository('mycpBundle:generalReservation')
         //->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
 //        $service_log = $this->get('log');
@@ -75,7 +81,10 @@ class BackendReservationAgController extends Controller {
             'current_page' => $page,
             'total_items' => $paginator->getTotalItems(),
             'filter_name' => $filter_name,
+            'filter_agencia' => $filter_agencia,
+
             'filter_status' => $filter_status,
+
             'filter_accommodation' => $filter_accommodation,
             'filter_destination' => $filter_destination,
             'filter_range_from' => $filter_range_from,
@@ -212,8 +221,7 @@ class BackendReservationAgController extends Controller {
         $price = 0;
         $sort_by = $request->get('sort_by');
         if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
-        ) {
+            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_reservations_ag'));
@@ -254,23 +262,22 @@ class BackendReservationAgController extends Controller {
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
-//            $service_log = $this->get('log');
-//            $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
-        /*$total_nights = array();
-        $service_time = $this->get('time');
-        foreach ($reservations as $res) {
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
-            $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
-            array_push($total_nights, $temp_total_nights);
-        }*/
 
         $totalItems = $all['totalItems'];
+        $last_page_number = ceil($totalItems / $items_per_page);
+
+        $start_page = ($page == 1) ? ($page) : ($page - 1);
+        $end_page = ($page == $last_page_number) ? ($last_page_number) : ($page + 1);
+
         return $this->render('mycpBundle:reservation:list_ag.html.twig', array(
             //'total_nights' => $total_nights,
             'reservations' => $reservations,
             'items_per_page' => $items_per_page,
             'current_page' => $page,
             'total_items' => $totalItems,
+            'last_page_number' => $last_page_number,
+            'start_page'=>$start_page,
+            'end_page'=>$end_page,
             'filter_date_reserve' => $filter_date_reserve,
             'filter_offer_number' => $filter_offer_number,
             'filter_booking_number' => $filter_booking_number,
@@ -282,8 +289,7 @@ class BackendReservationAgController extends Controller {
             'filter_date_from_twig' => $filter_date_from_twig,
             'filter_date_to_twig' => $filter_date_to_twig,
             'filter_status' => $filter_status,
-            'filter_client' => $filter_client,
-            'last_page_number' => ceil($totalItems / $items_per_page)
+            'filter_client' => $filter_client
         ));
     }
 
@@ -428,7 +434,7 @@ class BackendReservationAgController extends Controller {
 
             if(count($reservations)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportReservations($reservations, $date);
+                return $exporter->exportReservationsAg($reservations, $date);
             }
             else{
                 $message = 'No hay datos para llenar el Excel a descargar.';

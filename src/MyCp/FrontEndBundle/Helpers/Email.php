@@ -175,7 +175,10 @@ class Email {
      * @param $own_name
      * @throws \InvalidArgumentException
      */
-    public function sendCreateUserPartner($email_to, $userName, $userFullName, $secret_token) {
+    public function sendCreateUserPartner($email_to, $userName, $userFullName, $secret_token,$user_locale='es',$agency) {
+        $locale = $this->container->get('translator');
+        $subject=$locale->trans('label.email.registeraccount.text.seven', array(), "messages", $user_locale);
+
         $templating = $this->container->get('templating');
         if (!isset($email_to) || $email_to == "")
             throw new \InvalidArgumentException("The email to can not be empty");
@@ -183,12 +186,12 @@ class Email {
         $content = $templating->render('PartnerBundle:Mail:createUserPartner.html.twig', array(
             'user_name' => $userName,
             'user_full_name' => $userFullName,
-            'secret_token' => $secret_token
+            'secret_token' => $secret_token,
+            'user_locale' => $user_locale,
+            'agency'=>$agency
         ));
 
-        $this->sendEmail(
-            "Creación de cuenta de usuario", 'partner@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
-        );
+        $this->sendEmail("$subject", 'partner@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
     }
 	public function sendCreateUserCasaMailCommand($user_casa, $ownership) {
 		$user = $user_casa->getUserCasaUser();
