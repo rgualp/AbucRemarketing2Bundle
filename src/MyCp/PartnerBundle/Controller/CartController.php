@@ -134,11 +134,36 @@ class CartController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ownReservationIds = $request->get("checkValues");
+        $timer = $this->get("Time");
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
+        $payments = array();
+
+        foreach($list as $item)
+        {
+            $touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
+            $commission = $item["totalInSite"]*$item["commission"]/100;
+
+            $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
+            $fixedFee = 0;
+
+            $payments[$item["gen_res_id"]] = array(
+                "totalPayment" => $item["totalInSite"] + $touristFee,
+                "totalPrepayment" => $commission + $touristFee,
+                "payAtAccommodation" => $item["totalInSite"] - $commission,
+                "touristFee" => $touristFee,
+                "commission" => $commission,
+                "commissionPercent" => $item["commission"],
+                "reservations" => $reservations,
+                "lodgingPrice" => $item["totalInSite"],
+                "fixedFee" => $fixedFee,
+                "taxFees" => $touristFee + $fixedFee
+            );
+        }
 
         $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
-            'items' => $list
+            'items' => $list,
+            'payments' => $payments
         ));
 
         return new JsonResponse([

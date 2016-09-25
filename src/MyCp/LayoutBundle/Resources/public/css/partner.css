@@ -517,6 +517,16 @@ body.landing-page {
     font-weight: bold;
 }
 
+.paymentInfoBox .detail-section{
+    font-family: MyriadProBold;
+    font-size: 14px;
+}
+
+.orange-color{
+    color: #f49821;
+    font-family: MyriadProLightCond;
+}
+
 
 .agency .input-group-addon {
     background-color: #fff;

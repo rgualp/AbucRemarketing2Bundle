@@ -617,7 +617,7 @@ var Dashboard = function () {
                     }
                 }
             });
-
+            onShowMorePaymentButton();
             $('#selectedReservations').slimScroll({
                 height: '300px',
                 railOpacity: 0.9,
@@ -635,7 +635,27 @@ var Dashboard = function () {
         });*/
     }
 
+    var onShowMorePaymentButton=function(){
+        $('.icon-down-payment').on('click',function(){
+            var genresid = $(this).data("genresid");
+            var icon_up = "#icon-up-payment_" + genresid;
+            var icon_down = "#icon-down-payment_" + genresid;
+            var toShow = ".sectionToHide_" + genresid;
+            $(icon_up).removeClass('hide');
+            $(icon_down).addClass('hide');
 
+            $(toShow).removeClass('hide');
+        });
+        $('.icon-up-payment').on('click',function(){
+            var genresid = $(this).data("genresid");
+            var icon_up = "#icon-up-payment_" + genresid;
+            var icon_down = "#icon-down-payment_" + genresid;
+            var toShow = ".sectionToHide_" + genresid;
+            $(icon_up).addClass('hide');
+            $(icon_down).removeClass('hide');
+            $(toShow).addClass('hide');
+        });
+    }
 
     return {
         init: function () {
@@ -654,6 +674,7 @@ var Dashboard = function () {
             onCheckDetailsInCartButton();
             onPayActionButton();
             onEmptyCartButton();
+            onShowMorePaymentButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

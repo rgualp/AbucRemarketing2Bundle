@@ -1674,6 +1674,54 @@
           <source>cart.search_again</source>
           <target>Search again</target>
        </trans-unit>
+      <trans-unit id="12">
+          <source>payment.details</source>
+          <target>Payment Details</target>
+       </trans-unit>
+      <trans-unit id="13">
+          <source>payment.total</source>
+          <target>Total Price</target>
+       </trans-unit>
+      <trans-unit id="14">
+          <source>payment.online_prepayment</source>
+          <target>Online Prepayment</target>
+       </trans-unit>
+      <trans-unit id="15">
+          <source>payment.pay_at_service</source>
+          <target>Cash Payment on arrival</target>
+       </trans-unit>
+      <trans-unit id="16">
+          <source>night</source>
+          <target>Night</target>
+       </trans-unit>
+      <trans-unit id="17">
+          <source>reservation</source>
+          <target>Reservation</target>
+       </trans-unit>
+      <trans-unit id="18">
+          <source>room</source>
+          <target>Room</target>
+       </trans-unit>
+      <trans-unit id="19">
+          <source>payment.lodging_price</source>
+          <target>Lodging Price</target>
+       </trans-unit>
+      <trans-unit id="20">
+          <source>payment.service_fee</source>
+          <target>Service Fee</target>
+       </trans-unit>
+      <trans-unit id="21">
+          <source>payment.fixed_fee</source>
+          <target>Fixed Fee</target>
+       </trans-unit>
+      <trans-unit id="22">
+          <source>payment.tax_fees</source>
+          <target>Tax for fees</target>
+       </trans-unit>
+      <trans-unit id="23">
+          <source>payment.commission_percent</source>
+          <target>#percent#% of Lodging Price</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

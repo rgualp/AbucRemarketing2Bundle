@@ -1,31 +1,46 @@
 {% if items |length %}
+    {% set idReservation = 0 %}
+    {% set indexReservation = 0 %}
     <div>
         {% for item in items %}
         <div class="container">
-            <div class="row blue-font form-agency" style="font-size: 20px">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-4">
-                            {{ "pa.modal.reservation.reserve" | trans | upper }} {{ loop.index }}
-                        </div>
-                        <div class="col-md-4">
-                            {{ item.fullname }}
-                        </div>
-                        <div class="col-md-4">
-                            {#<input class="input-group-addon" placeholder="{{ "ARRIVAL_TIME" | trans }}"/>#}
-                            {{ "ARRIVAL_TIME" | trans }}
-                        </div>
+            <div class="row blue-font form-agency" style="font-size: 20px; margin-bottom: 5px">
+                {% if idReservation != item.idReservation %}
+                    {% set idReservation = item.idReservation %}
+                    {% set indexReservation = indexReservation + 1 %}
+                <div class="row">
+                    <div class="col-md-3 p-0" style="font-size: 24px">
+                        {{ "pa.modal.reservation.reserve" | trans | upper }} {{ indexReservation }}
                     </div>
+                    <div class="col-md-3">
+                        {{ item.fullname }}
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control chosen-select-deselect" data-placeholder="{{ "ARRIVAL_TIME" | trans }}" data-toggle="tooltip" title="{{ "ARRIVAL_TIME" | trans }}" data-container="body">
+                            {%for hour in (0..23)%}
+                                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}</option>
+                                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}</option>
+                            {%endfor%}
+                        </select>
+
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                {% endif %}
+
+                <div class="row">
+                <div class="col-md-8">
                     <div class="row">
                         {{ item.own_res_reservation_from_date | date("d/m") }} {{ item.own_mcp_code }} {{ item.own_name }}, {{ item.prov_name }}.
                     </div>
                     <div class="row">
-                        {{ item.room_type }}/{{ item.adults }} {{ "ADULTS" | trans }}/{{ item.children }} {{ "KIDS" | trans }}. CAS.{{ item.gen_res_id }}
+                        {{ item.adults }} {{ "ADULTS" | trans }}/{{ item.children }} {{ "KIDS" | trans }}. CAS.{{ item.gen_res_id }}
                     </div>
                 </div>
 
-                <div class="col-md-4 bg-blue color-white">
-                    Desglose de pago
+                <div class="col-md-4 ">
+                    {% include 'PartnerBundle:Cart:accommodation_payment_info.html.twig' %}
+                </div>
                 </div>
             </div>
         </div>

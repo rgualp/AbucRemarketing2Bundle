@@ -2657,4 +2657,23 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $data = $qb->getQuery()->execute();
         return array('data' => $data, 'count' => $count);
     }
+
+    function getReservationCart($idGeneralReservation, $ownReservationIds)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("room.room_num,
+            DATE_DIFF(ownRes.own_res_reservation_to_date, ownRes.own_res_reservation_from_date) as nights,
+            ownRes.own_res_total_in_site as totalInSite
+            ")
+            ->from("mycpBundle:ownershipReservation", "ownRes")
+            ->join('mycpBundle:room', 'room', Expr\Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')
+            ->where("ownRes.own_res_gen_res_id = :genRes")
+            ->andWhere("ownRes.own_res_id IN (:ids)")
+            ->setParameter("genRes", $idGeneralReservation)
+            ->setParameter("ids", $ownReservationIds)
+            ->orderBy("ownRes.own_res_reservation_from_date")
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

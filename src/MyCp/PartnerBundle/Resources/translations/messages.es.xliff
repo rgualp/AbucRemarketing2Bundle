@@ -1673,6 +1673,54 @@
           <source>cart.search_again</source>
           <target>Buscar nuevo</target>
        </trans-unit>
+      <trans-unit id="12">
+          <source>payment.details</source>
+          <target>Desglose de pago</target>
+       </trans-unit>
+      <trans-unit id="13">
+          <source>payment.total</source>
+          <target>PRECIO TOTAL</target>
+       </trans-unit>
+      <trans-unit id="14">
+          <source>payment.online_prepayment</source>
+          <target>Prepago Online</target>
+       </trans-unit>
+      <trans-unit id="15">
+          <source>payment.pay_at_service</source>
+          <target>Pago en Casa</target>
+       </trans-unit>
+      <trans-unit id="16">
+          <source>night</source>
+          <target>Noche</target>
+       </trans-unit>
+      <trans-unit id="17">
+          <source>reservation</source>
+          <target>Reserva</target>
+       </trans-unit>
+      <trans-unit id="18">
+          <source>room</source>
+          <target>Habit.</target>
+       </trans-unit>
+      <trans-unit id="19">
+          <source>payment.lodging_price</source>
+          <target>Costo del alojamiento</target>
+       </trans-unit>
+      <trans-unit id="20">
+          <source>payment.service_fee</source>
+          <target>Tarifa por servicio</target>
+       </trans-unit>
+      <trans-unit id="21">
+          <source>payment.fixed_fee</source>
+          <target>Tarifa fija</target>
+       </trans-unit>
+      <trans-unit id="22">
+          <source>payment.tax_fees</source>
+          <target>Pago por tarifas</target>
+       </trans-unit>
+      <trans-unit id="23">
+          <source>payment.commission_percent</source>
+          <target>#percent#% del Costo del Alojamiento</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

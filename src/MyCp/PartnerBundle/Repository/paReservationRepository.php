@@ -207,22 +207,20 @@ class paReservationRepository extends EntityRepository {
     public function getDetailsByIds($reservationIds){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
-            ->select("room.room_type,
-            ownRes.own_res_reservation_from_date,
+            ->select("MIN(ownRes.own_res_reservation_from_date) as own_res_reservation_from_date,
             accommodation.own_name,
             accommodation.own_mcp_code,
+            accommodation.own_id,
             prov.prov_name,
-            ownRes.own_res_count_adults as adults,
-            ownRes.own_res_count_childrens as children,
+            SUM(ownRes.own_res_count_adults) as adults,
+            SUM(ownRes.own_res_count_childrens) as children,
             genRes.gen_res_id,
-            ownRes.own_res_total_in_site as totalInSite,
+            SUM(ownRes.own_res_total_in_site) as totalInSite,
             accommodation.own_commission_percent as commission,
             reservation.id as idReservation,
-            ownRes.own_res_id,
             client.fullname
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
-            ->join('mycpBundle:room', 'room', Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')
             ->join("ownRes.own_res_gen_res_id", "genRes")
             ->join("genRes.gen_res_own_id", "accommodation")
             ->join("accommodation.own_address_province", "prov")
@@ -233,7 +231,9 @@ class paReservationRepository extends EntityRepository {
             ->andWhere("ownRes.own_res_status = :availableStatus")
             ->setParameter("reservationIds", $reservationIds, Connection::PARAM_STR_ARRAY)
             ->setParameter("availableStatus", ownershipReservation::STATUS_AVAILABLE)
+            ->groupBy("genRes.gen_res_id")
             ->orderBy("reservation.id")
+            ->addOrderBy("own_res_reservation_from_date")
         ;
         return $qb->getQuery()->getResult();
     }
