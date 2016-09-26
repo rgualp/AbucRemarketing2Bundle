@@ -776,22 +776,27 @@ WHERE pard.reservationDetail = :gen_res_id";
             $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
         }
 
-        $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,gre.gen_res_total_in_site,gre.gen_res_status,
-            (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
-            (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,
-            (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
-            (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id) as totalNights,
-            ow.own_mcp_code, ow.own_id, gre.gen_res_from_date,
-            (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer, ow.own_inmediate_booking,
-            (SELECT MIN(des.des_name) FROM mycpBundle:destination des WHERE des.des_id = ow.own_destination) as destination
-            FROM mycpBundle:generalReservation gre,PartnerBundle:paclient client
-            JOIN mycpBundle:ownershipReservation owner
-                        JOIN PartnerBundle:paTravelAgency
-            WHERE gre.gen_res_own_id = owner.own_res_id AND PartnerBundle:paTravelAgency.id = client.travelAgency AND client.id = :user_id $whereOwn
-            ORDER BY gre.gen_res_id DESC";
+        $queryString = "select gres.gen_res_id, gres.gen_res_date, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
+COUNT(owres.own_res_id) as totalTooms, res.adults as adults,
+(SELECT count(owress) FROM mycpBundle:ownershipReservation owress WHERE owress.own_res_gen_res_id = gres.gen_res_id) AS rooms,
+res.children as childrens, (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gres.gen_res_id) as isOffer,
+SUM(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as totalNights,
+(SELECT MIN(des.des_name) FROM mycpBundle:destination des WHERE des.des_id = own.own_destination) as destination,
+gres.gen_res_total_in_site as totalPrice,
+gres.gen_res_status
+from mycpBundle:ownershipreservation owres
+JOIN owres.own_res_gen_res_id gres
+JOIN gres.gen_res_own_id own
+JOIN own.own_destination d
+JOIN gres.travelAgencyDetailReservations resDet
+JOIN resDet.reservation res
+JOIN res.client cl
+where cl.id = :user_id $whereOwn
+group by gres.gen_res_id";
 
         $query = $em->createQuery($queryString);
-        return $query->setParameter('user_id', $id_user)->getArrayResult();
+//       return $query->getArrayResult();
+      return $query->setParameter('user_id', $id_user)->getArrayResult();
     }
     function findByUserAndStatus($id_user, $status_string, $string_sql)
     {

@@ -200,8 +200,8 @@
                         {% if status != attended and reservation.gen_res_date|date("U") >= "-72 hours"|date("U")%}
                         <a title="Exportar" class="btn btn-mini btn-success" href="{{path('mycp_export_users_reservations', {'idClient': reservation.user_id})}}"><i class="icon-download-alt"></i></a>
                         {% endif %}
-                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>
-                        <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.agencyid}) }}"><i class="icon-tags"></i></a>
+                        {#<a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>#}
+                        <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservationAG',{'id_client':reservation.agencyid}) }}"><i class="icon-tags"></i></a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
