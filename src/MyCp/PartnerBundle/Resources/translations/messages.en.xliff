@@ -1440,7 +1440,7 @@
       </trans-unit>
       <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
         <source>missing_data</source>
-        <target state="new">missing_data</target>
+        <target state="new">Missing data</target>
       </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
@@ -1721,6 +1721,14 @@
       <trans-unit id="23">
           <source>payment.commission_percent</source>
           <target>#percent#% of Lodging Price</target>
+       </trans-unit>
+      <trans-unit id="24">
+          <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
+          <target>The requested lodging is not available for the specified period</target>
+       </trans-unit>
+      <trans-unit id="25">
+          <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
+          <target>The capacity of the lodging is not enough for the specified amount of adults and children.</target>
        </trans-unit>
     </body>
   </file>

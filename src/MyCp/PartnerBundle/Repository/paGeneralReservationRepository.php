@@ -14,7 +14,7 @@ use MyCp\PartnerBundle\Entity\paOwnershipReservation;
  */
 class paGeneralReservationRepository extends EntityRepository {
 
-    public function createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $rooms = null)
+    public function createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $translator, $rooms = null)
     {
         $em = $this->getEntityManager();
         $service_time = $container->get("Time");
@@ -40,12 +40,12 @@ class paGeneralReservationRepository extends EntityRepository {
         $rooms = $availability["availableRooms"];
 
         if(count($rooms) == 0)
-            return array("successful" => false, "message" => "MSG_ERROR_NO_ROOMS_AVAILABLE", "reservation" => null);
+            return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_ROOMS_AVAILABLE"), "reservation" => null);
 
         $isAValidTotalGuests = $this->checkCapacity($availability["availableCapacity"], $adults, $children);
 
         if(!$isAValidTotalGuests)
-            return array("successful" => false, "message" => "MSG_ERROR_NO_VALID_TOTAL_GUESTS", "reservation" => null);
+            return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_VALID_TOTAL_GUESTS"), "reservation" => null);
 
         $adultsCounter = $adults;
         $childrenCounter = $children;

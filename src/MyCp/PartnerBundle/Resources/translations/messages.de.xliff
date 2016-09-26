@@ -1316,7 +1316,7 @@
       </trans-unit>
       <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
         <source>missing_data</source>
-        <target state="new">missing_data</target>
+        <target state="new">Missing data</target>
       </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
@@ -1577,6 +1577,34 @@
       <trans-unit id="18">
           <source>room</source>
           <target>Room</target>
+       </trans-unit>
+     <trans-unit id="19">
+          <source>payment.lodging_price</source>
+          <target>Lodging Price</target>
+       </trans-unit>
+      <trans-unit id="20">
+          <source>payment.service_fee</source>
+          <target>Service Fee</target>
+       </trans-unit>
+      <trans-unit id="21">
+          <source>payment.fixed_fee</source>
+          <target>Fixed Fee</target>
+       </trans-unit>
+      <trans-unit id="22">
+          <source>payment.tax_fees</source>
+          <target>Tax for fees</target>
+       </trans-unit>
+      <trans-unit id="23">
+          <source>payment.commission_percent</source>
+          <target>#percent#% of Lodging Price</target>
+       </trans-unit>
+      <trans-unit id="24">
+          <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
+          <target>The requested lodging is not available for the specified period</target>
+       </trans-unit>
+      <trans-unit id="25">
+          <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
+          <target>The capacity of the lodging is not enough for the specified amount of adults and children.</target>
        </trans-unit>
     </body>
   </file>
