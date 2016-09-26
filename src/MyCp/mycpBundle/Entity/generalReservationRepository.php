@@ -12,6 +12,7 @@ use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
+
 use Doctrine\ORM\Query\Expr;
 use MyCp\PartnerBundle\Repository\paGeneralReservationRepository;
 
@@ -754,6 +755,49 @@ WHERE pard.reservationDetail = :gen_res_id";
         return $query->setParameter('user_id', $id_user)->getArrayResult();
     }
 
+
+    function getByUserAg($id_user, $ownId = null, $isUserCasaModule = false, $notAttendedReservations = false)
+    {
+        $em = $this->getEntityManager();
+
+        $whereOwn = "";
+
+        if ($ownId != null) {
+            $whereOwn = " AND ow.own_id= $ownId ";
+
+            if ($isUserCasaModule)
+                $whereOwn .= " AND gre.gen_res_status = " . generalReservation::STATUS_RESERVED;//." or gre.gen_res_status = ".generalReservation::STATUS_CANCELLED.") ";//agregar stado
+        }
+
+        if ($notAttendedReservations) {
+            /* $today = \date('Y-m-j');
+             $before = strtotime('-72 hour', strtotime($date));
+             $new_date = \date('Y-m-j', $new_date);*/
+            $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
+        }
+
+        $queryString = "select gres.gen_res_id, gres.gen_res_date, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
+COUNT(owres.own_res_id) as totalTooms, res.adults as adults,
+(SELECT count(owress) FROM mycpBundle:ownershipReservation owress WHERE owress.own_res_gen_res_id = gres.gen_res_id) AS rooms,
+res.children as childrens, (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gres.gen_res_id) as isOffer,
+SUM(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as totalNights,
+(SELECT MIN(des.des_name) FROM mycpBundle:destination des WHERE des.des_id = own.own_destination) as destination,
+gres.gen_res_total_in_site as totalPrice,
+gres.gen_res_status
+from mycpBundle:ownershipreservation owres
+JOIN owres.own_res_gen_res_id gres
+JOIN gres.gen_res_own_id own
+JOIN own.own_destination d
+JOIN gres.travelAgencyDetailReservations resDet
+JOIN resDet.reservation res
+JOIN res.client cl
+where cl.id = :user_id $whereOwn
+group by gres.gen_res_id";
+
+        $query = $em->createQuery($queryString);
+//       return $query->getArrayResult();
+      return $query->setParameter('user_id', $id_user)->getArrayResult();
+    }
     function findByUserAndStatus($id_user, $status_string, $string_sql)
     {
         $em = $this->getEntityManager();
@@ -2205,10 +2249,10 @@ WHERE pard.reservationDetail = :gen_res_id";
         $where = "";
 
         if ($filter_name != "")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " (pa_client.fullname LIKE  '$filter_name' ) ";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " (pa_client.fullname LIKE  '%$filter_name%' ) ";
 
         if ($filter_agencia != "")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " (age.`name` LIKE  '$filter_agencia' ) ";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " (age.`name` LIKE  '%$filter_agencia%' ) ";
 
         if ($filter_range_from != "")
             $where .= (($where != "") ? " AND " : " WHERE ") . " gres.gen_res_date >= '$filter_range_from' ";
