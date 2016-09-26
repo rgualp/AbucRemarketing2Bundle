@@ -15,11 +15,11 @@
                 <div class="smaller">{{ reservation.client.fullName }}</div>
             </div>
         </div>
-        <div class="col-md-4 text-right smaller green pr-0">
-            {{ "pa.modal.reservation.guest_total" | trans }} <b class="bigger">{{ reservation.adults + reservation.children }}</b>
+        <div class="col-md-3 text-right smaller green pr-0">
+            {{ "backend.menu.content.accommodations" | trans }} <b class="bigger">{{ reservation.details | length }}</b>
         </div>
-        <div class="col-md-3 smaller green text-right pr-0">{{ "pa.modal.reservation.guest_with_reservation" | trans }}
-            <b class="bigger">{{ reservation.adultsWithAccommodation + reservation.childrenWithAccommodation }} </b>
+        <div class="col-md-4 smaller green text-right pr-0">
+            {{ "pa.modal.reservation.guest_total" | trans }} <b class="bigger">{{ reservation.adults + reservation.children }}</b>
         </div>
     </div>
 </div>

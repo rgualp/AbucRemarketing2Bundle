@@ -2841,8 +2841,11 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
             ->select("room.room_num,
+            room.room_type,
             DATE_DIFF(ownRes.own_res_reservation_to_date, ownRes.own_res_reservation_from_date) as nights,
-            ownRes.own_res_total_in_site as totalInSite
+            ownRes.own_res_total_in_site as totalInSite,
+            ownRes.own_res_count_adults as adults,
+            ownRes.own_res_count_childrens as children
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join('mycpBundle:room', 'room', Expr\Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')

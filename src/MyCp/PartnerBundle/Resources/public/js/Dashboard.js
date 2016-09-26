@@ -291,7 +291,7 @@ var Dashboard = function () {
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
 
-            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && (adults != "" || children != ""));
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "") && (adults != "" || children != "");
 
             if(isValid) {
                 var loadingText = result.data("loadingtext");
@@ -602,7 +602,7 @@ var Dashboard = function () {
     {
         $("#trigger-overlay").on('click',function() {
             $("#overlayLoading").removeClass("hide");
-            $("p#totalPrepaymentParagraph").addClass("hide");
+            $("#paymentsRow").addClass("hide");
             var _url = $(this).data("url");
             var result = $("#selectedReservations");
 
@@ -628,8 +628,19 @@ var Dashboard = function () {
                         result.html(response.html);
                         onShowMorePaymentButton();
                         $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                        $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
+                        $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
+                        $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
+                        $("#fixedTax").html(response.fixedTaxTxt);
+                        $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
+                        $("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
+                        $("#totalPayment").html(response.totalPaymentTxt);
+
+                        $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
+                        $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
+
                         cartPrepayment = response.totalPrepayment;
-                        $("p#totalPrepaymentParagraph").removeClass("hide");
+                        $("#paymentsRow").removeClass("hide");
                         $("#overlayLoading").addClass("hide");
                         $("#payNow").removeAttr("disabled");
                     }
@@ -637,7 +648,7 @@ var Dashboard = function () {
             });
 
             $('#selectedReservations').slimScroll({
-                height: '300px',
+                height: '250px',
                 railOpacity: 0.9,
                 color: '#0d3044',
                 opacity : 1,

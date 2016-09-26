@@ -1651,7 +1651,7 @@
        </trans-unit>
       <trans-unit id="5">
           <source>requested_casas</source>
-          <target>solicitadas</target>
+          <target>habitaciones solicitadas</target>
        </trans-unit>
       <trans-unit id="6">
           <source>pa.accommodation</source>
@@ -1735,7 +1735,7 @@
        </trans-unit>
       <trans-unit id="26">
           <source>cart.alert.title</source>
-          <target>¿Está seguro?</target>
+          <target>¿Estás seguro?</target>
        </trans-unit>
       <trans-unit id="27">
           <source>cart.alert.content</source>
@@ -1743,12 +1743,16 @@
        </trans-unit>
       <trans-unit id="28">
           <source>cart.alert.cancel_button</source>
-          <target>Cancelar</target>
+          <target>Ahora No</target>
        </trans-unit>
       <trans-unit id="29">
           <source>cart.alert.confirm_button</source>
           <target>¡Sí, cancelar reservaciones!</target>
        </trans-unit>
+       <trans-unit id="30">
+         <source>cart.cancel_reservations</source>
+         <target>Cancelar</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
