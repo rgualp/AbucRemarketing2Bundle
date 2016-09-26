@@ -144,10 +144,13 @@
                 <tbody>
                 {% set flag=0 %}
                 {% for reservation in reservations %}
+                    {#{% set accommodations =  accommodationsByClientAG(reservation.idClient, reservation.gen_res_date)%}#}
                     {% set accommodations =  accommodationsByClientAG(reservation.idClient, reservation.gen_res_date)%}
-                    {% set destinations =  destinationsByClient(reservation.user_id, reservation.gen_res_date)%}
+                    {#{% set destinations =  destinationsByClient(reservation.user_id, reservation.gen_res_date)%}#}
                     {% set destinations =  destinationsByClientAG(reservation.idClient, reservation.gen_res_date)%}
-                    {% set status =  statusByClient(reservation.user_id, reservation.gen_res_date)%}
+                        {% set status =  statusByClientAG(reservation.idClient, reservation.gen_res_date)%}
+                    {#{% set status =  statusByClient(reservation.user_id, reservation.gen_res_date)%}#}
+
                     {% set notShowed = 0 %}
                     {%set attended = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED')%}
                     {%set paid = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_PAID')%}

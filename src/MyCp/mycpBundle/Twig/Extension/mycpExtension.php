@@ -42,6 +42,7 @@ class mycpExtension extends \Twig_Extension {
             'destinationsByClient' => new \Twig_Function_Method($this, 'destinationsByClient'),
             'destinationsByClientAG' => new \Twig_Function_Method($this, 'destinationsByClientAG'),
             'statusByClient' => new \Twig_Function_Method($this, 'statusByClient'),
+            'statusByClientAG' => new \Twig_Function_Method($this, 'statusByClientAG'),
         );
     }
 
@@ -116,4 +117,8 @@ class mycpExtension extends \Twig_Extension {
         return $this->em->getRepository("mycpBundle:generalReservation")->getClientStatusByDate($clientId, $reservationDate);
     }
 
+
+    public function statusByClientAG($clientId, $reservationDate){
+        return $this->em->getRepository("mycpBundle:generalReservation")->getClientStatusByDateAG($clientId, $reservationDate);
+    }
 }
