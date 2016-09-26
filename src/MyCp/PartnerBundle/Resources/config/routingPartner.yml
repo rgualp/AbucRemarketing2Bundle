@@ -235,3 +235,36 @@ partner_dashboard_pay_selected_reservations_cart:
 partner_dashboard_paynow_cart:
     locales:  { en: "/dashboard/paynow", es: "/dashboard/paynow", de: "/dashboard/paynow" }
     defaults: { _controller: PartnerBundle:Cart:payNow }
+
+#Skrill Payment routes
+partner_payment_poll_payment:
+    locales:  { en: "/payment/poll-payment/{bookingId}", es: "/payment/poll-payment/{bookingId}", de: "/payment/poll-payment/{bookingId}" }
+    defaults: { _controller: PartnerBundle:Payment:pollPayment, bookingId: 0 }
+
+partner_payment_skrill:
+    locales:  { en: "/payment/skrill-payment/{bookingId}", es: "/payment/skrill-payment/{bookingId}", de: "/payment/skrill-payment/{bookingId}" }
+    defaults: { _controller: PartnerBundle:Payment:skrillPayment, bookingId: 0}
+
+partner_payment_skrill_return:
+    locales:  { en: "/payment/skrill-return/{bookingId}", es: "/payment/skrill-return/{bookingId}", de: "/payment/skrill-return/{bookingId}" }
+    defaults: { _controller: PartnerBundle:Payment:skrillReturn, bookingId: 0}
+
+partner_payment_skrill_cancel:
+    locales:  { en: "/payment/skrill-cancel", es: "/payment/skrill-cancel", de: "/payment/skrill-cancel" }
+    defaults: { _controller: PartnerBundle:Payment:skrillCancel }
+
+partner_payment_skrill_status:
+    locales:  { en: "/skrill/status", es: "/skrill/status", de: "/skrill/status" }
+    defaults: { _controller: PartnerBundle:Payment:skrillStatus }
+
+partner_payment_skrill_test_response:
+    locales:  { en: "/payment/skrill-test-response/{status}", es: "/payment/skrill-test-response/{status}", de: "/payment/skrill-test-response/{status}" }
+    defaults: { _controller: PartnerBundle:Payment:skrillTestResponse, status: 'no status' }
+
+partner_payment_skrill_test_status:
+    locales:  { en: "/payment/skrill-test-status/{bookingId}/{status}", es: "/payment/skrill-test-status/{bookingId}/{status}", de: "/payment/skrill-test-status/{bookingId}/{status}" }
+    defaults: { _controller: PartnerBundle:Payment:skrillSendTestPostRequest, bookingId: 0, status: 0 }
+
+partner_payment_skrill_test_payment:
+    locales:  { en: "/payment/skrill-test-payment/{bookingId}", es: "/payment/skrill-test-payment/{bookingId}", de: "/payment/skrill-test-payment/{bookingId}" }
+    defaults: { _controller: PartnerBundle:Payment:skrillTestPayment, bookingId: 0 }

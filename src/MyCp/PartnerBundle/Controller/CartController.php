@@ -2,6 +2,7 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
@@ -135,9 +136,13 @@ class CartController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ownReservationIds = $request->get("checkValues");
         $timer = $this->get("Time");
+        $user = $this->getUser();
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
         $payments = array();
+
+        $totalPrepayment = 0;
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
         foreach($list as $item)
         {
@@ -146,6 +151,8 @@ class CartController extends Controller
 
             $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
             $fixedFee = 0;
+
+            $totalPrepayment += $commission + $touristFee;
 
             $payments[$item["gen_res_id"]] = array(
                 "totalPayment" => $item["totalInSite"] + $touristFee,
@@ -161,6 +168,8 @@ class CartController extends Controller
             );
         }
 
+        $totalPrepayment += $currentServiceFee->getFixedFee();
+
         $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
             'items' => $list,
             'payments' => $payments
@@ -169,7 +178,9 @@ class CartController extends Controller
         return new JsonResponse([
             'success' => true,
             'html' => $response,
-            'message' => ""
+            'message' => "",
+            'totalPrepayment' => $totalPrepayment,
+            'totalPrepaymentTxt' => number_format($totalPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol()
 
         ]);
     }
@@ -183,6 +194,7 @@ class CartController extends Controller
 
         $roomsToPay = $request->get("roomsToPay");
         $extraData = $request->get("extraData");
+        $cartPrepayment = $request->get("cartPrepayment");
 
         //Guardar hora de llegada y actualizar nombre del cliente
         foreach($extraData as $data)
@@ -212,11 +224,34 @@ class CartController extends Controller
             $em->flush();
         }
 
+        //Generate Booking
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
 
+        $currency = $user->getUserCurrency();
+
+        $booking = new booking();
+        $booking->setBookingCancelProtection(0);
+        $booking->setBookingCurrency($currency);
+        $prepayment = $cartPrepayment* $currency->getCurrCucChange();
+        $booking->setBookingPrepay($prepayment);
+        $booking->setBookingUserId($user->getUserId());
+        $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
+        $em->persist($booking);
+
+        foreach ($roomsToPay as $own_res) {
+            $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
+            $own->setOwnResReservationBooking($booking);
+            $em->persist($own);
+        }
+        $em->flush();
+
+        $bookingId = $booking->getBookingId();
 
         return new JsonResponse([
             'success' => true,
-            'url' => "",
+            'url' => $this->generateUrl("partner_payment_skrill", array('bookingId' => $bookingId)),
             'message' => ""
 
         ]);

@@ -7,7 +7,8 @@ var Dashboard = function () {
    /**
     * Dashboard form init plugins
     */
-       var selectedAccommodationForReserve = 0;
+    var selectedAccommodationForReserve = 0;
+    var cartPrepayment = 0;
 
     var initPlugins=function(){
        var config = {
@@ -590,6 +591,7 @@ var Dashboard = function () {
     {
         $("#trigger-overlay").on('click',function() {
             $("#overlayLoading").removeClass("hide");
+            $("p#totalPrepaymentParagraph").addClass("hide");
             var _url = $(this).data("url");
             var result = $("#selectedReservations");
 
@@ -614,7 +616,9 @@ var Dashboard = function () {
                     if(response.html != ""){
                         result.html(response.html);
                         onShowMorePaymentButton();
-                        //onPayNowButton();
+                        $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                        cartPrepayment = response.totalPrepayment;
+                        $("p#totalPrepaymentParagraph").removeClass("hide");
                         $("#overlayLoading").addClass("hide");
                         $("#payNow").removeAttr("disabled");
                     }
@@ -661,8 +665,9 @@ var Dashboard = function () {
     }
     var onPayNowButton = function (){
         $("#payNow").on('click',function() {
+            $("#overlayLoading").removeClass("hide");
+            $(".payButton").attr("disabled", "true");
             var _url = $(this).data("url");
-
             var roomsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function() {
                 return $(this).data('owresid');
             }).get();
@@ -680,7 +685,8 @@ var Dashboard = function () {
             //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
             $.post(_url, {
                 'roomsToPay': roomsToPay,
-                'extraData': extraData
+                'extraData': extraData,
+                'cartPrepayment': cartPrepayment
             }, function (response) {
 
                 if (response.success) {
