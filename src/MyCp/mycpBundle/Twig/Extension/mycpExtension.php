@@ -38,7 +38,9 @@ class mycpExtension extends \Twig_Extension {
         return array(
             'nights' => new \Twig_Function_Method($this, 'nights'),
             'accommodationsByClient' => new \Twig_Function_Method($this, 'accommodationsByClient'),
+            'accommodationsByClientAG' => new \Twig_Function_Method($this, 'accommodationsByClientAG'),
             'destinationsByClient' => new \Twig_Function_Method($this, 'destinationsByClient'),
+            'destinationsByClientAG' => new \Twig_Function_Method($this, 'destinationsByClientAG'),
             'statusByClient' => new \Twig_Function_Method($this, 'statusByClient'),
         );
     }
@@ -99,9 +101,15 @@ class mycpExtension extends \Twig_Extension {
     public function accommodationsByClient($clientId, $reservationDate){
         return $this->em->getRepository("mycpBundle:generalReservation")->getAccommodationsFromReservationsByClient($clientId, $reservationDate);
     }
+    public function accommodationsByClientAG($clientId, $reservationDate){
+        return $this->em->getRepository("mycpBundle:generalReservation")->getAccommodationsFromReservationsByClientAG($clientId, $reservationDate);
+    }
 
     public function destinationsByClient($clientId, $reservationDate){
         return $this->em->getRepository("mycpBundle:generalReservation")->getDestinationsFromReservationsByClient($clientId, $reservationDate);
+    }
+    public function destinationsByClientAG($clientId, $reservationDate){
+        return $this->em->getRepository("mycpBundle:generalReservation")->getDestinationsFromReservationsByClientAG($clientId, $reservationDate);
     }
 
     public function statusByClient($clientId, $reservationDate){

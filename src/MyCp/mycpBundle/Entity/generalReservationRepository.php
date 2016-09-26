@@ -776,7 +776,7 @@ WHERE pard.reservationDetail = :gen_res_id";
             $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
         }
 
-        $queryString = "select gres.gen_res_id, gres.gen_res_date, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
+        $queryString = "select gres.gen_res_id, gres.gen_res_date,  own.own_mcp_code, own.own_id,own.own_inmediate_booking,
 COUNT(owres.own_res_id) as totalTooms, res.adults as adults,
 (SELECT count(owress) FROM mycpBundle:ownershipReservation owress WHERE owress.own_res_gen_res_id = gres.gen_res_id) AS rooms,
 res.children as childrens, (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gres.gen_res_id) as isOffer,
@@ -2282,7 +2282,7 @@ group by gres.gen_res_id";
         }
 
 
-        $queryString = "SELECT pa_client.fullname,genRes.gen_res_date, age.`name` as agency_name,age.id as agencyid, u.user_id, u.user_user_name, u.user_last_name,
+        $queryString = "SELECT pa_client.fullname, pa_client.id as idClient,genRes.gen_res_date, age.`name` as agency_name,age.id as agencyid, u.user_id, u.user_user_name, u.user_last_name,
              SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
             COUNT(DISTINCT genRes.gen_res_id) as total,
             MAX(genRes.gen_res_date_hour) as hourRes,
@@ -2346,6 +2346,27 @@ join user u on genRes.gen_res_user_id = u.user_id
         return $query->getResult();
     }
 
+    function getAccommodationsFromReservationsByClientAG($idClient, $reservationDate)
+    {
+        $em = $this->getEntityManager();
+        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking
+            from mycpBundle:generalReservation gres
+            join gres.gen_res_own_id o
+
+JOIN o.own_destination d
+JOIN gres.travelAgencyDetailReservations resDet
+JOIN resDet.reservation res
+JOIN res.client cl
+JOIN cl.travelAgency  age
+where  cl.id = :idClient and gres.gen_res_date = :reservationDate and gres.gen_res_status = :status
+order by LENGTH(o.own_mcp_code), o.own_mcp_code";
+
+        $query = $em->createQuery($queryString)
+            ->setParameter("idClient", $idClient)
+            ->setParameter("reservationDate", $reservationDate)
+            ->setParameter("status", generalReservation::STATUS_PENDING);
+        return $query->getResult();
+    }
     function getDestinationsFromReservationsByClient($idClient, $reservationDate)
     {
         $em = $this->getEntityManager();
@@ -2393,6 +2414,59 @@ join user u on genRes.gen_res_user_id = u.user_id
         return $query->getResult();
     }
 
+
+    function getDestinationsFromReservationsByClientAG($idClient, $reservationDate)
+    {
+        $em = $this->getEntityManager();
+        /*$queryString = "select d.des_id, d.des_name,
+            SUM(if(gres.gen_res_status = :pendingStatus, 1, 0)) as pending,
+            SUM(if(gres.gen_res_status = :notAvailable, 1, 0)) as notAvailable,
+            COUNT(gres.gen_res_id) as total
+            from mycpBundle:generalReservation gres
+            join gres.gen_res_own_id o
+            join o.own_destination d
+            where gres.gen_res_user_id = :idClient and gres.gen_res_date = :reservationDate
+            group by d.des_id
+            order by d.des_name";
+
+        $query = $em->createQuery($queryString)
+            ->setParameter("idClient", $idClient)
+            ->setParameter("reservationDate", $reservationDate)
+            ->setParameter("pendingStatus", generalReservation::STATUS_PENDING)
+            ->setParameter("notAvailable", generalReservation::STATUS_NOT_AVAILABLE);*/
+
+        $queryString = "select d.des_id,cl.id, d.des_name,owres.own_res_reservation_from_date,
+            SUM(if(gres.gen_res_status = :pendingStatus, 1, 0)) as pending,
+            SUM(if(gres.gen_res_status = :notAvailable, 1, 0)) as notAvailable,
+            SUM(if(gres.gen_res_status = :available or gres.gen_res_status = :payed or gres.gen_res_status = :cancelled or gres.gen_res_status = :outdated, 1, 0)) as available,
+            SUM(if(gres.gen_res_status = :payed, 1, 0)) as payed,
+            COUNT(gres.gen_res_id) as total
+            from mycpBundle:ownershipReservation owres
+            join owres.own_res_gen_res_id gres
+            join gres.gen_res_own_id o
+            join o.own_destination d
+
+            JOIN gres.travelAgencyDetailReservations resDet
+            JOIN resDet.reservation res
+            JOIN res.client cl
+            JOIN cl.travelAgency  age
+
+            where cl.id = :idClient and gres.gen_res_date = :reservationDate
+            group by d.des_id, owres.own_res_reservation_from_date
+            order by d.des_name, owres.own_res_reservation_from_date";
+
+        $query = $em->createQuery($queryString)
+            ->setParameter("idClient", $idClient)
+            ->setParameter("reservationDate", $reservationDate)
+            ->setParameter("pendingStatus", generalReservation::STATUS_PENDING)
+            ->setParameter("notAvailable", generalReservation::STATUS_NOT_AVAILABLE)
+            ->setParameter("available", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("payed", generalReservation::STATUS_RESERVED)
+            ->setParameter("cancelled", generalReservation::STATUS_CANCELLED)
+            ->setParameter("outdated", generalReservation::STATUS_OUTDATED);
+
+        return $query->getResult();
+    }
     function getClientStatusByDate($idClient, $reservationDate)
     {
         $em = $this->getEntityManager();
