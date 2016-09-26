@@ -474,8 +474,14 @@ body.landing-page {
     font-size: 25px;
 }
 
+
+
 .modal-reservation a, .modal-reservation a:link, .modal-reservation a:visited, .modal-reservation a:hover{color: #fff;}
 .modal-reservation a:hover{text-decoration: none;}
+
+.modal-reservation a.showReservationsDetails{
+    text-decoration: underline;
+}
 
 .reservation-details{
     background-color: #fff;
