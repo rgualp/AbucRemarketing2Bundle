@@ -549,6 +549,16 @@ var Dashboard = function () {
     }
     var onDeleteFromCartButton = function(){
         $(".deleteFromCart").on('click',function() {
+            swal({
+                title: $("#alertMessages").data("alerttitle"),
+                text: $("#alertMessages").data("alertcontent"),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                closeOnConfirm: false
+            }, function () {
             var result = $('#cartBody');
             var id = $(this).data("id");
             var _url = $(this).data("url");
@@ -572,6 +582,7 @@ var Dashboard = function () {
                 }
             });
 
+            });
         });
     }
     var onCheckDetailsInCartButton = function(){
@@ -637,9 +648,21 @@ var Dashboard = function () {
 
     var onEmptyCartButton = function()
     {
-       /* $("#emptyCart").on('click',function() {
-            $("#overlayLoading").removeClass("hide");
-        });*/
+       $("#emptyCart").on('click',function() {
+           var _url = $(this).data("url");
+               swal({
+                   title: $("#alertMessages").data("alerttitle"),
+                   text: $("#alertMessages").data("alertcontent"),
+                   type: "warning",
+                   showCancelButton: true,
+                   confirmButtonColor: "#DD6B55",
+                   confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                   cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                   closeOnConfirm: false
+               }, function () {
+                   window.location = _url;
+               });
+        });
     }
 
     var onShowMorePaymentButton=function(){

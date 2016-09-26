@@ -31,6 +31,7 @@
         </div>
     </div>
     <div class="col-sm-12 bg-white" id="cartBody">
+        <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans  }}" data-alertcontent="{{ "cart.alert.content" | trans  }}"  data-cancelbutton="{{ "cart.alert.cancel_button" | trans  }}"  data-confirmbutton="{{ "cart.alert.confirm_button" | trans  }}"></span>
         {%  include 'PartnerBundle:Cart:cart_reservations.html.twig' with { 'items' : items }  %}
     </div>
     </div>

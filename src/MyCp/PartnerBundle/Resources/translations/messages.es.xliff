@@ -1729,6 +1729,22 @@
           <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
           <target>No existe capacidad en el alojamiento para la cantidad de adultos y niños especificada</target>
        </trans-unit>
+      <trans-unit id="26">
+          <source>cart.alert.title</source>
+          <target>¿Está seguro?</target>
+       </trans-unit>
+      <trans-unit id="27">
+          <source>cart.alert.content</source>
+          <target>Las reservas se cancelarán. La operación es irreversible</target>
+       </trans-unit>
+      <trans-unit id="28">
+          <source>cart.alert.cancel_button</source>
+          <target>Cancelar</target>
+       </trans-unit>
+      <trans-unit id="29">
+          <source>cart.alert.confirm_button</source>
+          <target>¡Sí, cancelar reservaciones!</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

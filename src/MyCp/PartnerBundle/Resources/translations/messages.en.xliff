@@ -1730,6 +1730,22 @@
           <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
           <target>The capacity of the lodging is not enough for the specified amount of adults and children.</target>
        </trans-unit>
+      <trans-unit id="26">
+          <source>cart.alert.title</source>
+          <target>Are you sure?</target>
+       </trans-unit>
+      <trans-unit id="27">
+          <source>cart.alert.content</source>
+          <target>Reservations will be cancel. You can not undo this operation</target>
+       </trans-unit>
+      <trans-unit id="28">
+          <source>cart.alert.cancel_button</source>
+          <target>Cancel</target>
+       </trans-unit>
+      <trans-unit id="29">
+          <source>cart.alert.confirm_button</source>
+          <target>Yes, cancel reservations!</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

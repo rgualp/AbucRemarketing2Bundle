@@ -32,7 +32,7 @@ class CartController extends Controller
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency);
 
-        return $this->render('PartnerBundle:Dashboard:cart.html.twig', array(
+        return $this->render('PartnerBundle:Cart:cart.html.twig', array(
             "items" => $cartItems
         ));
     }
