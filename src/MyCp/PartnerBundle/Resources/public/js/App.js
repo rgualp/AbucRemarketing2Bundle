@@ -54,6 +54,9 @@ var App = function () {
                     'partner_agency[name]':{
                         maxlength: 30
                     },
+                    'partner_agency[contacts][0][name]':{
+                        maxlength: 50
+                    },
                     'partner_agency[email]':{
                         email: true
                     },

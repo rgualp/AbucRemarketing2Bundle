@@ -736,7 +736,11 @@
       </trans-unit>
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
-        <target state="new"><![CDATA[By creating my account, I accept all <b>Legal Terms and Conditions, as well as Security Policies</b>]]></target>
+        <target state="new">By creating my account, I accept all</target>
+      </trans-unit>
+      <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae58f5bc4601" resname="label.check.term2">
+              <source>label.check.term2</source>
+              <target state="new">Legal Terms and Conditions, as well as Security Policies</target>
       </trans-unit>
       <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
         <source>label.contactus.mcpartner</source>
