@@ -13,13 +13,13 @@
                         {{ "pa.modal.reservation.reserve" | trans | upper }} {{ indexReservation }}
                     </div>
                     <div class="col-md-3">
-                        {{ item.fullname }}
+                       <input data-genresid="{{ item.gen_res_id }}" id="clientName_{{ item.gen_res_id }}" class="form-control clientName" value="{{ item.fullname }}" placeholder="{{ "label.name.client" | trans }}"/>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-control chosen-select-deselect" data-placeholder="{{ "ARRIVAL_TIME" | trans }}" data-toggle="tooltip" title="{{ "ARRIVAL_TIME" | trans }}" data-container="body">
+                        <select data-genresid="{{ item.gen_res_id }}" data-idreservation="{{ idReservation }}" class="form-control chosen-select-deselect arrivalTime" data-placeholder="{{ "ARRIVAL_TIME" | trans }}" data-toggle="tooltip" title="{{ "ARRIVAL_TIME" | trans }}" data-container="body">
                             {%for hour in (0..23)%}
-                                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}</option>
-                                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}</option>
+                                <option value="{{hour ~ ":00"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}</option>
+                                <option value="{{hour ~ ":30"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}</option>
                             {%endfor%}
                         </select>
 

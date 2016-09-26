@@ -173,4 +173,53 @@ class CartController extends Controller
 
         ]);
     }
+
+    public function payNowAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /*$user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();*/
+
+        $roomsToPay = $request->get("roomsToPay");
+        $extraData = $request->get("extraData");
+
+        //Guardar hora de llegada y actualizar nombre del cliente
+        foreach($extraData as $data)
+        {
+            $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($data["genResId"]);
+            $reservation = $em->getRepository("PartnerBundle:paReservation")->find($data["idReservation"]);
+
+            if($data["arrivalTime"] != "") {
+                $generalReservation->setGenResArrivalHour($data["arrivalTime"]);
+                $em->persist($generalReservation);
+
+                $timeExplode = explode(":", $data["arrivalTime"]);
+                $time = new \DateTime();
+                $time->setTime($timeExplode[0], $timeExplode[1], 0);
+
+                $reservation->setArrivalHour($time);
+                $em->persist($reservation);
+            }
+
+            if($data["clientName"] != "") {
+                $client = $reservation->getClient();
+
+                $client->setFullname($data["clientName"]);
+                $em->persist($client);
+            }
+
+            $em->flush();
+        }
+
+
+
+        return new JsonResponse([
+            'success' => true,
+            'url' => "",
+            'message' => ""
+
+        ]);
+    }
+
 }

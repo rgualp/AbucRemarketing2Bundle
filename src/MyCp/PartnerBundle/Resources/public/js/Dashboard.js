@@ -597,6 +597,7 @@ var Dashboard = function () {
                 return $(this).data('owresid');
             }).get();
 
+
             if(checkValues.length == 0)
             {
                 $("#overlayLoading").addClass("hide");
@@ -612,12 +613,14 @@ var Dashboard = function () {
                 if (response.success) {
                     if(response.html != ""){
                         result.html(response.html);
+                        onShowMorePaymentButton();
+                        //onPayNowButton();
                         $("#overlayLoading").addClass("hide");
                         $("#payNow").removeAttr("disabled");
                     }
                 }
             });
-            onShowMorePaymentButton();
+
             $('#selectedReservations').slimScroll({
                 height: '300px',
                 railOpacity: 0.9,
@@ -656,6 +659,39 @@ var Dashboard = function () {
             $(toShow).addClass('hide');
         });
     }
+    var onPayNowButton = function (){
+        $("#payNow").on('click',function() {
+            var _url = $(this).data("url");
+
+            var roomsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function() {
+                return $(this).data('owresid');
+            }).get();
+
+            var extraData = $('select.arrivalTime').map(function() {
+                var genResId = $(this).data('genresid');
+                return {
+                    "genResId": genResId,
+                    "arrivalTime": $(this).val(),
+                    "clientName": $("#clientName_"+genResId).val(),
+                    "idReservation": $(this).data("idreservation")
+                };
+            }).get();
+
+            //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+            $.post(_url, {
+                'roomsToPay': roomsToPay,
+                'extraData': extraData
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.url != ""){
+                        window.location = response.url;
+                    }
+                }
+            });
+        });
+    }
+
 
     return {
         init: function () {
@@ -675,6 +711,7 @@ var Dashboard = function () {
             onPayActionButton();
             onEmptyCartButton();
             onShowMorePaymentButton();
+            onPayNowButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

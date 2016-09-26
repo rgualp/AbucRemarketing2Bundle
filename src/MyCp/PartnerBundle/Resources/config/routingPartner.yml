@@ -231,3 +231,7 @@ partner_dashboard_empty_cart:
 partner_dashboard_pay_selected_reservations_cart:
     locales:  { en: "/dashboard/show-reservations-to-pay-cart", es: "/dashboard/show-reservations-to-pay-cart", de: "/dashboard/show-reservations-to-pay-cart" }
     defaults: { _controller: PartnerBundle:Cart:showReservationsToPay }
+
+partner_dashboard_paynow_cart:
+    locales:  { en: "/dashboard/paynow", es: "/dashboard/paynow", de: "/dashboard/paynow" }
+    defaults: { _controller: PartnerBundle:Cart:payNow }
