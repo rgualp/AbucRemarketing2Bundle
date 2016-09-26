@@ -41,7 +41,8 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'id'=>$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -99,7 +100,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -174,7 +175,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -246,7 +247,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -324,7 +325,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -397,7 +398,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -478,7 +479,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $h = $reservation->getGenResArrivalHour();
             $arrTmp['data'] = array(
-                'cas'=>'CAS'.$reservation->getGenResId(),
+                'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y')." $h",
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
@@ -854,5 +855,31 @@ class DashboardController extends Controller
         return new Response($response, 200);
     }
 
+    public function indexBookingDetailAction($id_reservation)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $reservation->getOwnReservations();
 
+        $service_time = $this->get('time');
+        $array_nights = array();
+        $rooms = array();
+        foreach ($ownership_reservations as $res) {
+            $nights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            array_push($array_nights, $nights);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_detail_'.$id_reservation,
+            'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
+                'cas'=>"CAS.$id_reservation",
+                'reservation'=>$reservation,
+                'reservations' => $ownership_reservations,
+                'rooms' => $rooms,
+                'nights' => $array_nights
+            )),
+            'msg' => 'Vista del detalle de una reserva']);
+    }
 }

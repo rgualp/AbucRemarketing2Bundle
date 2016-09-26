@@ -4,7 +4,7 @@
     {{ parent() }}
     <style>
 
-        .filter-form .field-filter{
+        .filter-form .field-filter {
             padding-left: 4px;
             padding-right: 4px;
         }
@@ -16,7 +16,7 @@
             font-size: 30px;
             margin: 0 0 7px;
             padding: 0;
-            color:  #0d4e76;
+            color: #0d4e76;
             text-overflow: ellipsis;
         }
 
@@ -24,15 +24,15 @@
             padding: 0 15px;
         }
 
-        .card .ibox-tools{
+        .card .ibox-tools {
             margin-top: 10px;
         }
 
-        .ibox-title.card, .ibox-content.card, .ibox.card{
+        .ibox-title.card, .ibox-content.card, .ibox.card {
             background-color: #dfe9f4;
         }
 
-        .ibox.card{
+        .ibox.card {
             margin-bottom: 5px;
         }
 
@@ -46,7 +46,7 @@
             padding: 6px !important;
         }
 
-        .filter-form  .input-group-addon {
+        .filter-form .input-group-addon {
             background-color: #d6d7da;
         }
 
@@ -60,14 +60,14 @@
             opacity: 1 !important;
         }
 
-        .btn-search{
+        .btn-search {
             background-color: #d6d7da;
             /*border-color: #1ab394;*/
             font-size: 14px;
             color: #64a433;
         }
 
-        .date .form-control{
+        .date .form-control {
             border-right: 0px;
         }
 
@@ -108,7 +108,7 @@
             padding: 0 20px 0;
         }
 
-        .activeLink {
+        .activeLink, .activeLink .rt {
             color: #f39921 !important;
         }
 
@@ -120,8 +120,8 @@
             border: 1px solid #1ab394 !important;
         }
 
-        .card .chosen-container-active.chosen-with-drop .chosen-single{
-             border: 1px solid #1ab394 !important;
+        .card .chosen-container-active.chosen-with-drop .chosen-single {
+            border: 1px solid #1ab394 !important;
         }
 
         .card .chosen-container .chosen-drop {
@@ -180,13 +180,13 @@
         </div>
     </div>
     <div class="row text-right hidden-xs" style="background-color: #0c4d77">
-            <div class="col-md-4">
+        <div class="col-md-4">
 
-            </div>
-            <div class="col-md-8 m-t-md" style="line-height: 1;padding-bottom: 20px;margin-left: -40px">
-                <span class="color-white MyriadProBold" style="font-size: 36px">{{ 'dashboard.text_reserv_one' | trans }}</span></br>
-                <span class="color-white MyriadProBoldIt" style="font-size: 24px">{{ 'dashboard.text_reserv_two' | trans }}</span>
-            </div>
+        </div>
+        <div class="col-md-8 m-t-md" style="line-height: 1;padding-bottom: 20px;margin-left: -40px">
+            <span class="color-white MyriadProBold" style="font-size: 36px">{{ 'dashboard.text_reserv_one' | trans }}</span></br>
+            <span class="color-white MyriadProBoldIt" style="font-size: 24px">{{ 'dashboard.text_reserv_two' | trans }}</span>
+        </div>
     </div>
     <div id="wrapper" style="background-color: #0c4d77" class="dashboard-partner">
         {% block nav %}
@@ -218,95 +218,98 @@
 
             jQuery('#side-menu').on('click', ' li > a.ajaxify', function (e) {
                 e.preventDefault();
-
-                var that = $(this);
-
-                HoldOn.open();
-                var href = that.data('href');
-                var attribute = (that.data('class'))?that.data('class'):'';
-                $.ajax({
-                    type: "POST",
-                    url: href,
-                    success: function(result) {
-                        HoldOn.close();
-                        that.addClass('activeLink');
-
-                        var oldItem = $('#'+result.id);
-                        if (oldItem.length > 0){
-                            oldItem.remove();
-                        }
-
-                        var element = $('#content-box');
-                        var firstChild = element.children();
-                        var newItem = $('<div id=' + result.id + ' class="row '+ attribute +'">' + result.html + '</div>');
-
-                        if (firstChild.length == 0){
-                            element.append(newItem);
-                        }
-                        else {
-                            newItem.insertBefore(firstChild[0]);
-                        }
-
-                        renderPlugins(newItem, that);
-                    },
-                    error: function() {
-                        HoldOn.close();
-                    }
-                });
+                var link = $(this);
+                executeAjax(link, null);
             });
-
-            function renderPlugins(element, link){
-                $('html,body').animate({
-                            scrollTop: $("#content-box").offset().top - 100},
-                        'slow');
-
-                element.find('.input-group.date').datepicker({
-                    todayBtn: "linked",
-                    format:'dd-mm-yyyy',
-                    keyboardNavigation: false,
-                    forceParse: false,
-                    calendarWeeks: true,
-                    autoclose: true
-                });
-
-                element.find('.chosen-select').chosen();
-                element.find('.chosen-select-deselect').chosen({allow_single_deselect: true});
-                element.find('.chosen-container-single').width('100%');
-                element.find('.chosen-container-multi').width('100%');
-
-                // Close ibox function
-                element.find('.close-link').click(function () {
-                    var content = $(this).closest('div.ibox');
-                    link.removeClass('activeLink');
-                    content.remove();
-                });
-
-                // Collapse ibox function
-                element.find('.collapse-link').click(function () {
-                    var ibox = $(this).closest('div.ibox');
-                    var button = $(this).find('i');
-                    var content = ibox.find('div.ibox-content');
-                    content.slideToggle(200);
-                    button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-                    ibox.toggleClass('').toggleClass('border-bottom');
-                    setTimeout(function () {
-                        ibox.resize();
-                        ibox.find('[id^=map-]').resize();
-                    }, 50);
-                });
-
-                element.find('input.form-control').focusin(function(){
-                    var input = $(this);
-                    var parent = input.parent();
-                    parent.addClass('focus-parent');
-                });
-                element.find('input.form-control').focusout(function(){
-                    var input = $(this);
-                    var parent = input.parent();
-                    parent.removeClass('focus-parent');
-                });
-            }
         });
 
+        function executeAjax(link, hrefx) {
+            HoldOn.open();
+            var attribute = (link && link.data('class')) ? link.data('class') : '';
+            var href = (link) ? (link.data('href')) : (hrefx);
+
+            $.ajax({
+                type: "POST",
+                url: href,
+                success: function (result) {
+                    HoldOn.close();
+                    (link) ? (link.addClass('activeLink')) : (null);
+
+                    var oldItem = $('#' + result.id);
+                    if (oldItem.length > 0) {
+                        oldItem.remove();
+                    }
+
+                    var element = $('#content-box');
+                    var firstChild = element.children();
+                    var newItem = $('<div id=' + result.id + ' class="row ' + attribute + '">' + result.html + '</div>');
+
+                    if (firstChild.length == 0) {
+                        element.append(newItem);
+                    }
+                    else {
+                        newItem.insertBefore(firstChild[0]);
+                    }
+
+                    renderPlugins(newItem, link);
+                },
+                error: function () {
+                    HoldOn.close();
+                }
+            });
+        }
+
+        function renderPlugins(element, link) {
+            $('html,body').animate({
+                        scrollTop: $("#content-box").offset().top - 100
+                    },
+                    'slow');
+
+            element.find('.input-group.date').datepicker({
+                todayBtn: "linked",
+                format: 'dd-mm-yyyy',
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            element.find('.chosen-select').chosen();
+            element.find('.chosen-select-deselect').chosen({allow_single_deselect: true});
+            element.find('.chosen-container-single').width('100%');
+            element.find('.chosen-container-multi').width('100%');
+
+            // Close ibox function
+            element.find('.close-link').click(function () {
+                var content = $(this).closest('div.ibox');
+                (link) ? (link.removeClass('activeLink')) : (null);
+                content.remove();
+            });
+
+            // Collapse ibox function
+            element.find('.collapse-link').click(function () {
+                var ibox = $(this).closest('div.ibox');
+                var button = $(this).find('i');
+                var content = ibox.find('div.ibox-content');
+                content.slideToggle(200);
+                button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+                ibox.toggleClass('').toggleClass('border-bottom');
+                setTimeout(function () {
+                    ibox.resize();
+                    ibox.find('[id^=map-]').resize();
+                }, 50);
+            });
+
+            element.find('input.form-control').focusin(function () {
+                var input = $(this);
+                var parent = input.parent();
+                parent.addClass('focus-parent');
+            });
+            element.find('input.form-control').focusout(function () {
+                var input = $(this);
+                var parent = input.parent();
+                parent.removeClass('focus-parent');
+            });
+        }
     </script>
 {% endblock %}

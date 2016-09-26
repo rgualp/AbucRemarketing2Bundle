@@ -1749,6 +1749,10 @@
           <source>cart.alert.confirm_button</source>
           <target>¡Sí, cancelar reservaciones!</target>
        </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a49fe" resname="dashboard.booking.detail">
+        <source>dashboard.booking.detail</source>
+        <target state="new">Detalles</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

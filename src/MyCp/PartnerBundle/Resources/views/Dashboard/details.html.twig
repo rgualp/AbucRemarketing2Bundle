@@ -1,0 +1,166 @@
+<div class="ibox card">
+    <div class="ibox-title card">
+        <span class="title-card">{{ "dashboard.booking.detail" | trans }} - {{ cas }}</span>
+
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+            <a class="close-link">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content card">
+        <table>
+            <tr>
+                <td colspan="2"><b>Propiedad: </b>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}
+                    {% if reservation.genResOwnId.ownInmediateBooking %}
+                        <span style="text-align: center" class="badge badge-important pull-right"><i class="glyphicons electricity white" title="Reserva Rápida"></i></span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Tipo: </b>{{ reservation.getGenResOwnId.getOwnType }}</td>
+            </tr>
+            <tr>
+                <td><b>Propietario: </b>{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</td>
+            </tr>
+            <tr>
+                <td><b>Dirección: </b>{{ reservation.getGenResOwnId.getOwnAddressStreet }} {{ reservation.getGenResOwnId.getOwnAddressNumber }} e/ {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet2 }} {{ reservation.getGenResOwnId.getOwnAddressMunicipality }}</td>
+                <td><b>Teléfono: </b>{{ reservation.getGenResOwnId.getOwnPhoneCode }} {{ reservation.getGenResOwnId.getOwnPhoneNumber }}</td>
+            </tr>
+        </table>
+
+        <br>
+
+        <table class="table table-striped" style="font-size: 12px">
+            <thead>
+            <tr>
+                <th>Habitación</th>
+                <th {%if errors['guest_number'] is defined%}class="error"{% endif %}>Adultos</th>
+                <th {%if errors['guest_number'] is defined%}class="error"{% endif %}>Niños</th>
+                <th {%if errors['date_from'] is defined%}class="error"{% endif %}>Entrada</th>
+                <th {%if errors['date_from'] is defined%}class="error"{% endif %}>Salida</th>
+                <th>Noches</th>
+                <th>Precios</th>
+                <th>Precio/Noche</th>
+                <th>Comisión</th>
+                <th>Total</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            {% set flag = 0 %}
+            {% set total_adults = 0 %}
+            {% set total_kids = 0 %}
+            {% set total_nights = 0 %}
+            {% set real_total_nights = 0 %}
+            {% set total_price = 0 %}
+            {% set total_rooms = 0 %}
+            {% set initialDate = null %}
+            {% set endDate = null %}
+
+            {% for reservation_rooms in reservations%}
+                {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                    {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
+                    {% set total_nights = total_nights + nights[loop.index0] %}
+                    {% if initialDate != reservation_rooms.ownResReservationFromDate and endDate != reservation_rooms.ownResReservationToDate %}
+                        {% set real_total_nights = real_total_nights + nights[loop.index0] %}
+                        {% set initialDate = reservation_rooms.ownResReservationFromDate %}
+                        {% set endDate = reservation_rooms.ownResReservationToDate %}
+                    {% endif %}
+                    {% set total_kids = total_kids + reservation_rooms.getOwnResCountChildrens %}
+                    {#% set total_nights = total_nights + reservation_rooms.ownResNights %#}
+                    {% set total_rooms = total_rooms + 1 %}
+                {%endif%}
+                <tr>
+                    <td>
+                        Hab #{{rooms[flag].getRoomNum}} - {{rooms[flag].getRoomType}}
+                    </td>
+                    <td style="width: 50px"><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level {%if errors['guest_number_' ~ reservation_rooms.getOwnResId] is defined%}class='errorControl'{% endif %}">
+                            {% if post['service_room_count_adults_'~reservation_rooms.getOwnResId] is defined %}
+                                {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}})) }}
+                            {% else %}
+                                {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':reservation_rooms.getOwnResCountAdults}})) }}
+                            {% endif %}
+                        </select></td>
+                    <td><select style="width: 50px" name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level {%if errors['guest_number_' ~ reservation_rooms.getOwnResId] is defined%}class='errorControl'{% endif %}">
+                            {% if post['service_room_count_childrens_'~reservation_rooms.getOwnResId] is defined %}
+                                {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':post['service_room_count_childrens_'~reservation_rooms.getOwnResId]}})) }}
+                            {% else %}
+                                {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':reservation_rooms.getOwnResCountChildrens}})) }}
+                            {% endif %}
+                        </select></td>
+                    <td>
+                        <input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}class="errorControl"{% endif %}" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
+                    <td>
+                        <input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}class="errorControl"{% endif %}" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/>
+                    </td>
+                    <td>{{nights[loop.index0]}}{#{reservation_rooms.ownResNights}#}</td>
+                    <td nowrap=nowrap>
+                        {% set idDestination = (reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnDestination != null) ? reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnDestination.getDesId : null %}
+                        {% set minSeason = reservation_rooms.getOwnResReservationFromDate | season(reservation_rooms.getOwnResReservationFromDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
+                        {% set maxSeason = reservation_rooms.getOwnResReservationToDate | season(reservation_rooms.getOwnResReservationFromDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
+                        {%if rooms[flag]%}
+                            {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
+                            Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC
+                            {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %}</span>{% endif %}
+                            <br/>
+
+                            {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
+                            Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                            {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') %} </span>{% endif %}
+                            {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
+                                <br/>
+                                {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
+                                Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                                {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') %} </span>{% endif %}
+                            {%endif%}
+                        {%endif%}
+                    </td>
+                    <td style="width: 7%">
+                        {% set price_own_res =0%}
+
+                        {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
+                            {% set price_own_res=post['service_room_price_'~reservation_rooms.getOwnResId] %}
+                        {% else %}
+                            {% if reservation_rooms.getOwnResNightPrice ==0%}
+                                {% set price_own_res=0 %}
+                            {% else %}
+                                {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                            {% endif %}
+                        {% endif %}
+                        <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
+                    </td>
+                    <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent }}%</td>
+                    <td nowrap="nowrap">
+                        {{reservation_rooms.getOwnResTotalInSite}}CUC
+                        {% if reservation_rooms.getTripleRoomCharged %}
+                            <span class="badge badge-important" title="Este precio tiene incluido 10 CUC adicionales por noche pues la habitación es triple y tiene 3 o más huéspedes">!</span>
+                        {% endif %}</td>
+                    {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                        {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%}
+                    {%endif%}
+                    <td>
+                        <select style="width: 100px" class="input-block-level" id="service_own_res_status_{{reservation_rooms.getOwnResId}}" name="service_own_res_status_{{reservation_rooms.getOwnResId}}" onchange="changeReservationStatus({{ reservation_rooms.getOwnResId }})">
+                            {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
+                                {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}})) }}
+                            {% else %}
+                                {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':reservation_rooms.getOwnResStatus}})) }}
+                            {% endif %}
+                        </select>
+                        <input type="checkbox" id="updateCalendar_{{ reservation_rooms.getOwnResId}}" name="updateCalendar_{{ reservation_rooms.getOwnResId}}" class="hidden"/> <span class="hidden" id="updateCalendarText_{{ reservation_rooms.getOwnResId}}">Agregar no disponibilidad</span>
+                    </td>
+                </tr>
+                {% set flag = flag + 1%}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+</script>
