@@ -35,7 +35,10 @@
                     </div>
                     <div class="row MyriadProRegular" style="margin-left: 10px">
                         {% for reservationDetail in  payments[item.gen_res_id].reservations%}
-                            {{ "DETAILS_PACKAGE_ROOM" | trans }} # <b>{{ reservationDetail.room_num }}</b>. {{ "SELECT_ROOM_TYPE_OPTION" | trans }}: <b>{{ reservationDetail.room_type }}</b>. {{ "ADULTS" | trans }}: <b>{{ reservationDetail.adults }}</b>. {{ "KIDS" | trans }}: <b>{{ reservationDetail.children }}</b><br/>
+                            {{ "DETAILS_PACKAGE_ROOM" | trans }} # <b>{{ reservationDetail.room_num }}</b>. <b>{{ reservationDetail.room_type }}</b>. {{ "ADULTS" | trans }}: <b>{{ reservationDetail.adults }}</b>. {{ "KIDS" | trans }}: <b>{{ reservationDetail.children }}</b>
+                            {{ "NIGHTS" | trans }}: <b>{{ reservationDetail.nights }}</b>. {# $/{{ "night" | trans }} <b>{{ ((reservationDetail.totalInSite/ reservationDetail.nights) * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}</b>.#}
+                            $/{{ "reservation" | trans }}: <b>{{ (reservationDetail.totalInSite * app.user.userCurrency.currCucChange) | number_format(2)  }} {{ app.user.userCurrency.currSymbol }}</b>.
+                            <br/>
                         {% endfor %}
                     </div>
                 </div>

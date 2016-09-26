@@ -88,7 +88,6 @@ class paGeneralReservationRepository extends EntityRepository {
             }
             $partial_total_price[$room->getRoomId()] = $temp_price;
 
-
             $ownership_reservation = new paOwnershipReservation();
             $ownership_reservation->setAdults($adultsToLodge);
             $ownership_reservation->setChildren($childrenToLodge);

@@ -142,7 +142,12 @@ class CartController extends Controller
         $payments = array();
 
         $totalPrepayment = 0;
+        $totalAccommodationPayment = 0;
+        $totalServicesTax = 0;
+        $totalPercentAccommodationPrepayment = 0;
+
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+        $fixedFee = $currentServiceFee->getFixedFee();
 
         foreach($list as $item)
         {
@@ -150,7 +155,10 @@ class CartController extends Controller
             $commission = $item["totalInSite"]*$item["commission"]/100;
 
             $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
-            $fixedFee = 0;
+
+            $totalAccommodationPayment += $item["totalInSite"];
+            $totalServicesTax += $touristFee;
+            $totalPercentAccommodationPrepayment += $commission;
 
             $totalPrepayment += $commission + $touristFee;
 
@@ -180,7 +188,19 @@ class CartController extends Controller
             'html' => $response,
             'message' => "",
             'totalPrepayment' => $totalPrepayment,
-            'totalPrepaymentTxt' => number_format($totalPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol()
+            'totalPrepaymentTxt' => number_format($totalPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
+            'totalAccommodationPayment' => $totalAccommodationPayment,
+            'totalAccommodationPaymentTxt' => number_format($totalAccommodationPayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
+            'totalServiceTaxPayment' => $totalServicesTax,
+            'totalServiceTaxPaymentTxt' => number_format($totalServicesTax * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
+            'fixedTax' => $fixedFee,
+            'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
+            'totalPayment' => $totalAccommodationPayment + $totalServicesTax + $fixedFee,
+            'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax + $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
+            'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
+            'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
+            'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
+            'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol()
 
         ]);
     }

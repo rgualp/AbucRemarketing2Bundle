@@ -24,8 +24,110 @@
     <div class="row" id="selectedReservations">
 
     </div>
-    <div class="row">
-        <p id="totalPrepaymentParagraph" style="font-size: 30px;color: #195476; margin-left: 70px" class="MyriadProBold">{{ 'payment.online_prepayment' | trans }}: <span id="totalPrepayment"></span></p>
+    <div class="container">
+        <div class="row hide" id="paymentsRow" style="font-size: 18px;color: #195476; margin: 0; padding: 0">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title MyriadProBold">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#prepaymentCollapse">
+                                {{ 'payment.online_prepayment' | trans }}: <span id="totalPrepayment" class="pull-right"></span>
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="prepaymentCollapse" class="panel-collapse collapse">
+                        <div class="panel-body MyriadProRegular" style="font-size: smaller">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.commission_percent" | trans | replace({"#percent#": ""}) }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="totalPercentAccommodationsPrepayment"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.service_fee" | trans }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="totalServiceTaxesPrepayment"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.fixed_fee" | trans }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="fixedTaxPrepayment"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title MyriadProBold">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#totalPaymentCollapse" style="width: 100%">
+                                {{ "payment.total" | trans }}  <span id="totalPayment" class="pull-right"></span>
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="totalPaymentCollapse" class="panel-collapse collapse">
+                        <div class="panel-body MyriadProRegular" style="font-size: smaller">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.lodging_price" | trans }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="totalAccommodationsPayment"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.service_fee" | trans }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="totalServiceTaxesPayment"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.fixed_fee" | trans }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="fixedTax"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title MyriadProBold">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#payAtAccommodationCollapse">
+                                {{ "payment.pay_at_service" | trans }}: <span id="atServicePayment" class="pull-right"></span>
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="payAtAccommodationCollapse" class="panel-collapse collapse">
+                        <div class="panel-body MyriadProRegular" style="font-size: smaller">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ "payment.commission_percent" | trans | replace({"#percent#": ""}) }}
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <span id="atServicePercentPayment"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row" style="margin: 5px 0">
         <div class="col-md-3 text-right">
