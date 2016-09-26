@@ -608,7 +608,7 @@
       </trans-unit>
       <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
         <source>frontend.account_type</source>
-        <target state="new">Type of Account</target>
+        <target state="new">Account Type</target>
       </trans-unit>
       <trans-unit id="d47ff1d108be6b98a557b086d08cd4710401ad17" resname="frontend.account_unic">
         <source>frontend.account_unic</source>
@@ -891,7 +891,7 @@
       </trans-unit>
       <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
         <source>label.form.agency.one</source>
-        <target state="new">Enter agency  data to create an account</target>
+        <target state="new">Enter your agency´s information</target>
       </trans-unit>
       <trans-unit id="3ca0fb8286be8eb248d9fbb73bbf775be01cff5a" resname="label.form.agency.three">
         <source>label.form.agency.three</source>
@@ -915,21 +915,21 @@
       </trans-unit>
       <trans-unit id="01e84723ea73e6fd1c2fb4c26ef55b747b6516ea" resname="label.gest.reserved.atention">
         <source>label.gest.reserved.atention</source>
-        <target state="new"><![CDATA[Reservation Management</br>Fast Booking Option</br>Customer Service 24 hours]]></target>
+        <target state="new"><![CDATA[Reservation Management</br>Quick Booking Option</br>Customer Service 24 hours]]></target>
       </trans-unit>
       <trans-unit id="c641702eaf288e0c6ef5dd42aafcb5f90adb5fc4" resname="label.gest.reserved.atention.stadistic">
         <source>label.gest.reserved.atention.stadistic</source>
-        <target state="new"><![CDATA[Reservation Management</br>Fast Booking Option</br>Customer Service 24 hours</br>Immediate Booking Option</br>Checking on statistics]]></target>
+        <target state="new"><![CDATA[Reservation Management</br>Quick Booking Option</br>Customer Service 24 hours</br>Immediate Booking Option</br>Statistics Dashboard]]></target>
       </trans-unit>
       <trans-unit id="25864374edc9a279881a29e1080171adf2abc1d0" resname="label.gest.reserved.atention.stadistic.remarketing">
         <source>label.gest.reserved.atention.stadistic.remarketing</source>
         <target state="new"><![CDATA[Reservation Management</br>
-                                    Fast Booking Option</br>
+                                    Quick Booking Option</br>
                                     Customer Service 24 hours</br>
                                     Immediate Booking Option</br>
-                                    Checking on statistics</br>
+                                    Statistics Dashboard</br>
                                     Availability Management</br>
-                                    Payment and reimbursement Policy</br>
+                                    Payment and reimbursement policy</br>
                                     Creative web design</br>
                                     Email marketing campaigns]]></target>
       </trans-unit>
@@ -947,15 +947,15 @@
       </trans-unit>
       <trans-unit id="f631d633015eff0138cf09be8320c82630ef4924" resname="label.history.reserved">
         <source>label.history.reserved</source>
-        <target state="new">History of Bookings and Invoices</target>
+        <target state="new">Historical Report of Bookings and Invoices</target>
       </trans-unit>
       <trans-unit id="78154adf0edf56c4c9833cdf6b75403fd311ce32" resname="label.history.reserved.creation">
         <source>label.history.reserved.creation</source>
-        <target state="new"><![CDATA[History of Bookings and Invoices</br>Creation of a private section for customers]]></target>
+        <target state="new"><![CDATA[Historical Report of Bookings and Invoices</br>Creation of a private section for customers]]></target>
       </trans-unit>
       <trans-unit id="3ad9c9f2fd8a663ebe50cc4ebb86e18c7d7f3cf4" resname="label.history.reserved.creation.cc">
         <source>label.history.reserved.creation.cc</source>
-        <target state="new"><![CDATA[History of Bookings and Invoices</br>Creation of a private section for customers</br>Discount coupons]]></target>
+        <target state="new"><![CDATA[Historical Report of Bookings and Invoices</br>Creation of a private section for customers</br>Discount coupons]]></target>
       </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
@@ -1179,7 +1179,7 @@
       </trans-unit>
       <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
         <source>label.section.easy_description</source>
-        <target state="new">To reserve becomes the easiest thing in the world. A Site thought to help you and ease your search, in a fast an professional way</target>
+        <target state="new">To make a reservation becomes the easiest thing in the world. A site totally focused to help you and ease your search in a fast and professional way.</target>
       </trans-unit>
       <trans-unit id="7dfdac4964db4400d8ea98123235e157a1bf2a18" resname="label.section.offer_atention">
         <source>label.section.offer_atention</source>
@@ -1243,7 +1243,7 @@
       </trans-unit>
       <trans-unit id="7174bfbffaa7ee7020fc37dedab25c8dde2441b0" resname="label.section.one_sites">
         <source>label.section.one_sites</source>
-        <target state="new">A unique Site</target>
+        <target state="new">An Unique Site</target>
       </trans-unit>
       <trans-unit id="a2c20cf6e92d96ba9e68eea5cf8f6f390a176c73" resname="label.section.one_vacation">
         <source>label.section.one_vacation</source>
@@ -1251,7 +1251,7 @@
       </trans-unit>
       <trans-unit id="4f9e0b63642cf61f023b9ea6bb7e22159b271e28" resname="label.section.service_description">
         <source>label.section.service_description</source>
-        <target state="new">We help you plan your customers´ holidays. Take advantage of our Casas Particulares to enjoy a family environment, discuss business, or live a different adventure.</target>
+        <target state="new">Take advantage of our Casas Particulares to enjoy of a family-like environment, to have incredible business meetings, or to experience a different adventure every day.</target>
       </trans-unit>
       <trans-unit id="1592dd8c15a6a596f6c1171d82a9e670453250c0" resname="label.section.sites_description">
         <source>label.section.sites_description</source>
@@ -1428,7 +1428,7 @@
       </trans-unit>
       <trans-unit id="d8ad88a26917068c242a8cdcea394cbd6f59372b" resname="label.way.payment">
         <source>label.way.payment</source>
-        <target state="new">Way of Payment</target>
+        <target state="new">Payment Method</target>
       </trans-unit>
       <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
         <source>label.welcome</source>
