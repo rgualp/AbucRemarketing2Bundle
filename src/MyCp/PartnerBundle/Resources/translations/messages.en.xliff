@@ -1648,7 +1648,7 @@
        </trans-unit>
       <trans-unit id="5">
           <source>requested_casas</source>
-          <target>requested</target>
+          <target>requested rooms</target>
        </trans-unit>
       <trans-unit id="6">
           <source>pa.accommodation</source>
@@ -1740,12 +1740,16 @@
        </trans-unit>
       <trans-unit id="28">
           <source>cart.alert.cancel_button</source>
-          <target>Cancel</target>
+          <target>Not Now</target>
        </trans-unit>
       <trans-unit id="29">
           <source>cart.alert.confirm_button</source>
           <target>Yes, cancel reservations!</target>
        </trans-unit>
+       <trans-unit id="30">
+         <source>cart.cancel_reservations</source>
+         <target>Cancel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

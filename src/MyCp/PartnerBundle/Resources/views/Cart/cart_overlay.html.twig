@@ -14,7 +14,6 @@
     <div class="row text-center" style="margin-top: 30px">
         <div class="col-md-12" style="line-height: 0.8">
             <p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_1' | trans }}</p>
-            </br>
             <p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_2' | trans }}</p>
         </div>
     </div>
@@ -28,7 +27,7 @@
     <div class="row">
         <p id="totalPrepaymentParagraph" style="font-size: 30px;color: #195476; margin-left: 70px" class="MyriadProBold">{{ 'payment.online_prepayment' | trans }}: <span id="totalPrepayment"></span></p>
     </div>
-    <div class="row" style="margin: 20px 0">
+    <div class="row" style="margin: 5px 0">
         <div class="col-md-3 text-right">
             <a class="bg-blue color-white payButton" id="payNow" data-url="{{ path("partner_dashboard_paynow_cart") }}">
                 <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}</a>

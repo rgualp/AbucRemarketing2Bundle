@@ -291,7 +291,7 @@ var Dashboard = function () {
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
 
-            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && (adults != "" || children != ""));
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "") && (adults != "" || children != "");
 
             if(isValid) {
                 var loadingText = result.data("loadingtext");
