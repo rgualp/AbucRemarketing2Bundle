@@ -1316,7 +1316,7 @@
       </trans-unit>
       <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
         <source>missing_data</source>
-        <target state="new">missing_data</target>
+        <target state="new">Missing data</target>
       </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
@@ -1506,6 +1506,122 @@
         <source>title.section.we</source>
         <target state="new">title.section.we</target>
       </trans-unit>
+      <trans-unit id="1">
+          <source>label.overlay.cart_1</source>
+          <target>You have selected these bookings to please your clients’ requests.</target>
+       </trans-unit>
+      <trans-unit id="2">
+          <source>label.overlay.cart_2</source>
+          <target>Complete the data and check once more before  buying.</target>
+       </trans-unit>
+      <trans-unit id="3">
+          <source>label.overlay.cart_3</source>
+          <target>Good Luck!</target>
+       </trans-unit>
+      <trans-unit id="4">
+          <source>available_casas</source>
+          <target>available casas</target>
+       </trans-unit>
+      <trans-unit id="5">
+          <source>requested_casas</source>
+          <target>requested</target>
+       </trans-unit>
+      <trans-unit id="6">
+          <source>pa.accommodation</source>
+          <target>Name of the casa</target>
+       </trans-unit>
+      <trans-unit id="7">
+          <source>pay_action</source>
+          <target>Pay</target>
+       </trans-unit>
+      <trans-unit id="8">
+          <source>cart.paynow_button</source>
+          <target>Book Now</target>
+       </trans-unit>
+      <trans-unit id="9">
+          <source>cart.back_button</source>
+          <target>Back</target>
+       </trans-unit>
+      <trans-unit id="10">
+          <source>cart.empty_button</source>
+          <target>Empty Cart</target>
+       </trans-unit>
+      <trans-unit id="11">
+          <source>cart.search_again</source>
+          <target>Search again</target>
+       </trans-unit>
+      <trans-unit id="12">
+          <source>payment.details</source>
+          <target>Payment Details</target>
+       </trans-unit>
+      <trans-unit id="13">
+          <source>payment.total</source>
+          <target>Total Price</target>
+       </trans-unit>
+      <trans-unit id="14">
+          <source>payment.online_prepayment</source>
+          <target>Online Prepayment</target>
+       </trans-unit>
+      <trans-unit id="15">
+          <source>payment.pay_at_service</source>
+          <target>Cash Payment on arrival</target>
+       </trans-unit>
+      <trans-unit id="16">
+          <source>night</source>
+          <target>Night</target>
+       </trans-unit>
+      <trans-unit id="17">
+          <source>reservation</source>
+          <target>Reservation</target>
+       </trans-unit>
+      <trans-unit id="18">
+          <source>room</source>
+          <target>Room</target>
+       </trans-unit>
+     <trans-unit id="19">
+          <source>payment.lodging_price</source>
+          <target>Lodging Price</target>
+       </trans-unit>
+      <trans-unit id="20">
+          <source>payment.service_fee</source>
+          <target>Service Fee</target>
+       </trans-unit>
+      <trans-unit id="21">
+          <source>payment.fixed_fee</source>
+          <target>Fixed Fee</target>
+       </trans-unit>
+      <trans-unit id="22">
+          <source>payment.tax_fees</source>
+          <target>Tax for fees</target>
+       </trans-unit>
+      <trans-unit id="23">
+          <source>payment.commission_percent</source>
+          <target>#percent#% of Lodging Price</target>
+       </trans-unit>
+      <trans-unit id="24">
+          <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
+          <target>The requested lodging is not available for the specified period</target>
+       </trans-unit>
+      <trans-unit id="25">
+          <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
+          <target>The capacity of the lodging is not enough for the specified amount of adults and children.</target>
+       </trans-unit>
+      <trans-unit id="26">
+          <source>cart.alert.title</source>
+          <target>Are you sure?</target>
+       </trans-unit>
+      <trans-unit id="27">
+          <source>cart.alert.content</source>
+          <target>Reservations will be cancel. You can not undo this operation</target>
+       </trans-unit>
+      <trans-unit id="28">
+          <source>cart.alert.cancel_button</source>
+          <target>Cancel</target>
+       </trans-unit>
+      <trans-unit id="29">
+          <source>cart.alert.confirm_button</source>
+          <target>Yes, cancel reservations!</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

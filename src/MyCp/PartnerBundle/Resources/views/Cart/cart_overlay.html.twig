@@ -1,0 +1,55 @@
+<div class="overlay deactivate overlay-slidedown m-t-lg" style="height: auto">
+    <div class="row" >
+        <div class="col-md-11 text-right">
+            <div id="overlayLoading" class="hide">
+                <i class="fa fa-refresh fa-spin fa-2x" style="margin-top: 20px"></i>
+            </div>
+        </div>
+        <div class="col-md-1">
+        <button type="button" class="fa fa-times overlay-close"></button>
+        </div>
+    </div>
+
+
+    <div class="row text-center" style="margin-top: 30px">
+        <div class="col-md-12" style="line-height: 0.8">
+            <p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_1' | trans }}</p>
+            </br>
+            <p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_2' | trans }}</p>
+        </div>
+    </div>
+    <div class="row text-center m-t-md">
+        <p style="font-size: 30px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_3' | trans }}</p>
+    </div>
+
+    <div class="row" id="selectedReservations">
+
+    </div>
+    <div class="row">
+        <p id="totalPrepaymentParagraph" style="font-size: 30px;color: #195476; margin-left: 70px" class="MyriadProBold">{{ 'payment.online_prepayment' | trans }}: <span id="totalPrepayment"></span></p>
+    </div>
+    <div class="row" style="margin: 20px 0">
+        <div class="col-md-3 text-right">
+            <a class="bg-blue color-white payButton" id="payNow" data-url="{{ path("partner_dashboard_paynow_cart") }}">
+                <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}</a>
+            </a>
+        </div>
+        <div class="col-md-3 text-center">
+            <a class="overlay-close-second bg-blue color-white payButton">
+                <i class="glyphicons undo"></i>  {{ "cart.back_button" | trans }}</a>
+            </a>
+        </div>
+        <div class="col-md-3 text-center">
+            <a class="bg-blue color-white payButton" id="emptyCart" data-url="{{ path("partner_dashboard_empty_cart") }}">
+                <i class="glyphicons bin"></i>  {{ "cart.empty_button" | trans }}</a>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="bg-blue color-white payButton" href="{{ path("backend_partner_seacrh") }}">
+                <i class="glyphicons search"></i>  {{ "cart.search_again" | trans }}</a>
+            </a>
+        </div>
+    </div>
+
+
+</div>

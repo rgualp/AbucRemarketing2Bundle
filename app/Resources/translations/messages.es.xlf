@@ -3856,6 +3856,10 @@
                       <source>JOIN_CASA</source>
                       <target>¡Únete! Inscribe tu casa</target>
                  </trans-unit>
+                 <trans-unit id="10976">
+                      <source>JOIN_PARTNER</source>
+                      <target>¡HAZTE PARTNER!</target>
+                 </trans-unit>
                   <trans-unit id="977">
                        <source>PRICE_TOTAL_TO_PAY</source>
                        <target>Total a pagar</target>

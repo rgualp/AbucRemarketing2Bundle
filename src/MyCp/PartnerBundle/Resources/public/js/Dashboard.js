@@ -7,7 +7,8 @@ var Dashboard = function () {
    /**
     * Dashboard form init plugins
     */
-       var selectedAccommodationForReserve = 0;
+    var selectedAccommodationForReserve = 0;
+    var cartPrepayment = 0;
 
     var initPlugins=function(){
        var config = {
@@ -290,7 +291,7 @@ var Dashboard = function () {
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
 
-            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && adults != "" && children != "");
+            var isValid = (dateFrom != "" && dateTo != "" && clientName != "" && (adults != "" || children != ""));
 
             if(isValid) {
                 var loadingText = result.data("loadingtext");
@@ -300,8 +301,8 @@ var Dashboard = function () {
                     'dateFrom': dateFrom,
                     'dateTo': dateTo,
                     'clientName': clientName,
-                    'adults': adults,
-                    'children': children,
+                    'adults': (adults == "") ? 0 : adults,
+                    'children': (children == "") ? 0 : children,
                     'accommodationId': selectedAccommodationForReserve
                 }, function (response) {
 
@@ -523,6 +524,7 @@ var Dashboard = function () {
                             $("#loading_" + id).addClass('hide');
                             $(icon_up).removeClass('hide');
                             $(icon_down).addClass('hide');
+                            onCheckDetailsInCartButton();
                         }
                     });
                 }
@@ -545,6 +547,180 @@ var Dashboard = function () {
             $(cartItemContentId).addClass('hide');
         });
     }
+    var onDeleteFromCartButton = function(){
+        $(".deleteFromCart").on('click',function() {
+            swal({
+                title: $("#alertMessages").data("alerttitle"),
+                text: $("#alertMessages").data("alertcontent"),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                closeOnConfirm: false
+            }, function () {
+            var result = $('#cartBody');
+            var id = $(this).data("id");
+            var _url = $(this).data("url");
+
+            $("#loading_" + id).removeClass('hide');
+
+            $.post(_url, {
+                'reservationId': id
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.html != ""){
+                        result.html(response.html);
+                        onDeleteFromCartButton();
+                        onViewMoreButton();
+                        onCheckDetailsInCartButton();
+                        onEmptyCartButton();
+                        onPayActionButton();
+
+                    }
+                }
+            });
+
+            });
+        });
+    }
+    var onCheckDetailsInCartButton = function(){
+        $(".checkAccommodations").on('change',function() {
+            var owresid = $(this).data("owresid");
+            var idreservation = $(this).data("idreservation");
+            var counter = parseInt($("#accommodationsToPay_" + idreservation).html());
+            if ($(this).is(":checked")) {
+                $("#accommodationsToPay_" + idreservation).html(counter+1);
+            }
+            else
+                $("#accommodationsToPay_" + idreservation).html(counter-1);
+        });
+    }
+
+    var onPayActionButton = function ()
+    {
+        $("#trigger-overlay").on('click',function() {
+            $("#overlayLoading").removeClass("hide");
+            $("p#totalPrepaymentParagraph").addClass("hide");
+            var _url = $(this).data("url");
+            var result = $("#selectedReservations");
+
+            var checkValues = $('input[name=checkAccommodationsToPay]:checked').map(function() {
+                return $(this).data('owresid');
+            }).get();
+
+
+            if(checkValues.length == 0)
+            {
+                $("#overlayLoading").addClass("hide");
+                $("#payNow").attr("disabled", "true");
+                return;
+            }
+
+            //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+            $.post(_url, {
+                'checkValues': checkValues
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.html != ""){
+                        result.html(response.html);
+                        onShowMorePaymentButton();
+                        $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                        cartPrepayment = response.totalPrepayment;
+                        $("p#totalPrepaymentParagraph").removeClass("hide");
+                        $("#overlayLoading").addClass("hide");
+                        $("#payNow").removeAttr("disabled");
+                    }
+                }
+            });
+
+            $('#selectedReservations').slimScroll({
+                height: '300px',
+                railOpacity: 0.9,
+                color: '#0d3044',
+                opacity : 1,
+                alwaysVisible : true
+            });
+        });
+    }
+
+    var onEmptyCartButton = function()
+    {
+       $("#emptyCart").on('click',function() {
+           var _url = $(this).data("url");
+               swal({
+                   title: $("#alertMessages").data("alerttitle"),
+                   text: $("#alertMessages").data("alertcontent"),
+                   type: "warning",
+                   showCancelButton: true,
+                   confirmButtonColor: "#DD6B55",
+                   confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                   cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                   closeOnConfirm: false
+               }, function () {
+                   window.location = _url;
+               });
+        });
+    }
+
+    var onShowMorePaymentButton=function(){
+        $('.icon-down-payment').on('click',function(){
+            var genresid = $(this).data("genresid");
+            var icon_up = "#icon-up-payment_" + genresid;
+            var icon_down = "#icon-down-payment_" + genresid;
+            var toShow = ".sectionToHide_" + genresid;
+            $(icon_up).removeClass('hide');
+            $(icon_down).addClass('hide');
+
+            $(toShow).removeClass('hide');
+        });
+        $('.icon-up-payment').on('click',function(){
+            var genresid = $(this).data("genresid");
+            var icon_up = "#icon-up-payment_" + genresid;
+            var icon_down = "#icon-down-payment_" + genresid;
+            var toShow = ".sectionToHide_" + genresid;
+            $(icon_up).addClass('hide');
+            $(icon_down).removeClass('hide');
+            $(toShow).addClass('hide');
+        });
+    }
+    var onPayNowButton = function (){
+        $("#payNow").on('click',function() {
+            $("#overlayLoading").removeClass("hide");
+            $(".payButton").attr("disabled", "true");
+            var _url = $(this).data("url");
+            var roomsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function() {
+                return $(this).data('owresid');
+            }).get();
+
+            var extraData = $('select.arrivalTime').map(function() {
+                var genResId = $(this).data('genresid');
+                return {
+                    "genResId": genResId,
+                    "arrivalTime": $(this).val(),
+                    "clientName": $("#clientName_"+genResId).val(),
+                    "idReservation": $(this).data("idreservation")
+                };
+            }).get();
+
+            //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+            $.post(_url, {
+                'roomsToPay': roomsToPay,
+                'extraData': extraData,
+                'cartPrepayment': cartPrepayment
+            }, function (response) {
+
+                if (response.success) {
+                    if(response.url != ""){
+                        window.location = response.url;
+                    }
+                }
+            });
+        });
+    }
+
 
     return {
         init: function () {
@@ -559,6 +735,12 @@ var Dashboard = function () {
             onCloseOpenReservationDetailedListButton();
             onDeleteOpenReservationDetailButton();
             onViewMoreButton();
+            onDeleteFromCartButton();
+            onCheckDetailsInCartButton();
+            onPayActionButton();
+            onEmptyCartButton();
+            onShowMorePaymentButton();
+            onPayNowButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

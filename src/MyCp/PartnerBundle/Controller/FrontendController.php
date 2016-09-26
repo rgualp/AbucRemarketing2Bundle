@@ -186,29 +186,4 @@ class FrontendController extends Controller
     public function contactusAction(){
         return $this->render('PartnerBundle:Pages:contactus.html.twig', array());
     }
-
-    /**
-     * @param $route
-     * @param null $routeParams
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function getLanguagesAction($route, $routeParams = null)
-    {
-        $routeParams = empty($routeParams) ? array() : $routeParams;
-
-        $em = $this->getDoctrine()->getManager();
-        $languages["ES"] = $em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => "ES"));
-        $languages["EN"] = $em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => "EN"));
-
-        $response = $this->render('PartnerBundle:language:languages.html.twig', array(
-            'languages' => $languages,
-            'route' => $route,
-            'routeParams' => $routeParams
-        ));
-
-        // cache controol -> languages rarely change
-        $response->setSharedMaxAge(3600);
-
-        return $response;
-    }
 }

@@ -60,19 +60,19 @@
       </trans-unit>
       <trans-unit id="216cdb9c56fb4b7d4993b7250ba0c0fc7d706508" resname="CART_HEADER_TEXT1">
         <source>CART_HEADER_TEXT1</source>
-        <target state="new">CART_HEADER_TEXT1</target>
+        <target state="new">¡Enhorabuena!</target>
       </trans-unit>
       <trans-unit id="c538cb022a7cafcf155d85d618f727754844d8a8" resname="CART_HEADER_TEXT2">
         <source>CART_HEADER_TEXT2</source>
-        <target state="new">CART_HEADER_TEXT2</target>
+        <target state="new">Tus reservas y solicitudes del día siguen creciendo</target>
       </trans-unit>
       <trans-unit id="396d3a565afbbc5e74bb94b64a6465b8c3994e9a" resname="CART_HEADER_TEXT3">
         <source>CART_HEADER_TEXT3</source>
-        <target state="new">CART_HEADER_TEXT3</target>
+        <target state="new">Recuerda que tienes 48 horas para efectuar el pago de las reservas que deseas</target>
       </trans-unit>
       <trans-unit id="354bd77fd37f9acb2ce1f5b12b23772133691d5e" resname="CART_HEADER_TEXT4">
         <source>CART_HEADER_TEXT4</source>
-        <target state="new">CART_HEADER_TEXT4</target>
+        <target state="new">Atiende las necesidades de tus clientes lo más rápido posible</target>
       </trans-unit>
       <trans-unit id="e0440741973f68b4cacd4d5c57073cdc33ed87e9" resname="CATEGORY_TAB_DESCRIPTION">
         <source>CATEGORY_TAB_DESCRIPTION</source>
@@ -1439,7 +1439,7 @@
       </trans-unit>
       <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
         <source>missing_data</source>
-        <target state="new">missing_data</target>
+        <target state="new">Faltan datos</target>
       </trans-unit>
       <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
         <source>msg.change.password.invalid</source>
@@ -1629,6 +1629,122 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
+      <trans-unit id="1">
+          <source>label.overlay.cart_1</source>
+          <target>Has seleccionado estas reservas para complacer las solicitudes de tus clientes.</target>
+       </trans-unit>
+      <trans-unit id="2">
+          <source>label.overlay.cart_2</source>
+          <target>Completa los datos y revisa por última vez antes de comprar.</target>
+       </trans-unit>
+      <trans-unit id="3">
+          <source>label.overlay.cart_3</source>
+          <target>¡Buena suerte!</target>
+       </trans-unit>
+      <trans-unit id="4">
+          <source>available_casas</source>
+          <target>casas disponibles</target>
+       </trans-unit>
+      <trans-unit id="5">
+          <source>requested_casas</source>
+          <target>solicitadas</target>
+       </trans-unit>
+      <trans-unit id="6">
+          <source>pa.accommodation</source>
+          <target>Casa</target>
+       </trans-unit>
+      <trans-unit id="7">
+          <source>pay_action</source>
+          <target>Pagar</target>
+       </trans-unit>
+      <trans-unit id="8">
+          <source>cart.paynow_button</source>
+          <target>Reservar Ahora</target>
+       </trans-unit>
+      <trans-unit id="9">
+          <source>cart.back_button</source>
+          <target>Volver</target>
+       </trans-unit>
+      <trans-unit id="10">
+          <source>cart.empty_button</source>
+          <target>Vaciar cesta</target>
+       </trans-unit>
+      <trans-unit id="11">
+          <source>cart.search_again</source>
+          <target>Buscar nuevo</target>
+       </trans-unit>
+      <trans-unit id="12">
+          <source>payment.details</source>
+          <target>Desglose de pago</target>
+       </trans-unit>
+      <trans-unit id="13">
+          <source>payment.total</source>
+          <target>PRECIO TOTAL</target>
+       </trans-unit>
+      <trans-unit id="14">
+          <source>payment.online_prepayment</source>
+          <target>Prepago Online</target>
+       </trans-unit>
+      <trans-unit id="15">
+          <source>payment.pay_at_service</source>
+          <target>Pago en Casa</target>
+       </trans-unit>
+      <trans-unit id="16">
+          <source>night</source>
+          <target>Noche</target>
+       </trans-unit>
+      <trans-unit id="17">
+          <source>reservation</source>
+          <target>Reserva</target>
+       </trans-unit>
+      <trans-unit id="18">
+          <source>room</source>
+          <target>Habit.</target>
+       </trans-unit>
+      <trans-unit id="19">
+          <source>payment.lodging_price</source>
+          <target>Costo del alojamiento</target>
+       </trans-unit>
+      <trans-unit id="20">
+          <source>payment.service_fee</source>
+          <target>Tarifa por servicio</target>
+       </trans-unit>
+      <trans-unit id="21">
+          <source>payment.fixed_fee</source>
+          <target>Tarifa fija</target>
+       </trans-unit>
+      <trans-unit id="22">
+          <source>payment.tax_fees</source>
+          <target>Pago por tarifas</target>
+       </trans-unit>
+      <trans-unit id="23">
+          <source>payment.commission_percent</source>
+          <target>#percent#% del Costo del Alojamiento</target>
+       </trans-unit>
+      <trans-unit id="24">
+          <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
+          <target>El alojamiento no está disponible en el período de tiempo especificado</target>
+       </trans-unit>
+      <trans-unit id="25">
+          <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
+          <target>No existe capacidad en el alojamiento para la cantidad de adultos y niños especificada</target>
+       </trans-unit>
+      <trans-unit id="26">
+          <source>cart.alert.title</source>
+          <target>¿Está seguro?</target>
+       </trans-unit>
+      <trans-unit id="27">
+          <source>cart.alert.content</source>
+          <target>Las reservas se cancelarán. La operación es irreversible</target>
+       </trans-unit>
+      <trans-unit id="28">
+          <source>cart.alert.cancel_button</source>
+          <target>Cancelar</target>
+       </trans-unit>
+      <trans-unit id="29">
+          <source>cart.alert.confirm_button</source>
+          <target>¡Sí, cancelar reservaciones!</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

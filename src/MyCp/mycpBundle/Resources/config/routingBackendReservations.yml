@@ -110,3 +110,9 @@ mycp_generate_clients_callback:
 mycp_download_clients:
     pattern:  /download_clients
     defaults: { _controller: mycpBundle:BackendReservation:downloadClientCallback}
+
+
+
+mycp_details_client_reservationAG:
+    pattern:  /client/detailsAG/{id_client}
+    defaults: { _controller: mycpBundle:BackendReservation:details_client_reservationAg }
