@@ -55,6 +55,7 @@
             {{ (payments[item.gen_res_id].touristFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
         </div>
     </div>
+    {#
     <div class="row detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
         <div class="col-sm-8">
             {{ "payment.fixed_fee" | trans }}
@@ -67,6 +68,7 @@
             {% endif %}
         </div>
     </div>
+    #}
     <div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">
         <div class="col-sm-8">
             {{ "payment.tax_fees" | trans}}
@@ -108,6 +110,19 @@
             {{ (payments[item.gen_res_id].commission * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
         </div>
     </div>
+   {# <div class="row  detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.fixed_fee" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {% if loop.index0 == 0 %}
+                {{ (payments[item.gen_res_id].fixedFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+            {% else %}
+                0.00 {{ app.user.userCurrency.currSymbol }}
+            {% endif %}
+        </div>
+    </div>
+    #}
     <div class="row" style="font-size: smaller">
         <div class="col-sm-8">
             {{ "payment.pay_at_service" | trans }}
