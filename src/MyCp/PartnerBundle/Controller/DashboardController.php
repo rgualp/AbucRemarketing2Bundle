@@ -100,6 +100,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
+                'id'=>$reservation->getGenResId(),
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
@@ -175,6 +176,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
+                'id'=>$reservation->getGenResId(),
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
@@ -247,6 +249,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
+                'id'=>$reservation->getGenResId(),
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
@@ -325,6 +328,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
+                'id'=>$reservation->getGenResId(),
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
@@ -398,6 +402,7 @@ class DashboardController extends Controller
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
+                'id'=>$reservation->getGenResId(),
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
@@ -479,6 +484,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $h = $reservation->getGenResArrivalHour();
             $arrTmp['data'] = array(
+                'id'=>$reservation->getGenResId(),
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y')." $h",
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
@@ -855,7 +861,7 @@ class DashboardController extends Controller
         return new Response($response, 200);
     }
 
-    public function indexBookingDetailAction($id_reservation)
+    public function indexBookingDetailAction($id_reservation, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -863,11 +869,17 @@ class DashboardController extends Controller
 
         $service_time = $this->get('time');
         $array_nights = array();
+        $array_total_prices = array();
         $rooms = array();
+        $curr = $this->getCurr($request);
+
         foreach ($ownership_reservations as $res) {
-            $nights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            $nights = $res->getNights($service_time);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
+
+            $total_price = ($res->getPriceTotal($service_time) * $curr['change']).$curr['code'];
+            array_push($array_total_prices, $total_price);
         }
 
         return new JsonResponse([
@@ -878,7 +890,8 @@ class DashboardController extends Controller
                 'reservation'=>$reservation,
                 'reservations' => $ownership_reservations,
                 'rooms' => $rooms,
-                'nights' => $array_nights
+                'nights' => $array_nights,
+                'total_prices'=>$array_total_prices
             )),
             'msg' => 'Vista del detalle de una reserva']);
     }

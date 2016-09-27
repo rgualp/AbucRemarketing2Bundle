@@ -598,9 +598,13 @@ class ownershipReservation {
 
     }
 
+    public function getNights($timeService){
+        return $timeService->nights($this->getOwnResReservationFromDate()->getTimestamp(), $this->getOwnResReservationToDate()->getTimestamp());
+    }
+
     public function getPriceTotal($timeService)
     {
-        $nights = $timeService->nights($this->getOwnResReservationFromDate()->getTimestamp(), $this->getOwnResReservationToDate()->getTimestamp());
+        $nights = $this->getNights($timeService);
         $totalPrice = 0;
         if($this->getOwnResNightPrice() > 0){
             $totalPrice += $this->getOwnResNightPrice() * $nights;

@@ -132,6 +132,39 @@
             box-shadow: none;
         }
 
+        .card dl {
+            margin-top: 20px;
+        }
+
+        .card dt {
+            font-weight: inherit;
+        }
+
+        .card .striped1.table-striped > tbody > tr:nth-of-type(2n) {
+            background-color: #ffffff;
+        }
+
+        .card .table > thead > tr > th {
+            border-bottom: 1px solid #2d3f77;
+        }
+
+        .card .dl-horizontal dd {
+            margin-left: 0;
+        }
+
+        .card .dl-horizontal dt {
+            text-align: left;
+            width: inherit;
+        }
+
+        .card dd span.rst {
+            margin-left:5px;
+        }
+
+        .card th span.rt {
+            font-weight:200;
+        }
+
     </style>
 {% endblock stylesheets %}
 {% block carousel %}
@@ -222,6 +255,11 @@
                 executeAjax(link, null);
             });
         });
+
+        function executeAjaxEle(ele){
+            var link = $(ele);
+            executeAjax(link, null);
+        }
 
         function executeAjax(link, hrefx) {
             HoldOn.open();
