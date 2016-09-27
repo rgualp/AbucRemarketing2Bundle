@@ -9,10 +9,10 @@
                             <h2 class="normal-font">{{ "pa.modal.reservation.reserve" | trans | upper }} {{ loop.index }} - {{ item.fullname }}</h2>
                         </div>
                         <div  class="col-md-4">
-                            <h2> {{ item.available }} {{ "available_casas" | trans }} / <span id="accommodationsToPay_{{ item.id }}">0</span> {{ "requested_casas" | trans }} </h2>
+                            <h2 style="font-size: 21px"> {{ item.available }} {{ "available_casas" | trans }} / <span id="accommodationsToPay_{{ item.id }}">0</span> {{ "requested_casas" | trans }} </h2>
                         </div>
                         <div  class="col-md-2 text-right">
-                            <h2><a class="deleteFromCart" data-id="{{ item.id }}" data-url="{{ path("partner_dashboard_delete_from_cart") }}"><i class="glyphicons bin" style="margin-bottom: 10px"></i>  {{ "backend.delete" | trans }}</a></h2>
+                            <h2 style="font-size: 20px"><a class="deleteFromCart" data-id="{{ item.id }}" data-url="{{ path("partner_dashboard_delete_from_cart") }}"><i class="glyphicons bin" style="margin-bottom: 10px"></i>  {{ "backend.delete" | trans }}</a></h2>
                         </div>
                         <div class="col-md-1" style="margin-top: 1.8%;">
                             <img id="icon_down_{{ item.id }}" data-id ="{{ item.id }}" class="icon-down" src="{{ asset('bundles/partner/img/icon/back_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}" data-url="{{ path("partner_dashboard_cart_show_reservation_details") }}"/>
