@@ -66,24 +66,34 @@ class SecurityController extends Controller
             if ($form->isValid()) {
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
 
+
                 if ($user_db) {
-                    $service_security = $this->get('Secure');
-                    $encode_string = $service_security->getEncodedUserString($user_db);
-                    $newPassword = $this->generateStrongPassword();
-                    $encode_token = $service_security->encodeString($newPassword);
 
-                    $change_passwordRoute = 'frontend_partner_change_password_user';
-                    $changeUrl = $this->get('router')
-                        ->generate($change_passwordRoute, array('string' => $encode_string, 'token' => $encode_token), true);
-                    //mailing
-                    $body = $this->render('@Partner/Mail/restorePassword.html.twig', array('changeUrl' => $changeUrl, 'newPassword' => $newPassword));
+                    if ($user_db->getRoles()[0] == "ROLE_CLIENT_PARTNER"){
+                        $service_security = $this->get('Secure');
+                        $encode_string = $service_security->getEncodedUserString($user_db);
+                        $newPassword = $this->generateStrongPassword();
+                        $encode_token = $service_security->encodeString($newPassword);
 
-                    $service_email = $this->get('Email');
-                    $service_email->sendTemplatedEmail(
-                        $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
-                    $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
-                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_partner_home'));
+                        $change_passwordRoute = 'frontend_partner_change_password_user';
+                        $changeUrl = $this->get('router')
+                            ->generate($change_passwordRoute, array('string' => $encode_string, 'token' => $encode_token), true);
+                        //mailing
+                        $body = $this->render('@Partner/Mail/restorePassword.html.twig', array('changeUrl' => $changeUrl, 'newPassword' => $newPassword));
+
+                        $service_email = $this->get('Email');
+                        $service_email->sendTemplatedEmail(
+                            $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
+                        $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
+                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                        return $this->redirect($this->generateUrl('frontend_partner_home'));
+
+                    }else{
+                        $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
+                        $this->get('session')->getFlashBag()->add('message_global_error', $message);
+                        return $this->redirect($this->generateUrl('frontend_partner_home'));
+                    }
+
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
                 }
@@ -100,61 +110,6 @@ class SecurityController extends Controller
         ));
     }
 
-//    public function changePasswordAction($string,$token, Request $request) {
-//        $em = $this->getDoctrine()->getManager();
-//        $errors = array();
-//        $form = $this->createForm(new changePasswordUserType($this->get('translator')));
-//        if ($request->getMethod() == 'POST') {
-//            $post = $request->get('mycp_frontendbundle_change_password_usertype');
-//            $form->handleRequest($request);
-//            if ($form->isValid()) {
-//                $service_security = $this->get('Secure');
-//                $decode_string = $service_security->decodeString($string);
-//                $decode_token = $service_security->decodeString($token);
-//                dump($decode_token);die;
-//                $user_atrib = explode('///', $decode_string);
-//                if (isset($user_atrib[1])) {
-//                    $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $user_atrib[1], 'user_email' => $user_atrib[0]));
-//                    if ($user) {
-//                        $factory = $this->get('security.encoder_factory');
-//                        $user2 = new user();
-//                        $encoder = $factory->getEncoder($user2);
-//                        if (isset($post['user_password']['Clave']))
-//                            $password = $encoder->encodePassword($post['user_password']['Clave'], $user->getSalt());
-//                        else
-//                            $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
-//                        $user->setUserPassword($password);
-//                        $em->persist($user);
-//                        $em->flush();
-//
-//                        $message = $this->get('translator')->trans('EMAIL_PASS_CHANGED');
-//                        //mailing
-//                        $service_email = $this->get('Email');
-//                        $service_email->sendTemplatedEmail(
-//                            $message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
-//
-//                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
-////                        return $this->redirect($this->generateUrl('frontend_login'));
-//                        //authenticate the user
-//                        $providerKey = 'user'; //the name of the firewall
-//                        $token = new UsernamePasswordToken($user, $password, $providerKey, $user->getRoles());
-//                        $this->get("security.context")->setToken($token);
-//                        $this->get('session')->set('_security_user', serialize($token));
-//                        return $this->redirect($this->generateUrl("frontend_partner_home"));
-//                    }
-//                } else {
-//                    throw $this->createNotFoundException($this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR"));
-//                }
-//            }
-//        }
-//        //var_dump($form->createView()->getChildren());
-//        //exit();
-//        return $this->render('LayoutBundle:Security:changePasswordUser.html.twig', array(
-//            'string' => $string,
-//            'form' => $form->createView(),
-//            'errors' => $errors
-//        ));
-//    }
 
     public function changePasswordAction($string,$token, Request $request) {
         $em = $this->getDoctrine()->getManager();

@@ -3857,7 +3857,19 @@
              <trans-unit id="974">
                                                                                              <source>MOST_VISITED_CITIES_TITLE</source>
                                                                                              <target>Most visited cities in Cuba </target>
+
+
                                                                                          </trans-unit>
+
+                                                                                          <trans-unit id="976">
+                                                                                                                                                                                                        <source>JOIN_CASA</source>
+                                                                                                                                                                                                        <target>¡Únete! Inscribe tu casa</target>
+                                                                                                                                                                                                   </trans-unit>
+                                                                                                                                                                                                   <trans-unit id="10976">
+                                                                                                                                                                                                        <source>JOIN_PARTNER</source>
+                                                                                                                                                                                                        <target>¡DO PARTNER!</target>
+                                                                                                                                                                                                   </trans-unit>
+
        <trans-unit id="977">
             <source>PRICE_TOTAL_TO_PAY</source>
             <target>Total to pay</target>

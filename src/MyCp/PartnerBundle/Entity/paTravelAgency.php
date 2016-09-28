@@ -69,6 +69,13 @@ class paTravelAgency extends baseEntity
     private $address;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="postalCode", type="string", length=50, nullable=true)
+     */
+    private $postalCode;
+
+    /**
      * @ORM\ManyToOne(targetEntity="\MyCp\mycpBundle\Entity\country",inversedBy="travelAgencies")
      * @ORM\JoinColumn(name="country",referencedColumnName="co_id")
      */
@@ -356,5 +363,25 @@ class paTravelAgency extends baseEntity
     {
         $this->clients->removeElement($client);
     }
+
+    /**
+     * @return string
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
+    }
+
+    /**
+     * @param string $postalCode
+     * @return mixed
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+        return $this;
+    }
+
+
 
 }

@@ -1,0 +1,23 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block title %}
+    <h2>SKRILL TEST PAYMENT PAGE</h2>
+    <h3>Delete this page if not needed anymore</h3>
+{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="container">
+            <a href="{{ payUrl }}">Pay here</a>
+    </div>
+
+
+{% endblock %}
+
+

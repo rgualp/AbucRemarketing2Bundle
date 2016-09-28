@@ -144,9 +144,13 @@
                 <tbody>
                 {% set flag=0 %}
                 {% for reservation in reservations %}
-                    {% set accommodations =  accommodationsByClient(reservation.user_id, reservation.gen_res_date)%}
-                    {% set destinations =  destinationsByClient(reservation.user_id, reservation.gen_res_date)%}
-                    {% set status =  statusByClient(reservation.user_id, reservation.gen_res_date)%}
+                    {#{% set accommodations =  accommodationsByClientAG(reservation.idClient, reservation.gen_res_date)%}#}
+                    {% set accommodations =  accommodationsByClientAG(reservation.idClient, reservation.gen_res_date)%}
+                    {#{% set destinations =  destinationsByClient(reservation.user_id, reservation.gen_res_date)%}#}
+                    {% set destinations =  destinationsByClientAG(reservation.idClient, reservation.gen_res_date)%}
+                        {% set status =  statusByClientAG(reservation.idClient, reservation.gen_res_date)%}
+                    {#{% set status =  statusByClient(reservation.user_id, reservation.gen_res_date)%}#}
+
                     {% set notShowed = 0 %}
                     {%set attended = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED')%}
                     {%set paid = constant('\\MyCp\\mycpBundle\\Entity\\userTourist::STATUS_ATTENDED_PAID')%}
@@ -200,8 +204,8 @@
                         {% if status != attended and reservation.gen_res_date|date("U") >= "-72 hours"|date("U")%}
                         <a title="Exportar" class="btn btn-mini btn-success" href="{{path('mycp_export_users_reservations', {'idClient': reservation.user_id})}}"><i class="icon-download-alt"></i></a>
                         {% endif %}
-                        <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>
-                        <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}"><i class="icon-tags"></i></a>
+                        {#<a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>#}
+                        <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservationAG',{'id_client':reservation.agencyid}) }}"><i class="icon-tags"></i></a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
@@ -268,7 +272,7 @@
             if(filter_name=='')filter_name='null';
             filter_agencia=$('#filter_agencia').val();
             if(filter_agencia=='')filter_agencia='null';
-            alert(filter_agencia);
+
             filter_status=$('#filter_status').val();
             if(filter_status=='')filter_status='null';
             filter_accommodation=$('#filter_accommodation').val();

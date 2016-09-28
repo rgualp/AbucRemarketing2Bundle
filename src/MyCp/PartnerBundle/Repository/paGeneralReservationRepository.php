@@ -14,7 +14,7 @@ use MyCp\PartnerBundle\Entity\paOwnershipReservation;
  */
 class paGeneralReservationRepository extends EntityRepository {
 
-    public function createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $rooms = null)
+    public function createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $translator, $rooms = null)
     {
         $em = $this->getEntityManager();
         $service_time = $container->get("Time");
@@ -40,16 +40,18 @@ class paGeneralReservationRepository extends EntityRepository {
         $rooms = $availability["availableRooms"];
 
         if(count($rooms) == 0)
-            return array("successful" => false, "message" => "MSG_ERROR_NO_ROOMS_AVAILABLE", "reservation" => null);
+            return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_ROOMS_AVAILABLE"), "reservation" => null);
 
         $isAValidTotalGuests = $this->checkCapacity($availability["availableCapacity"], $adults, $children);
 
         if(!$isAValidTotalGuests)
-            return array("successful" => false, "message" => "MSG_ERROR_NO_VALID_TOTAL_GUESTS", "reservation" => null);
+            return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_VALID_TOTAL_GUESTS"), "reservation" => null);
 
         $adultsCounter = $adults;
         $childrenCounter = $children;
 
+        /*var_dump("Adultos total: " . $adults."<br/>");
+        var_dump("Niños total: " . $children."<br/>");*/
 
         foreach ($rooms as $room) {
             if($adultsCounter <= 0 && $childrenCounter <= 0) break;
@@ -66,6 +68,12 @@ class paGeneralReservationRepository extends EntityRepository {
             $adultsCounter -= $adultsToLodge;
             $childrenCounter -= $childrenToLodge;
 
+            /*var_dump("Habitacion: " . $room->getRoomNum()."<br/>");
+            var_dump("Adultos a ubicar: " . $adultsToLodge."<br/>");
+            var_dump("Niños a ubicar: " . $childrenToLodge."<br/>");
+            var_dump("Adultos restantes: " . $adultsCounter."<br/>");
+            var_dump("Niños restantes: " . $childrenCounter."<br/>");*/
+
             $triple_room_recharge = (($adultsToLodge + $childrenToLodge) >= 3) ? $container->getParameter('configuration.triple.room.charge') : 0;
             $array_dates = $service_time->datesBetween($dateFrom->getTimestamp(), $dateTo->getTimestamp());
             $temp_price = 0;
@@ -80,10 +88,9 @@ class paGeneralReservationRepository extends EntityRepository {
             }
             $partial_total_price[$room->getRoomId()] = $temp_price;
 
-
             $ownership_reservation = new paOwnershipReservation();
-            $ownership_reservation->setAdults($adults);
-            $ownership_reservation->setChildren($children);
+            $ownership_reservation->setAdults($adultsToLodge);
+            $ownership_reservation->setChildren($childrenToLodge);
             $ownership_reservation->setDateFrom($dateFrom);
             $ownership_reservation->setDateTo($dateTo);
             $ownership_reservation->setRoom($room);

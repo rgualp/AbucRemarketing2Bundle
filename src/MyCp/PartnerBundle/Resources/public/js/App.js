@@ -51,11 +51,20 @@ var App = function () {
 
                 },
                 rules: {
+                    'partner_agency[name]':{
+                        maxlength: 30
+                    },
+                    'partner_agency[contacts][0][name]':{
+                        maxlength: 50
+                    },
                     'partner_agency[email]':{
                         email: true
                     },
                     'partner_agency[contacts][0][email]':{
                         email: true
+                    },
+                    'partner_agency[address]':{
+                        maxlength: 100
                     },
                     'partner_agency[phone]':{
                         number: true
