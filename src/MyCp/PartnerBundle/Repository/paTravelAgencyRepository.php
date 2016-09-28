@@ -40,7 +40,8 @@ class paTravelAgencyRepository extends EntityRepository {
         $user->setUserPhone($phone);
         $user->setUserName($obj->getEmail());
         $user->setUserRole('ROLE_CLIENT_PARTNER');
-        $user->setUserEnabled(false);
+        //$user->setUserEnabled(false);
+        $user->setUserEnabled(true);
         $user->setUserCreatedByMigration(false);
         $user->setUserSubrole($subrole);
         $user->setUserUserName($obj->getEmail());
