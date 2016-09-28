@@ -105,6 +105,10 @@ partner_dashboard_booking_list_pending:
     locales:  { en: "/dashboard/booking/pending/list", es: "/dashboard/booking/pending/list", de: "/dashboard/booking/pending/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingPending }
 
+partner_dashboard_booking_detail:
+    locales:  { en: "/dashboard/booking/detail/{id_reservation}", es: "/dashboard/booking/detail/{id_reservation}", de: "/dashboard/booking/detail/{id_reservation}" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingDetail,id_reservation:''}
+
 partner_dashboard_booking_availability:
     locales:  { en: "/dashboard/booking/availability", es: "/dashboard/booking/availability", de: "/dashboard/booking/availability" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingAvailability }

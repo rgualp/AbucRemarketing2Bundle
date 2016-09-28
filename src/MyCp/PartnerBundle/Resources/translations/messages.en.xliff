@@ -1754,6 +1754,42 @@
          <source>cart.cancel_reservations</source>
          <target>Cancel</target>
       </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a49fe" resname="dashboard.booking.detail">
+        <source>dashboard.booking.detail</source>
+        <target state="new">Details</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a01aa" resname="dashboard.booking.status">
+        <source>dashboard.booking.status</source>
+        <target state="new">Status</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a02aa" resname="dashboard.booking.home.type">
+        <source>dashboard.booking.home.type</source>
+        <target state="new">Type</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a03aa" resname="dashboard.booking.home.category">
+        <source>dashboard.booking.home.category</source>
+        <target state="new">Category</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a04aa" resname="dashboard.booking.home.province">
+        <source>dashboard.booking.home.province</source>
+        <target state="new">Province</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a05aa" resname="dashboard.booking.home.destination">
+        <source>dashboard.booking.home.destination</source>
+        <target state="new">Destination</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a06aa" resname="dashboard.booking.home.owns">
+        <source>dashboard.booking.home.owns</source>
+        <target state="new">Owns</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a07aa" resname="dashboard.btn.booking.cancel">
+        <source>dashboard.btn.booking.cancel</source>
+        <target state="new">Cancel</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a08aa" resname="dashboard.btn.booking.paid">
+        <source>dashboard.btn.booking.paid</source>
+        <target state="new">Paid</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
