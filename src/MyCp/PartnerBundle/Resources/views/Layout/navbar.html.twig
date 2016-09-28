@@ -8,7 +8,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><img id="img-partner" class="img-responsive {% if navbar_bg_class is defined %} fixed-nav {% endif %}" src="{{ asset('bundles/partner/img/icon/logo_'~app.session.get('app_lang_code')|lower)}}.png" alt="{{"label.home" | trans}}" style="margin-top: 7px;{% if navbar_bg_class is defined %} width: 230px {% endif %}"/></a>
+                <a class="visible-xs" href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><div id="img-partner-movil" class="bac-color-{{app.session.get('app_lang_code')|lower }}"></div></a>
+                <a class="hidden-xs" href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><img id="img-partner" class="img-responsive {% if navbar_bg_class is defined %} fixed-nav {% endif %}" src="{{ asset('bundles/partner/img/icon/logo_'~app.session.get('app_lang_code')|lower)}}.png" alt="{{"label.home" | trans}}" style="margin-top: 7px;{% if navbar_bg_class is defined %} width: 230px {% endif %}"/></a>
             </div>
             <div class="navbar-collapse collapse navbar-partner" id="navbar">
                 <ul class="nav navbar-nav navbar-right">

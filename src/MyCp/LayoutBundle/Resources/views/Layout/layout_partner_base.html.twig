@@ -131,12 +131,22 @@
                     $(header).addClass('navbar-scroll');
                     if(!$("#img-partner").hasClass('fixed-nav'))
                         $("#img-partner").css("width", "230px");
+                    //Para el movil
+                    if($('#img-partner-movil').hasClass('bac-color-{{app.session.get('app_lang_code')|lower }}')){
+                        $('#img-partner-movil').removeClass('bac-color-{{app.session.get('app_lang_code')|lower }}');
+                        $('#img-partner-movil').addClass('bac-white-{{app.session.get('app_lang_code')|lower }}');
+                    }
 
                 }
                 else {
                     $(header).removeClass('navbar-scroll');
                     if(!$("#img-partner").hasClass('fixed-nav'))
                         $("#img-partner").css("width", "376px");
+
+                    if($('#img-partner-movil').hasClass('bac-white-{{app.session.get('app_lang_code')|lower }}')){
+                        $('#img-partner-movil').addClass('bac-color-{{app.session.get('app_lang_code')|lower }}');
+                        $('#img-partner-movil').removeClass('bac-white-{{app.session.get('app_lang_code')|lower }}');
+                    }
                 }
                 didScroll = false;
             }
