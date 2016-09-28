@@ -1487,7 +1487,7 @@
       </trans-unit>
       <trans-unit id="b4171ddfaa2430920f7b992a4f6a1fdb569a0c3a" resname="pa.modal.reservation.no_data_open_reservation_list">
         <source>pa.modal.reservation.no_data_open_reservation_list</source>
-        <target state="new">No hay reservaciones abiertas</target>
+        <target state="new">No hay solicitudes creadas</target>
       </trans-unit>
       <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
         <source>pa.modal.reservation.reserve</source>

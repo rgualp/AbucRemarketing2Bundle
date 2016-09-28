@@ -6,7 +6,7 @@
         #}
 
         {% if (status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING') or status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')) %}
-            <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search"> {{ 'dashboard.btn.booking.cancel' | trans }} </a></div>
+            <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" data-id-res="{{ id_res }}" onClick="executeCancel(this)"> {{ 'dashboard.btn.booking.cancel' | trans }} </a></div>
         {%endif%}
         {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE') %}
             <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" href="{{ path("partner_dashboard_cart") }}"> {{ 'dashboard.btn.booking.paid' | trans }} </a></div>
