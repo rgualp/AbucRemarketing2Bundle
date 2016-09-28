@@ -1014,6 +1014,15 @@
                 <source>EMAIL_INVALID_MESSAGE</source>
                 <target>La dirección de correo no es válida</target>
             </trans-unit>
+
+            <trans-unit id="11928">
+                            <source>find_partner</source>
+                            <target>Para agencias de viajes</target>
+                          </trans-unit>
+                           <trans-unit id="11929">
+                                          <source>hazte_partner</source>
+                                          <target>Hazte Partner</target>
+                                        </trans-unit>
             <trans-unit id="263">
                 <source>COMMENTTEXT_REQUIERED_MESSAGE</source>
                 <target>El comentario no puede estar vacío</target>
