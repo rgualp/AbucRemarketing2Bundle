@@ -138,7 +138,7 @@
             {% endfor %}
         </table>
 
-        {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus} %}
+        {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
     </div>
 </div>
 

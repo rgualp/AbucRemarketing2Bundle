@@ -167,6 +167,7 @@
 
     </style>
 {% endblock stylesheets %}
+
 {% block carousel %}
     <div id="inSlider" class="carousel carousel-fade hidden-xs" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
@@ -265,10 +266,12 @@
             HoldOn.open();
             var attribute = (link && link.data('class')) ? link.data('class') : '';
             var href = (link) ? (link.data('href')) : (hrefx);
+            var data = {};
 
             $.ajax({
                 type: "POST",
                 url: href,
+                data:data,
                 success: function (result) {
                     HoldOn.close();
                     (link) ? (link.addClass('activeLink')) : (null);
@@ -290,6 +293,54 @@
                     }
 
                     renderPlugins(newItem, link);
+                },
+                error: function () {
+                    HoldOn.close();
+                }
+            });
+        }
+
+        function executeCancel(link) {
+            swal({
+                title: "{{ "cart.alert.title" | trans  }}",
+                text: "{{ "cart.alert.content" | trans  }}",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "{{ "cart.alert.confirm_button" | trans  }}",
+                cancelButtonText: "{{ "cart.alert.cancel_button" | trans  }}",
+                closeOnConfirm: true
+            }, function () {
+                cancelBooking(link);
+            });
+        }
+
+        function cancelBooking(link) {
+            HoldOn.open();
+            link = $(link);
+            var href = "{{ path("partner_dashboard_booking_cancel") }}";
+            var data = {
+                'reservationId':link.data('id-res')
+            };
+
+            $.ajax({
+                type: "POST",
+                url: href,
+                data:data,
+                success: function (result) {
+                    HoldOn.close();
+                    if(typeof filterPendingAction == 'function'){
+                        filterPendingAction();
+                    }
+                    if(typeof filterAvailabilityAction == 'function'){
+                        filterAvailabilityAction();
+                    }
+                    if(typeof filterCanceledAction == 'function'){
+                        filterCanceledAction();
+                    }
+
+                    var url = '{{ path("partner_dashboard_booking_detail") }}/' + link.data('id-res');
+                    executeAjax(null, url);
                 },
                 error: function () {
                     HoldOn.close();
