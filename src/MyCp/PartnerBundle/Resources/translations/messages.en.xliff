@@ -883,11 +883,11 @@
       </trans-unit>
       <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
         <source>label.filter.arrival</source>
-        <target state="new">label.filter.arrival</target>
+        <target state="new">Arrival</target>
       </trans-unit>
       <trans-unit id="922c358adc3b36c93a128e90f931f5810d2cf26c" resname="label.filter.exit">
         <source>label.filter.exit</source>
-        <target state="new">label.filter.exit</target>
+        <target state="new">Departure</target>
       </trans-unit>
       <trans-unit id="3597de2b60f98bcc1a9f829350f319b99844fb97" resname="label.forgot_password">
         <source>label.forgot_password</source>
@@ -1059,7 +1059,7 @@
       </trans-unit>
       <trans-unit id="db2601afdbf8756c4a63192e8b537cf6e95bb571" resname="label.name.client">
         <source>label.name.client</source>
-        <target state="new">label.name.client</target>
+        <target state="new">Client name</target>
       </trans-unit>
       <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
         <source>label.name.country</source>
@@ -1163,11 +1163,11 @@
       </trans-unit>
       <trans-unit id="ddfafcc087f00f7abfd2ea216401daf72aa0dfbc" resname="label.reservation.adults">
         <source>label.reservation.adults</source>
-        <target state="new">label.reservation.adults</target>
+        <target state="new">Adults</target>
       </trans-unit>
       <trans-unit id="89fa21ff59068b8e201d19e92311020ddc6aad84" resname="label.reservation.children">
         <source>label.reservation.children</source>
-        <target state="new">label.reservation.children</target>
+        <target state="new">Children</target>
       </trans-unit>
       <trans-unit id="b5c9af60111af4277f44b89fb59fd2a2aaba9eb4" resname="label.resgister.description.one">
         <source>label.resgister.description.one</source>
@@ -1468,15 +1468,15 @@
       </trans-unit>
       <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
         <source>pa.modal.reservation.add</source>
-        <target state="new">pa.modal.reservation.add</target>
+        <target state="new">Add</target>
       </trans-unit>
       <trans-unit id="3791c02b8729e890f79d56e9b81597c0bb2bcd44" resname="pa.modal.reservation.end_reservation">
         <source>pa.modal.reservation.end_reservation</source>
-        <target state="new">pa.modal.reservation.end_reservation</target>
+        <target state="new">End request</target>
       </trans-unit>
       <trans-unit id="1afc9315503b6a341dc65cbe91fb1bcb6dbd1648" resname="pa.modal.reservation.guest_total">
         <source>pa.modal.reservation.guest_total</source>
-        <target state="new">pa.modal.reservation.guest_total</target>
+        <target state="new">Guest Total</target>
       </trans-unit>
       <trans-unit id="bad9ccc661ff6fbff302e215cfe9a087b45e6850" resname="pa.modal.reservation.guest_with_reservation">
         <source>pa.modal.reservation.guest_with_reservation</source>
@@ -1484,19 +1484,19 @@
       </trans-unit>
       <trans-unit id="9d48b322040565903f03257319b60a3777c11cdc" resname="pa.modal.reservation.new_reservation">
         <source>pa.modal.reservation.new_reservation</source>
-        <target state="new">pa.modal.reservation.new_reservation</target>
+        <target state="new">New booking</target>
       </trans-unit>
       <trans-unit id="b4171ddfaa2430920f7b992a4f6a1fdb569a0c3a" resname="pa.modal.reservation.no_data_open_reservation_list">
         <source>pa.modal.reservation.no_data_open_reservation_list</source>
-        <target state="new">pa.modal.reservation.no_data_open_reservation_list</target>
+        <target state="new">There are no created requests</target>
       </trans-unit>
       <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
         <source>pa.modal.reservation.reserve</source>
-        <target state="new">pa.modal.reservation.reserve</target>
+        <target state="new">Booking</target>
       </trans-unit>
       <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
         <source>pa.modal.reservation.title</source>
-        <target state="new">pa.modal.reservation.title</target>
+        <target state="new">Find easier the availability for your clients</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>

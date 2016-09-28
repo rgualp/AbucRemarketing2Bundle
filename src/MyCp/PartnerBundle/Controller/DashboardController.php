@@ -886,6 +886,7 @@ class DashboardController extends Controller
             'success' => true,
             'id' => 'id_dashboard_booking_detail_'.$id_reservation,
             'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
+                'id_res'=>$id_reservation,
                 'cas'=>"CAS.$id_reservation",
                 'reservation'=>$reservation,
                 'reservations' => $ownership_reservations,
@@ -894,5 +895,29 @@ class DashboardController extends Controller
                 'total_prices'=>$array_total_prices
             )),
             'msg' => 'Vista del detalle de una reserva']);
+    }
+
+    public function cancelFromAgencyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reservationId = $request->get("reservationId");
+
+        $generalReservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
+        $ownershipReservations = $generalReservation->getOwn_reservations();
+        foreach($ownershipReservations as $ownRes){
+            $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+            $em->persist($ownRes);
+        }
+        $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+        $generalReservation->setGenResStatusDate(new \DateTime());
+        $generalReservation->setCanceledBy($this->getUser());
+        $em->persist($generalReservation);
+
+        $em->flush();
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => "Cancelado correctamente"
+        ]);
     }
 }

@@ -109,6 +109,10 @@ partner_dashboard_booking_detail:
     locales:  { en: "/dashboard/booking/detail/{id_reservation}", es: "/dashboard/booking/detail/{id_reservation}", de: "/dashboard/booking/detail/{id_reservation}" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingDetail,id_reservation:''}
 
+partner_dashboard_booking_cancel:
+    locales:  { en: "/dashboard/booking/cancel", es: "/dashboard/booking/cancel", de: "/dashboard/booking/cancel" }
+    defaults: { _controller: PartnerBundle:Dashboard:cancelFromAgency}
+
 partner_dashboard_booking_availability:
     locales:  { en: "/dashboard/booking/availability", es: "/dashboard/booking/availability", de: "/dashboard/booking/availability" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingAvailability }

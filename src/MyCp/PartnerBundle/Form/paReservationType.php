@@ -26,7 +26,7 @@ class paReservationType extends AbstractType
         $builder
             ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('adults', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
-            ->add('children', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('children', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
         ;
     }
     
