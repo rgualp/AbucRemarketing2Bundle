@@ -25,7 +25,12 @@ use MyCp\mycpBundle\Helpers\VoucherHelper;
 class BackendReservationAgController extends Controller {
 
 
-
+    /**
+     * @param $items_per_page
+     * @param Request $request
+     * @inheritdoc  este metodo es para el listado de cliente agencias
+     * @return Response
+     */
     public function listReservationsByUsersAGAction($items_per_page, Request $request) {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/

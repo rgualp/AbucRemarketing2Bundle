@@ -625,7 +625,8 @@ class BackendReservationController extends Controller {
 
 
         $em = $this->getDoctrine()->getManager();
-        $client_agency = $em->getRepository('PartnerBundle:paTravelAgency')->find($id_client);
+//        $client_agency = $em->getRepository('PartnerBundle:paClient')->find($id_client);
+        $client_agency = $em->getRepository('mycpBundle:generalReservation')->getNameAgencyOfTheClient($id_client);
         ///$userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUserAg($id_client);
         $price = 0;
