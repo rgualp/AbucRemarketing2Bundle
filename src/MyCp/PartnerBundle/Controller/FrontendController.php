@@ -132,7 +132,9 @@ class FrontendController extends Controller
                 $tourOperator->setTravelAgency($obj);
                 $em->persist($tourOperator);
                 $em->flush();
-                return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
+
+                return $this->redirect($this->generateUrl('frontend_partner_home'));
+                //return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
             }
 
         }
