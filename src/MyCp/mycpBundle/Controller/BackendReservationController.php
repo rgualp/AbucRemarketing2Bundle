@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\VoucherHelper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BackendReservationController extends Controller {
 
@@ -1296,7 +1297,7 @@ class BackendReservationController extends Controller {
         $user = $em->getRepository('mycpBundle:user')->find($request->get('iduser'));
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $request->get('iduser')));
 
-        switch($userTourist[0]->getUserTouristLanguage()->getLangCode())
+        switch((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')
         {
             case 'ES':{
                 $content_config=array('subject'=>$config[0]->getSubjectEs(),'introduction'=>$config[0]->getIntroductionEs(),'foward'=>$config[0]->getFowardEs());
@@ -1308,7 +1309,7 @@ class BackendReservationController extends Controller {
                 $content_config=array('subject'=>$config[0]->getSubjectDe(),'introduction'=>$config[0]->getIntroductionDe(),'foward'=>$config[0]->getFowardDe());
             }
         }
-        return $this->render('mycpBundle:reservation:modal_email.html.twig', array('config'=>$config,'user'=>$user,'content_config'=>$content_config,'email_destination'=>$email_destination,'language_email'=>strtolower($userTourist[0]->getUserTouristLanguage()->getLangCode())));
+        return $this->render('mycpBundle:reservation:modal_email.html.twig', array('config'=>$config,'user'=>$user,'content_config'=>$content_config,'email_destination'=>$email_destination,'language_email'=>strtolower((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')));
     }
 
     /**
