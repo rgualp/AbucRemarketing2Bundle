@@ -66,6 +66,9 @@ var App = function () {
                     'partner_agency[contacts][0][mobile]':{
                         number: true
                     },
+                    'partner_agency[phoneAux]':{
+                        number: true
+                    },
                     'password':{
                         minlength: 8
                     },
