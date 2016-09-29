@@ -6,15 +6,14 @@
             </div>
             <div class="modal-body modal-agency pb-0">
                 <form class="form-horizontal form-agency" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
-                <div class="col-md-3" >
-                    <div class="row hidden-xs" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_'~app.session.get('app_lang_code')|lower)}}.png)  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
+                <div class="col-md-3  hidden-xs">
+                    <div class="row" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_'~app.session.get('app_lang_code')|lower)}}.png)  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
                     </div>
                     <div class="row">
                         <button class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>
                     </div>
                 </div>
                 <div class="col-md-9">
-
                         <div class="row agency text-right">
                             <p class="m-r-12 hidden-xs">{{ 'label.form.agency.one' | trans }}</p>
                             <div class="col-md-6">
@@ -68,11 +67,13 @@
                             <div class="checkbox checkbox-info" style="margin-left: 40px">
                                 <input id="checkbox4" type="checkbox" name="terms">
                                 <label for="checkbox4" style="font-size: 16px;font-family: MyriadProRegular">
-                                    {{ 'label.check.term' | trans | raw }} <a href="{{ path('frontend_partner_legal') }}"> {{ 'label.check.term2' | trans | raw }}</a>
+                                    {{ 'label.check.term' | trans | raw }} <a href="{{ path('frontend_partner_legal') }}" target="_blank"> {{ 'label.check.term2' | trans | raw }}</a>
                                 </label>
                             </div>
                         </div>
-
+                        <div class="row visible-xs">
+                            <button class="btn btn-primary btn-register-partner">{{ 'label.register.agency' | trans }}</button>
+                        </div>
                 </div>
                 </form>
             </div>

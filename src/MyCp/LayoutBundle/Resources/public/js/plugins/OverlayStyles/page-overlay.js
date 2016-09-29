@@ -52,6 +52,14 @@
                     }else if( !classie.has( overlay, 'close' ) ) {
                         classie.add( overlay, 'open' );
                         classie.add( overlay_container, 'overlay-open' );
+                        $('#overlay-login').slimScroll({
+                            height: '100%',
+                            width: '100%',
+                            railOpacity: 0.9,
+                            color: '#0d3044',
+                            opacity: 1,
+                            alwaysVisible: true
+                        });
                     }
             });
 

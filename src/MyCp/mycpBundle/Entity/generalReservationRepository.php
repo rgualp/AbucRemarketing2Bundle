@@ -756,6 +756,27 @@ WHERE pard.reservationDetail = :gen_res_id";
     }
 
 
+
+
+    function getNameAgencyOfTheClient($id_client)
+    {
+        $em = $this->getEntityManager();
+        $queryString ="SELECT ta.name,ta.id,pc.fullname as fullname,pc.id FROM  PartnerBundle:paClient pc JOIN PartnerBundle:paTravelAgency ta WHERE pc.id=:id_client AND pc.travelAgency =ta.id";
+
+        $query = $em->createQuery($queryString);
+//       return $query->getArrayResult();
+        return $query->setParameter('id_client', $id_client)->getSingleResult();
+    }
+
+
+    /**
+     * @param $id_user
+     * @param null $ownId
+     * @param bool|false $isUserCasaModule
+     * @param bool|false $notAttendedReservations
+     * @inheritdoc Este es para el detalle del cliente agencia
+     * @return array
+     */
     function getByUserAg($id_user, $ownId = null, $isUserCasaModule = false, $notAttendedReservations = false)
     {
         $em = $this->getEntityManager();
@@ -776,7 +797,7 @@ WHERE pard.reservationDetail = :gen_res_id";
             $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
         }
 
-        $queryString = "select gres.gen_res_id, gres.gen_res_date,  own.own_mcp_code, own.own_id,own.own_inmediate_booking,
+        $queryString = "select gres.gen_res_id, gres.gen_res_date,cl.fullname as clientname, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
 COUNT(owres.own_res_id) as totalTooms, res.adults as adults,
 (SELECT count(owress) FROM mycpBundle:ownershipReservation owress WHERE owress.own_res_gen_res_id = gres.gen_res_id) AS rooms,
 res.children as childrens, (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gres.gen_res_id) as isOffer,
@@ -2243,6 +2264,18 @@ group by gres.gen_res_id";
         return $statement->fetchAll();
     }
 
+    /**
+     * @param string $filter_name
+     * @param string $filter_agencia
+     * @param string $filter_status
+     * @param string $filter_accommodation
+     * @param string $filter_destination
+     * @param string $filter_range_from
+     * @param string $filter_range_to
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     * @inheritdoc Este metodo es el que permite buscar
+     */
     function getByUsersAg($filter_name = "", $filter_agencia = "", $filter_status = "", $filter_accommodation = "", $filter_destination = "", $filter_range_from = "", $filter_range_to = "")
     {
         $em = $this->getEntityManager();

@@ -1562,3 +1562,65 @@ body.landing-page {
         text-align: center;
     }
 }
+/* Large desktop */
+@media (min-width: 1200px) {}
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+    .landing-page .navbar-default {
+        background-color: transparent;
+        border-color: #fff;
+        padding: 15px 0;
+    }
+    .navbar-header{
+        width: 40%;
+    }
+    .navbar-collapse{
+        margin-left: 50% !important;
+        width: 50%;
+        margin-top: -9%;
+    }
+}
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { }
+/* Landscape phones and down */
+@media (max-width: 480px) {
+    .win h2 {
+        margin-top: 85px;
+    }
+    .bac-white-es{
+        background: rgba(0, 0, 0, 0) url("../bundles/partner/img/icon/logo_es.png") no-repeat scroll center center;
+        margin-top: 7px;
+        height: 60px;
+        background-size: 230px;
+        margin-right: 20%;
+    }
+    .bac-white-en{
+        background: rgba(0, 0, 0, 0) url("../bundles/partner/img/icon/logo_en.png") no-repeat scroll center center;
+        margin-top: 7px;
+        height: 60px;
+        background-size: 230px;
+        margin-right: 20%;
+    }
+    .bac-color-es{
+        background: rgba(0, 0, 0, 0) url("../bundles/partner/img/icon/logo_color_es.png") no-repeat scroll center center;
+        margin-top: 7px;
+        height: 60px;
+        background-size: 230px;
+        margin-right: 20%;
+    }
+    .bac-color-en{
+        background: rgba(0, 0, 0, 0) url("../bundles/partner/img/icon/logo_color_en.png") no-repeat scroll center center;
+        margin-top: 7px;
+        height: 60px;
+        background-size: 230px;
+        margin-right: 20%;
+    }
+    .btn-register-partner {
+        background-color: rgb(255, 255, 255) !important;
+        color: rgb(99, 163, 51) !important;
+        font-size: 48px !important;
+        margin-left: 0px;
+        margin-top: 0%;
+    }
+}
+
