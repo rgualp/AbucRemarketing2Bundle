@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-22T12:58:57Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-09-29T12:59:34Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -10,9 +10,21 @@
         <source>/Noche</source>
         <target state="new">/Noche</target>
       </trans-unit>
+      <trans-unit id="97b4a444c9d97c711890168d03d741d008d2fc91" resname="ADULTS">
+        <source>ADULTS</source>
+        <target state="new">ADULTS</target>
+      </trans-unit>
       <trans-unit id="2a2cbae170aa26b97373cb189327262d9ac118e6" resname="AIR_CONDITIONING_FILTER">
         <source>AIR_CONDITIONING_FILTER</source>
         <target state="new">AIR_CONDITIONING_FILTER</target>
+      </trans-unit>
+      <trans-unit id="cef8605a94f533e3c54d8410edad66768862f650" resname="ARRIVAL_RESERVATION">
+        <source>ARRIVAL_RESERVATION</source>
+        <target state="new">ARRIVAL_RESERVATION</target>
+      </trans-unit>
+      <trans-unit id="1a44332a4e7b5ac24e96096582acfdd1b6f70dd1" resname="ARRIVAL_TIME">
+        <source>ARRIVAL_TIME</source>
+        <target state="new">ARRIVAL_TIME</target>
       </trans-unit>
       <trans-unit id="eeeebd6a9127fa56358435ac6b7550558ce62bc2" resname="ARRIVAL_WATERMARK">
         <source>ARRIVAL_WATERMARK</source>
@@ -25,6 +37,10 @@
       <trans-unit id="51f4bc5f193c2b0e3a0cb6c4ff5f0369f8279877" resname="AUDIOVISUALS_ROOMS">
         <source>AUDIOVISUALS_ROOMS</source>
         <target state="new">AUDIOVISUALS_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="4f20a0bd31b9f308a5f03a0314a837b2c5ae5c0d" resname="Activacion">
+        <source>Activacion</source>
+        <target state="new">Activacion</target>
       </trans-unit>
       <trans-unit id="745d9d40dfb5c886baed990f26b27169e05a8629" resname="Apartamento">
         <source>Apartamento</source>
@@ -98,6 +114,14 @@
         <source>Casa particular</source>
         <target state="new">Casa particular</target>
       </trans-unit>
+      <trans-unit id="e0128105a4f28d966c269e4218b45d9f72f502a7" resname="Cesta de Compra">
+        <source>Cesta de Compra</source>
+        <target state="new">Cesta de Compra</target>
+      </trans-unit>
+      <trans-unit id="9850af3c1e01dafba85d8e88e99fdd38524d0fdd" resname="Confirmación">
+        <source>Confirmación</source>
+        <target state="new">Confirmación</target>
+      </trans-unit>
       <trans-unit id="d45d99c557bfe62ab6756b932bbad996d4d1582a" resname="Consulta todos los detalles del alojamiento.">
         <source>Consulta todos los detalles del alojamiento.</source>
         <target state="new">Consulta todos los detalles del alojamiento.</target>
@@ -106,9 +130,17 @@
         <source>Código</source>
         <target state="new">Código</target>
       </trans-unit>
+      <trans-unit id="eb672d27a2e5da216549e1a261d660801ec8ecf1" resname="DEPARTURE_RESERVATION">
+        <source>DEPARTURE_RESERVATION</source>
+        <target state="new">DEPARTURE_RESERVATION</target>
+      </trans-unit>
       <trans-unit id="22f00518c167f2a031d6e5197f4abda68d242301" resname="DEPARTURE_WATERMARK">
         <source>DEPARTURE_WATERMARK</source>
         <target state="new">DEPARTURE_WATERMARK</target>
+      </trans-unit>
+      <trans-unit id="eb6c1f2b938b88727767e08dbc9f64c6cf9ac51a" resname="DETAILS_PACKAGE_ROOM">
+        <source>DETAILS_PACKAGE_ROOM</source>
+        <target state="new">DETAILS_PACKAGE_ROOM</target>
       </trans-unit>
       <trans-unit id="071af81dd375fbe3ba045c32a7f1a2eaec7a4312" resname="DINNER_OTHERS_FILTER">
         <source>DINNER_OTHERS_FILTER</source>
@@ -154,6 +186,10 @@
         <source>EMAIL_VISIT_LINK</source>
         <target state="new">EMAIL_VISIT_LINK</target>
       </trans-unit>
+      <trans-unit id="dfc809a8ebf4b81e691b32975c5035f21e16fd2c" resname="EMPTY_LIST">
+        <source>EMPTY_LIST</source>
+        <target state="new">EMPTY_LIST</target>
+      </trans-unit>
       <trans-unit id="9133af28489d6c277e89df86cc1fa9db870c13e9" resname="Económica">
         <source>Económica</source>
         <target state="new">Económica</target>
@@ -181,6 +217,10 @@
       <trans-unit id="66891d7904876914b98495205e61e11f4644ab0f" resname="Facilidades">
         <source>Facilidades</source>
         <target state="new">Facilidades</target>
+      </trans-unit>
+      <trans-unit id="ef36c75c9ea2e4e6abf4392a27b8485703095747" resname="Frontend Agencia">
+        <source>Frontend Agencia</source>
+        <target state="new">Frontend Agencia</target>
       </trans-unit>
       <trans-unit id="36f8e8300aa516eedbda8539e6291852d73afdbf" resname="GUESTS_RESERVATION">
         <source>GUESTS_RESERVATION</source>
@@ -213,6 +253,10 @@
       <trans-unit id="e5d45b35f34d12b08980cda0f7d1c47bea796612" resname="JACUZZI_BATROOM_FILTER">
         <source>JACUZZI_BATROOM_FILTER</source>
         <target state="new">JACUZZI_BATROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="e4100ce7c253c4f91a3b13a2feea5ff251d477a8" resname="KIDS">
+        <source>KIDS</source>
+        <target state="new">KIDS</target>
       </trans-unit>
       <trans-unit id="15495a2a265717259202a98f3ccdd4f9b96254f5" resname="KIDS_FILTER">
         <source>KIDS_FILTER</source>
@@ -254,9 +298,33 @@
         <source>LAUNDRY_TAB_DESCRIPTION</source>
         <target state="new">LAUNDRY_TAB_DESCRIPTION</target>
       </trans-unit>
+      <trans-unit id="bb8af24286119c4b6249ce3b15c0548befe27f76" resname="LOADING">
+        <source>LOADING</source>
+        <target state="new">LOADING</target>
+      </trans-unit>
+      <trans-unit id="28f16de4f9504f7ec70af8b2a4e23cedc2848055" resname="LOADING_MESSAGE">
+        <source>LOADING_MESSAGE</source>
+        <target state="new">LOADING_MESSAGE</target>
+      </trans-unit>
+      <trans-unit id="4d13047bb14c30671483ef335ce6fad3a37907c0" resname="MSG_ERROR_NO_ROOMS_AVAILABLE">
+        <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
+        <target>The requested lodging is not available for the specified period</target>
+      </trans-unit>
+      <trans-unit id="b4e25e5cb7d85dea045496e1d2be68b4e2994877" resname="MSG_ERROR_NO_VALID_TOTAL_GUESTS">
+        <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
+        <target>The capacity of the lodging is not enough for the specified amount of adults and children.</target>
+      </trans-unit>
       <trans-unit id="2ae8050c4664cf3ff746720df20c988eccdfb834" resname="MyCP">
         <source>MyCP</source>
         <target state="new">MyCP</target>
+      </trans-unit>
+      <trans-unit id="75feb7f817fcb111b39c47603ce3bfb09a506f50" resname="NIGHTS">
+        <source>NIGHTS</source>
+        <target state="new">NIGHTS</target>
+      </trans-unit>
+      <trans-unit id="b7caebb3a0d2c630e461e4dcc237f4da13d940a1" resname="No photo">
+        <source>No photo</source>
+        <target state="new">No photo</target>
       </trans-unit>
       <trans-unit id="d9631652872b40ab4135c802055a10aeb8273093" resname="OUTER_PRIVATE_BATHROOM_FILTER">
         <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
@@ -314,6 +382,10 @@
         <source>Propiedad completa</source>
         <target state="new">Propiedad completa</target>
       </trans-unit>
+      <trans-unit id="505335251361235d680ccabdfccaca0149183764" resname="RESERVATION_PRICE">
+        <source>RESERVATION_PRICE</source>
+        <target state="new">RESERVATION_PRICE</target>
+      </trans-unit>
       <trans-unit id="910e678ac154a65c2497075ea394056203c35301" resname="ROOM_PLURAL">
         <source>ROOM_PLURAL</source>
         <target state="new">ROOM_PLURAL</target>
@@ -358,6 +430,18 @@
         <source>SINGLE_ROOM_FILTER</source>
         <target state="new">SINGLE_ROOM_FILTER</target>
       </trans-unit>
+      <trans-unit id="a08ba40a7dbc35b0a9caaf2fe6c82ded3e18ec28" resname="SKRILL_CONFIRMATION_NOTE">
+        <source>SKRILL_CONFIRMATION_NOTE</source>
+        <target state="new">SKRILL_CONFIRMATION_NOTE</target>
+      </trans-unit>
+      <trans-unit id="c7b0be04b420b527b7d312b9fd250af7378303bd" resname="SKRILL_PAY_WITH_SKRILL">
+        <source>SKRILL_PAY_WITH_SKRILL</source>
+        <target state="new">SKRILL_PAY_WITH_SKRILL</target>
+      </trans-unit>
+      <trans-unit id="0abcec26b2b010a21a3a2248c066df81e09ec256" resname="SKRILL_RETURN_TO_MYCP">
+        <source>SKRILL_RETURN_TO_MYCP</source>
+        <target state="new">SKRILL_RETURN_TO_MYCP</target>
+      </trans-unit>
       <trans-unit id="352e64c3cb645f9af252953f23d4570e7df61011" resname="SMOKER_FILTER">
         <source>SMOKER_FILTER</source>
         <target state="new">SMOKER_FILTER</target>
@@ -394,6 +478,10 @@
         <source>TRIPLE_ROOM_FILTER</source>
         <target state="new">TRIPLE_ROOM_FILTER</target>
       </trans-unit>
+      <trans-unit id="f8f20a78ef548299ecf5ccbadfa7e0d1e88af228" resname="Terminos Legales">
+        <source>Terminos Legales</source>
+        <target state="new">Terminos Legales</target>
+      </trans-unit>
       <trans-unit id="599e48d14063bd506a8a34fc8565bbdc4b89f715" resname="Tipo de Baño">
         <source>Tipo de Baño</source>
         <target state="new">Tipo de Baño</target>
@@ -422,6 +510,10 @@
         <source>Villa con piscina</source>
         <target state="new">Villa con piscina</target>
       </trans-unit>
+      <trans-unit id="a7e507d440d8fc748c02399f88b1fed14d8f099f" resname="Vista de Detalles">
+        <source>Vista de Detalles</source>
+        <target state="new">Vista de Detalles</target>
+      </trans-unit>
       <trans-unit id="07f44d089d8f5fee57878ab1c5fb6e958891b4a1" resname="WINDOWS_ROOMS">
         <source>WINDOWS_ROOMS</source>
         <target state="new">WINDOWS_ROOMS</target>
@@ -429,6 +521,26 @@
       <trans-unit id="bb7e2f653f095609d2a94384c4036a8c25926270" resname="YARD_ROOMS">
         <source>YARD_ROOMS</source>
         <target state="new">YARD_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="bd56c3c3c65918a426b7f92e11d4b944b55a2b0d" resname="available_casas">
+        <source>available_casas</source>
+        <target>available casas</target>
+      </trans-unit>
+      <trans-unit id="466a2fd7f69852e7b9984cff101c1a7870d50499" resname="backend.delete">
+        <source>backend.delete</source>
+        <target state="new">backend.delete</target>
+      </trans-unit>
+      <trans-unit id="40afb4b164ca420d370b66709d85f2a514199057" resname="backend.menu.content.accommodations">
+        <source>backend.menu.content.accommodations</source>
+        <target state="new">backend.menu.content.accommodations</target>
+      </trans-unit>
+      <trans-unit id="01f89c4851eeca670a5525d89042a4a938575fb8" resname="backend.package.destination">
+        <source>backend.package.destination</source>
+        <target state="new">backend.package.destination</target>
+      </trans-unit>
+      <trans-unit id="5ad38ea767fd1cf8ba9fa46b73d9677b24141ad4" resname="backend.package.province">
+        <source>backend.package.province</source>
+        <target state="new">backend.package.province</target>
       </trans-unit>
       <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
         <source>booking.placeholder.booking_code</source>
@@ -485,6 +597,74 @@
       <trans-unit id="7580fa85de8adc47d2e89b748fefb65e1b32708c" resname="btn.search">
         <source>btn.search</source>
         <target state="new">btn.search</target>
+      </trans-unit>
+      <trans-unit id="6744ceb5f7096539c06a718f678b66760cd4e6b0" resname="cart.alert.cancel_button">
+        <source>cart.alert.cancel_button</source>
+        <target>Not Now</target>
+      </trans-unit>
+      <trans-unit id="517fc30533dcaa88148c4fce0d9a1306c17255fc" resname="cart.alert.confirm_button">
+        <source>cart.alert.confirm_button</source>
+        <target>Yes, cancel reservations!</target>
+      </trans-unit>
+      <trans-unit id="6a26ea6a0f94ad4333d22be7eeabd149a76ccee4" resname="cart.alert.content">
+        <source>cart.alert.content</source>
+        <target>Reservations will be cancel. You can not undo this operation</target>
+      </trans-unit>
+      <trans-unit id="d24a47b2b7d108bc81c183b1f92d4b574c50f63a" resname="cart.alert.title">
+        <source>cart.alert.title</source>
+        <target>Are you sure?</target>
+      </trans-unit>
+      <trans-unit id="3eb010dde6a0e12c5d846ada1a506a824ed1dd4a" resname="cart.back_button">
+        <source>cart.back_button</source>
+        <target>Back</target>
+      </trans-unit>
+      <trans-unit id="04597c9eb6b83b78d863127124f8011cc17490b6" resname="cart.empty_button">
+        <source>cart.empty_button</source>
+        <target>Empty Cart</target>
+      </trans-unit>
+      <trans-unit id="7094abf5c73ce88434daa7ce6d2cf55e1b40618d" resname="cart.paynow_button">
+        <source>cart.paynow_button</source>
+        <target>Book Now</target>
+      </trans-unit>
+      <trans-unit id="4fa86e969324bc682065211537c5c896e471145b" resname="cart.search_again">
+        <source>cart.search_again</source>
+        <target>Search again</target>
+      </trans-unit>
+      <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
+        <source>content.five.email.partner_mcpteam</source>
+        <target state="new">content.five.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="4b209cb7bb9677801339b64e99a7ea10673ed376" resname="content.four.email.partner_mcpteam">
+        <source>content.four.email.partner_mcpteam</source>
+        <target state="new">content.four.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="47a30aaaa55d22d0f319091e1be23f197dbad45c" resname="content.heiht.email.partner_mcpteam">
+        <source>content.heiht.email.partner_mcpteam</source>
+        <target state="new">content.heiht.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="3315093192321a76a7a9180a980f88f7721e32dc" resname="content.nine.email.partner_mcpteam">
+        <source>content.nine.email.partner_mcpteam</source>
+        <target state="new">content.nine.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="6cbe9f484fa9461a12118b23fe5b5f9576ccfe71" resname="content.one.email.partner_mcpteam">
+        <source>content.one.email.partner_mcpteam</source>
+        <target state="new">content.one.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="3d83b2ed86895715bf787ed27d54961a89115cef" resname="content.seven.email.partner_mcpteam">
+        <source>content.seven.email.partner_mcpteam</source>
+        <target state="new">content.seven.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="fa9128723c5534a70fa1dc5de6616c2d44487439" resname="content.six.email.partner_mcpteam">
+        <source>content.six.email.partner_mcpteam</source>
+        <target state="new">content.six.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="de4dfa03893ae718a4cb2808cacda3ba1b604152" resname="content.three.email.partner_mcpteam">
+        <source>content.three.email.partner_mcpteam</source>
+        <target state="new">content.three.email.partner_mcpteam</target>
+      </trans-unit>
+      <trans-unit id="d2c1a302e207b5715c38f16ccbdbe3b50b38aa1e" resname="content.two.email.partner_mcpteam">
+        <source>content.two.email.partner_mcpteam</source>
+        <target state="new">content.two.email.partner_mcpteam</target>
       </trans-unit>
       <trans-unit id="a2529e799ddb47e31b7d5d23c24e526d83d69779" resname="dashboard.admin">
         <source>dashboard.admin</source>
@@ -550,6 +730,10 @@
         <source>dashboard.booking.destination</source>
         <target state="new">dashboard.booking.destination</target>
       </trans-unit>
+      <trans-unit id="33412e8fed78ff836acc3c559f34995ad20967e6" resname="dashboard.booking.detail">
+        <source>dashboard.booking.detail</source>
+        <target state="new">dashboard.booking.detail</target>
+      </trans-unit>
       <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
         <source>dashboard.booking.from</source>
         <target state="new">dashboard.booking.from</target>
@@ -557,6 +741,26 @@
       <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
         <source>dashboard.booking.home</source>
         <target state="new">dashboard.booking.home</target>
+      </trans-unit>
+      <trans-unit id="8e8ea51fe7f3842b37b2ac80ff966f5e87d16bce" resname="dashboard.booking.home.category">
+        <source>dashboard.booking.home.category</source>
+        <target state="new">dashboard.booking.home.category</target>
+      </trans-unit>
+      <trans-unit id="d1a5666db1e86ab2c19816effeda7b500c02ca70" resname="dashboard.booking.home.destination">
+        <source>dashboard.booking.home.destination</source>
+        <target state="new">dashboard.booking.home.destination</target>
+      </trans-unit>
+      <trans-unit id="803039ac33ab389663673e4d8438fda4d3dae0c2" resname="dashboard.booking.home.owns">
+        <source>dashboard.booking.home.owns</source>
+        <target state="new">dashboard.booking.home.owns</target>
+      </trans-unit>
+      <trans-unit id="976fdf68c5f02e3d8294360023ac92370f4512a9" resname="dashboard.booking.home.province">
+        <source>dashboard.booking.home.province</source>
+        <target state="new">dashboard.booking.home.province</target>
+      </trans-unit>
+      <trans-unit id="b78f8881e6b95b8c8866d272db75d169e9502923" resname="dashboard.booking.home.type">
+        <source>dashboard.booking.home.type</source>
+        <target state="new">dashboard.booking.home.type</target>
       </trans-unit>
       <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
         <source>dashboard.booking.notavailability</source>
@@ -578,6 +782,10 @@
         <source>dashboard.booking.rooms</source>
         <target state="new">dashboard.booking.rooms</target>
       </trans-unit>
+      <trans-unit id="6c2b976ecace3644e326365e113bc7286b7b1cbc" resname="dashboard.booking.status">
+        <source>dashboard.booking.status</source>
+        <target state="new">dashboard.booking.status</target>
+      </trans-unit>
       <trans-unit id="c60beb261c10cda25ac50bc9a67779e766402b99" resname="dashboard.booking.to">
         <source>dashboard.booking.to</source>
         <target state="new">dashboard.booking.to</target>
@@ -589,6 +797,14 @@
       <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
         <source>dashboard.booking.totalprice_inhome</source>
         <target state="new">dashboard.booking.totalprice_inhome</target>
+      </trans-unit>
+      <trans-unit id="5d3fe2d68f348d4ffddc91c9dff0d2de6e8c9659" resname="dashboard.btn.booking.cancel">
+        <source>dashboard.btn.booking.cancel</source>
+        <target state="new">dashboard.btn.booking.cancel</target>
+      </trans-unit>
+      <trans-unit id="bf2d35f354f936420e9ba65f7b22bbd6fd841fbd" resname="dashboard.btn.booking.paid">
+        <source>dashboard.btn.booking.paid</source>
+        <target state="new">dashboard.btn.booking.paid</target>
       </trans-unit>
       <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
         <source>dashboard.payment</source>
@@ -737,6 +953,10 @@
       <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
         <source>label.check.term</source>
         <target state="new">label.check.term</target>
+      </trans-unit>
+      <trans-unit id="7b5e58959ed73e18800e3ad265eb62dbf2fae710" resname="label.check.term2">
+        <source>label.check.term2</source>
+        <target state="new">label.check.term2</target>
       </trans-unit>
       <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
         <source>label.contactus.mcpartner</source>
@@ -1086,6 +1306,18 @@
         <source>label.old.password</source>
         <target state="new">label.old.password</target>
       </trans-unit>
+      <trans-unit id="2acc419dec6f4d6860130f94e0fc5baec647e193" resname="label.overlay.cart_1">
+        <source>label.overlay.cart_1</source>
+        <target>You have selected these bookings to please your clients’ requests.</target>
+      </trans-unit>
+      <trans-unit id="29724fc103f3c95dc8797cb2720e3cdf3e065008" resname="label.overlay.cart_2">
+        <source>label.overlay.cart_2</source>
+        <target>Complete the data and check once more before  buying.</target>
+      </trans-unit>
+      <trans-unit id="3ea97c6b7ad23fed52137fe9d8fc6d67a23d802a" resname="label.overlay.cart_3">
+        <source>label.overlay.cart_3</source>
+        <target>Good Luck!</target>
+      </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
         <target state="new">label.password</target>
@@ -1334,6 +1566,10 @@
         <source>msg.password.email.invalid</source>
         <target state="new">msg.password.email.invalid</target>
       </trans-unit>
+      <trans-unit id="b56b76c97bbbab740c2afad25043ea2f56b1620d" resname="pa.accommodation">
+        <source>pa.accommodation</source>
+        <target>Name of the casa</target>
+      </trans-unit>
       <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
         <source>pa.loading</source>
         <target state="new">pa.loading</target>
@@ -1349,10 +1585,6 @@
       <trans-unit id="1afc9315503b6a341dc65cbe91fb1bcb6dbd1648" resname="pa.modal.reservation.guest_total">
         <source>pa.modal.reservation.guest_total</source>
         <target state="new">pa.modal.reservation.guest_total</target>
-      </trans-unit>
-      <trans-unit id="bad9ccc661ff6fbff302e215cfe9a087b45e6850" resname="pa.modal.reservation.guest_with_reservation">
-        <source>pa.modal.reservation.guest_with_reservation</source>
-        <target state="new">pa.modal.reservation.guest_with_reservation</target>
       </trans-unit>
       <trans-unit id="9d48b322040565903f03257319b60a3777c11cdc" resname="pa.modal.reservation.new_reservation">
         <source>pa.modal.reservation.new_reservation</source>
@@ -1446,6 +1678,46 @@
         <source>page.logout</source>
         <target state="new">page.logout</target>
       </trans-unit>
+      <trans-unit id="bc83e5cf3f7a486b05a61ca4b93197f28aa71a5a" resname="pay_action">
+        <source>pay_action</source>
+        <target>Pay</target>
+      </trans-unit>
+      <trans-unit id="17889b077d743fab9d15e59fabad94b42aa437c0" resname="payment.commission_percent">
+        <source>payment.commission_percent</source>
+        <target>#percent#% of Lodging Price</target>
+      </trans-unit>
+      <trans-unit id="31f71acef0df819a97fe037b53ad979cb89a9616" resname="payment.details">
+        <source>payment.details</source>
+        <target>Payment Details</target>
+      </trans-unit>
+      <trans-unit id="e219caf52cc8ddaa439ffb76453e3c7981bfcc6e" resname="payment.fixed_fee">
+        <source>payment.fixed_fee</source>
+        <target>Fixed Fee</target>
+      </trans-unit>
+      <trans-unit id="2253cc0996694ed3e349dceabe65876235550037" resname="payment.lodging_price">
+        <source>payment.lodging_price</source>
+        <target>Lodging Price</target>
+      </trans-unit>
+      <trans-unit id="c1a20f105e5ea3bc4ead31eefd1121f7d1702af4" resname="payment.online_prepayment">
+        <source>payment.online_prepayment</source>
+        <target>Online Prepayment</target>
+      </trans-unit>
+      <trans-unit id="be2a9185abb0e11765d23d627706e026ba06c1c7" resname="payment.pay_at_service">
+        <source>payment.pay_at_service</source>
+        <target>Cash Payment on arrival</target>
+      </trans-unit>
+      <trans-unit id="55121913688bce8eab51f963b030c244d5afda91" resname="payment.service_fee">
+        <source>payment.service_fee</source>
+        <target>Service Fee</target>
+      </trans-unit>
+      <trans-unit id="41a84ad62cc5c47076fa3fc6157b32f0dabf1d3d" resname="payment.tax_fees">
+        <source>payment.tax_fees</source>
+        <target>Tax for fees</target>
+      </trans-unit>
+      <trans-unit id="25ac703d44bb6b5a686a62ee77f3f5a06789cae7" resname="payment.total">
+        <source>payment.total</source>
+        <target>Total Price</target>
+      </trans-unit>
       <trans-unit id="71fe815a7413f4d594b000f9b263e5fb867a49fe" resname="quick_booking_tooltip">
         <source>quick_booking_tooltip</source>
         <target state="new">quick_booking_tooltip</target>
@@ -1453,6 +1725,18 @@
       <trans-unit id="44da2b0e8f57b8cc638997894c57505d32bbbcf8" resname="quick_bookinhg">
         <source>quick_bookinhg</source>
         <target state="new">quick_bookinhg</target>
+      </trans-unit>
+      <trans-unit id="6fa28e974f936828884f99cb595f8e4b884a7b4e" resname="requested_casas">
+        <source>requested_casas</source>
+        <target>requested rooms</target>
+      </trans-unit>
+      <trans-unit id="bcf112ef01156f5224ef593b8d7ab853147a319b" resname="reservation">
+        <source>reservation</source>
+        <target>Reservation</target>
+      </trans-unit>
+      <trans-unit id="25b692d705af7ba4986214d673ec53abea59dd3b" resname="subject.email.partner_mcpteam">
+        <source>subject.email.partner_mcpteam</source>
+        <target state="new">subject.email.partner_mcpteam</target>
       </trans-unit>
       <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
         <source>title.column_five</source>
@@ -1505,126 +1789,6 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new">title.section.we</target>
-      </trans-unit>
-      <trans-unit id="1">
-          <source>label.overlay.cart_1</source>
-          <target>You have selected these bookings to please your clients’ requests.</target>
-       </trans-unit>
-      <trans-unit id="2">
-          <source>label.overlay.cart_2</source>
-          <target>Complete the data and check once more before  buying.</target>
-       </trans-unit>
-      <trans-unit id="3">
-          <source>label.overlay.cart_3</source>
-          <target>Good Luck!</target>
-       </trans-unit>
-      <trans-unit id="4">
-          <source>available_casas</source>
-          <target>available casas</target>
-       </trans-unit>
-      <trans-unit id="5">
-          <source>requested_casas</source>
-          <target>requested rooms</target>
-       </trans-unit>
-      <trans-unit id="6">
-          <source>pa.accommodation</source>
-          <target>Name of the casa</target>
-       </trans-unit>
-      <trans-unit id="7">
-          <source>pay_action</source>
-          <target>Pay</target>
-       </trans-unit>
-      <trans-unit id="8">
-          <source>cart.paynow_button</source>
-          <target>Book Now</target>
-       </trans-unit>
-      <trans-unit id="9">
-          <source>cart.back_button</source>
-          <target>Back</target>
-       </trans-unit>
-      <trans-unit id="10">
-          <source>cart.empty_button</source>
-          <target>Empty Cart</target>
-       </trans-unit>
-      <trans-unit id="11">
-          <source>cart.search_again</source>
-          <target>Search again</target>
-       </trans-unit>
-      <trans-unit id="12">
-          <source>payment.details</source>
-          <target>Payment Details</target>
-       </trans-unit>
-      <trans-unit id="13">
-          <source>payment.total</source>
-          <target>Total Price</target>
-       </trans-unit>
-      <trans-unit id="14">
-          <source>payment.online_prepayment</source>
-          <target>Online Prepayment</target>
-       </trans-unit>
-      <trans-unit id="15">
-          <source>payment.pay_at_service</source>
-          <target>Cash Payment on arrival</target>
-       </trans-unit>
-      <trans-unit id="16">
-          <source>night</source>
-          <target>Night</target>
-       </trans-unit>
-      <trans-unit id="17">
-          <source>reservation</source>
-          <target>Reservation</target>
-       </trans-unit>
-      <trans-unit id="18">
-          <source>room</source>
-          <target>Room</target>
-       </trans-unit>
-     <trans-unit id="19">
-          <source>payment.lodging_price</source>
-          <target>Lodging Price</target>
-       </trans-unit>
-      <trans-unit id="20">
-          <source>payment.service_fee</source>
-          <target>Service Fee</target>
-       </trans-unit>
-      <trans-unit id="21">
-          <source>payment.fixed_fee</source>
-          <target>Fixed Fee</target>
-       </trans-unit>
-      <trans-unit id="22">
-          <source>payment.tax_fees</source>
-          <target>Tax for fees</target>
-       </trans-unit>
-      <trans-unit id="23">
-          <source>payment.commission_percent</source>
-          <target>#percent#% of Lodging Price</target>
-       </trans-unit>
-      <trans-unit id="24">
-          <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
-          <target>The requested lodging is not available for the specified period</target>
-       </trans-unit>
-      <trans-unit id="25">
-          <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
-          <target>The capacity of the lodging is not enough for the specified amount of adults and children.</target>
-       </trans-unit>
-      <trans-unit id="26">
-          <source>cart.alert.title</source>
-          <target>Are you sure?</target>
-       </trans-unit>
-      <trans-unit id="27">
-          <source>cart.alert.content</source>
-          <target>Reservations will be cancel. You can not undo this operation</target>
-       </trans-unit>
-      <trans-unit id="28">
-          <source>cart.alert.cancel_button</source>
-          <target>Not Now</target>
-       </trans-unit>
-      <trans-unit id="29">
-          <source>cart.alert.confirm_button</source>
-          <target>Yes, cancel reservations!</target>
-       </trans-unit>
-       <trans-unit id="30">
-         <source>cart.cancel_reservations</source>
-         <target>Cancel</target>
       </trans-unit>
     </body>
   </file>
