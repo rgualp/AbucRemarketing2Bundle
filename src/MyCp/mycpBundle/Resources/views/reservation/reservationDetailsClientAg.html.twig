@@ -27,7 +27,7 @@
     <!--a class="btn btn-success" href="javascript:submit()">Guardar</a>
     <button class="btn" type="reset">Cancelar</button-->
     &nbsp;&nbsp;&nbsp;
-    <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': client.Id})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+    <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': client.id})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
     {#<a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': client.userId})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>#}
     <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
 
@@ -35,7 +35,8 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>Cliente: {{client.name}} </h2>
+
+<h2>Cliente: {{client.fullname}}  de la agencia <small> {{ client.name }} </small></h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form id="form" action="{{ path('mycp_details_client_reservation',{'id_client':client.id}) }}" method="POST">

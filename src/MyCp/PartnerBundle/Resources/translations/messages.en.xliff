@@ -1464,7 +1464,7 @@
       </trans-unit>
       <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
         <source>pa.loading</source>
-        <target state="new">pa.loading</target>
+        <target state="new">Loading...</target>
       </trans-unit>
       <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
         <source>pa.modal.reservation.add</source>

@@ -631,6 +631,15 @@ var Dashboard = function () {
 
     var onPayActionButton = function () {
         $("#trigger-overlay").on('click', function () {
+            $('#pppppxxx').slimScroll({
+                height: '100%',
+                width:'100%',
+                railOpacity: 0.9,
+                color: '#0d3044',
+                opacity: 1,
+                alwaysVisible: true
+            });
+
             $("#overlayLoading").removeClass("hide");
             $("#paymentsRow").addClass("hide");
             var _url = $(this).data("url");
@@ -639,7 +648,6 @@ var Dashboard = function () {
             var checkValues = $('input[name=checkAccommodationsToPay]:checked').map(function () {
                 return $(this).data('owresid');
             }).get();
-
 
             if (checkValues.length == 0) {
                 $("#overlayLoading").addClass("hide");
@@ -651,7 +659,6 @@ var Dashboard = function () {
             $.post(_url, {
                 'checkValues': checkValues
             }, function (response) {
-
                 if (response.success) {
                     if (response.html != "") {
                         result.html(response.html);
