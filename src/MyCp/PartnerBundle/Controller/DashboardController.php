@@ -920,4 +920,13 @@ class DashboardController extends Controller
             'message' => "Cancelado correctamente"
         ]);
     }
+    public function getThumbnailForSearcherAction($photo, $title){
+        list($width, $height) = getimagesize(realpath("uploads/ownershipImages/" . $photo));
+
+        return $this->render('PartnerBundle:ownership:searchImage.html.twig', array(
+            'title' => $title,
+            'photo' => $photo,
+            'taller' => ($height > $width)
+        ));
+    }
 }
