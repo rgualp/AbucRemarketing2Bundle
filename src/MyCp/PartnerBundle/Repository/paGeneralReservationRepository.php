@@ -47,8 +47,8 @@ class paGeneralReservationRepository extends EntityRepository {
         if(!$isAValidTotalGuests)
             return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_VALID_TOTAL_GUESTS"), "reservation" => null);
 
-        $adultsCounter = $adults;
-        $childrenCounter = $children;
+        $adultsCounter = $adults*1;
+        $childrenCounter = $children*1;
 
         /*var_dump("Adultos total: " . $adults."<br/>");
         var_dump("Niños total: " . $children."<br/>");*/
@@ -62,7 +62,7 @@ class paGeneralReservationRepository extends EntityRepository {
             if($adultsCounter > 0 && $adultsCounter < $adultsToLodge)
                 $adultsToLodge = $adultsCounter;
 
-            if($childrenCounter > 0 && $childrenCounter < $childrenToLodge)
+            if($childrenCounter >= 0 && $childrenCounter < $childrenToLodge)
                 $childrenToLodge = $childrenCounter;
 
             $adultsCounter -= $adultsToLodge;

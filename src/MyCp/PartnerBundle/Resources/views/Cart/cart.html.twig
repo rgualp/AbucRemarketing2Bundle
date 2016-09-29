@@ -1,40 +1,60 @@
 {% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .overlay .slimScrollDiv {
+            background: #cf8534 none repeat scroll 0 0 !important;
+
+        }
+        #selectedReservations{
+            padding: 20px;
+        }
+
+        .deactivate {
+            opacity: 1;
+        }
+    </style>
+{% endblock stylesheets %}
 
 {% block carousel %}
 
 {% endblock %}
 
 {% block navbar %}
-    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+    {% include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true } %}
 {% endblock %}
 
 
 {% block body %}
     <div class="space space-70"></div>
-<div class="col-sm-12 bg-blue">
-    <div class="container">
-        <div class="white-hearders">
-            <h1>{{ 'CART_HEADER_TEXT1' | trans }}</h1>
-            <h1>{{ 'CART_HEADER_TEXT2' | trans  }}</h1>
-            <h3>{{ 'CART_HEADER_TEXT3' | trans  }}</h3>
+    <div class="col-sm-12 bg-blue">
+        <div class="container">
+            <div class="white-hearders">
+                <h1>{{ 'CART_HEADER_TEXT1' | trans }}</h1>
+
+                <h1>{{ 'CART_HEADER_TEXT2' | trans }}</h1>
+
+                <h3>{{ 'CART_HEADER_TEXT3' | trans }}</h3>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <div class="col-sm-12 bg-white">
+            <div class="container">
+                <div class="for-header-pages" style="text-align: center">
+                    <h1 style="text-align: center">{{ 'CART_HEADER_TEXT4' | trans }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 bg-white" id="cartBody">
+            <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans }}" data-alertcontent="{{ "cart.alert.content" | trans }}" data-cancelbutton="{{ "cart.alert.cancel_button" | trans }}" data-confirmbutton="{{ "cart.alert.confirm_button" | trans }}"></span>
+            {% include 'PartnerBundle:Cart:cart_reservations.html.twig' with { 'items' : items } %}
         </div>
     </div>
 
-</div>
-    <div>
-    <div class="col-sm-12 bg-white">
-        <div class="container">
-            <div class="for-header-pages" style="text-align: center">
-                <h1 style="text-align: center">{{ 'CART_HEADER_TEXT4' | trans }}</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-12 bg-white" id="cartBody">
-        <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans  }}" data-alertcontent="{{ "cart.alert.content" | trans  }}"  data-cancelbutton="{{ "cart.alert.cancel_button" | trans  }}"  data-confirmbutton="{{ "cart.alert.confirm_button" | trans  }}"></span>
-        {%  include 'PartnerBundle:Cart:cart_reservations.html.twig' with { 'items' : items }  %}
-    </div>
-    </div>
+    {% include 'PartnerBundle:Cart:cart_overlay.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
