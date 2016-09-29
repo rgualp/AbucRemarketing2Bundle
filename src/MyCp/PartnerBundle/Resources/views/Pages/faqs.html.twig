@@ -1,0 +1,110 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block title %}{{ 'title.page.faqs' | trans }}{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="col-md-12">
+        <div class="row" style="background-color: rgb(9, 78, 117);">
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs.png')}}" style="margin-top: -5px"/>
+            </div>
+            <div class="col-md-9 color-white text-right m-t-lg" style="line-height: 1">
+                <span style="font-size: 48px;margin-right:50px;font-family: MyriadProBold">{{ 'label.title.faqs.one' | trans }}</span></br>
+                <span style="font-size: 46px;margin-right:50px;font-family: MyriadProLight">{{ 'label.title.faqs.two' | trans }}</span>
+            </div>
+        </div>
+        <div class="container m-t-lg faqs" style="padding-bottom: 20px">
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs1.png')}}"/>
+                    <span>{{ 'label.faqs.one' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.one.description' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs2.png')}}"/>
+                    <span>{{ 'label.faqs.two' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.description' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs3.png')}}"/>
+                    <span>{{ 'label.faqs.three' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.three' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs4.png')}}"/>
+                    <span>{{ 'label.faqs.four' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.four' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs5.png')}}"/>
+                    <span>{{ 'label.faqs.five' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.five' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs6.png')}}"/>
+                    <span>{{ 'label.faqs.six' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.six' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs7.png')}}"/>
+                    <span>{{ 'label.faqs.seven' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.seven' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs8.png')}}"/>
+                    <span>{{ 'label.faqs.height' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.height' | trans | raw }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row faqs-title">
+                    <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/faqs9.png')}}"/>
+                    <span>{{ 'label.faqs.nine' | trans | raw }}</span>
+                </div>
+                <div class="row faqs-description">
+                    <p>{{ 'label.faqs.two.nine' | trans | raw }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

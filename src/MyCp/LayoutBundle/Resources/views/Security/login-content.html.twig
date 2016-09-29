@@ -1,0 +1,62 @@
+{% if btn_close is not defined %}
+    <button type="button" class="login overlay-close">{{ 'btn.close'|trans }}</button>
+{% endif %}
+<div id="scrollOverlay" class="middle-box text-center loginscreen animated fadeInDown">
+    <div class="middle-box loginscreen text-center animated fadeInDown">
+        <h1 class="color-white" style="font-size: 64px;font-family: MyriadProRegular;line-height: 0px">{{ 'label.welcome' | trans }}</h1>
+        <p class="color-white" style="font-size: 24px;font-family: MyriadProRegular">{{ 'label.ready.reserved' | trans }}</p>
+        {#{% for message in app.session.flashbag.get('message_ok') %}
+            <div class="alert alert-info alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ message }}</div>
+        {% endfor %}#}
+        {% for message in app.session.flashbag.get('message_error') %}
+            <div class="alert alert-danger alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ message }}</div>
+        {% endfor %}
+        {% if error is defined and error is not null %}
+            <div class="alert alert-danger alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
+        {% endif %}
+        <form class="form-horizontal form-login" action="{{ path('frontend_partner_login_check') }}" method="post" id="login">
+            <div class="input-group m-b">
+                <span class="input-group-addon"><i class="glyphicons user"></i></span>
+                <input type="text" class="form-control MyriadProRegular" id="inputUsername" placeholder="{{ 'label.user' | trans }}" name="_username"   value="{{ last_username|default('') }}"/>
+            </div>
+            <div class="input-group m-b">
+                <span class="input-group-addon"><i class="glyphicons keys"></i></span>
+                <input type="password" class="form-control MyriadProRegular" placeholder="{{ 'label.password' | trans }}" id="inputPassword"  name="_password"/>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-sm btn-login color-white">{{ 'label.sigin' | trans }}</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-1 col-lg-11">
+                    <div class="i-checks">
+                        <label  class="MyriadProRegular color-white ">
+                            <input type="checkbox" id="remember_me" class="i-checks color-white" name="_remember_me" /> {{ 'label.remember.password' | trans }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <div class="i-checks">
+                        <label>
+                            <a id="forgot-link" data-overlay="#poput-forgot" class="page-scroll MyriadProRegular" style="color: #fff">{{ 'label.forgot_password'|trans }}</a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div id="poput-forgot" style="display: none; color: #fff;" class="poput_forgot">
+            <div class="f-header MyriadProRegular">{{ 'label.indic.email' | trans }}</div>
+            <div class="f-content"></div>
+            <div class="f-footer MyriadProRegular">{{ 'label.thanks' | trans }}</div>
+        </div>
+    </div>
+</div>

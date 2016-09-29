@@ -72,6 +72,36 @@ class UserMails {
         }
     }
 
+    /**
+     * @param $controller
+     * @param $user_email
+     * @param $user_name
+     * @param $user_full_name
+     * @param $secret_token
+     * @param $own_name
+     * @param $own_mycp_code
+     */
+    public static function sendCreateUserPartner($controller,$user_email,$user_name, $user_full_name, $secret_token,$user_locale,$agency) {
+        if ((isset($user_email) && $user_email != "")) {
+            $service_email = $controller->get('Email');
+            try {
+                if (isset($user_email) && $user_email != "") {
+                    $service_email->sendCreateUserPartner($user_email, $user_name, $user_full_name, $secret_token,$user_locale,$agency);
+                }
+                $message = 'El correo notificando la creación de la cuenta de usuario ha sido enviado satisfactoriamente al usuario '.$user_full_name;
+                $controller->get('session')->getFlashBag()->add('message_ok', $message);
+            } catch (\Exception $e) {
+                $message = 'Ha ocurrido un error en el envio del correo de notificación de creación de la cuenta de usuario al propietario. ' . $e->getMessage();
+                $controller->get('session')->getFlashBag()->add('message_error_main', $message);
+            }
+        }
+        else
+        {
+            $message = 'No se ha enviado la notificación porque el correo electrónico está en blanco.';
+            $controller->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+    }
+
 }
 
 ?>

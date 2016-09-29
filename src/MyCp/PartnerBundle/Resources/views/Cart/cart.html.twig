@@ -1,0 +1,49 @@
+{% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
+
+
+{% block carousel %}
+
+{% endblock %}
+
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+
+
+{% block body %}
+    <div class="space space-70"></div>
+<div class="col-sm-12 bg-blue">
+    <div class="container">
+        <div class="white-hearders">
+            <h1>{{ 'CART_HEADER_TEXT1' | trans }}</h1>
+            <h1>{{ 'CART_HEADER_TEXT2' | trans  }}</h1>
+            <h3>{{ 'CART_HEADER_TEXT3' | trans  }}</h3>
+        </div>
+    </div>
+
+</div>
+    <div>
+    <div class="col-sm-12 bg-white">
+        <div class="container">
+            <div class="for-header-pages" style="text-align: center">
+                <h1 style="text-align: center">{{ 'CART_HEADER_TEXT4' | trans }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 bg-white" id="cartBody">
+        <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans  }}" data-alertcontent="{{ "cart.alert.content" | trans  }}"  data-cancelbutton="{{ "cart.alert.cancel_button" | trans  }}"  data-confirmbutton="{{ "cart.alert.confirm_button" | trans  }}"></span>
+        {%  include 'PartnerBundle:Cart:cart_reservations.html.twig' with { 'items' : items }  %}
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/demo1.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

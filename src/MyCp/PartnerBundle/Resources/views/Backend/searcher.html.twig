@@ -1,0 +1,285 @@
+<div class="paSearcher row">
+    <span class="color-white MyriadProBoldCond hidden-xs" style="font-size: 24px">{{ "pa_searcher_title" | trans }}</span>
+    <div class="row">
+        <div class="filters-container">
+            <form enctype="multipart/form-data" method="post" id="form-filter-ownership">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.destination, { 'attr': {'data-placeholder': 'label.name.destination'|trans,'data-toggle':'tooltip','title': 'label.name.destination'|trans, 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>
+                        <div class="col-sm-2">
+                            <div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="form-control date" style="padding: 0">
+                                <div class="col-sm-10"  style="padding: 0">
+                                    {{ form_widget(formFilterOwnerShip.arrival, { 'attr': {'placeholder': 'label.filter.arrival'|trans,'data-toggle':'tooltip', 'data-container':'body','data-localization':locale,'value':"+2 days" |date("d/m/Y")}}) }}
+                                </div>
+                                <div class="col-sm-2"  style="padding: 0">
+                                    <i class="glyphicons calendar" style="margin-left: -9px;margin-top: 8px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="form-control date" style="padding: 0">
+                                <div class="col-sm-10"  style="padding: 0">
+                                    {{ form_widget(formFilterOwnerShip.exit, { 'attr': {'placeholder': 'label.filter.exit'|trans,'data-toggle':'tooltip', 'data-container':'body','data-localization':locale,'value':"+3 days" |date("d/m/Y")}}) }}
+                                </div>
+                                <div class="col-sm-2"  style="padding: 0">
+                                    <i class="glyphicons calendar" style="margin-left: -9px;margin-top: 8px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                                {{ form_widget(formFilterOwnerShip.huesp, { 'attr': {'data-placeholder': 'pa_hues'|trans,'data-toggle':'tooltip','title': 'pa_hues'|trans, 'data-container':'body','class':'form-control chosen-select-deselect'}}) }}
+                        </div>
+                       {# <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.child, { 'attr': {'data-placeholder': 'pa_children'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.age, { 'attr': {'data-placeholder': 'pa_age'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>#}
+                        <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'title': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ form_widget(formFilterOwnerShip.room_type, { 'attr': {'data-placeholder': 'pa_room_type'|trans,'title': 'pa_room_type'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-lg">
+                    <div class="col-sm-12">
+                       {# <div class="col-sm-3">
+                            {{ form_widget(formFilterOwnerShip.room, { 'attr': {'data-placeholder': 'pa_hab'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                        </div>#}
+                        <div class="col-sm-10 m-t-xs">
+                            {% set count=owns_prices|length-1 %}
+                            <input id="priceFilter" name="requests_ownership_filter[priceFilter]" type="text" class="span2" style="width: 400px;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <span id="btn_search" class="btn btn-search-ownership" data-url="{{ path('backend_partner_seacrh') }}">{{"SEARCH" | trans}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10" style="margin-top: -23px">
+                        <div class="col-sm-3">
+                            <b class="color-white" style="margin-right: 7px;">{{ owns_prices[0][0] }} cuc</b>
+                        </div>
+                        <div class="col-sm-3 color-white">
+                            <span>{{ 'label.range-price' | trans }}</span>
+                        </div>
+                        <div class="col-sm-3 color-white text-right">
+                            <b style="margin-left: 7px;">{{ owns_prices[count][1] }} cuc</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-t-md" id="more-filter">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                {{ form_widget(formFilterOwnerShip.own_category, { 'attr': {'data-placeholder': 'pa_cate'|trans,'title': 'pa_cate'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form_widget(formFilterOwnerShip.own_type, { 'attr': {'data-placeholder': 'pa_property'|trans,'title': 'pa_property'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form_widget(formFilterOwnerShip.own_beds_total, { 'attr': {'data-placeholder': 'pa_bed'|trans,'title': 'pa_bed'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                            </div>
+                          {#  <div class="col-md-2">
+                                {{ form_widget(formFilterOwnerShip.room_type, { 'attr': {'data-placeholder': 'pa_room_type'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                            </div>#}
+                            <div class="col-md-3">
+                                {{ form_widget(formFilterOwnerShip.room_bathroom, { 'attr': {'data-placeholder': 'pa_bath_room'|trans,'title': 'pa_bath_room'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-3">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.own_award, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label for="filter_best_owner" class="color-white">
+                                        {{ 'label.best.ownership' | trans }}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.own_inmediate_booking, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label for="filter_reserv_inmidiatly" class="color-white">
+                                        {{ 'label.reserv.inmediatly' | trans }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3 color-blue" style="margin-left: 15px">
+                                <label class="color-white">
+                                    {{ 'label.facitily' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 color-blue color-white" style="margin-left: 30px;padding-right: 0;width: 94%;">
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_climatization, { 'attr': {'data-value':'Aire acondicionado','data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"AIR_CONDITIONING_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" id="room_others_pets">
+                                    {{ form_widget(formFilterOwnerShip.own_others_pets, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"PETS_OTHERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_audiovisuals, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"AUDIOVISUALS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_kids, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"KIDS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_smoker, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"SMOKER_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 color-blue color-white" style="margin-left: 30px;padding-right: 0;width: 94%;">
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.pool, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"POOL_OTHERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_balcony, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"BALCONY_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_terraza, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"TERRACE_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_courtyard, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"COURTYARD_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.laundry, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+
+                                    <label>
+                                        {{"LAUNDRY_OTHERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.parking, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+
+                                    <label>
+                                        {{"PARKING_THERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 color-blue color-white" style="margin-left: 30px;padding-right: 0;width: 94%;">
+                            <div class="col-md-2 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.jacuzzy, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"JACUZZI_BATROOM_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.own_others_internet, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"INTERNET_OTHERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-1 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.dinner, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"DINNER_OTHERS_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.breakfast, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"BREAKFAST_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-0">
+                                <div class="checkbox checkbox-primary">
+                                    {{ form_widget(formFilterOwnerShip.room_safe, { 'attr': {'data-container':'body', 'class':'form-control' }}) }}
+                                    <label>
+                                        {{"SAFE_FILTER" | trans}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row text-center m-t-md color-white">
+                    <span id="text-more">{{ 'label.more' | trans }}</span></br>
+                    <img class="" src="{{ asset('bundles/partner/img/icon/back.png')}}" style="cursor: pointer" id="icon-back"/>
+                    <img class="hide" src="{{ asset('bundles/partner/img/icon/top.png')}}" style="cursor: pointer" id="icon-top"/>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container hide" style="background: #fff" id="search-result">
+        <div class="col-md-12 m-t-md" id="list-ownership">
+
+        </div>
+    </div>
+</div>
+{#-----Modal-----#}
+{{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}

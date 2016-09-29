@@ -1,0 +1,1794 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file date="2016-09-22T12:58:35Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <body>
+      <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
+        <source></source>
+        <target state="new"></target>
+      </trans-unit>
+      <trans-unit id="b21db04ba29a00a52400d992b480a5847b282ad1" resname="/Noche">
+        <source>/Noche</source>
+        <target state="new">/Noche</target>
+      </trans-unit>
+      <trans-unit id="2a2cbae170aa26b97373cb189327262d9ac118e6" resname="AIR_CONDITIONING_FILTER">
+        <source>AIR_CONDITIONING_FILTER</source>
+        <target state="new">AIR_CONDITIONING_FILTER</target>
+      </trans-unit>
+      <trans-unit id="eeeebd6a9127fa56358435ac6b7550558ce62bc2" resname="ARRIVAL_WATERMARK">
+        <source>ARRIVAL_WATERMARK</source>
+        <target state="new">ARRIVAL_WATERMARK</target>
+      </trans-unit>
+      <trans-unit id="513be4aa1e78970ef0ec83a6e3d129d77b316123" resname="AUDIOVISUALS_FILTER">
+        <source>AUDIOVISUALS_FILTER</source>
+        <target state="new">AUDIOVISUALS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="51f4bc5f193c2b0e3a0cb6c4ff5f0369f8279877" resname="AUDIOVISUALS_ROOMS">
+        <source>AUDIOVISUALS_ROOMS</source>
+        <target state="new">AUDIOVISUALS_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="745d9d40dfb5c886baed990f26b27169e05a8629" resname="Apartamento">
+        <source>Apartamento</source>
+        <target state="new">Apartamento</target>
+      </trans-unit>
+      <trans-unit id="75226d73db5b6dee213a72b35c48e69757473009" resname="Awards">
+        <source>Awards</source>
+        <target state="new">Awards</target>
+      </trans-unit>
+      <trans-unit id="d58be04dd17afc47fc3d13b12f26d27f7f68d586" resname="BALCONY_FILTER">
+        <source>BALCONY_FILTER</source>
+        <target state="new">BALCONY_FILTER</target>
+      </trans-unit>
+      <trans-unit id="9cfc40b795322dcacd1bbf6b340ea3bdded0eb87" resname="BALCONY_ROOMS">
+        <source>BALCONY_ROOMS</source>
+        <target state="new">BALCONY_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="5a0806ea69a1315668bed3726c94dee6de209e09" resname="BREAKFAST_FILTER">
+        <source>BREAKFAST_FILTER</source>
+        <target state="new">BREAKFAST_FILTER</target>
+      </trans-unit>
+      <trans-unit id="29a6a805c6cdd622a21c934375ea380ade2d9d11" resname="BREAKFAST_TAB_DESCRIPTION">
+        <source>BREAKFAST_TAB_DESCRIPTION</source>
+        <target state="new">BREAKFAST_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="7ce41718e3f5accae9cfad654083ddf90bf8772c" resname="BYNIGHTS_PRICES">
+        <source>BYNIGHTS_PRICES</source>
+        <target state="new">BYNIGHTS_PRICES</target>
+      </trans-unit>
+      <trans-unit id="77fdf2415a8536929e9393f9b133b8832e3bf629" resname="CAPACITY_TAB_DESCRIPTION">
+        <source>CAPACITY_TAB_DESCRIPTION</source>
+        <target state="new">CAPACITY_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="216cdb9c56fb4b7d4993b7250ba0c0fc7d706508" resname="CART_HEADER_TEXT1">
+        <source>CART_HEADER_TEXT1</source>
+        <target state="new">¡Enhorabuena!</target>
+      </trans-unit>
+      <trans-unit id="c538cb022a7cafcf155d85d618f727754844d8a8" resname="CART_HEADER_TEXT2">
+        <source>CART_HEADER_TEXT2</source>
+        <target state="new">Tus reservas y solicitudes del día siguen creciendo</target>
+      </trans-unit>
+      <trans-unit id="396d3a565afbbc5e74bb94b64a6465b8c3994e9a" resname="CART_HEADER_TEXT3">
+        <source>CART_HEADER_TEXT3</source>
+        <target state="new">Recuerda que tienes 48 horas para efectuar el pago de las reservas que deseas</target>
+      </trans-unit>
+      <trans-unit id="354bd77fd37f9acb2ce1f5b12b23772133691d5e" resname="CART_HEADER_TEXT4">
+        <source>CART_HEADER_TEXT4</source>
+        <target state="new">Atiende las necesidades de tus clientes lo más rápido posible</target>
+      </trans-unit>
+      <trans-unit id="e0440741973f68b4cacd4d5c57073cdc33ed87e9" resname="CATEGORY_TAB_DESCRIPTION">
+        <source>CATEGORY_TAB_DESCRIPTION</source>
+        <target state="new">CATEGORY_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="415a31bb025f6cc709bcd9e4524a82841159657b" resname="CLIMATIZATION_ROOMS">
+        <source>CLIMATIZATION_ROOMS</source>
+        <target state="new">CLIMATIZATION_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="e85a58873672c5286790924e628a39ce4669d70a" resname="COURTYARD_FILTER">
+        <source>COURTYARD_FILTER</source>
+        <target state="new">COURTYARD_FILTER</target>
+      </trans-unit>
+      <trans-unit id="429833e551333cfbf96a3275bf32e8c635c8e541" resname="CURRENCY">
+        <source>CURRENCY</source>
+        <target state="new">CURRENCY</target>
+      </trans-unit>
+      <trans-unit id="aadbdb8d8376c7ef5e3671ef4f018cabbfe11bc7" resname="Cantidad de Camas">
+        <source>Cantidad de Camas</source>
+        <target state="new">Cantidad de Camas</target>
+      </trans-unit>
+      <trans-unit id="8c4ba06655fe9ad70cd2d66d33c42e649f3bb439" resname="Casa particular">
+        <source>Casa particular</source>
+        <target state="new">Casa particular</target>
+      </trans-unit>
+      <trans-unit id="d45d99c557bfe62ab6756b932bbad996d4d1582a" resname="Consulta todos los detalles del alojamiento.">
+        <source>Consulta todos los detalles del alojamiento.</source>
+        <target state="new">Consulta todos los detalles del alojamiento.</target>
+      </trans-unit>
+      <trans-unit id="c355102341eae99e6edcbda7108c48bff1693ead" resname="Código">
+        <source>Código</source>
+        <target state="new">Código</target>
+      </trans-unit>
+      <trans-unit id="22f00518c167f2a031d6e5197f4abda68d242301" resname="DEPARTURE_WATERMARK">
+        <source>DEPARTURE_WATERMARK</source>
+        <target state="new">DEPARTURE_WATERMARK</target>
+      </trans-unit>
+      <trans-unit id="071af81dd375fbe3ba045c32a7f1a2eaec7a4312" resname="DINNER_OTHERS_FILTER">
+        <source>DINNER_OTHERS_FILTER</source>
+        <target state="new">DINNER_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="ff1505feb0c04c267031a9e620df7b5964f0cbc0" resname="DINNER_TAB_DESCRIPTION">
+        <source>DINNER_TAB_DESCRIPTION</source>
+        <target state="new">DINNER_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="cb9785cc75785b25b8f1800b9945968bff5b5c10" resname="DOUBLE_2_BEDS_FILTER">
+        <source>DOUBLE_2_BEDS_FILTER</source>
+        <target state="new">DOUBLE_2_BEDS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="df09da62e46b24f45f7df9334343652d7d21d978" resname="DOUBLE_ROOM_FILTER">
+        <source>DOUBLE_ROOM_FILTER</source>
+        <target state="new">DOUBLE_ROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="a32af8681500d12ae7d765cd7c563fdb1c254945" resname="Descripción de la Casa">
+        <source>Descripción de la Casa</source>
+        <target state="new">Descripción de la Casa</target>
+      </trans-unit>
+      <trans-unit id="5476cac6478fc6d76eab7962ce9562ba5fe0c8f3" resname="Detalles de la casa">
+        <source>Detalles de la casa</source>
+        <target state="new">Detalles de la casa</target>
+      </trans-unit>
+      <trans-unit id="99135559ed087a7c52831c306cb445b9b034b0c4" resname="EMAIL_INVALID_MESSAGE">
+        <source>EMAIL_INVALID_MESSAGE</source>
+        <target state="new">EMAIL_INVALID_MESSAGE</target>
+      </trans-unit>
+      <trans-unit id="696e470058bcc7249b61750e5172fd20a925533a" resname="EMAIL_NEW_PASSWORD">
+        <source>EMAIL_NEW_PASSWORD</source>
+        <target state="new">EMAIL_NEW_PASSWORD</target>
+      </trans-unit>
+      <trans-unit id="cf7fec9d844c5e93d700a9fec128d0581406a79a" resname="EMAIL_PASS_CHANGED">
+        <source>EMAIL_PASS_CHANGED</source>
+        <target state="new">EMAIL_PASS_CHANGED</target>
+      </trans-unit>
+      <trans-unit id="9334a60262f4ec0f5610fda40cb3deced0715170" resname="EMAIL_RESTORE_ACCOUNT">
+        <source>EMAIL_RESTORE_ACCOUNT</source>
+        <target state="new">EMAIL_RESTORE_ACCOUNT</target>
+      </trans-unit>
+      <trans-unit id="a66b06c6b97c85f9dc8aa01f2fd7fccda2005176" resname="EMAIL_VISIT_LINK">
+        <source>EMAIL_VISIT_LINK</source>
+        <target state="new">EMAIL_VISIT_LINK</target>
+      </trans-unit>
+      <trans-unit id="9133af28489d6c277e89df86cc1fa9db870c13e9" resname="Económica">
+        <source>Económica</source>
+        <target state="new">Económica</target>
+      </trans-unit>
+      <trans-unit id="7f2f6a15cf8da2b27e5a4af47b58e7ad71c0b3d9" resname="Error">
+        <source>Error</source>
+        <target state="new">Error</target>
+      </trans-unit>
+      <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
+        <source>FORGOT_PASSWORD_BUTTON</source>
+        <target state="new">FORGOT_PASSWORD_BUTTON</target>
+      </trans-unit>
+      <trans-unit id="e57590b80cd6874490039969bd4f68b8be78f496" resname="FORGOT_PASSWORD_PAGE_TITLE">
+        <source>FORGOT_PASSWORD_PAGE_TITLE</source>
+        <target state="new">FORGOT_PASSWORD_PAGE_TITLE</target>
+      </trans-unit>
+      <trans-unit id="c3be17b5a23d2e02581ea55dceb655e56f217a06" resname="FORMS_COMMENTS">
+        <source>FORMS_COMMENTS</source>
+        <target state="new">FORMS_COMMENTS</target>
+      </trans-unit>
+      <trans-unit id="a10da216ff98797c5f14962437e48547ac5b1151" resname="FROM_PRICES">
+        <source>FROM_PRICES</source>
+        <target state="new">FROM_PRICES</target>
+      </trans-unit>
+      <trans-unit id="66891d7904876914b98495205e61e11f4644ab0f" resname="Facilidades">
+        <source>Facilidades</source>
+        <target state="new">Facilidades</target>
+      </trans-unit>
+      <trans-unit id="36f8e8300aa516eedbda8539e6291852d73afdbf" resname="GUESTS_RESERVATION">
+        <source>GUESTS_RESERVATION</source>
+        <target state="new">GUESTS_RESERVATION</target>
+      </trans-unit>
+      <trans-unit id="8ed88331ff7896cbf67ef909ec1c57317c2030a0" resname="HOMEPAGE_TITLE">
+        <source>HOMEPAGE_TITLE</source>
+        <target state="new">HOMEPAGE_TITLE</target>
+      </trans-unit>
+      <trans-unit id="747aa79c382116057086b9cfe3d57bc02afcde86" resname="Habitaciones y facilidades">
+        <source>Habitaciones y facilidades</source>
+        <target state="new">Habitaciones y facilidades</target>
+      </trans-unit>
+      <trans-unit id="5c612d9bf505629daf50345ebf2c0f487efae2d8" resname="INNER_PRIVATE_BATHROOM_FILTER">
+        <source>INNER_PRIVATE_BATHROOM_FILTER</source>
+        <target state="new">INNER_PRIVATE_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="834fdbf58f3187405b56fd46b84973d1b39f9d37" resname="INTERNET_OTHERS_FILTER">
+        <source>INTERNET_OTHERS_FILTER</source>
+        <target state="new">INTERNET_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="2fc74a2ae8878c2cac3eb7d566dec7e2d06f01f8" resname="Idiomas que  se Hablan en la Casa">
+        <source>Idiomas que  se Hablan en la Casa</source>
+        <target state="new">Idiomas que  se Hablan en la Casa</target>
+      </trans-unit>
+      <trans-unit id="673a763b36f83c9d327b8b32cb972f979186e937" resname="Informaciones y servicios">
+        <source>Informaciones y servicios</source>
+        <target state="new">Informaciones y servicios</target>
+      </trans-unit>
+      <trans-unit id="e5d45b35f34d12b08980cda0f7d1c47bea796612" resname="JACUZZI_BATROOM_FILTER">
+        <source>JACUZZI_BATROOM_FILTER</source>
+        <target state="new">JACUZZI_BATROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="15495a2a265717259202a98f3ccdd4f9b96254f5" resname="KIDS_FILTER">
+        <source>KIDS_FILTER</source>
+        <target state="new">KIDS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="40ce3d28bd9d0ff32777d0560d25213acf8b7bd6" resname="KIDS_ROOMS">
+        <source>KIDS_ROOMS</source>
+        <target state="new">KIDS_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="2a3ffd9ebb6961e4e446366efa8d0013586561fb" resname="LANGUAGE">
+        <source>LANGUAGE</source>
+        <target state="new">LANGUAGE</target>
+      </trans-unit>
+      <trans-unit id="f4fa7382a3602c808e099d7fe19925d018096d16" resname="LANG_ENGLISH">
+        <source>LANG_ENGLISH</source>
+        <target state="new">LANG_ENGLISH</target>
+      </trans-unit>
+      <trans-unit id="47acebfff78034be189a67b8ac0cad1c9af08123" resname="LANG_FRENCH">
+        <source>LANG_FRENCH</source>
+        <target state="new">LANG_FRENCH</target>
+      </trans-unit>
+      <trans-unit id="3de1d2169f6d62c241e79d214af430de748ca102" resname="LANG_GERMAN">
+        <source>LANG_GERMAN</source>
+        <target state="new">LANG_GERMAN</target>
+      </trans-unit>
+      <trans-unit id="8fc58c476491c09b4593593c2ac69b8b43652652" resname="LANG_ITALIAN">
+        <source>LANG_ITALIAN</source>
+        <target state="new">LANG_ITALIAN</target>
+      </trans-unit>
+      <trans-unit id="4f5034b6504519fe4fdb085c657eae637511e432" resname="LANG_SPANISH">
+        <source>LANG_SPANISH</source>
+        <target state="new">LANG_SPANISH</target>
+      </trans-unit>
+      <trans-unit id="a55b2b1c87133b9d8fd3da2c9baf1e3f7be260b3" resname="LAUNDRY_OTHERS_FILTER">
+        <source>LAUNDRY_OTHERS_FILTER</source>
+        <target state="new">LAUNDRY_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="fb605a3447077ae551d49b7abda8a47340b15197" resname="LAUNDRY_TAB_DESCRIPTION">
+        <source>LAUNDRY_TAB_DESCRIPTION</source>
+        <target state="new">LAUNDRY_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="2ae8050c4664cf3ff746720df20c988eccdfb834" resname="MyCP">
+        <source>MyCP</source>
+        <target state="new">MyCP</target>
+      </trans-unit>
+      <trans-unit id="d9631652872b40ab4135c802055a10aeb8273093" resname="OUTER_PRIVATE_BATHROOM_FILTER">
+        <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
+        <target state="new">OUTER_PRIVATE_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="9382484523c03d8b0fdc50450da9dc8bef6a7745" resname="PARKING_TAB_DESCRIPTION">
+        <source>PARKING_TAB_DESCRIPTION</source>
+        <target state="new">PARKING_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="69b239c27704486fd3733b4c9eb32bfe9ca72d93" resname="PARKING_THERS_FILTER">
+        <source>PARKING_THERS_FILTER</source>
+        <target state="new">PARKING_THERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="2bdbca8d54c5de7744de8e2c0cbe95e03fcc419a" resname="PASSWORD_RECOVERY_BUTTON_TEXT">
+        <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
+        <target state="new">PASSWORD_RECOVERY_BUTTON_TEXT</target>
+      </trans-unit>
+      <trans-unit id="f41a06ea1bf32a6f512ae555f05e8f4a4a7ddaf2" resname="PASSWORD_RECOVERY_PAGE_TITLE">
+        <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
+        <target state="new">PASSWORD_RECOVERY_PAGE_TITLE</target>
+      </trans-unit>
+      <trans-unit id="3582d4b13b17e606edcfd7130c6a8c3a3eb3ae4d" resname="PETS_OTHERS_FILTER">
+        <source>PETS_OTHERS_FILTER</source>
+        <target state="new">PETS_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="7841d2fc7b4aec4becd9f9ac86f16c5eadf4c623" resname="PETS_TAB_DESCRIPTION">
+        <source>PETS_TAB_DESCRIPTION</source>
+        <target state="new">PETS_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="d10dfdde36d30de6b173a1d541686140e840a212" resname="POOL_OTHERS_FILTER">
+        <source>POOL_OTHERS_FILTER</source>
+        <target state="new">POOL_OTHERS_FILTER</target>
+      </trans-unit>
+      <trans-unit id="af4ca7a0bbbd209d4969bee11ae373bf0ccc200a" resname="PROVINCE_TAB_DESCRIPTION">
+        <source>PROVINCE_TAB_DESCRIPTION</source>
+        <target state="new">PROVINCE_TAB_DESCRIPTION</target>
+      </trans-unit>
+      <trans-unit id="4ca99968174c1d0f23c8a4de315390b8b970b472" resname="Penthouse">
+        <source>Penthouse</source>
+        <target state="new">Penthouse</target>
+      </trans-unit>
+      <trans-unit id="e51f224d70d3df8c10d5e456b6ab98229715fe7e" resname="Pixel">
+        <source>Pixel</source>
+        <target state="new">Pixel</target>
+      </trans-unit>
+      <trans-unit id="d9ad13f8bf704e29c3eb3e654b9b4c8996e0de30" resname="Precio/noche">
+        <source>Precio/noche</source>
+        <target state="new">Precio/noche</target>
+      </trans-unit>
+      <trans-unit id="6c2f2888c561e02a5e6f8c02b41144b531092c57" resname="Premium">
+        <source>Premium</source>
+        <target state="new">Premium</target>
+      </trans-unit>
+      <trans-unit id="0602f1c567677469f802d877da99a6d9dd2b6725" resname="Propiedad completa">
+        <source>Propiedad completa</source>
+        <target state="new">Propiedad completa</target>
+      </trans-unit>
+      <trans-unit id="910e678ac154a65c2497075ea394056203c35301" resname="ROOM_PLURAL">
+        <source>ROOM_PLURAL</source>
+        <target state="new">ROOM_PLURAL</target>
+      </trans-unit>
+      <trans-unit id="9ff2c03cea544701a41eb1e619aca1c02b73d35a" resname="ROOM_SINGULAR">
+        <source>ROOM_SINGULAR</source>
+        <target state="new">ROOM_SINGULAR</target>
+      </trans-unit>
+      <trans-unit id="de88de2ffe63b72feb4d1e386248cbf9e16364bd" resname="Rango medio">
+        <source>Rango medio</source>
+        <target state="new">Rango medio</target>
+      </trans-unit>
+      <trans-unit id="ce3edd02cc7a001f7d7b6da3212a7896a3b839d4" resname="Reserva la casa particular que tus clientes prefieren en Cuba.">
+        <source>Reserva la casa particular que tus clientes prefieren en Cuba.</source>
+        <target state="new">Reserva la casa particular que tus clientes prefieren en Cuba.</target>
+      </trans-unit>
+      <trans-unit id="6479552f058fb81927e2e26b5263f8215a670193" resname="SAFE_FILTER">
+        <source>SAFE_FILTER</source>
+        <target state="new">SAFE_FILTER</target>
+      </trans-unit>
+      <trans-unit id="0c06453d1a2fe879a2d5999466a1fb5e0dafe6d9" resname="SAFE_ROOMS">
+        <source>SAFE_ROOMS</source>
+        <target state="new">SAFE_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="a62a7a3d235c34720bba36b65a056b4d3c6d005d" resname="SEARCH">
+        <source>SEARCH</source>
+        <target state="new">SEARCH</target>
+      </trans-unit>
+      <trans-unit id="328cb91324b3e2ba3106c6a7a1f378b58efc57d2" resname="SELECT_ROOM_TYPE_OPTION">
+        <source>SELECT_ROOM_TYPE_OPTION</source>
+        <target state="new">SELECT_ROOM_TYPE_OPTION</target>
+      </trans-unit>
+      <trans-unit id="8b5f70994e0f32e58749f16f823959d3f6fe673f" resname="SERVICES_TAB_DETAILS">
+        <source>SERVICES_TAB_DETAILS</source>
+        <target state="new">SERVICES_TAB_DETAILS</target>
+      </trans-unit>
+      <trans-unit id="5c35037c7eb54cb13fceaef6cf5db04c14b29007" resname="SHARED_BATHROOM_FILTER">
+        <source>SHARED_BATHROOM_FILTER</source>
+        <target state="new">SHARED_BATHROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="6336bff8c75fc9204bb6cc4ef5fea9b1a63e7642" resname="SINGLE_ROOM_FILTER">
+        <source>SINGLE_ROOM_FILTER</source>
+        <target state="new">SINGLE_ROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="352e64c3cb645f9af252953f23d4570e7df61011" resname="SMOKER_FILTER">
+        <source>SMOKER_FILTER</source>
+        <target state="new">SMOKER_FILTER</target>
+      </trans-unit>
+      <trans-unit id="9bfcde7c4e6fa99c14f3c2a9335ac121a0fdbf40" resname="SMOKER_ROOMS">
+        <source>SMOKER_ROOMS</source>
+        <target state="new">SMOKER_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="4fb174ba221aa931110aec64fc2e70929dd9649d" resname="STEREO_ROOMS">
+        <source>STEREO_ROOMS</source>
+        <target state="new">STEREO_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="2873242b7fb5b76431a3ad1917a61e16b7338124" resname="Solicitar Casa">
+        <source>Solicitar Casa</source>
+        <target state="new">Solicitar Casa</target>
+      </trans-unit>
+      <trans-unit id="f37a597cfb9068a45a2556773184e7d702a0a073" resname="Start off">
+        <source>Start off</source>
+        <target state="new">Start off</target>
+      </trans-unit>
+      <trans-unit id="f6702a1554c658bed33de33fa3001883b42d1c1d" resname="Start on">
+        <source>Start on</source>
+        <target state="new">Start on</target>
+      </trans-unit>
+      <trans-unit id="b6363ef432713a63c262aff0e8014bca4b11fd6a" resname="TERRACE_FILTER">
+        <source>TERRACE_FILTER</source>
+        <target state="new">TERRACE_FILTER</target>
+      </trans-unit>
+      <trans-unit id="a3de1ef1d3fd1d584547961b3e1b6495dccaf6aa" resname="TERRACE_ROOMS">
+        <source>TERRACE_ROOMS</source>
+        <target state="new">TERRACE_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="8f28b28558e65b8d2741bad530c878f65db35617" resname="TRIPLE_ROOM_FILTER">
+        <source>TRIPLE_ROOM_FILTER</source>
+        <target state="new">TRIPLE_ROOM_FILTER</target>
+      </trans-unit>
+      <trans-unit id="599e48d14063bd506a8a34fc8565bbdc4b89f715" resname="Tipo de Baño">
+        <source>Tipo de Baño</source>
+        <target state="new">Tipo de Baño</target>
+      </trans-unit>
+      <trans-unit id="10548e2bb7a386ae3affacc745b6a477796446c4" resname="Tipo de Propiedad">
+        <source>Tipo de Propiedad</source>
+        <target state="new">Tipo de Propiedad</target>
+      </trans-unit>
+      <trans-unit id="4638ef9300b694e2c62c732d2d38868907588ea3" resname="USER_EMAIL_IN_USE">
+        <source>USER_EMAIL_IN_USE</source>
+        <target state="new">USER_EMAIL_IN_USE</target>
+      </trans-unit>
+      <trans-unit id="14d45090e6f1e434eef7b96208247c21b3fc6cee" resname="USER_PASSWORD_CHANGE_ERROR">
+        <source>USER_PASSWORD_CHANGE_ERROR</source>
+        <target state="new">USER_PASSWORD_CHANGE_ERROR</target>
+      </trans-unit>
+      <trans-unit id="c5dc6ac915b0cb5408a6e9b5c4d9816475a2be58" resname="USER_PASSWORD_RECOVERY">
+        <source>USER_PASSWORD_RECOVERY</source>
+        <target state="new">USER_PASSWORD_RECOVERY</target>
+      </trans-unit>
+      <trans-unit id="1637f0e61ba954c31bb10f84f24d43b3d9dc95f4" resname="USER_PASSWORD_RECOVERY_ERROR">
+        <source>USER_PASSWORD_RECOVERY_ERROR</source>
+        <target state="new">USER_PASSWORD_RECOVERY_ERROR</target>
+      </trans-unit>
+      <trans-unit id="af997344b7df027690807b386f73efe7852b9217" resname="Villa con piscina">
+        <source>Villa con piscina</source>
+        <target state="new">Villa con piscina</target>
+      </trans-unit>
+      <trans-unit id="07f44d089d8f5fee57878ab1c5fb6e958891b4a1" resname="WINDOWS_ROOMS">
+        <source>WINDOWS_ROOMS</source>
+        <target state="new">WINDOWS_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="bb7e2f653f095609d2a94384c4036a8c25926270" resname="YARD_ROOMS">
+        <source>YARD_ROOMS</source>
+        <target state="new">YARD_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
+        <source>booking.placeholder.booking_code</source>
+        <target state="new">Código booking</target>
+      </trans-unit>
+      <trans-unit id="d2a6e5f7cf7a32a846403c34a9ec8717613788be" resname="booking.placeholder.booking_date">
+        <source>booking.placeholder.booking_date</source>
+        <target state="new">Fecha de booking</target>
+      </trans-unit>
+      <trans-unit id="b7c5457efbf21714ca6b8704d878bc172345d07a" resname="booking.placeholder.cas">
+        <source>booking.placeholder.cas</source>
+        <target state="new">Código de Reserva</target>
+      </trans-unit>
+      <trans-unit id="3da775b40b82c8f1d2966feb9242d481f97368bd" resname="booking.placeholder.code">
+        <source>booking.placeholder.code</source>
+        <target state="new">Código Casa</target>
+      </trans-unit>
+      <trans-unit id="11705cd99657cc532e24921529792a4bf116cc40" resname="booking.placeholder.date">
+        <source>booking.placeholder.date</source>
+        <target state="new">Fecha Solicitud</target>
+      </trans-unit>
+      <trans-unit id="4d895b6c2702d2fc85bd98572291338fe2db6a42" resname="booking.placeholder.destination">
+        <source>booking.placeholder.destination</source>
+        <target state="new">Destino</target>
+      </trans-unit>
+      <trans-unit id="93bc210a155b528c65985cdf1f49ff9892552544" resname="booking.placeholder.from">
+        <source>booking.placeholder.from</source>
+        <target state="new">Fecha llegada</target>
+      </trans-unit>
+      <trans-unit id="8c56abd51240832b996eabeaddb3f85bdd1728b9" resname="booking.placeholder.own_name">
+        <source>booking.placeholder.own_name</source>
+        <target state="new">Nombre Casa</target>
+      </trans-unit>
+      <trans-unit id="03bce386fed58823058be72e14f84d32b471b250" resname="booking.placeholder.room_number">
+        <source>booking.placeholder.room_number</source>
+        <target state="new">Cant. Habitaciones</target>
+      </trans-unit>
+      <trans-unit id="6e495488a7dfe01536b55e6cf9fe7d9f817011d5" resname="booking.placeholder.to">
+        <source>booking.placeholder.to</source>
+        <target state="new">Fecha salida</target>
+      </trans-unit>
+      <trans-unit id="67a8d0f731765c6f02d8d674589b677f87680d55" resname="booking.title.name">
+        <source>booking.title.name</source>
+        <target state="new">booking.title.name</target>
+      </trans-unit>
+      <trans-unit id="4b62b0b4fa7a6c5ee4ddccfbae0f2e5ec6ecb0b6" resname="btn.clear">
+        <source>btn.clear</source>
+        <target state="new">Limpiar</target>
+      </trans-unit>
+      <trans-unit id="b7d066e9ea9a8bd518b7e3614ab8e7300b560721" resname="btn.close">
+        <source>btn.close</source>
+        <target state="new">btn.close</target>
+      </trans-unit>
+      <trans-unit id="7580fa85de8adc47d2e89b748fefb65e1b32708c" resname="btn.search">
+        <source>btn.search</source>
+        <target state="new">Buscar</target>
+      </trans-unit>
+      <trans-unit id="a2529e799ddb47e31b7d5d23c24e526d83d69779" resname="dashboard.admin">
+        <source>dashboard.admin</source>
+        <target state="new">Administración</target>
+      </trans-unit>
+      <trans-unit id="17f0c1300aa7ef56b4a08efc8312f248bc395a72" resname="dashboard.booking">
+        <source>dashboard.booking</source>
+        <target state="new">Reservas</target>
+      </trans-unit>
+      <trans-unit id="c5bb395fc47aff980f197f0f10c444fa127a5094" resname="dashboard.booking.adults">
+        <source>dashboard.booking.adults</source>
+        <target state="new">Adultos</target>
+      </trans-unit>
+      <trans-unit id="324bb7417012c8652984cc3aa333ed1c17fddf19" resname="dashboard.booking.availability">
+        <source>dashboard.booking.availability</source>
+        <target state="new">Disponibles</target>
+      </trans-unit>
+      <trans-unit id="e89da00c2b67b6b9036554a9b6dbfa526b9fee03" resname="dashboard.booking.beaten">
+        <source>dashboard.booking.beaten</source>
+        <target state="new">Vencidas</target>
+      </trans-unit>
+      <trans-unit id="8af33304dea36839c320c323563f7a88f1af209e" resname="dashboard.booking.booking_code">
+        <source>dashboard.booking.booking_code</source>
+        <target state="new">Código booking</target>
+      </trans-unit>
+      <trans-unit id="7bbad48b382770bbdfe91a7fed8dd353520044bf" resname="dashboard.booking.bookingcode">
+        <source>dashboard.booking.bookingcode</source>
+        <target state="new">Código Booking</target>
+      </trans-unit>
+      <trans-unit id="84ad439600199b8b4e104878f8cfe3492f1bb6f6" resname="dashboard.booking.bookingdate">
+        <source>dashboard.booking.bookingdate</source>
+        <target state="new">Fecha Booking</target>
+      </trans-unit>
+      <trans-unit id="bd22d4c0c8723cc77b07e71ecbdd53b28b772bf1" resname="dashboard.booking.canceled">
+        <source>dashboard.booking.canceled</source>
+        <target state="new">Canceladas</target>
+      </trans-unit>
+      <trans-unit id="e7c9a8616a2f5ba15d242f7c6970548d4c748bbb" resname="dashboard.booking.cas">
+        <source>dashboard.booking.cas</source>
+        <target state="new">CAS</target>
+      </trans-unit>
+      <trans-unit id="cdd665d1fc87fe6a341aa3d2c7565776e6b58624" resname="dashboard.booking.checkin">
+        <source>dashboard.booking.checkin</source>
+        <target state="new">Check in</target>
+      </trans-unit>
+      <trans-unit id="b6cea4f60596bda74db84665cc323200a873ddaa" resname="dashboard.booking.childrens">
+        <source>dashboard.booking.childrens</source>
+        <target state="new">Niños</target>
+      </trans-unit>
+      <trans-unit id="3fc81229a25b82a826b047756941a75f7501c819" resname="dashboard.booking.client_dates">
+        <source>dashboard.booking.client_dates</source>
+        <target state="new">Cliente</target>
+      </trans-unit>
+      <trans-unit id="e7863602a1e1370c01c4da677da6692d978a5b88" resname="dashboard.booking.code">
+        <source>dashboard.booking.code</source>
+        <target state="new">Código Casa</target>
+      </trans-unit>
+      <trans-unit id="1c269f572f8f01c4595453abe4aed0079536c677" resname="dashboard.booking.date">
+        <source>dashboard.booking.date</source>
+        <target state="new">Fecha Solicitud</target>
+      </trans-unit>
+      <trans-unit id="34ba312277029f3e54a52ea3857f8c94a9369295" resname="dashboard.booking.destination">
+        <source>dashboard.booking.destination</source>
+        <target state="new">Destino</target>
+      </trans-unit>
+      <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
+        <source>dashboard.booking.from</source>
+        <target state="new">Fecha llegada</target>
+      </trans-unit>
+      <trans-unit id="e478e14d3964c86b45caf8b89f94abfd325a54f9" resname="dashboard.booking.home">
+        <source>dashboard.booking.home</source>
+        <target state="new">Nombre Casa</target>
+      </trans-unit>
+      <trans-unit id="4a386ba3c5164c9ce2681b1f798d1c0086a5e1ec" resname="dashboard.booking.notavailability">
+        <source>dashboard.booking.notavailability</source>
+        <target state="new">No Disponibles</target>
+      </trans-unit>
+      <trans-unit id="a99b851a11eebdf8f293ac73cf4d8fc812e7fa58" resname="dashboard.booking.pending">
+        <source>dashboard.booking.pending</source>
+        <target state="new">Pendientes</target>
+      </trans-unit>
+      <trans-unit id="4d58eba7b655963a4e1d273ef8e10b965e525afc" resname="dashboard.booking.reserved">
+        <source>dashboard.booking.reserved</source>
+        <target state="new">Pagadas</target>
+      </trans-unit>
+      <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
+        <source>dashboard.booking.room_types</source>
+        <target state="new">Tipo de Habitación</target>
+      </trans-unit>
+      <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
+        <source>dashboard.booking.rooms</source>
+        <target state="new">Habitaciones</target>
+      </trans-unit>
+      <trans-unit id="c60beb261c10cda25ac50bc9a67779e766402b99" resname="dashboard.booking.to">
+        <source>dashboard.booking.to</source>
+        <target state="new">Fecha salida</target>
+      </trans-unit>
+      <trans-unit id="35408b83cf258c7c24cccb02385a107b78bc2223" resname="dashboard.booking.totalprice">
+        <source>dashboard.booking.totalprice</source>
+        <target state="new">Precio Total</target>
+      </trans-unit>
+      <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
+        <source>dashboard.booking.totalprice_inhome</source>
+        <target state="new">Pago en Casa</target>
+      </trans-unit>
+      <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
+        <source>dashboard.payment</source>
+        <target state="new">Payment</target>
+      </trans-unit>
+      <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
+        <source>dashboard.profile</source>
+        <target state="new">Mi Perfil</target>
+      </trans-unit>
+      <trans-unit id="800d9cf2f6cfbe44c52f821f371d51fa99371192" resname="dashboard.text_reserv_one">
+        <source>dashboard.text_reserv_one</source>
+        <target state="new">Gestiona tus reservas ¡con un solo click!</target>
+      </trans-unit>
+      <trans-unit id="f40effed48ae586eaeb99b88c79d782b62bbde9f" resname="dashboard.text_reserv_two">
+        <source>dashboard.text_reserv_two</source>
+        <target state="new">Aprovecha esta fantástica guía para tenerlo todo a la mano</target>
+      </trans-unit>
+      <trans-unit id="dc39c09797af50c091c318df1ceef40dae833ed8" resname="frontend.account_type">
+        <source>frontend.account_type</source>
+        <target state="new">Tipo de cuenta</target>
+      </trans-unit>
+      <trans-unit id="d47ff1d108be6b98a557b086d08cd4710401ad17" resname="frontend.account_unic">
+        <source>frontend.account_unic</source>
+        <target state="new">Cuenta única</target>
+      </trans-unit>
+      <trans-unit id="39b9f58bd50df1735fa2cac0a6d046566d55b89a" resname="frontend.five_tour">
+        <source>frontend.five_tour</source>
+        <target state="new">Más de 5 turoperadores</target>
+      </trans-unit>
+      <trans-unit id="bc358a98e46f450213b262ee7e095c3d71bcb9db" resname="frontend.one_tour">
+        <source>frontend.one_tour</source>
+        <target state="new">1 turoperador</target>
+      </trans-unit>
+      <trans-unit id="7713ef173ad910c8c85f98c130c74ca476db13c0" resname="frontend.partner">
+        <source>frontend.partner</source>
+        <target state="new">HAZTE PARTNER!</target>
+      </trans-unit>
+      <trans-unit id="a7704077e6426c5cbca649552948683007b3b9b3" resname="frontend.twofive_tour">
+        <source>frontend.twofive_tour</source>
+        <target state="new">2 a 5 turoperadores</target>
+      </trans-unit>
+      <trans-unit id="791a73e628de3dfbfe0f1f618a63856f0ba07ff7" resname="frontend.users">
+        <source>frontend.users</source>
+        <target state="new">Usuarios</target>
+      </trans-unit>
+      <trans-unit id="53928e82d89f5055e532d7643a2feb374313598a" resname="frontend.web_site">
+        <source>frontend.web_site</source>
+        <target state="new">Sitios Web</target>
+      </trans-unit>
+      <trans-unit id="89de5cba6413438c28f1d5ca5ae806253a1098db" resname="label.aboutus">
+        <source>label.aboutus</source>
+        <target state="new">¿Quiénes somos?</target>
+      </trans-unit>
+      <trans-unit id="78c00085461fa4391eaad088248997968bcaf05a" resname="label.aboutus.four">
+        <source>label.aboutus.four</source>
+        <target state="new">Conoce a Nuestro Equipo</target>
+      </trans-unit>
+      <trans-unit id="41ae0f0cd8f8e385bce609f5357fadf865ced7ae" resname="label.aboutus.one">
+        <source>label.aboutus.one</source>
+        <target state="new"><![CDATA[<strong>MyCasaPartner</strong> es un producto asociado a la plataforma <strong>MyCasa Particular.com</strong>, líder en reserva online de alojamientos privados en Cuba.]]></target>
+      </trans-unit>
+      <trans-unit id="6653ac6a880aac4ca47cadbed047b907afafa166" resname="label.aboutus.three">
+        <source>label.aboutus.three</source>
+        <target state="new"><![CDATA[<strong>Partner es la mejor vía de llegar a Cuba.</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="1cdfd3b32d70fea8de1269aefd0aa5bf4c40d4ed" resname="label.aboutus.two">
+        <source>label.aboutus.two</source>
+        <target state="new"><![CDATA[<strong>Partner</strong> es un directorio de reservaciones que pretende facilitar la colaboración de las agencias y turoperadores de viaje, que desean operar con el amplio y creciente mercado de casas particulares cubanas.]]></target>
+      </trans-unit>
+      <trans-unit id="2efa9a7c4a2675a90a3a3d4ab59e974de2aaf251" resname="label.account.agency.admin">
+        <source>label.account.agency.admin</source>
+        <target state="new"><![CDATA[Cuenta para agencia y administración</br> Cuenta para turoperadores]]></target>
+      </trans-unit>
+      <trans-unit id="3da54246a9d001fc2d1a27e3d42b03a48c0afcf8" resname="label.account.agency.admin.reserved">
+        <source>label.account.agency.admin.reserved</source>
+        <target state="new"><![CDATA[Cuenta de agencia, administración y gestión de reservas </br>Cuenta para turoperadores]]></target>
+      </trans-unit>
+      <trans-unit id="342a3214c509faba397e0872111cd6fb4b8fdc8b" resname="label.account.agency.contact">
+        <source>label.account.agency.contact</source>
+        <target state="new">Datos de la Persona de Contacto</target>
+      </trans-unit>
+      <trans-unit id="ee5976edf8759672e53132178c1135a68beaed44" resname="label.account.agency.one">
+        <source>label.account.agency.one</source>
+        <target state="new"><![CDATA[<strong>Bienvenido</strong> a tu cuenta de agencia en <strong>MyCasaPartner</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="99c0626f42bf823de70a15d3e5b4cca1d74bf522" resname="label.account.agency.two">
+        <source>label.account.agency.two</source>
+        <target state="new">Los datos de contacto son esenciales para que todo funcione a la perfección.</target>
+      </trans-unit>
+      <trans-unit id="20ab1c57ad6cdaaf03756560b5723228d17e6530" resname="label.activateaccount.five">
+        <source>label.activateaccount.five</source>
+        <target state="new">¡COMIENZA YA!</target>
+      </trans-unit>
+      <trans-unit id="d13fed14f0a38d0a0f6a22297a39be135a940ac7" resname="label.activateaccount.four">
+        <source>label.activateaccount.four</source>
+        <target state="new">Tu inscripción ha sido un éxito,</target>
+      </trans-unit>
+      <trans-unit id="e135bc18c70e0f767d8a973cff682dcfbb24d5e5" resname="label.activateaccount.six">
+        <source>label.activateaccount.six</source>
+        <target state="new">¡Somos un equipo!</target>
+      </trans-unit>
+      <trans-unit id="e6fafd43185c49886228941f39241973b8776273" resname="label.activateaccount.three">
+        <source>label.activateaccount.three</source>
+        <target state="new">nuestra amistad comienza ahora</target>
+      </trans-unit>
+      <trans-unit id="1af53840ba0ee6c7e7e214cc4321e72951e29c2b" resname="label.activateaccount.two">
+        <source>label.activateaccount.two</source>
+        <target state="new">por convertirte en Partner...</target>
+      </trans-unit>
+      <trans-unit id="a940beaf21e8e0b93851abf6e320774747cdc41c" resname="label.andy">
+        <source>label.andy</source>
+        <target state="new">label.andy</target>
+      </trans-unit>
+      <trans-unit id="984323045a553ade29b3d44cbb0014551ca59507" resname="label.best.ownership">
+        <source>label.best.ownership</source>
+        <target state="new">Premios Best Casa</target>
+      </trans-unit>
+      <trans-unit id="5e6b878999601078fa0322694ba4208c104e9687" resname="label.btn.accept">
+        <source>label.btn.accept</source>
+        <target state="new">Aceptar</target>
+      </trans-unit>
+      <trans-unit id="4dc1c435d4fd7d5d81029e66e75d7f9bf920be3e" resname="label.cancel">
+        <source>label.cancel</source>
+        <target state="new">Cancelar</target>
+      </trans-unit>
+      <trans-unit id="a9832d6bfdfd97cc4afda321431f4e6d684266a8" resname="label.carousel_text_backend_one">
+        <source>label.carousel_text_backend_one</source>
+        <target state="new"><![CDATA[MyCasaPartner, el placer de reservar</br> en las mejores casas de Cuba]]></target>
+      </trans-unit>
+      <trans-unit id="e39254f99ac1dc7ef27d192c91de4e07bef29567" resname="label.carousel_text_backend_two">
+        <source>label.carousel_text_backend_two</source>
+        <target state="new">Un directorio útil y práctico para gestionar tus reservas fácilmente</target>
+      </trans-unit>
+      <trans-unit id="9440f764720ba744f391d1d576bd4df65bb4a6f6" resname="label.carousel_text_one">
+        <source>label.carousel_text_one</source>
+        <target state="new">Reserva las mejores casas particulares de Cuba</target>
+      </trans-unit>
+      <trans-unit id="3f4183dac64c481db7185a24e5016ee6a2217e30" resname="label.carousel_text_two">
+        <source>label.carousel_text_two</source>
+        <target state="new">Especial para agencias y turoperadores de viaje</target>
+      </trans-unit>
+      <trans-unit id="4aa0fc260fc5883b6d1e2d4fa4095b9a1fae6a24" resname="label.change.password">
+        <source>label.change.password</source>
+        <target state="new">Cambiar Contraseña</target>
+      </trans-unit>
+      <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae74f5bb4601" resname="label.check.term">
+        <source>label.check.term</source>
+        <target state="new">Al Crear mi cuenta acepto todos los</target>
+      </trans-unit>
+      <trans-unit id="66cafb83ec2e17c8a441d789d4d1ae58f5bc4601" resname="label.check.term2">
+              <source>label.check.term2</source>
+              <target state="new">Términos Legales y Políticas de Seguridad</target>
+      </trans-unit>
+      <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
+        <source>label.contactus.mcpartner</source>
+        <target state="new">MyCasaPartner forma parte de la empresa ABUC Media Network GmbH</target>
+      </trans-unit>
+      <trans-unit id="b413a763286e36876822ce67365abd91b059707d" resname="label.data_agency">
+        <source>label.data_agency</source>
+        <target state="new">Datos de la Agencia</target>
+      </trans-unit>
+      <trans-unit id="9587f2bfc14aba400e9b2431636520dc1c22ad8f" resname="label.deactivate.account">
+        <source>label.deactivate.account</source>
+        <target state="new">Desactivar Cuenta</target>
+      </trans-unit>
+      <trans-unit id="a4a47f8b780d42d32bac87cccc4e5bbee643089a" resname="label.deactivate.before">
+        <source>label.deactivate.before</source>
+        <target state="new"><![CDATA[Antes de desactivar tu cuenta</br>queremos estar seguro de que eres tú.]]></target>
+      </trans-unit>
+      <trans-unit id="e8a61775a84d3fec6ff63763809939019daa04e9" resname="label.email.agency">
+        <source>label.email.agency</source>
+        <target state="new">Introduce e-mail de contacto de la Agencia</target>
+      </trans-unit>
+      <trans-unit id="731e9915eb3e36ab9424606689e7844172a7e26a" resname="label.email.registeraccount.text.five">
+        <source>label.email.registeraccount.text.five</source>
+        <target state="new">y a través de los teléfonos</target>
+      </trans-unit>
+      <trans-unit id="a0d57e61678fda782f6f4191368a58ec4743b31a" resname="label.email.registeraccount.text.four">
+        <source>label.email.registeraccount.text.four</source>
+        <target state="new">Para contactarte, has indicado que estarás disponible en </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5ca26c9e7c9fc9cd21a8c280d756a3d348c" resname="label.email.registeraccount.text.one">
+        <source>label.email.registeraccount.text.one</source>
+        <target state="new"><![CDATA[A buena hora te has convertido en un miembro del equipo de MyCasa Partner. Este será el primer paso de una estupenda colaboración. <br/>
+                                     Nosotros nos encargamos de ofrecerte solo lo mejor y más exclusivo de las casas particulares de Cuba.<br/>
+                                     Garantizamos una estancia feliz y acogedora para tus clientes y una maravillosa atención por parte de nuestros anfitriones.<br/>
+                                     Tú solo tienes que ponerle ganas para sacar el mejor partido a esta sociedad que comienza. Ya estás dentro, así que ya tienes el estilo Partner.<br/>]]></target>
+      </trans-unit>
+      <trans-unit id="0e960e724979b36931512ad4e82cb5634a08fd2d" resname="label.email.registeraccount.text.seven">
+        <source>label.email.registeraccount.text.seven</source>
+        <target state="new">EMPEZAR</target>
+      </trans-unit>
+      <trans-unit id="322db8132206ef7615bee4be0ebb615cc943776d" resname="label.email.registeraccount.text.six">
+        <source>label.email.registeraccount.text.six</source>
+        <target state="new">Confirma tu suscripción a nuestro sitio y empieza ahora. ¡Buena suerte!</target>
+      </trans-unit>
+      <trans-unit id="b33102690fa2f2aa6e73b5e15c7ea1f3768c1bb4" resname="label.email.registeraccount.text.three">
+        <source>label.email.registeraccount.text.three</source>
+        <target state="new">ubicada en</target>
+      </trans-unit>
+      <trans-unit id="22df5789568992e39b32758eac90f9d986902681" resname="label.email.registeraccount.text.two">
+        <source>label.email.registeraccount.text.two</source>
+        <target state="new">Antes de seguir adelante, solo recuerda que te has registrado como</target>
+      </trans-unit>
+      <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
+        <source>label.extra</source>
+        <target state="new">Extra!</target>
+      </trans-unit>
+      <trans-unit id="3d8fe77eac80dd369ddad182f519ba59d57db124" resname="label.facebook">
+        <source>label.facebook</source>
+        <target state="new">Facebook</target>
+      </trans-unit>
+      <trans-unit id="500a18e4940efa511fae68edea73fb767485f07e" resname="label.facitily">
+        <source>label.facitily</source>
+        <target state="new">Facilidades</target>
+      </trans-unit>
+      <trans-unit id="ef622eca51c5d4ea784d7533b74d20f5c3ca03fa" resname="label.faqs.five">
+        <source>label.faqs.five</source>
+        <target state="new">¿Es seguro el pago a través de las pasarelas de pago?</target>
+      </trans-unit>
+      <trans-unit id="843e2b6220e04f467570bab444940a9e3d8d951b" resname="label.faqs.four">
+        <source>label.faqs.four</source>
+        <target state="new">¿Qué seguridad puedo ofrecer a mis clientes con MyCasaPartner?</target>
+      </trans-unit>
+      <trans-unit id="655c126c90fcefb62ee97d4171c0f8082cb84db1" resname="label.faqs.height">
+        <source>label.faqs.height</source>
+        <target state="new">¿Qué es una casa particular?</target>
+      </trans-unit>
+      <trans-unit id="a3f2b3bcd88e921e186a5a3e1df2af0b1727619c" resname="label.faqs.nine">
+        <source>label.faqs.nine</source>
+        <target state="new">¿Por qué alojarse en una casa particular?</target>
+      </trans-unit>
+      <trans-unit id="d521dd945c6ad8904ab8748cbc9868408b72bdb5" resname="label.faqs.one">
+        <source>label.faqs.one</source>
+        <target state="new">¿Qué es MyCasaPartner?</target>
+      </trans-unit>
+      <trans-unit id="d522f69aebcbdb5120b1e8d3dd17f99f90e890a9" resname="label.faqs.one.description">
+        <source>label.faqs.one.description</source>
+        <target state="new">MyCasaPartner es un directorio rápido y fácil de comprender, destinado al trabajo de los turoperadores y agencias de viaje con interés en Cuba como destino turístico. </target>
+      </trans-unit>
+      <trans-unit id="0b07bac9f59e6ba333189468ad8832420fb52387" resname="label.faqs.seven">
+        <source>label.faqs.seven</source>
+        <target state="new">¿Por qué apostar por MyCasaPartner?</target>
+      </trans-unit>
+      <trans-unit id="7ab62ee0602bac7305af7f87aca987a279cb8478" resname="label.faqs.six">
+        <source>label.faqs.six</source>
+        <target state="new">¿MyCasaPartner es una plataforma exclusiva para agencias de viaje?</target>
+      </trans-unit>
+      <trans-unit id="ff4b5c5f16d2cc82259786181eff2e68ebcdb983" resname="label.faqs.three">
+        <source>label.faqs.three</source>
+        <target state="new">¿Quién es el propietario de MyCasaPartner?</target>
+      </trans-unit>
+      <trans-unit id="d8976b24ab1da373ba304be332d8d2a5b6a9a6cc" resname="label.faqs.two">
+        <source>label.faqs.two</source>
+        <target state="new">¿Cuáles son los servicios que ofrece?</target>
+      </trans-unit>
+      <trans-unit id="bbd4b96feb5164f25dae3ce6a20d219c2e2cc086" resname="label.faqs.two.description">
+        <source>label.faqs.two.description</source>
+        <target state="new"><![CDATA[MyCasaPartner ofrece servicios de gestión de disponibilidad y agiliza el proceso de reservaciones en casas particulares de Cuba.</br>
+                            Pone a disposición de las agencias y turoperadores la posibilidad de reservar para sus clientes las mejores casas particulares del país, pues contamos con una base de datos de más de 2 500 alojamientos garantizados por toda Cuba.</br>
+                            Según los paquetes seleccionados por cada cliente, MyCasaPartner brinda diferentes funcionalidades que abarcan desde el diseño web creativo, sistema de estadísticas, atención al cliente, campañas de email marketing, hasta opciones para reservar al instante. ]]></target>
+      </trans-unit>
+      <trans-unit id="15873ae3f2b725a7e8baabab3b0beba3848a71b0" resname="label.faqs.two.five">
+        <source>label.faqs.two.five</source>
+        <target state="new"><![CDATA[El pago en MyCasaPartner sí es seguro. El prepago de las reservas NO se realiza en nuestra página web sino a través de pasarelas de pago. Esta plataforma de liquidación garantiza la seguridad de su depósito.</br>
+                            MyCasaPartner en ningún caso tiene acceso a los datos bancarios o de tarjeta de crédito de sus clientes.]]></target>
+      </trans-unit>
+      <trans-unit id="d176513ab7a20b5cb70205f175f0662e9a0b1967" resname="label.faqs.two.four">
+        <source>label.faqs.two.four</source>
+        <target state="new">MyCasaPartner es una plataforma web totalmente segura. Guardamos un mínimo de datos sobre nuestros clientes como nombre, e-mail y otros datos relacionados con el hospedaje. Nos avalan nuestros clientes y las referencias de nuestro servicio.</target>
+      </trans-unit>
+      <trans-unit id="24562fd6c2d7eb756fa57ecf10b85b25ffd16049" resname="label.faqs.two.height">
+        <source>label.faqs.two.height</source>
+        <target state="new"><![CDATA[Casa Particular es el término que se utiliza en Cuba para denominar una casa entera, habitaciones, o un apartamento privado, perteneciente a una familia cubana en el que se ofrece el servicio de alquiler o arrendamiento a turistas.</br>
+                            Por lo general, estos anfitriones están dispuestos a rentar por períodos breves o de larga estancia. Muchos aceptan grupos y familias, otros solo están preparados para recibir a una pareja. La mayoría ofrece otros servicios complementarios al alojamiento como desayuno, cena, lavandería, etc.]]></target>
+      </trans-unit>
+      <trans-unit id="a78d57ca1a8f820c73aad4aa7c8ba7336c6fbad5" resname="label.faqs.two.nine">
+        <source>label.faqs.two.nine</source>
+        <target state="new">Alojarse en una casa particular puede ser una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo, podrá conocer la realidad, la cultura y la tradición cubanas desde dentro. Otro argumento muy importante es el precio; las casas particulares son la opción más económica para su estancia en Cuba.</target>
+      </trans-unit>
+      <trans-unit id="7b5c7fb9f99721e0e3ef9870859988da803daca4" resname="label.faqs.two.seven">
+        <source>label.faqs.two.seven</source>
+        <target state="new">Porque contamos con alojamientos de calidad y excelentes anfitriones por toda Cuba. Además, a través del prepago, MyCasaPartner garantiza las reservas de sus clientes. Las casas particulares en Cuba priorizan nuestras reservaciones, porque saben que son seguras.</target>
+      </trans-unit>
+      <trans-unit id="ff57db5b1f30f7c007a0aec2b28d499a670b655e" resname="label.faqs.two.six">
+        <source>label.faqs.two.six</source>
+        <target state="new"><![CDATA[En realidad es una plataforma asociada a las reservaciones online de alojamientos privados en Cuba. Está diseñada para facilitar la gestión de los turoperadores y agencias de viaje especialmente.</br>
+                            No obstante, también contempla la reservación realizada por terceros para un grupo de personas. Por ese motivo, nuestros paquetes abarcan una amplia gama de ofertas que cubren desde lo más simple a lo más exquisito.]]></target>
+      </trans-unit>
+      <trans-unit id="93ddef83c24819706af678468c4b1ee1b3d17c8c" resname="label.faqs.two.three">
+        <source>label.faqs.two.three</source>
+        <target state="new">MyCasaPartner es un producto de ABUC Media Network, una empresa con sede en Basel, Suiza.</target>
+      </trans-unit>
+      <trans-unit id="fafbce1d6c5b75f5bff3f7627492af4b09267c2c" resname="label.filter.arrival">
+        <source>label.filter.arrival</source>
+        <target state="new">Llegada</target>
+      </trans-unit>
+      <trans-unit id="922c358adc3b36c93a128e90f931f5810d2cf26c" resname="label.filter.exit">
+        <source>label.filter.exit</source>
+        <target state="new">Salida</target>
+      </trans-unit>
+      <trans-unit id="3597de2b60f98bcc1a9f829350f319b99844fb97" resname="label.forgot_password">
+        <source>label.forgot_password</source>
+        <target state="new">¿Olvidaste tu contraseña?</target>
+      </trans-unit>
+      <trans-unit id="987d04a477190f03da3849e58388040d3088e402" resname="label.form.agency.one">
+        <source>label.form.agency.one</source>
+        <target state="new">Ingresa los Datos de la Agencia para crear una Cuenta</target>
+      </trans-unit>
+      <trans-unit id="3ca0fb8286be8eb248d9fbb73bbf775be01cff5a" resname="label.form.agency.three">
+        <source>label.form.agency.three</source>
+        <target state="new">Contraseña</target>
+      </trans-unit>
+      <trans-unit id="e5f06f475b52b29acb722c80b7fd0387ab97a974" resname="label.form.agency.two">
+        <source>label.form.agency.two</source>
+        <target state="new">Ingresa los Datos de la Persona de Contacto de la Agencia</target>
+      </trans-unit>
+      <trans-unit id="ead3b00a31c3fbf025363d5d465cbc7fc554dfa7" resname="label.free">
+        <source>label.free</source>
+        <target state="new">GRATIS !!!</target>
+      </trans-unit>
+      <trans-unit id="bd906f18ec9225517037cc9f88213b611b4e5833" resname="label.gest.reserv_one">
+        <source>label.gest.reserv_one</source>
+        <target state="new">¿Quieres ofertas exclusivas?</target>
+      </trans-unit>
+      <trans-unit id="64ed2865bace4ac888e59251021f8dbcd00a622b" resname="label.gest.reserv_two">
+        <source>label.gest.reserv_two</source>
+        <target state="new">Esta es tu oportunidad de lujo</target>
+      </trans-unit>
+      <trans-unit id="01e84723ea73e6fd1c2fb4c26ef55b747b6516ea" resname="label.gest.reserved.atention">
+        <source>label.gest.reserved.atention</source>
+        <target state="new"><![CDATA[Gestión de reservas</br>Opción de reserva rápida</br>Atención al cliente 24h]]></target>
+      </trans-unit>
+      <trans-unit id="c641702eaf288e0c6ef5dd42aafcb5f90adb5fc4" resname="label.gest.reserved.atention.stadistic">
+        <source>label.gest.reserved.atention.stadistic</source>
+        <target state="new"><![CDATA[Gestión de reservas</br>Opción de reserva rápida</br>Atención al cliente 24h</br>Opción de reserva inmediata</br>Consulta de estadísticas]]></target>
+      </trans-unit>
+      <trans-unit id="25864374edc9a279881a29e1080171adf2abc1d0" resname="label.gest.reserved.atention.stadistic.remarketing">
+        <source>label.gest.reserved.atention.stadistic.remarketing</source>
+        <target state="new"><![CDATA[Gestión de reservas</br>
+                                                        Opción de reserva rápida</br>
+                                                        Atención al cliente 24h</br>
+                                                        Opción de reserva inmediata</br>
+                                                        Consulta de estadísticas</br>
+                                                        Gestión de la disponibilidad</br>
+                                                        Política de cobros y devoluciones</br>
+                                                        Diseño web creativo</br>
+                                                        Campañas de email marketing]]></target>
+      </trans-unit>
+      <trans-unit id="35707e4e21168878628a65af703e3a860c687ef1" resname="label.gonow">
+        <source>label.gonow</source>
+        <target state="new">YA VIENE !!!</target>
+      </trans-unit>
+      <trans-unit id="815ac4e932c44426836c9e81ca3c5c3cdf0c4c55" resname="label.google.map">
+        <source>label.google.map</source>
+        <target state="new">label.google.map</target>
+      </trans-unit>
+      <trans-unit id="2777ec992d183396b2780be542fd8964f8fb2166" resname="label.hellow">
+        <source>label.hellow</source>
+        <target state="new">Hola</target>
+      </trans-unit>
+      <trans-unit id="f631d633015eff0138cf09be8320c82630ef4924" resname="label.history.reserved">
+        <source>label.history.reserved</source>
+        <target state="new">Historial de reservas y facturas</target>
+      </trans-unit>
+      <trans-unit id="78154adf0edf56c4c9833cdf6b75403fd311ce32" resname="label.history.reserved.creation">
+        <source>label.history.reserved.creation</source>
+        <target state="new"><![CDATA[Historial de reservas y facturas</br>Creación de sección privada para los clientes</br>]]></target>
+      </trans-unit>
+      <trans-unit id="3ad9c9f2fd8a663ebe50cc4ebb86e18c7d7f3cf4" resname="label.history.reserved.creation.cc">
+        <source>label.history.reserved.creation.cc</source>
+        <target state="new"><![CDATA[Historial de reservas y facturas</br>Creación de sección privada para los clientes</br>Cupones de descuento]]></target>
+      </trans-unit>
+      <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
+        <source>label.home</source>
+        <target state="new">label.home</target>
+      </trans-unit>
+      <trans-unit id="45af845d42457f5f2a7f349c90c9be13b1f116ff" resname="label.how.sectionone.five">
+        <source>label.how.sectionone.five</source>
+        <target state="new">Es fácil, es rápido</target>
+      </trans-unit>
+      <trans-unit id="a5c6d1895f915f590b1472d21eb3a1aecebaa446" resname="label.how.sectionone.four">
+        <source>label.how.sectionone.four</source>
+        <target state="new">Complace todos los gustos</target>
+      </trans-unit>
+      <trans-unit id="f5c64255343694048db6534393616f92de4ab77e" resname="label.how.sectionone.one">
+        <source>label.how.sectionone.one</source>
+        <target state="new">Te ahorra tiempo</target>
+      </trans-unit>
+      <trans-unit id="8f3f16b0edf86fe4f011ca3472071b940843549d" resname="label.how.sectionone.three">
+        <source>label.how.sectionone.three</source>
+        <target state="new"><![CDATA[Muestra a la mano</br> justo lo necesario]]></target>
+      </trans-unit>
+      <trans-unit id="5a94955fba607f861ac3713b56535f638709e1dc" resname="label.how.sectionone.title">
+        <source>label.how.sectionone.title</source>
+        <target state="new">¿Cómo funciona?</target>
+      </trans-unit>
+      <trans-unit id="eeb93e368b10a42c780f325cbb83cec721683ddc" resname="label.how.sectionone.two">
+        <source>label.how.sectionone.two</source>
+        <target state="new">Organiza tu trabajo</target>
+      </trans-unit>
+      <trans-unit id="c487b1f4d2f2bdd7e5f80ecd10d1486041147751" resname="label.how.sectiontwo.five">
+        <source>label.how.sectiontwo.five</source>
+        <target state="new">Partner se precia de sus anfitriones, y de contar con un equipo de atención al cliente dispuesto a apoyarte en todo lo que necesitas.</target>
+      </trans-unit>
+      <trans-unit id="8b58c77c1fe37b3d86f79c09b8fabdf22a68493a" resname="label.how.sectiontwo.four">
+        <source>label.how.sectiontwo.four</source>
+        <target state="new">Estos alojamientos ofrecen un servicio variado y de confianza, que transmite al turista la calidez de los cubanos.</target>
+      </trans-unit>
+      <trans-unit id="288db81e7258cc8801d6dae37e6201c4f3a3a818" resname="label.how.sectiontwo.one">
+        <source>label.how.sectiontwo.one</source>
+        <target state="new"><![CDATA[La simplicidad es la clave </br> de este directorio para gestionar </br>las reservas de tus clientes.]]></target>
+      </trans-unit>
+      <trans-unit id="93a985931123c9533d4be89b0ae5a4df94bd3d45" resname="label.how.sectiontwo.six">
+        <source>label.how.sectiontwo.six</source>
+        <target state="new">Te ofrecemos cuatro propuestas básicas de colaboración con Partner. Escoge la de tu preferencia e inscríbete para comenzar a utilizar nuestros servicios.</target>
+      </trans-unit>
+      <trans-unit id="2e796e525c9a40962e58bef9cbf489f9d1256465" resname="label.how.sectiontwo.three">
+        <source>label.how.sectiontwo.three</source>
+        <target state="new"><![CDATA[Sencillo y práctico, creado para agilizar </br> y facilitar tu trabajo, cuenta </br> con una extensa base de datos que incluye </br> más de 2 500 casas particulares de renta </br> por toda Cuba.]]></target>
+      </trans-unit>
+      <trans-unit id="1356570beac41628d2a339730f8ee9a9fd14b9de" resname="label.how.sectiontwo.title">
+        <source>label.how.sectiontwo.title</source>
+        <target state="new">¿Por qué elegir Partner?</target>
+      </trans-unit>
+      <trans-unit id="78213eb194b46bdc03c445c4d858b36868f1e288" resname="label.how.sectiontwo.two">
+        <source>label.how.sectiontwo.two</source>
+        <target state="new"><![CDATA[Partner está pensado exclusivamente </br> para turoperadores y agencias de viaje </br> interesados en el destino Cuba.]]></target>
+      </trans-unit>
+      <trans-unit id="31c917f98470cd72451382ff8f60356d654ba396" resname="label.how.workheader.one">
+        <source>label.how.workheader.one</source>
+        <target state="new">Ofrece a tus clientes</target>
+      </trans-unit>
+      <trans-unit id="40ea265a599dc9273cf581f807c993adeb36ac36" resname="label.how.workheader.three">
+        <source>label.how.workheader.three</source>
+        <target state="new">MyCasaPartner tiene todo para hacer tu trabajo más fácil</target>
+      </trans-unit>
+      <trans-unit id="e315f9b774e276307957b37f49703e2694197292" resname="label.how.workheader.two">
+        <source>label.how.workheader.two</source>
+        <target state="new">las mejores casas particulares de Cuba</target>
+      </trans-unit>
+      <trans-unit id="409228771ab9c0c9a85cfefcd2bfdbcef453e476" resname="label.how_work">
+        <source>label.how_work</source>
+        <target state="new">Cómo funciona</target>
+      </trans-unit>
+      <trans-unit id="48d5bef79fbea71649d63c5c7fe11e263d8d604e" resname="label.indic.email">
+        <source>label.indic.email</source>
+        <target state="new">Indica tu cuenta de correo establecida para la agencia. Te enviaremos una contraseña nueva. </target>
+      </trans-unit>
+      <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
+        <source>label.login</source>
+        <target state="new">Inicia Sesión</target>
+      </trans-unit>
+      <trans-unit id="4956be63fdce562df4f7bbd9537033ff60ee9224" resname="label.miguel">
+        <source>label.miguel</source>
+        <target state="new">label.miguel</target>
+      </trans-unit>
+      <trans-unit id="370c11f6615f95d2a6eab2e62ec91d72c3b0e7cd" resname="label.more">
+        <source>label.more</source>
+        <target state="new">más</target>
+      </trans-unit>
+      <trans-unit id="4b8db389f9696db5926182496378bdf7b3d70b7f" resname="label.name.address">
+        <source>label.name.address</source>
+        <target state="new">Domicilio Legal o Dirección</target>
+      </trans-unit>
+      <trans-unit id="5c42c270ab765d9b80bc66fda49109694a551ac4" resname="label.name.agency">
+        <source>label.name.agency</source>
+        <target state="new">Nombre de la Agencia</target>
+      </trans-unit>
+      <trans-unit id="db2601afdbf8756c4a63192e8b537cf6e95bb571" resname="label.name.client">
+        <source>label.name.client</source>
+        <target state="new">Nombre del Cliente</target>
+      </trans-unit>
+      <trans-unit id="39604ec6ffb26d70431159ee4ebf8ea58a3d6146" resname="label.name.country">
+        <source>label.name.country</source>
+        <target state="new">País</target>
+      </trans-unit>
+      <trans-unit id="259fd25f4c7a43c61fd54072c5a78ed93f529d78" resname="label.name.destination">
+        <source>label.name.destination</source>
+        <target state="new">Destinos</target>
+      </trans-unit>
+      <trans-unit id="f1b87966a9a41f7652fa352c2ec2efdae054bb12" resname="label.name.email">
+        <source>label.name.email</source>
+        <target state="new">Correo de Contacto</target>
+      </trans-unit>
+      <trans-unit id="0065b6b0ad9e18b0733de9e115bf8c1ba66fd3a8" resname="label.name.email.contact">
+        <source>label.name.email.contact</source>
+        <target state="new">Correo de contacto</target>
+      </trans-unit>
+      <trans-unit id="7fb23904236572000e8d89d0a3ed0c89703e068e" resname="label.name.mobile.contact">
+        <source>label.name.mobile.contact</source>
+        <target state="new">Movil de contacto </target>
+      </trans-unit>
+      <trans-unit id="17b23a149a439a3e7e6367916e7f842da79d2ee8" resname="label.name.nameresponse">
+        <source>label.name.nameresponse</source>
+        <target state="new">Nombre de la Persona</target>
+      </trans-unit>
+      <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
+        <source>label.name.phone</source>
+        <target state="new">Teléfono de la agencia</target>
+      </trans-unit>
+      <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
+        <source>label.name.phone.contact</source>
+        <target state="new">Teléfono de Contacto</target>
+      </trans-unit>
+      <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
+        <source>label.new.password</source>
+        <target state="new">Nueva Contraseña</target>
+      </trans-unit>
+      <trans-unit id="25d46e6a016811dac212c927dc5e06ab040b5b55" resname="label.new.password.repeat">
+        <source>label.new.password.repeat</source>
+        <target state="new">Confirma Nueva Contraseña</target>
+      </trans-unit>
+      <trans-unit id="4c90150805029b762fa0a283fd33f4b737f2902f" resname="label.old.password">
+        <source>label.old.password</source>
+        <target state="new">Introduce tu Contraseña Actual</target>
+      </trans-unit>
+      <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
+        <source>label.password</source>
+        <target state="new">Contraseña</target>
+      </trans-unit>
+      <trans-unit id="17662a08cbcbd1fdf5771590c789bbfdbd724542" resname="label.password.repeat">
+        <source>label.password.repeat</source>
+        <target state="new">Confirma Contraseña</target>
+      </trans-unit>
+      <trans-unit id="ced9c5d2c547febce6c658c7f0c970dfa9c260a1" resname="label.payment.transfer">
+        <source>label.payment.transfer</source>
+        <target state="new">Pago completo por transferencia bancaria</target>
+      </trans-unit>
+      <trans-unit id="8e1da1387f1662231b752e473150049de194ca64" resname="label.pinterest">
+        <source>label.pinterest</source>
+        <target state="new">label.pinterest</target>
+      </trans-unit>
+      <trans-unit id="034b90083d0ec560baa59f63d9b5ee3be36110bc" resname="label.prepayment.skrill">
+        <source>label.prepayment.skrill</source>
+        <target state="new">Prepago vía Skrill</target>
+      </trans-unit>
+      <trans-unit id="197b489650de1cdd6411339fbe97fa70b9d9d27a" resname="label.prox">
+        <source>label.prox</source>
+        <target state="new">Próximamente</target>
+      </trans-unit>
+      <trans-unit id="b74888b33d2a4174b97ca54a68924b0daa85fe43" resname="label.question.deactivate">
+        <source>label.question.deactivate</source>
+        <target state="new">¿Seguro de querer hacerlo?</target>
+      </trans-unit>
+      <trans-unit id="d45983cf9aa4bd76c1c7cfab63e8233368f68cc7" resname="label.question.deactivate.yes">
+        <source>label.question.deactivate.yes</source>
+        <target state="new">Sí, Seguro</target>
+      </trans-unit>
+      <trans-unit id="0b3d0c1e561828be361f20b094b3518e0ad907f8" resname="label.range-price">
+        <source>label.range-price</source>
+        <target state="new">Rango de Precio</target>
+      </trans-unit>
+      <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
+        <source>label.ready.reserved</source>
+        <target state="new">¿Estás listo para reservar a lo grande?</target>
+      </trans-unit>
+      <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
+        <source>label.register.agency</source>
+        <target state="new">Empezar!!!</target>
+      </trans-unit>
+      <trans-unit id="ebfccfc3ce9807288f420d7b56db31eae85befc3" resname="label.remember.password">
+        <source>label.remember.password</source>
+        <target state="new">¿Deseas recordar tu contraseña para este sitio?</target>
+      </trans-unit>
+      <trans-unit id="4042d95c3f9fd76b0f49f10684aa8406e369529f" resname="label.required.owner">
+        <source>label.required.owner</source>
+        <target state="new">Solicitar Casa</target>
+      </trans-unit>
+      <trans-unit id="56b28b86455ad505c0481ee4c6f86bc1bcf4919b" resname="label.reserv.inmediatly">
+        <source>label.reserv.inmediatly</source>
+        <target state="new">Reserva Rápida</target>
+      </trans-unit>
+      <trans-unit id="ddfafcc087f00f7abfd2ea216401daf72aa0dfbc" resname="label.reservation.adults">
+        <source>label.reservation.adults</source>
+        <target state="new">Adultos</target>
+      </trans-unit>
+      <trans-unit id="89fa21ff59068b8e201d19e92311020ddc6aad84" resname="label.reservation.children">
+        <source>label.reservation.children</source>
+        <target state="new">Niños</target>
+      </trans-unit>
+      <trans-unit id="b5c9af60111af4277f44b89fb59fd2a2aaba9eb4" resname="label.resgister.description.one">
+        <source>label.resgister.description.one</source>
+        <target state="new"><![CDATA[En breve recibirás vía email la confirmación de tu cuenta en Partner.</br>Gracias por unirte al equipo]]></target>
+      </trans-unit>
+      <trans-unit id="fcfacf71ec893568ad8e50148741ee6efe95a379" resname="label.resgister.description.two">
+        <source>label.resgister.description.two</source>
+        <target state="new">¡Te esperamos!</target>
+      </trans-unit>
+      <trans-unit id="ec0ce453bb0c38e9566d5cb152edbdc9ec730101" resname="label.save_change">
+        <source>label.save_change</source>
+        <target state="new">Guardar Cambios</target>
+      </trans-unit>
+      <trans-unit id="1a132aa5d345eb7aa9e55c79aabd397e6609385b" resname="label.section.easy_description">
+        <source>label.section.easy_description</source>
+        <target state="new">Reservar se vuelve lo más sencillo del mundo. Un sitio pensado para ayudarte y facilitar tu gestión de forma rápida y profesional.</target>
+      </trans-unit>
+      <trans-unit id="7dfdac4964db4400d8ea98123235e157a1bf2a18" resname="label.section.offer_atention">
+        <source>label.section.offer_atention</source>
+        <target state="new">Atención</target>
+      </trans-unit>
+      <trans-unit id="d834fea028054b5e34eb8b4446a795a3ea82546b" resname="label.section.offer_atention_description">
+        <source>label.section.offer_atention_description</source>
+        <target state="new">Respondemos a la disponibilidad de los alojamientos en un plazo máximo de 24 horas.</target>
+      </trans-unit>
+      <trans-unit id="2b9d92b46617e6de1bac9436b01c441565b29d77" resname="label.section.offer_check">
+        <source>label.section.offer_check</source>
+        <target state="new">Compruébalo</target>
+      </trans-unit>
+      <trans-unit id="886a9a0fdc00f6c22166a48707000d944f98186b" resname="label.section.offer_chek_description">
+        <source>label.section.offer_chek_description</source>
+        <target state="new">Puede ver todos los detalles e imágenes de una propiedad cuando quiera. Siempre están a su disposición.</target>
+      </trans-unit>
+      <trans-unit id="1b14f8d2dfab4e87b994e8d7f50b03ac070cb7df" resname="label.section.offer_direct">
+        <source>label.section.offer_direct</source>
+        <target state="new">Trato directo</target>
+      </trans-unit>
+      <trans-unit id="3c09cead9f6b21a69489528a26732d593b13ab26" resname="label.section.offer_direct_description">
+        <source>label.section.offer_direct_description</source>
+        <target state="new">Si quiere comunicarse con los anfitriones, una vez que ha efectuado una reserva, ¿qué se lo impide?.</target>
+      </trans-unit>
+      <trans-unit id="e711e6dfe2ae67d6aa8d136a9ebb883f2fcb57e0" resname="label.section.offer_facility">
+        <source>label.section.offer_facility</source>
+        <target state="new">Facilidades de pago</target>
+      </trans-unit>
+      <trans-unit id="03c9e7c279eb2aecb56a1f55d44bd7b6128f32cb" resname="label.section.offer_facility_description">
+        <source>label.section.offer_facility_description</source>
+        <target state="new">Planifica el viaje de tus clientes con entera comodidad. El pago no es un problema, nos ajustamos a tu conveniencia.</target>
+      </trans-unit>
+      <trans-unit id="387ee642e9792e2fc3a957cd77b82af583bdf4a9" resname="label.section.offer_professional">
+        <source>label.section.offer_professional</source>
+        <target state="new">Profesionalidad</target>
+      </trans-unit>
+      <trans-unit id="ab7b6ea97dee19aaa452448db9953ba86f4da5eb" resname="label.section.offer_professional_description">
+        <source>label.section.offer_professional_description</source>
+        <target state="new">Los anfitriones Partner respetan las reservaciones. Ofrecemos una oferta similar o mejor si se produce una cancelación.</target>
+      </trans-unit>
+      <trans-unit id="132c109820743a51d29460a8d5f2656c0873259f" resname="label.section.offer_vote">
+        <source>label.section.offer_vote</source>
+        <target state="new">Valoraciones</target>
+      </trans-unit>
+      <trans-unit id="7cf5150b12bf45454941eebddc0e8d4d4b08a320" resname="label.section.offer_vote_description">
+        <source>label.section.offer_vote_description</source>
+        <target state="new">El 90% de las valoraciones sobre la calidad del servicio y el confort de los hospedajes es muy positiva.</target>
+      </trans-unit>
+      <trans-unit id="4491206d1c2b39230e4e481496cd6b0f512a0bd3" resname="label.section.one">
+        <source>label.section.one</source>
+        <target state="new">¿Qué ganas si apuestas por MyCasaPartner?</target>
+      </trans-unit>
+      <trans-unit id="b8e77ab3d18bc597d0cb6568fa7ade37e97779d7" resname="label.section.one_easy">
+        <source>label.section.one_easy</source>
+        <target state="new">Más sencillo, imposible</target>
+      </trans-unit>
+      <trans-unit id="02afdeac3e92589ed7043409a9c2d73148cd89e1" resname="label.section.one_service">
+        <source>label.section.one_service</source>
+        <target state="new">Servicios asombrosos</target>
+      </trans-unit>
+      <trans-unit id="7174bfbffaa7ee7020fc37dedab25c8dde2441b0" resname="label.section.one_sites">
+        <source>label.section.one_sites</source>
+        <target state="new">Un sitio único</target>
+      </trans-unit>
+      <trans-unit id="a2c20cf6e92d96ba9e68eea5cf8f6f390a176c73" resname="label.section.one_vacation">
+        <source>label.section.one_vacation</source>
+        <target state="new">Vacaciones a toda velocidad</target>
+      </trans-unit>
+      <trans-unit id="4f9e0b63642cf61f023b9ea6bb7e22159b271e28" resname="label.section.service_description">
+        <source>label.section.service_description</source>
+        <target state="new">Te ayudamos a planear las vacaciones de tus clientes. Aprovecha nuestras casas particulares para disfrutar en familia, hablar de negocios o vivir una aventura diferente.</target>
+      </trans-unit>
+      <trans-unit id="1592dd8c15a6a596f6c1171d82a9e670453250c0" resname="label.section.sites_description">
+        <source>label.section.sites_description</source>
+        <target state="new">Decídete por alguna de nuestras casas particulares mejor ubicadas. Tenemos más de 5 000 alojamientos garantizados por toda Cuba, ¡con ofertas increíbles!.</target>
+      </trans-unit>
+      <trans-unit id="ac5afc9cd7171a3d506745e65b0ecff18507abb1" resname="label.section.two">
+        <source>label.section.two</source>
+        <target state="new">Anímate a probar lo mejor de MyCasaPartner</target>
+      </trans-unit>
+      <trans-unit id="0840b163e20870c161cd882e5ddb30b78b4ba27f" resname="label.section.vacation_description">
+        <source>label.section.vacation_description</source>
+        <target state="new">Encuentra lo que tus clientes desean, más rápido que en cualquier otro lugar. Tenemos opciones disponibles para los gustos más exigentes. </target>
+      </trans-unit>
+      <trans-unit id="d340ec5743ecc911369880f1d8b131fb0379b59f" resname="label.secure.deactivate">
+        <source>label.secure.deactivate</source>
+        <target state="new">Estás a punto de desactivar tu cuenta de agencia en Partner.</target>
+      </trans-unit>
+      <trans-unit id="3757d9ab33c99ecc8363ef13631538735c5fddf0" resname="label.service">
+        <source>label.service</source>
+        <target state="new">Servicios</target>
+      </trans-unit>
+      <trans-unit id="46b2a401dd74b48367d9a0d69a7aa6279e997282" resname="label.sigin">
+        <source>label.sigin</source>
+        <target state="new">Ir Ahora</target>
+      </trans-unit>
+      <trans-unit id="2e6d2f051a2c1c75d4cc8c949d7c105d6397adc8" resname="label.take">
+        <source>label.take</source>
+        <target state="new">Tomar</target>
+      </trans-unit>
+      <trans-unit id="8e0d8ae84bdfbb10c7c5353569e999e3083e019a" resname="label.take.picture">
+        <source>label.take.picture</source>
+        <target state="new">Tomar foto</target>
+      </trans-unit>
+      <trans-unit id="709db0f50ecfa8b6c83fb61430e82bd5bc0b1188" resname="label.terms.legal">
+        <source>label.terms.legal</source>
+        <target state="new"><![CDATA[<p><strong>TÉRMINOS LEGALES Y CONDICIONES DE USO – MyCasaParticular.com</strong></br>
+                            Resulta innegable que Internet se ha transformado en una inmensa fuente de información de acceso universal, que ejerce una importante influencia en la educación y en el ámbito sociocultural; a la vez presenta buenas perspectivas en el ámbito del comercio. Se trata de un importante foro donde se desarrollan numerosas actividades, la mayoría de las cuales son realizadas con fines legítimos y provechosos; pero, obviamente, también se llevan a cabo actividades ilícitas y conductas socialmente no aceptables. </br>
+                            Es por ello que las aclaraciones que aparecerán a continuación son referencia obligatoria para el uso adecuado de nuestra plataforma. Al acceder a la plataforma o solicitar cualquiera de nuestros servicios, se declaran nuestros términos y condiciones de uso. Una vez leído y aceptado este documento, Usted estará por consiguiente sujeto a lo suscrito aquí.</br>
+                            Nos reservamos el derecho libre de poder realizar en todo momento cambios y modificaciones en estos Términos Legales. En cada caso, informaremos a todos los usuarios sobre los cambios efectuados en cuanto al uso de nuestro sitio o servicios. Usted deberá aceptar automáticamente estas modificaciones en caso de una nueva inscripción y luego de haberse efectuado cambios en las condiciones generales del contrato.</br>
+                            Usted deberá leer cuidadosamente todos los Términos, en orden de entender nuestras condiciones; ya que, este documento constituye aseguramiento legal entre los usuarios y MyCasaParticular.com.</br>
+                            Los -usuarios- serán aquellos que se han registrado de una manera u otra, para usar las bondades de nuestra plataforma. Se le llamará de ahora y en lo que resta de documento a los usuarios propietarios de casas de renta, como -anfitriones- y a los usuarios turistas, como -clientes-.</br>
+                            MyCasaParticular.com es administrado por ABUC Media Network GmbH (“Sociedad Limitada”) como un servicio dirigido a nuestros usuarios y visitantes. El mismo contiene una colección de recursos Online para el alojamiento en casas particulares (apartamentos para vacaciones y alojamientos privados) en Cuba, así como un servicio de correos electrónicos (denominados “servicios” conjuntos).</br>
+                            Reservas Todas las ofertas de arrendamiento deben ser dirigidas directamente desde los anfitriones correspondientes hacia los clientes.</br>
+                             Si un cliente se interesa por uno o más alojamientos y realiza la correspondiente solicitud de reserva, se le pedirán sus datos de contacto. MyCasaParticular.com reenvía su petición a los anfitriones en Cuba y en convenio con las Casas Particulares (apartamentos para vacaciones y alojamientos privados) confirman al cliente interesado la disponibilidad o no disponibilidad de una oferta.</br>
+                             Pagos
+                             Para clientes que no realizan reservas el acceso a nuestra página es gratis, así como el uso de nuestros servicios de búsqueda y gestión de preferencias.
+                             Si ha decidido reservar un alojamiento, MyCasaParticular.com está facultada para el cobro de tres tasas: </br>
+                             Tarifa por servicio al cliente: entre el 10 % y el 25 % del precio total del alojamiento, dependiendo de la cantidad de noches reservadas, definida como comisión, por la gestión de pre-reserva y reserva, la cual cubre los gastos de nuestra plataforma
+                              Tarifa por el servicio al alojamiento: 20 % del precio total del alojamiento.</br>
+                              Tarifa fija: de 5 CUC (4. 80 EUR) por cada pago realizado.</br>
+                              La moneda CUC (peso convertible cubano) se utiliza como norma para el pago y el anuncio de los precios. MyCasaParticular.com no realiza de ningún modo sus transacciones con esta moneda.</br>
+                              Se indican y contabilizan como moneda de pago para nuestras transacciones el franco suizo, el euro y el dólar americano.
+                              La comisión por pre-reserva y reservación debe ser exclusivamente pagada mediante el gravamen de la tarjeta de crédito (Mastercard, Visa o MoneyBooker) por el importe definido entre MyCasaParticular.com y el anfitrión. No se aceptará el pago en efectivo ni con cheques, excepto en circunstancias especiales o de mutuo acuerdo entre MyCasaParticular.com y el cliente turista. Por lo que no nos hacemos responsables por la correspondiente pérdida de dinero en efectivo o cheques.</br>
+                              MyCasaParticular.com observa en su protocolo que el cliente puede efectuar el pago de varios alojamientos en Cuba en una misma reserva o booking. En este caso, solamente se le cobrará la tarifa fija de 5 CUC en una oportunidad, y no por cada reserva. Lo anterior representa un ahorro favorable al cliente.</br>
+                              Usted como cliente está de acuerdo con que MyCasaParticular.com pueda cargarle en su tarjeta de crédito un importe por pago anticipado, como ha sido acordado en la confirmación de la reserva con su anfitrión. Con ello también da su aprobación para realizar el pago de la diferencia al anfitrión directamente, luego de su arribo y según acuerde con el mismo. Dicha diferencia se refiere al monto total de la estancia, previa deducción de la comisión por pre-reserva y reservación.</br>
+                              La comisión de MyCasaParticular.com quedará previamente descontada en el proceso de reservación y pre-reserva. A su vez, el anfitrión está en el derecho de reclamar al cliente turista el monto por habitaciones. El anfitrión NO PAGA COMISIÓN, siempre se le carga al cliente mediante pagos on-line.</br>
+                              Políticas de Cancelación</br>
+                              Cuando el cliente haya realizado un pago por una reserva y desee cancelar la misma, esta política se aplicará de la siguiente forma:</br>
+                              Si la reserva se cancela, tanto por el anfitrión o como por el cliente, con más de 7 días anteriores a la llegada del cliente a Cuba, se le devolverá a este último la tarifa de un 20% del alojamiento y la tarifa fija de 5 cuc.</br>
+                              Si la reserva se cancela por el anfitrión con menos de 7 días de la llegada del  cliente a Cuba, se le devolverá a este último la tarifa de alojamiento(20%) y la tarifa fija(5 cuc).</br>
+                              Si la reserva se cancela por el cliente con menos de 7 días antes de su llegada a Cuba, no se efectuará reembolso alguno.</br>
+                                Usos del Sitio</br>
+                                Cualquier uso de la plataforma que no esté dirigido a la consulta, edición e inserción de datos referentes a los objetivos de MyCasaParticular.com, o esté de acuerdo con estos Términos Legales y Condiciones de Uso; está explícitamente prohibido.</br>
+                                Usos no autorizados: Usted acepta que no debe hacer ninguna de las siguientes acciones, a no ser, que esté previamente autorizado por nosotros.</br>
+                                Algún uso comercial que no sea a través de nuestra membresía o suscripción previamente validada.</br>
+                                El uso de las herramientas de nuestra plataforma para rentar o seleccionar algún alojamiento que no esté listado, por alguna circunstancia, bajo una suscripción válida.</br>
+                                Subir, publicar, copiar, reproducir, distribuir o transmitir los contenidos de nuestro sitio.</br>
+                                Reproducir alguna parte de nuestra plataforma en otro sitio web, o replicar el mismo con cualquier objetivo (s).</br>
+                                Modificar o crear sitios o trabajos derivados de nuestra web, o alguna parte de ella.</br>
+                                Usar dispositivos automáticos o procesos manuales para monitorear, copiar, o almacenar datos de los contenidos del sitio.</br>
+                                De-construir alguna parte del sitio.</br>
+                                Usar nuestras bases de datos para otros asuntos diferentes de consultar, editar, o ingresar alojamientos, o las funciones para las que está diseñada MyCasaParticular.com.</br>
+                                Usar la plataforma para transmitir, publicar o expresar alguna información falsa, sospechosa o fraudulenta; incluyendo hacer alguna reservación, edición, o publicación de alojamientos con falsas intenciones.</br>
+                                Usar nuestra plataforma de forma que pueda incurrir en algún acto delictivo de cualquier índole.</br>
+                                Publicar, usar o transmitir a través de nuestra web, algún material que sea ilegal, amenazador, abusivo, difamatorio, vulgar, obsceno, sexualmente explícito, indecente, pornográfico o profanador.</br>
+                                Publicar direcciones postales, URLs o números telefónicos.</br>
+                                MyCasaPartner.com</br>
+                                MyCasaPartner.com es una plataforma web asociada a MyCasaParticular.com; con la finalidad de facilitar la gestión de reservas a través de terceros (agencias de viajes y turoperadores). Este producto propone 4 paquetes de servicios con diferentes funcionalidades. La agencia en cuestión elige el de su preferencia.</br>
+                                A través de MyCasaPartner.com se pueden gestionar más de 5 000 alojamientos, con descripciones y especificaciones en idioma español, inglés y alemán; para las cuales se pueden consultar la disponibilidad y la no disponibilidad; efectuar reservas rápidas e inmediatas, entre otros servicios y beneficios según el cliente los contrate.</br>
+                                Los sistemas de pagos funcionan del mismo modo que se aclaró con anterioridad.</br>
+                                Para establecer la seguridad de los usuarios, no podrán existir cuentas simultáneas a una misma dirección de correo electrónico, los permisos de accesibilidad al sistema solamente podrán ser modificados por su administración; y será respaldado regularmente, almacenando todos los datos pertinentes en una localización completamente segura.</br>
+                                MyCasaPartner.com garantiza la disponibilidad del alojamiento reservado en la fecha pactada, para asegurar a los clientes de las agencias de viaje inscritas así como a terceros de forma general, su feliz estancia en Cuba.</br>
+                                Asimismo, conservamos el registro histórico de las reservas, de modo que ambas partes cuenten con un histórico de sus acciones diarias, disponible para la consulta a petición en caso de ser necesario.</br>
+                                Exclusión de Garantías</br>
+                                SI VISITA NUESTRA PÁGINA Y HACE USO DE NUESTROS SERVICIOS, DEBE CONSTAR QUE LO HACE A PROPIO RIESGO. El SISTEMA DE MYCASAPARTICULAR.COM SE BASA EN LA REPUTACIÓN. PARA SU PROPIO BENEFICIO HAGA USO DE LOS COMENTARIOS DE OTROS USUARIOS Y DE LAS RECOMENDACIONES DE TERCEROS SOBRE ANFITRIONES Y CLIENTES. PERMITA QUE REINE LA RAZÓN. SEA PRECAVIDO Y PROTÉJASE.</br>
+                                NUESTRO SERVICIO SE TRANSMITE SOBRE LA BASE DE “SEGÚN SE VE” Y “SE DISPONE”. SI MANIFESTAMOS NUESTRO RECHAZO CATEGÓRICO, USTED DESISTIRÁ DE GARANTIAS DE CUALQUIER TIPO, VERBALES O EXPLICITAS, INCLUSIVE SIN RESTRICCIÓN, DESISTIRÁ ADEMÁS DE GARANTÍAS MERCANTILES IMPLÍCITAS, DE DETERMINADAS CONVENIENCIAS Y CONTRAVENCIONES.</br>
+                                Dirección de Correo electrónico, Transmisión de Datos y Privacidad</br>
+                                Cuando usted nos facilita su información privada, tal como su correo electrónico, nombre y otras informaciones para usar los servicios de nuestro sitio; usted acepta que todos sus datos pasen automáticamente a nuestra base de datos. Usted podrá recibir algún e-mail promocional de nuestros productos y ventajas en cualquier momento; si no desea recibir esos mensajes, contáctenos a través de la siguiente dirección electrónica: info@mycasaparticular.com.</br>
+                                No utilizamos herramientas de seguimiento para recoger información personal de manera secreta sin el consentimiento del usuario, ni para reenviar la información a terceras personas o plataformas de marketing, ni para relacionar la información con información personal (nombre, dirección, etc.).</br>
+                                En caso que usted extraiga su información de nuestra plataforma para usarla en otro no relacionado al nuestro, debe entender que el otro sitio será responsable por el uso que haga de sus datos.</br>
+                                Verificación de Identidad</br>
+                                Usted acepta que debe salvaguardar su propia identificación online, así como su contraseña y que dichos datos deben ser estrictamente confidenciales. Debe notificarnos inmediatamente, en caso de sospechar que sus datos personales han sido comprometidos, o son conocidos por alguna persona sospechosa o que no posee su previa autorización. Igualmente si nosotros creemos que ha existido algún uso no autorizado de su cuenta, le haremos saber y usted deberá cambiarla lo más pronto posible.</br>
+                                No aconsejamos le ofrezca su identificación en nuestra plataforma a ninguna persona; pero si lo hace, y no conserva su información personal adecuadamente, usted será el único responsable de cualquier uso que se haga de dichos datos; incluso si son usados en actos ilegales o fraudulentos, o le ocasiona pérdidas monetarias o de otra índole.</br>
+                                Los usuarios deben tener en cuenta, que en caso de ocurrir algún suceso sospechoso, ilegal o dañino para ellos o MyCasaParticular.com, procederemos a cancelar su cuenta sin previo aviso, lo que queda dentro de nuestro derecho para determinar tales actos.</br>
+                                Término</br>
+                                Nosotros, por nuestra parte, podemos prescindir en cualquier momento, según nuestro parecer y sin previa responsabilidad hacia usted, con o sin motivo alguno y sin notificación previa lo siguiente:</br>
+                                (a) el acceso a nuestra página, </br>
+                                (b) borrar y poner fuera de circulación el contenido facilitado por usted y</br>
+                                © negarle el acceso a cualquier dato u servicio.</br>
+                                Comunicaciones y usos de la Información de los Usuarios</br>
+                                Usted acepta que otros usuarios podrán usar su información personal para comunicarse con usted, de acuerdo con los servicios y opciones que brindamos. Igualmente usted deberá proteger la información personal de otros usuarios con el mismo nivel de seguridad que protege la suya propia.</br>
+                                Responsabilidad hacia la Publicación de Propiedades</br>
+                                El contenido que produzcan los anfitriones no debe:</br>
+                                Violar los derechos de otras personas o leyes, o ser de alguna manera inapropiado.</br>
+                                Incluir información personal que pueda ser usada para contactar otra persona que no esté relacionada con las informaciones solicitadas por nuestro sitio.</br>
+                                Incluir contenidos promocionales no solicitados, publicidad, contenidos políticos o concursos.</br>
+                                Ser abusivo, obsceno, discriminatorio o ilegal.</br>
+                                Ser falso o engañoso.</br>
+                                Los alojamientos incluidos en nuestra plataforma son completa responsabilidad de los anfitriones, que pueden ser los propietarios, encargados o asistentes del negocio. Nosotros salvamos nuestra responsabilidad ante los datos que el usuario ingresa; a no ser, que el mismo solicite nuestros servicios para su inclusión.</br>
+                                MyCasaParticular.com no representa o garantiza a ningún alojamiento, visitas a los mismos, comentarios o reservas. Nosotros podremos facilitar servicios, a solicitud del anfitrión, que permitan elevar la calidad de los contenidos parte de sus ofertas de alojamiento. No tenemos ninguna responsabilidad en caso que los anfitriones no ofrezcan una correcta y adecuada ubicación geográfica; el anfitrión es completamente responsable de proporcionar una descripción geográfica precisa, con el uso de las herramientas que ponemos a su disposición.</br>
+                                Licencia y Derechos de Uso</br>
+                                Al suscribirse o autorizar nuestro uso de sus contenidos, usted nos cede el derecho perpetuo, mundial, irrevocable, sin restricciones, no exclusivo y completo a usar, copiar, adaptar, licenciar, mostrar, publicitar, reproducir, transmitir, modificar, editar; disponer de las fotografías y sus datos relacionados con nuestro negocio.</br>
+                                Usted nos ofrece la capacidad de proteger todos sus contenidos, incluyendo fotografías. Igualmente nos ayudará a proteger la información de distribuciones no autorizadas e ilegales.</br>
+                                Además, cada usuario acepta que podremos reproducir y usar cualquier fotografía o información como contenido promocional, tanto de los usuarios, como del mismo sitio.</br>
+                                Traducciones y Mapas</br>
+                                Las traducciones dentro del sitio, serán realizadas por el traductor de Google, si surge algún problema de precisión gramatical o lingüística, es responsabilidad del traductor. Para evitar futuros mal entendidos o situaciones, ofrecemos servicios de traducción por profesionales; por lo cuales, podemos ser responsables.</br>
+                                Los mapas están conectados directamente a la aplicación de Google Maps, de surgir alguna duda, puede consultar sus Términos y Condiciones de Uso. (http://www.google.com/intl/en_us/help/terms_maps.html)</br>
+                                Limitaciones de Obligaciones</br>
+                                Si usted no está satisfecho con nuestro sitio, no acepta alguna parte de nuestros Términos Legales y Condiciones de Uso, o pretende hacer alguna reclamación legal contra nosotros o contra alguno de nuestros servicios o condiciones; entonces la acción que debería tomar, sería dejar de usar MyCasaParticular.com.</br>
+                                Usted debe ser consciente de que las transmisiones hacia y desde nuestro sitio, no son confidenciales y pueden ser leídas por terceros. Usted también acepta que, al publicar su información privada en nuestro sitio, nosotros no podemos hacernos responsables de su seguridad física o prevenir cualquier crimen o acción que le pueda acaecer.</br>
+                                Resultados de Búsqueda</br>
+                                No podemos garantizar que sus ofertas aparezcan en algún orden específico ante los buscadores de Internet; los resultados de búsqueda variarán dependiendo de muchas condiciones y factores. Nos reservamos el derecho de aplicar ciertas técnicas y procedimientos para optimizar los resultados de búsqueda de nuestra plataforma en general, con el objetivo de obtener más visibilidad en Internet.</br>
+                                Contenido e Informaciones</br>
+                                Nos reservamos los derechos de eliminar, modificar o no aceptar los contenidos que consideremos, bajo nuestra propia discreción, no coinciden con estos Términos o, de algún modo, puedan ser inaceptables para nosotros.</br>
+                                Los usuarios son responsables de revisar y asegurar que la información introducida coincida con sus intenciones.</br>
+                                Usted comprende y se declara conforme, con respecto a que la única responsabilidad sobre el contenido referente a cualquier tipo de reserva; mensajes, textos, datos, fotos, imágenes, videos, audio u otros materiales recogidos en “Contenido”; permanecen con el usuario, a donde se hayan originado los mismos. Todo este contenido está relacionado con nuestro servicio, y es enviado o transmitido mediante nuestro sistema.</br>
+                                Usted comprende y se declara conforme con que somos un Mercado Online y, por ello, nos comprometemos por el contenido publicado en el sitio Web. Adicionalmente moderaremos aquellos datos que contengan calumnias y ofensas, obscenidades y/o similares; incluyendo los comentarios y otras informaciones que puedan a ser ingresados por los usuarios. </br>
+                                No podemos hacernos responsables con la protección de la propiedad intelectual, datos personales, o informaciones no públicas. El contenido en este sitio estará siempre sujeto a cambios constantes, y con mucha frecuencia, podrán producirse posibles inexactitudes. </br>
+                                Nosotros no asumimos responsabilidades o garantías expresas o implícitas por la exactitud, actualidad o integridad de las informaciones que aparecen en el sitio Web. No estamos obligados a chequear, actualizar o controlar esas informaciones. Por ello recomendamos chequear todas esas informaciones que son extraídas de nuestra página. No ofrecemos garantía o seguridad, ni verbal, ni explícita, con relación a aportes o preguntas de los usuarios. Usted comprende y se declara conforme, que si llegara a tomar un acuerdo entre usted y otra persona u organización; el mismo se efectuará bajo las condiciones negociadas por usted y asumidas por ambas partes a propio riesgo.</br>
+                                En MyCasaParticular.com los usuarios tendrán acceso limitado, revocable y no exclusivo al sitio Web para la comercialización y/o búsqueda), según se marque, así como poder exponer inquietudes reales de los usuarios relacionadas con sus intereses y exigencias vacacionales para el uso personal, mientras se corresponda lo anteriormente mencionado con nuestras condiciones de uso.</br>
+                                Fotografías</br>
+                                Las fotografías no deben incluir a personas sin su previa autorización, no deben ser superior a un MB y tienen que ser mayores de 640x480 píxeles. Nos otorgamos el derecho de eliminar las imágenes que no concuerden con nuestras Condiciones.</br>
+                                Cada usuario - anfitrión - acepta que nosotros podemos reproducir completa o parcialmente cualquier fotografía subida, para su propia promoción y la de nuestro sitio.</br>
+                                Uso de nuestra Marca o Logo</br>
+                                Existen diferentes modos de que usted pueda usar nuestra marca o logo, sin nuestra explícita autorización:</br>
+                                Es usualmente permisible que usted como anfitrión se refiera a MyCasaParticular.com como la plataforma en que está inscrita su propiedad y usted pueda invitar a otros a consultar sus ofertas en nuestra plataforma.</br>
+                                Sin embargo, usted no puede referirse a nosotros de manera que se pueda confundir o intuir, que nuestra web patrocina su negocio o es socio del mismo.</br>
+                                Enlaces Externos</br>
+                                Nos reservamos el derecho de rechazar enlaces externos o direcciones de otros sitios web y de eliminarlos sin previo aviso o consentimiento de ningún usuario.</br>
+                                Derecho Aplicable y Jurisdicción</br>
+                                LAS CONDICIONES Y TODAS LAS SITUACIONES QUE SURJAN RELACIONADAS DE Y CON ESTAS SERÁN DETERMINADAS POR EL DERECHO MATERIAL SUIZO, SIN TOMAR REFERENCIA DE LAS DETERMINACIONES JURÍDICAS CIVILES INTERNACIONALES.</br>
+                                CUALQUIER DISCORDANCIA, EXIGENCIA O CONFLICTO ENTRE UN USUARIO Y MYCASAPARTICULAR.COM O ABUC MEDIA NETWORK GMBH SURGIDA DE Y CON RELACIÓN A ESTA DECLARACIÓN ESTÁ SUJETA A LA COMPETENCIA EXCLUSIVA DEL DEPARTAMENTO DE JUSTICIA DE LA CIUDAD DE BASILEA Y CADA PARTE DEBERÁ APROBAR IRREVOCABLEMENTE LA JURISDICCIÓN Y EL LUGAR DE LA MISMA.</br>
+                            </p>]]></target>
+      </trans-unit>
+      <trans-unit id="9541ec4bcff24cfafde7aa6deb85ba647b3a8070" resname="label.thanks">
+        <source>label.thanks</source>
+        <target state="new">¡Gracias!</target>
+      </trans-unit>
+      <trans-unit id="af69c13208b7c2c4abe077c443e9b7cbc6d6b6f8" resname="label.title.faqs.one">
+        <source>label.title.faqs.one</source>
+        <target state="new">FAQ´s</target>
+      </trans-unit>
+      <trans-unit id="eb45e5b610c64824bbcab7b772af8a2173931dd9" resname="label.title.faqs.two">
+        <source>label.title.faqs.two</source>
+        <target state="new">Preguntas Frecuentes sobre MyCasaPartner</target>
+      </trans-unit>
+      <trans-unit id="79f063aa528b399f245005757fde5f9ce66959f9" resname="label.twitter">
+        <source>label.twitter</source>
+        <target state="new">Twitter</target>
+      </trans-unit>
+      <trans-unit id="67edb24f0a70ef3415d2292d5a1795978d7db2da" resname="label.use">
+        <source>label.use</source>
+        <target state="new">Usar</target>
+      </trans-unit>
+      <trans-unit id="f2d3006ba62b89ef481bd6d52cc75e09c2d1f4a5" resname="label.user">
+        <source>label.user</source>
+        <target state="new">Correo de la agencia</target>
+      </trans-unit>
+      <trans-unit id="c5dee5212aeb54faded7ba7f2403f0010f1c7fb0" resname="label.view.more">
+        <source>label.view.more</source>
+        <target state="new">Ver Más</target>
+      </trans-unit>
+      <trans-unit id="d8ad88a26917068c242a8cdcea394cbd6f59372b" resname="label.way.payment">
+        <source>label.way.payment</source>
+        <target state="new">Forma de Pago</target>
+      </trans-unit>
+      <trans-unit id="074b1e4bbaa7e7a8eb23c95a51b6fb2a4f1b05cc" resname="label.welcome">
+        <source>label.welcome</source>
+        <target state="new">Bienvenido</target>
+      </trans-unit>
+      <trans-unit id="d88fc28ac3fd58523421f4274aa13ec37dc9affd" resname="label.youtube">
+        <source>label.youtube</source>
+        <target state="new">Youtube</target>
+      </trans-unit>
+      <trans-unit id="e0ff70ade7a7ee6ccf6b8f30b4eb454369828891" resname="missing_data">
+        <source>missing_data</source>
+        <target state="new">Faltan datos</target>
+      </trans-unit>
+      <trans-unit id="6b2c1b87c30eeff108afc360dd22268c34899083" resname="msg.change.password.invalid">
+        <source>msg.change.password.invalid</source>
+        <target state="new">Su contraseña actual no coincide con la especificada</target>
+      </trans-unit>
+      <trans-unit id="8d1d00e38d400b913d9a6dd07de22955c4b62eb2" resname="msg.change.password.satisfactory">
+        <source>msg.change.password.satisfactory</source>
+        <target state="new">La contraseña se ha cambiado de modo satisfactorio</target>
+      </trans-unit>
+      <trans-unit id="aec53e2be2febd0abc914eba5edb9bbba67e5ba4" resname="msg.modific.satisfactory">
+        <source>msg.modific.satisfactory</source>
+        <target state="new">Se ha modificado satisfactoriamente</target>
+      </trans-unit>
+      <trans-unit id="c4dcd46fa6b6c52689f92149d4a25d22c3b4e941" resname="msg.password.email.invalid">
+        <source>msg.password.email.invalid</source>
+        <target state="new">El correo de la agencia o su contraseña no coinciden</target>
+      </trans-unit>
+      <trans-unit id="041b2e6bbe099abeba936318c26937f2853ae0b8" resname="pa.loading">
+        <source>pa.loading</source>
+        <target state="new">Cargando...</target>
+      </trans-unit>
+      <trans-unit id="3557b24f4bc4045068c739c3f97be43580cf82db" resname="pa.modal.reservation.add">
+        <source>pa.modal.reservation.add</source>
+        <target state="new">Añadir</target>
+      </trans-unit>
+      <trans-unit id="3791c02b8729e890f79d56e9b81597c0bb2bcd44" resname="pa.modal.reservation.end_reservation">
+        <source>pa.modal.reservation.end_reservation</source>
+        <target state="new">Finalizar Solicitud</target>
+      </trans-unit>
+      <trans-unit id="1afc9315503b6a341dc65cbe91fb1bcb6dbd1648" resname="pa.modal.reservation.guest_total">
+        <source>pa.modal.reservation.guest_total</source>
+        <target state="new">Total Huéspedes</target>
+      </trans-unit>
+      <trans-unit id="bad9ccc661ff6fbff302e215cfe9a087b45e6850" resname="pa.modal.reservation.guest_with_reservation">
+        <source>pa.modal.reservation.guest_with_reservation</source>
+        <target state="new">Ubicados</target>
+      </trans-unit>
+      <trans-unit id="9d48b322040565903f03257319b60a3777c11cdc" resname="pa.modal.reservation.new_reservation">
+        <source>pa.modal.reservation.new_reservation</source>
+        <target state="new">Nueva Reserva</target>
+      </trans-unit>
+      <trans-unit id="b4171ddfaa2430920f7b992a4f6a1fdb569a0c3a" resname="pa.modal.reservation.no_data_open_reservation_list">
+        <source>pa.modal.reservation.no_data_open_reservation_list</source>
+        <target state="new">No hay solicitudes creadas</target>
+      </trans-unit>
+      <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
+        <source>pa.modal.reservation.reserve</source>
+        <target state="new">Reserva</target>
+      </trans-unit>
+      <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
+        <source>pa.modal.reservation.title</source>
+        <target state="new">Encuentra más fácil la Disponibilidad para tus Clientes</target>
+      </trans-unit>
+      <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
+        <source>pa_about_us</source>
+        <target state="new">Quiénes somos</target>
+      </trans-unit>
+      <trans-unit id="cb867c7a495224162bd383413a18f8f8c82a0a0d" resname="pa_bath_room">
+        <source>pa_bath_room</source>
+        <target state="new">Tipo de Baño</target>
+      </trans-unit>
+      <trans-unit id="e5631758b4809351331d154a30059d0e3830723e" resname="pa_bed">
+        <source>pa_bed</source>
+        <target state="new">Camas</target>
+      </trans-unit>
+      <trans-unit id="fda6e9df956d12a7cf675d0a835667481c17616a" resname="pa_cate">
+        <source>pa_cate</source>
+        <target state="new">Categoría</target>
+      </trans-unit>
+      <trans-unit id="37b31ecbf0d26455cfcfbd41af25492bee871ef7" resname="pa_contact_us">
+        <source>pa_contact_us</source>
+        <target state="new">Contáctenos</target>
+      </trans-unit>
+      <trans-unit id="0f013d1bad418bc3dc1df6f1151482a3035c2b8e" resname="pa_faqs">
+        <source>pa_faqs</source>
+        <target state="new">FAQ's</target>
+      </trans-unit>
+      <trans-unit id="c32359f28aa22cacbec6704c255d9f497ce023be" resname="pa_footer_copyright">
+        <source>pa_footer_copyright</source>
+        <target state="new">Un producto de ABUC Media Network Gmbh. Todos los derechos reservados</target>
+      </trans-unit>
+      <trans-unit id="68b672245bd87235b822ace9659b970434ad2e03" resname="pa_hab">
+        <source>pa_hab</source>
+        <target state="new">Habit.</target>
+      </trans-unit>
+      <trans-unit id="27e172985c2a0f7a811cf8989d5f556d70a83f02" resname="pa_hues">
+        <source>pa_hues</source>
+        <target state="new">#húesp.</target>
+      </trans-unit>
+      <trans-unit id="cf653348d63f83debe0b3eee6efd3af76e2730e2" resname="pa_legal">
+        <source>pa_legal</source>
+        <target state="new">Términos Legales</target>
+      </trans-unit>
+      <trans-unit id="ea94b54f977e7c441dd74b9e6ae0390c9f762a53" resname="pa_logout">
+        <source>pa_logout</source>
+        <target state="new">Salir</target>
+      </trans-unit>
+      <trans-unit id="7f0cebe8c76ea60d0ca8c9d3dbe6ed029f1feac8" resname="pa_mycasa_trip">
+        <source>pa_mycasa_trip</source>
+        <target state="new">MyCasa Trip</target>
+      </trans-unit>
+      <trans-unit id="b58348b7bbecd9d675ac53eb8f4e1462a2531f94" resname="pa_mycuba_map">
+        <source>pa_mycuba_map</source>
+        <target state="new">MyCuba Map</target>
+      </trans-unit>
+      <trans-unit id="b2cb900684ed73dff71690385ff903bb18d43ee8" resname="pa_property">
+        <source>pa_property</source>
+        <target state="new">Propiedad</target>
+      </trans-unit>
+      <trans-unit id="452e97333657d45be9ce76e78991dab56ec92681" resname="pa_room_type">
+        <source>pa_room_type</source>
+        <target state="new">Tipo de Habitación</target>
+      </trans-unit>
+      <trans-unit id="a1042ea6e5f68fd2b24ca5b5c7e82c9063088762" resname="pa_searcher_title">
+        <source>pa_searcher_title</source>
+        <target state="new">Planea unas vacaciones estupendas para tus clientes en pocos pasos</target>
+      </trans-unit>
+      <trans-unit id="b5353511c5bdb9faa8409ae927146514672ccbd9" resname="pa_sitemap">
+        <source>pa_sitemap</source>
+        <target state="new">Mapa del sitio</target>
+      </trans-unit>
+      <trans-unit id="46faae895cb582d48112c5ddb697a31062b73150" resname="pa_user_profile">
+        <source>pa_user_profile</source>
+        <target state="new">pa_user_profile</target>
+      </trans-unit>
+      <trans-unit id="5ba388cb7b46eb896c64d4a644c9d0b73922e453" resname="page.logout">
+        <source>page.logout</source>
+        <target state="new">Salir</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000f9b263e5fb867a49fe" resname="quick_booking_tooltip">
+        <source>quick_booking_tooltip</source>
+        <target state="new">quick_booking_tooltip</target>
+      </trans-unit>
+      <trans-unit id="44da2b0e8f57b8cc638997894c57505d32bbbcf8" resname="quick_bookinhg">
+        <source>quick_bookinhg</source>
+        <target state="new">quick_bookinhg</target>
+      </trans-unit>
+      <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
+        <source>title.column_five</source>
+        <target state="new">Premium</target>
+      </trans-unit>
+      <trans-unit id="9f3de9d222df6e6e4c87d82ea81b78a65f8987d9" resname="title.column_four">
+        <source>title.column_four</source>
+        <target state="new">Especial</target>
+      </trans-unit>
+      <trans-unit id="370faba084ef4757f0f5fbca8d3f8c26eb2da6d0" resname="title.column_one">
+        <source>title.column_one</source>
+        <target state="new">Plan</target>
+      </trans-unit>
+      <trans-unit id="d7be7b3a0c87a3691340371db09348365be55194" resname="title.column_three">
+        <source>title.column_three</source>
+        <target state="new">Económico</target>
+      </trans-unit>
+      <trans-unit id="b85a1e524e3d00993ce03d2b5d127632d9c557db" resname="title.column_two">
+        <source>title.column_two</source>
+        <target state="new">Básico</target>
+      </trans-unit>
+      <trans-unit id="8940f011f09226aa1c7918fda9a1d46ce06a26cb" resname="title.page.aboutus">
+        <source>title.page.aboutus</source>
+        <target state="new">Quiénes somos</target>
+      </trans-unit>
+      <trans-unit id="d1c84c7046ccb52472a8fb16084375b16a99046b" resname="title.page.contactus">
+        <source>title.page.contactus</source>
+        <target state="new">Contactos</target>
+      </trans-unit>
+      <trans-unit id="4383c55fb58f52b3c51737696ceab4b45d7cdac0" resname="title.page.faqs">
+        <source>title.page.faqs</source>
+        <target state="new">Preguntas frecuentes</target>
+      </trans-unit>
+      <trans-unit id="d33b92535e199c7a9fb8217895760ae3a7beb68a" resname="title.page.howwork">
+        <source>title.page.howwork</source>
+        <target state="new">Cómo funciona</target>
+      </trans-unit>
+      <trans-unit id="4408686dbc1c48e454b5cdc987e06f78b1c227a2" resname="title.page.legal">
+        <source>title.page.legal</source>
+        <target state="new">Términos legales</target>
+      </trans-unit>
+      <trans-unit id="4441817f4bccf3ff28b7c5af081cfa0820d1bf03" resname="title.page.sitemap">
+        <source>title.page.sitemap</source>
+        <target state="new">Mapa del Sitio</target>
+      </trans-unit>
+      <trans-unit id="3bdb82ae8228b27798aee36e7b2cc5f2e4704004" resname="title.section.offer">
+        <source>title.section.offer</source>
+        <target state="new"><![CDATA[Ofrece a tus clientes una experiencia </br> única para sus vacaciones]]></target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
+        <source>title.section.we</source>
+        <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
+      </trans-unit>
+      <trans-unit id="1">
+          <source>label.overlay.cart_1</source>
+          <target>Has seleccionado estas reservas para complacer las solicitudes de tus clientes.</target>
+       </trans-unit>
+      <trans-unit id="2">
+          <source>label.overlay.cart_2</source>
+          <target>Completa los datos y revisa por última vez antes de comprar.</target>
+       </trans-unit>
+      <trans-unit id="3">
+          <source>label.overlay.cart_3</source>
+          <target>¡Buena suerte!</target>
+       </trans-unit>
+      <trans-unit id="4">
+          <source>available_casas</source>
+          <target>casas disponibles</target>
+       </trans-unit>
+      <trans-unit id="5">
+          <source>requested_casas</source>
+          <target>habitaciones solicitadas</target>
+       </trans-unit>
+      <trans-unit id="6">
+          <source>pa.accommodation</source>
+          <target>Casa</target>
+       </trans-unit>
+      <trans-unit id="7">
+          <source>pay_action</source>
+          <target>Pagar</target>
+       </trans-unit>
+      <trans-unit id="8">
+          <source>cart.paynow_button</source>
+          <target>Reservar Ahora</target>
+       </trans-unit>
+      <trans-unit id="9">
+          <source>cart.back_button</source>
+          <target>Volver</target>
+       </trans-unit>
+      <trans-unit id="10">
+          <source>cart.empty_button</source>
+          <target>Vaciar cesta</target>
+       </trans-unit>
+      <trans-unit id="11">
+          <source>cart.search_again</source>
+          <target>Buscar nuevo</target>
+       </trans-unit>
+      <trans-unit id="12">
+          <source>payment.details</source>
+          <target>Desglose de pago</target>
+       </trans-unit>
+      <trans-unit id="13">
+          <source>payment.total</source>
+          <target>PRECIO TOTAL</target>
+       </trans-unit>
+      <trans-unit id="14">
+          <source>payment.online_prepayment</source>
+          <target>Prepago Online</target>
+       </trans-unit>
+      <trans-unit id="15">
+          <source>payment.pay_at_service</source>
+          <target>Pago en Casa</target>
+       </trans-unit>
+      <trans-unit id="16">
+          <source>night</source>
+          <target>Noche</target>
+       </trans-unit>
+      <trans-unit id="17">
+          <source>reservation</source>
+          <target>Reserva</target>
+       </trans-unit>
+      <trans-unit id="18">
+          <source>room</source>
+          <target>Habit.</target>
+       </trans-unit>
+      <trans-unit id="19">
+          <source>payment.lodging_price</source>
+          <target>Costo del alojamiento</target>
+       </trans-unit>
+      <trans-unit id="20">
+          <source>payment.service_fee</source>
+          <target>Tarifa por servicio</target>
+       </trans-unit>
+      <trans-unit id="21">
+          <source>payment.fixed_fee</source>
+          <target>Tarifa fija</target>
+       </trans-unit>
+      <trans-unit id="22">
+          <source>payment.tax_fees</source>
+          <target>Pago por tarifas</target>
+       </trans-unit>
+      <trans-unit id="23">
+          <source>payment.commission_percent</source>
+          <target>#percent#% del Costo del Alojamiento</target>
+       </trans-unit>
+      <trans-unit id="24">
+          <source>MSG_ERROR_NO_ROOMS_AVAILABLE</source>
+          <target>El alojamiento no está disponible en el período de tiempo especificado</target>
+       </trans-unit>
+      <trans-unit id="25">
+          <source>MSG_ERROR_NO_VALID_TOTAL_GUESTS</source>
+          <target>No existe capacidad en el alojamiento para la cantidad de adultos y niños especificada</target>
+       </trans-unit>
+      <trans-unit id="26">
+          <source>cart.alert.title</source>
+          <target>¿Estás seguro?</target>
+       </trans-unit>
+      <trans-unit id="27">
+          <source>cart.alert.content</source>
+          <target>Las reservas se cancelarán. La operación es irreversible</target>
+       </trans-unit>
+      <trans-unit id="28">
+          <source>cart.alert.cancel_button</source>
+          <target>Ahora No</target>
+       </trans-unit>
+      <trans-unit id="29">
+          <source>cart.alert.confirm_button</source>
+          <target>¡Sí, cancelar reservaciones!</target>
+       </trans-unit>
+       <trans-unit id="30">
+         <source>cart.cancel_reservations</source>
+         <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a49fe" resname="dashboard.booking.detail">
+        <source>dashboard.booking.detail</source>
+        <target state="new">Detalles</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a01aa" resname="dashboard.booking.status">
+        <source>dashboard.booking.status</source>
+        <target state="new">Estado</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a02aa" resname="dashboard.booking.home.type">
+        <source>dashboard.booking.home.type</source>
+        <target state="new">Tipo</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a03aa" resname="dashboard.booking.home.category">
+        <source>dashboard.booking.home.category</source>
+        <target state="new">Categoria</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a04aa" resname="dashboard.booking.home.province">
+        <source>dashboard.booking.home.province</source>
+        <target state="new">Provincia</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a05aa" resname="dashboard.booking.home.destination">
+        <source>dashboard.booking.home.destination</source>
+        <target state="new">Destino</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a06aa" resname="dashboard.booking.home.owns">
+        <source>dashboard.booking.home.owns</source>
+        <target state="new">Propietario</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a07aa" resname="dashboard.btn.booking.cancel">
+        <source>dashboard.btn.booking.cancel</source>
+        <target state="new">Cancelar</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a08aa" resname="dashboard.btn.booking.paid">
+        <source>dashboard.btn.booking.paid</source>
+        <target state="new">Pagar</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

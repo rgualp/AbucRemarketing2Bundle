@@ -89,7 +89,7 @@ class Email {
 			$totalNights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
 			array_push($array_nigths, $totalNights);
 		}
-		$touristLanguage = $user_tourist->getUserTouristLanguage();
+		$touristLanguage = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage() : $user->getUserLanguage();
 		$user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()): strtolower($this->defaultLanguageCode);
 
 		// Enviando mail al cliente
@@ -101,7 +101,7 @@ class Email {
 			'nights' => $array_nigths,
 			'message' => $custom_message,
 			'user_locale' => $user_locale,
-			'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null,
+			'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
 			'reservationStatus' => $reservation->getGenResStatus()
 		));
 		$locale = $this->container->get('translator');
@@ -165,6 +165,34 @@ class Email {
 			"Active su cuenta en MyCasaParticular.com", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
 		);
 	}
+
+    /**
+     * @param $email_to
+     * @param $userName
+     * @param $userFullName
+     * @param $secret_token
+     * @param $own_mycp_code
+     * @param $own_name
+     * @throws \InvalidArgumentException
+     */
+    public function sendCreateUserPartner($email_to, $userName, $userFullName, $secret_token,$user_locale='es',$agency) {
+        $locale = $this->container->get('translator');
+        $subject=$locale->trans('label.email.registeraccount.text.seven', array(), "messages", $user_locale);
+
+        $templating = $this->container->get('templating');
+        if (!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $content = $templating->render('PartnerBundle:Mail:createUserPartner.html.twig', array(
+            'user_name' => $userName,
+            'user_full_name' => $userFullName,
+            'secret_token' => $secret_token,
+            'user_locale' => $user_locale,
+            'agency'=>$agency
+        ));
+
+        $this->sendEmail("$subject", 'partner@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
+    }
 	public function sendCreateUserCasaMailCommand($user_casa, $ownership) {
 		$user = $user_casa->getUserCasaUser();
 		$user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());

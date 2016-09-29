@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link type="image/x-icon" href="{{ asset('bundles/frontend/img/favicon.png') }}" rel="icon">
+    <link type="image/x-icon" href="{{ asset('bundles/frontend/img/favicon.png') }}" rel="shortcut icon">
+
+    <title>{% block title %}Home{% endblock %} | Partner</title>
+
+    {% block stylesheets %}
+        {% stylesheets
+        '@LayoutBundle/Resources/public/css/plugins/OverlayStyles/style8.css'
+        '@LayoutBundle/Resources/public/css/bootstrap.min.css'
+        '@LayoutBundle/Resources/public/css/animate.css'
+        '@LayoutBundle/Resources/public/font-awesome/css/font-awesome.min.css'
+        '@LayoutBundle/Resources/public/css/style.css'
+        '@LayoutBundle/Resources/public/css/plugins/datapicker/datepicker3.css'
+        '@LayoutBundle/Resources/public/css/plugins/chosen/chosen.css'
+        '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+        '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+        '@LayoutBundle/Resources/public/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
+        '@LayoutBundle/Resources/public/css/normalize.css'
+        '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
+        '@LayoutBundle/Resources/public/css/plugins/slider/slider.css'
+        '@LayoutBundle/Resources/public/css/partner.css'
+        '@LayoutBundle/Resources/public/css/glyphicons.css'
+        '@FrontEndBundle/Resources/public/css/ionicons.css'
+        '@LayoutBundle/Resources/public/css/plugins/datapicker/datepicker3.css'
+        '@LayoutBundle/Resources/public/css/plugins/dataTables/dataTables.bootstrap.css'
+        '@LayoutBundle/Resources/public/css/plugins/dataTables/dataTables.responsive.css'
+        '@LayoutBundle/Resources/public/css/plugins/dataTables/dataTables.tableTools.min.css'
+
+        filter='?uglifycss' %}
+        <link type="text/css" rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+
+    {% endblock %}
+
+</head>
+<body id="page-top" class="{% block body_class %}landing-page{% endblock %}">
+
+{% block navbar %}
+    {{ include('PartnerBundle:Layout:navbar.html.twig') }}
+{% endblock %}
+{% block carousel %}
+    {{ include('PartnerBundle:Layout:carousel.html.twig') }}
+{% endblock %}
+{% block login_register %}
+{% endblock %}
+{% for message in app.session.flashbag.get('message_global_success') %}
+    <div class="container">
+        <br/>
+        <div class="alert alert-info" style="margin-bottom: 10px">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+{% for message in app.session.flashbag.get('message_global_error') %}
+    <div class="container">
+        <br/>
+        <div class="alert alert-danger" style="margin-bottom: 10px">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+{% block body %}
+{% endblock %}
+{% block footer %}
+    <div id="adjust-footer-section" class="clearfix"></div>
+    {{ include('PartnerBundle:Layout:footer.html.twig') }}
+{% endblock %}
+<!-- Custom and plugin javascript -->
+{% block javascripts %}
+    {% javascripts
+    '@LayoutBundle/Resources/public/js/jquery-2.1.1.js'
+    '@LayoutBundle/Resources/public/js/bootstrap.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/metisMenu/jquery.metisMenu.js'
+    '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/wow/wow.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@LayoutBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
+    '@LayoutBundle/Resources/public/js/classie.js'
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/modernizr.custom.js'
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/classie.js'
+    '@LayoutBundle/Resources/public/js/plugins/OverlayStyles/page-overlay.js'
+    '@LayoutBundle/Resources/public/js/adjustContainer/adjustHeight.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/jquery-validation-1.13.1/dist/jquery.validate.min.js'
+    '@LayoutBundle/Resources/public/js/inspinia.js'
+    '@LayoutBundle/Resources/public/js/plugins/jquery-ui/jquery-ui.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/datapicker/bootstrap-datepicker.js'
+    '@LayoutBundle/Resources/public/js/plugins/dataTables/jquery.dataTables.js'
+    '@LayoutBundle/Resources/public/js/plugins/dataTables/dataTables.bootstrap.js'
+    '@LayoutBundle/Resources/public/js/plugins/dataTables/dataTables.responsive.js'
+    '@LayoutBundle/Resources/public/js/plugins/dataTables/dataTables.tableTools.min.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% if app.request.locale != 'en' %}
+    <script src="{{ asset('bundles/layout/js/plugins/jquery-validation-1.13.1/dist/localization/messages_') }}{{ app.request.locale }}.js"></script>
+    {% endif %}
+{% endblock %}
+{% block scroll_javascripts %}
+    <script type="text/javascript">
+        var cbpAnimatedHeader = (function () {
+            var docElem = document.documentElement,
+                    header = document.querySelector('.navbar-default'),
+                    didScroll = false,
+                    changeHeaderOn = 100;
+
+            function init() {
+                window.addEventListener('scroll', function (event) {
+                    if (!didScroll) {
+                        didScroll = true;
+                        setTimeout(scrollPage, 250);
+                    }
+                }, false);
+            }
+
+            function scrollPage() {
+                var sy = scrollY();
+                if (sy >= changeHeaderOn) {
+                    $(header).addClass('navbar-scroll');
+                    if(!$("#img-partner").hasClass('fixed-nav'))
+                        $("#img-partner").css("width", "230px");
+                    //Para el movil
+                    if($('#img-partner-movil').hasClass('bac-color-{{app.session.get('app_lang_code')|lower }}')){
+                        $('#img-partner-movil').removeClass('bac-color-{{app.session.get('app_lang_code')|lower }}');
+                        $('#img-partner-movil').addClass('bac-white-{{app.session.get('app_lang_code')|lower }}');
+                    }
+
+                }
+                else {
+                    $(header).removeClass('navbar-scroll');
+                    if(!$("#img-partner").hasClass('fixed-nav'))
+                        $("#img-partner").css("width", "376px");
+
+                    if($('#img-partner-movil').hasClass('bac-white-{{app.session.get('app_lang_code')|lower }}')){
+                        $('#img-partner-movil').addClass('bac-color-{{app.session.get('app_lang_code')|lower }}');
+                        $('#img-partner-movil').removeClass('bac-white-{{app.session.get('app_lang_code')|lower }}');
+                    }
+                }
+                didScroll = false;
+            }
+
+            function scrollY() {
+                return window.pageYOffset || docElem.scrollTop;
+            }
+            init();
+
+        })();
+    </script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+<div class="overlay deactivate overlay-slidedown m-t-lg">
+    <button type="button" class="fa fa-times btn-clouseOverlayBlackDeactivate"></button>
+    <div class="row text-center" style="margin-top: 100px">
+        <div class="col-md-12" style="line-height: 0.8">
+            <p style="font-size: 24px;color: #3b3a3a" class="MyriadProRegular">{{ 'label.secure.deactivate' | trans }}</p>
+            </br>
+            <p style="font-size: 24px;color: #3b3a3a" class="MyriadProBold"><strong>{{ 'label.question.deactivate' | trans }}</strong></p>
+        </div>
+    </div>
+    <div class="row text-center m-t-md">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <span id="deactivate-agency" style="font-size: 24px;color: #3b3a3a;cursor: pointer" class="MyriadProBold">{{ 'label.question.deactivate.yes' | trans }}</span>
+        </div>
+        <div class="col-md-3">
+            <span id="cancel-agency" style="font-size: 24px;color: #3b3a3a;cursor: pointer" class="MyriadProBold">{{ 'label.cancel' | trans }}</span>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div id="before-deactivate" class="hide">
+        <div class="row text-center m-t-md">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <p style="font-size: 24px;color: #3b3a3a" class="MyriadProRegular">{{ 'label.deactivate.before' | trans | raw }}</p>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <form novalidate class="form-horizontal deactivate-agency-form text-center" action="{{ path('partnet_dashboard_deactivate_agency') }}" method="post">
+            <div class="row text-center m-t-md">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input style="background: #385d65;border: 0px" placeholder="{{ 'label.email.agency' | trans }}" type="text" class="form-control" name="emailAgency" id="emailAgency" aria-required="true">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row text-center m-t-md">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input style="background: #385d65;border: 0px" placeholder="{{ 'label.form.agency.three' | trans }}" type="password" class="form-control" name="passwordAgency" id="passwordAgency" aria-required="true">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <button class="btnDeactivate" type="submit">{{"label.btn.accept" | trans}}</button>
+        </form>
+    </div>
+
+
+
+</div>

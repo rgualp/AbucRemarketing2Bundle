@@ -72,6 +72,7 @@ class SearchUtils {
 
             if (self::isDefined($arrivalDate)) {
                 $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+
                 if($arrival == null)
                     $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
                 $query_reservation->setParameter('arrival_date', $arrival->format("Y-m-d"));
@@ -181,6 +182,8 @@ class SearchUtils {
         if (!$room_filter) {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
+                             o.own_geolocate_y as longitude,
+                             o.own_geolocate_x as latitude,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -216,6 +219,8 @@ class SearchUtils {
         } else {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
+                             o.own_geolocate_y as longitude,
+                             o.own_geolocate_x as latitude,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -260,8 +265,18 @@ class SearchUtils {
             return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
     }
 
+    /**
+     * @param $destination
+     * @return string
+     */
+    public static function getDestinationWhere($destination) {
+        if ($destination != '')
+            return "(o.own_destination =:destination)";
+    }
 
-public static function getFilterWhere($filters) {
+
+
+    public static function getFilterWhere($filters) {
         $where = "";
         if ($filters != null && is_array($filters)) {
 

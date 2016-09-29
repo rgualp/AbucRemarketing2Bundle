@@ -1,0 +1,12 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+<h4 style="font-family: Arial; font-size: 20px">{{"NEW_USER_ACCOUNT"|trans({}, "messages", user_locale)}}</h4>
+<p style="font-family: arial; font-size: 14px">
+    {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
+    {{ "EMAIL_USER_ACCOUNT_BODY_TEXT_1"|trans({}, "messages", user_locale) }}
+    {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
+    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
+    {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
+</p>
+{% endblock %}

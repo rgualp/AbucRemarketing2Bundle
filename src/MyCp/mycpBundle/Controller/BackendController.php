@@ -23,6 +23,7 @@ class BackendController extends Controller {
         } else if ($this->get('security.context')->isGranted('ROLE_CLIENT_CASA')) {
             return $this->redirect($this->generateUrl('mycp_lodging_front'));
         } else {
+            $reporData = null;
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getManager();
             if ($user->getUserPhoto())

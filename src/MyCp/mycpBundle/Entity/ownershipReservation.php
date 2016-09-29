@@ -598,4 +598,29 @@ class ownershipReservation {
 
     }
 
+    public function getNights($timeService){
+        return $timeService->nights($this->getOwnResReservationFromDate()->getTimestamp(), $this->getOwnResReservationToDate()->getTimestamp());
+    }
+
+    public function getPriceTotal($timeService)
+    {
+        $nights = $this->getNights($timeService);
+        $totalPrice = 0;
+        if($this->getOwnResNightPrice() > 0){
+            $totalPrice += $this->getOwnResNightPrice() * $nights;
+        }
+        else{
+            $totalPrice += $this->getOwnResTotalInSite();
+        }
+
+        return $totalPrice;
+    }
+
+    public function getPricePerInHome($timeService)
+    {
+        $c = $this->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
+        $p = $this->getPriceTotal($timeService);
+        return  $p * (1 - $c);
+    }
+
 }
