@@ -39,6 +39,11 @@ var Dashboard = function () {
             var valueDate = new Date(ev.date);
             valueDate.setDate(valueDate.getDate() + 1);
             departure_datepicker.setDate(valueDate);
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.setItem("filter_arrival", $("#requests_ownership_filter_arrival").val());
+                localStorage.setItem("filter_exit", $("#requests_ownership_filter_exit").val());
+            }
         });
         var departure_datepicker = $('#requests_ownership_filter_exit').datepicker({
             format: 'dd/mm/yyyy',
@@ -48,7 +53,16 @@ var Dashboard = function () {
             date: end_date,
             language: $('#requests_ownership_filter_exit').attr('data-localization')
         }).data('datepicker');
+        //Save localStore
+        if (typeof(Storage) !== "undefined") {
+            var searcherDateFrom = $("#requests_ownership_filter_arrival");
+            if ( localStorage.getItem("filter_arrival")=='') {
+                // Code for localStorage/sessionStorage.
+                localStorage.setItem("filter_arrival", $("#requests_ownership_filter_arrival").val());
+                localStorage.setItem("filter_exit", $("#requests_ownership_filter_exit").val());
+            }
 
+        }
         //Datepickers en modal
         $('#modalDateFrom').datepicker({
             format: 'dd/mm/yyyy',
@@ -210,15 +224,30 @@ var Dashboard = function () {
                 $("#openReservationsListDetails").addClass("hidden");
 
 
-                var searcherDateFrom = $("#requests_ownership_filter_arrival");
+               /* var searcherDateFrom = $("#requests_ownership_filter_arrival");
                 if (typeof searcherDateFrom != "undefined") {
                     $("#modalDateFrom").val(searcherDateFrom.val());
-                }
+                }*/
+               // else{
+                    if (typeof(Storage) !== "undefined") {
+                        // Code for localStorage/sessionStorage.
+                        $("#modalDateFrom").val(localStorage.getItem("filter_arrival"));
+                    }
 
-                var searcherDateTo = $("#requests_ownership_filter_exit");
+                //}
+
+
+                /*var searcherDateTo = $("#requests_ownership_filter_exit");
                 if (typeof searcherDateTo != "undefined") {
                     $("#modalDateTo").val(searcherDateTo.val());
-                }
+                }*/
+               // else{
+                    if (typeof(Storage) !== "undefined") {
+                        // Code for localStorage/sessionStorage.
+                        $("#modalDateTo").val(localStorage.getItem("filter_exit"));
+                    }
+               // }
+
 
                 $("#accommodationName").html(accommodationName);
 
