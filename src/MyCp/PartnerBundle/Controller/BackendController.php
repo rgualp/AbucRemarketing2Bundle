@@ -100,7 +100,9 @@ class BackendController extends Controller
         $dateTo = $request->get("dateTo");
         $adults = $request->get("adults");
         $children = $request->get("children");
+        $clientId=$request->get("clientId");
         $accommodationId = $request->get("accommodationId");
+        //$clientEmail= $request->get("clientEmail");
 
         $dateFrom = Dates::createDateFromString($dateFrom,"/", 1);
         $dateTo = Dates::createDateFromString($dateTo,"/", 1);
@@ -111,7 +113,7 @@ class BackendController extends Controller
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
         $translator = $this->get('translator');
-        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator);
+        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator,$clientId/*,$clientEmail*/);
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
@@ -351,6 +353,36 @@ class BackendController extends Controller
             'message' => ""
 
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getClientAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('PartnerBundle:paClient')->find($request->get('idClient'));
+        return new JsonResponse([
+            'success' => true,
+            'fullname'=>$client->getFullName(),
+            'email'=>$client->getEmail(),
+        ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function listClientAction(){
+        $em = $this->getDoctrine()->getManager();
+        $clients= $em->getRepository('PartnerBundle:paClient')->findAll();
+        $data = array();
+        foreach ($clients as $item) {
+            $arrTmp = array();
+            $arrTmp['id'] = $item->getId();
+            $arrTmp['name'] = $item->getFullName();
+            $data['aaData'][] = $arrTmp;
+        }
+        return new JsonResponse($data);
     }
 
 }

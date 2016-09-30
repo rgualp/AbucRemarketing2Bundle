@@ -56,6 +56,13 @@ class paClient extends baseEntity
      */
     private $reservations;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=50, nullable=true)
+     */
+    private $email;
+
     public function __construct() {
         parent::__construct();
 
@@ -184,5 +191,22 @@ class paClient extends baseEntity
         $this->reservations->removeElement($reservation);
     }
 
+  /**
+   * @return string
+   */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
 
 }

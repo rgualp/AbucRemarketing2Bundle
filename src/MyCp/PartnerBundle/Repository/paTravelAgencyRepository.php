@@ -55,6 +55,28 @@ class paTravelAgencyRepository extends EntityRepository {
         if ($send_creation_mail) {
             \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserPartner($controller, $user->getUserEmail(), $user->getName(), $user->getUserUserName() . ' ' . $user->getUserLastName(), $user->getUserId(),strtolower($language->getLangCode()),$agency);
         }
+        //Send email team MCP
+        $service_email = $controller->get('Email');
+        $translator = $controller->get('translator');
+        $subject = $translator->trans('subject.email.partner_mcpteam', array(), "messages", 'es');
+        $contacts=$obj->getContacts();
+        $name_contact = (count($contacts))?$contacts[0]->getName():'';
+        $phone_contact= (count($contacts))?$contacts[0]->getPhone().', '.$contacts[0]->getMobile():' ';
+        $email_contact= (count($contacts))?$contacts[0]->getEmail():' ';
+
+        $content=  '<p>'.$translator->trans('content.one.email.partner_mcpteam', array(), "messages", 'es').' '
+                        .$obj->getName().' '.$translator->trans('content.two.email.partner_mcpteam', array(), "messages", 'es').' '
+                        .$obj->getEmail().' '.$translator->trans('content.three.email.partner_mcpteam', array(), "messages", 'es')
+                        .' ('.$obj->getPhone().','.$obj->getPhoneAux().').</br> '
+                        .$translator->trans('content.four.email.partner_mcpteam', array(), "messages", 'es').' '.$obj->getAddress()
+                        .$translator->trans('content.five.email.partner_mcpteam', array(), "messages", 'es').' '.$obj->getCountry().'.</br>'
+                        .$translator->trans('content.six.email.partner_mcpteam', array(), "messages", 'es').' '
+                        .$name_contact.' '
+                        .$translator->trans('content.seven.email.partner_mcpteam', array(), "messages", 'es').' '.$phone_contact
+                        .$translator->trans('content.heiht.email.partner_mcpteam', array(), "messages", 'es').' '.$email_contact.'.</br>'
+                        .$translator->trans('content.nine.email.partner_mcpteam', array(), "messages", 'es').'</p>';
+
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'reservation@mycasaparticular.com', $content);
 
         return $user;
     }

@@ -41,28 +41,36 @@ class paReservationRepository extends EntityRepository {
             ->getQuery()->getResult();
     }
 
-    public function newReservation($agency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container, $translator)
+    public function newReservation($agency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container, $translator,$clientId/*,$clientEmail*/)
     {
         $em = $this->getEntityManager();
-        $client = $this->createQueryBuilder("query")
-            ->select("client")
-            ->from("PartnerBundle:paClient", "client")
-            ->join("client.travelAgency", "agency")
-            ->where("client.fullname = :fullname")
-            ->andWhere("agency.id = :travelAgencyId")
-            ->setMaxResults(1)
-            ->setParameter("fullname", $clientName)
-            ->setParameter("travelAgencyId", $agency->getId())
-            ->getQuery()->getOneOrNullResult();
-
-        if($client == null)
-        {
-            $client = new paClient();
-            $client->setFullName($clientName)
-                ->setTravelAgency($agency)
-            ;
-
+        if($clientId!=''){
+            $client = $em->getRepository('PartnerBundle:paClient')->find($clientId);
+            $client->setFullName(trim(strtolower($clientName)));
+            //$client->setEmail(trim(strtolower($clientEmail)));
             $em->persist($client);
+            $em->flush();
+        }
+        else{
+            $client = $this->createQueryBuilder("query")
+                ->select("client")
+                ->from("PartnerBundle:paClient", "client")
+                //->join("client.travelAgency", "agency")
+            ->where("client.fullname = :fullname")
+                //->andWhere("agency.id = :travelAgencyId")
+                ->setMaxResults(1)
+            ->setParameter("fullname", $clientName)
+                //->setParameter("travelAgencyId", $agency->getId())
+                ->getQuery()->getOneOrNullResult();
+
+            if($client == null)
+            {
+                $client = new paClient();
+                $client->setFullName(trim(strtolower($clientName)))
+                    ->setTravelAgency($agency);
+                    //->setEmail(trim(strtolower($clientEmail)));
+                $em->persist($client);
+            }
         }
 
         //Buscar a ver si el cliente tiene una reserva abierta

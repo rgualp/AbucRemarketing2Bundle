@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-30T11:51:02Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-09-30T12:41:56Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -37,6 +37,10 @@
       <trans-unit id="51f4bc5f193c2b0e3a0cb6c4ff5f0369f8279877" resname="AUDIOVISUALS_ROOMS">
         <source>AUDIOVISUALS_ROOMS</source>
         <target state="new">AUDIOVISUALS_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="4f20a0bd31b9f308a5f03a0314a837b2c5ae5c0d" resname="Activacion">
+        <source>Activacion</source>
+        <target state="new">Activacion</target>
       </trans-unit>
       <trans-unit id="745d9d40dfb5c886baed990f26b27169e05a8629" resname="Apartamento">
         <source>Apartamento</source>
@@ -109,6 +113,14 @@
       <trans-unit id="8c4ba06655fe9ad70cd2d66d33c42e649f3bb439" resname="Casa particular">
         <source>Casa particular</source>
         <target state="new">Casa particular</target>
+      </trans-unit>
+      <trans-unit id="e0128105a4f28d966c269e4218b45d9f72f502a7" resname="Cesta de Compra">
+        <source>Cesta de Compra</source>
+        <target state="new">Cesta de Compra</target>
+      </trans-unit>
+      <trans-unit id="9850af3c1e01dafba85d8e88e99fdd38524d0fdd" resname="Confirmación">
+        <source>Confirmación</source>
+        <target state="new">Confirmación</target>
       </trans-unit>
       <trans-unit id="d45d99c557bfe62ab6756b932bbad996d4d1582a" resname="Consulta todos los detalles del alojamiento.">
         <source>Consulta todos los detalles del alojamiento.</source>
@@ -205,6 +217,10 @@
       <trans-unit id="66891d7904876914b98495205e61e11f4644ab0f" resname="Facilidades">
         <source>Facilidades</source>
         <target state="new">Facilidades</target>
+      </trans-unit>
+      <trans-unit id="ef36c75c9ea2e4e6abf4392a27b8485703095747" resname="Frontend Agencia">
+        <source>Frontend Agencia</source>
+        <target state="new">Frontend Agencia</target>
       </trans-unit>
       <trans-unit id="36f8e8300aa516eedbda8539e6291852d73afdbf" resname="GUESTS_RESERVATION">
         <source>GUESTS_RESERVATION</source>
@@ -494,6 +510,10 @@
         <source>Villa con piscina</source>
         <target state="new">Villa con piscina</target>
       </trans-unit>
+      <trans-unit id="a7e507d440d8fc748c02399f88b1fed14d8f099f" resname="Vista de Detalles">
+        <source>Vista de Detalles</source>
+        <target state="new">Vista de Detalles</target>
+      </trans-unit>
       <trans-unit id="07f44d089d8f5fee57878ab1c5fb6e958891b4a1" resname="WINDOWS_ROOMS">
         <source>WINDOWS_ROOMS</source>
         <target state="new">WINDOWS_ROOMS</target>
@@ -625,6 +645,42 @@
       <trans-unit id="4fa86e969324bc682065211537c5c896e471145b" resname="cart.search_again">
         <source>cart.search_again</source>
         <target>Search again</target>
+      </trans-unit>
+      <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
+        <source>content.five.email.partner_mcpteam</source>
+        <target state="new">in</target>
+      </trans-unit>
+      <trans-unit id="4b209cb7bb9677801339b64e99a7ea10673ed376" resname="content.four.email.partner_mcpteam">
+        <source>content.four.email.partner_mcpteam</source>
+        <target state="new">The agency is located at</target>
+      </trans-unit>
+      <trans-unit id="47a30aaaa55d22d0f319091e1be23f197dbad45c" resname="content.heiht.email.partner_mcpteam">
+        <source>content.heiht.email.partner_mcpteam</source>
+        <target state="new">, and e-mail address</target>
+      </trans-unit>
+      <trans-unit id="3315093192321a76a7a9180a980f88f7721e32dc" resname="content.nine.email.partner_mcpteam">
+        <source>content.nine.email.partner_mcpteam</source>
+        <target state="new">We have made a new partner!  Good Luck! MyCasa Partner Team</target>
+      </trans-unit>
+      <trans-unit id="6cbe9f484fa9461a12118b23fe5b5f9576ccfe71" resname="content.one.email.partner_mcpteam">
+        <source>content.one.email.partner_mcpteam</source>
+        <target state="new">Hello MyCasa Particular Team, A new travel agency has joined MyCasa Partner. It about</target>
+      </trans-unit>
+      <trans-unit id="3d83b2ed86895715bf787ed27d54961a89115cef" resname="content.seven.email.partner_mcpteam">
+        <source>content.seven.email.partner_mcpteam</source>
+        <target state="new">, through the following telephones</target>
+      </trans-unit>
+      <trans-unit id="fa9128723c5534a70fa1dc5de6616c2d44487439" resname="content.six.email.partner_mcpteam">
+        <source>content.six.email.partner_mcpteam</source>
+        <target state="new">This new client can be contacting by communicating with</target>
+      </trans-unit>
+      <trans-unit id="de4dfa03893ae718a4cb2808cacda3ba1b604152" resname="content.three.email.partner_mcpteam">
+        <source>content.three.email.partner_mcpteam</source>
+        <target state="new"> and telephones are </target>
+      </trans-unit>
+      <trans-unit id="d2c1a302e207b5715c38f16ccbdbe3b50b38aa1e" resname="content.two.email.partner_mcpteam">
+        <source>content.two.email.partner_mcpteam</source>
+        <target state="new">. Its contact e-mail address is</target>
       </trans-unit>
       <trans-unit id="a2529e799ddb47e31b7d5d23c24e526d83d69779" resname="dashboard.admin">
         <source>dashboard.admin</source>
@@ -1686,6 +1742,10 @@
         <source>pa.modal.reservation.reserve</source>
         <target state="new">Booking</target>
       </trans-unit>
+      <trans-unit id="f85815672eb74c7ec44cf9c9d0b439571a1952e5" resname="pa.modal.reservation.reset">
+        <source>pa.modal.reservation.reset</source>
+        <target state="new">Reset</target>
+      </trans-unit>
       <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
         <source>pa.modal.reservation.title</source>
         <target state="new">Find easier the availability for your clients</target>
@@ -1766,26 +1826,6 @@
         <source>page.logout</source>
         <target state="new">Logout</target>
       </trans-unit>
-      <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
-        <source>partner.sitemap.activation</source>
-        <target state="new">Activation</target>
-      </trans-unit>
-      <trans-unit id="b03931c836af7cf8409ac6f034f9f6592ffbf407" resname="partner.sitemap.confirmation">
-        <source>partner.sitemap.confirmation</source>
-        <target state="new">Confirmation</target>
-      </trans-unit>
-      <trans-unit id="32f7e17ba20847629adf4c466a8446693949aa53" resname="partner.sitemap.frontend">
-        <source>partner.sitemap.frontend</source>
-        <target state="new">Front-end Agency</target>
-      </trans-unit>
-      <trans-unit id="419e9c8094c88fba5aeb854ed90d6b801b406a55" resname="partner.sitemap.shoppingcart">
-        <source>partner.sitemap.shoppingcart</source>
-        <target state="new">Header Shopping Cart</target>
-      </trans-unit>
-      <trans-unit id="e9d847416f1e5983b9eac6f6e3706cb5311ea705" resname="partner.sitemap.view.datails">
-        <source>partner.sitemap.view.datails</source>
-        <target state="new">View of Details</target>
-      </trans-unit>
       <trans-unit id="bc83e5cf3f7a486b05a61ca4b93197f28aa71a5a" resname="pay_action">
         <source>pay_action</source>
         <target>Pay</target>
@@ -1841,6 +1881,10 @@
       <trans-unit id="bcf112ef01156f5224ef593b8d7ab853147a319b" resname="reservation">
         <source>reservation</source>
         <target>Reservation</target>
+      </trans-unit>
+      <trans-unit id="25b692d705af7ba4986214d673ec53abea59dd3b" resname="subject.email.partner_mcpteam">
+        <source>subject.email.partner_mcpteam</source>
+        <target state="new">New Agency Registered</target>
       </trans-unit>
       <trans-unit id="55e96b5e871849633dcc7364b4603700af5d1d38" resname="title.column_five">
         <source>title.column_five</source>
