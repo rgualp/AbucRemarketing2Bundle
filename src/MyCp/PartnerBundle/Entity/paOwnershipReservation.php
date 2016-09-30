@@ -13,7 +13,8 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * @ORM\Table(name="pa_ownershipreservation")
  * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paOwnershipReservationRepository")
  */
-class paOwnershipReservation {
+class paOwnershipReservation
+{
 
     /**
      * @var integer
@@ -99,7 +100,6 @@ class paOwnershipReservation {
      */
     private $totalPrice;
 
-
     /**
      * @var integer
      *
@@ -107,16 +107,15 @@ class paOwnershipReservation {
      */
     private $nights;
 
-
     /**
      * Get own_res_id
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-
 
     /**
      * Set own_res_nights
@@ -124,7 +123,8 @@ class paOwnershipReservation {
      * @param integer $ownResNights
      * @return ownershipReservation
      */
-    public function setNights($ownResNights = null) {
+    public function setNights($ownResNights = null)
+    {
         $this->nights = $ownResNights;
 
         return $this;
@@ -135,7 +135,8 @@ class paOwnershipReservation {
      *
      * @return integer
      */
-    public function getNights() {
+    public function getNights()
+    {
         return $this->nights;
     }
 
@@ -145,7 +146,8 @@ class paOwnershipReservation {
      * @param integer $ownResSelectedRoomId
      * @return ownershipReservation
      */
-    public function setRoom($ownResSelectedRoomId) {
+    public function setRoom($ownResSelectedRoomId)
+    {
         $this->room = $ownResSelectedRoomId;
 
         return $this;
@@ -156,7 +158,8 @@ class paOwnershipReservation {
      *
      * @return integer
      */
-    public function getRoom() {
+    public function getRoom()
+    {
         return $this->room;
     }
 
@@ -166,7 +169,8 @@ class paOwnershipReservation {
      * @param integer $ownResRoomPriceDown
      * @return ownershipReservation
      */
-    public function setRoomPriceDown($ownResRoomPriceDown) {
+    public function setRoomPriceDown($ownResRoomPriceDown)
+    {
         $this->roomPriceDown = $ownResRoomPriceDown;
 
         return $this;
@@ -177,7 +181,8 @@ class paOwnershipReservation {
      *
      * @return string
      */
-    public function getRoomPriceDown() {
+    public function getRoomPriceDown()
+    {
         return $this->roomPriceDown;
     }
 
@@ -187,7 +192,8 @@ class paOwnershipReservation {
      * @param integer $ownResRoomPriceUp
      * @return ownershipReservation
      */
-    public function setRoomPriceUp($ownResRoomPriceUp) {
+    public function setRoomPriceUp($ownResRoomPriceUp)
+    {
         $this->roomPriceUp = $ownResRoomPriceUp;
 
         return $this;
@@ -198,7 +204,8 @@ class paOwnershipReservation {
      *
      * @return string
      */
-    public function getRoomPriceUp() {
+    public function getRoomPriceUp()
+    {
         return $this->roomPriceUp;
     }
 
@@ -208,7 +215,8 @@ class paOwnershipReservation {
      * @param integer $ownResRoomPriceSpecial
      * @return ownershipReservation
      */
-    public function setRoomPriceSpecial($ownResRoomPriceSpecial) {
+    public function setRoomPriceSpecial($ownResRoomPriceSpecial)
+    {
         $this->roomPriceSpecial = $ownResRoomPriceSpecial;
 
         return $this;
@@ -219,7 +227,8 @@ class paOwnershipReservation {
      *
      * @return string
      */
-    public function getRoomPriceSpecial() {
+    public function getRoomPriceSpecial()
+    {
         return $this->roomPriceSpecial;
     }
 
@@ -229,7 +238,8 @@ class paOwnershipReservation {
      * @param integer $ownResCountAdults
      * @return ownershipReservation
      */
-    public function setAdults($ownResCountAdults) {
+    public function setAdults($ownResCountAdults)
+    {
         $this->adults = $ownResCountAdults;
 
         return $this;
@@ -240,7 +250,8 @@ class paOwnershipReservation {
      *
      * @return integer
      */
-    public function getAdults() {
+    public function getAdults()
+    {
         return $this->adults;
     }
 
@@ -250,7 +261,8 @@ class paOwnershipReservation {
      * @param integer $ownResCountChildrens
      * @return ownershipReservation
      */
-    public function setChildren($ownResCountChildrens) {
+    public function setChildren($ownResCountChildrens)
+    {
         $this->children = $ownResCountChildrens;
 
         return $this;
@@ -261,7 +273,8 @@ class paOwnershipReservation {
      *
      * @return integer
      */
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
@@ -271,7 +284,8 @@ class paOwnershipReservation {
      * @param paGeneralReservation $ownResGenResId
      * @return ownershipReservation
      */
-    public function setPaGenResId(paGeneralReservation $ownResGenResId = null) {
+    public function setPaGenResId(paGeneralReservation $ownResGenResId = null)
+    {
         $this->paGenRes = $ownResGenResId;
 
         return $this;
@@ -282,7 +296,8 @@ class paOwnershipReservation {
      *
      * @return paGeneralReservation
      */
-    public function getGenResId() {
+    public function getGenResId()
+    {
         return $this->paGenRes;
     }
 
@@ -292,7 +307,8 @@ class paOwnershipReservation {
      * @param string $ownResRoomType
      * @return ownershipReservation
      */
-    public function setRoomType($ownResRoomType) {
+    public function setRoomType($ownResRoomType)
+    {
         $this->roomType = $ownResRoomType;
 
         return $this;
@@ -303,7 +319,8 @@ class paOwnershipReservation {
      *
      * @return string
      */
-    public function getRoomType() {
+    public function getRoomType()
+    {
         return $this->roomType;
     }
 
@@ -313,7 +330,8 @@ class paOwnershipReservation {
      * @param DateTime $ownResReservationFromDate
      * @return ownershipReservation
      */
-    public function setDateFrom($ownResReservationFromDate) {
+    public function setDateFrom($ownResReservationFromDate)
+    {
         $this->dateFrom = $ownResReservationFromDate;
 
         return $this;
@@ -324,7 +342,8 @@ class paOwnershipReservation {
      *
      * @return DateTime
      */
-    public function getDateFrom() {
+    public function getDateFrom()
+    {
         return $this->dateFrom;
     }
 
@@ -334,7 +353,8 @@ class paOwnershipReservation {
      * @param DateTime $ownResReservationToDate
      * @return ownershipReservation
      */
-    public function setDateTo($ownResReservationToDate) {
+    public function setDateTo($ownResReservationToDate)
+    {
         $this->dateTo = $ownResReservationToDate;
 
         return $this;
@@ -345,7 +365,8 @@ class paOwnershipReservation {
      *
      * @return DateTime
      */
-    public function getDateTo() {
+    public function getDateTo()
+    {
         return $this->dateTo;
     }
 
@@ -355,7 +376,8 @@ class paOwnershipReservation {
      * @param float $ownResTotalInSite
      * @return ownershipReservation
      */
-    public function setTotalPrice($ownResTotalInSite) {
+    public function setTotalPrice($ownResTotalInSite)
+    {
         $this->totalPrice = $ownResTotalInSite;
 
         return $this;
@@ -366,10 +388,10 @@ class paOwnershipReservation {
      *
      * @return float
      */
-    public function getTotalPrice() {
+    public function getTotalPrice()
+    {
         return $this->totalPrice;
     }
-
 
     public function createReservation()
     {
@@ -391,6 +413,5 @@ class paOwnershipReservation {
 
         return $ownRes;
     }
-
 
 }

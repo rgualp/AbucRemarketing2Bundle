@@ -143,4 +143,73 @@ class paGeneralReservationRepository extends EntityRepository {
         $maxGuests = ($adults > $children) ? $adults : $children;
         return $totalCapacity >= $maxGuests;
     }
+
+    function getReservationsPartner($idUser, array $filters, $start, $limit)
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->join('r.user', 'u');
+        $qb->andWhere('u.user_id = :user_id');
+        $qb->setParameter('user_id', $idUser);
+
+        $qb->join('r.travelAgencyOpenReservationsDetails', 'pard');
+        $qb->join('pard.reservation', 'par');
+        $qb->join('par.client', 'client');
+
+        $qb->orderBy("r.id", "DESC");
+
+        if (isset($filters)) {
+            $code = (array_key_exists('code', $filters) && isset($filters['code']));
+            $own_name = (array_key_exists('own_name', $filters) && isset($filters['own_name']));
+            $from = (array_key_exists('from', $filters) && isset($filters['from']));
+            $to = (array_key_exists('to', $filters) && isset($filters['to']));
+            $date = (array_key_exists('date', $filters) && isset($filters['date']));
+            $destination = (array_key_exists('destination', $filters) && isset($filters['destination']));
+            $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
+
+            if ($own_name || $code || $destination) {
+                $qb->join('r.accommodation', 'o');
+
+                if ($own_name) {
+                    $qb->andWhere('o.own_name LIKE :own_name');
+                    $qb->setParameter('own_name', '%' . trim($filters['own_name']) . '%');
+                }
+                if ($code) {
+                    $qb->andWhere('o.own_mcp_code LIKE :own_mcp_code');
+                    $qb->setParameter('own_mcp_code', '%' . trim($filters['code']) . '%');
+                }
+                if ($destination) {
+                    $qb->join('o.own_destination', 'd');
+                    $qb->andWhere('d.des_id = :des_id');
+                    $qb->setParameter('des_id', $filters['destination']);
+                }
+            }
+            if ($from) {
+                $qb->andWhere('r.dateFrom = :gen_res_from_date');
+                $qb->setParameter('gen_res_from_date', Dates::createForQuery($filters['from'], 'd-m-Y'));
+            }
+            if ($to) {
+                $qb->andWhere('r.dateTo = :gen_res_to_date');
+                $qb->setParameter('gen_res_to_date', Dates::createForQuery($filters['to'], 'd-m-Y'));
+            }
+            if ($date) {
+                $qb->andWhere('r.creationDate = :gen_res_date');
+                $qb->setParameter('gen_res_date', Dates::createForQuery($filters['date'], 'd-m-Y'));
+            }
+            if ($client_dates) {
+                $qb->andWhere('client.fullname LIKE :client_dates');
+                $qb->setParameter('client_dates', '%' . trim($filters['client_dates']) . '%');
+            }
+        }
+
+        $qbAux = clone $qb;
+        $qbAux->select('count(r.id)');
+        $count = $qbAux->getQuery()->getSingleScalarResult();
+
+        $qb->setFirstResult($start);
+        $qb->setMaxResults($limit);
+
+        $data = $qb->getQuery()->execute();
+        return array('data' => $data, 'count' => $count);
+    }
 }

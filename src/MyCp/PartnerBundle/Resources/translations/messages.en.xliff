@@ -963,7 +963,7 @@
       </trans-unit>
       <trans-unit id="9653b2d9e93e82e48cdc5e0e4e7e4bf693365639" resname="label.home">
         <source>label.home</source>
-        <target state="new">label.home</target>
+        <target state="new">Home</target>
       </trans-unit>
       <trans-unit id="45af845d42457f5f2a7f349c90c9be13b1f116ff" resname="label.how.sectionone.five">
         <source>label.how.sectionone.five</source>
@@ -1789,6 +1789,18 @@
       <trans-unit id="71fe815a7413f4d594b000r3b263e5fb867a08aa" resname="dashboard.btn.booking.paid">
         <source>dashboard.btn.booking.paid</source>
         <target state="new">Paid</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d884b000r3b263e5fb867a04aa" resname="dashboard.booking.proccess">
+        <source>dashboard.booking.proccess</source>
+        <target state="new">In Proccess</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d884b000r3b263e5fb888a04aa" resname="booking.title.selectall">
+        <source>booking.title.selectall</source>
+        <target state="new">Select all</target>
+      </trans-unit>
+      <trans-unit id="71fe815a7413f4d884b080r3b263e5fb888a04aa" resname="btn.end_all_reservation">
+        <source>btn.end_all_reservation</source>
+        <target state="new">Send request's</target>
       </trans-unit>
     </body>
   </file>

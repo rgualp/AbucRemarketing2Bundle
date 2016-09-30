@@ -806,6 +806,14 @@ var Dashboard = function () {
         },
         setTextCart: function (value) {
             $('cart-count').text(value);
+        },
+        reloadProccessAndPending: function(){
+            if(typeof filterPendingAction == 'function'){
+                filterPendingAction();
+            }
+            if(typeof filterProccessAction == 'function'){
+                filterProccessAction();
+            }
         }
     };
 }();

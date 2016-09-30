@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
+    /*BookingPending*/
     public function indexBookingPendingAction()
     {
         return new JsonResponse([
@@ -22,6 +23,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending.html.twig', array()),
             'msg' => 'Vista del listado de reservas PENDIENTES']);
     }
+
     public function listBookingPendingAction(Request $request)
     {
         $filters = $request->get('booking_pending_filter_form');
@@ -70,7 +72,9 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingPending*/
 
+    /*BookingAvailability*/
     public function indexBookingAvailabilityAction()
     {
         return new JsonResponse([
@@ -79,6 +83,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_availability.html.twig', array()),
             'msg' => 'Vista del listado de reservas DISPONIBLES']);
     }
+
     public function listBookingAvailabilityAction(Request $request)
     {
         $filters = $request->get('booking_availability_filter_form');
@@ -146,7 +151,9 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingAvailability*/
 
+    /*BookingNotavailability*/
     public function indexBookingNotavailabilityAction()
     {
         return new JsonResponse([
@@ -155,6 +162,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_notavailability.html.twig', array()),
             'msg' => 'Vista del listado de reservas NO DISPONIBLES']);
     }
+
     public function listBookingNotavailabilityAction(Request $request)
     {
         $filters = $request->get('booking_notavailability_filter_form');
@@ -219,7 +227,9 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingNotavailability*/
 
+    /*BookingReserved*/
     public function indexBookingReservedAction()
     {
         return new JsonResponse([
@@ -228,6 +238,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array()),
             'msg' => 'Vista del listado de reservas PENDIENTES']);
     }
+
     public function listBookingReservedAction(Request $request)
     {
         $filters = $request->get('booking_reserved_filter_form');
@@ -298,7 +309,9 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingReserved*/
 
+    /*BookingBeaten*/
     public function indexBookingBeatenAction()
     {
         return new JsonResponse([
@@ -307,6 +320,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_beaten.html.twig', array()),
             'msg' => 'Vista del listado de reservas VENCIDAS']);
     }
+
     public function listBookingBeatenAction(Request $request)
     {
         $filters = $request->get('booking_beaten_filter_form');
@@ -372,7 +386,9 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingBeaten*/
 
+    /*BookingCanceled*/
     public function indexBookingCanceledAction()
     {
         return new JsonResponse([
@@ -381,6 +397,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_canceled.html.twig', array()),
             'msg' => 'Vista del listado de reservas CANCELADAS']);
     }
+
     public function listBookingCanceledAction(Request $request)
     {
         $filters = $request->get('booking_canceled_filter_form');
@@ -446,7 +463,9 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingCanceled*/
 
+    /*BookingCheckin*/
     public function indexBookingCheckinAction()
     {
         return new JsonResponse([
@@ -455,6 +474,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_checkin.html.twig', array()),
             'msg' => 'Vista del listado de reservas reservadas Checkin']);
     }
+
     public function listBookingCheckinAction(Request $request)
     {
         $filters = $request->get('booking_checkin_filter_form');
@@ -526,6 +546,187 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+    /*End BookingCheckin*/
+
+    /*BookingProccess*/
+    public function indexBookingProccessAction()
+    {
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_proccess',
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_proccess.html.twig', array()),
+            'msg' => 'Vista del listado de reservas en Proccess']);
+    }
+
+    public function listBookingProccessAction(Request $request)
+    {
+        $filters = $request->get('booking_proccess_filter_form');
+        $filters = (isset($filters)) ? ($filters) : (array());
+
+        #region PAGINADO
+        $start = $request->get('start', 0);
+        $limit = $request->get('length', 10);
+        $draw = $request->get('draw') + 1;
+        #endregion PAGINADO
+
+        $data = $this->getReservationsProccessData($filters, $start, $limit, $draw);
+        $reservations = $data['aaData'];
+        $data['aaData'] = array();
+
+        foreach ($reservations as $reservation) {
+            $arrTmp = array();
+            $arrTmp['id'] = $reservation->getId();
+            $arrTmp['data'] = array(
+                'id'=>$reservation->getId(),
+                'from'=>$reservation->getDateFrom()->format('d-m-Y'),
+                'to'=>$reservation->getDateTo()->format('d-m-Y'),
+                'own_mcp_code'=>$reservation->getAccommodation()->getOwnMcpCode(),
+                'own_name'=>$reservation->getAccommodation()->getOwnName(),
+                'destination'=>$reservation->getAccommodation()->getOwnDestination()->getDesName(),
+                'client_dates'=>$reservation->getTravelAgencyOpenReservationsDetails()->first()->getReservation()->getClient()->getFullName(),
+                'date'=>$reservation->getCreationDate()->format('d-m-Y'));
+
+            $ownReservations = $reservation->getPaOwnershipReservations();
+            $arrTmp['data']['rooms'] = array();
+            if (!$ownReservations->isEmpty()) {
+                $ownReservation = $ownReservations->first();
+                do {
+                    $arrTmp['data']['rooms'][] = array(
+                        'adults'=>$ownReservation->getAdults(),
+                        'childrens'=>$ownReservation->getChildren()
+                    );
+                    $ownReservation = $ownReservations->next();
+                } while ($ownReservation);
+            }
+
+            $data['aaData'][] = $arrTmp;
+        }
+
+        return new JsonResponse($data);
+    }
+
+    public function getReservationsProccessData($filters, $start, $limit, $draw){
+        $user=$this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('PartnerBundle:paGeneralReservation');
+
+        #region PAGINADO
+        $page = ($start > 0) ? $start / $limit + 1 : 1;
+        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit);;
+        $reservations = $paginator['data'];
+        #endregion PAGINADO
+
+        $data = array();
+        $data['draw'] = $draw;
+        $data['iTotalRecords'] = $paginator['count'];
+        $data['iTotalDisplayRecords'] = $paginator['count'];
+        $data['aaData'] = $reservations;
+
+        return $data;
+    }
+
+    public function indexBookingProccessDetailAction($id_reservation, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
+        $ownership_reservations = $reservation->getPaOwnershipReservations();
+
+        $array_nights = array();
+        $array_total_prices = array();
+        $rooms = array();
+        $curr = $this->getCurr($request);
+
+        foreach ($ownership_reservations as $res) {
+            $nights = $res->getNights();
+            array_push($rooms, $res->getRoom());
+            array_push($array_nights, $nights);
+
+            $total_price = ($res->getTotalPrice() * $curr['change']).$curr['code'];
+            array_push($array_total_prices, $total_price);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_proccess_detail_'.$id_reservation,
+            'html' => $this->renderView('PartnerBundle:Dashboard:details_proccess.html.twig', array(
+                'id_res'=>$id_reservation,
+                'cas'=>"$id_reservation",
+                'reservation'=>$reservation,
+                'reservations' => $ownership_reservations,
+                'rooms' => $rooms,
+                'nights' => $array_nights,
+                'total_prices'=>$array_total_prices
+            )),
+            'msg' => 'Vista del detalle de una reserva en proceso']);
+    }
+
+    public function closeReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id_reservation = $request->get("id");
+        $paGeneralReservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
+        $r = $this->closeReservation($paGeneralReservation);
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_proccess_detail_'.$r,
+            'message' => ""
+        ]);
+    }
+
+    public function closeAllReservationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id_reservations = $request->get("ids");
+        foreach ($id_reservations as $id_reservation) {
+            $paGeneralReservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
+            $this->closeReservation($paGeneralReservation);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => ""
+        ]);
+    }
+
+    public function closeReservation($paGeneralReservation)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $generalReservation = $paGeneralReservation->createReservation();
+
+        $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
+        //Pasar los paOwnershipReservation a ownershipReservation
+        foreach($paOwnershipReservations as $paORes){
+            $ownershipReservation = $paORes->createReservation();
+            $ownershipReservation->setOwnResGenResId($generalReservation);
+
+            $em->remove($paORes); //Eliminar paOwnershipReservation
+            $em->persist($ownershipReservation);
+        }
+
+        $travelAgencyOpenReservationsDetails = $paGeneralReservation->getTravelAgencyOpenReservationsDetails();
+        foreach($travelAgencyOpenReservationsDetails as $detail){
+            //Eliminar el OpenReservationDetail y actualizar el ReservationDetail
+            $detail->setOpenReservationDetail(null);
+            $detail->setReservationDetail($generalReservation);
+
+            $paReservation = $detail->getReservation();
+            $paReservation->setClosed(true);
+            $em->persist($paReservation);
+
+            $em->persist($detail);
+        }
+
+        $em->persist($generalReservation);
+        $em->remove($paGeneralReservation); //Eliminar paGeneralReservation
+        $em->flush();
+
+        return $paGeneralReservation->getId();
+    }
+    /*End BookingProccess*/
 
     public function getReservationsData($filters, $start, $limit, $draw, $status){
         $user=$this->getUser();
