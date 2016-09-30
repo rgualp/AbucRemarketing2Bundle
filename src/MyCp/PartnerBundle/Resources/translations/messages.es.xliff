@@ -1495,7 +1495,7 @@
       </trans-unit>
       <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
         <source>pa.modal.reservation.title</source>
-        <target state="new">Encuentra más fácil la Disponibilidad para tus Clientes</target>
+        <target state="new">Listado de reservas en proceso</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>

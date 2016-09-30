@@ -1,11 +1,11 @@
 {% for reservation in list %}
 <div class="row reservation-details">
     <div class="row m-0">
-        <div class="col-sm-6 p-0">
+        <div class="col-sm-5 p-0">
             <a class="showReservationsDetails" data-id="{{ reservation.id }}" data-number="{{ loop.index }}" data-client="{{ reservation.client.fullName }}" data-date="{{ reservation.created | date("d/m/Y") }}" data-url="{{ path("partner_dashboard_detailed_open_reservations_list") }}">{{ "pa.modal.reservation.reserve" | trans | upper }} {{ loop.index }}</a>
             <div class="smaller">{{ reservation.created | date("d/m/Y") }}</div>
         </div>
-        <div class="col-sm-4 pr-0"><a class="closeReservation" data-id="{{ reservation.id }}" data-url="{{ path("partner_dashboard_close_reservation") }}">{{ "pa.modal.reservation.end_reservation" | trans }}</a></div>
+        <div class="col-sm-5 pr-0"><a class="closeReservation" data-id="{{ reservation.id }}" data-url="{{ path("partner_dashboard_close_reservation") }}">{{ "RESERVATION_CHECK_AVAILABILITY" | trans }}</a></div>
         <div class="col-sm-2 pr-0 text-right"><a class="addToOpenReservation" data-id="{{ reservation.id }}" data-url="{{ path("partner_dashboard_add_to_open_reservation") }}">{{ "pa.modal.reservation.add" | trans }}</a></div>
     </div>
     <div class="row m-0">
