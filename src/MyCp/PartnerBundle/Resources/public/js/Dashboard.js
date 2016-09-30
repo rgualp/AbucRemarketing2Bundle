@@ -670,8 +670,11 @@ var Dashboard = function () {
 
                 $("#overlayLoading").removeClass("hide");
                 $("#paymentsRow").addClass("hide");
+                $("#rowTotalPrepaymentGeneral").addClass("hide");
                 var _url = $(this).data("url");
                 var result = $("#selectedReservations");
+
+                result.html("");
 
                 //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
                 $.post(_url, {
@@ -682,6 +685,7 @@ var Dashboard = function () {
                             result.html(response.html);
                             onShowMorePaymentButton();
                             $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                            $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
                             $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
                             $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
                             $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
@@ -697,12 +701,13 @@ var Dashboard = function () {
                             $("#paymentsRow").removeClass("hide");
                             $("#overlayLoading").addClass("hide");
                             $("#payNow").removeAttr("disabled");
+                            $("#rowTotalPrepaymentGeneral").removeClass("hide");
                         }
                     }
                 });
 
                 $('#selectedReservations').slimScroll({
-                    height: '250px',
+                    height: '350px',
                     railOpacity: 0.9,
                     color: '#0d3044',
                     opacity: 1,
