@@ -33,9 +33,19 @@
     </div>
 
     <div class="row text-center" style="margin-bottom: 30px">
-        <a class="bg-blue color-white payButton" id="trigger-overlay" data-url="{{ path("partner_dashboard_pay_selected_reservations_cart") }}">
+    <div class="col-md-6 text-right">
+        <a class="bg-grey color-white payButton" id="toPayButtonAction">
             <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
         </a>
+        <a class="bg-blue color-white payButton hide" id="trigger-overlay" data-url="{{ path("partner_dashboard_pay_selected_reservations_cart") }}" disabled="disabled">
+            <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
+        </a>
+    </div>
+    <div class="col-md-6 text-left">
+        <a class="bg-blue color-white payButton" id="emptyCart" data-url="{{ path("partner_dashboard_empty_cart") }}">
+            <i class="glyphicons bin"></i> {{ "cart.empty_button" | trans }}</a>
+        </a>
+    </div>
     </div>
 {% else %}
     <div class="container">

@@ -130,22 +130,17 @@
         </div>
     </div>
     <div class="row" style="margin: 5px 0">
-        <div class="col-md-3 text-right">
+        <div class="col-md-4 text-right">
             <a class="bg-blue color-white payButton" id="payNow" data-url="{{ path("partner_dashboard_paynow_cart") }}">
                 <i class="glyphicons coins"></i> {{ "cart.paynow_button" | trans }}</a>
             </a>
         </div>
-        <div class="col-md-3 text-center">
+        <div class="col-md-4 text-center">
             <a class="overlay-close-second bg-blue color-white payButton">
                 <i class="glyphicons undo"></i> {{ "cart.back_button" | trans }}</a>
             </a>
         </div>
-        <div class="col-md-3 text-center">
-            <a class="bg-blue color-white payButton" id="emptyCart" data-url="{{ path("partner_dashboard_empty_cart") }}">
-                <i class="glyphicons bin"></i> {{ "cart.empty_button" | trans }}</a>
-            </a>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <a class="bg-blue color-white payButton" href="{{ path("backend_partner_seacrh") }}">
                 <i class="glyphicons search"></i> {{ "cart.search_again" | trans }}</a>
             </a>
