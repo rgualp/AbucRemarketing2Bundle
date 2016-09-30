@@ -1,0 +1,45 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
+
+{% block content %}
+    <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
+    <p style="font-family: Arial; font-size: 14px">
+        <p>Estimado Propietario(a):</p>
+        <p>Gracias por unirse a <b>MyCasaParticular</b>. Ser&aacute; un placer trabajar y hacer negocios juntos.</p>
+        <p>Usted ha completado con &eacute;xito el formulario de registro de su propiedad y la misma acaba de ser publicada. El equipo de <b>MyCasaParticular</b> proceder&aacute; a revisar sus informaciones para validar que no incluya contenido inapropiado. En caso de encontrar contenido inapropiado, le notificaremos y su propiedad quedar&aacute; inactiva. </p>
+        <p>Recuerde que la inscripción de su propiedad tiene un costo de 30 cuc. Una vez terminado el proceso de inscripción, su casa se hará pública y usted tiene un plazo de 15 días para efectuar el pago. De no hacerlo, su casa se desactiva temporalmente hasta tanto se deposite el efectivo.</p>
+        <p>
+            {% if assistant %}
+                {% set phones = assistant.phone ~ ((assistant.phone and assistant.phone2) ? ", ": "") ~ assistant.phone2 %}
+                {% set mobile = ((phones) ? "y ": "") ~ assistant.mobile %}
+
+                El pago debe ser efectuado a través de nuestro Asistente de Operaciones Locales en {{ assistant.municipality.munName }}, {{ assistant.fullName }}. Usted puede localizarlo a través de los números {{ phones }} {{ mobile }}.
+            {% else %}
+                Para efectuar el pago, comuníquese con el equipo InfoPoint en nuestras oficinas centrales en La Habana por el (7) 8673574.
+            {% endif %}
+        </p>
+    {#<p>
+        Ahora está a pocos pasos de comenzar a gestionar sus alojamientos. Le decimos cómo:
+        PRIMERO necesitará activar su cuenta a través de la siguiente dirección electrónica:<br/>
+        <a target="_blank" href="{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}">{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}</a>
+        <br/>
+        Utilice como nombre de usuario el CÓDIGO de su alojamiento en el sitio ({{accommodation.ownMcpCode}}), y cree su propia contraseña de acceso en el momento de la activación. Cada Código es único para cada usuario, y le permitirá acceder por igual a las dos opciones de administración de sus propiedades en nuestro sitio.
+        <br/>
+        Puede acceder a la administración web desde aquí:<br/>
+        <a href="{{url('my_cp_casa_login')}}">{{url('my_cp_casa_login')}}</a>. <br/>
+        O puede descargar la aplicación móvil MyCasa Renta para dispositivos Android, que le permitirá, desde Internet o a través de una zona wifi, indicar y modificar las fechas en que su alojamiento estará disponible para nuevos clientes turistas:
+        <br/>
+        <a target="_blank" href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid">https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a>
+        <br/>
+    </p>#}
+        <p>Reiteramos que el precio de su alojamiento lo establece usted. Por su parte, <b>MyCasaParticular</b> cobra al TURISTA una comisi&oacute;n correspondiente al 20% del precio publicado en el sitio. Usted NO PAGA COMISI&Oacute;N. El valor que hacemos p&uacute;blico incluye el precio que usted pone a su alojamiento m&aacute;s la comisi&oacute;n nuestra.</p>
+        <p>V&eacute;alo de este modo: </p>
+        <p>El Precio P&uacute;blico en la web = Ingreso determinado por usted para su Casa Particular + Comisi&oacute;n <b>MyCasaParticular</b>.</p>
+
+        <p>Donde</p>
+        <p>El Ingreso de su Casa Particular = 80% del Precio P&uacute;blico</p>
+        <p>Y la Comisi&oacute;n de <b>MyCasaParticular</b> = 20% del Precio P&uacute;blico</p>
+        <p>Para consultar sus dudas, por favor, escr&iacute;banos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas tambi&eacute;n estar&aacute; a su disposici&oacute;n a trav&eacute;s del tel&eacute;fono 78673574</p>
+        <p>Saludos Cordiales,</p>
+        <p>Equipo de MyCasaParticular.com</p>
+    </p>
+{% endblock %}

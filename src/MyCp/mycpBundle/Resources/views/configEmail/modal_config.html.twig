@@ -1,0 +1,36 @@
+<div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+            <i class="fa fa-laptop modal-icon"></i>
+            <h4 class="modal-title">Adicionar configuración</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" class="modal-body" enctype="multipart/form-data" method="post" id="form-destinationemail">
+                {{ form_widget(form_destination._token) }}
+                <div class="container">
+                    <div class="span12">
+                        <label class="required">Destinos</label>
+                        {{ form_widget(form_destination.destination, { 'attr': {'data-placeholder': 'Destinos','data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                    </div>
+                    <div class="span12" style="margin-top: 10px;margin-left: 0px">
+                        <label class="required">Contenido (Español)</label>
+                        {{ form_widget(form_destination.content_es, { 'attr': {'placeholder': 'Contenido (Español)','data-toggle':'tooltip', 'data-container':'body', 'class':'span12 form-control' }}) }}
+                    </div>
+                    <div class="span12" style="margin-top: 10px;margin-left: 0px">
+                        <label class="required">Contenido (Inglés)</label>
+                        {{ form_widget(form_destination.content_en, { 'attr': {'placeholder': 'Contenido (Inglés)','data-toggle':'tooltip', 'data-container':'body', 'class':'span12 form-control' }}) }}
+                    </div>
+                    <div class="span12" style="margin-top: 10px;margin-left: 0px">
+                        <label class="required">Contenido (Alemán)</label>
+                        {{ form_widget(form_destination.content_de, { 'attr': {'placeholder': 'Contenido (Alemán)','data-toggle':'tooltip', 'data-container':'body', 'class':'span12 form-control' }}) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btn-saveDestinationEmail" onclick="save()">Guardar</button>
+        </div>
+    </div>
+</div>
