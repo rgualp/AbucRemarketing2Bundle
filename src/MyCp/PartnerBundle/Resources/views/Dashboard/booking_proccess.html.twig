@@ -120,6 +120,8 @@
             "ajax": {
                 "url": "{{ path('partner_dashboard_booking_list_proccess') }}",
                 data: function (params) {
+                    //HoldOn.open();
+
                     var inputs = $("#form-booking-proccess input,select");
                     inputs.each(function () {
                         var input = $(this);
@@ -185,17 +187,16 @@
                     checkboxClass: 'icheckbox_square-green',
                     radioClass: 'iradio_square-green',
                 });
-
                 $('#select-all-proccess .i-checks').each(function(){
                     var input = $(this);
                     var v = false;
                     input.prop('checked', v);
                     input.iCheck('update');
                 });
-            },
-            "initComplete": function( settings, json ) {
 
-            }
+                //HoldOn.close();
+            },
+            "initComplete": function( settings, json ) {}
         });
 
         var checks_all = $('#select-all-proccess .i-checks').iCheck({

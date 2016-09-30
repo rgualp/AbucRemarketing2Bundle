@@ -78,6 +78,8 @@
             </div>
         </form>
 
+        <form id="form-cart-availability" class="hide" method="POST" action="{{ path("partner_dashboard_cart") }}" novalidate="true"></form>
+
         <div class="row" style="margin-top: 10px">
             <div class="col-sm-12" style="padding-left: 4px; padding-right: 4px;">
                 <div class="ibox">
@@ -85,6 +87,7 @@
                         <div id="select-all-availability" class="row">
                             <div class="col-xs-12" style="margin-top: 15px">
                                 <label class="pull-left" style="margin-left: 10px;"> <input type="checkbox" class="i-checks"> {{ 'booking.title.selectall' | trans }} </label>
+
                                 <div class="btn-group m-t-n-xs pull-left" style="margin-left: 10px;"><a class="btn btn-sm btn-search" onClick="paidAllBookingAction(this)"> {{ 'btn.paid_all_reservation' | trans }} </a></div>
                             </div>
                         </div>
@@ -139,7 +142,7 @@
                     "mRender": function (data, type, full) {
                         var html = '';
 
-                        if(typeof data != 'number'){
+                        if (typeof data != 'number') {
                             var adults = 0;
                             var childrens = 0;
                             var totalPrice = 0;
@@ -192,7 +195,7 @@
                                     '</div> ' +
                                     '</div>';
                         }
-                        else{
+                        else {
                             html = '<input data-id="' + data + '" type="checkbox" class="i-checks">';
                         }
 
@@ -211,7 +214,7 @@
                     checkboxClass: 'icheckbox_square-green',
                     radioClass: 'iradio_square-green',
                 });
-                $('#select-all-availability .i-checks').each(function(){
+                $('#select-all-availability .i-checks').each(function () {
                     var input = $(this);
                     var v = false;
                     input.prop('checked', v);
@@ -225,7 +228,7 @@
             radioClass: 'iradio_square-green',
         });
         checks_all.on('ifChecked', function () {
-            $('#table-booking-availability .i-checks').each(function(){
+            $('#table-booking-availability .i-checks').each(function () {
                 var input = $(this);
                 var v = true;
                 input.prop('checked', v);
@@ -233,7 +236,7 @@
             });
         });
         checks_all.on('ifUnchecked', function () {
-            $('#table-booking-availability .i-checks').each(function(){
+            $('#table-booking-availability .i-checks').each(function () {
                 var input = $(this);
                 var v = false;
                 input.prop('checked', v);
@@ -263,18 +266,23 @@
         oTableAvailability.ajax.reload();
     }
 
-    function paidAllBookingAction(link){
+    function paidAllBookingAction(link) {
         var ids = [];
-        $('#table-booking-availability .i-checks').each(function(){
+
+        var cont = 0;
+        var data = {};
+        $('#table-booking-availability .i-checks').each(function () {
             var input = $(this);
-            if(input.prop('checked')){
-                ids.push(input.data('id'));
+            if (input.prop('checked')) {
+                data['ids[' + cont + ']'] = input.data('id');
+                cont++;
             }
         });
-        if (ids.length <= 0){
+
+        if (cont <= 0) {
             return;
         }
 
-        console.log(ids);
+        gotoUrl("{{ path("partner_dashboard_cart") }}", data, "GET");
     }
 </script>
