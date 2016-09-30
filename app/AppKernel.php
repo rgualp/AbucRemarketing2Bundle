@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new Abuc\RemarketingBundle\AbucRemarketingBundle(),
 			new hds\SeoBundle\SeoBundle(),
             new MyCp\CasaModuleBundle\MyCpCasaModuleBundle(),
+            new SunCat\MobileDetectBundle\MobileDetectBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
