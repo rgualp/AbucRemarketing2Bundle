@@ -1,0 +1,130 @@
+<div class="ibox card">
+    <div class="ibox-title card">
+        <span class="title-card">{{ "dashboard.booking.detail" | trans }} - {{"dashboard.booking.proccess" | trans}}:{{ cas }}</span>
+
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+            <a class="close-link">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content card" style="padding-bottom: 1px;">
+        <div class="ibox">
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <dl class="dl-horizontal">
+                            <dt><em class="rt">{{ "dashboard.booking.code" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnMcpCode }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.home" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnName }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.home.type" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnType }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.home.category" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnCategory }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.home.province" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnAddressProvince.getProvName }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.home.destination" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnDestination.getDesName }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.home.owns" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getAccommodation.getOwnHomeowner1 }}</span></dd>
+                        </dl>
+                    </div>
+                    <div class="col-lg-6">
+                        <dl class="dl-horizontal">
+                            <dt><em class="rt">{{ "dashboard.booking.client_dates" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getTravelAgencyOpenReservationsDetails.first.getReservation.getClient.getFullName }}</span></dd>
+
+                            <dt><em class="rt">{{ "dashboard.booking.date" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getCreationDate | date("d-m-Y") }}</span></dd>
+
+                            {#<dt><em class="rt">{{ "dashboard.booking.cas" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getGenResId }}</span></dd>
+#}
+                            {#<dt><em class="rt">{{ "dashboard.booking.status" | trans }}:</em></dt>
+                            <dd><span class="rst"></span></dd>#}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table striped1 table-striped table-bordered table-hover dataTables-example" style="font-size: 12px">
+            <thead>
+            <tr>
+                <th><span class="rt">Habitación</span></th>
+                <th><span class="rt">Adultos</span></th>
+                <th><span class="rt">Niños</span></th>
+                <th><span class="rt">Entrada</span></th>
+                <th><span class="rt">Salida</span></th>
+                <th><span class="rt">Noches</span></th>
+                <th><span class="rt">Total</span></th>
+            </tr>
+            </thead>
+            {% set flag = 0 %}
+            {% set total_adults = 0 %}
+            {% set total_kids = 0 %}
+            {% set total_nights = 0 %}
+            {% set real_total_nights = 0 %}
+            {% set total_rooms = 0 %}
+            {% set initialDate = null %}
+            {% set endDate = null %}
+
+            {% for reservation_rooms in reservations %}
+
+                {% set total_adults = total_adults + reservation_rooms.getAdults %}
+                {% set total_kids = total_kids + reservation_rooms.getChildren %}
+                {% set total_nights = total_nights + nights[loop.index0] %}
+                {% if initialDate != reservation_rooms.getDateFrom and endDate != reservation_rooms.getDateTo %}
+                    {% set real_total_nights = real_total_nights + nights[loop.index0] %}
+                    {% set initialDate = reservation_rooms.getDateFrom %}
+                    {% set endDate = reservation_rooms.getDateTo %}
+                {% endif %}
+                {#% set total_nights = total_nights + reservation_rooms.ownResNights %#}
+                {% set total_rooms = total_rooms + 1 %}
+
+                <tr>
+                    <td>
+                        <span class="rst">Hab #{{ rooms[flag].getRoomNum }} - {{ rooms[flag].getRoomType }}</span>
+                    </td>
+                    <td style="width: 50px">
+                        <span class="rst">{{ reservation_rooms.getAdults }}</span>
+                    </td>
+                    <td>
+                        <span class="rst">{{ reservation_rooms.getChildren }}</span>
+                    </td>
+                    <td>
+                        <span class="rst">{% if post['date_from_'~reservation_rooms.getId] is defined %}{{ post['date_from_'~reservation_rooms.getId] }}{% else %}{{ reservation_rooms.getDateFrom | date("d-m-Y") }}{% endif %}</span>
+                    </td>
+                    <td>
+                        <span class="rst">{% if post['date_from_'~reservation_rooms.getId] is defined %}{{ post['date_to_'~reservation_rooms.getId] }}{% else %}{{ reservation_rooms.getDateTo | date("d-m-Y") }}{% endif %}</span>
+                    </td>
+                    <td>
+                        <span class="rst">{{ nights[loop.index0] }}</span>
+                    </td>
+                    <td nowrap="nowrap">
+                        <span class="rst">{{ total_prices[loop.index0] }}</span>
+                    </td>
+                </tr>
+                {% set flag = flag + 1 %}
+            {% endfor %}
+        </table>
+
+        {#{% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}#}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>

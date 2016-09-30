@@ -149,7 +149,6 @@ class paGeneralReservation {
         return $this->nights;
     }
 
-
     /**
      * Set gen_res_user_id
      *

@@ -195,6 +195,8 @@ var Dashboard = function () {
     var onShowReservationModal = function () {
         $(".createReservation").on('click', function () {
             if (!$('#myModalReservation').is(':visible')) {
+                //Reset select
+                $("#partner_reservation_client").val('').trigger("chosen:updated");
                 selectedAccommodationForReserve = $(this).data("ownid");
                 $('#myModalReservation').modal("show");
                 var result = $('#openReservationsList');
@@ -322,6 +324,8 @@ var Dashboard = function () {
             var dateFrom = $("#modalDateFrom").val();
             var dateTo = $("#modalDateTo").val();
             var clientName = $("#partner_reservation_name").val();
+            //var clientEmail = $("#partner_reservation_email").val();
+            var clientId = $("#partner_reservation_client").val();
             var adults = $("#partner_reservation_adults").val();
             var children = $("#partner_reservation_children").val();
             var _url = $("#btnAddNewOpenReservation").data("url");
@@ -329,9 +333,9 @@ var Dashboard = function () {
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
 
-            var isValid = (dateFrom != "" && dateTo != "" && clientName != "") && (adults != "" || children != "");
+            //var isValid = (dateFrom != "" && dateTo != "" && clientName != "") && (adults != "" || children != "");
 
-            if (isValid) {
+            //if (isValid) {
                 var loadingText = result.data("loadingtext");
                 result.html(loadingText);
 
@@ -341,7 +345,9 @@ var Dashboard = function () {
                     'clientName': clientName,
                     'adults': (adults == "") ? 0 : adults,
                     'children': (children == "") ? 0 : children,
-                    'accommodationId': selectedAccommodationForReserve
+                    'accommodationId': selectedAccommodationForReserve,
+                    'clientId':clientId,
+                   // 'clientEmail':clientEmail
                 }, function (response) {
 
                     if (response.success) {
@@ -350,11 +356,8 @@ var Dashboard = function () {
                         onEndReservationButton();
                         onAddToOpeneservationButton();
                         onShowOpenReservationsListDetailsButton();
-
                         //Clear data from inputs
-                        $("#partner_reservation_name").val("");
-                        $("#partner_reservation_adults").val("");
-                        $("#partner_reservation_children").val("");
+                        $("#form-agency")[0].reset();
                     }
 
                     if (response.message != "") {
@@ -363,10 +366,10 @@ var Dashboard = function () {
                         $(".alertLabel").removeClass("hidden");
                     }
                 });
-            }
+            /*}
             else {
                 $(".alertLabel").removeClass("hidden");
-            }
+            }*/
         });
     }
     var onEndReservationButton = function () {
@@ -766,8 +769,45 @@ var Dashboard = function () {
             });
         });
     }
+    var onclickAddClient=function(){
+        $('#add-client').on('click',function(){
+            $('#row-name').removeClass('hide');
+            $("#partner_reservation_client").val('').trigger("chosen:updated");
+            $("#form-agency")[0].reset();
+        })
+    }
+    var onChangeClient=function(){
+        var clientSelect = $('#partner_reservation_client');
+        clientSelect.change(function(){
+             if($(this).val()!=''){
+                 $('#row-name').removeClass('hide');
+                 $.post($(this).data('url'), {
+                     'idClient': $(this).val()
+                 }, function (response) {
+                     if (response.success) {
+                         $("#partner_reservation_name").val(response.fullname);
+                        // $("#partner_reservation_email").val(response.email);
+                     }
+                 });
+             }
+            else{
+                 $("#form-agency")[0].reset();
+             }
+        });
+    }
+    var onclickBtnRefreshClient=function(){
+        $('#refresh-client').on('click',function(){
+            Dashboard.refreshClientList();
+        });
 
+    }
+    var onclickBtnResetFormReservation=function(){
+        $('#btnResetFormReservation').on('click',function(){
+            $("#form-agency")[0].reset();
+            $("#partner_reservation_client").val('').trigger("chosen:updated");
+        })
 
+    }
     return {
         init: function () {
             initPlugins();
@@ -791,6 +831,32 @@ var Dashboard = function () {
             infiniteScroll();
             details_favorites("#delete_from_favorites");
             details_favorites("#add_to_favorites");
+            onclickAddClient();
+            onChangeClient();
+            onclickBtnRefreshClient();
+            onclickBtnResetFormReservation();
+        },
+        refreshClientList: function () {
+            var _url=$('#partner_reservation_client').data('urlrefreshlist');
+            var clientSelect =$('#partner_reservation_client');
+            $.ajax({
+                type: 'post',
+                url: _url,
+                success: function (data) {
+                    data = (data['aaData']) ? (data['aaData']) : ([]);
+                    clientSelect.html('');
+                    for (var i = 0, total = data.length; i < total; i++) {
+                        if(i == 0){
+                            clientSelect.append('<option selected="selected" value=""></option>');
+                        }
+                        clientSelect.append('<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>');
+                    }
+                    clientSelect.trigger('update');
+                    clientSelect.chosen().trigger("chosen:updated");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
         },
         setStart: function (a) {
             start = a
@@ -806,6 +872,14 @@ var Dashboard = function () {
         },
         setTextCart: function (value) {
             $('cart-count').text(value);
+        },
+        reloadProccessAndPending: function(){
+            if(typeof filterPendingAction == 'function'){
+                filterPendingAction();
+            }
+            if(typeof filterProccessAction == 'function'){
+                filterProccessAction();
+            }
         }
     };
 }();

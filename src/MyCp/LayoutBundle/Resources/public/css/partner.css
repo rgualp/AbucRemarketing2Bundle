@@ -420,9 +420,9 @@ body.landing-page {
     padding: 10px 15px !important;
 }
 .modal-agency .chosen-container-single .chosen-single span {
-    color: #1b6690;
+    color: #1b6690 !important;
     display: block;
-    font-family: MyriadProRegular;
+    font-family: MyriadProRegular !important;
     font-size: 18px;
     margin-left: 28px;
     margin-right: 26px;
@@ -430,6 +430,9 @@ body.landing-page {
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.modal-reservation .chosen-single.chosen-default, .chosen-container-single .chosen-single {
+    background-color: #fff;
 }
 .modal-agency .chosen-container .chosen-results {
     margin: 0 4px 4px 0;
@@ -1521,7 +1524,6 @@ body.landing-page {
     position: absolute;
     z-index: 999;
 }
-
 /* align icon */
 .left-addon .glyphicon  { left:  0px;}
 .right-addon .glyphicon { right: 0px;}
