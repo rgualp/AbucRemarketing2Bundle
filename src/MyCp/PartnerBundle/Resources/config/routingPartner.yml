@@ -276,3 +276,11 @@ partner_payment_skrill_test_status:
 partner_payment_skrill_test_payment:
     locales:  { en: "/payment/skrill-test-payment/{bookingId}", es: "/payment/skrill-test-payment/{bookingId}", de: "/payment/skrill-test-payment/{bookingId}" }
     defaults: { _controller: PartnerBundle:Payment:skrillTestPayment, bookingId: 0 }
+
+partner_get_client:
+    locales:  { en: "/client", es: "/cliente", de: "/client" }
+    defaults: { _controller: PartnerBundle:Backend:getClient }
+
+partner_list_client:
+    locales:  { en: "/client/list", es: "/cliente/listado", de: "/client/list" }
+    defaults: { _controller: PartnerBundle:Backend:listClient }

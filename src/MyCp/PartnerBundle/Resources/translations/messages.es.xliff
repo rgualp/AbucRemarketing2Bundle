@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-29T12:59:07Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-09-30T12:41:43Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -1720,6 +1720,10 @@
       <trans-unit id="db16771cb575cac64f6788c67c1b940495df318c" resname="pa.modal.reservation.reserve">
         <source>pa.modal.reservation.reserve</source>
         <target state="new">Reserva</target>
+      </trans-unit>
+      <trans-unit id="f85815672eb74c7ec44cf9c9d0b439571a1952e5" resname="pa.modal.reservation.reset">
+        <source>pa.modal.reservation.reset</source>
+        <target state="new">Limpiar</target>
       </trans-unit>
       <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
         <source>pa.modal.reservation.title</source>

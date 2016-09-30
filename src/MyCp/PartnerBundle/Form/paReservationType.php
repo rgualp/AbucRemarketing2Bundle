@@ -24,8 +24,19 @@ class paReservationType extends AbstractType
     {
 
         $builder
-            ->add('name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('name', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('client', 'entity', [
+                'class' => 'MyCp\PartnerBundle\Entity\paClient',
+                'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u');
+                    },
+                'empty_data'  => null,
+                'empty_value' => "",
+                'property' => 'fullname',
+                'required' => false,
+                'multiple' => false])
             ->add('adults', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('email', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('children', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
         ;
     }
