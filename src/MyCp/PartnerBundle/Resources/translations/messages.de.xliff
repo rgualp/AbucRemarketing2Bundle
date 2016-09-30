@@ -746,10 +746,6 @@
         <source>dashboard.booking.destination</source>
         <target state="new">dashboard.booking.destination</target>
       </trans-unit>
-      <trans-unit id="33412e8fed78ff836acc3c559f34995ad20967e6" resname="dashboard.booking.detail">
-        <source>dashboard.booking.detail</source>
-        <target state="new">dashboard.booking.detail</target>
-      </trans-unit>
       <trans-unit id="e145e2f877f0f1ad862109f15ae3a2e52f4a8f19" resname="dashboard.booking.from">
         <source>dashboard.booking.from</source>
         <target state="new">dashboard.booking.from</target>
