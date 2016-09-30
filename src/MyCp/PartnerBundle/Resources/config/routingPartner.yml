@@ -161,6 +161,26 @@ partner_dashboard_booking_list_checkin:
     locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }
 
+partner_dashboard_booking_proccess:
+    locales:  { en: "/dashboard/booking/proccess", es: "/dashboard/booking/proccess", de: "/dashboard/booking/proccess" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingProccess }
+
+partner_dashboard_booking_list_proccess:
+    locales:  { en: "/dashboard/booking/proccess/list", es: "/dashboard/booking/proccess/list", de: "/dashboard/booking/proccess/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:listBookingProccess }
+
+partner_dashboard_close_booking_proccess:
+    locales:  { en: "/dashboard/close-booking", es: "/dashboard/close-booking", de: "/dashboard/close-booking" }
+    defaults: { _controller: PartnerBundle:Dashboard:closeReservation }
+
+partner_dashboard_close_all_booking_proccess:
+    locales:  { en: "/dashboard/close-all-booking", es: "/dashboard/close-all-booking", de: "/dashboard/close-all-booking" }
+    defaults: { _controller: PartnerBundle:Dashboard:closeAllReservation }
+
+partner_dashboard_booking_proccess_detail:
+    locales:  { en: "/dashboard/booking/proccess/detail/{id_reservation}", es: "/dashboard/booking/proccess/detail/{id_reservation}", de: "/dashboard/booking/proccess/detail/{id_reservation}" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingProccessDetail,id_reservation:''}
+
 partner_dashboard_page_detail:
     locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
