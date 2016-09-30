@@ -23,10 +23,15 @@ class FrontendController extends Controller
     public function indexAction(){
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
-        return $this->render('PartnerBundle:Frontend:index.html.twig',array(
-            'remoteLogin'=>true,
-            'form'=>$form->createView()
-        ));
+        if($this->getUser()==null){
+            return $this->render('PartnerBundle:Frontend:index.html.twig',array(
+                'remoteLogin'=>true,
+                'form'=>$form->createView()
+            ));
+        }
+        else{
+            return $this->redirect($this->generateUrl('backend_partner_dashboard'));
+        }
     }
 
     /**
