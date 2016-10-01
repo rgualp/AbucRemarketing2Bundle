@@ -29,15 +29,41 @@ class CartController extends Controller
 
         /*identificadores de general reservation*/
         $ids_gr = $request->get('ids');
+        $ids_gr = ($ids_gr != null) ? $ids_gr:array();
 
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
 
-        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency);
+        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
+
+        $reservations = array();
+        $reservationsIds = array();
+
+        foreach($ids_gr as $idGenRes){
+            $genRes = $em->getRepository("mycpBundle:generalReservation")->find($idGenRes);
+            $details = $genRes->getTravelAgencyDetailReservations();
+            $reservation = $details[0]->getReservation();
+
+            if(!array_key_exists($reservation->getId(), $reservations)) {
+                $reservations[$reservation->getId()] = array();
+                $reservationsIds[] = $reservation->getId();
+            }
+
+            $reservations[$reservation->getId()][] = $idGenRes;
+        }
+
+        $details = array();
+
+        foreach($reservationsIds as $reservationId)
+        {
+            $details[$reservationId] = $em->getRepository('PartnerBundle:paReservation')->getDetails($reservationId, $reservations[$reservationId]);
+        }
 
         return $this->render('PartnerBundle:Cart:cart.html.twig', array(
-            "items" => $cartItems
+            "items" => $cartItems,
+            "details" => $details,
+            "disablePaymentButton" => (count($ids_gr) > 0)
         ));
     }
 
