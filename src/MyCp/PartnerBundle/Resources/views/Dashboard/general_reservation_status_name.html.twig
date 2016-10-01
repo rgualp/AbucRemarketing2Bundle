@@ -1,0 +1,9 @@
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING') %}Pendiente{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE') %}Disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE') %}Parcialmente Disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') %}Reservada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %}Parcialmente Reservada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %}No disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %}Cancelada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %}Parcialmente Cancelada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_OUTDATED') %}Vencida{%endif%}

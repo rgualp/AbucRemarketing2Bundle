@@ -1,0 +1,11 @@
+{% if owners %}
+{% set string ='[' %}
+{% for owner in owners %}
+{% if loop.last %}
+{% set string = string ~ '"'~owner.getUserUserName()~'"' %}
+{% else %}
+{% set string = string ~ '"'~owner.getUserUserName()~'",' %}
+{% endif %}
+{% endfor %}
+{% set string = string ~ ']' %}
+{{string}}{% endif %}

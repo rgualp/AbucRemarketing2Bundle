@@ -895,6 +895,128 @@ class ownershipRepository extends EntityRepository {
         }
         return $results;
     }
+    /**
+     * Realiza busquedas segun los criterios seleccionados
+     * @param integer $province_id
+     * @param datetime $arrivalDate
+     * @param datetime $leavingDate
+     * @param integer $guest_total
+     * @param string $order_by
+     * @return array of MyCp\mycpBundle\Entity\ownership
+     */
+    function searchOwnership($controller,$filters=array(),$start=0,$limit=4) {
+        if($filters['priceFilter']!=''){
+            $prices=explode(',',$filters['priceFilter']);
+            $filters['own_price_from']=array($prices[0]);
+            $filters['own_price_to']=array($prices[1]);
+        }
+        if (array_key_exists('own_award', $filters)){
+            if($filters['own_award']!='')
+                $filters['own_award']=array(1);
+        }
+
+        $order_by = 'BEST_VALUED';
+        $em = $this->getEntityManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
+        $user_id = $user_ids['user_id'];
+        $session_id = $user_ids['session_id'];
+        $dateArrival=array();
+        $dateExit=array();
+        if($filters['arrival'] !='')
+            $dateArrival=explode('/',$filters['arrival']);
+        if($filters['exit'] !='')
+            $dateExit=explode('/',$filters['exit']);
+
+        $reservations_where = SearchUtils::createDatesWhere($em, (count($dateArrival))?$dateArrival[0].'-'.$dateArrival[1].'-'.$dateArrival[2]:null, (count($dateExit))?$dateExit[0].'-'.$dateExit[1].'-'.$dateExit[2]:null);
+
+        $room_filter=false;
+        if(array_key_exists('room_climatization', $filters) ){
+            $filters['room_climatization']='Aire acondicionado';
+            $room_filter=true;
+        }
+        if(array_key_exists('room_audiovisuals', $filters) || array_key_exists('room_kids', $filters) || array_key_exists('room_smoker', $filters) || array_key_exists('room_balcony', $filters) || array_key_exists('room_terraza', $filters) || array_key_exists('room_safe', $filters)){
+            $room_filter=true;
+        }
+        if(array_key_exists('pool', $filters) ){
+            $filters['own_others_included']='POOL';
+        }
+        if(array_key_exists('jacuzzy', $filters) ){
+            $filters['own_others_included']='POOL';
+        }
+        if(array_key_exists('dinner', $filters) ){
+            $filters['others_not_included']='DINNER';
+        }
+        if(array_key_exists('parking', $filters) ){
+            $filters['others_not_included']='PARKING';
+        }
+
+        if(array_key_exists('laundry', $filters) ){
+            $filters['others_not_included']='LAUNDRY';
+        }
+        if(array_key_exists('breakfast', $filters) ){
+            $filters['others_not_included']='BREAKFAST';
+        }
+
+
+
+
+        $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
+        $parameters = array();
+
+        $parameters[] = array('session_id', $session_id);
+        $where = '';
+        $destinationWhere = SearchUtils::getDestinationWhere($filters['destination']);
+        $where .= ($destinationWhere != "") ? " AND " . $destinationWhere : "";
+
+        if ($filters['huesp'] != "")
+            $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
+
+        if ($filters['room'] != "")
+            $where .= " AND " . "o.own_rooms_total >= :rooms_total";
+
+
+        if ($reservations_where != "")
+            $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
+
+        $filterWhere = SearchUtils::getFilterWhere($filters);
+
+        $where .= ($filterWhere != "") ? $filterWhere : "";
+
+        if ($where != '')
+            $query_string .= $where;
+        $order = SearchUtils::getOrder($order_by);
+
+        $query_string .= $order;
+
+        $query = $em->createQuery($query_string)->setFirstResult($start)->setMaxResults($limit);
+        if ($user_id != null)
+            $query->setParameter('user_id', $user_id);
+
+        if ($session_id != null)
+            $query->setParameter('session_id', $session_id);
+
+        if ($filters['destination'] != '')
+            $query->setParameter('destination', $filters['destination'] );
+
+        if ($filters['huesp'] != "")
+            $query->setParameter('guests_total', $filters['huesp']);
+
+        if ($filters['room'] != "")
+            $query->setParameter('rooms_total', $filters['room']);
+        $results = $query->getResult();
+
+
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+
+            if (file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
+                $results[$i]['photo'] = "originals/". $results[$i]['photo'];
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+                $results[$i]['photo'] = "no_photo.png";
+        }
+        return $results;
+    }
 
     /**
      * Muestra todas las casas que son top20, para mostrar en la portada
@@ -1688,6 +1810,7 @@ class ownershipRepository extends EntityRepository {
     private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
                         dest.des_id,
+                        dest.des_name as destination,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,

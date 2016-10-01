@@ -1,0 +1,89 @@
+
+{% if list | length%}
+<div class="col-md-12 m-t-md" id="list-ownership">
+            {%for ownership in list%}
+                    <div class="col-md-6" style="padding-bottom: 25px">
+                            <div class="color-blue thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
+                                {% if ownership.OwnInmediateBooking %}
+                                    <div class="quick-ribbon"  rel="tooltip" data-toggle="tooltip" data-placement="right" title=" {{ "quick_booking_tooltip" | trans}}">
+                                        <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+                                {% endif %}
+                                <a target="_blank" href="{{ path('partner_dashboard_page_detail',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                                    {{ render(controller( 'PartnerBundle:Dashboard:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
+                                </a>
+                                <div class="thumbnail-over col-sm-12 text-right">
+                                    <div class="efect-blur">
+                                    </div>
+                                    <p style="position: relative;">
+                                        {{"FROM_PRICES" | trans | capitalize}}: <span class="color-white" style="font-size: 30px;"> {{ownership.minimum_price | price }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row description-ownwership">
+                                <div class="col-sm-12">
+                                    <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                                        <h1 class="h-blue color-white">{{ownership.own_name | title }}</h1>
+                                    </a>
+                                </div>
+                                <div class="col-sm-9 color-white">
+                                    {%if ownership.category == "Premium"%}
+                                        <img rel="tooltip" title="{{ownership.category | trans}}"  src="{{ asset('bundles/partner/img/icon/premiun.png') }}" style="margin-top: -5px;width: 30px" alt="{{"Pixel" | trans}}"/>
+                                    {%else%}
+                                        {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
+                                            <img rel="tooltip" title="{{ownership.category | trans}}" src="{{ asset('bundles/partner/img/icon/especial.png') }}" style="margin-top: -5px;width: 30px" alt="{{"Pixel" | trans}}"/>
+                                        {%else%}
+                                            <img rel="tooltip" title="{{ownership.category | trans}}" src="{{ asset('bundles/partner/img/icon/economico.png') }}" style="margin-top: -5px;width: 30px" alt="{{"Pixel" | trans}}"/>
+                                        {%endif%}
+                                    {%endif%}
+                                    <span>{{ownership.category | trans}}</span>
+                                    <div class="col-sm-12 pl-0">
+                                        <p style="margin: 0;color: #cacaca">{{ ownership.prov_name }}, {{ ownership.mun_name }}</p>
+                                    </div>
+                                    <div class="col-sm-12 pl-0">
+                                        <p style="margin: 0;;color: #cacaca">{{ ownership.type }}/ {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
+                                    </div>
+                                    <div class="col-sm-12 pl-0">
+                                        {%if ownership.rating > 0%}
+                                            {%for i in 1..ownership.rating%}
+                                                <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
+                                            {%endfor%}
+                                        {%endif%}
+
+                                        {%if ownership.rating < 5%}
+                                            {%for i in 1..(5-ownership.rating)%}
+                                                <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="margin-top: -5px;" alt="{{"Pixel" | trans}}"/>
+                                            {%endfor%}
+                                        {%endif%}
+                                        <span>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if ownership.award %}
+                                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="pull-right" style="margin-top: 5px;" alt="{{"Awards" | trans}}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row description-ownwership">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4 color-white">
+                                    <a class="createReservation color-white" type="button" data-ownid="{{ ownership.own_id }}" data-accommodation = "{{ ownership.own_name }}">
+                                    {{ 'label.required.owner' | trans }}
+                                    </a>
+                                </div>
+                                <div class="col-sm-4 color-white">
+                                    <a  target="_blank" class="color-white" href="{{ path('partner_dashboard_page_detail',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                                        {{ 'label.view.more' | trans }}
+                                    </a>
+
+                                </div>
+                            </div>
+                    </div>
+            {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-md-12">
+        No hay resultados
+    </div>
+</div>
+{% endif %}

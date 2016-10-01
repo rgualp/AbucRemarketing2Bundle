@@ -1,0 +1,598 @@
+{% extends 'LayoutBundle:Layout:layout_partner_backend.html.twig' %}
+
+
+{% block carousel %}
+
+{% endblock %}
+
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+
+
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="col-sm-12 bg-white">
+        <div class="container">
+            <div class="for-header-pages">
+                <h1>{{ 'Reserva la casa particular que tus clientes prefieren en Cuba.' | trans }}</h1>
+                <h2>{{ 'Consulta todos los detalles del alojamiento.' | trans  }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 for-body-page-detail">
+        <div class="row">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1">{{ 'Detalles de la casa' | trans  }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2">{{ 'Informaciones y servicios' | trans  }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3">{{ 'Habitaciones y facilidades' | trans  }}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="col-sm-12 for-body-page-detail-tab-content">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="gallery">
+                                                    <div id="preview" class="image-preview">
+
+                                                    </div>
+                                                    <!-- Elastislide Carousel -->
+                                                    <ul id="carousel" class="elastislide-list">
+                                                        {% for photo in gallery_photos %}
+                                                            <li data-preview="{{asset('uploads/ownershipImages/'~photo.photo_name)}}"><a href="#" style="background-image: url('{{asset('uploads/ownershipImages/'~photo.photo_name)}}');"></a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    <!-- End Elastislide Carousel -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="space space-20"></div>
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-12 property-title">
+                                                        <h2>{{ ownership.ownname }}</h2>
+                                                    </div>
+                                                    <div class="space space-20"></div>
+                                                    <div class="col-sm-7 property-datas">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><span>{{ ownership.ownAddressProvince }}, {{ ownership.ownaddressmunicipality }}</span></div>
+                                                            <div class="col-sm-12"><span>{{ ownership.owntype }} / {{ ownership.rooms_count }} {% if ownership.rooms_count == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}</span></div>
+                                                            <div class="col-sm-12"><span>Anfitriones: {{ ownership.owner1 | split(' ')[0] }} {% if ownership.owner2 != "" %} / {{ ownership.owner2 | split(' ')[0] }} {% endif %}</span></div>
+                                                            <div class="col-sm-12"><span>{{ "Código" | trans }}: {{ ownership.mycpcode }}</span></div>
+                                                            <div class="col-sm-9"><span class="price">{{ ownership.ownminimumprice | price }} <i>{{ "/Noche" | trans }}</i></span></div>
+                                                            <div class="col-sm-3">
+                                                                <div class="space space-10"></div>
+                                                                <span>
+                                                                    {% if ownership.category == "Premium" %}
+                                                                        <i class="fa with-icon absolute premium"></i> {{ ownership.category | trans }}
+                                                                    {% elseif (ownership.category | lower) == ("Rango Medio" | lower) %}
+                                                                        <i class="fa with-icon absolute rango_medio"></i> {{ ownership.category | trans }}
+                                                                    {% else %}
+                                                                        <i class="fa with-icon absolute economica"></i> {{ ownership.category | trans }}
+                                                                    {% endif %}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5 property-evaluation">
+                                                        <div class="row">
+                                                            <div class="col-sm-7">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12 p-0">
+                                                                        {% if ownership.OwnInmediateBooking %}
+                                                                            <div class="box-for-bookagil">
+                                                                                <i class="glyphicons white electricity"></i> {{ 'quick_bookinhg' | trans }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="col-sm-12">
+                                                                        <div class="space space-10"></div>
+                                                                        <div class="row rating">
+                                                                            {% set rating = ownership.rating %}
+                                                                            {%if rating > 0%}
+                                                                                {%for i in 1..rating%}
+                                                                                    <i class="ion-ios-star yellow-color"></i>
+                                                                                {%endfor%}
+                                                                            {%endif%}
+
+                                                                            {%if rating < 5%}
+                                                                                {%for i in 1..(5-rating)%}
+                                                                                    <i class="ion-ios-star"></i>
+                                                                                {%endfor%}
+                                                                            {%endif%}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-5" style="padding-right:0">
+                                                                {% if ownership.award %}
+                                                                    <img style="width: 100%" class="img-responsive" src="{{ asset("uploads/awards/") ~ ownership.award }}" />
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="space space-10"></div>
+                                                    <div class="col-sm-12 property-actions">
+                                                        <div class="row">
+                                                            <div class="col-sm-4"><button class="createReservation btn" data-ownid="{{ ownership.own_id }}"  data-accommodation = "{{ ownership.ownname }}">{{ 'Solicitar Casa' | trans }}</button></div>
+                                                            {#<div class="col-sm-4">#}
+                                                                {#{%  set favorite_type = 'ownership' %}#}
+                                                                {#{%  set element_id = ownership.own_id %}#}
+
+                                                                {#{%if is_in_favorite%}#}
+                                                                    {#<button id="delete_from_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star"></i> {{ 'FAVORITIES' | trans }}</button>#}
+                                                                {#{%else%}#}
+                                                                    {#<button id="add_to_favorites" data-add-url="{{path('partner_dashboard_add_favorites')}}" data-remove-url="{{path('partner_dashboard_remove_favorites')}}" data-id="{{element_id}}" data-type="{{favorite_type}}" class="btn"><i class="ion-ios-star-outline"></i> {{ 'FAVORITIES' | trans }}</button>#}
+                                                                {#{%endif%}#}
+                                                            {#</div>#}
+                                                            <div class="col-sm-4"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
+                                            <div id="big_map_details" class="google-maps" style="width:100%;height: 466px;"
+                                                 data-x="{{ownership.OwnGeolocateX}}"
+                                                 data-y="{{ownership.OwnGeolocateY}}"
+                                                 data-name="{{ownership.ownname}}"
+                                                 data-description="{{description | striptags}}"
+                                                 data-image="{{asset('uploads/ownershipImages/thumbnails/'~image)}}"
+                                                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="col-sm-12 for-info-service">
+                                <div class="container">
+                                    <div class="col-sm-4 for-info-title">
+                                        <i class="fa fa-comment"></i> {{ 'Descripción de la Casa' | trans }}
+                                    </div>
+                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-12">
+                                        <div class="for-info-house-desc">
+                                            {{ ownership.description | raw }}
+                                        </div>
+                                    </div>
+                                    <div class="space space-30"></div>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <div class="row">
+                                                    <div class="col-sm-12"><label class="detail-title">{{ 'Tipo de Propiedad' | trans }}:</label><span class="detail-value">{{ ownership.owntype }}</span></div>
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><label class="detail-title">{{ 'PROVINCE_TAB_DESCRIPTION' | trans }}:</label><span class="detail-value">{{ ownership.ownAddressProvince }}</span></div>
+                                                            <div class="col-sm-12"><label class="detail-title">{{ 'CATEGORY_TAB_DESCRIPTION' | trans }}:</label>
+                                                                <span class="detail-value">
+                                                                    {% if ownership.category == "Premium" %}
+                                                                        <i class="fa with-icon premium"></i> {{ ownership.category | trans }}
+                                                                    {% elseif (ownership.category | lower) == ("Rango Medio" | lower) %}
+                                                                        <i class="fa with-icon rango_medio"></i> {{ ownership.category | trans }}
+                                                                    {% else %}
+                                                                        <i class="fa with-icon economica"></i> {{ ownership.category | trans }}
+                                                                    {% endif %}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-12"><label class="detail-title">{{ 'DESTINATION' }}:</label><span class="detail-value">{{ ownership.destination }}</span></div>
+                                                            <div class="col-sm-12"><label class="detail-title">{{ 'CAPACITY_TAB_DESCRIPTION' | trans }}:</label><span class="detail-value">{{ ownership.ownmaximumnumberguests }} {{ 'GUESTS_RESERVATION'|trans }}</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="col-sm-12"><span style="font-family: MyriadProRegular;" class="detail-value">{{ 'Idiomas que  se Hablan en la Casa' | trans }}</span></div>
+                                                <div class="row">
+                                                    <div class="col-sm-2"></div>
+                                                    {% if ownership.english != '0'  %}
+                                                        <div class="col-sm-4">
+                                                            <i class="flags eng"></i>
+                                                            <div class="space space-10"></div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if ownership.german != '0'  %}
+                                                    <div class="col-sm-4">
+                                                        <i class="flags ger"></i>
+                                                        <div class="space space-10"></div>
+                                                    </div>
+                                                    {% endif %}
+                                                    <div class="col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-2"></div>
+                                                    {% if ownership.french != '0'  %}
+                                                    <div class="col-sm-4">
+                                                        <i class="flags fra"></i>
+                                                        <div class="space space-10"></div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if ownership.italian != '0'  %}
+                                                    <div class="col-sm-4">
+                                                        <i class="flags ita"></i>
+                                                        <div class="space space-10"></div>
+                                                    </div>
+                                                    {% endif %}
+                                                    <div class="col-sm-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space space-30"></div>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12 for-info-title">
+                                                <i class="fa fa-tags with-circle"></i> {{ 'SERVICES_TAB_DETAILS' | trans }}
+                                            </div>
+                                            <div class="space space-20"></div>
+                                            <div class="col-sm-12">
+                                                    <ul class="list-services">
+                                                        {%if ownership.ownFacilitiesBreakfast %}
+                                                        <li style="width: auto;">
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons tea_kettle"></i> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</span>
+                                                        </li>
+                                                        {% endif %}
+                                                        {%if ownership.ownFacilitiesDinner %}
+                                                            <li style="width: auto;">
+                                                                <span class="icono-with-check detail-value"><i class="glyphicons pot"></i> {{"DINNER_TAB_DESCRIPTION" | trans}}</span>
+                                                            </li>
+                                                        {%endif%}
+                                                        {%if ownership.ownDescriptionLaundry %}
+                                                            <li style="width: auto;">
+                                                                <span class="icono-with-check detail-value"><i class="glyphicons lundry"></i> {{"LAUNDRY_TAB_DESCRIPTION" | trans}}</span>
+                                                            </li>
+                                                        {%endif%}
+                                                        {%if ownership.ownFacilitiesParking %}
+                                                            <li style="width: auto;">
+                                                                <span class="icono-with-check detail-value"><i class="glyphicons truck"></i> {{"PARKING_TAB_DESCRIPTION" | trans}}</span>
+                                                            </li>
+                                                        {%endif%}
+                                                    </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="col-sm-12">
+                                <div class="container">
+                                    {% set roomBaby = 0 %}
+                                    {% set roomSafe = 0 %}
+                                    {% set roomSmoker = 0 %}
+                                    {% set roomYard = 0 %}
+                                    {% set roomTerrace = 0 %}
+                                    {% set roomAudiovisual = 0 %}
+                                    {% set roomBalcony = 0 %}
+                                    {% set roomClimate = 0 %}
+                                    {% set roomWindows = 0 %}
+                                    {% set roomStereo = 0 %}
+
+                                    {%for room in rooms%}
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12"><label class="detail-title">{{ 'SELECT_ROOM_TYPE_OPTION' | trans }}:</label><span class="detail-value">{{room.roomtype | trans | title}}</span></div>
+                                            <div class="col-sm-12"><label class="detail-title">{{ 'Cantidad de Camas' | trans }}:</label><span class="detail-value">{{room.roomBeds}}</span></div>
+                                            <div class="col-sm-12"><label class="detail-title">{{ 'Tipo de Baño' | trans }}:</label><span class="detail-value">{{ room.roomBathroom | trans | title }}</span></div>
+                                            <div class="col-sm-12"><label class="detail-title">{{ 'Precio/noche' | trans }}:</label><span class="detail-value"><i class="price" style="font-size: 36px; font-style: normal;">{{room.roomPriceDownTo | price}}</i></span></div>
+                                            <div class="space space-30"></div>
+                                            <div class="col-sm-12 for-info-service">
+                                                <div class="col-sm-12 for-info-title">
+                                                    <div class="row">
+                                                        <i class="glyphicons shopping_bag"></i> {{ 'Facilidades' | trans }}
+                                                    </div>
+                                                </div>
+                                                <ul class="list-services">
+                                                    {% if room.roomClimate %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons snowflake"></i> {{ 'CLIMATIZATION_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomAudiovisual %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons film"></i> {{ 'AUDIOVISUALS_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomSmoker %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons smoking"></i> {{ 'SMOKER_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomSafe %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons safe"></i> {{ 'SAFE_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomBalcony %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons balcon"></i> {{ 'BALCONY_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomTerrace %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'TERRACE_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomYard %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'YARD_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if ownership.ownDescriptionPets %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons dog"></i> {{ 'PETS_TAB_DESCRIPTION' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomBaby %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons stroller"></i> {{ 'KIDS_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomStereo %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons projector"></i> {{ 'STEREO_ROOMS' | trans }}</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if room.roomWindows %}
+                                                        <li>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons ventana"></i> {{ 'WINDOWS_ROOMS' | trans }} </span>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                            <div class="space space-50"></div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                    {#<div class="col-sm-12 for-info-service">#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-sm-12 for-info-title">#}
+                                                {#<i class="glyphicons shopping_bag"></i> {{ 'Facilidades' | trans }}#}
+                                            {#</div>#}
+                                            {#<div class="space space-20"></div>#}
+                                            {#<div class="col-sm-12">#}
+                                                {#<ul class="list-services">#}
+                                                    {#{% if roomClimate > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons snowflake"></i> {{ 'CLIMATIZATION_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomAudiovisual > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons film"></i> {{ 'AUDIOVISUALS_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomSmoker > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons smoking"></i> {{ 'SMOKER_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomSafe > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons safe"></i> {{ 'SAFE_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomBalcony > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons balcon"></i> {{ 'BALCONY_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomTerrace > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'TERRACE_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomYard > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons terraza"></i> {{ 'YARD_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if ownership.ownDescriptionPets %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons dog"></i> {{ 'PETS_TAB_DESCRIPTION' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomBaby > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons stroller"></i> {{ 'KIDS_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomStereo > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons projector"></i> {{ 'STEREO_ROOMS' | trans }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if roomWindows > 0 %}#}
+                                                        {#<li>#}
+                                                            {#<span class="icono-with-check detail-value"><i class="glyphicons ventana"></i> {{ 'WINDOWS_ROOMS' | trans }} {{ roomWindows }}</span>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                {#</ul>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 bg-white">
+        <div class="space space-30"></div>
+        <div class="container">
+            <div class="for-comments col-sm-12">
+                <div class="row">
+                    <div class="comments-title col-sm-3"><i class="fa fa-comments"></i> {{ 'FORMS_COMMENTS' | trans }}</div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-12">
+                        {% set num = comments | length %}
+                        {%for comment in comments%}
+                            <div class="row">
+                                <div class="comments-item col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-3 comment-autor">
+                                            <span># {{ num }} {{comment.user_user_name~" "~comment.user_last_name}}</span>
+                                            {% set num = num - 1 %}
+                                        </div>
+                                        <div class="col-sm-5"></div>
+                                        <div class="col-sm-4 comment-date text-right">
+                                            <span class="for-date">{{comment.com_date | date("d/m/Y")}}</span>
+                                            <span class="rating_star">
+                                                {%if comment.com_rate > 0%}
+                                                    {% set rate = comment.com_rate %}
+                                                    {% for i in 1 .. rate %}{% if i <= 4 %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}" alt="{{"Start on" | trans}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}" alt="{{"Start off" | trans}}"/>{% endif %} {% endfor %}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-12 comment-text">
+                                          <span>
+                                              {{comment.com_comments}}
+                                          </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space space-30"></div>
+    </div>
+    {{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var $carousel;
+        var own_id = "{{ownership.own_id}}";
+
+
+        var current = 0,
+                $preview = $( '#preview' ),
+                $carouselEl = $( '#carousel' ),
+                $carouselItems = $carouselEl.children();
+
+        $carousel = $carouselEl.elastislide( {
+            current : current,
+            minItems : 4,
+            onClick : function( el, pos, evt ) {
+                evt.preventDefault();
+                changeImage( el, pos);
+            },
+            onReady : function() {
+                changeImage( $carouselItems.eq( current ), current );
+            }
+        } );
+
+        function changeImage( el, pos ) {
+
+            $preview.css( 'background-image', 'url('+el.data( 'preview' )+')' );
+            $carouselItems.removeClass( 'current-img' );
+            el.addClass( 'current-img' );
+
+            if ($carousel != undefined){
+                $carousel.setCurrent( pos );
+            }
+
+        }
+
+        /*if(document.getElementById("big_map_details") !== null)
+        {
+            var x = $("#big_map_details").attr("data-x");
+            var y = $("#big_map_details").attr("data-y");
+            var name = $("#big_map_details").attr("data-name");
+            var description = $("#big_map_details").attr("data-description");
+            var image = $("#big_map_details").attr("data-image");
+            var icon = $("#big_map_details").attr("data-icon");
+
+            var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
+            var options_details = {
+                zoom: 17,
+                center: center_details,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var big_map_details = new google.maps.Map(document.getElementById("big_map_details"), options_details);
+
+            var marker = new google.maps.Marker({
+                position: center_details,
+                map: big_map_details,
+                title: name,
+                icon: icon
+            });
+
+
+
+            var boxText = document.createElement("div");
+            *//*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+             boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*//*
+
+            boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+            boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
+            *//*boxText.innerHTML = "<div class='row'>" +
+             "<div class='map_image col-sm-4' style='background-image:url(" + image + ")'></div>" +
+             "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + name + "<br/>" +
+             "<b>" + description + "</b>" +
+             "</div>" +
+             "</div>";
+             *//*
+            var myOptions = {
+                content: boxText
+                ,disableAutoPan: false
+                ,maxWidth: 0
+                ,pixelOffset: new google.maps.Size(-140, 0)
+                ,zIndex: null
+                ,boxStyle: {
+                    //background: "url('tipbox.gif') no-repeat",
+                    opacity: 0.85,
+                    width: "280px"
+                }
+                ,closeBoxMargin: "10px 2px 2px 2px"
+                ,closeBoxURL: "https://www.google.com/intl/en_us/mapfiles/close.gif"
+                ,infoBoxClearance: new google.maps.Size(1, 1)
+                ,isHidden: false
+                ,pane: "floatPane"
+                ,enableEventPropagation: false
+            };
+
+            var ib = new InfoBox(myOptions);
+
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                ib.open(big_map_details, marker);
+            });
+
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                ib.close();
+            });
+
+        }*/
+
+
+
+    </script>
+{% endblock %}

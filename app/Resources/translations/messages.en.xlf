@@ -3929,6 +3929,22 @@
           <source>PAYMENT_SUCCESS</source>
           <target>Great! You´ve paid all your reservations successfully. Cuba awaits.</target>
         </trans-unit>
+	     <trans-unit id="994">
+                     <source>CREATE_ACCOUNT_SUCCESS</source>
+                     <target>You have successfulyl registered in MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="995">
+                     <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
+                     <target>Thank you for registering yourself in MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="996">
+                     <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
+                     <target>You have successfulyl registered in MyCasaParticular.</target>
+                </trans-unit>
+                <trans-unit id="997">
+                     <source>NEW_USER_ACCOUNT</source>
+                     <target>New User Account</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

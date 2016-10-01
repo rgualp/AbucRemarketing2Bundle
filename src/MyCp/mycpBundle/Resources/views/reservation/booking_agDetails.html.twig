@@ -1,0 +1,169 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('mycp_backend_front') }}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_list_reservations_ag_booking') }}">Bookings</a> <span class="divider">/</span></li>
+        <li class="active">Detalles de Booking</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_reservations_ag_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+{% endblock %}
+{% block form_actions %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('mycp_backend_front') }}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_list_reservations_booking') }}">Bookings</a> <span class="divider">/</span></li>
+        <li class="active">Detalles de Booking</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+    <div class="form-actions">
+        <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
+    </div>
+{% endblock %}
+{% block content %}
+    <h2>Booking {{ payment.booking.bookingId }}</h2>
+    <hr/>
+    <div class="row-fluid">
+        {{include('mycpBundle:utils:clientAgInfoTab.html.twig', {"user":user, "tourist": user})}}
+        <div class="row-fluid">
+            <div class="span12">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#reservas" data-toggle="tab">Reservaciones</a>
+                    </li>
+                </ul>
+                <table class="table table-striped" style="font-size: 12px">
+                    <thead>
+                    <tr>
+                        <th>Booking</th>
+                        <th>Reserva</th>
+                        <th>Alojamiento</th>
+                        <th>Nombre Alojamiento</th>
+                        <th>Tipo Habitación</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                    </tr>
+
+                    </thead>
+                    {% set generalReservation = 0 %}
+                    {% set cucPayment = 0 %}
+                    {% for reservation in reservations %}
+                        {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
+                            {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
+                            <tr>
+                                <td>{{ payment.booking.bookingId }}</td>
+                                <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.getOwnResGenResId.getGenResId}) }}">{{ reservation.getOwnResGenResId.getCASId }}</a></td>
+                                <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if reservation.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
+                                <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+                                <td>{{ reservation.getOwnResRoomType }}</td>
+                                <td>{{ reservation.getOwnResReservationFromDate|date("d/m/Y") }}</td>
+                                <td>{{ reservation.getOwnResReservationToDate|date("d/m/Y") }}</td>
+                            </tr>
+                        {% endif %}
+                        {% set cucPayment = cucPayment +  reservation.ownResTotalInSite * (reservation.getOwnResGenResId.genResOwnId.ownCommissionPercent) / 100 %}
+                    {% endfor %}
+                    <tr>
+                        <td colspan="6" style="text-align: right"><b>TOTAL PREPAGADO</b></td>
+                        <td>{{ payment.currency.currCode }} {{ payment.payedAmount }} | CUC {{ ceil_round(cucPayment + 10) }} </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    {{ render(controller('mycpBundle:BackendMessage:messageUserControl', {'userTo': user, 'showSubject' : true})) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#tabs a[href="#client_messages"]').click(function () {
+            loadMessages();
+        });
+
+        $('#tabs a[href="#comment"]').click(function () {
+            loadComments();
+        });
+
+        function loadMessages()
+        {
+            var userId = $("#userId").val();
+            var url = $("#client_messages").attr("data-url");
+            $("#client_messages").html("Cargando....");
+            $.post(url, {
+                        userId: userId
+                    },
+                    function (data) {
+                        $("#client_messages").html(data);
+                        $('#tabs a[href="#client_messages"]').tab('show');
+                    });
+
+            return false;
+        }
+
+        function loadComments()
+        {
+            var userId = $("#userId").val();
+            var url = $("#comment").attr("data-url");
+            $("#comment").html("Cargando....");
+            $.post(url, {
+                        userId: userId
+                    },
+                    function (data) {
+                        $("#comment").html(data);
+                        $('#tabs a[href="#comment"]').tab('show');
+                    });
+
+            return false;
+        }
+
+        function sendMessage() {
+            var userId = $("#userId").val();
+            var subject = $("#messageSubject").val();
+            var messageBody = $("#messageBody").val();
+            var url = $("#senMessageDiv").attr("data-url");
+            var isValidated = validateMessage(subject, messageBody);
+
+            if(isValidated) {
+                $("#loadingImg").removeClass("hidden");
+                $("#lblSuccess").addClass("hidden");
+
+                $.post(url, {
+                            userId: userId,
+                            subject: subject,
+                            messageBody: messageBody
+                        },
+                        function (data) {
+                            $("#divMessageContainer").html(data);
+                            $("#messageSubject").val("");
+                            $("#messageBody").val("");
+                            $("#loadingImg").addClass("hidden");
+                            $("#lblSuccess").removeClass("hidden");
+                        });
+            }
+            return false;
+        }
+
+        function validateMessage(subject, messageBody)
+        {
+            if(subject === "")
+            {
+                $("#lblSubjectAlert").removeClass("hidden");
+            }
+            else{
+                $("#lblSubjectAlert").addClass("hidden");
+            }
+
+            if(messageBody === "")
+            {
+                $("#lblBodyAlert").removeClass("hidden");
+            }
+            else{
+                $("#lblBodyAlert").addClass("hidden");
+            }
+
+            return (subject !== "") && (messageBody !== "");
+        }
+
+    </script>
+{% endblock %}

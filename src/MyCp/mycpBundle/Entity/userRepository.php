@@ -78,7 +78,7 @@ class userRepository extends EntityRepository {
         $user->setUserSubrole($role[0]);
         if ($request->get('user_newsletters'))
             $user->setUserNewsletters(1);
-        $user->setUserEnabled(0);
+        $user->setUserEnabled(true);
         $password = $encoder->encodePassword($post['user_password'][$translator->trans("FORMS_PASSWORD")], $user->getSalt());
 
         $user->setUserPassword($password);
@@ -319,7 +319,10 @@ class userRepository extends EntityRepository {
                 $user->setUserActivationDate(new \DateTime());
             $em->persist($user);
             $em->flush();
+            return true;
         }
+
+        return false;
     }
 
     public function getUsersStaff()
@@ -352,5 +355,6 @@ class userRepository extends EntityRepository {
             ->setMaxResults(1)
             ->getQuery()->getOneOrNullResult();
     }
+
 
 }

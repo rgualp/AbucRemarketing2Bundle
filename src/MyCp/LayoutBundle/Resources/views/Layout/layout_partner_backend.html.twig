@@ -1,0 +1,55 @@
+{% extends 'LayoutBundle:Layout:layout_partner_base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@LayoutBundle/Resources/public/css/plugins/elastislide/elastislide.css'
+    '@LayoutBundle/Resources/public/css/plugins/OverlayStyles/style3.css'
+    filter='?uglifycss' %}
+    <link type="text/css" rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    <style>
+
+    </style>
+{% endblock stylesheets %}
+
+{% block body_class %}pace-running{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+           {% block content %}{% endblock content %}
+        </div>
+    </div>
+{% endblock body %}
+{% block javascripts %}
+    <script type="text/javascript">
+        var today_date="{{"now"|date("d/m/Y") }}";
+        var start_date="{{"+2 days" |date("d/m/Y")}}";
+        var end_date="{{"+3 days" |date("d/m/Y")}}";
+
+
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+    {{ parent() }}
+    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
+    {#'@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.js'
+    '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.infobox.js'
+    '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.markerclusterer.js'
+    '@PartnerBundle/Resources/public/js/Map.js'#}
+
+    {% javascripts
+    '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.js'
+    '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.infobox.js'
+    '@LayoutBundle/Resources/public/js/plugins/map/jquery.ui.map.markerclusterer.js'
+    '@PartnerBundle/Resources/public/js/Map.js'
+    '@LayoutBundle/Resources/public/js/plugins/slider/bootstrap-slider.js'
+    '@LayoutBundle/Resources/public/js/plugins/elastislide/jquery.elastislide.js'
+    '@LayoutBundle/Resources/public/js/plugins/elastislide/jquerypp.custom.js'
+    '@PartnerBundle/Resources/public/js/Dashboard.js'
+    '@LayoutBundle/Resources/public/js/jquery.fileupload.min.js'
+    '@PartnerBundle/Resources/public/js/ImgAccount.js'
+    filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
