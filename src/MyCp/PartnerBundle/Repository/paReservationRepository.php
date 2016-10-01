@@ -138,13 +138,14 @@ class paReservationRepository extends EntityRepository {
         return ($countReservations == 0);
     }
 
-    public function getCartItems($travelAgency)
+    public function getCartItems($travelAgency, $idsGeneralReservation = array())
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
             ->select("DISTINCT client.fullname, paReservation.id,
             (SELECT count(rDetail) FROM PartnerBundle:paReservationDetail rDetail JOIN rDetail.reservationDetail gres WHERE gres.gen_res_status = :availableStatus AND rDetail.reservation = paReservation.id) as available,
-            (SELECT count(rDetail1) FROM PartnerBundle:paReservationDetail rDetail1 JOIN rDetail1.reservationDetail gres1 WHERE rDetail1.reservation = paReservation.id) as detailsCount")
+            (SELECT count(rDetail1) FROM PartnerBundle:paReservationDetail rDetail1 JOIN rDetail1.reservationDetail gres1 WHERE rDetail1.reservation = paReservation.id) as detailsCount,
+            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showOpened")
             ->from("PartnerBundle:paReservation", "paReservation")
             ->join("paReservation.client", "client")
             ->join("paReservation.details", "detail")
@@ -155,6 +156,7 @@ class paReservationRepository extends EntityRepository {
             ->setParameter("travelAgency", $travelAgency->getId())
             ->setParameter("availableStatus", generalReservation::STATUS_AVAILABLE)
             ->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("ids", $idsGeneralReservation)
         ;
         return $qb->getQuery()->getResult();
     }
@@ -177,7 +179,7 @@ class paReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
-    public function getDetails($reservationId){
+    public function getDetails($reservationId, $idsGeneralReservation = array()){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
             ->select("room.room_num,
@@ -193,7 +195,8 @@ class paReservationRepository extends EntityRepository {
             genRes.gen_res_id,
             ownRes.own_res_total_in_site as totalInSite,
             reservation.id as idReservation,
-            ownRes.own_res_id
+            ownRes.own_res_id,
+            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showChecked
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join('mycpBundle:room', 'room', Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')
@@ -208,6 +211,7 @@ class paReservationRepository extends EntityRepository {
             ->andWhere("ownRes.own_res_status = :availableStatus")
             ->setParameter("reservationId", $reservationId)
             ->setParameter("availableStatus", ownershipReservation::STATUS_AVAILABLE)
+            ->setParameter("ids", $idsGeneralReservation)
         ;
         return $qb->getQuery()->getResult();
     }
