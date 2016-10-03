@@ -260,7 +260,7 @@ class PaymentController extends Controller
         list($postfinancePayment, $payment) = $this->updatePostfinancePaymentData($em, $request);
 
         $bookingService = $this->get('front_end.services.booking');
-        $bookingService->postProcessBookingPayment($payment);
+        $bookingService->postProcessBookingPaymentPartner($payment);
 
         /*$dispatcher = $this->get('event_dispatcher');
         $eventData = new PaymentJobData($payment->getId());
