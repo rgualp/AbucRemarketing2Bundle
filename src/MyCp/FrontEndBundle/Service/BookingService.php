@@ -623,7 +623,8 @@ class BookingService extends Controller
         $user = $this->getUserFromBooking($booking);
         $userId = $user->getUserId();
 
-        $userTourist = $this->getUserTourist($userId, $bookingId);
+        //$userTourist = $this->getUserTourist($userId, $bookingId);
+
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         $rooms = $this->getRoomsFromReservations($ownershipReservations);
 
