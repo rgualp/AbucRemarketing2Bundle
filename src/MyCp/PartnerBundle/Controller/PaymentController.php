@@ -5,6 +5,7 @@ namespace MyCp\PartnerBundle\Controller;
 use DateTime;
 use Doctrine\ORM\EntityNotFoundException;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
+use MyCp\FrontEndBundle\Helpers\PostFinanceHelper;
 use MyCp\FrontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
@@ -12,6 +13,7 @@ use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
+use Omnipay\Omnipay;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +25,7 @@ class PaymentController extends Controller
 {
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
+    private static $postFinance = 'https://e-payment.postfinance.ch/ncol/test/orderstandard.asp';
 
     const MAX_SKRILL_NUM_DETAILS = 5;
     const MAX_SKRILL_DETAIL_STRING_LENGTH = 240;
@@ -66,6 +69,38 @@ class PaymentController extends Controller
         $skrillData = $this->getSkrillViewData($booking, $user, $travelAgency);
 
         return $this->render('FrontEndBundle:payment:skrillPayment.html.twig', $skrillData);
+    }
+
+    public function postFinancePaymentAction($bookingId, $method = "VISA")
+    {
+        $booking = $this->getBookingFrom($bookingId);
+
+        if (empty($booking)) {
+            throw new EntityNotFoundException($bookingId);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+
+        if (empty($user)) {
+            throw new EntityNotFoundException("user($user)");
+        }
+
+        $loggedInUser = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        if (empty($loggedInUser)) {
+            throw new AuthenticationException('User not logged in.');
+        }
+
+        if ($user->getUserId() !== $loggedInUser->getUserId()) {
+            throw new AuthenticationException('Access to resource not permitted.');
+        }
+
+        $postFinanceData = $this->getPostFinanceViewData($booking, $user, $travelAgency, $method);
+
+        return $this->render('FrontEndBundle:payment:postPayment.html.twig', $postFinanceData);
     }
 
     /**
@@ -195,6 +230,66 @@ class PaymentController extends Controller
     }
 
     /**
+     * Action method called by Postfinance with http POST data which
+     * contains all information about a payment a user made.
+     *
+     * The information is stored in the database (postfinancePayment and payment tables)
+     * and a http Response (status 200 for success, 400 for failure) is returned as an answer.
+     *
+     * @return Response
+     */
+    public function postfinanceStatusAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest()->request->all();
+
+        $queryString = $this->getRequest()->getQueryString();
+        $request = $this->getArrayFromRequest($queryString);
+
+        $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ . ': Received Postfinance status.');
+
+        if (empty($request)) {
+            return new Response('Empty post data', 400);
+        }
+
+        $this->log('PaymentController line ' . __LINE__ . "Request: \n" . print_r($request, true));
+
+        list($postfinancePayment, $payment) = $this->updatePostfinancePaymentData($em, $request);
+
+        $bookingService = $this->get('front_end.services.booking');
+        $bookingService->postProcessBookingPayment($payment);
+
+        /*$dispatcher = $this->get('event_dispatcher');
+        $eventData = new PaymentJobData($payment->getId());
+        $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));*/
+
+        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $postfinancePayment->getId());
+
+        //return new Response('Thanks', 200);
+        $trans = $this->get('translator');
+        $message = $trans->trans('PAYMENT_SUCCESS');
+        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+        return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+    }
+
+    private function getArrayFromRequest($queryString){
+        $arrayFromQuestyString = explode("&", $queryString);
+        $result = array();
+
+        foreach($arrayFromQuestyString as $pair)
+        {
+            $pair = explode("=", $pair);
+            $key = $pair[0];
+            $value = $pair[1];
+
+            $result[$key] = $value;
+        }
+
+        return $result;
+    }
+
+    /**
      * Updates or creates the payment and skrillPayment data according
      * to the POST request received from Skrill.
      *
@@ -254,6 +349,68 @@ class PaymentController extends Controller
         $em->flush();
 
         return array($skrillPayment, $payment);
+    }
+
+    /**
+     * Updates or creates the payment and skrillPayment data according
+     * to the POST request received from Skrill.
+     *
+     * @param $em
+     * @param $request
+     * @return array
+     * @throws \LogicException
+     */
+    private function updatePostfinancePaymentData($em, $request)
+    {
+        $postfinancePayment = new postfinancePayment($request);
+        $bookingId = $postfinancePayment->getOrderId();
+        $this->log('PaymentController line ' . __LINE__ . ': Booking id=' . $bookingId . '');
+        $booking = $this->getBookingFrom($bookingId);
+
+        if (empty($booking)) {
+            $this->log('PaymentController line ' . __LINE__ . ': Booking (id=' . $bookingId . ') not found.');
+            return new Response('', 200);
+        }
+
+        $payment = $this->getPaymentFrom($booking);
+
+        $this->log('PaymentController line ' . __LINE__ . "Payment found: " . empty($payment) ? 'yes' : 'no');
+
+        if (empty($payment)) {
+            $payment = new payment();
+            $payment->setCreated(new DateTime());
+            $payment->setBooking($booking);
+        }
+
+        $this->log('Postfinance:');
+        $this->log('merchant amount: ' . $postfinancePayment->getAmount());
+        $this->log('merchant currency: ' . $postfinancePayment->getCurrency());
+        $this->log('status: ' . $postfinancePayment->getStatus());
+        $this->log('order id (booking_id): ' . $postfinancePayment->getOrderId());
+
+        $payment->setPayedAmount($postfinancePayment->getAmount());
+
+        $currencyIsoCode = $postfinancePayment->getCurrency();
+        $currency = $this->getCurrencyFrom($currencyIsoCode);
+
+        if (empty($currency)) {
+            $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+                ': Currency ' . $currencyIsoCode . ' not found.');
+            throw new \LogicException('Currency not found: ' . $currencyIsoCode);
+        }
+
+        $payment->setCurrency($currency);
+        $payment->setModified(new DateTime());
+        $payment->setStatus(PostFinanceHelper::getInternalStatusCodeFrom($postfinancePayment->getStatus()));
+        $currencyRate = $currency->getCurrCucChange();
+        $payment->setCurrentCucChangeRate($currencyRate);
+
+        $postfinancePayment->setPayment($payment);
+        $em->persist($payment);
+        $em->persist($postfinancePayment);
+        $em->flush();
+
+        return array($postfinancePayment, $payment);
     }
 
     /**
@@ -418,6 +575,42 @@ class PaymentController extends Controller
             ": Data sent to Skrill: \n" . print_r($skrillData, true));
 
         return $skrillData;
+    }
+
+    private function getPostFinanceViewData(booking $booking, user $user, paTravelAgency $travelAgency, $method = "POSTFINANCE")
+    {
+        $bookingId = $booking->getBookingId();
+        $translator = $this->get('translator');
+        $locale = $this->getRequest()->getLocale();
+        $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
+        $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
+        $pspid = "abucTEST";
+        $amount = round($booking->getBookingPrepay(), 2);
+
+        $gateway = Omnipay::create('Postfinance'); //Omnipay::create('Postfinance');
+        $gateway->setPspId($pspid);
+        $gateway->setShaIn('abcdefghi1234567');
+        $gateway->setShaOut('abcdefghi1234567');
+        $gateway->setLanguage(PostFinanceHelper::getPostFinanceLanguageFromLocale($locale));
+        $gateway->setTestMode(true);
+        $gateway->setLogo($logoUrl);
+
+        // Send purchase request
+        $response = $gateway->purchase(
+            [
+                'transactionId' => $bookingId,
+                'amount' => $amount,
+                'method' => $method,
+                'currency' => $booking->getBookingCurrency()->getCurrCode(),
+                'returnUrl' => $this->generateUrl('partner_payment_postfinance_status', array(), true),
+                'notifyUrl' => $this->generateUrl('partner_payment_skrill_cancel', array(), true),
+                'cancelUrl' => $this->generateUrl('partner_payment_skrill_cancel', array(), true)
+            ]
+        )->send();
+
+        // This is a redirect gateway, so redirect right away
+        $response->redirect();
+
     }
 
     /**

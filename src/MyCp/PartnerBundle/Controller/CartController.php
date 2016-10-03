@@ -243,20 +243,31 @@ class CartController extends Controller
         $travelAgency = $tourOperator->getTravelAgency();*/
 
         $roomsToPay = $request->get("roomsToPay");
+        $roomsToPay = explode(",", $roomsToPay);
+        $roomsToPay = array_unique($roomsToPay);
         $extraData = $request->get("extraData");
+        $extraData = explode(",", $extraData);
+        $extraData = array_unique($extraData);
         $cartPrepayment = $request->get("cartPrepayment");
+        $paymentMethod = $request->get('payment_method');
 
         //Guardar hora de llegada y actualizar nombre del cliente
         foreach($extraData as $data)
         {
-            $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($data["genResId"]);
-            $reservation = $em->getRepository("PartnerBundle:paReservation")->find($data["idReservation"]);
+            $dataValues = explode("-", $data);
+            $idReservation = $dataValues[0];
+            $genResId = $dataValues[1];
+            $arrivalHour = $request->get("arrivalHour_".$idReservation);
+            $clientName = $request->get("clientName_".$idReservation);
 
-            if($data["arrivalTime"] != "") {
-                $generalReservation->setGenResArrivalHour($data["arrivalTime"]);
+            $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($genResId);
+            $reservation = $em->getRepository("PartnerBundle:paReservation")->find($idReservation);
+
+            if($arrivalHour != "") {
+                $generalReservation->setGenResArrivalHour($arrivalHour);
                 $em->persist($generalReservation);
 
-                $timeExplode = explode(":", $data["arrivalTime"]);
+                $timeExplode = explode(":", $arrivalHour);
                 $time = new \DateTime();
                 $time->setTime($timeExplode[0], $timeExplode[1], 0);
 
@@ -264,10 +275,10 @@ class CartController extends Controller
                 $em->persist($reservation);
             }
 
-            if($data["clientName"] != "") {
+            if($clientName != "") {
                 $client = $reservation->getClient();
 
-                $client->setFullname($data["clientName"]);
+                $client->setFullname($clientName);
                 $em->persist($client);
             }
 
@@ -299,12 +310,13 @@ class CartController extends Controller
 
         $bookingId = $booking->getBookingId();
 
-        return new JsonResponse([
-            'success' => true,
-            'url' => $this->generateUrl("partner_payment_skrill", array('bookingId' => $bookingId)),
-            'message' => ""
-
-        ]);
+        switch($paymentMethod){
+            case "skrill": return $this->forward('PartnerBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
+            case "postfinance": return $this->forward('PartnerBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "POSTFINANCE"));
+//                    case "visa": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
+//                    case "mastercard": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "MASTERCARD"));
+            default: return $this->forward('PartnerBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
+        }
     }
 
 }

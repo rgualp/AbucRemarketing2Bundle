@@ -8,7 +8,7 @@ var Dashboard = function () {
      * Dashboard form init plugins
      */
     var selectedAccommodationForReserve = 0;
-    var cartPrepayment = 0;
+    //var cartPrepayment = 0;
 
     var initPlugins = function () {
         var config = {
@@ -715,6 +715,7 @@ var Dashboard = function () {
                             onShowMorePaymentButton();
                             $("#totalPrepayment").html(response.totalPrepaymentTxt);
                             $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
+                            $("#totalPrepaymentGeneralInput").val(response.totalPrepayment);
                             $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
                             $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
                             $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
@@ -726,7 +727,7 @@ var Dashboard = function () {
                             $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
                             $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
 
-                            cartPrepayment = response.totalPrepayment;
+                            //cartPrepayment = response.totalPrepayment;
                             $("#paymentsRow").removeClass("hide");
                             $("#overlayLoading").addClass("hide");
                             $("#payNow").removeAttr("disabled");
@@ -789,12 +790,19 @@ var Dashboard = function () {
         $("#payNow").on('click', function () {
             $("#overlayLoading").removeClass("hide");
             $(".payButton").attr("disabled", "true");
-            var _url = $(this).data("url");
+            var cartPrepayment = $("#totalPrepaymentGeneralInput").val();
+            //var _url = $(this).data("url");
             var roomsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function () {
                 return $(this).data('owresid');
             }).get();
+            $("#roomsToPay").val(roomsToPay);
 
-            var extraData = $('select.arrivalTime').map(function () {
+            var reservationsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function () {
+                return $(this).data('idreservation') + "-" + $(this).data('genresid');
+            }).get();
+            $("#paymentExtraData").val(reservationsToPay);
+
+           /* var extraData = $('select.arrivalTime').map(function () {
                 var genResId = $(this).data('genresid');
                 return {
                     "genResId": genResId,
@@ -803,9 +811,13 @@ var Dashboard = function () {
                     "idReservation": $(this).data("idreservation")
                 };
             }).get();
+            $("#paymentExtraData").val(extraData);*/
+
+            var form = $("#paPaymentForm");
+            form.submit();
 
             //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
-            $.post(_url, {
+            /*$.post(_url, {
                 'roomsToPay': roomsToPay,
                 'extraData': extraData,
                 'cartPrepayment': cartPrepayment
@@ -816,7 +828,7 @@ var Dashboard = function () {
                         window.location = response.url;
                     }
                 }
-            });
+            });*/
         });
     }
     var onclickAddClient=function(){
