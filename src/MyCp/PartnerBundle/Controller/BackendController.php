@@ -102,6 +102,8 @@ class BackendController extends Controller
         $children = $request->get("children");
         $clientId=$request->get("clientId");
         $accommodationId = $request->get("accommodationId");
+        $roomType = $request->get("roomType");
+        $roomsTotal = $request->get("roomsTotal");
         //$clientEmail= $request->get("clientEmail");
 
         $dateFrom = Dates::createDateFromString($dateFrom,"/", 1);
@@ -113,7 +115,7 @@ class BackendController extends Controller
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
         $translator = $this->get('translator');
-        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator,$clientId/*,$clientEmail*/);
+        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator,$clientId, $roomType, $roomsTotal/*,$clientEmail*/);
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-03T10:23:27Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-03T13:10:46Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -1019,6 +1019,15 @@
       <trans-unit id="22df5789568992e39b32758eac90f9d986902681" resname="label.email.registeraccount.text.two">
         <source>label.email.registeraccount.text.two</source>
         <target state="new">Now just remember that you have registered as</target>
+      </trans-unit>
+      <trans-unit id="776cb7f159fc7feda10e4d95fce02288a9c02979" resname="label.email.voucher">
+        <source>label.email.voucher</source>
+        <target state="new"><![CDATA[MyCasa Partner team is happy to find ideal options for your customers taking into account the reservations have been paid successfully.</br>
+                                     Our Hosts awaits with gladness the arrival of the new guests to offer them just the most exclusive  of Cuban Casas Particulares.</br>
+                                     After all, your customers are our best friends</br>
+                                     Attached to this e-amil, we send the reservation´s  details.</br>
+                                     Good Luck!</br>
+                                     MyCasa Partner Team.]]></target>
       </trans-unit>
       <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
         <source>label.extra</source>
