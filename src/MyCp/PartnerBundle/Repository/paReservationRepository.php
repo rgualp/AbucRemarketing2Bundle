@@ -41,7 +41,7 @@ class paReservationRepository extends EntityRepository {
             ->getQuery()->getResult();
     }
 
-    public function newReservation($agency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container, $translator,$clientId/*,$clientEmail*/)
+    public function newReservation($agency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container, $translator,$clientId, $roomType = null, $roomsTotal= null/*,$clientEmail*/)
     {
         $em = $this->getEntityManager();
         if($clientId!=''){
@@ -102,7 +102,7 @@ class paReservationRepository extends EntityRepository {
             $em->persist($openReservation);
 
             //Agregar un generalReservation por casa
-            $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container,$translator);
+            $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container,$translator, null, $roomType, $roomsTotal);
 
             if ($returnedObject["successful"]) {
                 $detail = new paReservationDetail();

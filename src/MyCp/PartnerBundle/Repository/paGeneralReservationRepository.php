@@ -14,7 +14,7 @@ use MyCp\PartnerBundle\Entity\paOwnershipReservation;
  */
 class paGeneralReservationRepository extends EntityRepository {
 
-    public function createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $translator, $rooms = null)
+    public function createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container, $translator, $rooms = null, $roomType = null, $roomsTotal = null)
     {
         $em = $this->getEntityManager();
         $service_time = $container->get("Time");
@@ -36,11 +36,14 @@ class paGeneralReservationRepository extends EntityRepository {
         $partial_total_price = array();
         $destination_id = ($accommodation->getOwnDestination() != null) ? $accommodation->getOwnDestination()->getDesId() : null;
 
-        $availability = $this->getAvailableRooms($accommodation, $dateFrom, $dateTo);
+        $availability = $this->getAvailableRooms($accommodation, $dateFrom, $dateTo, $roomType);
         $rooms = $availability["availableRooms"];
 
         if(count($rooms) == 0)
             return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_ROOMS_AVAILABLE"), "reservation" => null);
+
+        if($roomsTotal != null && $roomsTotal >  count($rooms))
+            return array("successful" => false, "message" => $translator->trans("MSG_ERROR_NO_VALID_TOTAL_GUESTS"), "reservation" => null);
 
         $isAValidTotalGuests = $this->checkCapacity($availability["availableCapacity"], $adults, $children);
 
@@ -50,10 +53,87 @@ class paGeneralReservationRepository extends EntityRepository {
         $adultsCounter = $adults*1;
         $childrenCounter = $children*1;
 
-        /*var_dump("Adultos total: " . $adults."<br/>");
-        var_dump("Niños total: " . $children."<br/>");*/
 
-        foreach ($rooms as $room) {
+        if($roomsTotal != null and $roomsTotal > 0) //Algoritmo que ubica hasta completar el total de habitaciones solicitadas
+        {
+            $selectedRooms = array();
+            $roomsCounter = 0;
+
+            foreach($rooms as $room)
+            {
+                if($roomsCounter == $roomsTotal) break;
+
+                $selectedRooms[] = array(
+                    "roomId" => $room->getRoomId(),
+                    "maxCapacity" => $room->getMaximumNumberGuests(),
+                    "adults" => 0,
+                    "children" => 0
+                );
+            }
+
+            //Ubica de uno en uno por todas las habitaciones hasta completar la cantidad solicitada
+            while($adultsCounter > 0 || $childrenCounter > 0){
+                for($i = 0; $i < count($selectedRooms); $i++)
+                {
+                    if($adultsCounter <= 0 && $childrenCounter <= 0) break;
+                    $capacityLodged = ($selectedRooms[$i]["adults"] + $selectedRooms[$i]["children"]) / 2;
+
+                    if($capacityLodged < $selectedRooms[$i]["maxCapacity"])
+                    {
+                        if($adultsCounter > 0) {
+                            $selectedRooms[$i]["adults"] = $selectedRooms[$i]["adults"] + 1;
+                            $adultsCounter--;
+                        }
+
+                        if($childrenCounter > 0) {
+                            $selectedRooms[$i]["children"] = $selectedRooms[$i]["children"] + 1;
+                            $childrenCounter--;
+                        }
+                    }
+                }
+            }
+
+            //Recorrer las habitaciones con la cantidad ubicada, para crear las reservas
+            foreach($selectedRooms as $selectedRoom)
+            {
+                $room = $em->getRepository("mycpBundle:room")->find($selectedRoom["roomId"]);
+                $adultsToLodge = $selectedRoom["adults"];
+                $childrenToLodge = $selectedRoom["children"];
+
+                $triple_room_recharge = (($adultsToLodge + $childrenToLodge) >= 3) ? $container->getParameter('configuration.triple.room.charge') : 0;
+                $array_dates = $service_time->datesBetween($dateFrom->getTimestamp(), $dateTo->getTimestamp());
+                $temp_price = 0;
+
+                $seasons = $em->getRepository("mycpBundle:season")->getSeasons($dateFrom->getTimestamp(), $dateTo->getTimestamp(), $destination_id);
+
+                for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                    $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                    $roomPrice = $room->getPriceBySeasonType($seasonType);
+                    $total_price += $roomPrice + $triple_room_recharge;
+                    $temp_price += $roomPrice + $triple_room_recharge;
+                }
+                $partial_total_price[$room->getRoomId()] = $temp_price;
+
+                $ownership_reservation = new paOwnershipReservation();
+                $ownership_reservation->setAdults($adultsToLodge);
+                $ownership_reservation->setChildren($childrenToLodge);
+                $ownership_reservation->setDateFrom($dateFrom);
+                $ownership_reservation->setDateTo($dateTo);
+                $ownership_reservation->setRoom($room);
+                $ownership_reservation->setRoomPriceDown($room->getRoomPriceDownTo());
+                $ownership_reservation->setRoomPriceUp($room->getRoomPriceUpTo());
+                $ownership_reservation->setRoomPriceSpecial($room->getRoomPriceSpecial());
+                $ownership_reservation->setPaGenResId($general_reservation);
+                $ownership_reservation->setRoomType($room->getRoomType());
+                $ownership_reservation->setTotalPrice($partial_total_price[$room->getRoomId()]);
+                $ownership_reservation->setNights($nights);
+
+                $em->persist($ownership_reservation);
+            }
+        }
+        else{ //Algoritmo gloton. Siempre ubicara la cantidad maxima de una habitacion
+
+            foreach ($rooms as $room) {
             if($adultsCounter <= 0 && $childrenCounter <= 0) break;
 
             $adultsToLodge = $room->getMaximumNumberGuests();
@@ -67,12 +147,6 @@ class paGeneralReservationRepository extends EntityRepository {
 
             $adultsCounter -= $adultsToLodge;
             $childrenCounter -= $childrenToLodge;
-
-            /*var_dump("Habitacion: " . $room->getRoomNum()."<br/>");
-            var_dump("Adultos a ubicar: " . $adultsToLodge."<br/>");
-            var_dump("Niños a ubicar: " . $childrenToLodge."<br/>");
-            var_dump("Adultos restantes: " . $adultsCounter."<br/>");
-            var_dump("Niños restantes: " . $childrenCounter."<br/>");*/
 
             $triple_room_recharge = (($adultsToLodge + $childrenToLodge) >= 3) ? $container->getParameter('configuration.triple.room.charge') : 0;
             $array_dates = $service_time->datesBetween($dateFrom->getTimestamp(), $dateTo->getTimestamp());
@@ -104,6 +178,7 @@ class paGeneralReservationRepository extends EntityRepository {
 
             $em->persist($ownership_reservation);
         }
+        }
 
         $general_reservation->setTotalPrice($total_price);
 
@@ -114,10 +189,24 @@ class paGeneralReservationRepository extends EntityRepository {
         return array("successful" => true, "message" => null, "reservation" => $general_reservation);
     }
 
-    public function getAvailableRooms($accommodation, $dateFrom, $dateTo)
+    public function getAvailableRooms($accommodation, $dateFrom, $dateTo, $roomType = null)
     {
         $em = $this->getEntityManager();
-        $rooms = $accommodation->getOwnRooms();
+        //$rooms = $accommodation->getOwnRooms();
+
+        //Seleccionar las habitaciones del alojamiento solo del tipo seleccionado en los filtros
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:room", "r")
+            ->select("r")
+            ->where("r.room_ownership = :ownId")
+            ->setParameter("ownId", $accommodation->getOwnId());
+
+        if($roomType != null)
+            $qb->andWhere("r.room_type = :roomType")
+               ->setParameter("roomType", $roomType);
+
+        $rooms = $qb->getQuery()->getResult();
+
         $capacity = 0;
 
         $returnedRooms = array();
