@@ -48,9 +48,16 @@ class Email {
 		$body = $templating->render("FrontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
 		$this->sendEmail($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
 	}
+
+    /**
+     * @param $subject
+     * @param $email_from
+     * @param $email_to
+     * @param $content
+     */
     public function sendTemplatedEmailPartner($subject, $email_from, $email_to, $content) {
         $templating = $this->container->get('templating');
-        $body = $templating->render("FrontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
+        $body = $templating->render("PartnerBundle:Mail:standardMailTemplate.html.twig", array('content' => $content));
         $this->sendEmail($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
     }
 

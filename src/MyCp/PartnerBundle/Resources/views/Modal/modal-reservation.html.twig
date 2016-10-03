@@ -46,7 +46,7 @@
                             <div class="col-md-10" style="padding: 0px">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons user" style="margin-top: 3px"></i>
-                                    {{ form_widget(form.client, { 'attr': {'data-url':path('partner_get_client'),'data-urlrefreshlist':path('partner_list_client'),'data-placeholder': 'label.name.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                                    {{ form_widget(form.client, { 'attr': {'data-url':path('partner_get_client'),'data-urlrefreshlist':path('partner_list_client'),'data-placeholder': 'label.select.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                                 </div>
                             </div>
                             {#<div class="col-md-1" style="padding-right: 0px">
@@ -57,10 +57,10 @@
                             </div>
 
                         </div>
-                        <div id="row-name" class="row hide">
+                        <div id="row-name" class="row">
                             <div class="inner-addon left-addon">
                                 <i class="glyphicon glyphicons user" ></i>
-                                {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.new.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             </div>
                         </div>
                         {#<div class="row">
