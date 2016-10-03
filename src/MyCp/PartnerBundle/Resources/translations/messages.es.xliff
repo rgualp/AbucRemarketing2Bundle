@@ -1941,6 +1941,10 @@
          <source>payment.accommodations_cost</source>
          <target state="new">Costo por Alojamientos</target>
       </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019w34c678a7bdb2f" resname="partner.download.voucher">
+        <source>partner.download.voucher</source>
+        <target state="new">Descargar Booking</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

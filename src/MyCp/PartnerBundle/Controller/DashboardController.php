@@ -8,9 +8,11 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\PartnerBundle\Form\paReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DashboardController extends Controller
 {
@@ -1121,6 +1123,7 @@ class DashboardController extends Controller
             'message' => "Cancelado correctamente"
         ]);
     }
+
     public function getThumbnailForSearcherAction($photo, $title){
         list($width, $height) = getimagesize(realpath("uploads/ownershipImages/" . $photo));
 
@@ -1129,5 +1132,28 @@ class DashboardController extends Controller
             'photo' => $photo,
             'taller' => ($height > $width)
         ));
+    }
+
+    public function downloadVoucherAction($bookingId){
+        $pathToFile = $this->container->getParameter("configuration.dir.vouchers");
+
+        /*$pathToCont = $pathToFile."download_cont.txt";
+        $file = fopen($pathToCont,"a");
+        fclose($file);
+        if (is_writeable($pathToCont)){
+            $arrayFile=file($pathToCont);
+            $arrayFile[0] = (count($arrayFile) <= 0) ? (1) : (++$arrayFile[0]);
+            $file=fopen($pathToCont,"w");
+            fwrite($file,$arrayFile[0]);
+            fclose($file);
+        }*/
+
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
+
+        $name = 'voucher'.$booking->getBookingUserId().'_'.$booking->getBookingId().'.pdf';
+        $response = new BinaryFileResponse($pathToFile.$name);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,$name);
+        return $response;
     }
 }
