@@ -99,17 +99,18 @@ class paReservationRepository extends EntityRepository {
             $openReservation->setAdultsWithAccommodation($openReservation->getAdultsWithAccommodation() + $adults)
                 ->setChildrenWithAccommodation($openReservation->getChildrenWithAccommodation() + $children);
 
-            $em->persist($openReservation);
-
             //Agregar un generalReservation por casa
             $returnedObject = $em->getRepository("PartnerBundle:paGeneralReservation")->createReservationForPartner($user, $accommodation, $dateFrom, $dateTo, $adults, $children, $container,$translator, null, $roomType, $roomsTotal);
 
             if ($returnedObject["successful"]) {
                 $detail = new paReservationDetail();
-                $detail->setReservation($openReservation)
-                    ->setOpenReservationDetail($returnedObject["reservation"]);
+                $detail->setReservation($openReservation)->setOpenReservationDetail($returnedObject["reservation"]);
 
                 $em->persist($detail);
+
+                $openReservation->addDetail($detail);
+                $em->persist($openReservation);
+
                 $em->flush();
             }
 
