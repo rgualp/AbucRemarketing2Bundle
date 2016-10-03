@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-09-30T12:41:43Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-10-03T09:03:19Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -37,10 +37,6 @@
       <trans-unit id="51f4bc5f193c2b0e3a0cb6c4ff5f0369f8279877" resname="AUDIOVISUALS_ROOMS">
         <source>AUDIOVISUALS_ROOMS</source>
         <target state="new">AUDIOVISUALS_ROOMS</target>
-      </trans-unit>
-      <trans-unit id="4f20a0bd31b9f308a5f03a0314a837b2c5ae5c0d" resname="Activacion">
-        <source>Activacion</source>
-        <target state="new">Activacion</target>
       </trans-unit>
       <trans-unit id="745d9d40dfb5c886baed990f26b27169e05a8629" resname="Apartamento">
         <source>Apartamento</source>
@@ -113,14 +109,6 @@
       <trans-unit id="8c4ba06655fe9ad70cd2d66d33c42e649f3bb439" resname="Casa particular">
         <source>Casa particular</source>
         <target state="new">Casa particular</target>
-      </trans-unit>
-      <trans-unit id="e0128105a4f28d966c269e4218b45d9f72f502a7" resname="Cesta de Compra">
-        <source>Cesta de Compra</source>
-        <target state="new">Cesta de Compra</target>
-      </trans-unit>
-      <trans-unit id="9850af3c1e01dafba85d8e88e99fdd38524d0fdd" resname="Confirmación">
-        <source>Confirmación</source>
-        <target state="new">Confirmación</target>
       </trans-unit>
       <trans-unit id="d45d99c557bfe62ab6756b932bbad996d4d1582a" resname="Consulta todos los detalles del alojamiento.">
         <source>Consulta todos los detalles del alojamiento.</source>
@@ -217,10 +205,6 @@
       <trans-unit id="66891d7904876914b98495205e61e11f4644ab0f" resname="Facilidades">
         <source>Facilidades</source>
         <target state="new">Facilidades</target>
-      </trans-unit>
-      <trans-unit id="ef36c75c9ea2e4e6abf4392a27b8485703095747" resname="Frontend Agencia">
-        <source>Frontend Agencia</source>
-        <target state="new">Frontend Agencia</target>
       </trans-unit>
       <trans-unit id="36f8e8300aa516eedbda8539e6291852d73afdbf" resname="GUESTS_RESERVATION">
         <source>GUESTS_RESERVATION</source>
@@ -509,10 +493,6 @@
       <trans-unit id="af997344b7df027690807b386f73efe7852b9217" resname="Villa con piscina">
         <source>Villa con piscina</source>
         <target state="new">Villa con piscina</target>
-      </trans-unit>
-      <trans-unit id="a7e507d440d8fc748c02399f88b1fed14d8f099f" resname="Vista de Detalles">
-        <source>Vista de Detalles</source>
-        <target state="new">Vista de Detalles</target>
       </trans-unit>
       <trans-unit id="07f44d089d8f5fee57878ab1c5fb6e958891b4a1" resname="WINDOWS_ROOMS">
         <source>WINDOWS_ROOMS</source>
@@ -1322,6 +1302,10 @@
         <source>label.name.nameresponse</source>
         <target state="new">Nombre de la Persona</target>
       </trans-unit>
+      <trans-unit id="4767e3d051b8424308f545e6f081cfdfcf73e78c" resname="label.name.new.client">
+        <source>label.name.new.client</source>
+        <target state="new">Nuevo cliente</target>
+      </trans-unit>
       <trans-unit id="1cf7018e11a88903af3e2083d23de9fc64e128fd" resname="label.name.phone">
         <source>label.name.phone</source>
         <target state="new">Teléfono de la agencia</target>
@@ -1521,6 +1505,10 @@
       <trans-unit id="d340ec5743ecc911369880f1d8b131fb0379b59f" resname="label.secure.deactivate">
         <source>label.secure.deactivate</source>
         <target state="new">Estás a punto de desactivar tu cuenta de agencia en Partner.</target>
+      </trans-unit>
+      <trans-unit id="95e16faea7f07b635a2c6539d4a1a0a870c81d5b" resname="label.select.client">
+        <source>label.select.client</source>
+        <target state="new">Seleccione el cliente</target>
       </trans-unit>
       <trans-unit id="3757d9ab33c99ecc8363ef13631538735c5fddf0" resname="label.service">
         <source>label.service</source>
@@ -1825,6 +1813,26 @@
         <source>page.logout</source>
         <target state="new">Salir</target>
       </trans-unit>
+      <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
+        <source>partner.sitemap.activation</source>
+        <target state="new">partner.sitemap.activation</target>
+      </trans-unit>
+      <trans-unit id="b03931c836af7cf8409ac6f034f9f6592ffbf407" resname="partner.sitemap.confirmation">
+        <source>partner.sitemap.confirmation</source>
+        <target state="new">partner.sitemap.confirmation</target>
+      </trans-unit>
+      <trans-unit id="32f7e17ba20847629adf4c466a8446693949aa53" resname="partner.sitemap.frontend">
+        <source>partner.sitemap.frontend</source>
+        <target state="new">partner.sitemap.frontend</target>
+      </trans-unit>
+      <trans-unit id="419e9c8094c88fba5aeb854ed90d6b801b406a55" resname="partner.sitemap.shoppingcart">
+        <source>partner.sitemap.shoppingcart</source>
+        <target state="new">partner.sitemap.shoppingcart</target>
+      </trans-unit>
+      <trans-unit id="e9d847416f1e5983b9eac6f6e3706cb5311ea705" resname="partner.sitemap.view.datails">
+        <source>partner.sitemap.view.datails</source>
+        <target state="new">partner.sitemap.view.datails</target>
+      </trans-unit>
       <trans-unit id="bc83e5cf3f7a486b05a61ca4b93197f28aa71a5a" resname="pay_action">
         <source>pay_action</source>
         <target>Pagar</target>
@@ -1940,6 +1948,10 @@
       <trans-unit id="1a">
          <source>payment.accommodations_cost</source>
          <target state="new">Costo por Alojamientos</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019w34c678a7bdb2f" resname="partner.download.voucher">
+        <source>partner.download.voucher</source>
+        <target state="new">Descargar Booking</target>
       </trans-unit>
     </body>
   </file>

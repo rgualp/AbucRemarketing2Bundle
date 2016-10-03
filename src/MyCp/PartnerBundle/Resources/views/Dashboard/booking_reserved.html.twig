@@ -182,8 +182,9 @@
                                 '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
-                                rooms +
+                                rooms + '<br>' +
                                 '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                '<a href="{{ path("partner_download_voucher") }}/' + booking_code + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>' +
                         '</div> ' +
                         '</div>';
                         return html;
