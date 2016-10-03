@@ -248,7 +248,7 @@ class CartController extends Controller
         $extraData = $request->get("extraData");
         $extraData = explode(",", $extraData);
         $extraData = array_unique($extraData);
-        $cartPrepayment = $request->get("cartPrepayment");
+        $cartPrepayment = $request->get("totalPrepaymentGeneralInput");
         $paymentMethod = $request->get('payment_method');
 
         //Guardar hora de llegada y actualizar nombre del cliente
