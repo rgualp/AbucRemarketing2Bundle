@@ -658,11 +658,25 @@ var Dashboard = function () {
             }
             else
                 $("#accommodationsToPay_" + idreservation).html(counter - 1);
+
+            var checkValues = $('input[name=checkAccommodationsToPay]:checked').map(function () {
+                return $(this).data('owresid');
+            }).get();
+
+            if (checkValues.length > 0) {
+                $("#toPayButtonAction").addClass("hide");
+                $("#trigger-overlay").removeClass("hide");
+            }
+            else
+            {
+                $("#toPayButtonAction").removeClass("hide");
+                $("#trigger-overlay").addClass("hide");
+            }
         });
     }
 
     var onPayActionButton = function () {
-        $("#trigger-overlay").on('click', function () {
+        $("#trigger-overlay").on('click', function (e) {
             $('#pppppxxx').slimScroll({
                 height: '100%',
                 width:'100%',
@@ -672,11 +686,6 @@ var Dashboard = function () {
                 alwaysVisible: true
             });
 
-            $("#overlayLoading").removeClass("hide");
-            $("#paymentsRow").addClass("hide");
-            var _url = $(this).data("url");
-            var result = $("#selectedReservations");
-
             var checkValues = $('input[name=checkAccommodationsToPay]:checked').map(function () {
                 return $(this).data('owresid');
             }).get();
@@ -684,44 +693,56 @@ var Dashboard = function () {
             if (checkValues.length == 0) {
                 $("#overlayLoading").addClass("hide");
                 $("#payNow").attr("disabled", "true");
-                return;
             }
 
-            //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
-            $.post(_url, {
-                'checkValues': checkValues
-            }, function (response) {
-                if (response.success) {
-                    if (response.html != "") {
-                        result.html(response.html);
-                        onShowMorePaymentButton();
-                        $("#totalPrepayment").html(response.totalPrepaymentTxt);
-                        $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
-                        $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
-                        $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
-                        $("#fixedTax").html(response.fixedTaxTxt);
-                        $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
-                        $("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
-                        $("#totalPayment").html(response.totalPaymentTxt);
+            else {
 
-                        $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
-                        $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
+                $("#overlayLoading").removeClass("hide");
+                $("#paymentsRow").addClass("hide");
+                $("#rowTotalPrepaymentGeneral").addClass("hide");
+                var _url = $(this).data("url");
+                var result = $("#selectedReservations");
 
-                        cartPrepayment = response.totalPrepayment;
-                        $("#paymentsRow").removeClass("hide");
-                        $("#overlayLoading").addClass("hide");
-                        $("#payNow").removeAttr("disabled");
+                result.html("");
+
+                //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+                $.post(_url, {
+                    'checkValues': checkValues
+                }, function (response) {
+                    if (response.success) {
+                        if (response.html != "") {
+                            result.html(response.html);
+                            onShowMorePaymentButton();
+                            $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                            $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
+                            $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
+                            $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
+                            $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
+                            $("#fixedTax").html(response.fixedTaxTxt);
+                            $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
+                            $("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
+                            $("#totalPayment").html(response.totalPaymentTxt);
+
+                            $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
+                            $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
+
+                            cartPrepayment = response.totalPrepayment;
+                            $("#paymentsRow").removeClass("hide");
+                            $("#overlayLoading").addClass("hide");
+                            $("#payNow").removeAttr("disabled");
+                            $("#rowTotalPrepaymentGeneral").removeClass("hide");
+                        }
                     }
-                }
-            });
+                });
 
-            $('#selectedReservations').slimScroll({
-                height: '250px',
-                railOpacity: 0.9,
-                color: '#0d3044',
-                opacity: 1,
-                alwaysVisible: true
-            });
+                $('#selectedReservations').slimScroll({
+                    height: '350px',
+                    railOpacity: 0.9,
+                    color: '#0d3044',
+                    opacity: 1,
+                    alwaysVisible: true
+                });
+            }
         });
     }
 

@@ -1034,6 +1034,12 @@ body.landing-page {
     color: #fff;
 }
 
+.bg-grey{
+    background-color: #acacac;
+}
+
+a.payButton.bg-grey{ cursor: default; }
+
 
 .orangeCheckbox input[type=checkbox] {
     visibility: hidden;

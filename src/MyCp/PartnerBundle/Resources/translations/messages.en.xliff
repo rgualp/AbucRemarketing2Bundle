@@ -1736,7 +1736,7 @@
       </trans-unit>
       <trans-unit id="535e5ee8edffdfbcd4c30c2ccab27f9123c3ff86" resname="pa.modal.reservation.title">
         <source>pa.modal.reservation.title</source>
-        <target state="new">Find easier the availability for your clients</target>
+        <target state="new">List of reservations in process</target>
       </trans-unit>
       <trans-unit id="ae7bc38426576c5660e1ffb01119b0825388cf70" resname="pa_about_us">
         <source>pa_about_us</source>
@@ -1864,7 +1864,7 @@
       </trans-unit>
       <trans-unit id="55121913688bce8eab51f963b030c244d5afda91" resname="payment.service_fee">
         <source>payment.service_fee</source>
-        <target>Service Fee</target>
+        <target>Services Fee</target>
       </trans-unit>
       <trans-unit id="41a84ad62cc5c47076fa3fc6157b32f0dabf1d3d" resname="payment.tax_fees">
         <source>payment.tax_fees</source>
@@ -1945,6 +1945,14 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Trust us…!</br>Make yourself a Partner!]]></target>
+      </trans-unit>
+      <trans-unit id="1a">
+         <source>payment.accommodations_cost</source>
+         <target state="new">Cost of Accommodations</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019w34c678a7bdb2f" resname="partner.download.voucher">
+        <source>partner.download.voucher</source>
+        <target state="new">Download Booking</target>
       </trans-unit>
     </body>
   </file>

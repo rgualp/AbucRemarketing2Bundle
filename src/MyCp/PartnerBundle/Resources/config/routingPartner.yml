@@ -304,3 +304,7 @@ partner_get_client:
 partner_list_client:
     locales:  { en: "/client/list", es: "/cliente/listado", de: "/client/list" }
     defaults: { _controller: PartnerBundle:Backend:listClient }
+
+partner_download_voucher:
+    locales:  { en: "/partner/voucher/{bookingId}", es: "/partner/voucher/{bookingId}", de: "/partner/voucher/{bookingId}" }
+    defaults: { _controller: PartnerBundle:Dashboard:downloadVoucher, bookingId:'' }

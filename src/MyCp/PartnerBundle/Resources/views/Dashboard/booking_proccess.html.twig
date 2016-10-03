@@ -84,7 +84,7 @@
                     <div class="ibox-content">
                         <div id="select-all-proccess" class="row">
                             <div class="col-xs-12" style="margin-top: 15px">
-                                <label class="pull-left" style="margin-left: 10px;"> <input type="checkbox" class="i-checks"> {{ 'booking.title.selectall' | trans }} </label>
+                                <label class="pull-left label-select-all"> <input type="checkbox" class="i-checks"> {{ 'booking.title.selectall' | trans }} </label>
                                 <div class="btn-group m-t-n-xs pull-left" style="margin-left: 10px;"><a class="btn btn-sm btn-search" onClick="endAllBookingAction(this)"> {{ 'btn.end_all_reservation' | trans }} </a></div>
                             </div>
                         </div>
@@ -162,7 +162,7 @@
                                     '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                     '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                                     '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
-                                    rooms +
+                                    rooms + '<br>' +
                                     '<a data-href="{{ path("partner_dashboard_booking_proccess_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                                     '<a data-id="' + data.id + '" onClick="endBookingAction(this)"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "pa.modal.reservation.end_reservation" | trans }} </span> </a>' +
                                     '</div> ' +
