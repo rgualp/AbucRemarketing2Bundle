@@ -85,7 +85,7 @@
                         </div>
                         <div class="row" style="margin-top: 10px;">
                             <div class="col-md-4" style="padding-left: 0">
-                                <span class="hidden alertLabel">{{ "missing_data" | trans }}</span>
+
                             </div>
                             <div class="col-md-4 text-right" style="padding-right: 0">
                                 <a class="glyphicons minus" style="color: #fff !important;font-family: MyriadProBoldCond;font-size: 22px" id="btnResetFormReservation"> {{ "pa.modal.reservation.reset" | trans }}</a>
@@ -93,6 +93,9 @@
                             <div class="col-md-4 text-right" style="padding-right: 0">
                                 <a class="glyphicons plus" style="color: #fff !important;font-family: MyriadProBoldCond;font-size: 22px" id="btnAddNewOpenReservation" data-url="{{ path("partnet_dashboard_new_open_reservation") }}"> {{ "pa.modal.reservation.add" | trans }}</a>
                             </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <span class="hidden alertLabel">{{ "missing_data" | trans }}</span>
                         </div>
                     </div>
                 </form>

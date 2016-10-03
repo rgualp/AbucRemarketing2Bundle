@@ -169,6 +169,10 @@ partner_dashboard_booking_list_checkin:
     locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }
 
+partner_dashboard_booking_list_export_checkin:
+    locales:  { en: "/dashboard/booking/checkin/list/export", es: "/dashboard/booking/checkin/list/export", de: "/dashboard/booking/checkin/list/export" }
+    defaults: { _controller: PartnerBundle:Dashboard:listExportBookingCheckin }
+
 partner_dashboard_booking_proccess:
     locales:  { en: "/dashboard/booking/proccess", es: "/dashboard/booking/proccess", de: "/dashboard/booking/proccess" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingProccess }

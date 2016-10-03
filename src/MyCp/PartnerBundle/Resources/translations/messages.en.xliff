@@ -696,7 +696,7 @@
       </trans-unit>
       <trans-unit id="8af33304dea36839c320c323563f7a88f1af209e" resname="dashboard.booking.booking_code">
         <source>dashboard.booking.booking_code</source>
-        <target state="new">dashboard.booking.booking_code</target>
+        <target state="new">Booking code</target>
       </trans-unit>
       <trans-unit id="7bbad48b382770bbdfe91a7fed8dd353520044bf" resname="dashboard.booking.bookingcode">
         <source>dashboard.booking.bookingcode</source>
@@ -792,7 +792,7 @@
       </trans-unit>
       <trans-unit id="db994c34f19b2850c0c92bd46c01f8633eca5243" resname="dashboard.booking.rooms">
         <source>dashboard.booking.rooms</source>
-        <target state="new">dashboard.booking.rooms</target>
+        <target state="new">Rooms</target>
       </trans-unit>
       <trans-unit id="6c2b976ecace3644e326365e113bc7286b7b1cbc" resname="dashboard.booking.status">
         <source>dashboard.booking.status</source>
@@ -1974,6 +1974,22 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Trust us…!</br>Make yourself a Partner!]]></target>
+      </trans-unit>
+      <trans-unit id="1a">
+         <source>payment.accommodations_cost</source>
+         <target state="new">Cost of Accommodations</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4ffb90e747c019w34c678a7bdb2f" resname="partner.download.voucher">
+        <source>partner.download.voucher</source>
+        <target state="new">Download Booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4eeb90e747c019w34c678a7bdb2f" resname="btn.export.checkin.reservation">
+        <source>btn.export.checkin.reservation</source>
+        <target state="new">Export</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4eeb90e848c019w34c678a7sfb2f" resname="btn.paid_all_reservation">
+        <source>btn.paid_all_reservation</source>
+        <target state="new">Go to Shopping basket</target>
       </trans-unit>
     </body>
   </file>
