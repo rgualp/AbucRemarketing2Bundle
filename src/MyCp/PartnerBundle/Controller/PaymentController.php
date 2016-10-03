@@ -9,6 +9,7 @@ use MyCp\FrontEndBundle\Helpers\PostFinanceHelper;
 use MyCp\FrontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\postfinancePayment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
