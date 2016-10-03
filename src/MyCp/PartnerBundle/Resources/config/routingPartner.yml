@@ -25,6 +25,14 @@ frontend_partner_logincontent:
     locales:  { en: "/login/content", es: "/login/content", de: "/login/content" }
     defaults: { _controller: PartnerBundle:Frontend:contentLogin }
 
+#Test email
+frontend_partner_testemail:
+    locales:  { en: "/test/email", es: "/test/email", de: "/test/email" }
+    defaults: { _controller: PartnerBundle:Frontend:testEmail }
+
+
+
+
 #Register content
 frontend_partner_registercontent:
     locales:  { en: "/register/content", es: "/register/content", de: "/register/content" }
@@ -160,6 +168,10 @@ partner_dashboard_booking_checkin:
 partner_dashboard_booking_list_checkin:
     locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }
+
+partner_dashboard_booking_list_export_checkin:
+    locales:  { en: "/dashboard/booking/checkin/list/export", es: "/dashboard/booking/checkin/list/export", de: "/dashboard/booking/checkin/list/export" }
+    defaults: { _controller: PartnerBundle:Dashboard:listExportBookingCheckin }
 
 partner_dashboard_booking_proccess:
     locales:  { en: "/dashboard/booking/proccess", es: "/dashboard/booking/proccess", de: "/dashboard/booking/proccess" }

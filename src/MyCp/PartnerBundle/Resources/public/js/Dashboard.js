@@ -209,6 +209,8 @@ var Dashboard = function () {
     var onShowReservationModal = function () {
         $(".createReservation").on('click', function () {
             if (!$('#myModalReservation').is(':visible')) {
+                //hide alert label
+                $(".alertLabel").addClass("hidden");
                 //Reset select
                 $("#partner_reservation_client").val('').trigger("chosen:updated");
                 selectedAccommodationForReserve = $(this).data("ownid");
@@ -358,6 +360,10 @@ var Dashboard = function () {
             var adults = $("#partner_reservation_adults").val();
             var children = $("#partner_reservation_children").val();
             var _url = $("#btnAddNewOpenReservation").data("url");
+
+            var roomType = $("#requests_ownership_filter_room_type").val();
+            var roomsTotal = $("#requests_ownership_filter_room").val();
+
             $(".alertLabel").addClass("hidden");
             result.removeClass("hidden");
             $("#openReservationsListDetails").addClass("hidden");
@@ -376,6 +382,8 @@ var Dashboard = function () {
                     'children': (children == "") ? 0 : children,
                     'accommodationId': selectedAccommodationForReserve,
                     'clientId':clientId,
+                    'roomType': roomType,
+                    'roomsTotal': roomsTotal
                    // 'clientEmail':clientEmail
                 }, function (response) {
 

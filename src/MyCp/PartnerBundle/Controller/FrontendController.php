@@ -193,4 +193,12 @@ class FrontendController extends Controller
     public function contactusAction(){
         return $this->render('PartnerBundle:Pages:contactus.html.twig', array());
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function testEmailAction(){
+        $response = $this->render('PartnerBundle:Mail:test.html.twig', array());
+        return $response;
+    }
 }

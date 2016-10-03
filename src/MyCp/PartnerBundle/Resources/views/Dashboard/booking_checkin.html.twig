@@ -27,15 +27,15 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
-                            {{ form_widget(formFilter.booking_code, { 'attr': {'placeholder': 'booking.placeholder.booking_code'|trans, 'title':'booking.placeholder.booking_code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.placeholder.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
-                            {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.placeholder.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                            {{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.placeholder.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-xs-12" style="margin-top: 15px">
-                                <div class="btn-group m-t-n-xs pull-left"><a class="btn btn-sm btn-search"> {{ 'btn.export.checkin.reservation' | trans }} </a></div>
+                                <div class="btn-group m-t-n-xs pull-left"><a class="btn btn-sm btn-search" onClick="exportCheckinAction(this)"> {{ 'btn.export.checkin.reservation' | trans }} </a></div>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -104,6 +104,7 @@
 </div>
 
 <script type="text/javascript">
+
     var oTableCheckin = '';
 
     $(document).ready(function () {
@@ -162,7 +163,6 @@
 
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
-                                '<em class="rt">{{"dashboard.booking.booking_code" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.home" | trans}}:</em> <span class="rst">' + data.own_name + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
@@ -172,7 +172,6 @@
                                 '<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ' +
                                 tp + '<br>' +
                                 '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                         '</div> ' +
@@ -209,5 +208,25 @@
         });
 
         oTableCheckin.ajax.reload();
+    }
+
+    function exportCheckinAction(){
+        var params = {};
+        var inputs = $("#form-booking-checkin input,select");
+        inputs.each(function () {
+            var input = $(this);
+            var val = input.val();
+            var name = input.attr('name');
+            if (val && val != '' && name && name != '') {
+                params[input.attr('name')] = val;
+            }
+        });
+
+        var url = "{{ path('partner_dashboard_booking_list_export_checkin') }}";
+
+        if (oTableCheckin = '' || oTableCheckin.length){
+            return;
+        }
+        gotoUrl(url, params, "GET");
     }
 </script>
