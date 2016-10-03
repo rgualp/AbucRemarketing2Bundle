@@ -1,0 +1,12 @@
+my_cp_mobile_frontend_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MyCpMobileFrontendBundle:Default:index }
+
+my_cp_mobile_frontend_top_nav_control:
+    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:topNav, route: frontend_welcome, routeParams: null  }
+
+my_cp_mobile_frontend_menu_lang_curr:
+    locales:  { en: "/langcurr/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:langCurr, route: frontend_welcome, routeParams: null  }
+

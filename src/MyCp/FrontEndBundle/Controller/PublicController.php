@@ -59,15 +59,30 @@ class PublicController extends Controller {
         $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale, null, $user_ids["user_id"], $user_ids["session_id"]))->getResult();
         $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
 
-        $response = $this->render('FrontEndBundle:public:home.html.twig', array(
-            'locale' => $glogal_locale,
-            'provinces' => $provinces,
-            'slide_folder' => $slide_folder,
-            'own_top20_list' => $own_top20_list,
-            'premium_total' => $statistics['premium_total'],
-            'midrange_total' => $statistics['midrange_total'],
-            'economic_total' => $statistics['economic_total']
-        ));
+
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+        if ($mobileDetector->isMobile()){
+            $response = $this->render('MyCpMobileFrontendBundle:frontend:index.html.twig', array(
+                'locale' => $glogal_locale,
+                'provinces' => $provinces,
+                'slide_folder' => $slide_folder,
+                'own_top20_list' => $own_top20_list,
+                'premium_total' => $statistics['premium_total'],
+                'midrange_total' => $statistics['midrange_total'],
+                'economic_total' => $statistics['economic_total']
+            ));
+        }else{
+            $response = $this->render('FrontEndBundle:public:home.html.twig', array(
+                'locale' => $glogal_locale,
+                'provinces' => $provinces,
+                'slide_folder' => $slide_folder,
+                'own_top20_list' => $own_top20_list,
+                'premium_total' => $statistics['premium_total'],
+                'midrange_total' => $statistics['midrange_total'],
+                'economic_total' => $statistics['economic_total']
+            ));
+        }
 
         // cache control
         $response->setSharedMaxAge(600);

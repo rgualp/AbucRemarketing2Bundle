@@ -49,7 +49,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle  ]
+    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle  ]
     #java: /usr/bin/java
     node: "%nodejs_path%"
     filters:
@@ -291,7 +291,7 @@ mobile_detect:
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
         tablet:
-            is_enabled: true            # default false
+            is_enabled: false            # default false
             host: http://t.site.com     # with scheme (http|https), default null, url validate
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
