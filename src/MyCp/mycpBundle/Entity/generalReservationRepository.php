@@ -2858,14 +2858,18 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
             }
         }
 
-        $qbAux = clone $qb;
-        $qbAux->select('count(r.gen_res_id)');
-        $count = $qbAux->getQuery()->getSingleScalarResult();
+        $count = 0;
+        if($limit !== false){
+            $qbAux = clone $qb;
+            $qbAux->select('count(r.gen_res_id)');
+            $count = $qbAux->getQuery()->getSingleScalarResult();
 
-        $qb->setFirstResult($start);
-        $qb->setMaxResults($limit);
+            $qb->setFirstResult($start);
+            $qb->setMaxResults($limit);
+        }
 
         $data = $qb->getQuery()->execute();
+        $count = ($count == 0) ? (count($data)) : ($count);
         return array('data' => $data, 'count' => $count);
     }
 

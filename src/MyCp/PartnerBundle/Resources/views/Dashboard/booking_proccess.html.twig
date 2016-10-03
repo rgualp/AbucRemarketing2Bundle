@@ -85,7 +85,7 @@
                         <div id="select-all-proccess" class="row">
                             <div class="col-xs-12" style="margin-top: 15px">
                                 <label class="pull-left label-select-all"> <input type="checkbox" class="i-checks"> {{ 'booking.title.selectall' | trans }} </label>
-                                <div class="btn-group m-t-n-xs pull-left" style="margin-left: 10px;"><a class="btn btn-sm btn-search" onClick="endAllBookingAction(this)"> {{ 'btn.end_all_reservation' | trans }} </a></div>
+                                <div class="btn-group m-t-n-xs pull-left" style="margin-left: 10px;"><a class="btn btn-sm btn-search" onClick="endAllBookingAction(this)"> {{ 'btn.end_all_reservation' | trans | raw  }} </a></div>
                             </div>
                         </div>
                         <div class="table-responsive">

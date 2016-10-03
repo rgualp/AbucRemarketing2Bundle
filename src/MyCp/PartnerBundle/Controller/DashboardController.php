@@ -548,6 +548,35 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
+
+    public function listExportBookingCheckinAction(Request $request)
+    {
+        $filters = $request->get('booking_checkin_filter_form');
+        $filters = (isset($filters)) ? ($filters) : (array());
+
+        $date = new \DateTime();
+        $date_a = $date->format('d-m-Y');
+        $date->modify('+5 day');
+        $date_b = $date->format('d-m-Y');
+        $filters['from_between'] = array($date_a, $date_b);
+
+        #region PAGINADO
+        $start = $request->get('start', 0);
+        $limit = false;
+        $draw = $request->get('draw') + 1;
+        #endregion PAGINADO
+
+        $data = $this->getReservationsData($filters, $start, $limit, $draw, generalReservation::STATUS_RESERVED);
+        $reservations = $data['aaData'];
+        $data['aaData'] = array();
+
+        $curr = $this->getCurr($request);
+
+        if(count($reservations)) {
+            $exporter = $this->get("mycp.service.export_to_excel");
+            return $exporter->exportReservationsCheckinAg($reservations, new \DateTime(), $curr);
+        }
+    }
     /*End BookingCheckin*/
 
     /*BookingProccess*/
