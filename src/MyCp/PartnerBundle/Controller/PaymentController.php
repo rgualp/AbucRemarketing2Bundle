@@ -218,7 +218,9 @@ class PaymentController extends Controller
         list($skrillPayment, $payment) = $this->updatePaymentData($em, $request);
 
         $bookingService = $this->get('front_end.services.booking');
-        $bookingService->postProcessBookingPayment($payment);
+
+        //$bookingService->postProcessBookingPayment($payment);
+        $bookingService->postProcessBookingPaymentPartner($payment);
 
         /*$dispatcher = $this->get('event_dispatcher');
         $eventData = new PaymentJobData($payment->getId());
@@ -714,6 +716,18 @@ class PaymentController extends Controller
     {
         $path = $this->get('kernel')->getRootDir() . '/../app/logs/payment.log';
         file_put_contents($path, $message . PHP_EOL, FILE_APPEND);
+    }
+
+    /**
+     *
+     */
+    public function testVoucherAction(){
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('mycpBundle:payment')->find(2);
+        $bookingService = $this->get('front_end.services.booking');
+        $bookingService->postProcessBookingPaymentPartner($payment);
+        $response = $this->render('PartnerBundle:Mail:test.html.twig', array());
+        return $response;
     }
 
 }
