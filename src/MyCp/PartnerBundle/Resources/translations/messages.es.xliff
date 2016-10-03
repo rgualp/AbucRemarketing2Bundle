@@ -604,7 +604,7 @@
       </trans-unit>
       <trans-unit id="dad542a9693933b843b686676d0e6d6784c82bfb" resname="btn.end_all_reservation">
         <source>btn.end_all_reservation</source>
-        <target state="new">Enviar solicitudes</target>
+        <target state="new"><![CDATA[<span>Enviar &nbsp;solicitudes</span>]]></target>
       </trans-unit>
       <trans-unit id="f94c849ef29c0987b3ff7d309bfc36037aa51962" resname="btn.paid_all_reservation">
         <source>btn.paid_all_reservation</source>
@@ -1944,6 +1944,14 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019w34c678a7bdb2f" resname="partner.download.voucher">
         <source>partner.download.voucher</source>
         <target state="new">Descargar Booking</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4eeb90e747c019w34c678a7bdb2f" resname="btn.export.checkin.reservation">
+        <source>btn.export.checkin.reservation</source>
+        <target state="new">Exportar</target>
+      </trans-unit>
+      <trans-unit id="3ee5d45f9f3e4eeb90e848c019w34c678a7bdb2f" resname="btn.paid_all_reservation">
+        <source>btn.paid_all_reservation</source>
+        <target state="new">Ir a la cesta</target>
       </trans-unit>
     </body>
   </file>
