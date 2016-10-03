@@ -25,6 +25,14 @@ frontend_partner_logincontent:
     locales:  { en: "/login/content", es: "/login/content", de: "/login/content" }
     defaults: { _controller: PartnerBundle:Frontend:contentLogin }
 
+#Test email
+frontend_partner_testemail:
+    locales:  { en: "/test/email", es: "/test/email", de: "/test/email" }
+    defaults: { _controller: PartnerBundle:Frontend:testEmail }
+
+
+
+
 #Register content
 frontend_partner_registercontent:
     locales:  { en: "/register/content", es: "/register/content", de: "/register/content" }

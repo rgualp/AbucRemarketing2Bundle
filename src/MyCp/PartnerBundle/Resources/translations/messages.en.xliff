@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-03T09:03:32Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-03T10:23:27Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -186,6 +186,10 @@
         <source>Error</source>
         <target state="new">Error</target>
       </trans-unit>
+      <trans-unit id="7fd90e9d7db5e103d945469887f33b81c4633585" resname="FOOTER_EMAIL1_PARTNER">
+        <source>FOOTER_EMAIL1_PARTNER</source>
+        <target state="new"><![CDATA[Add <a href='mailto:reservation.partner@mycasaparticular.com'>reservation.partner@mycasaparticular.com</a>  to your safe contacts so that you can continue to receive our e-mails. <br/><br/>]]></target>
+      </trans-unit>
       <trans-unit id="5e4de21923f40455878d0986816373196784a486" resname="FORGOT_PASSWORD_BUTTON">
         <source>FORGOT_PASSWORD_BUTTON</source>
         <target state="new">FORGOT_PASSWORD_BUTTON</target>
@@ -365,6 +369,10 @@
       <trans-unit id="0602f1c567677469f802d877da99a6d9dd2b6725" resname="Propiedad completa">
         <source>Propiedad completa</source>
         <target state="new">Propiedad completa</target>
+      </trans-unit>
+      <trans-unit id="258dfea8ef734bec9b2197f43f5061c31e7757ac" resname="RESERVATION_CHECK_AVAILABILITY">
+        <source>RESERVATION_CHECK_AVAILABILITY</source>
+        <target state="new">RESERVATION_CHECK_AVAILABILITY</target>
       </trans-unit>
       <trans-unit id="505335251361235d680ccabdfccaca0149183764" resname="RESERVATION_PRICE">
         <source>RESERVATION_PRICE</source>
@@ -585,6 +593,10 @@
       <trans-unit id="dad542a9693933b843b686676d0e6d6784c82bfb" resname="btn.end_all_reservation">
         <source>btn.end_all_reservation</source>
         <target state="new">Send request's</target>
+      </trans-unit>
+      <trans-unit id="fff08bd23bfc8c70cb7abc6f68f57973d14f6654" resname="btn.export.checkin.reservation">
+        <source>btn.export.checkin.reservation</source>
+        <target state="new">btn.export.checkin.reservation</target>
       </trans-unit>
       <trans-unit id="f94c849ef29c0987b3ff7d309bfc36037aa51962" resname="btn.paid_all_reservation">
         <source>btn.paid_all_reservation</source>
@@ -1814,6 +1826,10 @@
         <source>page.logout</source>
         <target state="new">Logout</target>
       </trans-unit>
+      <trans-unit id="968ff7e12601c6b4e277f974c42222c329bfedf8" resname="partner.download.voucher">
+        <source>partner.download.voucher</source>
+        <target state="new">Download Booking</target>
+      </trans-unit>
       <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
         <source>partner.sitemap.activation</source>
         <target state="new">partner.sitemap.activation</target>
@@ -1837,6 +1853,10 @@
       <trans-unit id="bc83e5cf3f7a486b05a61ca4b93197f28aa71a5a" resname="pay_action">
         <source>pay_action</source>
         <target>Pay</target>
+      </trans-unit>
+      <trans-unit id="b7a9dc447c7aab8128d7edcae5950033ed41b069" resname="payment.accommodations_cost">
+        <source>payment.accommodations_cost</source>
+        <target state="new">Cost of Accommodations</target>
       </trans-unit>
       <trans-unit id="17889b077d743fab9d15e59fabad94b42aa437c0" resname="payment.commission_percent">
         <source>payment.commission_percent</source>
@@ -1945,14 +1965,6 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Trust us…!</br>Make yourself a Partner!]]></target>
-      </trans-unit>
-      <trans-unit id="1a">
-         <source>payment.accommodations_cost</source>
-         <target state="new">Cost of Accommodations</target>
-      </trans-unit>
-      <trans-unit id="3ee5d45f9f3e4ffb90e747c019w34c678a7bdb2f" resname="partner.download.voucher">
-        <source>partner.download.voucher</source>
-        <target state="new">Download Booking</target>
       </trans-unit>
     </body>
   </file>

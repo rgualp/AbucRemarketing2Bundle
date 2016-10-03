@@ -444,6 +444,7 @@ body.landing-page {
     color: black;
     font-family: MyriadProRegular;
     font-size: 14px;
+    text-align: left;
 }
 .modal-agency .chosen-container-single .chosen-search input[type="text"] {
     color: black;
