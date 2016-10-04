@@ -223,10 +223,12 @@
         </table>
     {% endif %}
     <br>
-<table style="width:100%">
     <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
         {{"Clients"|trans({}, "messages", user_locale)}}
     </h4>
+    <br>
+<table style="width:100%">
+
     {% for agency in own.travelAgencyDetailReservations %}
         <tr>
             <td colspan="6"> <strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{agency.reservation.client.fullName }}</td>
