@@ -856,14 +856,13 @@ class BookingService extends Controller
                 $bookingId, $userEmail));
             $logger->error($e->getMessage());
         }
-
         // send email to reservation team
-       /* foreach ($arrayOwnershipReservationByHouse as $owns) {
+        /*foreach ($arrayOwnershipReservationByHouse as $owns) {
             $bodyRes = $this->render(
-                'FrontEndBundle:mails:rt_payment_confirmation.html.twig',
+                'PartnerBundle:Mail:rt_payment_confirmation.html.twig',
                 array(
                     'user' => $user,
-                    'user_tourist' => array($userTourist),
+                    'user_tourist' => $user,
                     'reservations' => $owns,
                     'nights' => $arrayNightsByOwnershipReservation,
                     'payment_pending' => $paymentPending,
@@ -889,12 +888,12 @@ class BookingService extends Controller
         }*/
 
         // send email to accommodation owner
-        /*foreach ($arrayOwnershipReservationByHouse as $owns) {
+       /* foreach ($arrayOwnershipReservationByHouse as $owns) {
             $bodyOwner = $this->render(
-                'FrontEndBundle:mails:email_house_confirmation.html.twig',
+                'PartnerBundle:Mail:email_house_confirmation.html.twig',
                 array(
                     'user' => $user,
-                    'user_tourist' => array($userTourist),
+                    'user_tourist' => $user,
                     'reservations' => $owns,
                     'nights' => $arrayNightsByOwnershipReservation,
                     'rooms' => $rooms,
