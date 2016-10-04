@@ -482,12 +482,15 @@ class DashboardController extends Controller
         $filters = $request->get('booking_checkin_filter_form');
         $filters = (isset($filters)) ? ($filters) : (array());
 
-
-        $date = new \DateTime();
-        $date_a = $date->format('d-m-Y');
-        $date->modify('+5 day');
-        $date_b = $date->format('d-m-Y');
-        $filters['from_between'] = array($date_a, $date_b);
+        $from = (array_key_exists('from', $filters) && isset($filters['from']));
+        $to = (array_key_exists('to', $filters) && isset($filters['to']));
+        if(!$from && !$to){
+            $date = new \DateTime();
+            $date_a = $date->format('d-m-Y');
+            $date->modify('+5 day');
+            $date_b = $date->format('d-m-Y');
+            $filters['from_between'] = array($date_a, $date_b);
+        }
 
         #region PAGINADO
         $start = $request->get('start', 0);
@@ -554,11 +557,15 @@ class DashboardController extends Controller
         $filters = $request->get('booking_checkin_filter_form');
         $filters = (isset($filters)) ? ($filters) : (array());
 
-        $date = new \DateTime();
-        $date_a = $date->format('d-m-Y');
-        $date->modify('+5 day');
-        $date_b = $date->format('d-m-Y');
-        $filters['from_between'] = array($date_a, $date_b);
+        $from = (array_key_exists('from', $filters) && isset($filters['from']));
+        $to = (array_key_exists('to', $filters) && isset($filters['to']));
+        if(!$from && !$to){
+            $date = new \DateTime();
+            $date_a = $date->format('d-m-Y');
+            $date->modify('+5 day');
+            $date_b = $date->format('d-m-Y');
+            $filters['from_between'] = array($date_a, $date_b);
+        }
 
         #region PAGINADO
         $start = $request->get('start', 0);
