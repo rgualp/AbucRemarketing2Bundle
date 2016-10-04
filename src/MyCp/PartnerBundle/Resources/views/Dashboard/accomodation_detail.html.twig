@@ -490,6 +490,11 @@
     <script type="text/javascript">
         var $carousel;
         var own_id = "{{ownership.own_id}}";
+        var partner_arrival_date='{{ app.session.get('partner_arrival_date')}}';
+        var partner_exit_date='{{ app.session.get('partner_exit_date')}}';
+
+        $("#modalDateFrom").val('{{ app.session.get('partner_arrival_date')}}');
+        $("#modalDateTo").val('{{ app.session.get('partner_exit_date')}}');
 
 
         var current = 0,
@@ -521,7 +526,7 @@
 
         }
 
-        /*if(document.getElementById("big_map_details") !== null)
+        if(document.getElementById("big_map_details") !== null)
         {
             var x = $("#big_map_details").attr("data-x");
             var y = $("#big_map_details").attr("data-y");
@@ -549,18 +554,19 @@
 
 
             var boxText = document.createElement("div");
-            *//*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-             boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*//*
+            /*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+             boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*/
+
 
             boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
             boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
-            *//*boxText.innerHTML = "<div class='row'>" +
+            /*boxText.innerHTML = "<div class='row'>" +
              "<div class='map_image col-sm-4' style='background-image:url(" + image + ")'></div>" +
              "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + name + "<br/>" +
              "<b>" + description + "</b>" +
              "</div>" +
              "</div>";
-             *//*
+             */
             var myOptions = {
                 content: boxText
                 ,disableAutoPan: false
@@ -590,7 +596,7 @@
                 ib.close();
             });
 
-        }*/
+        }
 
 
 

@@ -957,8 +957,10 @@ class ownershipRepository extends EntityRepository {
             $filters['others_not_included']='BREAKFAST';
         }
         if(array_key_exists('room_type', $filters) ){
-            $filters['room_type']=array($filters['room_type']);
-            $room_filter=true;
+            if($filters['room_type']!=''){
+                $filters['room_type']=array($filters['room_type']);
+                $room_filter=true;
+            }
         }
         $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
         $parameters = array();
