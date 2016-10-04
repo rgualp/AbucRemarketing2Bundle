@@ -30,8 +30,11 @@ class BackendController extends Controller
         $prices_own_list = $results["prices"];
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
 
-        $form = $this->createForm(new paReservationType($this->get('translator')));
+        $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
@@ -376,7 +379,10 @@ class BackendController extends Controller
      */
     public function listClientAction(){
         $em = $this->getDoctrine()->getManager();
-        $clients= $em->getRepository('PartnerBundle:paClient')->findAll();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $clients= $em->getRepository('PartnerBundle:paClient')->findBy(array("travelAgency" => $travelAgency->getId()), array("fullname" => "ASC"));
         $data = array();
         foreach ($clients as $item) {
             $arrTmp = array();
