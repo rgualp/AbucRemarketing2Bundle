@@ -53,6 +53,8 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $filters= $request->get('requests_ownership_filter');
+        $session->set("partner_arrival_date",$filters['arrival']);
+        $session->set("partner_exit_date",$filters['exit']);
         $start=$request->request->get('start');
         $limit=$request->request->get('limit');
         $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
