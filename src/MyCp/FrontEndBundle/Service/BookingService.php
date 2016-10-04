@@ -713,7 +713,7 @@ class BookingService extends Controller
             $logger->error($e->getMessage());
         }
         // send email to reservation team
-        foreach ($arrayOwnershipReservationByHouse as $owns) {
+        /*foreach ($arrayOwnershipReservationByHouse as $owns) {
             $bodyRes = $this->render(
                 'PartnerBundle:Mail:rt_payment_confirmation.html.twig',
                 array(
@@ -741,10 +741,10 @@ class BookingService extends Controller
                 $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $bookingId);
                 $logger->error($e->getMessage());
             }
-        }
+        }*/
 
         // send email to accommodation owner
-        foreach ($arrayOwnershipReservationByHouse as $owns) {
+       /* foreach ($arrayOwnershipReservationByHouse as $owns) {
             $bodyOwner = $this->render(
                 'PartnerBundle:Mail:email_house_confirmation.html.twig',
                 array(
@@ -788,7 +788,7 @@ class BookingService extends Controller
             $dispatcher = $this->get('event_dispatcher');
             $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
             $dispatcher->dispatch('mycp.event.feedback', new FixedDateJobEvent($owns[0]->getOwnResGenResId()->getGenResToDate(),$eventData));
-        }
+        }*/
     }
 
     /**
