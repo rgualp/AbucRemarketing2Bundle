@@ -59,6 +59,150 @@ class BookingService extends Controller
      * @param $bookingId
      * @return array
      */
+    public function calculateBookingDetailsPartner($bookingId,$user)
+    {
+        $serviceChargeInCuc = 0;
+
+        $timeService = $this->get('Time');
+        $em = $this->em;
+        $booking = $this->getBooking($bookingId);
+        $payment = $this->getPaymentByBooking($booking);
+        $user = $this->getUserByBooking($booking);
+        //$userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $userLocale = strtolower($user->getUserLanguage()->getLangCode());
+
+        $currency = $payment->getCurrency();
+        $currencySymbol = $currency->getCurrSymbol();
+        $currencyRate = $currency->getCurrCucChange();
+        $touristTaxTotal = 0;
+
+        $nights = array();
+        $rooms = array();
+        $commissions = array();
+        $ownResRooms = array();
+        $payments = array();
+        $ownResDistinct = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->getByBooking($bookingId);
+
+        foreach ($ownResDistinct as $own_r) {
+            $ownResRooms[$own_r["id"]] = $em
+                ->getRepository('mycpBundle:ownershipReservation')
+                ->getRoomsByAccomodation($bookingId, $own_r["id"]);
+
+            $ownCommission = $own_r["commission_percent"];
+            $ownReservations = $em
+                ->getRepository('mycpBundle:ownershipReservation')
+                ->getByBookingAndOwnership($bookingId,$own_r["id"]);
+            $totalPrice = 0;
+            $totalPercentPrice = 0;
+            $totalNights = 0;
+
+            foreach ($ownReservations as $own) {
+                $array_dates = $timeService->datesBetween(
+                    $own->getOwnResReservationFromDate()->getTimestamp(),
+                    $own->getOwnResReservationToDate()->getTimestamp()
+                );
+                $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
+
+                $totalNights += $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
+
+
+            }
+
+            if($serviceChargeInCuc == 0)
+            {
+                $serviceChargeInCuc = $own_r["fixedFee"];
+            }
+            else if($serviceChargeInCuc != $own_r["fixedFee"] && $own_r["currentFee"])
+                $serviceChargeInCuc = $own_r["fixedFee"];
+
+            $totalPercentPrice += $totalPrice * $ownCommission / 100;
+            $totalRooms = count($ownReservations);
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
+
+            $touristTaxTotal += $totalPrice * $tax;
+
+
+            $payments[$own_r["id"]] = array(
+                'total_price' => $totalPrice * $currencyRate,
+                'prepayment' => $totalPercentPrice * $currencyRate,
+                'touristTax' => $totalPrice * $tax * $currencyRate,
+                'pay_at_service_cuc' => $totalPrice - $totalPercentPrice,
+                'pay_at_service' => ($totalPrice - $totalPercentPrice) * $currencyRate
+            );
+        }
+
+        $ownReservations = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_reservation_booking' => $bookingId));
+
+        $totalPrice = 0;
+        $totalPercentPrice = 0;
+
+        foreach ($ownReservations as $own) {
+            $array_dates = $timeService->datesBetween(
+                $own->getOwnResReservationFromDate()->getTimestamp(),
+                $own->getOwnResReservationToDate()->getTimestamp()
+            );
+            //array_push($nights, count($array_dates) - 1);
+            $nights[$own->getOwnResId()] = count($array_dates) - 1;
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
+            $partialPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
+            $totalPrice += $partialPrice;
+            $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
+            $totalPercentPrice += $partialPrice * $commission / 100;
+
+            $insert = 1;
+
+            foreach ($commissions as $com) {
+                if ($com == $commission) {
+                    $insert = 0;
+                    break;
+                }
+            }
+
+            if ($insert == 1) {
+                array_push($commissions, $commission);
+            }
+        }
+
+        $accommodationServiceCharge = $totalPrice * $currencyRate;
+        $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
+        $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
+        $touristTaxTotal = $touristTaxTotal * $currencyRate;
+        $totalPrepayment = $serviceChargeTotal + $prepaymentAccommodations + $touristTaxTotal;
+        $totalPrepaymentInCuc = $totalPrepayment / $currencyRate;
+        $totalServicingPrice = ($totalPrice - $totalPercentPrice) * $currencyRate;
+
+        $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
+
+        return array(
+            'user_locale' => $userLocale,
+            'own_res' => $ownResDistinct,
+            'own_res_rooms' => $ownResRooms,
+            'own_res_payments' => $payments,
+            'user' => $user,
+            'booking' => $booking,
+            'nights' => $nights,
+            'rooms' => $rooms,
+            'commissions' => $commissions,
+            'currency_symbol' => $currencySymbol,
+            'currency_rate' => $currencyRate,
+            'accommodations_service_charge' => $accommodationServiceCharge,
+            'prepayment_accommodations' => $prepaymentAccommodations,
+            'service_charge_total' => $serviceChargeTotal,
+            'total_prepayment' => $totalPrepayment,
+            'total_prepayment_cuc' => $totalPrepaymentInCuc,
+            'total_servicing_price' => $totalServicingPrice,
+            'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC,
+            'tourist_tax_total' => $touristTaxTotal
+        );
+    }
+    /**
+     * @param $bookingId
+     * @return array
+     */
     public function calculateBookingDetails($bookingId)
     {
         $serviceChargeInCuc = 0;
@@ -222,7 +366,7 @@ class BookingService extends Controller
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartner($user->getUserId(),generalReservation::STATUS_RESERVED,array('booking_code'=>$bookingId),0,1000);
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-        $result=array_merge($this->calculateBookingDetails($bookingId),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
         return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',$result);
     }
 
