@@ -74,7 +74,7 @@ class BackendController extends Controller
                     'url'=>$this->generateUrl('frontend_details_ownership', array('own_name' => $own['own_name'])));
             }
         }
-        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result));
+        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result,'partner_arrival_date'=>$session->get("partner_arrival_date"),'partner_exit_date'=>$session->get("partner_exit_date")));
     }
 
     public function openReservationsListAction(Request $request)

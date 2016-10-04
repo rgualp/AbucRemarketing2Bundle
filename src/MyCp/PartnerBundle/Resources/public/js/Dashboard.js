@@ -137,6 +137,9 @@ var Dashboard = function () {
                 start = 0;
                 limit = 4;
                 $.post(_url, data_params, function (response) {
+                    window.partner_arrival_date=response.partner_arrival_date;
+                    window.partner_exit_date=response.partner_exit_date;
+
                     HoldOn.close();
                     result.html(response.response_twig);
                     //se manda a eliminar los market
@@ -210,21 +213,9 @@ var Dashboard = function () {
                if(window.partner_arrival_date!=''){
                    $("#modalDateFrom").val(window.partner_arrival_date);
                }
-                else{
-                   var searcherDateFrom = $("#requests_ownership_filter_arrival");
-                   if (typeof searcherDateFrom != "undefined") {
-                       $("#modalDateFrom").val(searcherDateFrom.val());
-                   }
-               }
 
                 if(window.partner_exit_date!=''){
                     $("#modalDateTo").val(window.partner_exit_date);
-                }
-                else{
-                    var searcherDateTo = $("#requests_ownership_filter_exit");
-                    if (typeof searcherDateTo != "undefined") {
-                        $("#modalDateTo").val(searcherDateTo.val());
-                    }
                 }
 
 
