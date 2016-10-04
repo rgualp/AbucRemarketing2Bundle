@@ -11,10 +11,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class paReservationType extends AbstractType
 {
     private $translate;
+    private $travelAgency;
 
-    function __construct($trans_entity)
+    function __construct($trans_entity, $travelAgency)
     {
         $this->translate = $trans_entity;
+        $this->travelAgency = $travelAgency;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -28,7 +30,11 @@ class paReservationType extends AbstractType
             ->add('client', 'entity', [
                 'class' => 'MyCp\PartnerBundle\Entity\paClient',
                 'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('u');
+                        return $er->createQueryBuilder('u')
+                            ->where("u.travelAgency = :travelAgency")
+                            ->setParameter("travelAgency", $this->travelAgency->getId())
+                            ->orderBy("u.fullname", "ASC")
+                            ;
                     },
                 'empty_data'  => null,
                 'empty_value' => "",
