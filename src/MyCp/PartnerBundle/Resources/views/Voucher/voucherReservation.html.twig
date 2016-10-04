@@ -44,11 +44,10 @@
 <br/>
 <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
 <hr/>
-<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserUserName }} {{ user.getUserLastName }}</h4>
+<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserLastName }}</h4>
 <p>
     {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
     {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
-    {{"CAN_FOLLOWING_RESERVATIONS_MYCT"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_mycasatrip_pending') }}">MyCasaTrip</a>
 </p>
 <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
 <hr/>
@@ -116,20 +115,6 @@
         </tr>
     </table>
 
-    {#{% for room in reservation.ownReservations %}
-        <div class="row">
-            <div class="col-md-6"><strong> Adultos:</strong>{{ room.ownResCountAdults }}</div>
-            <div class="col-md-6"><strong> Niños:</strong>{{ room.ownResCountChildrens }}</div>
-        </div>
-        <div class="row">
-            <strong> Noches</strong>{{ room.ownResNights }}
-        </div>
-        <div class="row">
-            <div class="col-md-6"><strong> Fecha de entrada:</strong>{{ room.ownResReservationFromDate|date("d/m/Y") }}</div>
-            <div class="col-md-6"><strong> Fecha de salida:</strong>{{ room.ownResReservationToDate|date("d/m/Y") }}</div>
-        </div>
-    {% endfor %}#}
-
     {%for res_room in own.ownReservations %}
         <br/>
         <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
@@ -158,8 +143,8 @@
                 <td>{{ res_room.ownResCountChildrens }}</td>
             </tr>
             <tr>
-                <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans({}, "messages", user_locale)}}:</b></td>
-                {#<td>{{ res_room.roomBathRoom|trans({}, "messages", user_locale) }}</td>#}
+                <td>{#<b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans({}, "messages", user_locale)}}:</b>#}</td>
+                <td>{#{{ res_room.roomBathRoom|trans({}, "messages", user_locale) }}#}</td>
                 <td><b>{{ "PRICE_NIGHT" | trans({}, "messages", user_locale) }}</b></td>
                 <td>{{ currency_symbol }} {{ (((res_room.ownResNightPrice) ? res_room.ownResNightPrice : res_room.ownResTotalInSite / res_room.ownResNights) * currency_rate) | number_format(2) }}</td>
                 <td><b>{{ "RESERVATION_COST" | trans({}, "messages", user_locale) }}</b></td>
@@ -175,7 +160,6 @@
         </h4>
         <br/>
         <table style="width:100%">
-
             <tr>
                 <td><b>{{ "ACCOMMODATION_TOTAL_COST" | trans({}, "messages", user_locale) }}</b></td>
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
@@ -238,6 +222,17 @@
             </tr>
         </table>
     {% endif %}
+    <br>
+<table style="width:100%">
+    <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
+        {{"Clients"|trans({}, "messages", user_locale)}}
+    </h4>
+    {% for agency in own.travelAgencyDetailReservations %}
+        <tr>
+            <td colspan="6"> <strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{agency.reservation.client.fullName }}</td>
+        </tr>
+    {% endfor %}
+</table>
 {% endfor %}
 <br/>
 <table style="width: 100%;">
@@ -253,7 +248,7 @@
 
 <br/>
 <h3 class="h-green h-green-line"  style="padding-bottom: 5px">{{"PAYMENTS"|trans({}, "messages", user_locale)}}</h3>
-{#<table style="width:100%">
+<table style="width:100%">
     <tr>
         <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale) }}</b></td>
         <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (accommodations_service_charge)| number_format(2) }}</h4></td>
@@ -299,76 +294,10 @@
             <h6 class="no-margin">
                 CUC {{ (total_price_to_pay_at_service_in_cuc) | number_format(2) }}
             </h6>
-            <!--h6 class="no-margin cursive h-only-blue">
-                    1 CUC = &#123;&#35;{currency_rate}&#35;&#125; &#123;&#35;{currency_symbol}&#35;&#125;
-                </h6-->
         </td>
     </tr>
-</table>#}
+</table>
 </body>
 </html>
 
-{#
-<section class="container offer" style="padding-bottom: 30px">
-{% for  reservation in data%}
-    <div class="row">
-        <strong>Datos generales</strong>
-    </div>
-    <div class="row">
-        {{ reservation.genResUserId.userLastName }}
-    </div>
-    <div class="row">
-        CAS:{{ reservation.GenResId }}
-    </div>
-    <div class="row">
-        Código del booking: {{ bookingId }}
-    </div>
 
-    <div class="row">
-        <strong>Datos de la casa particular</strong>
-    </div>
-    <div class="row">
-        <strong>Nombre de la casa particular:</strong> {{ reservation.genResOwnId.ownName }}
-    </div>
-    <div class="row">
-        <strong>Destino:</strong> {{ reservation.genResOwnId.ownDestination.desName }}
-    </div>
-    <div class="row">
-        <strong>Código de la casa:</strong> {{ reservation.genResOwnId.ownMcpCode }}
-    </div>
-    <div class="row">
-        <strong>Nombre del propietario/s:</strong> {{ reservation.genResOwnId.ownHomeowner1 }} , {{ reservation.genResOwnId.ownHomeowner2 }}
-    </div>
-    <div class="row">
-        <strong>Contactos (#s de teléfono móviles y fijos):</strong> {{ reservation.genResOwnId.ownPhoneCode }} : {{ reservation.genResOwnId.ownPhoneNumber }}
-    </div>
-    <div class="row">
-        <strong>Dirección de la casa:</strong> {{ reservation.genResOwnId.ownAddressStreet }} #{{ reservation.genResOwnId.ownAddressNumber }} e/ {{ reservation.genResOwnId.ownAddressBetweenStreet1 }} {{ reservation.genResOwnId.ownAddressBetweenStreet2 }} {{ reservation.genResOwnId.ownAddressMunicipality.munName }} ,{{ reservation.genResOwnId.ownAddressProvince.provName }}
-    </div>
-    <div class="row">
-        <strong> Habitaciones</strong>
-    </div>
-        {% for room in reservation.ownReservations %}
-            <div class="row">
-                <div class="col-md-6"><strong> Adultos:</strong>{{ room.ownResCountAdults }}</div>
-                <div class="col-md-6"><strong> Niños:</strong>{{ room.ownResCountChildrens }}</div>
-            </div>
-            <div class="row">
-                <strong> Noches</strong>{{ room.ownResNights }}
-            </div>
-            <div class="row">
-                <div class="col-md-6"><strong> Fecha de entrada:</strong>{{ room.ownResReservationFromDate|date("d/m/Y") }}</div>
-                <div class="col-md-6"><strong> Fecha de salida:</strong>{{ room.ownResReservationToDate|date("d/m/Y") }}</div>
-            </div>
-            {% endfor %}
-    <div class="row">
-        <strong> Clientes</strong>
-    </div>
-    {% for agency in reservation.travelAgencyDetailReservations %}
-        <div class="row">
-            <strong>  Nombre y apellidos:</strong> {{agency.reservation.client.fullName }}
-        </div>
-    {% endfor %}
-
-{% endfor %}
-</section>#}

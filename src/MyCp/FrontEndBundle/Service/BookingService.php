@@ -211,13 +211,19 @@ class BookingService extends Controller
         return $this->render('FrontEndBundle:reservation:boucherReservation.html.twig',
             $this->calculateBookingDetails($bookingId));
     }
+
+    /**
+     * @param $bookingId
+     * @param $user
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getPrintableBookingConfirmationResponsePartner($bookingId,$user){
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartner($user->getUserId(),generalReservation::STATUS_RESERVED,array('booking_code'=>$bookingId),0,1000);
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-        return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',
-            array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+        $result=array_merge($this->calculateBookingDetails($bookingId),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+        return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',$result);
     }
 
     /**
@@ -354,7 +360,7 @@ class BookingService extends Controller
     public function createBookingVoucherIfNotExistingPartner($bookingId, $user,$replaceExistingVoucher = false)
     {
         $response = $this->getPrintableBookingConfirmationResponsePartner($bookingId,$user);
-        //dump($response);die;
+       // dump($response);die;
         $pdfFilePath = $this->getVoucherFilePathByBookingId($bookingId);
 
         if (file_exists($pdfFilePath)) {
@@ -624,7 +630,6 @@ class BookingService extends Controller
         $userId = $user->getUserId();
 
         //$userTourist = $this->getUserTourist($userId, $bookingId);
-
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         $rooms = $this->getRoomsFromReservations($ownershipReservations);
 
