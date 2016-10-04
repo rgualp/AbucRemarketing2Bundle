@@ -109,7 +109,7 @@ class RegistrationController extends Controller
         $userCasa=$em->getRepository('mycpBundle:userCasa')->createUserNew($ownership, null, $factory, true, $this, $this->get('service_container'));
 
         //Enviar correo a los propietarios
-           $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
+        /*   $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
            $userName = ($ownership->getOwnHomeowner1()) ? $ownership->getOwnHomeowner1() : $ownership->getOwnHomeowner2();
            $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId()));
 
@@ -124,7 +124,7 @@ class RegistrationController extends Controller
                    'secret_token' => $userCasa->getUserCasaSecretToken(),
                    'user_locale' => "es"));
 
-           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
+           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");*/
 
            $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
 
