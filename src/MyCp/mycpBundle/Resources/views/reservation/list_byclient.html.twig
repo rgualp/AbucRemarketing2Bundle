@@ -3,6 +3,7 @@
 {% block another_in_head %}
     {% stylesheets
     '@mycpBundle/Resources/public/css/datepicker.css'
+    '@mycpBundle/Resources/public/css/summernote/summernote.css'
     filter='?uglifycss'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
@@ -117,6 +118,8 @@
                     </div>
                 </div>
             </div>
+                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;width: 800px;left: 40%">
+                </div>
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
                 <tr>
@@ -183,6 +186,8 @@
                         {% endif %}
                         <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>
                         <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}"><i class="icon-tags"></i></a>
+                                <a title="Sugerir destinos" data-iduser="{{ reservation.user_id }}" class="btn btn-mini btn-sendMail"><i class="icon-envelope"></i></a>
+
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
@@ -222,11 +227,28 @@
     '@mycpBundle/Resources/public/js/common_list.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@mycpBundle/Resources/public/js/summernote/summernote.min.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
+        $('.btn-sendMail').on('click',function(){
+            $(this).data('iduser');
+            loadModal({'iduser':$(this).data('iduser')});
+        });
+        /**
+         * Load modal configuration
+         */
+        function loadModal(params){
+            var modal = $('#myModal');
+            var xpath = '{{ path('mycp_send_email_client') }}';
+            modal.load(xpath, params, function(e){
+                var title = $('#myModal .modal-title');
+                title.html(params.title);
+                modal.modal('show');
+            });
+        }
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
             todayBtn: 'linked',

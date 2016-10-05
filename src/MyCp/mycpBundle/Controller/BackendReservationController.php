@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\VoucherHelper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BackendReservationController extends Controller {
 
@@ -1285,6 +1286,41 @@ class BackendReservationController extends Controller {
         $exporter = $this->get("mycp.service.export_to_excel");
 //        $result=$exporter->exportClients();
         return $exporter->exportClients();
+    }
+    /**
+     * @param Request $request
+     */
+    public function showModalEmailAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $config= $em->getRepository('mycpBundle:configEmail')->findAll();
+        $email_destination= $em->getRepository('mycpBundle:emailDestination')->findAll();
+        $user = $em->getRepository('mycpBundle:user')->find($request->get('iduser'));
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $request->get('iduser')));
+
+        switch((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')
+        {
+            case 'ES':{
+                $content_config=array('subject'=>$config[0]->getSubjectEs(),'introduction'=>$config[0]->getIntroductionEs(),'foward'=>$config[0]->getFowardEs());
+            }
+            case 'EN': {
+                $content_config=array('subject'=>$config[0]->getSubjectEn(),'introduction'=>$config[0]->getIntroductionEn(),'foward'=>$config[0]->getFowardEn());
+            }
+            case'DE':{
+                $content_config=array('subject'=>$config[0]->getSubjectDe(),'introduction'=>$config[0]->getIntroductionDe(),'foward'=>$config[0]->getFowardDe());
+            }
+        }
+        return $this->render('mycpBundle:reservation:modal_email.html.twig', array('config'=>$config,'user'=>$user,'content_config'=>$content_config,'email_destination'=>$email_destination,'language_email'=>strtolower((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    function sendEmailDestinationAction(Request $request){
+        $service_email = $this->get('Email');
+        $content=$request->get("emailIntroduction").'</br>'.$request->get("emailContent").'</br>'.$request->get("emailFoward");
+        $service_email->sendTemplatedEmail($request->get("emailSubject"), 'noreply@mycasaparticular.com', $request->get("emailUser"), $content);
+        return new JsonResponse(array('success'=>true));
     }
 }
 
