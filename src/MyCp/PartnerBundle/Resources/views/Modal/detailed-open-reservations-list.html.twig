@@ -18,8 +18,8 @@
         {{ paReservationDetail.openReservationDetail.accommodation.ownName }}
         {{ 'label.filter.arrival'|trans }}: {{ paReservationDetail.openReservationDetail.dateFrom | date("d/m/Y") }},
         {{ 'label.filter.exit'|trans }}: {{ paReservationDetail.openReservationDetail.dateTo | date("d/m/Y") }}.
-        {{ 'label.reservation.adults'|trans }}: {{ reservation.adults }},
-        {{ 'label.reservation.children'|trans }}: {{ reservation.children }}
+        {{ 'label.reservation.adults'|trans }}: {{ paReservationDetail.openReservationDetail.adults }},
+        {{ 'label.reservation.children'|trans }}: {{ paReservationDetail.openReservationDetail.children }}
         </div>
         <div class="col-sm-1 p-0">
             <a class="deleteOpenReservationDetail" data-detailsid="{{ paReservationDetail.id }}"
