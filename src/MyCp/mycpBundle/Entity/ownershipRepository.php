@@ -980,7 +980,7 @@ class ownershipRepository extends EntityRepository {
         if ($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
 
-        $filterWhere = SearchUtils::getFilterWhere($filters);
+        $filterWhere = SearchUtils::getFilterWherePartner($filters);
 
         $where .= ($filterWhere != "") ? $filterWhere : "";
 
