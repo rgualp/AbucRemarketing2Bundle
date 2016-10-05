@@ -1297,16 +1297,17 @@ class BackendReservationController extends Controller {
         $user = $em->getRepository('mycpBundle:user')->find($request->get('iduser'));
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $request->get('iduser')));
 
+
         switch((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')
         {
             case 'ES':{
-                $content_config=array('subject'=>$config[0]->getSubjectEs(),'introduction'=>$config[0]->getIntroductionEs(),'foward'=>$config[0]->getFowardEs());
+                $content_config=array('subject'=>(count($config))?$config[0]->getSubjectEs():'','introduction'=>(count($config))?$config[0]->getIntroductionEs():'','foward'=>(count($config))?$config[0]->getFowardEs():'');
             }
             case 'EN': {
-                $content_config=array('subject'=>$config[0]->getSubjectEn(),'introduction'=>$config[0]->getIntroductionEn(),'foward'=>$config[0]->getFowardEn());
+                $content_config=array('subject'=>(count($config))?$config[0]->getSubjectEn():'','introduction'=>(count($config))?$config[0]->getIntroductionEn():'','foward'=>(count($config))?$config[0]->getFowardEn():'');
             }
             case'DE':{
-                $content_config=array('subject'=>$config[0]->getSubjectDe(),'introduction'=>$config[0]->getIntroductionDe(),'foward'=>$config[0]->getFowardDe());
+                $content_config=array('subject'=>(count($config))?$config[0]->getSubjectDe():'','introduction'=>(count($config))?$config[0]->getIntroductionDe():'','foward'=>(count($config))?$config[0]->getFowardDe():'');
             }
         }
         return $this->render('mycpBundle:reservation:modal_email.html.twig', array('config'=>$config,'user'=>$user,'content_config'=>$content_config,'email_destination'=>$email_destination,'language_email'=>strtolower((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')));

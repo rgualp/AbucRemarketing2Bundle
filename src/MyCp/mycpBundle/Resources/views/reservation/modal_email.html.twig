@@ -98,6 +98,10 @@
         $.post('{{ path('mycp_send_email_destination') }}',
                 data,
                 function (response) {
+                    var modal = $('#myModal');
+                    modal.modal('hide');
+                    alert("Correo enviado satisfactoriamente");
+                    return;
                 }
         );
     })
