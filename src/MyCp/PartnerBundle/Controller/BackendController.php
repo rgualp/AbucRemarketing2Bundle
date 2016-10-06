@@ -53,6 +53,8 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $filters= $request->get('requests_ownership_filter');
+        $session->set("partner_arrival_date",$filters['arrival']);
+        $session->set("partner_exit_date",$filters['exit']);
         $start=$request->request->get('start');
         $limit=$request->request->get('limit');
         $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
@@ -72,7 +74,7 @@ class BackendController extends Controller
                     'url'=>$this->generateUrl('frontend_details_ownership', array('own_name' => $own['own_name'])));
             }
         }
-        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result));
+        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result,'partner_arrival_date'=>$session->get("partner_arrival_date"),'partner_exit_date'=>$session->get("partner_exit_date")));
     }
 
     public function openReservationsListAction(Request $request)
