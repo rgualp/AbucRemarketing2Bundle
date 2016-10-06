@@ -1,5 +1,15 @@
 {% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
-
 {% block body %}
-    <h1>Mobiles</h1>
+    <div class="col-xs-12" id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}"
+         data-url-change-category="{{path('frontend_top_rated_change_category_callback_ownership')}}">
+        {{ include('@MyCpMobileFrontend/ownership/homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,
+            'premium_total': premium_total,
+            'midrange_total': midrange_total,
+            'economic_total': economic_total}) }}
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            {{ render(controller('MyCpMobileFrontendBundle:Mobile:homeCarrousel')) }}
+        </div>
+    </div>
 {% endblock %}

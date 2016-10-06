@@ -10,13 +10,15 @@
         {% endblock metas %}
         {% stylesheets
             '@MyCpMobileFrontendBundle/Resources/public/css/bootstrap.min.css'
-            '@MyCpMobileFrontendBundle/Resources/public/font-awesome/css/font-awesome.min.css'
-            '@MyCpMobileFrontendBundle/Resources/public/css/glyphicons.css'
+            '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
+            '@FrontEndBundle/Resources/public/css/glyphicons.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
             '@FrontEndBundle/Resources/public/css/custom.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
         filter='?uglifycss'
         %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
+        {#'@MyCpMobileFrontendBundle/Resources/public/css/style.css'#}
+            <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         {% if ownership.category is defined and  ownership.category == 'Económica'%}
             {% stylesheets
@@ -36,51 +38,50 @@
         {% endif %}
 
         <!-- Google Analytics -->
-        <script>
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-16697066-1']);
-            _gaq.push(['_trackPageview']);
+        {#<script>#}
+            {#var _gaq = _gaq || [];#}
+            {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
+            {#_gaq.push(['_trackPageview']);#}
 
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        <!-- Facebook Pixel Code -->
-        <script>
-            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-                n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-                t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-                    document,'script','//connect.facebook.net/en_US/fbevents.js');
+            {#(function() {#}
+                {#var ga = document.createElement('script');#}
+                {#ga.type = 'text/javascript';#}
+                {#ga.async = true;#}
+                {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
+                {#var s = document.getElementsByTagName('script')[0];#}
+                {#s.parentNode.insertBefore(ga, s);#}
+            {#})();#}
+        {#</script>#}
+        {#<!-- Facebook Pixel Code -->#}
+        {#<script>#}
+            {#!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
+                    {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;#}
+                {#n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;#}
+                {#t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,#}
+                    {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
 
-            fbq('init', '1240648305949371');
-            fbq('track', "PageView");</script>
-        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
-        <!-- End Facebook Pixel Code -->
+            {#fbq('init', '1240648305949371');#}
+            {#fbq('track', "PageView");</script>#}
+        {#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
+        {#<!-- End Facebook Pixel Code -->#}
 
 
     </head>
     <body>
-    {% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
+    {#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
     <!-- Google Tag Manager -->
-    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <script>(function(w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'});
-            var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                    '//www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
+    {#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
+    {#<script>(function(w, d, s, l, i) {#}
+            {#w[l] = w[l] || [];#}
+            {#w[l].push({'gtm.start':#}
+                    {#new Date().getTime(), event: 'gtm.js'});#}
+            {#var f = d.getElementsByTagName(s)[0],#}
+                    {#j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';#}
+            {#j.async = true;#}
+            {#j.src =#}
+                    {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
+            {#f.parentNode.insertBefore(j, f);#}
+        {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>#}
     <!-- End Google Tag Manager -->
     {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
     <div class="container">
@@ -96,7 +97,7 @@
             {% endif %}
         </div>
     </div>
-    <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+    <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle pull-left" type="button">
                 <span class="sr-only">Menu</span>
@@ -147,119 +148,17 @@
         <p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
     {% endblock %}
 
-    <footer class="bg-gradient-blue">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-2">
-                    <h3>{{"DESTINATIONS" | trans}}</h3>
-                    <ul>
-                        <li><a title="My Casa Particular - {{"TOP_DESTINATIONS" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"TOP_DESTINATIONS" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"MOST_VISITED_CITIES" | trans}}" href="{{path('frontend_get_with_reservations_municipality')}}">{{"MOST_VISITED_CITIES" | trans}}</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <h3>{{"ACCOMMODATIONS" | trans}}</h3>
-                    <ul>
-                        <li><a title="My Casa Particular - {{"TOP_RATED" | trans}}" href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"Penthouse" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'penthouse' | trans})}}">{{"Penthouse" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"Villa con piscina" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'villa-con-piscina' | trans})}}">{{"Villa con piscina" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"Apartamento" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'apartamento' | trans})}}">{{"Apartamento" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"Casa particular" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'casa-particular' | trans})}}">{{"Casa particular" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"Propiedad completa" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'propiedad-completa' | trans})}}">{{"Propiedad completa" | trans}}</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <h3>{{"ABOUT_MYCP" | trans}}</h3>
-                    <ul>
-                        <li><a title="My Casa Particular - {{"WHO_ARE_WE" | trans}}" href="{{ path('frontend_about_us')}}">{{"WHO_ARE_WE" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"CONTACT_US" | trans}}" href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"FAQ" | trans}}" href="{{path('frontend_list_faq')}}">{{"FAQ" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"LEGAL_TERMS" | trans}}" href="{{path('frontend_legal_terms')}}">{{"LEGAL_TERMS" | trans}}</a></li>
-                        <li><a title="My Casa Particular - {{"SECURITY_AND_PRIVACITY" | trans}}" href="{{path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans}}</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <h3>{{"OUR_SERVICES" | trans}}</h3>
-                    <ul>
-                        <li><a title="My Casa Particular - {{"SITE_MAP" | trans}}"  href="{{ path ('frontend_sitemap_information')}}">{{"SITE_MAP" | trans}}</a></li>
-                    </ul>
-                </div>
+    {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
 
+    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
 
-
-
-
-
-
-
-                <div class="col-xs-2">
-                    <div class="col-xs-12">
-                        <h3 style="margin-bottom: 5px;">{{"HOUSE_QUESTION" | trans}}</h3>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a href="{{ path('frontend_mycasarenta_index') }}" >{{ 'MYCASA_RENTA_APP'|trans }}</a></li>
-                            {#<li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank"><img width="120px" src="{{ asset('bundles/frontend/img/google-play.png') }}"></a> </li>#}
-                        </ul>
-                    </div>
-                    <div class="col-xs-12">
-                        <h3 style="margin-bottom: 5px;">{{"find_reservations" | trans}}</h3>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a href="{{ path('frontend_mycasatrip_apps') }}" >{{ 'MyCasa Trip APP' | upper }}</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12">
-                        <h3 style="margin-bottom: 5px;">{{"find_location" | trans}}</h3>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycubamap" >{{ 'MyCuba Map APP' | upper }}</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <div class="col-xs-2 text-right">
-                    <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" title="MyCasaParticular.com" alt="{{"MyCasaParticular" | trans}}">
-                </div>
-            </div>
-            <div style="margin: 0 0 10px;">
-                <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}" >
-                    <img alt="{{"HOMEPAGE_TITLE" | trans}}" src="{{ asset('bundles/frontend/img/mycp-grey.png')}}">
-                </a>
-            </div>
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="http://www.mycasaparticular.com">MyCasaParticular.com</a>.
-                        {{"FOOTER_COPYRIGHT" | trans}}.</p>
-                </div>
-                <div id="social" class="col-sm-4 text-right">
-                    {{ include('FrontEndBundle:utils:netSocials.html.twig') }}
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-
+    <script>
+        var start_date ="{{"now"|date("d/m/Y") }}";
+        var end_date ="{{"now"|date("d/m/Y") }}";
+    </script>
     {% javascripts
     '@MyCpMobileFrontendBundle/Resources/public/js/jquery-2.1.1.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/jquery.mobile-1.4.5.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/tether.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/bootstrap.min.js'
 
@@ -273,15 +172,13 @@
 
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
-    '@FrontEndBundle/Resources/public/js/custom.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/custom.js'
 
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
 
-    '@FrontEndBundle/Resources/public/js/map.min.js'
+
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
 
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
@@ -316,19 +213,19 @@
         });
     </script>
 
-    <script type="text/javascript">
-        /* <![CDATA[ */
-        var google_conversion_id = 1016854742;
-        var google_custom_params = window.google_tag_params;
-        var google_remarketing_only = true;
-        /* ]]> */
-    </script>
-    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
-    <noscript>
-        <div style="display:inline;">
-            <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
-        </div>
-    </noscript>
+    {#<script type="text/javascript">#}
+        {#/* <![CDATA[ */#}
+        {#var google_conversion_id = 1016854742;#}
+        {#var google_custom_params = window.google_tag_params;#}
+        {#var google_remarketing_only = true;#}
+        {#/* ]]> */#}
+    {#</script>#}
+    {#<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>#}
+    {#<noscript>#}
+        {#<div style="display:inline;">#}
+            {#<img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>#}
+        {#</div>#}
+    {#</noscript>#}
     {% block javascripts %}
     {% endblock javascripts %}
     </body>

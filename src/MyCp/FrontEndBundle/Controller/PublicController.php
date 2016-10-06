@@ -35,6 +35,8 @@ class PublicController extends Controller {
     }
 
     public function welcomeAction() {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
         $glogal_locale = $this->get('translator')->getLocale();
@@ -53,14 +55,18 @@ class PublicController extends Controller {
         $slide_folder = rand(1, 1);
 
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 3 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
+
+        if ($mobileDetector->isMobile()) {
+            $items_per_page = 2;
+        }else{
+            $items_per_page = 3 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
+        }
+
         $paginator->setItemsPerPage($items_per_page);
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale, null, $user_ids["user_id"], $user_ids["session_id"]))->getResult();
         $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
 
-
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
         if ($mobileDetector->isMobile()){
             $response = $this->render('MyCpMobileFrontendBundle:frontend:index.html.twig', array(
@@ -68,6 +74,7 @@ class PublicController extends Controller {
                 'provinces' => $provinces,
                 'slide_folder' => $slide_folder,
                 'own_top20_list' => $own_top20_list,
+                'top_rated_total_items' => $paginator->getTotalItems(),
                 'premium_total' => $statistics['premium_total'],
                 'midrange_total' => $statistics['midrange_total'],
                 'economic_total' => $statistics['economic_total']

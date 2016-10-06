@@ -1,0 +1,47 @@
+
+<a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
+    <div style="background-image: url('{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") }}')"
+         class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
+
+         {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %}
+         style="position:relative" rel="tooltip"
+         title="{% if ownership.OwnInmediateBooking %}{{ "quick_booking_tooltip" | trans }}{% else %}{{ "MORE_INFO_PREFFIX" | trans }} {{ name }}
+
+         {% endif %}">
+
+        {% if ownership.OwnInmediateBooking %}
+            <div class="quick-ribbon">
+                <i class="glyphicons white electricity"></i> <span
+                        style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+        {% endif %}
+        <div class="thumbnail-title p-x-1 clearfix">
+            {% if award %}
+                <img src="{{ asset("uploads/awards/" ~ award) }}"
+                     style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px"
+                     alt="{{ "Awards" | trans }}"/>
+            {% endif %}
+            <span class="h-blue pull-right text-uppercase f-s-30 m-a-0"><small
+                        style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span>
+        </div>
+    </div>
+</a>
+<div class="row">
+    <div class="col-xs-10">
+        <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
+            <div class="h-blue m-b-2 m-t-0">
+                {{ name| title }}
+            </div>
+        </a>
+    </div>
+    <div class="col-xs-2 f-s-30">
+            {{ include('@MyCpMobileFrontend/favorite/itemFavorite.html.twig',
+            {'is_in_favorite': is_in_favorite,
+                'favorite_type': 'ownership',
+                'element_id':id,
+                'list_preffix' : list_preffix,
+                'include_text': false
+            }) }}
+    </div>
+
+
+</div>
