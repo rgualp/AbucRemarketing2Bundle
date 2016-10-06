@@ -1313,6 +1313,7 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
+        $dateTox = $dateTo;
         //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
@@ -1323,6 +1324,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($dateFrom, $dateTo);
+        $clientsSummaryPaymentsx = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsx($dateFrom, $dateTox);
 
         $tc = 0;
         $ts = 0;
@@ -1365,6 +1367,9 @@ ORDER BY own.own_mcp_code ASC
             $thp += $item["habitaciones"];
             $tpip += $item["personas_involucradas"];
             $tnp += $item["noches"];
+        }
+        foreach($clientsSummaryPaymentsx as $item)
+        {
             $tfr += $item["facturacion"];
         }
 
@@ -1383,7 +1388,6 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "d/m/Y"
         ));
     }
-
     public function clientsSummaryExcelAction(Request $request,$report, $from_date, $to_date)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
@@ -1393,6 +1397,7 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $from_date;
         $dateTo = $to_date;
+        $dateTox = $dateTo;
         //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
@@ -1403,6 +1408,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($dateFrom, $dateTo);
+        $clientsSummaryPaymentsx = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsx($dateFrom, $dateTox);
 
         $tc = 0;
         $ts = 0;
@@ -1445,6 +1451,10 @@ ORDER BY own.own_mcp_code ASC
             $thp += $item["habitaciones"];
             $tpip += $item["personas_involucradas"];
             $tnp += $item["noches"];
+            //$tfr += $item["facturacion"];
+        }
+        foreach($clientsSummaryPaymentsx as $item)
+        {
             $tfr += $item["facturacion"];
         }
 
@@ -1482,6 +1492,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPayments($dateFrom, $dateTo);
+        $clientsSummaryPaymentsx = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsx($dateFrom, $dateTo);
 
         $tc = 0;
         $ts = 0;
@@ -1524,6 +1535,10 @@ ORDER BY own.own_mcp_code ASC
             $thp += $item["habitaciones"];
             $tpip += $item["personas_involucradas"];
             $tnp += $item["noches"];
+            //$tfr += $item["facturacion"];
+        }
+        foreach($clientsSummaryPaymentsx as $item)
+        {
             $tfr += $item["facturacion"];
         }
 
@@ -1542,7 +1557,6 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "F"
         ));
     }
-
     public function clientsSummaryExcelMonthlyAction(Request $request,$report, $from_date, $to_date)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
@@ -1557,6 +1571,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPayments($dateFrom, $dateTo);
+        $clientsSummaryPaymentsx = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsx($dateFrom, $dateTo);
 
         $tc = 0;
         $ts = 0;
@@ -1599,6 +1614,10 @@ ORDER BY own.own_mcp_code ASC
             $thp += $item["habitaciones"];
             $tpip += $item["personas_involucradas"];
             $tnp += $item["noches"];
+            //$tfr += $item["facturacion"];
+        }
+        foreach($clientsSummaryPaymentsx as $item)
+        {
             $tfr += $item["facturacion"];
         }
 
@@ -1634,9 +1653,9 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPayments();
-        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
-        foreach($clientsSummaryFacturation as  $i=>$y){
-            $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        //$clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        foreach($clientsSummaryPayments as  $i=>$y){
+            $clientsSummaryPayments[$i]['facturacion']=$em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturationx($clientsSummaryPayments[$i]['fecha']);
         }
         $tc = 0;
         $ts = 0;
@@ -1695,7 +1714,6 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "Y"
         ));
     }
-
     public function clientsSummaryExcelYearlyAction(Request $request,$report)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
@@ -1708,9 +1726,8 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPayments();
-        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
-        foreach($clientsSummaryFacturation as  $i=>$y){
-            $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
+        foreach($clientsSummaryPayments as  $i=>$y){
+            $clientsSummaryPayments[$i]['facturacion']=$em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturationx($clientsSummaryPayments[$i]['fecha']);
         }
         $tc = 0;
         $ts = 0;
