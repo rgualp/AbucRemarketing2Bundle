@@ -1009,7 +1009,11 @@ class DashboardController extends Controller
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
-        $form = $this->createForm(new paReservationType($this->get('translator')));
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
 
         return $this->render('@Partner/Dashboard/accomodation_detail.html.twig', array(
             'form' => $form->createView(),

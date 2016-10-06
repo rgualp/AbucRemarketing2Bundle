@@ -956,10 +956,12 @@ class ownershipRepository extends EntityRepository {
         if(array_key_exists('breakfast', $filters) ){
             $filters['others_not_included']='BREAKFAST';
         }
-
-
-
-
+        if(array_key_exists('room_type', $filters) ){
+            if($filters['room_type']!=''){
+                $filters['room_type']=array($filters['room_type']);
+                $room_filter=true;
+            }
+        }
         $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
         $parameters = array();
 
@@ -978,7 +980,7 @@ class ownershipRepository extends EntityRepository {
         if ($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
 
-        $filterWhere = SearchUtils::getFilterWhere($filters);
+        $filterWhere = SearchUtils::getFilterWherePartner($filters);
 
         $where .= ($filterWhere != "") ? $filterWhere : "";
 
@@ -988,7 +990,9 @@ class ownershipRepository extends EntityRepository {
 
         $query_string .= $order;
 
+        //die(dump($query_string));
         $query = $em->createQuery($query_string)->setFirstResult($start)->setMaxResults($limit);
+        //die(dump($query));
         if ($user_id != null)
             $query->setParameter('user_id', $user_id);
 

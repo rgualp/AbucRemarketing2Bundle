@@ -30,8 +30,11 @@ class BackendController extends Controller
         $prices_own_list = $results["prices"];
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
 
-        $form = $this->createForm(new paReservationType($this->get('translator')));
+        $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
@@ -50,6 +53,8 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $filters= $request->get('requests_ownership_filter');
+        $session->set("partner_arrival_date",$filters['arrival']);
+        $session->set("partner_exit_date",$filters['exit']);
         $start=$request->request->get('start');
         $limit=$request->request->get('limit');
         $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
@@ -69,7 +74,7 @@ class BackendController extends Controller
                     'url'=>$this->generateUrl('frontend_details_ownership', array('own_name' => $own['own_name'])));
             }
         }
-        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result));
+        return new JsonResponse(array('response_twig'=>$response,'response_json'=>$result,'partner_arrival_date'=>$session->get("partner_arrival_date"),'partner_exit_date'=>$session->get("partner_exit_date")));
     }
 
     public function openReservationsListAction(Request $request)
@@ -376,7 +381,10 @@ class BackendController extends Controller
      */
     public function listClientAction(){
         $em = $this->getDoctrine()->getManager();
-        $clients= $em->getRepository('PartnerBundle:paClient')->findAll();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $clients= $em->getRepository('PartnerBundle:paClient')->findBy(array("travelAgency" => $travelAgency->getId()), array("fullname" => "ASC"));
         $data = array();
         foreach ($clients as $item) {
             $arrTmp = array();
