@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-05T10:29:47Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-10-06T11:19:57Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -805,6 +805,22 @@
       <trans-unit id="4fa86e969324bc682065211537c5c896e471145b" resname="cart.search_again">
         <source>cart.search_again</source>
         <target>Buscar nuevo</target>
+      </trans-unit>
+      <trans-unit id="5ea0450614d267be96ac87aedf82aebf5f79131a" resname="content.email.partner_deactivateaccount">
+        <source>content.email.partner_deactivateaccount</source>
+        <target state="new"><![CDATA[El equipo de MyCasaPartner lamenta que hayas desactivado tu cuenta. Si estás decidido(a) solo podemos desearte buena suerte en el futuro. Esperamos que la experiencia de trabajar con nosotros te haya aportado muchas energías positivas.</br>
+                                     Ya sabes dónde estamos, si una vez fuiste Partner, ese espíritu no te abandona.</br>
+                                     De ahora en adelante, tu cuenta queda desactivada y ya no estarás en condiciones de acceder a tus datos y registros.</br>
+                                     Ha sido un placer colaborar contigo,</br>
+                                     Equipo de MyCasaPartner]]></target>
+      </trans-unit>
+      <trans-unit id="85abe55d1de6ad8868e5c68683a3c2f7063a073a" resname="content.email.partnerteam_deactivateaccount">
+        <source>content.email.partnerteam_deactivateaccount</source>
+        <target state="new"><![CDATA[Hola equipo de MyCasa Particular,</br>
+                                    Una nueva agencia de viaje se ha dado de baja de MyCasa Partner. Su cuenta agency_name a nombre de agency_resp, ya se ha desactivado.</br>
+                                    Hasta este momento, realizaba sus operaciones con los beneficios del paquete (Básico). Lo lamentamos mucho.</br>
+                                     Buena suerte,</br>
+                                    Equipo de MyCasaPartner]]></target>
       </trans-unit>
       <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
         <source>content.five.email.partner_mcpteam</source>
@@ -2085,6 +2101,10 @@
       <trans-unit id="1bc301e5ec4d8dae9ec673e632b8bfa269ae621f" resname="select_language">
         <source>select_language</source>
         <target state="new">Seleccione los lenguages</target>
+      </trans-unit>
+      <trans-unit id="dc03589e363f6d5159efe547db192fbe7ddfdd51" resname="subject.email.partner_deactivateaccount">
+        <source>subject.email.partner_deactivateaccount</source>
+        <target state="new">Desactivación de cuenta de agencia</target>
       </trans-unit>
       <trans-unit id="25b692d705af7ba4986214d673ec53abea59dd3b" resname="subject.email.partner_mcpteam">
         <source>subject.email.partner_mcpteam</source>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-05T10:30:15Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-10-06T11:20:26Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -805,6 +805,14 @@
       <trans-unit id="4fa86e969324bc682065211537c5c896e471145b" resname="cart.search_again">
         <source>cart.search_again</source>
         <target>Search again</target>
+      </trans-unit>
+      <trans-unit id="5ea0450614d267be96ac87aedf82aebf5f79131a" resname="content.email.partner_deactivateaccount">
+        <source>content.email.partner_deactivateaccount</source>
+        <target state="new">content.email.partner_deactivateaccount</target>
+      </trans-unit>
+      <trans-unit id="85abe55d1de6ad8868e5c68683a3c2f7063a073a" resname="content.email.partnerteam_deactivateaccount">
+        <source>content.email.partnerteam_deactivateaccount</source>
+        <target state="new">content.email.partnerteam_deactivateaccount</target>
       </trans-unit>
       <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
         <source>content.five.email.partner_mcpteam</source>
@@ -1957,6 +1965,10 @@
       <trans-unit id="1bc301e5ec4d8dae9ec673e632b8bfa269ae621f" resname="select_language">
         <source>select_language</source>
         <target state="new">select_language</target>
+      </trans-unit>
+      <trans-unit id="dc03589e363f6d5159efe547db192fbe7ddfdd51" resname="subject.email.partner_deactivateaccount">
+        <source>subject.email.partner_deactivateaccount</source>
+        <target state="new">subject.email.partner_deactivateaccount</target>
       </trans-unit>
       <trans-unit id="25b692d705af7ba4986214d673ec53abea59dd3b" resname="subject.email.partner_mcpteam">
         <source>subject.email.partner_mcpteam</source>

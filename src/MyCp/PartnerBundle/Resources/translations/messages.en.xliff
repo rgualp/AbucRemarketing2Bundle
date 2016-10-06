@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-05T10:30:01Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-06T11:20:11Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -805,6 +805,22 @@
       <trans-unit id="4fa86e969324bc682065211537c5c896e471145b" resname="cart.search_again">
         <source>cart.search_again</source>
         <target>Search again</target>
+      </trans-unit>
+      <trans-unit id="5ea0450614d267be96ac87aedf82aebf5f79131a" resname="content.email.partner_deactivateaccount">
+        <source>content.email.partner_deactivateaccount</source>
+        <target state="new"><![CDATA[MyCasa Partner Team regrets that you have to deactivate your account. If you are decided, we can only wish you good luck for the future. We hope that the experience of working with us has given you lots of positive energy.</br>
+                                     You know where we are, if you were once Partner, that spirit never leaves you.</br>
+                                     From now on your account is deactivated and you will no longer be able to access your data or record with us.</br>
+                                     It has been a pleasure to collaborate with you,</br>
+                                     MyCasa Partner Team]]></target>
+      </trans-unit>
+      <trans-unit id="85abe55d1de6ad8868e5c68683a3c2f7063a073a" resname="content.email.partnerteam_deactivateaccount">
+        <source>content.email.partnerteam_deactivateaccount</source>
+        <target state="new"><![CDATA[Hello MyCasa Particular Team,</br>
+                                        A new Travel Agency has deactivated its account with MyCasaPartner. The account  agency_name under the name of agency_resp, has been deactivated.</br>
+                                        Up to now, it was operating with the benefits of the (Basic) package.  We are really sorry.</br>
+                                        Good Luck!</br>
+                                        MyCasa Partner Team]]></target>
       </trans-unit>
       <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
         <source>content.five.email.partner_mcpteam</source>
@@ -2086,6 +2102,10 @@
       <trans-unit id="1bc301e5ec4d8dae9ec673e632b8bfa269ae621f" resname="select_language">
         <source>select_language</source>
         <target state="new">Select languages</target>
+      </trans-unit>
+      <trans-unit id="dc03589e363f6d5159efe547db192fbe7ddfdd51" resname="subject.email.partner_deactivateaccount">
+        <source>subject.email.partner_deactivateaccount</source>
+        <target state="new">Deactivation of Agency Account</target>
       </trans-unit>
       <trans-unit id="25b692d705af7ba4986214d673ec53abea59dd3b" resname="subject.email.partner_mcpteam">
         <source>subject.email.partner_mcpteam</source>
