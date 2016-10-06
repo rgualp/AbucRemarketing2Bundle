@@ -68,6 +68,13 @@ class localOperationAssistant {
     private $municipality;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
+    /**
      * @return int
      */
     public function getId()
@@ -180,6 +187,24 @@ class localOperationAssistant {
     public function setPhone2($phone2)
     {
         $this->phone2 = $phone2;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
+     * @return mixed
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
         return $this;
     }
 

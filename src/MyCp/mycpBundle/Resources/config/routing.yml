@@ -42,10 +42,6 @@ mycp_ownership:
     resource: "@mycpBundle/Resources/config/routingBackendOwnership.yml"
     prefix:   backend/ownership/
 
-mycp_agency:
-    resource: "@mycpBundle/Resources/config/routingBackendAgency.yml"
-    prefix:   backend/agency/
-
 mycp_lodging_ownership:
     resource: "@mycpBundle/Resources/config/routingLodgingOwnership.yml"
     prefix:   casa/propiedad/
@@ -183,6 +179,10 @@ mycp_get_accommodations_by_destination:
 mycp_backend_payment:
     resource: "@mycpBundle/Resources/config/routingBackendPayment.yml"
     prefix:   backend/payments/
+
+mycp_config_email:
+    resource: "@mycpBundle/Resources/config/routingBackendConfigEmail.yml"
+    prefix:   backend/config_email/
 
 mycp_reservations_ag:
     resource: "@mycpBundle/Resources/config/routingBackendReservationsAg.yml"

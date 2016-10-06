@@ -2,7 +2,7 @@
 
 {#% set  mailPaymentUrl = url('frontend_mycasatrip_available', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
 {#% set  mailCancelReservationUrl = url('frontend_mycasatrip_cancel_offer', { 'generalReservationId':generalReservationId, 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
-{% set mailPaymentUrl = mail_base_url ~ '/mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower %}
+{% set mailPaymentUrl = mail_base_url ~ '/email-mycasatrip/available/'~ user_locale|lower~'/'~ user_locale|lower %}
 {% set mailCancelReservationUrl = mail_base_url ~ '/cancel-offer-email/'~generalReservationId~'/'~ user_locale|lower~'/'~ user_locale|lower %}
 
 {% block content %}

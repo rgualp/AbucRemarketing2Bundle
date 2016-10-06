@@ -274,7 +274,143 @@ class SearchUtils {
             return "(o.own_destination =:destination)";
     }
 
+    public static function getFilterWherePartner($filters) {
+        $where = "";
+        if ($filters != null && is_array($filters)) {
 
+            if (array_key_exists('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0)
+            {
+                $insideWhere = SearchUtils::getPlusFilterString($filters['own_beds_total'], "r.room_beds", 6);
+                if($insideWhere != "")
+                    $where .= " AND (" . $insideWhere . ")";
+            }
+
+            if (array_key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['own_category']);
+                if($insideWhere != "")
+                    $where .= " AND o.own_category IN (" . $insideWhere . ")";
+            }
+
+            if (array_key_exists('own_type', $filters) && $filters['own_type'] != null && is_array($filters['own_type']) && count($filters['own_type']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['own_type']);
+
+                if($insideWhere != "")
+                    $where .= " AND o.own_type IN (" . $insideWhere . ")";
+            }
+
+            if (array_key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0) {
+                $prices_where = "";
+
+                for ($i = 0; $i < count($filters['own_price_from']); $i++) {
+                    $prices_where .= ($prices_where != '' ? " AND " : "") . "(o.own_minimum_price >=" . $filters['own_price_from'][$i] . " AND o.own_minimum_price <=" . $filters['own_price_to'][$i] . ")";
+                }
+
+                $where = $where . (($prices_where != "") ? " AND ($prices_where)" : "");
+            }
+
+
+            if (array_key_exists('room_type', $filters) && $filters['room_type'] != null && is_array($filters['room_type']) && count($filters['room_type']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['room_type']);
+
+                if($insideWhere != "")
+                    $where .= " AND r.room_type IN (" . $insideWhere . ")";
+            }
+
+            if (array_key_exists('room_climatization', $filters) && $filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
+            {
+                $where .= " AND r.room_climate LIKE '%" . $filters['room_climatization'] . "%'";
+            }
+
+            if (array_key_exists('room_safe', $filters) && $filters['room_safe'])
+                $where .= " AND r.room_safe = 1";
+
+            if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking'])
+                $where .= " AND o.own_inmediate_booking = 1";
+
+            if (array_key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
+                $where .= " AND (r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";
+
+            if (array_key_exists('room_kids', $filters) && $filters['room_kids'])
+                $where .= " AND r.room_baby = 1";
+
+            if (array_key_exists('room_smoker', $filters) && $filters['room_smoker'])
+                $where .= " AND r.room_smoker = 1";
+
+            if (array_key_exists('room_windows_total', $filters) && $filters['room_windows_total'] != null && is_array($filters['room_windows_total']) && count($filters['room_windows_total']) > 0)
+            {
+                $insideWhere = SearchUtils::getPlusFilterString($filters['room_windows_total'], "r.room_windows", 6);
+
+                if($insideWhere != "")
+                    $where .= " AND (" . $insideWhere . ")";
+            }
+
+            if (array_key_exists('room_balcony', $filters) && $filters['room_balcony'])
+                $where .= " AND r.room_balcony = 1";
+
+            if (array_key_exists('room_terraza', $filters) && $filters['room_terraza'])
+                $where .= " AND r.room_terrace = 1";
+
+            if (array_key_exists('room_courtyard', $filters) && $filters['room_courtyard'])
+                $where .= " AND r.room_yard = 1";
+
+            if (array_key_exists('room_bathroom', $filters) && $filters['room_bathroom'] != null && is_array($filters['room_bathroom']) && count($filters['room_bathroom']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['room_bathroom']);
+
+                if($insideWhere != "")
+                    $where .= " AND r.room_bathroom IN (" . $insideWhere . ")";
+            }
+
+            if (array_key_exists('own_others_pets', $filters) && $filters['own_others_pets'])
+                $where .= " AND o.own_description_pets = 1";
+
+            if (array_key_exists('own_others_internet', $filters) && $filters['own_others_internet'])
+                $where .= " AND o.own_description_internet = 1";
+
+            if (array_key_exists('own_others_languages', $filters) && $filters['own_others_languages'] != null && is_array($filters['own_others_languages']) && count($filters['own_others_languages']) > 0) {
+                $lang_where = "";
+
+                for ($i = 0; $i < count($filters['own_others_languages']); $i++) {
+                    $lang_where .= ($lang_where != '' ? " AND " : "") . "o.own_langs LIKE '" . $filters['own_others_languages'][$i] . "'";
+                }
+
+                $where = $where . (($lang_where != "") ? " AND ($lang_where)" : "");
+            }
+
+            if (array_key_exists('own_others_included', $filters) && $filters['own_others_included'] != null && is_array($filters['own_others_included']) && count($filters['own_others_included']) > 0)
+                $where .= SearchUtils::getServicesIncludedFilterWhere($filters['own_others_included']);
+
+            if (array_key_exists('own_others_not_included', $filters) && $filters['own_others_not_included'] != null && is_array($filters['own_others_not_included']) && count($filters['own_others_not_included']) > 0)
+                $where .= SearchUtils::getServicesNotIncludedFilterWhere($filters['own_others_not_included']);
+
+            if (array_key_exists('own_rooms_number', $filters) && $filters['own_rooms_number'] != null && is_array($filters['own_rooms_number']) && count($filters['own_rooms_number']) > 0)
+            {
+                $insideWhere =  SearchUtils::getPlusFilterString($filters['own_rooms_number'], "o.own_rooms_total", 6);
+
+                if($insideWhere != "")
+                    $where.= " AND (" .$insideWhere. ")";
+            }
+            if (($filters['room'] != "") && (array_key_exists('room_type', $filters) && $filters['room_type'] != null && is_array($filters['room_type']) && count($filters['room_type']) > 0)){
+                $insideWhere = SearchUtils::getStringFromArray($filters['room_type']);
+                $where .= " AND " . "(SELECT count(r1) FROM mycpBundle:room r1 WHERE  r1.room_type = $insideWhere AND r1.room_ownership=o.own_id) >= ".$filters['room'];
+            }
+            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
+
+                if($insideWhere != "")
+                    $where .= " HAVING award1 IN (" . $insideWhere . ")";
+
+//                if($insideWhere != "")
+//                    $where .= " AND award_id IN (" . $insideWhere . ")";
+            }
+
+        }
+        return $where;
+    }
 
     public static function getFilterWhere($filters) {
         $where = "";

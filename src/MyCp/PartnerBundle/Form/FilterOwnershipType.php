@@ -124,6 +124,22 @@ class FilterOwnershipType extends AbstractType
             ->add('dinner', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('breakfast', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('room_safe', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('own_others_languages','choice', array(
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'choices'=>array(
+                    '1___'=>'Inglés',
+                    '__1_'=>'Alemán',
+                    '_1__'=>'Francés',
+                    '___1'=>'Italiano'
+                ),
+                'mapped'=>false,
+                'empty_data'  => null,
+                'empty_value' => "",
+                'required' => false,
+                'multiple' => true
+            ))
 
             ;
     }

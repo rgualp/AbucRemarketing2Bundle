@@ -3795,10 +3795,34 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                  <source>VOUCHER_MOVIL_TEXT</source>
                  <target>Jetzt auch auf Ihrem Mobil-Telefon erhältlich.</target>
                  </trans-unit>
+
+
                  <trans-unit id="957">
                  <source>VOUCHER_MOVIL_TEXT1</source>
                  <target>Es ist kostenlos!</target>
                  </trans-unit>
+
+                  <trans-unit id="10957">
+                 <source>MYTAXICUBA</source>
+                 <target>MyTaxiCuba</target>
+                 </trans-unit>
+
+
+
+
+                 <trans-unit id="10958">
+                 <source>MYTAXICUBACONTE1</source>
+                 <target>Bestellen Sie Ihr Taxi und garantieren Sie die sichere Ankunft zur gebuchten Unterkunft.</target>
+                 </trans-unit>
+
+
+                   <trans-unit id="10959">
+                     <source>MYTAXICUBACONTE2</source>
+                     <target>Um unsere Service zu bestellen, kontaktieren Sie uns unter die E-Mail Adresse:</target>
+                   </trans-unit>
+
+
+
                  <trans-unit id="958">
                  <source>VOUCHER_ON_SITE</source>
                  <target>Sehen auf unserer Website</target>
@@ -3964,7 +3988,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                      <source>NEW_USER_ACCOUNT</source>
                      <target>Neues Benutzeraccount</target>
                 </trans-unit>
-
+                <trans-unit id="998">
+                     <source>Logo</source>
+                     <target>Logo</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>
