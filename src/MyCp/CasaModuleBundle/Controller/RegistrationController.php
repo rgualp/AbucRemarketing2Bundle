@@ -66,11 +66,25 @@ class RegistrationController extends Controller
         }
         $data['country_code'] = $request->get('own_province');
         $data['municipality_code'] = $request->get('own_municipality');
-//        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this,$translator, $this->container);
-//        $current_ownership_id = $ownership->getOwnId();
-        $province=$em->getRepository('mycpBundle:province')->find($request->get('own_province'));
-        $municipality=$em->getRepository('mycpBundle:municipality')->find($request->get('own_municipality'));
+
+        if($data['country_code'] == null || $data['country_code'] == "")
+        {
+            $message = 'Por favor, seleccione una provincia.';
+            $this->get('session')->getFlashBag()->add('message_error', $message);
+            $data['count_errors']++;
+        }
+
+        if($data['municipality_code'] == null || $data['municipality_code'] == "")
+        {
+            $message = 'Por favor, seleccione un municipio.';
+            $this->get('session')->getFlashBag()->add('message_error', $message);
+            $data['count_errors']++;
+        }
+
        if($data["count_errors"]==0){
+           $province=$em->getRepository('mycpBundle:province')->find($request->get('own_province'));
+           $municipality=$em->getRepository('mycpBundle:municipality')->find($request->get('own_municipality'));
+
         $ownership=new ownership();
         $ownership->setOwnName(trim($request->get('own_name')))
             ->setOwnLicenceNumber(trim($request->get('own_license_number')))
