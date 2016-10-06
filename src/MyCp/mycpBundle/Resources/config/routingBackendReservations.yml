@@ -110,3 +110,11 @@ mycp_generate_clients_callback:
 mycp_download_clients:
     pattern:  /download_clients
     defaults: { _controller: mycpBundle:BackendReservation:downloadClientCallback}
+
+mycp_send_email_client:
+    pattern:  /sender/email/
+    defaults: { _controller: mycpBundle:BackendReservation:showModalEmail}
+
+mycp_send_email_destination:
+    pattern:  /email/send/destination
+    defaults: { _controller: mycpBundle:BackendReservation:sendEmailDestination}
