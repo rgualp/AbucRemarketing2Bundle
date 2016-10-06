@@ -80,6 +80,7 @@ class serviceFeeRepository extends EntityRepository {
         }
 
         $avgRoomPrices = $roomPrices / $totalsRooms;
+        $totalNights = $totalNights / $totalsRooms;
         /*var_dump($genResId);
         var_dump($totalsRooms);
         var_dump($totalNights);*/

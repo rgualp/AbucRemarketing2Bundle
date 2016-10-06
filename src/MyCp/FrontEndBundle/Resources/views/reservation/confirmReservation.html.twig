@@ -92,6 +92,12 @@
                     <td><b>{{"FORMS_PHONE"|trans}}:</b></td>
                     <td>(+53{{ own.prov_code }}) {{ own.phone_number }}</td>
                 </tr>
+            {% if own.own_email_1 != "" or own.own_email_2 != "" %}
+            <tr>
+                <td><b>{{"FORMS_EMAIL"|trans}}:</b></td>
+                <td>{% if own.own_email_1 == "" and own.own_email_2 == "" %}-{% else %}<a href="mailto:{{ own.own_email_1 }}">{{ own.own_email_1 }}</a>{% if own.own_email_1 != "" and own.own_email_2 != "" %}, {% endif %}<a href="mailto:{{ own.own_email_2 }}">{{ own.own_email_2 }}</a>{% endif %}</td>
+            </tr>
+        {% endif %}
             </tbody>
         </table>
         {%for res_room in own_res_rooms[own.id]%}

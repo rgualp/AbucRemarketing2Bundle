@@ -1,0 +1,15 @@
+mycp_configemail_list:
+    pattern:  /list
+    defaults: { _controller: mycpBundle:BackendConfigEmail:list}
+
+mycp_configemail_save:
+    pattern:  /save
+    defaults: { _controller: mycpBundle:BackendConfigEmail:save}
+
+mycp_destinationemail_save:
+    pattern:  /destination_email/save
+    defaults: { _controller: mycpBundle:BackendConfigEmail:saveDestination}
+
+mycp_destinationemail_delete:
+    pattern:  /destination_email/delete/{id}
+    defaults: { _controller: mycpBundle:BackendConfigEmail:deleteDestination}
