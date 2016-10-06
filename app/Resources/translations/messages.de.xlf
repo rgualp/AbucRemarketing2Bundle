@@ -3969,7 +3969,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                      <source>NEW_USER_ACCOUNT</source>
                      <target>Neues Benutzeraccount</target>
                 </trans-unit>
-
+                <trans-unit id="994">
+                     <source>Logo</source>
+                     <target>Logo</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>
