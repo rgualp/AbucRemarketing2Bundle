@@ -153,6 +153,10 @@ class BackendController extends Controller
 
         //Pasar el paGeneralReservation a generalReservation
         $reservationDetails = $reservation->getDetails();
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheck.html.twig', array(
+            "reservations" => $reservationDetails,
+        ));
+        dump($content);die;
 
         foreach($reservationDetails as $detail)
         {
@@ -184,10 +188,13 @@ class BackendController extends Controller
         $em->persist($reservation);
         $em->flush();
 
+
+
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
-            'list' => $list
+            'list' => $list,
+            'travelAgency'=>$travelAgency
         ));
 
         return new JsonResponse([

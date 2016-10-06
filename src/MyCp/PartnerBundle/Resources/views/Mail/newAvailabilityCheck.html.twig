@@ -1,0 +1,23 @@
+{% extends 'PartnerBundle:Mail:translateMailTemplate.html.twig' %}
+{% set user_locale='es' %}
+{% block content %}
+<p style="font-family: Arial; font-size: 14px">
+    Información de la(s) reserva(s)
+    {% set totalPrice = 0 %}
+{% for reservation in reservations %}
+
+    {{ reservation.openReservationDetail.accommodation.ownMcpCode }}/ {{ reservation.openReservationDetail.accommodation.ownName }}
+    {{ reservation.openReservationDetail.accommodation.ownAddressProvince.provName }}/ {{ reservation.openReservationDetail.accommodation.ownAddressMunicipality.munName }}
+    Habitación (Tipo de hab.):
+    (#) adultos  {{ reservation.reservation.adults }} (#) niños {{ reservation.reservation.children }}
+    Fecha de llegada:{{ reservation.openReservationDetail.dateFrom | date('d/m/Y') }}/# de noches {{ reservation.openReservationDetail.nights }}
+
+    {#CAS {{ reservation.reservationDetail.genResId  }}#}
+    {% set totalPrice=totalPrice+reservation.openReservationDetail.totalPrice %}
+
+    {% endfor %}
+    {{ totalPrice}}
+<br/>
+
+</p>
+{% endblock %}
