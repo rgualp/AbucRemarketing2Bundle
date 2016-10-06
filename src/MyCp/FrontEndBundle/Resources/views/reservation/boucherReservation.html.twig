@@ -103,14 +103,20 @@
                         </tr>
                         <tr>
                             <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
-                            <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ own.main_street }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ own.number }} {%if own.street_1 != "" and own.street_2 != ""%}, {{ own.street_1 }} & {{ own.street_2 }}{%endif%}.
-                    {{ own.municipality }}, {{own.province }}.
+                                <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ own.main_street }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ own.number }} {%if own.street_1 != "" and own.street_2 != ""%}, {{ own.street_1 }} & {{ own.street_2 }}{%endif%}.
+                                    {{ own.municipality }}, {{own.province }}.
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{%if own.phone_number != ""%}(+53) {{ own.prov_code }} {{ own.phone_number }}{%else%} - {%endif%}</td>
                             </tr>
+                        {% if own.own_email_1 != "" or own.own_email_2 != "" %}
+                        <tr>
+                            <td><b>{{"FORMS_EMAIL"|trans}}:</b></td>
+                            <td>{% if own.own_email_1 == "" and own.own_email_2 == "" %}-{% else %}<a href="mailto:{{ own.own_email_1 }}">{{ own.own_email_1 }}</a>{% if own.own_email_1 != "" and own.own_email_2 != "" %}, {% endif %}<a href="mailto:{{ own.own_email_2 }}">{{ own.own_email_2 }}</a>{% endif %}</td>
+                        </tr>
+                        {% endif %}
                         </table>
             {%for res_room in own_res_rooms[own.id]%}
                         <br/>

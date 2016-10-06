@@ -165,7 +165,9 @@ class ownershipReservationRepository extends EntityRepository {
             o.own_commission_percent as commission_percent,
             serviceFee.id as service_fee,
             serviceFee.fixedFee,
-            serviceFee.current as currentFee
+            serviceFee.current as currentFee,
+            o.own_email_1,
+            o.own_email_2
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
             JOIN gre.gen_res_own_id o
             JOIN o.own_address_municipality as mun
