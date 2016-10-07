@@ -89,10 +89,11 @@ class paReservationRepository extends EntityRepository {
         if($openReservation == null)
         {
             $openReservation = new paReservation();
-            $openReservation->setAdults($adults)
-                ->setChildren($children)
-                ->setClient($client);
+            $openReservation->setClient($client);
         }
+
+        $openReservation->setAdults($adults)
+            ->setChildren($children);
 
         if($this->canCreateReservation($openReservation, $accommodation, $dateFrom, $dateTo)) {
             //Actualizar total de ubicados

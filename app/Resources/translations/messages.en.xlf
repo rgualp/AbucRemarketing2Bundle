@@ -3794,6 +3794,25 @@
                  <source>VOUCHER_MOVIL_TEXT1</source>
                  <target>It's free!</target>
                  </trans-unit>
+
+
+
+                    <trans-unit id="10957">
+                                  <source>MYTAXICUBA</source>
+                                  <target>MyTaxiCuba</target>
+                                  </trans-unit>
+
+
+ <trans-unit id="10958">
+                 <source>MYTAXICUBACONTE1</source>
+                 <target>Book your taxi and guarantee the secure transportation to the requested lodging.</target>
+                 </trans-unit>
+
+                    <trans-unit id="10959">
+                                      <source>MYTAXICUBACONTE2</source>
+                                      <target>If you require the service of MyTaxiCuba, contact us trough:</target>
+                                    </trans-unit>
+
                                   <trans-unit id="958">
                                   <source>VOUCHER_ON_SITE</source>
                                   <target>See on our web site</target>
@@ -3938,6 +3957,10 @@
                 <trans-unit id="993">
                      <source>NEW_USER_ACCOUNT</source>
                      <target>New User Account</target>
+                </trans-unit>
+                <trans-unit id="994">
+                     <source>Logo</source>
+                     <target>Logo</target>
                 </trans-unit>
         </body>
     </file>
