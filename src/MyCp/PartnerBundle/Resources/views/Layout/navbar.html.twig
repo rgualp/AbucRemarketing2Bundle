@@ -1,5 +1,7 @@
 <div class="navbar-wrapper {% if navbar_bg_class is defined %} bg-blue {% endif %}">
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+        {% set beta_img = asset('bundles/partner/img/home/beta.png') %}
+        <div class="" style="background: url({{ beta_img}}) transparent no-repeat scroll center center / cover;position: fixed;right: 0;z-index: 6000000;width: 72px;height: 72px"></div>
         <div class="container">
             <div class="navbar-header page-scroll">
                 <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">

@@ -2005,23 +2005,23 @@
       </trans-unit>
       <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
         <source>partner.sitemap.activation</source>
-        <target state="new">partner.sitemap.activation</target>
+        <target state="new">Activation</target>
       </trans-unit>
       <trans-unit id="b03931c836af7cf8409ac6f034f9f6592ffbf407" resname="partner.sitemap.confirmation">
         <source>partner.sitemap.confirmation</source>
-        <target state="new">partner.sitemap.confirmation</target>
+        <target state="new">Confirmation</target>
       </trans-unit>
       <trans-unit id="32f7e17ba20847629adf4c466a8446693949aa53" resname="partner.sitemap.frontend">
         <source>partner.sitemap.frontend</source>
-        <target state="new">partner.sitemap.frontend</target>
+        <target state="new">Front-end Agency</target>
       </trans-unit>
       <trans-unit id="419e9c8094c88fba5aeb854ed90d6b801b406a55" resname="partner.sitemap.shoppingcart">
         <source>partner.sitemap.shoppingcart</source>
-        <target state="new">partner.sitemap.shoppingcart</target>
+        <target state="new">Header Shopping Cart</target>
       </trans-unit>
       <trans-unit id="e9d847416f1e5983b9eac6f6e3706cb5311ea705" resname="partner.sitemap.view.datails">
         <source>partner.sitemap.view.datails</source>
-        <target state="new">partner.sitemap.view.datails</target>
+        <target state="new">View of Details</target>
       </trans-unit>
       <trans-unit id="bc83e5cf3f7a486b05a61ca4b93197f28aa71a5a" resname="pay_action">
         <source>pay_action</source>
@@ -2142,6 +2142,25 @@
       <trans-unit id="3ee5d45f9f3e4ffb90e747c019a34c678a7bdb2f" resname="title.section.we">
         <source>title.section.we</source>
         <target state="new"><![CDATA[Trust us…!</br>Make yourself a Partner!]]></target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d348c" resname="partner.email.registeraccount.beta">
+        <source>partner.email.registeraccount.beta</source>
+        <target state="new"><![CDATA[<p>It is a great that you want to become a member of MyCasa Partner. This will be the first step towards an excellent collaboration.</p>
+                                     <p>We will offer you only the best and more exclusive of Casas Particulares in Cuba. Right now, our product is working on a Beta version.</p>
+                                     <p>Very soon, we will let you know the necessary data so you can activate your Agency Account as to start using   MyCasa Partner.</p>
+                                     <p>You are on the right track. We will guarantee you a happy and cozy stay for your clients, and a wonderful service on behalf of the Hosts.</p>
+                                     <p>Soon we will be able to get the best profits from this partnership, and it is good we can do it in Partner style.</p>
+                                     <p>Congratulations!</p>]]>
+        </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d888c" resname="partner.email.registeraccount.release">
+              <source>partner.email.registeraccount.release</source>
+              <target state="new"><![CDATA[<p>Congratulations! You are one of us already. The BETA version of MyCasaPartner was successfully approved. Now you can begin to manage your clients´ reservations with us. We have activated your account. Congratulations!</p>]]>
+              </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d889c" resname="partner.email.registeraccount.release.go">
+              <source>partner.email.registeraccount.release.go</source>
+              <target state="new">Check your account</target>
       </trans-unit>
     </body>
   </file>
