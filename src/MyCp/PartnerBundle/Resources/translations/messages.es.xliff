@@ -576,7 +576,7 @@
       </trans-unit>
       <trans-unit id="300cfccb65edfcf83f70cdf5e1499b01ddd2c8db" resname="SERVICE_FIXED_TAX">
         <source>SERVICE_FIXED_TAX</source>
-        <target state="new">SERVICE_FIXED_TAX</target>
+        <target state="new">Tarifa fija</target>
       </trans-unit>
       <trans-unit id="5c35037c7eb54cb13fceaef6cf5db04c14b29007" resname="SHARED_BATHROOM_FILTER">
         <source>SHARED_BATHROOM_FILTER</source>
