@@ -166,10 +166,18 @@
                     <td>{{ reservation.nights }}</td>
                     <td>
                         {% set currentDestination = 0 %}
+                        {% set array_destinations = "" %}
+                        {% set separator = "," %}
                         {% for destination in  destinations %}
                             {% if currentDestination != destination.des_id %}
-                                {% set currentDestination = destination.des_id %}
+
                                 {% if destination.pending + destination.notAvailable == destination.total %}
+                                    {% set currentDestination = destination.des_id %}
+                                    {% if loop.index== 1%}
+                                        {% set array_destinations = destination.des_id %}
+                                    {% else %}
+                                        {% set array_destinations = array_destinations ~ separator ~ destination.des_id %}
+                                    {% endif %}
                                 <a href="{{ path("mycp_edit_destination", {"id_destination": destination.des_id}) }}">{{ destination.des_name }}</a>{% if not loop.last %}, {% endif %}
                                 {% else %}
                                     {% set notShowed = notShowed + 1  %}
@@ -186,7 +194,7 @@
                         {% endif %}
                         <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.user_id, 'attendedDate': reservation.gen_res_date|date("Y-m-d")})}}"><i class="icon-asterisk icon-white"></i></a>
                         <a target="_blank" title="Ver Historial de Reservas" class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation.user_id}) }}"><i class="icon-tags"></i></a>
-                                <a title="Sugerir destinos" data-iduser="{{ reservation.user_id }}" class="btn btn-mini btn-sendMail"><i class="icon-envelope"></i></a>
+                                <a title="Sugerir destinos" data-arraydestinations="{{ array_destinations }}" data-iduser="{{ reservation.user_id }}" class="btn btn-mini btn-sendMail"><i class="icon-envelope"></i></a>
 
                     </td>
                 </tr>
@@ -235,7 +243,7 @@
     <script>
         $('.btn-sendMail').on('click',function(){
             $(this).data('iduser');
-            loadModal({'iduser':$(this).data('iduser')});
+            loadModal({'iduser':$(this).data('iduser'),'arraydestinations':$(this).data('arraydestinations')});
         });
         /**
          * Load modal configuration

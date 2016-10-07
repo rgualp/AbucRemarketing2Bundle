@@ -1293,15 +1293,17 @@ class BackendReservationController extends Controller {
     public function showModalEmailAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $config= $em->getRepository('mycpBundle:configEmail')->findAll();
-        $email_destination= $em->getRepository('mycpBundle:emailDestination')->findAll();
+        $array_destinations=explode(',',$request->get('arraydestinations'));
+        $email_destination= $em->getRepository('mycpBundle:emailDestination')->findDestinations($array_destinations);
         $user = $em->getRepository('mycpBundle:user')->find($request->get('iduser'));
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $request->get('iduser')));
+
 
         switch((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')
         {
             case 'ES':{
                 $content_config=array('subject'=>(count($config))?$config[0]->getSubjectEs():'','introduction'=>(count($config))?$config[0]->getIntroductionEs():'','foward'=>(count($config))?$config[0]->getFowardEs():'');
-                          break;
+                break;
             }
             case 'EN': {
                 $content_config=array('subject'=>(count($config))?$config[0]->getSubjectEn():'','introduction'=>(count($config))?$config[0]->getIntroductionEn():'','foward'=>(count($config))?$config[0]->getFowardEn():'');
@@ -1321,7 +1323,7 @@ class BackendReservationController extends Controller {
      */
     function sendEmailDestinationAction(Request $request){
         $service_email = $this->get('Email');
-        $content=$request->get("emailIntroduction").'</br>'.$request->get("emailContent").'</br>'.$request->get("emailFoward");
+        $content='<p>'.$request->get("emailIntroduction").'</br>'.$request->get("emailContent").'</br>'.$request->get("emailFoward").'</p>';
         $service_email->sendTemplatedEmail($request->get("emailSubject"), 'noreply@mycasaparticular.com', $request->get("emailUser"), $content);
         return new JsonResponse(array('success'=>true));
     }
