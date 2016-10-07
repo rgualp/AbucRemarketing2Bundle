@@ -86,7 +86,7 @@
     <table style="width:100%">
     <tr>
         <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale) }}</b></td>
-        <td class="text-right"><h4 class="no-margin">{{ totalPrice}}</h4></td>
+        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (totalPrice * currency_rate) | number_format(2) }}</h4></td>
     </tr>
     </table>
     <hr/>

@@ -163,7 +163,10 @@ class BackendController extends Controller
         $subject = $translator->trans('subject.email.partner.new.availability.check', array(), "messages", strtolower($user->getUserLanguage()->getLangCode()));
         $content=$this->render('PartnerBundle:Mail:newAvailabilityCheck.html.twig', array(
             "reservations" => $reservationDetails,
-            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode())
+            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange()
         ));
         $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
 
