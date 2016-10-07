@@ -160,7 +160,8 @@ WHERE pard.reservationDetail = :gen_res_id";
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
             $query->setParameter('gen_res_id', $gen_res_id);
-            $client = $query->getArrayResult()[0];
+            $r = $query->getArrayResult();
+            $client = (count($r) > 0) ? $r[0] : array('fullname'=>'', 'id'=>'');
             $data[$key]['client'] = $client['fullname'];
             $data[$key]['ag_id'] = $client['id'];
         }
