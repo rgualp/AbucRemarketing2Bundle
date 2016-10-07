@@ -1,290 +1,64 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>MyCasaParticular.com</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style type="text/css">
-        body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
-        h2{font-size: 15px; letter-spacing: 0.5px;}
-        h4{font-size: 12px; letter-spacing: 0.5px}
-        h3{font-size: 13px; letter-spacing: 0.5px}
-        h6{font-size: 8px; letter-spacing: 0.5px; font-weight: normal;}
-        #logo{margin-bottom: 10px; width: 260px; height: 50px}
-        hr{border: none;border-bottom:solid 1px #84B231;}
-        .h-green,a{color:#80AA2A}
-        p{line-height: 18px}
-        .text-right{text-align: right}
-        .h-only-blue{color: #218CDC;}
-        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 70%;}
-        .h-green-line{border-bottom: 1px solid #80AA2A;}
-        .b-cyan{background: #EBE9EA;}
-        .c-bbbb{ color: #bbb;}
-        hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
-        .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
-        .no-margin{margin: 0}
-        table{border-collapse: collapse; width: 100%; border-spacing: 0;}
-        /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
-        .cursive{font-style: italic;}
-
+        .ExternalClass {width:100%;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+            line-height: 100%;
+        }
+        body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+        body {margin:0; padding:0;}
+        table td {border-collapse:collapse;}
+        .ReadMsgBody { width: 100%;}
+        .ExternalClass {width: 100%;}
+        body{background:#e8e8e8 }
+        p{margin-bottom:10px;}
+        a,a:visited,a:link,a:hover, a.titleLink, a.titleLink:visited, a.titleLink:link, a.titleLink:hover{text-decoration: none;color:#084f76;}
+        .footer a,.footer a:visited,.footer a:link,.footer a:hover{text-decoration: none;color:white;}
     </style>
 </head>
-<body>
+<body style="font-family: Arial;">
+<table width="100%" cellpadding="10" cellspacing="0" border="0">
+    <tr>
+        <td valign="top" align="center">
+            <table width="825px" bgcolor="#FFFFFF" border="0" cellpadding="15" cellspacing="0" style="border: solid 1px #DDDDDD; background-color: #FFFFFF">
+                <tr style="">
+                    <td width="335px" style="padding: 35px;">
+                        <a href="/MyCP/web/app_dev.php/es/partner/bienvenido">MyCasaPartner</a></td>
+                </tr>
 
-<table style="width: 100%">
-    <tr>
-        <td>
-            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
-        </td>
-        <td style="text-align: right; vertical-align: top; color: #cccccc">
-            Oct 03, 2016
-        </td>
-    </tr>
-</table>
-<br/>
-<h2 class="h-green no-margin">Confirmación de reservación</h2>
-<hr/>
-<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">Sr(a). mgleonsc@gmail.com MGLEON COMPANY</h4>
-<p>
-    Gracias por su reserva en <a href="http://www.mycasaparticular.dev/es/partner/bienvenido">MyCasaPartner.com</a><br/>
-    Por favor imprima esta confirmación y muéstrelo antes de recibir el servicio reservado.<br/>
-</p>
-<h2 class="h-green no-margin">Información del cliente</h2>
-<hr/>
-<p>
-<table style="width: 100%">
-    <tr>
-        <td><b>Booking ID :</b></td>
-        <td>ID_15</td>
-        <td><b>Correo electrónico:</b></td>
-        <td>mgleonsc@gmail.com</td>
-    </tr>
-    <tr>
-        <td><b>Nombre del cliente:</b></td>
-        <td>mgleonsc@gmail.com MGLEON COMPANY</td>
-        <td><b>Nacionalidad:</b></td>
-        <td>Cuba</td>
-    </tr>
-</table>
-<br/>
-<hr class="hr-grey-wide"/>
-<table style="width: 100%">
-    <tr>
-        <td style="width: 70%">
-            <h3 class="h-green h-green-line"  style="padding-bottom: 5px">
-                <img src="bundles/frontend/img/icons/vhouse.png" alt="House">
-                Alojamiento 1
-            </h3>
-        </td>
-        <td style="vertical-align: middle; text-align: right;width:30%">
-            <b>Booking ID :</b> ID_15
-        </td>
-    </tr>
-</table>
-<table  style="width: 100%">
-    <tr style="border-top:none;">
-        <td style="border-top:none; width:30%"><b>Nombre del alojamiento:</b></td>
-        <td style="border-top:none; width:40%">Casa Particular en La Habana La Casa de Cándida</td>
-        <td rowspan="5" style="border-top:none;width:30%">
-            <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                <img src='https://maps.googleapis.com/maps/api/staticmap?center=23.136402,-82.365112&zoom=15&size=200x200&sensor=false&markers=icon:http://www.mycasaparticular.dev/bundles/frontend/img/map_marker.png%7C23.136402,-82.365112&a.jpg' alt="Maps"/>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td><b>ID_Casa:</b></td>
-        <td>CH001</td>
-    </tr>
-    <tr>
-        <td><b>Nombre de los propietarios:</b></td>
-        <td>Cándida Cobas & Pedro Torres</td>
-    </tr>
-    <tr>
-        <td><b>Dirección:</b></td>
-        <td>Calle San Rafael No. 403 (Bajo) , Manrique & Campanario.
-            Centro Habana ,La Habana.
-        </td>
-    </tr>
-    <tr>
-        <td><b>Teléfono:</b></td>
-        <td>(+53) (+53) 7 8678902</td>
-    </tr>
-</table>
+                <tr>
+                    <td colspan="2" style="font-family: arial; padding: 35px;">    <p style="font-family: Arial; font-size: 14px">
+                            Hola Beta: <br/>
 
-<br/>
-<h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
-    <img src="bundles/frontend/img/icons/vbed.png" alt="Camas"/>
-    Detalles de la Reserva: Habitación 1
-</h4>
-<br/>
-<table style="width:100%">
-    <tr>
-        <td colspan="6"><h4 class="h-only-blue no-margin">Habitación doble</h4></td>
-    </tr>
-    <tr>
-        <td><b>Llegada:</b></td>
-        <td>02/10/2016</td>
-        <td><b>Salida:</b></td>
-        <td>03/10/2016</td>
-        <td><b>Noches:</b></td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td><b>Tipo de Habitación:</b></td>
-        <td>Habitación doble</td>
-        <td><b>Adultos:</b></td>
-        <td>2</td>
-        <td><b>Niños:</b></td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td><b>Precio / Noche</b></td>
-        <td>CUC 29.00</td>
-        <td><b>Costo Reserva</b></td>
-        <td>CUC 29.00</td>
-    </tr>
-</table>
-<br/>
-<h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
-    <img src="bundles/frontend/img/icons/vbed.png" alt="Camas"/>
-    Detalles de la Reserva: Habitación 2
-</h4>
-<br/>
-<table style="width:100%">
-    <tr>
-        <td colspan="6"><h4 class="h-only-blue no-margin">Habitación Triple</h4></td>
-    </tr>
-    <tr>
-        <td><b>Llegada:</b></td>
-        <td>02/10/2016</td>
-        <td><b>Salida:</b></td>
-        <td>03/10/2016</td>
-        <td><b>Noches:</b></td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td><b>Tipo de Habitación:</b></td>
-        <td>Habitación Triple</td>
-        <td><b>Adultos:</b></td>
-        <td>3</td>
-        <td><b>Niños:</b></td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td><b>Precio / Noche</b></td>
-        <td>CUC 47.00</td>
-        <td><b>Costo Reserva</b></td>
-        <td>CUC 47.00</td>
-    </tr>
-</table>
-<br/>
-<h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
-    <img src="bundles/frontend/img/icons/vbed.png" alt="Camas"/>
-    Detalles de la Reserva: Habitación 3
-</h4>
-<br/>
-<table style="width:100%">
-    <tr>
-        <td colspan="6"><h4 class="h-only-blue no-margin">Habitación Triple</h4></td>
-    </tr>
-    <tr>
-        <td><b>Llegada:</b></td>
-        <td>02/10/2016</td>
-        <td><b>Salida:</b></td>
-        <td>03/10/2016</td>
-        <td><b>Noches:</b></td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td><b>Tipo de Habitación:</b></td>
-        <td>Habitación Triple</td>
-        <td><b>Adultos:</b></td>
-        <td>1</td>
-        <td><b>Niños:</b></td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td><b>Precio / Noche</b></td>
-        <td>CUC 32.00</td>
-        <td><b>Costo Reserva</b></td>
-        <td>CUC 32.00</td>
-    </tr>
-</table>
-<br>
-<table style="width:100%">
-    <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
-        Clients
-    </h4>
-    <tr>
-        <td colspan="6"> <strong>   label.name.client :</strong> Angel</td>
-    </tr>
-</table>
-<br/>
-<table style="width: 100%;">
-    <tr style="border-top:none;">
-        <td style="border-top:none;padding:0px; width: 100%;">
-            <hr class="upper-bottom"/>
-        </td>
-        <td style="text-wrap: none; border-top:none;text-align: right;padding:0px" nowrap="nowrap">
-            <h3 class="no-margin c-bbbb">Fin de su Reservación</h3>
+                            Release******
+                            <br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" bgcolor="#084e75" style="">
+                        <table  width="100%" cellpadding="10" cellspacing="0" border="0">
+                            <tr>
+                                <td class="footer" colspan="2" style="line-height: 18px; font-family: arial; color: #9da5ac; padding: 10px 20px;">
+                                    Agregue <a href='mailto:reservation.partner@mycasaparticular.com'>reservation.partner@mycasaparticular.com</a> a sus contactos seguros para continuar recibiendo nuestros correos electrónicos.<br/><br/>
+                                    <br/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="footer" colspan="2" style="line-height: 18px; font-family: arial; color: #fefefe; font-size: 12px; ">
+                                    MyCasaPartner es un producto de ABUC Media Network, una empresa con sede en Basel, Suiza.
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>
 
-<br/>
-<h3 class="h-green h-green-line"  style="padding-bottom: 5px">Pagos</h3>
-<table style="width:100%">
-    <tr>
-        <td><b>Importes por alojamientos</b></td>
-        <td class="text-right"><h4 class="no-margin">CUC 127.65</h4></td>
-    </tr>
-    <tr>
-        <td><b>Tarifas de servicio</b></td>
-        <td class="text-right"><h4 class="no-margin">CUC 18.63</h4></td>
-    </tr>
-    <tr>
-        <td><b>Tarifa fija</b></td>
-        <td class="text-right"><h4 class="no-margin">CUC 5.75</h4></td>
-    </tr>
-    <tr class="b-cyan">
-        <td><b>Total a pagar</b></td>
-        <td class="text-right"><h4 class="no-margin">CUC 152.03</h4></td>
-    </tr>
-    <tr>
-        <td><b>Prepago</b></td>
-        <td class="text-right"><h4 class="no-margin">CUC 37.49</h4></td>
-    </tr>
-    <tr>
-        <td>- Servicio al alojamiento (20%, 10%)</td>
-        <td class="text-right">CUC 13.11</td>
-    </tr>
-    <tr>
-        <td>- Tarifas de servicio</td>
-        <td class="text-right">CUC 18.63</td>
-    </tr>
-    <tr>
-        <td>- Tarifa fija</td>
-        <td class="text-right">CUC 5.75</td>
-    </tr>
-
-    <tr>
-        <td colspan="2"><b>Pago en Casa</b></td>
-    </tr>
-
-    <tr>
-        <td>-Importes por alojamientos (80%, 90%)</td>
-        <td class="text-right"><h4 class="no-margin">
-                CUC 114.54
-            </h4>
-            <h6 class="no-margin">
-                CUC 99.60
-            </h6>
-        </td>
-    </tr>
-</table>
 </body>
 </html>
