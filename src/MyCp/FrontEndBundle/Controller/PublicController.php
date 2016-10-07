@@ -116,6 +116,7 @@ class PublicController extends Controller {
     }
 
     public function loginAction() {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $request = $this->getRequest();
         $session = $request->getSession();
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -124,10 +125,19 @@ class PublicController extends Controller {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
-        return $this->render('FrontEndBundle:public:login.html.twig', array(
-                    'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                    'error' => $error,
-        ));
+
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/security/login.html.twig', array(
+                'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+                'error' => $error,
+            ));
+        }else{
+            return $this->render('FrontEndBundle:public:login.html.twig', array(
+                'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+                'error' => $error,
+            ));
+        }
+
     }
 
     public function homeCarrouselAction() {
