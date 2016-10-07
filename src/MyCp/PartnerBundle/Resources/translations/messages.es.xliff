@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-06T11:19:57Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-10-07T13:52:43Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -8,7 +8,7 @@
       </trans-unit>
       <trans-unit id="8162d1cbdaaca149fd2ba53eca12ba300cb8dcc4" resname=" label.name.client ">
         <source> label.name.client </source>
-        <target state="new"> label.name.client </target>
+        <target state="new"> Nombre del cliente</target>
       </trans-unit>
       <trans-unit id="b21db04ba29a00a52400d992b480a5847b282ad1" resname="/Noche">
         <source>/Noche</source>
@@ -1455,6 +1455,10 @@
         <source>label.indic.email</source>
         <target state="new">Indica tu cuenta de correo establecida para la agencia. Te enviaremos una contraseña nueva. </target>
       </trans-unit>
+      <trans-unit id="1ec9bc5aebb0e4ff9e96c81ecff292c5dd49200e" resname="label.information.reserved">
+        <source>label.information.reserved</source>
+        <target state="new">Información de la(s) reserva(s):</target>
+      </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">Inicia Sesión</target>
@@ -1514,6 +1518,11 @@
       <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
         <source>label.name.phone.contact</source>
         <target state="new">Teléfono de Contacto</target>
+      </trans-unit>
+      <trans-unit id="1b2d0600fb7d6b921962b27efe04fb8598508b2e" resname="label.new.availability.check">
+        <source>label.new.availability.check</source>
+        <target state="new"><![CDATA[<p>Hemos recibido tu(s) solicitud(es) de disponibilidad. Ya estamos trabajando en ello. Te aseguramos que recibirás respuesta en un plazo máximo de 24 horas. Tu tiempo vale oro para nosotros.<br/>
+                                        Entretanto, te enviamos los datos de la(s) reserva(s) que has solicitado por si deseas archivarla en tus registros. Muchos de nuestros clientes lo agradecen:<br/></p>]]></target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
         <source>label.new.password</source>

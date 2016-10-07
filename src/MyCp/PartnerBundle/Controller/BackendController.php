@@ -153,10 +153,19 @@ class BackendController extends Controller
 
         //Pasar el paGeneralReservation a generalReservation
         $reservationDetails = $reservation->getDetails();
+
+
+        //Configuration service send new availability check
+        $service_email = $this->get('Email');
+        $translator = $this->get('translator');
+
+        //Send email user new availability check
+        $subject = $translator->trans('subject.email.partner.new.availability.check', array(), "messages", strtolower($user->getUserLanguage()->getLangCode()));
         $content=$this->render('PartnerBundle:Mail:newAvailabilityCheck.html.twig', array(
             "reservations" => $reservationDetails,
+            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode())
         ));
-        dump($content);die;
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
 
         foreach($reservationDetails as $detail)
         {

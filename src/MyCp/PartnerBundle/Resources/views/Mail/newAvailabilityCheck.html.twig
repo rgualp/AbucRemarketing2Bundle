@@ -1,22 +1,95 @@
 {% extends 'PartnerBundle:Mail:translateMailTemplate.html.twig' %}
-{% set user_locale='es' %}
+{% block css %}
+{{ parent() }}
+    <style type="text/css">
+        body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
+        h2{font-size: 15px; letter-spacing: 0.5px;}
+        h4{font-size: 12px; letter-spacing: 0.5px}
+        h3{font-size: 13px; letter-spacing: 0.5px}
+        h6{font-size: 8px; letter-spacing: 0.5px; font-weight: normal;}
+        #logo{margin-bottom: 10px; width: 260px; height: 50px}
+        hr{border: none;border-bottom:solid 1px #84B231;}
+        .h-green,a{color:#80AA2A}
+        p{line-height: 18px}
+        .text-right{text-align: right}
+        .h-only-blue{color: #218CDC;}
+        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 70%;}
+        .h-green-line{border-bottom: 1px solid #80AA2A;}
+        .b-cyan{background: #EBE9EA;}
+        .c-bbbb{ color: #bbb;}
+        hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
+        .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
+        .no-margin{margin: 0}
+        table{border-collapse: collapse; width: 100%; border-spacing: 0;}
+        /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
+        .cursive{font-style: italic;}
+
+    </style>
+{% endblock %}
 {% block content %}
+{{ 'label.new.availability.check' | trans | raw }}
+<br/>
 <p style="font-family: Arial; font-size: 14px">
-    Información de la(s) reserva(s)
+    <strong>{{ 'label.information.reserved' | trans | raw }}</strong>
+    <hr/>
+    <br/>
     {% set totalPrice = 0 %}
 {% for reservation in reservations %}
-
-    {{ reservation.openReservationDetail.accommodation.ownMcpCode }}/ {{ reservation.openReservationDetail.accommodation.ownName }}
-    {{ reservation.openReservationDetail.accommodation.ownAddressProvince.provName }}/ {{ reservation.openReservationDetail.accommodation.ownAddressMunicipality.munName }}
-    Habitación (Tipo de hab.):
-    (#) adultos  {{ reservation.reservation.adults }} (#) niños {{ reservation.reservation.children }}
-    Fecha de llegada:{{ reservation.openReservationDetail.dateFrom | date('d/m/Y') }}/# de noches {{ reservation.openReservationDetail.nights }}
-
-    {#CAS {{ reservation.reservationDetail.genResId  }}#}
+    <table  style="width: 100%">
+        <tr style="border-top:none;">
+            <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans({}, "messages", user_locale)}}:</b></td>
+            <td style="border-top:none; width:40%">{{ reservation.openReservationDetail.accommodation.ownName }}</td>
+        </tr>
+        <tr>
+            <td><b>{{"ID_HOME"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ reservation.openReservationDetail.accommodation.ownMcpCode }}</td>
+        </tr>
+        <tr>
+            <td><b>{{"OWNERS_NAME"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ reservation.openReservationDetail.accommodation.ownHomeowner1 }} {% if reservation.openReservationDetail.accommodation.ownHomeowner2 %}& {{ reservation.openReservationDetail.accommodation.ownHomeowner2 }}{% endif %}</td>
+        </tr>
+        <tr>
+            <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ reservation.openReservationDetail.accommodation.ownAddressStreet }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ reservation.openReservationDetail.accommodation.ownAddressNumber }} {%if reservation.openReservationDetail.accommodation.ownAddressBetweenStreet1 != "" and reservation.openReservationDetail.accommodation.ownAddressBetweenStreet2 != ""%}, {{ reservation.openReservationDetail.accommodation.ownAddressBetweenStreet1 }} & {{ reservation.openReservationDetail.accommodation.ownAddressBetweenStreet2 }}{%endif%}.
+                {{ reservation.openReservationDetail.accommodation.ownAddressMunicipality.munName }} ,{{ reservation.openReservationDetail.accommodation.ownAddressProvince.provName }}.
+            </td>
+        </tr>
+        <tr>
+            <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{%if reservation.openReservationDetail.accommodation.ownPhoneCode != ""%}(+53) {{ reservation.openReservationDetail.accommodation.ownPhoneCode }} {{ reservation.openReservationDetail.accommodation.ownPhoneNumber }}{%else%} - {%endif%}</td>
+        </tr>
+        <tr>
+            <td><b>{{"ADULTS"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ reservation.reservation.adults }}</td>
+        </tr>
+        <tr>
+            <td><b>{{"KIDS"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ reservation.reservation.children }}</td>
+        </tr>
+        <tr>
+            <td><b>{{"ARRIVAL_RESERVATION"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ reservation.openReservationDetail.dateFrom | date('d/m/Y') }}</td>
+        </tr>
+        <tr>
+            <td><b>{{"NIGHTS"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ reservation.openReservationDetail.nights  }}</td>
+        </tr>
+    </table>
+    <br/>
+    <a href="{{ path('partner_dashboard_page_detail',{'own_name':reservation.openReservationDetail.accommodation.ownName  | urlNormalize}) }}">
+        <h1 class="h-blue color-white">{{"label.view.more"|trans({}, "messages", user_locale)}}</h1>
+    </a>
+    <hr/>
     {% set totalPrice=totalPrice+reservation.openReservationDetail.totalPrice %}
-
     {% endfor %}
-    {{ totalPrice}}
+    <hr/>
+    <table style="width:100%">
+    <tr>
+        <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale) }}</b></td>
+        <td class="text-right"><h4 class="no-margin">{{ totalPrice}}</h4></td>
+    </tr>
+    </table>
+    <hr/>
 <br/>
 
 </p>

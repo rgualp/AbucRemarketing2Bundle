@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-06T11:20:26Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-10-07T13:53:12Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -1426,6 +1426,10 @@
         <source>label.indic.email</source>
         <target state="new">label.indic.email</target>
       </trans-unit>
+      <trans-unit id="1ec9bc5aebb0e4ff9e96c81ecff292c5dd49200e" resname="label.information.reserved">
+        <source>label.information.reserved</source>
+        <target state="new">label.information.reserved</target>
+      </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">label.login</target>
@@ -1485,6 +1489,10 @@
       <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
         <source>label.name.phone.contact</source>
         <target state="new">label.name.phone.contact</target>
+      </trans-unit>
+      <trans-unit id="1b2d0600fb7d6b921962b27efe04fb8598508b2e" resname="label.new.availability.check">
+        <source>label.new.availability.check</source>
+        <target state="new">label.new.availability.check</target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
         <source>label.new.password</source>

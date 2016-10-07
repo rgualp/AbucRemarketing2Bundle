@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-06T11:20:11Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-07T13:52:58Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -8,7 +8,7 @@
       </trans-unit>
       <trans-unit id="8162d1cbdaaca149fd2ba53eca12ba300cb8dcc4" resname=" label.name.client ">
         <source> label.name.client </source>
-        <target state="new"> label.name.client </target>
+        <target state="new"> Client name</target>
       </trans-unit>
       <trans-unit id="b21db04ba29a00a52400d992b480a5847b282ad1" resname="/Noche">
         <source>/Noche</source>
@@ -1454,6 +1454,10 @@
         <source>label.indic.email</source>
         <target state="new">Check your determinate account for the Agency. We will send you a new password. Thank you!</target>
       </trans-unit>
+      <trans-unit id="1ec9bc5aebb0e4ff9e96c81ecff292c5dd49200e" resname="label.information.reserved">
+        <source>label.information.reserved</source>
+        <target state="new">Booking(s)  Information:</target>
+      </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">How to log in?</target>
@@ -1513,6 +1517,11 @@
       <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
         <source>label.name.phone.contact</source>
         <target state="new">Telephone of the contact person</target>
+      </trans-unit>
+      <trans-unit id="1b2d0600fb7d6b921962b27efe04fb8598508b2e" resname="label.new.availability.check">
+        <source>label.new.availability.check</source>
+        <target state="new"><![CDATA[<p>We have received your availability request(s) and we are working on it/them. We assure you an answer will be given in less than 24h. Your time is gold to us.<br/>
+                                        In the meantime, we send you the data of the bookings that you requested in case you want to have it/them in your records. Many clients appreciated.</p>]]></target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
         <source>label.new.password</source>
