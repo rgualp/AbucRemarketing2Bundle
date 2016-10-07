@@ -1,6 +1,4 @@
-{% extends 'PartnerBundle:Mail:translateMailTemplate.html.twig' %}
-{% block css %}
-{{ parent() }}
+
     <style type="text/css">
         body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
         h2{font-size: 15px; letter-spacing: 0.5px;}
@@ -25,12 +23,11 @@
         .cursive{font-style: italic;}
 
     </style>
-{% endblock %}
-{% block content %}
-{{ 'label.new.availability.check' | trans | raw }}
+
+{{ 'label.new.availability.check' |trans({}, "messages", user_locale) | raw }}
 <br/>
 <p style="font-family: Arial; font-size: 14px">
-    <strong>{{ 'label.information.reserved' | trans | raw }}</strong>
+    <strong>{{ 'label.information.reserved' |trans({}, "messages", user_locale) | raw }}</strong>
     <hr/>
     <br/>
     {% set totalPrice = 0 %}
@@ -93,4 +90,3 @@
 <br/>
 
 </p>
-{% endblock %}
