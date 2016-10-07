@@ -2005,23 +2005,23 @@
       </trans-unit>
       <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
         <source>partner.sitemap.activation</source>
-        <target state="new">partner.sitemap.activation</target>
+        <target state="new">Activation</target>
       </trans-unit>
       <trans-unit id="b03931c836af7cf8409ac6f034f9f6592ffbf407" resname="partner.sitemap.confirmation">
         <source>partner.sitemap.confirmation</source>
-        <target state="new">partner.sitemap.confirmation</target>
+        <target state="new">Confirmation</target>
       </trans-unit>
       <trans-unit id="32f7e17ba20847629adf4c466a8446693949aa53" resname="partner.sitemap.frontend">
         <source>partner.sitemap.frontend</source>
-        <target state="new">partner.sitemap.frontend</target>
+        <target state="new">Front-end Agency</target>
       </trans-unit>
       <trans-unit id="419e9c8094c88fba5aeb854ed90d6b801b406a55" resname="partner.sitemap.shoppingcart">
         <source>partner.sitemap.shoppingcart</source>
-        <target state="new">partner.sitemap.shoppingcart</target>
+        <target state="new">Header Shopping Cart</target>
       </trans-unit>
       <trans-unit id="e9d847416f1e5983b9eac6f6e3706cb5311ea705" resname="partner.sitemap.view.datails">
         <source>partner.sitemap.view.datails</source>
-        <target state="new">partner.sitemap.view.datails</target>
+        <target state="new">View of Details</target>
       </trans-unit>
       <trans-unit id="bc83e5cf3f7a486b05a61ca4b93197f28aa71a5a" resname="pay_action">
         <source>pay_action</source>
