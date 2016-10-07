@@ -36,7 +36,7 @@
                                 <div class="row-fluid" style="margin-top: 20px">
                                     <label class="span2 control-label" style="text-align: center"><strong>Introducción:</strong></label>
                                     <div class="span10">
-                                        <input type="text" name="emailIntroduction" value="{{ content_config.introduction }}" class="form-control" style="width: 90%">
+                                        <textarea  name="emailIntroduction" class="form-control" style="width: 90%; height: 50px;" rows="3">{{ content_config.introduction }}</textarea>
                                     </div>
                                 </div>
                                 <div class="row-fluid" style="margin-top: 20px">
@@ -45,7 +45,7 @@
                                         {% for item in email_destination %}
                                             <div class="span2">
                                                 <label class="checkbox" style="margin-top: 4px">
-                                                    <input onclick="OnChangeCheckbox(this)" class="checkbox-destination" type="checkbox" id="{{ item.id }}_destination" data-es="{{ item.contentEs }}" data-en="{{ item.contentEn }}" data-de="{{ item.contentDe }}"> {{ item.destination.desName }}
+                                                    <input onclick="OnChangeCheckbox(this)" class="checkbox-destination" type="checkbox" id="{{ item.id }}_destination" data-es="{{ item.contentEs }}" data-en="{{ item.contentEn }}" data-de="{{ item.contentDe }}"> {{ item.desName }}
                                                 </label>
                                             </div>
                                         {% endfor %}
@@ -61,8 +61,7 @@
                                 <div class="row-fluid" style="margin-top: 20px">
                                     <label class="span2 control-label" style="text-align: center"><strong>Despedida:</strong></label>
                                     <div class="span10">
-                                        <input type="text" name="emailFoward" value="{{ content_config.foward }}" class="form-control" style="width: 90%">
-
+                                        <textarea  name="emailFoward" class="form-control" style="width: 90%; height: 50px;" rows="3">{{ content_config.foward }}</textarea>
                                     </div>
                                 </div>
                                 <div class="row-fluid" style="margin-top: 20px;text-align: right">
