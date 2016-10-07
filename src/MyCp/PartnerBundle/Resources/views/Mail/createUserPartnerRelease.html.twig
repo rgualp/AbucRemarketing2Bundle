@@ -7,6 +7,6 @@
         {{ 'partner.email.registeraccount.release'|trans({}, "messages", user_locale) | raw }}
 
         <br>
-        <a target="_blank" href="{{ url('partner.email.registeraccount.release.go') }}"> {{ 'label.email.registeraccount.text.seven'|trans({}, "messages", user_locale) }}</a>
+        <a target="_blank" href="{{ url('frontend_partner_home') }}"> {{ 'partner.email.registeraccount.release.go'|trans({}, "messages", user_locale) }}</a>
     </p>
 {% endblock %}

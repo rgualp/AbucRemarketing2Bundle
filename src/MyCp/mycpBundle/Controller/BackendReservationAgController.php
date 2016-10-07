@@ -10,6 +10,8 @@ use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\Reservation;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
+use MyCp\PartnerBundle\Entity\paReservation;
+use MyCp\PartnerBundle\Entity\paReservationDetail;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,7 +98,6 @@ class BackendReservationAgController extends Controller {
             'filter_range_to' => $filter_range_to
         ));
     }
-
 
     public function list_reservations_bookingAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
@@ -494,6 +495,107 @@ class BackendReservationAgController extends Controller {
             $response = "ERROR";
         }
         return new Response($response);
+    }
+
+    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $client = null;
+
+        if($idClient != null && $idClient != "null" && $idClient != "")
+        {
+            $client = $em->getRepository("mycpBundle:user")->find($idClient);
+        }
+
+        if($idClientOfAg != null && $idClientOfAg != "null" && $idClientOfAg != "")
+        {
+            $paClient = $em->getRepository("PartnerBundle:paClient")->find($idClientOfAg);
+        }
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $request = $this->getRequest();
+            $reservationService = $this->get("mycp.reservation.service");
+            $service_log= $this->get('log');
+
+            $resultReservations = $reservationService->createAvailableOfferFromRequest($request, $client, $attendedDate);
+
+            $newReservations = $resultReservations['reservations'];
+            $arrayNightsByOwnershipReservation = $resultReservations['nights'];
+            $general_reservation = $resultReservations['generalReservation'];
+            $operation = $request->get("save_operation");
+
+            $childrens = 0;
+            $adults = 0;
+            foreach ($newReservations as $newReservation) {
+                $adults += $newReservation->getOwnResCountAdults();
+                $childrens += $newReservation->getOwnResCountChildrens();
+            }
+            $paReservation = new paReservation();
+            $paReservation->setClient($paClient);
+            $paReservation->setAdults($adults);
+            $paReservation->setAdultsWithAccommodation($adults);
+            $paReservation->setChildren($childrens);
+            $paReservation->setChildrenWithAccommodation($childrens);
+            $paReservation->setCreated(new \DateTime());
+            $paReservation->setModified(new \DateTime());
+            $paReservation->setClosed(1);
+            $em->persist($paReservation);
+
+            $paReservationDetail = new paReservationDetail();
+            $paReservationDetail->setReservation($paReservation);
+            $paReservationDetail->setReservationDetail($general_reservation);
+            $em->persist($paReservationDetail);
+            $em->flush();
+
+            $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            // inform listeners that a reservation was sent out (remarketing)
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new GeneralReservationJobData($general_reservation->getGenResId());
+            $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
+
+            $service_log->saveLog($general_reservation->getLogDescription()." (Nueva oferta)", BackendModuleName::MODULE_RESERVATION, log::OPERATION_INSERT, DataBaseTables::GENERAL_RESERVATION);
+            $service_log->saveNewOfferLog($general_reservation,null,false);
+
+            switch($operation)
+            {
+                case Operations::SAVE_OFFER_AND_SEND: {
+                    //Enviar correo al cliente incluyendo el texto
+                    $custom_message = $request->get('message_body');
+                    if($custom_message !== "")
+                    {
+                        $from = $this->getUser();
+                        $to = $general_reservation->getGenResUserId();
+                        $subject = "Reservación ".$general_reservation->getCASId();
+
+                        $createdMessage = $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+                        if($createdMessage != null)
+                            $service_log->saveLog($createdMessage->getLogDescription(), BackendModuleName::MODULE_CLIENT_MESSAGES, log::OPERATION_INSERT, DataBaseTables::MESSAGE);
+                    }
+
+                    $mailer = $this->get('Email');
+                    $mailer->sendReservation($general_reservation->getGenResId(), $custom_message, true);
+
+                    $message = 'Oferta '.$general_reservation->getCASId().' enviada satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    return $this->redirect($this->generateUrl('mycp_list_reservations_ag'));
+                }
+                case Operations::SAVE_OFFER_AND_VIEW:
+                {
+                    return $this->redirect($this->generateUrl('mycp_details_reservation_ag', array('id_reservation' => $general_reservation->getGenResId())));
+                }
+                case Operations::SAVE_AND_EXIT:
+                {
+                    return $this->redirect($this->generateUrl('mycp_list_reservations_ag'));
+                }
+            }
+        }
+
+        return $this->render('mycpBundle:reservation:newCleanOfferAg.html.twig', array(
+            'client' => $client, 'clientOfAg' => $paClient, "attendedDate" => $attendedDate));
     }
 }
 

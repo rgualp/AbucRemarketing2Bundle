@@ -77,6 +77,28 @@ class ProfileController extends Controller
             $user->setUserEnabled(false);
             $em->persist($user);
             $em->flush();
+
+            //Configuration service send email deactivate account
+            $service_email = $this->get('Email');
+            $translator = $this->get('translator');
+
+            //Get agency by user
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+            $travelAgency = $tourOperator->getTravelAgency();
+
+            //Send email user deactivate account
+            $subject = $translator->trans('subject.email.partner_deactivateaccount', array(), "messages", strtolower($user->getUserLanguage()->getLangCode()));
+            $content =  '<p>'.$translator->trans('label.hellow', array(), "messages",  strtolower($user->getUserLanguage()->getLangCode())).' '.$travelAgency->getName().'</p>';
+            $content.=  '<p>'.$translator->trans('content.email.partner_deactivateaccount', array(), "messages",  strtolower($user->getUserLanguage()->getLangCode())).'</p>';
+            $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
+
+            //Send email team MCP deactivate account
+            $contacts=$travelAgency->getContacts();
+            $subject = $translator->trans('subject.email.partner_deactivateaccount', array(), "messages", 'es');
+            $content =  '<p>'.$translator->trans('content.email.partnerteam_deactivateaccount', array('agency_name'=>$travelAgency->getName(),'agency_resp'=>(count($contacts))?$contacts[0]->getName():''), "messages",  'es').'</p>';
+            $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com',  'reservation.partner@mycasaparticular.com' , $content);
+
+
             return new JsonResponse(array('success'=>true));
         }
         else
