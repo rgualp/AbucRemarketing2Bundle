@@ -2142,6 +2142,25 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d348c" resname="partner.email.registeraccount.beta">
+        <source>partner.email.registeraccount.beta</source>
+        <target state="new"><![CDATA[<p>A buena hora quieres convertirte en un miembro del equipo de MyCasaPartner. Este será el primer paso de una estupenda colaboración.</p>
+                                     <p>Nosotros nos encargamos de ofrecerte solo lo mejor y más exclusivo de las casas particulares de Cuba. En este minuto, nuestro producto está funcionando en una versión Beta.</p>
+                                     <p>Muy pronto, te comunicaremos los datos necesarios para que puedas activar tu cuenta de agencia y comenzar a utilizar MyCasaPartner.</p>
+                                     <p>Estás en el camino correcto. Te garantizamos una estancia feliz y acogedora para tus clientes y una maravillosa atención por parte de nuestros anfitriones.</p>
+                                     <p>En brevepodremos sacar el mejor partido a esta sociedad que comienza. Lo mejor es que podemos hacerlo al estilo Partner.</p>
+                                     <p>¡Enhorabuena!</p>]]>
+        </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d888c" resname="partner.email.registeraccount.release">
+              <source>partner.email.registeraccount.release</source>
+              <target state="new"><![CDATA[<p>¡Enhorabuena! Ya eres uno de nosotros. La versión BETA deMyCasaPartner fue probada con éxito. Ahora puedes comenzar a gestionar las reservas de tus clientes con nosotros. Hemos activado tu cuenta. ¡Felicidades!</p>]]>
+              </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d889c" resname="partner.email.registeraccount.release.go">
+              <source>partner.email.registeraccount.release.go</source>
+              <target state="new">Comprueba tu cuenta</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

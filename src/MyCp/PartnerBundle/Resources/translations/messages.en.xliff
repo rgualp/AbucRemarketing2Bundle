@@ -2143,6 +2143,25 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Trust us…!</br>Make yourself a Partner!]]></target>
       </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d348c" resname="partner.email.registeraccount.beta">
+        <source>partner.email.registeraccount.beta</source>
+        <target state="new"><![CDATA[<p>It is a great that you want to become a member of MyCasa Partner. This will be the first step towards an excellent collaboration.</p>
+                                     <p>We will offer you only the best and more exclusive of Casas Particulares in Cuba. Right now, our product is working on a Beta version.</p>
+                                     <p>Very soon, we will let you know the necessary data so you can activate your Agency Account as to start using   MyCasa Partner.</p>
+                                     <p>You are on the right track. We will guarantee you a happy and cozy stay for your clients, and a wonderful service on behalf of the Hosts.</p>
+                                     <p>Soon we will be able to get the best profits from this partnership, and it is good we can do it in Partner style.</p>
+                                     <p>Congratulations!</p>]]>
+        </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d888c" resname="partner.email.registeraccount.release">
+              <source>partner.email.registeraccount.release</source>
+              <target state="new"><![CDATA[<p>Congratulations! You are one of us already. The BETA version of MyCasaPartner was successfully approved. Now you can begin to manage your clients´ reservations with us. We have activated your account. Congratulations!</p>]]>
+              </target>
+      </trans-unit>
+      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d889c" resname="partner.email.registeraccount.release.go">
+              <source>partner.email.registeraccount.release.go</source>
+              <target state="new">Check your account</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

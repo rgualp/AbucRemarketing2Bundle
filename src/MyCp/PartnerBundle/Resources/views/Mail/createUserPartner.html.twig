@@ -1,16 +1,16 @@
 {% extends 'PartnerBundle:Mail:translateMailTemplate.html.twig' %}
 {% set user_locale='es' %}
 {% block content %}
-<p style="font-family: Arial; font-size: 14px">
-{{ 'label.hellow'|trans({}, "messages", user_locale) }} {{user_full_name}}: <br/>
+    <p style="font-family: Arial; font-size: 14px">
+        {{ 'label.hellow'|trans({}, "messages", user_locale) }} {{ user_full_name }}: <br/>
 
-    {{ 'label.email.registeraccount.text.one'|trans({}, "messages", user_locale) | raw }}
-    {{ 'label.email.registeraccount.text.two'|trans({}, "messages", user_locale) }}{{ agency.name }},{{ 'label.email.registeraccount.text.three'|trans({}, "messages", user_locale) }} {{ agency.address }}, {{ agency.country.coName }}.<br/>
+        {{ 'label.email.registeraccount.text.one'|trans({}, "messages", user_locale) | raw }}
+        {{ 'label.email.registeraccount.text.two'|trans({}, "messages", user_locale) }}{{ agency.name }},{{ 'label.email.registeraccount.text.three'|trans({}, "messages", user_locale) }} {{ agency.address }}, {{ agency.country.coName }}.<br/>
 
-    {{ 'label.email.registeraccount.text.four'|trans({}, "messages", user_locale) }} {{ agency.email }}  {{ 'label.email.registeraccount.text.five'|trans({}, "messages", user_locale) }} ({{ agency.phone }} {{ agency.phoneAux }} ).<br/>
-    {{ 'label.email.registeraccount.text.six'|trans({}, "messages", user_locale) }}<br/>
-    <a target="_blank" href="{{ url('frontend_partner_activateacount',{'token':secret_token}) }}"> {{ 'label.email.registeraccount.text.seven'|trans({}, "messages", user_locale) }}</a>
-<br/>
+        {{ 'label.email.registeraccount.text.four'|trans({}, "messages", user_locale) }} {{ agency.email }}  {{ 'label.email.registeraccount.text.five'|trans({}, "messages", user_locale) }} ({{ agency.phone }} {{ agency.phoneAux }} ).<br/>
+        {{ 'label.email.registeraccount.text.six'|trans({}, "messages", user_locale) }}<br/>
+        <a target="_blank" href="{{ url('frontend_partner_activateacount',{'token':secret_token}) }}"> {{ 'label.email.registeraccount.text.seven'|trans({}, "messages", user_locale) }}</a>
+        <br/>
 
-</p>
+    </p>
 {% endblock %}
