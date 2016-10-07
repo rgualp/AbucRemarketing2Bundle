@@ -2,21 +2,23 @@
 <head>
     <title>MyCasaParticular.com</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style type="text/css">
-        .ExternalClass {width:100%;}
-        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-            line-height: 100%;
-        }
-        body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
-        body {margin:0; padding:0;}
-        table td {border-collapse:collapse;}
-        .ReadMsgBody { width: 100%;}
-        .ExternalClass {width: 100%;}
-        body{background:#e8e8e8 }
-        p{margin-bottom:10px;}
-       a,a:visited,a:link,a:hover, a.titleLink, a.titleLink:visited, a.titleLink:link, a.titleLink:hover{text-decoration: none;color:#084f76;}
-       .footer a,.footer a:visited,.footer a:link,.footer a:hover{text-decoration: none;color:white;}
-    </style>
+    {% block css %}
+        <style type="text/css">
+            .ExternalClass {width:100%;}
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+                line-height: 100%;
+            }
+            body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+            body {margin:0; padding:0;}
+            table td {border-collapse:collapse;}
+            .ReadMsgBody { width: 100%;}
+            .ExternalClass {width: 100%;}
+            body{background:#e8e8e8 }
+            p{margin-bottom:10px;}
+           a,a:visited,a:link,a:hover, a.titleLink, a.titleLink:visited, a.titleLink:link, a.titleLink:hover{text-decoration: none;color:#084f76;}
+           .footer a,.footer a:visited,.footer a:link,.footer a:hover{text-decoration: none;color:white;}
+        </style>
+    {% endblock %}
 </head>
 <body style="font-family: Arial;">
 <table width="100%" cellpadding="10" cellspacing="0" border="0">

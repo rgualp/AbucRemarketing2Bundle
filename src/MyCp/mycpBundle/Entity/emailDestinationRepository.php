@@ -11,4 +11,25 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class emailDestinationRepository extends EntityRepository {
+
+
+    /**
+     */
+    public function findDestinations($arraydestinations){
+        $arraydestinations_id = "";
+        $counter=0;
+        foreach ($arraydestinations as $destination)
+        {
+            if($counter==0)
+                $arraydestinations_id = $destination;
+                else
+                    $arraydestinations_id .= ",".$destination;
+            $counter++;
+        }
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT  d.des_id ,d.des_name as desName ,ed.id,ed.contentEs,ed.contentEn,ed.contentDe FROM mycpBundle:emailDestination ed
+        join ed.destination d
+        WHERE  ed.destination NOT IN('$arraydestinations_id')");
+        return $query->getResult();
+    }
 }

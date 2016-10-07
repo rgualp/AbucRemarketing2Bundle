@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-05T10:30:01Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-07T13:52:58Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -8,7 +8,7 @@
       </trans-unit>
       <trans-unit id="8162d1cbdaaca149fd2ba53eca12ba300cb8dcc4" resname=" label.name.client ">
         <source> label.name.client </source>
-        <target state="new"> label.name.client </target>
+        <target state="new"> Client name</target>
       </trans-unit>
       <trans-unit id="b21db04ba29a00a52400d992b480a5847b282ad1" resname="/Noche">
         <source>/Noche</source>
@@ -806,6 +806,22 @@
         <source>cart.search_again</source>
         <target>Search again</target>
       </trans-unit>
+      <trans-unit id="5ea0450614d267be96ac87aedf82aebf5f79131a" resname="content.email.partner_deactivateaccount">
+        <source>content.email.partner_deactivateaccount</source>
+        <target state="new"><![CDATA[MyCasa Partner Team regrets that you have to deactivate your account. If you are decided, we can only wish you good luck for the future. We hope that the experience of working with us has given you lots of positive energy.</br>
+                                     You know where we are, if you were once Partner, that spirit never leaves you.</br>
+                                     From now on your account is deactivated and you will no longer be able to access your data or record with us.</br>
+                                     It has been a pleasure to collaborate with you,</br>
+                                     MyCasa Partner Team]]></target>
+      </trans-unit>
+      <trans-unit id="85abe55d1de6ad8868e5c68683a3c2f7063a073a" resname="content.email.partnerteam_deactivateaccount">
+        <source>content.email.partnerteam_deactivateaccount</source>
+        <target state="new"><![CDATA[Hello MyCasa Particular Team,</br>
+                                        A new Travel Agency has deactivated its account with MyCasaPartner. The account  agency_name under the name of agency_resp, has been deactivated.</br>
+                                        Up to now, it was operating with the benefits of the (Basic) package.  We are really sorry.</br>
+                                        Good Luck!</br>
+                                        MyCasa Partner Team]]></target>
+      </trans-unit>
       <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
         <source>content.five.email.partner_mcpteam</source>
         <target state="new">in</target>
@@ -1438,6 +1454,10 @@
         <source>label.indic.email</source>
         <target state="new">Check your determinate account for the Agency. We will send you a new password. Thank you!</target>
       </trans-unit>
+      <trans-unit id="1ec9bc5aebb0e4ff9e96c81ecff292c5dd49200e" resname="label.information.reserved">
+        <source>label.information.reserved</source>
+        <target state="new">Booking(s)  Information:</target>
+      </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target state="new">How to log in?</target>
@@ -1497,6 +1517,11 @@
       <trans-unit id="53750305a5d730534b767814c41c6712a97e2ec5" resname="label.name.phone.contact">
         <source>label.name.phone.contact</source>
         <target state="new">Telephone of the contact person</target>
+      </trans-unit>
+      <trans-unit id="1b2d0600fb7d6b921962b27efe04fb8598508b2e" resname="label.new.availability.check">
+        <source>label.new.availability.check</source>
+        <target state="new"><![CDATA[<p>We have received your availability request(s) and we are working on it/them. We assure you an answer will be given in less than 24h. Your time is gold to us.<br/>
+                                        In the meantime, we send you the data of the bookings that you requested in case you want to have it/them in your records. Many clients appreciated.</p>]]></target>
       </trans-unit>
       <trans-unit id="bf21c714afcc416913799af4eb115abcc2368763" resname="label.new.password">
         <source>label.new.password</source>
@@ -2086,6 +2111,10 @@
       <trans-unit id="1bc301e5ec4d8dae9ec673e632b8bfa269ae621f" resname="select_language">
         <source>select_language</source>
         <target state="new">Select languages</target>
+      </trans-unit>
+      <trans-unit id="dc03589e363f6d5159efe547db192fbe7ddfdd51" resname="subject.email.partner_deactivateaccount">
+        <source>subject.email.partner_deactivateaccount</source>
+        <target state="new">Deactivation of Agency Account</target>
       </trans-unit>
       <trans-unit id="25b692d705af7ba4986214d673ec53abea59dd3b" resname="subject.email.partner_mcpteam">
         <source>subject.email.partner_mcpteam</source>
