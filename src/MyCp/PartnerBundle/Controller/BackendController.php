@@ -154,6 +154,22 @@ class BackendController extends Controller
         //Pasar el paGeneralReservation a generalReservation
         $reservationDetails = $reservation->getDetails();
 
+
+        //Configuration service send new availability check
+        $service_email = $this->get('Email');
+        $translator = $this->get('translator');
+
+        //Send email user new availability check
+        $subject = $translator->trans('subject.email.partner.new.availability.check', array(), "messages", strtolower($user->getUserLanguage()->getLangCode()));
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheck.html.twig', array(
+            "reservations" => $reservationDetails,
+            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange()
+        ));
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
+
         foreach($reservationDetails as $detail)
         {
             $paGeneralReservation = $detail->getOpenReservationDetail(); // a eliminar
@@ -184,10 +200,13 @@ class BackendController extends Controller
         $em->persist($reservation);
         $em->flush();
 
+
+
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
-            'list' => $list
+            'list' => $list,
+            'travelAgency'=>$travelAgency
         ));
 
         return new JsonResponse([
