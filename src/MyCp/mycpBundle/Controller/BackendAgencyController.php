@@ -30,6 +30,24 @@ use Symfony\Component\Validator\Constraints\RegexValidator;
 
 class BackendAgencyController extends Controller {
 
+    public function active_releaseAction($items_per_page, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $agencys = $em->getRepository('PartnerBundle:paTravelAgency')->getAllDeactive();
+
+        foreach ($agencys as $agency) {
+            $user = $agency->getTourOperators()->first()->getTourOperator();
+            $user->setUserEnabled(1);
+
+            $em->persist($user);
+            $em->flush();
+
+            $language = $user->getUserLanguage();
+            UserMails::sendCreateUserPartner($this, $user->getUserEmail(), $user->getName(), $agency->getName(), $user->getUserId(), strtolower($language->getLangCode()), $agency, false);
+        }
+
+        return $this->redirect($this->generateUrl('mycp_list_agency'));
+    }
+
     public function list_AgencyAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();

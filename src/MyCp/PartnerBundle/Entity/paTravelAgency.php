@@ -96,6 +96,11 @@ class paTravelAgency extends baseEntity
      */
     private $clients;
 
+    /**
+     * @ORM\OneToMany(targetEntity="paTourOperator", mappedBy="travelAgency")
+     */
+    private $tourOperators;
+
 
     public function __construct() {
         parent::__construct();
@@ -103,6 +108,7 @@ class paTravelAgency extends baseEntity
         $this->contacts = new ArrayCollection();
         $this->agencyPackages = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->tourOperators = new ArrayCollection();
     }
 
     /**
@@ -384,4 +390,38 @@ class paTravelAgency extends baseEntity
 
 
 
+
+    /**
+     * Add tourOperator
+     *
+     * @param \MyCp\PartnerBundle\Entity\paTourOperator $tourOperator
+     *
+     * @return paTravelAgency
+     */
+    public function addTourOperator(\MyCp\PartnerBundle\Entity\paTourOperator $tourOperator)
+    {
+        $this->tourOperators[] = $tourOperator;
+
+        return $this;
+    }
+
+    /**
+     * Remove tourOperator
+     *
+     * @param \MyCp\PartnerBundle\Entity\paTourOperator $tourOperator
+     */
+    public function removeTourOperator(\MyCp\PartnerBundle\Entity\paTourOperator $tourOperator)
+    {
+        $this->tourOperators->removeElement($tourOperator);
+    }
+
+    /**
+     * Get tourOperators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTourOperators()
+    {
+        return $this->tourOperators;
+    }
 }

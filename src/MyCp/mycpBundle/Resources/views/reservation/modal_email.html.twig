@@ -1,0 +1,108 @@
+<div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+            <i class="fa fa-laptop modal-icon"></i>
+            <h4 class="modal-title">Enviar email</h4>
+        </div>
+        <div class="modal-body">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    {#<li class="active"><a href="#tab-3" data-toggle="tab">Correos enviados al usuario</a></li>#}
+                    <li class=""><a href="#tab-4" data-toggle="tab">Componer correo</a></li>
+                </ul>
+                <div class="tab-content">
+                    {#<div class="tab-pane active" id="tab-3">#}
+                    {#<div class="panel-body">#}
+
+                    {#</div>#}
+                    {#</div>#}
+                    <div class="tab-pane active" id="tab-4">
+                        <div class="panel-body">
+                            <form method="post" class="form-horizontal" id="form-emailContent">
+                                <div class="row-fluid">
+                                    <label class="span2 control-label" style="text-align: center"><strong>Para:</strong></label>
+                                    <div class="span10">
+                                        <label class="span10 control-label" style="text-align: center;color: red"><strong>{{ user.userEmail }}</strong></label>
+                                        <input type="hidden" name="emailUser" value="{{ user.userEmail }}" class="form-control" style="width: 90%;text-align: left">
+                                    </div>
+                                </div>
+                                <div class="row-fluid" style="margin-top: 20px">
+                                    <label class="span2 control-label" style="text-align: center"><strong>Asunto:</strong></label>
+                                    <div class="span10">
+                                        <input type="text" name="emailSubject" value="{{ content_config.subject }}" class="form-control" style="width: 90%">
+                                    </div>
+                                </div>
+                                <div class="row-fluid" style="margin-top: 20px">
+                                    <label class="span2 control-label" style="text-align: center"><strong>Introducción:</strong></label>
+                                    <div class="span10">
+                                        <input type="text" name="emailIntroduction" value="{{ content_config.introduction }}" class="form-control" style="width: 90%">
+                                    </div>
+                                </div>
+                                <div class="row-fluid" style="margin-top: 20px">
+                                    <label class="span2 control-label" style="text-align: center;color: red"><strong>Destinos:</strong></label>
+                                    <div class="span10">
+                                        {% for item in email_destination %}
+                                            <div class="span2">
+                                                <label class="checkbox" style="margin-top: 4px">
+                                                    <input onclick="OnChangeCheckbox(this)" class="checkbox-destination" type="checkbox" id="{{ item.id }}_destination" data-es="{{ item.contentEs }}" data-en="{{ item.contentEn }}" data-de="{{ item.contentDe }}"> {{ item.destination.desName }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                <div class="row-fluid" style="margin-top: 20px">
+                                    <div class="span12">
+                                        <div class="summernote">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid" style="margin-top: 20px">
+                                    <label class="span2 control-label" style="text-align: center"><strong>Despedida:</strong></label>
+                                    <div class="span10">
+                                        <input type="text" name="emailFoward" value="{{ content_config.foward }}" class="form-control" style="width: 90%">
+
+                                    </div>
+                                </div>
+                                <div class="row-fluid" style="margin-top: 20px;text-align: right">
+                                    <button class="btn btn-primary btn-saveFormEmailContent" type="button">Enviar</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+<script>
+    $('.summernote').summernote();
+    function OnChangeCheckbox (checkbox) {
+        if (checkbox.checked) {
+            var html="<div id='div_"+checkbox.id+"'>"+$('#'+checkbox.id).data('{{ language_email }}')+"</div>";
+            $('.note-editable').append(html);
+        }
+        else {
+            $('#div_'+checkbox.id).remove();
+        }
+    }
+    $('.btn-saveFormEmailContent').on('click',function(){
+        var data={};
+        $("#form-emailContent").serializeArray().map(function(x){data[x.name] = x.value;});
+        data['emailContent']=$('.note-editable').html();
+        $.post('{{ path('mycp_send_email_destination') }}',
+                data,
+                function (response) {
+                    var modal = $('#myModal');
+                    modal.modal('hide');
+                    alert("Correo enviado satisfactoriamente");
+                    return;
+                }
+        );
+    })
+</script>

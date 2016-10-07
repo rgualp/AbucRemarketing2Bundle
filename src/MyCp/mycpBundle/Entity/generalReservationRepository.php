@@ -160,7 +160,8 @@ WHERE pard.reservationDetail = :gen_res_id";
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
             $query->setParameter('gen_res_id', $gen_res_id);
-            $client = $query->getArrayResult()[0];
+            $r = $query->getArrayResult();
+            $client = (count($r) > 0) ? $r[0] : array('fullname'=>'', 'id'=>'');
             $data[$key]['client'] = $client['fullname'];
             $data[$key]['ag_id'] = $client['id'];
         }
@@ -1820,7 +1821,6 @@ group by gres.gen_res_id";
 
         if ($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
-
         } else if ($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
         } else if ($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
@@ -1860,7 +1860,7 @@ group by gres.gen_res_id";
 
         $qb->select("DATE(gres.gen_res_date) as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
         count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
-        SUM( DISTINCT CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount*curr.curr_cuc_change ELSE p.payed_amount*p.current_cuc_change_rate END) as facturacion")
+        SUM(DISTINCT CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount*curr.curr_cuc_change ELSE p.payed_amount*p.current_cuc_change_rate END) as facturacion")
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
             ->join("owres.own_res_reservation_booking", "b")
@@ -1870,7 +1870,29 @@ group by gres.gen_res_id";
 
         if ($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+        } else if ($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+        } else if ($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
+        }
 
+        return $qb->getQuery()->getResult();
+    }
+    function getClientsDailySummaryPaymentsx($filter_date_from = null, $filter_date_to = null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount*curr.curr_cuc_change ELSE p.payed_amount*p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr")
+            ->groupBy("b.booking_id");
+
+        if ($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
         } else if ($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
         } else if ($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
@@ -2123,6 +2145,30 @@ group by gres.gen_res_id";
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
         }
         return $qb->getQuery()->getResult();
+    }
+
+    function getClientsYearlySummaryOnlyFacturationx($year)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount*curr.curr_cuc_change ELSE p.payed_amount*p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr")
+            ->groupBy("b.booking_id");
+
+        $qb->andWhere("YEAR(DATE(gres.gen_res_date)) = '$year'");
+        $clientsSummaryPayments = $qb->getQuery()->getResult();
+        $tfr = 0;
+        foreach($clientsSummaryPayments as $item)
+        {
+            $tfr += $item["facturacion"];
+        }
+
+        return $tfr;
     }
 
     function getClientsYearlySummaryOnlyFacturation($filter_date_from = null, $filter_date_to = null)

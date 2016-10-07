@@ -184,6 +184,10 @@ mycp_backend_payment:
     resource: "@mycpBundle/Resources/config/routingBackendPayment.yml"
     prefix:   backend/payments/
 
+mycp_config_email:
+    resource: "@mycpBundle/Resources/config/routingBackendConfigEmail.yml"
+    prefix:   backend/config_email/
+
 mycp_reservations_ag:
     resource: "@mycpBundle/Resources/config/routingBackendReservationsAg.yml"
     prefix:   backend/reservation_ag/

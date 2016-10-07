@@ -330,18 +330,18 @@ class paGeneralReservation {
         return count($this->own_reservations);
     }
 
-    public function getAdultsCount() {
+    public function getAdults() {
         $adults_count = 0;
-        foreach ($this->own_reservations as $own_reservation) {
-            $adults_count += $own_reservation->getOwnResCountAdults();
+        foreach ($this->paOwnershipReservations as $own_reservation) {
+            $adults_count += $own_reservation->getAdults();
         }
         return $adults_count;
     }
 
-    public function getKidsCount() {
+    public function getChildren() {
         $kids_count = 0;
-        foreach ($this->own_reservations as $own_reservation) {
-            $kids_count += $own_reservation->getOwnResCountChildrens();
+        foreach ($this->paOwnershipReservations as $own_reservation) {
+            $kids_count += $own_reservation->getChildren();
         }
         return $kids_count;
     }
