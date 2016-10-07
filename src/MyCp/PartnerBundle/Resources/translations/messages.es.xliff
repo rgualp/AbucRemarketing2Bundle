@@ -640,7 +640,7 @@
       </trans-unit>
       <trans-unit id="f8f20a78ef548299ecf5ccbadfa7e0d1e88af228" resname="Terminos Legales">
         <source>Terminos Legales</source>
-        <target state="new">Terminos Legales</target>
+        <target state="new">Términos Legales</target>
       </trans-unit>
       <trans-unit id="599e48d14063bd506a8a34fc8565bbdc4b89f715" resname="Tipo de Baño">
         <source>Tipo de Baño</source>
