@@ -113,6 +113,12 @@
             <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{%if own.genResOwnId.ownPhoneCode != ""%}(+53) {{ own.genResOwnId.ownPhoneCode }} {{ own.genResOwnId.ownPhoneNumber }}{%else%} - {%endif%}</td>
         </tr>
+        {% if own.genResOwnId.ownEmail1 != "" or own.genResOwnId.ownEmail2 != "" %}
+            <tr>
+                <td><b>{{"FORMS_EMAIL"|trans}}:</b></td>
+                <td>{% if own.genResOwnId.ownEmail1 == "" and own.genResOwnId.ownEmail2 == "" %}-{% else %}<a href="mailto:{{ own.genResOwnId.ownEmail1 }}">{{ own.genResOwnId.ownEmail2 }}</a>{% if own.genResOwnId.ownEmail1 != "" and own.genResOwnId.ownEmail2 != "" %}, {% endif %}<a href="mailto:{{ own.genResOwnId.ownEmail2 }}">{{ own.genResOwnId.ownEmail2 }}</a>{% endif %}</td>
+            </tr>
+        {% endif %}
     </table>
 
     {%for res_room in own.ownReservations %}

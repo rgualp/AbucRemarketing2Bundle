@@ -24,11 +24,11 @@
       </trans-unit>
       <trans-unit id="5500bcc86c03cfb07ccfa62c569665c1b440943d" resname="ACCOMMODATION_TOTAL_COST">
         <source>ACCOMMODATION_TOTAL_COST</source>
-        <target state="new">ACCOMMODATION_TOTAL_COST</target>
+        <target state="new">Lodging Amount</target>
       </trans-unit>
       <trans-unit id="73718714acfb1edc3ce40deca84522401505dcec" resname="ACCOMMODATION_TOTAL_COST_PLURAL">
         <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
-        <target state="new">ACCOMMODATION_TOTAL_COST_PLURAL</target>
+        <target state="new">Lodging Amounts</target>
       </trans-unit>
       <trans-unit id="f4117223726361342d2ce2107c544c8059462d3d" resname="ADDRESS">
         <source>ADDRESS</source>
@@ -236,11 +236,11 @@
       </trans-unit>
       <trans-unit id="dfc809a8ebf4b81e691b32975c5035f21e16fd2c" resname="EMPTY_LIST">
         <source>EMPTY_LIST</source>
-        <target state="new">EMPTY_LIST</target>
+        <target state="new">No Results match your search</target>
       </trans-unit>
       <trans-unit id="0755ba2b38043a06675bb007b2456872c67990c8" resname="END_OF_YOUR_RESERVATION">
         <source>END_OF_YOUR_RESERVATION</source>
-        <target state="new">END_OF_YOUR_RESERVATION</target>
+        <target state="new">End of your Reservation</target>
       </trans-unit>
       <trans-unit id="9133af28489d6c277e89df86cc1fa9db870c13e9" resname="Económica">
         <source>Económica</source>
@@ -444,15 +444,15 @@
       </trans-unit>
       <trans-unit id="cbba2e6ec7ae49741b453cd8bb4951896da9ff4a" resname="PAYMENT_DETAILS">
         <source>PAYMENT_DETAILS</source>
-        <target state="new">PAYMENT_DETAILS</target>
+        <target state="new">Payment Details</target>
       </trans-unit>
       <trans-unit id="3711a43b8985a6bb196946d50507f3e5c3427e5c" resname="PAY_AT_ACCOMMODATION">
         <source>PAY_AT_ACCOMMODATION</source>
-        <target state="new">PAY_AT_ACCOMMODATION</target>
+        <target state="new">Cash Payment on Arrival</target>
       </trans-unit>
       <trans-unit id="26395a011987f8862145a822bc683ed0a9394c9e" resname="PERCENT_ACCOMMODATION_AMOUNT">
         <source>PERCENT_ACCOMMODATION_AMOUNT</source>
-        <target state="new">PERCENT_ACCOMMODATION_AMOUNT</target>
+        <target state="new">%percent% of Lodging Amount</target>
       </trans-unit>
       <trans-unit id="3582d4b13b17e606edcfd7130c6a8c3a3eb3ae4d" resname="PETS_OTHERS_FILTER">
         <source>PETS_OTHERS_FILTER</source>
@@ -476,11 +476,11 @@
       </trans-unit>
       <trans-unit id="891b0033afa5010d9524f91d8709e7680f04c965" resname="PRICE_NIGHT">
         <source>PRICE_NIGHT</source>
-        <target state="new">PRICE_NIGHT</target>
+        <target state="new">Price/Night</target>
       </trans-unit>
       <trans-unit id="ddf73ae6bc2b86c2883c3b4f77ffc13ad440c376" resname="PRICE_TOTAL_TO_PAY">
         <source>PRICE_TOTAL_TO_PAY</source>
-        <target state="new">PRICE_TOTAL_TO_PAY</target>
+        <target state="new">Total to pay</target>
       </trans-unit>
       <trans-unit id="af4ca7a0bbbd209d4969bee11ae373bf0ccc200a" resname="PROVINCE_TAB_DESCRIPTION">
         <source>PROVINCE_TAB_DESCRIPTION</source>
@@ -508,15 +508,15 @@
       </trans-unit>
       <trans-unit id="258dfea8ef734bec9b2197f43f5061c31e7757ac" resname="RESERVATION_CHECK_AVAILABILITY">
         <source>RESERVATION_CHECK_AVAILABILITY</source>
-        <target state="new">RESERVATION_CHECK_AVAILABILITY</target>
+        <target state="new">Check Availability</target>
       </trans-unit>
       <trans-unit id="2fdd8724aabec948fc129e5b9d012d8495fae8c1" resname="RESERVATION_CONFIRM">
         <source>RESERVATION_CONFIRM</source>
-        <target state="new">RESERVATION_CONFIRM</target>
+        <target state="new">Booking Confirmation</target>
       </trans-unit>
       <trans-unit id="79e5c0a01dbca8c96bd7a17d80bf9f33059edc4d" resname="RESERVATION_COST">
         <source>RESERVATION_COST</source>
-        <target state="new">RESERVATION_COST</target>
+        <target state="new">Booking Price</target>
       </trans-unit>
       <trans-unit id="474a18deccce32b3884c77e9b94f096025761d92" resname="RESERVATION_DETAILS">
         <source>RESERVATION_DETAILS</source>
@@ -560,7 +560,7 @@
       </trans-unit>
       <trans-unit id="328cb91324b3e2ba3106c6a7a1f378b58efc57d2" resname="SELECT_ROOM_TYPE_OPTION">
         <source>SELECT_ROOM_TYPE_OPTION</source>
-        <target state="new">SELECT_ROOM_TYPE_OPTION</target>
+        <target state="new">Room Type</target>
       </trans-unit>
       <trans-unit id="8b5f70994e0f32e58749f16f823959d3f6fe673f" resname="SERVICES_TAB_DETAILS">
         <source>SERVICES_TAB_DETAILS</source>
@@ -568,15 +568,15 @@
       </trans-unit>
       <trans-unit id="d6e1b98b0c5e6d54c5786cab94056b04b16216db" resname="SERVICES_TOTAL_COST">
         <source>SERVICES_TOTAL_COST</source>
-        <target state="new">SERVICES_TOTAL_COST</target>
+        <target state="new">Service Fee</target>
       </trans-unit>
       <trans-unit id="5aa037f2a39d023fe167834ed10329c0a806d1cd" resname="SERVICE_ACCOMMODATION_TAX">
         <source>SERVICE_ACCOMMODATION_TAX</source>
-        <target state="new">SERVICE_ACCOMMODATION_TAX</target>
+        <target state="new">Accommodation service</target>
       </trans-unit>
       <trans-unit id="300cfccb65edfcf83f70cdf5e1499b01ddd2c8db" resname="SERVICE_FIXED_TAX">
         <source>SERVICE_FIXED_TAX</source>
-        <target state="new">SERVICE_FIXED_TAX</target>
+        <target state="new">Fixed rate (Apps)</target>
       </trans-unit>
       <trans-unit id="5c35037c7eb54cb13fceaef6cf5db04c14b29007" resname="SHARED_BATHROOM_FILTER">
         <source>SHARED_BATHROOM_FILTER</source>
