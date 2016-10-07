@@ -458,11 +458,16 @@ class StepsController extends Controller
         $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         $templatingService = $this->container->get('templating');
         $emailSubject='Proceso de registro de propiedad completado';
+        $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId(), "active" => 1));
+
         $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership'=>$ownership, 'user_locale' => "es",'user_full_name'=>$this->getUser()->getUserUserName().' '.$this->getUser()->getUserLastName()));
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
         $service_email = $this->get('Email');
         $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
-        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array("code" => $ownership->getOwnMcpCode()));
+        return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array(
+            "code" => $ownership->getOwnMcpCode(),
+            'assistant' => $localOperationAssistant
+        ));
     }
 
     /**

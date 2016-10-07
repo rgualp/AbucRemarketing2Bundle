@@ -325,9 +325,25 @@ class OwnershipController extends Controller {
         //$own_name = str_replace("nn", "ñ", $own_name);
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetails($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
+        
         if ($ownership_array == null) {
             throw $this->createNotFoundException();
         }
+
+        $existNonNullValue = false;
+        foreach(array_keys($ownership_array) as $key)
+        {
+            if ($ownership_array[$key] != null)
+            {
+                $existNonNullValue = true;
+                break;
+            }
+        }
+
+        if (!$existNonNullValue) {
+            throw $this->createNotFoundException();
+        }
+
 
         $langs_array = array();
         if ($ownership_array['english'] == 1)

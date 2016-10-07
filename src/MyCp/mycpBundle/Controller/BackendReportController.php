@@ -1051,6 +1051,7 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+        return new Response("PDF Generated");
     }
 
     public function reservationSummaryMonthlyAction(Request $request)
@@ -1179,6 +1180,7 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+        return new Response("PDF Generated");
     }
 
     public function reservationSummaryYearlyAction(Request $request)
@@ -1304,7 +1306,7 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
 
-
+        return new Response("PDF Generated");
     }
 
     public function clientsSummaryAction(Request $request)
@@ -1469,6 +1471,8 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+
+        return new Response("PDF Generated");
     }
 
     public function clientsSummaryMonthlyAction(Request $request)
@@ -1623,6 +1627,8 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+
+        return new Response("PDF Generated");
     }
 
     public function clientsSummaryYearlyAction(Request $request)
@@ -1775,6 +1781,8 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+
+        return new Response("PDF Generated");
     }
 
 /**Facturacion*/
@@ -1940,7 +1948,9 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->load_html($html);
         $dompdf->set_paper("a4");
         $dompdf->render();
-        $dompdf->stream($name . ".pdf", array("Attachment" => false));
+       $dompdf->stream($name . ".pdf", array("Attachment" => false));
+
+        return new Response("PDF Generated");
     }
 
     public function clientsFacturationSummaryMonthlyAction(Request $request)
@@ -2095,8 +2105,8 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+        return new Response("PDF Generated");
     }
-
     public function clientsFacturationSummaryYearlyAction(Request $request)
     {
         $timer = $this->get("Time");
@@ -2168,7 +2178,6 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "Y"
         ));
     }
-
     public function clientsFacturationSummaryExcelYearlyAction(Request $request,$report)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
@@ -2248,6 +2257,7 @@ ORDER BY own.own_mcp_code ASC
         $dompdf->set_paper("a4");
         $dompdf->render();
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
+        return new Response("PDF Generated");
     }
 
     public function reservationsStatementExcelAction(Request $request){
