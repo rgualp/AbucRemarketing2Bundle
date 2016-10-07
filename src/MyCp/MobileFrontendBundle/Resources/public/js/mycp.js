@@ -27,6 +27,7 @@ var Mycp = function(){
 
         //Para los acordiones
         $(".accordion a.accordion-toggle").addClass("collapsed");
+
     }
 
     var reservations = function(){

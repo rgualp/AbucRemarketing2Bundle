@@ -13,6 +13,7 @@
             '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
             '@FrontEndBundle/Resources/public/css/glyphicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/myicons.css'
             '@FrontEndBundle/Resources/public/css/custom.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
         filter='?uglifycss'
@@ -97,7 +98,7 @@
             {% endif %}
         </div>
     </div>
-    <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+    <nav id="top-menu" role="navigation" class="for-fixed navbar navbar-inverse bg-gradient-blue p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle pull-left" type="button">
                 <span class="sr-only">Menu</span>
@@ -145,19 +146,20 @@
 
     {% block go_up %}
         <hr>
-        <p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
+        <p class="text-center"><a class="scrollToTop" title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
     {% endblock %}
 
     {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
 
     {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
 
-    <script>
-        var start_date ="{{"now"|date("d/m/Y") }}";
-        var end_date ="{{"now"|date("d/m/Y") }}";
-    </script>
+    {#<script>#}
+        {#var start_date ="{{"now"|date("d/m/Y") }}";#}
+        {#var end_date ="{{"now"|date("d/m/Y") }}";#}
+    {#</script>#}
     {% javascripts
     '@MyCpMobileFrontendBundle/Resources/public/js/jquery-2.1.1.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/fixedlink.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/jquery.mobile-1.4.5.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/tether.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/bootstrap.min.js'
@@ -172,6 +174,7 @@
 
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/custom.js'
 
@@ -197,16 +200,14 @@
 
     <script type="text/javascript">
         var today_date="{{"now"|date("d/m/Y") }}";
-//        topmenucont = $('#top-menu-cont');
-//        topmenu = $("#top-menu").offset().top;
-//        $('#top-menu').affix({
-//            offset: {
-//                top: function() {
-//                    topmenucont.html = "&nbsp;";
-//                    return topmenu;
-//                }
-//            }
-//        });
+
+        NavbarScrollFixed.init(".for-fixed","navbar-fixed-top", 80);
+
+        $('.scrollToTop').click(function(event){
+            event.preventDefault();
+            jQuery('html, body').animate({scrollTop : 0},800);
+            return false;
+        });
 
         $(function() {
             $('img.lazy').jail();

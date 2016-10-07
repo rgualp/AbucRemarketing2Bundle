@@ -142,6 +142,13 @@ h6{
 .line-height-1{
     line-height: 1 !important;
 }
+.p-5{
+    padding: 0.3125rem;
+}
+
+.p-x-5{
+    padding: 0 0.3125rem;
+}
 
 .p-30{
     padding: 1.8rem;
@@ -410,6 +417,58 @@ footer .list-inline li a {
     display: flex;
 }
 
+#mobile-search{
+    background: #86b32b none repeat scroll 0 0;
+    padding: 8px 0;
+}
+
+#orange_search_bar{
+    box-shadow: 1px 0 2px #000;
+    padding: 5px;
+}
+
+#orange_search_bar .row {
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+#orange_search_bar .form-control{
+    border-radius: 3px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3) inset;
+    font-family: Arial;
+    font-size: 17px;
+}
+
+.ui-select span{
+    display: none;
+}
+
+.bubble-icon-search{
+    display: none;
+}
+.bubble-icon-search.navbar-fixed-top{
+    background: rgba(245, 163, 28, 0.8) none repeat scroll 0 0;
+    border-radius: 5px;
+    display: block;
+    left: 2px;
+    padding: 6px;
+    position: fixed;
+    top: 69px;
+    z-index: 1000;
+    right: auto;
+}
+.loading-signal {
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    margin: auto;
+    padding: 5px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 50px;
+    z-index: 101;
+}
 /*@media (max-width: 543px) { ... }*/
 
 /*// Small devices (landscape phones, less than 768px)*/
