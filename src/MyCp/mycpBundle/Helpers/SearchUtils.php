@@ -144,7 +144,7 @@ class SearchUtils {
 
             $query_details = $entity_manager->createQuery($query_string);
 
-            try {
+            /*try {
                 if ($arrivalDate != null) {
                     $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
                     if($arrival == null)
@@ -168,6 +168,29 @@ class SearchUtils {
                 $today = new DateTime();
                 $query_details->setParameter('arrival_date', $today->format("Y-m-d"))
                               ->setParameter('leaving_date', $today->modify('+2 days')->format("Y-m-d"));
+            }*/
+            if ($arrivalDate != null && $arrivalDate != "undefined") {
+                $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+                if($arrival == null)
+                    $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
+                $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
+            }
+            else{
+                $arrival = new DateTime();
+                $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
+            }
+            if ($leavingDate != null && $leavingDate != "undefined")
+            {
+
+                $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
+                if ($departure == null)
+                    $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
+                $query_details->setParameter('leaving_date', $departure->format("Y-m-d"));
+
+            }
+            else{
+                $departure = $arrival->modify('+2 days')->format("Y-m-d");
+                $query_details->setParameter('leaving_date', $departure);
             }
 
             $uDetails = $query_details->getResult();
