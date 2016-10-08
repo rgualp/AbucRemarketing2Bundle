@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-07T13:53:12Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2016-10-08T09:30:16Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -265,6 +265,10 @@
       <trans-unit id="c3be17b5a23d2e02581ea55dceb655e56f217a06" resname="FORMS_COMMENTS">
         <source>FORMS_COMMENTS</source>
         <target state="new">FORMS_COMMENTS</target>
+      </trans-unit>
+      <trans-unit id="bc6ab67e1e5698bda61f2ba71f2e0a2aa1e6f147" resname="FORMS_EMAIL">
+        <source>FORMS_EMAIL</source>
+        <target state="new">FORMS_EMAIL</target>
       </trans-unit>
       <trans-unit id="7a5849899e50d2d08d027d2c19f970e45104a3bc" resname="FORMS_PHONE">
         <source>FORMS_PHONE</source>
@@ -989,10 +993,6 @@
       <trans-unit id="bf2d35f354f936420e9ba65f7b22bbd6fd841fbd" resname="dashboard.btn.booking.paid">
         <source>dashboard.btn.booking.paid</source>
         <target state="new">dashboard.btn.booking.paid</target>
-      </trans-unit>
-      <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
-        <source>dashboard.payment</source>
-        <target state="new">dashboard.payment</target>
       </trans-unit>
       <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
         <source>dashboard.profile</source>
@@ -1890,6 +1890,18 @@
         <source>partner.download.voucher</source>
         <target state="new">partner.download.voucher</target>
       </trans-unit>
+      <trans-unit id="6e463a00f9dcd7af7fb3679d07c664454be2510a" resname="partner.email.registeraccount.beta">
+        <source>partner.email.registeraccount.beta</source>
+        <target state="new">partner.email.registeraccount.beta</target>
+      </trans-unit>
+      <trans-unit id="0da856c842756b106822d2ee34a1a8790a38a640" resname="partner.email.registeraccount.release">
+        <source>partner.email.registeraccount.release</source>
+        <target state="new">partner.email.registeraccount.release</target>
+      </trans-unit>
+      <trans-unit id="9a29f628dae32dc8ae6142d504c263c95760cd47" resname="partner.email.registeraccount.release.go">
+        <source>partner.email.registeraccount.release.go</source>
+        <target state="new">partner.email.registeraccount.release.go</target>
+      </trans-unit>
       <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
         <source>partner.sitemap.activation</source>
         <target state="new">partner.sitemap.activation</target>
@@ -1973,6 +1985,10 @@
       <trans-unit id="1bc301e5ec4d8dae9ec673e632b8bfa269ae621f" resname="select_language">
         <source>select_language</source>
         <target state="new">select_language</target>
+      </trans-unit>
+      <trans-unit id="1ad82a93e38bc3e4d4925d5db54ebbb24919d2c1" resname="subject.email.partner.new.availability.check">
+        <source>subject.email.partner.new.availability.check</source>
+        <target state="new">subject.email.partner.new.availability.check</target>
       </trans-unit>
       <trans-unit id="dc03589e363f6d5159efe547db192fbe7ddfdd51" resname="subject.email.partner_deactivateaccount">
         <source>subject.email.partner_deactivateaccount</source>
