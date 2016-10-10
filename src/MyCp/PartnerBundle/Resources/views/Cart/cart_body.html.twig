@@ -1,0 +1,27 @@
+{% for item in list %}
+<div class="row">
+    <div class="col-md-1 checkbox checkbox-info text-center">
+        <input class="checkAccommodations" name="checkAccommodationsToPay"
+               id="checkAccommodationsToPay_{{ item.own_res_id }}" data-genresid="{{ item.gen_res_id }}" data-owresid="{{ item.own_res_id }}"
+               data-idreservation="{{ item.idReservation }}" type="checkbox" {% if item.showChecked %}checked{% endif %}/>
+        <label for="checkAccommodationsToPay_{{ item.own_res_id }}"></label>
+    </div>
+    <div class="col-md-11 normal-font" style="font-size: 22px">
+        <div class="row m-0">
+            {{ "booking.placeholder.code" | trans }}: <b>{{ item.own_mcp_code }}</b>. {{ "ARRIVAL_RESERVATION" | trans }}: <b>{{ item.own_res_reservation_from_date | date("d/m/Y") }}</b>. {{ "DEPARTURE_RESERVATION" | trans }}: <b>{{ item.own_res_reservation_to_date | date("d/m/Y") }}</b>. {{ "pa.accommodation" | trans }}: <b>{{ item.own_name }}</b>.
+            {{ "backend.package.destination" | trans }}: <b>{{ item.des_name }}</b>
+        </div>
+        <div class="row m-0">
+            {{ "backend.package.province" | trans }}: <b>{{ item.prov_name}}</b>. {{ "DETAILS_PACKAGE_ROOM" | trans }} # <b>{{ item.room_num }}</b>. {{ "SELECT_ROOM_TYPE_OPTION" | trans }}: <b>{{ item.room_type }}</b>. {{ "ADULTS" | trans }}: <b>{{ item.adults }}</b>. {{ "KIDS" | trans }}: <b>{{ item.children }}</b>
+        </div>
+        <div class="row m-0">
+            <div class="col-md-6 m-0" style="padding: 0">
+                {{ "booking.placeholder.cas" | trans }}: <b>CAS.{{ item.gen_res_id}}</b>
+            </div>
+            <div class="col-md-6 m-0 text-center">
+               {{ "RESERVATION_PRICE" | trans }}: <b>{{ (item.totalInSite * app.user.userCurrency.currCucChange) | number_format(2)}}{{ app.user.userCurrency.currSymbol | lower }}</b>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

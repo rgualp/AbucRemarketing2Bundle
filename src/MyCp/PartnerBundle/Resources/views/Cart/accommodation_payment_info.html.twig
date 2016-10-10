@@ -1,0 +1,146 @@
+<div class="bg-blue color-white paymentInfoBox" style="padding: 5px">
+    <div class="row">
+        <div class="col-sm-8" style="font-size:24px">
+            {{ "payment.details" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            <i class="fa fa-refresh fa-spin hide" id="paymentLoading_{{ item.gen_res_id }}"></i>
+        </div>
+    </div>
+    {# % if payments[item.gen_res_id].reservations | length %}
+    <div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-3">
+            {{ "ROOMS" | trans }}
+        </div>
+        <div class="col-sm-2">
+            {{ "NIGHTS" | trans }}
+        </div>
+        <div class="col-sm-3">
+            $/{{ "night" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            $/{{ "reservation" | trans }}
+        </div>
+    </div>
+    {% for reservationItem in  payments[item.gen_res_id].reservations%}
+        <div class="row detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+            <div class="col-sm-3">
+                {{ "room" | trans }} {{ reservationItem.room_num }}
+            </div>
+            <div class="col-sm-2">
+                {{ reservationItem.nights }}
+            </div>
+            <div class="col-sm-3">
+                {{ ((reservationItem.totalInSite/ reservationItem.nights) * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+            </div>
+            <div class="col-sm-4 text-right">
+                {{ (reservationItem.totalInSite * app.user.userCurrency.currCucChange) | number_format(2)  }} {{ app.user.userCurrency.currSymbol }}
+            </div>
+        </div>
+    {% endfor %}
+    {% endif % #}
+    <div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.lodging_price" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].lodgingPrice * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+    {#<div class="row detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+       <div class="col-sm-8">
+           {{ "payment.service_fee" | trans }}
+       </div>
+       <div class="col-sm-4 text-right">
+           {{ (payments[item.gen_res_id].touristFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+       </div>
+   </div>
+   {#
+   < class="row detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+       <div class="col-sm-8">
+           {{ "payment.fixed_fee" | trans }}
+       </div>
+       <div class="col-sm-4 text-right">
+           {% if loop.index0 == 0 %}
+           {{ (payments[item.gen_res_id].fixedFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+           {% else %}
+           0.00 {{ app.user.userCurrency.currSymbol }}
+           {% endif %}
+       </div>
+   </div>
+   #}
+    <div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.tax_fees" | trans}}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].touristFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+
+    <div class="row" style="font-size: smaller">
+        <div class="col-sm-8">
+            {{ "payment.total" | trans | upper }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].totalPayment * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+    <div class="row" style="font-size: smaller">
+        <div class="col-sm-8">
+            {{ "payment.online_prepayment" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].totalPrepayment * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+    <div class="row  detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.tax_fees" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].touristFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+    <div class="row  detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.commission_percent" | trans | replace({"#percent#": payments[item.gen_res_id].commissionPercent}) }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].commission * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+   {# <div class="row  detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.fixed_fee" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {% if loop.index0 == 0 %}
+                {{ (payments[item.gen_res_id].fixedFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+            {% else %}
+                0.00 {{ app.user.userCurrency.currSymbol }}
+            {% endif %}
+        </div>
+    </div>
+    #}
+    <div class="row" style="font-size: smaller">
+        <div class="col-sm-8">
+            {{ "payment.pay_at_service" | trans }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].payAtAccommodation * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+    <div class="row  detail-section orange-color hide sectionToHide_{{ item.gen_res_id }}">
+        <div class="col-sm-8">
+            {{ "payment.commission_percent" | trans | replace({"#percent#": (100-payments[item.gen_res_id].commissionPercent)}) }}
+        </div>
+        <div class="col-sm-4 text-right">
+            {{ (payments[item.gen_res_id].payAtAccommodation * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+        </div>
+    </div>
+    <div class="row text-center">
+        <img class="icon-down-payment" data-genresid="{{ item.gen_res_id }}" id="icon-down-payment_{{ item.gen_res_id }}" src="{{ asset('bundles/partner/img/icon/back_lighter.png')}}" style="cursor: pointer"/>
+        <img class="hide icon-up-payment" data-genresid="{{ item.gen_res_id }}" id="icon-up-payment_{{ item.gen_res_id }}" src="{{ asset('bundles/partner/img/icon/top_lighter.png')}}" style="cursor: pointer"/>
+    </div>
+</div>

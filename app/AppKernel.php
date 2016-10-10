@@ -16,6 +16,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            //new JMS\TranslationBundle\JMSTranslationBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
@@ -24,13 +25,16 @@ class AppKernel extends Kernel
             new MyCp\FrontEndBundle\FrontEndBundle(),
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
             new BeSimple\I18nRoutingBundle\BeSimpleI18nRoutingBundle(),
-            new Lsw\MemcacheBundle\LswMemcacheBundle(),
+            /*new Lsw\MemcacheBundle\LswMemcacheBundle(),*/
             //new BeSimple\SoapBundle\BeSimpleSoapBundle()
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(),
             new Abuc\RemarketingBundle\AbucRemarketingBundle(),
 			new hds\SeoBundle\SeoBundle(),
             new MyCp\CasaModuleBundle\MyCpCasaModuleBundle(),
+            new MyCp\PartnerBundle\PartnerBundle(),
+            new MyCp\LayoutBundle\LayoutBundle(),
+            //new JMS\TranslationBundle\JMSTranslationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

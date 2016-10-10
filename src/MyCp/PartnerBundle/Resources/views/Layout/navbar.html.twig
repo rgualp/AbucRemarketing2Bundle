@@ -1,0 +1,60 @@
+<div class="navbar-wrapper {% if navbar_bg_class is defined %} bg-blue {% endif %}">
+    <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+        {% set beta_img = asset('bundles/partner/img/home/beta.png') %}
+        <div class="" style="background: url({{ beta_img}}) transparent no-repeat scroll center center / cover;position: fixed;right: 0;z-index: 6000000;width: 72px;height: 72px"></div>
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="visible-xs" href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><div id="img-partner-movil" class="bac-color-{{app.session.get('app_lang_code')|lower }}"></div></a>
+                <a class="hidden-xs" href="{% if app.user.getUserUserName is defined %}{{ path('backend_partner_dashboard') }}{% else %}{{ path('frontend_partner_home') }}{% endif %}"><img id="img-partner" class="img-responsive {% if navbar_bg_class is defined %} fixed-nav {% endif %}" src="{{ asset('bundles/partner/img/icon/logo_'~app.session.get('app_lang_code')|lower)}}.png" alt="{{"label.home" | trans}}" style="margin-top: 7px;{% if navbar_bg_class is defined %} width: 230px {% endif %}"/></a>
+            </div>
+            <div class="navbar-collapse collapse navbar-partner" id="navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if app.user.getUserUserName is defined %}
+                        <li class="dropdown">
+                            <a href="{{ path("partner_dashboard_cart") }}">
+                                <i class="glyphicons shopping_cart" style="margin-top: -3px"></i>{#<span id="cart-count"class="label label-warning" style=" font-size: 9px;margin-left: -16px;margin-top: -13px;padding: 4px;position: absolute;">0</span>#}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if app.request.get('_route') %}
+                        {{ render_esi(url('frontend_partner_navbar', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
+                    {% endif %}
+                    <li class=""><a href="{{ path('frontend_partner_how_work') }}" class="page-scroll">{{ 'label.how_work'|trans }}</a></li>
+
+                   {% if app.user.getUserUserName is defined %}
+                        <li>
+                            <div class="dropdown profile-element">
+                                {% if app.user.UserPhoto is not null %}
+                                    {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
+                                {% else %}
+                                    {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
+                                {% endif %}
+                                <span class="img-circle navbar-avatar" style="background: url({{ avatar_img}}) transparent no-repeat scroll center center / cover;display: block;width: 50px;height: 50px;margin-left: 14px"></span>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 8px;margin-top: 7px;">
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                             </span> <span class="text-muted text-xs block" id="username">{{ app.user.userLastName }} <b class="caret"></b></span> </span> </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li>
+                                        <a href="{{ path('frontend_partner_logout') }}">
+                                            <i class="fa fa-sign-out"></i> {{ 'page.logout' | trans }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </li>
+                    {% else %}
+                        <li><a id="login-overlay" data-overlay="#overlay-login" class="page-scroll">{{ 'label.login'|trans }}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

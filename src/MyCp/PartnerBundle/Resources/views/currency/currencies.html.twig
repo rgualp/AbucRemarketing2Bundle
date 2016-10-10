@@ -1,0 +1,3 @@
+{% for currency in currencies %}
+<li><a href="{{ path('frontend_partner_change_currency_callback', {'currencyCode': currency.getCurrCode, 'route': route, 'routeParams': routeParams }) }}">{{ currency.getCurrName }}</a></li>
+{% endfor %}

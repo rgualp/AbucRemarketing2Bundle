@@ -279,96 +279,88 @@ class BackendReservationController extends Controller {
     }
 
     public function list_reservationsAction($items_per_page, Request $request) {
-        try {
-            $service_security = $this->get('Secure');
-            $service_security->verifyAccess();
-            $page = 1;
-            $filter_date_reserve = $request->get('filter_date_reserve');
-            $filter_offer_number = $request->get('filter_offer_number');
-            $filter_reference = $request->get('filter_reference');
-            $filter_date_from = $request->get('filter_date_from');
-            $filter_date_to = $request->get('filter_date_to');
-            $filter_booking_number = $request->get('filter_booking_number');
-            $filter_status = $request->get('filter_status');
-            $price = 0;
-            $sort_by = $request->get('sort_by');
-            if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
-            ) {
-                $message = 'Debe llenar al menos un campo para filtrar.';
-                $this->get('session')->getFlashBag()->add('message_error_local', $message);
-                return $this->redirect($this->generateUrl('mycp_list_reservations'));
-            }
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $page = 1;
+        $filter_date_reserve = $request->get('filter_date_reserve');
+        $filter_offer_number = $request->get('filter_offer_number');
+        $filter_reference = $request->get('filter_reference');
+        $filter_date_from = $request->get('filter_date_from');
+        $filter_date_to = $request->get('filter_date_to');
+        $filter_booking_number = $request->get('filter_booking_number');
+        $filter_status = $request->get('filter_status');
+        $price = 0;
+        $sort_by = $request->get('sort_by');
+        if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
+            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
+        ) {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_reservations'));
+        }
 
-            if ($filter_date_reserve == 'null')
-                $filter_date_reserve = '';
-            if ($filter_offer_number == 'null')
-                $filter_offer_number = '';
-            if ($filter_booking_number == 'null')
-                $filter_booking_number = '';
-            if ($filter_reference == 'null')
-                $filter_reference = '';
-            if ($filter_date_from == 'null')
-                $filter_date_from = '';
-            if ($filter_date_to == 'null')
-                $filter_date_to = '';
-            if ($filter_status == 'null')
-                $filter_status = '';
-            if ($sort_by == 'null')
-                $sort_by = '';
+        if ($filter_date_reserve == 'null')
+            $filter_date_reserve = '';
+        if ($filter_offer_number == 'null')
+            $filter_offer_number = '';
+        if ($filter_booking_number == 'null')
+            $filter_booking_number = '';
+        if ($filter_reference == 'null')
+            $filter_reference = '';
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($sort_by == 'null')
+            $sort_by = '';
 
-            if (isset($_GET['page']))
-                $page = $_GET['page'];
-            $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
-            $filter_date_from = str_replace('_', '/', $filter_date_from);
-            $filter_date_to = str_replace('_', '/', $filter_date_to);
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+        $filter_date_from = str_replace('_', '/', $filter_date_from);
+        $filter_date_to = str_replace('_', '/', $filter_date_to);
 
-            $em = $this->getDoctrine()->getManager();
-            $paginator = $this->get('ideup.simple_paginator');
-            $paginator->setItemsPerPage($items_per_page);
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
 
-            $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page))->getResult();
-            $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
-            $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
-            $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
+        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, false))->getResult();
+        $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
+        $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
+        $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
 //            $service_log = $this->get('log');
 //            $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
-            /*$total_nights = array();
-            $service_time = $this->get('time');
-            foreach ($reservations as $res) {
-                $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
-                $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
-                array_push($total_nights, $temp_total_nights);
-            }*/
+        /*$total_nights = array();
+        $service_time = $this->get('time');
+        foreach ($reservations as $res) {
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
+            $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
+            array_push($total_nights, $temp_total_nights);
+        }*/
 
-            $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
-            return $this->render('mycpBundle:reservation:list.html.twig', array(
-                //'total_nights' => $total_nights,
-                'reservations' => $reservations,
-                'items_per_page' => $items_per_page,
-                'current_page' => $page,
-                'total_items' => $totalItems,
-                'filter_date_reserve' => $filter_date_reserve,
-                'filter_offer_number' => $filter_offer_number,
-                'filter_booking_number' => $filter_booking_number,
-                'filter_reference' => $filter_reference,
-                'filter_date_from' => $filter_date_from,
-                'filter_date_to' => $filter_date_to,
-                'sort_by' => $sort_by,
-                'filter_date_reserve_twig' => $filter_date_reserve_twig,
-                'filter_date_from_twig' => $filter_date_from_twig,
-                'filter_date_to_twig' => $filter_date_to_twig,
-                'filter_status' => $filter_status,
-                'last_page_number' => ceil($totalItems / $items_per_page)
-            ));
-        }
-        catch(\Exception $e){
-            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
-            $this->get('session')->getFlashBag()->add('message_error_main', $message);
-
-            return $this->redirect($this->generateUrl("mycp_list_reservations"));
-        }
+        $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
+        return $this->render('mycpBundle:reservation:list.html.twig', array(
+            //'total_nights' => $total_nights,
+            'reservations' => $reservations,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $totalItems,
+            'filter_date_reserve' => $filter_date_reserve,
+            'filter_offer_number' => $filter_offer_number,
+            'filter_booking_number' => $filter_booking_number,
+            'filter_reference' => $filter_reference,
+            'filter_date_from' => $filter_date_from,
+            'filter_date_to' => $filter_date_to,
+            'sort_by' => $sort_by,
+            'filter_date_reserve_twig' => $filter_date_reserve_twig,
+            'filter_date_from_twig' => $filter_date_from_twig,
+            'filter_date_to_twig' => $filter_date_to_twig,
+            'filter_status' => $filter_status,
+            'last_page_number' => ceil($totalItems / $items_per_page)
+        ));
     }
 
     public function list_reservations_bookingAction($items_per_page, Request $request) {
@@ -579,6 +571,7 @@ class BackendReservationController extends Controller {
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
         $price = 0;
 
+
         if ($request->getMethod() == 'POST') {
 
             $post = $request->request->getIterator()->getArrayCopy();
@@ -614,10 +607,70 @@ class BackendReservationController extends Controller {
             return $this->redirect($this->generateUrl('mycp_details_client_reservation', array('id_client' => $id_client)));
         }
         return $this->render('mycpBundle:reservation:reservationDetailsClient.html.twig', array(
+            'reservations' => $reservations,
+            'client' => $client,
+            'errors' => '',
+            'tourist' => $userTourist[0]
+
+        ));
+    }
+
+    public function details_client_reservationAgAction($id_client, Request $request) {
+
+        //$service_security= $this->get('Secure');
+       // $service_security->verifyAccess();
+        //$service_log= $this->get('log');
+       // $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        $service_time = $this->get('time');
+
+
+        $em = $this->getDoctrine()->getManager();
+//        $client_agency = $em->getRepository('PartnerBundle:paClient')->find($id_client);
+        $client_agency = $em->getRepository('mycpBundle:generalReservation')->getNameAgencyOfTheClient($id_client);
+        ///$userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUserAg($id_client);
+        $price = 0;
+
+        if ($request->getMethod() == 'POST') {
+
+            $post = $request->request->getIterator()->getArrayCopy();
+            //var_dump($post); exit();
+            /*foreach ($reservations as $reservation) {
+                /*$res_db = $em->getRepository('mycpBundle:generalReservation')->find($reservation[0]['gen_res_id']);
+                $res_db->setGenResStatus($post['resume_status_res_' . $reservation[0]['gen_res_id']]);
+                $em->persist($res_db);
+
+                $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation[0]['gen_res_id']));
+                foreach ($own_reservations as $own_reservation) {
+                    if (isset($post['service_room_type_' . $own_reservation->getOwnResId()])) {
+                        $own_reservation->setOwnResRoomType($post['service_room_type_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResNightPrice($post['service_room_price_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResStatus($post['service_own_res_status_' . $own_reservation->getOwnResId()]);
+                        $em->persist($own_reservation);
+
+                        if ($post['service_own_res_status_' . $own_reservation->getOwnResId()] == ownershipReservation::STATUS_RESERVED) {
+                            $this->updateICal($em,$own_reservation->getOwnResSelectedRoomId());
+                        }
+                    }
+                }
+            }
+            $em->flush();
+            $message = 'Reservas actualizadas satisfactoriamente.';
+
+            /* $service_log= $this->get('log');
+              $service_log->saveLog('Create entity for '.$ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION); */
+
+            /*$this->get('session')->getFlashBag()->add('message_ok', $message);*/
+            return $this->redirect($this->generateUrl('mycp_details_client_reservationAG', array('id_client' => $id_client)));
+        }
+        return $this->render('mycpBundle:reservation:reservationDetailsClientAg.html.twig', array(
                     'reservations' => $reservations,
-                    'client' => $client,
-                    'errors' => '',
-                    'tourist' => $userTourist[0]
+                    'client' => $client_agency,
+                    'errors' => ''
+
         ));
     }
 
