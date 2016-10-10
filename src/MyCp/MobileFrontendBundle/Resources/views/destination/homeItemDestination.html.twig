@@ -1,0 +1,38 @@
+
+<div class="col-xs-12">
+    <div class="detination-thumbnail" style="background-image: url('{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}');">
+        <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}"></a>
+    </div>
+    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">
+    <h2 class="h-blue">
+        {{destination_name | title | slice(0, 27)}}
+        {%if destination_name | length > 27%}...{%endif%}
+    </h2>
+    </a>
+    <div class="no-margin">
+        <table>
+            <tr>
+                <td>
+                    <small>{{localization}}</small>
+                </td>
+                <td>
+                    <div class="favorite">
+                       {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+                        {'is_in_favorite': is_in_favorite,
+                         'favorite_type': 'destination',
+                         'element_id':destination_id,
+                         'list_preffix' : list_preffix,
+                       'include_text': false
+                         }) }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="h-blue h-blue-2" style="line-height:1.1">{{"FROM_PRICES" | trans | lower}} {{ statistics['minimum_prize'] | price}}</div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,27 @@
+.myicons {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 1rem;
+    position: relative;
+    text-decoration: none;
+    vertical-align: middle;
+    width: 1.1rem;
+}
+.myicons.long {
+    width: 6.25rem;
+    height: 6.25rem;
+}
+.myicons.medium {
+    width: 2rem;
+    height: 2rem;
+}
+.myicons.small {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.myicons.my_search{
+    background-image: url("../bundles/mycpmobilefrontend/img/search-icon.png");
+}

@@ -1,0 +1,34 @@
+<div class="col-xs-12">
+    <div class="row">
+        <div class="title-green green text-center caecilia-roman f-s-24" style="font-weight: normal; line-height:1.1">
+            {{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}
+        </div>
+    </div>
+</div>
+<div class="space space-20"></div>
+<div class="col-xs-12">
+    <div id="carousel-example-generic" class="carousel slide thumbs-houses" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            {% for place in popular_places%}
+                <div class="carousel-item p-a-2 {% if loop.first %}active{% endif %}">
+                    {{ include('@MyCpMobileFrontend/destination/homeItemDestination.html.twig',{
+                        'destination_id': place.des_id,
+                        'destination_name':place.des_name,
+                        'is_in_favorite': place.is_in_favorites,
+                        'photo': place.photo,
+                        'localization': place.municipality_name ~ ' / ' ~ place.province_name,
+                        'statistics': {'total': place.count_ownership, 'minimum_prize': place.min_price},
+                        'list_preffix': 'popular_places'}) }}
+                </div>
+            {% endfor %}
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="ion-chevron-left f-s-36 orange no-shadows" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="ion-chevron-right f-s-36 orange no-shadows" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>

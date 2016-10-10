@@ -1,0 +1,23 @@
+{% if main_tab is not defined %}
+{% set main_tab = 0 %}
+{% endif %}
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav onhover helvetica-roman" >
+            <li class="{%if  main_tab == 1 %}active{%endif%}">
+                <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}">{{"HOME_MAIN_MENU" | trans}}</a></li>
+            <li class="dropdown {%if  main_tab == 2 %}active{%endif%} main-menu">
+                {{ render(controller('FrontEndBundle:Public:getMainMenuDestinations')) }}
+            </li>
+            <li class="dropdown {%if  main_tab == 5 %}active{%endif%} main-menu">
+                {{ render(controller('FrontEndBundle:Public:getMainMenuAccomodations')) }}
+            </li>
+            <li class="{%if  main_tab == 6 %}active{%endif%}">
+                {{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}
+                <div class="pull-right">
+                    {% if app.request.get('_route') %}
+                        {{ render_esi(url('my_cp_mobile_frontend_menu_lang_curr', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+</div>

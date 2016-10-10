@@ -1,0 +1,234 @@
+{% spaceless %}
+    {% set lang_code=app.session.get('app_lang_code')|lower %}
+    <!DOCTYPE html>
+    <html id="top" {{ get_lang(lang_code)|raw }}>
+    <head>
+        <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %} *** MyCasaParticular</title>
+
+        {% block metas %}
+            {{ get_metas('Main', lang_code)|raw }}
+        {% endblock metas %}
+        {% stylesheets
+            '@MyCpMobileFrontendBundle/Resources/public/css/bootstrap.min.css'
+            '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
+            '@FrontEndBundle/Resources/public/css/glyphicons.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/myicons.css'
+            '@FrontEndBundle/Resources/public/css/custom.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
+        filter='?uglifycss'
+        %}
+        {#'@MyCpMobileFrontendBundle/Resources/public/css/style.css'#}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {% if ownership.category is defined and  ownership.category == 'Económica'%}
+            {% stylesheets
+            '@FrontEndBundle/Resources/public/css/economic_house.css'
+            filter='?uglifycss'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endif %}
+        {% if ownership.category is defined and  ownership.category == 'Premium'%}
+            {% stylesheets
+            '@FrontEndBundle/Resources/public/css/premium_house.css'
+            filter='?uglifycss'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endif %}
+
+        <!-- Google Analytics -->
+        {#<script>#}
+            {#var _gaq = _gaq || [];#}
+            {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
+            {#_gaq.push(['_trackPageview']);#}
+
+            {#(function() {#}
+                {#var ga = document.createElement('script');#}
+                {#ga.type = 'text/javascript';#}
+                {#ga.async = true;#}
+                {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
+                {#var s = document.getElementsByTagName('script')[0];#}
+                {#s.parentNode.insertBefore(ga, s);#}
+            {#})();#}
+        {#</script>#}
+        {#<!-- Facebook Pixel Code -->#}
+        {#<script>#}
+            {#!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
+                    {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;#}
+                {#n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;#}
+                {#t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,#}
+                    {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
+
+            {#fbq('init', '1240648305949371');#}
+            {#fbq('track', "PageView");</script>#}
+        {#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
+        {#<!-- End Facebook Pixel Code -->#}
+
+
+    </head>
+    <body>
+    {#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
+    <!-- Google Tag Manager -->
+    {#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
+    {#<script>(function(w, d, s, l, i) {#}
+            {#w[l] = w[l] || [];#}
+            {#w[l].push({'gtm.start':#}
+                    {#new Date().getTime(), event: 'gtm.js'});#}
+            {#var f = d.getElementsByTagName(s)[0],#}
+                    {#j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';#}
+            {#j.async = true;#}
+            {#j.src =#}
+                    {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
+            {#f.parentNode.insertBefore(j, f);#}
+        {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>#}
+    <!-- End Google Tag Manager -->
+    {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-7 p-a-1" id="center-cont">
+                <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
+                    <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+                </a>
+            </div>
+
+            {% if app.request.get('_route') %}
+                {{ render_esi(url('my_cp_mobile_frontend_top_nav_control', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
+            {% endif %}
+        </div>
+    </div>
+    <nav id="top-menu" role="navigation" class="for-fixed navbar navbar-inverse bg-gradient-blue p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+        <div class="navbar-header">
+            <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle pull-left" type="button">
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <ul class="nav navbar-nav onhover helvetica-roman pull-right">
+                <li>
+                    {{ include('@MyCpMobileFrontend/utils/mainMenuUser.html.twig') }}
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            {{ include('@MyCpMobileFrontend/utils/navTopBody.html.twig') }}
+        </div>
+    </nav>
+
+    {% block big_banner %}{% endblock %}
+    {% for message in app.session.flashbag.get('message_global_success') %}
+        <div class="container">
+            <br/>
+            <div class="alert alert-info" style="margin-bottom: 10px">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('message_global_error') %}
+        <div class="container">
+            <br/>
+            <div class="alert alert-danger" style="margin-bottom: 10px">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+    {% block body %}
+        {% block include_javascripts %}{% endblock %}
+        {% block include_javascripts_datepicker_message %}
+
+        {% endblock %}
+    {% endblock %}
+    {% block footer_big %}{% endblock %}
+
+    {% block go_up %}
+        <hr>
+        <p class="text-center"><a class="scrollToTop" title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
+    {% endblock %}
+
+    {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
+
+    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
+
+    {#<script>#}
+        {#var start_date ="{{"now"|date("d/m/Y") }}";#}
+        {#var end_date ="{{"now"|date("d/m/Y") }}";#}
+    {#</script>#}
+    {% javascripts
+    '@MyCpMobileFrontendBundle/Resources/public/js/jquery-2.1.1.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/fixedlink.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/jquery.mobile-1.4.5.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/plugins/tether.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/bootstrap.min.js'
+
+
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+
+    '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
+    '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
+
+    '@FrontEndBundle/Resources/public/js/respond.min.js'
+    '@FrontEndBundle/Resources/public/js/jail.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/custom.js'
+
+    '@FrontEndBundle/Resources/public/js/destinations.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+
+
+    '@FrontEndBundle/Resources/public/js/typeahead.min.js'
+
+    '@FrontEndBundle/Resources/public/js/ownership.min.js'
+
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
+
+    <!-- Apple Touch Icon -->
+    {#<link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />#}
+    {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
+    {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
+
+    <script type="text/javascript">
+        var today_date="{{"now"|date("d/m/Y") }}";
+
+        NavbarScrollFixed.init(".for-fixed","navbar-fixed-top", 80);
+
+        $('.scrollToTop').click(function(event){
+            event.preventDefault();
+            jQuery('html, body').animate({scrollTop : 0},800);
+            return false;
+        });
+
+        $(function() {
+            $('img.lazy').jail();
+        });
+    </script>
+
+    {#<script type="text/javascript">#}
+        {#/* <![CDATA[ */#}
+        {#var google_conversion_id = 1016854742;#}
+        {#var google_custom_params = window.google_tag_params;#}
+        {#var google_remarketing_only = true;#}
+        {#/* ]]> */#}
+    {#</script>#}
+    {#<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>#}
+    {#<noscript>#}
+        {#<div style="display:inline;">#}
+            {#<img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>#}
+        {#</div>#}
+    {#</noscript>#}
+    {% block javascripts %}
+    {% endblock javascripts %}
+    </body>
+    </html>
+{% endspaceless %}
