@@ -3941,6 +3941,10 @@
                      <source>NEW_USER_ACCOUNT</source>
                      <target>Nueva cuenta de usuario</target>
                 </trans-unit>
+                <trans-unit id="994">
+                     <source>Logo</source>
+                     <target>Logo</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
