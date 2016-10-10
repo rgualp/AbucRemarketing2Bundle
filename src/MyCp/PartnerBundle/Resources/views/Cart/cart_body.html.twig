@@ -1,9 +1,13 @@
 {% for item in list %}
 <div class="row">
     <div class="col-md-1 checkbox checkbox-info text-center">
+
         <input class="checkAccommodations" name="checkAccommodationsToPay"
                id="checkAccommodationsToPay_{{ item.own_res_id }}" data-genresid="{{ item.gen_res_id }}" data-owresid="{{ item.own_res_id }}"
                data-idreservation="{{ item.idReservation }}" type="checkbox" {% if item.showChecked %}checked{% endif %}/>
+
+        <input class="checkAccommodations" name="checkAccommodationsToPay" id="checkAccommodationsToPay_{{ item.own_res_id }}" data-owresid="{{ item.own_res_id }}" data-idreservation="{{ item.idReservation }}" type="checkbox"/>
+
         <label for="checkAccommodationsToPay_{{ item.own_res_id }}"></label>
     </div>
     <div class="col-md-11 normal-font" style="font-size: 22px">

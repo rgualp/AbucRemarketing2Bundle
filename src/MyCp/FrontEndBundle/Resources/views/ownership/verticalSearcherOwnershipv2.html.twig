@@ -46,6 +46,7 @@
           {#<div class="col-sm-2 p-5"> <button id="commentsOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'COMMENT_ASC'|trans }}</button></div>#}
           {#<div class="col-sm-2 p-5"> <button id="booksOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'BOOKS_ASC'|trans }}</button></div>#}
           <div class="col-sm-8 p-5">
+              {{ dump(owns_categories) }}
               {%for category in owns_categories%}
                   <div class="checkbox checkbox-searcher col-sm-4">
                       <label>

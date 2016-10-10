@@ -1,0 +1,16 @@
+<div class="thumbs-houses lazy-cont">
+    <div class="row">
+    {%for ownership in own_top20_list%}
+        <div class="col-sm-4">
+            {{ include('@MyCpMobileFrontend/ownership/accommodation_small_control.html.twig',{
+            'id': ownership.own_id,
+            'name': ownership.own_name,
+            'award': ownership.award,
+            'minPrice': ownership.minPrice,
+            'is_in_favorite': ownership.is_in_favorites,
+            'photo': ownership.photo,
+            'list_preffix': "top20"}) }}
+        </div>
+    {%endfor%}
+</div>
+</div>

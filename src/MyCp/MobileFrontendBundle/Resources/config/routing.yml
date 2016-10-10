@@ -1,0 +1,30 @@
+my_cp_mobile_frontend_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MyCpMobileFrontendBundle:Default:index }
+
+my_cp_mobile_frontend_top_nav_control:
+    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:topNav, route: frontend_welcome, routeParams: null  }
+
+my_cp_mobile_frontend_menu_lang_curr:
+    locales:  { en: "/langcurr/{route}/{routeParams}", es: "/langcurr/{route}/{routeParams}", de: "/langcurr/{route}/{routeParams}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:langCurr, route: frontend_welcome, routeParams: null  }
+
+my_cp_mobile_insert_favorite_callback:
+    pattern:  /favorite-insert/
+    locales:  { en: "/favorite-insert/", es: "/favoritos-insertar/", de: "/favorite-insert/" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Favorite:insert }
+
+my_cp_mobile_delete_favorite_callback:
+    pattern:  /favorite-delete/
+    locales:  { en: "/favorite-delete/", es: "/favoritos-eliminar/", de: "/favorite-delete/" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Favorite:delete }
+
+my_cp_mobile_top_rated_callback:
+    pattern:  /top-rated-callback/
+    locales:  { en: "/top-rated-callback/", es: "/top-rated-callback/", de: "/top-rated-callback/" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Ownership:topRatedCallback }
+
+my_cp_mobile_search_ownership:
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Search:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1,order_price:'null', order_comments: 'null', order_books:'null'}

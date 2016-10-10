@@ -1,0 +1,76 @@
+{% extends '@MyCpMobileFrontend/base.html.twig' %}
+{% block title %}{{"USER_REGISTRATION_PAGE_TITLE" | trans}}{% endblock %}
+{% block body %}
+    <div class="space space-30"></div>
+<div class="container">
+    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal;">{{"USER_REGISTRATION_SUBTITLE" | trans }}</h2>
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Green" | trans}}"/></div>
+    <form novalidate class="form-horizontal" action="{{ path('frontend_register_user') }}" method="post">
+        {% if errors['used_email'] is defined%}
+            <div class="alert alert-danger text-center">{{errors['used_email']}}</div>
+        {% endif %}
+        {% if errors['user_email'] is defined%}
+            <div class="alert alert-danger text-center">{{errors['user_email']}}</div>
+        {% endif %}
+    <div class="row">
+        <div class="col-xs-12"></div>
+        <div class="col-xs-12">
+        {{ form_widget(form)}}
+        </div>
+        <div class="col-xs-12"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12"></div>
+        <div class="col-xs-12">
+            <label class="checkbox">
+                <input style="position: absolute; top: 19px" {% if post['policies'] is defined %} checked="checked" {% endif %} type="checkbox" name="policies" id="policies"/> {{"PRIVATE_POLICY_USER_REGISTRATION" | trans}}
+            </label>
+        </div>
+        <div class="col-xs-12">
+            <label class="checkbox">
+                <input style="position: absolute; top: 19px" {% if post['user_newsletters'] is defined %} checked="checked" {% endif %} type="checkbox" name="user_newsletters"/> {{"NEWSLETTER_USER_REGISTRATION" | trans}}
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12"></div>
+        <div class="col-xs-12"><button id="btn_submit" disabled="disabled" style="margin-top: 20px" type="submit" class="btn btn-primary btn-block">{{"REGISTER_USER_REGISTRATION" | trans}}</button></div>
+        <div class="col-xs-12"></div>
+    </div>
+    <div class="row">
+    <div class="col-xs-12"></div>
+    <div class="col-xs-12" style="margin-top: 12px">
+        <a href="{{ path('frontend_login') }}" style="text-decoration: none; "><h4 class="caecilia-roman h-orange link-under-line">{{"FORMS_LOGIN_QUESTION" | trans}}</h4></a>
+    </div>
+    </div>
+
+    </form>
+</div>
+{%endblock%}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        if($('#policies').is(":checked"))
+            $('#btn_submit').removeAttr('disabled');
+        else
+            $('#btn_submit').attr('disabled','disabled');
+
+        $('.sfgen input:text').addClass('input-block-level');
+        $('.sfgen input:password').addClass('input-block-level');
+        $('#policies').change(function(){
+            if($('#policies').is(":checked"))
+                $('#btn_submit').removeAttr('disabled');
+            else
+                $('#btn_submit').attr('disabled','disabled');
+        })
+
+        label=$('.form-horizontal label')
+        label.css('fontWeight','normal');
+        label.css('display','block');
+        label.css('marginTop','10px');
+        $('[type="text"]').attr('class','form-control');
+        $('[type="password"]').attr('class','form-control');
+
+    </script>
+
+{% endblock javascripts %}

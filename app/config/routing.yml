@@ -154,3 +154,7 @@ hds-seobundle:
     resource: "@SeoBundle/Resources/config/routing.yml"
     prefix:   /backend/seo
 
+my_cp_mobile_frontend:
+    resource: "@MyCpMobileFrontendBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/mobile
+    type: be_simple_i18n
