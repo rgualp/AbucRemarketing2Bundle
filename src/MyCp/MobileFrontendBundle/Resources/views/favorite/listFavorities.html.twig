@@ -1,0 +1,54 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_FAVORITES')%}
+{% block title %}
+{{"FAVORITIES"  | trans }}
+{% endblock %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"FAVORITIES" | trans}}">{{"FAVORITIES" | trans}}</a>
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div style="margin: 0px 0 20px">
+        <h1 class="caecilia-roman h-green "> {{ 'FAVORITIES'|trans }}</h1>
+    </div>
+        <ul class="nav nav-tabs margin-t-t">
+            <li class="active"><a data-toggle="tab" href="#owns_favorities"><i class="icon-home"></i> {{"OWNERSHIPS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#destination_favorities">{{"DESTINATIONS" | trans}}</a></li>
+        </ul>
+    <div class="tab-content">
+        <div id="loading" class="hidden">
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
+    </div>
+        <div id="owns_favorities" class="tab-pane active">
+            <div class="row result_list ownerships_list thumbs-houses" id="div_result">
+                {{ include('FrontEndBundle:favorite:ownershipArrayItemFavorite.html.twig',
+                {'list': ownership_favorities,
+                'list_preffix' : 'own_favorities',
+                'is_in_favorites_list': true
+                }) }}
+            </div>
+        </div>
+        <div id="destination_favorities" class="tab-pane in">
+            <div class="row result_list container" id="div_result_destinations">
+                {{ include('FrontEndBundle:destination:arrayItemListDestination.html.twig',
+                {'list': destination_favorities,
+                'list_preffix' : 'own_favorities',
+                'is_in_favorites_list': true
+                }) }}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $('.nav-tabs li').click(function(){
+        win=$(window);
+        win.scrollTop(win.scrollTop()+1);
+        win.scrollTop(win.scrollTop()-1);
+    })
+</script>
+{% block include_javascripts %}
+{% endblock %}
+{% endblock %}
