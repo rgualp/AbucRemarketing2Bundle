@@ -70,5 +70,43 @@
 }) }}
                         </div>
             {%endif%}
+    <div class="text-center">
+        <!-- Your like button code -->
+        <div class="col-md-6">
+            <div class="fb-like" data-href="https://www.facebook.com/MyCasaParticular" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+        </div>
+        <div class="col-md-6">
+            <div class="fb-comments" data-href="https://www.facebook.com/MyCasaParticular" data-width="100" data-numposts="5"></div>
+        </div>
+
+    </div>
+
                     </div>
+    <script type="text/javascript">
+        var locale_plugins="{{app.request.locale}}";
+        var faceAppId = "{{ fb_app_id }}";
+
+        var language_fb=(locale_plugins=='es')?"//connect.facebook.net/es_LA/sdk.js":"//connect.facebook.net/en_US/sdk.js";
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: faceAppId,
+                xfbml: true,
+                version: 'v2.3'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = language_fb;
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div id="fb-root"></div>
 {% endblock %}
+
