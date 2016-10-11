@@ -49,7 +49,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle, PartnerBundle  ]
+    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle,LayoutBundle, PartnerBundle  ]
     #java: /usr/bin/java
     node: "%nodejs_path%"
     filters:

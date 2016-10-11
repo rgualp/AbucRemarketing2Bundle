@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new MyCp\CasaModuleBundle\MyCpCasaModuleBundle(),
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new MyCp\MobileFrontendBundle\MyCpMobileFrontendBundle(),
+            new MyCp\LayoutBundle\LayoutBundle(),
             new MyCp\PartnerBundle\PartnerBundle()
         );
 
