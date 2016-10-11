@@ -1,0 +1,2 @@
+<img alt="{{ title }}" class="lazy {% if taller is defined and taller %}taller{% endif %}" data-src="{{ asset("uploads/ownershipImages/" ~  photo)}}" src="{{ asset("uploads/ownershipImages/" ~  photo)}}"/>
+<noscript><img class="nolazy {% if taller is defined and taller %}taller{% endif %}" src="{{ asset("uploads/ownershipImages/" ~  photo)}}" style="z-index: 0;" alt="{{"No photo" | trans}}"/></noscript>

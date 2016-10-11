@@ -1,0 +1,90 @@
+services:
+    booking.pending.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_pending_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.availability.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_availability_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.notavailability.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_notavailability_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.beaten.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_beaten_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.reserved.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_reserved_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.canceled.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_canceled_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.filter.formtype:
+        class: MyCp\PartnerBundle\Form\FilterType
+        public: true
+        tags:
+           - { name: form.type, alias: booking_filter }
+
+    booking.checkin.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_checkin_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+    booking.proccess.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_proccess_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
+   # base_entity.listener:
+   #     class: MyCp\PartnerBundle\Listener\BaseEntityListener
+   #     arguments: ["@service_container"]

@@ -1,0 +1,80 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block title %}
+    Waiting for payment...
+{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="container">
+        <div id="loading" class="alert alert-info">
+            <img src="{{ asset('bundles/frontend/img/preloader-white.gif') }}" alt="{{"LOADING" | trans}}"/> {{"LOADING_MESSAGE" | trans}}
+        </div>
+    </div>
+
+    {% block include_javascripts_and_css %}
+        <script>
+            var counter = 0;
+
+            $(document).ready(function () {
+                pollPayment();
+                counter = 0;
+            });
+
+            function getCounter() {
+                counter = counter + 1;
+                return counter;
+            }
+
+            function resetCounter() {
+                counter = 0;
+            }
+
+            function pollPayment(){
+                $.getJSON('{{ pollingUrl }}', function(data) {
+                    $.each(data, function(key, val) {
+                        if(key == "status") {
+                            switch(val) {
+                                case "payment_found":
+                                    window.location.replace('{{ confirmationUrl }}');
+                                    break;
+                                case "payment_failed":
+                                    window.location.replace('{{ failedUrl }}');
+                                    break;
+                                case "payment_cancelled":
+                                    window.location.replace('{{ cancelUrl }}');
+                                    break;
+                                case "payment_pending":
+                                    window.location.replace('{{ pendingUrl }}');
+                                    break;
+                                default:
+                                    // continue polling in other cases
+                                    return false;
+                            }
+                        }
+                    });
+
+                    var mycounter = getCounter();
+
+                    if(mycounter > {{ timeoutTicks }}) {
+                        resetCounter();
+                        window.location.replace('{{ timeoutUrl }}');
+                    }
+
+                    setTimeout(pollPayment, {{ pollingPeriodMsec }} );
+                });
+            }
+        </script>
+    {% endblock %}
+
+
+
+{% endblock %}
+
+

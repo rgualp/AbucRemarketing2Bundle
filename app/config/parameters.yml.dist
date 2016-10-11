@@ -56,3 +56,5 @@ parameters:
     sms_contact_phone: 78673574
     sms_contact_mobile: 58419821
 
+    mycp_mobile_url: "http://m.mycasaparticular.com"
+

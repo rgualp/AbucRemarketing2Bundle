@@ -1,0 +1,15 @@
+<div class="favorites_details">
+{%if is_in_favorite%}
+<button class="btn btn-default btn-block" style="padding: 6px 0;" id="delete_from_favorites" data-url="{{path('frontend_details_delete_favorite_callback')}}" data-id="{{element_id}}" data-type="{{favorite_type}}">
+    <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-heart-2-on" alt="{{"Pixel" | trans}}"/>
+    {{"REMOVE_FAVORITIES_DETAILS" | trans}}
+</button>
+
+{%else%}
+<button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left" id="add_to_favorites" data-url="{{path('frontend_details_insert_favorite_callback')}}" data-id="{{element_id}}" data-type="{{favorite_type}}">
+    <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-heart-2" alt="{{"Pixel" | trans}}"/>
+    {{"ADD_FAVORITIES_DETAILS" | trans}}
+</button>
+{%endif%}
+    </div>
+

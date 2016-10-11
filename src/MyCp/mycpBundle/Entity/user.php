@@ -158,9 +158,27 @@ class user implements AdvancedUserInterface,  \Serializable
      */
    private $user_user_casa;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="currency",inversedBy="")
+     * @ORM\JoinColumn(name="user_currency",referencedColumnName="curr_id")
+     */
+    private $user_currency;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="")
+     * @ORM\JoinColumn(name="user_language",referencedColumnName="lang_id")
+     */
+    private $user_language;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paTourOperator", mappedBy="tourOperator")
+     */
+    private $tourOperators;
+
     public function __construct() {
         $this->comments = new ArrayCollection();
         $this->modified_reservations = new ArrayCollection();
+        $this->tourOperators = new ArrayCollection();
     }
 
 
@@ -814,5 +832,96 @@ class user implements AdvancedUserInterface,  \Serializable
     public function getUserUserCasa()
     {
         return $this->user_user_casa;
+    }
+
+    /**
+     * Set user_currency
+     *
+     * @param \MyCp\mycpBundle\Entity\currency $userCurrency
+     * @return user
+     */
+    public function setUserCurrency(\MyCp\mycpBundle\Entity\currency $userCurrency = null)
+    {
+        $this->user_currency = $userCurrency;
+
+        return $this;
+    }
+
+    /**
+     * Get user_currency
+     *
+     * @return \MyCp\mycpBundle\Entity\currency
+     */
+    public function getUserCurrency()
+    {
+        return $this->user_currency;
+    }
+
+    /**
+     * Set user_language
+     *
+     * @param \MyCp\mycpBundle\Entity\lang $userLanguage
+     * @return user
+     */
+    public function setUserLanguage(\MyCp\mycpBundle\Entity\lang $userLanguage = null)
+    {
+        $this->user_language = $userLanguage;
+
+        return $this;
+    }
+
+    /**
+     * Get user_language
+     *
+     * @return \MyCp\mycpBundle\Entity\lang
+     */
+    public function getUserLanguage()
+    {
+        return $this->user_language;
+    }
+
+    /**
+     * Add tourOperator
+     *
+     * @param \MyCp\PartnerBundle\Entity\paTourOperator $tourOperator
+     *
+     * @return paTravelAgency
+     */
+    public function addTourOperator(\MyCp\PartnerBundle\Entity\paTourOperator $tourOperator)
+    {
+        $this->tourOperators[] = $tourOperator;
+
+        return $this;
+    }
+
+    /**
+     * Remove tourOperator
+     *
+     * @param \MyCp\PartnerBundle\Entity\paTourOperator $tourOperator
+     */
+    public function removeTourOperator(\MyCp\PartnerBundle\Entity\paTourOperator $tourOperator)
+    {
+        $this->tourOperators->removeElement($tourOperator);
+    }
+
+    /**
+     * Get tourOperators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTourOperators()
+    {
+        return $this->tourOperators;
+    }
+
+    /**
+     * Set tourOperators
+     *
+     * @return mixed
+     */
+    public function setTourOperators($tourOperators)
+    {
+        $this->tourOperators = $tourOperators;
+        return $this;
     }
 }

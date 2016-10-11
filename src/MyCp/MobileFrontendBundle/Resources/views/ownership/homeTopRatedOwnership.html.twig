@@ -1,0 +1,32 @@
+{% if own_top20_list | length %}
+    <div class="row bg-solid-orange">
+        <div class="text-center caecilia-roman h-white f-s-16" style="font-weight: normal; line-height:1.1">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px"
+                 class="icon star-orange-icon" alt="{{ "Pixel" | trans }}"/>&nbsp;
+            {{ "TOP_HOUSES_HOME_TITLE" | trans }}
+            &nbsp;<img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px"
+                       class="icon star-orange-icon" alt="{{ "Pixel" | trans }}"/>
+        </div>
+    </div>
+    <div class="space space-10"></div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div id="loading" style="display: none;">
+                <div class="loading-signal">
+                    <img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{ "Loading" | trans }}"/></div>
+            </div>
+            <ul class="list-inline navigation pull-right line-height-1" data-url="{{ path('my_cp_mobile_top_rated_callback') }}" data-cant-items="{{ top_rated_total_items }}">
+                <li><a id="toprate-navigation-prev" class="f-s-60 gray-mycp" href="#"><i class="ion-arrow-left-c"></i></a></li>
+                <li><a id="toprate-navigation-next" class="f-s-60 gray-mycp" href="#"><i class="ion-arrow-right-c"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="space space-10"></div>
+    <div class="col-xs-12" id="top_rated_list">
+        <div class="row">
+            <div id="top-list-container">
+                {{ include('@MyCpMobileFrontend/ownership/homeTopRatedList.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endif %}
