@@ -1,0 +1,421 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block title %}{{ 'title.page.sitemap' | trans }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        div.Table_01 {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 1170px;
+            height: 678px;
+        }
+
+        div.Table_01 div{
+            text-align:center;
+        }
+
+        div.Site-map-01 {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 12px;
+            height: 551px;
+        }
+
+        div.Site-map-02 {
+            position: absolute;
+            left: 12px;
+            top: 0px;
+            width: 485px;
+            height: 72px;
+        }
+
+        div.Site-map-03 {
+            position: absolute;
+            left: 497px;
+            top: 0px;
+            width: 199px;
+            height: 55px;
+        }
+
+        div.Site-map-04 {
+            position: absolute;
+            left: 696px;
+            top: 0px;
+            width: 466px;
+            height: 72px;
+        }
+
+        div.Site-map-05 {
+            position: absolute;
+            left: 1162px;
+            top: 0px;
+            width: 8px;
+            height: 551px;
+        }
+
+        div.Site-map-06 {
+            position: absolute;
+            left: 497px;
+            top: 55px;
+            width: 199px;
+            height: 179px;
+        }
+
+        div.Site-map-07 {
+            position: absolute;
+            left: 12px;
+            top: 72px;
+            width: 363px;
+            height: 84px;
+        }
+
+        div.Site-map-08 {
+            position: absolute;
+            left: 375px;
+            top: 72px;
+            width: 122px;
+            height: 162px;
+        }
+
+        div.Site-map-09 {
+            position: absolute;
+            left: 696px;
+            top: 72px;
+            width: 98px;
+            height: 162px;
+        }
+
+        div.Site-map-10 {
+            position: absolute;
+            left: 794px;
+            top: 72px;
+            width: 368px;
+            height: 84px;
+        }
+
+        div.Site-map-11 {
+            position: absolute;
+            left: 12px;
+            top: 156px;
+            width: 363px;
+            height: 78px;
+        }
+
+        div.Site-map-12 {
+            position: absolute;
+            left: 794px;
+            top: 156px;
+            width: 368px;
+            height: 78px;
+        }
+
+        div.Site-map-13 {
+            position: absolute;
+            left: 12px;
+            top: 234px;
+            width: 162px;
+            height: 317px;
+        }
+
+        div.Site-map-14 {
+            position: absolute;
+            left: 174px;
+            top: 234px;
+            width: 376px;
+            height: 84px;
+        }
+
+        div.Site-map-15 {
+            position: absolute;
+            left: 550px;
+            top: 234px;
+            width: 82px;
+            height: 130px;
+        }
+
+        div.Site-map-16 {
+            position: absolute;
+            left: 632px;
+            top: 234px;
+            width: 237px;
+            height: 84px;
+        }
+
+        div.Site-map-17 {
+            position: absolute;
+            left: 869px;
+            top: 234px;
+            width: 293px;
+            height: 130px;
+        }
+
+        div.Site-map-18 {
+            position: absolute;
+            left: 174px;
+            top: 318px;
+            width: 376px;
+            height: 46px;
+        }
+
+        div.Site-map-19 {
+            position: absolute;
+            left: 632px;
+            top: 318px;
+            width: 237px;
+            height: 46px;
+        }
+
+        div.Site-map-20 {
+            position: absolute;
+            left: 174px;
+            top: 364px;
+            width: 73px;
+            height: 187px;
+        }
+
+        div.Site-map-21 {
+            position: absolute;
+            left: 247px;
+            top: 364px;
+            width: 325px;
+            height: 80px;
+        }
+
+        div.Site-map-22 {
+            position: absolute;
+            left: 572px;
+            top: 364px;
+            width: 60px;
+            height: 187px;
+        }
+
+        div.Site-map-23 {
+            position: absolute;
+            left: 632px;
+            top: 364px;
+            width: 297px;
+            height: 80px;
+        }
+
+        div.Site-map-24 {
+            position: absolute;
+            left: 929px;
+            top: 364px;
+            width: 233px;
+            height: 80px;
+        }
+
+        div.Site-map-25 {
+            position: absolute;
+            left: 247px;
+            top: 444px;
+            width: 325px;
+            height: 107px;
+        }
+
+        div.Site-map-26 {
+            position: absolute;
+            left: 632px;
+            top: 444px;
+            width: 297px;
+            height: 107px;
+        }
+
+        div.Site-map-27 {
+            position: absolute;
+            left: 929px;
+            top: 444px;
+            width: 233px;
+            height: 66px;
+        }
+
+        div.Site-map-28 {
+            position: absolute;
+            left: 929px;
+            top: 510px;
+            width: 233px;
+            height: 41px;
+        }
+
+        div.Site-map-29 {
+            position: absolute;
+            left: 0px;
+            top: 551px;
+            width: 174px;
+            height: 127px;
+        }
+
+        div.Site-map-30 {
+            position: absolute;
+            left: 174px;
+            top: 551px;
+            width: 224px;
+            height: 127px;
+        }
+
+        div.Site-map-31 {
+            position: absolute;
+            left: 398px;
+            top: 551px;
+            width: 298px;
+            height: 127px;
+        }
+
+        div.Site-map-32 {
+            position: absolute;
+            left: 696px;
+            top: 551px;
+            width: 297px;
+            height: 127px;
+        }
+
+        div.Site-map-33 {
+            position: absolute;
+            left: 993px;
+            top: 551px;
+            width: 177px;
+            height: 127px;
+        }
+    </style>
+{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {% include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true } %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="col-md-12" style="overflow: hidden;">
+        <div class="row" style="background-color: rgb(9, 78, 117);">
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <img class="img-responsive" src="{{ asset('bundles/partner/img/icon/sitemap/mapsite.png') }}"
+                     style="margin-top: -5px"/>
+            </div>
+            <div class="col-md-9 color-white text-right m-t-lg">
+                <span style="font-size: 48px;margin-right:50px;font-family: MyriadProBold">{{ 'title.page.sitemap' | trans }}</span></br>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" style="height: 768px; padding-top: 50px;">
+        <div class="container" style="position: relative">
+            <div class="Table_01">
+                <div class="Site-map-01">
+                    <img width="12" height="551" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_01.jpg">
+                </div>
+                <div class="Site-map-02">
+                    <img width="485" height="72" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_02.jpg">
+                </div>
+                <div class="Site-map-03" style="font-size: 42px; color: rgb(0, 0, 0); text-transform: uppercase;">
+                    <span>{{ 'label.home' | trans }}</span>
+                </div>
+                <div class="Site-map-04">
+                    <img width="466" height="72" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_04.jpg">
+                </div>
+                <div class="Site-map-05">
+                    <img width="8" height="551" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_05.png">
+                </div>
+                <div class="Site-map-06">
+                    <img width="199" height="179" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_06.jpg">
+                </div>
+                <div style="color: rgb(0, 0, 0);
+    font-family: MyriadProCond;
+    font-size: 42px;" class="Site-map-07">
+                    <span>{{ 'partner.sitemap.shoppingcart' | trans }}</span>
+                </div>
+                <div class="Site-map-08">
+                    <img width="122" height="162" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_08.jpg">
+                </div>
+                <div class="Site-map-09">
+                    <img width="98" height="162" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_09.jpg">
+                </div>
+                <div style="font-size: 42px; color: rgb(0, 0, 0); font-family: MyriadProCond;" class="Site-map-10">
+                    <span>{{ 'label.how_work' | trans }}</span>
+                </div>
+                <div class="Site-map-11">
+                    <img width="363" height="78" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_11.jpg">
+                </div>
+                <div class="Site-map-12">
+                    <img width="368" height="78" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_12.jpg">
+                </div>
+                <div class="Site-map-13">
+                    <img width="162" height="317" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_13.jpg">
+                </div>
+                <div style="color: rgb(0, 0, 0);
+    font-family: MyriadProCond;
+    font-size: 42px;" class="Site-map-14">
+                    <span>{{ 'partner.sitemap.frontend' | trans }}</span>
+                </div>
+                <div class="Site-map-15">
+                    <img width="82" height="130" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_15.jpg">
+                </div>
+                <div style="color: rgb(0, 0, 0);
+    font-family: MyriadProCond;
+    font-size: 42px;" class="Site-map-16">
+                    <span>{{ 'partner.sitemap.activation' | trans }}</span>
+                </div>
+                <div class="Site-map-17">
+                    <img width="293" height="130" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_17.jpg">
+                </div>
+                <div class="Site-map-18">
+                    <img width="376" height="46" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_18.jpg">
+                </div>
+                <div class="Site-map-19">
+                    <img width="237" height="46" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_19.jpg">
+                </div>
+                <div class="Site-map-20">
+                    <img width="73" height="187" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_20.jpg">
+                </div>
+                <div style="color: rgb(0, 0, 0);
+    font-family: MyriadProCond;
+    font-size: 42px;" class="Site-map-21">
+                    <span>{{ 'partner.sitemap.view.datails' | trans }}</span>
+                </div>
+                <div class="Site-map-22">
+                    <img width="60" height="187" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_22.jpg">
+                </div>
+                <div style="color: rgb(0, 0, 0);
+    font-family: MyriadProCond;
+    font-size: 42px;" class="Site-map-23">
+                    <span>{{ 'partner.sitemap.confirmation' | trans }}</span>
+                </div>
+                <div class="Site-map-24">
+                    <img width="233" height="80" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_24.jpg">
+                </div>
+                <div class="Site-map-25">
+                    <img width="325" height="107" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_25.jpg">
+                </div>
+                <div class="Site-map-26">
+                    <img width="297" height="107" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_26.jpg">
+                </div>
+                <div style="font-size: 48px; text-transform: uppercase;" class="Site-map-27">
+                    Footer
+                </div>
+                <div class="Site-map-28">
+                    <img width="233" height="41" alt="" src="/bundles/partner/img/icon/sitemap/Site-map_28.jpg">
+                </div>
+                <div class="Site-map-29" style="font-family: myriadprocond; font-size: 38px;">
+                    <span>{{ 'label.aboutus' | trans }}</span>
+                </div>
+                <div style="font-family: myriadprocond; font-size: 38px;" class="Site-map-30">
+                    <span>FAQs</span>
+                </div>
+                <div style="font-family: myriadprocond; font-size: 38px;" class="Site-map-31">
+                    <span>{{ 'title.page.contactus' | trans }}</span>
+                </div>
+                <div style="font-family: myriadprocond; font-size: 38px;" class="Site-map-32">
+                    <span>{{ 'Terminos Legales' | trans }}</span>
+                </div>
+                <div style="font-family: myriadprocond; font-size: 38px;" class="Site-map-33">
+                    <span>{{ 'title.page.sitemap' | trans }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

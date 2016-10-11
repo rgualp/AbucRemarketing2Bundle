@@ -1,0 +1,59 @@
+<div class="paFooter">
+    <div class="container">
+        <div class="row m-t-md">
+            <div class="col-md-2"></div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3">
+                <h3>My Casa Partner</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="col-md-4">
+                    <ul>
+                        <li><a href="{{ path('frontend_partner_who_are') }}">{{ "pa_about_us" | trans }}</a></li>
+                        <li><a href="{{ path('frontend_partner_contactus') }}">{{ "pa_contact_us" | trans }}</a></li>
+                        <li><a href="{{ path('frontend_partner_sitemap') }}">{{ "pa_sitemap" | trans }}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul>
+                        <li><a href="{{ path('frontend_partner_legal') }}">{{ "pa_legal" | trans }}</a></li>
+                        <li><a href="{{ path('frontend_partner_faqs') }}">{{ "pa_faqs" | trans }}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul>
+                        <li><a href="{{ path('frontend_mycasatrip_apps') }}">{{ "pa_mycasa_trip" | trans }}</a></li>
+                        <li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycubamap">{{ "pa_mycuba_map" | trans }}</a></li>
+                        <li><a href="https://www.cubacoupon.com">CubaCoupon</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+
+        </div>
+        <div class="row" style="text-align: center">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <ul class="nav navbar-top-links">
+                    <li><a href="https://www.youtube.com/user/MyCasaParticular/featured" style=""><img class="" src="{{ asset('bundles/partner/img/icon/youtube.png')}}" alt="{{"label.youtube" | trans}}"/></a></li>
+                    <li><a href="https://www.facebook.com/MyCasaParticular"><img class="" src="{{ asset('bundles/partner/img/icon/facebook.png')}}" alt="{{"label.facebook" | trans}}"/></a></li>
+                    <li><a href="https://pinterest.com/MyCasaParticular"><img class="" src="{{ asset('bundles/partner/img/icon/pinterest.png')}}" alt="{{"label.pinterest" | trans}}"/></a></li>
+                    <li><a href="https://twitter.com/MyCP"><img class="" src="{{ asset('bundles/partner/img/icon/twitter.png')}}" alt="{{"label.twitter" | trans}}"/></a></li>
+                    <li><a href="https://plus.google.com/102916016591040272193/"><img class="" src="{{ asset('bundles/partner/img/icon/google-plus.png')}}" alt="{{"label.google.map" | trans}}"/></a></li>
+                </ul>
+            </div>
+            <div class="col-md-1">
+            </div>
+
+        </div>
+        <div class="row" style="text-align: center">
+            <p style="color: #b0b0b0">&copy; 2016 {% if 'today'|date('Y') != 2016 %} - {{'today'|date('Y')}} {% endif %}. <a style="color: #b0b0b0" href=#">MyCasaPartner</a>.
+                {{"pa_footer_copyright" | trans}}.</p>
+        </div>
+    </div>
+</div>

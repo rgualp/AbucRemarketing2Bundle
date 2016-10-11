@@ -1,0 +1,26 @@
+<div class="row" style="padding-bottom: 10px;">
+    <div class="col-xs-12 field-filter pull-right">
+        {#
+        <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search"> {{ 'btn.search' | trans }} </a></div>
+        <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search"> {{ 'btn.clear' | trans }} </a></div>
+        #}
+
+        {% if (status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING') or status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')) %}
+            <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" data-id-res="{{ id_res }}" onClick="executeCancel(this)"> {{ 'dashboard.btn.booking.cancel' | trans }} </a></div>
+        {%endif%}
+        {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE') %}
+            <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" href="{{ path("partner_dashboard_cart") }}"> {{ 'dashboard.btn.booking.paid' | trans }} </a></div>
+        {%endif%}
+    </div>
+</div>
+
+
+
+{#
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE') %}Parcialmente Disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') %}Reservada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %}Parcialmente Reservada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %}No disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %}Cancelada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %}Parcialmente Cancelada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_OUTDATED') %}Vencida{%endif%}#}
