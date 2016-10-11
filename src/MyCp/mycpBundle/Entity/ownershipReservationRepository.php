@@ -286,6 +286,7 @@ class ownershipReservationRepository extends EntityRepository {
         LEFT JOIN ownre.own_res_reservation_booking booking
         JOIN ow.own_address_province prov
         WHERE $status_string AND us.user_id=$id_user $string_sql");
+
         return $query->getArrayResult();
     }
 
@@ -318,12 +319,22 @@ class ownershipReservationRepository extends EntityRepository {
         $date_days = \date('Y-m-j', $date_days);
 
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT count(ore_avail) as available
+        /*$query = $em->createQuery("SELECT count(ore_avail) as available
                                    FROM mycpBundle:ownershipReservation ore_avail
                                    JOIN ore_avail.own_res_gen_res_id gen_res
                                    WHERE gen_res.gen_res_user_id = $id_user
                                      AND ore_avail.own_res_status=" . ownershipReservation::STATUS_AVAILABLE . "
-                                     AND gen_res.gen_res_date > '$date_days'");
+                                     AND gen_res.gen_res_date > '$date_days'");*/
+        $query=$em->createQuery("SELECT count(ow) as available FROM mycpBundle:ownershipReservation ownre
+        JOIN ownre.own_res_gen_res_id gre
+        JOIN gre.gen_res_own_id ow
+        JOIN gre.gen_res_user_id us
+        JOIN ow.own_address_municipality mun
+        LEFT JOIN ownre.own_res_reservation_booking booking
+        JOIN ow.own_address_province prov
+        WHERE ownre.own_res_status=" . ownershipReservation::STATUS_AVAILABLE . "
+        AND us.user_id=$id_user
+        AND gre.gen_res_date > '$date_days'");
         return $query->getScalarResult();
     }
 
@@ -492,6 +503,7 @@ class ownershipReservationRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
     public function getReservationByRoomByStartDate($roomId,$startParam) {
     $em = $this->getEntityManager();
     $reservedCode = ownershipReservation::STATUS_RESERVED;
@@ -505,5 +517,23 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start");
         return $query->setParameter('start', $startParam)->setParameter('roomId', $roomId)->getResult();
 }
+
+    public function getCountReservationsByRoomAndDates($roomId,$startDate, $endDate) {
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $startDate = $startDate->format('Y-m-d');
+        $endDate = $endDate->format('Y-m-d');
+        $query = $em->createQuery("SELECT COUNT(ore.own_res_id)
+            FROM mycpBundle:ownershipReservation ore
+            JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
+            JOIN ore.own_res_gen_res_id gre
+            JOIN gre.gen_res_user_id user
+            JOIN gre.gen_res_own_id own
+            JOIN user.user_country coun
+        WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :endDate");
+        return $query->setParameter('start', $startDate)->setParameter('endDate', $endDate)->setParameter('roomId', $roomId)->getSingleScalarResult();
+    }
+
+
 
 }

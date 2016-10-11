@@ -18,6 +18,10 @@ frontend_payment_skrill_status:
     pattern:  /skrill/status
     defaults: { _controller: FrontEndBundle:Payment:skrillStatus }
 
+frontend_payment_postfinance_status:
+    pattern:  /postfinance/status
+    defaults: { _controller: FrontEndBundle:Payment:postfinanceStatus }
+
 frontend_payment_skrill_test_response:
     pattern:  /payment/skrill-test-response/{status}
     defaults: { _controller: FrontEndBundle:Payment:skrillTestResponse, status: 'no status' }
@@ -29,4 +33,9 @@ frontend_payment_skrill_test_status:
 frontend_payment_skrill_test_payment:
     pattern:  /payment/skrill-test-payment/{bookingId}
     defaults: { _controller: FrontEndBundle:Payment:skrillTestPayment, bookingId: 0 }
+
+frontend_payment_back_url:
+    pattern:  /payment/back
+    defaults: { _controller: FrontEndBundle:Mycasatrip:available }
+
 

@@ -62,11 +62,17 @@ class booking
     private $booking_own_reservations;
 
     /**
+     * @ORM\OneToMany(targetEntity="payment",mappedBy="booking")
+     */
+    private $payments;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->booking_own_reservations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -197,4 +203,22 @@ class booking
     {
         return $this->booking_currency;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param mixed $payments
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
+    }
+
+
 }

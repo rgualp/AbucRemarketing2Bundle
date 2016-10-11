@@ -1,0 +1,15 @@
+<div id="top-nav" class="col-sm-9 col-xs-5 p-a-1">
+    <div class="row">
+        <div class="col-xs-12" style="display: table;padding: 0;">
+            <ul class="nav nav-pills pull-right">
+                <li><a class="count-info" title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}">
+                        <img  style="width: 26px; height: 23px;" class="icon big-heart-icon" alt="{{"Heart" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+                        <span style="height: 15px;width: 20px;" class="label" id="count-fav"> </span>
+                    </a></li>
+                <li>
+                    {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

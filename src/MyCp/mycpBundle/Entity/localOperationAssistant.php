@@ -62,7 +62,7 @@ class localOperationAssistant {
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity="municipality")
+     * @ORM\ManyToOne(targetEntity="municipality", inversedBy="localOperationAssistants")
      * @ORM\JoinColumn(name="municipality", referencedColumnName="mun_id", nullable=true)
      */
     private $municipality;

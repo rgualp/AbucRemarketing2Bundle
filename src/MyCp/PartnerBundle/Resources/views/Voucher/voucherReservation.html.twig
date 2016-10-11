@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+        body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
+        h2{font-size: 15px; letter-spacing: 0.5px;}
+        h4{font-size: 12px; letter-spacing: 0.5px}
+        h3{font-size: 13px; letter-spacing: 0.5px}
+        h6{font-size: 8px; letter-spacing: 0.5px; font-weight: normal;}
+        #logo{margin-bottom: 10px; width: 260px; height: 50px}
+        hr{border: none;border-bottom:solid 1px #84B231;}
+        .h-green,a{color:#80AA2A}
+        p{line-height: 18px}
+        .text-right{text-align: right}
+        .h-only-blue{color: #218CDC;}
+        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 70%;}
+        .h-green-line{border-bottom: 1px solid #80AA2A;}
+        .b-cyan{background: #EBE9EA;}
+        .c-bbbb{ color: #bbb;}
+        hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
+        .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
+        .no-margin{margin: 0}
+        table{border-collapse: collapse; width: 100%; border-spacing: 0;}
+        /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
+        .cursive{font-style: italic;}
+
+    </style>
+</head>
+<body>
+{% set currency_symbol= user_currency.currSymbol %}
+{% set currency_rate= user_currency.currCucChange %}
+
+<table style="width: 100%">
+    <tr>
+        <td>
+            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
+        </td>
+        <td style="text-align: right; vertical-align: top; color: #cccccc">
+            {{'now'| date('M d, Y') }}
+        </td>
+    </tr>
+</table>
+<br/>
+<h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
+<hr/>
+<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserLastName }}</h4>
+<p>
+    {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
+    {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
+</p>
+<h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
+<hr/>
+<p>
+<table style="width: 100%">
+    <tr>
+        <td><b>{{"RESERVATION_NUMBER"|trans({}, "messages", user_locale)}}:</b></td>
+        <td>ID_{{ booking.getBookingId }}</td>
+        <td><b>{{"EMAIL_TO"|trans({}, "messages", user_locale)}}</b></td>
+        <td>{{ user.getUserEmail }}</td>
+    </tr>
+    <tr>
+        <td><b>{{"CLIENT_NAME"|trans({}, "messages", user_locale)}}:</b></td>
+        <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
+        <td><b>{{"NACIONALITY"|trans({}, "messages", user_locale)}}:</b></td>
+        <td>{{ user.getUserCountry.getCoName }}</td>
+    </tr>
+</table>
+<br/>
+{% for own in own_res %}
+    {% if loop.index0 > 0 %}
+        <div style="page-break-after: always"></div>
+    {% endif %}
+    <hr class="hr-grey-wide"/>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 70%">
+                <h3 class="h-green h-green-line"  style="padding-bottom: 5px">
+                    <img src="bundles/frontend/img/icons/vhouse.png" alt="{{"House" | trans}}">
+                    {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}
+                </h3>
+            </td>
+            <td style="vertical-align: middle; text-align: right;width:30%">
+                <b>{{"RESERVATION_NUMBER"|trans({}, "messages", user_locale)}}:</b> ID_{{ booking.getBookingId }}
+            </td>
+        </tr>
+    </table>
+    <table  style="width: 100%">
+        <tr style="border-top:none;">
+            <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans({}, "messages", user_locale)}}:</b></td>
+            <td style="border-top:none; width:40%">{{ own.genResOwnId.ownName }}</td>
+            <td rowspan="5" style="border-top:none;width:30%">
+                <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
+                    <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.genResOwnId.ownGeolocateX}},{{own.genResOwnId.ownGeolocateY}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.genResOwnId.ownGeolocateX}},{{own.genResOwnId.ownGeolocateY}}&a.jpg' alt="{{"Maps" | trans}}"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><b>{{"ID_HOME"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ own.genResOwnId.ownMcpCode }}</td>
+        </tr>
+        <tr>
+            <td><b>{{"OWNERS_NAME"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{ own.genResOwnId.ownHomeowner1 }} {% if own.genResOwnId.ownHomeowner2 %}& {{ own.genResOwnId.ownHomeowner2 }}{% endif %}</td>
+        </tr>
+        <tr>
+            <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ own.genResOwnId.ownAddressStreet }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ own.genResOwnId.ownAddressNumber }} {%if own.genResOwnId.ownAddressBetweenStreet1 != "" and own.genResOwnId.ownAddressBetweenStreet2 != ""%}, {{ own.genResOwnId.ownAddressBetweenStreet1 }} & {{ own.genResOwnId.ownAddressBetweenStreet2 }}{%endif%}.
+                {{ own.genResOwnId.ownAddressMunicipality.munName }} ,{{ own.genResOwnId.ownAddressProvince.provName }}.
+            </td>
+        </tr>
+        <tr>
+            <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{%if own.genResOwnId.ownPhoneCode != ""%}(+53) {{ own.genResOwnId.ownPhoneCode }} {{ own.genResOwnId.ownPhoneNumber }}{%else%} - {%endif%}</td>
+        </tr>
+        {% if own.genResOwnId.ownEmail1 != "" or own.genResOwnId.ownEmail2 != "" %}
+            <tr>
+                <td><b>{{"FORMS_EMAIL"|trans}}:</b></td>
+                <td>{% if own.genResOwnId.ownEmail1 == "" and own.genResOwnId.ownEmail2 == "" %}-{% else %}<a href="mailto:{{ own.genResOwnId.ownEmail1 }}">{{ own.genResOwnId.ownEmail2 }}</a>{% if own.genResOwnId.ownEmail1 != "" and own.genResOwnId.ownEmail2 != "" %}, {% endif %}<a href="mailto:{{ own.genResOwnId.ownEmail2 }}">{{ own.genResOwnId.ownEmail2 }}</a>{% endif %}</td>
+            </tr>
+        {% endif %}
+    </table>
+
+    {%for res_room in own.ownReservations %}
+        <br/>
+        <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
+            <img src="bundles/frontend/img/icons/vbed.png" alt="{{"BEDS_ROOMS" | trans}}"/>
+            {{"RESERVATION_DETAILS"|trans({}, "messages", user_locale)}}: {{"ROOM_SINGULAR"|trans({}, "messages", user_locale) | capitalize}} {{loop.index}}
+        </h4>
+        <br/>
+        <table style="width:100%">
+            <tr>
+                <td colspan="6"><h4 class="h-only-blue no-margin">{{res_room.ownResRoomType|trans({}, "messages", user_locale)}}</h4></td>
+            </tr>
+            <tr>
+                <td><b>{{"ARRIVAL_RESERVATION"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{ res_room.ownResReservationFromDate| date("d/m/Y") }}</td>
+                <td><b>{{"DEPARTURE_RESERVATION"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{ res_room.ownResReservationToDate| date("d/m/Y") }}</td>
+                <td><b>{{"NIGHTS"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{ res_room.ownResNights }}</td>
+            </tr>
+            <tr>
+                <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{ res_room.ownResRoomType|trans({}, "messages", user_locale) }}</td>
+                <td><b>{{"ADULTS"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{ res_room.ownResCountAdults }}</td>
+                <td><b>{{"KIDS"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{ res_room.ownResCountChildrens }}</td>
+            </tr>
+            <tr>
+                <td>{#<b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans({}, "messages", user_locale)}}:</b>#}</td>
+                <td>{#{{ res_room.roomBathRoom|trans({}, "messages", user_locale) }}#}</td>
+                <td><b>{{ "PRICE_NIGHT" | trans({}, "messages", user_locale) }}</b></td>
+                <td>{{ currency_symbol }} {{ (((res_room.ownResNightPrice) ? res_room.ownResNightPrice : res_room.ownResTotalInSite / res_room.ownResNights) * currency_rate) | number_format(2) }}</td>
+                <td><b>{{ "RESERVATION_COST" | trans({}, "messages", user_locale) }}</b></td>
+                <td>{{ currency_symbol }} {{ (res_room.ownResTotalInSite * currency_rate) | number_format(2) }}</td>
+            </tr>
+        </table>
+    {%endfor%}
+    {% if own_res | length > 1 %}
+        <br/>
+        <h4 class="voucher-subtitle no-margin">
+            <img src="bundles/frontend/img/icons/vcurrency.png" alt="{{"CURRENCY" | trans}}">
+            {{"PAYMENT_DETAILS"|trans({}, "messages", user_locale)}}:
+        </h4>
+        <br/>
+        <table style="width:100%">
+            <tr>
+                <td><b>{{ "ACCOMMODATION_TOTAL_COST" | trans({}, "messages", user_locale) }}</b></td>
+                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
+            </tr>
+            <tr>
+                <td><b>{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}</b></td>
+                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
+            </tr>
+            {% set fixedTax = 0 %}
+            {% if own_res | length == 1 %}
+                {% set fixedTax = service_charge_total %}
+                <tr>
+                    <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
+                    <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</h4></td>
+                </tr>
+            {% endif %}
+            <tr class="b-cyan">
+                <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }} - {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}</b></td>
+                <td class="text-right">
+                    <h4 class="no-margin">
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)| number_format(2) }}
+                    </h4>
+                </td>
+            </tr>
+            <tr>
+                <td><b>{{ "ONLINE_PREPAYMENT" | trans({}, "messages", user_locale) }}</b></td>
+                <td class="text-right">
+                    <h4 class="no-margin">
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].prepayment + own_res_payments[own.id].touristTax + fixedTax) | number_format(2) }}
+                    </h4>
+                </td>
+            </tr>
+            <tr>
+                <td>-{{"PERCENT_ACCOMMODATION_AMOUNT" | trans({}, "messages", user_locale) | replace({"%percent%": own.commission_percent ~ "%"})}}</td>
+                <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.id].prepayment)) | number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>-{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}</td>
+                <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</td>
+            </tr>
+            {% if own_res | length == 1 %}
+                <tr>
+                    <td>-{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</td>
+                    <td class="text-right">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2"><b>{{ "PAY_AT_ACCOMMODATION" | trans({}, "messages", user_locale) }}</b></td>
+            </tr>
+            <tr>
+                <td>-{{"PERCENT_ACCOMMODATION_AMOUNT" | trans({}, "messages", user_locale) | replace({"%percent%": (100 - own.commission_percent) ~ "%"})}}</td>
+                <td class="text-right">
+                    <h4 class="no-margin">
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].pay_at_service) | number_format(2) }}
+                    </h4>
+                    <h6 class="no-margin">
+                        CUC {{ (own_res_payments[own.id].pay_at_service_cuc) | number_format(2) }}
+                    </h6>
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+    <br>
+    <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
+        {{"Clients"|trans({}, "messages", user_locale)}}
+    </h4>
+    <br>
+<table style="width:100%">
+
+    {% for agency in own.travelAgencyDetailReservations %}
+        <tr>
+            <td colspan="6"> <strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{agency.reservation.client.fullName }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+<br/>
+<table style="width: 100%;">
+    <tr style="border-top:none;">
+        <td style="border-top:none;padding:0px; width: 100%;">
+            <hr class="upper-bottom"/>
+        </td>
+        <td style="text-wrap: none; border-top:none;text-align: right;padding:0px" nowrap="nowrap">
+            <h3 class="no-margin c-bbbb">{{"END_OF_YOUR_RESERVATION" | trans({}, "messages", user_locale)}}</h3>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<h3 class="h-green h-green-line"  style="padding-bottom: 5px">{{"PAYMENTS"|trans({}, "messages", user_locale)}}</h3>
+<table style="width:100%">
+    <tr>
+        <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale) }}</b></td>
+        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (accommodations_service_charge)| number_format(2) }}</h4></td>
+    </tr>
+    <tr>
+        <td><b>{{"SERVICES_TOTAL_COST"|trans({}, "messages", user_locale)}}</b></td>
+        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</h4></td>
+    </tr>
+    <tr>
+        <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
+        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>
+    </tr>
+    <tr class="b-cyan">
+        <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }}</b></td>
+        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((total_prepayment + total_servicing_price)) | number_format(2) }}</h4></td>
+    </tr>
+    <tr>
+        <td><b>{{ "PREPAYMENT" | trans({}, "messages", user_locale) }}</b></td>
+        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ total_prepayment | number_format(2)}}</h4></td>
+    </tr>
+    <tr>
+        <td>- {{"SERVICE_ACCOMMODATION_TAX"|trans({}, "messages", user_locale)}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+        <td class="text-right">{{ currency_symbol }} {{ (prepayment_accommodations) | number_format(2) }}</td>
+    </tr>
+    <tr>
+        <td>- {{"SERVICES_TOTAL_COST"|trans({}, "messages", user_locale)}}</td>
+        <td class="text-right">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</td>
+    </tr>
+    <tr>
+        <td>- {{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</td>
+        <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
+    </tr>
+
+    <tr>
+        <td colspan="2"><b>{{ "PAY_AT_ACCOMMODATION" | trans({}, "messages", user_locale) }}</b></td>
+    </tr>
+
+    <tr>
+        <td>-{{"ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale)}} ({% for comm in commissions %}{{100-comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+        <td class="text-right"><h4 class="no-margin">
+                {{ currency_symbol }} {{ (total_servicing_price) | number_format(2)}}
+            </h4>
+            <h6 class="no-margin">
+                CUC {{ (total_price_to_pay_at_service_in_cuc) | number_format(2) }}
+            </h6>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+
+

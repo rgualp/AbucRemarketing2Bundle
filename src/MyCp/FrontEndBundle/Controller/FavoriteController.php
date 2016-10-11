@@ -25,6 +25,7 @@ class FavoriteController extends Controller {
 
         $em->getRepository('mycpBundle:favorite')->insert($data);
 
+
         $response = $this->renderView('FrontEndBundle:favorite:itemLinkFavorite.html.twig', array(
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,

@@ -319,7 +319,10 @@ class userRepository extends EntityRepository {
                 $user->setUserActivationDate(new \DateTime());
             $em->persist($user);
             $em->flush();
+            return true;
         }
+
+        return false;
     }
 
     public function getUsersStaff()
@@ -352,5 +355,6 @@ class userRepository extends EntityRepository {
             ->setMaxResults(1)
             ->getQuery()->getOneOrNullResult();
     }
+
 
 }

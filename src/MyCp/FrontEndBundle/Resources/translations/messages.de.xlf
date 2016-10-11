@@ -110,6 +110,14 @@
                 <source>SECURITY_AND_PRIVACITY</source>
                 <target>Datenschutz</target>
             </trans-unit>
+            <trans-unit id="11928">
+                            <source>find_partner</source>
+                            <target>Für Reiseagenturen</target>
+                          </trans-unit>
+                           <trans-unit id="11929">
+                                          <source>hazte_partner</source>
+                                          <target>Werden Sie unser Partner</target>
+                                        </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
                 <target>Kontaktieren Sie uns!</target>
@@ -3200,7 +3208,10 @@
             <source>SERVICE_ACCOMMODATION_TAX_LONG</source>
             <target>Betrag für die Unterkunft</target>
         </trans-unit>
-
+        <trans-unit id="952">
+            <source>title.email.createuser.partner</source>
+            <target>Agency Account Activation</target>
+        </trans-unit>
 
     </body>
     </file>

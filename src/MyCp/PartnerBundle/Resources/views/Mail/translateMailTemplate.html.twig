@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>MyCasaParticular.com</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {% block css %}
+        <style type="text/css">
+            .ExternalClass {width:100%;}
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+                line-height: 100%;
+            }
+            body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+            body {margin:0; padding:0;}
+            table td {border-collapse:collapse;}
+            .ReadMsgBody { width: 100%;}
+            .ExternalClass {width: 100%;}
+            body{background:#e8e8e8 }
+            p{margin-bottom:10px;}
+           a,a:visited,a:link,a:hover, a.titleLink, a.titleLink:visited, a.titleLink:link, a.titleLink:hover{text-decoration: none;color:#084f76;}
+           .footer a,.footer a:visited,.footer a:link,.footer a:hover{text-decoration: none;color:white;}
+        </style>
+    {% endblock %}
+</head>
+<body style="font-family: Arial;">
+<table width="100%" cellpadding="10" cellspacing="0" border="0">
+    <tr>
+        <td valign="top" align="center">
+            <table width="825px" bgcolor="#FFFFFF" border="0" cellpadding="15" cellspacing="0" style="border: solid 1px #DDDDDD; background-color: #FFFFFF">
+                <tr style="">
+                    <td width="335px" style="padding: 35px;">
+                        <a href="{{ path('frontend_partner_home') }}">MyCasaPartner</a></td>
+                       </tr>
+
+                <tr>
+                    <td colspan="2" style="font-family: arial; padding: 35px;">{% block content %}{% endblock %}</td>
+                </tr>
+               <tr>
+                    <td colspan="2" bgcolor="#084e75" style="">
+                        <table  width="100%" cellpadding="10" cellspacing="0" border="0">
+                            <tr>
+                                <td class="footer" colspan="2" style="line-height: 18px; font-family: arial; color: #9da5ac; padding: 10px 20px;">
+                                    {{ 'FOOTER_EMAIL1_PARTNER'| trans |raw }}
+                                    <br/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="footer" colspan="2" style="line-height: 18px; font-family: arial; color: #fefefe; font-size: 12px; ">
+                                    {{ 'label.faqs.two.three'| trans |raw }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

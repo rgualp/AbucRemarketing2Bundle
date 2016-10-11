@@ -261,7 +261,17 @@ class ReservationController extends Controller {
 
                 $bookingId = $booking->getBookingId();
 
-                return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
+                $paymentMethod = $post['payment_method'];
+
+                switch($paymentMethod){
+                    case "skrill": return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
+                    case "postfinance": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "POSTFINANCE"));
+//                    case "visa": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
+//                    case "mastercard": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "MASTERCARD"));
+                     default: return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
+                }
+
+
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
