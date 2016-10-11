@@ -1,0 +1,105 @@
+<div class="modal inmodal fade form-agency" id="myModalReservation" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-agency" style="background-color: #25323b !important;">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body modal-agency modal-reservation pb-0" style="height: 420px">
+                <form class="form-horizontal form-agency agency modal-reservation" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
+                    <div class="col-md-8">
+                        <h3>{{ "pa.modal.reservation.title" | trans }}</h3>
+
+                        <div id="divResult">
+                            <div class="row m-0" id="openReservationsList" data-content="false" data-url="{{ path("partnet_dashboard_open_reservations_list") }}" data-loadingtext="{{ "pa.loading" | trans }}">
+
+                            </div>
+                            <div class="row m-0 hidden" id="openReservationsListDetails" data-loadingtext="{{ "pa.loading" | trans }}" data-url="">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="text-right" id="accommodationName"></h4>
+
+                        <div class="row">
+                            <div class="col-md-6" style="padding-left: 0">
+                                <div class="col-sm-10" style="padding: 0">
+                                    <input type="text" value="{{ "+2 days" |date("d/m/Y") }}" data-localization="{{ locale }}" data-container="body" data-toggle="tooltip" placeholder="{{ 'label.filter.arrival'|trans }}" class="form-control input-date" required="required" name="modalDateFrom" id="modalDateFrom" aria-required="true"/>
+                                </div>
+                                <div class="col-sm-2" style="padding: 0">
+                                    <i class="glyphicons calendar" style="margin-left: 5px; color: #fff !important"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pull-right" style="padding-right: 0">
+                                <div class="col-sm-10" style="padding: 0">
+                                    <input type="text" value="{{ "+3 days" |date("d/m/Y") }}" data-localization="{{ locale }}" data-container="body" data-toggle="tooltip" placeholder="{{ 'label.filter.exit'|trans }}" class="form-control input-date" required="required" name="modalDateTo" id="modalDateTo" aria-required="true"/>
+                                </div>
+                                <div class="col-sm-2" style="padding: 0">
+                                    <i class="glyphicons calendar" style="margin-left: 5px; color: #fff !important"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h3 class="text-right">{{ "pa.modal.reservation.new_reservation" | trans }}</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10" style="padding: 0px">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons user" style="margin-top: 3px"></i>
+                                    {{ form_widget(form.client, { 'attr': {'data-url':path('partner_get_client'),'data-urlrefreshlist':path('partner_list_client'),'data-placeholder': 'label.select.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                                </div>
+                            </div>
+                            {#<div class="col-md-1" style="padding-right: 0px">
+                                <i id="add-client" class="glyphicons user_add" style="color: #fff !important;cursor: pointer;font-size: 18px"></i>
+                            </div>#}
+                            <div class="col-md-2" style="padding-right: 0px">
+                                <i id="refresh-client" class="glyphicons refresh" style="color: #fff !important;cursor: pointer;font-size: 18px"></i>
+                            </div>
+
+                        </div>
+                        <div id="row-name" class="row">
+                            <div class="inner-addon left-addon">
+                                <i class="glyphicon glyphicons user" ></i>
+                                {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.new.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </div>
+                        </div>
+                        {#<div class="row">
+                            <div class="inner-addon left-addon">
+                                <i class="glyphicon glyphicons envelope" ></i>
+                                {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            </div>
+                        </div>#}
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-6" style="padding-left: 0">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons user"></i>
+                                    {{ form_widget(form.adults, { 'attr': {'placeholder': 'label.reservation.adults'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 pull-right" style="padding-right: 0">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons user"></i>
+                                    {{ form_widget(form.children, { 'attr': {'placeholder': 'label.reservation.children'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-4" style="padding-left: 0">
+
+                            </div>
+                            <div class="col-md-4 text-right" style="padding-right: 0">
+                                <a class="glyphicons minus" style="color: #fff !important;font-family: MyriadProBoldCond;font-size: 22px" id="btnResetFormReservation"> {{ "pa.modal.reservation.reset" | trans }}</a>
+                            </div>
+                            <div class="col-md-4 text-right" style="padding-right: 0">
+                                <a class="glyphicons plus" style="color: #fff !important;font-family: MyriadProBoldCond;font-size: 22px" id="btnAddNewOpenReservation" data-url="{{ path("partnet_dashboard_new_open_reservation") }}"> {{ "pa.modal.reservation.add" | trans }}</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <span class="hidden alertLabel">{{ "missing_data" | trans }}</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

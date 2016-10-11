@@ -1,0 +1,81 @@
+<section class="blue-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{ 'label.section.two'| trans }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table text-center" style="font-size: 18px">
+                    <thead>
+                    <tr>
+                        <th class="color-td-onepackage" width="20%" style="font-size: 24px;vertical-align: middle;"><strong>{{ 'title.column_one' | trans }}</strong></th>
+                        <th class="color-td-twopackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/basico.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_two' | trans }}</span></br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
+                        <th class="color-td-threepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/economico.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_three' | trans }}</span></br><span style="color: #aab4b6">{{ 'label.gonow' | trans }}</span></th>
+                        <th class="color-td-fourpackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/especial.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_four' | trans }}</span></br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                        <th class="color-td-fivepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/premiun.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_five' | trans }}</span></br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="color-td-onepackage" style="font-size: 24px;vertical-align: middle;">{{ 'frontend.users' | trans }}</td>
+                        <td class="color-td-twopackage">{{ 'frontend.one_tour' | trans }}</td>
+                        <td class="color-td-threepackage">{{ 'frontend.twofive_tour' | trans }}</td>
+                        <td class="color-td-fourpackage">{{ 'frontend.five_tour' | trans }}</td>
+                        <td class="color-td-fivepackage">{{ 'frontend.web_site' | trans }}</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage" style="font-size: 24px;vertical-align: middle;">{{ 'frontend.account_type' | trans }}</td>
+                        <td class="color-td-twopackage">{{ 'frontend.account_unic' | trans }}</td>
+                        <td class="color-td-threepackage">{{ 'label.account.agency.admin' | trans | raw }}</td>
+                        <td class="color-td-fourpackage">{{ 'label.account.agency.admin.reserved' | trans | raw }}</td>
+                        <td class="color-td-fivepackage"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="color-td-onepackage" style="font-size: 24px;vertical-align: middle;">{{ 'label.way.payment' | trans }}</td>
+                        <td rowspan="2" class="color-td-twopackage">{{ 'label.prepayment.skrill' | trans }}</td>
+                        <td class="color-td-threepackage">{{ 'label.payment.transfer' | trans }}</td>
+                        <td class="color-td-fourpackage">{{ 'label.payment.transfer' | trans }}</td>
+                        <td class="color-td-fivepackage">{{ 'label.payment.transfer' | trans }}</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-threepackage">{{ 'label.prepayment.skrill' | trans }}</td>
+                        <td class="color-td-fourpackage">{{ 'label.prepayment.skrill' | trans }}</td>
+                        <td class="color-td-fivepackage">{{ 'label.prepayment.skrill' | trans }}</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage" style="font-size: 24px;vertical-align: middle;">{{ 'label.service' | trans }}</td>
+                        <td class="color-td-twopackage">{{ 'label.gest.reserved.atention' | trans |raw }}</td>
+                        <td class="color-td-threepackage">{{ 'label.gest.reserved.atention' | trans |raw }}</td>
+                        <td class="color-td-fourpackage">{{ 'label.gest.reserved.atention.stadistic' | trans |raw }}</td>
+                        <td class="color-td-fivepackage">{{ 'label.gest.reserved.atention.stadistic.remarketing' | trans |raw }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage" style="font-size: 24px;vertical-align: middle;">{{ 'label.extra' | trans }}</td>
+                        <td class="color-td-twopackage"></td>
+                        <td class="color-td-threepackage">{{ 'label.history.reserved' | trans }}</td>
+                        <td class="color-td-fourpackage">{{ 'label.history.reserved.creation' | trans | raw }}</td>
+                        <td class="color-td-fivepackage">{{ 'label.history.reserved.creation.cc' | trans | raw }}</td>
+                    </tr>
+                    <tr>
+                        <td class="color-td-onepackage"></td>
+                        <td style="background-color: #eea733">
+                            {% if app.user.getUserUserName is not defined %}
+                                <a style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
+                                    {{ 'frontend.partner' | trans }}
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td style="background-color: #29789f;color:#00385d">{{ 'label.gonow' | trans }}</td>
+                        <td style="background-color: #11517d;color:#4793ba">{{ 'label.prox' | trans }}</td>
+                        <td style="background-color: #063b5b;color:#4793ba">{{ 'label.prox' | trans }}...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>

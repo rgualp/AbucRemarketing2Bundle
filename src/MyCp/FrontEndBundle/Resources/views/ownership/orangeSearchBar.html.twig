@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-sm-2 dates">
                         <div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group arrival_date" data-datepicker="true" style="padding: 0; z-index: 250">
-                            <input class="form-control" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>                            
+                            <input class="form-control" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>
                             <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>                            
                         </div>
                     </div>

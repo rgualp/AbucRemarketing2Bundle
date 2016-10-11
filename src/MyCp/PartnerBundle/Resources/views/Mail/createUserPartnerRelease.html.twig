@@ -1,0 +1,12 @@
+{% extends 'PartnerBundle:Mail:translateMailTemplate.html.twig' %}
+{% set user_locale='es' %}
+{% block content %}
+    <p style="font-family: Arial; font-size: 14px">
+        {{ 'label.hellow'|trans({}, "messages", user_locale) }} {{ user_full_name }}: <br/>
+
+        {{ 'partner.email.registeraccount.release'|trans({}, "messages", user_locale) | raw }}
+
+        <br>
+        <a target="_blank" href="{{ url('frontend_partner_home') }}"> {{ 'partner.email.registeraccount.release.go'|trans({}, "messages", user_locale) }}</a>
+    </p>
+{% endblock %}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: Arial; font-size: 12px">
+<h2>Confirmación de Reserva</h2>
+Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
+<br/><br/>
+<b>Atención:</b> Este es un correo automático del sistema de reservación de MyCasaParticular.com. No responder a este correo.
+<br/><br/>
+Estimado/a {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1 }} {% if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}y {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 }}{% endif %}
+<br/><br/>
+<b>Alojamiento:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} - {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
+<br/><br/>
+Por este medio le confirmamos la reservación del cliente correspondientes al booking {{ booking }}:
+<br/><br/>
+
+<b>Nombre:</b> {{ user.getUserUserName }}
+<br/>
+<b>Apellidos:</b> {{ user.getUserLastName }}
+<br/>
+<b>Correo electrónico:</b> <a href="mailto:{{ user.getUserEmail }}">{{ user.getUserEmail }}</a>
+<br/>
+<b>País:</b> {{ user.getUserCountry.getCoName }}
+<br/>
+<b>Ciudad:</b> {{ user.getUserCity }}
+<br/>
+<b>Idioma:</b> {{ user.getUserLanguage.getLangName }}
+<br/>
+<br/>
+<h3>Reservaciones  (Total: {{ reservations| length }})</h3>
+{% set total_price = 0 %}
+{% set reservationCAS = "" %}
+{% for reservation in reservations %}
+{% if reservationCAS != reservation.getOwnResGenResId.getCASId %}
+    {% set reservationCAS = reservation.getOwnResGenResId.getCASId %}
+    <b>Reserva: {{ reservationCAS }}</b><br/><br/>
+{% endif %}
+<b>Habitación: </b> Habitación #{{ rooms[reservation.getOwnResId()].getRoomNum() }} - {{ reservation.getOwnResRoomType }}
+<br/>
+<b>Adultos: </b> {{ reservation.getOwnResCountAdults }}
+<br/>
+<b>Niños: </b> {{ reservation.getOwnResCountChildrens }}
+    {% if reservation.getOwnResGenResId.getChildrenAges != null %}
+        {% for roomNumber, ages in reservation.getOwnResGenResId.getChildrenAges %}
+            {% if roomNumber == rooms[reservation.getOwnResId()].getRoomNum() %}  (Edades: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}) {% endif %}
+        {% endfor %}
+    {% endif %}
+<br/>
+<b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
+<br/>
+<b>Noches: </b> {{ nights[reservation.getOwnResId] }}<br/>
+{% set subtotal = reservation.ownResTotalInSite - ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100 )  %}
+{% if reservations| length > 1 %}
+    <b>Subtotal a pagar en casa:</b> {{ subtotal }} CUC en efectivo.<br/>
+{% endif %}
+{% set total_price = total_price + subtotal %}
+<br/>
+<br/>
+{% endfor %}
+El cliente debe pagar en su casa particular el saldo total de <b>{{ total_price }} CUC</b> en efectivo. La comisión y gastos por reservación ya han sido descontados por adelantado al turista.
+<br/>
+<br/>
+<b>Importante:</b> Si usted desea comunicarse directamente con el cliente por alguna razón tenga en cuenta el "idioma de comunicación del cliente".
+<br/>
+<br/>
+Atentamente
+<br/>
+<br/>
+Equipo de reservación
+
+<br/>
+<br/>
+</body>
+</html>

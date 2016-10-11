@@ -23,7 +23,7 @@ class payment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="booking",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="booking",inversedBy="payments")
      * @ORM\JoinColumn(name="booking_id",referencedColumnName="booking_id")
      */
     private $booking;

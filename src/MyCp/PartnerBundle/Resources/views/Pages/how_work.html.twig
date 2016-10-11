@@ -1,0 +1,136 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block title %}{{ 'title.page.howwork' | trans }}{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div style="
+            background: url({{ asset('bundles/partner/img/icon/comofunciona.png') }}) no-repeat scroll center center / cover ;
+            height: 260px;
+            width: 100%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 m-t-md" style="line-height: 0.5;">
+                    <span style="font-size: 48px;color:#fff;font-family: MyriadProBoldCond">{{ 'label.how.workheader.one' | trans }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="line-height: 1.5;">
+                    <span style="font-size: 48px;color:#fff;font-family: MyriadProBoldCond">{{ 'label.how.workheader.two' | trans }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10" style="line-height: 0.5;">
+                    <span style="font-size: 24px;color:#aeadab;font-family: MyriadProBoldIt">{{ 'label.how.workheader.three' | trans }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="row m-t-lg">
+            <div class="col-md-12 text-center">
+                <span style="color:#64a432;font-size: 36px;font-family: MyriadProBold">{{ 'label.how.sectionone.title' | trans }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="team-member">
+                    <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/comofunciona1.png')}}">
+                    <h4 style="font-size: 24px;color:#64a432;font-family: MyriadProBold">{{ 'label.how.sectionone.one' | trans }}</h4>
+                </div>
+            </div>
+            <div class="col-sm-4 m-t-md">
+                <div class="team-member">
+                    <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/comofunciona2.png')}}">
+                    <h4 style="font-size: 24px;color:#64a432;font-family: MyriadProBold">{{ 'label.how.sectionone.two' | trans }}</h4>
+                </div>
+            </div>
+            <div class="col-sm-4 m-t-xs">
+                <div class="team-member">
+                    <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/comofunciona3.png')}}">
+                    <h4 style="font-size: 24px;color:#64a432;font-family: MyriadProBold">{{ 'label.how.sectionone.three' | trans | raw }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4 m-t-lg">
+                <div class="team-member">
+                    <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/comofunciona4.png')}}">
+                    <h4 style="font-size: 24px;color:#64a432;font-family: MyriadProBold">{{ 'label.how.sectionone.four' | trans }}</h4>
+                </div>
+            </div>
+            <div class="col-sm-4 m-t-md">
+                <div class="team-member">
+                    <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/comofunciona5.png')}}">
+                    <h4 style="font-size: 24px;color:#64a432;font-family: MyriadProBold">{{ 'label.how.sectionone.five' | trans }}</h4>
+                </div>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+
+
+    </div>
+    <div class="m-t-lg"  style="background-color: #062a38;padding-bottom: 40px">
+        <div class="container">
+            <div class="row m-t-lg">
+                <div class="col-md-12 text-center">
+                    <span style="color:#fff;font-size: 36px;font-family: MyriadProBold">{{ 'label.how.sectiontwo.title' | trans }}</span>
+                </div>
+            </div>
+            <div class="row how_work">
+                <div class="col-sm-4 m-t-xs">
+                    <div class="team-member">
+                        <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/pqelegirpartner1.png')}}">
+                        <p style="margin-left: 70px">{{ 'label.how.sectiontwo.one' | trans | raw}}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 m-t-xs">
+                    <div class="team-member">
+                        <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/pqelegirpartner2.png')}}">
+                        <p>{{ 'label.how.sectiontwo.two' | trans | raw }}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 m-t-xs">
+                    <div class="team-member">
+                        <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/pqelegirpartner3.png')}}">
+                        <p>{{ 'label.how.sectiontwo.three' | trans | raw}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row how_work">
+                <div class="col-sm-4 m-t-xs">
+                    <div class="team-member">
+                        <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/pqelegirpartner4.png')}}">
+                        <p>{{ 'label.how.sectiontwo.four' | trans }}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 m-t-xs">
+                    <div class="team-member">
+                        <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/pqelegirpartner5.png')}}">
+                        <p>{{ 'label.how.sectiontwo.five' | trans }}</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 m-t-xs">
+                    <div class="team-member">
+                        <img alt="" class="img-responsive" src="{{ asset('bundles/partner/img/icon/pqelegirpartner6.png')}}">
+                        <p>{{ 'label.how.sectiontwo.six' | trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+

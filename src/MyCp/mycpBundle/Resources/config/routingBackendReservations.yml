@@ -118,3 +118,11 @@ mycp_send_email_client:
 mycp_send_email_destination:
     pattern:  /email/send/destination
     defaults: { _controller: mycpBundle:BackendReservation:sendEmailDestination}
+
+mycp_details_client_reservationAG:
+    pattern:  /client/detailsAG/{id_client}
+    defaults: { _controller: mycpBundle:BackendReservation:details_client_reservationAg }
+
+mycp_new_offer_to_client_ag:
+    pattern:  /new-offer-to-client-ag/{idClient}/{idClientOfAg}/{attendedDate}
+    defaults: { _controller: mycpBundle:BackendReservationAg:newCleanOffer, idClient:'', idClientOfAg:'',attendedDate:'' }

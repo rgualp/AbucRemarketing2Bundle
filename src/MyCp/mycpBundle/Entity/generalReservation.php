@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\PartnerBundle\Entity\paClientReservation;
 
 /**
  * generalreservation
@@ -29,6 +30,7 @@ class generalReservation {
     const STATUS_CANCELLED = 6;
     const STATUS_PARTIAL_CANCELLED = 7;
     const STATUS_OUTDATED = 8;
+    const STATUS_PENDING_PARTNER = 9;
 
     /**
      * Contains all possible statuses
@@ -45,7 +47,8 @@ class generalReservation {
         self::STATUS_PARTIAL_RESERVED,
         self::STATUS_CANCELLED,
         self::STATUS_PARTIAL_CANCELLED,
-        self::STATUS_OUTDATED
+        self::STATUS_OUTDATED,
+        self::STATUS_PENDING_PARTNER
     );
 
     /**
@@ -133,6 +136,12 @@ class generalReservation {
     private $modifiedBy;
 
     /**
+     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\JoinColumn(name="canceled_by",referencedColumnName="user_id", nullable=true)
+     */
+    private $canceledBy;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(name="modified", type="datetime",nullable=true)
@@ -192,6 +201,11 @@ class generalReservation {
     private $service_fee;
 
     /**
+     * @ORM\OneToMany(targetEntity="\MyCp\PartnerBundle\Entity\paReservationDetail", mappedBy="reservationDetail")
+     */
+    private $travelAgencyDetailReservations;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -199,6 +213,8 @@ class generalReservation {
         $this->own_reservations = new ArrayCollection();
         $this->gen_res_status = generalReservation::STATUS_PENDING;
         $this->gen_res_status_date = new \DateTime();
+
+        $this->travelAgencyDetailReservations = new ArrayCollection();
     }
 
     /**
@@ -633,6 +649,7 @@ class generalReservation {
             case self::STATUS_AVAILABLE: return "Disponible";
             case self::STATUS_CANCELLED: return "Cancelada";
             case self::STATUS_NONE:
+            case self::STATUS_PENDING_PARTNER:
             case self::STATUS_PENDING: return "Pendiente";
             case self::STATUS_NOT_AVAILABLE: return "No Disponible";
             case self::STATUS_OUTDATED: return "Vencida";
@@ -743,6 +760,67 @@ class generalReservation {
         $this->service_fee = $service_fee;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTravelAgencyDetailReservations()
+    {
+        return $this->travelAgencyDetailReservations;
+    }
+
+    /**
+     * @param mixed $detailReservations
+     * @return mixed
+     */
+    public function setTravelAgencyDetailReservations($detailReservations)
+    {
+        $this->travelAgencyDetailReservations = $detailReservations;
+        return $this;
+    }
+
+    /**
+     * Add paReservationDetail
+     *
+     * @param \MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail
+     *
+     * @return mixed
+     */
+    public function addTravelAgencyDetailReservation(\MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail)
+    {
+        $this->travelAgencyDetailReservations[] = $reservationDetail;
+
+        return $this;
+    }
+
+    /**
+     * Remove paReservationDetail
+     *
+     * @param \MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail
+     */
+    public function removeTravelAgencyDetailReservation(\MyCp\PartnerBundle\Entity\paReservationDetail $reservationDetail)
+    {
+        $this->travelAgencyDetailReservations->removeElement($reservationDetail);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCanceledBy()
+    {
+        return $this->canceledBy;
+    }
+
+    /**
+     * @param mixed $canceledBy
+     * @return mixed
+     */
+    public function setCanceledBy($canceledBy)
+    {
+        $this->canceledBy = $canceledBy;
+        return $this;
+    }
+
 
 
 }
