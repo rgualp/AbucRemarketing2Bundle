@@ -44,11 +44,17 @@ class municipality
     private $statMunicipalities;
 
     /**
+     * @ORM\OneToMany(targetEntity="localOperationAssistant",mappedBy="municipality")
+     */
+    private $localOperationAssistants;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->statMunicipalities = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->localOperationAssistants = new ArrayCollection();
     }
 
     /**
@@ -160,5 +166,23 @@ class municipality
     public function getLogDescription()
     {
         return "Municipio ".$this->getMunName();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocalOperationAssistants()
+    {
+        return $this->localOperationAssistants;
+    }
+
+    /**
+     * @param mixed $localOperationAssistants
+     * @return mixed
+     */
+    public function setLocalOperationAssistants($localOperationAssistants)
+    {
+        $this->localOperationAssistants = $localOperationAssistants;
+        return $this;
     }
 }

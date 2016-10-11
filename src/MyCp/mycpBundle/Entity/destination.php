@@ -128,10 +128,7 @@ class destination {
      */
     private $locations;
 
-    /**
-     * @ORM\OneToMany(targetEntity="localOperationAssistant",mappedBy="destination")
-     */
-    private $localOperationAssistants;
+
 
     /**
      * Constructor
@@ -141,7 +138,6 @@ class destination {
         $this->des_categories = new ArrayCollection();
         $this->des_keyword_langs = new ArrayCollection();
         $this->locations = new ArrayCollection();
-        $this->localOperationAssistants = new ArrayCollection();
     }
 
     /**
@@ -560,23 +556,7 @@ class destination {
         $this->locations = $locations;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLocalOperationAssistants()
-    {
-        return $this->localOperationAssistants;
-    }
 
-    /**
-     * @param mixed $localOperationAssistants
-     * @return mixed
-     */
-    public function setLocalOperationAssistants($localOperationAssistants)
-    {
-        $this->localOperationAssistants = $localOperationAssistants;
-        return $this;
-    }
 
 
 

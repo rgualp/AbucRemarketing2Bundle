@@ -325,3 +325,7 @@ partner_list_client:
 partner_download_voucher:
     locales:  { en: "/partner/voucher/{bookingId}", es: "/partner/voucher/{bookingId}", de: "/partner/voucher/{bookingId}" }
     defaults: { _controller: PartnerBundle:Dashboard:downloadVoucher, bookingId:'' }
+
+partner_payment_postfinance_status:
+    pattern:  /postfinance/status
+    defaults: { _controller: PartnerBundle:Payment:postfinanceStatus }

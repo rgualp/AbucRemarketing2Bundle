@@ -10,31 +10,45 @@
         </div>
     </div>
 
-    <div class="row text-center" style="margin-top: 30px">
+     <div class="row text-center" style="margin-top: 10px">
         <div class="col-md-12" style="line-height: 0.8">
             <p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_1' | trans }}</p>
-
-            <p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_2' | trans }}</p>
+            {#<p style="font-size: 24px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_2' | trans }}</p>#}
         </div>
     </div>
-    <div class="row text-center m-t-md">
+   {# <div class="row text-center m-t-md">
         <p style="font-size: 30px;color: #fff" class="MyriadProRegular">{{ 'label.overlay.cart_3' | trans }}</p>
     </div>
+    #}
 
     <div class="row" id="selectedReservations">
 
     </div>
 
+    <input type="hidden" name="extraData" id="paymentExtraData"/>
+    <input type="hidden" name="roomsToPay" id="roomsToPay"/>
     <div class="row hide MyriadProRegular blue-font" id="rowTotalPrepaymentGeneral" style="margin: 5px 20px; font-size: 30px;">
         <div class="container">
+            <div class="col-sm-3">
             {{ 'payment.online_prepayment' | trans }}: <span id="totalPrepaymentGeneral"></span>
+                <input type="hidden" name="totalPrepaymentGeneralInput" id="totalPrepaymentGeneralInput"/>
+            </div>
+            <div class="col-sm-4 text-center checkbox_skrill MyriadProBold" style="font-size: 20px; ">
+                <img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/skrill.gif') }}" alt="{{"Skrill" | trans}}">
+                <input type="radio" class="i-checks" name="payment_method" value="skrill" checked> {{"SKRILL_PAYMENT" | trans}} </label>
+            </div>
+            <div class="col-sm-5 text-center MyriadProBold" style="font-size: 20px; ">
+                {# <img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="{{"Postfinance" | trans}}">
+                <input type="radio" class="i-checks" name="payment_method" value="postfinance"> {{"POSTFINANCE_PAYMENT" | trans}} </label>
+                #}
+            </div>
         </div>
     </div>
 
     <div class="row" style="margin: 5px 0">
         <div class="col-md-4 text-right">
-            <a class="bg-blue color-white payButton" id="payNow" data-url="{{ path("partner_dashboard_paynow_cart") }}">
-                <i class="glyphicons coins"></i> {{ "cart.paynow_button" | trans }}</a>
+            <a class="bg-blue color-white payButton" id="payNow">
+                <i class="glyphicons coins"></i> {{ "pay_action" | trans }}</a>
             </a>
         </div>
         <div class="col-md-4 text-center">
@@ -48,4 +62,5 @@
             </a>
         </div>
     </div>
+
 </div>

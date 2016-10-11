@@ -55,10 +55,10 @@
 
     <div class="col-md-6 text-right">
         <a class="bg-grey color-white payButton {% if disablePaymentButton %}hide{% endif %}" id="toPayButtonAction">
-            <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
+            <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}</a>
         </a>
         <a class="bg-blue color-white payButton {% if not disablePaymentButton %}hide{% endif %}" id="trigger-overlay" data-url="{{ path("partner_dashboard_pay_selected_reservations_cart") }}" disabled="disabled">
-            <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
+            <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}</a>
         </a>
     </div>
     <div class="col-md-6 text-left">

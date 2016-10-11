@@ -50,6 +50,7 @@
     '@FrontEndBundle/Resources/public/css/custom.css'
     '@FrontEndBundle/Resources/public/css/glyphicons.css'
     '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
+    '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -75,34 +76,24 @@
 
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery.js'
-
     '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
-
-
-
-
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
-
     '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
     '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
-
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
     '@FrontEndBundle/Resources/public/js/custom.min.js'
-
     '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
     '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
     '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-
     '@FrontEndBundle/Resources/public/js/map.min.js'
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
-
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
-
+    '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
     filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
@@ -302,27 +293,6 @@
                     </ul>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <div class="col-xs-2 text-right">
                 <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" title="MyCasaParticular.com" alt="{{"MyCasaParticular" | trans}}">
