@@ -1,3 +1,18 @@
+partner:
+    resource: "@PartnerBundle/Resources/config/routingPartner.yml"
+    prefix:   /{_locale}/partner
+    type: be_simple_i18n
+
+frontend_partner_login_check:
+    pattern:  /partner/login_check
+
+frontend_partner_login:
+    pattern:  /{_locale}/partner/login/
+    defaults: { _controller: PartnerBundle:Security:login}
+
+frontend_partner_logout:
+    pattern: /partner/logout
+
 my_cp_casa_module:
     resource: "@MyCpCasaModuleBundle/Resources/config/routing.yml"
     prefix:   /mycasa
@@ -139,3 +154,7 @@ hds-seobundle:
     resource: "@SeoBundle/Resources/config/routing.yml"
     prefix:   /backend/seo
 
+my_cp_mobile_frontend:
+    resource: "@MyCpMobileFrontendBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/mobile
+    type: be_simple_i18n

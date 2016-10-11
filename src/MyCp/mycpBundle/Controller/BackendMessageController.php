@@ -24,10 +24,25 @@ class BackendMessageController extends Controller {
         ));
     }
 
+    public function messageUserControlAction($userTo, $showSubject = false)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $commentsTotal = $em->getRepository("mycpBundle:clientComment")->getCommentsTotal($userTo);
+
+        return $this->render('mycpBundle:message:messages_user.html.twig', array(
+            'user' => $userTo,
+            'userLogged' => $user,
+            'showSubject' => $showSubject,
+            'commentsTotal' => $commentsTotal
+        ));
+    }
+
     public function sendAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $userTourist = $em->getRepository("mycpBundle:userTourist")->find($request->get("touristId"));
+        $touristId = $request->get("touristId");
+        $userTourist = isset($touristId) ? $em->getRepository("mycpBundle:userTourist")->find($touristId) : null;
         $from = $this->getUser();
         $userId = $request->get("userId");
         $to = $em->getRepository("mycpBundle:user")->find($userId);
@@ -42,20 +57,24 @@ class BackendMessageController extends Controller {
 
         //Send message to user email
         $serviceEmail = $this->get('mycp.service.email_manager');
-        $userLocale = $userTourist->getUserTouristLanguage()->getLangCode();
+        $userLocale = isset($touristId) ?  $userTourist->getUserTouristLanguage()->getLangCode() : $to->getUserLanguage()->getLangCode();
         $templateBody = $this->render('FrontEndBundle:mails:standardTemplatedMailTemplate.html.twig', array(
                 'content' => $messageBody,
                 'user_locale' => $userLocale
             ));
 
         $serviceEmail->sendEmail($to->getUserEmail(), $subject . ' - MyCasaParticular.com', $templateBody);
-        $commentsTotal = $em->getRepository("mycpBundle:clientComment")->getCommentsTotal($userTourist->getUserTouristUser());
+        $commentsTotal = $em->getRepository("mycpBundle:clientComment")->getCommentsTotal(isset($touristId) ? $userTourist->getUserTouristUser() : $to);
 
-        $data = $this->render('mycpBundle:message:messages.html.twig', array(
+        $data = isset($touristId) ? $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
             'userLogged' => $from,
             'commentsTotal' => $commentsTotal
-        ))->getContent();
+        ))->getContent() : $this->render('mycpBundle:message:messages_user.html.twig', array(
+            'user' => $to,
+            'userLogged' => $from,
+            'commentsTotal' => $commentsTotal
+        ));;
 
         return new Response($data,200);
     }

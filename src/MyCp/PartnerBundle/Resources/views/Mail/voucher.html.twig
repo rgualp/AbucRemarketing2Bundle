@@ -1,0 +1,9 @@
+{% extends 'PartnerBundle:Mail:translateMailTemplate.html.twig' %}
+{% set user_locale='es' %}
+{% block content %}
+<p style="font-family: Arial; font-size: 14px">
+    {{ 'label.hellow' |trans({}, "messages", user_locale) | raw  }} ,</br>
+    {{ 'label.email.voucher'|trans({}, "messages", user_locale) | raw }}
+
+</p>
+{% endblock %}

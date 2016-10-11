@@ -1,0 +1,43 @@
+<div class="wrapper row">
+    <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 pull-left hidden-sm hidden-md hidden-lg nav-label" href="#">
+                <i class="ico_pinunpin glyphicons left_arrow"></i>
+            </a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right" style="background-color: #f3f3f3;height: 100%;margin-top: 0px">
+            <li>
+                <a href="#"><i class="fa white fa-shopping-cart fa-flip-horizontal fa-lg"></i></a>
+            </li>
+            <li>
+                <select id="ddlLanguage">
+                    <option selected>ESP</option>
+                </select>
+            </li>
+            <li>
+                <select id="ddlCurrency">
+                    <option selected>EUR</option>
+                </select>
+            </li>
+            <li class="dropdown" style="margin-top: 7px">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="pull-left" style="margin-right: 10px;font-size: 20px">Sergio Perez{#{ (app.user is defined) ? app.user.getName : "Pepe Perez" }#}</span>
+                    <span class="hidden-xs" style="margin-right: 10px;"></span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> {{ "pa_user_profile" | trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> {{ "pa_logout" | trans }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>

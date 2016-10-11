@@ -29,6 +29,7 @@ my_cp_forget_password:
 my_cp_change_password_user:
     path:  /cambiar-contrasenna/{string}
     defaults: { _controller: MyCpCasaModuleBundle:Security:changePassword }
+
 my_casa_module_ownership_steps:
     resource: "@MyCpCasaModuleBundle/Controller/StepsController.php"
     type: annotation

@@ -1,0 +1,8 @@
+<option value=""></option>
+{% for package in packages %}
+    {% if package.id == selected %}
+        <option value="{{ package.id }}" selected="selected" class="status-option-{{ package.id }}">{{ package.name }}</option>
+    {% else %}
+        <option value="{{ package.id }}" class="status-option-{{ package.id }}">{{ package.name }}</option>
+    {% endif %}
+{% endfor %}

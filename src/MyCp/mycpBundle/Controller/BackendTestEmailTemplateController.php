@@ -765,5 +765,18 @@ class BackendTestEmailTemplateController extends Controller {
         return $rooms;
     }
 
+    public function testTemplateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        return $this->render(
+            'FrontEndBundle:mails:sendEmailGesproCommand.html.twig',
+            array(
+                "userFullName" => "Yanet",
+                "user_locale" => "es"
+            )
+        );
+    }
+
 }
 

@@ -614,10 +614,70 @@ class BackendReservationController extends Controller {
             return $this->redirect($this->generateUrl('mycp_details_client_reservation', array('id_client' => $id_client)));
         }
         return $this->render('mycpBundle:reservation:reservationDetailsClient.html.twig', array(
+            'reservations' => $reservations,
+            'client' => $client,
+            'errors' => '',
+            'tourist' => $userTourist[0]
+
+        ));
+    }
+
+    public function details_client_reservationAgAction($id_client, Request $request) {
+
+        //$service_security= $this->get('Secure');
+       // $service_security->verifyAccess();
+        //$service_log= $this->get('log');
+       // $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        $service_time = $this->get('time');
+
+
+        $em = $this->getDoctrine()->getManager();
+//        $client_agency = $em->getRepository('PartnerBundle:paClient')->find($id_client);
+        $client_agency = $em->getRepository('mycpBundle:generalReservation')->getNameAgencyOfTheClient($id_client);
+        ///$userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUserAg($id_client);
+        $price = 0;
+
+        if ($request->getMethod() == 'POST') {
+
+            $post = $request->request->getIterator()->getArrayCopy();
+            //var_dump($post); exit();
+            /*foreach ($reservations as $reservation) {
+                /*$res_db = $em->getRepository('mycpBundle:generalReservation')->find($reservation[0]['gen_res_id']);
+                $res_db->setGenResStatus($post['resume_status_res_' . $reservation[0]['gen_res_id']]);
+                $em->persist($res_db);
+
+                $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation[0]['gen_res_id']));
+                foreach ($own_reservations as $own_reservation) {
+                    if (isset($post['service_room_type_' . $own_reservation->getOwnResId()])) {
+                        $own_reservation->setOwnResRoomType($post['service_room_type_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResNightPrice($post['service_room_price_' . $own_reservation->getOwnResId()]);
+                        $own_reservation->setOwnResStatus($post['service_own_res_status_' . $own_reservation->getOwnResId()]);
+                        $em->persist($own_reservation);
+
+                        if ($post['service_own_res_status_' . $own_reservation->getOwnResId()] == ownershipReservation::STATUS_RESERVED) {
+                            $this->updateICal($em,$own_reservation->getOwnResSelectedRoomId());
+                        }
+                    }
+                }
+            }
+            $em->flush();
+            $message = 'Reservas actualizadas satisfactoriamente.';
+
+            /* $service_log= $this->get('log');
+              $service_log->saveLog('Create entity for '.$ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION); */
+
+            /*$this->get('session')->getFlashBag()->add('message_ok', $message);*/
+            return $this->redirect($this->generateUrl('mycp_details_client_reservationAG', array('id_client' => $id_client)));
+        }
+        return $this->render('mycpBundle:reservation:reservationDetailsClientAg.html.twig', array(
                     'reservations' => $reservations,
-                    'client' => $client,
-                    'errors' => '',
-                    'tourist' => $userTourist[0]
+                    'client' => $client_agency,
+                    'errors' => ''
+
         ));
     }
 
@@ -1293,15 +1353,17 @@ class BackendReservationController extends Controller {
     public function showModalEmailAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $config= $em->getRepository('mycpBundle:configEmail')->findAll();
-        $email_destination= $em->getRepository('mycpBundle:emailDestination')->findAll();
+        $array_destinations=explode(',',$request->get('arraydestinations'));
+        $email_destination= $em->getRepository('mycpBundle:emailDestination')->findDestinations($array_destinations);
         $user = $em->getRepository('mycpBundle:user')->find($request->get('iduser'));
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $request->get('iduser')));
+
 
         switch((count($userTourist))?$userTourist[0]->getUserTouristLanguage()->getLangCode():'EN')
         {
             case 'ES':{
                 $content_config=array('subject'=>(count($config))?$config[0]->getSubjectEs():'','introduction'=>(count($config))?$config[0]->getIntroductionEs():'','foward'=>(count($config))?$config[0]->getFowardEs():'');
-                          break;
+                break;
             }
             case 'EN': {
                 $content_config=array('subject'=>(count($config))?$config[0]->getSubjectEn():'','introduction'=>(count($config))?$config[0]->getIntroductionEn():'','foward'=>(count($config))?$config[0]->getFowardEn():'');
@@ -1321,7 +1383,7 @@ class BackendReservationController extends Controller {
      */
     function sendEmailDestinationAction(Request $request){
         $service_email = $this->get('Email');
-        $content=$request->get("emailIntroduction").'</br>'.$request->get("emailContent").'</br>'.$request->get("emailFoward");
+        $content='<p>'.$request->get("emailIntroduction").'</br>'.$request->get("emailContent").'</br>'.$request->get("emailFoward").'</p>';
         $service_email->sendTemplatedEmail($request->get("emailSubject"), 'noreply@mycasaparticular.com', $request->get("emailUser"), $content);
         return new JsonResponse(array('success'=>true));
     }

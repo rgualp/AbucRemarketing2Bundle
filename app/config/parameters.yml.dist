@@ -52,3 +52,9 @@ parameters:
     notification_test_environment: 0
     notification_test_mobile: 0
 
+    mycasa_contact_cuba_phone: (+53) 78673574
+    sms_contact_phone: 78673574
+    sms_contact_mobile: 58419821
+
+    mycp_mobile_url: "http://m.mycasaparticular.com"
+

@@ -135,19 +135,20 @@ class TranslatorService extends Controller
 
         $json = json_decode($this->curl_get_contents($url));
         $responseArray = array();
-        $code = (isset($json->error)) ? $json->error->code : TranslatorResponseStatusCode::STATUS_200;
 
-        for($i = 0; $i < count($sourceTextsArray);$i++)
-        {
-            if($code != TranslatorResponseStatusCode::STATUS_200)
-            {
-                $response = new TranslatorResponse($code,$json->error->errors[0]->message,"");
+        if($json != null) {
+            $code = (isset($json->error)) ? $json->error->code : TranslatorResponseStatusCode::STATUS_200;
+
+            for ($i = 0; $i < count($sourceTextsArray); $i++) {
+                if ($code != TranslatorResponseStatusCode::STATUS_200) {
+                    $response = new TranslatorResponse($code, $json->error->errors[0]->message, "");
+                    array_push($responseArray, $response);
+                    break;
+                }
+
+                $response = new TranslatorResponse($code, "", $json->data->translations[$i]->translatedText);
                 array_push($responseArray, $response);
-                break;
             }
-
-            $response = new TranslatorResponse($code,"",$json->data->translations[$i]->translatedText);
-            array_push($responseArray, $response);
         }
 
         return $responseArray;

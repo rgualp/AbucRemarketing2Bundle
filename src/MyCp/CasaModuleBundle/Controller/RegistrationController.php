@@ -66,11 +66,25 @@ class RegistrationController extends Controller
         }
         $data['country_code'] = $request->get('own_province');
         $data['municipality_code'] = $request->get('own_municipality');
-//        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this,$translator, $this->container);
-//        $current_ownership_id = $ownership->getOwnId();
-        $province=$em->getRepository('mycpBundle:province')->find($request->get('own_province'));
-        $municipality=$em->getRepository('mycpBundle:municipality')->find($request->get('own_municipality'));
+
+        if($data['country_code'] == null || $data['country_code'] == "")
+        {
+            $message = 'Por favor, seleccione una provincia.';
+            $this->get('session')->getFlashBag()->add('message_error', $message);
+            $data['count_errors']++;
+        }
+
+        if($data['municipality_code'] == null || $data['municipality_code'] == "")
+        {
+            $message = 'Por favor, seleccione un municipio.';
+            $this->get('session')->getFlashBag()->add('message_error', $message);
+            $data['count_errors']++;
+        }
+
        if($data["count_errors"]==0){
+           $province=$em->getRepository('mycpBundle:province')->find($request->get('own_province'));
+           $municipality=$em->getRepository('mycpBundle:municipality')->find($request->get('own_municipality'));
+
         $ownership=new ownership();
         $ownership->setOwnName(trim($request->get('own_name')))
             ->setOwnLicenceNumber(trim($request->get('own_license_number')))
@@ -109,9 +123,9 @@ class RegistrationController extends Controller
         $userCasa=$em->getRepository('mycpBundle:userCasa')->createUserNew($ownership, null, $factory, true, $this, $this->get('service_container'));
 
         //Enviar correo a los propietarios
-           $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
+        /*   $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
            $userName = ($ownership->getOwnHomeowner1()) ? $ownership->getOwnHomeowner1() : $ownership->getOwnHomeowner2();
-           $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId()));
+           $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId(), "active" => 1));
 
            $emailSubject = "Bienvenido a MyCasaParticular.com";
 
@@ -124,7 +138,7 @@ class RegistrationController extends Controller
                    'secret_token' => $userCasa->getUserCasaSecretToken(),
                    'user_locale' => "es"));
 
-           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
+           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");*/
 
            $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
 

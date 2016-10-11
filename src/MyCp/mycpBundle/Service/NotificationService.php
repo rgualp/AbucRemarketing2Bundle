@@ -31,8 +31,11 @@ class NotificationService extends Controller
     private $notificationSendSms;
     private $notificationTestEnvironment;
     private $notificationTestPhone;
+    private $smsContactPhone;
+    private $smsContactMobile;
+    private $loggerService;
 
-    public function __construct(ObjectManager $em, $serviceNotificationUrl, $notificationServiceApiKey, $time, $notificationSendSms, $notificationTestEnvironment, $notificationTestPhone)
+    public function __construct(ObjectManager $em, $serviceNotificationUrl, $notificationServiceApiKey, $time, $notificationSendSms, $notificationTestEnvironment, $notificationTestPhone, $smsContactPhone, $smsContactMobile, $loggerService)
     {
         $this->em = $em;
         $this->serviceNotificationUrl = $serviceNotificationUrl;
@@ -41,6 +44,9 @@ class NotificationService extends Controller
         $this->notificationSendSms = $notificationSendSms;
         $this->notificationTestEnvironment = $notificationTestEnvironment;
         $this->notificationTestPhone = $notificationTestPhone;
+        $this->smsContactMobile = $smsContactMobile;
+        $this->smsContactPhone = $smsContactPhone;
+        $this->loggerService = $loggerService;
     }
 
     public function sendConfirmPaymentSMSNotification($reservation)
@@ -49,7 +55,7 @@ class NotificationService extends Controller
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
             $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
-            $message = "Mycasaparticular confirma reserva del cliente ".$touristName.", revise su correo o contáctenos al 78673574";
+            $message = "Mycasaparticular confirma reserva del cliente ".$touristName.", revise su correo o contáctenos al ".$this->smsContactPhone;
             $subType = "RESERVATION_PAID";
             $reservationObj = array(
                 "casId" => $reservation->getCASId(),
@@ -96,7 +102,10 @@ class NotificationService extends Controller
                 //$message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights" . "noches. CAS$reservationId. Son $rooms" . "hab./$guests" . "personas. Si está disponible, llame en menos de 1h al 78673574";
 				$noches= ($nights>1)?'s':'';
 				$personas= ($guests>1)?'s':'';
-				$message = 'Mycasaparticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al 78673574 o 58419821.';
+                $contactPhone = $this->smsContactPhone;
+                $contactMobile = $this->smsContactMobile;
+
+				$message = 'Mycasaparticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al '.$contactPhone.' o '.$contactMobile.'.';
 
                 $subType = "INMEDIATE_BOOKING";
                 $reservationObj = array(
@@ -139,6 +148,9 @@ class NotificationService extends Controller
                 "mobile" => $mobileNumber
             );
         }
+
+        $this->loggerService->logSMS(date('Y-m-d H:i:s'). " Mobile number: ".$mobileNumber.". Text: ".$message. ". Type: ".$subtype);
+
         return null;
     }
 
