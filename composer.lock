@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5e5567de000de3d5ff8a9cfffe7b7cf4",
+    "hash": "b88146d1178937dc7ce96c153a9a20e1",
+    "content-hash": "d59e4e9850288e8c4f181774ab6b51ac",
     "packages": [
         {
             "name": "abuc/remarketing-bundle",
@@ -63,7 +64,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aschamberger/XmlSecurity/zipball/c8976519ebbf6e4d953cd781d09df44b7f65fbb8",
+                "url": "https://api.github.com/repos/aschamberger/XmlSecurity/zipball/792221d1ca29442334c12af8f1680522286a13e7",
                 "reference": "792221d1ca29442334c12af8f1680522286a13e7",
                 "shasum": ""
             },
@@ -500,6 +501,59 @@
             "time": "2014-08-14 11:39:12"
         },
         {
+            "name": "bummzack/omnipay-postfinance",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bummzack/omnipay-postfinance.git",
+                "reference": "5ee06bc9ffd132d31021f9dc6c9d13ae78d43cc4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bummzack/omnipay-postfinance/zipball/5ee06bc9ffd132d31021f9dc6c9d13ae78d43cc4",
+                "reference": "5ee06bc9ffd132d31021f9dc6c9d13ae78d43cc4",
+                "shasum": ""
+            },
+            "require": {
+                "omnipay/common": "~2.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Omnipay\\Postfinance\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Schmid",
+                    "email": "bummzack@gmail.com"
+                }
+            ],
+            "description": "Postfinance Gateway for the Omnipay payment processing library",
+            "homepage": "https://github.com/bummzack/omnipay-postfinance",
+            "keywords": [
+                "gateway",
+                "merchant",
+                "omnipay",
+                "pay",
+                "payment",
+                "postfinance"
+            ],
+            "time": "2016-06-14 19:14:05"
+        },
+        {
             "name": "doctrine/annotations",
             "version": "v1.2.3",
             "source": {
@@ -933,12 +987,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineCacheBundle.git",
-                "reference": "e4b6f810aa047f9cbfe41c3d6a3d7e83d7477a9d"
+                "reference": "9b7b22cea3aaaf6d53088c46a2cb08801ea38ace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/e4b6f810aa047f9cbfe41c3d6a3d7e83d7477a9d",
-                "reference": "e4b6f810aa047f9cbfe41c3d6a3d7e83d7477a9d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/9b7b22cea3aaaf6d53088c46a2cb08801ea38ace",
+                "reference": "9b7b22cea3aaaf6d53088c46a2cb08801ea38ace",
                 "shasum": ""
             },
             "require": {
@@ -1021,7 +1075,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/93ec729e3f2f1bb882904cce9d2c1dde6f139ec8",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/6a1bd731dbdd4ad952a3b246a8f38c9c12f52e62",
                 "reference": "6a1bd731dbdd4ad952a3b246a8f38c9c12f52e62",
                 "shasum": ""
             },
@@ -1254,7 +1308,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f4f5bdf6cc84011513ca6b582f85330a09a5037b",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/efb77c10dfb75485998a843154bbc44d8124c4d1",
                 "reference": "efb77c10dfb75485998a843154bbc44d8124c4d1",
                 "shasum": ""
             },
@@ -1389,7 +1443,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/4c7dca690edc85168cff0abe9d1d9aaf4ebb72ce",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/c3527d98d03e61847bd25f9e5cedf86dcc46bebf",
                 "reference": "c3527d98d03e61847bd25f9e5cedf86dcc46bebf",
                 "shasum": ""
             },
@@ -1503,6 +1557,102 @@
                 "rest"
             ],
             "time": "2015-06-16 08:39:26"
+        },
+        {
+            "name": "guzzle/guzzle",
+            "version": "v3.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "abandoned": "guzzlehttp/guzzle",
+            "time": "2015-03-18 18:23:50"
         },
         {
             "name": "ideup/simple-paginator-bundle",
@@ -1758,7 +1908,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/cg-library/zipball/ce8ef43dd6bfe6ce54e5e9844ab71be2343bf2fc",
+                "url": "https://api.github.com/repos/schmittjoh/cg-library/zipball/1.0.0",
                 "reference": "1.0.0",
                 "shasum": ""
             },
@@ -2225,6 +2375,60 @@
             "time": "2014-12-12 05:37:00"
         },
         {
+            "name": "leaseweb/memcache-bundle",
+            "version": "v2.1.11",
+            "target-dir": "Lsw/MemcacheBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LeaseWeb/LswMemcacheBundle.git",
+                "reference": "bdaafc63e355bb248dd0ad35418ea757d5c38323"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LeaseWeb/LswMemcacheBundle/zipball/bdaafc63e355bb248dd0ad35418ea757d5c38323",
+                "reference": "bdaafc63e355bb248dd0ad35418ea757d5c38323",
+                "shasum": ""
+            },
+            "require": {
+                "ext-memcache": ">=3.0",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": ">=2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Lsw\\MemcacheBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maurits van der Schee",
+                    "email": "m.vanderschee@leaseweb.com"
+                }
+            ],
+            "description": "Memcache Doctrine caching and session storage in the Web Debug Toolbar",
+            "homepage": "http://www.leaseweblabs.com",
+            "keywords": [
+                "cache",
+                "memcache",
+                "memcached",
+                "session"
+            ],
+            "time": "2016-09-27 17:12:17"
+        },
+        {
             "name": "leezy/pheanstalk-bundle",
             "version": "2.5.0",
             "target-dir": "Leezy/PheanstalkBundle",
@@ -2282,6 +2486,60 @@
                 "symfony"
             ],
             "time": "2015-03-17 10:37:13"
+        },
+        {
+            "name": "mobiledetect/mobiledetectlib",
+            "version": "2.8.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/serbanghita/Mobile-Detect.git",
+                "reference": "53cddae0c272a478b24a4b5fb60d0f838caf70b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/53cddae0c272a478b24a4b5fb60d0f838caf70b6",
+                "reference": "53cddae0c272a478b24a4b5fb60d0f838caf70b6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "johnkary/phpunit-speedtrap": "~1.0@dev",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Mobile_Detect.php"
+                ],
+                "psr-0": {
+                    "Detection": "namespaced/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serban Ghita",
+                    "email": "serbanghita@gmail.com",
+                    "homepage": "http://mobiledetect.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
+            "homepage": "https://github.com/serbanghita/Mobile-Detect",
+            "keywords": [
+                "detect mobile devices",
+                "mobile",
+                "mobile detect",
+                "mobile detector",
+                "php mobile detect"
+            ],
+            "time": "2016-04-24 09:47:16"
         },
         {
             "name": "monolog/monolog",
@@ -2355,6 +2613,104 @@
                 "psr-3"
             ],
             "time": "2015-03-09 09:58:04"
+        },
+        {
+            "name": "omnipay/common",
+            "version": "v2.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/omnipay-common.git",
+                "reference": "731386e54688405a475d6dd43cd6397728cd709e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-common/zipball/731386e54688405a475d6dd43cd6397728cd709e",
+                "reference": "731386e54688405a475d6dd43cd6397728cd709e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": "~3.9",
+                "php": ">=5.3.2",
+                "symfony/http-foundation": "~2.1|~3.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5.x-dev"
+                },
+                "gateways": [
+                    "AuthorizeNet_AIM",
+                    "AuthorizeNet_SIM",
+                    "Buckaroo_CreditCard",
+                    "Buckaroo_Ideal",
+                    "Buckaroo_PayPal",
+                    "CardSave",
+                    "Coinbase",
+                    "Dummy",
+                    "Eway_Rapid",
+                    "FirstData_Connect",
+                    "GoCardless",
+                    "Manual",
+                    "Migs_ThreeParty",
+                    "Migs_TwoParty",
+                    "Mollie",
+                    "MultiSafepay",
+                    "Netaxept",
+                    "NetBanx",
+                    "PayFast",
+                    "Payflow_Pro",
+                    "PaymentExpress_PxPay",
+                    "PaymentExpress_PxPost",
+                    "PayPal_Express",
+                    "PayPal_Pro",
+                    "Pin",
+                    "SagePay_Direct",
+                    "SagePay_Server",
+                    "SecurePay_DirectPost",
+                    "Stripe",
+                    "TargetPay_Directebanking",
+                    "TargetPay_Ideal",
+                    "TargetPay_Mrcash",
+                    "WorldPay"
+                ]
+            },
+            "autoload": {
+                "psr-0": {
+                    "Omnipay\\Common\\": "src/"
+                },
+                "classmap": [
+                    "src/Omnipay/Omnipay.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Macneil",
+                    "email": "adrian@adrianmacneil.com"
+                },
+                {
+                    "name": "Omnipay Contributors",
+                    "homepage": "https://github.com/thephpleague/omnipay-common/contributors"
+                }
+            ],
+            "description": "Common components for Omnipay payment processing library",
+            "homepage": "https://github.com/thephpleague/omnipay-common",
+            "keywords": [
+                "gateway",
+                "merchant",
+                "omnipay",
+                "pay",
+                "payment",
+                "purchase"
+            ],
+            "time": "2016-07-07 09:52:09"
         },
         {
             "name": "pda/pheanstalk",
@@ -2433,6 +2789,50 @@
             "time": "2014-02-01 15:22:28"
         },
         {
+            "name": "php-imap/php-imap",
+            "version": "2.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barbushin/php-imap.git",
+                "reference": "949826c9b109113ec93a5214e85afce31cba000c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/949826c9b109113ec93a5214e85afce31cba000c",
+                "reference": "949826c9b109113ec93a5214e85afce31cba000c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-imap": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpImap\\": "src/PhpImap/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Barbushin",
+                    "email": "barbushin@gmail.com",
+                    "homepage": "http://linkedin.com/in/barbushin"
+                }
+            ],
+            "description": "PHP class to access mailbox by POP3/IMAP/NNTP using IMAP extension",
+            "homepage": "https://github.com/barbushin/php-imap",
+            "keywords": [
+                "imap",
+                "mail",
+                "php"
+            ],
+            "time": "2016-08-13 15:39:00"
+        },
+        {
             "name": "phpcollection/phpcollection",
             "version": "0.4.0",
             "source": {
@@ -2492,7 +2892,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/049e85ae98a90869e1bc83087f755010e9223091",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/c40bb233bfa59fe8aadc6f3714cf500ec2c38e0f",
                 "reference": "c40bb233bfa59fe8aadc6f3714cf500ec2c38e0f",
                 "shasum": ""
             },
@@ -2901,6 +3301,67 @@
             "time": "2015-01-26 16:25:19"
         },
         {
+            "name": "suncat/mobile-detect-bundle",
+            "version": "v1.0.3",
+            "target-dir": "SunCat/MobileDetectBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/suncat2000/MobileDetectBundle.git",
+                "reference": "e129861471e95bbd7adef470dd19ae9637b82c2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/suncat2000/MobileDetectBundle/zipball/e129861471e95bbd7adef470dd19ae9637b82c2a",
+                "reference": "e129861471e95bbd7adef470dd19ae9637b82c2a",
+                "shasum": ""
+            },
+            "require": {
+                "mobiledetect/mobiledetectlib": "~2.8",
+                "php": ">=5.5.0",
+                "symfony/framework-bundle": "~2.4|~3.0",
+                "twig/twig": "~1.23"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1",
+                "satooshi/php-coveralls": "dev-master",
+                "symfony/phpunit-bridge": "~2.7|~3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "SunCat\\MobileDetectBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nikolay Ivlev",
+                    "email": "nikolay.kotovsky@gmail.com"
+                },
+                {
+                    "name": "Henri Vesala",
+                    "email": "henri.vesala@gmail.com"
+                },
+                {
+                    "name": "netmikey",
+                    "homepage": "https://github.com/netmikey"
+                }
+            ],
+            "description": "Symfony2/3 bundle for detect mobile devices, managing mobile view types, redirect to mobile version.",
+            "homepage": "https://github.com/suncat2000/MobileDetectBundle",
+            "keywords": [
+                "mobile",
+                "mobile detect",
+                "mobile redirect",
+                "mobile view managing",
+                "symfony mobile"
+            ],
+            "time": "2016-03-24 13:25:38"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.0",
             "source": {
@@ -3249,78 +3710,30 @@
             "time": "2015-04-01 16:55:26"
         },
         {
-            "name": "twig/extensions",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twigphp/Twig-extensions.git",
-                "reference": "8cf4b9fe04077bd54fc73f4fde83347040c3b8cd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/8cf4b9fe04077bd54fc73f4fde83347040c3b8cd",
-                "reference": "8cf4b9fe04077bd54fc73f4fde83347040c3b8cd",
-                "shasum": ""
-            },
-            "require": {
-                "twig/twig": "~1.12"
-            },
-            "require-dev": {
-                "symfony/translation": "~2.3"
-            },
-            "suggest": {
-                "symfony/translation": "Allow the time_diff output to be translated"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Twig_Extensions_": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Common additional features for Twig that do not directly belong in core",
-            "homepage": "http://twig.sensiolabs.org/doc/extensions/index.html",
-            "keywords": [
-                "i18n",
-                "text"
-            ],
-            "time": "2014-10-30 14:30:03"
-        },
-        {
             "name": "twig/twig",
-            "version": "v1.18.0",
+            "version": "v1.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf"
+                "reference": "a09d8ee17ac1cfea29ed60c83960ad685c6a898d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4cf7464348e7f9893a93f7096a90b73722be99cf",
-                "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a09d8ee17ac1cfea29ed60c83960ad685c6a898d",
+                "reference": "a09d8ee17ac1cfea29ed60c83960ad685c6a898d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.4"
+                "php": ">=5.2.7"
+            },
+            "require-dev": {
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.18-dev"
+                    "dev-master": "1.26-dev"
                 }
             },
             "autoload": {
@@ -3355,7 +3768,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-01-25 17:32:08"
+            "time": "2016-10-05 18:57:41"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -3457,7 +3870,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-mime/zipball/066d6eecff586a7fb10e8907c032beaf1a9d6104",
+                "url": "https://api.github.com/repos/zendframework/zend-mime/zipball/35ae58792d036828122a168f2e3fc5bd9f3f38c2",
                 "reference": "35ae58792d036828122a168f2e3fc5bd9f3f38c2",
                 "shasum": ""
             },
@@ -3498,7 +3911,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/0027339961ad3d49f91ee092e23f7269c18cb470",
+                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/e646729f2274f4552b6a92e38d8e458efe08ebc5",
                 "reference": "e646729f2274f4552b6a92e38d8e458efe08ebc5",
                 "shasum": ""
             },
