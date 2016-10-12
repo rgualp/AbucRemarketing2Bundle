@@ -1,15 +1,15 @@
-<div class="filters-container">
-    <div class="row gray-mycp">
+<div class="filters-container col-xs-12">
+    <div class="row bg-gray-mycp">
         <div class="col-xs-12">
-            <div class="row p-x-1">
-                <div class="col-xs-7 p-5">
+            <div class="row">
+                <div class="col-xs-7 p-5 p-b-0">
                     <input type="text" class="form-control"
                            {% if app.session.get('search_text') != null and app.session.get('search_text') != 'null' %}value="{{ app.session.get('search_text') }}"{% endif %}
                            placeholder="{{ "PLACE_WATERMARK" | trans }}" id="input_text"
                            autocomplete="off" data-highlighter="null" data-items="5"
                            data-provide="typeahead"/>
                 </div>
-                <div class="col-xs-5 p-5">
+                <div class="col-xs-5 p-5 p-b-0">
                     <select class="form-control bs-select" id="input_guests">
                         <option value="1" {% if app.session.get('search_guests') != null and app.session.get('search_guests') == "1" %} selected {% endif %}>{{ "GUEST_WATERMARK" | trans }}</option>
                         <option value="2" {% if app.session.get('search_guests') != null and app.session.get('search_guests') == "2" %} selected {% endif %}>
@@ -34,8 +34,8 @@
                             +10 {{ "GUESTS" | trans }}</option>
                     </select></div>
             </div>
-            <div class="row p-x-1">
-                <div class="col-xs-4 p-5">
+            <div class="row">
+                <div class="col-xs-4 p-5 p-t-0">
                     <div rel="tooltip" title="{{ 'ARRIVAL_WATERMARK' | trans }}" class="input-group" style="padding: 0">
                         <input class="form-control" type="text"
                                value="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")) }}"
@@ -44,7 +44,7 @@
                         <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                     </div>
                 </div>
-                <div class="col-xs-4 p-5">
+                <div class="col-xs-4 p-5 p-t-0">
                     <div rel="tooltip" title="{{ 'DEPARTURE_WATERMARK' | trans }}" class="input-group" style="padding: 0">
                         <input class="form-control" type="text"
                                value="{{ (app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")) }}"
@@ -53,10 +53,10 @@
                         <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                     </div>
                 </div>
-                <div class="col-xs-4 p-5">
+                <div class="col-xs-4 p-5 p-t-0">
                 {% if is_within_search_results %}
                     <button id="button_research" class="btn btn-primary btn-block pull-right"
-                            data-url="{{ path('frontend_research_ownership_callback') }}">{{ "SEARCH" | trans|capitalize }}</button>
+                            data-url="{{ path('my_cp_mobile_filter_ownership_callback') }}">{{ "SEARCH" | trans|capitalize }}</button>
                 {% else %}
                     <button id="btn_search" class="btn btn-primary btn-block pull-right"
                             data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms','order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books' }) }}"
@@ -80,8 +80,8 @@
                 </select></div>
         </div>
     </div>
-    <div class="row gray-mycp">
-        <div class="col-xs-12">
+    <div class="row bg-gray-mycp">
+        <div class="col-xs-12 p-a-0">
             <div class="col-xs-8 p-5">
                 {#{%for category in owns_categories%}#}
                 {#<div class="checkbox checkbox-searcher col-sm-4">#}
@@ -117,7 +117,7 @@
 
             </div>
             <div class="col-xs-4 p-5 pull-right">
-                <a id="more_filters" class="btn btn-white btn-large pull-right collapsed" data-toggle="collapse"
+                <a id="more_filters" class="btn btn-default btn-block pull-right m-a-0 collapsed" data-toggle="collapse"
                    href="#collapseFilters" style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
             </div>
         </div>

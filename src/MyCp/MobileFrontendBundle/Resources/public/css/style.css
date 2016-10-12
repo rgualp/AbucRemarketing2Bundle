@@ -86,6 +86,9 @@ h6{
     color: #2e2e2e !important;
 }
 
+.color-454242{
+    color: #454242;
+}
 
 .f-s-10{
     font-size: 0.625rem !important;
@@ -137,6 +140,10 @@ h6{
 }
 .f-separate-0{
     letter-spacing: 0;
+}
+
+.f-f-Arial{
+    font-family: Arial;
 }
 
 .line-height-1{
@@ -219,6 +226,14 @@ h6{
     color: #7f8b8c;
 }
 
+.bg-gray-mycp{
+    background-color: #cfcfcf;
+}
+
+.bg-green-mycp{
+    background: #86b32b none repeat scroll 0 0;
+}
+
 .gray-mycp{
     color: #cfcfcf;
 }
@@ -247,6 +262,10 @@ h6{
 }
 .orange_premium{
     color: #fa701d;
+}
+
+.border-top-gray {
+    border-top: 2px solid #888;
 }
 
 .background-effect{
@@ -489,9 +508,20 @@ footer .list-inline li a {
     margin-bottom: 15px;
     padding-left: 26px;
     cursor: pointer;
-    color: #fff;
     text-align: left;
-    font-family: Montserrat-Light, helvetica, arial, sans-serif;
+}
+
+.control.control--btn {
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    top: -4px;
 }
 
 .control input {
@@ -510,12 +540,18 @@ footer .list-inline li a {
     border: 1px solid #fff;
 }
 
-.control__indicator.border-gray {
-    border: 1px solid #ccc;
+.control.control--btn .control__indicator {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 3px;
+    height: auto;
+    padding: 7px;
+    position: relative;
+    width: auto;
 }
 
-.list-inline .control__indicator {
-    margin-top: 5px;
+.control__indicator.border-gray {
+    border: 1px solid #454242;
 }
 
 .control--radio .control__indicator {
@@ -530,11 +566,21 @@ footer .list-inline li a {
 
 /* Checked state */
 .control input:checked ~ .control__indicator {
-    border-radius: 2px;
-    border: 1px solid #fff;
+    background: transparent;
+    border: 0 none;
+    border-radius: 3px;
 }
 .control input:checked ~ .control__indicator.border-gray {
-    border: 1px solid #ccc;
+    border: 1px solid #454242;
+}
+
+.control.control--btn input:checked ~ .control__indicator{
+    background: #eeeced none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 3px;
+    height: auto;
+    padding: 7px;
+    width: auto;
 }
 
 /* Hover state whilst checked */
@@ -573,6 +619,10 @@ footer .list-inline li a {
     border-width: 0 3px 3px 0;
 }
 
+.control.control--checkbox.control--btn .control__indicator:after{
+    display: none;
+}
+
 /* Checkbox tick */
 .control--checkbox .control__indicator.red:after {
     border-color: #c4312b;
@@ -597,14 +647,34 @@ footer .list-inline li a {
 .control--radio input:disabled ~ .control__indicator:after {
     background: #7b7b7b;
 }
-/*@media (max-width: 543px) { ... }*/
 
-/*// Small devices (landscape phones, less than 768px)*/
-/*@media (max-width: 767px) { ... }*/
-@media (max-width: 543px) {
-
+.filters-container {
+    box-shadow: 0 -2px 2px #888;
+    margin-top: 10px;
+}
+.filters-container .form-control{
+    box-shadow: none;
+    font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
+/* More Filters */
 
+.mobile-more-filter{
+    box-shadow: 1px -1px 4px #666;
+    padding-top: 10px;
+}
+
+.content-button{
+    bottom: 0;
+    left: 0;
+    padding: 9px;
+    position: absolute;
+    width: 100%;
+    background-color: #cfcfcf;
+}
+
+#filter_upper{
+    float: left;
+    padding: 7px 7px 0;
+    width: 100%;
 }
