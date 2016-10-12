@@ -798,7 +798,7 @@ WHERE pard.reservationDetail = :gen_res_id";
             $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
         }
 
-        $queryString = "select gres.gen_res_id, gres.gen_res_date,cl.fullname as clientname, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
+        $queryString = "select gres.gen_res_id , us.user_id as usser_id, gres.gen_res_date,cl.fullname as clientname, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
 COUNT(owres.own_res_id) as totalTooms, res.adults as adults,
 (SELECT count(owress) FROM mycpBundle:ownershipReservation owress WHERE owress.own_res_gen_res_id = gres.gen_res_id) AS rooms,
 res.children as childrens, (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gres.gen_res_id) as isOffer,
@@ -808,7 +808,9 @@ gres.gen_res_total_in_site as totalPrice,
 gres.gen_res_status
 from mycpBundle:ownershipreservation owres
 JOIN owres.own_res_gen_res_id gres
+
 JOIN gres.gen_res_own_id own
+ JOIN gres.gen_res_user_id us
 JOIN own.own_destination d
 JOIN gres.travelAgencyDetailReservations resDet
 JOIN resDet.reservation res
