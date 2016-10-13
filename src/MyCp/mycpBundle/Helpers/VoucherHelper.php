@@ -56,9 +56,6 @@ class VoucherHelper {
             foreach ($bookings_ids as $bookId) {
                 $bookId = $bookId['booking_id'];
 
-                /*var_dump($createVoucher);
-                die;*/
-
                 $pdfFilePath = "";
                 if($createVoucher)
                     $pdfFilePath = $bookingService->createBookingVoucher($bookId);

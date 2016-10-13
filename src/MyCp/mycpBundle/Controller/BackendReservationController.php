@@ -67,6 +67,8 @@ class BackendReservationController extends Controller {
                 $general_reservation = $resultReservations['generalReservation'];
 
                 $serviceFee = $gen_res->getServiceFee();
+                //var_dump($serviceFee->getId()); die;
+
                 $general_reservation->setServiceFee($serviceFee);
 
                 //Deleting booking association from cancelled and payed reservation

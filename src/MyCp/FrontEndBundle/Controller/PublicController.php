@@ -80,6 +80,7 @@ class PublicController extends Controller {
                 'economic_total' => $statistics['economic_total']
             ));
         }else{
+            $slides = Utils::loadFrontendSlides();
             $response = $this->render('FrontEndBundle:public:home.html.twig', array(
                 'locale' => $glogal_locale,
                 'provinces' => $provinces,
@@ -87,7 +88,8 @@ class PublicController extends Controller {
                 'own_top20_list' => $own_top20_list,
                 'premium_total' => $statistics['premium_total'],
                 'midrange_total' => $statistics['midrange_total'],
-                'economic_total' => $statistics['economic_total']
+                'economic_total' => $statistics['economic_total'],
+                'slides' => $slides
             ));
         }
 
