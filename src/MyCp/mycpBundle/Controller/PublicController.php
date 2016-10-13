@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use MyCp\mycpBundle\Entity\user;
 
@@ -63,6 +64,22 @@ class PublicController extends Controller
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'selected'=>$selected));
     }
 
+    public function get_mun_by_prov_chosen_callbackAction($country_code,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$country_code), array("mun_name" => "ASC"));
+
+        $data = array();
+
+        foreach ($municipalities as $item) {
+            $arrTmp = array();
+            $arrTmp['id'] = $item->getMunId();
+            $arrTmp['name'] = $item->getMunName();
+
+            $data['aaData'][] = $arrTmp;
+        }
+        return new JsonResponse($data);
+    }
     public function get_mun_by_prov_callbackAction($country_code,Request $request)
     {
         $em = $this->getDoctrine()->getManager();

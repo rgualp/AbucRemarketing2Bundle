@@ -54,9 +54,7 @@
 				this.tooltip.addClass('right')[0].style.left = '100%';
 				break;
 			default:
-				this.picker
-					.addClass('slider-horizontal')
-					.css('width', this.element.outerWidth());
+				this.picker.addClass('slider-horizontal');
 				this.orientation = 'horizontal';
 				this.stylePos = 'left';
 				this.mousePos = 'pageX';
