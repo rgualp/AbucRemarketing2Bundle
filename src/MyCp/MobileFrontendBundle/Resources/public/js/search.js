@@ -59,6 +59,51 @@ var Search = function(){
 
     }
 
+    var initMaps = function (classs) {
+
+        $(".show-map-btn").each(function () {
+            $(this).unbind();
+            $(this).click(function (e) {
+
+                $(classs).each(function (e) {
+                    var parent = $(this).parent();
+                    if (!parent.hasClass("toClose")){
+                        parent.addClass("toClose");
+                    }
+                });
+
+                e.preventDefault();
+                var ele = $($(this).attr("href"));
+                if (ele.hasClass("toClose")){
+                    ele.removeClass("toClose");
+                    ele.removeClass('animated bounceIn').addClass('animated bounceIn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                        $(this).removeClass('animated bounceIn');
+                    });
+                }
+            });
+        });
+
+        $(classs).each(function (e) {
+            var lat = $(this).attr("data-x");
+            var lon = $(this).attr("data-y");
+            var id = $(this).attr("id");
+            if (!$(this).hasClass("has-map")){
+                $(this).addClass("has-map")
+                Map.init(id, 15, lat, lon);
+                var parent = $(this).parent();
+                parent.find(".close-btn").click(function (e) {
+                    e.preventDefault();
+                    if (!parent.hasClass("toClose")){
+                        parent.removeClass('animated bounceOut').addClass('animated bounceOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                            $(this).removeClass('animated bounceOut');
+                            $(this).addClass("toClose");
+                        });
+                    }
+                });
+            }
+        });
+    };
+
     var datePickersStarUp_searcher = function () {
         $('.show_calendar').click(function(){
             $("#"+$(this).prev().attr('id')).datepicker('show');
@@ -171,6 +216,8 @@ var Search = function(){
 
         if (update)
             _page++;
+        else
+            _page = 1;
 
         var checked_filters = load_upper_filters(_page);
 
@@ -184,7 +231,7 @@ var Search = function(){
             Mycp.manage_favorities(".favorite_off_action");
             Mycp.manage_favorities(".favorite_on_action");
             hide_loading();
-            // initialize_map();
+            initMaps(".google-maps");
         });
 
         return false;

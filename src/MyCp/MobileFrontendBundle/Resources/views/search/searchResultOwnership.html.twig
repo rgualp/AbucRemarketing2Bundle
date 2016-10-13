@@ -81,11 +81,18 @@
 {% endblock %}
     {% block javascripts %}
         {{ parent() }}
+
+        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+
         {% javascripts
         '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
         '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
         '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
         '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.infobox.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.markerclusterer.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/Map.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/ownership.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/search.js'
         filter='?uglifyjs2' %}

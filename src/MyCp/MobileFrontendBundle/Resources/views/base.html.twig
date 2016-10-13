@@ -14,6 +14,7 @@
             '@FrontEndBundle/Resources/public/css/glyphicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/myicons.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/animate.css'
             '@FrontEndBundle/Resources/public/css/custom.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
         filter='?uglifycss'
@@ -155,8 +156,6 @@
     {% endblock %}
 
     {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
-
-    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
 
     <script>
         var start_date ="{{"now"|date("d/m/Y") }}";
