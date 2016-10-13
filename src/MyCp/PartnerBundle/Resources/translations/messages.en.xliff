@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-08T09:29:58Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-13T09:42:27Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -450,6 +450,10 @@
         <source>PAYMENT_DETAILS</source>
         <target state="new">Payment Details</target>
       </trans-unit>
+      <trans-unit id="ca8ff9cff8fbd48bd4aeeb376840119ace06c138" resname="PAYMENT_SUCCESS">
+        <source>PAYMENT_SUCCESS</source>
+        <target state="new">PAYMENT_SUCCESS</target>
+      </trans-unit>
       <trans-unit id="3711a43b8985a6bb196946d50507f3e5c3427e5c" resname="PAY_AT_ACCOMMODATION">
         <source>PAY_AT_ACCOMMODATION</source>
         <target state="new">Cash Payment on Arrival</target>
@@ -594,6 +598,10 @@
         <source>SKRILL_CONFIRMATION_NOTE</source>
         <target state="new">SKRILL_CONFIRMATION_NOTE</target>
       </trans-unit>
+      <trans-unit id="4e60794f8576c288f9dd189389ece74e886c1e2a" resname="SKRILL_PAYMENT">
+        <source>SKRILL_PAYMENT</source>
+        <target state="new">SKRILL_PAYMENT</target>
+      </trans-unit>
       <trans-unit id="c7b0be04b420b527b7d312b9fd250af7378303bd" resname="SKRILL_PAY_WITH_SKRILL">
         <source>SKRILL_PAY_WITH_SKRILL</source>
         <target state="new">SKRILL_PAY_WITH_SKRILL</target>
@@ -613,6 +621,10 @@
       <trans-unit id="4fb174ba221aa931110aec64fc2e70929dd9649d" resname="STEREO_ROOMS">
         <source>STEREO_ROOMS</source>
         <target state="new">STEREO_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="6db5f2e013eabc0f0e2ccea53d5923206752ad58" resname="Skrill">
+        <source>Skrill</source>
+        <target state="new">Skrill</target>
       </trans-unit>
       <trans-unit id="2873242b7fb5b76431a3ad1917a61e16b7338124" resname="Solicitar Casa">
         <source>Solicitar Casa</source>
@@ -812,11 +824,11 @@
       </trans-unit>
       <trans-unit id="5ea0450614d267be96ac87aedf82aebf5f79131a" resname="content.email.partner_deactivateaccount">
         <source>content.email.partner_deactivateaccount</source>
-        <target state="new"><![CDATA[MyCasa Partner Team regrets that you have to deactivate your account. If you are decided, we can only wish you good luck for the future. We hope that the experience of working with us has given you lots of positive energy.</br>
+        <target state="new"><![CDATA[MyCasaPartner Team regrets that you have to deactivate your account. If you are decided, we can only wish you good luck for the future. We hope that the experience of working with us has given you lots of positive energy.</br>
                                      You know where we are, if you were once Partner, that spirit never leaves you.</br>
                                      From now on your account is deactivated and you will no longer be able to access your data or record with us.</br>
                                      It has been a pleasure to collaborate with you,</br>
-                                     MyCasa Partner Team]]></target>
+                                     MyCasaPartner Team]]></target>
       </trans-unit>
       <trans-unit id="85abe55d1de6ad8868e5c68683a3c2f7063a073a" resname="content.email.partnerteam_deactivateaccount">
         <source>content.email.partnerteam_deactivateaccount</source>
@@ -824,7 +836,7 @@
                                         A new Travel Agency has deactivated its account with MyCasaPartner. The account  agency_name under the name of agency_resp, has been deactivated.</br>
                                         Up to now, it was operating with the benefits of the (Basic) package.  We are really sorry.</br>
                                         Good Luck!</br>
-                                        MyCasa Partner Team]]></target>
+                                        MyCasaPartner Team]]></target>
       </trans-unit>
       <trans-unit id="49f5bf1907f06913b207622d150991f81f7e996b" resname="content.five.email.partner_mcpteam">
         <source>content.five.email.partner_mcpteam</source>
@@ -840,11 +852,11 @@
       </trans-unit>
       <trans-unit id="3315093192321a76a7a9180a980f88f7721e32dc" resname="content.nine.email.partner_mcpteam">
         <source>content.nine.email.partner_mcpteam</source>
-        <target state="new">We have made a new partner!  Good Luck! MyCasa Partner Team</target>
+        <target state="new">We have made a new partner!  Good Luck! MyCasaPartner Team</target>
       </trans-unit>
       <trans-unit id="6cbe9f484fa9461a12118b23fe5b5f9576ccfe71" resname="content.one.email.partner_mcpteam">
         <source>content.one.email.partner_mcpteam</source>
-        <target state="new">Hello MyCasa Particular Team, A new travel agency has joined MyCasa Partner. It about</target>
+        <target state="new">Hello MyCasa Particular Team, A new travel agency has joined MyCasaPartner. It about</target>
       </trans-unit>
       <trans-unit id="3d83b2ed86895715bf787ed27d54961a89115cef" resname="content.seven.email.partner_mcpteam">
         <source>content.seven.email.partner_mcpteam</source>
@@ -1180,7 +1192,7 @@
       </trans-unit>
       <trans-unit id="bdf3a5ca26c9e7c9fc9cd21a8c280d756a3d348c" resname="label.email.registeraccount.text.one">
         <source>label.email.registeraccount.text.one</source>
-        <target state="new"><![CDATA[Congratulattions!!! You have become a MyCasa Partner member. This is the first step of a great collaboration<br/>
+        <target state="new"><![CDATA[Congratulattions!!! You have become a MyCasaPartner member. This is the first step of a great collaboration<br/>
                             We will just offer you the best and more exclusive Casas Particulares of Cuba. We guarantee your customers a happy and welcoming stay and a wonderful service from our hosts.<br/>
                             You just have to try your best to take the best advantage of this starting partnership. You are already in, so you already have the Partner style.<br/>]]></target>
       </trans-unit>
@@ -1202,12 +1214,12 @@
       </trans-unit>
       <trans-unit id="776cb7f159fc7feda10e4d95fce02288a9c02979" resname="label.email.voucher">
         <source>label.email.voucher</source>
-        <target state="new"><![CDATA[MyCasa Partner team is happy to find ideal options for your customers taking into account the reservations have been paid successfully.</br>
+        <target state="new"><![CDATA[MyCasaPartner team is happy to find ideal options for your customers taking into account the reservations have been paid successfully.</br>
                                      Our Hosts awaits with gladness the arrival of the new guests to offer them just the most exclusive  of Cuban Casas Particulares.</br>
                                      After all, your customers are our best friends</br>
                                      Attached to this e-amil, we send the reservation´s  details.</br>
                                      Good Luck!</br>
-                                     MyCasa Partner Team.]]></target>
+                                     MyCasaPartner Team.]]></target>
       </trans-unit>
       <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
         <source>label.extra</source>
@@ -1539,14 +1551,6 @@
         <source>label.overlay.cart_1</source>
         <target>You have selected these bookings to please your clients’ requests.</target>
       </trans-unit>
-      <trans-unit id="29724fc103f3c95dc8797cb2720e3cdf3e065008" resname="label.overlay.cart_2">
-        <source>label.overlay.cart_2</source>
-        <target>Complete the data and check once more before  buying.</target>
-      </trans-unit>
-      <trans-unit id="3ea97c6b7ad23fed52137fe9d8fc6d67a23d802a" resname="label.overlay.cart_3">
-        <source>label.overlay.cart_3</source>
-        <target>Good Luck!</target>
-      </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
         <target state="new">Password</target>
@@ -1586,6 +1590,10 @@
       <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
         <source>label.ready.reserved</source>
         <target state="new">¿Are you ready to book big time?</target>
+      </trans-unit>
+      <trans-unit id="6ac8d9e729656ffc9a1b31a14956013c7332ea25" resname="label.register">
+        <source>label.register</source>
+        <target state="new">Register</target>
       </trans-unit>
       <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
         <source>label.register.agency</source>
@@ -1783,8 +1791,8 @@
                                      To use our platform to commit any crime of any kind.</br>
                                      To publish, use or broadcast through our website any material that might be illegal, threatening, abusive, vulgar, defamatory, obscene, sexual explicit, pornographic or profane.</br>
                                      To publish addresses URLs or phone numbers.</br>
-                                     MyCasa Partner</br>
-                                     MyCasa Partner is a web platform associated with MyCasaParticular.com, which aim is to facilitate the booking management through a third person (Travel Agencies and Tour Operators). This product proposes 4 service packages with different functions. The Agency would select the one of its preference.</br>
+                                     MyCasaPartner</br>
+                                     MyCasaPartner is a web platform associated with MyCasaParticular.com, which aim is to facilitate the booking management through a third person (Travel Agencies and Tour Operators). This product proposes 4 service packages with different functions. The Agency would select the one of its preference.</br>
                                      Through MyCasaPartner.com you may manage  more than 5000 lodgings with description and specifications in Spanish, English and German languages for which the availability can be checked, make fast and immediate  bookings, among other services and benefits according to the Clients´ contract.</br>
                                      Payment System works the same way that it was clarified previously.</br>
                                      To establish the security  for Users, there cannot be  simultaneous account to a same email address, the permits to access the system can only be modified by its Administrator and it will be saved (for security reasons) regularly, storing all the data in a completely safe location.</br>
@@ -2030,9 +2038,9 @@
       </trans-unit>
       <trans-unit id="6e463a00f9dcd7af7fb3679d07c664454be2510a" resname="partner.email.registeraccount.beta">
         <source>partner.email.registeraccount.beta</source>
-        <target state="new"><![CDATA[<p>It is a great that you want to become a member of MyCasa Partner. This will be the first step towards an excellent collaboration.</p>
+        <target state="new"><![CDATA[<p>It is a great that you want to become a member of MyCasaPartner. This will be the first step towards an excellent collaboration.</p>
                                      <p>We will offer you only the best and more exclusive of Casas Particulares in Cuba. Right now, our product is working on a Beta version.</p>
-                                     <p>Very soon, we will let you know the necessary data so you can activate your Agency Account as to start using   MyCasa Partner.</p>
+                                     <p>Very soon, we will let you know the necessary data so you can activate your Agency Account as to start using   MyCasaPartner.</p>
                                      <p>You are on the right track. We will guarantee you a happy and cozy stay for your clients, and a wonderful service on behalf of the Hosts.</p>
                                      <p>Soon we will be able to get the best profits from this partnership, and it is good we can do it in Partner style.</p>
                                      <p>Congratulations!</p>
