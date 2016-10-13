@@ -214,6 +214,8 @@ class SearchUtils {
                             o.own_rating as rating,
                             o.own_category as category,
                             o.own_type as type,
+                            o.own_geolocate_x as OwnGeolocateX,
+                            o.own_geolocate_y as OwnGeolocateY,
                             o.own_minimum_price as minimum_price,
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(a1.id) FROM mycpBundle:accommodationAward aw1 JOIN aw1.award a1 WHERE aw1.accommodation = o.own_id ORDER BY aw1.year DESC, a1.ranking_value DESC) as award1,
