@@ -424,4 +424,15 @@ class paTravelAgency extends baseEntity
     {
         return $this->tourOperators;
     }
+
+    /**
+     * Set tourOperators
+     *
+     * @return mixed
+     */
+    public function setTourOperators($tourOperators)
+    {
+        $this->tourOperators = $tourOperators;
+        return $this;
+    }
 }

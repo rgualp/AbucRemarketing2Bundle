@@ -18,16 +18,8 @@
                             <img id="icon_down_{{ item.id }}" data-id ="{{ item.id }}" class="icon-down {% if item.showOpened %}hide{% endif %}" src="{{ asset('bundles/partner/img/icon/back_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}" data-url="{{ path("partner_dashboard_cart_show_reservation_details") }}"/>
                             <img id="icon_up_{{ item.id }}" data-id ="{{ item.id }}" class="{% if not item.showOpened %}hide{% endif %} icon-up" src="{{ asset('bundles/partner/img/icon/top_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}"/>
 
-                            <h2> {{ item.available }} {{ "available_casas" | trans }} / <span id="accommodationsToPay_{{ item.id }}">0</span> {{ "requested_casas" | trans }} </h2>
                         </div>
-                        <div  class="col-md-2 text-right">
-                            <h2><a class="deleteFromCart" data-id="{{ item.id }}" data-url="{{ path("partner_dashboard_delete_from_cart") }}"><i class="glyphicons bin" style="margin-bottom: 10px"></i>  {{ "backend.delete" | trans }}</a></h2>
-                        </div>
-                        <div class="col-md-1" style="margin-top: 1.8%;">
-                            <img id="icon_down_{{ item.id }}" data-id ="{{ item.id }}" class="icon-down" src="{{ asset('bundles/partner/img/icon/back_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}" data-url="{{ path("partner_dashboard_cart_show_reservation_details") }}"/>
-                            <img id="icon_up_{{ item.id }}" data-id ="{{ item.id }}" class="hide icon-up" src="{{ asset('bundles/partner/img/icon/top_lighter.png')}}" style="cursor: pointer" data-element="#reservationContent_{{ item.id }}"/>
 
-                        </div>
                         <div class="col-md-1" style="margin-top: 1.5%;">
                             <div class="hide" id="loading_{{ item.id }}">
                                 <i class="fa fa-refresh fa-spin fa-2x" style="margin-bottom: 10px"></i>
@@ -55,23 +47,19 @@
 
     <div class="col-md-6 text-right">
         <a class="bg-grey color-white payButton {% if disablePaymentButton %}hide{% endif %}" id="toPayButtonAction">
-            <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
+            <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}
         </a>
         <a class="bg-blue color-white payButton {% if not disablePaymentButton %}hide{% endif %}" id="trigger-overlay" data-url="{{ path("partner_dashboard_pay_selected_reservations_cart") }}" disabled="disabled">
-            <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
+            <i class="glyphicons coins"></i>  {{ "cart.paynow_button" | trans }}
         </a>
     </div>
     <div class="col-md-6 text-left">
         <a class="bg-blue color-white payButton" id="emptyCart" data-url="{{ path("partner_dashboard_empty_cart") }}">
-            <i class="glyphicons bin"></i> {{ "cart.empty_button" | trans }}</a>
+            <i class="glyphicons bin"></i> {{ "cart.empty_button" | trans }}
         </a>
     </div>
     </div>
 
-        <a class="bg-blue color-white" id="payButton">
-            <i class="glyphicons coins"></i>  {{ "pay_action" | trans }}</a>
-        </a>
-    </div>
 
 {% else %}
     <div class="container">

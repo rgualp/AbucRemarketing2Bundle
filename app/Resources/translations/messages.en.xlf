@@ -3876,19 +3876,7 @@
              <trans-unit id="974">
                                                                                              <source>MOST_VISITED_CITIES_TITLE</source>
                                                                                              <target>Most visited cities in Cuba </target>
-
-
                                                                                          </trans-unit>
-
-                                                                                          <trans-unit id="976">
-                                                                                                                                                                                                        <source>JOIN_CASA</source>
-                                                                                                                                                                                                        <target>¡Únete! Inscribe tu casa</target>
-                                                                                                                                                                                                   </trans-unit>
-                                                                                                                                                                                                   <trans-unit id="10976">
-                                                                                                                                                                                                        <source>JOIN_PARTNER</source>
-                                                                                                                                                                                                        <target>¡DO PARTNER!</target>
-                                                                                                                                                                                                   </trans-unit>
-
        <trans-unit id="977">
             <source>PRICE_TOTAL_TO_PAY</source>
             <target>Total to pay</target>
@@ -3942,23 +3930,41 @@
                      <source>RESERVATION_COST</source>
                      <target>Booking Price</target>
                 </trans-unit>
-                <trans-unit id="990">
+
+			<trans-unit id="990">
+           <source>POSTFINANCE_PAYMENT</source>
+           <target>You can pay using Postfinance, VISA o MASTERCARD</target>
+       </trans-unit>
+
+        <trans-unit id="991">
+          <source>VISA_PAYMENT</source>
+          <target>You can pay using Visa</target>
+        </trans-unit>
+        <trans-unit id="992">
+          <source>MASTERCARD_PAYMENT</source>
+          <target>You can pay using Mastercard</target>
+        </trans-unit>
+        <trans-unit id="993">
+          <source>PAYMENT_SUCCESS</source>
+          <target>Great! You´ve paid all your reservations successfully. Cuba awaits.</target>
+        </trans-unit>
+	     <trans-unit id="994">
                      <source>CREATE_ACCOUNT_SUCCESS</source>
                      <target>You have successfulyl registered in MyCasaParticular</target>
                 </trans-unit>
-                <trans-unit id="991">
+                <trans-unit id="995">
                      <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
                      <target>Thank you for registering yourself in MyCasaParticular</target>
                 </trans-unit>
-                <trans-unit id="992">
+                <trans-unit id="996">
                      <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
                      <target>You have successfulyl registered in MyCasaParticular.</target>
                 </trans-unit>
-                <trans-unit id="993">
+                <trans-unit id="997">
                      <source>NEW_USER_ACCOUNT</source>
                      <target>New User Account</target>
                 </trans-unit>
-                <trans-unit id="994">
+                <trans-unit id="998">
                      <source>Logo</source>
                      <target>Logo</target>
                 </trans-unit>

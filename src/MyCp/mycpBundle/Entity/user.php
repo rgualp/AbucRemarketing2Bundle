@@ -170,9 +170,15 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $user_language;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paTourOperator", mappedBy="tourOperator")
+     */
+    private $tourOperators;
+
     public function __construct() {
         $this->comments = new ArrayCollection();
         $this->modified_reservations = new ArrayCollection();
+        $this->tourOperators = new ArrayCollection();
     }
 
 
@@ -872,5 +878,50 @@ class user implements AdvancedUserInterface,  \Serializable
     public function getUserLanguage()
     {
         return $this->user_language;
+    }
+
+    /**
+     * Add tourOperator
+     *
+     * @param \MyCp\PartnerBundle\Entity\paTourOperator $tourOperator
+     *
+     * @return paTravelAgency
+     */
+    public function addTourOperator(\MyCp\PartnerBundle\Entity\paTourOperator $tourOperator)
+    {
+        $this->tourOperators[] = $tourOperator;
+
+        return $this;
+    }
+
+    /**
+     * Remove tourOperator
+     *
+     * @param \MyCp\PartnerBundle\Entity\paTourOperator $tourOperator
+     */
+    public function removeTourOperator(\MyCp\PartnerBundle\Entity\paTourOperator $tourOperator)
+    {
+        $this->tourOperators->removeElement($tourOperator);
+    }
+
+    /**
+     * Get tourOperators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTourOperators()
+    {
+        return $this->tourOperators;
+    }
+
+    /**
+     * Set tourOperators
+     *
+     * @return mixed
+     */
+    public function setTourOperators($tourOperators)
+    {
+        $this->tourOperators = $tourOperators;
+        return $this;
     }
 }

@@ -19,7 +19,7 @@ class paTourOperator extends baseEntity
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="paTravelAgency",inversedBy="agencyPackages")
+     * @ORM\ManyToOne(targetEntity="paTravelAgency",inversedBy="tourOperators")
      * @ORM\JoinColumn(name="travel_agency",referencedColumnName="id")
      */
     private $travelAgency;
