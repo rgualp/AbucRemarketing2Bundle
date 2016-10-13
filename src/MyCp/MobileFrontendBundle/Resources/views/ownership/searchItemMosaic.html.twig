@@ -1,0 +1,123 @@
+{% if list | length%}
+    {%for ownership in list%}
+        <div class="col-xs-12 relative">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div style="background-image: url('{{ (ownership.photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") }}')"
+                             class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
+
+                             {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %}
+                             style="position:relative" rel="tooltip"
+                             title="{% if ownership.OwnInmediateBooking %}{{ "quick_booking_tooltip" | trans }}{% else %}{{ "MORE_INFO_PREFFIX" | trans }} {{ownership.own_name | title }}
+
+         {% endif %}">
+
+                            {% if ownership.OwnInmediateBooking %}
+                                <div class="quick-ribbon">
+                                    <i class="glyphicons white electricity"></i> <span
+                                            style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+                            {% endif %}
+                            <div class="thumbnail-title p-x-1 clearfix">
+                                {% if ownership.award %}
+                                    <img src="{{ asset("uploads/awards/" ~ ownership.award) }}"
+                                         style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px"
+                                         alt="{{ "Awards" | trans }}"/>
+                                {% endif %}
+                                <span class="h-blue pull-right text-uppercase f-s-30 m-a-0"><small
+                                            style="display: inline-block">{{ "FROM" | trans }}:</small> {{ownership.minimum_price | price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 bg-gray-e6e6e6">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <a class="f-s-14 f-f-Arial f-w-bold" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                                <div class="h-blue m-t-0">{{ownership.own_name | title }}</div>
+                            </a>
+                        </div>
+                        <div class="col-xs-4 p-x-5">
+                            <ul class="list-inline row-vertical-center pull-right line-height-1">
+                                <li>
+                                    <a class="show-map-btn f-s-36 gray" href="#for-map-{{ ownership.own_id }}"><i class="ion-ios-location-outline"></i></a>
+                                </li>
+                                <li>
+                                    {{ include('@MyCpMobileFrontend/favorite/itemFavorite.html.twig',
+                                    {'is_in_favorite': ownership.is_in_favorites,
+                                        'favorite_type': 'ownership',
+                                        'element_id':ownership.own_id,
+                                        'list_preffix' : list_preffix,
+                                        'include_text': false
+                                    }) }}
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 p-0">
+                                    <p class="f-s-Arial f-s-14" style="margin: 0;">{{ ownership.prov_name | trans }}, {{ ownership.mun_name }}</p>
+                                </div>
+                                <div class="col-xs-12 p-0">
+                                    <p class="f-s-Arial f-s-14" style="margin: 0;">{{ ownership.type | trans }}/ {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space space-20"></div>
+                        <div class="col-xs-12 p-b-1">
+                            <div class="row row-vertical-center">
+                                <div class="col-xs-5 p-l-1 p-5">
+                                    {%if ownership.category == "Premium"%}
+                                        <i style="display: inline-block" class="glyphicons crown orange_premium"></i>
+                                    {%else%}
+                                        {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
+                                            <i style="display: inline-block" class="glyphicons cup green_mid_range"></i>
+                                        {%else%}
+                                            <i style="display: inline-block" class="glyphicons certificate blue_economic"></i>
+                                        {%endif%}
+                                    {%endif%}
+                                    <span style="display: inline-block" class="f-s-14">{{ownership.category | trans}}</span>
+                                </div>
+                                <div class="col-xs-5 p-a-0 text-xs-center">
+                                    <div class="rating">
+                                        {% set rating = ownership.rating %}
+                                        {%if rating > 0%}
+                                            {%for i in 1..rating%}
+                                                <i class="f-s-24 ion-ios-star yellow-color"></i>
+                                            {%endfor%}
+                                        {%endif%}
+
+                                        {%if rating < 5%}
+                                            {%for i in 1..(5-rating)%}
+                                                <i class="f-s-24 ion-ios-star"></i>
+                                            {%endfor%}
+                                        {%endif%}
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 p-a-0 text-xs-center">
+                                    <span class="speech">{{ ownership.comments_total }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="for-map-{{ ownership.own_id }}" class="for-map toClose">
+                <a class="close-btn" href="#"><i class="ion-android-close"></i></a>
+                {% set image = (ownership.photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")  %}
+                <div id="google-map-{{ ownership.own_id }}" class="google-maps" style="width:100%;height: 378px;"
+                     data-x="{{ownership.OwnGeolocateX}}"
+                     data-y="{{ownership.OwnGeolocateY}}"
+                     data-name="{{ownership.own_name}}"
+                     data-description=""
+                     data-image="{{ image }}"
+                     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
+                </div>
+            </div>
+        </div>
+        <div class="space space-20"></div>
+    {%endfor%}
+{% endif %}
