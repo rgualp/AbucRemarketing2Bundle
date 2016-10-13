@@ -328,7 +328,7 @@ class BackendReservationController extends Controller {
             $paginator->setItemsPerPage($items_per_page);
 
             $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page))->getResult();
+                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, false))->getResult();
             $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
             $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
             $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
