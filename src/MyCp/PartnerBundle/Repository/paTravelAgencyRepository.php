@@ -78,7 +78,7 @@ class paTravelAgencyRepository extends EntityRepository
             . $translator->trans('content.heiht.email.partner_mcpteam', array(), "messages", 'es') . ' ' . $email_contact . '.</br>'
             . $translator->trans('content.nine.email.partner_mcpteam', array(), "messages", 'es') . '</p>';
 
-        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'reservation@mycasaparticular.com', $content);
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'reservation.partner@mycasaparticular.com', $content);
 
         return $user;
     }
