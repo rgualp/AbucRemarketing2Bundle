@@ -2265,9 +2265,9 @@ group by gres.gen_res_id";
         if ($filter_status != "") {
             $where .= (($where != "") ? " AND " : " WHERE ") . " getClientStatus(u.user_id, gres.gen_res_date) = :filter_status";
         }
+        $where .= (($where != "") ? " AND " : " WHERE ") . " u.user_role <> 'ROLE_CLIENT_PARTNER' ";
 
-
-        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,
+        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,u.user_role,
             SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
             COUNT(DISTINCT gres.gen_res_id) as total,
             MAX(gres.gen_res_date_hour) as hourRes,
