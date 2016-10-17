@@ -66,7 +66,7 @@ class Utils {
 
    public static function loadFrontendSlides()
    {
-       $number = 0; //rand(1, 4);
+       $number = rand(1, 4);
        $folderSliderPath = "bundles/frontend/img/slideshow/".$number."/";
        $slides = glob($folderSliderPath.'*.{jpg,gif,png}', GLOB_BRACE);
        return $slides;

@@ -692,7 +692,8 @@ class BookingService extends Controller
                     'nights' => $arrayNightsByOwnershipReservation,
                     'payment_pending' => $paymentPending,
                     'rooms' => $rooms,
-                    'booking' => $bookingId
+                    'booking' => $bookingId,
+                    'payedAmount' => $booking->getPayedAmount()
                 )
             );
 

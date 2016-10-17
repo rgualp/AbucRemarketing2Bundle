@@ -633,11 +633,14 @@ WHERE pard.reservationDetail = :gen_res_id";
 
         $s = "";
         if ($filter_partner) {
-            $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH booking.booking_user_id = up.tourOperator JOIN up.travelAgency agency";
+            $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH u.user_id = up.tourOperator JOIN up.travelAgency agency";
             $s = "agency.name aName, agency.email aEmail,";
             if ($filter_agencia_booking != "") {
                 $where .= " AND agency.name LIKE :filter_agencia_booking ";
             }
+        }
+        else{
+            $where .= " AND u.user_role = 'ROLE_CLIENT_TOURIST'";
         }
 
         $query = $em->createQuery("SELECT payment.created,
@@ -649,7 +652,9 @@ WHERE pard.reservationDetail = :gen_res_id";
         (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
         (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate
         FROM mycpBundle:payment payment JOIN payment.booking booking
-        JOIN payment.currency curr $filter_partner
+        JOIN payment.currency curr
+        JOIN mycpBundle:user u WITH booking.booking_user_id = u.user_id
+        $filter_partner
         WHERE booking.booking_id LIKE :filter_booking_number
         AND booking.booking_user_dates LIKE :filter_user_booking
         AND payment.created LIKE :filter_date_booking
@@ -1123,6 +1128,7 @@ group by gres.gen_res_id";
         JOIN own.own_address_province prov
         WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
         AND (gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)
+        AND us.user_role = 'ROLE_CLIENT_TOURIST'
         AND owreservation.own_res_status = :reservationStatus
         GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
         ";
