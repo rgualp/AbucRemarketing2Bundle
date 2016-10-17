@@ -1128,6 +1128,7 @@ group by gres.gen_res_id";
         JOIN own.own_address_province prov
         WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
         AND (gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)
+        AND us.user_role = 'ROLE_CLIENT_TOURIST'
         AND owreservation.own_res_status = :reservationStatus
         GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
         ";
