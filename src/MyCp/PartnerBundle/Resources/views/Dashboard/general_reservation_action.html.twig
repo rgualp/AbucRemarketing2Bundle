@@ -9,12 +9,13 @@
             <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" data-id-res="{{ id_res }}" onClick="executeCancel(this)"> {{ 'dashboard.btn.booking.cancel' | trans }} </a></div>
         {%endif%}
         {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE') %}
-            <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" onClick="paidBookingAction(this)"> {{ 'dashboard.btn.booking.paid' | trans }} </a></div>
+            <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" onClick="paidBookingAction(this)"> {{ 'btn.paid_all_reservation' | trans }} </a></div>
         {%endif%}
     </div>
 </div>
 <script type="text/javascript">
     function paidBookingAction() {
+        var data = {};
         data['ids[0]'] = "{{ id_res }}";
         gotoUrl("{{ path("partner_dashboard_cart") }}", data, "POST");
     }
