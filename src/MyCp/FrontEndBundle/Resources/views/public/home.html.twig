@@ -6,49 +6,19 @@
 {#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
 
 {% block include_javascripts_and_css %}
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $('#full-width-slider').royalSlider({
-                numImagesToPreload:5,
-                arrowsNav: true,
-                loop: true,
-                keyboardNavEnabled: true,
-                imageScaleMode: 'fill',
-                arrowsNavAutoHide: false,
-                autoScaleSlider: true,
-                autoScaleSliderWidth: 1466,
-                autoScaleSliderHeight: 470,
-                controlNavigation: false,
-                thumbsFitInViewport: false,
-                navigateByClick: true,
-                startSlideId: 0,
-                autoPlay: true,
-                transitionType:'move',
-                globalCaption: false,
-                deeplinking: {
-                    enabled: true,
-                    change: false
-                }
+    <script>
+        // Added this just so I didn't have to wait 5 seconds to see if the transition worked. //
+        $(document).ready(function() {
+            $('#myCarousel').carousel({
+                interval:   5000
             });
-
-            var slider = $("#full-width-slider").data('royalSlider');
-
-            var img="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/') }}"
-
-            for(x=1; x<=5;x++)
-            {
-                slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="Cuba, Casas, alojamiento" />');
-            }
-
         });
-
-
     </script>
 {% endblock %}
 
 {% block big_banner %}
-    <div id="full-width-slider" class="royalSlider rsDefault">
-
+    <div id="full-width-slider">
+        {{ include('FrontEndBundle:layout:carousel.html.twig') }}
     </div>
     <div id="banner-msg-cont">
         <div id="banner-msg">
