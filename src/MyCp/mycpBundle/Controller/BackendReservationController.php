@@ -416,7 +416,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency))->getResult();
+                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency, "", false))->getResult();
 //        $service_log = $this->get('log');
 //        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
@@ -736,7 +736,7 @@ class BackendReservationController extends Controller {
            array_push($total_nights, $temp_total_nights);
         }
 
-        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null);
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null, "", false);
         $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($id_reservation);
         $currentServiceFee = $reservation->getServiceFee();
 
@@ -927,7 +927,7 @@ class BackendReservationController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $reservationId = $request->get("reservation");
-        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null);
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null, "", false);
         $content = $this->renderView("mycpBundle:utils:bookings.html.twig", array("bookings" => $bookings));
         return new Response($content, 200);
     }
