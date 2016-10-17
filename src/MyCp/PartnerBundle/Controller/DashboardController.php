@@ -733,6 +733,23 @@ class DashboardController extends Controller
     public function closeReservation($paGeneralReservation)
     {
         $em = $this->getDoctrine()->getManager();
+        //Send email
+        $user = $this->getUser();
+        //Configuration service send new availability check
+        $service_email = $this->get('Email');
+        $translator = $this->get('translator');
+
+        //Send email user new availability check
+        $subject = $translator->trans('subject.email.partner.new.availability.check', array(), "messages", strtolower($user->getUserLanguage()->getLangCode()));
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheck.html.twig', array(
+            "reservations" => $paGeneralReservation->getTravelAgencyOpenReservationsDetails(),
+            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange()
+        ));
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
+
         $generalReservation = $paGeneralReservation->createReservation();
 
         $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
