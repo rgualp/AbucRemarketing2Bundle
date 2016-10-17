@@ -2058,6 +2058,34 @@
         <source>title.section.we</source>
         <target state="new">title.section.we</target>
       </trans-unit>
+      <trans-unit id="1">
+          <source>reservation.reminder.text</source>
+          <target state="new"><![CDATA[<p>MyCasa Partner reserves you at the best Cuban private casas to offer your clients dreamed Holidays.</p>
+                                       <p>We have exclusive lodging all around the country and guarantee you   the Hosts´ attention will be wonderful. Cuba is an ideal place to make you feel comfortable.</p>
+                                       <p>Nevertheless, you should remember that MyCasa Partner guarantees you the availability for only 48 hours, after that time, the lodging will be free to take other reservations.</p>
+                                       <p>Our suggestion is that you confirm the reservation within the next 24 hours after checking the availability, for clients are anxious to live a unique experience.</p>
+          ]]></target>
+      </trans-unit>
+      <trans-unit id="2">
+          <source>reservation.reminder.greetings</source>
+          <target state="new">Hello %agencyName%,</target>
+      </trans-unit>
+      <trans-unit id="3">
+          <source>reservation.reminder.subtitle</source>
+          <target state="new">Maybe you need these data to go on:</target>
+      </trans-unit>
+      <trans-unit id="4">
+          <source>reservation.reminder.payment_text</source>
+          <target state="new">Actually, everything you need is to do the prepayment right away!</target>
+      </trans-unit>
+      <trans-unit id="5">
+            <source>reservation.reminder.question</source>
+            <target state="new">Do you want to check the Casa´s Details?</target>
+       </trans-unit>
+      <trans-unit id="6">
+            <source>reservation.reminder.view_more</source>
+            <target state="new">See More</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>
