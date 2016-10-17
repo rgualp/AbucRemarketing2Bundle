@@ -12,11 +12,11 @@
   position: relative;
 }
 .slider.slider-horizontal {
-  width: 50%;
   height: 20px;
+  width: 100%;
 }
 .slider.slider-horizontal .slider-track {
-  height: 10px;
+  height: 3px;
   width: 100%;
   margin-top: -5px;
   top: 50%;
@@ -56,8 +56,8 @@
   bottom: 0;
 }
 .slider.slider-vertical .slider-handle {
-  margin-left: -5px;
-  margin-top: -10px;
+  margin-left: -6px;
+  margin-top: -7px;
 }
 .slider.slider-vertical .slider-handle.triangle {
   border-width: 10px 0 10px 10px;
@@ -92,46 +92,16 @@
 }
 .slider-selection {
   position: absolute;
-  background-color: #f7f7f7;
-  background-image: -moz-linear-gradient(top, #f9f9f9, #f5f5f5);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#f5f5f5));
-  background-image: -webkit-linear-gradient(top, #f9f9f9, #f5f5f5);
-  background-image: -o-linear-gradient(top, #f9f9f9, #f5f5f5);
-  background-image: linear-gradient(to bottom, #f9f9f9, #f5f5f5);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  background-color: #e99e30;
 }
 .slider-handle {
+  background-color: #e99e30;
+  height: 16px;
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background-color: #0e90d2;
-  background-image: -moz-linear-gradient(top, #149bdf, #0480be);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#149bdf), to(#0480be));
-  background-image: -webkit-linear-gradient(top, #149bdf, #0480be);
-  background-image: -o-linear-gradient(top, #149bdf, #0480be);
-  background-image: linear-gradient(to bottom, #149bdf, #0480be);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  opacity: 0.8;
-  border: 0px solid transparent;
+  width: 16px;
 }
 .slider-handle.round {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
+  border-radius: 50%;
 }
 .slider-handle.triangle {
   background: transparent none;

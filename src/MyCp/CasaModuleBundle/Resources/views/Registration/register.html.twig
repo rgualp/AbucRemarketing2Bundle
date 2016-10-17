@@ -2,12 +2,78 @@
     {% block stylesheets %}
         {% stylesheets
         '@MyCpCasaModuleBundle/Resources/public/css/plugins/iCheck/custom.css'
+        '@MyCpCasaModuleBundle/Resources/public/css/plugins/chosen/chosen.css'
         filter='?uglifycss'
         %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         <style>
+            .has-error .c-muni{
+                margin-top: 35px;
+            }
+            .has-error .chosen-container-single .chosen-single{
+                border: 1px solid #a94442;
+            }
+            .chosen .help-block{
+                margin-top: 12%;
+                position: absolute;
+            }
+            /* enable absolute positioning */
+            .inner-addon {
+                position: relative;
+            }
 
+            /* style icon */
+            .inner-addon .glyphicon {
+                position: absolute;
+                padding: 5px;
+                border-right: 1px solid #b3b3b3;
+                pointer-events: none;
+                z-index:1;
+                font-size: 19px;
+                margin-top: 4px;
+            }
+
+            /* align icon */
+            .left-addon .glyphicon  { left:  0px;}
+            .right-addon .glyphicon { right: 0px;}
+
+            /* add padding  */
+            .left-addon input  { padding-left:  40px; width: 95%;height: 38px }
+            .right-addon input { padding-right: 40px; }
+            .chosen-container-single .chosen-single div b {
+                margin-top: 7px;
+            }
+            .chosen-container-single .chosen-single span {
+                display: block;
+                margin-left: 28px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .chosen-container-single .chosen-single {
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #e5e6e7;
+                border-radius: 1px;
+                box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+                color: inherit;
+                display: block;
+                height: 23px;
+                line-height: 24px;
+                overflow: hidden;
+                padding: 0 0 0 8px;
+                position: relative;
+                text-decoration: none;
+                white-space: nowrap;
+                transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+                font-size: 14px;
+                padding: 6px 12px;
+                width: 95%;
+            }
+            .chosen-container-single .chosen-single abbr {
+                top: 13px;
+            }
             #terms-error {
                 margin-top: 2px;
                 min-width: 230px;
@@ -17,128 +83,163 @@
     {% endblock %}
 {% block alerts %}{% endblock %}
 {% block content %}
-   <div class="middle-box text-center animated fadeInDown">
-      <div>
-        <a href="{{ path('frontend_welcome') }}"> <img src="{{ asset('img/mycp.png') }}"></a>
-      </div>
-      <h2 class="font-blue">¡Bienvenido!</h2>
-      <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
-       {% for message in app.session.flashbag.get('message_ok') %}
-           <div class="alert alert-info alert-dismissable">
-               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-               {{ message }}</div>
-       {% endfor %}
-       {% for message in app.session.flashbag.get('message_error') %}
-           <div class="alert alert-danger alert-dismissable">
-               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-               {{ message }}</div>
-       {% endfor %}
-       {% if error is defined and error is not null %}
-           <div class="alert alert-danger alert-dismissable">
-               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
-       {% endif %}
-       {% if errors is defined and errors is not empty %}
-           <div class="alert alert-danger alert-dismissable">
-               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-               {% for error in errors %}
-               {{ error | trans }}
-               {% endfor %}
-               </div>
-       {% endif %}
-       <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn">
-       <div class="col-xs-12">
-           <div class="bg-gray">
-               <div class="form-group row">
-                   <div class="col-sm-12"><label>Nombre de la casa</label>
-                   </div>
-                    <div class="col-xs-2">
-                        <i class="glyphicons home form-icon"></i>
-                    </div>
-                   <div class="col-xs-10">
-                       <input type="text" name="own_name" required minlength="6" class="form-control" placeholder="Nombre de la casa">
-                   </div>
-               </div>
-                <div class="form-group row">
-                    <div class="col-sm-12 col-xs-12">
-                        <label>Número de la licencia</label>
-                    </div>
-                    <div class="col-xs-2">
-                        <i class="glyphicons nameplate form-icon"></i>
-                    </div>
-                    <div class="col-xs-10">
-                        <input type="text" name="own_license_number" required minlength="3" class="form-control" placeholder="Número de la licencia">
-                    </div>
-                </div>
-               <div class="form-group row">
-                   <div class="col-sm-12 col-xs-12"><label>Provincia</label></div>
-                    <div class="col-sm-2 col-xs-2">
-                    <i class="glyphicons google_maps form-icon"></i>
-                    </div>
-                    <div class="col-sm-10 col-xs-10">
-                        <select required class="form-control" name="own_province" id="own_province">
-                            {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
-                        </select>
-                    </div>
-                   <div class="col-sm-12 col-xs-12">
-                       <label>Municipio</label>
-                   </div>
-                    <div class="col-sm-12 col-xs-12">
-
-                        <select required class="form-control" name="own_municipality" id="own_municipality">
-                            {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
-                        </select>
-                    </div>
-
-                </div>
-            <div class="form-group row">
-                <div class="col-sm-12 col-xs-12">  <label>Nombre del propietario principal</label> </div>
-                <div class="col-xs-2 col-sm-2">
-                    <i class="glyphicons user form-icon"></i>
-                </div>
-                <div class="col-xs-10 col-sm-10">
-                    <input type="text" required name="own_homeowner_1" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userUserName~' '~app.user.userLastName }}" {% endif %} class="form-control" placeholder="Nombre del propietario principal">
-                </div>
+    <section class="container">
+        <div class="row text-center middle-box">
+            <div>
+                <a href="{{ path('frontend_welcome') }}"> <img src="{{ asset('img/mycp.png') }}"></a>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-12 col-xs-12">  <label>Correo principal</label> </div>
-                <div class="col-xs-2 col-sm-2">
-                    <i class="glyphicons envelope form-icon"></i>
-                </div>
-                <div class="col-xs-10 col-sm-10">
-                    <input type="email" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userEmail }}" {% endif %}required name="own_email_1" class="form-control" placeholder="Correo principal"></div>
-                </div>
-            <div class="form-group row">
-                <div class="col-sm-12 col-xs-12">
-                    <label>Teléfono</label>
-                </div>
-                <div class="col-xs-2 col-sm-2">
-                    <i class="glyphicons phone_alt form-icon"></i>
-                </div>
-                <div class="col-xs-10 col-sm-10">
-                    <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono"></div>
-                </div>
-           </div>
-      </div>
-      <div class="bg-yellow m-t-30 col-xs-12">
-          <h3>La inscripción de su propiedad tiene un costo de 30 CUC</h3>
-          <h3>Por favor revise nuestros</h3>
-          <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones de uso</a></h3>
-          {#<i class="fa fa-check-circle register-check"></i>#}
-          <div class="form-group row">
-          <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
-              <div class="col-md-12"><h3>Acepte para continuar</h3></div>
-          </label>
-          </div>
+            <h2 class="font-blue">¡Bienvenido!</h2>
 
-      </div>
-       <button class="btn btn-primary dim m-t-30 m-b-30" type="submit">Registrarse</button>
-       </form>
-   </div>
+        </div>
+        <hr>
+        <div class="col-md-4">
+            <div class="loginscreen text-center animated fadeInDown">
+                <form class="form-horizontal" action="{{ path('my_cp_casa_login_check') }}" method="post" id="login">
+                    <div class="col-md-12 text-center">
+                        <h3 class="font-blue">Si ya es un usuario. ¡Empieza!</h3>
+                    </div>
+                    <div class="col-md-12 bg-gray">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons user"></i>
+                                        <input type="text" class="form-control" id="inputUsername" placeholder="Código de la Casa" name="_username"   value="{{ last_username|default('') }}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons lock"></i>
+                                        <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>
+                                    </div>
+                                </div>
+                                <label>
+                                    <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 m-t-20 m-b-20">
+                        <a class="forgotLink" href="{{ path("my_cp_forget_password") }}">¿Olvidó su clave?</a>
+                    </div>
+                    <div class="col-md-6 m-t-10 m-b-20">
+                        <button type="submit" class="btn btn-primary dim">Autenticarse</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+                {% for message in app.session.flashbag.get('message_ok') %}
+                    <div class="alert alert-info alert-dismissable">
+                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ message }}</div>
+                {% endfor %}
+                {% for message in app.session.flashbag.get('message_error') %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ message }}</div>
+                {% endfor %}
+                {% if error is defined and error is not null %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
+                {% endif %}
+                {% if errors is defined and errors is not empty %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                        {% for error in errors %}
+                            {{ error | trans }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn" class="form-registerOwn">
+                    <div class="col-md-12 text-center">
+                        <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
+                    </div>
+                    <div class="col-md-12 bg-gray" style="padding-bottom: 0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons home"></i>
+                                        <input type="text" name="own_name" required minlength="6" class="form-control" placeholder="Nombre de la casa" style="width: 97%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons nameplate"></i>
+                                        <input type="text" name="own_license_number" required minlength="3" class="form-control" placeholder="Número de la licencia">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon chosen">
+                                        <i class="glyphicon glyphicons google_maps"></i>
+                                        <select data-placeholder="Seleccione la Provincia" required class="form-control chosen-select-deselect" name="own_province" id="own_province">
+                                            {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon chosen c-muni">
+                                        <i class="glyphicon glyphicons google_maps"></i>
+                                        <select data-placeholder="Seleccione el Municipio" required class="form-control chosen-select-deselect" name="own_municipality" id="own_municipality">
+                                            {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons user"></i>
+                                        <input type="text" required name="own_homeowner_1" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userUserName~' '~app.user.userLastName }}" {% endif %} class="form-control" placeholder="Nombre del propietario principal">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons envelope"></i>
+                                        <input type="email" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userEmail }}" {% endif %}required name="own_email_1" class="form-control" placeholder="Correo principal">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons phone_alt"></i>
+                                        <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-yellow m-t-10 col-xs-12 text-center" style="padding: 0">
+                        <p class="m-t-10">La inscripción de su propiedad tiene un costo de 30 CUC</p>
+                        <p>Por favor revise nuestros <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones de uso</a></h3></p>
+                        <div class="form-group row" style="margin-bottom: 0px">
+                            <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
+                                <div class="col-md-12"><h3>Acepte para continuar</h3></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-primary dim m-t-10 m-b-30" type="submit">Registrarse</button>
+                    </div>
+                </form>
+        </div>
+    </section>
+
 {% endblock %}
 {% block javascripts %}
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
     '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
      filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
@@ -146,12 +247,22 @@
     <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_es.js') }}"></script>
     <script type="text/javascript">
      $(document).on('ready', function(){
+         var config = {
+             '.chosen-select'           : {},
+             '.chosen-select-deselect'  : {allow_single_deselect:true},
+             '.chosen-select-no-single' : {disable_search_threshold:10},
+             '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+             '.chosen-select-width'     : {width:"95%"}
+         }
+         for (var selector in config) {
+             $(selector).chosen(config[selector]);
+         }
          $('.i-checks').iCheck({
 //             checkboxClass: 'icheckbox_square-green',
              checkboxClass: 'iradio_square-green',
              radioClass: 'iradio_square-green'
          });
-         url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+         url = "{{ path('mycp_get_mun_by_prov_chosen', { 'country_code': '-1' }) }}";
          url=url.replace('/-1','');
          $('#own_province').change(function(){
              code = $('#own_province').val();
@@ -159,15 +270,24 @@
              {
                  $('#own_municipality').html('<option value="">Cargando...</option>');
 
-
-                 $.ajax({
+                    var municipalitySelect=$('#own_municipality');
+                    $.ajax({
                      type:"POST",
                      url:url + '/' + code,
-                     success:function (msg) {
+                     success:function (data) {
+                         data = (data['aaData']) ? (data['aaData']) : ([]);
 
-                         $('#own_municipality').html(msg);
+                         municipalitySelect.html('');
+                         for (var i = 0, total = data.length; i < total; i++) {
+                             if (i == 0){
+                                 municipalitySelect.append('<option selected="selected" value=""></option>');
+                             }
+                             municipalitySelect.append('<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>');
+                         }
+                         municipalitySelect.trigger('update');
+                         municipalitySelect.chosen().trigger("chosen:updated");
                      }
-                 });
+                    });
              }
          });
          $("#registerOwn").validate({

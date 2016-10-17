@@ -938,7 +938,7 @@ body.landing-page {
     font-size: 14px;
 }
 .efect-blur{
-    background-color: #6f909f;
+    background-color: #094e75;
     left: 0;
     overflow: hidden;
     padding-top: 15px;
@@ -950,7 +950,7 @@ body.landing-page {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0.28;
+    opacity: 0.5;
 
 }
 .description-ownwership{
