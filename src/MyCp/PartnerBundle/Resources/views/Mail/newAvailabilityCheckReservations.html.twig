@@ -24,7 +24,10 @@
 
     </style>
 
-{{ 'label.new.availability.check' |trans({}, "messages", user_locale) | raw }}
+<p>
+    Hola Equipo de Reservaciones,<br/>
+    Una nueva solicitud de disponibilidad ha sido enviada por un cliente nuestro. Les enviamos la información que necesitan para dar seguimiento a su(s) reserva(s). Esperamos confirmación lo antes posible.
+</p>
 <br/>
 <p style="font-family: Arial; font-size: 14px">
     <strong>{{ 'label.information.reserved' |trans({}, "messages", user_locale) | raw }}</strong>
@@ -45,16 +48,16 @@
             <td><b>{{"OWNERS_NAME"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{{ reservation.openReservationDetail.accommodation.ownHomeowner1 }} {% if reservation.openReservationDetail.accommodation.ownHomeowner2 %}& {{ reservation.openReservationDetail.accommodation.ownHomeowner2 }}{% endif %}</td>
         </tr>
-        {#<tr>
+        <tr>
             <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ reservation.openReservationDetail.accommodation.ownAddressStreet }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ reservation.openReservationDetail.accommodation.ownAddressNumber }} {%if reservation.openReservationDetail.accommodation.ownAddressBetweenStreet1 != "" and reservation.openReservationDetail.accommodation.ownAddressBetweenStreet2 != ""%}, {{ reservation.openReservationDetail.accommodation.ownAddressBetweenStreet1 }} & {{ reservation.openReservationDetail.accommodation.ownAddressBetweenStreet2 }}{%endif%}.
                 {{ reservation.openReservationDetail.accommodation.ownAddressMunicipality.munName }} ,{{ reservation.openReservationDetail.accommodation.ownAddressProvince.provName }}.
             </td>
-        </tr>#}
-       {# <tr>
+        </tr>
+        <tr>
             <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{%if reservation.openReservationDetail.accommodation.ownPhoneCode != ""%}(+53) {{ reservation.openReservationDetail.accommodation.ownPhoneCode }} {{ reservation.openReservationDetail.accommodation.ownPhoneNumber }}{%else%} - {%endif%}</td>
-        </tr>#}
+        </tr>
         <tr>
             <td><b>{{"ADULTS"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{{ reservation.reservation.adults }}</td>
@@ -76,17 +79,64 @@
     <a href="{{ mail_base_url }}{{ path('partner_dashboard_page_detail',{'own_name':reservation.openReservationDetail.accommodation.ownName  | urlNormalize}) }}">
         <h1 class="h-blue color-white">{{"label.view.more"|trans({}, "messages", user_locale)}}</h1>
     </a>
-    <hr/>
     {% set totalPrice=totalPrice+reservation.openReservationDetail.totalPrice %}
     {% endfor %}
+    <strong>Habitaciones</strong>
+    <hr/>
+    {% for room in rooms %}
+        <table  style="width: 100%">
+            <tr>
+                <td><b>Habitación (tipo de hab.):</b></td>
+                <td>{{ room.roomType }}</td>
+            </tr>
+            <tr>
+                <td><b>Cantidad de noches:</b></td>
+                <td>{{ room.nights }}</td>
+            </tr>
+            <tr>
+                <td><b>Adultos:</b></td>
+                <td>{{ room.adults }}</td>
+            </tr>
+            <tr>
+                <td><b>Niños:</b></td>
+                <td>{{ room.children }}</td>
+            </tr>
+            <tr>
+                <td><b>Fecha de entrada:</b></td>
+                <td>{{ room.dateFrom | date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <td><b>Fecha de salida:</b></td>
+                <td>{{ room.dateTo | date('d/m/Y') }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+    <hr/>
+    <strong>Datos de la Agencia</strong>
     <hr/>
     <table style="width:100%">
-    <tr>
-        <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale) }}</b></td>
-        <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (totalPrice * currency_rate) | number_format(2) }}</h4></td>
-    </tr>
+        <tr>
+            <td><b>Nombre de la Agencia</b></td>
+            <td class="text-center">{{ travelAgency.name }}</td>
+        </tr>
+        <tr>
+            <td><b>Atendida por</b></td>
+            <td class="text-center">{{ agency_resp }}</td>
+        </tr>
+        <tr>
+            <td><b>Contactos</b></td>
+            <td class="text-center">{{ phone_contact }}</td>
+        </tr>
+        <tr>
+            <td><b>Idioma</b></td>
+            <td><b>{{ user_locale }}</b></td>
+        </tr>
+        <tr>
+            <td><b>Moneda</b></td>
+            <td><b>{{ currency_symbol }}</b></td>
+        </tr>
     </table>
-    <hr/>
+
 <br/>
 
 </p>

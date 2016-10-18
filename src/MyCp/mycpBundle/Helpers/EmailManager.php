@@ -170,6 +170,17 @@ class EmailManager
         $this->sendEmailWithRetries($callback, $parameters);
     }
 
+    public function sendTemplatedPartnerEmail($emailAddress, $emailSubject, $emailBody, $emailFrom = null)
+    {
+        if (null === $emailFrom) {
+            $emailFrom = $this->emailSenderAddress;
+        }
+
+        $callback = array($this->emailService, 'sendTemplatedEmailPartner');
+        $parameters = array($emailSubject, $emailFrom, $emailAddress, $emailBody);
+        $this->sendEmailWithRetries($callback, $parameters);
+    }
+
     /**
      * Sends an email with the specified body.
      *
@@ -263,13 +274,14 @@ class EmailManager
     {
         try {
             $userTourist = $this->getTouristByUser($user);
-            $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+            $userLocale = ($userTourist != null) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : strtolower($user->getUserLanguage()->getLangCode()) ;
             return $userLocale;
         }
         catch(\Exception $e){
             return "de";
         }
     }
+
 
     /**
      * Sends an email and retries it in case of a transport error.

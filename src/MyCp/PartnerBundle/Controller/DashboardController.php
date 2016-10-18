@@ -750,6 +750,24 @@ class DashboardController extends Controller
         ));
         $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
 
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $contacts=$travelAgency->getContacts();
+        $phone_contact = (count($contacts)) ? $contacts[0]->getPhone() . ', ' . $contacts[0]->getMobile() : ' ';
+        //Send email team reservations
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheckReservations.html.twig', array(
+            "reservations" => $paGeneralReservation->getTravelAgencyOpenReservationsDetails(),
+            "rooms"=> $paGeneralReservation->getPaOwnershipReservations(),
+            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange(),
+            'travelAgency'=>$travelAgency,
+            'agency_resp'=>(count($contacts))?$contacts[0]->getName():'',
+            'phone_contact'=>$phone_contact
+        ));
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'solicitud.partner@mycasaparticular.com', $content);
+
         $generalReservation = $paGeneralReservation->createReservation();
 
         $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una

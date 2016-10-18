@@ -223,7 +223,32 @@ class FrontendController extends Controller
      */
     public function testEmailAction()
     {
-        $response = $this->render('PartnerBundle:Mail:test.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository("mycpBundle:generalReservation")->find(101666);
+        $user = $reservation->getGenResUserId();
+        $roomReservations = $reservation->getOwn_reservations();
+        $timer = $this->get("Time");
+
+        $nights = 0;
+        $adults = 0;
+        $children = 0;
+
+        foreach($roomReservations as $roomReservation)
+        {
+            $nights += $timer->nights($roomReservation->getOwnResReservationFromDate()->getTimestamp(), $roomReservation->getOwnResReservationToDate()->getTimestamp());
+            $adults += $roomReservation->getOwnResCountAdults();
+            $children += $roomReservation->getOwnResCountChildrens();
+        }
+
+        $response = $this->render('PartnerBundle:Mail:test.html.twig', array(
+            "reservation" => $reservation,
+            "user_locale" => "en",
+            "agencyName" => "Agencia MALA",
+            "nights" => ($nights / count($roomReservations)),
+            "adults" => $adults,
+            "children" => $children,
+            "currency" => $user->getUserCurrency()
+        ));
         return $response;
     }
 }

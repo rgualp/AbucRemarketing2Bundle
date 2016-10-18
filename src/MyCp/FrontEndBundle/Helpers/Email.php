@@ -115,17 +115,31 @@ class Email
         $user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
 
         // Enviando mail al cliente
+        if($user->getUserRole()=="ROLE_CLIENT_PARTNER"){
+            $body = $templating->render('PartnerBundle:Mail:email_offer_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $reservations,
+                    'photos' => $array_photos,
+                    'nights' => $array_nigths,
+                    'message' => $custom_message,
+                    'user_locale' => $user_locale,
+                    'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
+                    'reservationStatus' => $reservation->getGenResStatus()
+                ));
+        }
+        else{
+            $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $reservations,
+                    'photos' => $array_photos,
+                    'nights' => $array_nigths,
+                    'message' => $custom_message,
+                    'user_locale' => $user_locale,
+                    'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
+                    'reservationStatus' => $reservation->getGenResStatus()
+                ));
+        }
 
-        $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
-            'user' => $user,
-            'reservations' => $reservations,
-            'photos' => $array_photos,
-            'nights' => $array_nigths,
-            'message' => $custom_message,
-            'user_locale' => $user_locale,
-            'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
-            'reservationStatus' => $reservation->getGenResStatus()
-        ));
         $locale = $this->container->get('translator');
         $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
 
