@@ -36,13 +36,18 @@ class BackendController extends Controller
 
         $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
+
+        //proccess, pending, availability, notavailability, reserved, beaten, canceled, checkin
+        $inAction = array();
+
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
             "owns_categories" => null,
             "autocomplete_text_list" => null,
             "owns_prices" => $prices_own_list,
             "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'inAction'=>$inAction
         ));
     }
 
