@@ -2202,6 +2202,34 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
+      <trans-unit id="1">
+          <source>reservation.reminder.text</source>
+          <target state="new"><![CDATA[<p>MyCasa Partner te reserva en las mejores casas particulares de Cuba para brindar a tus clientes unas vacaciones de ensueño.</p>
+                                       <p>Ofrecemos alojamientos exclusivos por todo el país y te aseguramos que la atención de nuestros anfitriones será estupenda. Cuba es el lugar ideal para hacerlos sentir a gusto.</p>
+                                       <p>Sin embargo, recuerda que MyCasa Partner te garantiza la disponibilidad de la casa durante 48 horas, y luego el alojamiento volverá a quedar libre para otras reservaciones.</p>
+                                       <p>Nuestra sugerencia es que confirmes la reserva en las próximas 24 horas, pues los clientes aguardan ansiosos por vivir una experiencia única.</p>
+          ]]></target>
+      </trans-unit>
+      <trans-unit id="2">
+          <source>reservation.reminder.greetings</source>
+          <target state="new">Hola %agencyName%,</target>
+      </trans-unit>
+      <trans-unit id="3">
+          <source>reservation.reminder.subtitle</source>
+          <target state="new">Tal vez necesites estos datos para continuar:</target>
+      </trans-unit>
+      <trans-unit id="4">
+          <source>reservation.reminder.payment_text</source>
+          <target state="new">En realidad, todo lo que necesitas es realizar el prepago de la reserva ¡ahora mismo!</target>
+      </trans-unit>
+      <trans-unit id="5">
+            <source>reservation.reminder.question</source>
+            <target state="new">¿Quieres consultar los detalles de la casa? </target>
+       </trans-unit>
+      <trans-unit id="6">
+            <source>reservation.reminder.view_more</source>
+            <target state="new">Ver más</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

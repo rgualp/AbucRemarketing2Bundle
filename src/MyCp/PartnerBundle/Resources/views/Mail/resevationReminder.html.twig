@@ -1,0 +1,54 @@
+
+    <style type="text/css">
+        body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
+        h2{font-size: 15px; letter-spacing: 0.5px;}
+        h4{font-size: 12px; letter-spacing: 0.5px}
+        h3{font-size: 13px; letter-spacing: 0.5px}
+        h6{font-size: 8px; letter-spacing: 0.5px; font-weight: normal;}
+        #logo{margin-bottom: 10px; width: 260px; height: 50px}
+        hr{border: none;border-bottom:solid 1px #84B231;}
+        .h-green,a{color:#80AA2A}
+        p{line-height: 18px}
+        .text-right{text-align: right}
+        .h-only-blue{color: #218CDC;}
+        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 70%;}
+        .h-green-line{border-bottom: 1px solid #80AA2A;}
+        .b-cyan{background: #EBE9EA;}
+        .c-bbbb{ color: #bbb;}
+        hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
+        .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
+        .no-margin{margin: 0}
+        table{border-collapse: collapse; width: 100%; border-spacing: 0;}
+        /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
+        .cursive{font-style: italic;}
+
+    </style>
+
+<div style="font-family: Arial; font-size: 14px">
+    <p>{{ "reservation.reminder.greetings" |trans({}, "messages", user_locale) | replace({"%agencyName%": agencyName}) }}</p>
+    {{ 'reservation.reminder.text' |trans({}, "messages", user_locale) | raw }}
+
+    <p style="text-decoration: underline">{{ 'reservation.reminder.subtitle' |trans({}, "messages", user_locale) | raw }}</p>
+    {% if reservation is defined %}
+        {% set accommodation = reservation.genResOwnId %}
+        {% set moreLinkUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/accomodation/' ~ (accommodation.ownName | urlNormalize) %}
+        {{ accommodation.ownMcpCode }} /{{ accommodation.ownName }} <br/>
+        {{ accommodation.ownAddressProvince.provName }}/ {{ accommodation.ownDestination.desName }} <br/>
+        {{ reservation.Own_reservations | length }} {{ "requested_casas" |trans({}, "messages", user_locale) }} / {{ reservation.genResFromDate | date("d-m-Y") }} <br/>
+        {{ adults }} {{ "dashboard.booking.adults" | trans({}, "messages", user_locale) | lower }} / {{ children }} {{ "dashboard.booking.childrens" | trans({}, "messages", user_locale) | lower }} <br/>
+        CAS.{{ reservation.genResId }}/ {{ nights }} {{ "NIGHTS" | trans({}, "messages", user_locale) | lower }} <br/>
+        {{ "AVAILABLE" | trans({}, "messages", user_locale)  }} <br/>
+        {{ (reservation.genResTotalInSite * currency.currCucChange) | number_format(2) }} {{ currency.currSymbol }} <br/>
+        <br/>
+        {{ "reservation.reminder.question" | trans({}, "messages", user_locale) }} <a href="{{ moreLinkUrl }}">{{ "reservation.reminder.view_more" | trans({}, "messages", user_locale) }}</a>
+
+    {% endif %}
+
+    <p>
+        {{ 'reservation.reminder.payment_text' |trans({}, "messages", user_locale) }}
+    </p>
+
+    {% set paymentUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito" : "cart") %}
+    <p><a href="{{ paymentUrl }}">{{ "dashboard.btn.booking.paid" |trans({}, "messages", user_locale) }}</a></p>
+
+</div>
