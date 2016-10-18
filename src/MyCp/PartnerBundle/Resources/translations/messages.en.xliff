@@ -2251,6 +2251,18 @@
              <source>reservation.last.reminder.reservation_view</source>
              <target state="new">See booking</target>
         </trans-unit>
+        <trans-unit id="11">
+            <source>cart.alert.content_with_reservation_number</source>
+            <target>Reservation %casReservation% will be cancel. You can not undo this operation</target>
+      </trans-unit>
+        <trans-unit id="12">
+            <source>cancel.reservation.successful.alert</source>
+            <target>Rservation was cancelled successfully</target>
+      </trans-unit>
+        <trans-unit id="13">
+            <source>cancel.reservation.error.alert</source>
+            <target>This reservation do not belongs to your agency</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

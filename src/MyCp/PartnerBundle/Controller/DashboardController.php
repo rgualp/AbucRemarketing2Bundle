@@ -1203,44 +1203,51 @@ class DashboardController extends Controller
     public function cancelReservationAction($idReservation, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
-        /*$generalReservation = $em->getRepository('mycpBundle:generalReservation')->find($idReservation);
-        $ownershipReservations = $generalReservation->getOwn_reservations();
-        foreach($ownershipReservations as $ownRes){
-            $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
-            $em->persist($ownRes);
-        }
-        $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
-        $generalReservation->setGenResStatusDate(new \DateTime());
-        $generalReservation->setCanceledBy($this->getUser());
-        $em->persist($generalReservation);
-
-        $em->flush();
-
-        return $this->redirect($this->generateUrl());*/
-        $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
-
-        $categories_own_list = $results["categories"];
-        $types_own_list = $results["types"];
-        $prices_own_list = $results["prices"];
-        $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
+        $trans = $this->get('translator');
+        $generalReservation = $em->getRepository('mycpBundle:generalReservation')->find($idReservation);
 
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $travelAgency = $tourOperator->getTravelAgency();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
 
-        $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
-        $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
-        $inAction = array("cancelled");
-        return $this->render('PartnerBundle:Backend:index.html.twig', array(
-            "locale" => "es",
-            "owns_categories" => null,
-            "autocomplete_text_list" => null,
-            "owns_prices" => $prices_own_list,
-            "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
-            'form'=>$form->createView(),
-            'inAction'=>$inAction
+        $reservationUser = $generalReservation->getGenResUserId();
+        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
+        $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
+
+        if($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId())
+        {
+        //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
+
+        if($this->getRequest()->getMethod() == 'POST') {
+            $ownershipReservations = $generalReservation->getOwn_reservations();
+            foreach ($ownershipReservations as $ownRes) {
+                $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                $em->persist($ownRes);
+            }
+            $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+            $generalReservation->setGenResStatusDate(new \DateTime());
+            $generalReservation->setCanceledBy($user);
+            $em->persist($generalReservation);
+
+            $em->flush();
+
+            $message = $trans->trans('cancel.reservation.successful.alert');
+            $this->get('session')->getFlashBag()->add('message_global_success', $message);
+
+            return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+        }
+
+        return $this->render('PartnerBundle:Dashboard:cancelReservation.html.twig', array(
+            "casReservation" => "CAS.".$idReservation,
+            "idReservation" => $idReservation
         ));
+        }
+        else{
+            $message = $trans->trans('cancel.reservation.error.alert');
+            $this->get('session')->getFlashBag()->add('message_global_error', $message);
+
+            return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+        }
     }
 
     public function getThumbnailForSearcherAction($photo, $title){

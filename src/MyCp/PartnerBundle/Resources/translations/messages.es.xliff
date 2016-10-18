@@ -2250,6 +2250,18 @@
              <source>reservation.last.reminder.reservation_view</source>
              <target state="new">Ver Reserva</target>
         </trans-unit>
+        <trans-unit id="11">
+            <source>cart.alert.content_with_reservation_number</source>
+            <target>La reserva %casReservation% se cancelará. La operación es irreversible</target>
+      </trans-unit>
+        <trans-unit id="12">
+            <source>cancel.reservation.successful.alert</source>
+            <target>La reserva fue cancelada exitosamente</target>
+      </trans-unit>
+        <trans-unit id="13">
+            <source>cancel.reservation.error.alert</source>
+            <target>Esta reserva no pertenece a su agencia</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

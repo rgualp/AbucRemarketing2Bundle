@@ -1285,6 +1285,24 @@ a.payButton.bg-grey{ cursor: default; }
 .icono-with-check{
 
 }
+
+.cancel-reservation a, .cancel-reservation a:link, .cancel-reservation a:visited, .cancel-reservation a:active{
+    font-size: 25px;
+    color: #676a6c;
+}
+
+.cancel-reservation button[type="submit"]{
+    font-size: 25px;
+    color: #676a6c;
+    background-color: transparent;
+    border:none;
+    line-height: 45px;
+}
+
+.cancel-reservation a:hover{
+    text-decoration: underline;
+}
+
 .icono-with-check:before{
     background: #f49821 none repeat scroll 0 0;
     border: 0 none;
