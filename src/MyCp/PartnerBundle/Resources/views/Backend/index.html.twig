@@ -264,10 +264,23 @@
         $(document).ready(function () {
             WinMove();
 
-            jQuery('#side-menu').on('click', ' li > a.ajaxify', function (e) {
+            var inAction = [];
+            {% for action in inAction %}
+            inAction.push("{{ action }}");
+            {% endfor %}
+
+            var items = $('#side-menu li > a.ajaxify');
+            items.on('click', function (e) {
                 e.preventDefault();
                 var link = $(this);
                 executeAjax(link, null);
+            });
+
+            items.each(function(index, ele){
+                ele = $(ele);
+                if (ele.data('action') && inAction.indexOf(ele.data('action')) != -1){
+                    ele.click();
+                }
             });
         });
 

@@ -76,7 +76,7 @@
         </tr>
     </table>
     <br/>
-    <a href="{{ path('partner_dashboard_page_detail',{'own_name':reservation.openReservationDetail.accommodation.ownName  | urlNormalize}) }}">
+    <a href="{{ mail_base_url }}{{ path('partner_dashboard_page_detail',{'own_name':reservation.openReservationDetail.accommodation.ownName  | urlNormalize}) }}">
         <h1 class="h-blue color-white">{{"label.view.more"|trans({}, "messages", user_locale)}}</h1>
     </a>
     {% set totalPrice=totalPrice+reservation.openReservationDetail.totalPrice %}

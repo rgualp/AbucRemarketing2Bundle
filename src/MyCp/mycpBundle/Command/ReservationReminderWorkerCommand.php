@@ -112,7 +112,7 @@ class ReservationReminderWorkerCommand extends Worker
         $userId =  $user->getUserId();
         $userEmail = $user->getUserEmail();
 
-        if($user->getUserRole() == "")
+        if($user->getUserRole() == "ROLE_CLIENT_PARTNER")
         {
             $emailBody = $this->renderEmailBodyPartner($user, $generalReservation);
             $emailSubject = $this->translatorService->trans('REMINDER');
