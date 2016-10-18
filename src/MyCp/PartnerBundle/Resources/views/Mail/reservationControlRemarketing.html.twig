@@ -1,13 +1,6 @@
-
-{#% set accommdationDetailsUrl = url('frontend_details_ownership', {'own_name': reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize, 'locale': user_locale|lower,'_locale':user_locale|lower }) %#}
-{#% set mailPaymentUrl =  url('frontend_mycasatrip_available', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
-{#% set searchAccommodations =  url('frontend_search_ownership', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
 {% set accommdationDetailsUrl = mail_base_url ~'/'~user_locale~'/partner/dashboard/accomodation/'~reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize%}
-{% set mailPaymentUrl = mail_base_url ~ '/email-mycasatrip/available/'~ user_locale|lower~'/'~ user_locale|lower %}
-{% set searchAccommodations = mail_base_url ~ '/accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower %}
 
 {% if booking is defined %}
-    {#% set viewBooking =  url('frontend_view_confirmation_reservation', { 'id_booking':booking, 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
     {% set viewBooking = mail_base_url ~ '/view-reservation-email/'~booking~'/'~ user_locale|lower~'/'~ user_locale|lower %}
 {% else %}
     {% set viewBooking = "#"%}
@@ -75,18 +68,9 @@
                                             {{ reservation.ownResTotalInSite | price}}
                                        {%endif%}
                                     </h3>
-                                   {# {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{mailPaymentUrl }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
-                                    {% endif %}#}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{accommdationDetailsUrl }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
-                                    {#{% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{searchAccommodations }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
-                                    {% endif %}
-                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is not defined)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{searchAccommodations }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
-                                    {% endif %}#}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ viewBooking }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
                                     {% endif %}
