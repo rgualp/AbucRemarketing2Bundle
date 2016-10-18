@@ -2230,6 +2230,26 @@
             <source>reservation.reminder.view_more</source>
             <target state="new">Ver más</target>
        </trans-unit>
+      <trans-unit id="7">
+          <source>reservation.last.reminder.text</source>
+          <target state="new"><![CDATA[<p>MyCasa Partner siempre está al tanto de los deseos de tus clientes. Sabemos que algunos solo esperan por el alojamiento indicado para cumplir sus sueños de viajar a Cuba.</p>
+               <p>Estamos seguros de que con nosotros encontrarás opciones increíbles para ofertar a cada uno de ellos. De hecho, ya tienes algunas de tus solicitudes confirmadas como disponibles.</p>
+               <p>Recuerda que dentro de algunas horas, varias de estas reservas estarán vencidas. Entonces, habremos perdido la estupenda oportunidad de ofrecer a tus clientes unas vacaciones únicas en las casas particulares elegidas.</p>
+               <p>Te garantizo que entre estas propuestas está la que buscas, solo necesitas confirmar que sí la quieres. Es muy fácil y rápido si te lo propones. Te sugiero que realices el prepago de la reserva ahora.</p>
+          ]]></target>
+       </trans-unit>
+       <trans-unit id="8">
+           <source>reservation.last.reminder.subtitle</source>
+           <target state="new">Información de la reserva</target>
+      </trans-unit>
+         <trans-unit id="9">
+             <source>reservation.last.reminder.reservation_text</source>
+             <target state="new">¿Quieres echar un vistazo a la reserva por última vez?</target>
+        </trans-unit>
+         <trans-unit id="10">
+             <source>reservation.last.reminder.reservation_view</source>
+             <target state="new">Ver Reserva</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

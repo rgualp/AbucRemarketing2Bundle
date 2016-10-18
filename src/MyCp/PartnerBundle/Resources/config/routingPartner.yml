@@ -329,3 +329,7 @@ partner_download_voucher:
 partner_payment_postfinance_status:
     pattern:  /postfinance/status
     defaults: { _controller: PartnerBundle:Payment:postfinanceStatus }
+
+partner_dashboard_booking_cancel_reservation:
+    locales:  { en: "/dashboard/booking/cancel-reservation/{idReservation}", es: "/dashboard/booking/cancel-reservation/{idReservation}", de: "/dashboard/booking/cancel-reservation/{idReservation}" }
+    defaults: { _controller: PartnerBundle:Dashboard:cancelReservation}

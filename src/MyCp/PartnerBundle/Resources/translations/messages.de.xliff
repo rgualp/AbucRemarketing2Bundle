@@ -2086,6 +2086,26 @@
             <source>reservation.reminder.view_more</source>
             <target state="new">See More</target>
        </trans-unit>
+      <trans-unit id="7">
+          <source>reservation.last.reminder.text</source>
+          <target state="new"><![CDATA[<p>MyCasa Partner is aware of your customers’ desires. We know that many of them are just waiting for the right lodging to make their dreams of travelling to Cuba come true.</p>
+               <p>We are sure that you will find with us incredible options to offer each and every one of them. In fact, you have some of your request as available. </p>
+               <p>Remember that some of these reservations will expiry in a few hours.  If so, we would miss the opportunity to provide your customers with a unique Holiday in the chosen casas particulares.</p>
+               <p>We assure you that among these proposals is the one you are looking for; you just need to confirm that you want them. It is very easy and fast if you intend it. I suggest you make the prepayment now.</p>
+          ]]></target>
+       </trans-unit>
+       <trans-unit id="8">
+           <source>reservation.last.reminder.subtitle</source>
+           <target state="new">Booking Information</target>
+      </trans-unit>
+         <trans-unit id="9">
+             <source>reservation.last.reminder.reservation_text</source>
+             <target state="new">Would you like to take a look at the booking for the last time?</target>
+        </trans-unit>
+         <trans-unit id="10">
+             <source>reservation.last.reminder.reservation_view</source>
+             <target state="new">See booking</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>
