@@ -319,4 +319,45 @@ class CartController extends Controller
         }
     }
 
+    public function cartWithOpenReservationAction($idReservation, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ids_gr = array($idReservation);
+
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
+
+        $reservations = array();
+        $reservationsIds = array();
+
+        foreach($ids_gr as $idGenRes){
+            $genRes = $em->getRepository("mycpBundle:generalReservation")->find($idGenRes);
+            $details = $genRes->getTravelAgencyDetailReservations();
+            $reservation = $details[0]->getReservation();
+
+            if(!array_key_exists($reservation->getId(), $reservations)) {
+                $reservations[$reservation->getId()] = array();
+                $reservationsIds[] = $reservation->getId();
+            }
+
+            $reservations[$reservation->getId()][] = $idGenRes;
+        }
+
+        $details = array();
+
+        foreach($reservationsIds as $reservationId)
+        {
+            $details[$reservationId] = $em->getRepository('PartnerBundle:paReservation')->getDetails($reservationId, $reservations[$reservationId]);
+        }
+
+        return $this->render('PartnerBundle:Cart:cart.html.twig', array(
+            "items" => $cartItems,
+            "details" => $details,
+            "disablePaymentButton" => (count($ids_gr) > 0)
+        ));
+    }
+
 }

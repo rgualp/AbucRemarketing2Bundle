@@ -48,7 +48,7 @@
         {{ 'reservation.reminder.payment_text' |trans({}, "messages", user_locale) }}
     </p>
 
-    {% set paymentUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito" : "cart") %}
+    {% set paymentUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito-detalle/" : "cart-detail/") ~ reservation.genResId %}
     <p><a href="{{ paymentUrl }}">{{ "dashboard.btn.booking.paid" |trans({}, "messages", user_locale) }}</a></p>
 
 </div>

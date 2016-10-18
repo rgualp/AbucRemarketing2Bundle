@@ -39,14 +39,14 @@
         CAS.{{ reservation.genResId }}/ {{ nights }} {{ "NIGHTS" | trans({}, "messages", user_locale) | lower }} <br/>
         {{ "AVAILABLE" | trans({}, "messages", user_locale)  }} / {{ (reservation.genResTotalInSite * currency.currCucChange) | number_format(2) }} {{ currency.currSymbol }} <br/>
         <br/>
-        {% set paymentUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito" : "cart") %}
+        {% set paymentUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito-detalle/" : "cart-detail/") ~ reservation.genResId %}
         {% set cancelUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/booking/cancel-reservation/' ~ reservation.genResId %}
         <p><a href="{{ paymentUrl }}">{{ "dashboard.btn.booking.paid" |trans({}, "messages", user_locale) }}</a>      <a href="{{ cancelUrl }}">{{ "dashboard.btn.booking.cancel" |trans({}, "messages", user_locale) }}</a></p>
 
     {% endif %}
 
     <p>
-        {% set viewReservationUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito" : "cart") %}
+        {% set viewReservationUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito-detalle/" : "cart-detail/") ~ reservation.genResId %}
         {{ 'reservation.last.reminder.reservation_text' |trans({}, "messages", user_locale) }}  <a href="{{ viewReservationUrl }}">{{ "reservation.last.reminder.reservation_view" |trans({}, "messages", user_locale) }}</a>
     </p>
 
