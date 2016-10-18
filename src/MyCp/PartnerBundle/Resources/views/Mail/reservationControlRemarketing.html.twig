@@ -1,0 +1,98 @@
+
+{#% set accommdationDetailsUrl = url('frontend_details_ownership', {'own_name': reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize, 'locale': user_locale|lower,'_locale':user_locale|lower }) %#}
+{#% set mailPaymentUrl =  url('frontend_mycasatrip_available', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+{#% set searchAccommodations =  url('frontend_search_ownership', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+{% set accommdationDetailsUrl = mail_base_url ~'/'~user_locale~'/partner/dashboard/accomodation/'~reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize%}
+{% set mailPaymentUrl = mail_base_url ~ '/email-mycasatrip/available/'~ user_locale|lower~'/'~ user_locale|lower %}
+{% set searchAccommodations = mail_base_url ~ '/accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower %}
+
+{% if booking is defined %}
+    {#% set viewBooking =  url('frontend_view_confirmation_reservation', { 'id_booking':booking, 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+    {% set viewBooking = mail_base_url ~ '/view-reservation-email/'~booking~'/'~ user_locale|lower~'/'~ user_locale|lower %}
+{% else %}
+    {% set viewBooking = "#"%}
+{% endif %}
+<table width="100%" cellpadding="10" cellspacing="0" border="0">
+                <tr>
+                    <td bgcolor="#F5F5F5" style="background-color: #F5F5F5;border: 1px solid #E3E3E3;">
+                        <table width="100%" cellpadding="6" cellspacing="0" border="0">
+                            <tr>
+                                <td width="66%" valign="top" align="left" >
+                                    <table cellpadding="4" border="0" cellspacing="0">
+                                        <tr>
+                                            <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
+                                                <a href="{{ accommdationDetailsUrl }}">
+                                                    {% if photos[index][0].getPhoName is defined %}
+                                                        <img width="100%" style="display:block;" border="0" src="{{mail_base_url~'/uploads/ownershipImages/thumbnails/'~photos[index][0].getPhoName}}" alt="{{"Thumbnails" | trans}}"/>
+                                                    {% else %}
+                                                        <img width="100%" style="display:block;" border="0" src="{{mail_base_url~'/uploads/ownershipImages/no_photo_square.gif'}}" alt="{{"No photo" | trans}}"/>
+                                                    {% endif %}
+                                                </a>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
+                                                <h3 style="color: #084D74">
+                                                <a class="titleLink" href="{{ accommdationDetailsUrl }}">
+                                                {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}
+                                                </a>
+                                                </h3>
+                                                {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
+                                                - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}<br/>
+                                                {{reservation.getOwnResRoomType|trans({}, "messages", user_locale)}}<br/>
+                                                {{reservation.getOwnResCountAdults}} {{"ADULTS"|trans({}, "messages", user_locale)}}<br/>
+                                                {{reservation.getOwnResCountChildrens}} {{"KIDS"|trans({}, "messages", user_locale)}}<br/>
+                                                {{"ARRIVAL_RESERVATION"|trans({}, "messages", user_locale)}}: {{reservation.getOwnResReservationFromDate | date('d/m/Y')}}<br/>
+                                                {{"NIGHTS"|trans({}, "messages", user_locale)}}: {{nights[index]}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
+                                    <b>{{"ID_RESERVATION"|trans({}, "messages", user_locale)}}:</b> {{reservation.getOwnResGenResId.getCASId}}<br/><br/>
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
+                                        <span style="background-color: #468847; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
+                                        <span style="background-color: #999999; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+
+                                    {% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
+                                        <span style="background-color: #f89406; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_OUTDATED'))%}
+                                        <span style="background-color: #000; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"OUTDATED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is not defined)%}
+                                        <span style="background-color: #f89406; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
+                                        <span style="background-color: #3a87ad; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}:
+                                       {%if reservation.getOwnResNightPrice != 0%}
+                                        {{ (reservation.getOwnResNightPrice * nights[index]) | price}}
+                                       {%else%}
+                                            {{ reservation.ownResTotalInSite | price}}
+                                       {%endif%}
+                                    </h3>
+                                   {# {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{mailPaymentUrl }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
+                                    {% endif %}#}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{accommdationDetailsUrl }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
+                                    {% endif %}
+                                    {#{% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{searchAccommodations }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is not defined)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{searchAccommodations }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
+                                    {% endif %}#}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ viewBooking }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
