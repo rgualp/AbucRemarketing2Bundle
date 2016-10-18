@@ -112,15 +112,29 @@ class LastReservationReminderWorkerCommand extends Worker
     {
         $userId =  $user->getUserId();
         $userEmail = $user->getUserEmail();
-        $emailBody = $this->renderEmailBody($user, $generalReservation);
 
-        $emailSubject = $this->translatorService->trans('LAST_CHANCE_TO_BOOK_SUBJECT');
+        if($user->getUserRole() == "ROLE_CLIENT_PARTNER")
+        {
+            $emailBody = $this->renderEmailBodyPartner($user, $generalReservation);
+            $emailSubject = $this->translatorService->trans('LAST_CHANCE_TO_BOOK_SUBJECT');
 
-        $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
-        $this->logger->logMail(date('Y-m-d H:i:s') ." Worker LastReservationReminder Email: ".$userEmail." ".print_r($emailBody));
+            $this->output->writeln("Partner: Send email to $userEmail, subject '$emailSubject' for User ID $userId");
+            $this->logger->logMail(date('Y-m-d H:i:s') . " Worker LastReservationReminder Email (Partner): " . $userEmail . " " . print_r($emailBody));
 
-        $this->emailManager->sendEmail(
-            $userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
+            $this->emailManager->sendTemplatedPartnerEmail(
+                $userEmail, $emailSubject, $emailBody, 'reservation.partner@mycasaparticular.com');
+        }
+
+        else {
+            $emailBody = $this->renderEmailBody($user, $generalReservation);
+            $emailSubject = $this->translatorService->trans('LAST_CHANCE_TO_BOOK_SUBJECT');
+
+            $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
+            $this->logger->logMail(date('Y-m-d H:i:s') . " Worker LastReservationReminder Email: " . $userEmail . " " . print_r($emailBody));
+
+            $this->emailManager->sendEmail(
+                $userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
+        }
     }
 
     /**
@@ -200,6 +214,38 @@ class LastReservationReminderWorkerCommand extends Worker
                 'initial_payment' => $initialPayment,
                 'generalReservationId' => $genResId,
                 'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
+            ));
+
+        return $body;
+    }
+
+    private function renderEmailBodyPartner(user $user, generalReservation $generalReservation)
+    {
+        $roomReservations = $generalReservation->getOwn_reservations();
+        $user_locale = $this->emailManager->getUserLocale($user);
+
+        $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        $nights = 0;
+        $adults = 0;
+        $children = 0;
+        foreach($roomReservations as $roomReservation)
+        {
+            $nights += $this->timeService->nights($roomReservation->getOwnResReservationFromDate()->getTimestamp(), $roomReservation->getOwnResReservationToDate()->getTimestamp());
+            $adults += $roomReservation->getOwnResCountAdults();
+            $children += $roomReservation->getOwnResCountChildrens();
+        }
+
+        $body = $this->emailManager
+            ->getViewContent('PartnerBundle:Mail:reservationLastReminder.html.twig', array(
+                "reservation" => $generalReservation,
+                "user_locale" => $user_locale,
+                "agencyName" => $travelAgency->getName(),
+                "nights" => ($nights / count($roomReservations)),
+                "adults" => $adults,
+                "children" => $children,
+                "currency" => $user->getUserCurrency()
             ));
 
         return $body;
