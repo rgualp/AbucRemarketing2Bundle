@@ -938,7 +938,7 @@ body.landing-page {
     font-size: 14px;
 }
 .efect-blur{
-    background-color: #6f909f;
+    background-color: #094e75;
     left: 0;
     overflow: hidden;
     padding-top: 15px;
@@ -950,7 +950,7 @@ body.landing-page {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0.28;
+    opacity: 0.5;
 
 }
 .description-ownwership{
@@ -1285,6 +1285,24 @@ a.payButton.bg-grey{ cursor: default; }
 .icono-with-check{
 
 }
+
+.cancel-reservation a, .cancel-reservation a:link, .cancel-reservation a:visited, .cancel-reservation a:active{
+    font-size: 25px;
+    color: #676a6c;
+}
+
+.cancel-reservation button[type="submit"]{
+    font-size: 25px;
+    color: #676a6c;
+    background-color: transparent;
+    border:none;
+    line-height: 45px;
+}
+
+.cancel-reservation a:hover{
+    text-decoration: underline;
+}
+
 .icono-with-check:before{
     background: #f49821 none repeat scroll 0 0;
     border: 0 none;

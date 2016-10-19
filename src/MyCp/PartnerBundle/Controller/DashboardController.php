@@ -5,6 +5,7 @@ namespace MyCp\PartnerBundle\Controller;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\PartnerBundle\Form\FilterOwnershipType;
 use MyCp\PartnerBundle\Form\paReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -733,6 +734,41 @@ class DashboardController extends Controller
     public function closeReservation($paGeneralReservation)
     {
         $em = $this->getDoctrine()->getManager();
+        //Send email
+        $user = $this->getUser();
+        //Configuration service send new availability check
+        $service_email = $this->get('Email');
+        $translator = $this->get('translator');
+
+        //Send email user new availability check
+        $subject = $translator->trans('subject.email.partner.new.availability.check', array(), "messages", strtolower($user->getUserLanguage()->getLangCode()));
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheck.html.twig', array(
+            "reservations" => $paGeneralReservation->getTravelAgencyOpenReservationsDetails(),
+            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange()
+        ));
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
+
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $contacts=$travelAgency->getContacts();
+        $phone_contact = (count($contacts)) ? $contacts[0]->getPhone() . ', ' . $contacts[0]->getMobile() : ' ';
+        //Send email team reservations
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheckReservations.html.twig', array(
+            "reservations" => $paGeneralReservation->getTravelAgencyOpenReservationsDetails(),
+            "rooms"=> $paGeneralReservation->getPaOwnershipReservations(),
+            'user_locale'=> 'es',
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange(),
+            'travelAgency'=>$travelAgency,
+            'agency_resp'=>(count($contacts))?$contacts[0]->getName():'',
+            'phone_contact'=>$phone_contact
+        ));
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'solicitud.partner@mycasaparticular.com', $content);
+
         $generalReservation = $paGeneralReservation->createReservation();
 
         $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
@@ -1162,6 +1198,56 @@ class DashboardController extends Controller
             'success' => true,
             'message' => "Cancelado correctamente"
         ]);
+    }
+
+    public function cancelReservationAction($idReservation, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $trans = $this->get('translator');
+        $generalReservation = $em->getRepository('mycpBundle:generalReservation')->find($idReservation);
+
+        $user = $this->getUser();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+
+        $reservationUser = $generalReservation->getGenResUserId();
+        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
+        $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
+
+        if($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId())
+        {
+        //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
+
+        if($this->getRequest()->getMethod() == 'POST') {
+            $ownershipReservations = $generalReservation->getOwn_reservations();
+            foreach ($ownershipReservations as $ownRes) {
+                $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                $em->persist($ownRes);
+            }
+            $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+            $generalReservation->setGenResStatusDate(new \DateTime());
+            $generalReservation->setCanceledBy($user);
+            $em->persist($generalReservation);
+
+            $em->flush();
+
+            $message = $trans->trans('cancel.reservation.successful.alert');
+            $this->get('session')->getFlashBag()->add('message_global_success', $message);
+
+            return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+        }
+
+        return $this->render('PartnerBundle:Dashboard:cancelReservation.html.twig', array(
+            "casReservation" => "CAS.".$idReservation,
+            "idReservation" => $idReservation
+        ));
+        }
+        else{
+            $message = $trans->trans('cancel.reservation.error.alert');
+            $this->get('session')->getFlashBag()->add('message_global_error', $message);
+
+            return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+        }
     }
 
     public function getThumbnailForSearcherAction($photo, $title){

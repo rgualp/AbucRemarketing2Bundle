@@ -36,13 +36,18 @@ class BackendController extends Controller
 
         $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
+
+        //proccess, pending, availability, notavailability, reserved, beaten, canceled, checkin
+        $inAction = array();
+
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
             "owns_categories" => null,
             "autocomplete_text_list" => null,
             "owns_prices" => $prices_own_list,
             "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'inAction'=>$inAction
         ));
     }
 
@@ -170,9 +175,45 @@ class BackendController extends Controller
         ));
         $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
 
+
+        $rooms=array();
         foreach($reservationDetails as $detail)
         {
+            $paGeneralReservation = $detail->getOpenReservationDetail();
+            $ownershipReservations=$paGeneralReservation->getPaOwnershipReservations();
+            foreach($ownershipReservations as $ownreservation){
+                $temp['roomType']=$ownreservation->getroomType();
+                $temp['nights']=$ownreservation->getNights();
+                $temp['adults']=$ownreservation->getAdults();
+                $temp['children']=$ownreservation->getChildren();
+                $temp['dateFrom']=$ownreservation->getDateFrom();
+                $temp['dateTo']=$ownreservation->getDateTo();
+                $rooms[]=$temp;
+            }
+        }
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $contacts=$travelAgency->getContacts();
+        $phone_contact = (count($contacts)) ? $contacts[0]->getPhone() . ', ' . $contacts[0]->getMobile() : ' ';
+        //Send email team reservations
+        $content=$this->render('PartnerBundle:Mail:newAvailabilityCheckReservations.html.twig', array(
+            "reservations" => $reservationDetails,
+            "rooms"=> $rooms,
+            'user_locale'=>'es',
+            'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
+            'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
+            'currency_rate'=>$user->getUserCurrency()->getCurrCucChange(),
+            'travelAgency'=>$travelAgency,
+            'agency_resp'=>(count($contacts))?$contacts[0]->getName():'',
+            'phone_contact'=>$phone_contact
+        ));
+        $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'solicitud.partner@mycasaparticular.com', $content);
+
+        foreach($reservationDetails as $detail)
+        {
+
             $paGeneralReservation = $detail->getOpenReservationDetail(); // a eliminar
+            $rooms[]=$paGeneralReservation->getPaOwnershipReservations();
             $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
 
             $generalReservation = $paGeneralReservation->createReservation();

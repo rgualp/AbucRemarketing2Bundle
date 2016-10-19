@@ -80,6 +80,7 @@ class PublicController extends Controller {
                 'economic_total' => $statistics['economic_total']
             ));
         }else{
+            $slides = Utils::loadFrontendSlides();
             $response = $this->render('FrontEndBundle:public:home.html.twig', array(
                 'locale' => $glogal_locale,
                 'provinces' => $provinces,
@@ -87,7 +88,8 @@ class PublicController extends Controller {
                 'own_top20_list' => $own_top20_list,
                 'premium_total' => $statistics['premium_total'],
                 'midrange_total' => $statistics['midrange_total'],
-                'economic_total' => $statistics['economic_total']
+                'economic_total' => $statistics['economic_total'],
+                'slides' => $slides
             ));
         }
 
@@ -116,6 +118,7 @@ class PublicController extends Controller {
     }
 
     public function loginAction() {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $request = $this->getRequest();
         $session = $request->getSession();
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -124,10 +127,19 @@ class PublicController extends Controller {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
-        return $this->render('FrontEndBundle:public:login.html.twig', array(
-                    'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                    'error' => $error,
-        ));
+
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/security/login.html.twig', array(
+                'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+                'error' => $error,
+            ));
+        }else{
+            return $this->render('FrontEndBundle:public:login.html.twig', array(
+                'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+                'error' => $error,
+            ));
+        }
+
     }
 
     public function homeCarrouselAction() {

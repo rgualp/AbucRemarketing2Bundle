@@ -14,6 +14,7 @@
             '@FrontEndBundle/Resources/public/css/glyphicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/myicons.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/animate.css'
             '@FrontEndBundle/Resources/public/css/custom.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
         filter='?uglifycss'
@@ -38,7 +39,9 @@
             {% endstylesheets %}
         {% endif %}
 
-        <!-- Google Analytics -->
+        {% block include_css %}{% endblock %}
+
+        {#<!-- Google Analytics -->#}
         {#<script>#}
             {#var _gaq = _gaq || [];#}
             {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
@@ -62,7 +65,8 @@
                     {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
 
             {#fbq('init', '1240648305949371');#}
-            {#fbq('track', "PageView");</script>#}
+            {#fbq('track', "PageView");#}
+        {#</script>#}
         {#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
         {#<!-- End Facebook Pixel Code -->#}
 
@@ -70,9 +74,10 @@
     </head>
     <body>
     {#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
-    <!-- Google Tag Manager -->
+    {#<!-- Google Tag Manager -->#}
     {#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
-    {#<script>(function(w, d, s, l, i) {#}
+    {#<script>#}
+        {#(function(w, d, s, l, i) {#}
             {#w[l] = w[l] || [];#}
             {#w[l].push({'gtm.start':#}
                     {#new Date().getTime(), event: 'gtm.js'});#}
@@ -82,8 +87,9 @@
             {#j.src =#}
                     {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
             {#f.parentNode.insertBefore(j, f);#}
-        {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>#}
-    <!-- End Google Tag Manager -->
+        {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');#}
+    {#</script>#}
+    {#<!-- End Google Tag Manager -->#}
     {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
     <div class="container">
         <div class="row">
@@ -151,16 +157,13 @@
 
     {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
 
-    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
+    <script>
+        var start_date ="{{"now"|date("d/m/Y") }}";
+        var end_date ="{{"now"|date("d/m/Y") }}";
+    </script>
 
-    {#<script>#}
-        {#var start_date ="{{"now"|date("d/m/Y") }}";#}
-        {#var end_date ="{{"now"|date("d/m/Y") }}";#}
-    {#</script>#}
     {% javascripts
     '@MyCpMobileFrontendBundle/Resources/public/js/jquery-2.1.1.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/fixedlink.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/jquery.mobile-1.4.5.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/tether.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/bootstrap.min.js'
 
@@ -176,15 +179,12 @@
     '@FrontEndBundle/Resources/public/js/jail.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/custom.js'
 
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
 
 
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
-
-    '@FrontEndBundle/Resources/public/js/ownership.min.js'
 
     filter='?uglifyjs2'
     %}

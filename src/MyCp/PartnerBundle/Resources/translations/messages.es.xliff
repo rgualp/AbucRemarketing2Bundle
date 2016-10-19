@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file date="2016-10-07T13:52:43Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2016-10-13T09:42:12Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
@@ -266,6 +266,10 @@
         <source>FORMS_COMMENTS</source>
         <target state="new">FORMS_COMMENTS</target>
       </trans-unit>
+      <trans-unit id="bc6ab67e1e5698bda61f2ba71f2e0a2aa1e6f147" resname="FORMS_EMAIL">
+        <source>FORMS_EMAIL</source>
+        <target state="new">FORMS_EMAIL</target>
+      </trans-unit>
       <trans-unit id="7a5849899e50d2d08d027d2c19f970e45104a3bc" resname="FORMS_PHONE">
         <source>FORMS_PHONE</source>
         <target state="new">FORMS_PHONE</target>
@@ -446,6 +450,10 @@
         <source>PAYMENT_DETAILS</source>
         <target state="new">Detalles del pago</target>
       </trans-unit>
+      <trans-unit id="ca8ff9cff8fbd48bd4aeeb376840119ace06c138" resname="PAYMENT_SUCCESS">
+        <source>PAYMENT_SUCCESS</source>
+        <target state="new">PAYMENT_SUCCESS</target>
+      </trans-unit>
       <trans-unit id="3711a43b8985a6bb196946d50507f3e5c3427e5c" resname="PAY_AT_ACCOMMODATION">
         <source>PAY_AT_ACCOMMODATION</source>
         <target state="new">Pago en Casa</target>
@@ -590,6 +598,10 @@
         <source>SKRILL_CONFIRMATION_NOTE</source>
         <target state="new">SKRILL_CONFIRMATION_NOTE</target>
       </trans-unit>
+      <trans-unit id="4e60794f8576c288f9dd189389ece74e886c1e2a" resname="SKRILL_PAYMENT">
+        <source>SKRILL_PAYMENT</source>
+        <target state="new">SKRILL_PAYMENT</target>
+      </trans-unit>
       <trans-unit id="c7b0be04b420b527b7d312b9fd250af7378303bd" resname="SKRILL_PAY_WITH_SKRILL">
         <source>SKRILL_PAY_WITH_SKRILL</source>
         <target state="new">SKRILL_PAY_WITH_SKRILL</target>
@@ -609,6 +621,10 @@
       <trans-unit id="4fb174ba221aa931110aec64fc2e70929dd9649d" resname="STEREO_ROOMS">
         <source>STEREO_ROOMS</source>
         <target state="new">STEREO_ROOMS</target>
+      </trans-unit>
+      <trans-unit id="6db5f2e013eabc0f0e2ccea53d5923206752ad58" resname="Skrill">
+        <source>Skrill</source>
+        <target state="new">Skrill</target>
       </trans-unit>
       <trans-unit id="2873242b7fb5b76431a3ad1917a61e16b7338124" resname="Solicitar Casa">
         <source>Solicitar Casa</source>
@@ -817,7 +833,7 @@
       <trans-unit id="85abe55d1de6ad8868e5c68683a3c2f7063a073a" resname="content.email.partnerteam_deactivateaccount">
         <source>content.email.partnerteam_deactivateaccount</source>
         <target state="new"><![CDATA[Hola equipo de MyCasa Particular,</br>
-                                    Una nueva agencia de viaje se ha dado de baja de MyCasa Partner. Su cuenta agency_name a nombre de agency_resp, ya se ha desactivado.</br>
+                                    Una nueva agencia de viaje se ha dado de baja de MyCasaPartner. Su cuenta agency_name a nombre de agency_resp, ya se ha desactivado.</br>
                                     Hasta este momento, realizaba sus operaciones con los beneficios del paquete (Básico). Lo lamentamos mucho.</br>
                                      Buena suerte,</br>
                                     Equipo de MyCasaPartner]]></target>
@@ -836,11 +852,11 @@
       </trans-unit>
       <trans-unit id="3315093192321a76a7a9180a980f88f7721e32dc" resname="content.nine.email.partner_mcpteam">
         <source>content.nine.email.partner_mcpteam</source>
-        <target state="new">¡Hemos ganado un nuevo socio!  Buena suerte,Equipo de MyCasa Partner</target>
+        <target state="new">¡Hemos ganado un nuevo socio!  Buena suerte,Equipo de MyCasaPartner</target>
       </trans-unit>
       <trans-unit id="6cbe9f484fa9461a12118b23fe5b5f9576ccfe71" resname="content.one.email.partner_mcpteam">
         <source>content.one.email.partner_mcpteam</source>
-        <target state="new">Hola equipo de MyCasa Particular, Una nueva agencia de viaje se ha sumado a MyCasa Partner. Se trata de</target>
+        <target state="new">Hola equipo de MyCasa Particular, Una nueva agencia de viaje se ha sumado a MyCasaPartner. Se trata de</target>
       </trans-unit>
       <trans-unit id="3d83b2ed86895715bf787ed27d54961a89115cef" resname="content.seven.email.partner_mcpteam">
         <source>content.seven.email.partner_mcpteam</source>
@@ -997,10 +1013,6 @@
       <trans-unit id="bf2d35f354f936420e9ba65f7b22bbd6fd841fbd" resname="dashboard.btn.booking.paid">
         <source>dashboard.btn.booking.paid</source>
         <target state="new">Pagar</target>
-      </trans-unit>
-      <trans-unit id="ca3eeb7ef1077171a9a0d040b9b58589f16224f9" resname="dashboard.payment">
-        <source>dashboard.payment</source>
-        <target state="new">Payment</target>
       </trans-unit>
       <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
         <source>dashboard.profile</source>
@@ -1180,7 +1192,7 @@
       </trans-unit>
       <trans-unit id="bdf3a5ca26c9e7c9fc9cd21a8c280d756a3d348c" resname="label.email.registeraccount.text.one">
         <source>label.email.registeraccount.text.one</source>
-        <target state="new"><![CDATA[A buena hora te has convertido en un miembro del equipo de MyCasa Partner. Este será el primer paso de una estupenda colaboración. <br/>
+        <target state="new"><![CDATA[A buena hora te has convertido en un miembro del equipo de MyCasaPartner. Este será el primer paso de una estupenda colaboración. <br/>
                                      Nosotros nos encargamos de ofrecerte solo lo mejor y más exclusivo de las casas particulares de Cuba.<br/>
                                      Garantizamos una estancia feliz y acogedora para tus clientes y una maravillosa atención por parte de nuestros anfitriones.<br/>
                                      Tú solo tienes que ponerle ganas para sacar el mejor partido a esta sociedad que comienza. Ya estás dentro, así que ya tienes el estilo Partner.<br/>]]></target>
@@ -1199,16 +1211,16 @@
       </trans-unit>
       <trans-unit id="22df5789568992e39b32758eac90f9d986902681" resname="label.email.registeraccount.text.two">
         <source>label.email.registeraccount.text.two</source>
-        <target state="new">Antes de seguir adelante, solo recuerda que te has registrado como</target>
+        <target state="new">Antes de seguir adelante, solo recuerda que te has registrado como </target>
       </trans-unit>
       <trans-unit id="776cb7f159fc7feda10e4d95fce02288a9c02979" resname="label.email.voucher">
         <source>label.email.voucher</source>
-        <target state="new"><![CDATA[En MyCasa Partner estamos felices de encontrar las opciones ideales para tus clientes, teniendo en cuenta que las reservas solicitadas han sido pagadas sin problemas.</br>
+        <target state="new"><![CDATA[En MyCasaPartner estamos felices de encontrar las opciones ideales para tus clientes, teniendo en cuenta que las reservas solicitadas han sido pagadas sin problemas.</br>
                             Nuestros anfitriones aguardan con gusto la llegada de los nuevos huéspedes, para ofrecerles justo lo más exclusivo de las casas particulares de Cuba.</br>
                             Después de todo, tus clientes son nuestros mejores amigos también.</br>
                             Adjunto de este correo, te enviamos los detalles de la reserva.</br>
                             Buena suerte,</br>
-                            Equipo de MyCasa Partner]]></target>
+                            Equipo de MyCasaPartner]]></target>
       </trans-unit>
       <trans-unit id="5b58a7a8ab1653c4e59c02570614f4ec4fa8f8ab" resname="label.extra">
         <source>label.extra</source>
@@ -1540,14 +1552,6 @@
         <source>label.overlay.cart_1</source>
         <target>Has seleccionado estas reservas para complacer las solicitudes de tus clientes.</target>
       </trans-unit>
-      <trans-unit id="29724fc103f3c95dc8797cb2720e3cdf3e065008" resname="label.overlay.cart_2">
-        <source>label.overlay.cart_2</source>
-        <target>Completa los datos y revisa por última vez antes de comprar.</target>
-      </trans-unit>
-      <trans-unit id="3ea97c6b7ad23fed52137fe9d8fc6d67a23d802a" resname="label.overlay.cart_3">
-        <source>label.overlay.cart_3</source>
-        <target>¡Buena suerte!</target>
-      </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
         <target state="new">Contraseña</target>
@@ -1587,6 +1591,10 @@
       <trans-unit id="53fc1d429be3a8aa92fbdbc5221e92256d4d90c1" resname="label.ready.reserved">
         <source>label.ready.reserved</source>
         <target state="new">¿Estás listo para reservar a lo grande?</target>
+      </trans-unit>
+      <trans-unit id="6ac8d9e729656ffc9a1b31a14956013c7332ea25" resname="label.register">
+        <source>label.register</source>
+        <target state="new">Registrarse</target>
       </trans-unit>
       <trans-unit id="01f0fb1ec1f93367d546f89935955b61d329cd1b" resname="label.register.agency">
         <source>label.register.agency</source>
@@ -2027,6 +2035,25 @@
         <source>partner.download.voucher</source>
         <target state="new">Descargar Booking</target>
       </trans-unit>
+      <trans-unit id="6e463a00f9dcd7af7fb3679d07c664454be2510a" resname="partner.email.registeraccount.beta">
+        <source>partner.email.registeraccount.beta</source>
+        <target state="new"><![CDATA[<p>A buena hora quieres convertirte en un miembro del equipo de MyCasaPartner. Este será el primer paso de una estupenda colaboración.</p>
+                                     <p>Nosotros nos encargamos de ofrecerte solo lo mejor y más exclusivo de las casas particulares de Cuba. En este minuto, nuestro producto está funcionando en una versión Beta.</p>
+                                     <p>Muy pronto, te comunicaremos los datos necesarios para que puedas activar tu cuenta de agencia y comenzar a utilizar MyCasaPartner.</p>
+                                     <p>Estás en el camino correcto. Te garantizamos una estancia feliz y acogedora para tus clientes y una maravillosa atención por parte de nuestros anfitriones.</p>
+                                     <p>En brevepodremos sacar el mejor partido a esta sociedad que comienza. Lo mejor es que podemos hacerlo al estilo Partner.</p>
+                                     <p>¡Enhorabuena!</p>
+        ]]></target>
+      </trans-unit>
+      <trans-unit id="0da856c842756b106822d2ee34a1a8790a38a640" resname="partner.email.registeraccount.release">
+        <source>partner.email.registeraccount.release</source>
+        <target state="new"><![CDATA[<p>¡Enhorabuena! Ya eres uno de nosotros. La versión BETA deMyCasaPartner fue probada con éxito. Ahora puedes comenzar a gestionar las reservas de tus clientes con nosotros. Hemos activado tu cuenta. ¡Felicidades!</p>
+              ]]></target>
+      </trans-unit>
+      <trans-unit id="9a29f628dae32dc8ae6142d504c263c95760cd47" resname="partner.email.registeraccount.release.go">
+        <source>partner.email.registeraccount.release.go</source>
+        <target state="new">Comprueba tu cuenta</target>
+      </trans-unit>
       <trans-unit id="401115ee12919d09cc2153057fa13c00d55eabb4" resname="partner.sitemap.activation">
         <source>partner.sitemap.activation</source>
         <target state="new">Activación</target>
@@ -2111,6 +2138,10 @@
         <source>select_language</source>
         <target state="new">Seleccione los lenguages</target>
       </trans-unit>
+      <trans-unit id="1ad82a93e38bc3e4d4925d5db54ebbb24919d2c1" resname="subject.email.partner.new.availability.check">
+        <source>subject.email.partner.new.availability.check</source>
+        <target state="new">Nueva consulta de disponibilidad enviada</target>
+      </trans-unit>
       <trans-unit id="dc03589e363f6d5159efe547db192fbe7ddfdd51" resname="subject.email.partner_deactivateaccount">
         <source>subject.email.partner_deactivateaccount</source>
         <target state="new">Desactivación de cuenta de agencia</target>
@@ -2171,24 +2202,65 @@
         <source>title.section.we</source>
         <target state="new"><![CDATA[Confía en nosotros… </br>¡Vuélvete Partner!]]></target>
       </trans-unit>
-      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d348c" resname="partner.email.registeraccount.beta">
-        <source>partner.email.registeraccount.beta</source>
-        <target state="new"><![CDATA[<p>A buena hora quieres convertirte en un miembro del equipo de MyCasaPartner. Este será el primer paso de una estupenda colaboración.</p>
-                                     <p>Nosotros nos encargamos de ofrecerte solo lo mejor y más exclusivo de las casas particulares de Cuba. En este minuto, nuestro producto está funcionando en una versión Beta.</p>
-                                     <p>Muy pronto, te comunicaremos los datos necesarios para que puedas activar tu cuenta de agencia y comenzar a utilizar MyCasaPartner.</p>
-                                     <p>Estás en el camino correcto. Te garantizamos una estancia feliz y acogedora para tus clientes y una maravillosa atención por parte de nuestros anfitriones.</p>
-                                     <p>En brevepodremos sacar el mejor partido a esta sociedad que comienza. Lo mejor es que podemos hacerlo al estilo Partner.</p>
-                                     <p>¡Enhorabuena!</p>]]>
-        </target>
+      <trans-unit id="1">
+          <source>reservation.reminder.text</source>
+          <target state="new"><![CDATA[<p>MyCasa Partner te reserva en las mejores casas particulares de Cuba para brindar a tus clientes unas vacaciones de ensueño.</p>
+                                       <p>Ofrecemos alojamientos exclusivos por todo el país y te aseguramos que la atención de nuestros anfitriones será estupenda. Cuba es el lugar ideal para hacerlos sentir a gusto.</p>
+                                       <p>Sin embargo, recuerda que MyCasa Partner te garantiza la disponibilidad de la casa durante 48 horas, y luego el alojamiento volverá a quedar libre para otras reservaciones.</p>
+                                       <p>Nuestra sugerencia es que confirmes la reserva en las próximas 24 horas, pues los clientes aguardan ansiosos por vivir una experiencia única.</p>
+          ]]></target>
       </trans-unit>
-      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d888c" resname="partner.email.registeraccount.release">
-              <source>partner.email.registeraccount.release</source>
-              <target state="new"><![CDATA[<p>¡Enhorabuena! Ya eres uno de nosotros. La versión BETA deMyCasaPartner fue probada con éxito. Ahora puedes comenzar a gestionar las reservas de tus clientes con nosotros. Hemos activado tu cuenta. ¡Felicidades!</p>]]>
-              </target>
+      <trans-unit id="2">
+          <source>reservation.reminder.greetings</source>
+          <target state="new">Hola %agencyName%,</target>
       </trans-unit>
-      <trans-unit id="bdf3a5cb26c9e7c9fc9cd21a8c280d756a3d889c" resname="partner.email.registeraccount.release.go">
-              <source>partner.email.registeraccount.release.go</source>
-              <target state="new">Comprueba tu cuenta</target>
+      <trans-unit id="3">
+          <source>reservation.reminder.subtitle</source>
+          <target state="new">Tal vez necesites estos datos para continuar:</target>
+      </trans-unit>
+      <trans-unit id="4">
+          <source>reservation.reminder.payment_text</source>
+          <target state="new">En realidad, todo lo que necesitas es realizar el prepago de la reserva ¡ahora mismo!</target>
+      </trans-unit>
+      <trans-unit id="5">
+            <source>reservation.reminder.question</source>
+            <target state="new">¿Quieres consultar los detalles de la casa? </target>
+       </trans-unit>
+      <trans-unit id="6">
+            <source>reservation.reminder.view_more</source>
+            <target state="new">Ver más</target>
+       </trans-unit>
+      <trans-unit id="7">
+          <source>reservation.last.reminder.text</source>
+          <target state="new"><![CDATA[<p>MyCasa Partner siempre está al tanto de los deseos de tus clientes. Sabemos que algunos solo esperan por el alojamiento indicado para cumplir sus sueños de viajar a Cuba.</p>
+               <p>Estamos seguros de que con nosotros encontrarás opciones increíbles para ofertar a cada uno de ellos. De hecho, ya tienes algunas de tus solicitudes confirmadas como disponibles.</p>
+               <p>Recuerda que dentro de algunas horas, varias de estas reservas estarán vencidas. Entonces, habremos perdido la estupenda oportunidad de ofrecer a tus clientes unas vacaciones únicas en las casas particulares elegidas.</p>
+               <p>Te garantizo que entre estas propuestas está la que buscas, solo necesitas confirmar que sí la quieres. Es muy fácil y rápido si te lo propones. Te sugiero que realices el prepago de la reserva ahora.</p>
+          ]]></target>
+       </trans-unit>
+       <trans-unit id="8">
+           <source>reservation.last.reminder.subtitle</source>
+           <target state="new">Información de la reserva</target>
+      </trans-unit>
+         <trans-unit id="9">
+             <source>reservation.last.reminder.reservation_text</source>
+             <target state="new">¿Quieres echar un vistazo a la reserva por última vez?</target>
+        </trans-unit>
+         <trans-unit id="10">
+             <source>reservation.last.reminder.reservation_view</source>
+             <target state="new">Ver Reserva</target>
+        </trans-unit>
+        <trans-unit id="11">
+            <source>cart.alert.content_with_reservation_number</source>
+            <target>La reserva %casReservation% se cancelará. La operación es irreversible</target>
+      </trans-unit>
+        <trans-unit id="12">
+            <source>cancel.reservation.successful.alert</source>
+            <target>La reserva fue cancelada exitosamente</target>
+      </trans-unit>
+        <trans-unit id="13">
+            <source>cancel.reservation.error.alert</source>
+            <target>Esta reserva no pertenece a su agencia</target>
       </trans-unit>
     </body>
   </file>

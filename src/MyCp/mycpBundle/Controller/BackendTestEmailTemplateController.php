@@ -658,7 +658,8 @@ class BackendTestEmailTemplateController extends Controller {
                         'nights' => $arrayNightsByOwnershipReservation,
                         'payment_pending' => 0,
                         'rooms' => $rooms,
-                        'booking' => $booking
+                        'booking' => $booking,
+                        'payedAmount' => $bookingEntity->getPayedAmount()
                     )
                 );
             }

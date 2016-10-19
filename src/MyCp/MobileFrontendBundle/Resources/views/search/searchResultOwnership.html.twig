@@ -1,0 +1,116 @@
+{% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
+{% block nav_heigth %}52px{% endblock %}
+{% block include_css %}
+    {% stylesheets
+    '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
+    '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+    '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
+    '@MyCpMobileFrontendBundle/Resources/public/css/slider.css'
+
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {#'@FrontEndBundle/Resources/public/css/filtersv2.css'#}
+{% endblock %}
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
+
+{% block title %}{{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}{% endblock %}
+
+ {% block metas %}
+     {#{{parent()}}#}
+     {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+     {#{% if search_text=='la habana' %}
+         {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
+     {% endif %}#}
+ {% endblock metas %}
+
+{% set main_tab = 5 %}
+{% block content_nav_top_body %}
+    {{ "SEARCH_DESCRIPTION_MAIN_MENU" | trans }}
+{% endblock %}
+{% block breadcrumbs %}
+{% endblock %}
+{% block body %}
+    <div class="col-xs-12" id="search-container">
+        <div class="row">
+            <div class="col-xs-12 p-a-0">
+                <div class="bg-green-mycp clearfix">
+                    <div id="loading" class="hidden">
+                        <div class="layer-loading"></div>
+                        <div class="loading-signal"><img class="img-circle load-icon"
+                                                         src="{{ asset('bundles/frontend/img/loading.gif') }}"
+                                                         alt="{{ "Loading" | trans }}"/></div>
+                    </div>
+                    {#{%if view_results != 'MAP'%}#}
+                    {#<div class="thumbnail" id="map" style="width:100%;height:150px;" class="google-maps"></div>#}
+                    {#{%endif%}#}
+                    {#<div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"#}
+                    {#data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"#}
+                    {#data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>#}
+
+                    {{ include('MyCpMobileFrontendBundle:search:topSearchBar.html.twig',
+                    {'is_within_search_results':true,
+                        'autocomplete_text_list': autocomplete_text_list,
+                        'locale': locale}) }}
+                    <div class="filter accordion-body collapse" id="collapseFilters">
+                        <div id="filters" data-url-filter="{{ path('my_cp_mobile_filter_ownership_callback') }}"
+                             data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
+                            {% if check_filters is defined %}
+                                {{ include('MyCpMobileFrontendBundle:search:filtersv2.html.twig',
+                                {'own_statistics': own_statistics,'check_filters': check_filters}) }}
+                            {% else %}
+                                {{ include('MyCpMobileFrontendBundle:search:filtersv2.html.twig',
+                                {'own_statistics': own_statistics}) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="filter_upper">
+                        {% if check_filters is defined and check_filters | length %}
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="space space-30"></div>
+            <div class="col-xs-12">
+                <div id="div_result" class="result_list ownerships_mosaic"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+
+        {% javascripts
+        '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
+        '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
+        '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
+        '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.infobox.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.markerclusterer.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/map/Map.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/ownership.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/search.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script>
+            var today_date = "{{ "now"|date("d/m/Y") }}";
+            var start_date = "{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+            var end_date = "{{ (app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y") }}";
+
+            $.fn.typeahead &&
+            $('[data-provide="typeahead"]').typeahead({
+                name: "states",
+                local: {{ autocomplete_text_list |raw }},
+                limit: 4
+            });
+
+        </script>
+    {% endblock %}
+

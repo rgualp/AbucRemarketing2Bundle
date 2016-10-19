@@ -1,0 +1,32 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block title %}{{ 'cart.alert.title' | trans }}{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+    {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
+{% endblock %}
+{% block navbar %}
+    {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
+{% endblock %}
+{% block body %}
+    <div class="space space-70"></div>
+    <div class="container cancel-reservation">
+        <form method="post" action="{{ path("partner_dashboard_booking_cancel_reservation", {"idReservation": idReservation}) }}">
+        <div class="row text-center">
+        <span style="font-size: 48px;font-family: MyriadProBoldCond">{{ 'cart.alert.title' | trans }}</span><br/>
+        <span style="font-size: 30px;font-family: MyriadProLight">
+            {{ 'cart.alert.content_with_reservation_number' | trans | replace({"%casReservation%": casReservation}) }}
+        </span>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 text-right"><button type="submit">{{ "cart.alert.confirm_button" | trans }}</button></div>
+            <div class="col-lg-6 text-left">
+                <a href="{{ path("backend_partner_dashboard") }}">{{ "cart.alert.cancel_button" | trans }}</a>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div style="height: 200px"></div>
+{% endblock %}
+
+

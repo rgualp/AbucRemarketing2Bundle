@@ -45,16 +45,16 @@
             <td><b>{{"OWNERS_NAME"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{{ reservation.openReservationDetail.accommodation.ownHomeowner1 }} {% if reservation.openReservationDetail.accommodation.ownHomeowner2 %}& {{ reservation.openReservationDetail.accommodation.ownHomeowner2 }}{% endif %}</td>
         </tr>
-        <tr>
+        {#<tr>
             <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ reservation.openReservationDetail.accommodation.ownAddressStreet }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ reservation.openReservationDetail.accommodation.ownAddressNumber }} {%if reservation.openReservationDetail.accommodation.ownAddressBetweenStreet1 != "" and reservation.openReservationDetail.accommodation.ownAddressBetweenStreet2 != ""%}, {{ reservation.openReservationDetail.accommodation.ownAddressBetweenStreet1 }} & {{ reservation.openReservationDetail.accommodation.ownAddressBetweenStreet2 }}{%endif%}.
                 {{ reservation.openReservationDetail.accommodation.ownAddressMunicipality.munName }} ,{{ reservation.openReservationDetail.accommodation.ownAddressProvince.provName }}.
             </td>
-        </tr>
-        <tr>
+        </tr>#}
+       {# <tr>
             <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{%if reservation.openReservationDetail.accommodation.ownPhoneCode != ""%}(+53) {{ reservation.openReservationDetail.accommodation.ownPhoneCode }} {{ reservation.openReservationDetail.accommodation.ownPhoneNumber }}{%else%} - {%endif%}</td>
-        </tr>
+        </tr>#}
         <tr>
             <td><b>{{"ADULTS"|trans({}, "messages", user_locale)}}:</b></td>
             <td>{{ reservation.reservation.adults }}</td>
@@ -73,7 +73,7 @@
         </tr>
     </table>
     <br/>
-    <a href="{{ path('partner_dashboard_page_detail',{'own_name':reservation.openReservationDetail.accommodation.ownName  | urlNormalize}) }}">
+    <a href="{{ mail_base_url }}{{ path('partner_dashboard_page_detail',{'own_name':reservation.openReservationDetail.accommodation.ownName  | urlNormalize}) }}">
         <h1 class="h-blue color-white">{{"label.view.more"|trans({}, "messages", user_locale)}}</h1>
     </a>
     <hr/>

@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: "@FrontEndBundle/Resources/config/services.yml" }
     - { resource: "@mycpBundle/Resources/config/services.yml" }
+    - { resource: "@PartnerBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~
@@ -44,12 +45,20 @@ twig:
          fb_app_id: "%fb_app_id%"
          mail_base_url: "%router.request_context.scheme%://%router.request_context.host%"
          translator_google_api_key: "%translator_google_api_key%"
+         form_search_booking_pending: "@booking.pending.filter.form"
+         form_search_booking_availability: "@booking.availability.filter.form"
+         form_search_booking_notavailability: "@booking.notavailability.filter.form"
+         form_search_booking_beaten: "@booking.beaten.filter.form"
+         form_search_booking_reserved: "@booking.reserved.filter.form"
+         form_search_booking_canceled: "@booking.canceled.filter.form"
+         form_search_booking_checkin: "@booking.checkin.filter.form"
+         form_search_booking_proccess: "@booking.proccess.filter.form"
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle  ]
+    bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle,LayoutBundle, PartnerBundle  ]
     #java: /usr/bin/java
     node: "%nodejs_path%"
     filters:
@@ -282,22 +291,22 @@ mobile_detect:
     redirect:
         full:
             is_enabled: false            # default false
-            host: http://mycasapartuca.com       # with scheme (http|https), default null, url validate
+            host: %mycp_mobile_url%       # with scheme (http|https), default null, url validate
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
         mobile:
             is_enabled: true            # default false
-            host: http://m.mycasaparticular.dev     # with scheme (http|https), default null, url validate
+            host: %mycp_mobile_url%     # with scheme (http|https), default null, url validate
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
         tablet:
             is_enabled: false            # default false
-            host: http://t.site.com     # with scheme (http|https), default null, url validate
+            host: %mycp_mobile_url%     # with scheme (http|https), default null, url validate
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
-        detect_tablet_as_mobile: true   # default false
+        detect_tablet_as_mobile: false   # default false
     switch_device_view:
-        save_referer_path: false        # default true
+        save_referer_path: true        # default true
                                         # true  redirectUrl = http://site.com/current/path?currentQuery=string
                                         # false redirectUrl = http://site.com
     service:

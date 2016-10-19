@@ -220,5 +220,17 @@ class booking
         $this->payments = $payments;
     }
 
+    public function getPayedAmount()
+    {
+        $payments = $this->getPayments();
+        $payedAmount = 0;
+
+        foreach($payments as $payment){
+            $payedAmount += $payment->getPayedAmountInCurrency();
+        }
+
+        return $payedAmount;
+    }
+
 
 }

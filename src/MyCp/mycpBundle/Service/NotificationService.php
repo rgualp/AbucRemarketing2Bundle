@@ -112,7 +112,7 @@ class NotificationService extends Controller
                     "casId" => $reservation->getCASId(),
                     "genResId" => $reservation->getGenResId()
                 );
-
+                
                 $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
 
                 if ($response != null)

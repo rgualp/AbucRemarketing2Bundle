@@ -63,6 +63,14 @@ class Utils {
 
         return $text;
     }
+
+   public static function loadFrontendSlides()
+   {
+       $number = rand(1, 4);
+       $folderSliderPath = "bundles/frontend/img/slideshow/".$number."/";
+       $slides = glob($folderSliderPath.'*.{jpg,gif,png}', GLOB_BRACE);
+       return $slides;
+   }
 }
 
 ?>

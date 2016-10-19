@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
@@ -269,5 +270,15 @@ class payment
     public function getProcessed()
     {
         return $this->processed;
+    }
+
+    public function getPayedAmountInCurrency()
+    {
+        if($this->status == PaymentHelper::STATUS_SUCCESS || $this->status == PaymentHelper::STATUS_PROCESSED)
+        {
+            $currencyRate = ($this->current_cuc_change_rate != null) ? $this->current_cuc_change_rate : $this->getCurrency()->getCurrCucChange();
+            return $this->getPayedAmount() / $currencyRate;
+        }
+        return 0;
     }
 }

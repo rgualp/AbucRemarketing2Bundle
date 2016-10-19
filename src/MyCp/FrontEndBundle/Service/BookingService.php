@@ -119,7 +119,7 @@ class BookingService extends Controller
 
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
             $totalRooms = count($ownReservations);
-            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($totalNights/$totalRooms), $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
 
             $touristTaxTotal += $totalPrice * $tax;
 
@@ -263,10 +263,9 @@ class BookingService extends Controller
 
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
             $totalRooms = count($ownReservations);
-            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($totalNights/$totalRooms), $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
 
             $touristTaxTotal += $totalPrice * $tax;
-
 
             $payments[$own_r["id"]] = array(
                 'total_price' => $totalPrice * $currencyRate,
@@ -310,6 +309,9 @@ class BookingService extends Controller
                 array_push($commissions, $commission);
             }
         }
+
+
+
 
         $accommodationServiceCharge = $totalPrice * $currencyRate;
         $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
@@ -479,6 +481,9 @@ class BookingService extends Controller
     {
         $response = $this->getPrintableBookingConfirmationResponse($bookingId);
         $pdfFilePath = $this->getVoucherFilePathByBookingId($bookingId);
+
+        /*var_dump($response);
+        die;*/
 
         if (file_exists($pdfFilePath)) {
             if($replaceExistingVoucher)
@@ -687,7 +692,8 @@ class BookingService extends Controller
                     'nights' => $arrayNightsByOwnershipReservation,
                     'payment_pending' => $paymentPending,
                     'rooms' => $rooms,
-                    'booking' => $bookingId
+                    'booking' => $bookingId,
+                    'payedAmount' => $booking->getPayedAmount()
                 )
             );
 

@@ -181,18 +181,23 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         }
 
         $this->em->flush();
+        if($user->getUserRole() == "ROLE_CLIENT_PARTNER"){
 
-        $body = $this->emailManager
-            ->getViewContent('FrontEndBundle:mails:expired_offer_reminder.html.twig', array(
-                'user' => $user,
-                'reservations' => $ownershipReservations,
-                'photos' => $arrayPhotos,
-                'nights' => $arrayNights,
-                'user_locale' => $this->emailManager->getUserLocale($user),
-                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
-                //'initial_payment' => $initialPayment,
-                //'generalReservationId' => $generalReservation->getGenResId()
-            ));
+        }
+        else{
+            $body = $this->emailManager
+                ->getViewContent('FrontEndBundle:mails:expired_offer_reminder.html.twig', array(
+                        'user' => $user,
+                        'reservations' => $ownershipReservations,
+                        'photos' => $arrayPhotos,
+                        'nights' => $arrayNights,
+                        'user_locale' => $this->emailManager->getUserLocale($user),
+                        'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
+                        //'initial_payment' => $initialPayment,
+                        //'generalReservationId' => $generalReservation->getGenResId()
+                    ));
+        }
+
 
         return $body;
     }

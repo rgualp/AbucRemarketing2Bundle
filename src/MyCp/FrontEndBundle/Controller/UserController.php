@@ -21,6 +21,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class UserController extends Controller {
 
     public function registerAction(Request $request) {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
@@ -102,11 +104,22 @@ class UserController extends Controller {
             }
         }
 
-        return $this->render('FrontEndBundle:user:registerUser.html.twig', array(
-                    'form' => $form->createView(),
-                    'errors' => $errors,
-                    'post' => $all_post
-        ));
+
+
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/user/registerUser.html.twig', array(
+                'form' => $form->createView(),
+                'errors' => $errors,
+                'post' => $all_post
+            ));
+        }else{
+            return $this->render('FrontEndBundle:user:registerUser.html.twig', array(
+                'form' => $form->createView(),
+                'errors' => $errors,
+                'post' => $all_post
+            ));
+        }
+
     }
 
     public function enableAction($string) {
@@ -135,6 +148,7 @@ class UserController extends Controller {
     }
 
     public function restorePasswordAction(Request $request) {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
@@ -168,10 +182,18 @@ class UserController extends Controller {
             }
         }
 
-        return $this->render('FrontEndBundle:user:restorePasswordUser.html.twig', array(
-                    'form' => $form->createView(),
-                    'errors' => $errors
-        ));
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/user/restorePasswordUser.html.twig', array(
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+        }else{
+            return $this->render('FrontEndBundle:user:restorePasswordUser.html.twig', array(
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+        }
+
     }
 
     public function changePasswordStartAction() {
@@ -182,6 +204,7 @@ class UserController extends Controller {
     }
 
     public function changePasswordAction($string, Request $request) {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new changePasswordUserType($this->get('translator')));
@@ -226,16 +249,25 @@ class UserController extends Controller {
                 }
             }
         }
-        //var_dump($form->createView()->getChildren());
-        //exit();
-        return $this->render('FrontEndBundle:user:changePasswordUser.html.twig', array(
-                    'string' => $string,
-                    'form' => $form->createView(),
-                    'errors' => $errors
-        ));
+
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/user/changePasswordUser.html.twig', array(
+                'string' => $string,
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+        }else{
+            return $this->render('FrontEndBundle:user:changePasswordUser.html.twig', array(
+                'string' => $string,
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+        }
+
     }
 
     public function registerUserConfirmationAction(Request $request) {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $errors = array();
 
@@ -277,10 +309,17 @@ class UserController extends Controller {
             }
         }
 
-        return $this->render('FrontEndBundle:user:registerConfirmationUser.html.twig', array(
-                    'form' => $form->createView(),
-                    'errors' => $errors
-        ));
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/user/registerConfirmationUser.html.twig', array(
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+        }else{
+            return $this->render('FrontEndBundle:user:registerConfirmationUser.html.twig', array(
+                'form' => $form->createView(),
+                'errors' => $errors
+            ));
+        }
     }
 
     public function contactAction(Request $request) {

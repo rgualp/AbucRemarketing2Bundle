@@ -633,11 +633,14 @@ WHERE pard.reservationDetail = :gen_res_id";
 
         $s = "";
         if ($filter_partner) {
-            $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH booking.booking_user_id = up.tourOperator JOIN up.travelAgency agency";
+            $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH u.user_id = up.tourOperator JOIN up.travelAgency agency";
             $s = "agency.name aName, agency.email aEmail,";
             if ($filter_agencia_booking != "") {
                 $where .= " AND agency.name LIKE :filter_agencia_booking ";
             }
+        }
+        else{
+            $where .= " AND u.user_role = 'ROLE_CLIENT_TOURIST'";
         }
 
         $query = $em->createQuery("SELECT payment.created,
@@ -649,7 +652,9 @@ WHERE pard.reservationDetail = :gen_res_id";
         (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
         (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate
         FROM mycpBundle:payment payment JOIN payment.booking booking
-        JOIN payment.currency curr $filter_partner
+        JOIN payment.currency curr
+        JOIN mycpBundle:user u WITH booking.booking_user_id = u.user_id
+        $filter_partner
         WHERE booking.booking_id LIKE :filter_booking_number
         AND booking.booking_user_dates LIKE :filter_user_booking
         AND payment.created LIKE :filter_date_booking
@@ -798,7 +803,7 @@ WHERE pard.reservationDetail = :gen_res_id";
             $whereOwn .= " AND (gre.gen_res_status = " . generalReservation::STATUS_PENDING . " or gre.gen_res_status = " . generalReservation::STATUS_NOT_AVAILABLE . ")";
         }
 
-        $queryString = "select gres.gen_res_id, gres.gen_res_date,cl.fullname as clientname, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
+        $queryString = "select gres.gen_res_id , us.user_id as usser_id, gres.gen_res_date,cl.fullname as clientname, own.own_mcp_code, own.own_id,own.own_inmediate_booking,
 COUNT(owres.own_res_id) as totalTooms, res.adults as adults,
 (SELECT count(owress) FROM mycpBundle:ownershipReservation owress WHERE owress.own_res_gen_res_id = gres.gen_res_id) AS rooms,
 res.children as childrens, (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gres.gen_res_id) as isOffer,
@@ -808,7 +813,9 @@ gres.gen_res_total_in_site as totalPrice,
 gres.gen_res_status
 from mycpBundle:ownershipreservation owres
 JOIN owres.own_res_gen_res_id gres
+
 JOIN gres.gen_res_own_id own
+ JOIN gres.gen_res_user_id us
 JOIN own.own_destination d
 JOIN gres.travelAgencyDetailReservations resDet
 JOIN resDet.reservation res
@@ -1121,6 +1128,7 @@ group by gres.gen_res_id";
         JOIN own.own_address_province prov
         WHERE owreservation.own_res_reservation_from_date LIKE :filter_date_from
         AND (gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)
+        AND us.user_role = 'ROLE_CLIENT_TOURIST'
         AND owreservation.own_res_status = :reservationStatus
         GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
         ";
@@ -2263,9 +2271,9 @@ group by gres.gen_res_id";
         if ($filter_status != "") {
             $where .= (($where != "") ? " AND " : " WHERE ") . " getClientStatus(u.user_id, gres.gen_res_date) = :filter_status";
         }
+        $where .= (($where != "") ? " AND " : " WHERE ") . " u.user_role <> 'ROLE_CLIENT_PARTNER' ";
 
-
-        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,
+        $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,u.user_role,
             SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
             COUNT(DISTINCT gres.gen_res_id) as total,
             MAX(gres.gen_res_date_hour) as hourRes,

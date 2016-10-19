@@ -24,3 +24,12 @@ my_cp_mobile_top_rated_callback:
     pattern:  /top-rated-callback/
     locales:  { en: "/top-rated-callback/", es: "/top-rated-callback/", de: "/top-rated-callback/" }
     defaults: { _controller: MyCpMobileFrontendBundle:Ownership:topRatedCallback }
+
+my_cp_mobile_search_ownership:
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Search:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1,order_price:'null', order_comments: 'null', order_books:'null'}
+
+my_cp_mobile_filter_ownership_callback:
+    pattern:  /filter/
+    locales:  { en: "/filter/", es: "/filtrar/", de: "/filter/" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Search:filter }

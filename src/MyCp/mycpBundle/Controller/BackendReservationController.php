@@ -66,7 +66,10 @@ class BackendReservationController extends Controller {
                 $arrayNightsByOwnershipReservation = $resultReservations['nights'];
                 $general_reservation = $resultReservations['generalReservation'];
 
-                $general_reservation->setServiceFee($gen_res->getServiceFee());
+                $serviceFee = $gen_res->getServiceFee();
+                //var_dump($serviceFee->getId()); die;
+
+                $general_reservation->setServiceFee($serviceFee);
 
                 //Deleting booking association from cancelled and payed reservation
                 foreach ($reservations as $res) {
@@ -279,88 +282,96 @@ class BackendReservationController extends Controller {
     }
 
     public function list_reservationsAction($items_per_page, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
-        $page = 1;
-        $filter_date_reserve = $request->get('filter_date_reserve');
-        $filter_offer_number = $request->get('filter_offer_number');
-        $filter_reference = $request->get('filter_reference');
-        $filter_date_from = $request->get('filter_date_from');
-        $filter_date_to = $request->get('filter_date_to');
-        $filter_booking_number = $request->get('filter_booking_number');
-        $filter_status = $request->get('filter_status');
-        $price = 0;
-        $sort_by = $request->get('sort_by');
-        if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
-        ) {
-            $message = 'Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_reservations'));
-        }
+        try {
+            $service_security = $this->get('Secure');
+            $service_security->verifyAccess();
+            $page = 1;
+            $filter_date_reserve = $request->get('filter_date_reserve');
+            $filter_offer_number = $request->get('filter_offer_number');
+            $filter_reference = $request->get('filter_reference');
+            $filter_date_from = $request->get('filter_date_from');
+            $filter_date_to = $request->get('filter_date_to');
+            $filter_booking_number = $request->get('filter_booking_number');
+            $filter_status = $request->get('filter_status');
+            $price = 0;
+            $sort_by = $request->get('sort_by');
+            if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
+                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
+            ) {
+                $message = 'Debe llenar al menos un campo para filtrar.';
+                $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                return $this->redirect($this->generateUrl('mycp_list_reservations'));
+            }
 
-        if ($filter_date_reserve == 'null')
-            $filter_date_reserve = '';
-        if ($filter_offer_number == 'null')
-            $filter_offer_number = '';
-        if ($filter_booking_number == 'null')
-            $filter_booking_number = '';
-        if ($filter_reference == 'null')
-            $filter_reference = '';
-        if ($filter_date_from == 'null')
-            $filter_date_from = '';
-        if ($filter_date_to == 'null')
-            $filter_date_to = '';
-        if ($filter_status == 'null')
-            $filter_status = '';
-        if ($sort_by == 'null')
-            $sort_by = '';
+            if ($filter_date_reserve == 'null')
+                $filter_date_reserve = '';
+            if ($filter_offer_number == 'null')
+                $filter_offer_number = '';
+            if ($filter_booking_number == 'null')
+                $filter_booking_number = '';
+            if ($filter_reference == 'null')
+                $filter_reference = '';
+            if ($filter_date_from == 'null')
+                $filter_date_from = '';
+            if ($filter_date_to == 'null')
+                $filter_date_to = '';
+            if ($filter_status == 'null')
+                $filter_status = '';
+            if ($sort_by == 'null')
+                $sort_by = '';
 
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
-        $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
-        $filter_date_from = str_replace('_', '/', $filter_date_from);
-        $filter_date_to = str_replace('_', '/', $filter_date_to);
+            if (isset($_GET['page']))
+                $page = $_GET['page'];
+            $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+            $filter_date_from = str_replace('_', '/', $filter_date_from);
+            $filter_date_to = str_replace('_', '/', $filter_date_to);
 
-        $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('ideup.simple_paginator');
-        $paginator->setItemsPerPage($items_per_page);
+            $em = $this->getDoctrine()->getManager();
+            $paginator = $this->get('ideup.simple_paginator');
+            $paginator->setItemsPerPage($items_per_page);
 
-        $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, false))->getResult();
-        $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
-        $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
-        $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
+            $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page, false))->getResult();
+            $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
+            $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
+            $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
 //            $service_log = $this->get('log');
 //            $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
-        /*$total_nights = array();
-        $service_time = $this->get('time');
-        foreach ($reservations as $res) {
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
-            $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
-            array_push($total_nights, $temp_total_nights);
-        }*/
+            /*$total_nights = array();
+            $service_time = $this->get('time');
+            foreach ($reservations as $res) {
+                $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
+                $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
+                array_push($total_nights, $temp_total_nights);
+            }*/
 
-        $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
-        return $this->render('mycpBundle:reservation:list.html.twig', array(
-            //'total_nights' => $total_nights,
-            'reservations' => $reservations,
-            'items_per_page' => $items_per_page,
-            'current_page' => $page,
-            'total_items' => $totalItems,
-            'filter_date_reserve' => $filter_date_reserve,
-            'filter_offer_number' => $filter_offer_number,
-            'filter_booking_number' => $filter_booking_number,
-            'filter_reference' => $filter_reference,
-            'filter_date_from' => $filter_date_from,
-            'filter_date_to' => $filter_date_to,
-            'sort_by' => $sort_by,
-            'filter_date_reserve_twig' => $filter_date_reserve_twig,
-            'filter_date_from_twig' => $filter_date_from_twig,
-            'filter_date_to_twig' => $filter_date_to_twig,
-            'filter_status' => $filter_status,
-            'last_page_number' => ceil($totalItems / $items_per_page)
-        ));
+            $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
+            return $this->render('mycpBundle:reservation:list.html.twig', array(
+                //'total_nights' => $total_nights,
+                'reservations' => $reservations,
+                'items_per_page' => $items_per_page,
+                'current_page' => $page,
+                'total_items' => $totalItems,
+                'filter_date_reserve' => $filter_date_reserve,
+                'filter_offer_number' => $filter_offer_number,
+                'filter_booking_number' => $filter_booking_number,
+                'filter_reference' => $filter_reference,
+                'filter_date_from' => $filter_date_from,
+                'filter_date_to' => $filter_date_to,
+                'sort_by' => $sort_by,
+                'filter_date_reserve_twig' => $filter_date_reserve_twig,
+                'filter_date_from_twig' => $filter_date_from_twig,
+                'filter_date_to_twig' => $filter_date_to_twig,
+                'filter_status' => $filter_status,
+                'last_page_number' => ceil($totalItems / $items_per_page)
+            ));
+        }
+        catch(\Exception $e){
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_reservations"));
+        }
     }
 
     public function list_reservations_bookingAction($items_per_page, Request $request) {
@@ -405,7 +416,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency))->getResult();
+                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency, "", false))->getResult();
 //        $service_log = $this->get('log');
 //        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
@@ -571,7 +582,6 @@ class BackendReservationController extends Controller {
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
         $price = 0;
 
-
         if ($request->getMethod() == 'POST') {
 
             $post = $request->request->getIterator()->getArrayCopy();
@@ -726,7 +736,7 @@ class BackendReservationController extends Controller {
            array_push($total_nights, $temp_total_nights);
         }
 
-        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null);
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null, "", false);
         $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($id_reservation);
         $currentServiceFee = $reservation->getServiceFee();
 
@@ -917,7 +927,7 @@ class BackendReservationController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $reservationId = $request->get("reservation");
-        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null);
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null, "", false);
         $content = $this->renderView("mycpBundle:utils:bookings.html.twig", array("bookings" => $bookings));
         return new Response($content, 200);
     }

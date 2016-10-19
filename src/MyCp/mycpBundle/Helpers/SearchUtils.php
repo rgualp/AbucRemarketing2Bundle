@@ -145,7 +145,7 @@ class SearchUtils {
 
             $query_details = $entity_manager->createQuery($query_string);
 
-            try {
+            /*try {
                 if ($arrivalDate != null) {
                     $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
                     if($arrival == null)
@@ -169,6 +169,29 @@ class SearchUtils {
                 $today = new DateTime();
                 $query_details->setParameter('arrival_date', $today->format("Y-m-d"))
                               ->setParameter('leaving_date', $today->modify('+2 days')->format("Y-m-d"));
+            }*/
+            if ($arrivalDate != null && $arrivalDate != "undefined") {
+                $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+                if($arrival == null)
+                    $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
+                $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
+            }
+            else{
+                $arrival = new DateTime();
+                $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
+            }
+            if ($leavingDate != null && $leavingDate != "undefined")
+            {
+
+                $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
+                if ($departure == null)
+                    $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
+                $query_details->setParameter('leaving_date', $departure->format("Y-m-d"));
+
+            }
+            else{
+                $departure = $arrival->modify('+2 days')->format("Y-m-d");
+                $query_details->setParameter('leaving_date', $departure);
             }
 
             $uDetails = $query_details->getResult();
@@ -191,6 +214,8 @@ class SearchUtils {
                             o.own_rating as rating,
                             o.own_category as category,
                             o.own_type as type,
+                            o.own_geolocate_x as OwnGeolocateX,
+                            o.own_geolocate_y as OwnGeolocateY,
                             o.own_minimum_price as minimum_price,
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(a1.id) FROM mycpBundle:accommodationAward aw1 JOIN aw1.award a1 WHERE aw1.accommodation = o.own_id ORDER BY aw1.year DESC, a1.ranking_value DESC) as award1,
