@@ -574,6 +574,11 @@ class ownership {
      */
     private $insertedInCasaModule;
 
+    /**
+     * @ORM\OneToOne(targetEntity="ownershipRankingExtra", mappedBy="accommodation")
+     */
+    private $rankingExtra;
+
 
     /**
      * Constructor
@@ -2470,4 +2475,24 @@ class ownership {
     {
         return $this->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_ACTIVE;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRankingExtra()
+    {
+        return $this->rankingExtra;
+    }
+
+    /**
+     * @param mixed $rankingExtra
+     * @return mixed
+     */
+    public function setRankingExtra($rankingExtra)
+    {
+        $this->rankingExtra = $rankingExtra;
+        return $this;
+    }
+
+
 }
