@@ -224,7 +224,7 @@ class FrontendController extends Controller
     public function testEmailAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $reservation = $em->getRepository("mycpBundle:generalReservation")->find(101666);
+        $reservation = $em->getRepository("mycpBundle:generalReservation")->find(101687);
         $user = $reservation->getGenResUserId();
         $roomReservations = $reservation->getOwn_reservations();
         $timer = $this->get("Time");
