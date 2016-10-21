@@ -1989,7 +1989,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Sr(a).</target>
+                  <target>Hola</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
@@ -2525,7 +2525,7 @@
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
-                <target>Gracias por su tiempo</target>
+                <target>¡Alojarse dónde Cuba, Cuba es!</target>
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
@@ -2553,11 +2553,11 @@
             </trans-unit>
             <trans-unit id="648">
                 <source>EMAIL_GREETINGS_2</source>
-                <target>Saludos</target>
+                <target>Te esperamos, </target>
             </trans-unit>
             <trans-unit id="649">
                 <source>MYCP_TEAM</source>
-                <target>Equipo MyCP</target>
+                <target>Equipo de MyCasaParticular.com </target>
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
@@ -2649,11 +2649,11 @@
             </trans-unit>
             <trans-unit id="672">
                 <source>USER_CART_FULL_REMINDER</source>
-                <target>Cesta de reservaciones llena. ¿Qué operación desea realizar?</target>
+                <target>Puedes tener disponibles</target>
             </trans-unit>
             <trans-unit id="673">
                 <source>USER_CART_FULL_TEXT1</source>
-                <target>En su cesta de compra hay varios alojamientos que podrían estar disponibles. ¿Qué le gustaría hacer con ellos?</target>
+                <target>Puedes tener disponibles algunas de las habitaciones seleccionadas en tu cesta de compras. Te sugerimos revisar todas las opciones. ¿Qué te gustaría hacer con estas ofertas?</target>
             </trans-unit>
             <trans-unit id="674">
                 <source>FROM_DATE</source>

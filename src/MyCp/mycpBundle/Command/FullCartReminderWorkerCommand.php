@@ -103,7 +103,7 @@ class FullCartReminderWorkerCommand extends Worker {
         $userEmail = $user->getUserEmail();
         $userName = $user->getUserCompleteName();
 
-        $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER');
+        $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER_SUBJECT');
 
         $userTourist = $this->emailManager->getTouristByUser($user);
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());

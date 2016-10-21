@@ -1989,7 +1989,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Mr./Mrs.</target>
+                  <target>Hello</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
@@ -2525,7 +2525,7 @@
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
-                <target>Thank you in advance</target>
+                <target>Lodge where Cuba, Cuba is!</target>
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
@@ -2553,11 +2553,11 @@
             </trans-unit>
             <trans-unit id="648">
                 <source>EMAIL_GREETINGS_2</source>
-                <target>Best Regards</target>
+                <target>We wait for you,</target>
             </trans-unit>
             <trans-unit id="649">
                 <source>MYCP_TEAM</source>
-                <target>MyCP Team</target>
+                <target>MyCasaParticular.com Team</target>
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
@@ -2649,11 +2649,11 @@
             </trans-unit>
             <trans-unit id="672">
                 <source>USER_CART_FULL_REMINDER</source>
-                <target>Shopping Cart full. What do you want to do?</target>
+                <target>There may be some available offers</target>
             </trans-unit>
             <trans-unit id="673">
                 <source>USER_CART_FULL_TEXT1</source>
-                <target>Your shopping cart is full with some accommodations that may be available. What would you like to do with them?</target>
+                <target>Some of the selected rooms can be available at your shopping cart. We suggest you to  check all the options. What would you like to do with these offers?</target>
             </trans-unit>
             <trans-unit id="674">
                 <source>FROM_DATE</source>
@@ -3798,6 +3798,17 @@
             <source>title.email.createuser.partner</source>
             <target>Agency Account Activation</target>
         </trans-unit>
+
+        <trans-unit id="953">
+            <source>USER_CART_FULL_REMINDER_SUBJECT</source>
+            <target>DO YOU WANT TO CHECK YOUR CART?</target>
+        </trans-unit>
+
+         <trans-unit id="954">
+            <source>FULL_REMINDER_ENDTEXT</source>
+            <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+        </trans-unit>
+
         </body>
     </file>
 </xliff>

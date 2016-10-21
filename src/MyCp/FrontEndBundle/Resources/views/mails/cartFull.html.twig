@@ -64,8 +64,9 @@
             </table>
             <br/>
         {% endfor %}
-{{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
-    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
-    {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
+    {{"FULL_REMINDER_ENDTEXT" | trans({}, "messages", user_locale) | raw}}.<br/><br/>
+    {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}<br/>
+    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+    <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
 </p>
 {% endblock %}

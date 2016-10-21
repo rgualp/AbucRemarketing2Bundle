@@ -3213,6 +3213,16 @@
             <target>Agency Account Activation</target>
         </trans-unit>
 
+        <trans-unit id="953">
+            <source>USER_CART_FULL_REMINDER_SUBJECT</source>
+            <target>DO YOU WANT TO CHECK YOUR CART?</target>
+        </trans-unit>
+
+         <trans-unit id="954">
+            <source>FULL_REMINDER_ENDTEXT</source>
+            <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+        </trans-unit>
+
     </body>
     </file>
 </xliff>
