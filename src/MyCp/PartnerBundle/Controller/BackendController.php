@@ -199,7 +199,7 @@ class BackendController extends Controller
         $content=$this->render('PartnerBundle:Mail:newAvailabilityCheckReservations.html.twig', array(
             "reservations" => $reservationDetails,
             "rooms"=> $rooms,
-            'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),
+            'user_locale'=>'es',
             'currency'=> strtoupper($user->getUserCurrency()->getCurrCode()),
             'currency_symbol'=>$user->getUserCurrency()->getCurrSymbol(),
             'currency_rate'=>$user->getUserCurrency()->getCurrCucChange(),

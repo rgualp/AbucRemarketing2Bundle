@@ -6,14 +6,39 @@
 {#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
 
 {% block include_javascripts_and_css %}
+    {% stylesheets
+    '@FrontEndBundle/Resources/public/css/carousel-master/camera.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.min.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.mobile.customized.min.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.easing.1.3.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/camera.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script>
+        jQuery(function(){
+
+            jQuery('#camera_wrap_1').camera({
+                thumbnails: true,
+                pagination:true,
+                height:'400px'
+            });
+        });
+    </script>
+    {#<script>
         // Added this just so I didn't have to wait 5 seconds to see if the transition worked. //
         $(document).ready(function() {
             $('#myCarousel').carousel({
                 interval:   5000
             });
         });
-    </script>
+    </script>#}
 {% endblock %}
 
 {% block big_banner %}

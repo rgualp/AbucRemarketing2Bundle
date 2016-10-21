@@ -29,37 +29,8 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2" style="font-family: arial; padding: 35px;">    <p style="font-family: Arial; font-size: 14px">
-                        <div style="font-family: Arial; font-size: 14px">
-                            <p>{{ "reservation.reminder.greetings" |trans({}, "messages", user_locale) | replace({"%agencyName%": agencyName}) }}</p>
-                            {{ 'reservation.reminder.text' |trans({}, "messages", user_locale) | raw }}
-
-                            <p style="text-decoration: underline">{{ 'reservation.reminder.subtitle' |trans({}, "messages", user_locale) | raw }}</p>
-                              {% if reservation is defined %}
-                                  {% set accommodation = reservation.genResOwnId %}
-                                  {% set moreLinkUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/accomodation/' ~ (accommodation.ownName | urlNormalize) %}
-                                  {{ accommodation.ownMcpCode }} /{{ accommodation.ownName }} <br/>
-                                  {{ accommodation.ownAddressProvince.provName }}/ {{ accommodation.ownDestination.desName }} <br/>
-                                  {{ reservation.Own_reservations | length }} {{ "requested_casas" |trans({}, "messages", user_locale) }} / {{ reservation.genResFromDate | date("d-m-Y") }} <br/>
-                                  {{ adults }} {{ "dashboard.booking.adults" | trans({}, "messages", user_locale) | lower }} / {{ children }} {{ "dashboard.booking.childrens" | trans({}, "messages", user_locale) | lower }} <br/>
-                                  CAS.{{ reservation.genResId }}/ {{ nights }} {{ "NIGHTS" | trans({}, "messages", user_locale) | lower }} <br/>
-                                  {{ "AVAILABLE" | trans({}, "messages", user_locale)  }} <br/>
-                                  {{ (reservation.genResTotalInSite * currency.currCucChange) | number_format(2) }} {{ currency.currSymbol }} <br/>
-                                  <br/>
-                                  {{ "reservation.reminder.question" | trans({}, "messages", user_locale) }} <a href="{{ moreLinkUrl }}">{{ "reservation.reminder.view_more" | trans({}, "messages", user_locale) }}</a>
-
-                              {% endif %}
-
-                            <p>
-                                {{ 'reservation.reminder.payment_text' |trans({}, "messages", user_locale) }}
-                            </p>
-
-                            {% set paymentUrl = mail_base_url ~'/'~ user_locale|lower ~'/partner/dashboard/' ~ ((user_locale|lower == "es") ? "carrito" : "cart") %}
-                            <p><a href="{{ paymentUrl }}">{{ "dashboard.btn.booking.paid" |trans({}, "messages", user_locale) }}</a></p>
-
-                        </div>
-
-                        </p>
+                    <td colspan="2" style="font-family: arial; padding: 35px;">
+                        {{ include("PartnerBundle:Mail:resevationLastReminder.html.twig") }}
                     </td>
                 </tr>
                 <tr>
