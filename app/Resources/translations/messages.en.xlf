@@ -2605,15 +2605,15 @@
             </trans-unit>
             <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
-                <target>Sorry, Not available anymore!</target>
+                <target>INVITATION TO BOOKING</target>
             </trans-unit>
             <trans-unit id="662">
                 <source>EXPIRED_OFFER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for before, are no longer available. Would you like to <a href="%link%">try again</a>?]]></target>
+                <target><![CDATA[Your requests have expired after the first 48 hours without paying. But, don’t worry at all, you may do another booking. I’m sure you’ll find better offers. <b>MyCasaParticular.com</b> has everything you need. Would you like to <a style="color: #000000; text-decoration:underline" href="%link%"><b>try again</b></a>?]]></target>
             </trans-unit>
             <trans-unit id="663">
                 <source>EXPIRED_OFFER_TEXT_2</source>
-                <target><![CDATA[Maybe you prefer to book with our assistance? Please, email to <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+                <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
             </trans-unit>
             <trans-unit id="664">
                 <source>EXPIRED_OFFER_TEXT_3</source>

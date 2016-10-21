@@ -2605,15 +2605,15 @@
             </trans-unit>
              <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
-                <target>Lo sentimos, su oferta ya no está disponible!</target>
+                <target>TE INVITAMOS A RESERVAR</target>
             </trans-unit>
             <trans-unit id="662">
                 <source>EXPIRED_OFFER_TEXT_1</source>
-                <target><![CDATA[Los alojamientos por los cuales Usted se interesó anteriormente, no están disponibles ya. ¿Desea <a href="%link%">intentarlo de nuevo</a>?]]></target>
+                <target><![CDATA[Tus solicitudes han vencido luego de las primeras 48 horas sin pago. Pero no te preocupes, puedes volver a reservar y de seguro encontrarás mejores ofertas. <b>MyCasaParticular.com</b> tiene todo lo que necesitas. ¿Desea <a style="color: #000000; text-decoration:underline" href="%link%"><b>intentarlo de nuevo</b></a>?]]></target>
             </trans-unit>
             <trans-unit id="663">
                 <source>EXPIRED_OFFER_TEXT_2</source>
-                <target><![CDATA[¿Quizá prefiera contar con nuestra ayuda? Por favor, escríbanos a <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+                <target><![CDATA[Podemos ayudarte. Contáctanos a <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
             </trans-unit>
             <trans-unit id="664">
                 <source>EXPIRED_OFFER_TEXT_3</source>
