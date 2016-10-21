@@ -1949,7 +1949,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Book now!</target>
+                <target>PAY NOW!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -2585,11 +2585,11 @@
             </trans-unit>
             <trans-unit id="656">
                 <source>LAST_REMINDER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for, will no longer be available in a few hours. This is why we recommend you, if you are still interested on them, that you <a href="%link%">make an initial deposit now</a>, up to ]]></target>
+                <target><![CDATA[You have rooms available and other persons are also interested on them. There are only a few hours before they can be reserved by someone else. We suggest you seize the opportunity to lodge in <b>MyCasaParticular.com</b> style, and to live an amazing experience.]]></target>
             </trans-unit>
             <trans-unit id="657">
                 <source>LAST_REMINDER_TEXT_2</source>
-                <target>In case you are not interested anymore, or if you want to book some other accommodations, please, let us know.</target>
+                <target>If you still want to stay at some of these rooms, we recommend you to make an initial prepayment of</target>
             </trans-unit>
             <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
@@ -2597,11 +2597,11 @@
             </trans-unit>
             <trans-unit id="659">
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
-                <target>Book other accommodations</target>
+                <target>Make a new search</target>
             </trans-unit>
             <trans-unit id="660">
                 <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
-                <target>Last chance to book!</target>
+                <target>WE INVITE YOU TO RESERVE NOW</target>
             </trans-unit>
             <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
@@ -3811,7 +3811,17 @@
 
          <trans-unit id="955">
             <source>REMINDER_EMAIL_PREHEADER</source>
-            <target>You only have 24 h left </target>
+            <target>You only have 24 h left</target>
+        </trans-unit>
+
+         <trans-unit id="956">
+            <source>LAST_REMINDER_PREHEADER</source>
+            <target>You have rooms available</target>
+        </trans-unit>
+
+         <trans-unit id="957">
+            <source>LAST_REMINDER_TEXT_3</source>
+            <target>If you want to try other rooms</target>
         </trans-unit>
 
         </body>

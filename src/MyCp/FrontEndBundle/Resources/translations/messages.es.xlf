@@ -1958,7 +1958,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Reservar Ahora!</target>
+                <target>¡PAGAR AHORA!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -2594,11 +2594,11 @@
             </trans-unit>
              <trans-unit id="656">
                 <source>LAST_REMINDER_TEXT_1</source>
-                <target><![CDATA[Los alojamientos que Usted solicitó estarán disponibles solo por algunas horas más, por lo que, si aún está interesado en reservarlos, le recomendamos <a href="%link%">efectuar ahora</a> un depósito inicial, que asciende a]]></target>
+                <target><![CDATA[Tienes habitaciones disponibles y otras personas están interesadas. Solo quedan algunas horas para que puedan ser reservadas por alguien más. Te sugerimos que aproveches la oportunidad de hospedarte al estilo de <b>MyCasaParticular.com</b> y vivir una experiencia única.]]></target>
             </trans-unit>
              <trans-unit id="657">
                 <source>LAST_REMINDER_TEXT_2</source>
-                <target>En caso de no estar interesado, o que prefiera reservar otros alojamientos, por favor, háganoslo saber.</target>
+                <target>Si todavía quieres hospedarte en alguna(s) de estas habitaciones te recomendamos efectuar ahora un depósito inicial de</target>
             </trans-unit>
              <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
@@ -2606,11 +2606,11 @@
             </trans-unit>
              <trans-unit id="659">
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
-                <target>Reservar otros alojamientos</target>
+                <target>Realiza una nueva búsqueda</target>
             </trans-unit>
              <trans-unit id="660">
                 <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
-                <target>Última oportunidad para reservar!</target>
+                <target>TE INVITAMOS A RESERVAR AHORA</target>
             </trans-unit>
              <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
@@ -3233,6 +3233,17 @@
             <source>REMINDER_EMAIL_PREHEADER</source>
             <target>Solo te quedan 24 horas más</target>
         </trans-unit>
+
+         <trans-unit id="956">
+            <source>LAST_REMINDER_PREHEADER</source>
+            <target>Tienes habitaciones disponibles</target>
+        </trans-unit>
+
+         <trans-unit id="957">
+            <source>LAST_REMINDER_TEXT_3</source>
+            <target>Si prefieres intentar con otras habitaciones</target>
+        </trans-unit>
+
         </body>
     </file>
 </xliff>

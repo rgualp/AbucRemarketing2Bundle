@@ -1956,7 +1956,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Jetzt Reservieren!</target>
+                <target>JETZT RESERVIEREN!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -3225,7 +3225,12 @@
 
          <trans-unit id="955">
             <source>REMINDER_EMAIL_PREHEADER</source>
-            <target>REMINDER_EMAIL_PREHEADER</target>
+            <target>You only have 24 h left</target>
+        </trans-unit>
+
+         <trans-unit id="956">
+            <source>LAST_REMINDER_PREHEADER</source>
+            <target>You have rooms available</target>
         </trans-unit>
 
     </body>

@@ -1949,7 +1949,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Book now!</target>
+                <target>PAY NOW!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -2583,25 +2583,25 @@
                 <source>FOOTER_MAIL_1</source>
                 <target><![CDATA[If you do not want to receive another email from MyCasaParticular, click <a href="%link%">here.</a>]]></target>
             </trans-unit>
-            <trans-unit id="656">
-                <source>LAST_REMINDER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for, will no longer be available in a few hours. This is why we recommend you, if you are still interested on them, that you <a href="%link%">make an initial deposit now</a>, up to ]]></target>
-            </trans-unit>
-            <trans-unit id="657">
-                <source>LAST_REMINDER_TEXT_2</source>
-                <target>In case you are not interested anymore, or if you want to book some other accommodations, please, let us know.</target>
-            </trans-unit>
+             <trans-unit id="656">
+                 <source>LAST_REMINDER_TEXT_1</source>
+                 <target><![CDATA[You have rooms available and other persons are also interested on them. There are only a few hours before they can be reserved by someone else. We suggest you seize the opportunity to lodge in <b>MyCasaParticular.com</b> style, and to live an amazing experience.]]></target>
+             </trans-unit>
+             <trans-unit id="657">
+                 <source>LAST_REMINDER_TEXT_2</source>
+                 <target>If you still want to stay at some of these rooms, we recommend you to make an initial prepayment of</target>
+             </trans-unit>
             <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
                 <target>I am no longer interested</target>
             </trans-unit>
             <trans-unit id="659">
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
-                <target>Book other accommodations</target>
+                <target>Make a new search</target>
             </trans-unit>
             <trans-unit id="660">
                 <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
-                <target>Last chance to book!</target>
+                <target>WE INVITE YOU TO RESERVE NOW</target>
             </trans-unit>
             <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>

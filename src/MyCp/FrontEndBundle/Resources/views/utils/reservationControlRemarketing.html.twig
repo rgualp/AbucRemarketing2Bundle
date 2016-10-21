@@ -76,7 +76,7 @@
                                        {%endif%}
                                     </h3>
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{mailPaymentUrl }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="background-color: #F89406; color:#fff; padding: 5px; font-size: 15px; font-weight: bold" href="{{mailPaymentUrl }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{accommdationDetailsUrl }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
