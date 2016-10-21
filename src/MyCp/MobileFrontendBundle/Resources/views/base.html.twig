@@ -41,55 +41,55 @@
 
         {% block include_css %}{% endblock %}
 
-        {#<!-- Google Analytics -->#}
-        {#<script>#}
-            {#var _gaq = _gaq || [];#}
-            {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
-            {#_gaq.push(['_trackPageview']);#}
+        <!-- Google Analytics -->
+        <script>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-16697066-1']);
+            _gaq.push(['_trackPageview']);
 
-            {#(function() {#}
-                {#var ga = document.createElement('script');#}
-                {#ga.type = 'text/javascript';#}
-                {#ga.async = true;#}
-                {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
-                {#var s = document.getElementsByTagName('script')[0];#}
-                {#s.parentNode.insertBefore(ga, s);#}
-            {#})();#}
-        {#</script>#}
-        {#<!-- Facebook Pixel Code -->#}
-        {#<script>#}
-            {#!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
-                    {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;#}
-                {#n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;#}
-                {#t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,#}
-                    {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- Facebook Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                    document,'script','//connect.facebook.net/en_US/fbevents.js');
 
-            {#fbq('init', '1240648305949371');#}
-            {#fbq('track', "PageView");#}
-        {#</script>#}
-        {#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
-        {#<!-- End Facebook Pixel Code -->#}
+            fbq('init', '1240648305949371');
+            fbq('track', "PageView");
+        </script>
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
+        <!-- End Facebook Pixel Code -->
 
 
     </head>
     <body>
-    {#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
-    {#<!-- Google Tag Manager -->#}
-    {#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
-    {#<script>#}
-        {#(function(w, d, s, l, i) {#}
-            {#w[l] = w[l] || [];#}
-            {#w[l].push({'gtm.start':#}
-                    {#new Date().getTime(), event: 'gtm.js'});#}
-            {#var f = d.getElementsByTagName(s)[0],#}
-                    {#j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';#}
-            {#j.async = true;#}
-            {#j.src =#}
-                    {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
-            {#f.parentNode.insertBefore(j, f);#}
-        {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');#}
-    {#</script>#}
-    {#<!-- End Google Tag Manager -->#}
+    {% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'});
+            var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');
+    </script>
+    <!-- End Google Tag Manager -->
     {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
     <div class="container">
         <div class="row">
@@ -203,12 +203,12 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
+    <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
 
     <!-- Apple Touch Icon -->
-    {#<link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />#}
-    {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
-    {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />
+    <link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />
 
     <script type="text/javascript">
         var today_date="{{"now"|date("d/m/Y") }}";
@@ -221,27 +221,21 @@
             return false;
         });
 
-        $("body").click(function (e) {
-            $('.collapse.in').each(function () {
-                $(this).collapse('hide');
-            })
-        });
-
     </script>
 
-    {#<script type="text/javascript">#}
-        {#/* <![CDATA[ */#}
-        {#var google_conversion_id = 1016854742;#}
-        {#var google_custom_params = window.google_tag_params;#}
-        {#var google_remarketing_only = true;#}
-        {#/* ]]> */#}
-    {#</script>#}
-    {#<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>#}
-    {#<noscript>#}
-        {#<div style="display:inline;">#}
-            {#<img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>#}
-        {#</div>#}
-    {#</noscript>#}
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 1016854742;
+        var google_custom_params = window.google_tag_params;
+        var google_remarketing_only = true;
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+    <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
+        </div>
+    </noscript>
     {% block javascripts %}
     {% endblock javascripts %}
     </body>

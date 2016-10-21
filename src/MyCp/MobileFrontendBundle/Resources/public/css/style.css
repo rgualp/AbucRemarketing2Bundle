@@ -725,10 +725,6 @@ footer .list-inline li a {
 }
 
 .content-button{
-    bottom: 0;
-    left: 0;
-    padding: 9px;
-    position: absolute;
     width: 100%;
     background-color: #cfcfcf;
 }
@@ -933,4 +929,35 @@ ul.details-desc li {
 ul.details-desc li i{
     color: #bcbcbc;
     font-size: 18px;
+}
+
+.table thead > tr > th {
+    border-bottom: 1px solid #bbbbbb;
+    text-align: center;
+    vertical-align: bottom;
+}
+.table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
+    border: 0;
+    font-size: 0.8rem;
+    line-height: 1.644;
+    padding: 3px 1px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #eceeef;
+    padding: 5px !important;
+}
+
+#rooms_selected th, #rooms_selected td, #rooms_selected tr{
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 1px;
+    text-align: center;
+}
+
+#rooms_selected th{
+    color: #8a8a8a;
+    font-weight: bold;
 }

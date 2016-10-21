@@ -50,7 +50,7 @@
             {{ ownership.ownname }}
         </h1>
     </div>
-    <div class="col-xs-12 bg-gray-e1e1e0 border-top-1-gray share-block">
+    <div id="sociales" class="col-xs-12 bg-gray-e1e1e0 border-top-1-gray share-block">
         <div class="row">
             <div class="col-xs-4 p-a-0">
                 {{ include('MyCpMobileFrontendBundle:favorite:detailsFavorite.html.twig',
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12">
+    <div id="galery" class="col-xs-12">
         <div class="row">
             {% if gallery_photos | length %}
                 <ul class="rslides">
@@ -603,16 +603,14 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
-
-    {#'@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.infobox.js'#}
-    {#'@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.js'#}
-    {#'@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.markerclusterer.js'#}
-    {#'@MyCpMobileFrontendBundle/Resources/public/js/map/MapV2.js'#}
-
+    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
     {% javascripts
     '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.infobox.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.markerclusterer.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/map/MapV2.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/responsiveslides.min.js'
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
@@ -652,6 +650,17 @@
                 after: function () {
                 }     // Function: After callback
             });
+
+            $('#tab-menu li a').each(function () {
+                $(this).click(function (e) {
+                    if ($(this).parent().attr("id") == "li-reservations"){
+                        $('#galery, #sociales').hide();
+                    }else{
+                        $('#galery, #sociales').show();
+                    }
+                });
+            });
+            
         });
 
         $('input#filter_date_to').change(function () {
@@ -662,6 +671,8 @@
             //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
         });
 
+        
+        
         function refresh_calendar_button() {
             $('#tab-menu li a').each(function () {
                 $(this).removeClass('active');
@@ -670,6 +681,7 @@
                 $(this).removeClass('active');
             });
 
+            $('#galery, #sociales').hide();
             $('#tab-reservations').addClass('active');
             $('#li-reservations a').addClass('active');
 

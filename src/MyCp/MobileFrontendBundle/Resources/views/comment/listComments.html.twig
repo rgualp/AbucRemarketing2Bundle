@@ -54,7 +54,7 @@
     <div class="text-center">
         {% if comments | length and comments_total_items > comments_items_per_page %}
             <div class="text-center">
-                {{ simple_paginator_render('my_cp_mobile_details_ownership',null,{
+                {{ simple_paginator_render('frontend_details_ownership',null,{
                     'container_class': 'pagination',
                     'previousPageText': '«',
                     'nextPageText': '»',

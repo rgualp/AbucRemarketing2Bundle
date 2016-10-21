@@ -12,11 +12,11 @@ var Map = function () {
     /**
      * initialize Map
      */
-    var initializeMap=function(zoom, latitud, longitud, data){
+    var initializeMap=function(container ,zoom, latitud, longitud, data){
         if (Map.validMap()){
             var geocoder = new google.maps.Geocoder();
             var address = $('#address').val();
-            if (document.getElementById("big_map") != null){
+            if (document.getElementById(container) != null){
                 var center_big = new google.maps.LatLng(latitud, longitud);//La Habana 23.09725, -82.37548
                 var options_big = {
                     'zoom': zoom,
@@ -24,7 +24,7 @@ var Map = function () {
                     'mapTypeId': google.maps.MapTypeId.ROADMAP
                 };
 
-                map_big = new google.maps.Map(document.getElementById("big_map"), options_big);
+                map_big = new google.maps.Map(document.getElementById(container), options_big);
                 var myOptions = {
                     disableAutoPan: false,
                     maxWidth: 0,
@@ -42,11 +42,17 @@ var Map = function () {
                     enableEventPropagation: false
                 };
                 ib = new InfoBox(myOptions);
-                markers_big = [];
+
+                var icon_small = $("#"+container).attr('data-icon');
+
+                var marker = new google.maps.Marker({'position': center_big, icon: icon_small});
+                markers_big = [marker];
+
                 var mcOptions = {
                     gridSize: 50,
                     maxZoom: 15
                 };
+
                 markerClusterBig = new MarkerClusterer(map_big, markers_big, mcOptions);
 
                 if (data != null){
@@ -60,9 +66,9 @@ var Map = function () {
 
     return {
         //main function to initiate template pages
-        init: function (zoom, latitud, longitud,data) {
+        init: function (container ,zoom, latitud, longitud,data) {
             //IMPORTANT!!!: Do not modify the call order.
-            initializeMap(zoom, latitud, longitud,data);
+            initializeMap(container, zoom, latitud, longitud,data);
         },
         validMap:function(){
             if (!(typeof window.google === 'object' && window.google.maps)) {

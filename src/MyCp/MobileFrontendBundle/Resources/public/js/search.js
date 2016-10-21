@@ -26,12 +26,12 @@ var Search = function(){
                 var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height()) - 5;
                 var scroll_h = full_height - 95;
 
-                $('.mobile-more-filter').css("height", full_height + "px");
-
-                $('#content-filter').slimScroll({
-                    height: scroll_h + 'px',
-                    start: 'top'
-                });
+                // $('.mobile-more-filter').css("height", full_height + "px");
+                //
+                // $('#content-filter').slimScroll({
+                //     height: scroll_h + 'px',
+                //     start: 'top'
+                // });
             }
             else {
                 $('#button_research').removeClass('hide');

@@ -1,5 +1,5 @@
 
-<a target="_blank" href="{{ path('my_cp_mobile_details_ownership',{'own_name':name  | urlNormalize}) }}">
+<a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
     <div style="background-image: url('{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") }}')"
          class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
 
@@ -27,7 +27,7 @@
 </a>
 <div class="row">
     <div class="col-xs-10">
-        <a class="f-s-14" target="_blank" href="{{ path('my_cp_mobile_details_ownership',{'own_name':name  | urlNormalize}) }}">
+        <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
             <div class="h-blue m-b-2 m-t-0">
                 {{ name| title }}
             </div>

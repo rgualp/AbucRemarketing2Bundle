@@ -28,8 +28,8 @@
         </form>
     </div>
 </div>
-<div class="col-xs-12">
-    <div id="body_calendar" style="overflow-x: auto;">
+<div class="col-xs-12 p-5 p-y-1">
+    <div id="body_calendar">
 
     </div>
 </div>
@@ -51,7 +51,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-12 p-y-1">
         <div class="row all-prices-numbers">
             <div class="col-xs-3 p-a-0">
                 <p class="f-s-12 white">{{ 'ACCOMMODATION_TOTAL_COST' | trans }}</p>
@@ -100,49 +100,51 @@
             </div>
         </div>
         <div class="row" style="font-size: 20px; margin-top: 10px">
-            <div class="col-xs-6">
-                {{ 'PREPAYMENT'|trans }}
-                : {{ currSymbol }}
-                <span id="total_prepayment"></span>
+            <div class="col-xs-12 p-a-0">
+                <div class="col-xs-12 white f-s-14 p-a-0">
+                    {{ 'PREPAYMENT'|trans }}
+                    : {{ currSymbol }}
+                    <span class="f-s-16 f-w-bold" id="total_prepayment"></span>
+                </div>
+                <div class="col-xs-12 white f-s-14 p-a-0">
+                    {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
+                    : {{ currSymbol }}
+                    <span class="f-s-16 f-w-bold" id="pay_at_service"></span>
+                    {% if currSymbol != "CUC" %}
+                        (<span id="pay_at_service_cuc" style="font-size: small"></span>)
+                    {% endif %}
+                </div>
             </div>
-            <div class="col-xs-6 text-right" style="padding-right: 25px">
-                {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
-                : {{ currSymbol }}
-                <span id="pay_at_service"></span><br/>
-                {% if currSymbol != "CUC" %}
-                    <span id="pay_at_service_cuc" style="font-size: small"></span>
+            <div class="col-xs-12">
+                {% if post['reservation_filter_date_from'] is defined %}
+                    {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
+                {% else %}
+                    {% set date_from = "now"|date("d&m&Y") %}
                 {% endif %}
+
+                {% if post['reservation_filter_date_to'] is defined %}
+                    {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
+                {% else %}
+                    {% set date_to = "+6 day"|date("d&m&Y") %}
+                {% endif %}
+                <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}"
+                      method="POST">
+                    <div class="row">
+                        <div class="col-xs-12 p-x-1 p-t-1 text-center">
+                            <button type="submit" class="btn f-s-24 p-a-1">
+                                <i class="icon-shopping-cart"></i> {{ 'ADD_TO_CART' | trans }}
+                            </button>
+                            <div class="col-sm-4 p-a-0">
+                                <input from_date="{{ start_date | replace('/','&') }}"
+                                       to_date="{{ end_date | replace('/','&') }}" type="text"
+                                       style="visibility: hidden; margin-bottom: -50px"
+                                       name="data_reservation" id="data_reservation"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="col-xs-12">
-        {% if post['reservation_filter_date_from'] is defined %}
-            {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
-        {% else %}
-            {% set date_from = "now"|date("d&m&Y") %}
-        {% endif %}
 
-        {% if post['reservation_filter_date_to'] is defined %}
-            {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
-        {% else %}
-            {% set date_to = "+6 day"|date("d&m&Y") %}
-        {% endif %}
-        <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}"
-              method="POST">
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4 text-center">
-                    <button style="padding: 5px 10px" type="submit" class="btn btn-primary">
-                        <i class="icon-shopping-cart"></i> {{ 'ADD_TO_CART' | trans }}
-                    </button>
-                    <div class="col-sm-4">
-                        <input from_date="{{ start_date | replace('/','&') }}"
-                               to_date="{{ end_date | replace('/','&') }}" type="text"
-                               style="visibility: hidden; margin-bottom: -50px"
-                               name="data_reservation" id="data_reservation"/>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
