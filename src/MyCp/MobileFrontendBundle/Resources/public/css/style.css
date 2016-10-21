@@ -86,6 +86,9 @@ h6{
     color: #2e2e2e !important;
 }
 
+.color-454242{
+    color: #454242;
+}
 
 .f-s-10{
     font-size: 0.625rem !important;
@@ -139,6 +142,13 @@ h6{
     letter-spacing: 0;
 }
 
+.f-f-Arial{
+    font-family: Arial;
+}
+.f-f-mycp{
+    font-family: CaeciliaRoman;
+}
+
 .line-height-1{
     line-height: 1 !important;
 }
@@ -173,6 +183,10 @@ h6{
 .p-r-l-30{
     padding-left: 1.8rem;
     padding-right: 1.8rem;
+}
+
+.m-r-5{
+    margin-right: 0.31rem;
 }
 
 .m-t-40{
@@ -219,6 +233,42 @@ h6{
     color: #7f8b8c;
 }
 
+.bg-gray-mycp{
+    background-color: #cfcfcf;
+}
+
+.bg-gray-e6e6e6{
+    background-color: #e6e6e6;
+}
+
+.bg-gray-e1e1e0{
+    background-color: #e1e1e0;
+}
+
+.bg-green-mycp{
+    background: #86b32b none repeat scroll 0 0;
+}
+
+.bg-green-two-mycp{
+    background-color: #63a333;
+}
+
+.bg-blue-mycp{
+    background-color: #2554a1;
+}
+
+.bg-red-mycp{
+    background-color: #cc3333;
+}
+
+.bg-orange-mycp{
+    background-color: #e7931a;
+}
+
+.text-color-blue{
+    color: #4394d1;
+}
+
 .gray-mycp{
     color: #cfcfcf;
 }
@@ -237,6 +287,39 @@ h6{
 
 .green{
     color: #63a333;
+}
+
+.blue_economic{
+    color: #406bb4;
+}
+.green_mid_range{
+    color: #9dc441;
+}
+.orange_premium{
+    color: #fa701d;
+}
+
+.yellow-color{
+    color: #f4b419;
+}
+
+.border-top-1-gray {
+    border-top: 1px solid #888;
+}
+
+.border-bottom-1-fblue {
+    border-bottom: 1px solid #14305e;
+}
+
+.border-top-gray {
+    border-top: 2px solid #888;
+}
+
+.margin-t {
+    border-top: 1px solid #ccc;
+    display: block;
+    height: 1px;
+    margin: 10px 0;
 }
 
 .background-effect{
@@ -262,7 +345,7 @@ h6{
     box-shadow: 2px 2px 3px #ccc;
 }
 .box-shadow-inset{
-
+    box-shadow: 1px 2px 6px #888 inset;
 }
 
 .no-shadows{
@@ -312,8 +395,10 @@ h6{
     top: -7px;
 }
 .navbar-inverse .navbar-toggle {
-    border:none;
+    border: medium none;
     font-size: 35px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     text-align: center;
 }
 .navbar-inverse .navbar-toggle .icon-bar {
@@ -331,6 +416,10 @@ h6{
 .navbar-nav.pull-right > li > .dropdown-menu, .navbar-nav > li > .dropdown-menu.pull-right {
     left: auto;
     right: 8px;
+}
+
+.navbar-nav {
+    margin: 0 -15px 0 0;
 }
 
 footer .navbar-collapse{
@@ -469,14 +558,379 @@ footer .list-inline li a {
     width: 50px;
     z-index: 101;
 }
-/*@media (max-width: 543px) { ... }*/
 
-/*// Small devices (landscape phones, less than 768px)*/
-/*@media (max-width: 767px) { ... }*/
-@media (max-width: 543px) {
+/* Checkboxes */
+
+.control {
+    font-size: 0.875rem;
+    position: relative;
+    display: block;
+    margin-bottom: 15px;
+    padding-left: 26px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.control.control--btn {
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    top: -4px;
+}
+
+.control input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    border-radius: 2px;
+    border: 1px solid #fff;
+}
+
+.control.control--btn .control__indicator {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 3px;
+    height: auto;
+    padding: 7px;
+    position: relative;
+    width: auto;
+}
+
+.control__indicator.border-gray {
+    border: 1px solid #454242;
+}
+
+.control--radio .control__indicator {
+    border-radius: 50%;
+}
+
+/* Hover and focus states */
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
 
 }
 
-@media (max-width: 768px) {
+/* Checked state */
+.control input:checked ~ .control__indicator {
+    background: transparent;
+    border: 0 none;
+    border-radius: 3px;
+}
+.control input:checked ~ .control__indicator.border-gray {
+    border: 1px solid #454242;
+}
 
+.control.control--btn input:checked ~ .control__indicator{
+    background: #eeeced none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 3px;
+    height: auto;
+    padding: 7px;
+    width: auto;
+}
+
+/* Hover state whilst checked */
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+
+}
+
+/* Disabled state */
+.control input:disabled ~ .control__indicator {
+    pointer-events: none;
+    opacity: .6;
+    background: #e6e6e6;
+}
+
+/* Check mark */
+.control__indicator:after {
+    position: absolute;
+    display: none;
+    content: '';
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+    display: block;
+}
+
+/* Checkbox tick */
+.control--checkbox .control__indicator:after {
+    top: -3px;
+    left: 6px;
+    width: 9px;
+    height: 17px;
+    transform: rotate(45deg);
+    border: solid #f29b12;
+    border-width: 0 3px 3px 0;
+}
+
+.control.control--checkbox.control--btn .control__indicator:after{
+    display: none;
+}
+
+/* Checkbox tick */
+.control--checkbox .control__indicator.red:after {
+    border-color: #c4312b;
+}
+
+/* Disabled tick colour */
+.control--checkbox input:disabled ~ .control__indicator:after {
+    border-color: #7b7b7b;
+}
+
+/* Radio button inner circle */
+.control--radio .control__indicator:after {
+    top: 7px;
+    left: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b;
+}
+
+.filters-container {
+    box-shadow: 0 -2px 2px #888;
+    margin-top: 10px;
+}
+.filters-container .form-control{
+    box-shadow: none;
+    font-size: 0.9rem;
+}
+
+/* More Filters */
+
+.mobile-more-filter{
+    box-shadow: 1px -1px 4px #666;
+    padding-top: 10px;
+}
+
+.content-button{
+    bottom: 0;
+    left: 0;
+    padding: 9px;
+    position: absolute;
+    width: 100%;
+    background-color: #cfcfcf;
+}
+
+#filter_upper{
+    float: left;
+    padding: 7px 7px 0;
+    width: 100%;
+}
+
+/* Bubbles Speesh */
+
+span.speech {
+    background-color: #e6e6e6;
+    border: 3px solid #adadad;
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    text-align: center;
+    width: auto;
+}
+
+span.speech:before {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #adadad transparent transparent #adadad;
+    border-image: none;
+    border-style: solid;
+    border-width: 5px;
+    content: " ";
+    height: 0;
+    left: 3px;
+    position: absolute;
+    top: 25px;
+    width: 0;
+}
+
+span.speech:after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #e6e6e6 transparent transparent #e6e6e6;
+    border-image: none;
+    border-style: solid;
+    border-width: 3px;
+    content: " ";
+    height: 0;
+    left: 5px;
+    position: absolute;
+    top: 24px;
+    width: 0;
+}
+
+.for-map{
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.for-map.toClose{
+    z-index: -1;
+}
+.for-map .close-btn{
+    background: #fff none repeat scroll 0 0;
+    font-size: 24px;
+    padding: 2px 10px;
+    position: absolute;
+    right: 0;
+    z-index: 1000;
+}
+/* Page Details */
+
+.share-block{
+
+}
+.share-block button {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #adadad;
+    font-family: Arial;
+    padding: 8px 0;
+    text-shadow: none;
+    white-space: normal;
+    line-height: 0;
+}
+
+/* Responsive Slide */
+
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.rslides li {
+    -webkit-backface-visibility: hidden;
+    background-size: cover;
+    display: none;
+    height: 200px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.rslides li:first-child {
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.rslides img {
+    display: block;
+    height: auto;
+    float: left;
+    width: 100%;
+    border: 0;
+}
+
+/* Navs Tab */
+
+.nav-tabs {
+    background-color: #eeeeee;
+    background-image: linear-gradient(to bottom, #fcfcff 90%, #eeeeee);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 20px;
+}
+.nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+    text-align: center;
+    width: 16.66%;
+}
+.nav-tabs > li > a {
+    background: #d3d2d0 none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 57px;
+    margin-right: 0;
+    padding: 15px 0;
+}
+.nav-tabs > li:last-child > a p{
+    color: #FFF;
+}
+
+.nav-tabs > li > a.active {
+    background: #FFF none repeat scroll 0 0;
+}
+
+.nav-tabs > li:last-child > a {
+    background: #86b32b;
+}
+.nav-tabs > li:last-child > a.active {
+    background: #ff9800;
+}
+
+.nav-tabs .nav-item + .nav-item {
+    margin-left: 0;
+}
+
+.nav-tabs span.speech {
+    background-color: #e6e6e6;
+    border: 3px solid #adadad;
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    text-align: center;
+    width: auto;
+    color: #9b9b9b;
+}
+
+.nav-tabs > li > a.active span.speech{
+    background-color: transparent;
+}
+
+.nav-tabs > li > a.active span.speech::after {
+    border-color: #fff transparent transparent #fff;
+}
+
+ul.details-desc{
+
+}
+ul.details-desc li {
+    color: #bcbcbc;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 5px 7px;
+}
+ul.details-desc li i{
+    color: #bcbcbc;
+    font-size: 18px;
 }

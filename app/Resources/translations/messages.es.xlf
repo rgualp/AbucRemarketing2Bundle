@@ -3925,22 +3925,55 @@
                      <source>RESERVATION_COST</source>
                      <target>Costo Reserva</target>
                 </trans-unit>
-                <trans-unit id="990">
-                     <source>CREATE_ACCOUNT_SUCCESS</source>
-                     <target>Se ha registrado exitosamente en MyCasaParticular </target>
+
+		<trans-unit id="990">
+          <source>POSTFINANCE_PAYMENT</source>
+          <target>Pague usando cuenta Postfinance,VISA o MASTERCARD</target>
+        </trans-unit>
+        <trans-unit id="991">
+          <source>VISA_PAYMENT</source>
+          <target>Pague usando Visa</target>
+        </trans-unit>
+        <trans-unit id="992">
+          <source>MASTERCARD_PAYMENT</source>
+          <target>Pague usando Mastercard</target>
+        </trans-unit>
+        <trans-unit id="993">
+          <source>PAYMENT_SUCCESS</source>
+          <target>¡Estupendo! Has pagado todas tus reservas con éxito. Cuba te espera.</target>
+        </trans-unit>
+       <trans-unit id="994">
+             <source>CREATE_ACCOUNT_SUCCESS</source>
+             <target>Se ha registrado exitosamente en MyCasaParticular </target>
+        </trans-unit>
+        <trans-unit id="995">
+             <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
+             <target>Gracias por registrarse en MyCasaParticular</target>
+        </trans-unit>
+        <trans-unit id="996">
+             <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
+             <target>Se ha registrado exitosamente en MyCasaParticular.</target>
+        </trans-unit>
+        <trans-unit id="997">
+             <source>NEW_USER_ACCOUNT</source>
+             <target>Nueva cuenta de usuario</target>
+        </trans-unit>
+                <trans-unit id="998">
+                     <source>Logo</source>
+                     <target>Logo</target>
                 </trans-unit>
-                <trans-unit id="991">
-                     <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
-                     <target>Gracias por registrarse en MyCasaParticular</target>
-                </trans-unit>
-                <trans-unit id="992">
-                     <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
-                     <target>Se ha registrado exitosamente en MyCasaParticular.</target>
-                </trans-unit>
-                <trans-unit id="993">
-                     <source>NEW_USER_ACCOUNT</source>
-                     <target>Nueva cuenta de usuario</target>
-                </trans-unit>
+ <trans-unit id="999">
+                       <source>ROOM</source>
+                       <target>Habitación</target>
+                  </trans-unit>
+                  <trans-unit id="1000">
+                        <source>SHARE</source>
+                        <target>Compartir</target>
+                   </trans-unit>
+                  <trans-unit id="1001">
+                          <source>Bookings</source>
+                          <target>Reserva</target>
+                   </trans-unit>
         </body>
     </file>
 </xliff>

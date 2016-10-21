@@ -1,0 +1,69 @@
+{% if show_comments_and_friends > 0 %}
+    <div class="comments">
+            {% for comment in comments %}
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-2 p-5">
+                            <img src="{{ asset('uploads/userImages/no_photo.gif') }}" alt="{{ "No photo" | trans }}"/>
+                        </div>
+                        <div class="col-xs-10">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <ul class="list-inline m-a-0">
+                                        <li class="p-a-0">
+                                            <span class="f-s-12 f-f-Arial">
+                                                {{ comment.user_user_name~" "~comment.user_last_name }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <div class="rating">
+                                                {% set rating = comment.com_rate %}
+                                                {% if rating > 0 %}
+                                                    {% for i in 1..rating %}
+                                                        <i class="f-s-24 ion-ios-star yellow-color"></i>
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                                {% if rating < 5 %}
+                                                    {% for i in 1..(5-rating) %}
+                                                        <i class="f-s-24 ion-ios-star"></i>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12">
+                                    <span class="f-s-12 f-f-Arial">{{ comment.com_date | localizeddate('none', 'none', app.request.locale, null, "MMM d, Y") | capitalize }}</span>
+                                </div>
+                                <div class="col-xs-12">
+                                    <p class="f-f-Arial f-s-12">{{ comment.com_comments }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% if can_public_comment %}
+                            <div class="row text-right">
+                                <h6><em>{{ "USER_RESERVED_ACCOMMODATION" |trans }}</em></h6>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="margin-t col-xs-12"></div>
+            {% endfor %}
+    </div>
+    <div class="text-center">
+        {% if comments | length and comments_total_items > comments_items_per_page %}
+            <div class="text-center">
+                {{ simple_paginator_render('my_cp_mobile_details_ownership',null,{
+                    'container_class': 'pagination',
+                    'previousPageText': '«',
+                    'nextPageText': '»',
+                    'currentClass': 'current',
+                    'firstPageText': 'FIRST_PAGE' | trans,
+                    'lastPageText': 'LAST_PAGE' | trans,
+                    'route_params': {'own_name':ownership.ownname|lower|replace(' ','-')}
+                }) }}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

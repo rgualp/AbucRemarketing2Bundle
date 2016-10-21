@@ -218,18 +218,34 @@ class OwnershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
-        //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
-        return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
-                    'array_dates' => $array_dates_keys,
-                    'rooms' => $rooms,
-                    'array_prices' => $array_prices,
-                    'ownership' => $ownership,
-                    'no_available_days' => $no_available_days_ready,
-                    'prices_dates' => $prices_dates,
-                    'reservations' => $array_no_available,
-                    'fromBackend' => $fromBackend,
-                    'nights' => $nights
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:ownership:ownershipReservationCalendar.html.twig', array(
+                'array_dates' => $array_dates_keys,
+                'rooms' => $rooms,
+                'array_prices' => $array_prices,
+                'ownership' => $ownership,
+                'no_available_days' => $no_available_days_ready,
+                'prices_dates' => $prices_dates,
+                'reservations' => $array_no_available,
+                'fromBackend' => $fromBackend,
+                'nights' => $nights
+            ));
+        }else{
+            //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
+            return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
+                'array_dates' => $array_dates_keys,
+                'rooms' => $rooms,
+                'array_prices' => $array_prices,
+                'ownership' => $ownership,
+                'no_available_days' => $no_available_days_ready,
+                'prices_dates' => $prices_dates,
+                'reservations' => $array_no_available,
+                'fromBackend' => $fromBackend,
+                'nights' => $nights
+            ));
+        }
+
     }
 
     public function ownDetailsDirectAction($own_code) {
@@ -325,9 +341,25 @@ class OwnershipController extends Controller {
         //$own_name = str_replace("nn", "ñ", $own_name);
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetails($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
+        
         if ($ownership_array == null) {
             throw $this->createNotFoundException();
         }
+
+        $existNonNullValue = false;
+        foreach(array_keys($ownership_array) as $key)
+        {
+            if ($ownership_array[$key] != null)
+            {
+                $existNonNullValue = true;
+                break;
+            }
+        }
+
+        if (!$existNonNullValue) {
+            throw $this->createNotFoundException();
+        }
+
 
         $langs_array = array();
         if ($ownership_array['english'] == 1)
