@@ -2210,7 +2210,7 @@
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
-                    <target>Recordatorio</target>
+                    <target>DESCUBRE CUBA, RESERVA AHORA</target>
                 </trans-unit>
                 <trans-unit id="561">
                     <source>NOT_ENABLED_USER</source>
@@ -2462,11 +2462,11 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>Algunas de las casas que usted seleccionó aún están disponibles. Le recordamos que para hacer efectiva la reserva, usted debe efectuar un pago inicial, que asciende a </target>
+                <target><![CDATA[Solo te quedan 24 horas más para reservar cualquiera de las habitaciones disponibles. Tienes varias solicitudes de alojamientos confirmadas y otras personas también están interesadas. <br/><br/> ¿Quieres conocer Cuba? Este es el mejor momento. Aprovecha esta(s) oferta(s) y haz efectiva tu reserva con un pago inicial de solo]]></target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target><![CDATA[Para confirmar su reserva, haga clic <a href="%link%">aquí</a>, o copie la URL siguiente en su navegador de Internet.]]></target>
+                <target>Descubre Cuba, reserva ahora. Para confirmar tu reserva, haz clic o copia la URL en tu navegador:</target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
@@ -3227,6 +3227,11 @@
          <trans-unit id="954">
             <source>FULL_REMINDER_ENDTEXT</source>
             <target><![CDATA[Dinos cómo podemos ayudarte. Contáctanos a <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+        </trans-unit>
+
+         <trans-unit id="955">
+            <source>REMINDER_EMAIL_PREHEADER</source>
+            <target>Solo te quedan 24 horas más</target>
         </trans-unit>
         </body>
     </file>

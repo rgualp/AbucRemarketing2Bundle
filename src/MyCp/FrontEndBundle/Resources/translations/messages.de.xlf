@@ -3223,6 +3223,11 @@
             <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
         </trans-unit>
 
+         <trans-unit id="955">
+            <source>REMINDER_EMAIL_PREHEADER</source>
+            <target>REMINDER_EMAIL_PREHEADER</target>
+        </trans-unit>
+
     </body>
     </file>
 </xliff>

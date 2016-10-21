@@ -447,7 +447,7 @@ class BackendTestEmailTemplateController extends Controller {
     public function getCartFullReminderBody($langCode) {
         $em = $this->getDoctrine()->getManager();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
-        $userName = $userTourist->getUserTouristUser()->getUserCompleteName();
+        $userName = $userTourist->getUserTouristUser()->getUserUserName();
         $cartItems = $em->getRepository('mycpBundle:cart')->testValues($userTourist->getUserTouristUser());
         $service_time = $this->get('Time');
 

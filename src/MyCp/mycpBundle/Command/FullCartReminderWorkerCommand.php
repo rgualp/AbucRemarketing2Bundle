@@ -101,7 +101,7 @@ class FullCartReminderWorkerCommand extends Worker {
     private function sendReminderEmail(user $user, OutputInterface $output) {
         $userId = $user->getUserId();
         $userEmail = $user->getUserEmail();
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER_SUBJECT');
 
