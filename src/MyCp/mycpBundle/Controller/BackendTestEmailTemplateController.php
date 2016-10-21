@@ -505,7 +505,7 @@ class BackendTestEmailTemplateController extends Controller {
 
         $user = $generalReservation->getGenResUserId();
         //$userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')

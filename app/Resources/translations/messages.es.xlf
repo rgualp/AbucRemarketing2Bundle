@@ -2665,15 +2665,15 @@
             </trans-unit>
             <trans-unit id="676">
                 <source>FEEDBACK_REMINDER</source>
-                <target>¿Regresando de Cuba? Por favor, déjenos su opición</target>
+                <target>DÉJANOS SABER CÓMO TE FUE</target>
             </trans-unit>
             <trans-unit id="677">
                 <source>USER_FEEDBACK_TEXT1</source>
-                <target>¡Esperamos que su viaje a Cuba haya sido una experiencia inolvidable!</target>
+                <target>Tu opinión vale para otros usuarios…cuéntanos sobre tu viaje a Cuba. Queremos saberlo todo, cada detalle sobre estas vacaciones estupendas. ¡Esperamos que haya sido una experiencia inolvidable!</target>
             </trans-unit>
             <trans-unit id="678">
                 <source>USER_FEEDBACK_TEXT2</source>
-                <target>Si no le causa molestia, le pedimos que nos haga llegar sus recomendaciones, comentarios y sugerencias, tanto sobre nuestros servicios como sobre las casas que visitó. Esto le servirá a nuestro equipo, para mejorar nuestros servicios, y a otros viajeros, que podrán retroalimentarse de sus opiniones.</target>
+                <target>Comparte tus comentarios y sugerencias sobre nuestros servicios y las casas particulares dónde te alojaste. Gracias a tus recomendaciones podemos continuar mejorando nuestro sitio.</target>
             </trans-unit>
             <trans-unit id="679">
                 <source>COMMENT</source>

@@ -2665,15 +2665,15 @@
             </trans-unit>
             <trans-unit id="676">
                 <source>FEEDBACK_REMINDER</source>
-                <target>Back from Cuba? Please Feedback</target>
+                <target>LET US KNOW HOW DID IT GO</target>
             </trans-unit>
             <trans-unit id="677">
                 <source>USER_FEEDBACK_TEXT1</source>
-                <target>We hope your travel to Cuba has been an amazing experience!</target>
+                <target>Your opinion is important for other users...let us know about your trip. We want to know everything, every detail of your terrific vacations. We hope it was an unforgettable memory!</target>
             </trans-unit>
             <trans-unit id="678">
                 <source>USER_FEEDBACK_TEXT2</source>
-                <target>If it doesn?t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
+                <target>Share your comments and suggestions about our services and the Casas Particulares where you stayed. Thanks to your recommendations, we will be able to improve our site.</target>
             </trans-unit>
             <trans-unit id="679">
                 <source>COMMENT</source>
@@ -3822,6 +3822,11 @@
          <trans-unit id="957">
             <source>LAST_REMINDER_TEXT_3</source>
             <target>If you want to try other rooms</target>
+        </trans-unit>
+
+         <trans-unit id="958">
+            <source>FEEDBACK_REMINDER_PREHEADER</source>
+            <target>Your opinion matter to us</target>
         </trans-unit>
 
         </body>
