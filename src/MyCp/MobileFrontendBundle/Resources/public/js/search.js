@@ -194,7 +194,7 @@ var Search = function(){
             if (document.getElementById("fu_own_category_" + $(this).val()) == null)
             {
                 innerHtml = $("#filter_upper").html();
-                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> <i class='f-s-18 " + $(this).attr("data-icon") + "'></i></a>");
             }
         });
         $('input[name=own_awards]:checked').each(function() {
