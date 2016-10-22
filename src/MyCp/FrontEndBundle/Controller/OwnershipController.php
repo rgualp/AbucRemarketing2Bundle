@@ -218,18 +218,34 @@ class OwnershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
-        //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
-        return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
-                    'array_dates' => $array_dates_keys,
-                    'rooms' => $rooms,
-                    'array_prices' => $array_prices,
-                    'ownership' => $ownership,
-                    'no_available_days' => $no_available_days_ready,
-                    'prices_dates' => $prices_dates,
-                    'reservations' => $array_no_available,
-                    'fromBackend' => $fromBackend,
-                    'nights' => $nights
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:ownership:ownershipReservationCalendar.html.twig', array(
+                'array_dates' => $array_dates_keys,
+                'rooms' => $rooms,
+                'array_prices' => $array_prices,
+                'ownership' => $ownership,
+                'no_available_days' => $no_available_days_ready,
+                'prices_dates' => $prices_dates,
+                'reservations' => $array_no_available,
+                'fromBackend' => $fromBackend,
+                'nights' => $nights
+            ));
+        }else{
+            //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
+            return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
+                'array_dates' => $array_dates_keys,
+                'rooms' => $rooms,
+                'array_prices' => $array_prices,
+                'ownership' => $ownership,
+                'no_available_days' => $no_available_days_ready,
+                'prices_dates' => $prices_dates,
+                'reservations' => $array_no_available,
+                'fromBackend' => $fromBackend,
+                'nights' => $nights
+            ));
+        }
+
     }
 
     public function ownDetailsDirectAction($own_code) {
@@ -536,41 +552,82 @@ class OwnershipController extends Controller {
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
-        return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
-                    'avail_array_prices' => $avail_array_prices,
-                    'available_rooms' => $available_rooms,
-                    'price_subtotal' => $price_subtotal,
-                    'avail_array_prices' => $avail_array_prices,
-                    'array_prices' => $array_prices,
-                    'prices_dates' => $prices_dates,
-                    'ownership' => $ownership_array,
-                    'description' => $ownership_array['description'],
-                    'brief_description' => $brief_description,
-                    'automaticTranslation' => $ownership_array['autotomaticTranslation'],
-                    //'similar_houses' => array_slice($similar_houses, 0, 5),
-                    //'total_similar_houses' => $total_similar_houses,
-                    'comments' => $comments,
-                    'friends' => $friends,
-                    'show_comments_and_friends' => count($total_comments) + count($friends),
-                    'rooms' => $rooms,
-                    'gallery_photos' => $own_photos,
-                    'is_in_favorite' => $ownership_array['is_in_favorites'],
-                    'array_dates' => $array_dates_keys,
-                    'post' => $post,
-                    'reservations' => $array_no_available,
-                    'no_available_days' => $no_available_days_ready,
-                    'comments_items_per_page' => $items_per_page,
-                    'comments_total_items' => $paginator->getTotalItems(),
-                    'comments_current_page' => $page,
-                    'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
-                    'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
-                    'locale' => $locale,
-                    'real_category' => $real_category,
-                    'languages' => $languages,
-                    'keywords' => $ownership_array['keywords'],
-                    'locale' => $locale,
-                    'currentServiceFee' => $currentServiceFee
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:ownership:ownershipDetails.html.twig', array(
+                'avail_array_prices' => $avail_array_prices,
+                'available_rooms' => $available_rooms,
+                'price_subtotal' => $price_subtotal,
+                'avail_array_prices' => $avail_array_prices,
+                'array_prices' => $array_prices,
+                'prices_dates' => $prices_dates,
+                'ownership' => $ownership_array,
+                'description' => $ownership_array['description'],
+                'brief_description' => $brief_description,
+                'automaticTranslation' => $ownership_array['autotomaticTranslation'],
+                //'similar_houses' => array_slice($similar_houses, 0, 5),
+                //'total_similar_houses' => $total_similar_houses,
+                'comments' => $comments,
+                'friends' => $friends,
+                'show_comments_and_friends' => count($total_comments) + count($friends),
+                'rooms' => $rooms,
+                'gallery_photos' => $own_photos,
+                'is_in_favorite' => $ownership_array['is_in_favorites'],
+                'array_dates' => $array_dates_keys,
+                'post' => $post,
+                'reservations' => $array_no_available,
+                'no_available_days' => $no_available_days_ready,
+                'comments_items_per_page' => $items_per_page,
+                'comments_total_items' => $paginator->getTotalItems(),
+                'comments_current_page' => $page,
+                'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
+                'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
+                'locale' => $locale,
+                'real_category' => $real_category,
+                'languages' => $languages,
+                'keywords' => $ownership_array['keywords'],
+                'locale' => $locale,
+                'currentServiceFee' => $currentServiceFee
+            ));
+        }else{
+
+            return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
+                'avail_array_prices' => $avail_array_prices,
+                'available_rooms' => $available_rooms,
+                'price_subtotal' => $price_subtotal,
+                'avail_array_prices' => $avail_array_prices,
+                'array_prices' => $array_prices,
+                'prices_dates' => $prices_dates,
+                'ownership' => $ownership_array,
+                'description' => $ownership_array['description'],
+                'brief_description' => $brief_description,
+                'automaticTranslation' => $ownership_array['autotomaticTranslation'],
+                //'similar_houses' => array_slice($similar_houses, 0, 5),
+                //'total_similar_houses' => $total_similar_houses,
+                'comments' => $comments,
+                'friends' => $friends,
+                'show_comments_and_friends' => count($total_comments) + count($friends),
+                'rooms' => $rooms,
+                'gallery_photos' => $own_photos,
+                'is_in_favorite' => $ownership_array['is_in_favorites'],
+                'array_dates' => $array_dates_keys,
+                'post' => $post,
+                'reservations' => $array_no_available,
+                'no_available_days' => $no_available_days_ready,
+                'comments_items_per_page' => $items_per_page,
+                'comments_total_items' => $paginator->getTotalItems(),
+                'comments_current_page' => $page,
+                'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
+                'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
+                'locale' => $locale,
+                'real_category' => $real_category,
+                'languages' => $languages,
+                'keywords' => $ownership_array['keywords'],
+                'locale' => $locale,
+                'currentServiceFee' => $currentServiceFee
+            ));
+        }
+
     }
 
     public function lastAddedListAction() {

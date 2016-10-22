@@ -3921,7 +3921,7 @@
                      <source>PRICE_NIGHT</source>
                      <target>Precio / Noche</target>
                 </trans-unit>
-                  <trans-unit id="989">
+                <trans-unit id="989">
                      <source>RESERVATION_COST</source>
                      <target>Costo Reserva</target>
                 </trans-unit>
@@ -3962,6 +3962,18 @@
                      <source>Logo</source>
                      <target>Logo</target>
                 </trans-unit>
+ <trans-unit id="999">
+                       <source>ROOM</source>
+                       <target>Habitación</target>
+                  </trans-unit>
+                  <trans-unit id="1000">
+                        <source>SHARE</source>
+                        <target>Compartir</target>
+                   </trans-unit>
+                  <trans-unit id="1001">
+                          <source>Bookings</source>
+                          <target>Reserva</target>
+                   </trans-unit>
         </body>
     </file>
 </xliff>
