@@ -36,7 +36,7 @@ class OwnershipController extends Controller {
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
 
-        if (!$owner_id) {
+        if(!$owner_id) {
             throw $this->createNotFoundException();
         }
 
@@ -47,7 +47,7 @@ class OwnershipController extends Controller {
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
         $reservations = array();
         foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(),$dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
+            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(), $dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
             foreach ($own_reservations as $own_res) {
                 array_push($reservations, $own_res);
             }
@@ -245,8 +245,6 @@ class OwnershipController extends Controller {
                 'nights' => $nights
             ));
         }
-
-    }
 
     public function ownDetailsDirectAction($own_code) {
         // There are so many browserconfig.xml requests from stupid IE6 that we check for it
@@ -552,82 +550,41 @@ class OwnershipController extends Controller {
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
-        if ($mobileDetector->isMobile()){
-            return $this->render('MyCpMobileFrontendBundle:ownership:ownershipDetails.html.twig', array(
-                'avail_array_prices' => $avail_array_prices,
-                'available_rooms' => $available_rooms,
-                'price_subtotal' => $price_subtotal,
-                'avail_array_prices' => $avail_array_prices,
-                'array_prices' => $array_prices,
-                'prices_dates' => $prices_dates,
-                'ownership' => $ownership_array,
-                'description' => $ownership_array['description'],
-                'brief_description' => $brief_description,
-                'automaticTranslation' => $ownership_array['autotomaticTranslation'],
-                //'similar_houses' => array_slice($similar_houses, 0, 5),
-                //'total_similar_houses' => $total_similar_houses,
-                'comments' => $comments,
-                'friends' => $friends,
-                'show_comments_and_friends' => count($total_comments) + count($friends),
-                'rooms' => $rooms,
-                'gallery_photos' => $own_photos,
-                'is_in_favorite' => $ownership_array['is_in_favorites'],
-                'array_dates' => $array_dates_keys,
-                'post' => $post,
-                'reservations' => $array_no_available,
-                'no_available_days' => $no_available_days_ready,
-                'comments_items_per_page' => $items_per_page,
-                'comments_total_items' => $paginator->getTotalItems(),
-                'comments_current_page' => $page,
-                'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
-                'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
-                'locale' => $locale,
-                'real_category' => $real_category,
-                'languages' => $languages,
-                'keywords' => $ownership_array['keywords'],
-                'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
-            ));
-        }else{
-
-            return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
-                'avail_array_prices' => $avail_array_prices,
-                'available_rooms' => $available_rooms,
-                'price_subtotal' => $price_subtotal,
-                'avail_array_prices' => $avail_array_prices,
-                'array_prices' => $array_prices,
-                'prices_dates' => $prices_dates,
-                'ownership' => $ownership_array,
-                'description' => $ownership_array['description'],
-                'brief_description' => $brief_description,
-                'automaticTranslation' => $ownership_array['autotomaticTranslation'],
-                //'similar_houses' => array_slice($similar_houses, 0, 5),
-                //'total_similar_houses' => $total_similar_houses,
-                'comments' => $comments,
-                'friends' => $friends,
-                'show_comments_and_friends' => count($total_comments) + count($friends),
-                'rooms' => $rooms,
-                'gallery_photos' => $own_photos,
-                'is_in_favorite' => $ownership_array['is_in_favorites'],
-                'array_dates' => $array_dates_keys,
-                'post' => $post,
-                'reservations' => $array_no_available,
-                'no_available_days' => $no_available_days_ready,
-                'comments_items_per_page' => $items_per_page,
-                'comments_total_items' => $paginator->getTotalItems(),
-                'comments_current_page' => $page,
-                'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
-                'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
-                'locale' => $locale,
-                'real_category' => $real_category,
-                'languages' => $languages,
-                'keywords' => $ownership_array['keywords'],
-                'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
-            ));
-        }
-
+        return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
+                    'avail_array_prices' => $avail_array_prices,
+                    'available_rooms' => $available_rooms,
+                    'price_subtotal' => $price_subtotal,
+                    'avail_array_prices' => $avail_array_prices,
+                    'array_prices' => $array_prices,
+                    'prices_dates' => $prices_dates,
+                    'ownership' => $ownership_array,
+                    'description' => $ownership_array['description'],
+                    'brief_description' => $brief_description,
+                    'automaticTranslation' => $ownership_array['autotomaticTranslation'],
+                    //'similar_houses' => array_slice($similar_houses, 0, 5),
+                    //'total_similar_houses' => $total_similar_houses,
+                    'comments' => $comments,
+                    'friends' => $friends,
+                    'show_comments_and_friends' => count($total_comments) + count($friends),
+                    'rooms' => $rooms,
+                    'gallery_photos' => $own_photos,
+                    'is_in_favorite' => $ownership_array['is_in_favorites'],
+                    'array_dates' => $array_dates_keys,
+                    'post' => $post,
+                    'reservations' => $array_no_available,
+                    'no_available_days' => $no_available_days_ready,
+                    'comments_items_per_page' => $items_per_page,
+                    'comments_total_items' => $paginator->getTotalItems(),
+                    'comments_current_page' => $page,
+                    'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
+                    'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
+                    'locale' => $locale,
+                    'real_category' => $real_category,
+                    'languages' => $languages,
+                    'keywords' => $ownership_array['keywords'],
+                    'locale' => $locale,
+                    'currentServiceFee' => $currentServiceFee
+        ));
     }
 
     public function lastAddedListAction() {
