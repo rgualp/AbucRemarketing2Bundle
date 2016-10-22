@@ -4,6 +4,7 @@
     <html id="top" {{ get_lang(lang_code)|raw }}>
     <head>
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %} *** MyCasaParticular</title>
+        <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
 
         {% block metas %}
             {{ get_metas('Main', lang_code)|raw }}
@@ -22,22 +23,22 @@
         {#'@MyCpMobileFrontendBundle/Resources/public/css/style.css'#}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-        {% if ownership.category is defined and  ownership.category == 'Económica'%}
-            {% stylesheets
-            '@FrontEndBundle/Resources/public/css/economic_house.css'
-            filter='?uglifycss'
-            %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
-        {% endif %}
-        {% if ownership.category is defined and  ownership.category == 'Premium'%}
-            {% stylesheets
-            '@FrontEndBundle/Resources/public/css/premium_house.css'
-            filter='?uglifycss'
-            %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
-        {% endif %}
+        {#{% if ownership.category is defined and  ownership.category == 'Económica'%}#}
+            {#{% stylesheets#}
+            {#'@FrontEndBundle/Resources/public/css/economic_house.css'#}
+            {#filter='?uglifycss'#}
+            {#%}#}
+            {#<link rel="stylesheet" href="{{ asset_url }}" />#}
+            {#{% endstylesheets %}#}
+        {#{% endif %}#}
+        {#{% if ownership.category is defined and  ownership.category == 'Premium'%}#}
+            {#{% stylesheets#}
+            {#'@FrontEndBundle/Resources/public/css/premium_house.css'#}
+            {#filter='?uglifycss'#}
+            {#%}#}
+            {#<link rel="stylesheet" href="{{ asset_url }}" />#}
+            {#{% endstylesheets %}#}
+        {#{% endif %}#}
 
         {% block include_css %}{% endblock %}
 

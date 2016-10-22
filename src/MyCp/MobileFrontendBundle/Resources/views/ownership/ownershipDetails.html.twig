@@ -4,32 +4,24 @@
 {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
 
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
-{% block metas %}
-
-    <meta name="description"
-          content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %} {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}. {% endif %} {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}">
-    <meta name="keywords"
-          content="{{ ownership.owntype }} {{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">
-
-{% endblock %}
-{% block open_graph_metas %}
-    <!-- Propiedades Open Graph -->
-    <meta property="og:title" content="{{ ownership.ownname }} - MyCasaParticular"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image"
-          content="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/') ~ image }}"/>
-    <meta property="og:author" content="ABUC media network GmbH"/>
-    <meta property="og:site_name" content="MyCasaParticular"/>
-    <meta property="og:description"
-          content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %}{{ rooms | length }} {% if rooms | length == 1 %}{{ "ROOM_SINGULAR" | trans | trim }}{% else %}{{ "ROOM_PLURAL" | trans | trim }} {% endif %}{% endif %}. {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}"/>
-    <meta property="og:see_also" content="{{ mail_base_url }}"/>
-    <!--meta property="og:locale" content="en_US"/-->
-    <meta property="og:url"
-          content="{{ url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize}) }}"/>
-    <meta property=”fb:admins” content=”312774092497”/>
-{% endblock %}
-
 {% block title %}{{ ownership.ownname }}{% endblock %}
+
+{% block metas %}
+    <meta name="description" content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %} {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}. {% endif %} {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}">
+    <meta name="keywords" content="{{ ownership.owntype }} {{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">
+    <!-- Propiedades Open Graph -->
+    <meta property="og:title" content="{{ ownership.ownname }} - MyCasaParticular">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/') ~ image }}">
+    <meta property="og:author" content="ABUC media network GmbH">
+    <meta property="og:site_name" content="MyCasaParticular">
+    <meta property="og:description" content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %}{{ rooms | length }} {% if rooms | length == 1 %}{{ "ROOM_SINGULAR" | trans | trim }}{% else %}{{ "ROOM_PLURAL" | trans | trim }} {% endif %}{% endif %}. {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}">
+    <meta property="og:see_also" content="{{ mail_base_url }}">
+    <!--meta property="og:locale" content="en_US"/-->
+    <meta property="og:url" content="{{ url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize}) }}">
+    <meta property="fb:admins" content="312774092497">
+{% endblock %}
+
 {% set main_tab = 5 %}
 
 {% block body %}
@@ -466,7 +458,7 @@
                                         </label></div>
                                     <span class="h-grey" style="font-size: 24px;">{{ "TEXT_COMMENTS_DETAILS" | trans }}
                                         *</span><br/>
-                                    <textarea class="col-sm-12 form-control" id="input_comment"
+                                    <textarea class="col-xs-12 form-control" id="input_comment"
                                               required-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
                                     <button class="btn btn-primary margin-t" id="btn_insert_comment"
                                             data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
