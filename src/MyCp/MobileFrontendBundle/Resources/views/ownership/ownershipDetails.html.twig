@@ -1,18 +1,13 @@
+{% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
 {% set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y"))) %}
 {% set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))) %}
 {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
 
-{% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 {% block metas %}
-    <meta name="description"
-          content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}).
-                {% if rooms is defined and rooms | length %}
-                    {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}.
-                {% endif %}
-                {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}">
-    <meta name="keywords"
-          content="{{ ownership.owntype }} {{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">
+
+    <meta name="description" content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %} {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}. {% endif %} {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}">
+    <meta name="keywords" content="{{ ownership.owntype }} {{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">
 
 {% endblock %}
 {% block open_graph_metas %}
@@ -34,15 +29,6 @@
 
 {% block title %}{{ ownership.ownname }}{% endblock %}
 {% set main_tab = 5 %}
-
-{% block include_css %}
-    {#{% stylesheets#}
-    {#'@MyCpMobileFrontendBundle/Resources/public/js/plugins/pgwslider/pgwslider.css'#}
-    {#filter='?uglifycss'#}
-    {#%}#}
-    {#<link rel="stylesheet" href="{{ asset_url }}" />#}
-    {#{% endstylesheets %}#}
-{% endblock %}
 
 {% block body %}
     <div class="col-xs-12 text-xs-center bg-gray-e1e1e0">
@@ -92,37 +78,6 @@
             {% endif %}
         </div>
     </div>
-    {#<div class="bg-solid-ligth-blue">#}
-    {#<div class="container">#}
-    {#<div class="row">#}
-    {#<div {% if ownership.award %}class="col-lg-10"{% endif %}>#}
-    {#<h1 class="caecilia-roman h-size-3">#}
-    {#{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}#}
-    {#: {{ ownership.ownname }} ({{ ownership.mycpcode }}).#}
-    {#{% if rooms is defined and rooms | length %}#}
-    {#{{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}.#}
-    {#{% endif %}#}
-    {#{{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}#}
-    {#</h1>#}
-    {#</div>#}
-    {#{% if ownership.award %}#}
-    {#<div class="col-lg-1">#}
-    {#<img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;" alt="{{"Upload" | trans}}"/>#}
-    {#</div>#}
-    {#{% endif %}#}
-    {#</div>#}
-
-
-    {#<!--label class="place">#}
-    {#{{ ownership.owntype | trans }}#}
-    {#{% if (ownership.ownAddressStreet != null and ownership.ownAddressStreet != '') or (ownership.ownAddressNumber != null and ownership.ownAddressNumber != '') %}#}
-    {#/ {{ ownership.ownAddressStreet }} {{ ownership.ownAddressNumber }}#}
-    {#{% endif %}#}
-    {#/ {{ ownership.ownAddressProvince }}#}
-    {#</label-->#}
-    {#</div>#}
-    {#</div>#}
-
     <div class="col-xs-12">
         <div class="row">
             <div class="col-xs-12">
@@ -660,7 +615,7 @@
                     }
                 });
             });
-            
+
         });
 
         $('input#filter_date_to').change(function () {
@@ -671,8 +626,8 @@
             //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
         });
 
-        
-        
+
+
         function refresh_calendar_button() {
             $('#tab-menu li a').each(function () {
                 $(this).removeClass('active');

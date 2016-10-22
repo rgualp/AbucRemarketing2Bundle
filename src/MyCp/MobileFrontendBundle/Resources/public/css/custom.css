@@ -112,16 +112,6 @@ hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
 .tt-dropdown-menu{
     z-index: 251 !important;
 }
-@media (max-width:400px){
-    #main-search{
-        margin-top: 15px;
-    }
-}
-@media (min-width:400px) and (max-width:768px){
-    #main-search{
-        margin-top: 10px;
-    }
-}
 
 .banner-dow{
     background: url("../bundles/frontend/img/mycasatrip/b1.png") no-repeat;
@@ -166,26 +156,6 @@ div#div_b h4{
     background-size: 100%;
 }
 
-@media (max-width: 767px) {
-    .hidden-xs {
-        display: none !important;
-    }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-    .hidden-sm {
-        display: none !important;
-    }
-}
-@media (min-width: 992px) and (max-width: 1199px) {
-    .hidden-md {
-        display: none !important;
-    }
-}
-@media (min-width: 1200px) {
-    .hidden-lg {
-        display: none !important;
-    }
-}
 .red-ribbon::before {
     border-color: #9f671c transparent;
     border-width: 10px 0 0 6px;
