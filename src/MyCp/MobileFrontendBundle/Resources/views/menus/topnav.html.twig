@@ -5,7 +5,7 @@
                 <li><a class="count-info" title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}">
                         {#<img  style="width: 26px; height: 23px;" class="glyphicons heart" alt="{{"Heart" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>#}
                         <i class="glyphicons heart_empty gray-mycp"></i>
-                        <span style="height: 15px;width: 20px;" class="label" id="count-fav"> </span>
+                        <span style="height: 15px;width: 20px;" class="label" id="count-fav">{{ count_fav }}</span>
                     </a></li>
                 <li>
                     {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
