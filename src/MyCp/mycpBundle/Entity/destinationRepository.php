@@ -565,12 +565,12 @@ class destinationRepository extends EntityRepository {
             $query_where .= " AND o.own_id <>$exclude_own_id";
         $query_where .= " ORDER BY o.own_ranking DESC, o.own_rating DESC, o.own_comments_total DESC";
 
-        $query_string = $query_select.$query_where;
+        $query_string = $query_select . $query_where;
 
-        $query_count_string = $query_select_count.$query_where;
+        $query_count_string = $query_select_count . $query_where;
 
         $query = $em->createQuery($query_string);
-        if($start !== null && $limit !== null){
+        if($start !== null && $limit !== null) {
             $query->setFirstResult($start);
             $query->setMaxResults($limit);
         }
@@ -584,9 +584,9 @@ class destinationRepository extends EntityRepository {
             }
         }
 
-        if($start !== null && $limit !== null){
+        if($start !== null && $limit !== null) {
             $count = $em->createQuery($query_count_string)->getSingleScalarResult();
-            return array('results'=>$results, 'count'=>$count);
+            return array('results' => $results, 'count' => $count);
         }
         return $results;
     }
