@@ -3968,6 +3968,18 @@
                      <source>Logo</source>
                      <target>Logo</target>
                 </trans-unit>
+                <trans-unit id="999">
+                      <source>ROOM</source>
+                      <target>Room</target>
+                 </trans-unit>
+                 <trans-unit id="1000">
+                        <source>SHARE</source>
+                        <target>Share</target>
+                   </trans-unit>
+                 <trans-unit id="1001">
+                        <source>Bookings</source>
+                        <target>Booking</target>
+                 </trans-unit>
         </body>
     </file>
 </xliff>

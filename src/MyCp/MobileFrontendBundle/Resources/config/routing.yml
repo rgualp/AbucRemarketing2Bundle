@@ -33,3 +33,7 @@ my_cp_mobile_filter_ownership_callback:
     pattern:  /filter/
     locales:  { en: "/filter/", es: "/filtrar/", de: "/filter/" }
     defaults: { _controller: MyCpMobileFrontendBundle:Search:filter }
+
+my_cp_mobile_details_ownership:
+    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Ownership:details }
