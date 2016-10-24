@@ -3869,6 +3869,26 @@
             <target>Congratulations! You have booked!</target>
         </trans-unit>
 
+        <trans-unit id="967">
+            <source>NEW_OFFER_TOURIST_SUBJECT</source>
+            <target>HEY, LOOK AT THESE ROOMS!</target>
+        </trans-unit>
+
+        <trans-unit id="968">
+            <source>NEW_OFFER_PREHEADER</source>
+            <target>We send you new offers</target>
+        </trans-unit>
+
+        <trans-unit id="969">
+            <source>NEW_OFFER_TEXT_1</source>
+            <target>We have sent you new offers of rooms 100% available and with great prices. The lodgings requested by you were already booked for the selected date. Instead, we are suggesting you very similar new offers, which we hope you will like.</target>
+        </trans-unit>
+
+        <trans-unit id="970">
+            <source>NEW_OFFER_TEXT_2</source>
+            <target>Do you need our help? Contact us at</target>
+        </trans-unit>
+
         </body>
     </file>
 </xliff>

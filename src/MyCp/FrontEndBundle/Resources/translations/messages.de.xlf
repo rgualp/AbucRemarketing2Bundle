@@ -3283,6 +3283,26 @@
             <target>Glückwünsch! Sie haben reserviert.</target>
         </trans-unit>
 
+        <trans-unit id="967">
+            <source>NEW_OFFER_TOURIST_SUBJECT</source>
+            <target>Schauen Sie diese Zimmer an!</target>
+        </trans-unit>
+
+        <trans-unit id="968">
+            <source>NEW_OFFER_PREHEADER</source>
+            <target>Wir senden Ihnen neue Angebote</target>
+        </trans-unit>
+
+        <trans-unit id="969">
+            <source>NEW_OFFER_TEXT_1</source>
+            <target>Wir senden Ihnen neue Angebote, die 100% verfügbar und preiswert sind. Die von Ihnen angefragten Unterkünfte zum gewünschten Zeitraum nicht verfügbar sind. Als Alternative können wir Ihnen gerne neue gleichartige Unterkünfte anbieten.</target>
+        </trans-unit>
+
+        <trans-unit id="970">
+            <source>NEW_OFFER_TEXT_2</source>
+            <target>Benötigen Sie Hilfe? Kontaktieren Sie uns unter die E-Mail Adresse: </target>
+        </trans-unit>
+
     </body>
     </file>
 </xliff>

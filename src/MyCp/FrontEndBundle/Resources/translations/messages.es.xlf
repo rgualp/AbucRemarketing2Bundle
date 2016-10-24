@@ -3289,6 +3289,26 @@
             <target>A buena hora has reservado</target>
         </trans-unit>
 
+        <trans-unit id="967">
+            <source>NEW_OFFER_TOURIST_SUBJECT</source>
+            <target>¡MIRA ESTAS HABITACIONES!</target>
+        </trans-unit>
+
+        <trans-unit id="968">
+            <source>NEW_OFFER_PREHEADER</source>
+            <target>Te enviamos nuevas ofertas </target>
+        </trans-unit>
+
+        <trans-unit id="969">
+            <source>NEW_OFFER_TEXT_1</source>
+            <target>Te enviamos nuevas ofertas de habitaciones 100% disponibles y con precios fabulosos. Los alojamientos solicitados por ti están reservados para la fecha elegida. En su lugar, te sugerimos nuevas ofertas muy similares, que seguro serán de tu agrado.</target>
+        </trans-unit>
+
+        <trans-unit id="970">
+            <source>NEW_OFFER_TEXT_2</source>
+            <target>¿Necesitas nuestra ayuda? Contáctanos a</target>
+        </trans-unit>
+
         </body>
     </file>
 </xliff>
