@@ -961,3 +961,14 @@ ul.details-desc li i{
     color: #8a8a8a;
     font-weight: bold;
 }
+
+.datepicker {
+    border-radius: 3px;
+    left: 0;
+    margin-top: 1px;
+    padding: 4px;
+    top: 0;
+}
+input[type="radio"][disabled], input[type="checkbox"][disabled], .radio[disabled], .radio-inline[disabled], .checkbox[disabled], .checkbox-inline[disabled], .table-condensed thead > tr > th, .table-condensed tbody > tr > th, .table-condensed tfoot > tr > th, .table-condensed thead > tr > td, .table-condensed tbody > tr > td, .table-condensed tfoot > tr > td {
+    padding: 4px;
+}
