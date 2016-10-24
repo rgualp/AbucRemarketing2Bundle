@@ -3992,6 +3992,18 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                      <source>Logo</source>
                      <target>Logo</target>
                 </trans-unit>
+                <trans-unit id="999">
+                                     <source>ROOM</source>
+                                     <target>Zimmer</target>
+                                </trans-unit>
+                                <trans-unit id="1000">
+                                       <source>SHARE</source>
+                                       <target>Aktie</target>
+                                  </trans-unit>
+                                  <trans-unit id="1001">
+                                                         <source>Bookings</source>
+                                                         <target>Reserve</target>
+                                                    </trans-unit>
     </body>
     </file>
 </xliff>

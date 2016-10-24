@@ -1,0 +1,240 @@
+{%set currRate = (app.session.get('curr_rate') == null or fromBackend ? 1 : app.session.get('curr_rate'))%}
+<table class="table table-striped"style="margin-bottom: 0px">
+    <thead>
+    <tr>
+        <th>{{'RESERVATION_ROOMS' | trans}}</th>
+        <th>{{'RESERVATION_ROOM_TYPE' | trans}}</th>
+        {% for date in array_dates %}
+            <th style="display: none;">{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
+        {% endfor %}
+        <th></th>
+        <th align="center" style="text-align: center;"><i class="ion-man f-s-24"></i><i class="ion-woman f-s-24"></i></th>
+        <th align="center" style="text-align: center;"><i class="f-s-24 ion-android-contacts"></i></th>
+        <th id="childreAgeTh" colspan="6" style="display: none">
+            <img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set cont = 1 %}
+    {% for room in rooms %}
+
+        <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
+
+        {% set available = 1 %}
+        <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
+            <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
+            <td style="width: 200px">{{ room.getRoomType | trans}}</td>
+            {% set cont_days = 1 %}
+            {% for date in array_dates %}
+                <td style="display: none;">
+                    {% set print_price = 1%}
+                    {% if no_available_days[room.getRoomId] is defined%}
+                        {% set print_price = 1%}
+                        {% set print_x = 1 %}
+                        {% for day in no_available_days[room.getRoomId]%}
+                            {% if cont_days == day %}
+                                {% set print_price = 0%}
+                                {% if print_x==1 %}
+                                    {% set print_x = 0%}
+                                    X
+                                {% endif %}
+                            {% endif %}
+                        {% endfor%}
+                    {% endif %}
+                    {% if print_price == 1%}
+                        {% if prices_dates[cont-1][loop.index0] is defined %}
+                            {{ prices_dates[cont-1][loop.index0] * currRate}}
+                        {% else %}
+                            -
+                        {% endif %}
+                    {% endif %}
+                </td>
+                {% set cont_days = cont_days+1 %}
+            {% endfor %}
+            {% if cont == 1 %} <td rowspan="{{ rooms | length }}"><a id="btn-details-date" href="#" class="btn btn-info p-x-1"><i class="glyphicons calendar f-s-30 white"></i></a></td> {% endif %}
+            <td {% if available != 1 %} colspan="8" {% endif %}>
+                {% if available == 1 %}
+                <select data_total="{{array_prices[cont-1]}}"
+                        id="combo_guest_{{room.getRoomId}}"
+                        name="combo_guest_{{room.getRoomId}}"
+                        data='{{room.getRoomId}}'
+                        percent_charge="{{ ownership.OwnCommissionPercent }}"
+                        data_curr="{{ currRate }}"
+                        class="guest_number form-control form-control-2"
+                        data_triple_recharge ="{{configuration_triple_room_charge}}"
+                        data_type_room='{{room.getRoomType}}' style="width: 40px">
+                    <option value="0">0</option>
+                    {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                </select>
+            </td>
+            <td>
+                <select data_total="{{array_prices[cont-1]}}"
+                        id="combo_kids_{{room.getRoomId}}"
+                        name="combo_kids_{{room.getRoomId}}"
+                        data='{{room.getRoomId}}'
+                        percent_charge="{{ ownership.OwnCommissionPercent }}"
+                        data_curr="{{ currRate }}"
+                        class="guest_number form-control form-control-2"
+                        data_type_room='{{room.getRoomType}}'
+                        data_triple_recharge ="{{configuration_triple_room_charge}}"
+                        style="width: 40px">
+                    <option value="0">0</option>
+                    {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                </select>
+            </td>
+            <td>
+                <div id="childrenAge1_{{room.getRoomId}}" style="display: none;">
+                    <select
+                        id="combo_kidsage_1_{{room.getRoomId}}"
+                        name="combo_kidsage_1_{{room.getRoomId}}"
+                        data='{{room.getRoomId}}'
+                        percent_charge="{{ ownership.OwnCommissionPercent }}"
+                        class="guest_age guest_age_1 form-control form-control-2"
+                        style="width: 40px">
+                    <option value="-1"></option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+                </div>
+                <div id="childrenAge2_{{room.getRoomId}}" style="display: none;">
+                    <select
+                            id="combo_kidsage_2_{{room.getRoomId}}"
+                            name="combo_kidsage_2_{{room.getRoomId}}"
+                            data='{{room.getRoomId}}'
+                            class="guest_age guest_age_2 form-control form-control-2"
+                            style="width: 40px">
+                        <option value="-1"></option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                <div id="childrenAge3_{{room.getRoomId}}" style="display: none;">
+                    <select
+                            id="combo_kidsage_3_{{room.getRoomId}}"
+                            name="combo_kidsage_3_{{room.getRoomId}}"
+                            data='{{room.getRoomId}}'
+                            data_curr="{{ currRate }}"
+                            class="guest_age guest_age_3 form-control form-control-2"
+                            style="width: 40px">
+                        <option value="-1"></option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+            </td>
+        {% else %}
+            <div style="text-align: center" class="badge badge-warning btn-block">{{"NOT_AVAILABLE"|trans}}</div>
+            </td>
+            {% endif %}
+
+        </tr>
+        {% set cont = cont +1%}
+    {% endfor %}
+    </tbody>
+</table>
+
+<div style="position: absolute; z-index: 9999; background: white none repeat scroll 0% 0%; top: 0px; left: 0px; width: 100%; display: none; height: auto; padding-top: 40px;" class="full-details-table-date">
+    <a id="close-table" class="" href="#" style="position: absolute; right: 6px; font-size: 30px; top: -3px;"><i class="ion-ios-close-outline"></i></a>
+    <div class="" style="overflow-x: scroll">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>{{'RESERVATION_ROOMS' | trans}}</th>
+                <th>{{'RESERVATION_ROOM_TYPE' | trans}}</th>
+                {% for date in array_dates %}
+                    <th>{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% set cont = 1 %}
+            {% for room in rooms %}
+
+                <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
+
+                {% set available = 1 %}
+                <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
+                    <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
+                    <td style="width: 200px">{{ room.getRoomType | trans}}</td>
+                    {% set cont_days = 1 %}
+                    {% for date in array_dates %}
+                        <td>
+                            {% set print_price = 1%}
+                            {% if no_available_days[room.getRoomId] is defined%}
+                                {% set print_price = 1%}
+                                {% set print_x = 1 %}
+                                {% for day in no_available_days[room.getRoomId]%}
+                                    {% if cont_days == day %}
+                                        {% set print_price = 0%}
+                                        {% if print_x==1 %}
+                                            {% set print_x = 0%}
+                                            X
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor%}
+                            {% endif %}
+                            {% if print_price == 1%}
+                                {% if prices_dates[cont-1][loop.index0] is defined %}
+                                    {{ prices_dates[cont-1][loop.index0] * currRate}}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        {% set cont_days = cont_days+1 %}
+                    {% endfor %}
+                </tr>
+                {% set cont = cont +1%}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<input type="hidden" id="totalNights" value="{{ nights}}"/>
+<div class="col-xs-12 p-x-0 p-y-1">
+    <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-services question m-r-1"/><span class="f-s-12 f-f-Arial">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}</span>
+</div>
+
+<script type="text/javascript">
+    var cont_array_dates={{ array_dates | length}};
+    var today_date="{{"now"|date("d/m/Y") }}";
+
+    Calendar.init();
+</script>
+
