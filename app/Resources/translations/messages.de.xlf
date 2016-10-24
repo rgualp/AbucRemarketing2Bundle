@@ -2184,7 +2184,7 @@
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Zahlungsbestätigung</target>
+                    <target>Buchungsbestätigung (Voucher)</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
@@ -3051,12 +3051,12 @@
                 </trans-unit>
             <trans-unit id="773">
                 <source>NEWSLETTER_INTRO_TEXT</source>
-                <target>Genau zum richtigen Zeitpunkt haben Sie über die Agentur Mycasaparticular Ihre Reservierung gemacht. Anbei senden wir Ihnen, Ihre Buchungsbestätigung. Es wäre sinnvoll sie auszudrucken.</target>
-                </trans-unit>
+                <target><![CDATA[herzlichen Glückwünsch! Sie haben durch <b>MyCasaParticular.com</b> reserviert. Wir wünschen Ihnen eine schöne Urlaubsreise. Wir senden Ihnen im Anhang Ihre Buchungsbestätigung. Bitte, drucken Sie  es.]]></target>
+            </trans-unit>
             <trans-unit id="774">
                 <source>NEWSLETTER_INTRO_TEXT1</source>
-                <target>Genießen Sie Ihre Reise in vollen Zügen.</target>
-                </trans-unit>
+                <target>Leben Sie ein einmaliges Erlebnis . Entdecken Sie Kuba bei uns.</target>
+            </trans-unit>
             <trans-unit id="775">
                 <source>NEWSLETTER_INTRO_TEXT2</source>
                 <target>Wir kümmern uns um die Unterbringung.</target>

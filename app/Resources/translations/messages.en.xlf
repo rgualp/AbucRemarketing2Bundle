@@ -2185,7 +2185,7 @@
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Reserve Confirmation</target>
+                    <target>BOOKING VOUCHER</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
@@ -3053,12 +3053,12 @@
                 </trans-unit>
             <trans-unit id="773">
                 <source>NEWSLETTER_INTRO_TEXT</source>
-                <target>It was a good thing you made your reservation via mycasaparticular.com. We are sending you an attachment with the confirmation of your reservation. Without a doubt, it will be very useful to print it out.</target>
-                </trans-unit>
+                <target><![CDATA[Congratulations! You have booked through <b>MyCasaParticular.com</b>. We wish you   wonderful vacations.  Please find attached the confirmation to your reservation.   For sure it will be useful to print it out.]]></target>
+            </trans-unit>
             <trans-unit id="774">
                 <source>NEWSLETTER_INTRO_TEXT1</source>
-                <target>Enjoy your stay fully</target>
-                </trans-unit>
+                <target>Live a unique experience the way locals do. Discover Cuba, we will take care of your lodging.</target>
+            </trans-unit>
             <trans-unit id="775">
                 <source>NEWSLETTER_INTRO_TEXT2</source>
                 <target>We will be in charge of your accommodation</target>
