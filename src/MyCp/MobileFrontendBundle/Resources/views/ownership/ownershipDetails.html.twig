@@ -564,14 +564,10 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
 
     {% javascripts
     '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.infobox.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/map/jquery.ui.map.markerclusterer.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/map/MapV2.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/responsiveslides.min.js'
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>

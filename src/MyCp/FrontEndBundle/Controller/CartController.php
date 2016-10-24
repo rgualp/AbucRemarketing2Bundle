@@ -213,6 +213,7 @@ class CartController extends Controller {
             }
             $em->flush();
 
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
             if (count($cartItems) < 1) {
                 return new Response('0');
             }
@@ -222,6 +223,8 @@ class CartController extends Controller {
 
     public function viewCartAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         /* $last_own = $request->getSession()->get('services_pre_reservation_last_own');
           if ($last_own)
           $ownership = $em->getRepository('mycpBundle:ownership')->find($last_own);
@@ -231,9 +234,15 @@ class CartController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
 
-        return $this->render('FrontEndBundle:cart:cart.html.twig', array(
-                    'countItems' => $countItems,
-        ));
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:cart:cart.html.twig', array(
+                'countItems' => $countItems,
+            ));
+        }else{
+            return $this->render('FrontEndBundle:cart:cart.html.twig', array(
+                'countItems' => $countItems,
+            ));
+        }
     }
 
     public function getCartBodyAction() {
@@ -296,16 +305,33 @@ class CartController extends Controller {
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
-        return $this->render('FrontEndBundle:cart:bodyCart.html.twig', array(
-                    'dates_string' => $array_dates_string,
-                    'dates_string_day' => $array_dates_string_day,
-                    'dates_timestamp' => $array_dates,
-                    'cartItems' => $cartItems,
-                    'array_season' => $array_season,
-                    'array_clear_date' => $array_clear_date,
-                    'currentServiceFee' => $currentServiceFee,
-                    'touristTax' => $touristTax
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:cart:bodyCart.html.twig', array(
+                'dates_string' => $array_dates_string,
+                'dates_string_day' => $array_dates_string_day,
+                'dates_timestamp' => $array_dates,
+                'cartItems' => $cartItems,
+                'array_season' => $array_season,
+                'array_clear_date' => $array_clear_date,
+                'currentServiceFee' => $currentServiceFee,
+                'touristTax' => $touristTax
+            ));
+        }else{
+            return $this->render('FrontEndBundle:cart:bodyCart.html.twig', array(
+                'dates_string' => $array_dates_string,
+                'dates_string_day' => $array_dates_string_day,
+                'dates_timestamp' => $array_dates,
+                'cartItems' => $cartItems,
+                'array_season' => $array_season,
+                'array_clear_date' => $array_clear_date,
+                'currentServiceFee' => $currentServiceFee,
+                'touristTax' => $touristTax
+            ));
+        }
+
     }
 
     private function calculateTouristTax($cartItems, $em, $service_time){

@@ -47,7 +47,7 @@ var Calendar = function () {
 
         var string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids +'/'+count_kids_age1 +'/'+count_kids_age2 +'/'+count_kids_age3;
 
-        var nights = $("#totalNights").val();
+        var nights = parseInt($("#totalNights").val());
         var avgPrice = normalize_prices(total_price_var / nights);
         var tourist_fee_percent = 0;
         var roomsTotal = $('.id_room').size();
@@ -57,31 +57,32 @@ var Calendar = function () {
             if(roomsTotal == 1)
             {
                 if(avgPrice < 20*curr )
-                    tourist_fee_percent = $("#tourist_service").data("one-nr-until-20-percent");
+                    tourist_fee_percent = $("#tourist_service").attr("data-one-nr-until-20-percent");
                 else if(avgPrice >= 20*curr && avgPrice < 25*curr)
-                    tourist_fee_percent = $("#tourist_service").data("one-nr-from-20-to-25-percent");
+                    tourist_fee_percent = $("#tourist_service").attr("data-one-nr-from-20-to-25-percent");
                 else if(avgPrice >= 25*curr)
-                    tourist_fee_percent = $("#tourist_service").data("one-nr-from-more-25-percent");
+                    tourist_fee_percent = $("#tourist_service").attr("data-one-nr-from-more-25-percent");
             }
             else
-                tourist_fee_percent = $("#tourist_service").data("one-night-several-rooms-percent");
-        }
-        else if(nights == 2)
-            tourist_fee_percent = $("#tourist_service").data("one-2-nights-percent");
-        else if(nights == 3)
-            tourist_fee_percent = $("#tourist_service").data("one-3-nights-percent");
-        else if(nights == 4)
-            tourist_fee_percent = $("#tourist_service").data("one-4-nights-percent");
-        else if(nights >= 5)
-            tourist_fee_percent = $("#tourist_service").data("one-5-nights-percent");
+                tourist_fee_percent = $("#tourist_service").attr("data-one-night-several-rooms-percent");
 
+        }
+        else if(nights == 2){
+            tourist_fee_percent = $("#tourist_service").attr("data-one-2-nights-percent");
+        }
+        else if(nights == 3)
+            tourist_fee_percent = $("#tourist_service").attr("data-one-3-nights-percent");
+        else if(nights == 4)
+            tourist_fee_percent = $("#tourist_service").attr("data-one-4-nights-percent");
+        else if(nights >= 5)
+            tourist_fee_percent = $("#tourist_service").attr("data-one-5-nights-percent");
 
         $('#data_reservation').val(string_url);
         $('#accommodation_price').html( normalize_prices(total_price_var) );
         $('#subtotal_price').html(normalize_prices(total_price_var));
         var percent_value=total_price_var * percent / 100;
         var tourist_service = total_price_var*parseFloat(tourist_fee_percent);
-        var fixed_tax = parseFloat($("#tourist_service").data("fixed-tax")) *curr;
+        var fixed_tax = parseFloat($("#tourist_service").attr("data-fixed-tax")) *curr;
         $("#tourist_service").html(normalize_prices(tourist_service));
         var total_price = total_price_var + tourist_service + fixed_tax;
         $('#total_price').html(normalize_prices(total_price));

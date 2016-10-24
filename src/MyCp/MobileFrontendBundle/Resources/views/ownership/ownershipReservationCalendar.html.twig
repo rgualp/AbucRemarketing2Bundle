@@ -7,9 +7,9 @@
         {% for date in array_dates %}
             <th style="display: none;">{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
         {% endfor %}
-        <th>{{'DATE' | trans}}</th>
-        <th>{{'ADULTS' | trans}}</th>
-        <th>{{'KIDS' | trans}}</th>
+        <th></th>
+        <th align="center" style="text-align: center;"><i class="ion-man f-s-24"></i><i class="ion-woman f-s-24"></i></th>
+        <th align="center" style="text-align: center;"><i class="f-s-24 ion-android-contacts"></i></th>
         <th id="childreAgeTh" colspan="6" style="display: none">
             <img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/>
         </th>

@@ -38,12 +38,12 @@
         <table id="rooms_selected" class="table" style="margin-bottom: 0px; display: none;">
             <thead>
             <tr>
-                <th>{{ 'RESERVATION_SELECTED_ROOM' | trans }}</th>
+                <th>{{'RESERVATION_ROOMS' | trans}}</th>
                 <th>{{ 'RESERVATION_TYPE' | trans }}</th>
                 <th>{{ 'RESERVATION_ROOM_NUMBER' | trans }}</th>
-                <th>{{ 'ADULTS' | trans }}</th>
-                <th>{{ 'KIDS' | trans }}</th>
-                <th>{{ 'RESERVATION_PRICE' | trans }}</th>
+                <th style="text-align: center;"><i class="ion-man f-s-24"></i><i class="ion-woman f-s-24"></i></th>
+                <th style="text-align: center;"><i class="f-s-20 ion-android-contacts"></i></th>
+                <th><i class="f-s-20 ion-social-usd"></i></th>
             </tr>
             </thead>
             <tbody>
@@ -53,18 +53,15 @@
     </div>
     <div class="col-xs-12 p-y-1">
         <div class="row all-prices-numbers">
-            <div class="col-xs-3 p-a-0">
-                <p class="f-s-12 white">{{ 'ACCOMMODATION_TOTAL_COST' | trans }}</p>
-                <p class="f-s-12 white">
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'ACCOMMODATION_TOTAL_COST' | trans }}</span>
+                <span class="f-s-16 white">
                     {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="accommodation_price"></span>
-                </p>
+                </span>
             </div>
-            <div class="col-xs-1 p-a-0">
-                <label class="f-s-30 white p-y-2">+</label>
-            </div>
-            <div class="col-xs-2 p-a-0">
-                <p class="f-s-12 white">{{ 'SERVICE_TOURIST_TAX' | trans }}</p>
-                <p class="f-s-12 white">
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'SERVICE_TOURIST_TAX' | trans }}</span>
+                <span class="f-s-16 white">
                     {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="tourist_service"
                                                                                                                                        data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
                                                                                                                                        data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
@@ -75,43 +72,37 @@
                                                                                                                                        data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
                                                                                                                                        data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                                                                                                                                        data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
-                </p>
+                </span>
             </div>
-            <div class="col-xs-1 p-a-0">
-                <label class="f-s-30 white p-y-2">+</label>
-            </div>
-            <div class="col-xs-2 p-a-0">
-                <p class="f-s-12 white">{{ 'SERVICE_FIXED_TAX' | trans }}</p>
-                <p class="f-s-12 white">
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'SERVICE_FIXED_TAX' | trans }}</span>
+                <span class="f-s-16 white">
                     {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
                     {{ currSymbol }}
                     <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
-                </p>
+                </span>
             </div>
-            <div class="col-xs-1" style="width: 5%">
-                <label class="f-s-30 white p-y-2">=</label>
-            </div>
-            <div class="col-xs-2 p-a-0">
-                <p class="f-s-12 white">{{ 'RESERVATION_TOTAL_PRICE' | trans }}</p>
-                <p class="f-s-12 white">
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'RESERVATION_TOTAL_PRICE' | trans }}</span>
+                <span class="f-s-20 f-w-bold white">
                     {{ currSymbol }}
                     <span id="total_price"></span>
-                </p>
+                </span>
             </div>
         </div>
         <div class="row" style="font-size: 20px; margin-top: 10px">
-            <div class="col-xs-12 p-a-0">
-                <div class="col-xs-12 white f-s-14 p-a-0">
+            <div class="col-xs-12 text-xs-left">
+                <div class="col-xs-12 text-uppercase white f-s-16 p-a-0">
                     {{ 'PREPAYMENT'|trans }}
                     : {{ currSymbol }}
-                    <span class="f-s-16 f-w-bold" id="total_prepayment"></span>
+                    <span class="f-s-24 f-w-bold" id="total_prepayment"></span>
                 </div>
-                <div class="col-xs-12 white f-s-14 p-a-0">
+                <div class="col-xs-12 text-uppercase white f-s-20 p-a-0">
                     {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
                     : {{ currSymbol }}
-                    <span class="f-s-16 f-w-bold" id="pay_at_service"></span>
+                    <span class="f-s-20" id="pay_at_service"></span>
                     {% if currSymbol != "CUC" %}
-                        (<span id="pay_at_service_cuc" style="font-size: small"></span>)
+                        (<span id="pay_at_service_cuc" class="f-w-bold f-s-20"></span>)
                     {% endif %}
                 </div>
             </div>
