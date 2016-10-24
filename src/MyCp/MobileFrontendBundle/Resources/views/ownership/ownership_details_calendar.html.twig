@@ -95,14 +95,14 @@
                 <div class="col-xs-12 text-uppercase white f-s-16 p-a-0">
                     {{ 'PREPAYMENT'|trans }}
                     : {{ currSymbol }}
-                    <span class="f-s-24 f-w-bold" id="total_prepayment"></span>
+                    <span class="f-s-20 f-w-bold" id="total_prepayment"></span>
                 </div>
-                <div class="col-xs-12 text-uppercase white f-s-20 p-a-0">
+                <div class="col-xs-12 text-uppercase white f-s-14 p-a-0">
                     {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
                     : {{ currSymbol }}
-                    <span class="f-s-20" id="pay_at_service"></span>
+                    <span class="f-s-14" id="pay_at_service"></span>
                     {% if currSymbol != "CUC" %}
-                        (<span id="pay_at_service_cuc" class="f-w-bold f-s-20"></span>)
+                        (<span id="pay_at_service_cuc" class="f-w-bold f-s-18"></span>)
                     {% endif %}
                 </div>
             </div>
@@ -122,10 +122,10 @@
                       method="POST">
                     <div class="row">
                         <div class="col-xs-12 p-x-1 p-t-1 text-center">
-                            <button type="submit" class="btn f-s-24 p-a-1">
+                            <button type="submit" class="btn btn-default f-s-24 p-a-1">
                                 <i class="icon-shopping-cart"></i> {{ 'ADD_TO_CART' | trans }}
                             </button>
-                            <div class="col-xs-4 p-a-0">
+                            <div class="col-xs-12 p-a-0">
                                 <input from_date="{{ start_date | replace('/','&') }}"
                                        to_date="{{ end_date | replace('/','&') }}" type="text"
                                        style="visibility: hidden; margin-bottom: -50px"
