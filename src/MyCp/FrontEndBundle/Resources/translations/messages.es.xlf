@@ -2174,7 +2174,7 @@
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Activación de su cuenta en MyCasaParticular</target>
+                  <target>BIENVENIDO A NUESTRA COMUNIDAD</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
@@ -2538,7 +2538,7 @@
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target><![CDATA[Activa tu cuenta ahora y únete a la familia de <b>MyCasaParticular.com</b>. Tenemos más de 25 mil usuarios esperándote: los mejores anfitriones, alojamientos increíbles y muchos amigos alrededor del mundo.]]</target>
+                <target><![CDATA[Activa tu cuenta ahora y únete a la familia de <b>MyCasaParticular.com</b>. Tenemos más de 25 mil usuarios esperándote: los mejores anfitriones, alojamientos increíbles y muchos amigos alrededor del mundo.]]></target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
@@ -2546,11 +2546,11 @@
             </trans-unit>
              <trans-unit id="644">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
-                <target>, o copie la URL siguiente en su navegador.</target>
+                <target>Para activar tu cuenta haz clic o copia esta URL en el navegador:</target>
             </trans-unit>
             <trans-unit id="645">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
-                <target>Si existe algún problema con la activación de su cuenta, le pedimos contacte con nuestro equipo de</target>
+                <target>¿Necesitas ayuda? Contáctanos a</target>
             </trans-unit>
             <trans-unit id="646">
                 <source>SUPPORT_TEAM</source>
@@ -2570,7 +2570,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>La información necesaria para el proceso de Registro en MyCasaParticular.com está completa. Para ingresar en nuestro sitio, y continuar con sus reservas, usted debe</target>
+                <target><![CDATA[Ahora eres de nuestra familia. ¡Enhorabuena! Tu proceso de registro en <b>MyCasaParticular.com</b> está completo. Activa tu cuenta para empezar a disfrutar los beneficios de unirte a nuestra comunidad.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2578,7 +2578,7 @@
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>Si el enlace anterior no funcionara, le sugerimos copiar la siguiente URL en su navegador.</target>
+                <target>Haz clic o copia la URL en tu navegador:</target>
             </trans-unit>
              <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
@@ -3257,6 +3257,11 @@
          <trans-unit id="960">
             <source>ACCOUNT_REMINDER_PREHEADER</source>
             <target>Activa tu cuenta ¡ahora!</target>
+        </trans-unit>
+
+        <trans-unit id="961">
+          <source>USER_ACCOUNT_EMAIL_PREHEADER</source>
+          <target>Ahora eres de nuestra familia</target>
         </trans-unit>
 
         </body>

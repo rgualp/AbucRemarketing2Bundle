@@ -345,7 +345,7 @@ class BackendTestEmailTemplateController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         return $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
                     'enableUrl' => $activationUrl,

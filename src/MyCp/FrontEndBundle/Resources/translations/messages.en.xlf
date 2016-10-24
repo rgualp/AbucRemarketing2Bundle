@@ -2165,7 +2165,7 @@
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Account activation at MyCasaParticular</target>
+                  <target>WELCOME TO OUR COMMUNITY</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
@@ -2529,7 +2529,7 @@
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target>Your account at MyCasaParticular.com is not activated yet, so the registration process is not completed yet. In order to activate your account, please click</target>
+                <target><![CDATA[Activate your account now and join the <b>MyCasaParticular.com</b> family. We have more than 25000 users waiting for you: the best Hosts, amazing Lodgings, and several friends around the world.]]></target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
@@ -2537,11 +2537,11 @@
             </trans-unit>
              <trans-unit id="644">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
-                <target>, or copy the URL below on your Internet browser.</target>
+                <target>To activate your account, click or copy this following URL:</target>
             </trans-unit>
             <trans-unit id="645">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
-                <target>If there is any problem during the process, please contact our</target>
+                <target>Do you need help?  Contact us at</target>
             </trans-unit>
             <trans-unit id="646">
                 <source>SUPPORT_TEAM</source>
@@ -2561,7 +2561,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>We have all the information we need for your Registration Process! In order to Log In our website and continue booking your accommodation, we suggest you to</target>
+                <target><![CDATA[Now you belong to our family. Congratulations!  Your registration process at <b>MyCasaParticular.com</b> is completed. Activate your account to start enjoying the benefits of being part of our community.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2569,7 +2569,7 @@
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>If the link doesn?t work, please copy the URL below, and paste it on your browser.</target>
+                <target>Click or copy the following URL:</target>
             </trans-unit>
             <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
@@ -3837,6 +3837,11 @@
          <trans-unit id="960">
             <source>ACCOUNT_REMINDER_PREHEADER</source>
             <target>Activate your account ¡now!</target>
+        </trans-unit>
+
+        <trans-unit id="961">
+          <source>USER_ACCOUNT_EMAIL_PREHEADER</source>
+          <target>Now you belong to our family</target>
         </trans-unit>
 
         </body>
