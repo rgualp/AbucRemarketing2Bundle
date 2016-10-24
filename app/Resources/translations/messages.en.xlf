@@ -1949,7 +1949,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Book now!</target>
+                <target>PAY NOW!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -1989,7 +1989,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Mr./Mrs.</target>
+                  <target>Hello</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
@@ -2201,7 +2201,7 @@
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
-                    <target>Reminder</target>
+                    <target>DISCOVER CUBA, RESERVE NOW</target>
                 </trans-unit>
                 <trans-unit id="561">
                     <source>NOT_ENABLED_USER</source>
@@ -2453,11 +2453,11 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>Some of the Casas Particulares you have selected are still available! In order to make your reservation effective, you should make an initial payment, up to </target>
+                <target><![CDATA[You only have 24 hours left to reserve any of the available rooms. You have some lodging requests already confirmed and there are other people interested on them.<br/><br/>Do you want to know Cuba? This is the best time.  Take advantage of these offers and make your booking effective with an initial payment of only %prepayment%]]></target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target><![CDATA[To confirm your reservation, click <a href="%link%">here</a>, , or copy the URL below at your Internet Browser.]]></target>
+                <target>Discover Cuba, book now. To confirm your reservation, click or copy the following URL:</target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
@@ -2525,7 +2525,7 @@
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
-                <target>Thank you in advance</target>
+                <target>Lodge where Cuba, Cuba is!</target>
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
@@ -2553,11 +2553,11 @@
             </trans-unit>
             <trans-unit id="648">
                 <source>EMAIL_GREETINGS_2</source>
-                <target>Best Regards</target>
+                <target>We wait for you,</target>
             </trans-unit>
             <trans-unit id="649">
                 <source>MYCP_TEAM</source>
-                <target>MyCP Team</target>
+                <target>MyCasaParticular.com Team</target>
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
@@ -2583,37 +2583,37 @@
                 <source>FOOTER_MAIL_1</source>
                 <target><![CDATA[If you do not want to receive another email from MyCasaParticular, click <a href="%link%">here.</a>]]></target>
             </trans-unit>
-            <trans-unit id="656">
-                <source>LAST_REMINDER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for, will no longer be available in a few hours. This is why we recommend you, if you are still interested on them, that you <a href="%link%">make an initial deposit now</a>, up to ]]></target>
-            </trans-unit>
-            <trans-unit id="657">
-                <source>LAST_REMINDER_TEXT_2</source>
-                <target>In case you are not interested anymore, or if you want to book some other accommodations, please, let us know.</target>
-            </trans-unit>
+             <trans-unit id="656">
+                 <source>LAST_REMINDER_TEXT_1</source>
+                 <target><![CDATA[You have rooms available and other persons are also interested on them. There are only a few hours before they can be reserved by someone else. We suggest you seize the opportunity to lodge in <b>MyCasaParticular.com</b> style, and to live an amazing experience.]]></target>
+             </trans-unit>
+             <trans-unit id="657">
+                 <source>LAST_REMINDER_TEXT_2</source>
+                 <target>If you still want to stay at some of these rooms, we recommend you to make an initial prepayment of  %prepayment%</target>
+             </trans-unit>
             <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
                 <target>I am no longer interested</target>
             </trans-unit>
             <trans-unit id="659">
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
-                <target>Book other accommodations</target>
+                <target>Make a new search</target>
             </trans-unit>
             <trans-unit id="660">
                 <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
-                <target>Last chance to book!</target>
+                <target>WE INVITE YOU TO RESERVE NOW</target>
             </trans-unit>
             <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
-                <target>Sorry, Not available anymore!</target>
+                <target>INVITATION TO BOOKING</target>
             </trans-unit>
             <trans-unit id="662">
                 <source>EXPIRED_OFFER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for before, are no longer available. Would you like to <a href="%link%">try again</a>?]]></target>
+                <target><![CDATA[Your requests have expired after the first 48 hours without paying. But, don’t worry at all, you may do another booking. I’m sure you’ll find better offers. <b>MyCasaParticular.com</b> has everything you need. Would you like to <a style="color: #000000; text-decoration:underline" href="%link%"><b>try again</b></a>?]]></target>
             </trans-unit>
             <trans-unit id="663">
                 <source>EXPIRED_OFFER_TEXT_2</source>
-                <target><![CDATA[Maybe you prefer to book with our assistance? Please, email to <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+                <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
             </trans-unit>
             <trans-unit id="664">
                 <source>EXPIRED_OFFER_TEXT_3</source>
@@ -2649,11 +2649,11 @@
             </trans-unit>
             <trans-unit id="672">
                 <source>USER_CART_FULL_REMINDER</source>
-                <target>Shopping Cart full. What do you want to do?</target>
+                <target>There may be some available offers</target>
             </trans-unit>
             <trans-unit id="673">
                 <source>USER_CART_FULL_TEXT1</source>
-                <target>Your shopping cart is full with some accommodations that may be available. What would you like to do with them?</target>
+                <target>Some of the selected rooms can be available at your shopping cart. We suggest you to  check all the options. What would you like to do with these offers?</target>
             </trans-unit>
             <trans-unit id="674">
                 <source>FROM_DATE</source>
@@ -2665,15 +2665,15 @@
             </trans-unit>
             <trans-unit id="676">
                 <source>FEEDBACK_REMINDER</source>
-                <target>Back from Cuba? Please Feedback</target>
+                <target>LET US KNOW HOW DID IT GO</target>
             </trans-unit>
             <trans-unit id="677">
                 <source>USER_FEEDBACK_TEXT1</source>
-                <target>We hope your travel to Cuba has been an amazing experience!</target>
+                <target>Your opinion is important for other users...let us know about your trip. We want to know everything, every detail of your terrific vacations. We hope it was an unforgettable memory!</target>
             </trans-unit>
             <trans-unit id="678">
                 <source>USER_FEEDBACK_TEXT2</source>
-                <target>If it doesn’t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
+                <target>Share your comments and suggestions about our services and the Casas Particulares where you stayed. Thanks to your recommendations, we will be able to improve our site.</target>
             </trans-unit>
             <trans-unit id="679">
                 <source>COMMENT</source>
