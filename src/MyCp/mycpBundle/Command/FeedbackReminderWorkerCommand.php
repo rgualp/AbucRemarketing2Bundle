@@ -105,7 +105,7 @@ class FeedbackReminderWorkerCommand extends Worker {
         $emailSubject = $this->translatorService->trans('FEEDBACK_REMINDER');
 
         $userTourist = $this->emailManager->getTouristByUser($user);
-        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        $userLocale = (empty($userTourist))? strtolower($user->getUserLanguage()->getLangCode()):strtolower($userTourist->getUserTouristLanguage()->getLangCode());
 
         $ownershipReservations = $this->em
                 ->getRepository('mycpBundle:generalReservation')
