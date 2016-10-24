@@ -2521,14 +2521,14 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Not activated yet/Having any trouble?</target>
+                <target>Activate your account and win</target>
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
                 <target>Lodge where Cuba, Cuba is!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
                 <target><![CDATA[Activate your account now and join the <b>MyCasaParticular.com</b> family. We have more than 25000 users waiting for you: the best Hosts, amazing Lodgings, and several friends around the world.]]></target>
             </trans-unit>
             <trans-unit id="643">
@@ -2536,11 +2536,11 @@
                 <target>here</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
                 <target>To activate your account, click or copy this following URL:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
                 <target>Do you need help?  Contact us at</target>
             </trans-unit>
             <trans-unit id="646">

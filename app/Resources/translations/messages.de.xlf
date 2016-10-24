@@ -2520,14 +2520,14 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Das Konto ist noch nicht aktiv? Haben Sie ein Problem?</target>
+                <target>Aktivieren Sie Ihr Konto.</target>
             </trans-unit>
              <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
                 <target>Übernachten, wo Kuba, Kuba ist!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
                 <target><![CDATA[Melden Sie sich an und Schliessen Sie sich der Familie von <b>MyCasaParticular.com</b> an. Unsere Website verfügt über mehr als 25000 Benutzer : die besten Gastgeber, wunderbare Unterkünfte und viele Freunde in aller Welt.]]></target>
             </trans-unit>
             <trans-unit id="643">
@@ -2535,11 +2535,11 @@
                 <target>hier</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
                 <target>Um Ihr Konto zu aktivieren , klicken Sie hier oder kopieren Sie bitte den unterstehende URL in Ihren Browser ein.:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
                 <target>Benötigen Sie Hilfe? Kontaktieren Sie uns unter die E-Mail Adresse:</target>
             </trans-unit>
             <trans-unit id="646">

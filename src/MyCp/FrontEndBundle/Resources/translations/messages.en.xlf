@@ -2521,14 +2521,14 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Not activated yet/Having any trouble?</target>
+                <target>Activate your account and win</target>
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
                 <target>Lodge where Cuba, Cuba is!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
                 <target><![CDATA[Activate your account now and join the <b>MyCasaParticular.com</b> family. We have more than 25000 users waiting for you: the best Hosts, amazing Lodgings, and several friends around the world.]]></target>
             </trans-unit>
             <trans-unit id="643">
@@ -2536,11 +2536,11 @@
                 <target>here</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
                 <target>To activate your account, click or copy this following URL:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
                 <target>Do you need help?  Contact us at</target>
             </trans-unit>
             <trans-unit id="646">
@@ -3842,6 +3842,26 @@
         <trans-unit id="961">
           <source>USER_ACCOUNT_EMAIL_PREHEADER</source>
           <target>Now you belong to our family</target>
+        </trans-unit>
+
+        <trans-unit id="962">
+          <source>USER_ACCOUNT_ACTIVATION_LATE_REMINDER_PREHEADER</source>
+          <target>The best Casas and friends</target>
+        </trans-unit>
+
+        <trans-unit id="963">
+            <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+            <target><![CDATA[The best Casas and friends await you to give you the welcome to <b>MyCasaParticular.com</b> family. Activate your account and join our big community around the world. By activating your account, you complete your registration process at <b>MyCasaParticular.com</b>.]]></target>
+        </trans-unit>
+
+        <trans-unit id="964">
+            <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+            <target>Do it now with a Click, or copy the following URL:</target>
+        </trans-unit>
+
+        <trans-unit id="965">
+            <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+            <target>Do you need help?  Contact us at</target>
         </trans-unit>
 
         </body>

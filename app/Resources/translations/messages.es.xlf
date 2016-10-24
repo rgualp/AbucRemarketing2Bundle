@@ -2521,14 +2521,14 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Aún no ha activado su cuenta ¿Algún problema?</target>
+                <target>ACTIVA TU CUENTA Y GANA</target>
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
                 <target>¡Alojarse dónde Cuba, Cuba es!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
                 <target><![CDATA[Activa tu cuenta ahora y únete a la familia de <b>MyCasaParticular.com</b>. Tenemos más de 25 mil usuarios esperándote: los mejores anfitriones, alojamientos increíbles y muchos amigos alrededor del mundo.]]></target>
             </trans-unit>
             <trans-unit id="643">
@@ -2536,11 +2536,11 @@
                 <target>aquí</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
                 <target>Para activar tu cuenta haz clic o copia esta URL en el navegador:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
                 <target>¿Necesitas ayuda? Contáctanos a</target>
             </trans-unit>
             <trans-unit id="646">
