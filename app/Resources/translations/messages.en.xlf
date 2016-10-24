@@ -2453,7 +2453,7 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target><![CDATA[You only have 24 hours left to reserve any of the available rooms. You have some lodging requests already confirmed and there are other people interested on them.<br/><br/>Do you want to know Cuba? This is the best time.  Take advantage of these offers and make your booking effective with an initial payment of only]]></target>
+                <target><![CDATA[You only have 24 hours left to reserve any of the available rooms. You have some lodging requests already confirmed and there are other people interested on them.<br/><br/>Do you want to know Cuba? This is the best time.  Take advantage of these offers and make your booking effective with an initial payment of only %prepayment%]]></target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
@@ -2589,7 +2589,7 @@
              </trans-unit>
              <trans-unit id="657">
                  <source>LAST_REMINDER_TEXT_2</source>
-                 <target>If you still want to stay at some of these rooms, we recommend you to make an initial prepayment of</target>
+                 <target>If you still want to stay at some of these rooms, we recommend you to make an initial prepayment of  %prepayment%</target>
              </trans-unit>
             <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>

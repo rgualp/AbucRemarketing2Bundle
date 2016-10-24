@@ -5,7 +5,7 @@
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{ "REMINDER_EMAIL_PREHEADER" |trans({}, "messages", user_locale) }}</h4>
         <p style="font-size: 14px;font-family: arial">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}},</p>
-        <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({}, "messages", user_locale) | raw}} {{initial_payment | price}}.</p>
+        <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({"%prepayment%": initial_payment | price}, "messages", user_locale) | raw}}.</p>
         <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({}, "messages", user_locale) | raw}}</p>
         <p style="font-size: 14px;font-family: arial">
            <a href="{{ mailPaymentUrl }}">{{mailPaymentUrl}}</a>
@@ -19,7 +19,7 @@
     <p style="font-size: 14px;font-family: arial"><b>{{"VALID_OFFER_TWENTY_FOUR"|trans({}, "messages", user_locale)}}</b></p>
     <p style="font-size: 14px;font-family: arial">
         {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
-        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/><br/>
+        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
         <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
     </p>
 {% endblock %}

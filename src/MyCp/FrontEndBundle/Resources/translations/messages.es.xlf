@@ -2462,7 +2462,7 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target><![CDATA[Solo te quedan 24 horas más para reservar cualquiera de las habitaciones disponibles. Tienes varias solicitudes de alojamientos confirmadas y otras personas también están interesadas. <br/><br/> ¿Quieres conocer Cuba? Este es el mejor momento. Aprovecha esta(s) oferta(s) y haz efectiva tu reserva con un pago inicial de solo]]></target>
+                <target><![CDATA[Solo te quedan 24 horas más para reservar cualquiera de las habitaciones disponibles. Tienes varias solicitudes de alojamientos confirmadas y otras personas también están interesadas. <br/><br/> ¿Quieres conocer Cuba? Este es el mejor momento. Aprovecha esta(s) oferta(s) y haz efectiva tu reserva con un pago inicial de solo %prepayment%]]></target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
@@ -2494,7 +2494,7 @@
             </trans-unit>
             <trans-unit id="631">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
-                <target>Recuerde: Activación de su cuenta en MyCasaParticular</target>
+                <target>ÚNETE A NUESTRA COMUNIDAD</target>
             </trans-unit>
             <trans-unit id="632">
                 <source>OWN_STATUS_ACTIVE</source>
@@ -2538,7 +2538,7 @@
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target>Su cuenta en MyCasaParticular aún no ha sido activada, por lo que el proceso de Registro aún no está completo. Para activar su cuenta, haga clic</target>
+                <target><![CDATA[Activa tu cuenta ahora y únete a la familia de <b>MyCasaParticular.com</b>. Tenemos más de 25 mil usuarios esperándote: los mejores anfitriones, alojamientos increíbles y muchos amigos alrededor del mundo.]]</target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
@@ -2598,7 +2598,7 @@
             </trans-unit>
              <trans-unit id="657">
                 <source>LAST_REMINDER_TEXT_2</source>
-                <target>Si todavía quieres hospedarte en alguna(s) de estas habitaciones te recomendamos efectuar ahora un depósito inicial de</target>
+                <target>Si todavía quieres hospedarte en alguna(s) de estas habitaciones te recomendamos efectuar ahora un depósito inicial de %prepayment%</target>
             </trans-unit>
              <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
@@ -3252,6 +3252,11 @@
          <trans-unit id="959">
             <source>EXPIRED_OFFER_PREHEADER</source>
             <target>Tus solicitudes han vencido</target>
+        </trans-unit>
+
+         <trans-unit id="960">
+            <source>ACCOUNT_REMINDER_PREHEADER</source>
+            <target>Activa tu cuenta ¡ahora!</target>
         </trans-unit>
 
         </body>

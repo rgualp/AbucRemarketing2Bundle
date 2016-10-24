@@ -9,7 +9,7 @@
         <h4 style="font-family: Arial; font-size: 20px">{{"LAST_REMINDER_PREHEADER"|trans({}, "messages", user_locale)}}</h4>
         <p style="font-size: 14px;font-family: arial">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}}</p>
         <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%":mailPaymentUrl}, "messages", user_locale) | raw}}</p>
-        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_2"|trans({}, "messages", user_locale)}}  {{initial_payment | price}}.</p>
+        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_2"|trans({"%prepayment%": initial_payment | price}, "messages", user_locale)}}.</p>
 
         {% for reservation in reservations %}
             {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation, "photos": photos}) }}

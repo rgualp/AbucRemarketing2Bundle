@@ -2453,7 +2453,7 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target><![CDATA[Solo te quedan 24 horas más para reservar cualquiera de las habitaciones disponibles. Tienes varias solicitudes de alojamientos confirmadas y otras personas también están interesadas. <br/><br/> ¿Quieres conocer Cuba? Este es el mejor momento. Aprovecha esta(s) oferta(s) y haz efectiva tu reserva con un pago inicial de solo]]></target>
+                <target><![CDATA[Solo te quedan 24 horas más para reservar cualquiera de las habitaciones disponibles. Tienes varias solicitudes de alojamientos confirmadas y otras personas también están interesadas. <br/><br/> ¿Quieres conocer Cuba? Este es el mejor momento. Aprovecha esta(s) oferta(s) y haz efectiva tu reserva con un pago inicial de solo %prepayment%]]></target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
@@ -2589,7 +2589,7 @@
             </trans-unit>
              <trans-unit id="657">
                 <source>LAST_REMINDER_TEXT_2</source>
-                <target>Si todavía quieres hospedarte en alguna(s) de estas habitaciones te recomendamos efectuar ahora un depósito inicial de</target>
+                <target>Si todavía quieres hospedarte en alguna(s) de estas habitaciones te recomendamos efectuar ahora un depósito inicial de %prepayment%</target>
             </trans-unit>
              <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
