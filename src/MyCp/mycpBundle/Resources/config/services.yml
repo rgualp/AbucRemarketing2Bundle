@@ -93,4 +93,4 @@ services:
 
    mycp.newsletter.service:
        class: MyCp\mycpBundle\Service\NewsletterService
-       arguments: [@mycp.notification.service, @mycp.notification.mail.service, @doctrine.orm.entity_manager, @templating, "%newsletter_testing_mode%", "%newsletter_testing_email%", "%newsletter_testing_mobile%"]
+       arguments: [@mycp.notification.service, @mycp.service.email_manager, @doctrine.orm.entity_manager, @templating, "%newsletter_testing_mode%", "%newsletter_testing_email%", "%newsletter_testing_mobile%"]

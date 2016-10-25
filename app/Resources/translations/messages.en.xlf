@@ -3984,6 +3984,22 @@
                     <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
                     <target>Top rated accommodations</target>
                 </trans-unit>
+            <trans-unit id="1003">
+                <source>facebook</source>
+                <target>facebook</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>twitter</source>
+                <target>twitter</target>
+            </trans-unit>
+            <trans-unit id="1005">
+                <source>pinterest</source>
+                <target>pinterest</target>
+            </trans-unit>
+            <trans-unit id="1006">
+                <source>youtube</source>
+                <target>youtube</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
