@@ -94,10 +94,10 @@
             </div>
             <div class="col-xs-12 text-uppercase white f-s-12 p-a-0">
                 {{ 'TOTAL_PAY_AT_SERVICE'|trans }}:
-                <span class="f-s-18" id="pay_at_service">{{(totalRoomPrice - total_percent) | price}}</span>
+                <span class="f-s-16" id="pay_at_service">{{(totalRoomPrice - total_percent) | price}}</span>
                 {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
                 {% if currSymbol != "CUC" %}
-                    <span id="pay_at_service_cuc" class="f-w-bold f-s-20"> (CUC {{ (totalRoomPrice - total_percent) | number_format(2) }})</span>
+                    <span id="pay_at_service_cuc" class="f-w-bold f-s-18"> (CUC {{ (totalRoomPrice - total_percent) | number_format(2) }})</span>
                 {% endif %}
             </div>
         </div>
