@@ -6,22 +6,24 @@
 {% set mailCancelReservationUrl = mail_base_url ~ '/cancel-offer-email/'~generalReservationId~'/'~ user_locale|lower~'/'~ user_locale|lower %}
 
 {% block content %}
-        <h4 style="font-family: Arial; font-size: 20px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
-        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%":mailPaymentUrl}, "messages", user_locale) | raw}} {{initial_payment | price}}.</p>
-        <p style="font-size: 14px;font-family: arial"> {{"LAST_REMINDER_TEXT_2"|trans({}, "messages", user_locale)}}</p>
-        <p style="font-size: 14px;font-family: arial">
-            <a href="{{mailCancelReservationUrl}}">{{"NOT_INTERESTED_ANYMORE"|trans({}, "messages", user_locale)}}</a><br/><br/>
-            <a href="{{mailPaymentUrl}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
-        </p>
+        <h4 style="font-family: Arial; font-size: 20px">{{"LAST_REMINDER_PREHEADER"|trans({}, "messages", user_locale)}}</h4>
+        <p style="font-size: 14px;font-family: arial">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}}</p>
+        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%":mailPaymentUrl}, "messages", user_locale) | raw}}</p>
+        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_2"|trans({"%prepayment%": initial_payment | price}, "messages", user_locale)}}.</p>
 
         {% for reservation in reservations %}
             {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation, "photos": photos}) }}
             <br/>
         {% endfor %}
 
-    <h4 style="font-size: 16px; font-weight: normal; font-style: italic">
+    <p style="font-size: 14px;font-family: arial">
+        <a href="{{mailCancelReservationUrl}}">{{"NOT_INTERESTED_ANYMORE"|trans({}, "messages", user_locale)}}</a><br/><br/>
+        {{"LAST_REMINDER_TEXT_3"|trans({}, "messages", user_locale)}} <a href="{{mailPaymentUrl}}"><span style="background-color: #468847; color: #ffffff; padding: 5px; font-weight: bold;">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</span></a>
+    </p>
+
+    <p style="font-size: 14px;font-family: arial">
         {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
-        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
-        {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
-    </h4>
+        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+        <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
+    </p>
 {% endblock %}

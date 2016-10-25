@@ -9,7 +9,11 @@
     {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
     {{ "USER_CART_FULL_TEXT1"|trans({}, "messages", user_locale) }} <br/><br/>
     <p style="font-size: 14px;font-family: arial">
-            <a href="{{checkCartUrl}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
+            <a href="{{checkCartUrl}}">
+                <span style="background-color: #468847; color: #ffffff; padding: 5px; font-weight: bold;">
+                {{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}
+                </span>
+            </a><br/><br/>
             <a href="{{searchAccommodations}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
         </p>
         {% for own in owns %}
@@ -64,8 +68,9 @@
             </table>
             <br/>
         {% endfor %}
-{{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
-    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
-    {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
+    {{"FULL_REMINDER_ENDTEXT" | trans({}, "messages", user_locale) | raw}}.<br/><br/>
+    {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}<br/>
+    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+    <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
 </p>
 {% endblock %}
