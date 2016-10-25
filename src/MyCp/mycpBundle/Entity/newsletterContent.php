@@ -41,6 +41,13 @@ class newsletterContent
      */
     private $emailBody;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", nullable=true)
+     */
+    private $subject;
+
 
     /**
      * Get id
@@ -103,6 +110,24 @@ class newsletterContent
     public function setNewsletter($newsletter)
     {
         $this->newsletter = $newsletter;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     * @return mixed
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
         return $this;
     }
 

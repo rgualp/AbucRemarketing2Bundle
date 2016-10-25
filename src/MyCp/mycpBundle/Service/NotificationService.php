@@ -121,9 +121,9 @@ class NotificationService extends Controller
         }
     }
 
-    private function sendSMSNotification($mobileNumber, $message, $subtype)
+    public function sendSMSNotification($mobileNumber, $message, $subtype)
     {
-        if($this->notificationSendSms == 1) {
+        if($this->notificationSendSms == 1 && $message != null && $message != "" && $mobileNumber != null  && $mobileNumber != "") {
             $data['sms'] = array(
                 'project' => $this->notificationServiceApiKey,//Obligatorio
                 'to' => "53" . $mobileNumber,//8 digitos, comenzando con 5
