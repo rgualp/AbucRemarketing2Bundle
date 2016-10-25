@@ -101,7 +101,7 @@
             $(this).parent().parent().remove();
         }
     });
-    $('.btn_delete').click(function(){
+    $('.btn_delete').on('click',function(){
         $('#confirmation_modal').modal('show');
         $('#delete_button').attr('data',$(this).attr('data'));
         $('#delete_button').attr('btn_launch',$(this).attr('id'));

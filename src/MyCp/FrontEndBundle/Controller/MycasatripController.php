@@ -60,7 +60,7 @@ class MycasatripController extends Controller {
         ));
     }
 
-    public function availableAction($order_by, Request $request) {
+    public function availableAction($order_by, Request $request,$flag) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -80,7 +80,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
+        $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
         $res_available = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -97,7 +97,8 @@ class MycasatripController extends Controller {
             array_push($array_photos, $photo);
         }
 
-        return $this->render('FrontEndBundle:mycasatrip:available.html.twig', array(
+        if($flag=='1'){
+            return $this->render('FrontEndBundle:cart:navBarCesta.html.twig', array(
                     'res_available' => $res_available,
                     'order_by' => $order_by,
                     'nights' => $nights,
@@ -105,7 +106,21 @@ class MycasatripController extends Controller {
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page
-        ));
+                ));
+        }
+        else{
+            return $this->render('FrontEndBundle:mycasatrip:available.html.twig', array(
+                    'res_available' => $res_available,
+                    'order_by' => $order_by,
+                    'nights' => $nights,
+                    'photos' => $array_photos,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+        }
+
+
     }
 
     public function updateFavoritesStatisticsCallbackAction() {

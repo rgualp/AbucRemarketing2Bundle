@@ -1,6 +1,11 @@
-<a title="{{"CART" | trans }}" href="{{ path('frontend_view_cart') }}" style="margin-top: 10px" class="count-info">
-  <img style="width: 26px; height: 23px;" class="icon {%if count > 0%}cart-full-icon{%else%}cart-icon{%endif%}" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
-    {% if is_mobile() != true %} {{"CART" | trans }} {% endif %}
-    <span style="height: 15px;width: 20px" class="label" id="count-cart">  {{count}} </span>
+<a id="list-cart" title="{{"WHISH_LIST" | trans }}" {%if count > 0%}href="#"{% else %}href="{{ path('frontend_view_cart') }}"{% endif %} style="margin-top: 10px"  {%if count > 0%} data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="true"{% else %} class="count-info" {% endif %}>
+    <span style="height: 19px;margin-right: 25px;margin-top: 3px;position: absolute;width: 20px;" class="label" id="count-cart">  {{count}} </span>
+    {%if count > 0%}
+        <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/whishlistv.png')}}" alt="{{"Pixel" | trans}}"/>
+        {% else %}
+            <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/whishlist.png')}}" alt="{{"Pixel" | trans}}"/>
+    {% endif %}
+    {% if is_mobile() != true %} {{"WHISH_LIST" | trans }} {% endif %}
+
 </a>
-{#<span {%if count > 0%}style="color: #87AB41;{% endif %} font-size: 13px"><b>({{count}})</b></span>#}
+ {{ render(controller('FrontEndBundle:Cart:getCartBody',{'flag':'true'})) }}
