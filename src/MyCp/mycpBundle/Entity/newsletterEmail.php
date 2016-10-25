@@ -45,9 +45,9 @@ class newsletterEmail
     /**
      * @var string
      *
-     * @ORM\Column(name="sms", type="string", length=255, nullable=true)
+     * @ORM\Column(name="mobile", type="string", length=255, nullable=true)
      */
-    private $sms;
+    private $mobile;
 
     /**
      * @ORM\ManyToOne(targetEntity="lang",inversedBy="newsletterEmails")
@@ -141,18 +141,18 @@ class newsletterEmail
     /**
      * @return string
      */
-    public function getSms()
+    public function getMobile()
     {
-        return $this->sms;
+        return $this->mobile;
     }
 
     /**
-     * @param string $sms
+     * @param string $mobile
      * @return mixed
      */
-    public function setSms($sms)
+    public function setMobile($mobile)
     {
-        $this->sms = $sms;
+        $this->mobile = $mobile;
         return $this;
     }
 

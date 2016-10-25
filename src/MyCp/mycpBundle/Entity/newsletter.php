@@ -38,6 +38,13 @@ class newsletter
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="usersRole", type="string", length=255)
+     */
+    private $usersRole;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="type", type="integer")
@@ -271,6 +278,24 @@ class newsletter
         }
 
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsersRole()
+    {
+        return $this->usersRole;
+    }
+
+    /**
+     * @param string $usersRole
+     * @return mixed
+     */
+    public function setUsersRole($usersRole)
+    {
+        $this->usersRole = $usersRole;
         return $this;
     }
 
