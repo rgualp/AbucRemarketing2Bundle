@@ -3303,6 +3303,18 @@
             <target>Benötigen Sie Hilfe? Kontaktieren Sie uns unter die E-Mail Adresse: </target>
         </trans-unit>
 
+         <trans-unit id="971">
+                    <source>WHISH_LIST</source>
+                    <target>Whish list</target>
+                </trans-unit>
+                <trans-unit id="972">
+                    <source>EMPTY_WHISH_LIST</source>
+                    <target>Warenkorb whish list</target>
+                </trans-unit>
+                <trans-unit id="973">
+                    <source>ADD_WHISH_LIST</source>
+                    <target>Dazutun whish list</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>
