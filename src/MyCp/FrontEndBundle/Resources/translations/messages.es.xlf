@@ -3308,6 +3308,18 @@
             <source>NEW_OFFER_TEXT_2</source>
             <target>¿Necesitas nuestra ayuda? Contáctanos a</target>
         </trans-unit>
+         <trans-unit id="971">
+            <source>WHISH_LIST</source>
+            <target>Lista de deseo</target>
+        </trans-unit>
+        <trans-unit id="972">
+            <source>EMPTY_WHISH_LIST</source>
+            <target>Vaciar lista de deseo</target>
+        </trans-unit>
+        <trans-unit id="973">
+            <source>ADD_WHISH_LIST</source>
+            <target>Adicionar a la lista de deseo</target>
+        </trans-unit>
 
         </body>
     </file>

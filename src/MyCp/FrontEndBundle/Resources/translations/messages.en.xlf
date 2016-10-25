@@ -3888,6 +3888,18 @@
             <source>NEW_OFFER_TEXT_2</source>
             <target>Do you need our help? Contact us at</target>
         </trans-unit>
+         <trans-unit id="971">
+                    <source>WHISH_LIST</source>
+                    <target>Whish list</target>
+                </trans-unit>
+                <trans-unit id="972">
+                    <source>EMPTY_WHISH_LIST</source>
+                    <target>Empty my whish list</target>
+                </trans-unit>
+                <trans-unit id="973">
+                    <source>ADD_WHISH_LIST</source>
+                    <target>Add my whish list</target>
+                </trans-unit>
 
         </body>
     </file>

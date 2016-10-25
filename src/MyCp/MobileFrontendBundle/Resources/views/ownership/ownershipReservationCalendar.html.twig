@@ -2,8 +2,8 @@
 <table class="table table-striped"style="margin-bottom: 0px">
     <thead>
     <tr>
-        <th>{{'RESERVATION_ROOMS' | trans}}</th>
-        <th>{{'RESERVATION_ROOM_TYPE' | trans}}</th>
+        <th><i class="glyphicons gray keys f-s-16"></i></th>
+        <th>{{ 'RESERVATION_TYPE' | trans }} <i class="glyphicons gray keys f-s-16"></i></th>
         {% for date in array_dates %}
             <th style="display: none;">{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
         {% endfor %}
@@ -23,7 +23,7 @@
 
         {% set available = 1 %}
         <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
-            <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
+            <td style="width: 100px"> # {{cont}}</td>
             <td style="width: 200px">{{ room.getRoomType | trans}}</td>
             {% set cont_days = 1 %}
             {% for date in array_dates %}

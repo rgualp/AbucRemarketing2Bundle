@@ -3812,7 +3812,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
 
                  <trans-unit id="10958">
                  <source>MYTAXICUBACONTE1</source>
-                 <target>Bestellen Sie Ihr Taxi und garantieren Sie die sichere Ankunft zur gebuchten Unterkunft.</target>
+                 <target>Entdecken Sie Kuba mit Stil! Abholung am Flughafen und Transport zur Unterkunft, Rundfahrten im Oldtimer und Transferservice. Wir begleiten Sie immer. Reisen Sie mit MyTaxiCuba!</target>
                  </trans-unit>
 
 
@@ -4004,6 +4004,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                                          <source>Bookings</source>
                                                          <target>Reserve</target>
                                                     </trans-unit>
+                <trans-unit id="1002">
+                    <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                    <target>Am besten bewertet</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>

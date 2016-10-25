@@ -245,9 +245,9 @@ class EmailManager
                 'user_tourist_user' => $user
             ));
 
-        if (empty($userTourist)) {
+        /*if (empty($userTourist)) {
             throw new \LogicException('No userTourist found for User ID ' . $user->getUserId());
-        }
+        }*/
 
         return $userTourist;
     }
@@ -274,7 +274,7 @@ class EmailManager
     {
         try {
             $userTourist = $this->getTouristByUser($user);
-            $userLocale = ($userTourist != null) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : strtolower($user->getUserLanguage()->getLangCode()) ;
+            $userLocale = (!empty($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : strtolower($user->getUserLanguage()->getLangCode()) ;
             return $userLocale;
         }
         catch(\Exception $e){
