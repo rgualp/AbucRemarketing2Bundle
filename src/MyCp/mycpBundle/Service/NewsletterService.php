@@ -51,26 +51,30 @@ class NewsletterService extends Controller
 
     public function sendNewsletter($newsletter)
     {
-        try {
-            //Determinar el tipo del newsletter para usar un servicio u otro
-            if ($newsletter->getType() == newsletter::NEWSLETTER_TYPE_EMAIL)
-                $this->sendNewsletterEmail($newsletter);
-            elseif ($newsletter->getType() == newsletter::NEWSLETTER_TYPE_SMS)
-                $this->sendNewsletterSms($newsletter);
+       // try {
+            if((!$this->testingMode && !$newsletter->getSent()) || $this->testingMode) {
+                //Determinar el tipo del newsletter para usar un servicio u otro
+                if ($newsletter->getType() == newsletter::NEWSLETTER_TYPE_EMAIL)
+                    $this->sendNewsletterEmail($newsletter);
+                elseif ($newsletter->getType() == newsletter::NEWSLETTER_TYPE_SMS)
+                    $this->sendNewsletterSms($newsletter);
 
-            //Actualzar en la base de datos que ese newsletter se envio
-            $newsletter->setSent(true)
-                ->setSentDate(new \DateTime());
+                if(!$this->testingMode) {
+                    //Actualzar en la base de datos que ese newsletter se envio
+                    $newsletter->setSent(true)
+                        ->setSentDate(new \DateTime());
 
-            $this->entityManager->persist($newsletter);
-            $this->entityManager->flush();
+                    $this->entityManager->persist($newsletter);
+                    $this->entityManager->flush();
+                }
 
-            return true;
-        }
+                return true;
+            }
+        /*}
         catch(\Exception $e)
         {
             return false;
-        }
+        }*/
     }
 
     private function sendNewsletterEmail($newsletter){
@@ -100,19 +104,20 @@ class NewsletterService extends Controller
                 "newsletter" => $newsletter->getId(),
                 "language" => $lang->getLangId()
             ));
-            if($this->testingMode)
-            {
-                $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, "Testing User", $this->testingEmail, $newsletter->getCode(), $lang->getLangCode());
-            }
-            else{
 
-                $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
-                    "newsletter" => $newsletter->getId(),
-                    "language" => $lang->getLangId()
-                ));
+            if($content != null) {
+                if ($this->testingMode) {
+                    $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, "Testing User", $this->testingEmail, $newsletter->getCode(), $lang->getLangCode());
+                } else {
 
-                foreach($contacts as $contact) {
-                    $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, $contact->getName(), $contact->getEmail(), $newsletter->getCode(), $lang->getLangCode());
+                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
+                        "newsletter" => $newsletter->getId(),
+                        "language" => $lang->getLangId()
+                    ));
+
+                    foreach ($contacts as $contact) {
+                        $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, $contact->getName(), $contact->getEmail(), $newsletter->getCode(), $lang->getLangCode());
+                    }
                 }
             }
         }
@@ -127,19 +132,20 @@ class NewsletterService extends Controller
                 "newsletter" => $newsletter->getId(),
                 "language" => $lang->getLangId()
             ));
-            if($this->testingMode)
-            {
-                $this->smsService->sendSMSNotification($this->testingSms, $content->getEmailBody(), $newsletter->getCode());
-            }
-            else{
 
-                $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
-                    "newsletter" => $newsletter->getId(),
-                    "language" => $lang->getLangId()
-                ));
+            if($content != null) {
+                if ($this->testingMode) {
+                    $this->smsService->sendSMSNotification($this->testingSms, $content->getEmailBody(), $newsletter->getCode());
+                } else {
 
-                foreach($contacts as $contact) {
-                    $this->smsService->sendSMSNotification( $contact->getMobile(), $content->getEmailBody(), $newsletter->getCode());
+                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
+                        "newsletter" => $newsletter->getId(),
+                        "language" => $lang->getLangId()
+                    ));
+
+                    foreach ($contacts as $contact) {
+                        $this->smsService->sendSMSNotification($contact->getMobile(), $content->getEmailBody(), $newsletter->getCode());
+                    }
                 }
             }
         }
@@ -159,7 +165,7 @@ class NewsletterService extends Controller
         $this->mailService->setBody($emailBody);
         $this->mailService->setEmailType($newsletterCode);
 
-        $this->notification_email->sendEmail();
+        return $this->mailService->sendEmail();
     }
 
 }

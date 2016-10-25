@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * newsletter
  *
  * @ORM\Table(name="newsletter")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\newsletterRepository")
+ * @ORM\Entity
  */
 class newsletter
 {
