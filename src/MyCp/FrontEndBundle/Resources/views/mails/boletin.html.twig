@@ -4,18 +4,13 @@
 <style type="text/css">
     p{font-family: arial; font-size: 13px; line-height: 18px}
     </style>
-    <h4 style="font-family: Arial; font-size: 14px;">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}},</h4>
-    {#<h4 style="font-family: Arial; font-size: 14px;">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} "ANDER" "SANCHEZ",</h4>#}
-    {% if message is defined and message|length %}{{ message | raw }}{% endif %}
-
-    {#{% for reservation in reservations %}#}
-        {#{{ include('FrontEndBundle:utils:reservationControl.html.twig', {"index" : loop.index0, "reservation": reservation}) }}#}
-        {#<br/>#}
-    {#{% endfor %}#}
-    <p>{{ 'NEWSLETTER_INTRO_TEXT'|trans({}, "messages", user_locale) }}</p>
+    <h4 style="font-family: Arial; font-size: 14px;">{{"VOUCHER_PREHEADER"|trans({}, "messages", user_locale)}}</h4>
+    <p>{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}},</p>
+    <p>{{ 'NEWSLETTER_INTRO_TEXT'|trans({}, "messages", user_locale) | raw }}</p>
     <p>{{ 'NEWSLETTER_INTRO_TEXT1'|trans({}, "messages", user_locale) }}</p>
-    <p>{{ 'NEWSLETTER_INTRO_TEXT2'|trans({}, "messages", user_locale) }}</p>
-    {#<a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_historial_reserve',relative=true ) }}">Mycasatrip</a>#}
+    {% if message is defined and message|length %}<p>{{ message | raw }}</p>{% endif %}
+    {#<p>{{ 'NEWSLETTER_INTRO_TEXT2'|trans({}, "messages", user_locale) }}</p>
+    <a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_historial_reserve',relative=true ) }}">Mycasatrip</a>#}
     {#<p>{{ 'NEWSLETTER_LINK_TEXT'|trans({}, "messages", user_locale) }}</p>#}
     {#<a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_favorites_destinations',relative=true ) }}">{{ 'NEWSLETTER_LINK_BTN1'|trans({}, "messages", user_locale) }}</a>#}
     {#<p>{{ 'NEWSLETTER_LINK_TEXT1'|trans({}, "messages", user_locale) }}</p>#}

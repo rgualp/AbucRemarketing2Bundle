@@ -1949,7 +1949,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Book now!</target>
+                <target>PAY NOW!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -1989,7 +1989,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Mr./Mrs.</target>
+                  <target>Hello</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
@@ -2165,7 +2165,7 @@
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Account activation at MyCasaParticular</target>
+                  <target>WELCOME TO OUR COMMUNITY</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
@@ -2185,7 +2185,7 @@
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Reserve Confirmation</target>
+                    <target>BOOKING VOUCHER</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
@@ -2201,7 +2201,7 @@
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
-                    <target>Reminder</target>
+                    <target>DISCOVER CUBA, RESERVE NOW</target>
                 </trans-unit>
                 <trans-unit id="561">
                     <source>NOT_ENABLED_USER</source>
@@ -2453,11 +2453,11 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>Some of the Casas Particulares you have selected are still available! In order to make your reservation effective, you should make an initial payment, up to </target>
+                <target><![CDATA[You only have 24 hours left to reserve any of the available rooms. You have some lodging requests already confirmed and there are other people interested on them.<br/><br/>Do you want to know Cuba? This is the best time.  Take advantage of these offers and make your booking effective with an initial payment of only %prepayment%]]></target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target><![CDATA[To confirm your reservation, click <a href="%link%">here</a>, , or copy the URL below at your Internet Browser.]]></target>
+                <target>Discover Cuba, book now. To confirm your reservation, click or copy the following URL:</target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
@@ -2521,27 +2521,27 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Not activated yet/Having any trouble?</target>
+                <target>Activate your account and win</target>
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
-                <target>Thank you in advance</target>
+                <target>Lodge where Cuba, Cuba is!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target>Your account at MyCasaParticular.com is not activated yet, so the registration process is not completed yet. In order to activate your account, please click</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
+                <target><![CDATA[Activate your account now and join the <b>MyCasaParticular.com</b> family. We have more than 25000 users waiting for you: the best Hosts, amazing Lodgings, and several friends around the world.]]></target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
                 <target>here</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
-                <target>, or copy the URL below on your Internet browser.</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
+                <target>To activate your account, click or copy this following URL:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
-                <target>If there is any problem during the process, please contact our</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
+                <target>Do you need help?  Contact us at</target>
             </trans-unit>
             <trans-unit id="646">
                 <source>SUPPORT_TEAM</source>
@@ -2553,15 +2553,15 @@
             </trans-unit>
             <trans-unit id="648">
                 <source>EMAIL_GREETINGS_2</source>
-                <target>Best Regards</target>
+                <target>We wait for you,</target>
             </trans-unit>
             <trans-unit id="649">
                 <source>MYCP_TEAM</source>
-                <target>MyCP Team</target>
+                <target>MyCasaParticular.com Team</target>
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>We have all the information we need for your Registration Process! In order to Log In our website and continue booking your accommodation, we suggest you to</target>
+                <target><![CDATA[Now you belong to our family. Congratulations!  Your registration process at <b>MyCasaParticular.com</b> is completed. Activate your account to start enjoying the benefits of being part of our community.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2569,7 +2569,7 @@
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>If the link doesn?t work, please copy the URL below, and paste it on your browser.</target>
+                <target>Click or copy the following URL:</target>
             </trans-unit>
             <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
@@ -2585,11 +2585,11 @@
             </trans-unit>
             <trans-unit id="656">
                 <source>LAST_REMINDER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for, will no longer be available in a few hours. This is why we recommend you, if you are still interested on them, that you <a href="%link%">make an initial deposit now</a>, up to ]]></target>
+                <target><![CDATA[You have rooms available and other persons are also interested on them. There are only a few hours before they can be reserved by someone else. We suggest you seize the opportunity to lodge in <b>MyCasaParticular.com</b> style, and to live an amazing experience.]]></target>
             </trans-unit>
             <trans-unit id="657">
                 <source>LAST_REMINDER_TEXT_2</source>
-                <target>In case you are not interested anymore, or if you want to book some other accommodations, please, let us know.</target>
+                <target>If you still want to stay at some of these rooms, we recommend you to make an initial prepayment of  %prepayment%</target>
             </trans-unit>
             <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
@@ -2597,23 +2597,23 @@
             </trans-unit>
             <trans-unit id="659">
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
-                <target>Book other accommodations</target>
+                <target>Make a new search</target>
             </trans-unit>
             <trans-unit id="660">
                 <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
-                <target>Last chance to book!</target>
+                <target>WE INVITE YOU TO RESERVE NOW</target>
             </trans-unit>
             <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
-                <target>Sorry, Not available anymore!</target>
+                <target>INVITATION TO BOOKING</target>
             </trans-unit>
             <trans-unit id="662">
                 <source>EXPIRED_OFFER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for before, are no longer available. Would you like to <a href="%link%">try again</a>?]]></target>
+                <target><![CDATA[Your requests have expired after the first 48 hours without paying. But, don’t worry at all, you may do another booking. I’m sure you’ll find better offers. <b>MyCasaParticular.com</b> has everything you need. Would you like to <a style="color: #000000; text-decoration:underline" href="%link%"><b>try again</b></a>?]]></target>
             </trans-unit>
             <trans-unit id="663">
                 <source>EXPIRED_OFFER_TEXT_2</source>
-                <target><![CDATA[Maybe you prefer to book with our assistance? Please, email to <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+                <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
             </trans-unit>
             <trans-unit id="664">
                 <source>EXPIRED_OFFER_TEXT_3</source>
@@ -2649,11 +2649,11 @@
             </trans-unit>
             <trans-unit id="672">
                 <source>USER_CART_FULL_REMINDER</source>
-                <target>Shopping Cart full. What do you want to do?</target>
+                <target>There may be some available offers</target>
             </trans-unit>
             <trans-unit id="673">
                 <source>USER_CART_FULL_TEXT1</source>
-                <target>Your shopping cart is full with some accommodations that may be available. What would you like to do with them?</target>
+                <target>Some of the selected rooms can be available at your shopping cart. We suggest you to  check all the options. What would you like to do with these offers?</target>
             </trans-unit>
             <trans-unit id="674">
                 <source>FROM_DATE</source>
@@ -2665,15 +2665,15 @@
             </trans-unit>
             <trans-unit id="676">
                 <source>FEEDBACK_REMINDER</source>
-                <target>Back from Cuba? Please Feedback</target>
+                <target>LET US KNOW HOW DID IT GO</target>
             </trans-unit>
             <trans-unit id="677">
                 <source>USER_FEEDBACK_TEXT1</source>
-                <target>We hope your travel to Cuba has been an amazing experience!</target>
+                <target>Your opinion is important for other users...let us know about your trip. We want to know everything, every detail of your terrific vacations. We hope it was an unforgettable memory!</target>
             </trans-unit>
             <trans-unit id="678">
                 <source>USER_FEEDBACK_TEXT2</source>
-                <target>If it doesn?t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
+                <target>Share your comments and suggestions about our services and the Casas Particulares where you stayed. Thanks to your recommendations, we will be able to improve our site.</target>
             </trans-unit>
             <trans-unit id="679">
                 <source>COMMENT</source>
@@ -3053,12 +3053,12 @@
                 </trans-unit>
             <trans-unit id="773">
                 <source>NEWSLETTER_INTRO_TEXT</source>
-                <target>It was a good thing you made your reservation via mycasaparticular.com. We are sending you an attachment with the confirmation of your reservation. Without a doubt, it will be very useful to print it out.</target>
-                </trans-unit>
+                <target><![CDATA[Congratulations! You have booked through <b>MyCasaParticular.com</b>. We wish you   wonderful vacations.  Please find attached the confirmation to your reservation.   For sure it will be useful to print it out.]]></target>
+            </trans-unit>
             <trans-unit id="774">
                 <source>NEWSLETTER_INTRO_TEXT1</source>
-                <target>Enjoy your stay fully</target>
-                </trans-unit>
+                <target>Live a unique experience the way locals do. Discover Cuba, we will take care of your lodging.</target>
+            </trans-unit>
             <trans-unit id="775">
                 <source>NEWSLETTER_INTRO_TEXT2</source>
                 <target>We will be in charge of your accommodation</target>
@@ -3798,6 +3798,109 @@
             <source>title.email.createuser.partner</source>
             <target>Agency Account Activation</target>
         </trans-unit>
+
+        <trans-unit id="953">
+            <source>USER_CART_FULL_REMINDER_SUBJECT</source>
+            <target>DO YOU WANT TO CHECK YOUR CART?</target>
+        </trans-unit>
+
+         <trans-unit id="954">
+            <source>FULL_REMINDER_ENDTEXT</source>
+            <target><![CDATA[Let us know how we can help you. Contact us at <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+        </trans-unit>
+
+         <trans-unit id="955">
+            <source>REMINDER_EMAIL_PREHEADER</source>
+            <target>You only have 24 h left</target>
+        </trans-unit>
+
+         <trans-unit id="956">
+            <source>LAST_REMINDER_PREHEADER</source>
+            <target>You have rooms available</target>
+        </trans-unit>
+
+         <trans-unit id="957">
+            <source>LAST_REMINDER_TEXT_3</source>
+            <target>If you want to try other rooms</target>
+        </trans-unit>
+
+         <trans-unit id="958">
+            <source>FEEDBACK_REMINDER_PREHEADER</source>
+            <target>Your opinion matter to us</target>
+        </trans-unit>
+
+         <trans-unit id="959">
+            <source>EXPIRED_OFFER_PREHEADER</source>
+            <target>Your requests have expired</target>
+        </trans-unit>
+
+         <trans-unit id="960">
+            <source>ACCOUNT_REMINDER_PREHEADER</source>
+            <target>Activate your account ¡now!</target>
+        </trans-unit>
+
+        <trans-unit id="961">
+          <source>USER_ACCOUNT_EMAIL_PREHEADER</source>
+          <target>Now you belong to our family</target>
+        </trans-unit>
+
+        <trans-unit id="962">
+          <source>USER_ACCOUNT_ACTIVATION_LATE_REMINDER_PREHEADER</source>
+          <target>The best Casas and friends</target>
+        </trans-unit>
+
+        <trans-unit id="963">
+            <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+            <target><![CDATA[The best Casas and friends await you to give you the welcome to <b>MyCasaParticular.com</b> family. Activate your account and join our big community around the world. By activating your account, you complete your registration process at <b>MyCasaParticular.com</b>.]]></target>
+        </trans-unit>
+
+        <trans-unit id="964">
+            <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+            <target>Do it now with a Click, or copy the following URL:</target>
+        </trans-unit>
+
+        <trans-unit id="965">
+            <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+            <target>Do you need help?  Contact us at</target>
+        </trans-unit>
+
+        <trans-unit id="966">
+            <source>VOUCHER_PREHEADER</source>
+            <target>Congratulations! You have booked!</target>
+        </trans-unit>
+
+        <trans-unit id="967">
+            <source>NEW_OFFER_TOURIST_SUBJECT</source>
+            <target>HEY, LOOK AT THESE ROOMS!</target>
+        </trans-unit>
+
+        <trans-unit id="968">
+            <source>NEW_OFFER_PREHEADER</source>
+            <target>We send you new offers</target>
+        </trans-unit>
+
+        <trans-unit id="969">
+            <source>NEW_OFFER_TEXT_1</source>
+            <target>We have sent you new offers of rooms 100% available and with great prices. The lodgings requested by you were already booked for the selected date. Instead, we are suggesting you very similar new offers, which we hope you will like.</target>
+        </trans-unit>
+
+        <trans-unit id="970">
+            <source>NEW_OFFER_TEXT_2</source>
+            <target>Do you need our help? Contact us at</target>
+        </trans-unit>
+         <trans-unit id="971">
+                    <source>WHISH_LIST</source>
+                    <target>Whish list</target>
+                </trans-unit>
+                <trans-unit id="972">
+                    <source>EMPTY_WHISH_LIST</source>
+                    <target>Empty my whish list</target>
+                </trans-unit>
+                <trans-unit id="973">
+                    <source>ADD_WHISH_LIST</source>
+                    <target>Add my whish list</target>
+                </trans-unit>
+
         </body>
     </file>
 </xliff>

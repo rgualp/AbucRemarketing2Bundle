@@ -22,7 +22,7 @@ class destinationRepository extends EntityRepository {
     function insert($data) {
         //var_dump($data);
         $active = 0;
-        if (isset($data['public']))
+        if(isset($data['public']))
             $active = 1;
         $em = $this->getEntityManager();
         $destination = new destination();
@@ -49,7 +49,7 @@ class destinationRepository extends EntityRepository {
         $keys = array_keys($data);
 
         foreach ($keys as $item) {
-            if (strpos($item, 'brief') !== false) {
+            if(strpos($item, 'brief') !== false) {
 
                 $id = substr($item, 6, strlen($item));
                 $destination_lang = new destinationLang();
@@ -62,7 +62,7 @@ class destinationRepository extends EntityRepository {
                 $em->persist($destination_lang);
             }
 
-            if (strpos($item, 'seo_keyword_') !== false) {
+            if(strpos($item, 'seo_keyword_') !== false) {
                 $id = substr($item, 12, strlen($item));
 
                 $destination_keywords = new destinationKeywordLang();
@@ -74,7 +74,7 @@ class destinationRepository extends EntityRepository {
             }
 
 
-            if (strpos($item, 'category_') !== false) {
+            if(strpos($item, 'category_') !== false) {
                 $id_cat = str_replace('category_', '', $item);
                 $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_cat);
                 $destination->getDesCategories()->add($category);
@@ -99,7 +99,7 @@ class destinationRepository extends EntityRepository {
     function edit($data) {
         $id_destination = $data['edit_destination'];
         $active = 0;
-        if (isset($data['public']))
+        if(isset($data['public']))
             $active = 1;
         $em = $this->getEntityManager();
         $destination = $em->getRepository('mycpBundle:destination')->find($id_destination);
@@ -135,7 +135,7 @@ class destinationRepository extends EntityRepository {
 
         $keys = array_keys($data);
         foreach ($keys as $item) {
-            if (strpos($item, 'brief') !== false) {
+            if(strpos($item, 'brief') !== false) {
 
                 $id = substr($item, 6, strlen($item));
                 $destination_lang = new destinationLang();
@@ -148,7 +148,7 @@ class destinationRepository extends EntityRepository {
                 $em->persist($destination_lang);
             }
 
-            if (strpos($item, 'seo_keyword_') !== false) {
+            if(strpos($item, 'seo_keyword_') !== false) {
                 $id = substr($item, 12, strlen($item));
                 $destination_keywords = new destinationKeywordLang();
                 $destination_keywords->setDklDescription($data['seo_description_' . $id]);
@@ -160,7 +160,7 @@ class destinationRepository extends EntityRepository {
                 $em->persist($destination_keywords);
             }
 
-            if (strpos($item, 'category_') !== false) {
+            if(strpos($item, 'category_') !== false) {
                 $id_cat = str_replace('category_', '', $item);
                 $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_cat);
                 $destination->getDesCategories()->add($category);
@@ -172,18 +172,18 @@ class destinationRepository extends EntityRepository {
         //exit();
     }
 
-    function getAll($filter_name="", $filter_active="", $filter_province="", $filter_municipality="", $sort_by = OrderByHelper::DEFAULT_ORDER_BY) {
+    function getAll($filter_name = "", $filter_active = "", $filter_province = "", $filter_municipality = "", $sort_by = OrderByHelper::DEFAULT_ORDER_BY) {
         $string = '';
-        if ($filter_active != 'null' && $filter_active != '') {
+        if($filter_active != 'null' && $filter_active != '') {
             $string = "AND des.des_active = :filter_active";
         }
 
         $string2 = '';
-        if ($filter_province != 'null' && $filter_province != '') {
+        if($filter_province != 'null' && $filter_province != '') {
             $string2 = "AND dl.des_loc_province = :filter_province";
         }
         $string3 = '';
-        if ($filter_municipality != 'null' && $filter_municipality != '') {
+        if($filter_municipality != 'null' && $filter_municipality != '') {
             $string3 = "AND dl.des_loc_municipality = :filter_municipality";
         }
 
@@ -226,13 +226,13 @@ class destinationRepository extends EntityRepository {
         WHERE des.des_name LIKE :filter_name $string $string2 $string3 $string4
         ");
 
-        if ($filter_active != 'null' && $filter_active != '')
+        if($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
 
-        if ($filter_province != 'null' && $filter_province != '')
+        if($filter_province != 'null' && $filter_province != '')
             $query->setParameter('filter_province', $filter_province);
 
-        if ($filter_municipality != 'null' && $filter_municipality != '')
+        if($filter_municipality != 'null' && $filter_municipality != '')
             $query->setParameter('filter_municipality', $filter_municipality);
 
         $query->setParameter('filter_name', "%" . $filter_name . "%");
@@ -244,7 +244,7 @@ class destinationRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         return $em->createQuery("SELECT o FROM mycpBundle:ownership o WHERE o.own_destination = $id_destination ORDER BY o.own_mcp_code ASC")
-                    ->getResult();
+            ->getResult();
     }
 
 //-----------------------------------------------------------------------------
@@ -265,7 +265,7 @@ class destinationRepository extends EntityRepository {
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0) as count_ownership,
+                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_destination = d.des_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0) as count_ownership,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
@@ -274,9 +274,9 @@ class destinationRepository extends EntityRepository {
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
+            else if(!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
@@ -302,8 +302,8 @@ class destinationRepository extends EntityRepository {
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites,
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
-                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id) as count_ownership,
-                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_destination = d.des_id and o1.own_minimum_price is not null and o1.own_minimum_price > 0) as min_price
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_destination = d.des_id) as count_ownership,
+                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o1.own_destination = d.des_id and o1.own_minimum_price is not null and o1.own_minimum_price > 0) as min_price
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
@@ -311,9 +311,9 @@ class destinationRepository extends EntityRepository {
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
+            else if(!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
@@ -351,7 +351,7 @@ class destinationRepository extends EntityRepository {
      * @return array
      */
     function getDescription($destination_array, $lang_code) {
-        if (is_array($destination_array)) {
+        if(is_array($destination_array)) {
             $descriptions_array = array();
             $em = $this->getEntityManager();
             $query_string = "";
@@ -376,23 +376,25 @@ class destinationRepository extends EntityRepository {
      * @return array
      */
     function getAllPhotos($destination_array) {
-        if (is_array($destination_array)) {
+        if(is_array($destination_array)) {
             $photos_array = array();
             $em = $this->getEntityManager();
 
             foreach ($destination_array as $destination) {
                 $destination_photo = $em->getRepository('mycpBundle:destinationPhoto')->findOneBy(array(
                     'des_pho_destination' => $destination->getDesId()));
-                if ($destination_photo != null) {
+                if($destination_photo != null) {
                     $photo_name = $destination_photo->getDesPhoPhoto()->getPhoName();
 
 
-                    if (file_exists(realpath("uploads/destinationImages/" . $photo_name))) {
+                    if(file_exists(realpath("uploads/destinationImages/" . $photo_name))) {
                         $photos_array[$destination->getDesId()] = $photo_name;
-                    } else {
+                    }
+                    else {
                         $photos_array[$destination->getDesId()] = 'no_photo.png';
                     }
-                } else {
+                }
+                else {
                     $photos_array[$destination->getDesId()] = 'no_photo.png';
                 }
             }
@@ -407,14 +409,14 @@ class destinationRepository extends EntityRepository {
      * @return array
      */
     function getLocation($destination_array) {
-        if (is_array($destination_array)) {
+        if(is_array($destination_array)) {
             $location_array = array();
             $em = $this->getEntityManager();
 
             foreach ($destination_array as $destination) {
                 $destination_location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array(
                     'des_loc_destination' => $destination->getDesId()));
-                if ($destination_location != null) {
+                if($destination_location != null) {
                     $province = $destination_location->getDesLocProvince();
                     $municipality = $destination_location->getDesLocMunicipality();
 
@@ -447,10 +449,10 @@ class destinationRepository extends EntityRepository {
                          JOIN l.des_loc_destination d
                          WHERE d.des_active = 1 AND l.des_loc_province = " . $province;
 
-        if ($municipality != null)
-            $query_string.= " AND l.des_loc_municipality = " . $municipality;
+        if($municipality != null)
+            $query_string .= " AND l.des_loc_municipality = " . $municipality;
 
-        $query_string.= " ORDER BY d.des_order";
+        $query_string .= " ORDER BY d.des_order";
 
         return $em->createQuery($query_string)->getResult();
     }
@@ -466,12 +468,12 @@ class destinationRepository extends EntityRepository {
 
         $where = "";
         if($municipality != null && $municipality != "")
-            $where .= (($where != "") ? " OR " : " WHERE "). " l.des_loc_municipality = " . $municipality;
+            $where .= (($where != "") ? " OR " : " WHERE ") . " l.des_loc_municipality = " . $municipality;
 
         if($province != null && $province != "")
-            $where .= (($where != "") ? " OR " : " WHERE "). " l.des_loc_province = " . $province;
+            $where .= (($where != "") ? " OR " : " WHERE ") . " l.des_loc_province = " . $province;
 
-        $query_string.= $where . " ORDER BY d.des_name, d.des_order";
+        $query_string .= $where . " ORDER BY d.des_name, d.des_order";
 
         return $em->createQuery($query_string)->getResult();
     }
@@ -487,7 +489,7 @@ class destinationRepository extends EntityRepository {
                         WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                         (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                         JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as description,
@@ -496,16 +498,16 @@ class destinationRepository extends EntityRepository {
                          JOIN loct.des_loc_destination d
                          WHERE d.des_active <> 0";
 
-        if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+        if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
             $query_string = $query_string . " AND loct.des_loc_municipality =$municipality_id";
 
-        if ($exclude_municipality != null && $exclude_municipality != -1 && $exclude_municipality != '')
+        if($exclude_municipality != null && $exclude_municipality != -1 && $exclude_municipality != '')
             $query_string = $query_string . " AND loct.des_loc_municipality <> $exclude_municipality";
 
-        if ($province_id != null && $province_id != -1 && $province_id != '')
+        if($province_id != null && $province_id != -1 && $province_id != '')
             $query_string = $query_string . " AND loct.des_loc_province =$province_id";
 
-        if ($exclude_destination_id != null && $exclude_destination_id != -1 && $exclude_destination_id != '')
+        if($exclude_destination_id != null && $exclude_destination_id != -1 && $exclude_destination_id != '')
             $query_string = $query_string . " AND loct.des_loc_destination <> $exclude_destination_id";
 
         $query_string = $query_string . " ORDER BY d.des_order ASC";
@@ -513,9 +515,9 @@ class destinationRepository extends EntityRepository {
         $results = ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
+            else if(!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
@@ -523,10 +525,11 @@ class destinationRepository extends EntityRepository {
         return $results;
     }
 
-    function getAccommodationsNear($destination_id, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+    function getAccommodationsNear($destination_id, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null, $start = null, $limit = null) {
 
-            $em = $this->getEntityManager();
-            $query_string = "SELECT DISTINCT o.own_id,
+        $em = $this->getEntityManager();
+
+        $query_select = "SELECT DISTINCT o.own_id,
                              o.own_name,
                              prov.prov_name,
                              mun.mun_name,
@@ -547,30 +550,49 @@ class destinationRepository extends EntityRepository {
                              FROM mycpBundle:room r1
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
-                             JOIN o.own_address_municipality mun
-                             WHERE r1.room_active = 1 AND o.own_status = ".ownershipStatus::STATUS_ACTIVE;
+                             JOIN o.own_address_municipality mun ";
 
-            if ($destination_id != null && $destination_id != -1 && $destination_id != '')
-                $query_string = $query_string . " AND o.own_destination =$destination_id";
+        $query_select_count = "SELECT COUNT(DISTINCT o.own_id)
+                             FROM mycpBundle:room r1
+                             JOIN r1.room_ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun ";
 
-            if ($exclude_own_id != null && $exclude_own_id != "")
-                $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
+        $query_where = " WHERE r1.room_active = 1 AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
+        if($destination_id != null && $destination_id != -1 && $destination_id != '')
+            $query_where .= " AND o.own_destination =$destination_id";
+        if($exclude_own_id != null && $exclude_own_id != "")
+            $query_where .= " AND o.own_id <>$exclude_own_id";
+        $query_where .= " ORDER BY o.own_ranking DESC, o.own_rating DESC, o.own_comments_total DESC";
 
-            $query_string = $query_string . " ORDER BY o.own_ranking DESC, o.own_rating DESC, o.own_comments_total DESC";
-            $results = ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
+        $query_string = $query_select . $query_where;
 
-            for ($i = 0; $i < count($results); $i++) {
-                if ($results[$i]['photo'] == null)
-                    $results[$i]['photo'] = "no_photo.png";
-                else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
-                    $results[$i]['photo'] = "no_photo.png";
-                }
+        $query_count_string = $query_select_count . $query_where;
+
+        $query = $em->createQuery($query_string);
+        if($start !== null && $limit !== null) {
+            $query->setFirstResult($start);
+            $query->setMaxResults($limit);
+        }
+        $results = $query->getResult();
+
+        for ($i = 0; $i < count($results); $i++) {
+            if($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
             }
-            return $results;
+        }
+
+        if($start !== null && $limit !== null) {
+            $count = $em->createQuery($query_count_string)->getSingleScalarResult();
+            return array('results' => $results, 'count' => $count);
+        }
+        return $results;
     }
 
-    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null,$price = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
-        if ($municipality_id != null || $province_id != null) {
+    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null, $price = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+        if($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
 
             $query_string = "SELECT DISTINCT o.own_id,
@@ -593,23 +615,22 @@ class destinationRepository extends EntityRepository {
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE r1.room_active = 1 AND o.own_status = ".ownershipStatus::STATUS_ACTIVE;
+                             WHERE r1.room_active = 1 AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
-            if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+            if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
                 $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
 
-            if ($province_id != null && $province_id != -1 && $province_id != '')
+            if($province_id != null && $province_id != -1 && $province_id != '')
                 $query_string = $query_string . " AND o.own_address_province =$province_id";
 
-            if ($exclude_own_id != null && $exclude_own_id != "")
+            if($exclude_own_id != null && $exclude_own_id != "")
                 $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
 
-            if ($price != null && $price != "")
+            if($price != null && $price != "")
                 $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
 
             $owns_with_reservations = array();
-            if ($checkin_date != null && $checkin_date != "" && $checkout_date != null && $checkout_date != "")
-            {
+            if($checkin_date != null && $checkin_date != "" && $checkout_date != null && $checkout_date != "") {
                 $query_reservations = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation ores
                                    JOIN ores.own_res_gen_res_id gr
                                    JOIN gr.gen_res_own_id o
@@ -617,15 +638,14 @@ class destinationRepository extends EntityRepository {
                                      AND ores.own_res_reservation_to_date <= :checkout_date";
 
                 $owns_with_reservations = $em->createQuery($query_reservations)
-                                             ->setParameter("checkin_date", $checkin_date)
-                                             ->setParameter("checkout_date", $checkout_date)
-                                             ->getResult();
+                    ->setParameter("checkin_date", $checkin_date)
+                    ->setParameter("checkout_date", $checkout_date)
+                    ->getResult();
 
                 $owns_id = "0";
 
-                foreach ($owns_with_reservations as $oid)
-                {
-                    $owns_id .= ",".$oid["own_id"];
+                foreach ($owns_with_reservations as $oid) {
+                    $owns_id .= "," . $oid["own_id"];
                 }
 
 
@@ -634,23 +654,24 @@ class destinationRepository extends EntityRepository {
 
             $query_string = $query_string . " AND o.own_not_recommendable = 0";
 
-            if ($max_result_set != null && $max_result_set > 0) {
+            if($max_result_set != null && $max_result_set > 0) {
                 $rows_total = count($em->createQuery($query_string)->getResult());
                 $offset = max(0, rand(0, $rows_total - $max_result_set - 1));
 
                 $results = $em->createQuery($query_string)
-                        ->setMaxResults($max_result_set)
-                        ->setFirstResult($offset)
-                        ->getResult();
-            } else {
+                    ->setMaxResults($max_result_set)
+                    ->setFirstResult($offset)
+                    ->getResult();
+            }
+            else {
                 $results = $em->createQuery($query_string)
-                              ->getResult();
+                    ->getResult();
             }
 
             for ($i = 0; $i < count($results); $i++) {
-                if ($results[$i]['photo'] == null)
+                if($results[$i]['photo'] == null)
                     $results[$i]['photo'] = "no_photo.png";
-                else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
                     $results[$i]['photo'] = "no_photo.png";
                 }
             }
@@ -683,9 +704,9 @@ class destinationRepository extends EntityRepository {
             ->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
+            else if(!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
 
@@ -695,23 +716,23 @@ class destinationRepository extends EntityRepository {
     }
 
     function getAccommodationsStatistics($destination_array) {
-        if (is_array($destination_array)) {
+        if(is_array($destination_array)) {
             $statistics_array = array();
             $em = $this->getEntityManager();
 
             foreach ($destination_array as $destination) {
-                    $query_string = "SELECT count(o),MIN(o.own_minimum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE. " AND o.own_destination=".$destination->getDesId();
+                $query_string = "SELECT count(o),MIN(o.own_minimum_price) FROM mycpBundle:ownership o
+                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_destination=" . $destination->getDesId();
 
-                    $results = $em->createQuery($query_string)->getResult();
-                    $statistics_array[$destination->getDesId()] = array(
-                        'total' => intval($results[0][1]),
-                        'minimum_prize' => floatval($results[0][2])
-                    );
-                }
+                $results = $em->createQuery($query_string)->getResult();
+                $statistics_array[$destination->getDesId()] = array(
+                    'total' => intval($results[0][1]),
+                    'minimum_prize' => floatval($results[0][2])
+                );
             }
-            return $statistics_array;
         }
+        return $statistics_array;
+    }
 
     function getPhotos($destination_id, $location) {
 
@@ -727,14 +748,14 @@ class destinationRepository extends EntityRepository {
                         FROM mycpBundle:destinationPhoto dp
                         JOIN dp.des_pho_photo p
                          WHERE dp.des_pho_destination=" . $destination_id .
-                " ORDER BY p.pho_order ASC";
+            " ORDER BY p.pho_order ASC";
 
         $destination_photos = $em->createQuery($query_string)->getResult();
 
         foreach ($destination_photos as $destination_photo) {
 
-            if ($destination_photo['photo'] != null) {
-                if (file_exists(realpath("uploads/destinationImages/" . $destination_photo['photo']))) {
+            if($destination_photo['photo'] != null) {
+                if(file_exists(realpath("uploads/destinationImages/" . $destination_photo['photo']))) {
                     $photos_array['photo_name'][] = $destination_photo['photo'];
                     $photos_array['photo_description'][] = $destination_photo['description'];
                 }
@@ -756,15 +777,14 @@ class destinationRepository extends EntityRepository {
                          (SELECT count(o) FROM mycpBundle:ownership o
                                           WHERE o.own_destination = d.des_id
                                             AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0
-                                            AND o.own_status = ".ownershipStatus::STATUS_ACTIVE.") as total_owns
+                                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . ") as total_owns
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
         return $em->createQuery($query_string)->getResult();
     }
 
-    function getActiveForMap()
-    {
+    function getActiveForMap() {
         $em = $this->getEntityManager();
 
         /*$sql = "
