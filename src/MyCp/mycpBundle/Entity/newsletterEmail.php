@@ -31,9 +31,23 @@ class newsletterEmail
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=400)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sms", type="string", length=255, nullable=true)
+     */
+    private $sms;
 
     /**
      * @ORM\ManyToOne(targetEntity="lang",inversedBy="newsletterEmails")
@@ -103,6 +117,42 @@ class newsletterEmail
     public function setLanguage($language)
     {
         $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSms()
+    {
+        return $this->sms;
+    }
+
+    /**
+     * @param string $sms
+     * @return mixed
+     */
+    public function setSms($sms)
+    {
+        $this->sms = $sms;
         return $this;
     }
 
