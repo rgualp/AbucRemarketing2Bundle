@@ -215,27 +215,51 @@
     </tr>
 </table><hr/>
     <h5>Boletin</h5>
-<table style="width:100%;" class="table">
-    <thead>
-    <th style="width: 70%; text-align: left" colspan="2">Correo</th>
-    <th>Acción</th>
-    </thead>
-    <tr>
-        <td rowspan="3" style="width: 20%">Correo de boletin</td>
-        <td><a href="{{path("mycp_test_newsletter", {'langCode':'es'})}}">Español</a></td>
-        <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'es', 'newMethod':0})}}">Método 1</button>
-            <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'es', 'newMethod':1})}}">Método 2</button></td>
-    </tr>
-    <tr>
-        <td><a href="{{path("mycp_test_newsletter", {'langCode':'en'})}}">Inglés</a></td>
-        <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'en', 'newMethod':0})}}">Método 1</button>
-            <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'en', 'newMethod':1})}}">Método 2</button></td>
-    </tr>
-    <tr>
-        <td><a href="{{path("mycp_test_newsletter", {'langCode':'de'})}}">Alemán</a></td>
-        <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'de', 'newMethod':0})}}">Método 1</button>
-            <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'de', 'newMethod':1})}}">Método 2</button></td>
-    </tr>
+    <table style="width:100%;" class="table">
+        <thead>
+        <th style="width: 70%; text-align: left" colspan="2">Correo</th>
+        <th>Acción</th>
+        </thead>
+        <tr>
+            <td rowspan="3" style="width: 20%">Correo de boletin</td>
+            <td><a href="{{path("mycp_test_newsletter", {'langCode':'es'})}}">Español</a></td>
+            <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'es', 'newMethod':0})}}">Método 1</button>
+                <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'es', 'newMethod':1})}}">Método 2</button></td>
+        </tr>
+        <tr>
+            <td><a href="{{path("mycp_test_newsletter", {'langCode':'en'})}}">Inglés</a></td>
+            <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'en', 'newMethod':0})}}">Método 1</button>
+                <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'en', 'newMethod':1})}}">Método 2</button></td>
+        </tr>
+        <tr>
+            <td><a href="{{path("mycp_test_newsletter", {'langCode':'de'})}}">Alemán</a></td>
+            <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'de', 'newMethod':0})}}">Método 1</button>
+                <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'de', 'newMethod':1})}}">Método 2</button></td>
+        </tr>
+    </table>
+
+    <h5>Backend</h5>
+    <table style="width:100%;" class="table">
+        <thead>
+        <th style="width: 70%; text-align: left" colspan="2">Correo</th>
+        <th>Acción</th>
+        </thead>
+        <tr>
+            <td rowspan="3" style="width: 20%">Nueva Oferta</td>
+            <td><a href="{{path("mycp_test_new_offer", {'langCode':'es'})}}">Español</a></td>
+            <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_new_offer_send", {'langCode':'es', 'newMethod':0})}}">Método 1</button>
+                <button class="btn btn-success bAction" data-url="{{path("mycp_test_new_offer_send", {'langCode':'es', 'newMethod':1})}}">Método 2</button></td>
+        </tr>
+        <tr>
+            <td><a href="{{path("mycp_test_new_offer", {'langCode':'en'})}}">Inglés</a></td>
+            <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_new_offer_send", {'langCode':'en', 'newMethod':0})}}">Método 1</button>
+                <button class="btn btn-success bAction" data-url="{{path("mycp_test_new_offer_send", {'langCode':'en', 'newMethod':1})}}">Método 2</button></td>
+        </tr>
+        <tr>
+            <td><a href="{{path("mycp_test_new_offer", {'langCode':'de'})}}">Alemán</a></td>
+            <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_new_offer_send", {'langCode':'de', 'newMethod':0})}}">Método 1</button>
+                <button class="btn btn-success bAction" data-url="{{path("mycp_test_new_offer_send", {'langCode':'de', 'newMethod':1})}}">Método 2</button></td>
+        </tr>
     </table>
 {% endblock %}
 {% block javascripts %}

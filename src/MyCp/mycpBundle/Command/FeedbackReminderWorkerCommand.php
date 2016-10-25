@@ -100,7 +100,7 @@ class FeedbackReminderWorkerCommand extends Worker {
      */
     private function sendReminderEmail(user $user, generalReservation $generalReservation, OutputInterface $output) {
         $userEmail = $user->getUserEmail();
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         $emailSubject = $this->translatorService->trans('FEEDBACK_REMINDER');
 

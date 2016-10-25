@@ -1,7 +1,7 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 
 {% block content %}
-<h4 style="font-family: Arial; font-size: 20px">{{"FEEDBACK_REMINDER"|trans({}, "messages", user_locale)}}</h4>
+<h4 style="font-family: Arial; font-size: 20px">{{"FEEDBACK_REMINDER_PREHEADER"|trans({}, "messages", user_locale)}}</h4>
 <p style="font-family: arial; font-size: 14px">
     {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
     {{ "USER_FEEDBACK_TEXT1"|trans({}, "messages", user_locale) }} <br/><br/>
@@ -48,7 +48,7 @@
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
                                     <b>{{"ID_RESERVATION"|trans({}, "messages", user_locale)}}:</b> {{reservation.getOwnResGenResId.getCASId}}<br/><br/>
                                     <span style="background-color: #3a87ad; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/><br/><br/>
-                                    <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ accommdationDetailsUrl  }}">{{ 'COMMENT'|trans({}, "messages", user_locale) }}</a>
+                                    <a  style="background-color: #F89406; color:#fff; padding: 5px; font-size: 15px; font-weight: bold" href="{{ accommdationDetailsUrl  }}">{{ 'COMMENT'|trans({}, "messages", user_locale) }}</a>
                                 </td>
                             </tr>
                         </table>
@@ -58,7 +58,7 @@
             <br/>
         {% endfor %}
 {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
-    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
-    {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
+    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+    <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
 </p>
 {% endblock %}

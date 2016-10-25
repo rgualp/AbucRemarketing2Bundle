@@ -1195,7 +1195,7 @@ class BackendReservationController extends Controller {
                     }
 
                     $mailer = $this->get('Email');
-                    $mailer->sendReservation($general_reservation->getGenResId(), $custom_message, true);
+                    $mailer->sendReservation($general_reservation->getGenResId(), $custom_message, true, true);
 
                     $message = 'Oferta '.$general_reservation->getCASId().' enviada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);

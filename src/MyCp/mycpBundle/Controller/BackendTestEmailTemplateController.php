@@ -345,7 +345,7 @@ class BackendTestEmailTemplateController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         return $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
                     'enableUrl' => $activationUrl,
@@ -369,7 +369,7 @@ class BackendTestEmailTemplateController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         return $this->render('FrontEndBundle:mails:enableAccountReminder.html.twig', array(
                     'enableUrl' => $activationUrl,
@@ -393,7 +393,7 @@ class BackendTestEmailTemplateController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         return $this->render('FrontEndBundle:mails:enableAccountLateReminder.html.twig', array(
                     'enableUrl' => $activationUrl,
@@ -447,7 +447,7 @@ class BackendTestEmailTemplateController extends Controller {
     public function getCartFullReminderBody($langCode) {
         $em = $this->getDoctrine()->getManager();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
-        $userName = $userTourist->getUserTouristUser()->getUserCompleteName();
+        $userName = $userTourist->getUserTouristUser()->getUserUserName();
         $cartItems = $em->getRepository('mycpBundle:cart')->testValues($userTourist->getUserTouristUser());
         $service_time = $this->get('Time');
 
@@ -505,7 +505,7 @@ class BackendTestEmailTemplateController extends Controller {
 
         $user = $generalReservation->getGenResUserId();
         //$userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
@@ -778,6 +778,78 @@ class BackendTestEmailTemplateController extends Controller {
             )
         );
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Backend - New Offer">
+    public function newOfferMailAction($langCode) {
+        return $this->getNewOfferBody($langCode);
+    }
+
+    public function newOfferMailSendAction($langCode, $newMethod, $mail, Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $body = $this->getNewOfferBody($langCode);
+            return $this->sendEmail($newMethod, $mail, $body, "Testings: Nueva Oferta");
+        }
+    }
+
+    private function getNewOfferBody($langCode) {
+        $em = $this->getDoctrine()->getManager();
+        $service_time = $this->get('time');
+
+        $generalReservation = $em
+            ->getRepository('mycpBundle:generalReservation')
+            ->findOneBy(array('gen_res_status' => generalReservation::STATUS_AVAILABLE));
+
+        $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
+
+        $ownershipReservations = $em
+            ->getRepository('mycpBundle:generalReservation')
+            ->getOwnershipReservations($generalReservation);
+
+        $arrayPhotos = array();
+        $arrayNights = array();
+
+        $initialPayment = 0;
+
+        foreach ($ownershipReservations as $ownershipReservation) {
+            $photos = $em
+                ->getRepository('mycpBundle:ownership')
+                ->getPhotos(
+                // TODO: This line is very strange. Why take the ownId of the genRes of the ownRes?!
+                    $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()
+                );
+
+            if (!empty($photos)) {
+                array_push($arrayPhotos, $photos);
+            }
+
+            $nights = $service_time
+                ->nights(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+                );
+
+            array_push($arrayNights, $nights);
+
+            $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
+            //Initial down payment
+            if ($ownershipReservation->getOwnResNightPrice() > 0)
+                $initialPayment += $ownershipReservation->getOwnResNightPrice() * $nights * $comission;
+            else
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
+        }
+
+        return $this->render('FrontEndBundle:mails:email_new_offer_available.html.twig', array(
+            'user' => $user,
+            'reservations' => $ownershipReservations,
+            'photos' => $arrayPhotos,
+            'nights' => $arrayNights,
+            'user_locale' => $langCode,
+            'reservationStatus' => $generalReservation->getGenResStatus()
+
+        ));
+    }
+
+    // </editor-fold>
 
 }
 
