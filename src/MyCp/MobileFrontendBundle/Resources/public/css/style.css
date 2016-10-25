@@ -973,3 +973,11 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], .radio[disabled
     font-size: 12px;
     padding: 4px;
 }
+
+select.form-control-2 {
+    padding: 0;
+}
+
+footer {
+    padding: 4px 0;
+}

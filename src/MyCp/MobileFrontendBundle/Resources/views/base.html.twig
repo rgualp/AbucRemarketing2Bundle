@@ -233,6 +233,20 @@
             $("#menu-favorites").remove();
             $("#menu-favorites-content").html(_ul);
         }
+
+        var $menu = $('.navbar-ex1-collapse');
+        $(document).on('click', function (e) {
+            // if element is opened and click target is outside it, hide it
+            if ($menu.is(':visible') && !$menu.is(e.target) && !$menu.has(e.target).length) {
+                $menu.removeClass("in");
+            }
+        });
+        $(document).on('scroll', function (e) {
+            // if element is opened and click target is outside it, hide it
+            if ($menu.is(':visible') && !$menu.is(e.target) && !$menu.has(e.target).length) {
+                $menu.removeClass("in");
+            }
+        });
     </script>
 
     <script type="text/javascript">

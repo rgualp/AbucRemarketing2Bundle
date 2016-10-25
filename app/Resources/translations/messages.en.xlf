@@ -3980,6 +3980,10 @@
                         <source>Bookings</source>
                         <target>Booking</target>
                  </trans-unit>
+                 <trans-unit id="1002">
+                    <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                    <target>Top rated accommodations</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

@@ -3974,6 +3974,10 @@
                           <source>Bookings</source>
                           <target>Reserva</target>
                    </trans-unit>
+            <trans-unit id="1002">
+                <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                <target>Casas Mejor Valoradas</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
