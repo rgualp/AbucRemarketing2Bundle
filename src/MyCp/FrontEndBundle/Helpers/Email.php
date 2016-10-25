@@ -112,7 +112,7 @@ class Email
             array_push($array_nigths, $totalNights);
         }
         $touristLanguage = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage() : $user->getUserLanguage();
-        $user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
+        $user_locale = (isset($touristLanguage)) ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
 
         $locale = $this->container->get('translator');
         $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
