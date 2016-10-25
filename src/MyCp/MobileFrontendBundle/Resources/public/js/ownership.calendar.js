@@ -203,15 +203,17 @@ var Calendar = function () {
                     if($(this).attr('data_type_room')==='Habitación Triple' && persons>=3)
                     {
                         value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
+                        value= normalize_prices(value);
                     }
                     else
                     {
                         value=$(this).attr('data_total')*$(this).attr('data_curr');
+                        value= normalize_prices(value);
                     }
                     $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
                     $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                     $('#price_'+$(this).attr('data')).html(value);
-                    $('#rooms_selected').css({display: 'block'});
+                    $('#rooms_selected').css({display: 'table'});
                     total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
 
                 }

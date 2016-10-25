@@ -99,6 +99,13 @@ class PublicController extends Controller {
         return $response;
     }
 
+    public function loadSlidesAction(){
+        $slides = Utils::loadFrontendSlides();
+        return $this->render('FrontEndBundle:layout:carousel.html.twig', array(
+            'slides' => $slides
+        ));
+    }
+
     public function topNavAction($route, $routeParams = null)
     {
         $routeParams = empty($routeParams) ? array() : $routeParams;
