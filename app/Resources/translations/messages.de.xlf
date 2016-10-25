@@ -4004,6 +4004,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                                          <source>Bookings</source>
                                                          <target>Reserve</target>
                                                     </trans-unit>
+                <trans-unit id="1002">
+                    <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                    <target>Am besten bewertet</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>

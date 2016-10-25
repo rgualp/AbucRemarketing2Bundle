@@ -1,5 +1,5 @@
 frontend_view_cart:
-    locales:  { en: "/user/cart/", es: "/usuario/cesta/", de: "/user/cart/" }
+    locales:  { en: "/user/whishlist/", es: "/usuario/listadeseo/", de: "/user/whishlist/" }
     defaults: { _controller: FrontEndBundle:Cart:viewCart }
 
 frontend_add_to_cart:
@@ -9,6 +9,10 @@ frontend_add_to_cart:
 frontend_remove_from_cart_callback:
     locales:  { en: "/user/cart/remove/{data}", es: "/usuario/cesta/eliminar/{data}", de: "/user/cart/remove/{data}" }
     defaults: { _controller: FrontEndBundle:Cart:removeFromCart }
+
+frontend_remove_from_whislist:
+    locales:  { en: "/user/whislist/remove", es: "/usuario/listadeseo/eliminar", de: "/user/whislist/remove" }
+    defaults: { _controller: FrontEndBundle:Cart:removeFromWhisList }
 
 frontend_empty_cart:
     locales:  { en: "/user/cart/clear/", es: "/usuario/cesta/vaciar/", de: "/benutzer/einkaufs-reservierungen/leer/" }

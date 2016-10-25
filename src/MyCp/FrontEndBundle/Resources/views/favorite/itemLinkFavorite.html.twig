@@ -1,15 +1,15 @@
 {%if is_in_favorites_list is defined and is_in_favorites_list%}
      <a data-rel="tooltip" id="fav_{{element_id}}" class="delete_from_favorite_list" data-url="{{path('frontend_delete_from_list_favorite_callback')}}" data-url-statistics="{{path('frontend_update_favorites_statistics_callback')}}" data-favorite-type="{{favorite_type}}" data-element-id="{{element_id}}" data-list-preffix ="{{list_preffix}}" title="{{'DELETE_FAVORITIES' | trans}}" data-include_text="{{include_text}}">
-        <img class="icon icon-medium icon-heart-on" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
+        <img class="icon icon-medium icon-heart-on" style="margin-left:-8px" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
         </a>
 {%else%}
     {%if is_in_favorite is defined and is_in_favorite%}
     <a data-rel="tooltip" id="fav_{{element_id}}" class="favorite_on_action" data-url="{{path('frontend_delete_favorite_callback')}}" data-favorite-type="{{favorite_type}}" data-element-id="{{element_id}}" data-list-preffix ="{{list_preffix}}" title="{{'DELETE_FAVORITIES' | trans}}" data-include_text="{{include_text}}">
-        <img class="icon icon-medium icon-heart-on" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
+        <img class="icon icon-medium icon-heart-on" style="margin-left:-8px" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
         </a>
     {%else%}
     <a data-rel="tooltip" id="fav_{{element_id}}" class="favorite_off_action" data-url="{{path('frontend_insert_favorite_callback')}}" data-favorite-type="{{favorite_type}}" data-element-id="{{element_id}}" data-list-preffix ="{{list_preffix}}" title="{{'ADD_FAVORITIES' | trans}}" data-include_text="{{include_text}}">
-        <img class="icon icon-medium icon-heart" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
+        <img class="icon icon-medium icon-heart" style="margin-left:-8px" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
         </a>
     {%endif%}
 {%endif%}

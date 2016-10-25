@@ -39,14 +39,18 @@
     </a>
         {% endif %}
     </noscript>
+    {#<div style="bottom: 0px;background:rgba(0, 0, 0, 0.8) none repeat scroll 0 0;height: 60px ">
+        <small style="color:#fff">Solicitar casa</small>
+    </div>#}
 </div>
+
 <div class="row">
     <a target="_blank"  href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-    <div class="col-sm-10 h-blue">
+    <div class="col-sm-9 h-blue">
         {{ name| title }}
     </div>
     </a>
-    <div class="col-sm-1" style="margin-top: 20px;">
+    <div class="col-sm-3" style="margin-top: 20px;">
         {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
         {'is_in_favorite': is_in_favorite,
         'favorite_type': 'ownership',
@@ -54,5 +58,6 @@
         'list_preffix' : list_preffix,
         'include_text': false
         }) }}
+        {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
     </div>
 </div>

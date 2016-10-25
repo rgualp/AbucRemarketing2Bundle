@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * newsletterEmail
  *
  * @ORM\Table(name="newsletter_email")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\newsletterEmailRepository")
+ * @ORM\Entity
  */
 class newsletterEmail
 {
@@ -31,9 +31,23 @@ class newsletterEmail
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=400)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mobile", type="string", length=255, nullable=true)
+     */
+    private $mobile;
 
     /**
      * @ORM\ManyToOne(targetEntity="lang",inversedBy="newsletterEmails")
@@ -103,6 +117,42 @@ class newsletterEmail
     public function setLanguage($language)
     {
         $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param string $mobile
+     * @return mixed
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
         return $this;
     }
 

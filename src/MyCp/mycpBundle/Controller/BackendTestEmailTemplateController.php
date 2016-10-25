@@ -851,5 +851,16 @@ class BackendTestEmailTemplateController extends Controller {
 
     // </editor-fold>
 
+    public function newsletterAction()
+    {
+        return $this->render(
+            'FrontEndBundle:mails:newsletter_accommodations.html.twig',
+            array(
+                "user_name" => "Yanet",
+                "user_locale" => "es"
+            )
+        );
+    }
+
 }
 

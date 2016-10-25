@@ -100,5 +100,8 @@ frontend_photo_thumbnail:
     locales:  { en: "/thumbnail/{photo}/{title}", es: "/thumbnail/{photo}/{title}", de: "/thumbnail/{photo}/{title}" }
     defaults: { _controller: FrontEndBundle:Ownership:getThumbnailForSearcher }
 
+frontend_show_modal_ownership_calendar:
+    locales:  { en: "/ownership/calendar", es: "/casa/calendario", de: "/ownership/calendar" }
+    defaults: { _controller: FrontEndBundle:Ownership:showModalOwnerShipCalendar }
 
 
