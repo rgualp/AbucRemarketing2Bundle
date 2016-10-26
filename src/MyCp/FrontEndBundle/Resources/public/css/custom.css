@@ -276,3 +276,6 @@ div#div_b h4{
     background-size: cover;
     -o-background-size: cover;
 }
+.datepicker.datepicker-dropdown.dropdown-menu{
+    z-index:1060 !important;
+}

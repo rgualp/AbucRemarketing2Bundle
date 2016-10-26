@@ -185,8 +185,10 @@ class CartController extends Controller {
         }
         if($showError)
             {
-                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
-                $this->get('session')->getFlashBag()->add('message_global_error', $message);
+                if ( !$request->isXmlHttpRequest() ){
+                    $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                    $this->get('session')->getFlashBag()->add('message_global_error', $message);
+                }
             }
         else{
             if(isset($check_dispo) && $check_dispo!=''){
@@ -197,7 +199,11 @@ class CartController extends Controller {
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
             $data=$this->dataCart();
-            $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
+            if($showError){
+                $response =new Response(0);
+            }
+            else
+                $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
             return $response;
         }
         else{

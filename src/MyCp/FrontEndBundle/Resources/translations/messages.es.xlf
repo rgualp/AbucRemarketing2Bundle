@@ -3310,17 +3310,20 @@
         </trans-unit>
          <trans-unit id="971">
             <source>WHISH_LIST</source>
-            <target>Lista de deseo</target>
+            <target>Wishlist</target>
         </trans-unit>
         <trans-unit id="972">
             <source>EMPTY_WHISH_LIST</source>
-            <target>Vaciar lista de deseo</target>
+            <target>Vaciar wishlist</target>
         </trans-unit>
         <trans-unit id="973">
             <source>ADD_WHISH_LIST</source>
-            <target>Adicionar a la lista de deseo</target>
+            <target>Adicionar a su wishlist</target>
         </trans-unit>
-
+        <trans-unit id="974">
+            <source>MSG_ADD_WISH_LITS</source>
+            <target>!Enhorabuena! Tu Wishlist sigue creciendo. Convertimos tus deseos en buenos recuerdos.</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>
