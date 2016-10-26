@@ -74,7 +74,7 @@
         {% endstylesheets %}
     {% endif %}
 
-    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
+    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery.js'
@@ -87,8 +87,12 @@
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
     '@FrontEndBundle/Resources/public/js/custom.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    '@FrontEndBundle/Resources/public/js/map.min.js'
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
     '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
