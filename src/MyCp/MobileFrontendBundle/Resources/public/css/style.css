@@ -981,3 +981,33 @@ select.form-control-2 {
 footer {
     padding: 4px 0;
 }
+
+.marquesina{
+
+}
+.marquesina.fixed-top {
+    bottom: 20px;
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+}
+.marquesina span {
+    color: #fff;
+    display: block;
+    font-size: 13px;
+}
+.marquesina div i {
+    background: red none repeat scroll 0 0;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    padding: 1px 9px;
+}
+.marquesina a#marquee-close{
+    padding: 0 8px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}

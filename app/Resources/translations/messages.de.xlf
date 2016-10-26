@@ -4008,6 +4008,14 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                     <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
                     <target>Am besten bewertet</target>
                 </trans-unit>
+                <trans-unit id="1003">
+                     <source>MARQUESINA_TEXT</source>
+                     <target>Buchen Ihre Unterkunft ohne Bestätigung zu warten. Organisieren Sie Ihre Reise in wenigen minuten mithilfe unserem Service: sofortige Buchung. Gültig für Havannna.</target>
+                 </trans-unit>
+                <trans-unit id="1004">
+                    <source>SEE_NOW</source>
+                    <target>Schauen jetzt</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>

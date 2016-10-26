@@ -3984,6 +3984,18 @@
                     <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
                     <target>Top rated accommodations</target>
                 </trans-unit>
+                <trans-unit id="1003">
+                    <source>MARQUESINA_TEXT</source>
+                    <target>Book the ideal lodging without waiting for confirmation. Plan your trip in moments with our service: Immediate Booking. Available in Havana.</target>
+                </trans-unit>
+                <trans-unit id="1004">
+                    <source>SEE_NOW</source>
+                    <target>See Now</target>
+                </trans-unit>
+                <trans-unit id="1005">
+                    <source>NEW</source>
+                    <target>New</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

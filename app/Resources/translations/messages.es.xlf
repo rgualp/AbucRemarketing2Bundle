@@ -3978,6 +3978,15 @@
                 <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
                 <target>Casas Mejor Valoradas</target>
             </trans-unit>
+            <trans-unit id="1003">
+                <source>MARQUESINA_TEXT</source>
+                <target>Reserva tu hospedaje ideal sin esperar confirmación. Planifica tu viaje en instantes con nuestro servicio de Reserva Inmediata. Disponible para La Habana.</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>SEE_NOW</source>
+                <target>Ver Ahora</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>
