@@ -131,14 +131,14 @@
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
                         </button>
                     </div>
-                    {% if app.user.getUserUserName is defined %}
+
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
-                        <button style="padding: 5px 10px" type="submit" onclick="$('#check_dispo').val('1')" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                        <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                         </button>
                     </div>
-                    {% endif %}
+
 
                     <div class="col-sm-4">
                         <input from_date="{{ start_date | replace('/','&') }}"
@@ -152,6 +152,10 @@
     </li>
 </ul>
 <script>
+    var login=false;
+    {% if app.user.getUserUserName is defined %}
+        login=true;
+    {% endif %}
 
     $('#addWhisList').on('click',function(){
         if($(this).data('modal')){
@@ -168,12 +172,20 @@
                     contentType: false,
                     processData: false,
                     success: function(response){
-                        $('#list-cart').attr('href','#');
-                        $('#list-cart').attr('data-toggle','dropdown');
-                        $('#list-cart').addClass('dropdown-toggle');
-                        $('#whish-list').html(response);
-                        $('#count-cart').text($('#total-cart').data('counter'));
-                        $('#myModalOwnerShipCalendar').modal('hide');
+                        if(response=='0'){
+                            $('#myModalOwnerShipCalendar').modal('hide');
+                            swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                        }
+                        else{
+                            $('#list-cart').attr('href','#');
+                            $('#list-cart').attr('data-toggle','dropdown');
+                            $('#list-cart').addClass('dropdown-toggle');
+                            $('#whish-list').html(response);
+                            $('#count-cart').text($('#total-cart').data('counter'));
+                            $('#myModalOwnerShipCalendar').modal('hide');
+                            swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                        }
+
                     }
                 });
             });
@@ -181,25 +193,38 @@
 
     });
     $('#checkAvailable').on('click',function(){
-        if($(this).data('modal')){
+        if(login){
+            $('#check_dispo').val('1');
+            if($(this).data('modal')){
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    e.preventDefault();
+                    var formData = new FormData(form[0]);
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "post",
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(data, textStatus, jqXHR){
+                            $('#myModalOwnerShipCalendar').modal('hide');
+                            swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                        }
+                    });
+                });
+            }
+        }
+        else{
             var form = $("#form-check-available");
             form.on("submit", function (e) {
                 e.preventDefault();
-                var formData = new FormData(form[0]);
-                $.ajax({
-                    url: form.attr('action'),
-                    type: "post",
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(data, textStatus, jqXHR){
-                        $('#myModalOwnerShipCalendar').modal('hide');
-                    }
-                });
+                window.location.href="{{ path('frontend_public_login') }}";
             });
         }
+
+
 
     });
 </script>

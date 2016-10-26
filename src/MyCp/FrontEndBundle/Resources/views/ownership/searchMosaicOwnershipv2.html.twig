@@ -2,6 +2,7 @@
     {% if list | length %}
         <div class="row">
         {% set cont=0 %}
+        <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
         {% for ownership in list %}
             {% if cont <2 %}
                 <div class="col-sm-6">
@@ -160,6 +161,7 @@
                                 'list_preffix' : list_preffix,
                                 'include_text': false
                             }) }}
+                            {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
                         </div>
                     </div>
                     <div class="col-sm-8 p-0">
@@ -256,6 +258,7 @@
     {% endif %}
 
 </div>
+
 <script type="text/javascript">
     $(function () {
         $('img.lazy').jail();
@@ -275,6 +278,89 @@
 
 
     });
+</script>
+<script type="text/javascript">
+    var start_date = "{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+    var end_date = "{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+
+    function refresh_calendar(from, to,own_id) {
+        if (from != '' && to != '') {
+            $('.calendar-results').css({display: 'none'});
+            element = $("#body_calendar");
+            element.attr('class', 'container_loading');
+            element.html('<div>&nbsp;</div>');
+            $('#rooms_selected').css({display: 'none'});
+            $('#all_data_numbers').css({display: 'none'});
+
+            fields_dates = $('.form-control')
+            btn_refresh = $('#button_refresh_calendar')
+            fields_dates.attr('disabled', 'true');
+            if (own_id) {
+                $.ajax({
+                    url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
+                    data: {from: from, to: to, own_id: own_id}
+
+                }).done(function (resp) {
+                            element.removeAttr('class');
+                            element.html(resp);
+                            from = from.replace('/', '&');
+                            from = from.replace('/', '&');
+                            to = to.replace('/', '&');
+                            to = to.replace('/', '&');
+                            $('#data_reservation').attr('from_date', from);
+                            $('#data_reservation').attr('to_date', to);
+                            fields_dates.removeAttr('disabled');
+                            $('#filter_date_from').datepicker('show');
+                            $('#filter_date_to').datepicker('show');
+                        });
+            }
+        }
+
+
+    }
+    function addCart(e){
+        var modal = $('#myModalOwnerShipCalendar');
+        var xpath = "{{ path('frontend_show_modal_ownership_calendar') }}";
+        var own_id= e.data('idown');
+        modal.load(xpath, {'idOwn':e.data('idown')}, function(e){
+            modal.modal('show');
+            $('#filter_date_from').datepicker({
+                format: 'dd/mm/yyyy',
+                todayBtn: true,
+                autoclose: true,
+                startDate: start_date,
+                date: start_date
+            }).on('changeDate', function (ev) {
+                        if (!ev.date) {
+                            return;
+                        }
+                        var startDate = new Date(ev.date);
+                        startDate.setDate(startDate.getDate() + 1);
+                        departure_datepicker.setStartDate(startDate);
+                        var valueDate = new Date(ev.date);
+                        valueDate.setDate(valueDate.getDate() + 1);
+                        departure_datepicker.setDate(valueDate);
+                        from = $('#filter_date_from').val();
+                        to = $('#filter_date_to').val();
+                        refresh_calendar(from, to,own_id);
+                    });
+            var departure_datepicker = $('#filter_date_to').datepicker({
+                format: 'dd/mm/yyyy',
+                todayBtn: false,
+                autoclose: true,
+                startDate: '+3d',
+                date: end_date
+            }).on('changeDate', function (ev) {
+                        from = $('#filter_date_from').val();
+                        to = $('#filter_date_to').val();
+                        refresh_calendar(from, to,own_id);
+                    }).data('datepicker');
+
+            from = $('#filter_date_from').val();
+            to = $('#filter_date_to').val();
+            refresh_calendar(from, to,own_id);
+        });
+    }
 </script>
 
 
