@@ -2511,6 +2511,14 @@ class ownership {
     }
 
     /**
+     * @return boolean
+     */
+    public function getOwnInmediateBooking2()
+    {
+        return $this->own_inmediate_booking_2;
+    }
+
+    /**
      * @param boolean $own_inmediate_booking_2
      * @return mixed
      */
