@@ -857,7 +857,12 @@ class BackendTestEmailTemplateController extends Controller {
             'FrontEndBundle:mails:newsletter_tourists.html.twig',
             array(
                 "user_name" => "Yanet",
-                "user_locale" => "en"
+                "user_locale" => "en",
+                "content" => '<p>In <b>MyCasaParticular.com</b> we value the opinion of each client. Our Team of professionals work very day to improve the services of our Website, and we would like to know your comments about it.</p>
+        <p>Help us upgrade the functioning of our website by answering this questionnaire. It will only take you a few seconds. Thank you!</p>
+        <p>We remind you that you participate of your own will and it is totally free. Let us know what you think:</p>
+        <p><a href="https://goo.gl/forms/5cuLfbquPXUY4V1V2">https://goo.gl/forms/5cuLfbquPXUY4V1V2</a></p>
+        <p><br/>Have a good day!,<br/><br/><b>MyCasaParticular.com Team</b></p>'
             )
         );
     }
