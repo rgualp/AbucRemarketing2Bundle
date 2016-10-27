@@ -23,17 +23,17 @@ class Version20161027211841 extends AbstractMigration
         $this->addSql("set @newsletterId = (SELECT min(id) FROM newsletter WHERE code = 'Encuesta_T')");
 
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name)
-                        select DISTINCT @newsletterId, ut.`user_tourist_language`, u.user_email, u.user_user_name  FROM
-                        generalreservation gres
-                        join user u on gres.gen_res_user_id = u.user_id
-                        join usertourist ut on ut.user_tourist_user = u.user_id
-                        where u.user_role = 'ROLE_CLIENT_TOURIST'
-                        and gres.gen_res_status IN (1, 8)
-                        and gres.gen_res_date >= '2016-10-10' and gres.gen_res_date <= '2016-10-23'
-                        and (SELECT count(*) from booking b
-                        join payment p on b.booking_id = p.booking_id
-                        where b.booking_user_id = u.user_id
-                        and p.created >= '2016-10-10' and p.created <= '2016-10-23') = 0");
+                       select DISTINCT @newsletterId, ut.`user_tourist_language`, u.user_email, u.user_user_name  FROM
+                       generalreservation gres
+                       join user u on gres.gen_res_user_id = u.user_id
+                       join usertourist ut on ut.user_tourist_user = u.user_id
+                       where u.user_role = 'ROLE_CLIENT_TOURIST'
+                       and gres.gen_res_status IN (1, 8)
+                       and gres.gen_res_date >= '2016-10-10' and gres.gen_res_date <= '2016-10-23'
+                       and (SELECT count(*) from booking b
+                       join payment p on b.booking_id = p.booking_id
+                       where b.booking_user_id = u.user_id
+                       and p.created >= '2016-10-10' and p.created <= '2016-10-23') = 0");
 
         $this->addSql("set @langES = (SELECT min(lang_id) FROM lang WHERE lang_code = 'ES')");
         $this->addSql("set @langEN = (SELECT min(lang_id) FROM lang WHERE lang_code = 'EN')");
