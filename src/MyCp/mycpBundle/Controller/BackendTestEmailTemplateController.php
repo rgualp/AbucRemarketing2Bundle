@@ -854,10 +854,10 @@ class BackendTestEmailTemplateController extends Controller {
     public function newsletterAction()
     {
         return $this->render(
-            'FrontEndBundle:mails:newsletter_accommodations.html.twig',
+            'FrontEndBundle:mails:newsletter_tourists.html.twig',
             array(
                 "user_name" => "Yanet",
-                "user_locale" => "es"
+                "user_locale" => "en"
             )
         );
     }
