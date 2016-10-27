@@ -857,12 +857,12 @@ class BackendTestEmailTemplateController extends Controller {
             'FrontEndBundle:mails:newsletter_tourists.html.twig',
             array(
                 "user_name" => "Yanet",
-                "user_locale" => "en",
-                "content" => '<p>In <b>MyCasaParticular.com</b> we value the opinion of each client. Our Team of professionals work very day to improve the services of our Website, and we would like to know your comments about it.</p>
-        <p>Help us upgrade the functioning of our website by answering this questionnaire. It will only take you a few seconds. Thank you!</p>
-        <p>We remind you that you participate of your own will and it is totally free. Let us know what you think:</p>
-        <p><a href="https://goo.gl/forms/5cuLfbquPXUY4V1V2">https://goo.gl/forms/5cuLfbquPXUY4V1V2</a></p>
-        <p><br/>Have a good day!,<br/><br/><b>MyCasaParticular.com Team</b></p>'
+                "user_locale" => "de",
+                "content" => '<p>Es tut uns sehr Leid dass unsere Website <b>MyCasaParticular.com</b> außer Betrieb während der letzten 12 Stunden war &#9785;.</p>
+        <p>Jetzt alles ist in Ordnung  und die Website funktioniert . Deswegen können Sie der Reservierungsprozess weiter führen.</p>
+        <p>Wir bitten Sie die Umstaende zu entschuldigen und danken Ihnen fuer Ihr Verstaendnis.Es wird nicht wiederholt.</p>
+        <p>Wir warten auf Sie!!</p>
+        <p><br/><b><span style="font-size: 20px">&#x2661;</span> MyCasaParticular.com Team</b></p>'
             )
         );
     }
