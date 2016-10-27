@@ -445,16 +445,29 @@ class CartController extends Controller {
 
 
         if ($mobileDetector->isMobile()){
-            return $this->render('MyCpMobileFrontendBundle:cart:bodyCart.html.twig', array(
-                'dates_string' => $array_dates_string,
-                'dates_string_day' => $array_dates_string_day,
-                'dates_timestamp' => $array_dates,
-                'cartItems' => $cartItems,
-                'array_season' => $array_season,
-                'array_clear_date' => $array_clear_date,
-                'currentServiceFee' => $currentServiceFee,
-                'touristTax' => $touristTax
-            ));
+            if($flag=='true')
+                return $this->render('MyCpMobileFrontendBundle:cart:navBarCart.html.twig', array(
+                    'dates_string' => $array_dates_string,
+                    'dates_string_day' => $array_dates_string_day,
+                    'dates_timestamp' => $array_dates,
+                    'cartItems' => $cartItems,
+                    'array_season' => $array_season,
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee,
+                    'photos' => $array_photos,
+                    'touristTax' => $touristTax));
+            else
+                return $this->render('MyCpMobileFrontendBundle:cart:bodyCart.html.twig', array(
+                    'dates_string' => $array_dates_string,
+                    'dates_string_day' => $array_dates_string_day,
+                    'dates_timestamp' => $array_dates,
+                    'cartItems' => $cartItems,
+                    'array_season' => $array_season,
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee,
+                    'touristTax' => $touristTax
+                ));
+
         }else{
             if($flag=='true')
                 return $this->render('FrontEndBundle:cart:navBarCart.html.twig', array(
@@ -903,10 +916,21 @@ class CartController extends Controller {
         }*/
         //exit();
 
-        return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
-                    "owns_in_destination" => $owns_in_destination,
-                    "other_destinations" => $destinations
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:reservation:confirmReview.html.twig', array(
+                "owns_in_destination" => $owns_in_destination,
+                "other_destinations" => $destinations
+            ));
+        }else{
+            return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
+                "owns_in_destination" => $owns_in_destination,
+                "other_destinations" => $destinations
+            ));
+        }
+
     }
 
 }

@@ -1,4 +1,4 @@
-<div id="top-nav" class="col-xs-5 p-x-1">
+<div id="top-nav" class="col-xs-9 p-x-1">
     <div class="row">
         <div id="menu-favorites-content" class="col-xs-12" style="display: table;padding: 0;">
             <ul id="menu-favorites" class="nav nav-pills pull-right">
@@ -9,6 +9,9 @@
                     </a></li>
                 <li>
                     {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
+                </li>
+                <li>
+                    {{ render(controller('FrontEndBundle:Cart:countCestatItems')) }}
                 </li>
             </ul>
         </div>

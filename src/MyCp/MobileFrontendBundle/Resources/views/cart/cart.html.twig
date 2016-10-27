@@ -26,7 +26,7 @@
         <div id="res_main_cont" class="col-xs-12">
             {% if countItems > 0 %}
                 <div id="cart-cont" class="items-cart">
-                    {{ render(controller('FrontEndBundle:Cart:getCartBody')) }}
+                    {{ render(controller('FrontEndBundle:Cart:getCartBody',{'flag':'false'})) }}
                 </div>
 
             {% else %}
