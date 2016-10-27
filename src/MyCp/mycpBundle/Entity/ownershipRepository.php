@@ -34,6 +34,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
         $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $active_inmediate_booking_2 = (isset($data['inmediate_booking_2'])) ? 1 : 0;
         $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
@@ -93,10 +94,19 @@ class ownershipRepository extends EntityRepository {
             ->setOwnGeolocateY($data['geolocate_y'])
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
-            ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setOwnSmsNotifications($smsNotification);
+
+
+        if($active_inmediate_booking_2)
+        {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2($active_inmediate_booking_2);
+        }
+        else
+            $ownership->setOwnInmediateBooking($active_inmediate_booking)
+                ->setOwnInmediateBooking2(false);
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
@@ -271,6 +281,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
         $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $active_inmediate_booking_2 = (isset($data['inmediate_booking_2'])) ? 1 : 0;
         $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
@@ -328,10 +339,18 @@ class ownershipRepository extends EntityRepository {
             ->setOwnGeolocateY($data['geolocate_y'])
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
-            ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setOwnSmsNotifications($smsNotification);
+
+        if($active_inmediate_booking_2)
+        {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2($active_inmediate_booking_2);
+        }
+        else
+            $ownership->setOwnInmediateBooking($active_inmediate_booking)
+                ->setOwnInmediateBooking2(false);
 
         if($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
@@ -678,6 +697,9 @@ class ownershipRepository extends EntityRepository {
             case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING:
                 $condition .= "AND ow.own_inmediate_booking = 1 ";
                 break;
+            case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING_2:
+                $condition .= "AND ow.own_inmediate_booking_2 = 1 ";
+                break;
             case FilterHelper::ACCOMMODATION_CUBACOUPON:
                 $condition .= "AND ow.own_cubacoupon = 1 ";
                 break;
@@ -742,6 +764,7 @@ class ownershipRepository extends EntityRepository {
         ow.own_top_20,
         ow.own_selection,
         ow.own_inmediate_booking,
+        ow.own_inmediate_booking_2,
         ow.own_name,
         mun.mun_name,
         prov.prov_name,

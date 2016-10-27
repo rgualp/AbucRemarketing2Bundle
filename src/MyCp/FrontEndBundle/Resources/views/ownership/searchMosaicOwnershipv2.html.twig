@@ -2,6 +2,7 @@
     {% if list | length %}
         <div class="row">
         {% set cont=0 %}
+        <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
         {% for ownership in list %}
             {% if cont <2 %}
                 <div class="col-sm-6">
@@ -160,6 +161,7 @@
                                 'list_preffix' : list_preffix,
                                 'include_text': false
                             }) }}
+                            {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
                         </div>
                     </div>
                     <div class="col-sm-8 p-0">
@@ -256,6 +258,7 @@
     {% endif %}
 
 </div>
+
 <script type="text/javascript">
     $(function () {
         $('img.lazy').jail();
@@ -276,6 +279,7 @@
 
     });
 </script>
+{{ include('FrontEndBundle:script:script.html.twig') }}
 
 
 

@@ -89,8 +89,13 @@ class NewsletterService extends Controller
                 $sender = "casa@mycasaparticular.com";
                 break;
             }
+            case "ROLE_CLIENT_TOURIST": {
+                $baseTemplateEmail = "FrontEndBundle:mails:newsletter_tourists.html.twig";
+                $sender = "reservation@mycasaparticular.com";
+                break;
+            }
             default: {
-                $baseTemplateEmail = "FrontEndBundle:mails:newsletter_accommodations.html.twig";
+                $baseTemplateEmail = "FrontEndBundle:mails:newsletter_tourists.html.twig";
                 $sender = "info@mycasaparticular.com";
                 break;
             }

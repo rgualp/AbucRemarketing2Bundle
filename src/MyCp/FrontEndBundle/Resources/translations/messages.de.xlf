@@ -3303,18 +3303,22 @@
             <target>Benötigen Sie Hilfe? Kontaktieren Sie uns unter die E-Mail Adresse: </target>
         </trans-unit>
 
-         <trans-unit id="971">
-                    <source>WHISH_LIST</source>
-                    <target>Whish list</target>
-                </trans-unit>
-                <trans-unit id="972">
-                    <source>EMPTY_WHISH_LIST</source>
-                    <target>Warenkorb whish list</target>
-                </trans-unit>
-                <trans-unit id="973">
-                    <source>ADD_WHISH_LIST</source>
-                    <target>Dazutun whish list</target>
-                </trans-unit>
+        <trans-unit id="971">
+            <source>WHISH_LIST</source>
+            <target>Whishlist</target>
+        </trans-unit>
+        <trans-unit id="972">
+            <source>EMPTY_WHISH_LIST</source>
+            <target>Warenkorb whishlist</target>
+        </trans-unit>
+        <trans-unit id="973">
+            <source>ADD_WHISH_LIST</source>
+            <target>Dazutun whishlist</target>
+        </trans-unit>
+        <trans-unit id="974">
+            <source>MSG_ADD_WISH_LITS</source>
+            <target>Herzlichen Glückwusch! Ihre Wishliste wachsen. Wir wenden Ihr Wunsch hinein bestem andenke.</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>
