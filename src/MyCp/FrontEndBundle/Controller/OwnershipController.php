@@ -1762,6 +1762,7 @@ class OwnershipController extends Controller {
         $ownership_array=array();
         $ownership_array['own_id']=$ownership->getOwnId();
         $ownership_array['ownname']=$ownership->getOwnName();
+        $ownership_array['own_inmediate_booking_2']=$ownership->isOwnInmediateBooking2();
         return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig',array('ownership'=>$ownership_array,'locale'=>$locale,'currentServiceFee'=>$currentServiceFee));
     }
 

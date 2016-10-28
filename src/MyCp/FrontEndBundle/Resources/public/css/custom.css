@@ -279,3 +279,6 @@ div#div_b h4{
 .datepicker.datepicker-dropdown.dropdown-menu{
     z-index:1060 !important;
 }
+.guest_number.form-control.form-control-2{
+    padding: 0px !important;
+}

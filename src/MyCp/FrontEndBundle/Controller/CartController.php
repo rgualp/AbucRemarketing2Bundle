@@ -183,34 +183,40 @@ class CartController extends Controller {
                 }
             }
         }
-        if($showError)
-            {
+        if($showError){
                 if ( !$request->isXmlHttpRequest() ){
                     $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
                     $this->get('session')->getFlashBag()->add('message_global_error', $message);
                 }
-            }
-        else{
-            if(isset($check_dispo) && $check_dispo!=''){
+        }
+        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1){
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo($cart->getCartId(),$request);
-            }
+                $this->checkDispo($cart->getCartId(),$request,false);
+        }
+        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
+            //Es que el usuario mando a consultar la disponibilidad
+            $this->checkDispo($cart->getCartId(),$request,true);
         }
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
-            $data=$this->dataCart();
+
             if($showError){
                 $response =new Response(0);
             }
-            else
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
+                $data=$this->dataCesta();
+                $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
+            }
+            else{
+                $data=$this->dataCart();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
+            }
+
             return $response;
         }
         else{
             return $this->redirect($this->generateUrl('frontend_view_cart'));
         }
-
-
     }
 
     /**
@@ -305,6 +311,52 @@ class CartController extends Controller {
             ));
         }
     }
+
+    /**
+     * @return array
+     */
+    public function dataCesta(){
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        // disponibles Mayores que (hoy - 30) días
+        $date = \date('Y-m-j');
+        $new_date = strtotime('-60 hours', strtotime($date));
+        $new_date = \date('Y-m-j', $new_date);
+        $string_sql = "AND gre.gen_res_status_date > '$new_date'";
+        $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
+        $res_available = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $service_time = $this->get('time');
+        $nights = array();
+        $array_photos = array();
+        foreach ($res_available as $res) {
+            $totalNights = $service_time->nights($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights, $totalNights);
+
+            $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
+            array_push($array_photos, $photo);
+        }
+        return array(
+            'res_available' => $res_available,
+            'nights' => $nights,
+            'photos' => $array_photos,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
+        );
+    }
+    /**
+     * @return array
+     */
     public function dataCart(){
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
@@ -543,7 +595,7 @@ class CartController extends Controller {
      * @param $request
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function checkDispo($id_car,$request){
+    public function checkDispo($id_car,$request,$inmediatily_booking){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $reservations = array();
@@ -601,7 +653,10 @@ class CartController extends Controller {
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
-                    $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
+                    if($inmediatily_booking)
+                        $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+                    else
+                        $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
                     $general_reservation->setGenResFromDate($min_date);
                     $general_reservation->setGenResToDate($max_date);
                     $general_reservation->setGenResSaved(0);
@@ -634,7 +689,9 @@ class CartController extends Controller {
 
                     $flag_1 = 0;
                     foreach ($resByOwn as $item) {
-                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
+                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1],ownershipReservation::STATUS_AVAILABLE);
+                        if($inmediatily_booking)
+                            $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_AVAILABLE);
                         array_push($reservations, $ownership_reservation);
 
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
@@ -675,29 +732,31 @@ class CartController extends Controller {
         }
         $locale = $this->get('translator')->getLocale();
         // Enviando mail al cliente
-        $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
-                'user' => $user,
-                'reservations' => $reservations,
-                'ids' => $own_ids,
-                'nigths' => $nigths,
-                'photos' => $array_photos,
-                'user_locale' => $locale
-            ));
+        if(!$inmediatily_booking){
+            $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $reservations,
+                    'ids' => $own_ids,
+                    'nigths' => $nigths,
+                    'photos' => $array_photos,
+                    'user_locale' => $locale
+                ));
 
-        $locale = $this->get('translator');
-        $subject = $locale->trans('REQUEST_SENT');
-        $service_email = $this->get('Email');
-        $service_email->sendEmail(
-            $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-        );
-
-        //Enviando mail al reservation team
-        foreach($generalReservations as $genResId)
-        {
-            //Enviando correo a solicitud@mycasaparticular.com
-            \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
+            $locale = $this->get('translator');
+            $subject = $locale->trans('REQUEST_SENT');
+            $service_email = $this->get('Email');
+            $service_email->sendEmail(
+                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+            );
         }
 
+        if(!$inmediatily_booking){
+            //Enviando mail al reservation team
+            foreach($generalReservations as $genResId){
+                //Enviando correo a solicitud@mycasaparticular.com
+                \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
+            }
+        }
         $em->remove($cartItem);
         $em->flush();
         return true;
