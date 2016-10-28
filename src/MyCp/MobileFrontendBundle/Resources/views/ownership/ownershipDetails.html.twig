@@ -567,7 +567,6 @@
     {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
 
     {% javascripts
-    '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/responsiveslides.min.js'
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
@@ -695,6 +694,81 @@
 
         }
 
+    </script>
+
+    <script>
+        var login=false;
+        {% if app.user.getUserUserName is defined %}
+        login=true;
+        {% endif %}
+
+        $('#addWhisList').on('click',function(){
+            if($(this).data('modal')){
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    e.preventDefault();
+                    var formData = new FormData(form[0]);
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "post",
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            if(response=='0'){
+                                $('#myModalOwnerShipCalendar').modal('hide');
+                                swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                            }
+                            else{
+                                $('#list-cart').attr('href','#');
+                                $('#list-cart').attr('data-toggle','dropdown');
+                                $('#list-cart').addClass('dropdown-toggle');
+                                $('#whish-list').html(response);
+                                $('#count-cart').text($('#total-cart').data('counter'));
+                                $('#myModalOwnerShipCalendar').modal('hide');
+                                swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                            }
+
+                        }
+                    });
+                });
+            }
+
+        });
+        $('#checkAvailable').on('click',function(){
+            if(login){
+                $('#check_dispo').val('1');
+                if($(this).data('modal')){
+                    var form = $("#form-check-available");
+                    form.on("submit", function (e) {
+                        e.preventDefault();
+                        var formData = new FormData(form[0]);
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: "post",
+                            dataType: "html",
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function(data, textStatus, jqXHR){
+                                $('#myModalOwnerShipCalendar').modal('hide');
+                                swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                            }
+                        });
+                    });
+                }
+            }
+            else{
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    e.preventDefault();
+                    window.location.href="{{ path('frontend_public_login') }}";
+                });
+            }
+        });
     </script>
 
     <script type="text/javascript">

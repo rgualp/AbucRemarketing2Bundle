@@ -89,8 +89,13 @@ class NewsletterService extends Controller
                 $sender = "casa@mycasaparticular.com";
                 break;
             }
+            case "ROLE_CLIENT_TOURIST": {
+                $baseTemplateEmail = "FrontEndBundle:mails:newsletter_tourists.html.twig";
+                $sender = "reservation@mycasaparticular.com";
+                break;
+            }
             default: {
-                $baseTemplateEmail = "FrontEndBundle:mails:newsletter_accommodations.html.twig";
+                $baseTemplateEmail = "FrontEndBundle:mails:newsletter_tourists.html.twig";
                 $sender = "info@mycasaparticular.com";
                 break;
             }
@@ -159,14 +164,14 @@ class NewsletterService extends Controller
             "content" => $content->getEmailBody()
         ));
 
-        $this->mailService->sendTemplatedEmail($contactEmail, $content->getSubject(), $emailBody, $sender);
-        /*$this->mailService->setTo($contactEmail);
+        //$this->mailService->sendTemplatedEmail($contactEmail, $content->getSubject(), $emailBody, $sender);
+        $this->mailService->setTo($contactEmail);
         $this->mailService->setSubject($content->getSubject());
         $this->mailService->setFrom($sender, 'MyCasaParticular.com');
-        $this->mailService->setBody($emailBody);
+        $this->mailService->setBody($emailBody->getContent());
         $this->mailService->setEmailType($newsletterCode);
 
-        return $this->mailService->sendEmail();*/
+        return $this->mailService->sendEmail();
     }
 
 }
