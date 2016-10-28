@@ -29,6 +29,18 @@ use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
  */
 class ownershipRepository extends EntityRepository {
 
+    function findAllNames(){
+        $em = $this->getEntityManager();
+
+        $queryString = "SELECT o.own_name
+            FROM mycpBundle:ownership o
+            ORDER BY o.own_name";
+
+        $query = $em->createQuery($queryString);
+
+        return $query->getArrayResult();
+    }
+
     function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;

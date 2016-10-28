@@ -1362,7 +1362,7 @@ class BackendOwnershipController extends Controller {
 
     public function get_ownerships_namesAction() {
         $em = $this->getDoctrine()->getManager();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->findAllNames();
         return $this->render('mycpBundle:utils:ownership_names.html.twig', array('ownerships' => $ownerships));
     }
 

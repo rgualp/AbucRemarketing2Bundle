@@ -2,9 +2,9 @@
 {% set string ='[' %}
 {% for ownership in ownerships %}
 {% if loop.last %}
-{% set string = string ~ '"'~ownership.getOwnName~'"' %}
+{% set string = string ~ '"'~ownership['own_name']~'"' %}
 {% else %}
-{% set string = string ~ '"'~ownership.getOwnName~'",' %}
+{% set string = string ~ '"'~ownership['own_name']~'",' %}
 {% endif %}
 {% endfor %}
 {% set string = string ~ ']' %}
