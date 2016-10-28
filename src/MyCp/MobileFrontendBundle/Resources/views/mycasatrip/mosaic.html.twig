@@ -1,0 +1,34 @@
+<div class="row no-margin">
+    <div class="col-xs-12">
+        <div data-text="&nbsp;&nbsp;&nbsp;{{'PENDING' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-grey has-ribbon has-ribbon-left">
+            {% if photos[loop.index0]%}
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+                    <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"Thumbnails" | trans}}"/>
+                    <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" alt="{{"Thumbnails" | trans}}"></noscript>
+                </a>
+            {% else %}
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+                    <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"Thumbnails" | trans}}"/>
+                    <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" alt="{{"Thumbnails" | trans}}"></noscript>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+            <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
+        </a>
+        <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}
+            <br>{{res['own_res_room_type']|trans}}</small>
+        <small class="top">{{"ADULTS" | trans}}: {{res['own_res_count_adults']}} {{"KIDS" | trans}}: {{res['own_res_count_childrens']}}</small>
+        <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
+    </div>
+    <div class="col-xs-12 text-center">
+        <h2 class="no-margin h-grey col-xs-12">{{res['own_res_total_in_site'] | price}}</h2>
+        <div class="col-xs-12">
+            <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}" class="btn btn-primary" style="width: 150px; color: #ffffff">
+                {{"VIEW_DETAILS" | trans}}</a></div>
+        <div class="col-xs-12" style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>{{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b></div>
+    </div>
+</div>
+<hr/>

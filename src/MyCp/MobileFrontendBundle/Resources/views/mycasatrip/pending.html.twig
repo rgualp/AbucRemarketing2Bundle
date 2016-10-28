@@ -1,0 +1,37 @@
+{% set menu = 1 %}
+{% extends 'MyCpMobileFrontendBundle:mycasatrip:layout_order_by.html.twig' %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="MyCasa Trip">MyCasa Trip</a>
+    <span>››</span>
+    <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="{{ "CONSULTS"|trans }}">{{ "CONSULTS"|trans }}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"RESPONSE_PENDING" | trans}}">{{"RESPONSE_PENDING" | trans}}</a>
+{% endblock %}
+{% block body_inner %}
+ <div class="tab-content lazy-cont">
+    <div id="tab2" class="tab-pane active">
+        <div class="thumbs-houses houses-list myct-records">
+            {% for res in res_pending %}
+                {% include 'MyCpMobileFrontendBundle:mycasatrip:mosaic.html.twig' %}
+            {% else %}
+            <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+            {%endfor%}
+        </div>
+            {%if res_pending | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_pending',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': null
+}) }}
+    </div>
+            {%endif%}
+</div>
+</div>
+{% endblock %}

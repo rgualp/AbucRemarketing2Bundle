@@ -1,0 +1,95 @@
+{%if favorite_type == "ownerships" or favorite_type=="ownershipfav"%}
+{%set menu = 7%}
+{%else%}
+{%set menu = 8%}
+{%endif%}
+{% extends 'MyCpMobileFrontendBundle:mycasatrip:layout.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_FAVORITES')%}
+{% block body_inner %}
+<div id="loading" class="hidden">
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
+    </div>
+{%if favorite_type == "ownerships"%}
+<div id="div_result">
+                {{ include('FrontEndBundle:ownership:ownershipArrayItemList.html.twig',
+                {'list': ownership_favorities,
+                 'list_preffix': 'own_fav_preffix',
+                 'is_in_favorites_list': true,
+                }) }}
+</div>
+{%if ownership_favorities | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_favorites_accomodations',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'favorite_type': favorite_type}
+}) }}
+            </div>
+            {%endif%}
+{%else%}
+{%if favorite_type == "ownershipfav"%}
+
+{{ include('FrontEndBundle:favorite:ownershipArrayItemFavorite.html.twig',
+                {'list': ownership_favorities,
+                'list_preffix' : 'own_favorities',
+                'is_in_favorites_list': true
+                }) }}
+{%if ownership_favorities | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_favorites_accomodations',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'favorite_type': favorite_type}
+}) }}
+            </div>
+            {%endif%}
+{%else%}
+
+    <div class="row result_list" id="div_result_destinations">
+        {{ include('FrontEndBundle:destination:arrayItemListDestination.html.twig',
+                {'list': destination_favorities,
+                'list_preffix' : 'destination_favorities',
+                'is_in_favorites_list': true
+                }) }}
+    </div>
+
+        {%if destination_favorities | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_favorites_destinations',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'favorite_type': favorite_type}
+}) }}
+            </div>
+{%endif%}
+
+{%endif%}
+{%endif%}
+
+{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="MyCasa Trip">MyCasa Trip</a>
+    <span>››</span>
+    <a href="{{ path('frontend_mycasatrip_favorites_accomodations') }}" title="{{ "FAVORITIES"|trans }}">{{ "FAVORITIES"|trans }}</a>
+    <span>››</span>
+    {%if favorite_type == "ownershipfav"%}
+    <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
+    {% else %}
+    <a href="#" class="active" title="{{"DESTINATIONS" | trans}}">{{"DESTINATIONS" | trans}}</a>
+    {% endif %}
+{% endblock %}
