@@ -1,10 +1,10 @@
 <div id="total-cart" class="hide" data-counter="{{ cartItems | length }}"></div>
 <li>
     <div class="text-center link-block">
-        <a href="{{ path('frontend_view_cart') }}">
+        <a data-ajax="false" href="{{ path('frontend_view_cart') }}">
             <i class="fa fa-shopping-cart"></i> <strong> {{"WHISH_LIST" | trans }}</strong>
         </a> |
-        <a href="{{ path('frontend_empty_cart') }}" style="color:#ee5f5b">
+        <a data-ajax="false" href="{{ path('frontend_empty_cart') }}" style="color:#ee5f5b">
             <i class="fa fa-trash-o" ></i> <strong> {{"EMPTY_WHISH_LIST" | trans }}</strong>
         </a>
     </div>
@@ -27,7 +27,7 @@
         <div class="dropdown-messages-box container">
             <div class="row">
                 <div>
-                    <a class="pull-left" href="{{ path('frontend_details_ownership',{'own_name': item.cartRoom.roomOwnership.ownName | urlNormalize}) }}">
+                    <a data-ajax="false" class="pull-left" href="{{ path('frontend_details_ownership',{'own_name': item.cartRoom.roomOwnership.ownName | urlNormalize}) }}">
                         {% if photos[loop.index0]%}
                             <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="img-circle" alt="image" width="50px" height="38px">
                         {% else %}

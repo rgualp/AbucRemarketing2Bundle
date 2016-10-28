@@ -40,6 +40,7 @@ class CartController extends Controller {
         $string_sql = "AND gre.gen_res_status_date > '$new_date'";
         $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
         $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
+
         return $this->render('FrontEndBundle:cart:cestaCountItems.html.twig', array(
                 'count' => count($list)
             ));

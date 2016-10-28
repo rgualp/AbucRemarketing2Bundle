@@ -393,6 +393,7 @@ h6{
     position: absolute;
     left: -8px;
     top: -7px;
+    padding: 4px;
 }
 .navbar-inverse .navbar-toggle {
     border: medium none;
@@ -1026,4 +1027,17 @@ footer {
     right: -152px;
     min-width: 80px;
     width: 310px !important;
+}
+
+.modal-body .no-bg-in-modal{
+    background: none !important;
+}
+.modal-body .no-yp-in-modal{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.sweet-alert h2 {
+    font-size: 14px;
+    margin: 0;
 }
