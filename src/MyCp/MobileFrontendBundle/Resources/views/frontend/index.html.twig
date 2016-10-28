@@ -19,6 +19,7 @@
             {{ render(controller('MyCpMobileFrontendBundle:Mobile:homeCarrousel')) }}
         </div>
     </div>
+    <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
@@ -40,4 +41,51 @@
             limit: 4
         });
     </script>
+    <script type="text/javascript">
+        $('.btn_check_available').on('click',function(){
+
+        });
+        $('.btn_delete_reservation').on('click',function(){
+            $('#confirmation_modal_delete').modal('show');
+            $('#delete_button_reservation').attr('data',$(this).attr('data'));
+            $('#delete_button_reservation').attr('btn_launch',$(this).attr('id'));
+        });
+        $('#delete_button_reservation').on('click',function(){
+            string_url="{{ path('frontend_remove_from_whislist')}}";
+            data_remove=$(this).attr('data');
+            $('.btn_delete_reservation').attr('disabled','disable');
+            $('#'+$(this).attr('btn_launch')).attr('class','in_process');
+            $('#confirmation_modal_delete').modal('hide');
+            $.ajax({
+                type: "POST",
+                url: string_url,
+                data:{'data':data_remove},
+                success: function(response){
+                    $('#whish-list').html(response);
+                    $('#count-cart').text($('#total-cart').data('counter'));
+                }
+            });
+        });
+    </script>
+    <script>
+        var options = [];
+        $( '.dropdown-cesta a' ).on( 'click', function( event ) {
+            var $target = $( event.currentTarget ),
+                    val = $target.attr( 'data-value' ),
+                    $inp = $target.find( 'input' ),
+                    idx;
+
+            if ( ( idx = options.indexOf( val ) ) > -1 ) {
+                options.splice( idx, 1 );
+                setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+            } else {
+                options.push( val );
+                setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+            }
+
+            $( event.target ).blur();
+            return false;
+        });
+    </script>
+    {{ include('FrontEndBundle:script:script.html.twig') }}
 {% endblock javascripts %}

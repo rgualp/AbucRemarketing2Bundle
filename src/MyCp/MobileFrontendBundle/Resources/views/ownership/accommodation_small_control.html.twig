@@ -26,14 +26,14 @@
     </div>
 </a>
 <div class="row">
-    <div class="col-xs-10">
+    <div class="col-xs-9">
         <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
             <div class="h-blue m-b-2 m-t-0">
                 {{ name| title }}
             </div>
         </a>
     </div>
-    <div class="col-xs-2 f-s-30">
+    <div class="col-xs-3 p-a-0 f-s-30">
             {{ include('@MyCpMobileFrontend/favorite/itemFavorite.html.twig',
             {'is_in_favorite': is_in_favorite,
                 'favorite_type': 'ownership',
@@ -41,6 +41,7 @@
                 'list_preffix' : list_preffix,
                 'include_text': false
             }) }}
+        {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
     </div>
 
 
