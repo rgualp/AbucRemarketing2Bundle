@@ -54,23 +54,23 @@ function total_price(curr,percent)
         if(roomsTotal == 1)
         {
             if(avgPrice < 20*curr )
-                tourist_fee_percent = $("#tourist_service").data("one-nr-until-20-percent");
+                tourist_fee_percent = $("#tourist_service").attr("data-one-nr-until-20-percent");
             else if(avgPrice >= 20*curr && avgPrice < 25*curr)
-                tourist_fee_percent = $("#tourist_service").data("one-nr-from-20-to-25-percent");
+                tourist_fee_percent = $("#tourist_service").attr("data-one-nr-from-20-to-25-percent");
             else if(avgPrice >= 25*curr)
-                tourist_fee_percent = $("#tourist_service").data("one-nr-from-more-25-percent");
+                tourist_fee_percent = $("#tourist_service").attr("data-one-nr-from-more-25-percent");
         }
         else
-            tourist_fee_percent = $("#tourist_service").data("one-night-several-rooms-percent");
+            tourist_fee_percent = $("#tourist_service").attr("data-one-night-several-rooms-percent");
     }
     else if(nights == 2)
-        tourist_fee_percent = $("#tourist_service").data("one-2-nights-percent");
+        tourist_fee_percent = $("#tourist_service").attr("data-one-2-nights-percent");
     else if(nights == 3)
-        tourist_fee_percent = $("#tourist_service").data("one-3-nights-percent");
+        tourist_fee_percent = $("#tourist_service").attr("data-one-3-nights-percent");
     else if(nights == 4)
-        tourist_fee_percent = $("#tourist_service").data("one-4-nights-percent");
+        tourist_fee_percent = $("#tourist_service").attr("data-one-4-nights-percent");
     else if(nights >= 5)
-        tourist_fee_percent = $("#tourist_service").data("one-5-nights-percent");
+        tourist_fee_percent = $("#tourist_service").attr("data-one-5-nights-percent");
 
 
     $('#data_reservation').val(string_url);
@@ -120,7 +120,6 @@ function showAgesCombos(rowId)
         case 1:{
             $("#childrenImg1_"+rowId).css({display: 'table-cell'});
             $("#childrenAge1_"+rowId).css({display: 'table-cell'});
-            console.log(1);
             break;
         }
         case 2:{
@@ -129,7 +128,6 @@ function showAgesCombos(rowId)
 
             $("#childrenImg2_"+rowId).css({display: 'table-cell'});
             $("#childrenAge2_"+rowId).css({display: 'table-cell'});
-            console.log(2);
             break;
         }
         case 3:{
@@ -141,7 +139,6 @@ function showAgesCombos(rowId)
 
             $("#childrenImg3_"+rowId).css({display: 'table-cell'});
             $("#childrenAge3_"+rowId).css({display: 'table-cell'});
-            console.log(3);
             break;
         }
         default:{
@@ -153,7 +150,6 @@ function showAgesCombos(rowId)
 
             $("#childrenImg3_"+rowId).css({display: 'none'});
             $("#childrenAge3_"+rowId).css({display: 'none'});
-            console.log(0);
             break;
         }
     }
@@ -199,6 +195,7 @@ function reservations_in_details()
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr');
                 }
+                value= normalize_prices(value);
                 $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
                 $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                 $('#price_'+$(this).attr('data')).html(value);
