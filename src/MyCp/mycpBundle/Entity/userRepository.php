@@ -305,7 +305,7 @@ class userRepository extends EntityRepository {
         return $session_id;
     }
 
-    public function changeStatus($userId) {
+    public function changeStatus($userId, $returnUser = false) {
         $em = $this->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->find($userId);
 
@@ -319,6 +319,11 @@ class userRepository extends EntityRepository {
                 $user->setUserActivationDate(new \DateTime());
             $em->persist($user);
             $em->flush();
+
+            if($returnUser){
+                return $user;
+            }
+
             return true;
         }
 
