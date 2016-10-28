@@ -16,6 +16,7 @@
             '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/myicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/animate.css'
+            '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/custom.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
         filter='?uglifycss'
@@ -95,10 +96,10 @@
     <div class="container">
         <div class="row">
             <div class="space space-5"></div>
-            <div class="col-xs-7 p-x-1" id="center-cont">
+            <div class="col-xs-3 p-x-1" id="center-cont">
                 <div class="space space-5"></div>
-                <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
-                    <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+                <a style="display: block; overflow: hidden; width: 36px;" href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
+                    <img style="width: 195px;" src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
                 </a>
             </div>
 
@@ -107,7 +108,7 @@
             {% endif %}
         </div>
     </div>
-    <nav id="top-menu" role="navigation" class="for-fixed navbar navbar-inverse bg-gradient-blue p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+    <nav id="top-menu" role="navigation" class="for-fixed navbar navbar-inverse bg-gradient-blue p-l-0 p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle pull-left" type="button">
                 <span class="sr-only">Menu</span>
@@ -199,6 +200,8 @@
 
 
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
+    '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
 
     filter='?uglifyjs2'
     %}
