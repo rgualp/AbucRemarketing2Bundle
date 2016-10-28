@@ -3319,6 +3319,14 @@
             <source>MSG_ADD_WISH_LITS</source>
             <target>Herzlichen Glückwusch! Ihre Wishliste wachsen. Wir wenden Ihr Wunsch hinein bestem andenke.</target>
         </trans-unit>
+        <trans-unit id="975">
+            <source>IMMEDIATE_BOOKING</source>
+            <target>Sofortige Buchung</target>
+        </trans-unit>
+        <trans-unit id="976">
+            <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+            <target>Buchen Sie Ihre traumhafte Unterkunft in wenigen Sekunden.</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

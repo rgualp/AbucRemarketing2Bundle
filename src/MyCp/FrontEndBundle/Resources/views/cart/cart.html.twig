@@ -1,6 +1,6 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
-{{"CART" | trans}}
+{{"WHISH_LIST" | trans}}
 {% endblock %}
 
 {% set main_tab = 5 %}
@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
     <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
     <span>››</span>
-    <a href="#" class="active" title="{{"CART" | trans}}">{{"CART" | trans}}</a>
+    <a href="#" class="active" title="{{"WHISH_LIST" | trans}}">{{"WHISH_LIST" | trans}}</a>
 {% endblock %}
 {% block body %}
 <div class="container">

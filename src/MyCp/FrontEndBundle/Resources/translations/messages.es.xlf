@@ -3324,6 +3324,14 @@
             <source>MSG_ADD_WISH_LITS</source>
             <target>!Enhorabuena! Tu Wishlist sigue creciendo. Convertimos tus deseos en buenos recuerdos.</target>
         </trans-unit>
+        <trans-unit id="975">
+            <source>IMMEDIATE_BOOKING</source>
+            <target>Reserva Inmediata</target>
+        </trans-unit>
+        <trans-unit id="976">
+            <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+            <target>Reserva el alojamiento de tus sueños en solo segundos.</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>

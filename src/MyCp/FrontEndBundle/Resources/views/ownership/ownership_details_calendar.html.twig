@@ -131,12 +131,20 @@
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
                         </button>
                     </div>
-
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
                         <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                         </button>
+                        {#{% if ownership.own_inmediate_booking_2 %}
+                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
+                            </button>
+                            {% else %}
+                                <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                    <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
+                                </button>
+                        {% endif %}#}
                     </div>
 
 
@@ -156,9 +164,45 @@
     {% if app.user.getUserUserName is defined %}
         login=true;
     {% endif %}
+    $('#reservedOwnerShip').on('click',function(){
+        if(login){
+            $('#check_dispo').val('2');
+            if($(this).data('modal')){
+                $('#myModalOwnerShipCalendar').modal('hide');
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    e.preventDefault();
+                    var formData = new FormData(form[0]);
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: "post",
+                            dataType: "html",
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function(response){
+                                $('#cart-items').html(response);
+                                swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                            }
+                        });
 
+                });
+            }
+        }
+        else{
+            var form = $("#form-check-available");
+            form.on("submit", function (e) {
+                e.preventDefault();
+                window.location.href="{{ path('frontend_public_login') }}";
+            });
+        }
+
+    })
     $('#addWhisList').on('click',function(){
+        $('#myModalOwnerShipCalendar').modal('hide');
         if($(this).data('modal')){
+            $('#myModalOwnerShipCalendar').modal('hide');
             var form = $("#form-check-available");
             form.on("submit", function (e) {
                 e.preventDefault();
@@ -173,7 +217,7 @@
                     processData: false,
                     success: function(response){
                         if(response=='0'){
-                            $('#myModalOwnerShipCalendar').modal('hide');
+
                             swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
                         }
                         else{
@@ -196,6 +240,7 @@
         if(login){
             $('#check_dispo').val('1');
             if($(this).data('modal')){
+                $('#myModalOwnerShipCalendar').modal('hide');
                 var form = $("#form-check-available");
                 form.on("submit", function (e) {
                     e.preventDefault();
@@ -209,7 +254,6 @@
                         contentType: false,
                         processData: false,
                         success: function(data, textStatus, jqXHR){
-                            $('#myModalOwnerShipCalendar').modal('hide');
                             swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
                         }
                     });

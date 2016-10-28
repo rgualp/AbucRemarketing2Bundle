@@ -94,7 +94,10 @@ class MycasatripController extends Controller {
         $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
+        if($flag=='1')
+            $items_per_page = 5;
+        else
+            $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
         $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
         $res_available = $paginator->paginate($list)->getResult();
