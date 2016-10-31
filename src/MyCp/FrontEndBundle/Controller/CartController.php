@@ -105,6 +105,7 @@ class CartController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
         $showError = false;
+        $showErrorItem='';
 
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
             $insert = 1;
@@ -118,12 +119,11 @@ class CartController extends Controller {
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
                         (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) ||
                         ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
-                        $item->getCartRoom() == $array_ids_rooms[$a] /*&&
-                        $item->getCartCountAdults() == $array_count_guests[$a] &&
-                        $item->getCartCountChildren() == $array_count_kids[$a]*/
+                        $item->getCartRoom() == $array_ids_rooms[$a]
                 ) {
                     $insert = 0;
                     $showError = 1;
+                    $showErrorItem=$item;
                 }
             }
             if ($insert == 1) {
@@ -184,7 +184,7 @@ class CartController extends Controller {
                 }
             }
         }
-        if($showError){
+        if($showError  && isset($check_dispo) && $check_dispo==''){
                 if ( !$request->isXmlHttpRequest() ){
                     $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
                     $this->get('session')->getFlashBag()->add('message_global_error', $message);
@@ -192,27 +192,28 @@ class CartController extends Controller {
         }
         elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1){
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo($cart->getCartId(),$request,false);
+                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
         }
         elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
             //Es que el usuario mando a consultar la disponibilidad
-            $this->checkDispo($cart->getCartId(),$request,true);
+            $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
         }
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
-
-            if($showError){
+            if($showError && isset($check_dispo) && $check_dispo==''){
                 $response =new Response(0);
+            }
+            elseif(isset($check_dispo) && $check_dispo==''){
+                $data=$this->dataCart();
+                $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
+            }
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1){
+                $response =new Response(1);
             }
             elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
                 $data=$this->dataCesta();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
             }
-            else{
-                $data=$this->dataCart();
-                $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
-            }
-
             return $response;
         }
         else{

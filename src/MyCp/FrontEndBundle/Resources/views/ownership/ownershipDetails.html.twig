@@ -115,7 +115,7 @@
                         {% endif %}
                         <div id="tab-reservations"
                              class="tab-pane {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            {{ include("FrontEndBundle:ownership:ownership_details_calendar.html.twig") }}
+                            {%  include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : true }  %}
                         </div>
                     </div>
                 </div>

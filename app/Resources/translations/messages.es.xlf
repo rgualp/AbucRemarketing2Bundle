@@ -2681,7 +2681,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>Una de las habitaciones ya existe en su carrito y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
+                <target>Una de las habitaciones ya existe en su wishlist y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -3993,6 +3993,10 @@
             <trans-unit id="1006">
                 <source>youtube</source>
                 <target>youtube</target>
+            </trans-unit>
+            <trans-unit id="1007">
+                <source>PAYMENT_NOT_EXISTS</source>
+                <target>No existe voucher PDF para el pago seleccionado</target>
             </trans-unit>
         </body>
     </file>
