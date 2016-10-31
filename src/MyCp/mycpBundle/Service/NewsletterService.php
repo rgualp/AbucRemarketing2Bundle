@@ -143,7 +143,7 @@ class NewsletterService extends Controller
                     $this->smsService->sendSMSNotification($this->testingSms, $content->getEmailBody(), $newsletter->getCode());
                 } else {
 
-                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
+                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findBy(array(
                         "newsletter" => $newsletter->getId(),
                         "language" => $lang->getLangId()
                     ));
