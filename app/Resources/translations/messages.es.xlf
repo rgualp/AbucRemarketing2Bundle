@@ -3994,6 +3994,10 @@
                 <source>youtube</source>
                 <target>youtube</target>
             </trans-unit>
+            <trans-unit id="1007">
+                <source>PAYMENT_NOT_EXISTS</source>
+                <target>No existe voucher PDF para el pago seleccionado</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
