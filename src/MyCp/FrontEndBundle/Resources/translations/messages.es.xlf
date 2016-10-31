@@ -1766,11 +1766,11 @@
             </trans-unit>
             <trans-unit id="448">
                 <source>CART_EMPTY_SUCCESSFUL</source>
-                <target>La cesta se ha vaciado satisfactoriamente.</target>
+                <target>La wishlist se ha vaciado satisfactoriamente.</target>
             </trans-unit>
             <trans-unit id="449">
                 <source>CART_DESCRIPTION</source>
-                <target>Descripción de la cesta</target>
+                <target>Descripción de la wishlist</target>
             </trans-unit>
             <trans-unit id="450">
                 <source>LAST_ADDED_DESCRIPTION</source>

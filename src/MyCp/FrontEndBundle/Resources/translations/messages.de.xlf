@@ -1764,11 +1764,11 @@
             </trans-unit>
             <trans-unit id="448">
                 <source>CART_EMPTY_SUCCESSFUL</source>
-                <target>Der Warenkorb wurde erfolgreich geleert.</target>
+                <target>Wishlist wurde erfolgreich geleert.</target>
             </trans-unit>
             <trans-unit id="449">
                 <source>CART_DESCRIPTION</source>
-                <target>Beschreibung des Warenkorbes</target>
+                <target>Beschreibung des wishlist</target>
             </trans-unit>
             <trans-unit id="450">
                 <source>LAST_ADDED_DESCRIPTION</source>
