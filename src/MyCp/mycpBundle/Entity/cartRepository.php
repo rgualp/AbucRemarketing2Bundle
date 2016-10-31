@@ -24,6 +24,10 @@ class cartRepository extends EntityRepository {
             else if ($user_ids["session_id"] != null)
                 $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
 
+            // disponibles Mayores que hoy
+            $date = \date('Y-m-j');
+            $where .= "AND c.cart_date_from >= '$date'";
+
             $orderBy = " ORDER BY o.own_id ASC";
 
             if ($where != "")
@@ -121,6 +125,9 @@ class cartRepository extends EntityRepository {
                 $where.= " WHERE c.cart_user = " . $user_ids['user_id'];
             else if ($user_ids["session_id"] != null)
                 $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
+            // disponibles Mayores que hoy
+            $date = \date('Y-m-j');
+            $where .= "AND c.cart_date_from >= '$date'";
 
             if ($where != "")
                 return $em->createQuery($query_string . $where)->getSingleScalarResult();

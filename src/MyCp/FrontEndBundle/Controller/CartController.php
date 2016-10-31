@@ -703,9 +703,11 @@ class CartController extends Controller {
 
                     $flag_1 = 0;
                     foreach ($resByOwn as $item) {
-                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1],ownershipReservation::STATUS_AVAILABLE);
+                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
                         if($inmediatily_booking)
                             $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_AVAILABLE);
+
+
                         array_push($reservations, $ownership_reservation);
 
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
