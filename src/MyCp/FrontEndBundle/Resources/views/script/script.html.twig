@@ -45,7 +45,7 @@
 
             $('#filter_date_from').datepicker({
                 format: 'dd/mm/yyyy',
-                todayBtn: true,
+                todayBtn: false,
                 autoclose: true,
                 startDate: start_date,
                 date: start_date
@@ -54,10 +54,10 @@
                             return;
                         }
                         var startDate = new Date(ev.date);
-                        startDate.setDate(startDate.getDate() + 1);
+                        startDate.setDate(startDate.getDate() + 2);
                         departure_datepicker.setStartDate(startDate);
                         var valueDate = new Date(ev.date);
-                        valueDate.setDate(valueDate.getDate() + 1);
+                        valueDate.setDate(valueDate.getDate() + 2);
                         departure_datepicker.setDate(valueDate);
                         from = $('#filter_date_from').val();
                         to = $('#filter_date_to').val();
