@@ -165,7 +165,7 @@ class NewsletterService extends Controller
         ));
 
         //$this->mailService->sendTemplatedEmail($contactEmail, $content->getSubject(), $emailBody, $sender);
-        $this->mailService->setTo($contactEmail);
+        $this->mailService->setTo(array($contactEmail));
         $this->mailService->setSubject($content->getSubject());
         $this->mailService->setFrom($sender, 'MyCasaParticular.com');
         $this->mailService->setBody($emailBody->getContent());
