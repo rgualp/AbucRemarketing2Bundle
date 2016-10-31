@@ -2687,7 +2687,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>Eines der Zimmer ist bereits in Ihrem Warenkorb, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
+                <target>Eines der Zimmer ist bereits in wishlist, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
