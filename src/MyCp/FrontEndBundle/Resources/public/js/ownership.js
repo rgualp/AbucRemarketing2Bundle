@@ -237,13 +237,13 @@ function search() {
         url = url.toString().replace('_text', null);
 
     var arrival = $('#input_arrival_date').val();
-    if (arrival != $('#input_arrival_date').attr("placeholder") && arrival != "")
+    if (typeof arrival !== "undefined" && arrival != $('#input_arrival_date').attr("placeholder") && arrival != "")
         url = url.toString().replace('_arrival', create_dateDMY(arrival));
     else
         url = url.toString().replace('_arrival', null);
 
     var departure = $('#input_departure_date').val();
-    if (departure != $('#input_departure_date').attr("placeholder") && departure != "")
+    if (typeof departure !== "undefined" && departure != $('#input_departure_date').attr("placeholder") && departure != "")
         url = url.toString().replace('_departure', create_dateDMY(departure));
     else
         url = url.toString().replace('_departure', null);
@@ -448,8 +448,8 @@ function research()
         }
     });
 
-    arrival = (arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
-    departure = (departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
+    arrival = (typeof arrival !== "undefined" && arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
+    departure = (typeof departure !== "undefined" && departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
     text = (text != $('#input_text').attr('placeholder')) ? text : null;
 
     $.post(url, {
