@@ -30,17 +30,17 @@ class Version20161025194521 extends AbstractMigration
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'yayvilla1936@gmail.com', 'Luis')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'maylenrafa562@gmail.com', 'Maylen')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'maylen.velazquez@nauta.cu', 'Maylen')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'liliaqa@yahoo.es', 'Liliana')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'liliaqa@yahoo.es', 'Liliana')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'lacasademima1920@gmail.com', 'Laura')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'jesusmaria2003@yahoo.com', 'Jesus')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'reservation@lacasaflamboyan.com', 'Jesús Manuel')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'jesusmaria2003@yahoo.com', 'Jesus')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'reservation@lacasaflamboyan.com', 'Jesús Manuel')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'moraimaguila@nauta.cu', 'Moraima Alicia')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'sarovi@nauta.cu', 'Sadys')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'raudel@zoltec.co.cu', 'Raudel')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'niky.pmmo@gmail.com', 'Niki')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'reservas@habitacionhabana.co', 'Gertrudis')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'yadirentals@gmail.com', 'Yadami')");
-        $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'vladymaly16@gmail.com', 'Malinabys')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'raudel@zoltec.co.cu', 'Raudel')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'niky.pmmo@gmail.com', 'Niki')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'reservas@habitacionhabana.co', 'Gertrudis')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'yadirentals@gmail.com', 'Yadami')");
+        //$this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'vladymaly16@gmail.com', 'Malinabys')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'robertzap@nauta.cu', 'Roberto')");
         $this->addSql("INSERT INTO newsletter_email (newsletter, language, email, name) VALUES (@newsletterId, @langId, 'ramos16@nauta.cu', 'Yanelis')");
 

@@ -2681,7 +2681,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>One room already exists in your cart and the selected date range collides with which it is stored. Please change the date range.</target>
+                <target>One room already exists in your wishlist and the selected date range collides with which it is stored. Please change the date range.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -3877,6 +3877,15 @@
                                                                                              <source>MOST_VISITED_CITIES_TITLE</source>
                                                                                              <target>Most visited cities in Cuba </target>
                                                                                          </trans-unit>
+
+ <trans-unit id="975">
+                      <source>NEW</source>
+                      <target>¡New!</target>
+                  </trans-unit>
+                  <trans-unit id="976">
+                       <source>JOIN_CASA</source>
+                       <target>Join up! Inscribe your home</target>
+                  </trans-unit>
        <trans-unit id="977">
             <source>PRICE_TOTAL_TO_PAY</source>
             <target>Total to pay</target>
@@ -3999,6 +4008,10 @@
             <trans-unit id="1006">
                 <source>youtube</source>
                 <target>youtube</target>
+            </trans-unit>
+            <trans-unit id="1007">
+                <source>PAYMENT_NOT_EXISTS</source>
+                <target>Do not exists PDF voucher for selected payment</target>
             </trans-unit>
         </body>
     </file>

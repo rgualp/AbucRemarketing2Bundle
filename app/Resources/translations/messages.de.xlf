@@ -2679,7 +2679,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>Eines der Zimmer ist bereits in Ihrem Warenkorb, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
+                <target>Eines der Zimmer ist bereits in wishlist, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -4023,6 +4023,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <trans-unit id="1006">
                 <source>youtube</source>
                 <target>youtube</target>
+            </trans-unit>
+            <trans-unit id="1007">
+                <source>PAYMENT_NOT_EXISTS</source>
+                <target>Do not exists PDF voucher for selected payment</target>
             </trans-unit>
     </body>
     </file>

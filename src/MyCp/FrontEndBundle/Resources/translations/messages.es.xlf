@@ -1766,11 +1766,11 @@
             </trans-unit>
             <trans-unit id="448">
                 <source>CART_EMPTY_SUCCESSFUL</source>
-                <target>La cesta se ha vaciado satisfactoriamente.</target>
+                <target>La wishlist se ha vaciado satisfactoriamente.</target>
             </trans-unit>
             <trans-unit id="449">
                 <source>CART_DESCRIPTION</source>
-                <target>Descripción de la cesta</target>
+                <target>Descripción de la wishlist</target>
             </trans-unit>
             <trans-unit id="450">
                 <source>LAST_ADDED_DESCRIPTION</source>
@@ -2690,7 +2690,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>Una de las habitaciones ya existe en su carrito y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
+                <target>Una de las habitaciones ya existe en su wishlist y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -3323,6 +3323,14 @@
         <trans-unit id="974">
             <source>MSG_ADD_WISH_LITS</source>
             <target>!Enhorabuena! Tu Wishlist sigue creciendo. Convertimos tus deseos en buenos recuerdos.</target>
+        </trans-unit>
+        <trans-unit id="975">
+            <source>IMMEDIATE_BOOKING</source>
+            <target>Reserva Inmediata</target>
+        </trans-unit>
+        <trans-unit id="976">
+            <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+            <target>Reserva el alojamiento de tus sueños en solo segundos.</target>
         </trans-unit>
         </body>
     </file>

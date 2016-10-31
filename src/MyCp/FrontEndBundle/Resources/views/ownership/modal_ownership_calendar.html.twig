@@ -1,6 +1,6 @@
 {% set start_date = "now"|date("d/m/Y") %}
 {% set end_date = "+2 days" |date("d/m/Y") %}
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-lg" style="width: 800px">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -8,6 +8,7 @@
             {#<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>#}
         </div>
         <div class="modal-body">
+            <small class="h-blue" style="font-size: 24px">{{ ownership.ownname }}</small>
             {%  include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : true }  %}
         </div>
 

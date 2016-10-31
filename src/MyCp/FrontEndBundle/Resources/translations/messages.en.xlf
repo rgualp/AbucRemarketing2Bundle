@@ -1757,11 +1757,11 @@
             </trans-unit>
             <trans-unit id="448">
                 <source>CART_EMPTY_SUCCESSFUL</source>
-                <target>Your cart has been successfully emptied.</target>
+                <target>Your wishlist has been successfully emptied.</target>
             </trans-unit>
             <trans-unit id="449">
                 <source>CART_DESCRIPTION</source>
-                <target>Shopping cart description</target>
+                <target>Wishlist description</target>
             </trans-unit>
             <trans-unit id="450">
                 <source>LAST_ADDED_DESCRIPTION</source>
@@ -2681,7 +2681,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>One room already exists in your cart and the selected date range collides with which it is stored. Please change the date range.</target>
+                <target>One room already exists in your wishlist and the selected date range collides with which it is stored. Please change the date range.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -3903,6 +3903,14 @@
         <trans-unit id="974">
             <source>MSG_ADD_WISH_LITS</source>
             <target>Congrats! Your Wishlist keeps growing. We turn your wishes into the best memories.</target>
+        </trans-unit>
+        <trans-unit id="975">
+            <source>IMMEDIATE_BOOKING</source>
+            <target>Immediate Booking</target>
+        </trans-unit>
+        <trans-unit id="976">
+            <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+            <target>Book the perfect accomodation immediately.</target>
         </trans-unit>
         </body>
     </file>
