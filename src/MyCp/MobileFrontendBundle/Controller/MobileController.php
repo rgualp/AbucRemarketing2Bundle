@@ -19,7 +19,7 @@ class MobileController extends Controller
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $countItems = $em->getRepository('mycpBundle:favorite')->getTotal($user_ids['user_id'],$user_ids['session_id']);
-        $response = $this->render('@MyCpMobileFrontend/menus/topnav.html.twig', array(
+        $response = $this->render('MyCpMobileFrontendBundle:menus:topnav.html.twig', array(
             'route' => $route,
             'routeParams' => $routeParams,
             'count_fav'=>$countItems

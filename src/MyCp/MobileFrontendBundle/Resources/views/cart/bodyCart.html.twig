@@ -1,0 +1,108 @@
+<div class="col-xs-12">
+    <div class="row">
+        {% set flag = 0%}
+        {% set service_flag = 0%}
+        {% set totalRoomPrice = 0 %}
+        {% set total_percent = 0 %}
+        {% for date in dates_string %}
+            {% set service_flag = 0%}
+            {% if array_clear_date[dates_timestamp[flag]] is not defined %}
+                {% if not loop.last %}
+                    <div class="item col-xs-12" id="">
+                        <div class="row">
+                            <div class="col-xs-12 text-xs-center"><span>{{dates_string_day[flag]}}</span>{{date}}</div>
+                            {% for item in cartItems %}
+                                {% set plus = 0 %}
+                                {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
+                                {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
+                                {% if item.tripleRoomCharged %}
+                                    {% set plus = configuration_triple_room_charge %}
+                                {% endif %}
+                                {% if dates_timestamp[flag] >= item.cartDateFrom | date("U") and dates_timestamp[flag] <= item.cartDateTo | date("U")%}
+                                    {% if dates_timestamp[flag] != item.cartDateTo | date("U") %}
+                                        <div class="col-xs-12">
+                                            <div class="m-t-0 margin-t col-xs-12"></div>
+                                            <div class="row" id="{{ item.cartId }}-{{ dates_timestamp[flag] }}">
+                                                <div class="col-xs-10 f-s-12">{{ item.cartRoom.roomOwnership.ownAddressMunicipality.munName}}, {{ item.cartRoom.roomOwnership.ownName}}</div>
+                                                <div class="col-xs-2"><button data="{{ item.cartId }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></div>
+                                                <div class="col-xs-6">{{ item.cartRoom.roomType |trans}}</div>
+                                                <div class="col-xs-3 text-xs-center"><i class="ion-man f-s-24"></i><i class="ion-woman f-s-24"></i> {{ item.cartCountAdults}}</div>
+                                                <div class="col-xs-3 text-xs-center"><i class="f-s-24 ion-android-contacts"></i> {{ item.cartCountChildren}}</div>
+                                                <div class="col-xs-12 text-xs-right">
+                                                    <small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>
+                                                    <span class="f-s-18 f-w-bold">
+                                                        {% set total_percent =  total_percent + ((roomPrice + plus) * item.cartRoom.roomOwnership.ownCommissionPercent / 100) %}
+                                                        {% if item.tripleRoomCharged%}
+                                                            {{ roomPrice | price}}
+                                                            {% set totalRoomPrice = totalRoomPrice +  (roomPrice + plus) %}
+                                                        {% else %}
+                                                            {{ roomPrice | price}}
+                                                            {% set totalRoomPrice = totalRoomPrice +  roomPrice %}
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                                {% if item.tripleRoomCharged %}
+                                                    <div class="col-xs-8 f-s-10">
+                                                        {{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}
+                                                    </div>
+                                                    <div class="col-xs-4 text-xs-right">
+                                                        <h5 class="f-s-18 f-w-bold">{{plus | price}}</h5>
+                                                    </div>
+                                                {%endif%}
+                                            </div>
+                                        </div>
+                                    {% else %}
+
+                                    {% endif %}
+                                {% endif %}
+                                {% set service_flag = service_flag + 1%}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% set flag = flag + 1 %}
+        {% endfor %}
+        {% set nights = dates_string | length %}
+        <!--label>Comentarios:</label-->
+    </div>
+</div>
+<form method="POST" action="{{ path('frontend_check_availability_submit_cart') }}">
+<!--textarea style="height: 100px" name="comment_cart" class="form-control"></textarea-->
+<div class="col-xs-12 p-y-1 text-xs-center bg-blue-mycp prices-cart">
+    <div class="row">
+        <div class="col-xs-12 text-xs-right">
+            <span class="f-s-12 white">{{ 'ACCOMMODATION_TOTAL_COST' | trans }}: </span>
+            <span class="f-s-16 white">{{totalRoomPrice | price}}</span>
+        </div>
+        <div class="col-xs-12 text-xs-right">
+            <span class="f-s-12 white">{{ 'SERVICE_TOURIST_TAX' | trans }}: </span>
+            <span class="f-s-16 white">{{touristTax | price}}</span>
+        </div>
+        <div class="col-xs-12 text-xs-right">
+            <span class="f-s-12 white">{{ 'SERVICE_FIXED_TAX' | trans }}: </span>
+            <span class="f-s-16 white">{{currentServiceFee.fixedFee | price}}</span>
+        </div>
+        <div class="col-xs-12 text-xs-right">
+            <span class="f-s-12 white">{{ 'RESERVATION_TOTAL_PRICE' | trans }} </span>
+            <span class="f-s-20 f-w-bold white">{{(totalRoomPrice + touristTax + currentServiceFee.fixedFee) | price}}</span>
+        </div>
+        <div class="space space-10"></div>
+        <div class="col-xs-12 text-xs-left">
+            <div class="col-xs-12 text-xs-center text-uppercase white f-s-12 p-a-0">
+                {{ 'PREPAYMENT'|trans }}:
+                <span class="f-s-20 f-w-bold" id="total_prepayment">{{(total_percent +touristTax + currentServiceFee.fixedFee) | price}}</span>
+            </div>
+            <div class="col-xs-12 text-uppercase white f-s-10 p-a-0">
+                <div class="col-xs-12 text-xs-center">{{ 'TOTAL_PAY_AT_SERVICE'|trans }}</div>
+                <div class="col-xs-12 text-xs-center"><span class="f-s-16" id="pay_at_service">{{(totalRoomPrice - total_percent) | price}}</span>
+                    {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+                    {% if currSymbol != "CUC" %}
+                        <span id="pay_at_service_cuc" class="f-w-bold f-s-18"> (CUC {{ (totalRoomPrice - total_percent) | number_format(2) }})</span>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

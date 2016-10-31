@@ -104,4 +104,17 @@ mycp_test_view_confirmation_payment_owner:
 
 mycp_test_template:
     pattern:  /test-template
+    pattern:  /test-template
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:testTemplate}
+
+mycp_test_new_offer:
+    pattern:  /newoffer-mail/{langCode}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:newOfferMail}
+
+mycp_test_new_offer_send:
+    pattern:  /newoffer-mail-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:newOfferMailSend, mail:null}
+
+mycp_test_newsletter_command:
+    pattern:  /newsletter
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:newsletter}

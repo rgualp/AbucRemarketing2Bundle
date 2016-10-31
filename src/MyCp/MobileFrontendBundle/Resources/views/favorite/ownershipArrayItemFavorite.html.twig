@@ -1,7 +1,7 @@
 <div class="thumbs-houses container lazy-cont">
 {% for own in list %}
 <div class="row no-margin">
-    <div class="col-sm-3">
+    <div class="col-xs-3">
         <div data-text="&nbsp;&nbsp;&nbsp;{%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
             <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | urlNormalize}) }}">
                 <img class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
@@ -9,7 +9,7 @@
             </a>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-xs-6">
         <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | urlNormalize}) }}">
             <h1 class="h-blue">{{ own['own_name']}}</h1>
         </a>
@@ -38,7 +38,7 @@
                 {%endif%}
         <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>
     </div>
-    <div class="col-sm-3 text-center">
+    <div class="col-xs-3 text-center">
         <small>{{"FROM_PRICES" | trans}}:</small><h2 class="no-margin h-grey margin-t">{{own['minimum_price'] | price}}</h2>
                 {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': own['is_in_favorites'],

@@ -145,6 +145,9 @@ h6{
 .f-f-Arial{
     font-family: Arial;
 }
+.f-f-mycp{
+    font-family: CaeciliaRoman;
+}
 
 .line-height-1{
     line-height: 1 !important;
@@ -180,6 +183,10 @@ h6{
 .p-r-l-30{
     padding-left: 1.8rem;
     padding-right: 1.8rem;
+}
+
+.m-r-5{
+    margin-right: 0.31rem;
 }
 
 .m-t-40{
@@ -234,8 +241,32 @@ h6{
     background-color: #e6e6e6;
 }
 
+.bg-gray-e1e1e0{
+    background-color: #e1e1e0;
+}
+
 .bg-green-mycp{
     background: #86b32b none repeat scroll 0 0;
+}
+
+.bg-green-two-mycp{
+    background-color: #63a333;
+}
+
+.bg-blue-mycp{
+    background-color: #2554a1;
+}
+
+.bg-red-mycp{
+    background-color: #cc3333;
+}
+
+.bg-orange-mycp{
+    background-color: #e7931a;
+}
+
+.text-color-blue{
+    color: #4394d1;
 }
 
 .gray-mycp{
@@ -272,8 +303,23 @@ h6{
     color: #f4b419;
 }
 
+.border-top-1-gray {
+    border-top: 1px solid #888;
+}
+
+.border-bottom-1-fblue {
+    border-bottom: 1px solid #14305e;
+}
+
 .border-top-gray {
     border-top: 2px solid #888;
+}
+
+.margin-t {
+    border-top: 1px solid #ccc;
+    display: block;
+    height: 1px;
+    margin: 10px 0;
 }
 
 .background-effect{
@@ -299,7 +345,7 @@ h6{
     box-shadow: 2px 2px 3px #ccc;
 }
 .box-shadow-inset{
-
+    box-shadow: 1px 2px 6px #888 inset;
 }
 
 .no-shadows{
@@ -347,10 +393,13 @@ h6{
     position: absolute;
     left: -8px;
     top: -7px;
+    padding: 4px;
 }
 .navbar-inverse .navbar-toggle {
-    border:none;
+    border: medium none;
     font-size: 35px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     text-align: center;
 }
 .navbar-inverse .navbar-toggle .icon-bar {
@@ -368,6 +417,10 @@ h6{
 .navbar-nav.pull-right > li > .dropdown-menu, .navbar-nav > li > .dropdown-menu.pull-right {
     left: auto;
     right: 8px;
+}
+
+.navbar-nav {
+    margin: 0 -15px 0 0;
 }
 
 footer .navbar-collapse{
@@ -673,10 +726,6 @@ footer .list-inline li a {
 }
 
 .content-button{
-    bottom: 0;
-    left: 0;
-    padding: 9px;
-    position: absolute;
     width: 100%;
     background-color: #cfcfcf;
 }
@@ -752,4 +801,243 @@ span.speech:after {
     position: absolute;
     right: 0;
     z-index: 1000;
+}
+/* Page Details */
+
+.share-block{
+
+}
+.share-block button {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #adadad;
+    font-family: Arial;
+    padding: 8px 0;
+    text-shadow: none;
+    white-space: normal;
+    line-height: 0;
+}
+
+/* Responsive Slide */
+
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.rslides li {
+    -webkit-backface-visibility: hidden;
+    background-size: cover;
+    display: none;
+    height: 200px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.rslides li:first-child {
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.rslides img {
+    display: block;
+    height: auto;
+    float: left;
+    width: 100%;
+    border: 0;
+}
+
+/* Navs Tab */
+
+.nav-tabs {
+    background-color: #eeeeee;
+    background-image: linear-gradient(to bottom, #fcfcff 90%, #eeeeee);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 20px;
+}
+.nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+    text-align: center;
+    width: 16.66%;
+}
+.nav-tabs > li > a {
+    background: #d3d2d0 none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 57px;
+    margin-right: 0;
+    padding: 15px 0;
+}
+.nav-tabs > li:last-child > a p{
+    color: #FFF;
+}
+
+.nav-tabs > li > a.active {
+    background: #FFF none repeat scroll 0 0;
+}
+
+.nav-tabs > li:last-child > a {
+    background: #86b32b;
+}
+.nav-tabs > li:last-child > a.active {
+    background: #ff9800;
+}
+
+.nav-tabs .nav-item + .nav-item {
+    margin-left: 0;
+}
+
+.nav-tabs span.speech {
+    background-color: #e6e6e6;
+    border: 3px solid #adadad;
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    text-align: center;
+    width: auto;
+    color: #9b9b9b;
+}
+
+.nav-tabs > li > a.active span.speech{
+    background-color: transparent;
+}
+
+.nav-tabs > li > a.active span.speech::after {
+    border-color: #fff transparent transparent #fff;
+}
+
+ul.details-desc{
+
+}
+ul.details-desc li {
+    color: #bcbcbc;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 5px 7px;
+}
+ul.details-desc li i{
+    color: #bcbcbc;
+    font-size: 18px;
+}
+
+.table thead > tr > th {
+    border-bottom: 1px solid #bbbbbb;
+    text-align: center;
+    vertical-align: bottom;
+}
+.table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
+    border: 0;
+    font-size: 0.8rem;
+    line-height: 1.644;
+    padding: 3px 1px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #eceeef;
+    padding: 5px !important;
+}
+
+#rooms_selected th, #rooms_selected td, #rooms_selected tr{
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 1px;
+    text-align: center;
+}
+
+#rooms_selected th{
+    color: #8a8a8a;
+    font-weight: bold;
+}
+
+.datepicker {
+    border-radius: 3px;
+    left: 0;
+    margin-top: 1px;
+    padding: 4px;
+    top: 0;
+}
+input[type="radio"][disabled], input[type="checkbox"][disabled], .radio[disabled], .radio-inline[disabled], .checkbox[disabled], .checkbox-inline[disabled], .table-condensed thead > tr > th, .table-condensed tbody > tr > th, .table-condensed tfoot > tr > th, .table-condensed thead > tr > td, .table-condensed tbody > tr > td, .table-condensed tfoot > tr > td {
+    font-size: 12px;
+    padding: 4px;
+}
+
+select.form-control-2 {
+    padding: 0;
+}
+
+footer {
+    padding: 4px 0;
+}
+
+#list-cart{
+    margin-right: 7px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    padding: 11px 5px;
+}
+
+.icon-avatar {
+    margin: -8px 0 0 -39px;
+}
+
+.mycasatrip-tab{
+
+}
+.mycasatrip-tab .nav-tabs{
+
+}
+.mycasatrip-tab .nav-tabs li{
+    width: 50%;
+}
+
+.mycasatrip-tab .nav-tabs li a{
+    background: #d3d2d0 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 12px;
+    padding: 0;
+}
+.mycasatrip-tab .nav-tabs li.active a{
+    background: #86b32b none repeat scroll 0 0;
+}
+
+.dropdown-menu, .tt-dropdown-menu {
+    left: auto;
+    right: -47px;
+    min-width: 80px;
+    width: 310px !important;
+}
+
+#top-menu .dropdown-menu, .tt-dropdown-menu {
+    left: auto;
+    right: -152px;
+    min-width: 80px;
+    width: 310px !important;
+}
+
+.modal-body .no-bg-in-modal{
+    background: none !important;
+}
+.modal-body .no-yp-in-modal{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.sweet-alert h2 {
+    font-size: 14px;
+    margin: 0;
 }

@@ -50,17 +50,33 @@ class MycasatripController extends Controller {
             $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($pend['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos, $photo);
         }
-        return $this->render('FrontEndBundle:mycasatrip:pending.html.twig', array(
-                    'res_pending' => $res_pending,
-                    'order_by' => $order_by,
-                    'photos' => $array_photos,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
-        ));
+
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:mycasatrip:pending.html.twig', array(
+                'res_pending' => $res_pending,
+                'order_by' => $order_by,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }else{
+            return $this->render('FrontEndBundle:mycasatrip:pending.html.twig', array(
+                'res_pending' => $res_pending,
+                'order_by' => $order_by,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }
+
     }
 
-    public function availableAction($order_by, Request $request) {
+    public function availableAction($order_by, Request $request,$flag) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -78,9 +94,12 @@ class MycasatripController extends Controller {
         $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
+        if($flag=='1')
+            $items_per_page = 5;
+        else
+            $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
+        $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
         $res_available = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -97,7 +116,12 @@ class MycasatripController extends Controller {
             array_push($array_photos, $photo);
         }
 
-        return $this->render('FrontEndBundle:mycasatrip:available.html.twig', array(
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            if($flag=='1'){
+                return $this->render('MyCpMobileFrontendBundle:Cart:navBarCesta.html.twig', array(
                     'res_available' => $res_available,
                     'order_by' => $order_by,
                     'nights' => $nights,
@@ -105,7 +129,46 @@ class MycasatripController extends Controller {
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page
-        ));
+                ));
+            }
+            else{
+                return $this->render('MyCpMobileFrontendBundle:mycasatrip:available.html.twig', array(
+                    'res_available' => $res_available,
+                    'order_by' => $order_by,
+                    'nights' => $nights,
+                    'photos' => $array_photos,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }
+        }else{
+            if($flag=='1'){
+                return $this->render('FrontEndBundle:cart:navBarCesta.html.twig', array(
+                    'res_available' => $res_available,
+                    'order_by' => $order_by,
+                    'nights' => $nights,
+                    'photos' => $array_photos,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }
+            else{
+                return $this->render('FrontEndBundle:mycasatrip:available.html.twig', array(
+                    'res_available' => $res_available,
+                    'order_by' => $order_by,
+                    'nights' => $nights,
+                    'photos' => $array_photos,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }
+        }
+
+
+
     }
 
     public function updateFavoritesStatisticsCallbackAction() {
@@ -199,15 +262,32 @@ class MycasatripController extends Controller {
             array_push($array_photos, $photo);
         }
 
-        return $this->render('FrontEndBundle:mycasatrip:history_reserve.html.twig', array(
-                    'res_available' => $res_available,
-                    'order_by' => $order_by,
-                    'nights' => $nights,
-                    'photos' => $array_photos,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
-        ));
+
+
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:mycasatrip:history_reserve.html.twig', array(
+                'res_available' => $res_available,
+                'order_by' => $order_by,
+                'nights' => $nights,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }else{
+            return $this->render('FrontEndBundle:mycasatrip:history_reserve.html.twig', array(
+                'res_available' => $res_available,
+                'order_by' => $order_by,
+                'nights' => $nights,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }
     }
 
     public function paymentsAction($order_by, Request $request) {
@@ -242,15 +322,30 @@ class MycasatripController extends Controller {
             array_push($array_photos, $photo);
         }
 
-        return $this->render('FrontEndBundle:mycasatrip:payment.html.twig', array(
-                    'res_payment' => $res_payment,
-                    'order_by' => $order_by,
-                    'nights' => $nights,
-                    'photos' => $array_photos,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:mycasatrip:payment.html.twig', array(
+                'res_payment' => $res_payment,
+                'order_by' => $order_by,
+                'nights' => $nights,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }else{
+            return $this->render('FrontEndBundle:mycasatrip:payment.html.twig', array(
+                'res_payment' => $res_payment,
+                'order_by' => $order_by,
+                'nights' => $nights,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }
     }
 
     function historyConsultAction($order_by, Request $request) {
@@ -286,14 +381,29 @@ class MycasatripController extends Controller {
             array_push($array_photos, $photo);
         }
 
-        return $this->render('FrontEndBundle:mycasatrip:history_consult.html.twig', array(
-                    'res_contult' => $res_consult,
-                    'order_by' => $order_by,
-                    'photos' => $array_photos,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:mycasatrip:history_consult.html.twig', array(
+                'res_contult' => $res_consult,
+                'order_by' => $order_by,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }else{
+            return $this->render('FrontEndBundle:mycasatrip:history_consult.html.twig', array(
+                'res_contult' => $res_consult,
+                'order_by' => $order_by,
+                'photos' => $array_photos,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }
+
     }
 
     function getMenuCountAction($menu_selected) {
@@ -301,7 +411,14 @@ class MycasatripController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $counts = $em->getRepository('mycpBundle:ownershipReservation')->countForMenu($user->getUserId());
         //var_dump($counts); exit();
-        return $this->render('FrontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
+        }else{
+            return $this->render('FrontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
+        }
     }
 
     function getOrderBy($order_by) {
@@ -346,13 +463,26 @@ class MycasatripController extends Controller {
             if (isset($_GET['page']))
                 $page = $_GET['page'];
 
-            return $this->render('FrontEndBundle:mycasatrip:favorites.html.twig', array(
-                        'ownership_favorities' => $ownership_favorities,
-                        'favorite_type' => $favorite_type,
-                        'items_per_page' => $items_per_page,
-                        'total_items' => $paginator->getTotalItems(),
-                        'current_page' => $page
-            ));
+            $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+            if ($mobileDetector->isMobile()){
+                return $this->render('MyCpMobileFrontendBundle:mycasatrip:favorites.html.twig', array(
+                    'ownership_favorities' => $ownership_favorities,
+                    'favorite_type' => $favorite_type,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }else{
+                return $this->render('FrontEndBundle:mycasatrip:favorites.html.twig', array(
+                    'ownership_favorities' => $ownership_favorities,
+                    'favorite_type' => $favorite_type,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }
         } else {
             $locale = $this->get('translator')->getLocale();
             $favorite_destination_list = $em->getRepository('mycpBundle:favorite')->getFavoriteDestinations($user->getUserId());
@@ -365,13 +495,27 @@ class MycasatripController extends Controller {
             if (isset($_GET['page']))
                 $page = $_GET['page'];
 
-            return $this->render('FrontEndBundle:mycasatrip:favorites.html.twig', array(
-                        'destination_favorities' => $destination_favorities,
-                        'favorite_type' => $favorite_type,
-                        'items_per_page' => $items_per_page,
-                        'total_items' => $paginator->getTotalItems(),
-                        'current_page' => $page
-            ));
+
+
+            $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+            if ($mobileDetector->isMobile()){
+                return $this->render('MyCpMobileFrontendBundle:mycasatrip:favorites.html.twig', array(
+                    'destination_favorities' => $destination_favorities,
+                    'favorite_type' => $favorite_type,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }else{
+                return $this->render('FrontEndBundle:mycasatrip:favorites.html.twig', array(
+                    'destination_favorities' => $destination_favorities,
+                    'favorite_type' => $favorite_type,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                ));
+            }
         }
     }
 
@@ -387,13 +531,25 @@ class MycasatripController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        return $this->render('FrontEndBundle:mycasatrip:comments.html.twig', array(
-                    'comments' => $comments,
-                    'comment_type' => $comment_type,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:mycasatrip:comments.html.twig', array(
+                'comments' => $comments,
+                'comment_type' => $comment_type,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }else{
+            return $this->render('FrontEndBundle:mycasatrip:comments.html.twig', array(
+                'comments' => $comments,
+                'comment_type' => $comment_type,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
+            ));
+        }
     }
 
     public function cancelOfferAction($generalReservationId) {

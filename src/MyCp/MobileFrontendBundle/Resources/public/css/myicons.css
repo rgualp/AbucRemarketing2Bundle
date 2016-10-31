@@ -1,7 +1,7 @@
 .myicons {
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     display: inline-block;
     height: 1rem;
     position: relative;
@@ -13,6 +13,10 @@
     width: 6.25rem;
     height: 6.25rem;
 }
+.myicons.m_long {
+    width: 2.5rem;
+    height: 2.5rem;
+}
 .myicons.medium {
     width: 2rem;
     height: 2rem;
@@ -21,7 +25,150 @@
     width: 1.3rem;
     height: 1.3rem;
 }
+.myicons.small25{
+    width: 1.56rem;
+    height: 1.56rem;
+}
+
+.myicons.small25-wide {
+    height: 1.56rem;
+    width: 70%;
+}
+
 
 .myicons.my_search{
     background-image: url("../bundles/mycpmobilefrontend/img/search-icon.png");
+}
+
+.myicons.send-friend{
+    background-image: url("../bundles/mycpmobilefrontend/img/send-friend.png");
+}
+
+.myicons.rooms{
+    background-image: url("../bundles/mycpmobilefrontend/img/rooms.png");
+}
+/*a.active .myicons.rooms{*/
+    /*background-image: url("../bundles/mycpmobilefrontend/img/rooms-white.png");*/
+/*}*/
+
+.myicons.servicios{
+    background-image: url("../bundles/mycpmobilefrontend/img/Servicios.png");
+}
+/*a.active .myicons.servicios{*/
+    /*background-image: url("../bundles/mycpmobilefrontend/img/Servicios-white.png");*/
+/*}*/
+
+.myicons.descripcion{
+    background-image: url("../bundles/mycpmobilefrontend/img/Descripcion.png");
+}
+/*a.active .myicons.descripcion{*/
+    /*background-image: url("../bundles/mycpmobilefrontend/img/Descripcion-white.png");*/
+/*}*/
+
+.myicons.mapa{
+    background-image: url("../bundles/mycpmobilefrontend/img/mapa.png");
+}
+/*a.active .myicons.mapa{*/
+    /*background-image: url("../bundles/mycpmobilefrontend/img/mapa-white.png");*/
+/*}*/
+
+/*.myicons.reservas{*/
+    /*background-image: url("../bundles/mycpmobilefrontend/img/Reservas.png");*/
+/*}*/
+.myicons.reservas{
+    background-image: url("../bundles/mycpmobilefrontend/img/Reservas-white.png");
+}
+
+.myicons.audiovisuales{
+    background-image: url("../bundles/mycpmobilefrontend/img/audiovisuales.png");
+}
+.myicons.balcon{
+    background-image: url("../bundles/mycpmobilefrontend/img/balcon.png");
+}
+.myicons.bebes{
+    background-image: url("../bundles/mycpmobilefrontend/img/bebes.png");
+}
+.myicons.bed{
+    background-image: url("../bundles/mycpmobilefrontend/img/bed.png");
+}
+.myicons.caja-fuerte{
+    background-image: url("../bundles/mycpmobilefrontend/img/caja-fuerte.png");
+}
+.myicons.clima{
+    background-image: url("../bundles/mycpmobilefrontend/img/clima.png");
+}
+.myicons.estereo{
+    background-image: url("../bundles/mycpmobilefrontend/img/estereo.png");
+}
+.myicons.fumador{
+    background-image: url("../bundles/mycpmobilefrontend/img/fumador.png");
+}
+.myicons.mascotas{
+    background-image: url("../bundles/mycpmobilefrontend/img/mascotas.png");
+}
+.myicons.patio{
+    background-image: url("../bundles/mycpmobilefrontend/img/patio.png");
+}
+.myicons.terraza{
+    background-image: url("../bundles/mycpmobilefrontend/img/terraza.png");
+}
+.myicons.window{
+    background-image: url("../bundles/mycpmobilefrontend/img/window.png");
+}
+
+.myicons.cena{
+    background-image: url("../bundles/mycpmobilefrontend/img/cena.png");
+}
+.myicons.desayuno{
+    background-image: url("../bundles/mycpmobilefrontend/img/desayuno.png");
+}
+.myicons.lavanderia{
+    background-image: url("../bundles/mycpmobilefrontend/img/lavanderia.png");
+}
+.myicons.parqueo{
+    background-image: url("../bundles/mycpmobilefrontend/img/parqueo.png");
+}
+
+.myicons.bicicleta{
+    background-image: url("../bundles/mycpmobilefrontend/img/bicicleta.png");
+}
+.myicons.internet{
+    background-image: url("../bundles/mycpmobilefrontend/img/internet.png");
+}
+.myicons.jacuzzi{
+    background-image: url("../bundles/mycpmobilefrontend/img/jacuzzi.png");
+}
+.myicons.piscina{
+    background-image: url("../bundles/mycpmobilefrontend/img/piscina.png");
+}
+.myicons.sauna{
+    background-image: url("../bundles/mycpmobilefrontend/img/sauna.png");
+}
+
+.flags{
+    background-image: url("../bundles/partner/img/icon/flags.png");
+    background-repeat: no-repeat;
+    background-size: 600% auto;
+    display: block;
+    height: 18px;
+    margin: 0 auto;
+    width: 18px;
+}
+.flags.esp{
+    background-position: 0 0;
+}
+.flags.ger{
+    background-position: -36px 0;
+}
+.flags.ita{
+    background-position: -54px 0;
+}
+.flags.chi{
+    background-position: -72px 0;
+}
+.flags.fra{
+    background-position: -90px 0;
+}
+.flags.eng{
+    background-position: -18px 0;
 }

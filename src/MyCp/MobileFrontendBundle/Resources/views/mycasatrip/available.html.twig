@@ -1,0 +1,73 @@
+{% set menu = 2 %}
+{% extends 'MyCpMobileFrontendBundle:mycasatrip:layout_order_by.html.twig' %}
+{% block body_inner %}
+    {% for message in app.session.flashbag.get('message_no_select') %}
+            <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
+    {% endfor %}
+<div class="tab-content lazy-cont">
+    <div id="tab2" class="tab-pane active">
+        <div class="thumbs-houses houses-list myct-records">
+            <form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
+                    {% for res in res_available %}
+                        <div class="row no-margin">
+                            <div class="col-sm-3">
+                                <div data-text="&nbsp;&nbsp;&nbsp;{{'AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
+                                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+                                        {% if photos[loop.index0]%}
+                                            <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"Thumbnails" | trans}}"/>
+                                            <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" alt="{{"No script" | trans}}"></noscript>
+                                        {% else %}
+                                            <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
+                                            <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" alt="{{"No script" | trans}}"></noscript>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+                                    <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
+                                </a>
+                                <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}
+                                    <br>{{res['own_res_room_type']|trans}}</small>
+                                <small class="top">{{"ADULTS" | trans}}: {{res['own_res_count_adults']}} {{"KIDS" | trans}}: {{res['own_res_count_childrens']}}</small>
+                                <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
+                            </div>
+                            <div class="col-sm-3 text-center grey">
+                                <div><input name="checkbox_{{res['own_res_id']}}" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
+                                <div class="big-price-blue">
+                                    {%if res['own_res_night_price'] != 0%}
+                                    {{(res['own_res_night_price'] *(nights[loop.index0])) | price}}
+                                    {%else%}
+                                        {{res['own_res_total_in_site'] | price}}
+                                    {%endif%}
+                                </div>
+                                <div>{{"ID_RESERVATION" | trans}}: <b>{{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b></div>
+                            </div>
+                        </div>
+                        <hr/>
+                    {% else %}
+                        <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+                    {% endfor %}
+                    {%if res_available%}
+                    <div class="text-right" style="margin: 30px 15px">
+                        <button class="btn btn-action btn-success">{{"CONTINUE_RESERVING" | trans}}</button>
+                    </div>
+                    {% endif %}
+                </form>
+                {%if res_available | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_available',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': null
+}) }}
+            </div>
+            {%endif%}
+        </div>
+    </div>
+    </div>
+{% endblock %}

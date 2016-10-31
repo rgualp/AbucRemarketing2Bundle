@@ -58,3 +58,7 @@ parameters:
 
     mycp_mobile_url: "http://m.mycasaparticular.com"
 
+    newsletter_testing_mode: 0
+    newsletter_testing_email: yanet.moralesr@gmail.com
+    newsletter_testing_mobile: 52540669
+

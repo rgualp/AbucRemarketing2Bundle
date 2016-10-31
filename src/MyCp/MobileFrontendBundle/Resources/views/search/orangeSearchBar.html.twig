@@ -1,7 +1,7 @@
 
-<div class="form bg-gradient-orange p-a-0" id="orange_search_bar">
+<div class="form clearfix bg-gradient-orange p-a-0" id="orange_search_bar">
         <div class="">
-            <div class="col-sm-12 p-x-5">
+            <div class="col-xs-12 p-x-5">
                 <form class="form-inline">
                     <div class="row m-x-0">
                         <div class="col-xs-7 p-x-5 p-l-0">
@@ -25,19 +25,19 @@
 
                     </div>
                     <div class="row m-x-0">
-                        <div class="col-xs-4 dates p-x-5 p-l-0">
+                        <div class="col-xs-5 dates p-x-5 p-l-0">
                             <div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group arrival_date" data-datepicker="true" style="padding: 0; z-index: 250">
-                                <input class="form-control" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>
+                                <input class="form-control f-s-12 p-5" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>
                                 <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                             </div>
                         </div>
-                        <div class="col-xs-4 dates p-x-5">
+                        <div class="col-xs-5 dates p-x-5">
                             <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group" style="padding: 0; z-index: 250">
-                                <input class="form-control" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" type="text" data-localization='{{locale}}' data-value='{{departure_date}}'>
+                                <input class="form-control f-s-12 p-5" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" type="text" data-localization='{{locale}}' data-value='{{departure_date}}'>
                                 <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                             </div>
                         </div>
-                        <div class="col-sm-2 hide p-x-5">
+                        <div class="col-xs-2 hide p-x-5">
                             <select class="form-control" id="input_room">
                                 <option value="1">{{"ROOM_WATERMARK" | trans }}</option>
                                 <option value="2">2 {{"ROOM_PLURAL" | trans | capitalize}}</option>
@@ -47,8 +47,8 @@
                                 <option value="+5">+5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
                             </select>
                         </div>
-                        <div class="col-xs-4 p-x-5 p-r-0">
-                            <a class="btn btn-block btn-primary" id="btn_search" data-url="{{ path('my_cp_mobile_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}">{{"SEARCH" | trans | capitalize}}</a>
+                        <div class="col-xs-2 p-x-5 p-r-0">
+                            <a class="btn btn-block btn-primary" id="btn_search" data-url="{{ path('my_cp_mobile_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                 </form>

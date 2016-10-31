@@ -1948,7 +1948,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Jetzt Reservieren!</target>
+                <target>JETZT RESERVIEREN!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
@@ -2164,7 +2164,7 @@
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Aktivierung ihres Benutzerkontos bei MyCasaParticular</target>
+                  <target>Wilkommen Sie auf unsere Gemeinschaft</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
@@ -2184,7 +2184,7 @@
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Zahlungsbestätigung</target>
+                    <target>Buchungsbestätigung (Voucher)</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
@@ -2484,7 +2484,7 @@
             </trans-unit>
             <trans-unit id="631">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
-                <target>Erinnerung: Aktivieren Sie Ihr Konto bei MyCasaParticular</target>
+                <target>Schliessen Sie sich unserer Gemeinschaft an</target>
             </trans-unit>
             <trans-unit id="632">
                 <source>OWN_STATUS_ACTIVE</source>
@@ -2520,27 +2520,27 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Das Konto ist noch nicht aktiv? Haben Sie ein Problem?</target>
+                <target>Aktivieren Sie Ihr Konto.</target>
             </trans-unit>
              <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
                 <target>Übernachten, wo Kuba, Kuba ist!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target>Ihr Konto bei MCP ist noch nicht aktiviert, deswegen ist die Registrierung noch nicht abgeschlossen. Um das Konto zu aktivieren, klicken Sie bitte</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
+                <target><![CDATA[Melden Sie sich an und Schliessen Sie sich der Familie von <b>MyCasaParticular.com</b> an. Unsere Website verfügt über mehr als 25000 Benutzer : die besten Gastgeber, wunderbare Unterkünfte und viele Freunde in aller Welt.]]></target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
                 <target>hier</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
-                <target>, oder kopieren Sie die URL auf Ihren Internet-Browser.</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
+                <target>Um Ihr Konto zu aktivieren , klicken Sie hier oder kopieren Sie bitte den unterstehende URL in Ihren Browser ein.:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
-                <target>Falls Sie Probleme mit Kontoaktivierung haben, kontaktieren Sie bitte unsere</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
+                <target>Benötigen Sie Hilfe? Kontaktieren Sie uns unter die E-Mail Adresse:</target>
             </trans-unit>
             <trans-unit id="646">
                 <source>SUPPORT_TEAM</source>
@@ -2560,7 +2560,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>Wir haben alle erfoerderliche Infomationen fuer die Registrierung bei MCP erhalten. Damit sie Zutritt zu unsere Webseite haben und die Reservierung fortsetzen koennen</target>
+                <target><![CDATA[Jetzt gehören Sie zu unserer Familie. herzlichen Glückwünsch! Ihre Registrierungsprozess auf <b>MyCasaParticular.com</b> wurde abgeschlossen. Aktivieren Sie Ihr Konto damit Sie die Vorteile unserer Gemeinschaft profitieren können.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2568,7 +2568,7 @@
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>Sollte der Link nicht funktionieren, kopieren Sie bitte den folgenden URL in Ihren Browser ein.</target>
+                <target>Klicken Sie hier oder kopieren Sie bitte den unterstehende URL in Ihren Browser ein.</target>
             </trans-unit>
             <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
@@ -3051,12 +3051,12 @@
                 </trans-unit>
             <trans-unit id="773">
                 <source>NEWSLETTER_INTRO_TEXT</source>
-                <target>Genau zum richtigen Zeitpunkt haben Sie über die Agentur Mycasaparticular Ihre Reservierung gemacht. Anbei senden wir Ihnen, Ihre Buchungsbestätigung. Es wäre sinnvoll sie auszudrucken.</target>
-                </trans-unit>
+                <target><![CDATA[herzlichen Glückwünsch! Sie haben durch <b>MyCasaParticular.com</b> reserviert. Wir wünschen Ihnen eine schöne Urlaubsreise. Wir senden Ihnen im Anhang Ihre Buchungsbestätigung. Bitte, drucken Sie  es.]]></target>
+            </trans-unit>
             <trans-unit id="774">
                 <source>NEWSLETTER_INTRO_TEXT1</source>
-                <target>Genießen Sie Ihre Reise in vollen Zügen.</target>
-                </trans-unit>
+                <target>Leben Sie ein einmaliges Erlebnis . Entdecken Sie Kuba bei uns.</target>
+            </trans-unit>
             <trans-unit id="775">
                 <source>NEWSLETTER_INTRO_TEXT2</source>
                 <target>Wir kümmern uns um die Unterbringung.</target>
@@ -3812,7 +3812,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
 
                  <trans-unit id="10958">
                  <source>MYTAXICUBACONTE1</source>
-                 <target>Bestellen Sie Ihr Taxi und garantieren Sie die sichere Ankunft zur gebuchten Unterkunft.</target>
+                 <target>Entdecken Sie Kuba mit Stil! Abholung am Flughafen und Transport zur Unterkunft, Rundfahrten im Oldtimer und Transferservice. Wir begleiten Sie immer. Reisen Sie mit MyTaxiCuba!</target>
                  </trans-unit>
 
 
@@ -3992,6 +3992,38 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                      <source>Logo</source>
                      <target>Logo</target>
                 </trans-unit>
+                <trans-unit id="999">
+                                     <source>ROOM</source>
+                                     <target>Zimmer</target>
+                                </trans-unit>
+                                <trans-unit id="1000">
+                                       <source>SHARE</source>
+                                       <target>Aktie</target>
+                                  </trans-unit>
+                                  <trans-unit id="1001">
+                                                         <source>Bookings</source>
+                                                         <target>Reserve</target>
+                                                    </trans-unit>
+                <trans-unit id="1002">
+                    <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                    <target>Am besten bewertet</target>
+                </trans-unit>
+            <trans-unit id="1003">
+                <source>facebook</source>
+                <target>facebook</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>twitter</source>
+                <target>twitter</target>
+            </trans-unit>
+            <trans-unit id="1005">
+                <source>pinterest</source>
+                <target>pinterest</target>
+            </trans-unit>
+            <trans-unit id="1006">
+                <source>youtube</source>
+                <target>youtube</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

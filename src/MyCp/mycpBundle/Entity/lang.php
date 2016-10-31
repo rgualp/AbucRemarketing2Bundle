@@ -79,6 +79,16 @@ class lang
     private $lang_destination_keywords;
 
     /**
+     * @ORM\OneToMany(targetEntity="newsletterEmail",mappedBy="language")
+     */
+    private $newsletterEmails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="newsletterContent",mappedBy="language")
+     */
+    private $newsletterContents;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -89,6 +99,8 @@ class lang
         $this->lang_destination_categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lang_ownership_keywords = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lang_destination_keywords = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->newsletterEmails = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->newsletterContents = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -233,4 +245,60 @@ class lang
     {
         return "Lenguaje ".$this->getLangCode();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNewsletterEmails()
+    {
+        return $this->newsletterEmails;
+    }
+
+    /**
+     * @param mixed $newsletterEmails
+     * @return mixed
+     */
+    public function setNewsletterEmails($newsletterEmails)
+    {
+        $this->newsletterEmails = $newsletterEmails;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOdlLangs()
+    {
+        return $this->odl_langs;
+    }
+
+    /**
+     * @param mixed $odl_langs
+     * @return mixed
+     */
+    public function setOdlLangs($odl_langs)
+    {
+        $this->odl_langs = $odl_langs;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewsletterContents()
+    {
+        return $this->newsletterContents;
+    }
+
+    /**
+     * @param mixed $newsletterContents
+     * @return mixed
+     */
+    public function setNewsletterContents($newsletterContents)
+    {
+        $this->newsletterContents = $newsletterContents;
+        return $this;
+    }
+
+
 }

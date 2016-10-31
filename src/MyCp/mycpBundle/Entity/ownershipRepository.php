@@ -46,6 +46,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
         $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $active_inmediate_booking_2 = (isset($data['inmediate_booking_2'])) ? 1 : 0;
         $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
@@ -75,7 +76,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnAddressProvince($prov)
             ->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
 
-        if ($data['ownership_destination'] != 0) {
+        if($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
             $ownership->setOwnDestination($destination);
         }
@@ -105,14 +106,23 @@ class ownershipRepository extends EntityRepository {
             ->setOwnGeolocateY($data['geolocate_y'])
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
-            ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setOwnSmsNotifications($smsNotification);
 
+
+        if($active_inmediate_booking_2)
+        {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2($active_inmediate_booking_2);
+        }
+        else
+            $ownership->setOwnInmediateBooking($active_inmediate_booking)
+                ->setOwnInmediateBooking2(false);
+
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
-        if (!isset($status))
+        if(!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
 
         $ownership->setOwnStatus($status)
@@ -138,7 +148,7 @@ class ownershipRepository extends EntityRepository {
 
         /*Si el estado es activo directamente, publicar la casa*/
         if($status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
-            $ownership->setOwnPublishDate (new \DateTime());
+            $ownership->setOwnPublishDate(new \DateTime());
 
         $em->persist($ownership);
 
@@ -147,7 +157,7 @@ class ownershipRepository extends EntityRepository {
         $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
         $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
         foreach ($keys as $item) {
-            if (strpos($item, 'ownership_language') !== false) {
+            if(strpos($item, 'ownership_language') !== false) {
 
                 $id = substr($item, 19, strlen($item));
                 $ogl = new ownershipGeneralLang();
@@ -156,7 +166,7 @@ class ownershipRepository extends EntityRepository {
                 $em->persist($ogl);
             }
 
-            if (strpos($item, 'description_desc') !== false) {
+            if(strpos($item, 'description_desc') !== false) {
                 $id = substr($item, 17, strlen($item));
                 $currentLanguage = $em->getRepository('mycpBundle:lang')->find($id);
                 $briefDescription = $data['description_brief_desc_' . $id];
@@ -164,9 +174,9 @@ class ownershipRepository extends EntityRepository {
                 $translated = false;
 
                 if($currentLanguage->getLangId() == $targetLanguage->getLangId()) {
-                   $translatedArray = $this->doTranslations("en", "de", $translator, array("briefDescription" => $briefDescription, "description" => $description),
-                        array("briefDescription" => $data["description_brief_desc_".$sourceLanguage->getLangId()],
-                            "description" => $data["description_desc_".$sourceLanguage->getLangId()]),
+                    $translatedArray = $this->doTranslations("en", "de", $translator, array("briefDescription" => $briefDescription, "description" => $description),
+                        array("briefDescription" => $data["description_brief_desc_" . $sourceLanguage->getLangId()],
+                            "description" => $data["description_desc_" . $sourceLanguage->getLangId()]),
                         false);
 
                     $briefDescription = $translatedArray["briefDescription"];
@@ -175,17 +185,17 @@ class ownershipRepository extends EntityRepository {
                 }
 
                 //Son las descripciones de lenguajes que no son el target (DE) o que no necesitan traducción
-                    $odl = new ownershipDescriptionLang();
-                    $odl->setOdlIdLang($currentLanguage)
-                        ->setOdlDescription($description)
-                        ->setOdlBriefDescription($briefDescription)
-                        ->setOdlOwnership($ownership)
-                        ->setOdlAutomaticTranslation($translated);
+                $odl = new ownershipDescriptionLang();
+                $odl->setOdlIdLang($currentLanguage)
+                    ->setOdlDescription($description)
+                    ->setOdlBriefDescription($briefDescription)
+                    ->setOdlOwnership($ownership)
+                    ->setOdlAutomaticTranslation($translated);
 
-                    $em->persist($odl);
+                $em->persist($odl);
             }
 
-            if (strpos($item, 'keywords') !== false) {
+            if(strpos($item, 'keywords') !== false) {
 
                 $id = substr($item, 9, strlen($item));
                 $okl = new ownershipKeywordLang();
@@ -206,7 +216,7 @@ class ownershipRepository extends EntityRepository {
                 && $data['room_windows_' . $e] != "" && $data['room_balcony_' . $e] != ""
             );
 
-            if ($doOperations) {
+            if($doOperations) {
                 $room = new room();
                 $room->setRoomType($data['room_type_' . $e]);
                 $room->setRoomBeds($data['room_beds_number_' . $e]);
@@ -215,7 +225,7 @@ class ownershipRepository extends EntityRepository {
                 //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
                 $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
 
-                if (isset($data['room_price_special_' . $e]))
+                if(isset($data['room_price_special_' . $e]))
                     $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
 
                 $room->setRoomClimate($data['room_climate_' . $e]);
@@ -234,13 +244,13 @@ class ownershipRepository extends EntityRepository {
                 $room->setRoomActive(true);
                 $em->persist($room);
 
-                if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+                if($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
                     $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-                if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
+                if($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                     $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-                if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+                if($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                     $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
                 $maximum_guest_total += $room->getMaximumNumberGuests();
@@ -251,7 +261,7 @@ class ownershipRepository extends EntityRepository {
         $em->persist($ownership);
 
         //save client casa
-        if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
+        if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
             $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
         }
@@ -265,8 +275,7 @@ class ownershipRepository extends EntityRepository {
             ->setCreated(true)
             ->setStatus($status)
             ->setUser($controller->getUser())
-            ->setNotes("Inserted in Backend")
-        ;
+            ->setNotes("Inserted in Backend");
 
         $em->persist($statistic);
 
@@ -284,6 +293,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
         $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $active_inmediate_booking_2 = (isset($data['inmediate_booking_2'])) ? 1 : 0;
         $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
@@ -297,8 +307,8 @@ class ownershipRepository extends EntityRepository {
         $ownership_italian_lang = (isset($data['ownership_italian_lang'])) ? 1 : 0;
 
         $langs_string = $ownership_english_lang .
-                $ownership_french_lang . $ownership_german_lang .
-                $ownership_italian_lang;
+            $ownership_french_lang . $ownership_german_lang .
+            $ownership_italian_lang;
 
         $em = $this->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -307,7 +317,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnLangs($langs_string)
             ->setOwnName(trim($data['ownership_name']))
             ->setOwnLicenceNumber(trim($data['ownership_licence_number']))
-        //  ->setOwnMcpCode($data['ownership_mcp_code'])
+            //  ->setOwnMcpCode($data['ownership_mcp_code'])
             ->setOwnAddressStreet(trim($data['ownership_address_street']))
             ->setOwnAddressNumber(trim($data['ownership_address_number']))
             ->setOwnAddressBetweenStreet1(trim($data['ownership_address_between_street_1']))
@@ -341,18 +351,26 @@ class ownershipRepository extends EntityRepository {
             ->setOwnGeolocateY($data['geolocate_y'])
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
-            ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setOwnSmsNotifications($smsNotification);
 
-        if ($data['ownership_destination'] != 0) {
+        if($active_inmediate_booking_2)
+        {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2($active_inmediate_booking_2);
+        }
+        else
+            $ownership->setOwnInmediateBooking($active_inmediate_booking)
+                ->setOwnInmediateBooking2(false);
+
+        if($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
             $ownership->setOwnDestination($destination);
         }
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
-        if (!isset($status))
+        if(!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
         $ownership->setOwnStatus($status)
             ->setOwnComment(trim($data['comment']));
@@ -362,7 +380,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnLastUpdate(new \DateTime())
             ->setOwnSaler($data['ownership_saler']);
 
-        if (isset($data['ownership_visit_date']))
+        if(isset($data['ownership_visit_date']))
             $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
 
         $ownership->setOwnWaterJacuzee($water_jacuzee)
@@ -384,7 +402,7 @@ class ownershipRepository extends EntityRepository {
         $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
 
         foreach ($keys as $item) {
-            if (strpos($item, 'description_desc') !== false) {
+            if(strpos($item, 'description_desc') !== false) {
                 $id = substr($item, 17, strlen($item));
                 $currentLanguage = $em->getRepository('mycpBundle:lang')->find($id);
                 $briefDescription = $data['description_brief_desc_' . $id];
@@ -402,21 +420,20 @@ class ownershipRepository extends EntityRepository {
                         $storedSourceDescription = new ownershipDescriptionLang();
 
 
-
                     $translatedArray = $this->doTranslationsInEditMode("en", "de", $translator, array("briefDescription" => $briefDescription, "description" => $description),
-                        array("briefDescription" => $data["description_brief_desc_".$sourceLanguage->getLangId()],
-                            "description" => $data["description_desc_".$sourceLanguage->getLangId()]),$storedSourceDescription, $odl);
+                        array("briefDescription" => $data["description_brief_desc_" . $sourceLanguage->getLangId()],
+                            "description" => $data["description_desc_" . $sourceLanguage->getLangId()]), $storedSourceDescription, $odl);
 
                     $briefDescription = $translatedArray["briefDescription"];
                     $description = $translatedArray["description"];
-                    $translated = ($translatedArray["translated"]) ? true: $translated;
+                    $translated = ($translatedArray["translated"]) ? true : $translated;
                 }
 
                 if($odl == null)
                     $odl = new ownershipDescriptionLang();
                 else if(!$translated) //Para evitar que se elimine la bandera cuando no hay traducciones
                 {
-                   $translated = ($description == $odl->getOdlDescription()) ? $odl->getOdlAutomaticTranslation(): false;
+                    $translated = ($description == $odl->getOdlDescription()) ? $odl->getOdlAutomaticTranslation() : false;
                 }
 
                 $odl->setOdlIdLang($currentLanguage)
@@ -428,10 +445,10 @@ class ownershipRepository extends EntityRepository {
                 $em->persist($odl);
             }
 
-            if (strpos($item, 'keywords') !== false) {
+            if(strpos($item, 'keywords') !== false) {
 
                 $id = substr($item, 9, strlen($item));
-                if (array_key_exists('kw_id_' . $id, $data))
+                if(array_key_exists('kw_id_' . $id, $data))
                     $okl = $em->getRepository('mycpBundle:ownershipKeywordLang')->find($data['kw_id_' . $id]);
                 else
                     $okl = new ownershipKeywordLang();
@@ -452,62 +469,62 @@ class ownershipRepository extends EntityRepository {
             );
 
             //if ($doOperations) {
-                if (array_key_exists('room_id_' . $e, $data))
-                    $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
-                else {
-                    $room = new room();
-                    $room->setRoomActive(true);
-                }
-
-                if (isset($old_rooms[$e - 1])) {
-                    $metadata = $em->getClassMetadata(get_class($room));
-                    $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-                    //$room->setRoomId($old_rooms[$e - 1]->getRoomId());
-                }
-
-                if ($room->getRoomActive())
-                    $roomsActiveTotal++;
-
-                $room->setRoomType($data['room_type_' . $e]);
-                $room->setRoomBeds($data['room_beds_number_' . $e]);
-                //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
-                $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-                //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
-                $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
-
-                if (isset($data['room_price_special_' . $e]))
-                    $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
-
-                $room->setRoomClimate($data['room_climate_' . $e]);
-                $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
-                $room->setRoomSmoker($data['room_smoker_' . $e]);
-                $room->setRoomSafe($data['room_safe_box_' . $e]);
-                $room->setRoomBaby($data['room_baby_' . $e]);
-                $room->setRoomBathroom($data['room_bathroom_' . $e]);
-                $room->setRoomStereo($data['room_stereo_' . $e]);
-                $room->setRoomWindows($data['room_windows_' . $e]);
-                $room->setRoomBalcony($data['room_balcony_' . $e]);
-                $room->setRoomTerrace($data['room_terrace_' . $e]);
-                $room->setRoomYard($data['room_yard_' . $e]);
-                $room->setRoomOwnership($ownership);
-                $room->setRoomNum($e);
-                $em->persist($room);
-
-            if ($room->getRoomActive()) {
-                if (($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()))
-                    $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
-
-                if (($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()))
-                    $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
-
-                if (($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()))
-                    $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
-
-                    $maximum_guest_total += $room->getMaximumNumberGuests();
+            if(array_key_exists('room_id_' . $e, $data))
+                $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
+            else {
+                $room = new room();
+                $room->setRoomActive(true);
             }
 
-                $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
-           // }
+            if(isset($old_rooms[$e - 1])) {
+                $metadata = $em->getClassMetadata(get_class($room));
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+                //$room->setRoomId($old_rooms[$e - 1]->getRoomId());
+            }
+
+            if($room->getRoomActive())
+                $roomsActiveTotal++;
+
+            $room->setRoomType($data['room_type_' . $e]);
+            $room->setRoomBeds($data['room_beds_number_' . $e]);
+            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+            $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
+            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+            $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+
+            if(isset($data['room_price_special_' . $e]))
+                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+
+            $room->setRoomClimate($data['room_climate_' . $e]);
+            $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
+            $room->setRoomSmoker($data['room_smoker_' . $e]);
+            $room->setRoomSafe($data['room_safe_box_' . $e]);
+            $room->setRoomBaby($data['room_baby_' . $e]);
+            $room->setRoomBathroom($data['room_bathroom_' . $e]);
+            $room->setRoomStereo($data['room_stereo_' . $e]);
+            $room->setRoomWindows($data['room_windows_' . $e]);
+            $room->setRoomBalcony($data['room_balcony_' . $e]);
+            $room->setRoomTerrace($data['room_terrace_' . $e]);
+            $room->setRoomYard($data['room_yard_' . $e]);
+            $room->setRoomOwnership($ownership);
+            $room->setRoomNum($e);
+            $em->persist($room);
+
+            if($room->getRoomActive()) {
+                if(($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()))
+                    $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
+
+                if(($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()))
+                    $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+
+                if(($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()))
+                    $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
+
+                $maximum_guest_total += $room->getMaximumNumberGuests();
+            }
+
+            $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
+            // }
         }
 
         $ownership->setOwnRoomsTotal($roomsActiveTotal);
@@ -515,16 +532,16 @@ class ownershipRepository extends EntityRepository {
         $em->persist($ownership);
 
         //save client casa
-        if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
+        if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller,$container);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
         }
 
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled
-        if ($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
+        if($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), false);
 
-        if ($old_status->getStatusId() != ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
+        if($old_status->getStatusId() != ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), true);
 
         //save owner photo
@@ -536,8 +553,7 @@ class ownershipRepository extends EntityRepository {
             ->setCreated(false)
             ->setStatus($status)
             ->setUser($controller->getUser())
-            ->setNotes("Modify in Backend")
-        ;
+            ->setNotes("Modify in Backend");
 
         $em->persist($statistic);
 
@@ -547,8 +563,7 @@ class ownershipRepository extends EntityRepository {
         return $ownership;
     }
 
-    private function doTranslations($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray)
-    {
+    private function doTranslations($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray) {
         $briefDescription = $targetLanguageDescriptionsArray["briefDescription"];
         $description = $targetLanguageDescriptionsArray["description"];
         $sourceBriefDescription = $sourceLanguageDescriptionArray["briefDescription"];
@@ -556,117 +571,102 @@ class ownershipRepository extends EntityRepository {
         $translated = false;
 
         //Solo traducir descripcion breve si la descripcion breve en aleman está vacía, si la descripcion breve en ingles tiene texto y si la descripcion en ingles esta vacía
-        if($briefDescription == "" && $description == ""  && $sourceBriefDescription != "" && $sourceDescription != "")
-        {
+        if($briefDescription == "" && $description == "" && $sourceBriefDescription != "" && $sourceDescription != "") {
             $response = $translator->multipleTranslations(array($sourceDescription, $sourceBriefDescription), $sourceLanguageCode, $targetLanguageCode);
 
-            if($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200)
-            {
+            if($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                 $description = $response[0]->getTranslation();
                 $translated = true;
             }
 
-            if($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200)
-            {
+            if($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                 $briefDescription = $response[1]->getTranslation();
                 //$translated = true;
             }
         }
-        else if($briefDescription == ""  && $sourceBriefDescription != "")
-        {
+        else if($briefDescription == "" && $sourceBriefDescription != "") {
             $response = $translator->translate($sourceBriefDescription, $sourceLanguageCode, $targetLanguageCode);
 
-            if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-            {
+            if($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                 $briefDescription = $response->getTranslation();
                 //$translated = true;
             }
 
         }
-        else if($description == ""  && $sourceDescription != "")
-        {
+        else if($description == "" && $sourceDescription != "") {
             $response = $translator->translate($sourceDescription, $sourceLanguageCode, $targetLanguageCode);
 
-            if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-            {
+            if($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                 $description = $response->getTranslation();
                 $translated = true;
             }
         }
 
-        return  array("briefDescription" => $briefDescription, "description" => $description, "translated" => $translated);
+        return array("briefDescription" => $briefDescription, "description" => $description, "translated" => $translated);
     }
 
-    private function doTranslationsInEditMode($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray, $storedSourceDescription, $storedTargetDescription)
-    {
+    private function doTranslationsInEditMode($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray, $storedSourceDescription, $storedTargetDescription) {
         $responseTranslated = $this->doTranslations($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray);
 
         $briefDescription = $responseTranslated["briefDescription"];
         $description = $responseTranslated["description"];
         $translated = $responseTranslated["translated"];
 
-        if(!$translated)
-        {
+        if(!$translated) {
             $sourceBriefDescription = $sourceLanguageDescriptionArray["briefDescription"];
             $sourceDescription = $sourceLanguageDescriptionArray["description"];
 
             if($storedTargetDescription->getOdlBriefDescription() == $briefDescription && $sourceBriefDescription != $storedTargetDescription->getOdlBriefDescription() &&
-                $storedTargetDescription->getOdlDescription() == $description && $sourceDescription != $storedTargetDescription->getOdlDescription())
-            {
+                $storedTargetDescription->getOdlDescription() == $description && $sourceDescription != $storedTargetDescription->getOdlDescription()
+            ) {
                 $response = $translator->multipleTranslations(array($sourceDescription, $sourceBriefDescription), $sourceLanguageCode, $targetLanguageCode);
 
-                if(isset($response[0]) && $response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                {
+                if(isset($response[0]) && $response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                     $description = $response[0]->getTranslation();
                     $translated = true;
                 }
 
-                if(isset($response[1]) && $response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                {
+                if(isset($response[1]) && $response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                     $briefDescription = $response[1]->getTranslation();
                     //$translated = true;
                 }
             }
-            else if($storedTargetDescription->getOdlBriefDescription() == $briefDescription && $sourceBriefDescription != $storedTargetDescription->getOdlBriefDescription())
-            {
+            else if($storedTargetDescription->getOdlBriefDescription() == $briefDescription && $sourceBriefDescription != $storedTargetDescription->getOdlBriefDescription()) {
                 $response = $translator->translate($sourceBriefDescription, $sourceLanguageCode, $targetLanguageCode);
 
-                if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                {
+                if($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                     $briefDescription = $response->getTranslation();
                     //$translated = true;
                 }
             }
-            else if($storedTargetDescription->getOdlDescription() == $description && $sourceDescription != $storedTargetDescription->getOdlDescription())
-            {
+            else if($storedTargetDescription->getOdlDescription() == $description && $sourceDescription != $storedTargetDescription->getOdlDescription()) {
                 $response = $translator->translate($sourceDescription, $sourceLanguageCode, $targetLanguageCode);
 
-                if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
-                {
+                if($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                     $description = $response->getTranslation();
                     $translated = true;
                 }
             }
         }
 
-        return  array("briefDescription" => $briefDescription, "description" => $description, "translated" => $translated);
+        return array("briefDescription" => $briefDescription, "description" => $description, "translated" => $translated);
     }
 
     public function saveOwnerPhoto($em, $ownership, $dir, $request) {
         //subir photos
         $file = $request->files->get('own_ownership_photo');
         // var_dump($request->files);
-        if (isset($file)) {
-                $photo = ($ownership->getOwnOwnerPhoto() == null) ? new photo() : $ownership->getOwnOwnerPhoto();
-                $fileName = ($ownership->getOwnOwnerPhoto() == null) ? uniqid('owner-') . '-photo.jpg' : $ownership->getOwnOwnerPhoto()->getPhoName();
-                $file->move($dir, $fileName);
-                //Redimensionando la foto del propietario
-                \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+        if(isset($file)) {
+            $photo = ($ownership->getOwnOwnerPhoto() == null) ? new photo() : $ownership->getOwnOwnerPhoto();
+            $fileName = ($ownership->getOwnOwnerPhoto() == null) ? uniqid('owner-') . '-photo.jpg' : $ownership->getOwnOwnerPhoto()->getPhoName();
+            $file->move($dir, $fileName);
+            //Redimensionando la foto del propietario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
 
-                $photo->setPhoName($fileName);
-                $ownership->setOwnOwnerPhoto($photo);
-                $ownership->setOwnLastUpdate(new \DateTime());
-                $em->persist($photo);
+            $photo->setPhoName($fileName);
+            $ownership->setOwnOwnerPhoto($photo);
+            $ownership->setOwnLastUpdate(new \DateTime());
+            $em->persist($photo);
 
             $em->persist($ownership);
 
@@ -679,7 +679,7 @@ class ownershipRepository extends EntityRepository {
         $id_ownership = $data['edit_ownership'];
         $em = $this->getEntityManager();
         $ownership =
-                $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+            $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         $prov = $em->getRepository('mycpBundle:province')->find($ownership->getOwnAddressProvince());
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
@@ -697,15 +697,23 @@ class ownershipRepository extends EntityRepository {
         $condition = '';
 
         switch ($filter_other) {
-            case FilterHelper::ACCOMMODATION_TOP20: $condition .= "AND ow.own_top_20 = 1 ";
+            case FilterHelper::ACCOMMODATION_TOP20:
+                $condition .= "AND ow.own_top_20 = 1 ";
                 break;
-            case FilterHelper::ACCOMMODATION_SELECTION: $condition .= "AND ow.own_selection = 1 ";
+            case FilterHelper::ACCOMMODATION_SELECTION:
+                $condition .= "AND ow.own_selection = 1 ";
                 break;
-            case FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE: $condition .= "AND ow.own_not_recommendable = 1 ";
+            case FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE:
+                $condition .= "AND ow.own_not_recommendable = 1 ";
                 break;
-            case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING: $condition .= "AND ow.own_inmediate_booking = 1 ";
+            case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING:
+                $condition .= "AND ow.own_inmediate_booking = 1 ";
                 break;
-            case FilterHelper::ACCOMMODATION_CUBACOUPON: $condition .= "AND ow.own_cubacoupon = 1 ";
+            case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING_2:
+                $condition .= "AND ow.own_inmediate_booking_2 = 1 ";
+                break;
+            case FilterHelper::ACCOMMODATION_CUBACOUPON:
+                $condition .= "AND ow.own_cubacoupon = 1 ";
                 break;
             case FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE:
                 $condition .= "AND (ow.own_phone_number LIKE '%-%' OR ow.own_phone_number LIKE '%(%' OR ow.own_phone_number LIKE '%)%' OR ow.own_phone_number LIKE '%+53%') ";
@@ -721,43 +729,42 @@ class ownershipRepository extends EntityRepository {
                 break;
         }
 
-        if ($filter_active != 'null' && $filter_active != '') {
+        if($filter_active != 'null' && $filter_active != '') {
             $condition .= "AND (ow.own_status = :filter_active ";
 
-            if($filter_active == ownershipStatus::STATUS_INSERTED_BY_OWNER)
-            {
+            if($filter_active == ownershipStatus::STATUS_INSERTED_BY_OWNER) {
                 $condition .= " OR ow.insertedInCasaModule = 1 ";
             }
 
             $condition .= ") ";
         }
-        if ($filter_category != 'null' && $filter_category != '') {
+        if($filter_category != 'null' && $filter_category != '') {
             $condition .= " AND ow.own_category = :filter_category ";
         }
-        if ($filter_province != 'null' && $filter_province != '') {
+        if($filter_province != 'null' && $filter_province != '') {
             $condition .= " AND ow.own_address_province = :filter_province ";
         }
-        if ($filter_municipality != 'null' && $filter_municipality != '') {
+        if($filter_municipality != 'null' && $filter_municipality != '') {
             $condition .= " AND ow.own_address_municipality = :filter_municipality ";
         }
-        if ($filter_type != 'null' && $filter_type != '') {
+        if($filter_type != 'null' && $filter_type != '') {
             $condition .= " AND ow.own_type = :filter_type ";
         }
 
-        if ($filter_name != 'null' && $filter_name != '') {
+        if($filter_name != 'null' && $filter_name != '') {
             $condition .= " AND ow.own_name LIKE :filter_name ";
         }
-        if ($filter_saler != 'null' && $filter_saler != '') {
+        if($filter_saler != 'null' && $filter_saler != '') {
             $condition .= " AND ow.own_saler LIKE :filter_saler ";
         }
-        if ($filter_visit_date != 'null' && $filter_visit_date != '') {
+        if($filter_visit_date != 'null' && $filter_visit_date != '') {
             $condition .= " AND ow.own_visit_date >= :filter_visit_date AND ow.own_visit_date < :filter_visit_date_plus_day";
         }
-        if ($filter_destination != 'null' && $filter_destination != '') {
+        if($filter_destination != 'null' && $filter_destination != '') {
 
             $condition .= " AND ow.own_destination = :filter_destination ";
         }
-        if ($filter_commission != 'null' && $filter_commission != '') {
+        if($filter_commission != 'null' && $filter_commission != '') {
 
             $condition .= " AND ow.own_commission_percent = :filter_commission ";
         }
@@ -769,6 +776,7 @@ class ownershipRepository extends EntityRepository {
         ow.own_top_20,
         ow.own_selection,
         ow.own_inmediate_booking,
+        ow.own_inmediate_booking_2,
         ow.own_name,
         mun.mun_name,
         prov.prov_name,
@@ -788,28 +796,28 @@ class ownershipRepository extends EntityRepository {
         LEFT JOIN ow.own_status s
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
 
-        if ($filter_active != 'null' && $filter_active != '')
+        if($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
 
-        if ($filter_category != 'null' && $filter_category != '')
+        if($filter_category != 'null' && $filter_category != '')
             $query->setParameter('filter_category', $filter_category);
 
-        if ($filter_province != 'null' && $filter_province != '')
+        if($filter_province != 'null' && $filter_province != '')
             $query->setParameter('filter_province', $filter_province);
 
-        if ($filter_municipality != 'null' && $filter_municipality != '')
+        if($filter_municipality != 'null' && $filter_municipality != '')
             $query->setParameter('filter_municipality', $filter_municipality);
 
-        if ($filter_type != 'null' && $filter_type != '')
+        if($filter_type != 'null' && $filter_type != '')
             $query->setParameter('filter_type', $filter_type);
 
-        if ($filter_name != 'null' && $filter_name != '')
+        if($filter_name != 'null' && $filter_name != '')
             $query->setParameter('filter_name', "%" . $filter_name . "%");
 
-        if ($filter_saler != 'null' && $filter_saler != '')
+        if($filter_saler != 'null' && $filter_saler != '')
             $query->setParameter('filter_saler', "%" . $filter_saler . "%");
 
-        if ($filter_visit_date != 'null' && $filter_visit_date != '') {
+        if($filter_visit_date != 'null' && $filter_visit_date != '') {
             $filter_date = \DateTime::createFromFormat('d-m-Y', $filter_visit_date);
             $query->setParameter('filter_visit_date', $filter_date->format("Y-m-d"));
 
@@ -817,13 +825,13 @@ class ownershipRepository extends EntityRepository {
             $query->setParameter('filter_visit_date_plus_day', $filter_date->format("Y-m-d"));
         }
 
-        if ($filter_destination != 'null' && $filter_destination != '')
+        if($filter_destination != 'null' && $filter_destination != '')
             $query->setParameter('filter_destination', $filter_destination);
 
-        if (isset($filter_code))
+        if(isset($filter_code))
             $query->setParameter('filter_code', "%" . $filter_code . "%");
 
-        if ($filter_commission != 'null' && $filter_commission != '')
+        if($filter_commission != 'null' && $filter_commission != '')
             $query->setParameter('filter_commission', $filter_commission);
 
         return $query;
@@ -839,7 +847,7 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null) {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $start = null, $limit = null) {
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
@@ -847,66 +855,89 @@ class ownershipRepository extends EntityRepository {
 
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
-        $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
+        $q = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id, false);
+        $query_string = $q['query'];
+        $query_count_string = $q['query_count'];
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);
-        $where = '';
+        $where = (!$room_filter) ? (" WHERE o.own_status = 1 ") : (" WHERE o.own_status = 1 AND r.room_active = 1 ");
         $textWhere = SearchUtils::getTextWhere($text);
         $where .= ($textWhere != "") ? " AND " . $textWhere : "";
 
-        if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
+        if($guest_total != null && $guest_total != 'null' && $guest_total != "")
             $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
 
-        if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
+        if(isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
             $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
-
-        if ($reservations_where != "")
+        if($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
 
         $filterWhere = SearchUtils::getFilterWhere($filters);
 
         $where .= ($filterWhere != "") ? $filterWhere : "";
 
-        if ($where != '')
+        if($where != ''){
             $query_string .= $where;
-         $order = SearchUtils::getOrder($order_by);
+            $query_count_string .= $where;
+        }
+
+        $order = SearchUtils::getOrder($order_by);
 
         $query_string .= $order;
 //        die(dump($query_string));
         $query = $em->createQuery($query_string);
+        $query_count = $em->createQuery($query_count_string);
+
 //        die(dump($query));
-        if ($user_id != null)
+        if($user_id != null){
             $query->setParameter('user_id', $user_id);
+        }
 
-        if ($session_id != null)
+        if($session_id != null){
             $query->setParameter('session_id', $session_id);
+        }
 
-        if ($text != null && $text != '' && $text != 'null')
+        if($text != null && $text != '' && $text != 'null'){
             $query->setParameter('text', "%" . $text . "%");
+            $query_count->setParameter('text', "%" . $text . "%");
+        }
 
-        if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
+        if($guest_total != null && $guest_total != 'null' && $guest_total != ""){
             $query->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
+            $query_count->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
+        }
 
-        if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
+        if(isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != ""){
             $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
+            $query_count->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
+        }
 
         //$return_list = array();
+        if($start !== null && $limit !== null){
+            $query->setFirstResult($start);
+            $query->setMaxResults($limit);
+        }
         $results = $query->getResult();
 
-
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
 
-            if (file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
-                $results[$i]['photo'] = "originals/". $results[$i]['photo'];
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+            if(file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
+                $results[$i]['photo'] = "originals/" . $results[$i]['photo'];
+            else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
+        }
+
+        if($start !== null && $limit !== null){
+            $count = $query_count->getSingleScalarResult();
+            return array('results'=>$results, 'count'=>$count);
         }
         return $results;
     }
+
     /**
      * Realiza busquedas segun los criterios seleccionados
      * @param integer $province_id
@@ -916,15 +947,15 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function searchOwnership($controller,$filters=array(),$start=0,$limit=4) {
-        if($filters['priceFilter']!=''){
-            $prices=explode(',',$filters['priceFilter']);
-            $filters['own_price_from']=array($prices[0]);
-            $filters['own_price_to']=array($prices[1]);
+    function searchOwnership($controller, $filters = array(), $start = 0, $limit = 4) {
+        if($filters['priceFilter'] != '') {
+            $prices = explode(',', $filters['priceFilter']);
+            $filters['own_price_from'] = array($prices[0]);
+            $filters['own_price_to'] = array($prices[1]);
         }
-        if (array_key_exists('own_award', $filters)){
-            if($filters['own_award']!='')
-                $filters['own_award']=array(1);
+        if(array_key_exists('own_award', $filters)) {
+            if($filters['own_award'] != '')
+                $filters['own_award'] = array(1);
         }
 
         $order_by = 'BEST_VALUED';
@@ -932,49 +963,49 @@ class ownershipRepository extends EntityRepository {
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
-        $dateArrival=array();
-        $dateExit=array();
-        if($filters['arrival'] !='')
-            $dateArrival=explode('/',$filters['arrival']);
-        if($filters['exit'] !='')
-            $dateExit=explode('/',$filters['exit']);
+        $dateArrival = array();
+        $dateExit = array();
+        if($filters['arrival'] != '')
+            $dateArrival = explode('/', $filters['arrival']);
+        if($filters['exit'] != '')
+            $dateExit = explode('/', $filters['exit']);
 
-        $reservations_where = SearchUtils::createDatesWhere($em, (count($dateArrival))?$dateArrival[0].'-'.$dateArrival[1].'-'.$dateArrival[2]:null, (count($dateExit))?$dateExit[0].'-'.$dateExit[1].'-'.$dateExit[2]:null);
+        $reservations_where = SearchUtils::createDatesWhere($em, (count($dateArrival)) ? $dateArrival[0] . '-' . $dateArrival[1] . '-' . $dateArrival[2] : null, (count($dateExit)) ? $dateExit[0] . '-' . $dateExit[1] . '-' . $dateExit[2] : null);
 
-        $room_filter=false;
-        if(array_key_exists('room_climatization', $filters) ){
-            $filters['room_climatization']='Aire acondicionado';
-            $room_filter=true;
+        $room_filter = false;
+        if(array_key_exists('room_climatization', $filters)) {
+            $filters['room_climatization'] = 'Aire acondicionado';
+            $room_filter = true;
         }
-        if(array_key_exists('room_audiovisuals', $filters) || array_key_exists('room_kids', $filters) || array_key_exists('room_smoker', $filters) || array_key_exists('room_balcony', $filters) || array_key_exists('room_terraza', $filters) || array_key_exists('room_safe', $filters)){
-            $room_filter=true;
+        if(array_key_exists('room_audiovisuals', $filters) || array_key_exists('room_kids', $filters) || array_key_exists('room_smoker', $filters) || array_key_exists('room_balcony', $filters) || array_key_exists('room_terraza', $filters) || array_key_exists('room_safe', $filters)) {
+            $room_filter = true;
         }
-        if(array_key_exists('pool', $filters) ){
-            $filters['own_others_included']='POOL';
+        if(array_key_exists('pool', $filters)) {
+            $filters['own_others_included'] = 'POOL';
         }
-        if(array_key_exists('jacuzzy', $filters) ){
-            $filters['own_others_included']='POOL';
+        if(array_key_exists('jacuzzy', $filters)) {
+            $filters['own_others_included'] = 'POOL';
         }
-        if(array_key_exists('dinner', $filters) ){
-            $filters['others_not_included']='DINNER';
+        if(array_key_exists('dinner', $filters)) {
+            $filters['others_not_included'] = 'DINNER';
         }
-        if(array_key_exists('parking', $filters) ){
-            $filters['others_not_included']='PARKING';
+        if(array_key_exists('parking', $filters)) {
+            $filters['others_not_included'] = 'PARKING';
         }
 
-        if(array_key_exists('laundry', $filters) ){
-            $filters['others_not_included']='LAUNDRY';
+        if(array_key_exists('laundry', $filters)) {
+            $filters['others_not_included'] = 'LAUNDRY';
         }
-        if(array_key_exists('breakfast', $filters) ){
-            $filters['others_not_included']='BREAKFAST';
+        if(array_key_exists('breakfast', $filters)) {
+            $filters['others_not_included'] = 'BREAKFAST';
         }
-        if(array_key_exists('room_type', $filters) ){
-            if($filters['room_type']!=''){
-                $filters['room_type']=array($filters['room_type']);
-                $room_filter=true;
+        if(array_key_exists('room_type', $filters)) {
+            if($filters['room_type'] != '') {
+                $filters['room_type'] = array($filters['room_type']);
+                $room_filter = true;
             }
         }
-        $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
+        $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id)['query'];
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);
@@ -982,21 +1013,21 @@ class ownershipRepository extends EntityRepository {
         $destinationWhere = SearchUtils::getDestinationWhere($filters['destination']);
         $where .= ($destinationWhere != "") ? " AND " . $destinationWhere : "";
 
-        if ($filters['huesp'] != "")
+        if($filters['huesp'] != "")
             $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
 
-        if ($filters['room'] != "")
+        if($filters['room'] != "")
             $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
 
-        if ($reservations_where != "")
+        if($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
 
         $filterWhere = SearchUtils::getFilterWherePartner($filters);
 
         $where .= ($filterWhere != "") ? $filterWhere : "";
 
-        if ($where != '')
+        if($where != '')
             $query_string .= $where;
         $order = SearchUtils::getOrder($order_by);
 
@@ -1005,30 +1036,30 @@ class ownershipRepository extends EntityRepository {
         //die(dump($query_string));
         $query = $em->createQuery($query_string)->setFirstResult($start)->setMaxResults($limit);
         //die(dump($query));
-        if ($user_id != null)
+        if($user_id != null)
             $query->setParameter('user_id', $user_id);
 
-        if ($session_id != null)
+        if($session_id != null)
             $query->setParameter('session_id', $session_id);
 
-        if ($filters['destination'] != '')
-            $query->setParameter('destination', $filters['destination'] );
+        if($filters['destination'] != '')
+            $query->setParameter('destination', $filters['destination']);
 
-        if ($filters['huesp'] != "")
+        if($filters['huesp'] != "")
             $query->setParameter('guests_total', $filters['huesp']);
 
-        if ($filters['room'] != "")
+        if($filters['room'] != "")
             $query->setParameter('rooms_total', $filters['room']);
         $results = $query->getResult();
 
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
 
-            if (file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
-                $results[$i]['photo'] = "originals/". $results[$i]['photo'];
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+            if(file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
+                $results[$i]['photo'] = "originals/" . $results[$i]['photo'];
+            else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
         }
         return $results;
@@ -1050,6 +1081,7 @@ class ownershipRepository extends EntityRepository {
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,
                          o.own_inmediate_booking as OwnInmediateBooking,
+                         o.own_inmediate_booking_2 as OwnInmediateBooking2,
                          pho.pho_name as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          data.reservedRooms as count_reservations,
@@ -1064,7 +1096,7 @@ class ownershipRepository extends EntityRepository {
                          WHERE o.own_top_20=1
                          AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
-        if ($category != null) {
+        if($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
 
         }
@@ -1198,8 +1230,8 @@ class ownershipRepository extends EntityRepository {
                          ORDER BY o.own_mcp_code ASC";
 
         $results = $em->createQuery($query_string)
-                ->setParameter("status", ownershipStatus::STATUS_ACTIVE)
-                ->getResult();
+            ->setParameter("status", ownershipStatus::STATUS_ACTIVE)
+            ->getResult();
 
         return $results;
     }
@@ -1246,8 +1278,8 @@ class ownershipRepository extends EntityRepository {
                          ORDER BY o.own_mcp_code ASC, r.room_num ASC";
 
         $results = $em->createQuery($query_string)
-                ->setParameter("status", ownershipStatus::STATUS_ACTIVE)
-                ->getResult();
+            ->setParameter("status", ownershipStatus::STATUS_ACTIVE)
+            ->getResult();
 
         return $results;
     }
@@ -1257,7 +1289,7 @@ class ownershipRepository extends EntityRepository {
         $query = "select SUM(IF(own.own_category = 'Premium', 1, 0)) as premium_total,
                   SUM(IF(LOWER(own.own_category) = 'rango medio', 1, 0)) as midrange_total,
                   SUM(IF(own.own_category = 'Económica', 1, 0)) as economic_total
-                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = ".ownershipStatus::STATUS_ACTIVE;
+                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
         return $em->createQuery($query)->getOneOrNullResult();
     }
@@ -1281,7 +1313,7 @@ class ownershipRepository extends EntityRepository {
                      SUM(IF(o.own_category='Rango medio', 1, 0)) as middle_range,
                      SUM(IF(o.own_category='Premium', 1, 0)) as premium
                      FROM mycpBundle:ownership o
-                     WHERE o.own_status = :own_status".((isset($own_ids)) ? " AND o.own_id IN ($own_ids) ": "");
+                     WHERE o.own_status = :own_status" . ((isset($own_ids)) ? " AND o.own_id IN ($own_ids) " : "");
 
         $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
@@ -1306,7 +1338,7 @@ class ownershipRepository extends EntityRepository {
                      SUM(IF(o.own_minimum_price< 200 AND o.own_minimum_price >=175, 1, 0)) as octavo,
                      SUM(IF(o.own_minimum_price< 300 AND o.own_minimum_price >=200, 1, 0)) as noveno
                      FROM mycpBundle:ownership o
-                     WHERE o.own_status = :own_status".((isset($own_ids)) ? " AND o.own_id IN ($own_ids) ": "");
+                     WHERE o.own_status = :own_status" . ((isset($own_ids)) ? " AND o.own_id IN ($own_ids) " : "");
 
         $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
@@ -1337,7 +1369,7 @@ class ownershipRepository extends EntityRepository {
                          SUM(IF(o.own_type='Propiedad completa', 1, 0)) as propiedad,
                          SUM(IF(o.own_type='Casa particular', 1, 0)) as casa
                          FROM mycpBundle:ownership o
-                         WHERE o.own_status = :own_status".((isset($own_ids)) ? " AND o.own_id IN ($own_ids) ": "");
+                         WHERE o.own_status = :own_status" . ((isset($own_ids)) ? " AND o.own_id IN ($own_ids) " : "");
 
         $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
@@ -1413,8 +1445,7 @@ class ownershipRepository extends EntityRepository {
         return array_merge($statistics, $roomsStatistics);
     }
 
-    function getSearchNumbers($own_ids = null)
-    {
+    function getSearchNumbers($own_ids = null) {
         $em = $this->getEntityManager();
         $types = array();
         $results = array();
@@ -1439,7 +1470,7 @@ class ownershipRepository extends EntityRepository {
                          SUM(IF(o.own_category='Rango medio', 1, 0)) as middle_range,
                          SUM(IF(o.own_category='Premium', 1, 0)) as premium
                          FROM mycpBundle:ownership o
-                         WHERE o.own_status = :own_status".((isset($own_ids)) ? " AND o.own_id IN ($own_ids) ": "");
+                         WHERE o.own_status = :own_status" . ((isset($own_ids)) ? " AND o.own_id IN ($own_ids) " : "");
 
         $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
@@ -1473,16 +1504,16 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $results = array();
 
-        if (isset($own_ids)) {
+        if(isset($own_ids)) {
             $query_string = $this->getBasicQuery($user_id, $session_id);
             $query_string .= " WHERE o.own_id IN ($own_ids)";
 
             $results = $em->createQuery($query_string)->getResult();
 
             for ($i = 0; $i < count($results); $i++) {
-                if ($results[$i]['photo'] == null)
+                if($results[$i]['photo'] == null)
                     $results[$i]['photo'] = "no_photo.png";
-                else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+                else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                     $results[$i]['photo'] = "no_photo.png";
             }
         }
@@ -1493,7 +1524,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $results = array();
 
-        if (isset($own_ids)) {
+        if(isset($own_ids)) {
             $query_string = "SELECT o FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
             $results = $em->createQuery($query_string)->getResult();
         }
@@ -1513,9 +1544,9 @@ class ownershipRepository extends EntityRepository {
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+            else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
@@ -1535,7 +1566,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = $this->getDetailBasicQuery(null, null, $locale);
 
-        if (!$isSimple)
+        if(!$isSimple)
             $query_string .= " WHERE o.own_mcp_code = :own_mycp_code  AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
         else
             $query_string .= " WHERE o.own_mcp_code = :own_mycp_code ORDER BY o.own_id DESC";
@@ -1548,7 +1579,7 @@ class ownershipRepository extends EntityRepository {
 
         $query_string = $this->getBasicQuery($user_id, $session_id);
 
-        if ($exclude_id == null)
+        if($exclude_id == null)
             $query_string .= " WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                               ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         else
@@ -1559,9 +1590,9 @@ class ownershipRepository extends EntityRepository {
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+            else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
@@ -1579,7 +1610,7 @@ class ownershipRepository extends EntityRepository {
         $result = $em->createQuery($query_string)->getResult();
 
         foreach ($result as $photo) {
-            if (file_exists(realpath("uploads/ownershipImages/" . $photo->getOwnPhoPhoto()->getPhoName())))
+            if(file_exists(realpath("uploads/ownershipImages/" . $photo->getOwnPhoPhoto()->getPhoName())))
                 $photos[] = $photo->getOwnPhoPhoto();
         }
 
@@ -1601,7 +1632,7 @@ class ownershipRepository extends EntityRepository {
         $result = $em->createQuery($query_string)->getResult();
 
         foreach ($result as $photo) {
-            if (file_exists(realpath("uploads/ownershipImages/" . $photo["photo_name"])))
+            if(file_exists(realpath("uploads/ownershipImages/" . $photo["photo_name"])))
                 $photos[] = array(
                     'photo_name' => $photo["photo_name"],
                     'photo_description' => $photo["photo_description"]
@@ -1660,7 +1691,7 @@ class ownershipRepository extends EntityRepository {
     function getPhotosArray($own_list) {
         $photos = array();
 
-        if (is_array($own_list)) {
+        if(is_array($own_list)) {
             foreach ($own_list as $own) {
                 $photos[$own->getOwnId()] = $this->getOwnershipPhoto($own->getOwnId());
             }
@@ -1671,7 +1702,7 @@ class ownershipRepository extends EntityRepository {
     function getPhotosArrayFromArray($own_list, $keyName) {
         $photos = array();
 
-        if (is_array($own_list)) {
+        if(is_array($own_list)) {
             foreach ($own_list as $own) {
                 $photos[$own[$keyName]] = $this->getOwnershipPhoto($own[$keyName]);
             }
@@ -1684,19 +1715,21 @@ class ownershipRepository extends EntityRepository {
         $query_string = "SELECT op FROM mycpBundle:ownershipPhoto op
                         JOIN op.own_pho_photo p
                         WHERE op.own_pho_own = " . $own_id .
-                " ORDER BY p.pho_order ASC";
+            " ORDER BY p.pho_order ASC";
         $results = $em->createQuery($query_string)->setMaxResults(1)->getResult();
         $ownership_photo = ($results != null && count($results) > 0) ? $results[0] : null;
         $photo = null;
-        if ($ownership_photo != null) {
+        if($ownership_photo != null) {
             $photo_name = $ownership_photo->getOwnPhoPhoto()->getPhoName();
 
-            if (file_exists(realpath("uploads/ownershipImages/" . $photo_name))) {
+            if(file_exists(realpath("uploads/ownershipImages/" . $photo_name))) {
                 $photo = $photo_name;
-            } else {
+            }
+            else {
                 $photo = 'no_photo.png';
             }
-        } else {
+        }
+        else {
             $photo = 'no_photo.png';
         }
         return $photo;
@@ -1706,7 +1739,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $rooms = array();
 
-        if (is_array($own_list)) {
+        if(is_array($own_list)) {
             foreach ($own_list as $own) {
                 $rooms[$own->getOwnId()] = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId(), "room_active" => true)));
             }
@@ -1718,7 +1751,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $counts = array();
 
-        if (is_array($own_list)) {
+        if(is_array($own_list)) {
             foreach ($own_list as $own) {
                 $own_id = $own->getOwnId();
                 /*$query = $em->createQuery("SELECT count(res) as reservations,
@@ -1742,9 +1775,9 @@ class ownershipRepository extends EntityRepository {
     public function autocompleteTextList() {
         $em = $this->getEntityManager();
         $provinces = $em->createQueryBuilder()
-                        ->select("p.prov_name as name")
-                        ->from("mycpBundle:province", "p")
-                        ->orderBy("p.prov_name", "ASC")->getQuery()->getResult();
+            ->select("p.prov_name as name")
+            ->from("mycpBundle:province", "p")
+            ->orderBy("p.prov_name", "ASC")->getQuery()->getResult();
 
         $municipalities = $em->createQueryBuilder()
             ->select("m.mun_name as name")
@@ -1764,15 +1797,15 @@ class ownershipRepository extends EntityRepository {
         }
 
         foreach ($municipalities as $mun) {
-            if (!array_search($mun["name"], $result))
+            if(!array_search($mun["name"], $result))
                 $result[] = $mun["name"];
         }
 
         foreach ($ownerships as $own) {
-            if (!array_search($own["name"], $result))
+            if(!array_search($own["name"], $result))
                 $result[] = $own["name"];
 
-            if (!array_search($own["code"], $result))
+            if(!array_search($own["code"], $result))
                 $result[] = $own["code"];
         }
 
@@ -1809,6 +1842,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             o.own_inmediate_booking as OwnInmediateBooking,
+                            o.own_inmediate_booking_2 as OwnInmediateBooking2,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             data.activeRooms as rooms_count,
                             data.reservedRooms as count_reservations,
@@ -1861,6 +1895,7 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
                         o.own_inmediate_booking as OwnInmediateBooking,
+                        o.own_inmediate_booking_2 as OwnInmediateBooking2,
                         pho.pho_name as ownerPhotoName,
                         status.status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
@@ -1927,12 +1962,11 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function publish($ownership)
-    {
+    public function publish($ownership) {
         $em = $this->getEntityManager();
         $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
 
-        if ($ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_IN_PROCESS)
+        if($ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_IN_PROCESS)
             $ownership->setOwnPublishDate(new \DateTime());
 
         $ownership->setOwnStatus($status);
@@ -1941,8 +1975,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function getSimilars($ownership, $rooms)
-    {
+    public function getSimilars($ownership, $rooms) {
         $em = $this->getEntityManager();
 
         $queryString = "SELECT DISTINCT ow.own_id, ow.own_name, ow.own_commission_percent, ow.own_mcp_code FROM mycpBundle:ownership ow
@@ -1955,28 +1988,25 @@ class ownershipRepository extends EntityRepository {
 
         //$em->createQuery($query_string)->getResult();
         return $em->createQuery($queryString)
-                  ->setParameters(array("province" => $ownership->getOwnAddressProvince()->getProvId(),
-                                        "commission" => $ownership->getOwnCommissionPercent(),
-                                        "ownId" => $ownership->getOwnId(),
-                                        "roomsTotal" => count($rooms),
-                                        "status" => ownershipStatus::STATUS_ACTIVE))
-                  ->getResult();
+            ->setParameters(array("province" => $ownership->getOwnAddressProvince()->getProvId(),
+                "commission" => $ownership->getOwnCommissionPercent(),
+                "ownId" => $ownership->getOwnId(),
+                "roomsTotal" => count($rooms),
+                "status" => ownershipStatus::STATUS_ACTIVE))
+            ->getResult();
     }
 
 
-    public function getByRoomsTotalAndMunicipality($municipality, $roomsTotal = null)
-    {
+    public function getByRoomsTotalAndMunicipality($municipality, $roomsTotal = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('ol')
             ->from("mycpBundle:ownership", "ol")
             ->where('ol.own_address_municipality = :municipality')
             ->andWhere('ol.own_rooms_total > 0')
-            ->setParameter("municipality", $municipality)
-        ;
+            ->setParameter("municipality", $municipality);
 
-        if($roomsTotal != null)
-        {
+        if($roomsTotal != null) {
             $qb->andWhere('ol.own_rooms_total = :roomsTotal')
                 ->setParameter("roomsTotal", $roomsTotal);
         }
@@ -1984,7 +2014,7 @@ class ownershipRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
-    public function getWithReservations($date =  null){
+    public function getWithReservations($date = null) {
         $em = $this->getEntityManager();
 
         $dateString = ($date != null) ? " AND gen.gen_res_date >= :date" : "";
@@ -2000,9 +2030,9 @@ class ownershipRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    public function getSalesReport(){
-        $rsm= new ResultSetMapping();
-        $query='SELECT own_id FROM ownership;';
+    public function getSalesReport() {
+        $rsm = new ResultSetMapping();
+        $query = 'SELECT own_id FROM ownership;';
 //        $query="SELECT
 //  own.own_mcp_code as codigo,
 //  own.own_name as nombre,
@@ -2028,13 +2058,12 @@ class ownershipRepository extends EntityRepository {
 //  INNER JOIN province ON province.prov_id = municipality.mun_prov_id
 //ORDER BY own.own_mcp_code ASC
 //;";
-        $result=$this->getEntityManager()->createNativeQuery($query, $rsm);
+        $result = $this->getEntityManager()->createNativeQuery($query, $rsm);
         die(dump($result->e));
         return $result->getResult();
     }
 
-    public function getRoomsIdByOwnership($idOwnership)
-    {
+    public function getRoomsIdByOwnership($idOwnership) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('r.room_id', 'r.room_num', 'r.room_type')
@@ -2076,24 +2105,23 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
-    function updateGeneralData($accommodation)
-    {
+    function updateGeneralData($accommodation) {
         $em = $this->getEntityManager();
         $maximum_guest_total = 0;
         $roomsActiveTotal = 0;
         $roomsInactiveTotal = 0;
         $rooms = $em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $accommodation->getOwnId()));
 
-        foreach($rooms as $room) {
-            if ($room->getRoomActive()) {
+        foreach ($rooms as $room) {
+            if($room->getRoomActive()) {
                 $roomsActiveTotal++;
-                if (($accommodation->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $accommodation->getOwnMinimumPrice()))
+                if(($accommodation->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $accommodation->getOwnMinimumPrice()))
                     $accommodation->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-                if (($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $accommodation->getOwnMaximumPrice()))
+                if(($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $accommodation->getOwnMaximumPrice()))
                     $accommodation->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-                if (($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $accommodation->getOwnMaximumPrice()))
+                if(($accommodation->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $accommodation->getOwnMaximumPrice()))
                     $accommodation->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
                 $maximum_guest_total += $room->getMaximumNumberGuests();
@@ -2105,8 +2133,7 @@ class ownershipRepository extends EntityRepository {
         $accommodation->setOwnMaximumNumberGuests($maximum_guest_total);
         $accommodation->setOwnRoomsTotal($roomsActiveTotal);
 
-        if($roomsInactiveTotal == count($rooms))
-        {
+        if($roomsInactiveTotal == count($rooms)) {
             $inactiveStatus = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
             $accommodation->setOwnStatus($inactiveStatus);
         }
@@ -2119,8 +2146,7 @@ class ownershipRepository extends EntityRepository {
      * Calcula automaticamente la categoria de un alojamiento
      * @param ownership $accommodation
      */
-    function calculateAccommodationCategory($accommodation)
-    {
+    function calculateAccommodationCategory($accommodation) {
         $em = $this->getEntityManager();
         $category = "";
 
@@ -2146,7 +2172,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function logs($filter_user = '', $filter_status= '', $filter_date= '', $filter_created= '', $filter_description= ''){
+    function logs($filter_user = '', $filter_status = '', $filter_date = '', $filter_created = '', $filter_description = '') {
         $em = $this->getEntityManager();
 
         $qb = $em->createQueryBuilder()
@@ -2154,8 +2180,7 @@ class ownershipRepository extends EntityRepository {
             ->select("os")
             ->join("os.accommodation", "acc")
             ->join("os.user", "user")
-            ->join("acc.own_status", "status")
-        ;
+            ->join("acc.own_status", "status");
 
         if($filter_user != "")
             $qb->andWhere("user.user_id = :userId")
@@ -2167,22 +2192,22 @@ class ownershipRepository extends EntityRepository {
 
         if($filter_date != "")
             $qb->andWhere("os.date LIKE :date")
-                ->setParameter("date", $filter_date."%");
+                ->setParameter("date", $filter_date . "%");
 
         if($filter_created != "") {
 
             if($filter_created == FilterHelper::ACCOMMODATION_GENERAL_DATA_CREATED)
-            $qb->andWhere("os.created = 1");
+                $qb->andWhere("os.created = 1");
         }
 
         if($filter_description != "")
             $qb->andWhere("os.notes LIKE :description")
-                ->setParameter("description", "%".$filter_description."%");
+                ->setParameter("description", "%" . $filter_description . "%");
 
         return $qb->getQuery();
     }
 
-    public function canActive($ownership){
+    public function canActive($ownership) {
         $em = $this->getEntityManager();
 
         $haveRooms = ($ownership->getOwnRoomsTotal() > 0);

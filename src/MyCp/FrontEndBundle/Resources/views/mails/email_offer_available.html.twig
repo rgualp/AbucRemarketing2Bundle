@@ -11,5 +11,9 @@
             {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation}) }}
             <br/>
         {% endfor %}
-    <h4 style="font-size: 16px; font-weight: normal; font-style: italic">{{"THANKS_RESERVATION_TEAM"|trans({}, "messages", user_locale)}}</h4>
+    <p style="font-size: 14px;font-family: arial">
+        {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
+        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+        <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
+    </p>
 {% endblock %}

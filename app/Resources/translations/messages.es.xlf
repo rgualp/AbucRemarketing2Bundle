@@ -2165,7 +2165,7 @@
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Activación de su cuenta en MyCasaParticular</target>
+                  <target>BIENVENIDO A NUESTRA COMUNIDAD</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
@@ -2185,7 +2185,7 @@
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Confirmación de reserva</target>
+                    <target>VOUCHER DE LA RESERVA</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
@@ -2521,27 +2521,27 @@
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Aún no ha activado su cuenta ¿Algún problema?</target>
+                <target>ACTIVA TU CUENTA Y GANA</target>
             </trans-unit>
             <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
                 <target>¡Alojarse dónde Cuba, Cuba es!</target>
             </trans-unit>
             <trans-unit id="642">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target>Su cuenta en MyCasaParticular aún no ha sido activada, por lo que el proceso de Registro aún no está completo. Para activar su cuenta, haga clic</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
+                <target><![CDATA[Activa tu cuenta ahora y únete a la familia de <b>MyCasaParticular.com</b>. Tenemos más de 25 mil usuarios esperándote: los mejores anfitriones, alojamientos increíbles y muchos amigos alrededor del mundo.]]></target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
                 <target>aquí</target>
             </trans-unit>
              <trans-unit id="644">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
-                <target>, o copie la URL siguiente en su navegador.</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
+                <target>Para activar tu cuenta haz clic o copia esta URL en el navegador:</target>
             </trans-unit>
             <trans-unit id="645">
-                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
-                <target>Si existe algún problema con la activación de su cuenta, le pedimos contacte con nuestro equipo de</target>
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
+                <target>¿Necesitas ayuda? Contáctanos a</target>
             </trans-unit>
             <trans-unit id="646">
                 <source>SUPPORT_TEAM</source>
@@ -2561,7 +2561,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>La información necesaria para el proceso de Registro en MyCasaParticular.com está completa. Para ingresar en nuestro sitio, y continuar con sus reservas, usted debe</target>
+                <target><![CDATA[Ahora eres de nuestra familia. ¡Enhorabuena! Tu proceso de registro en <b>MyCasaParticular.com</b> está completo. Activa tu cuenta para empezar a disfrutar los beneficios de unirte a nuestra comunidad.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2569,7 +2569,7 @@
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>Si el enlace anterior no funcionara, le sugerimos copiar la siguiente URL en su navegador.</target>
+                <target>Haz clic o copia la URL en tu navegador:</target>
             </trans-unit>
              <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
@@ -3055,12 +3055,12 @@
                 </trans-unit>
             <trans-unit id="773">
                 <source>NEWSLETTER_INTRO_TEXT</source>
-                <target>A buena hora ha hecho su reservación a través de Mycasaparticular. Adjunta le enviamos la confirmación de su reserva. De seguro le será de utilidad imprimirla.</target>
-                </trans-unit>
+                <target><![CDATA[A buena hora has reservado a través de <b>MyCasaParticular.com</b>. Te deseamos unas vacaciones fabulosas. Adjunto te enviamos la confirmación de tu reserva. De seguro te será útil imprimirla.]]></target>
+            </trans-unit>
             <trans-unit id="774">
                 <source>NEWSLETTER_INTRO_TEXT1</source>
-                <target>Disfrute su viaje a plenitud.</target>
-                </trans-unit>
+                <target>Vive una experiencia única a la manera cómo lo hacen los locales. Descubre Cuba, nosotros nos encargamos de hospedarte.</target>
+            </trans-unit>
             <trans-unit id="775">
                 <source>NEWSLETTER_INTRO_TEXT2</source>
                 <target>Nosotros nos encargamos de hospedarlo.</target>
@@ -3810,7 +3810,7 @@
                  </trans-unit>
  <trans-unit id="10958">
                  <source>MYTAXICUBACONTE1</source>
-                 <target>Reserve su taxi y  garantice la llegada segura a su alojamiento.</target>
+                 <target>Descubre Cuba con estilo. Recogidas en el aeropuerto y hasta la puerta de casa, paseos en autos antiguos y servicio de transfer. Estamos a tu lado siempre. Muevete con MyTaxiCuba.</target>
                  </trans-unit>
 
 <trans-unit id="10959">
@@ -3921,7 +3921,7 @@
                      <source>PRICE_NIGHT</source>
                      <target>Precio / Noche</target>
                 </trans-unit>
-                  <trans-unit id="989">
+                <trans-unit id="989">
                      <source>RESERVATION_COST</source>
                      <target>Costo Reserva</target>
                 </trans-unit>
@@ -3962,6 +3962,38 @@
                      <source>Logo</source>
                      <target>Logo</target>
                 </trans-unit>
+ <trans-unit id="999">
+                       <source>ROOM</source>
+                       <target>Habitación</target>
+                  </trans-unit>
+                  <trans-unit id="1000">
+                        <source>SHARE</source>
+                        <target>Compartir</target>
+                   </trans-unit>
+                  <trans-unit id="1001">
+                          <source>Bookings</source>
+                          <target>Reserva</target>
+                   </trans-unit>
+            <trans-unit id="1002">
+                <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                <target>Casas Mejor Valoradas</target>
+            </trans-unit>
+            <trans-unit id="1003">
+                <source>facebook</source>
+                <target>facebook</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>twitter</source>
+                <target>twitter</target>
+            </trans-unit>
+            <trans-unit id="1005">
+                <source>pinterest</source>
+                <target>pinterest</target>
+            </trans-unit>
+            <trans-unit id="1006">
+                <source>youtube</source>
+                <target>youtube</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
