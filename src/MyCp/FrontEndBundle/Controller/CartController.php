@@ -10,18 +10,42 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\cart;
 use Abuc\RemarketingBundle\Event\JobEvent;
+use MyCp\mycpBundle\Entity\ownershipReservation;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CartController extends Controller {
 
+    /**
+     * @return Response
+     */
     public function countCartItemsAction() {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
-
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
                     'count' => $countItems
         ));
     }
+
+    /**
+     * @return Response
+     */
+    public function countCestatItemsAction() {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        // disponibles Mayores que (hoy - 30) días
+        $date = \date('Y-m-j');
+        $new_date = strtotime('-60 hours', strtotime($date));
+        $new_date = \date('Y-m-j', $new_date);
+        $string_sql = "AND gre.gen_res_status_date > '$new_date'";
+        $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
+        $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
+
+        return $this->render('FrontEndBundle:cart:cestaCountItems.html.twig', array(
+                'count' => count($list)
+            ));
+    }
+
 
     public function emptyCartAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
@@ -34,6 +58,7 @@ class CartController extends Controller {
     }
 
     public function addToCartAction($id_ownership, Request $request) {
+        $check_dispo=$request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
@@ -159,21 +184,64 @@ class CartController extends Controller {
                 }
             }
         }
-        if($showError)
-            {
-                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
-                $this->get('session')->getFlashBag()->add('message_global_error', $message);
+        if($showError){
+                if ( !$request->isXmlHttpRequest() ){
+                    $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                    $this->get('session')->getFlashBag()->add('message_global_error', $message);
+                }
+        }
+        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1){
+                //Es que el usuario mando a consultar la disponibilidad
+                $this->checkDispo($cart->getCartId(),$request,false);
+        }
+        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
+            //Es que el usuario mando a consultar la disponibilidad
+            $this->checkDispo($cart->getCartId(),$request,true);
+        }
+        //If ajax
+        if ( $request->isXmlHttpRequest() ) {
+
+            if($showError){
+                $response =new Response(0);
+            }
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
+                $data=$this->dataCesta();
+                $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
+            }
+            else{
+                $data=$this->dataCart();
+                $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
             }
 
-        return $this->redirect($this->generateUrl('frontend_view_cart'));
+            return $response;
+        }
+        else{
+            return $this->redirect($this->generateUrl('frontend_view_cart'));
+        }
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function removeFromWhisListAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $cartItem = $em->getRepository('mycpBundle:cart')->find($request->get('data'));
+        $em->remove($cartItem);
+        $em->flush();
+        $data=$this->dataCart();
+        $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
+        return $response;
+    }
     public function removeFromCartAction($data, Request $request) {
+
+
         $em = $this->getDoctrine()->getManager();
         $array_data = explode('-', $data);
         $cartItem = $em->getRepository("mycpBundle:cart")->find($array_data[0]);
 
         if($cartItem != null) {
+
             $cartItemDateFrom = $cartItem->getCartDateFrom()->getTimestamp();
             $cartItemDateTo = $cartItem->getCartDateTo()->getTimestamp();
             $cartItemDateToBefore = strtotime("-1 day", $cartItemDateTo);
@@ -245,7 +313,52 @@ class CartController extends Controller {
         }
     }
 
-    public function getCartBodyAction() {
+    /**
+     * @return array
+     */
+    public function dataCesta(){
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        // disponibles Mayores que (hoy - 30) días
+        $date = \date('Y-m-j');
+        $new_date = strtotime('-60 hours', strtotime($date));
+        $new_date = \date('Y-m-j', $new_date);
+        $string_sql = "AND gre.gen_res_status_date > '$new_date'";
+        $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
+        $res_available = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $service_time = $this->get('time');
+        $nights = array();
+        $array_photos = array();
+        foreach ($res_available as $res) {
+            $totalNights = $service_time->nights($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights, $totalNights);
+
+            $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
+            array_push($array_photos, $photo);
+        }
+        return array(
+            'res_available' => $res_available,
+            'nights' => $nights,
+            'photos' => $array_photos,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
+        );
+    }
+    /**
+     * @return array
+     */
+    public function dataCart(){
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
@@ -253,7 +366,7 @@ class CartController extends Controller {
 
         $min_date = 0;
         $max_date = 0;
-
+        $array_photos = array();
         foreach ($cartItems as $item) {
             if ($min_date == 0)
                 $min_date = $item->getCartDateFrom()->getTimestamp();
@@ -264,6 +377,82 @@ class CartController extends Controller {
                 $max_date = $item->getCartDateTo()->getTimestamp();
             else if ($item->getCartDateTo()->getTimestamp() > $max_date)
                 $max_date = $item->getCartDateTo()->getTimestamp();
+
+            $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($item->getCartRoom()->getRoomOwnership()->getOwnId());
+            array_push($array_photos, $photo);
+        }
+
+
+        $array_dates = $service_time->datesBetween($min_date, $max_date);
+        $array_dates_string_day = array();
+        $array_dates_string = array();
+        $array_season = array();
+        $array_clear_date = array();
+
+        if ($array_dates) {
+            $em = $this->getDoctrine()->getManager();
+            foreach ($array_dates as $date) {
+                array_push($array_dates_string, \date('/m/Y', $date));
+                array_push($array_dates_string_day, \date('d', $date));
+
+                $insert = 1;
+                $array_season_temp = array();
+                foreach ($cartItems as $item) {
+                    $destination = $item->getCartRoom()->getRoomOwnership()->getOwnDestination();
+                    $destination_id = isset($destination) ? $item->getCartRoom()->getRoomOwnership()->getOwnDestination()->getDesId() : null;
+                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
+                    $seasonTypes = $service_time->seasonByDate($seasons, $date);
+                    array_push($array_season_temp, $seasonTypes);
+
+                    if ($date >= $item->getCartDateFrom()->getTimestamp() && $date <= $item->getCartDateTo()->getTimestamp()) {
+                        $insert = 0;
+                    }
+
+                }
+                if ($insert == 1) {
+                    $array_clear_date[$date] = 1;
+                }
+
+                $array_season[$date] = $array_season_temp;
+            }
+
+            $touristTax = $this->calculateTouristTax($cartItems, $em, $service_time);
+        }
+
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+        return array(
+            'dates_string' => $array_dates_string,
+            'dates_string_day' => $array_dates_string_day,
+            'dates_timestamp' => $array_dates,
+            'cartItems' => $cartItems,
+            'array_season' => $array_season,
+            'array_clear_date' => $array_clear_date,
+            'currentServiceFee' => $currentServiceFee,
+            'photos' => $array_photos,
+            'touristTax' => $touristTax);
+    }
+    public function getCartBodyAction($flag) {
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+        $service_time = $this->get('Time');
+
+        $min_date = 0;
+        $max_date = 0;
+        $array_photos = array();
+        foreach ($cartItems as $item) {
+            if ($min_date == 0)
+                $min_date = $item->getCartDateFrom()->getTimestamp();
+            else if ($item->getCartDateFrom()->getTimestamp() < $min_date)
+                $min_date = $item->getCartDateFrom()->getTimestamp();
+
+            if ($max_date == 0)
+                $max_date = $item->getCartDateTo()->getTimestamp();
+            else if ($item->getCartDateTo()->getTimestamp() > $max_date)
+                $max_date = $item->getCartDateTo()->getTimestamp();
+
+            $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($item->getCartRoom()->getRoomOwnership()->getOwnId());
+            array_push($array_photos, $photo);
         }
 
 
@@ -309,29 +498,53 @@ class CartController extends Controller {
 
 
         if ($mobileDetector->isMobile()){
-            return $this->render('MyCpMobileFrontendBundle:cart:bodyCart.html.twig', array(
-                'dates_string' => $array_dates_string,
-                'dates_string_day' => $array_dates_string_day,
-                'dates_timestamp' => $array_dates,
-                'cartItems' => $cartItems,
-                'array_season' => $array_season,
-                'array_clear_date' => $array_clear_date,
-                'currentServiceFee' => $currentServiceFee,
-                'touristTax' => $touristTax
-            ));
-        }else{
-            return $this->render('FrontEndBundle:cart:bodyCart.html.twig', array(
-                'dates_string' => $array_dates_string,
-                'dates_string_day' => $array_dates_string_day,
-                'dates_timestamp' => $array_dates,
-                'cartItems' => $cartItems,
-                'array_season' => $array_season,
-                'array_clear_date' => $array_clear_date,
-                'currentServiceFee' => $currentServiceFee,
-                'touristTax' => $touristTax
-            ));
-        }
+            if($flag=='true')
+                return $this->render('MyCpMobileFrontendBundle:cart:navBarCart.html.twig', array(
+                    'dates_string' => $array_dates_string,
+                    'dates_string_day' => $array_dates_string_day,
+                    'dates_timestamp' => $array_dates,
+                    'cartItems' => $cartItems,
+                    'array_season' => $array_season,
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee,
+                    'photos' => $array_photos,
+                    'touristTax' => $touristTax));
+            else
+                return $this->render('MyCpMobileFrontendBundle:cart:bodyCart.html.twig', array(
+                    'dates_string' => $array_dates_string,
+                    'dates_string_day' => $array_dates_string_day,
+                    'dates_timestamp' => $array_dates,
+                    'cartItems' => $cartItems,
+                    'array_season' => $array_season,
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee,
+                    'touristTax' => $touristTax
+                ));
 
+        }else{
+            if($flag=='true')
+                return $this->render('FrontEndBundle:cart:navBarCart.html.twig', array(
+                        'dates_string' => $array_dates_string,
+                        'dates_string_day' => $array_dates_string_day,
+                        'dates_timestamp' => $array_dates,
+                        'cartItems' => $cartItems,
+                        'array_season' => $array_season,
+                        'array_clear_date' => $array_clear_date,
+                        'currentServiceFee' => $currentServiceFee,
+                        'photos' => $array_photos,
+                        'touristTax' => $touristTax));
+            else
+                return $this->render('FrontEndBundle:cart:bodyCart.html.twig', array(
+                    'dates_string' => $array_dates_string,
+                    'dates_string_day' => $array_dates_string_day,
+                    'dates_timestamp' => $array_dates,
+                    'cartItems' => $cartItems,
+                    'array_season' => $array_season,
+                    'array_clear_date' => $array_clear_date,
+                    'currentServiceFee' => $currentServiceFee,
+                    'touristTax' => $touristTax
+                ));
+        }
     }
 
     private function calculateTouristTax($cartItems, $em, $service_time){
@@ -391,6 +604,177 @@ class CartController extends Controller {
         return $this->redirect($this->generateUrl('frontend_check_availability_cart'));
     }
 
+    /**
+     * @param $id_car
+     * @param $request
+     * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function checkDispo($id_car,$request,$inmediatily_booking){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $reservations = array();
+        $own_ids = array();
+        $array_photos = array();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $cartItem = $em->getRepository('mycpBundle:cart')->find($id_car);
+        $cartItems[]=$cartItem;
+        $min_date = null;
+        $max_date = null;
+        $generalReservations = array();
+
+        if (count($cartItems) > 0) {
+            $res_array = array();
+            $own_visited = array();
+            foreach ($cartItems as $item) {
+
+                if ($min_date == null)
+                    $min_date = $item->getCartDateFrom();
+                else if ($item->getCartDateFrom() < $min_date)
+                    $min_date = $item->getCartDateFrom();
+
+                if ($max_date == null)
+                    $max_date = $item->getCartDateTo();
+                else if ($item->getCartDateTo() > $max_date)
+                    $max_date = $item->getCartDateTo();
+
+                $res_own_id = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+
+                $array_group_by_own_id = array();
+                $flag = 1;
+                foreach ($own_visited as $own) {
+                    if ($own == $res_own_id) {
+                        $flag = 0;
+                    }
+                }
+                if ($flag == 1)
+                    foreach ($cartItems as $item) {
+                        if ($res_own_id == $item->getCartRoom()->getRoomOwnership()->getOwnId()) {
+                            array_push($array_group_by_own_id, $item);
+                        }
+                    }
+                array_push($res_array, $array_group_by_own_id);
+                array_push($own_visited, $res_own_id);
+            }
+            $service_time = $this->get('Time');
+            $nigths = array();
+            foreach ($res_array as $resByOwn) {
+                if (isset($resByOwn[0])) {
+                    $ownership = $em->getRepository('mycpBundle:ownership')->find($resByOwn[0]->getCartRoom()->getRoomOwnership()->getOwnId());
+
+                    $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+                    $general_reservation = new generalReservation();
+                    $general_reservation->setGenResUserId($user);
+                    $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+                    $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+                    $general_reservation->setGenResHour(date('G'));
+                    if($inmediatily_booking)
+                        $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+                    else
+                        $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
+                    $general_reservation->setGenResFromDate($min_date);
+                    $general_reservation->setGenResToDate($max_date);
+                    $general_reservation->setGenResSaved(0);
+                    $general_reservation->setGenResOwnId($ownership);
+                    $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
+                    $general_reservation->setServiceFee($serviceFee);
+
+
+                    $total_price = 0;
+                    $partial_total_price = array();
+                    $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
+                    foreach ($resByOwn as $item) {
+                        $triple_room_recharge = ($item->getTripleRoomCharged()) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                        $array_dates = $service_time->datesBetween($item->getCartDateFrom()->getTimestamp(), $item->getCartDateTo()->getTimestamp());
+                        $temp_price = 0;
+                        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item->getCartDateFrom()->getTimestamp(), $item->getCartDateTo()->getTimestamp(), $destination_id);
+
+                        for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                            $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                            $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
+                            $total_price += $roomPrice + $triple_room_recharge;
+                            $temp_price += $roomPrice + $triple_room_recharge;
+                        }
+                        array_push($partial_total_price, $temp_price);
+                    }
+                    $general_reservation->setGenResTotalInSite($total_price);
+                    $em->persist($general_reservation);
+
+                    $arrayKidsAge = array();
+
+                    $flag_1 = 0;
+                    foreach ($resByOwn as $item) {
+                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1],ownershipReservation::STATUS_AVAILABLE);
+                        if($inmediatily_booking)
+                            $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_AVAILABLE);
+                        array_push($reservations, $ownership_reservation);
+
+                        $ownership_photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+                        array_push($array_photos, $ownership_photo);
+
+                        $nightsCount = $service_time->nights($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                        array_push($nigths, $nightsCount);
+
+                        if($item->getChildrenAges() != null)
+                        {
+                            $arrayKidsAge[$item->getCartRoom()->getRoomNum()] = $item->getChildrenAges();
+                        }
+
+                        $em->persist($ownership_reservation);
+                        $em->flush();
+                        array_push($own_ids, $ownership_reservation->getOwnResId());
+                        $flag_1++;
+                    }
+
+                    //dump($arrayKidsAge); die;
+
+                    $general_reservation->setChildrenAges($arrayKidsAge);
+                    $em->flush();
+
+                    //update generalReservation dates
+                    $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
+                    array_push($generalReservations, $general_reservation->getGenResId());
+
+                    if($general_reservation->getGenResOwnId()->getOwnInmediateBooking()){
+                        $smsService = $this->get("mycp.notification.service");
+                        $smsService->sendInmediateBookingSMSNotification($general_reservation);
+                    }
+
+                }
+            }
+        } else {
+            return false;
+        }
+        $locale = $this->get('translator')->getLocale();
+        // Enviando mail al cliente
+        if(!$inmediatily_booking){
+            $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $reservations,
+                    'ids' => $own_ids,
+                    'nigths' => $nigths,
+                    'photos' => $array_photos,
+                    'user_locale' => $locale
+                ));
+
+            $locale = $this->get('translator');
+            $subject = $locale->trans('REQUEST_SENT');
+            $service_email = $this->get('Email');
+            $service_email->sendEmail(
+                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+            );
+        }
+
+        if(!$inmediatily_booking){
+            //Enviando mail al reservation team
+            foreach($generalReservations as $genResId){
+                //Enviando correo a solicitud@mycasaparticular.com
+                \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
+            }
+        }
+        $em->remove($cartItem);
+        $em->flush();
+        return true;
+    }
     public function checkAvailabilityAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -592,10 +976,21 @@ class CartController extends Controller {
         }*/
         //exit();
 
-        return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
-                    "owns_in_destination" => $owns_in_destination,
-                    "other_destinations" => $destinations
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:reservation:confirmReview.html.twig', array(
+                "owns_in_destination" => $owns_in_destination,
+                "other_destinations" => $destinations
+            ));
+        }else{
+            return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
+                "owns_in_destination" => $owns_in_destination,
+                "other_destinations" => $destinations
+            ));
+        }
+
     }
 
 }

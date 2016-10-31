@@ -1748,4 +1748,27 @@ class OwnershipController extends Controller {
         ));
     }
 
+    /**
+     * @return Response
+     */
+    public function showModalOwnerShipCalendarAction(){
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idOwn'));
+        $session = $this->getRequest()->getSession();
+
+        $locale = $this->get('translator')->getLocale();
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+        $ownership_array=array();
+        $ownership_array['own_id']=$ownership->getOwnId();
+        $ownership_array['ownname']=$ownership->getOwnName();
+        $ownership_array['own_inmediate_booking_2']=$ownership->isOwnInmediateBooking2();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:ownership:modal_ownership_calendar.html.twig',array('ownership'=>$ownership_array,'locale'=>$locale,'currentServiceFee'=>$currentServiceFee));
+        }else{
+            return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig',array('ownership'=>$ownership_array,'locale'=>$locale,'currentServiceFee'=>$currentServiceFee));
+        }
+    }
+
 }

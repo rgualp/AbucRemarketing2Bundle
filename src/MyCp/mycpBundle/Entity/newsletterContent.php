@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * newsletterContent
  *
  * @ORM\Table(name="newsletter_content")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\newsletterContentRepository")
+ * @ORM\Entity
  */
 class newsletterContent
 {
@@ -40,6 +40,13 @@ class newsletterContent
      * @ORM\Column(name="emailBody", type="text")
      */
     private $emailBody;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", nullable=true)
+     */
+    private $subject;
 
 
     /**
@@ -103,6 +110,24 @@ class newsletterContent
     public function setNewsletter($newsletter)
     {
         $this->newsletter = $newsletter;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     * @return mixed
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
         return $this;
     }
 

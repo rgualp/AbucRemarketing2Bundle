@@ -484,6 +484,8 @@ class BackendOwnershipController extends Controller {
         $data['selection'] = $ownership->getOwnSelection();
         $post['inmediate_booking'] = $ownership->getOwnInmediateBooking();
         $data['inmediate_booking'] = $ownership->getOwnInmediateBooking();
+        $post['inmediate_booking_2'] = $ownership->getOwnInmediateBooking2();
+        $data['inmediate_booking_2'] = $ownership->getOwnInmediateBooking2();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
         $post['cubacoupon'] = $ownership->getOwnCubaCoupon();
@@ -498,6 +500,7 @@ class BackendOwnershipController extends Controller {
         $post['top_20'] = ($post['top_20'] == false) ? 0 : 1;
         $post['selection'] = ($post['selection'] == false) ? 0 : 1;
         $post['inmediate_booking'] = ($post['inmediate_booking'] == false) ? 0 : 1;
+        $post['inmediate_booking_2'] = ($post['inmediate_booking_2'] == false) ? 0 : 1;
         $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
@@ -1362,7 +1365,7 @@ class BackendOwnershipController extends Controller {
 
     public function get_ownerships_namesAction() {
         $em = $this->getDoctrine()->getManager();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->findAllNames();
         return $this->render('mycpBundle:utils:ownership_names.html.twig', array('ownerships' => $ownerships));
     }
 

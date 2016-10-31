@@ -1,0 +1,60 @@
+{%if comment_type == "ownerships"%}
+{%set menu = 9%}
+{%endif%}
+{% extends 'MyCpMobileFrontendBundle:mycasatrip:layout.html.twig' %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="MyCasa Trip">MyCasa Trip</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"FORMS_COMMENTS" | trans}}">{{"FORMS_COMMENTS" | trans}}</a>
+
+{% endblock %}
+
+{% block body_inner %}
+<div class="container">
+{%if comment_type == "ownerships"%}
+    {%for comment in comments%}
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label class="name">{{comment.comdate | date('d/m/Y')}}</label>
+                            <div class="rating_star">
+                                {%if comment.getComRate > 0%}
+                                        {%for i in 1..comment.getComRate%}
+                                    <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}" />
+                                {%endfor%}
+                                        {%endif%}
+
+                                        {%if comment.getComRate < 5%}
+                                        {%for i in 1..(5-comment.getComRate)%}
+                                   <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/>
+                                    {%endfor%}
+                                        {%endif%}
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                           {{comment.getComComments}}
+                        </div>
+                    </div>
+                    <hr/>
+    {%else%}
+           <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+
+    {%endfor%}
+                    {%if comments | length and total_items > items_per_page%}
+                        <div class="text-center">
+                        {{ simple_paginator_render('frontend_mycasatrip_comments',null,{
+                        'container_class': 'pagination',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'FIRST_PAGE' | trans,
+                        'lastPageText': 'LAST_PAGE' | trans,
+                        'route_params': {'comment_type':comment_type}
+                    }) }}
+                    </div>
+                    {%endif%}
+{%endif%}
+</div>
+{% endblock %}

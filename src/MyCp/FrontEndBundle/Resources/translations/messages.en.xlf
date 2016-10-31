@@ -3888,19 +3888,30 @@
             <source>NEW_OFFER_TEXT_2</source>
             <target>Do you need our help? Contact us at</target>
         </trans-unit>
-         <trans-unit id="971">
-                    <source>WHISH_LIST</source>
-                    <target>Whish list</target>
-                </trans-unit>
-                <trans-unit id="972">
-                    <source>EMPTY_WHISH_LIST</source>
-                    <target>Empty my whish list</target>
-                </trans-unit>
-                <trans-unit id="973">
-                    <source>ADD_WHISH_LIST</source>
-                    <target>Add my whish list</target>
-                </trans-unit>
-
+        <trans-unit id="971">
+            <source>WHISH_LIST</source>
+            <target>Whishlist</target>
+        </trans-unit>
+        <trans-unit id="972">
+            <source>EMPTY_WHISH_LIST</source>
+            <target>Empty my whishlist</target>
+        </trans-unit>
+        <trans-unit id="973">
+            <source>ADD_WHISH_LIST</source>
+            <target>Add my whishlist</target>
+        </trans-unit>
+        <trans-unit id="974">
+            <source>MSG_ADD_WISH_LITS</source>
+            <target>Congrats! Your Wishlist keeps growing. We turn your wishes into the best memories.</target>
+        </trans-unit>
+        <trans-unit id="975">
+            <source>IMMEDIATE_BOOKING</source>
+            <target>Immediate Booking</target>
+        </trans-unit>
+        <trans-unit id="976">
+            <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+            <target>Book the perfect accomodation immediately.</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>

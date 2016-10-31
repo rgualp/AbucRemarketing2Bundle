@@ -1,0 +1,106 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{% block title %}
+{{"CART" | trans}}
+{% endblock %}
+
+{% set main_tab = 5 %}
+{% block content_nav_top_body %}
+{{"CART_DESCRIPTION" | trans}}
+{% endblock %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"CART" | trans}}">{{"CART" | trans}}</a>
+{% endblock %}
+{% block body %}
+<div class="container">
+        <table>
+            <tr>
+                <td style="width: 45px"><img src="{{ asset('bundles/frontend/img/icons/cart-full.gif') }}" alt="{{"Cart" | trans}}"/></td>
+                <td><h1 class="caecilia-roman h-grey h-size-1 no-margin"> {{ 'CART_OF_RESERVES'|trans }} <br/></h1>
+                    <div style="font-size: 12px; margin-top: -3px" class="h-grey-2">{{ 'MANAGE_CART'|trans }}</div>
+                </td>
+            </tr>
+        </table>
+    {%if services%}
+
+    <a href="{{ path('frontend_empty_cart') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
+    {%endif%}
+    <div id="res_main_cont">
+        {% if services %}
+        <div id="cart-cont" class="items-cart">
+            {{ render(controller('FrontEndBundle:Reservation:get_body_review_reservation_2')) }}
+        </div>
+
+        {% else %}
+            <div style="margin: 10px" class="alert alert-info">{{"EMPTY_LIST"|trans}}</div>
+        {% endif %}
+    </div>
+    {% if services %}
+    <div class="pull-right">
+    <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+         class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
+    </div>
+    {% endif %}
+        <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
+        <div class="container margin-t-t">
+        <div class="row">
+            <div class="{% if services %}col-xs-6{% else %}col-xs-9{% endif %}">&nbsp</div>
+            <div class="{% if services %}col-xs-3{% else %}col-xs-3{% endif %}"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn btn-block btn-info"><i class="icon-plus-sign"></i> {{"KEEP_SEARCHING"|trans}}</a></div>
+            {% if services %}
+            <div class="col-xs-3">
+                <button type="submit" class="btn btn-block btn-primary">
+                    <i class="icon-question-sign"></i> {{"RESERVATION_CHECK_AVAILABILITY"|trans}}
+                </button>
+            </div>
+            {% endif %}
+        </div>
+        </div>
+    </form>
+</div>
+    <!-- Modal -->
+    <div class="modal fade" id="confirmation_modal">
+        <div class="modal-dialog" style="margin-top: 10%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    {{"REMOVE_RESERVATION_CONFIRM"|trans}}
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn">{{"CANCEL"|trans}}</button>
+                    <button id="delete_button" data="" class="btn btn-primary">{{"REMOVE"|trans}}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dalog -->
+    </div><!-- /.modal -->
+
+
+<script type="text/javascript">
+    $('#delete_button').click(function(){
+            string_url="{{ path('frontend_remove_from_cart_callback',{'data':0})}}";
+            data_remove=$(this).attr('data');
+            $('.btn_delete').attr('disabled','disable');
+            string_url=string_url.substr(0,string_url.length -1);
+            string_url = string_url + data_remove;
+            $('#'+$(this).attr('btn_launch')).attr('class','in_process');
+            $('#confirmation_modal').modal('hide');
+            $.ajax({
+                type: "POST",
+                url: string_url,
+                data: "data="+data_remove,
+                success: function(msg){
+                    $('.btn_delete').removeAttr('disabled');
+                    if(msg=='0')
+                    {
+                        window.location='{{path('frontend_review_reservation')}}';
+                    }
+                    else
+                    {
+                        $('#cart-cont').html(msg);
+                    }
+                    $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
+                }
+            });
+    });
+</script>
+{% endblock %}

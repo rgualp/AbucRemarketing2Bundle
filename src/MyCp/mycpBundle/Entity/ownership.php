@@ -477,6 +477,13 @@ class ownership {
     private $own_inmediate_booking;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_inmediate_booking_2", type="boolean")
+     */
+    private $own_inmediate_booking_2;
+
+    /**
      * @ORM\ManyToOne(targetEntity="photo",inversedBy="")
      * @ORM\JoinColumn(name="own_owner_photo",referencedColumnName="pho_id")
      */
@@ -599,6 +606,7 @@ class ownership {
         $this->own_creation_date = new \DateTime();
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
+        $this->own_inmediate_booking_2 = false;
         $this->owners = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->insertedInCasaModule = false;
@@ -2493,6 +2501,33 @@ class ownership {
         $this->rankingExtra = $rankingExtra;
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isOwnInmediateBooking2()
+    {
+        return $this->own_inmediate_booking_2;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getOwnInmediateBooking2()
+    {
+        return $this->own_inmediate_booking_2;
+    }
+
+    /**
+     * @param boolean $own_inmediate_booking_2
+     * @return mixed
+     */
+    public function setOwnInmediateBooking2($own_inmediate_booking_2)
+    {
+        $this->own_inmediate_booking_2 = $own_inmediate_booking_2;
+        return $this;
+    }
+
 
 
 }

@@ -851,5 +851,21 @@ class BackendTestEmailTemplateController extends Controller {
 
     // </editor-fold>
 
+    public function newsletterAction()
+    {
+        return $this->render(
+            'FrontEndBundle:mails:newsletter_tourists.html.twig',
+            array(
+                "user_name" => "Yanet",
+                "user_locale" => "de",
+                "content" => '<p>Es tut uns sehr Leid dass unsere Website <b>MyCasaParticular.com</b> außer Betrieb während der letzten 12 Stunden war &#9785;.</p>
+        <p>Jetzt alles ist in Ordnung  und die Website funktioniert . Deswegen können Sie der Reservierungsprozess weiter führen.</p>
+        <p>Wir bitten Sie die Umstaende zu entschuldigen und danken Ihnen fuer Ihr Verstaendnis.Es wird nicht wiederholt.</p>
+        <p>Wir warten auf Sie!!</p>
+        <p><br/><b><span style="font-size: 20px">&#x2661;</span> MyCasaParticular.com Team</b></p>'
+            )
+        );
+    }
+
 }
 

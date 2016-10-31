@@ -393,6 +393,7 @@ h6{
     position: absolute;
     left: -8px;
     top: -7px;
+    padding: 4px;
 }
 .navbar-inverse .navbar-toggle {
     border: medium none;
@@ -980,6 +981,65 @@ select.form-control-2 {
 
 footer {
     padding: 4px 0;
+}
+
+#list-cart{
+    margin-right: 7px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    padding: 11px 5px;
+}
+
+.icon-avatar {
+    margin: -8px 0 0 -39px;
+}
+
+.mycasatrip-tab{
+
+}
+.mycasatrip-tab .nav-tabs{
+
+}
+.mycasatrip-tab .nav-tabs li{
+    width: 50%;
+}
+
+.mycasatrip-tab .nav-tabs li a{
+    background: #d3d2d0 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 12px;
+    padding: 0;
+}
+.mycasatrip-tab .nav-tabs li.active a{
+    background: #86b32b none repeat scroll 0 0;
+}
+
+.dropdown-menu, .tt-dropdown-menu {
+    left: auto;
+    right: -47px;
+    min-width: 80px;
+    width: 310px !important;
+}
+
+#top-menu .dropdown-menu, .tt-dropdown-menu {
+    left: auto;
+    right: -152px;
+    min-width: 80px;
+    width: 310px !important;
+}
+
+.modal-body .no-bg-in-modal{
+    background: none !important;
+}
+.modal-body .no-yp-in-modal{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.sweet-alert h2 {
+    font-size: 14px;
+    margin: 0;
 }
 
 .marquesina{

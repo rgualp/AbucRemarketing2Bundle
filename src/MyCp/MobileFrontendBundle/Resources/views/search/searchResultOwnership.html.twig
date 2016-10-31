@@ -78,6 +78,7 @@
             </div>
         </div>
     </div>
+    <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
 {% endblock %}
     {% block javascripts %}
         {{ parent() }}
@@ -112,5 +113,6 @@
             });
 
         </script>
+        {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 

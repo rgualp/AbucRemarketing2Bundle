@@ -29,11 +29,24 @@ use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
  */
 class ownershipRepository extends EntityRepository {
 
+    function findAllNames(){
+        $em = $this->getEntityManager();
+
+        $queryString = "SELECT o.own_name
+            FROM mycpBundle:ownership o
+            ORDER BY o.own_name";
+
+        $query = $em->createQuery($queryString);
+
+        return $query->getArrayResult();
+    }
+
     function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
         $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $active_inmediate_booking_2 = (isset($data['inmediate_booking_2'])) ? 1 : 0;
         $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
@@ -93,10 +106,19 @@ class ownershipRepository extends EntityRepository {
             ->setOwnGeolocateY($data['geolocate_y'])
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
-            ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setOwnSmsNotifications($smsNotification);
+
+
+        if($active_inmediate_booking_2)
+        {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2($active_inmediate_booking_2);
+        }
+        else
+            $ownership->setOwnInmediateBooking($active_inmediate_booking)
+                ->setOwnInmediateBooking2(false);
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
@@ -271,6 +293,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
         $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $active_inmediate_booking_2 = (isset($data['inmediate_booking_2'])) ? 1 : 0;
         $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
@@ -328,10 +351,18 @@ class ownershipRepository extends EntityRepository {
             ->setOwnGeolocateY($data['geolocate_y'])
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
-            ->setOwnInmediateBooking($active_inmediate_booking)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setOwnSmsNotifications($smsNotification);
+
+        if($active_inmediate_booking_2)
+        {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2($active_inmediate_booking_2);
+        }
+        else
+            $ownership->setOwnInmediateBooking($active_inmediate_booking)
+                ->setOwnInmediateBooking2(false);
 
         if($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
@@ -678,6 +709,9 @@ class ownershipRepository extends EntityRepository {
             case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING:
                 $condition .= "AND ow.own_inmediate_booking = 1 ";
                 break;
+            case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING_2:
+                $condition .= "AND ow.own_inmediate_booking_2 = 1 ";
+                break;
             case FilterHelper::ACCOMMODATION_CUBACOUPON:
                 $condition .= "AND ow.own_cubacoupon = 1 ";
                 break;
@@ -742,6 +776,7 @@ class ownershipRepository extends EntityRepository {
         ow.own_top_20,
         ow.own_selection,
         ow.own_inmediate_booking,
+        ow.own_inmediate_booking_2,
         ow.own_name,
         mun.mun_name,
         prov.prov_name,
@@ -1046,6 +1081,7 @@ class ownershipRepository extends EntityRepository {
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,
                          o.own_inmediate_booking as OwnInmediateBooking,
+                         o.own_inmediate_booking_2 as OwnInmediateBooking2,
                          pho.pho_name as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          data.reservedRooms as count_reservations,
@@ -1806,6 +1842,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             o.own_inmediate_booking as OwnInmediateBooking,
+                            o.own_inmediate_booking_2 as OwnInmediateBooking2,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             data.activeRooms as rooms_count,
                             data.reservedRooms as count_reservations,
@@ -1858,6 +1895,7 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
                         o.own_inmediate_booking as OwnInmediateBooking,
+                        o.own_inmediate_booking_2 as OwnInmediateBooking2,
                         pho.pho_name as ownerPhotoName,
                         status.status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
