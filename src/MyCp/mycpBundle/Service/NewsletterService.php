@@ -115,7 +115,7 @@ class NewsletterService extends Controller
                     $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, "Testing User", $this->testingEmail, $newsletter->getCode(), $lang->getLangCode());
                 } else {
 
-                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
+                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findBy(array(
                         "newsletter" => $newsletter->getId(),
                         "language" => $lang->getLangId()
                     ));
@@ -123,6 +123,8 @@ class NewsletterService extends Controller
                     foreach ($contacts as $contact) {
                         $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, $contact->getName(), $contact->getEmail(), $newsletter->getCode(), $lang->getLangCode());
                     }
+
+                    $this->sendEmailUsingService($baseTemplateEmail, $sender, $content, "Testing User", $this->testingEmail, $newsletter->getCode(), $lang->getLangCode());
                 }
             }
         }
@@ -143,7 +145,7 @@ class NewsletterService extends Controller
                     $this->smsService->sendSMSNotification($this->testingSms, $content->getEmailBody(), $newsletter->getCode());
                 } else {
 
-                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findOneBy(array(
+                    $contacts = $this->entityManager->getRepository("mycpBundle:newsletterEmail")->findBy(array(
                         "newsletter" => $newsletter->getId(),
                         "language" => $lang->getLangId()
                     ));
@@ -151,6 +153,7 @@ class NewsletterService extends Controller
                     foreach ($contacts as $contact) {
                         $this->smsService->sendSMSNotification($contact->getMobile(), $content->getEmailBody(), $newsletter->getCode());
                     }
+                    $this->smsService->sendSMSNotification($this->testingSms, $content->getEmailBody(), $newsletter->getCode());
                 }
             }
         }
