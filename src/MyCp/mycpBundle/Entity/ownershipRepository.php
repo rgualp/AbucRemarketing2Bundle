@@ -847,7 +847,7 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $start = null, $limit = null) {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate, $start = null, $limit = null) {
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
@@ -864,6 +864,9 @@ class ownershipRepository extends EntityRepository {
         $where = (!$room_filter) ? (" WHERE o.own_status = 1 ") : (" WHERE o.own_status = 1 AND r.room_active = 1 ");
         $textWhere = SearchUtils::getTextWhere($text);
         $where .= ($textWhere != "") ? " AND " . $textWhere : "";
+
+        if($inmediate != null)
+            $where .= " AND " . "o.own_inmediate_booking_2 = :inmediate";
 
         if($guest_total != null && $guest_total != 'null' && $guest_total != "")
             $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
@@ -898,6 +901,9 @@ class ownershipRepository extends EntityRepository {
         if($session_id != null){
             $query->setParameter('session_id', $session_id);
         }
+
+        if($inmediate != null)
+            $query->setParameter('inmediate', $inmediate);
 
         if($text != null && $text != '' && $text != 'null'){
             $query->setParameter('text', "%" . $text . "%");

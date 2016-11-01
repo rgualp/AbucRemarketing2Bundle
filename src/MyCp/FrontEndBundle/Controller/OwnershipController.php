@@ -688,7 +688,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1,$order_price='null', $order_comments='null', $order_books='null') {
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1, $inmediate="null",$order_price='null', $order_comments='null', $order_books='null') {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
@@ -699,6 +699,7 @@ class OwnershipController extends Controller {
 
         $session->set('search_arrival_date', null);
         $session->set('search_departure_date', null);
+        $session->set('inmediate', null);
         $today = new \DateTime();
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
@@ -727,7 +728,7 @@ class OwnershipController extends Controller {
 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
-         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
+         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate);
 
         // <editor-fold defaultstate="collapsed" desc="Inside code was inserted into search method in ownershipRepository">
         //Marlon
