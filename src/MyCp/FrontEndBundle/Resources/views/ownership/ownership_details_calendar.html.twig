@@ -133,18 +133,15 @@
                     </div>
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
-                        <button style="padding: 5px 10px" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
-                            <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
-                        </button>
-                        {#{% if ownership.own_inmediate_booking_2 %}
+                        {% if ownership.own_inmediate_booking_2 %}
                             <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                             {% else %}
-                                <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <button style="padding: 5px 10px" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                     <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                                 </button>
-                        {% endif %}#}
+                        {% endif %}
                     </div>
 
 
@@ -189,12 +186,17 @@
                         $('#list-cart').addClass('dropdown-toggle');
                         $('#whish-list').html(response);
                         $('#count-cart').text($('#total-cart').data('counter'));
-                        $('#myModalOwnerShipCalendar').modal('hide');
                         swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
                         $('#addWhisList').removeClass('hide');
                     }
                     if($('#check_dispo').val()==1){
                         swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                    }
+                    if($('#check_dispo').val()==2){
+                        $('#cart-items').html(response);
+                        $('#count-cesta').text($('#total-cesta').data('counter'));
+                        $('#count-mcptrip').text($('#total-cesta').data('counter'));
+                        swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
                     }
 
                 }
@@ -207,25 +209,6 @@
             $('#check_dispo').val('2');
             if($(this).data('modal')){
                 $('#myModalOwnerShipCalendar').modal('hide');
-                var form = $("#form-check-available");
-                form.on("submit", function (e) {
-                    e.preventDefault();
-                    var formData = new FormData(form[0]);
-                        $.ajax({
-                            url: form.attr('action'),
-                            type: "post",
-                            dataType: "html",
-                            data: formData,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function(response){
-                                $('#cart-items').html(response);
-                                swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
-                            }
-                        });
-
-                });
             }
         }
         else{
