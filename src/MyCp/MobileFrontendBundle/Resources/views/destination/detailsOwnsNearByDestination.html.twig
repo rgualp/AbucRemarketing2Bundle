@@ -1,0 +1,68 @@
+{% if owns_nearby | length %}
+    <div id="json_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"
+         data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
+         data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+    <div class="houses-list thumbs-houses lazy-cont" id="div_result">
+        {% if data_view is not defined or data_view == 'LIST' %}
+            {{ include('FrontEndBundle:ownership:ownershipArrayItemList.html.twig',
+            {'list': owns_nearby,
+                'list_preffix' : 'own_nearby',
+                'is_in_favorites_list': false,
+                'total_items': total_items
+            }) }}
+        {% else %}
+            {% if data_view == 'PHOTOS' %}
+                {{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',
+                {'list': owns_nearby,
+                    'list_preffix': 'mosaic',
+                    'total_items': total_items,
+                    'show_paginator' : false
+                }) }}
+            {% else %}
+                {{ include('FrontEndBundle:ownership:searchMapOwnership.html.twig',
+                {'list': owns_nearby,
+                    'list_preffix': 'map',
+                    'total_items': total_items,
+                    'show_paginator' : true,
+                    'in_searcher': false,
+                    'destination_name': destination_name
+                }) }}
+            {% endif %}
+        {% endif %}
+    </div>
+    {% if total_items > items_per_page and data_view != 'MAP' %}
+        <div class="text-center">
+
+            {% if paginator is defined %}
+                {{ simple_paginator_render('frontend_details_destination',null,{
+                    'container_class': 'pagination',
+                    'previousPageText': '«',
+                    'nextPageText': '»',
+                    'currentClass': 'current',
+                    'firstPageText': 'FIRST_PAGE' | trans,
+                    'lastPageText': 'LAST_PAGE' | trans,
+                    'route_params': {'destination_name': destination_name},
+
+                    'firstPage': paginator['firstPage'],
+                    'previousPage':paginator['previousPage'],
+                    'minPage':paginator['minPage'],
+                    'maxPage':paginator['maxPage'],
+                    'currentPage':paginator['currentPage'],
+                    'nextPage':paginator['nextPage'],
+                    'lastPage':paginator['lastPage']
+                }) }}
+            {% else %}
+                {{ simple_paginator_render('frontend_details_destination',null,{
+                    'container_class': 'pagination',
+                    'previousPageText': '«',
+                    'nextPageText': '»',
+                    'currentClass': 'current',
+                    'firstPageText': 'FIRST_PAGE' | trans,
+                    'lastPageText': 'LAST_PAGE' | trans,
+                    'route_params': {'destination_name': destination_name}
+                }) }}
+            {% endif %}
+
+        </div>
+    {% endif %}
+{% endif %}
