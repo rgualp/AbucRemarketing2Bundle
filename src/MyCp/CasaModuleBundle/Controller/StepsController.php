@@ -580,8 +580,11 @@ class StepsController extends Controller
      */
     public function showPropertyAction(Request $request)
     {
-        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        if($ownership->getOwnLangs()){
+        $userUserCasa = $this->getUser()->getUserUserCasa()->first();
+
+        $ownership = (is_object($userUserCasa) && method_exists($userUserCasa, "getUserCasaOwnership")) ? ($userUserCasa->getUserCasaOwnership()) : null;
+
+        if($ownership != null && $ownership->getOwnLangs()){
             if(substr($ownership->getOwnLangs(),0,1))
                 $langs[]='1000';
             if(substr($ownership->getOwnLangs(),1,1))
