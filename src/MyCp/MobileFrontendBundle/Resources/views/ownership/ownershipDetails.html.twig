@@ -696,81 +696,6 @@
 
     </script>
 
-    <script>
-        var login=false;
-        {% if app.user.getUserUserName is defined %}
-        login=true;
-        {% endif %}
-
-        $('#addWhisList').on('click',function(){
-            if($(this).data('modal')){
-                var form = $("#form-check-available");
-                form.on("submit", function (e) {
-                    e.preventDefault();
-                    var formData = new FormData(form[0]);
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: "post",
-                        dataType: "html",
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function(response){
-                            if(response=='0'){
-                                $('#myModalOwnerShipCalendar').modal('hide');
-                                swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
-                            }
-                            else{
-                                $('#list-cart').attr('href','#');
-                                $('#list-cart').attr('data-toggle','dropdown');
-                                $('#list-cart').addClass('dropdown-toggle');
-                                $('#whish-list').html(response);
-                                $('#count-cart').text($('#total-cart').data('counter'));
-                                $('#myModalOwnerShipCalendar').modal('hide');
-                                swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
-                            }
-
-                        }
-                    });
-                });
-            }
-
-        });
-        $('#checkAvailable').on('click',function(){
-            if(login){
-                $('#check_dispo').val('1');
-                if($(this).data('modal')){
-                    var form = $("#form-check-available");
-                    form.on("submit", function (e) {
-                        e.preventDefault();
-                        var formData = new FormData(form[0]);
-                        $.ajax({
-                            url: form.attr('action'),
-                            type: "post",
-                            dataType: "html",
-                            data: formData,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function(data, textStatus, jqXHR){
-                                $('#myModalOwnerShipCalendar').modal('hide');
-                                swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
-                            }
-                        });
-                    });
-                }
-            }
-            else{
-                var form = $("#form-check-available");
-                form.on("submit", function (e) {
-                    e.preventDefault();
-                    window.location.href="{{ path('frontend_public_login') }}";
-                });
-            }
-        });
-    </script>
-
     <script type="text/javascript">
         from = $('#filter_date_from').val();
         to = $('#filter_date_to').val();
@@ -807,6 +732,110 @@
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script type="text/javascript">
+        var login=false;
+        {% if app.user.getUserUserName is defined %}
+        login=true;
+        {% endif %}
+        var form = $("#form-check-available");
+        form.on("submit", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var formData = new FormData(form[0]);
+            $.ajax({
+                url: form.attr('action'),
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response=='0'){
+                        swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                        $('#addWhisList').removeClass('hide');
+                    }
+                    else{
+                        if($('#check_dispo').val()==''){
+                            $('#list-cart').attr('href','#');
+                            $('#list-cart').attr('data-toggle','dropdown');
+                            $('#list-cart').addClass('dropdown-toggle');
+                            $('#whish-list').html(response);
+                            $('#count-cart').text($('#total-cart').data('counter'));
+                            $('#myModalOwnerShipCalendar').modal('hide');
+                            swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                            $('#addWhisList').removeClass('hide');
+                        }
+                        if($('#check_dispo').val()==1){
+                            swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                        }
+
+                    }
+
+                }
+            });
+        });
+        $('#reservedOwnerShip').on('click',function(){
+            if(login){
+                $('#check_dispo').val('2');
+                if($(this).data('modal')){
+                    $('#myModalOwnerShipCalendar').modal('hide');
+                    var form = $("#form-check-available");
+                    form.on("submit", function (e) {
+                        e.preventDefault();
+                        var formData = new FormData(form[0]);
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: "post",
+                            dataType: "html",
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function(response){
+                                $('#cart-items').html(response);
+                                swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                            }
+                        });
+
+                    });
+                }
+            }
+            else{
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    e.preventDefault();
+                    window.location.href="{{ path('frontend_public_login') }}";
+                });
+            }
+
+        })
+        $('#addWhisList').on('click',function(){
+            $('#addWhisList').addClass('hide');
+            $('#myModalOwnerShipCalendar').modal('hide');
+            if($(this).data('modal')){
+                $('#myModalOwnerShipCalendar').modal('hide');
+
+            }
+
+        });
+        $('#checkAvailable').on('click',function(){
+            if(login){
+                $('#check_dispo').val('1');
+                if($(this).data('modal')){
+                    $('#myModalOwnerShipCalendar').modal('hide');
+                }
+            }
+            else{
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    e.preventDefault();
+                    window.location.href="{{ path('frontend_public_login') }}";
+                });
+            }
+        });
     </script>
 {% endblock %}
 

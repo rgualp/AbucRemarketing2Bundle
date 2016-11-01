@@ -121,7 +121,7 @@ class MycasatripController extends Controller {
 
         if ($mobileDetector->isMobile()){
             if($flag=='1'){
-                return $this->render('MyCpMobileFrontendBundle:Cart:navBarCesta.html.twig', array(
+                return $this->render('MyCpMobileFrontendBundle:cart:navBarCesta.html.twig', array(
                     'res_available' => $res_available,
                     'order_by' => $order_by,
                     'nights' => $nights,
