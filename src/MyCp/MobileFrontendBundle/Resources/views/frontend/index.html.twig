@@ -20,6 +20,7 @@
         </div>
     </div>
     <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
+    {{ include('MyCpMobileFrontendBundle:utils:marquesina.html.twig') }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
@@ -85,6 +86,20 @@
 
             $( event.target ).blur();
             return false;
+        });
+
+        $(function() {
+
+            $("#marquee-close").on("click", function (e) {
+                e.preventDefault();
+                $(".marquesina").hide();
+            });
+
+            $(".marquesina").addClass("fixed-top");
+            $(".marquesina").removeClass('animated bounceInRight').addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('animated bounceInRight');
+            });
+
         });
     </script>
     {{ include('FrontEndBundle:script:script.html.twig') }}

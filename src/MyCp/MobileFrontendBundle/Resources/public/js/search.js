@@ -180,6 +180,7 @@ var Search = function(){
         var others_included_items = [];
         var own_awards = [];
         var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
+        var inmediate = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
         var others_not_included_items = [];
         var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
         var order_comments='';
@@ -409,7 +410,6 @@ var Search = function(){
         var arrival = $('#input_arrival_date').val();
         var departure = $('#input_departure_date').val();
         var guests = $('#input_guests').val();
-        var inmediate = $('#own_inmediate_booking').val();
         var rooms = $('#input_room').val();
         var text = $('#input_text').val();
         var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
@@ -442,7 +442,7 @@ var Search = function(){
             'guests': guests,
             'rooms': rooms,
             'text': text,
-            'inmediate': inmediate,
+            'inmediate': (inmediate) ? 1 : null,
             "own_category": (own_category_items.length > 0) ? own_category_items : null,
             "own_award": (own_awards.length > 0) ? own_awards: null,
             "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,

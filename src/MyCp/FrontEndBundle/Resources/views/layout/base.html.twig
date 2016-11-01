@@ -161,7 +161,7 @@
     })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
 <!-- End Google Tag Manager -->
 {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
-{{ include('FrontEndBundle:layout:marquesina.html.twig') }}
+{% block marquesina %}{% endblock %}
 <div class="space space-20"></div>
 <div class="container">
     <div class="row">
@@ -343,22 +343,7 @@
 
     $(function() {
         $('img.lazy').jail();
-
-        NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
-        $("#marquee-close").on("click", function (e) {
-            e.preventDefault();
-            $(".marquesina").hide();
-        })
-
     });
-    function showMarqee(){
-        $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $(this).removeClass('animated bounceInDown');
-        });
-    }
-    function hideMarqee(){
-
-    }
 </script>
 
 <script type="text/javascript">

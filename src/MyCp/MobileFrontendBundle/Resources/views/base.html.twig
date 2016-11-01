@@ -161,7 +161,7 @@
     {% endblock %}
 
     {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
-    {{ include('MyCpMobileFrontendBundle:utils:marquesina.html.twig') }}
+
 
     {% set leavingDate = null %}
     {% if app.session.get('search_departure_date') != null %}
@@ -250,20 +250,6 @@
             if ($menu.is(':visible') && !$menu.is(e.target) && !$menu.has(e.target).length) {
                 $menu.removeClass("in");
             }
-        });
-
-        $(function() {
-
-            $("#marquee-close").on("click", function (e) {
-                e.preventDefault();
-                $(".marquesina").hide();
-            });
-
-            $(".marquesina").addClass("fixed-top");
-            $(".marquesina").removeClass('animated bounceInRight').addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-                $(this).removeClass('animated bounceInRight');
-            });
-
         });
     </script>
 
