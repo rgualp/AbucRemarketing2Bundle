@@ -4024,6 +4024,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 <source>youtube</source>
                 <target>youtube</target>
             </trans-unit>
+            <trans-unit id="1007">
+                <source>PAYMENT_NOT_EXISTS</source>
+                <target>Do not exists PDF voucher for selected payment</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>
