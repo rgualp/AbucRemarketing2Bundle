@@ -10,10 +10,19 @@
             {% if cont <2 %}
                 <div class="col-sm-6">
                     <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon {% endif %}" data-id="{{ ownership.own_id }}">
-                        {% if ownership.OwnInmediateBooking %}
-                            <div class="quick-ribbon" data-toggle="tooltip" data-placement="right" rel="tooltip" title="{{ "quick_booking_tooltip" | trans }}">
+                        {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+                            <div class="quick-ribbon" style="background-color: #98cd34">
+                                <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                            </div>
+                        {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
+                            <div class="quick-ribbon">
+                                <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+                            </div>
+                        {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
+                            <div class="quick-ribbon" style="background-color: #98cd34">
+                                <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                            </div>
 
-                                <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
                         {% endif %}
                         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
@@ -113,9 +122,19 @@
                 <div class="row">
                 <div class="col-sm-6">
                     <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}">
-                        {% if ownership.OwnInmediateBooking %}
-                            <div class="quick-ribbon" rel="tooltip" data-toggle="tooltip" data-placement="right" title=" {{ "quick_booking_tooltip" | trans }}">
-                                <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+                        {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+                            <div class="quick-ribbon" style="background-color: #98cd34">
+                                <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                            </div>
+                        {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
+                            <div class="quick-ribbon">
+                                <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+                            </div>
+                        {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
+                            <div class="quick-ribbon" style="background-color: #98cd34">
+                                <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                            </div>
+
                         {% endif %}
                         <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
