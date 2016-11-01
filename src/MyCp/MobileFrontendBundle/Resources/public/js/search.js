@@ -409,6 +409,7 @@ var Search = function(){
         var arrival = $('#input_arrival_date').val();
         var departure = $('#input_departure_date').val();
         var guests = $('#input_guests').val();
+        var inmediate = $('#own_inmediate_booking').val();
         var rooms = $('#input_room').val();
         var text = $('#input_text').val();
         var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
@@ -441,7 +442,7 @@ var Search = function(){
             'guests': guests,
             'rooms': rooms,
             'text': text,
-
+            'inmediate': inmediate,
             "own_category": (own_category_items.length > 0) ? own_category_items : null,
             "own_award": (own_awards.length > 0) ? own_awards: null,
             "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
