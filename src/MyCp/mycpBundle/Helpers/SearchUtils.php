@@ -208,7 +208,7 @@ class SearchUtils {
                              o.own_name as own_name,
                              o.own_geolocate_y as longitude,
                              o.own_geolocate_x as latitude,
-                             o.own_inmediate_booking_2,
+                             o.own_inmediate_booking_2 as OwnInmediateBooking2,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
