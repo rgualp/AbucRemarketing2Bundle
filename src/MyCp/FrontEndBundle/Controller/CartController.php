@@ -104,7 +104,13 @@ class CartController extends Controller {
 
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+        if(isset($check_dispo) && $check_dispo!='' && ($check_dispo==1 || $check_dispo==2 ) ){
+            $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
+        }
+
+
         $showError = false;
+        $showErrorOwnExist = false;
         $showErrorItem='';
 
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
@@ -124,6 +130,25 @@ class CartController extends Controller {
                     $insert = 0;
                     $showError = 1;
                     $showErrorItem=$item;
+                }
+            }
+            if(isset($check_dispo) && $check_dispo!='' && ($check_dispo==1 || $check_dispo==2 ) ){
+                if(count($ownerShip)){
+                    foreach ($ownerShip as $item){
+                        $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
+                        $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
+                        $date = new \DateTime();
+                        $date->setTimestamp(strtotime("-1 day", $ownDateTo));
+                        $ownDateTo = $date->getTimestamp();
+                        if ((($ownDateFrom <= $start_timestamp && $ownDateTo >= $start_timestamp) ||
+                                ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
+                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]) {
+                            $insert = 0;
+                            $showError = 1;
+                            $showErrorOwnExist = 1;
+                        }
+
+                    }
                 }
             }
             if ($insert == 1) {
@@ -184,33 +209,33 @@ class CartController extends Controller {
                 }
             }
         }
-        if($showError  && isset($check_dispo) && $check_dispo==''){
+        if($showError  || $showErrorOwnExist){
                 if ( !$request->isXmlHttpRequest() ){
                     $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
                     $this->get('session')->getFlashBag()->add('message_global_error', $message);
                 }
         }
-        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1){
+        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
                 //Es que el usuario mando a consultar la disponibilidad
                 $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
         }
-        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
-            //Es que el usuario mando a consultar la disponibilidad
+        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
+            //Es que el usuario mando a hacer una reserva
             $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
         }
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
-            if($showError && isset($check_dispo) && $check_dispo==''){
+            if($showError  || $showErrorOwnExist){
                 $response =new Response(0);
             }
             elseif(isset($check_dispo) && $check_dispo==''){
                 $data=$this->dataCart();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
             }
-            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1){
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
                 $response =new Response(1);
             }
-            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2){
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
                 $data=$this->dataCesta();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
             }
