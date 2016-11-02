@@ -510,6 +510,7 @@ function load_upper_filters()
     var others_included_items = [];
     var own_awards = [];
     var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
+    var own_inmediate_booking2 = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
     var others_not_included_items = [];
     var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
     var order_comments='';
@@ -743,6 +744,7 @@ function load_upper_filters()
         "own_category": (own_category_items.length > 0) ? own_category_items : null,
         "own_award": (own_awards.length > 0) ? own_awards: null,
         "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
+        "own_inmediate_booking2": (own_inmediate_booking2) ? 1 : null,
         "own_type": (own_type_items.length > 0) ? own_type_items : null,
         "own_price": (own_price_items.length > 0) ? own_price_items : null,
         "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
@@ -871,6 +873,9 @@ function refresh_filters_statistics(checked_filters)
 
         if (document.getElementById('own_inmediate_booking') != null)
             document.getElementById('own_inmediate_booking').checked = checked_filters['own_inmediate_booking'];
+
+        if (document.getElementById('own_inmediate_booking2') != null)
+            document.getElementById('own_inmediate_booking2').checked = checked_filters['own_inmediate_booking2'];
 
         if (document.getElementById('room_audiovisuals') != null)
             document.getElementById('room_audiovisuals').checked = checked_filters['room_audiovisuals'];

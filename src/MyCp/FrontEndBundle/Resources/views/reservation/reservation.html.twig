@@ -136,7 +136,7 @@
         <input type="text" name="user_tourist_last_name" class="form-control" value="{{post["user_tourist_last_name"] is defined ? post["user_tourist_last_name"] | capitalize : user.getUserLastName |capitalize}}"/>
 
         <label>{{"CONFIRM_MAIL" | trans}} {%if errors["user_tourist_email_confirm"] is defined and errors["user_tourist_email_confirm"] !=""  %}<span class="reservation_error">{{errors["user_tourist_email_confirm"]|trim(':')}}</span>{%endif%}</label>
-        <input type="text" name="user_tourist_email_confirm" class="form-control" value="{{post["user_tourist_email_confirm"] is defined and post["user_tourist_email_confirm"] != null ? post["user_tourist_email_confirm"] : ""}}"/>
+        <input type="text" name="user_tourist_email_confirm" class="form-control" value="{{(post["user_tourist_email_confirm"] is defined and post["user_tourist_email_confirm"] != null) ? post["user_tourist_email_confirm"] : user.getUserEmail}}"/>
 
         <label>{{"ARRIVAL_TIME" | trans}} {%if errors["reservation_hour"] is defined and errors["reservation_hour"] !=""  %}<span class="reservation_error">{{errors["reservation_hour"]|trim(':')}}</span>{%endif%}</label>
         <select class="form-control" name="reservation_hour">

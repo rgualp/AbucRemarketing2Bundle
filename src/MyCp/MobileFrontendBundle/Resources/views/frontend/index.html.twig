@@ -25,8 +25,6 @@
     {{ parent() }}
 
     {% javascripts
-    '@MyCpMobileFrontendBundle/Resources/public/js/fixedlink.js'
-    '@MyCpMobileFrontendBundle/Resources/public/js/jquery.mobile-1.4.5.js'
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/custom.js'
     filter='?uglifyjs2'
@@ -86,6 +84,7 @@
             $( event.target ).blur();
             return false;
         });
+
     </script>
     {{ include('FrontEndBundle:script:script.html.twig') }}
 {% endblock javascripts %}

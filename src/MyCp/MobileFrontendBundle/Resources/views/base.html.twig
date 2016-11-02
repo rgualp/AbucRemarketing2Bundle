@@ -161,19 +161,21 @@
     {% endblock %}
 
     {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
+    {{ include('MyCpMobileFrontendBundle:utils:marquesina.html.twig') }}
+
 
     {% set leavingDate = null %}
-    {% if app.session.get('search_departure_date') != null %}
+    {% if app.session.get('search_departure_date') != null and app.session.get('search_departure_date').timestamp is defined %}
         {% set leavingDate = app.session.get('search_departure_date')|date("d/m/Y") %}
-    {% elseif app.session.get('search_arrival_date') != null%}
-        % set leavingDate = app.session.get('search_arrival_date')|date_modify("+2 day")|date("d/m/Y") %}
+    {% elseif app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined %}
+        {% set leavingDate = app.session.get('search_arrival_date')|date_modify("+2 day")|date("d/m/Y") %}
     {% else %}
         {% set leavingDate = "+2 days" |date("d/m/Y") %}
     {% endif %}
 
     <script type="text/javascript">
         var today_date="{{"now"|date("d/m/Y") }}";
-        var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var start_date="{{ (app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
         var end_date="{{leavingDate}}";
     </script>
 
@@ -249,6 +251,20 @@
             if ($menu.is(':visible') && !$menu.is(e.target) && !$menu.has(e.target).length) {
                 $menu.removeClass("in");
             }
+        });
+
+        $(function() {
+
+            $("#marquee-close").on("click", function (e) {
+                e.preventDefault();
+                $(".marquesina").hide();
+            });
+
+            $(".marquesina").addClass("fixed-top");
+            $(".marquesina").removeClass('animated bounceInRight').addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('animated bounceInRight');
+            });
+
         });
     </script>
 

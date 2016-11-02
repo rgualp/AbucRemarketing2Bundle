@@ -26,16 +26,6 @@
     <li>
         <div class="dropdown-messages-box container">
             <div class="row">
-               {# <div>
-                    <a class="pull-left" href="{{ path('frontend_details_ownership',{'own_name': item.cartRoom.roomOwnership.ownName | urlNormalize}) }}">
-                        {% if photos[loop.index0]%}
-                            <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="img-circle" alt="image" width="50px" height="38px">
-                        {% else %}
-                            <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" class="img-circle" alt="image" width="50px" height="38px"/>
-                        {% endif %}
-                    </a>
-                </div>#}
-
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
@@ -65,7 +55,7 @@
                             </div>
                             {% if app.user.getUserUserName is defined %}
                                 <div class="col-md-3" style="font-size: 20px; margin-top: -4px;color:#f4981d">
-                                    <i data="{{ item.cartId }}"  title="{{"REMOVE" | trans }}" class="btn_delete_reservation fa fa-trash-o" style="cursor: pointer"></i>{#|<i data="{{ item.cartId }}"  title="{{"RESERVATION_CHECK_AVAILABILITY" | trans }}" class="btn_check_available fa fa-question-circle"></i>#}
+                                    <i data="{{ item.cartId }}"  title="{{"REMOVE" | trans }}" class="btn_delete_reservation fa fa-trash-o" style="cursor: pointer" onclick="javascript:showModalDeleteWishList($(this))"></i>{#|<i data="{{ item.cartId }}"  title="{{"RESERVATION_CHECK_AVAILABILITY" | trans }}" class="btn_check_available fa fa-question-circle"></i>#}
                                 </div>
                             {% endif %}
                         </div>
@@ -76,26 +66,3 @@
     </li>
     <li class="divider"></li>
 {% endfor %}
-<script type="text/javascript">
-    $('.btn_delete_reservation').on('click',function(){
-        $('#confirmation_modal_delete').modal('show');
-        $('#delete_button_reservation').attr('data',$(this).attr('data'));
-        $('#delete_button_reservation').attr('btn_launch',$(this).attr('id'));
-    });
-    $('#delete_button_reservation').on('click',function(){
-        string_url="{{ path('frontend_remove_from_whislist')}}";
-        data_remove=$(this).attr('data');
-        $('.btn_delete_reservation').attr('disabled','disable');
-        $('#'+$(this).attr('btn_launch')).attr('class','in_process');
-        $('#confirmation_modal_delete').modal('hide');
-        $.ajax({
-            type: "POST",
-            url: string_url,
-            data:{'data':data_remove},
-            success: function(response){
-                $('#whish-list').html(response);
-                $('#count-cart').text($('#total-cart').data('counter'));
-            }
-        });
-    });
-</script>

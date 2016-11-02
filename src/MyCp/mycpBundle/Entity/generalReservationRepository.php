@@ -944,11 +944,12 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
     public function shallSendOutReminderEmail(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
 
-        $userId = $generalReservation->getGenResUserId()->getUserId();
+        /*$userId = $generalReservation->getGenResUserId()->getUserId();
         $previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
 
         if($previousPayedReservations > 0)
             return false;
+        */
 
         if(!$generalReservation->hasStatusAvailable()) {
             return false;
@@ -956,11 +957,12 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
         $isAtLeastOneOwnResAvailable = false;
+        $today = new \DateTime();
 
         /** @var $ownershipReservation ownershipReservation */
         foreach ($ownershipReservations as $ownershipReservation) {
 
-            if($ownershipReservation->hasStatusAvailable()) {
+            if($ownershipReservation->hasStatusAvailable() && $ownershipReservation->getOwnResReservationFromDate() >= $today) {
                 $isAtLeastOneOwnResAvailable = true;
                 break;
             }
@@ -2958,5 +2960,25 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
             ->setParameter("ids", $ownReservationIds)
             ->orderBy("ownRes.own_res_reservation_from_date");
         return $qb->getQuery()->getResult();
+    }
+    function getOwnShipReserByUser($iduser){
+        $res=array();
+        $day = date("Y-m-d");
+        if(array_key_exists('user_id',$iduser)){
+            $em = $this->getEntityManager();
+            $qb = $em->createQueryBuilder();
+            $qb->select("owres")
+                ->from("mycpBundle:ownershipReservation", "owres")
+                ->join("owres.own_res_gen_res_id", "gres")
+                ->where("gres.gen_res_user_id = :iduser")
+                ->andWhere("owres.own_res_reservation_from_date >= :day")
+                ->andWhere("owres.own_res_status <> :status")
+                ->setParameter("iduser", $iduser['user_id'])
+                ->setParameter("day", $day)
+                ->setParameter("status", generalReservation::STATUS_CANCELLED);
+            $res = $qb->getQuery()->getResult();
+        }
+    return $res;
+
     }
 }

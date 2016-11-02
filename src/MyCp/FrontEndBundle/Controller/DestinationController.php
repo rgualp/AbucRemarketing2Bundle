@@ -131,39 +131,80 @@ class DestinationController extends Controller {
             $own_ids .= "," . $own['own_id'];
         $session->set('own_ids', $own_ids);
 
-        return $this->render('FrontEndBundle:destination:destinationDetails.html.twig', array(
-            'destination' => $destination_array[0],
-            'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
-            'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
-            'locale' => $this->get('translator')->getLocale(),
-            'location' => $destination_array['municipality_name'] . ' / ' . $destination_array['province_name'],
-            'location_municipality' => $destination_array['municipality_name'],
-            'location_province' => $destination_array['province_name'],
-            'location_municipality_id' => $destination_array['municipality_id'],
-            'location_province_id' => $destination_array['province_id'],
-            'gallery_photos' => $photos['photo_name'],
-            'gallery_photo_descriptions' => $photos['photo_description'],
-            'description' => $destination_array['desc_full'],
-            'brief_description' => $destination_array['desc_brief'],
-            'other_destinations_in_municipality' => $other_destinations_in_municipality,
-            'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
-            'other_destinations_in_province' => $other_destinations_in_province,
-            'total_other_destinations_in_province' => count($other_destinations_in_province),
-            'popular_list' => $popular_destinations_list,
-            'provinces' => $provinces,
-            'owns_nearby' => $owns_nearby,
-            'items_per_page' => $items_per_page,
-            'total_items' => $totalItems,
-            'paginator'=>$paginator,
-            'destination_name' => $original_destination_name,
-            'data_view' => (($view == null) ? 'LIST' : $view),
-            'popular_destinations_for_url' => $popular_destinations_for_url,
-            'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
-            'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
-            'provinces_for_url' => $provinces_for_url,
-            'keyword_description' => $destination_array['keyword_description'],
-            'keyword' => $destination_array['keywords']
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:destination:destinationDetails.html.twig', array(
+                'destination' => $destination_array[0],
+                'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
+                'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
+                'locale' => $this->get('translator')->getLocale(),
+                'location' => $destination_array['municipality_name'] . ' / ' . $destination_array['province_name'],
+                'location_municipality' => $destination_array['municipality_name'],
+                'location_province' => $destination_array['province_name'],
+                'location_municipality_id' => $destination_array['municipality_id'],
+                'location_province_id' => $destination_array['province_id'],
+                'gallery_photos' => $photos['photo_name'],
+                'gallery_photo_descriptions' => $photos['photo_description'],
+                'description' => $destination_array['desc_full'],
+                'brief_description' => $destination_array['desc_brief'],
+                'other_destinations_in_municipality' => $other_destinations_in_municipality,
+                'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
+                'other_destinations_in_province' => $other_destinations_in_province,
+                'total_other_destinations_in_province' => count($other_destinations_in_province),
+                'popular_list' => $popular_destinations_list,
+                'provinces' => $provinces,
+                'owns_nearby' => $owns_nearby,
+                'items_per_page' => $items_per_page,
+                'total_items' => $totalItems,
+                'paginator'=>$paginator,
+                'destination_name' => $original_destination_name,
+                'data_view' => (($view == null) ? 'LIST' : $view),
+                'popular_destinations_for_url' => $popular_destinations_for_url,
+                'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
+                'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
+                'provinces_for_url' => $provinces_for_url,
+                'keyword_description' => $destination_array['keyword_description'],
+                'keyword' => $destination_array['keywords']
+            ));
+        }else{
+            return $this->render('FrontEndBundle:destination:destinationDetails.html.twig', array(
+                'destination' => $destination_array[0],
+                'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
+                'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
+                'locale' => $this->get('translator')->getLocale(),
+                'location' => $destination_array['municipality_name'] . ' / ' . $destination_array['province_name'],
+                'location_municipality' => $destination_array['municipality_name'],
+                'location_province' => $destination_array['province_name'],
+                'location_municipality_id' => $destination_array['municipality_id'],
+                'location_province_id' => $destination_array['province_id'],
+                'gallery_photos' => $photos['photo_name'],
+                'gallery_photo_descriptions' => $photos['photo_description'],
+                'description' => $destination_array['desc_full'],
+                'brief_description' => $destination_array['desc_brief'],
+                'other_destinations_in_municipality' => $other_destinations_in_municipality,
+                'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
+                'other_destinations_in_province' => $other_destinations_in_province,
+                'total_other_destinations_in_province' => count($other_destinations_in_province),
+                'popular_list' => $popular_destinations_list,
+                'provinces' => $provinces,
+                'owns_nearby' => $owns_nearby,
+                'items_per_page' => $items_per_page,
+                'total_items' => $totalItems,
+                'paginator'=>$paginator,
+                'destination_name' => $original_destination_name,
+                'data_view' => (($view == null) ? 'LIST' : $view),
+                'popular_destinations_for_url' => $popular_destinations_for_url,
+                'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
+                'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
+                'provinces_for_url' => $provinces_for_url,
+                'keyword_description' => $destination_array['keyword_description'],
+                'keyword' => $destination_array['keywords']
+            ));
+        }
+
+
+
     }
 
     public function ownsNearbyCallbackAction($destination_name, $destination_id) {
