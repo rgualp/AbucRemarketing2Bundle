@@ -209,13 +209,21 @@ class CartController extends Controller {
                 }
             }
         }
-        if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
+        if ($user_ids["user_id"] != null){
+            if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
                 //Es que el usuario mando a consultar la disponibilidad
                 $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
-        }
-        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
-            //Es que el usuario mando a hacer una reserva
-            $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
+            }
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
+                //Es que el usuario mando a hacer una reserva
+                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
+            }
+            else{
+                if ( !$request->isXmlHttpRequest() ){
+                    $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                    $this->get('session')->getFlashBag()->add('message_global_error', $message);
+                }
+            }
         }
         else{
             if ( !$request->isXmlHttpRequest() ){
@@ -223,8 +231,10 @@ class CartController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_global_error', $message);
             }
         }
+
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
+
             if(isset($check_dispo) && $check_dispo=='' && !$showError){
                 $data=$this->dataCart();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));

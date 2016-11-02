@@ -398,8 +398,8 @@ class OwnershipController extends Controller {
 
         $session = $this->get('session');
         $post = $request->request->getIterator()->getArrayCopy();
-        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null) ? $session->get('search_arrival_date') : 'now');
-        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null) ? $session->get('search_departure_date') : '+2 day');
+        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null && $session->get('search_arrival_date') instanceof \DateTime ) ? $session->get('search_arrival_date') : 'now');
+        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null && $session->get('search_departure_date') instanceof \DateTime ) ? $session->get('search_departure_date') : '+2 day');
 
         $start_timestamp = strtotime($start_date);
         $end_timestamp = strtotime($end_date);
@@ -426,6 +426,8 @@ class OwnershipController extends Controller {
 
         $service_time = $this->get('Time');
         $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
+
+
 
         $array_no_available = array();
         $no_available_days = array();
