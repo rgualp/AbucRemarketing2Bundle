@@ -944,11 +944,12 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
     public function shallSendOutReminderEmail(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
 
-        $userId = $generalReservation->getGenResUserId()->getUserId();
+        /*$userId = $generalReservation->getGenResUserId()->getUserId();
         $previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
 
         if($previousPayedReservations > 0)
             return false;
+        */
 
         if(!$generalReservation->hasStatusAvailable()) {
             return false;
@@ -956,11 +957,12 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
         $isAtLeastOneOwnResAvailable = false;
+        $today = new \DateTime();
 
         /** @var $ownershipReservation ownershipReservation */
         foreach ($ownershipReservations as $ownershipReservation) {
 
-            if($ownershipReservation->hasStatusAvailable()) {
+            if($ownershipReservation->hasStatusAvailable() && $ownershipReservation->getOwnResReservationFromDate() >= $today) {
                 $isAtLeastOneOwnResAvailable = true;
                 break;
             }
