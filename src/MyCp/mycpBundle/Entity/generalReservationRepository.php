@@ -2411,7 +2411,7 @@ join user u on genRes.gen_res_user_id = u.user_id
 
     function getAccommodationsFromReservationsByClient($idClient, $reservationDate) {
         $em = $this->getEntityManager();
-        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking
+        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking,o.own_inmediate_booking_2
             from mycpBundle:generalReservation gres
             join gres.gen_res_own_id o
             where gres.gen_res_user_id = :idClient and gres.gen_res_date = :reservationDate and gres.gen_res_status = :status
@@ -2426,7 +2426,7 @@ join user u on genRes.gen_res_user_id = u.user_id
 
     function getAccommodationsFromReservationsByClientAG($idClient, $reservationDate) {
         $em = $this->getEntityManager();
-        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking
+        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking,o.own_inmediate_booking_2
             from mycpBundle:generalReservation gres
             join gres.gen_res_own_id o
 
