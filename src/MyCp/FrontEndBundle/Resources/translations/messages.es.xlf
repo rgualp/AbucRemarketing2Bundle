@@ -3332,6 +3332,10 @@
             <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
             <target>Reserva el alojamiento de tus sueños en solo segundos.</target>
         </trans-unit>
+        <trans-unit id="977">
+            <source>ADD_TO_CEST_ERROR</source>
+            <target>Una de las habitaciones ya existe en su cesta y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>
