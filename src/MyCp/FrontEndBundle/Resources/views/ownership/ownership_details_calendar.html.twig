@@ -193,9 +193,10 @@
                         swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
                     }
                     if($('#check_dispo').val()==2){
-                        $('#cart-items').html(response);
+                        window.location.href="{{ path('frontend_mycasatrip_available') }}";
+                        /*$('#cart-items').html(response);
                         $('#count-cesta').text($('#total-cesta').data('counter'));
-                        $('#count-mcptrip').text($('#total-cesta').data('counter'));
+                        $('#count-mcptrip').text($('#total-cesta').data('counter'));*/
                         swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
                     }
 
