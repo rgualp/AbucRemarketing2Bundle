@@ -288,6 +288,13 @@
                         </label>
                     </div>
                 {%endfor%}
+                <br>
+                <span class="h-dark-grey-2">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                <div class="checkbox">
+                    <label>
+                        <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2" name="own_inmediate_booking2"  {%if inmediate is defined and inmediate == "1" %} checked="checked"{% endif %} data-aux-text="{{"IMMEDIATE_BOOKING" | trans}}" data-aux-text="{{"IMMEDIATE_BOOKING" | trans}}" />{{ 'IMMEDIATE_BOOKING'|trans }}
+                    </label>
+                </div>
             </div>
             <div class="col-sm-4">
                 <span class="h-dark-grey-2">{{"SELECT_BATHROOM_TYPE_OPTION" | trans}}</span>

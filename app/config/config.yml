@@ -61,16 +61,14 @@ assetic:
     use_controller: false
     bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle,LayoutBundle, PartnerBundle  ]
     #java: /usr/bin/java
-    node: "%nodejs_path%"
+    node: %nodejs_path%
     filters:
             uglifyjs2:
                 # the path to the uglifyjs executable
-                # bin: C:/Users/Standa/AppData/Roaming/npm/node_modules/uglify-js/bin/uglifyjs
-                bin: "%uglifyjs_path%"
+                bin: %uglifyjs_path%
             cssrewrite: ~
             uglifycss:
-                # bin:  "C:/Users/Standa/AppData/Roaming/npm/node_modules/uglifycss/uglifycss"
-                bin: "%uglifycss_path%"
+                bin: %uglifycss_path%
 
 # Doctrine Configuration
 doctrine:

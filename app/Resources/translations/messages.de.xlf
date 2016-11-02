@@ -4008,26 +4008,26 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                     <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
                     <target>Am besten bewertet</target>
                 </trans-unit>
-            <trans-unit id="1003">
-                <source>facebook</source>
-                <target>facebook</target>
-            </trans-unit>
-            <trans-unit id="1004">
-                <source>twitter</source>
-                <target>twitter</target>
-            </trans-unit>
-            <trans-unit id="1005">
-                <source>pinterest</source>
-                <target>pinterest</target>
-            </trans-unit>
-            <trans-unit id="1006">
-                <source>youtube</source>
-                <target>youtube</target>
-            </trans-unit>
-            <trans-unit id="1007">
-                <source>PAYMENT_NOT_EXISTS</source>
-                <target>Do not exists PDF voucher for selected payment</target>
-            </trans-unit>
+                <trans-unit id="1003">
+                     <source>MARQUESINA_TEXT</source>
+                     <target>Buchen Ihre Unterkunft ohne Bestätigung zu warten. Organisieren Sie Ihre Reise in wenigen minuten mithilfe unserem Service: sofortige Buchung. Gültig für Havannna.</target>
+                 </trans-unit>
+                <trans-unit id="1004">
+                    <source>SEE_NOW</source>
+                    <target>Schauen jetzt</target>
+                </trans-unit>
+                <trans-unit id="1005">
+                                <source>pinterest</source>
+                                <target>pinterest</target>
+                            </trans-unit>
+                            <trans-unit id="1006">
+                                <source>youtube</source>
+                                <target>youtube</target>
+                            </trans-unit>
+                            <trans-unit id="1007">
+                                <source>PAYMENT_NOT_EXISTS</source>
+                                <target>Do not exists PDF voucher for selected payment</target>
+                            </trans-unit>
     </body>
     </file>
 </xliff>

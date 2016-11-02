@@ -22,7 +22,7 @@ class SearchController extends Controller
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1,$order_price='null', $order_comments='null', $order_books='null') {
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1, $inmediate="null" ,$order_price='null', $order_comments='null', $order_books='null') {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
@@ -61,7 +61,7 @@ class SearchController extends Controller
 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate);
 
         // <editor-fold defaultstate="collapsed" desc="Inside code was inserted into search method in ownershipRepository">
         //Marlon
@@ -140,6 +140,7 @@ class SearchController extends Controller
 
         return $this->render('MyCpMobileFrontendBundle:search:searchResultOwnership.html.twig', array(
             'search_text' => $search_text,
+            'inmediate' => $inmediate,
             'search_guests' => $search_guests,
             'search_arrival_date' => $arrival,
             'search_departure_date' => $departure,
@@ -174,6 +175,9 @@ class SearchController extends Controller
             $rooms = $request->request->get('rooms');
             $arriving_date = $request->request->get('arrival');
             $departure_date = $request->request->get('departure');
+            $inmediate = $request->request->get('inmediate');
+
+
 
             $session->set('search_arrival_date', null);
             $session->set('search_departure_date', null);
@@ -257,7 +261,7 @@ class SearchController extends Controller
         $orderComments=$request->request->get('order_comments');
         $orderBooks=$request->request->get('order_books');
 
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters))->getResult();
+        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters, $inmediate))->getResult();
         $page = 1;
 
         if ( $request->request->get('page') ){

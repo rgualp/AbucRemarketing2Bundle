@@ -3979,14 +3979,14 @@
                 <target>Casas Mejor Valoradas</target>
             </trans-unit>
             <trans-unit id="1003">
-                <source>facebook</source>
-                <target>facebook</target>
+                <source>MARQUESINA_TEXT</source>
+                <target>Reserva tu hospedaje ideal sin esperar confirmación. Planifica tu viaje en instantes con nuestro servicio de Reserva Inmediata. Disponible para La Habana.</target>
             </trans-unit>
             <trans-unit id="1004">
-                <source>twitter</source>
-                <target>twitter</target>
+                <source>SEE_NOW</source>
+                <target>Ver Ahora</target>
             </trans-unit>
-            <trans-unit id="1005">
+<trans-unit id="1005">
                 <source>pinterest</source>
                 <target>pinterest</target>
             </trans-unit>
