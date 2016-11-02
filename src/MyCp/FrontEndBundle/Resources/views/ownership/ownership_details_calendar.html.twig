@@ -176,7 +176,11 @@
             processData: false,
             success: function(response){
                 if(response=='0'){
-                    swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                    if($('#check_dispo').val()==2){
+                        swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                    }
+                    else
+                        swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
                     $('#addWhisList').removeClass('hide');
                 }
                 else{

@@ -3912,6 +3912,10 @@
             <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
             <target>Book the perfect accomodation immediately.</target>
         </trans-unit>
+        <trans-unit id="977">
+            <source>ADD_TO_CEST_ERROR</source>
+            <target>One room already exists in your cart and the selected date range collides with which it is stored. Please change the date range.</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>
