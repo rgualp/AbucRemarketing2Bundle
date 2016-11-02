@@ -1767,7 +1767,7 @@ class OwnershipController extends Controller {
         $ownership_array=array();
         $ownership_array['own_id']=$ownership->getOwnId();
         $ownership_array['ownname']=$ownership->getOwnName();
-        $ownership_array['own_inmediate_booking_2']=$ownership->isOwnInmediateBooking2();
+        $ownership_array['OwnInmediateBooking2']=$ownership->isOwnInmediateBooking2();
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()){
             return $this->render('MyCpMobileFrontendBundle:ownership:modal_ownership_calendar.html.twig',array('ownership'=>$ownership_array,'locale'=>$locale,'currentServiceFee'=>$currentServiceFee));
