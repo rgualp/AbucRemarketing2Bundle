@@ -345,17 +345,14 @@
 
     $(function() {
         $('img.lazy').jail();
-    });
-
-    $(function() {
 
         NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
         $("#marquee-close").on("click", function (e) {
             e.preventDefault();
             $(".marquesina").hide();
         })
-
     });
+
     function showMarqee(){
         $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceInDown');
