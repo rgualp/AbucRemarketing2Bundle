@@ -209,13 +209,7 @@ class CartController extends Controller {
                 }
             }
         }
-        if($showError  || $showErrorOwnExist){
-                if ( !$request->isXmlHttpRequest() ){
-                    $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
-                    $this->get('session')->getFlashBag()->add('message_global_error', $message);
-                }
-        }
-        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
+        if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
                 //Es que el usuario mando a consultar la disponibilidad
                 $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
         }
@@ -223,12 +217,15 @@ class CartController extends Controller {
             //Es que el usuario mando a hacer una reserva
             $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
         }
+        else{
+            if ( !$request->isXmlHttpRequest() ){
+                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                $this->get('session')->getFlashBag()->add('message_global_error', $message);
+            }
+        }
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
-            if($showError  || $showErrorOwnExist){
-                $response =new Response(0);
-            }
-            elseif(isset($check_dispo) && $check_dispo==''){
+            if(isset($check_dispo) && $check_dispo=='' && !$showError){
                 $data=$this->dataCart();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
             }
@@ -239,6 +236,9 @@ class CartController extends Controller {
                 $data=$this->dataCesta();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
             }
+            else
+                $response =new Response(0);
+
             return $response;
         }
         else{
