@@ -956,11 +956,12 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
         $isAtLeastOneOwnResAvailable = false;
+        $today = new \DateTime();
 
         /** @var $ownershipReservation ownershipReservation */
         foreach ($ownershipReservations as $ownershipReservation) {
 
-            if($ownershipReservation->hasStatusAvailable()) {
+            if($ownershipReservation->hasStatusAvailable() && $ownershipReservation->getOwnResReservationFromDate() >= $today) {
                 $isAtLeastOneOwnResAvailable = true;
                 break;
             }
