@@ -945,10 +945,11 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $em = $this->getEntityManager();
 
         $userId = $generalReservation->getGenResUserId()->getUserId();
-        $previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
+        /*$previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
 
         if($previousPayedReservations > 0)
             return false;
+        */
 
         if(!$generalReservation->hasStatusAvailable()) {
             return false;
