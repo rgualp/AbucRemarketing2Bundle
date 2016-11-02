@@ -806,6 +806,7 @@ class OwnershipController extends Controller {
         $awards = $em->getRepository('mycpBundle:award')->findAll();
         if ($check_filters != null)
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
+                        'inmediate' => $inmediate,
                         'search_text' => $search_text,
                         'search_guests' => $search_guests,
                         'search_arrival_date' => $arrival,
@@ -828,6 +829,7 @@ class OwnershipController extends Controller {
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
+                        'inmediate' => $inmediate,
                         'search_text' => $search_text,
                         'search_guests' => $search_guests,
                         'search_arrival_date' => $arrival,
@@ -1142,6 +1144,8 @@ class OwnershipController extends Controller {
         $check_filters['own_others_internet'] = ($request->request->get('own_others_internet') == 'true' || $request->request->get('own_others_internet') == '1') ? true : false;
         $check_filters['own_inmediate_booking'] = ($request->request->get('own_inmediate_booking') == 'true' || $request->request->get('own_inmediate_booking') == '1') ? true : false;
 
+        $inmediate = ($request->request->get('own_inmediate_booking2') == 'true' || $request->request->get('own_inmediate_booking2') == '1') ? 1 : null;
+
         $room_filter = ($check_filters['room_type'] != null ||
                 $check_filters['room_bathroom'] != null ||
                 $check_filters['room_climatization'] != null ||
@@ -1184,7 +1188,7 @@ class OwnershipController extends Controller {
 //            $orderBy.=', o.own_ranking DESC';
 //
 //        }
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters))->getResult();
+        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters, $inmediate))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
