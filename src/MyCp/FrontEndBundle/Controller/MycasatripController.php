@@ -76,7 +76,7 @@ class MycasatripController extends Controller {
 
     }
 
-    public function availableAction($order_by, Request $request,$flag) {
+    public function availableAction($order_by, Request $request,$flag = null) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
