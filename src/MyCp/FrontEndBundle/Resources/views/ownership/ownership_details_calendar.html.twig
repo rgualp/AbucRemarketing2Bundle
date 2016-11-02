@@ -207,6 +207,7 @@
                     }
                    else{
                         swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                        window.location.href="{{ path('frontend_public_login') }}";
                         $('#addWhisList').removeClass('hide');
                     }
 
