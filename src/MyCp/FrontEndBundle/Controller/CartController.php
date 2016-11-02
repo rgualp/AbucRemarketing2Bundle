@@ -794,12 +794,14 @@ class CartController extends Controller {
                     'user_locale' => $locale
                 ));
 
-            $locale = $this->get('translator');
-            $subject = $locale->trans('REQUEST_SENT');
-            $service_email = $this->get('Email');
-            $service_email->sendEmail(
-                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-            );
+            if($user != null) {
+                $locale = $this->get('translator');
+                $subject = $locale->trans('REQUEST_SENT');
+                $service_email = $this->get('Email');
+                $service_email->sendEmail(
+                    $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+                );
+            }
         }
 
         if(!$inmediatily_booking){
@@ -967,12 +969,14 @@ class CartController extends Controller {
             'user_locale' => $locale
         ));
 
-        $locale = $this->get('translator');
-        $subject = $locale->trans('REQUEST_SENT');
-        $service_email = $this->get('Email');
-        $service_email->sendEmail(
+        if($user != null) {
+            $locale = $this->get('translator');
+            $subject = $locale->trans('REQUEST_SENT');
+            $service_email = $this->get('Email');
+            $service_email->sendEmail(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-        );
+            );
+        }
 
         //Enviando mail al reservation team
         foreach($generalReservations as $genResId)
