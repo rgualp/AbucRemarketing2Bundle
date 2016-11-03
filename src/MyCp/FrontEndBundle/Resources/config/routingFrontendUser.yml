@@ -1,35 +1,34 @@
 frontend_register_user:
-    locales:  { en: "/register-user/", es: "/registrar-usuario/", de: "/benutzer-login/" }
+    locales:  { en: "/register-user/", es: "/registrar-usuario/", de: "/benutzer-login/", fr: "/benutzer-login/", it: "/benutzer-login/" }
     defaults: { _controller: FrontEndBundle:User:register }
 
 frontend_enable_user:
-    locales:  { en: "/activate-user/{string}", es: "/activar-usuario/{string}", de: "/benutzer-aktivieren/{string}"  }
+    locales:  { en: "/activate-user/{string}", es: "/activar-usuario/{string}", de: "/benutzer-aktivieren/{string}",  fr: "/benutzer-aktivieren/{string}", it: "/benutzer-aktivieren/{string}"  }
     defaults: { _controller: FrontEndBundle:User:enable }
     requirements:
         string: .+
 
 frontend_restore_password_user:
-    locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/" }
+    locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/", fr: "/passwort-wiederherstellen/", it: "/passwort-wiederherstellen/" }
     defaults: { _controller: FrontEndBundle:User:restorePassword }
 
 frontend_change_password_user:
-    locales:  { en: "/change-password/{string}", es: "/cambiar-clave/{string}", de: "/passwort-aendern/{string}" }
+    locales:  { en: "/change-password/{string}", es: "/cambiar-clave/{string}", de: "/passwort-aendern/{string}", fr: "/passwort-aendern/{string}", it: "/passwort-aendern/{string}" }
     defaults: { _controller: FrontEndBundle:User:changePassword }
 
 frontend_register_confirmation_user:
     pattern:  /register-confirmation/
-    locales:  { en: "/confirmation_of_registration/", es: "/confirmacion_de_registro/", de: "/anmeldungsbestaetigung/" }
+    locales:  { en: "/confirmation_of_registration/", es: "/confirmacion_de_registro/", de: "/anmeldungsbestaetigung/", fr: "/anmeldungsbestaetigung/", it: "/anmeldungsbestaetigung/" }
     defaults: { _controller: FrontEndBundle:User:registerUserConfirmation }
 
 frontend_contact_user:
-    locales:  { en: "/contact/", es: "/contactos/", de: "/kontakt/" }
+    locales:  { en: "/contact/", es: "/contactos/", de: "/kontakt/", fr: "/kontakt/", it: "/kontakt/" }
     defaults: { _controller: FrontEndBundle:User:contact }
 
 frontend_profile_user:
-    locales:  { en: "/profile/", es: "/perfil/", de: "/profil/" }
+    locales:  { en: "/profile/", es: "/perfil/", de: "/profil/", fr: "/profil/", it: "/profil/" }
     defaults: { _controller: FrontEndBundle:User:profile }
 
 frontend_change_password_start_user:
-    locales:  { en: "/user/change-password/", es: "/usuario/cambiar-clave/", de: "/benutzer/passwort-aendern/" }
+    locales:  { en: "/user/change-password/", es: "/usuario/cambiar-clave/", de: "/benutzer/passwort-aendern/", fr: "/benutzer/passwort-aendern/", it: "/benutzer/passwort-aendern/" }
     defaults: { _controller: FrontEndBundle:User:changePasswordStart }
-

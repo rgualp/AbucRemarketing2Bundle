@@ -1,5 +1,5 @@
 
 frontend_change_currency:
-    locales:  { en: "/change-currency/{currencyCode}/{route}/{routeParams}", es: "/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/change-currency/{currencyCode}/{route}/{routeParams}", }
+    locales:  { en: "/change-currency/{currencyCode}/{route}/{routeParams}", es: "/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/change-currency/{currencyCode}/{route}/{routeParams}", fr: "/change-currency/{currencyCode}/{route}/{routeParams}", it: "/change-currency/{currencyCode}/{route}/{routeParams}" }
     defaults: { _controller: FrontEndBundle:Currency:change, route: frontend_welcome, routeParams: null }
 
