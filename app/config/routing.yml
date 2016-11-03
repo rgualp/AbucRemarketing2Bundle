@@ -56,7 +56,7 @@ mycp:
 
 mycp_sitemap:
     path: /sitemap.{_format}
-    defaults: { _controller: FrontEndBundle:Public:siteMap }
+    defaults: { _controller: FrontEndBundle:Public:siteMap , _format: xml }
 
 
 
