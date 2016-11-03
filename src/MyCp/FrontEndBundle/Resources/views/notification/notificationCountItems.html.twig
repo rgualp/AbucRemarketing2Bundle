@@ -1,0 +1,10 @@
+<a id="list-notification" title="Notifications" href="#" style="margin-top: 10px"   data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="true" class="count-info" >
+    <span style="height: 19px;margin-top: 3px;position: absolute;width: 20px;right: 12px" class="label" id="count-notification"> 0 </span>
+    {%if count > 0%}
+        <i class="fa fa-bell" style="font-size: 20px"></i>
+        {% else %}
+            <i class="fa fa-bell" style="font-size: 20px"></i>
+    {% endif %}
+
+</a>
+ {#{{ render(controller('FrontEndBundle:Notification:getNotificationBody')) }}#}
