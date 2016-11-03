@@ -1,0 +1,68 @@
+<div id="total-cart" class="hide" data-counter="{{ cartItems | length }}"></div>
+<li>
+    <div class="text-center link-block">
+        <a href="{{ path('frontend_view_cart') }}">
+            <i class="fa fa-shopping-cart"></i> <strong> {{"WHISH_LIST" | trans }}</strong>
+        </a> |
+        <a href="{{ path('frontend_empty_cart') }}" style="color:#ee5f5b">
+            <i class="fa fa-trash-o" ></i> <strong> {{"EMPTY_WHISH_LIST" | trans }}</strong>
+        </a>
+    </div>
+</li>
+<li class="divider"></li>
+{% set flag = 0%}
+{% set service_flag = 0%}
+{% set totalRoomPrice = 0 %}
+{% set total_percent = 0 %}
+{% for item in cartItems %}
+    {% set plus = 0 %}
+    {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
+    {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
+    {% if item.tripleRoomCharged %}
+        {% set plus = configuration_triple_room_charge %}
+    {% endif %}
+    {% set diferencia = item.cartDateFrom.diff(item.cartDateTo) %}
+    {% set diasRestantes = diferencia.days %}
+    <li>
+        <div class="dropdown-messages-box container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <a href="{{ path('frontend_details_ownership',{'own_name': item.cartRoom.roomOwnership.ownName | urlNormalize}) }}">
+                                    <strong>{{ item.cartRoom.roomOwnership.ownAddressMunicipality.munName}}, {{ item.cartRoom.roomOwnership.ownName}}</strong>. </br>
+
+                                </a>
+                                <small class="text-muted">{{ item.cartRoom.roomType |trans}}</small>
+                            </div>
+                            <div class="col-md-12">
+                                <strong>{{"ADULTS"|trans}}:</strong>  {{ item.cartCountAdults}} | <strong>{{"KIDS"|trans}}: </strong> {{ item.cartCountChildren}}
+                            </div>
+                            <div class="col-md-12">
+                                {% set total_percent =  total_percent + ((roomPrice + plus) * item.cartRoom.roomOwnership.ownCommissionPercent / 100) %}
+                                {% if item.tripleRoomCharged%}
+                                    {{ roomPrice | price}}
+                                    {% set totalRoomPrice = totalRoomPrice +  (roomPrice + plus) %}
+                                {% else %}
+                                    {{ roomPrice | price}}
+                                    {% set totalRoomPrice = totalRoomPrice +  roomPrice %}
+                                {% endif %}
+                                <small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>
+                            </div>
+                            <div class="col-md-9">
+                                <small class="text-muted">{{ diasRestantes }} {{ 'NIGHTS'|trans }}  {{ item.cartDateFrom | date("d/m/y") }} - {{ item.cartDateTo | date("d/m/y") }}</small>
+                            </div>
+                            {% if app.user.getUserUserName is defined %}
+                                <div class="col-md-3" style="font-size: 20px; margin-top: -4px;color:#f4981d">
+                                    <i data="{{ item.cartId }}"  title="{{"REMOVE" | trans }}" class="btn_delete_reservation fa fa-trash-o" style="cursor: pointer" onclick="javascript:showModalDeleteWishList($(this))"></i>{#|<i data="{{ item.cartId }}"  title="{{"RESERVATION_CHECK_AVAILABILITY" | trans }}" class="btn_check_available fa fa-question-circle"></i>#}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li class="divider"></li>
+{% endfor %}

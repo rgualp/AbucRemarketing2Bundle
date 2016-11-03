@@ -29,13 +29,13 @@ class FacebookLoginType extends AbstractType
         $builder
             ->setMethod("POST")
             ->setAction($options['action'])
-            ->add("name", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
-            ->add("lastName", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide'), 'label_attr'=>array('class'=>'hide')))
+            ->add("name", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide form-control'), 'label_attr'=>array('class'=>'hide')))
+            ->add("lastName", "hidden", array('required'=> true, 'attr'=>array('class'=>'hide form-control'), 'label_attr'=>array('class'=>'hide')))
             ->add("gender", "hidden")
-            ->add("email", "text", array('required'=> true, 'attr'=>array('class'=>'hide', 'style'=> 'width: 90%'), 'label_attr'=>array('class'=>'hide')))
+            ->add("email", "email", array('required'=> true, 'attr'=>array('class'=>'hide form-control', 'style'=> 'width: 90%'), 'label_attr'=>array('class'=>'hide')))
            ->add("country", 'entity', array(
                 'label'=> 'Country',
-                'attr'=>array('class'=>'hide', 'style'=> 'width: 90%'),
+                'attr'=>array('class'=>'hide form-control', 'style'=> 'width: 90%'),
                'label_attr'=>array('class'=>'hide'),
                 'required'=> true,
                 'class' => 'mycpBundle:country',

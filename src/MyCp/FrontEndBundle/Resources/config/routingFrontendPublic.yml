@@ -6,6 +6,10 @@ frontend_public_top_nav_control:
     locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
     defaults: { _controller: FrontEndBundle:Public:topNav, route: frontend_welcome, routeParams: null  }
 
+frontend_public_load_slide:
+    locales:  { en: "/loadslide/", es: "/loadslide/", de: "/loadslide/" }
+    defaults: { _controller: FrontEndBundle:Public:loadSlides  }
+
 frontend_metatags_control:
     pattern:  /metatags
     defaults: { _controller: FrontEndBundle:Public:getMetaTags}

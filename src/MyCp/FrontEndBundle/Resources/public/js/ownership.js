@@ -237,13 +237,13 @@ function search() {
         url = url.toString().replace('_text', null);
 
     var arrival = $('#input_arrival_date').val();
-    if (arrival != $('#input_arrival_date').attr("placeholder") && arrival != "")
+    if (typeof arrival !== "undefined" && arrival != $('#input_arrival_date').attr("placeholder") && arrival != "")
         url = url.toString().replace('_arrival', create_dateDMY(arrival));
     else
         url = url.toString().replace('_arrival', null);
 
     var departure = $('#input_departure_date').val();
-    if (departure != $('#input_departure_date').attr("placeholder") && departure != "")
+    if (typeof departure !== "undefined" && departure != $('#input_departure_date').attr("placeholder") && departure != "")
         url = url.toString().replace('_departure', create_dateDMY(departure));
     else
         url = url.toString().replace('_departure', null);
@@ -448,8 +448,8 @@ function research()
         }
     });
 
-    arrival = (arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
-    departure = (departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
+    arrival = (typeof arrival !== "undefined" && arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
+    departure = (typeof departure !== "undefined" && departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
     text = (text != $('#input_text').attr('placeholder')) ? text : null;
 
     $.post(url, {
@@ -510,6 +510,7 @@ function load_upper_filters()
     var others_included_items = [];
     var own_awards = [];
     var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
+    var own_inmediate_booking2 = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
     var others_not_included_items = [];
     var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
     var order_comments='';
@@ -743,6 +744,7 @@ function load_upper_filters()
         "own_category": (own_category_items.length > 0) ? own_category_items : null,
         "own_award": (own_awards.length > 0) ? own_awards: null,
         "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
+        "own_inmediate_booking2": (own_inmediate_booking2) ? 1 : null,
         "own_type": (own_type_items.length > 0) ? own_type_items : null,
         "own_price": (own_price_items.length > 0) ? own_price_items : null,
         "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
@@ -871,6 +873,9 @@ function refresh_filters_statistics(checked_filters)
 
         if (document.getElementById('own_inmediate_booking') != null)
             document.getElementById('own_inmediate_booking').checked = checked_filters['own_inmediate_booking'];
+
+        if (document.getElementById('own_inmediate_booking2') != null)
+            document.getElementById('own_inmediate_booking2').checked = checked_filters['own_inmediate_booking2'];
 
         if (document.getElementById('room_audiovisuals') != null)
             document.getElementById('room_audiovisuals').checked = checked_filters['room_audiovisuals'];

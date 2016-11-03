@@ -1,22 +1,38 @@
 
 
 <div class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
-
-
-
-     {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %} style="position:relative" rel="tooltip" title="{% if ownership.OwnInmediateBooking %}{{"quick_booking_tooltip" | trans}}{% else %}{{"MORE_INFO_PREFFIX" | trans}} {{name}}
-
+        {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+            data-text="{{ 'IMMEDIATE_BOOKING'|trans }}"
+        {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
+            data-text="{{ 'quick_bookinhg'|trans }}"
+        {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
+            data-text="{{ 'IMMEDIATE_BOOKING'|trans }}"
+        {% endif %}
+     style="position:relative" rel="tooltip" title="
+    {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+            {{"TOOL_TIP_IMMEDIATE_BOOKING" | trans}}
+    {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
+           {{"quick_booking_tooltip" | trans}}
+    {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
+           {{"TOOL_TIP_IMMEDIATE_BOOKING" | trans}}
+     {% else %}
+        {{"MORE_INFO_PREFFIX" | trans}} {{name}}
      {% endif %}">
 
-
-
-
-
-
-    {% if ownership.OwnInmediateBooking %}
-        <div class="quick-ribbon">
-            <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span></div>
+    {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+        <div class="quick-ribbon" style="background-color: #ff0000">
+            <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+        </div>
+        {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
+            <div class="quick-ribbon">
+                <i class="glyphicons white electricity icon-padding"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+            </div>
+        {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
+            <div class="quick-ribbon" style="background-color: #ff0000">
+                <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+            </div>
     {% endif %}
+
     <div>
         {% if award %}
             <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
@@ -39,14 +55,18 @@
     </a>
         {% endif %}
     </noscript>
+    {#<div style="bottom: 0px;background:rgba(0, 0, 0, 0.8) none repeat scroll 0 0;height: 60px ">
+        <small style="color:#fff">Solicitar casa</small>
+    </div>#}
 </div>
+
 <div class="row">
     <a target="_blank"  href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-    <div class="col-sm-10 h-blue">
+    <div class="col-sm-9 h-blue">
         {{ name| title }}
     </div>
     </a>
-    <div class="col-sm-1" style="margin-top: 20px;">
+    <div class="col-sm-3" style="margin-top: 20px;">
         {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
         {'is_in_favorite': is_in_favorite,
         'favorite_type': 'ownership',
@@ -54,5 +74,6 @@
         'list_preffix' : list_preffix,
         'include_text': false
         }) }}
+        {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
     </div>
 </div>

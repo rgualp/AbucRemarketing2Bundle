@@ -255,8 +255,8 @@
     {{ parent() }}
     <script type="text/javascript">
         var today_date = "{{"now"|date("d/m/Y") }}";
-        var start_date = "{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
-        var end_date = "{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+        var start_date = "{{ (app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date = "{{(app.session.get('search_departure_date') != null and app.session.get('search_departure_date').timestamp is defined) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
 
         var partner_arrival_date='{{ app.session.get('partner_arrival_date')}}';
         var partner_exit_date='{{ app.session.get('partner_exit_date')}}';

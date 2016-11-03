@@ -200,13 +200,15 @@ class SearchUtils {
         return $uDetails;
     }
 
-    public static function getBasicQuery($room_filter, $user_id, $session_id) {
+    public static function getBasicQuery($room_filter, $user_id, $session_id, $where = true) {
         $query_string = "";
+        $query_string_count = "";
         if (!$room_filter) {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
                              o.own_geolocate_y as longitude,
                              o.own_geolocate_x as latitude,
+                             o.own_inmediate_booking_2 as OwnInmediateBooking2,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -239,8 +241,14 @@ class SearchUtils {
                              JOIN o.own_address_municipality mun
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
-                             LEFT JOIN op.own_pho_photo pho
-                             WHERE o.own_status = 1 ";
+                             LEFT JOIN op.own_pho_photo pho ";
+            $query_string .= ($where) ? ("WHERE o.own_status = 1 ") : ("");
+            $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
+                             JOIN o.data data
+                             LEFT JOIN data.principalPhoto op
+                             LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 ") : (""));
         } else {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
@@ -277,12 +285,18 @@ class SearchUtils {
                              JOIN o.own_address_municipality mun
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
-                             LEFT JOIN op.own_pho_photo pho
-                             WHERE o.own_status = 1
-                               AND r.room_active = 1 ";
+                             LEFT JOIN op.own_pho_photo pho ";
+            $query_string .= ($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : ("");
+            $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:room r
+                             JOIN r.room_ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
+                             JOIN o.data data
+                             LEFT JOIN data.principalPhoto op
+                             LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : (""));
         }
 
-        return $query_string;
+        return array('query'=>$query_string, 'query_count'=>$query_string_count);
     }
 
     public static function getTextWhere($text) {

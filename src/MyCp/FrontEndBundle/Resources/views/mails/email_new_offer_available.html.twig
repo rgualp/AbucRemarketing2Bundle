@@ -1,0 +1,25 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+        <h4 style="font-family: Arial; font-size: 20px">{{"NEW_OFFER_PREHEADER"|trans({}, "messages", user_locale)}}</h4>
+
+        <p style="font-size: 14px;font-family: arial">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}},</p>
+        <p style="font-size: 14px;font-family: arial"> {{"NEW_OFFER_TEXT_1"|trans({}, "messages", user_locale)}}</p>
+        <p style="font-size: 14px;font-family: arial">
+            {{"NEW_OFFER_TEXT_2"|trans({}, "messages", user_locale)}} <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>
+        </p>
+        {% if  booking is not defined  and reservationStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NONE') and reservationStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %}
+        <p style="font-size: 14px;font-family: arial"> {{"VALID_OFFER_FOUR_EIGHT"|trans({}, "messages", user_locale)}}</p>
+        {% endif %}
+        {% if message is defined and message|length %}<p style="font-size: 14px;font-family: arial">{{ message | raw }}</p>{% endif %}
+        {% for reservation in reservations %}
+            {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation}) }}
+            <br/>
+        {% endfor %}
+
+    <p style="font-size: 14px;font-family: arial">
+        {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
+        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+        <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
+    </p>
+{% endblock %}

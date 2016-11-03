@@ -11,8 +11,8 @@ use MyCp\mycpBundle\Entity\user;
 class UserCasaController extends Controller {
 
     public function homeAction() {
-
-        return $this->render('FrontEndBundle:userCasa:home.html.twig');
+       // return $this->render('FrontEndBundle:userCasa:home.html.twig');
+        return $this->redirect($this->generateUrl('frontend_search_ownership'));
     }
 
     public function activateAccountAction($token, Request $request) {

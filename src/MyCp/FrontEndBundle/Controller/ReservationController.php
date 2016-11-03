@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ReservationController extends Controller {
 
@@ -332,13 +334,23 @@ class ReservationController extends Controller {
     public function viewConfirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false) {
         /** @var \MyCp\FrontEndBundle\Service\BookingService $bookingService */
         $bookingService = $this->get('front_end.services.booking');
+        $voucherPDFPath = $bookingService->getVoucherFilePathByBookingId($id_booking);
 
-        if ($to_print) {
+        if(file_exists($voucherPDFPath))
+            return new BinaryFileResponse($voucherPDFPath);
+        else{
+            $message = $this->get('translator')->trans("PAYMENT_NOT_EXISTS");
+            $this->get('session')->getFlashBag()->add('message_global_error', $message);
+
+            $this->redirect($this->generateUrl("frontend_mycasatrip_payment"));
+        }
+
+        /*if ($to_print) {
             return $bookingService
                             ->getPrintableBookingConfirmationResponse($id_booking);
         }
 
-        return $bookingService->getBookingConfirmationResponse($id_booking);
+        return $bookingService->getBookingConfirmationResponse($id_booking);*/
     }
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {

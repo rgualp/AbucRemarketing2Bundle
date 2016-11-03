@@ -1,0 +1,203 @@
+{% extends 'FrontEndBundle:mycasatrip:layout_blank.html.twig' %}
+{% block body_inner %}
+{%if total_errors > 0%}
+<div class="alert alert-danger" style="margin-top: 40px">
+{{"FILL_FORM_CORRECTLY" | trans}}</div>
+{%endif%}
+<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>
+<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{ dates_string_day[0] }}{{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string_day[dates_string|length -1]}}{{dates_string[dates_string|length -1]}}</div>
+<div class="items-cart">
+{% set flag_1 = 0%}
+{% for date_str in dates_string %}
+{% if dates_partial[dates[flag_1]] is defined %}
+{% if not loop.last %}
+<div class="item">
+    <table cellpadding="15" class="full-width">
+        <tbody><tr>
+            <td class="date"><span>{{ dates_string_day[loop.index0] }}</span>{{ date_str }}</td>
+            <td>
+                <table style="width: 100%; border: none">
+                    {% set flag = 0%}
+                    {% set flag_reservation = 0%}
+                    {% for reservation in reservations %}
+                        {%set season_date= seasons[dates[flag_1]][flag_reservation]%}
+                        {% set reservationPrice = reservationPriceBySeason(reservation, season_date)%}
+                        {% if dates[flag_1]  >= reservations_timestamp[flag][0]  and  dates[flag_1]  <= reservations_timestamp[flag][1] %}
+                            {% if limit_dates[dates[flag_1]][reservation.getOwnResId] is not defined %}
+                            <tr>
+                                <td style="width: 57%">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}, {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</td>
+                                <td style="width: 35%" class="text-center">{{reservation.getOwnResRoomType | trans}}</td>
+                                <td class="text-right cost">
+                                        <h3 class="no-margin">
+                                         {%if reservation.ownresnightprice != 0%}
+                                                {{reservation.ownresnightprice | price}}
+                                         {%else%}                                            
+                                            {{reservationPrice | price}}
+                                         {%endif%}
+                                        </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>
+                                </td>
+                                {%if reservation.tripleRoomCharged%}
+                                <td style="vertical-align: top; padding-top: 2%"> + </td>
+                                <td style="vertical-align: top;"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"><h5>{{configuration_triple_room_charge | price}}</h5></td>
+                                {%endif%}
+                            </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% set flag = flag + 1%}
+                        {% set flag_reservation = flag_reservation + 1%}
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+     </tbody>
+     </table>
+</div>
+{% endif %}
+{% endif %}
+{% set flag_1 = flag_1 + 1%}
+{% endfor %}
+    </div>
+    {% set nights = (dates_string | length) - 1 %}
+    {#% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %#}
+    {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)) | price%}
+    <div class="row">
+        <div class="col-sm-3">{{"ACCOMMODATION_TOTAL_COST" | trans}} <br/><span>{{total_price | price}}</span></div>
+        <div class="col-sm-1">
+            <label>+</label>
+        </div>
+        <div class="col-sm-2">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
+        <div class="col-sm-1">
+            <label>+</label>
+        </div>
+        <div class="col-sm-2">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
+        <div class="col-sm-1">
+            <label>=</label>
+        </div>
+        <div class="col-sm-2 text-right" style="font-size: larger; font-weight: bold">
+            {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
+            <span>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</span>
+        </div>
+    </div>
+    <div class="row" style="line-height: 25px; color: #218CDC">
+        <div class="col-sm-6">
+            {{"TOTAL_PREPAYMENT" | trans}}: <span>{{(total_percent_price +touristTax + currentServiceFee.fixedFee) | price}}</span>
+        </div>
+        <div class="col-sm-6 text-right">
+            {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span>{{(total_price - total_percent_price) | price}}</span> <br/>
+            {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+            {% if currSymbol != "CUC" %}
+                <span style="font-size: small">CUC {{ (total_price - total_percent_price) | number_format(2) }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+<div class="row">
+<div class="pull-right">
+    <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+         class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
+    </div>
+    </div>
+<hr/>
+<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"YOUR_DATA" | trans}}</h1>
+<div class="h-blue t-size-12" style="font-weight: normal; margin-bottom: 0"><b >{{"REQUIRED_FIELDS_NEXT_STEP" | trans}}:</b> </div>
+<form  method="POST" action="{{ path('frontend_reservation_reservation') }}" novalidate>
+    <input type="hidden"  name="user_tourist_gender" id="user_tourist_gender" value="{{ post["user_tourist_gender"] is defined  ? post["user_tourist_gender"] : user_tourist.getUserTouristGender}}"/>
+    <input type="hidden" name="user_tourist_nationality" id="user_tourist_nationality" value="{{post["user_tourist_nationality"] is defined and post["user_tourist_nationality"] != "" ? post["user_tourist_nationality"] : user.UserCountry.coid}}"/>
+    <input type="hidden" name="reservation_hour" id="reservation_hour" value="{{post["reservation_hour"] is defined and post["reservation_hour"] != "" ? post["reservation_hour"]: ("SELECT" | trans)}}"/>
+<div class="row form-cont">
+    <div class="col-sm-6">
+        <label>{{"GENDER" | trans}} {%if errors["user_tourist_gender"] is defined and errors["user_tourist_gender"] !="" %}<span class="reservation_error">{{errors["user_tourist_gender"]|trim(':')}}</span>{%endif%}</label>
+        <select class="form-control" name="user_tourist_gender">
+            <option value="0" {%if (post["user_tourist_gender"] is defined and post["user_tourist_gender"]==0) or (user_tourist.UserTouristGender == 0)%}selected{%endif%}>{{"MALE" | trans}}</option>
+            <option value="1" {%if (post["user_tourist_gender"] is defined and post["user_tourist_gender"]==1) or (user_tourist.UserTouristGender == 1)%}selected{%endif%}>{{"FEMALE" | trans}}</option>
+        </select>
+
+        <label>{{"FORMS_NAME" | trans}} {%if errors["user_tourist_name"] is defined  and errors["user_tourist_name"] !="" %}<span class="reservation_error">{{errors["user_tourist_name"]|trim(':')}}</span>{%endif%}</label>
+        <input type="text" name="user_tourist_name" class="form-control" value="{{ post["user_tourist_name"] is defined ? post["user_tourist_name"] | capitalize : user.getUserUserName |capitalize}}"/>
+
+        <label>{{"FORMS_EMAIL" | trans}} {%if errors["user_tourist_email"] is defined and errors["user_tourist_email"] !="" %}<span class="reservation_error">{{errors["user_tourist_email"]|trim(':')}}</span>{%endif%}</label>
+        <input type="text" name="user_tourist_email" class="form-control"  value="{{post["user_tourist_email"] is defined ? post["user_tourist_email"] : user.getUserEmail}}"/>
+
+        <label>{{"COUNTRY" | trans}} {%if errors["user_tourist_nationality"] is defined and errors["user_tourist_nationality"] !=""  %}<span class="reservation_error">{{errors["user_tourist_nationality"]|trim(':')}}</span>{%endif%}</label>
+        <select class="form-control" name="user_tourist_nationality">
+            {%for country in countries%}
+                <option value="{{country.coid}}" {%if (post["user_tourist_nationality"] is defined and post["user_tourist_nationality"]==country.coid) or (user.UserCountry.coid == country.coid)%}selected{%endif%}>{{country.coname}}</option>
+            {%endfor%}
+        </select>
+
+        <label>{{"FORMS_PHONE" | trans}} {%if errors["user_tourist_phone"] is defined and errors["user_tourist_phone"] != ""%}<span class="reservation_error">{{errors["user_tourist_phone"]|trim(':')}}</span>{%endif%}</label>
+        <input type="text"  name="user_tourist_phone" class="form-control"  value="{{post["user_tourist_phone"] is defined and  post["user_tourist_phone"] != "" ? post["user_tourist_phone"] : user.getUserPhone}}"/>
+    </div>
+    <div class="col-sm-6">
+        <label>{{"ZIPCODE" | trans}} {%if errors["user_tourist_zip_code"] is defined  and errors["user_tourist_zip_code"] !="" %}<span class="reservation_error">{{errors["user_tourist_zip_code"]|trim(':')}}</span>{%endif%}</label>
+        <input name="user_tourist_zip_code" type="text" class="form-control" value="{{post["user_tourist_zip_code"] is defined  ? post["user_tourist_zip_code"] : user_tourist.UserTouristPostalCode}}"/>
+
+        <label>{{"FORMS_LASTNAME" | trans}} {%if errors["user_tourist_last_name"] is defined and errors["user_tourist_last_name"] !="" %}<span class="reservation_error">{{errors["user_tourist_last_name"]|trim(':')}}</span>{%endif%}</label>
+        <input type="text" name="user_tourist_last_name" class="form-control" value="{{post["user_tourist_last_name"] is defined ? post["user_tourist_last_name"] | capitalize : user.getUserLastName |capitalize}}"/>
+
+        <label>{{"CONFIRM_MAIL" | trans}} {%if errors["user_tourist_email_confirm"] is defined and errors["user_tourist_email_confirm"] !=""  %}<span class="reservation_error">{{errors["user_tourist_email_confirm"]|trim(':')}}</span>{%endif%}</label>
+        <input type="text" name="user_tourist_email_confirm" class="form-control" value="{{post["user_tourist_email_confirm"] is defined and post["user_tourist_email_confirm"] != null ? post["user_tourist_email_confirm"] : ""}}"/>
+
+        <label>{{"ARRIVAL_TIME" | trans}} {%if errors["reservation_hour"] is defined and errors["reservation_hour"] !=""  %}<span class="reservation_error">{{errors["reservation_hour"]|trim(':')}}</span>{%endif%}</label>
+        <select class="form-control" name="reservation_hour">
+            {%for hour in (0..23)%}
+                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}" {%if post["reservation_hour"] is defined and post["reservation_hour"] == (hour < 10 ? "0"~hour: hour) ~ ":00"%}selected{%endif%}>{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}</option>
+                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}" {%if post["reservation_hour"] is defined and post["reservation_hour"] == (hour < 10 ? "0"~hour: hour) ~ ":30"%}selected{%endif%}>{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}</option>
+            {%endfor%}
+        </select>
+
+        <label>{{"CELL_NUMBER" | trans}} {%if errors["user_tourist_cell"] is defined and errors["user_tourist_cell"] !=""  %}<span class="reservation_error">{{errors["user_tourist_cell"]|trim(':')}}</span>{%endif%}</label>
+        <input type="text"  name="user_tourist_cell" class="form-control" value="{{post["user_tourist_cell"] is defined and  post["user_tourist_cell"] != "" ? post["user_tourist_cell"] : user_tourist.UserTouristCell}}"/>
+    </div>
+</div>
+<hr/>
+<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"YOUR_PAYMENT" | trans}}</h1>
+<div class="row">
+    <div class="col-sm-3 text-center checkbox_skrill "style="margin-bottom: 1em;">
+        <img class="thumbnail full-width" style="padding: 40px; background-color: #F3F3F3; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/skrill.gif') }}" alt="{{"Skrill" | trans}}">
+        <input type="radio" class="i-checks" name="payment_method" value="skrill" checked> {{"SKRILL_PAYMENT" | trans}} </label>
+    </div>
+    {#<div class="col-sm-6 text-center">
+        <img class="thumbnail full-width" style="padding: 28px; background-color: #F3F3F3; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="{{"Postfinance" | trans}}">
+        <input type="radio" class="i-checks" name="payment_method" value="postfinance"> {{"POSTFINANCE_PAYMENT" | trans}} </label>
+    </div>
+    <div class="col-sm-3">#}
+        {#<img class="thumbnail full-width" style="padding: 30px; background-color: #F3F3F3; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/visa.png') }}" alt="{{"Postfinance" | trans}}">#}
+        {#<input type="radio" class="i-checks" name="payment_method" value="visa"> {{"VISA_PAYMENT" | trans}} </label>#}
+    {#</div>#}
+    {#<div class="col-sm-3">#}
+        {#<img class="thumbnail full-width" style="padding: 30px; background-color: #F3F3F3; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/mastercard.png') }}" alt="{{"Postfinance" | trans}}">#}
+        {#<input type="radio" class="i-checks" name="payment_method" value="mastercard"> {{"MASTERCARD_PAYMENT" | trans}} </label>#}
+    {#</div>#}
+</div>
+<hr/>
+<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"FINAL_STEP" | trans}}</h1>
+
+<label class="checkbox" style="font-weight: normal; margin-top: 20px"><input {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
+<label class="checkbox" style="font-weight: normal"><input name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>
+
+<h3 class="h-grey">{{"AMOUNT_TO_PAY_NOW" | trans}}: {{prepayment}}</h3>
+
+<button id="btn_payment" style="margin-top: 35px"  type="submit" class="btn btn-action btn-warning" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
+<p style="margin-top: 0; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{prepayment}}</p>
+</form>
+<script type="text/javascript">
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green'
+    });
+
+    if($('#terms_conditions').is(":checked"))
+            $('#btn_payment').removeAttr('disabled');
+        else
+            $('#btn_payment').attr('disabled','disabled');
+
+    $('#terms_conditions').change(function(){
+        if($('#terms_conditions').is(":checked"))
+            $('#btn_payment').removeAttr('disabled');
+        else
+            $('#btn_payment').attr('disabled','disabled');
+    });
+
+</script>
+{% endblock %}

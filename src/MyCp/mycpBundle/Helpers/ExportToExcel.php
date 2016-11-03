@@ -2383,6 +2383,20 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         return $fileName;
     }
 
+    public function generateClientsAg($clients, $fileName = "reservasClientes") {
+        $excel = $this->configExcel("Reporte de reservas de los clientes", "Reporte de reservas de los clientes de MyCasaParticular", "reportes");
+
+        $data = $this->dataClientsReservationsAg($clients);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetClientsReservations($excel,"Clientes-Reservas", $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        //return $this->export($fileName);
+        return $fileName;
+    }
+
     public function exportClients($fileName = "reservasClientes") {
         $fileName = $this->getFileName($fileName);
         return $this->export($fileName);
@@ -2415,6 +2429,84 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
             $currentReservation = 0;
             foreach ($reportContent as $content) {
 
+                if ($currentReservation != $content["gen_res_id"]) {
+                    $data[0] = $index++;
+                    $date = $content["gen_res_date"];
+                    $data[1] = date('d/m/Y', $date->getTimestamp());
+                    $data[2] = $content["gen_res_id"];
+                    $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
+                    $data[4] = $content["own_mcp_code"].(($content["own_inmediate_booking"]) ? " (RR)": "");
+                    $data[5] = $content["own_name"];
+                    $data[6] = $content["own_homeowner_1"].(($content["own_homeowner_2"] != "") ? " / ".$content["own_homeowner_2"]: "");
+                    $phone = ($content["own_phone_number"] != "") ? $content["prov_phone_code"]." ".$content["own_phone_number"] : "";
+                    $data[7] = $phone.($content["own_mobile_number"] != "" ? " / ".$content["own_mobile_number"] : "");
+                    $data[8] = $content["own_commission_percent"]." %";
+
+                } else {
+                    $data[0] = "";
+                    $data[1] = "";
+                    $data[2] = "";
+                    $data[3] = "";
+                    $data[4] = "";
+                    $data[5] = "";
+                    $data[6] = "";
+                    $data[7] = "";
+                    $data[8] = "";
+                }
+
+                $data[9] = room::getShortRoomType($content["own_res_room_type"]);
+                $data[10] = $content["own_res_count_adults"];
+                $data[11] = $content["own_res_count_childrens"];
+                $data[12] = $content["own_res_total_in_site"] / $content["nights"];
+                $date = $content["own_res_reservation_from_date"];
+                $data[13] = date('d/m/Y', $date->getTimestamp());
+                $data[14] = $content["nights"];
+                //
+
+                if ($currentReservation != $content["gen_res_id"]) {
+                    $currentReservation = $content["gen_res_id"];
+                    $data[15] = $content["gen_res_total_in_site"];
+                }
+                else {
+                    $data[15] = "";
+                }
+
+                array_push($results, $data);
+            }
+        }
+
+        return $results;
+    }
+
+    private function dataClientsReservationsAg($clients) {
+        $results = array();
+
+        foreach($clients as $idClient){
+            $data = array();
+
+            $client_agency = $this->em->getRepository('PartnerBundle:paClient')->find($idClient);
+            //$reservations = $this->em->getRepository('mycpBundle:generalReservation')->getByUserAg($idClient);
+
+            $client = $client_agency->getTravelAgency()->getTourOperators()->first()->getTourOperator();//$this->em->getRepository('mycpBundle:user')->find($idClient);
+            //$userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $idClient));
+
+            $data[0] = "Agencia: ".$client->getUserUserName()." ".$client->getUserLastName();
+            $data[1] = "Cliente: ".$client_agency->getFullName();
+            $data[2] = 'País: '.$client->getUserCountry()->getCoName();
+            $data[3] = "";
+            $data[4] = 'Idioma: '.$client->getUserLanguage()->getLangName();
+            $data[5] = "";
+            $data[6] = 'Moneda: '.$client->getUserCurrency()->getCurrCode();
+            $data[7] = "";
+            $data[8] = "";
+            $data[9] = "";
+            $data[10] = "";
+            array_push($results, $data);
+
+            $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsRoomsByClientAg($idClient);
+            $index = 1;
+            $currentReservation = 0;
+            foreach ($reportContent as $content) {
                 if ($currentReservation != $content["gen_res_id"]) {
                     $data[0] = $index++;
                     $date = $content["gen_res_date"];

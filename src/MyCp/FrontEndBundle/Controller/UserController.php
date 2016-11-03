@@ -294,7 +294,7 @@ class UserController extends Controller {
                         'locale' => $userLocale), true);
 
                     $service_email = $this->get('Email');
-                    $userName = $user_db->getUserCompleteName();
+                    $userName = $user_db->getUserUserName();
                     $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
                         'enableUrl' => $enableUrl,
                         'user_name' => $userName,

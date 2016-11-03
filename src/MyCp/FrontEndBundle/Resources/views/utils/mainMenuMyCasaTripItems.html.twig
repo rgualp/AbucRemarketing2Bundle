@@ -1,3 +1,3 @@
 <a href="{%if notifications > 0%}{{ path('frontend_mycasatrip_available') }}{%else%}{{ path('frontend_mycasatrip_pending') }}{%endif%}" {%if notifications  != 0 %} rel="tooltip" data-placement="top"  title="{{'MYCASATRIP_MAIN_MENU_NOTIFICATIONS' | trans({'%notifications%': notifications})}}" {% else %} title ="My casa particular - MyCasa Trip"{%endif%}>
-    mycasa trip {%if notifications  > 0%}<img style="margin-top: -5px" src="{{ asset('bundles/frontend/img/icons/mycasatrip-alert.png')}}" alt="{{"Alert" | trans}}"/> <span style="position: relative;top: -10px; left: -8px; color: #FAAC04">{{notifications}}</span>{%endif%}
+    mycasa trip {%if notifications  > 0%}<img style="margin-top: -5px" src="{{ asset('bundles/frontend/img/icons/mycasatrip-alert.png')}}" alt="{{"Alert" | trans}}"/> <span id="count-mcptrip" style="position: relative;top: -10px; left: -8px; color: #FAAC04">{{notifications}}</span>{%endif%}
 </a>

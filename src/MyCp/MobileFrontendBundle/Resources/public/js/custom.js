@@ -51,31 +51,31 @@ var MycpMobile = function(){
             }
         });
 
-        $("#top_rated_placeholder").on("swipeleft",function(e){
-            if (page < cant_items){
-                $("#loading").show();
-                page++;
-                var param = {'page': page};
-                $("#top-list-container").load(url_top_rate, param, function (data) {
-                    $("#loading").hide();
-                    Mycp.init();
-                    updateArrowTopRate(page, cant_items);
-                });
-
-            }
-        }).on("swiperight",function(e){
-            if (page > 1) {
-                $("#loading").show();
-                page--;
-                var param = {'page': page};
-                $("#top-list-container").load(url_top_rate, param, function (data) {
-                    $("#loading").hide();
-                    Mycp.init();
-                    updateArrowTopRate(page, cant_items);
-                });
-
-            }
-        });
+        // $("#top_rated_placeholder").on("swipeleft",function(e){
+        //     if (page < cant_items){
+        //         $("#loading").show();
+        //         page++;
+        //         var param = {'page': page};
+        //         $("#top-list-container").load(url_top_rate, param, function (data) {
+        //             $("#loading").hide();
+        //             Mycp.init();
+        //             updateArrowTopRate(page, cant_items);
+        //         });
+        //
+        //     }
+        // }).on("swiperight",function(e){
+        //     if (page > 1) {
+        //         $("#loading").show();
+        //         page--;
+        //         var param = {'page': page};
+        //         $("#top-list-container").load(url_top_rate, param, function (data) {
+        //             $("#loading").hide();
+        //             Mycp.init();
+        //             updateArrowTopRate(page, cant_items);
+        //         });
+        //
+        //     }
+        // });
         updateArrowTopRate(page, cant_items);
     }
 

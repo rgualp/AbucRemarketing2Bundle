@@ -101,12 +101,13 @@ class FullCartReminderWorkerCommand extends Worker {
     private function sendReminderEmail(user $user, OutputInterface $output) {
         $userId = $user->getUserId();
         $userEmail = $user->getUserEmail();
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
-        $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER');
+        $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER_SUBJECT');
 
         $userTourist = $this->emailManager->getTouristByUser($user);
-        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+
+        $userLocale = (empty($userTourist))? strtolower($user->getUserLanguage()->getLangCode()):strtolower($userTourist->getUserTouristLanguage()->getLangCode());
         $cartItems = $this->em->getRepository('mycpBundle:cart')->getCartItemsByUser($userId);
 
         $accommodations = array();
@@ -136,7 +137,7 @@ class FullCartReminderWorkerCommand extends Worker {
             'cartItems' => $cartAccommodations,
             'photos' => $photos,
             'prices' => $cartPrices,
-            'user_currency' => $userTourist->getUserTouristCurrency(),
+            'user_currency' => (empty($userTourist))?strtoupper($user->getUserCurrency()->getCurrCode()):$userTourist->getUserTouristCurrency(),
             'user_name' => $userName,
             'user_locale' => $userLocale
         ));
