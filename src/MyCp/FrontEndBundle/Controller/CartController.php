@@ -209,26 +209,33 @@ class CartController extends Controller {
                 }
             }
         }
-        if($showError  || $showErrorOwnExist){
+        if ($user_ids["user_id"] != null){
+            if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
+                //Es que el usuario mando a consultar la disponibilidad
+                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
+            }
+            elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
+                //Es que el usuario mando a hacer una reserva
+                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
+            }
+            else{
                 if ( !$request->isXmlHttpRequest() ){
                     $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
                     $this->get('session')->getFlashBag()->add('message_global_error', $message);
                 }
+            }
         }
-        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
-                //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
+        else{
+            if ( !$request->isXmlHttpRequest() ){
+                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                $this->get('session')->getFlashBag()->add('message_global_error', $message);
+            }
         }
-        elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
-            //Es que el usuario mando a hacer una reserva
-            $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
-        }
+
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
-            if($showError  || $showErrorOwnExist){
-                $response =new Response(0);
-            }
-            elseif(isset($check_dispo) && $check_dispo==''){
+
+            if(isset($check_dispo) && $check_dispo=='' && !$showError){
                 $data=$this->dataCart();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
             }
@@ -239,6 +246,9 @@ class CartController extends Controller {
                 $data=$this->dataCesta();
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
             }
+            else
+                $response =new Response(0);
+
             return $response;
         }
         else{
@@ -253,8 +263,11 @@ class CartController extends Controller {
     public function removeFromWhisListAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $cartItem = $em->getRepository('mycpBundle:cart')->find($request->get('data'));
-        $em->remove($cartItem);
-        $em->flush();
+        if($cartItem!=null)
+        {
+            $em->remove($cartItem);
+            $em->flush();
+        }
         $data=$this->dataCart();
         $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
         return $response;
@@ -784,12 +797,14 @@ class CartController extends Controller {
                     'user_locale' => $locale
                 ));
 
-            $locale = $this->get('translator');
-            $subject = $locale->trans('REQUEST_SENT');
-            $service_email = $this->get('Email');
-            $service_email->sendEmail(
-                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-            );
+            if($user != null) {
+                $locale = $this->get('translator');
+                $subject = $locale->trans('REQUEST_SENT');
+                $service_email = $this->get('Email');
+                $service_email->sendEmail(
+                    $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+                );
+            }
         }
 
         if(!$inmediatily_booking){
@@ -957,12 +972,14 @@ class CartController extends Controller {
             'user_locale' => $locale
         ));
 
-        $locale = $this->get('translator');
-        $subject = $locale->trans('REQUEST_SENT');
-        $service_email = $this->get('Email');
-        $service_email->sendEmail(
+        if($user != null) {
+            $locale = $this->get('translator');
+            $subject = $locale->trans('REQUEST_SENT');
+            $service_email = $this->get('Email');
+            $service_email->sendEmail(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-        );
+            );
+        }
 
         //Enviando mail al reservation team
         foreach($generalReservations as $genResId)

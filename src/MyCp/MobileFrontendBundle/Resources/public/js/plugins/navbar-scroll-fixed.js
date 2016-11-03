@@ -3,7 +3,7 @@
  */
 
 var NavbarScrollFixed = (function() {
-    var _content, _fixedClass, _height, didScroll = false;
+    var _content, _fixedClass, _height, didScroll = false, makeFunction = true;
     var _inRange,_outRange;
 
     var inits = function(content, fixedClass, height, inRange, outRange)  {
@@ -26,15 +26,23 @@ var NavbarScrollFixed = (function() {
             _content.each(function () {
                 $(this).addClass(_fixedClass);
             });
-            if (_inRange != undefined)
-                _inRange();
+            if (_inRange != undefined){
+                if (makeFunction){
+                    _inRange();
+                    makeFunction = false;
+                }
+            }
+
         }
         else {
             _content.each(function () {
                 $(this).removeClass(_fixedClass);
             });
-            if (_outRange != undefined)
+            if (_outRange != undefined){
                 _outRange();
+                makeFunction = true;
+            }
+
 
         }
         didScroll = false;

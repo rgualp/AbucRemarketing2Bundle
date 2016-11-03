@@ -1,0 +1,104 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS')%}
+{% block title %}
+{{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
+{% endblock %}
+{% block metas %}
+    {{ get_metas('Destinos', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
+
+{% block include_javascripts_and_css %}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    '@FrontEndBundle/Resources/public/js/destinations.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('#full-width-slider').royalSlider({
+            numImagesToPreload:5,
+            arrowsNav: true,
+            loop: false,
+            keyboardNavEnabled: true,
+            imageScaleMode: 'fill',
+            arrowsNavAutoHide: false,
+            autoScaleSlider: true,
+            autoScaleSliderWidth: 916,
+            autoScaleSliderHeight: 311,
+            controlNavigation: false,
+            thumbsFitInViewport: false,
+            navigateByClick: true,
+            startSlideId: 0,
+            autoPlay: false,
+            transitionType:'move',
+            globalCaption: false,
+            deeplinking: {
+                enabled: true,
+                change: false
+            }
+        });
+
+        var slider = $("#full-width-slider").data('royalSlider');
+
+        var img="{{ asset('bundles/frontend/img/destiny_slide_imgs/') }}";
+
+        for(x=1; x<=6;x++)
+        {
+            slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="" />');
+        }
+
+    });
+</script>
+{% endblock %}
+{% set main_tab = 2 %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active"  title="{{"DESTINATIONS" | trans}}">{{"DESTINATIONS" | trans}}</a>
+{% endblock %}
+{% block body %}
+<div class="container cont-form" style="margin-top: -20px">
+<div id="main-search-2">
+    {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
+</div>
+</div>
+
+<div class="container">
+    <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>
+    <div id="full-width-slider" class="royalSlider rsDefault">
+    </div>
+    <h1 class="caecilia-roman text-center h-orange h-size-2">{{"MAIN_CUBAN_DESTINATIONS" | trans}}</h1>
+    <hr/>
+    {% set flag = 0%}
+{%for destination in main_destinations%}
+   {% if flag == 0 %}
+    <div class="row thumbs-houses thumbs-destination">
+   {% endif %}
+       {{ include('FrontEndBundle:destination:destinationItem.html.twig',{
+                        'des_name': destination[0].desName,
+                        'des_photo': destination['photo'],
+                        'des_poblation': destination[0].desPoblation,
+                        'des_refPlace': destination[0].desRefPlace,
+                        'des_description': destination[1],
+                        'is_in_favorite':destination.is_in_favorites,
+                        'des_id': destination[0].desId,
+                        'des_count_owns': destination.count_ownership }) }}
+  {% set flag = flag + 1 %}
+{% if flag == 3%}
+{% set flag = 0%}
+    </div>
+   {% endif%}
+{%else%}
+    <div class="noData">{{"EMPTY_LIST" | trans}}</div>
+{%endfor%}
+{% if flag != 0%}
+</div>
+{% endif %}
+    {{ render(controller('FrontEndBundle:Destination:getMapByProvince')) }}
+    <br/>
+    {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
+</div>
+
+{% endblock %}

@@ -102,8 +102,8 @@
 
         <script>
             var today_date = "{{ "now"|date("d/m/Y") }}";
-            var start_date = "{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
-            var end_date = "{{ (app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y") }}";
+            var start_date = "{{ (app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+            var end_date = "{{ (app.session.get('search_departure_date') != null and app.session.get('search_departure_date').timestamp is defined) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y") }}";
 
             $.fn.typeahead &&
             $('[data-provide="typeahead"]').typeahead({

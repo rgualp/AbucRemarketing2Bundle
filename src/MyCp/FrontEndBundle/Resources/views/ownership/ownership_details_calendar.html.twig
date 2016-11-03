@@ -133,7 +133,7 @@
                     </div>
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
-                        {% if ownership.own_inmediate_booking_2 %}
+                        {% if ownership.OwnInmediateBooking2 %}
                             <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
@@ -176,27 +176,39 @@
             processData: false,
             success: function(response){
                 if(response=='0'){
-                    swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                    if($('#check_dispo').val()==2){
+                        swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
+                    }
+                    else
+                        swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
                     $('#addWhisList').removeClass('hide');
                 }
                 else{
-                    if($('#check_dispo').val()==''){
-                        $('#list-cart').attr('href','#');
-                        $('#list-cart').attr('data-toggle','dropdown');
-                        $('#list-cart').addClass('dropdown-toggle');
-                        $('#whish-list').html(response);
-                        $('#count-cart').text($('#total-cart').data('counter'));
+                    if(login){
+                        if($('#check_dispo').val()==''){
+                            $('#list-cart').attr('href','#');
+                            $('#list-cart').attr('data-toggle','dropdown');
+                            $('#list-cart').addClass('dropdown-toggle');
+                            $('#whish-list').html(response);
+                            $('#count-cart').text($('#total-cart').data('counter'));
+                            swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                            $('#addWhisList').removeClass('hide');
+                        }
+                        if($('#check_dispo').val()==1){
+                            swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                        }
+                        if($('#check_dispo').val()==2){
+                            window.location.href="{{ path('frontend_mycasatrip_available') }}";
+                            /*$('#cart-items').html(response);
+                             $('#count-cesta').text($('#total-cesta').data('counter'));
+                             $('#count-mcptrip').text($('#total-cesta').data('counter'));*/
+                            swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                        }
+                    }
+                   else{
                         swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                        window.location.href="{{ path('frontend_public_login') }}";
                         $('#addWhisList').removeClass('hide');
-                    }
-                    if($('#check_dispo').val()==1){
-                        swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
-                    }
-                    if($('#check_dispo').val()==2){
-                        $('#cart-items').html(response);
-                        $('#count-cesta').text($('#total-cesta').data('counter'));
-                        $('#count-mcptrip').text($('#total-cesta').data('counter'));
-                        swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
                     }
 
                 }
@@ -204,22 +216,7 @@
             }
         });
     });
-    $('#reservedOwnerShip').on('click',function(){
-        if(login){
-            $('#check_dispo').val('2');
-            if($(this).data('modal')){
-                $('#myModalOwnerShipCalendar').modal('hide');
-            }
-        }
-        else{
-            var form = $("#form-check-available");
-            form.on("submit", function (e) {
-                e.preventDefault();
-                window.location.href="{{ path('frontend_public_login') }}";
-            });
-        }
 
-    })
     $('#addWhisList').on('click',function(){
         $('#addWhisList').addClass('hide');
         $('#myModalOwnerShipCalendar').modal('hide');
@@ -230,7 +227,9 @@
 
     });
     $('#checkAvailable').on('click',function(){
-        if(login){
+        $('#check_dispo').val('1');
+        $('#myModalOwnerShipCalendar').modal('hide');
+        /*if(login){
             $('#check_dispo').val('1');
             if($(this).data('modal')){
                 $('#myModalOwnerShipCalendar').modal('hide');
@@ -242,6 +241,23 @@
                 e.preventDefault();
                 window.location.href="{{ path('frontend_public_login') }}";
             });
+        }*/
+    });
+    $('#reservedOwnerShip').on('click',function(){
+        $('#check_dispo').val('2');
+        $('#myModalOwnerShipCalendar').modal('hide');
+        /*if(login){
+            $('#check_dispo').val('2');
+            if($(this).data('modal')){
+                $('#myModalOwnerShipCalendar').modal('hide');
+            }
         }
+        else{
+            var form = $("#form-check-available");
+            form.on("submit", function (e) {
+                e.preventDefault();
+                window.location.href="{{ path('frontend_public_login') }}";
+            });
+        }*/
     });
 </script>

@@ -398,8 +398,8 @@ class OwnershipController extends Controller {
 
         $session = $this->get('session');
         $post = $request->request->getIterator()->getArrayCopy();
-        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null) ? $session->get('search_arrival_date') : 'now');
-        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null) ? $session->get('search_departure_date') : '+2 day');
+        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null && $session->get('search_arrival_date') instanceof \DateTime ) ? $session->get('search_arrival_date') : 'now');
+        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null && $session->get('search_departure_date') instanceof \DateTime ) ? $session->get('search_departure_date') : '+2 day');
 
         $start_timestamp = strtotime($start_date);
         $end_timestamp = strtotime($end_date);
@@ -426,6 +426,8 @@ class OwnershipController extends Controller {
 
         $service_time = $this->get('Time');
         $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
+
+
 
         $array_no_available = array();
         $no_available_days = array();
@@ -688,7 +690,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1,$order_price='null', $order_comments='null', $order_books='null') {
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1, $inmediate="null",$order_price='null', $order_comments='null', $order_books='null') {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
@@ -699,6 +701,7 @@ class OwnershipController extends Controller {
 
         $session->set('search_arrival_date', null);
         $session->set('search_departure_date', null);
+        $session->set('inmediate', null);
         $today = new \DateTime();
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
@@ -727,7 +730,7 @@ class OwnershipController extends Controller {
 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
-         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
+         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate);
 
         // <editor-fold defaultstate="collapsed" desc="Inside code was inserted into search method in ownershipRepository">
         //Marlon
@@ -805,6 +808,7 @@ class OwnershipController extends Controller {
         $awards = $em->getRepository('mycpBundle:award')->findAll();
         if ($check_filters != null)
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
+                        'inmediate' => $inmediate,
                         'search_text' => $search_text,
                         'search_guests' => $search_guests,
                         'search_arrival_date' => $arrival,
@@ -827,6 +831,7 @@ class OwnershipController extends Controller {
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
+                        'inmediate' => $inmediate,
                         'search_text' => $search_text,
                         'search_guests' => $search_guests,
                         'search_arrival_date' => $arrival,
@@ -1141,6 +1146,8 @@ class OwnershipController extends Controller {
         $check_filters['own_others_internet'] = ($request->request->get('own_others_internet') == 'true' || $request->request->get('own_others_internet') == '1') ? true : false;
         $check_filters['own_inmediate_booking'] = ($request->request->get('own_inmediate_booking') == 'true' || $request->request->get('own_inmediate_booking') == '1') ? true : false;
 
+        $inmediate = ($request->request->get('own_inmediate_booking2') == 'true' || $request->request->get('own_inmediate_booking2') == '1') ? 1 : null;
+
         $room_filter = ($check_filters['room_type'] != null ||
                 $check_filters['room_bathroom'] != null ||
                 $check_filters['room_climatization'] != null ||
@@ -1183,7 +1190,7 @@ class OwnershipController extends Controller {
 //            $orderBy.=', o.own_ranking DESC';
 //
 //        }
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters))->getResult();
+        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters, $inmediate))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -1762,7 +1769,7 @@ class OwnershipController extends Controller {
         $ownership_array=array();
         $ownership_array['own_id']=$ownership->getOwnId();
         $ownership_array['ownname']=$ownership->getOwnName();
-        $ownership_array['own_inmediate_booking_2']=$ownership->isOwnInmediateBooking2();
+        $ownership_array['OwnInmediateBooking2']=$ownership->isOwnInmediateBooking2();
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()){
             return $this->render('MyCpMobileFrontendBundle:ownership:modal_ownership_calendar.html.twig',array('ownership'=>$ownership_array,'locale'=>$locale,'currentServiceFee'=>$currentServiceFee));

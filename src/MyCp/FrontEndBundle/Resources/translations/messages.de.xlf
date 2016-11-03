@@ -3327,6 +3327,10 @@
             <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
             <target>Buchen Sie Ihre traumhafte Unterkunft in wenigen Sekunden.</target>
         </trans-unit>
+        <trans-unit id="977">
+            <source>ADD_TO_CEST_ERROR</source>
+            <target>Eines der Zimmer ist bereits in Warenkorb, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>
