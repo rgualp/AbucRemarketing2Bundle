@@ -307,7 +307,7 @@ WHERE pard.reservationDetail = :gen_res_id";
         (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id),
         u.user_user_name, u.user_last_name, u.user_email,
         (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
-        own.own_inmediate_booking
+        own.own_inmediate_booking,own.own_inmediate_booking_2
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
@@ -2411,7 +2411,7 @@ join user u on genRes.gen_res_user_id = u.user_id
 
     function getAccommodationsFromReservationsByClient($idClient, $reservationDate) {
         $em = $this->getEntityManager();
-        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking
+        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking,o.own_inmediate_booking_2
             from mycpBundle:generalReservation gres
             join gres.gen_res_own_id o
             where gres.gen_res_user_id = :idClient and gres.gen_res_date = :reservationDate and gres.gen_res_status = :status
@@ -2426,7 +2426,7 @@ join user u on genRes.gen_res_user_id = u.user_id
 
     function getAccommodationsFromReservationsByClientAG($idClient, $reservationDate) {
         $em = $this->getEntityManager();
-        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking
+        $queryString = "select DISTINCT o.own_mcp_code, o.own_id, o.own_inmediate_booking,o.own_inmediate_booking_2
             from mycpBundle:generalReservation gres
             join gres.gen_res_own_id o
 

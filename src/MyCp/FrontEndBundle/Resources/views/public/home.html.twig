@@ -30,9 +30,6 @@
         });
     </script>#}
 {% endblock %}
-{% block marquesina %}
-    {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
-{% endblock %}
 {% block big_banner %}
     <div id="full-width-slider">
         {#{{ include('FrontEndBundle:layout:carousel.html.twig') }}#}
@@ -118,23 +115,5 @@
                 });
             });
         });
-
-        $(function() {
-
-            NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
-            $("#marquee-close").on("click", function (e) {
-                e.preventDefault();
-                $(".marquesina").hide();
-            })
-
-        });
-        function showMarqee(){
-            $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-                $(this).removeClass('animated bounceInDown');
-            });
-        }
-        function hideMarqee(){
-
-        }
     </script>
 {% endblock %}
