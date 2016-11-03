@@ -118,6 +118,7 @@ class RegistrationController extends Controller
             ->setOwnSmsNotifications(1)
             ->setInsertedInCasaModule(true);
         $em->persist($ownership);
+
         $dir = $this->container->getParameter('user.dir.photos');
         $factory = $this->get('security.encoder_factory');
         $userCasa=$em->getRepository('mycpBundle:userCasa')->createUserNew($ownership, null, $factory, true, $this, $this->get('service_container'));
