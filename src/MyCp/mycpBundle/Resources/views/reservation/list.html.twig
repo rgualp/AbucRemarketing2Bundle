@@ -195,6 +195,9 @@
                         {% if reservation.own_inmediate_booking %}
                             <i class="glyphicons electricity" title="Reserva Rápida"></i>
                         {% endif %}
+                        {% if reservation.own_inmediate_booking_2 %}
+                            <i class="fa fa-rocket" title="Reserva Rápida" style="color: red"></i>
+                        {% endif %}
                     </td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
