@@ -20,7 +20,7 @@
                                 <h3 style="font-size: 20px; margin-top: 25px;">desde:</h3>
                             </div>
                             <div class="col-md-11 col-xs-8">
-                                <h2 class="font-blue">{{ ownership.ownMinimumPrice }} CUC</h2>
+                                <h2 class="font-blue" style="padding-left: 10px;">{{ ownership.ownMinimumPrice }} CUC</h2>
                             </div>
                         </div>
                     </div>
@@ -40,8 +40,8 @@
                             <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">{{ ownership.ownMcpCode }}</span>
                         </div>
                         <div class="col-md-4 col-xs-12 text-center">
-                            <button type="button" id="deactive-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==1 %} hide {% endif %}" ><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
-                            <button type="button" id="activate-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==2 %} hide {% endif %}" ><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
+                            <button type="button" id="deactive-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId !=1 %} hide {% endif %}" ><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
+                            <button type="button" id="activate-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==1 %} hide {% endif %}" ><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
                             <button type="button" id="delete-property" class="btn btn-danger  dim"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
                         </div>
                     </div>
