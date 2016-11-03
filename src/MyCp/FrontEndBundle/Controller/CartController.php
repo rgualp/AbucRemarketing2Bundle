@@ -263,8 +263,11 @@ class CartController extends Controller {
     public function removeFromWhisListAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $cartItem = $em->getRepository('mycpBundle:cart')->find($request->get('data'));
-        $em->remove($cartItem);
-        $em->flush();
+        if($cartItem!=null)
+        {
+            $em->remove($cartItem);
+            $em->flush();
+        }
         $data=$this->dataCart();
         $response =new Response($this->renderView('FrontEndBundle:cart:contentCart.html.twig', $data));
         return $response;
