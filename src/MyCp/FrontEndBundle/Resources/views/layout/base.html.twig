@@ -77,6 +77,11 @@
 
     <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
+    <script>
+        var start_date = "{{ (app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date = "{{(app.session.get('search_departure_date') != null and app.session.get('search_departure_date').timestamp is defined) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+    </script>
+
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery.js'
     '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
@@ -354,12 +359,17 @@
     });
 
     function showMarqee(){
+        if ($("#top-menu").find(".breadcrumb-top").length != 0){
+            $(".marquesina").css("top","78px");
+        }
         $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceInDown');
         });
     }
     function hideMarqee(){
-
+        if ($("#top-menu").find(".breadcrumb-top").length != 0){
+            $(".marquesina").css("top","0");
+        }
     }
 </script>
 

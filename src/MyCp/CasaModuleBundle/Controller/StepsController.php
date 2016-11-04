@@ -960,7 +960,8 @@ class StepsController extends Controller
          if(count($reserved)>0){
             return new JsonResponse([
                 'success' => false,
-                'message'=>'No se puede modificar en ese período pues tiene reservaciones pagadas'
+                'message'=>'No se puede modificar en ese período pues tiene reservaciones pagadas',
+                "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")
             ]);
         }
         $unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
@@ -989,7 +990,8 @@ class StepsController extends Controller
 
         $em->flush();
         return new JsonResponse([
-            'success' => true
+            'success' => true,
+            "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")
         ]);
     }
     /**
