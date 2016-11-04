@@ -1,0 +1,9 @@
+<div class="marquesina navbar bg-gradient-green-bar m-a-0">
+        <div class="col-xs-12 p-a-0"><i>{{ 'NEW' | trans }}</i></div>
+        <div class="col-xs-12 p-a-0"><span>{{ "MARQUESINA_TEXT" | trans }}</span></div>
+        {% set today_date = "now" | date("d-m-Y") %}
+        {% set leavingDate = "+2 days" |date("d-m-Y") %}
+        <div class="col-xs-12 text-right p-a-0"><a class="btn btn-warning ui-link" href="{{ path('my_cp_mobile_search_ownership',{'text':"la-habana", 'arrival': today_date,'departure':leavingDate,'guests':'1','rooms':'1','inmediate':'1'})}}" data-ajax="false">{{ 'SEE_NOW' | trans }}</a></div>
+        <a href="#" id="marquee-close" style="color: rgb(255, 255, 255); font-size: 21px;" data-ajax="false" class="ui-link"><i class="ion-android-cancel"></i></a>
+</div>
+

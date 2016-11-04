@@ -1,6 +1,6 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
-{{"CART" | trans}}
+{{"WHISH_LIST" | trans}}
 {% endblock %}
 
 {% set main_tab = 5 %}
@@ -10,26 +10,26 @@
 {% block breadcrumbs %}
     <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
     <span>››</span>
-    <a href="#" class="active" title="{{"CART" | trans}}">{{"CART" | trans}}</a>
+    <a href="#" class="active" title="{{"WHISH_LIST" | trans}}">{{"WHISH_LIST" | trans}}</a>
 {% endblock %}
 {% block body %}
 <div class="container">
         <table>
             <tr>
-                <td style="width: 45px"><img src="{{ asset('bundles/frontend/img/icons/cart-full.gif') }}" alt="{{"Cart" | trans}}"/></td>
-                <td><h1 class="caecilia-roman h-grey h-size-1 no-margin"> {{ 'CART_OF_RESERVES'|trans }} <br/></h1>
+                <td style="width: 45px"><img src="{{ asset('bundles/frontend/img/icons/whishlist.png') }}" alt="{{"WHISH_LIST" | trans}}"/></td>
+                <td><h1 class="caecilia-roman h-grey h-size-1 no-margin"> {{ 'WHISH_LIST'|trans }} <br/></h1>
                     <div style="font-size: 12px; margin-top: -3px" class="h-grey-2">{{ 'MANAGE_CART'|trans }}</div>
                 </td>
             </tr>
         </table>
     {%if countItems > 0%}
 
-    <a href="{{ path('frontend_empty_cart') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
+    <a href="{{ path('frontend_empty_cart') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_WHISH_LIST"|trans}}</a>
     {%endif%}
     <div id="res_main_cont">
         {% if countItems > 0 %}
         <div id="cart-cont" class="items-cart">
-            {{ render(controller('FrontEndBundle:Cart:getCartBody')) }}
+            {{ render(controller('FrontEndBundle:Cart:getCartBody',{'flag':'false'})) }}
         </div>
 
         {% else %}
@@ -50,7 +50,7 @@
             {% if countItems > 0 %}
             <div class="col-xs-3">
                 <button type="submit" class="btn btn-block btn-primary">
-                    <i class="icon-question-sign"></i> {{"RESERVATION_CHECK_AVAILABILITY"|trans}}
+                    <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                 </button>
             </div>
             {% endif %}
@@ -76,7 +76,7 @@
 
 
 <script type="text/javascript">
-    $('#delete_button').click(function(){
+    $('#delete_button').on('click',function(){
             string_url="{{ path('frontend_remove_from_cart_callback',{'data':0})}}";
             data_remove=$(this).attr('data');
             $('.btn_delete').attr('disabled','disable');

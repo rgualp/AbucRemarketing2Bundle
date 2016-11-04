@@ -99,13 +99,13 @@ class NotificationService extends Controller
                 $guests = $reservationData["guests"];
                 $reservationId = $reservation->getGenResId();
 
-                //$message = "MyCasaParticular: Tiene 1solicitud para el $fromDate por $nights" . "noches. CAS$reservationId. Son $rooms" . "hab./$guests" . "personas. Si está disponible, llame en menos de 1h al 78673574";
+                //$message = "";
 				$noches= ($nights>1)?'s':'';
 				$personas= ($guests>1)?'s':'';
                 $contactPhone = $this->smsContactPhone;
                 $contactMobile = $this->smsContactMobile;
 
-				$message = 'Mycasaparticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al '.$contactPhone.' o '.$contactMobile.'.';
+				$message = 'Mycasaparticular:Si está disponible para '.$fromDate.','.$nights.'noche'.$noches.','.$guests.'persona'.$personas.','.$rooms.'hab, CAS'.$reservationId.', llame al '.$contactPhone.'/'.$contactMobile.' o envíe SMS con su CAS.';
 
                 $subType = "INMEDIATE_BOOKING";
                 $reservationObj = array(
@@ -121,9 +121,9 @@ class NotificationService extends Controller
         }
     }
 
-    private function sendSMSNotification($mobileNumber, $message, $subtype)
+    public function sendSMSNotification($mobileNumber, $message, $subtype)
     {
-        if($this->notificationSendSms == 1) {
+        if($this->notificationSendSms == 1 && $message != null && $message != "" && $mobileNumber != null  && $mobileNumber != "") {
             $data['sms'] = array(
                 'project' => $this->notificationServiceApiKey,//Obligatorio
                 'to' => "53" . $mobileNumber,//8 digitos, comenzando con 5

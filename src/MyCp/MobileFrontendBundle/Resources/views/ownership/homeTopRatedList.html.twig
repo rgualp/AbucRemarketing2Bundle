@@ -1,7 +1,7 @@
 <div class="thumbs-houses lazy-cont">
     <div class="row">
     {%for ownership in own_top20_list%}
-        <div class="col-sm-4">
+        <div class="col-xs-12">
             {{ include('@MyCpMobileFrontend/ownership/accommodation_small_control.html.twig',{
             'id': ownership.own_id,
             'name': ownership.own_name,

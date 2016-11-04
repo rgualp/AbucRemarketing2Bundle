@@ -580,8 +580,11 @@ class StepsController extends Controller
      */
     public function showPropertyAction(Request $request)
     {
-        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
-        if($ownership->getOwnLangs()){
+        $userUserCasa = $this->getUser()->getUserUserCasa()->first();
+
+        $ownership = (is_object($userUserCasa) && method_exists($userUserCasa, "getUserCasaOwnership")) ? ($userUserCasa->getUserCasaOwnership()) : null;
+
+        if($ownership != null && $ownership->getOwnLangs()){
             if(substr($ownership->getOwnLangs(),0,1))
                 $langs[]='1000';
             if(substr($ownership->getOwnLangs(),1,1))
@@ -957,7 +960,8 @@ class StepsController extends Controller
          if(count($reserved)>0){
             return new JsonResponse([
                 'success' => false,
-                'message'=>'No se puede modificar en ese período pues tiene reservaciones pagadas'
+                'message'=>'No se puede modificar en ese período pues tiene reservaciones pagadas',
+                "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")
             ]);
         }
         $unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
@@ -986,7 +990,8 @@ class StepsController extends Controller
 
         $em->flush();
         return new JsonResponse([
-            'success' => true
+            'success' => true,
+            "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")
         ]);
     }
     /**

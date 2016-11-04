@@ -15,6 +15,9 @@
         {%if ownership.own_inmediate_booking%}
                                                         <br/><span class="label label-important"><i class="glyphicons electricity white"></i> Reserva Rápida</span>
         {%endif%}
+        {%if ownership.own_inmediate_booking_2%}
+            <br/><span class="label" style="color: #fff; background-color: #ff0000;"><i class="fa fa-rocket"></i> Reserva Inmediata</span>
+        {%endif%}
         {%if ownership.own_not_recommendable%}
                                                         <br/><span class="label label-important">No recomendable</span>
         {%endif%}

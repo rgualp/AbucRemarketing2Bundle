@@ -8,20 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DestinationController extends Controller {
 
-    public function getBigMapAction()
-    {
+    public function getBigMapAction() {
         $em = $this->getDoctrine()->getManager();
-        $locale=$this->get('translator')->getLocale();
-        $destinations=$em->getRepository('mycpBundle:destination')->getActiveForMap();
+        $locale = $this->get('translator')->getLocale();
+        $destinations = $em->getRepository('mycpBundle:destination')->getActiveForMap();
         $categories_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->getForMap($locale);
 
-        return $this->render('FrontEndBundle:public:map.html.twig',array(
-            'destinations_map'=>$destinations,
-            'des_categories_lang'=>$categories_lang));
+        return $this->render('FrontEndBundle:public:map.html.twig', array(
+            'destinations_map' => $destinations,
+            'des_categories_lang' => $categories_lang));
     }
 
-    public function getMapByProvinceAction()
-    {
+    public function getMapByProvinceAction() {
         $em = $this->getDoctrine()->getManager();
         $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
         return $this->render('FrontEndBundle:destination:destinationByProvince.html.twig', array(
@@ -36,9 +34,9 @@ class DestinationController extends Controller {
         $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, $users_id["user_id"], $users_id["session_id"]);
 
         return $this->render('FrontEndBundle:destination:listDestination.html.twig', array(
-                    'main_destinations' => array_slice($dest_list, 0, 6),
-                    'provinces' => $em->getRepository('mycpBundle:province')->findAll(),
-                    'all_destinations' => $dest_list
+            'main_destinations' => array_slice($dest_list, 0, 6),
+            'provinces' => $em->getRepository('mycpBundle:province')->findAll(),
+            'all_destinations' => $dest_list
         ));
     }
 
@@ -49,19 +47,17 @@ class DestinationController extends Controller {
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
-        $destination_name=str_replace('-',' ',$destination_name);
-        $destination= $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name'=>$destination_name));
-        if($destination==null)
-        {
+        $destination_name = str_replace('-', ' ', $destination_name);
+        $destination = $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name' => $destination_name));
+        if($destination == null) {
             throw $this->createNotFoundException();
         }
-        $destination_array = $em->getRepository('mycpBundle:destination')->getDestination($destination->getDesId(),$locale);
-        if($destination_array==null || count($destination_array) == 0)
-        {
+        $destination_array = $em->getRepository('mycpBundle:destination')->getDestination($destination->getDesId(), $locale);
+        if($destination_array == null || count($destination_array) == 0) {
             throw $this->createNotFoundException();
         }
 
-        $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination->getDesId(),$locale);
+        $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination->getDesId(), $locale);
 
         $location_municipality_id = $destination_array['municipality_id'];
         $location_province_id = $destination_array['province_id'];
@@ -73,12 +69,12 @@ class DestinationController extends Controller {
             $popular_destinations_for_url[$dest['des_id']] = Utils::urlNormalize($dest['des_name']);
 
 
-        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->filter($locale,$location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->filter($locale, $location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_municipality_for_url = array();
         foreach ($other_destinations_in_municipality as $dest)
             $other_destinations_in_municipality_for_url[$dest['desid']] = Utils::urlNormalize($dest['desname']);
 
-        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->filter($locale,null, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->filter($locale, null, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province_for_url = array();
         foreach ($other_destinations_in_province as $dest)
             $other_destinations_in_province_for_url[$dest['desid']] = Utils::urlNormalize($dest['desname']);
@@ -89,13 +85,44 @@ class DestinationController extends Controller {
             $provinces_for_url[$prov->getProvId()] = Utils::urlNormalize($prov->getProvName());
 
         $view = $session->get('search_view_results_destination');
-        $paginator = $this->get('ideup.simple_paginator');
-//        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
+
+        /**************************to pagin***********/
+        $page = 1;
+        if(isset($_GET['page']))
+            $page = $_GET['page'];
         $items_per_page = 6;
+        //$paginator = $this->get('ideup.simple_paginator');
+        //$paginator->setItemsPerPage($items_per_page);
+
+        $start = ($page - 1) * $items_per_page;
+        $limit = $items_per_page;
+        /**********************************************/
+
         $view = 'PHOTOS';
-        $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null,null, $users_id['user_id'], $users_id['session_id']);
-        $owns_nearby = $paginator->paginate($list)->getResult();
+        $l = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null, null, $users_id['user_id'], $users_id['session_id'], $start, $limit);
+        $list = $l['results'];
+        $owns_nearby = $list;//$paginator->paginate($list)->getResult();
+
+        /**************************to pagin***********/
+        $totalItems = $l['count'];
+
+        $currentPage = $page;
+        $firstPage = 1;
+        $previousPage = $page - 1;
+        $lastPage = (int)ceil((($totalItems > 0) ? $totalItems : 1) / $items_per_page);
+        $minPage = ($currentPage == $firstPage) ? ($firstPage) : ($currentPage - 1);//($page > $offset) ? ($page - $offset) : ($firstPage);
+        $maxPage = ($currentPage == $lastPage) ? ($lastPage) : ($currentPage + 1);//($minPage + $items_per_page > $lastPage) ? ($lastPage) : ($minPage + $items_per_page - 1);
+        $nextPage = $currentPage + 1;
+        $paginator = array(
+            'firstPage'=>$firstPage,
+            'previousPage'=>$previousPage,
+            'minPage'=>$minPage,
+            'lastPage'=>$lastPage,
+            'maxPage'=>$maxPage,
+            'currentPage'=>$currentPage,
+            'nextPage'=>$nextPage
+        );
+        /**********************************************/
 
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
 
@@ -104,50 +131,92 @@ class DestinationController extends Controller {
             $own_ids .= "," . $own['own_id'];
         $session->set('own_ids', $own_ids);
 
-        return $this->render('FrontEndBundle:destination:destinationDetails.html.twig', array(
-                    'destination' => $destination_array[0],
-                    'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
-                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
-                    'locale' => $this->get('translator')->getLocale(),
-                    'location' => $destination_array['municipality_name'].' / '.$destination_array['province_name'],
-                    'location_municipality' => $destination_array['municipality_name'],
-                    'location_province' => $destination_array['province_name'],
-                    'location_municipality_id' => $destination_array['municipality_id'],
-                    'location_province_id' => $destination_array['province_id'],
-                    'gallery_photos' => $photos['photo_name'],
-                    'gallery_photo_descriptions' => $photos['photo_description'],
-                    'description' => $destination_array['desc_full'],
-                    'brief_description' => $destination_array['desc_brief'],
-                    'other_destinations_in_municipality' => $other_destinations_in_municipality,
-                    'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
-                    'other_destinations_in_province' => $other_destinations_in_province,
-                    'total_other_destinations_in_province' => count($other_destinations_in_province),
-                    'popular_list' => $popular_destinations_list,
-                    'provinces' => $provinces,
-                    'owns_nearby' => $owns_nearby,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'destination_name' => $original_destination_name,
-                    'data_view' => (($view == null) ? 'LIST' : $view),
-                    'popular_destinations_for_url' =>$popular_destinations_for_url,
-                    'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
-                    'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
-                    'provinces_for_url' => $provinces_for_url,
-                    'keyword_description'=>$destination_array['keyword_description'],
-                    'keyword'=>$destination_array['keywords']
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:destination:destinationDetails.html.twig', array(
+                'destination' => $destination_array[0],
+                'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
+                'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
+                'locale' => $this->get('translator')->getLocale(),
+                'location' => $destination_array['municipality_name'] . ' / ' . $destination_array['province_name'],
+                'location_municipality' => $destination_array['municipality_name'],
+                'location_province' => $destination_array['province_name'],
+                'location_municipality_id' => $destination_array['municipality_id'],
+                'location_province_id' => $destination_array['province_id'],
+                'gallery_photos' => $photos['photo_name'],
+                'gallery_photo_descriptions' => $photos['photo_description'],
+                'description' => $destination_array['desc_full'],
+                'brief_description' => $destination_array['desc_brief'],
+                'other_destinations_in_municipality' => $other_destinations_in_municipality,
+                'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
+                'other_destinations_in_province' => $other_destinations_in_province,
+                'total_other_destinations_in_province' => count($other_destinations_in_province),
+                'popular_list' => $popular_destinations_list,
+                'provinces' => $provinces,
+                'owns_nearby' => $owns_nearby,
+                'items_per_page' => $items_per_page,
+                'total_items' => $totalItems,
+                'paginator'=>$paginator,
+                'destination_name' => $original_destination_name,
+                'data_view' => (($view == null) ? 'LIST' : $view),
+                'popular_destinations_for_url' => $popular_destinations_for_url,
+                'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
+                'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
+                'provinces_for_url' => $provinces_for_url,
+                'keyword_description' => $destination_array['keyword_description'],
+                'keyword' => $destination_array['keywords']
+            ));
+        }else{
+            return $this->render('FrontEndBundle:destination:destinationDetails.html.twig', array(
+                'destination' => $destination_array[0],
+                'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
+                'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
+                'locale' => $this->get('translator')->getLocale(),
+                'location' => $destination_array['municipality_name'] . ' / ' . $destination_array['province_name'],
+                'location_municipality' => $destination_array['municipality_name'],
+                'location_province' => $destination_array['province_name'],
+                'location_municipality_id' => $destination_array['municipality_id'],
+                'location_province_id' => $destination_array['province_id'],
+                'gallery_photos' => $photos['photo_name'],
+                'gallery_photo_descriptions' => $photos['photo_description'],
+                'description' => $destination_array['desc_full'],
+                'brief_description' => $destination_array['desc_brief'],
+                'other_destinations_in_municipality' => $other_destinations_in_municipality,
+                'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
+                'other_destinations_in_province' => $other_destinations_in_province,
+                'total_other_destinations_in_province' => count($other_destinations_in_province),
+                'popular_list' => $popular_destinations_list,
+                'provinces' => $provinces,
+                'owns_nearby' => $owns_nearby,
+                'items_per_page' => $items_per_page,
+                'total_items' => $totalItems,
+                'paginator'=>$paginator,
+                'destination_name' => $original_destination_name,
+                'data_view' => (($view == null) ? 'LIST' : $view),
+                'popular_destinations_for_url' => $popular_destinations_for_url,
+                'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
+                'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
+                'provinces_for_url' => $provinces_for_url,
+                'keyword_description' => $destination_array['keyword_description'],
+                'keyword' => $destination_array['keywords']
+            ));
+        }
+
+
+
     }
 
-    public function ownsNearbyCallbackAction($destination_name,$destination_id) {
+    public function ownsNearbyCallbackAction($destination_name, $destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
         $show_rows = $request->request->get('show_rows');
 
-        if ($show_rows != null)
+        if($show_rows != null)
             $session->set('destination_details_show_rows', $show_rows);
-        else if ($session->get("destination_details_show_rows") == null)
+        else if($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
 
         $view = $session->get('search_view_results_destination');
@@ -155,7 +224,7 @@ class DestinationController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null, null, $users_id['user_id'], $users_id['session_id']))->getResult();
 
 
         $response = $this->renderView('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
@@ -169,8 +238,7 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function byProvinceAction()
-    {
+    public function byProvinceAction() {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $province_name = $request->request->get('province_name');
@@ -195,7 +263,7 @@ class DestinationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $popular_places = $paginator->paginate($em->getRepository('mycpBundle:destination')->filter($mun_id, $prov_id))->getResult();
         $page = 1;
-        if (isset($_GET['page']))
+        if(isset($_GET['page']))
             $page = $_GET['page'];
 
         $popular_places_photos = $em->getRepository('mycpBundle:destination')->getAllPhotos($popular_places);
@@ -215,7 +283,7 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function searchChangeViewResultsAction($destination_name,$destination_id) {
+    public function searchChangeViewResultsAction($destination_name, $destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -224,16 +292,16 @@ class DestinationController extends Controller {
         $view = $request->request->get('view');
         $session->set('search_view_results_destination', $view);
 
-        if ($session->get("destination_details_show_rows") == null)
+        if($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
 
         $paginator = $this->get('ideup.simple_paginator');
         //$items_per_page = $session->get("destination_details_show_rows");
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
 //        $items_per_page = 6;
-        $view = ($view != null&& $view=='MAP') ? 'MAP':'PHOTOS';
+        $view = ($view != null && $view == 'MAP') ? 'MAP' : 'PHOTOS';
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null, null, $users_id['user_id'], $users_id['session_id']))->getResult();
 
         $response = $this->renderView('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,

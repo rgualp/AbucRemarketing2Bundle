@@ -86,7 +86,7 @@ class Email
         return $this->container->get('mailer')->send($message);
     }
 
-    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = false)
+    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = false, $isANewOffer = false)
     {
         $templating = $this->container->get('templating');
         $reservation = $this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -112,8 +112,10 @@ class Email
             array_push($array_nigths, $totalNights);
         }
         $touristLanguage = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage() : $user->getUserLanguage();
-        $user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
+        $user_locale = (isset($touristLanguage)) ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
 
+        $locale = $this->container->get('translator');
+        $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
         // Enviando mail al cliente
         if($user->getUserRole()=="ROLE_CLIENT_PARTNER"){
             $body = $templating->render('PartnerBundle:Mail:email_offer_available.html.twig', array(
@@ -128,7 +130,12 @@ class Email
                 ));
         }
         else{
-            $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+
+            if($isANewOffer)
+            {
+                $subject = $locale->trans('NEW_OFFER_TOURIST_SUBJECT', array(), "messages", $user_locale);
+
+                $body = $templating->render('FrontEndBundle:mails:email_new_offer_available.html.twig', array(
                     'user' => $user,
                     'reservations' => $reservations,
                     'photos' => $array_photos,
@@ -138,11 +145,21 @@ class Email
                     'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
                     'reservationStatus' => $reservation->getGenResStatus()
                 ));
+            }
+            else {
+                $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $reservations,
+                    'photos' => $array_photos,
+                    'nights' => $array_nigths,
+                    'message' => $custom_message,
+                    'user_locale' => $user_locale,
+                    'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
+                    'reservationStatus' => $reservation->getGenResStatus()
+                ));
+            }
+
         }
-
-        $locale = $this->container->get('translator');
-        $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
-
 
         $this->sendEmail(
             $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body

@@ -21,29 +21,18 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script>
-        jQuery(function(){
-
-            jQuery('#camera_wrap_1').camera({
-                thumbnails: true,
-                pagination:true,
-                height:'400px'
-            });
-        });
-    </script>
-    <script>
+    {#<script>
         // Added this just so I didn't have to wait 5 seconds to see if the transition worked. //
         $(document).ready(function() {
             $('#myCarousel').carousel({
                 interval:   5000
             });
         });
-    </script>
+    </script>#}
 {% endblock %}
-
 {% block big_banner %}
     <div id="full-width-slider">
-        {{ include('FrontEndBundle:layout:carousel.html.twig') }}
+        {#{{ include('FrontEndBundle:layout:carousel.html.twig') }}#}
     </div>
     <div id="banner-msg-cont">
         <div id="banner-msg">
@@ -115,6 +104,16 @@
         $('.home_cat .col-md-4 div').mouseout(function(){
             elem=$('.'+$(this).attr('data'));
             elem.attr('class',old_class);
+        });
+
+        $(function() {
+            $("#full-width-slider").load("{{ path("frontend_public_load_slide") }}",[],function (e) {
+                jQuery('#camera_wrap_1').camera({
+                    thumbnails: true,
+                    pagination:true,
+                    height:'400px'
+                });
+            });
         });
     </script>
 {% endblock %}
