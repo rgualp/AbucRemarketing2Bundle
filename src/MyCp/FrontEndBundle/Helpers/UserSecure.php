@@ -33,8 +33,24 @@ class UserSecure {
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
-        $user = $this->security_context->getToken()->getUser();
         $session = $this->container->get('session');
+        $user = $this->security_context->getToken()->getUser();
+        //// abrimos la sesión cURL
+        $ch = curl_init();
+        // definimos la URL a la que hacemos la petición
+        curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."access-token?username=".$user->getUsername().'_'.$this->container->getParameter('mean_project')."&password=".$user->getPassword()."&email=".$user->getUserEmail().'_'.$this->container->getParameter('mean_project'));
+        // recibimos la respuesta y la guardamos en una variable
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec ($ch);
+        // cerramos la sesión cURL
+        curl_close ($ch);
+        if(!$response) {
+            $session->set('access-token', "");
+        }else{
+            $response_temp= json_decode($response);
+            $session->set('access-token', $response_temp->token);
+        }
+
 
         //Pasar lo q esta en los favoritos al usuario loggueado
         $session_id = $this->em->getRepository('mycpBundle:user')->getSessionIdWithRequest($this->container->get('request'));

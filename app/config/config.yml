@@ -54,6 +54,7 @@ twig:
          form_search_booking_canceled: "@booking.canceled.filter.form"
          form_search_booking_checkin: "@booking.checkin.filter.form"
          form_search_booking_proccess: "@booking.proccess.filter.form"
+         url.mean: http://node.dev/
 
 # Assetic Configuration
 assetic:
@@ -164,6 +165,7 @@ parameters:
     configuration.default.currency.code: EUR
     configuration.default.language.code: EN
     award.dir.photos: %kernel.root_dir%/../web/uploads/awards/
+    url.mean: "%url_mean%"
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/migrations

@@ -61,4 +61,6 @@ parameters:
     newsletter_testing_mode: 0
     newsletter_testing_email: yanet.moralesr@gmail.com
     newsletter_testing_mobile: 52540669
+    url_mean: 'http://node.dev/'
+    mean_project: 'mycp'
 
