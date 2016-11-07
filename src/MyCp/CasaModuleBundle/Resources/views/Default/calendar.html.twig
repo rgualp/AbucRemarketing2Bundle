@@ -37,6 +37,9 @@
                              {#<h3>Habitación {{ room.roomNum }}</h3>#}
                              <div class="row">
                              <div class="col-md-12">
+                             <div id="loading-calendar{{ room.roomId }}" class="text-center">
+                                 <img src="{{ asset('bundles/mycp/images/ajax-loader-7.gif') }}">
+                             </div>
                          <div id="calendar{{ room.roomId }}" class="fullcalendar">
 
                          </div>
@@ -119,6 +122,9 @@
                      <button type="submit" class="btn btn-primary dim">Guardar</button>
                      <button type="reset" class="btn btn-default dim">Cancelar</button>
                      </div>
+                     <div class="row text-center margin-top-xs-10">
+                         <i class="fa fa-refresh fa-spin hide" id="loading"></i>
+                     </div>
                  </form>
              </div>
          </div>
@@ -162,6 +168,7 @@
                 e.preventDefault();
                var form=$(this).serialize();
                 var _url = $(this).attr('action');
+                $("#loading").removeClass("hide");
                 var $envio = $.ajax({
                     url: _url,
 //                   data: data,
@@ -179,6 +186,8 @@
                         toastr.success('Se guardó la información correctamente');
                         var id= $('div.tab-pane.active').data('id');
                         $('#calendar'+ id).fullCalendar('refetchEvents');
+                        //window.location = data["refreshUrl"];
+                        $("#loading").addClass("hide");
                     }
                     else
                         toastr.error(data['message']);
@@ -192,7 +201,7 @@
               language:'es',
               autoclose: true,
               startDate: 0,
-              minDate: new Date(),
+              minDate: new Date()
             }).data('datepicker');
             $('#date_from').datepicker({
                 format:'dd/mm/yyyy',
@@ -257,6 +266,19 @@
                         {#}#}
                     {#});#}
                 {#},#}
+                loading: function(bool) {
+                    if (bool)
+                    {
+                        $('#loading-calendar{{ room.roomId }}').show();
+
+                    }
+                    else
+                    {
+                        $('#loading-calendar{{ room.roomId }}').hide();
+
+
+                    }
+                },
                 eventRender: function(event, element, view){
 //                    console.log(element);
 //                    fc-day fc-widget-content fc-thu fc-future

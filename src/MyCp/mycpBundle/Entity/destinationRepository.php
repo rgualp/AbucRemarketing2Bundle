@@ -538,6 +538,7 @@ class destinationRepository extends EntityRepository {
                              o.own_category as category,
                              o.own_type as type,
                              o.own_inmediate_booking as OwnInmediateBooking,
+                             o.own_inmediate_booking_2 as OwnInmediateBooking2,
                              o.own_minimum_price as minimum_price,
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
