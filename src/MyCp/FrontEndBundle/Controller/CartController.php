@@ -128,7 +128,7 @@ class CartController extends Controller {
                         $item->getCartRoom() == $array_ids_rooms[$a]
                 ) {
                     $insert = 0;
-                    $showError = 1;
+                    $showError = true;
                     $showErrorItem=$item;
                 }
             }
@@ -144,16 +144,14 @@ class CartController extends Controller {
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
                             $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]) {
                             $insert = 0;
-                            $showError = 1;
-                            $showErrorOwnExist = 1;
+                            $showError = true;
+                            $showErrorOwnExist = true;
                         }
-
                     }
                 }
             }
             if ($insert == 1) {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
-
                 if($room != null) {
                     $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
                     $cart = new cart();
@@ -211,12 +209,20 @@ class CartController extends Controller {
         }
         if ($user_ids["user_id"] != null){
             if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
+                if($showErrorItem!='')
+                    $id=$showErrorItem->getCartId();
+                else
+                    $id=$cart->getCartId();
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
+                $this->checkDispo($id,$request,false);
             }
             elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
+                if($showErrorItem!='')
+                    $id=$showErrorItem->getCartId();
+                else
+                    $id=$cart->getCartId();
                 //Es que el usuario mando a hacer una reserva
-                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
+                $this->checkDispo($id,$request,true);
             }
             else{
                 if ( !$request->isXmlHttpRequest() ){
