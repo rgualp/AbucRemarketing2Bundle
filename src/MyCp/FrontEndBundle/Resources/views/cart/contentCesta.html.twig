@@ -12,16 +12,6 @@
         <li>
             <div class="dropdown-messages-box container">
                 <div class="row">
-                    {# <div style="margin-top: 10%">
-                         <a class="pull-left" href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
-                             {% if photos[loop.index0]%}
-                                 <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="img-circle" alt="image" width="50px" height="38px">
-                             {% else %}
-                                 <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" class="img-circle" alt="image" width="50px" height="38px"/>
-                             {% endif %}
-                         </a>
-                     </div>#}
-
                     <div class="col-md-12" style="padding: 0">
                         <div class="row">
                             <div class="col-md-12">
@@ -46,16 +36,12 @@
                                     <a>
                                         <input name="checkbox_{{res['own_res_id']}}" type="checkbox" style="font-size: 12px"> {{"SELECT_FOR_PAYMENT" | trans}}
                                     </a>
-
                                 </div>
                                 <div class="col-md-3">
                                     <button class="btn btn-success" style=" background-image: none !important;font-size: 11px;padding: 4px;margin-left: -38px">{{"CONTINUE_RESERVING" | trans}}</button>
                                 </div>
-
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
