@@ -115,6 +115,9 @@ class UserController extends Controller {
                 $remote_server_output = curl_exec ($ch);
                 // cerramos la sesión cURL
                 curl_close ($ch);
+                $user_db->setRegisterNotification(true);
+                $em->persist($user_db);
+                $em->flush();
                 /*-----------------Autenticando al usuario en HDS-MEN-----------------------*/
                 $session = $this->container->get('session');
                 //// abrimos la sesión cURL
@@ -131,6 +134,9 @@ class UserController extends Controller {
                 }else{
                     $response_temp= json_decode($response);
                     $session->set('access-token', $response_temp->token);
+                    $user_db->setOnline(true);
+                    $em->persist($user_db);
+                    $em->flush();
                 }
 
                 return $this->redirect($this->generateUrl('frontend_welcome'));
