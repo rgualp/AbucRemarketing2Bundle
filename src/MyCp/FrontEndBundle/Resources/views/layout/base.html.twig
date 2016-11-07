@@ -54,6 +54,7 @@
     '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
     '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
     '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+    '@FrontEndBundle/Resources/public/css/chat.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -75,6 +76,7 @@
         {% endstylesheets %}
     {% endif %}
 
+    <script src="http://localhost:9203/socket.io/socket.io.js"></script>
     <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
     {% javascripts
@@ -88,12 +90,8 @@
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
     '@FrontEndBundle/Resources/public/js/custom.min.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-    '@FrontEndBundle/Resources/public/js/map.min.js'
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
     '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
@@ -111,55 +109,133 @@
     {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
     {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
 
+    <script>
+        // socket.io specific code
+        var socket = io.connect('http://localhost:9203');
+
+        socket.on('connect', function () {
+            $('#small-chat').addClass('connected');
+        });
+
+        socket.on('announcement', function (msg) {
+            $('#lines').append($('<p>').append($('<em>').text(msg)));
+        });
+
+        socket.on('nicknames', function (nicknames) {
+            $('#nicknames').empty().append($('<span>Online: </span>'));
+            for (var i in nicknames) {
+                $('#nicknames').append($('<b>').text(nicknames[i]));
+            }
+        });
+
+        socket.on('user message', message);
+        socket.on('reconnect', function () {
+            $('#lines').remove();
+            message('System', 'Reconnected to the server');
+        });
+
+        socket.on('reconnecting', function () {
+            $('#small-chat').addClass('reconnecting');
+            message('System', 'Attempting to re-connect to the server');
+        });
+
+        socket.on('error', function (e) {
+            $('#small-chat').addClass('error');
+            message('System', e ? e : 'A unknown error occurred');
+        });
+
+        function message (from, msg) {
+            $('#lines').append($('<p>').append($('<b>').text(from), msg));
+        }
+
+        // dom manipulation
+        $(function () {
+//            $('#set-nickname').submit(function (ev) {
+//                socket.emit('nickname', $('#nick').val(), function (set) {
+//                    if (!set) {
+//                        clear();
+//                        return $('#chat').addClass('nickname-set');
+//                    }
+//                    $('#nickname-err').css('visibility', 'visible');
+//                });
+//                return false;
+//            });
+
+            $('#chat-btn-send').submit(function () {
+                message('me', $('#chat-input-msg').val());
+                socket.emit('user message', $('#chat-input-msg').val());
+                clear();
+                $('#lines').get(0).scrollTop = 10000000;
+                return false;
+            });
+
+            function clear () {
+                $('#message').val('').focus();
+            };
+
+            // Open close small chat
+            $('.open-small-chat').click(function () {
+                $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
+                $('.small-chat-box').toggleClass('active');
+            });
+
+            // Initialize slimscroll for small chat
+            $('.small-chat-box .content').slimScroll({
+                height: '234px',
+                railOpacity: 0.4
+            });
+        });
+    </script>
+
     {% block include_javascripts_and_css %}{% endblock %}
 
-    <!-- Google Analytics -->
-    <script>
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-16697066-1']);
-        _gaq.push(['_trackPageview']);
+    {#<!-- Google Analytics -->#}
+    {#<script>#}
+        {#var _gaq = _gaq || [];#}
+        {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
+        {#_gaq.push(['_trackPageview']);#}
 
-        (function() {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-    <!-- Facebook Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-                document,'script','//connect.facebook.net/en_US/fbevents.js');
+        {#(function() {#}
+            {#var ga = document.createElement('script');#}
+            {#ga.type = 'text/javascript';#}
+            {#ga.async = true;#}
+            {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
+            {#var s = document.getElementsByTagName('script')[0];#}
+            {#s.parentNode.insertBefore(ga, s);#}
+        {#})();#}
+    {#</script>#}
+    {#<!-- Facebook Pixel Code -->#}
+    {#<script>#}
+        {#!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
+                {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;#}
+            {#n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;#}
+            {#t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,#}
+                {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
 
-        fbq('init', '1240648305949371');
-        fbq('track', "PageView");</script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
-    <!-- End Facebook Pixel Code -->
+        {#fbq('init', '1240648305949371');#}
+        {#fbq('track', "PageView");</script>#}
+    {#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
+    {#<!-- End Facebook Pixel Code -->#}
 
 
 </head>
 <body>
-{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
-<!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>(function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({'gtm.start':
-                new Date().getTime(), event: 'gtm.js'});
-        var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-                '//www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
-<!-- End Google Tag Manager -->
+{#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
+{#<!-- Google Tag Manager -->#}
+{#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"#}
+                  {#height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
+{#<script>(function(w, d, s, l, i) {#}
+        {#w[l] = w[l] || [];#}
+        {#w[l].push({'gtm.start':#}
+                {#new Date().getTime(), event: 'gtm.js'});#}
+        {#var f = d.getElementsByTagName(s)[0],#}
+                {#j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';#}
+        {#j.async = true;#}
+        {#j.src =#}
+                {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
+        {#f.parentNode.insertBefore(j, f);#}
+    {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>#}
+{#<!-- End Google Tag Manager -->#}
 {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
 {% block marquesina %}
     {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
@@ -227,6 +303,9 @@
     {% block include_javascripts_datepicker_message %}
 
     {% endblock %}
+{% endblock %}
+{% block chat %}
+    {{ include('FrontEndBundle:chat:chat.html.twig') }}
 {% endblock %}
 {% block footer_big %}{% endblock %}
 
@@ -363,19 +442,19 @@
     }
 </script>
 
-<script type="text/javascript">
-    /* <![CDATA[ */
-    var google_conversion_id = 1016854742;
-    var google_custom_params = window.google_tag_params;
-    var google_remarketing_only = true;
-    /* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
-<noscript>
-    <div style="display:inline;">
-        <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
-    </div>
-</noscript>
+{#<script type="text/javascript">#}
+    {#/* <![CDATA[ */#}
+    {#var google_conversion_id = 1016854742;#}
+    {#var google_custom_params = window.google_tag_params;#}
+    {#var google_remarketing_only = true;#}
+    {#/* ]]> */#}
+{#</script>#}
+{#<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>#}
+{#<noscript>#}
+    {#<div style="display:inline;">#}
+        {#<img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>#}
+    {#</div>#}
+{#</noscript>#}
 {% block javascripts %}
 {% endblock javascripts %}
 </body>

@@ -1,0 +1,100 @@
+#small-chat {
+    bottom: 20px;
+    position: fixed;
+    right: 20px;
+    z-index: 100;
+}
+#small-chat .badge {
+    position: absolute;
+    right: -4px;
+    top: -3px;
+}
+.open-small-chat {
+    background: #1ab394 none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #fff;
+    display: block;
+    height: 38px;
+    padding: 9px 8px;
+    text-align: center;
+    width: 38px;
+    cursor: pointer;
+}
+.open-small-chat:hover {
+    background: #1ab394 none repeat scroll 0 0;
+    color: white;
+}
+.small-chat-box {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #e7eaec;
+    border-radius: 4px;
+    bottom: 20px;
+    display: none;
+    height: 320px;
+    position: fixed;
+    right: 75px;
+    width: 230px;
+    z-index: 9999;
+}
+.small-chat-box.ng-small-chat {
+    display: block;
+}
+.body-small .small-chat-box {
+    bottom: 70px;
+    right: 20px;
+}
+.small-chat-box.active {
+    display: block;
+}
+.small-chat-box .heading {
+    background: #2f4050 none repeat scroll 0 0;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px 15px;
+}
+.small-chat-box .chat-date {
+    font-size: 10px;
+    font-weight: normal;
+    opacity: 0.6;
+}
+.small-chat-box .content {
+    padding: 15px;
+}
+.small-chat-box .content .author-name {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+.small-chat-box .content > div {
+    padding-bottom: 20px;
+}
+.small-chat-box .content .chat-message {
+    background: #f3f3f4 none repeat scroll 0 0;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 14px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    padding: 5px 10px;
+}
+.small-chat-box .content .chat-message.active {
+    background: #1ab394 none repeat scroll 0 0;
+    color: #fff;
+}
+.small-chat-box .content .left {
+    clear: both;
+    text-align: left;
+}
+.small-chat-box .content .left .chat-message {
+    float: left;
+}
+.small-chat-box .content .right {
+    clear: both;
+    text-align: right;
+}
+.small-chat-box .content .right .chat-message {
+    float: right;
+}
+.small-chat-box .form-chat {
+    padding: 10px;
+}
