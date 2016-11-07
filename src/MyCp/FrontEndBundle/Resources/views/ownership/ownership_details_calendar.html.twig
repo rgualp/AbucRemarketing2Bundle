@@ -176,7 +176,7 @@
             processData: false,
             success: function(response){
                 if(response=='0'){
-                    if($('#check_dispo').val()==2){
+                    if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
                         swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
                     }
                     else
