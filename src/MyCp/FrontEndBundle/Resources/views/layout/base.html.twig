@@ -76,10 +76,12 @@
     {% endif %}
 
     {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
-    <script src="http://node.dev:9203/socket.io/socket.io.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        var access_token="{{app.session.get('access-token')}}";
-    </script>
+    {% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
+        <script src="http://node.dev:9203/socket.io/socket.io.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var access_token="{{app.session.get('access-token')}}";
+        </script>
+    {% endif %}
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery.js'
     '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
@@ -91,20 +93,29 @@
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
     '@FrontEndBundle/Resources/public/js/custom.min.js'
+
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    '@FrontEndBundle/Resources/public/js/map.min.js'
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
     '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
     '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
-    '@LayoutBundle/Resources/public/js/mean/lib/signals/signals.js'
-    '@LayoutBundle/Resources/public/js/mean/server/mean.js'
-    '@LayoutBundle/Resources/public/js/mean/mean-client.js'
     filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    {% if app.user.getUserUserName is defined %}
+        {% javascripts
+        '@LayoutBundle/Resources/public/js/mean/lib/signals/signals.js'
+        '@LayoutBundle/Resources/public/js/mean/server/mean.js'
+        '@LayoutBundle/Resources/public/js/mean/mean-client.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endif %}
 
     {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
 
@@ -352,8 +363,11 @@
         $("#marquee-close").on("click", function (e) {
             e.preventDefault();
             $(".marquesina").hide();
-        })
-        MeanClient.init("{{ url_mean }}","{{ ws_mean }}");
+        });
+        {% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
+            //Inicializar el servidor de mensajeria
+            MeanClient.init("{{ url_mean }}","{{ ws_mean }}");
+        {% endif %}
     });
 
     function showMarqee(){
