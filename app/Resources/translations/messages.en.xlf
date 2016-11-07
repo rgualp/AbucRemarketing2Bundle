@@ -4013,6 +4013,15 @@
                                 <source>PAYMENT_NOT_EXISTS</source>
                                 <target>Do not exists PDF voucher for selected payment</target>
                             </trans-unit>
+
+                <trans-unit id="1008">
+                    <source>facebook</source>
+                    <target>facebook</target>
+                </trans-unit>
+                <trans-unit id="1009">
+                    <source>twitter</source>
+                    <target>twitter</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

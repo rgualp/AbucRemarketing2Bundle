@@ -123,8 +123,7 @@ class NotificationMailService extends Controller
 		$response = curl_exec($curl);//{"id":#}
 		$info = curl_getinfo($curl);
 		curl_close($curl);
-		$code = $info['http_code'];//201==success
-
+		$code = $info['http_code'];//201==success/
 		#region Init all
 		$this->to =$this->bcc =$this->cc= array();
 		$this->subject= $this->from_email= $this->from_name= $this->msg= $this->email_type= '';
