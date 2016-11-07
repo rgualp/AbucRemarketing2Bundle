@@ -3986,7 +3986,7 @@
                 <source>SEE_NOW</source>
                 <target>Ver Ahora</target>
             </trans-unit>
-<trans-unit id="1005">
+            <trans-unit id="1005">
                 <source>pinterest</source>
                 <target>pinterest</target>
             </trans-unit>
@@ -3997,6 +3997,14 @@
             <trans-unit id="1007">
                 <source>PAYMENT_NOT_EXISTS</source>
                 <target>No existe voucher PDF para el pago seleccionado</target>
+            </trans-unit>
+            <trans-unit id="1008">
+                <source>facebook</source>
+                <target>facebook</target>
+            </trans-unit>
+            <trans-unit id="1009">
+                <source>twitter</source>
+                <target>twitter</target>
             </trans-unit>
         </body>
     </file>
