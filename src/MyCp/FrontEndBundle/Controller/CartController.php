@@ -112,7 +112,7 @@ class CartController extends Controller {
         $showError = false;
         $showErrorOwnExist = false;
         $showErrorItem='';
-
+        $arrayIdCart=array();
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
             $insert = 1;
             foreach ($cartItems as $item) {
@@ -198,6 +198,7 @@ class CartController extends Controller {
 
                     $em->persist($cart);
                     $em->flush();
+                    $arrayIdCart[]=$cart->getCartId();
                     if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
                         // inform listeners that a reservation was sent out
                         $dispatcher = $this->get('event_dispatcher');
@@ -209,20 +210,12 @@ class CartController extends Controller {
         }
         if ($user_ids["user_id"] != null){
             if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
-                if($showErrorItem!='')
-                    $id=$showErrorItem->getCartId();
-                else
-                    $id=$cart->getCartId();
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo($id,$request,false);
+                $this->checkDispo($arrayIdCart,$request,false);
             }
             elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
-                if($showErrorItem!='')
-                    $id=$showErrorItem->getCartId();
-                else
-                    $id=$cart->getCartId();
                 //Es que el usuario mando a hacer una reserva
-                $this->checkDispo($id,$request,true);
+                $this->checkDispo($arrayIdCart,$request,true);
             }
             else{
                 if ( !$request->isXmlHttpRequest() ){
@@ -654,15 +647,18 @@ class CartController extends Controller {
      * @param $request
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function checkDispo($id_car,$request,$inmediatily_booking){
+    public function checkDispo($arrayIdCart,$request,$inmediatily_booking){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $cartItem = $em->getRepository('mycpBundle:cart')->find($id_car);
-        $cartItems[]=$cartItem;
+        foreach($arrayIdCart as $temp){
+            $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
+            $cartItems[]=$cartItem;
+        }
+
         $min_date = null;
         $max_date = null;
         $generalReservations = array();
@@ -820,7 +816,10 @@ class CartController extends Controller {
                 \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
             }
         }
-        $em->remove($cartItem);
+        foreach($arrayIdCart as $temp){
+            $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
+            $em->remove($cartItem);
+        }
         $em->flush();
         return true;
     }
