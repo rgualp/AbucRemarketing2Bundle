@@ -35,6 +35,25 @@ class UserSecure {
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $session = $this->container->get('session');
         $user = $this->security_context->getToken()->getUser();
+        if($user->getRegisterNotification()==''){
+            //Registrando al user en HDS-MEAN
+            // abrimos la sesión cURL
+            $ch = curl_init();
+            // definimos la URL a la que hacemos la petición
+            curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."register");
+            // definimos el número de campos o parámetros que enviamos mediante POST
+            curl_setopt($ch, CURLOPT_POST, 1);
+            // definimos cada uno de los parámetros
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "email=".$user->getUserEmail().'_'.$this->container->getParameter('mean_project')."&last=".$user->getUserLastName()."&first=".$user->getUserLastName()."&password=".$user->getUserPassword()."&username=".$user->getUserUserName().'_'.$this->container->getParameter('mean_project'));
+            // recibimos la respuesta y la guardamos en una variable
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $remote_server_output = curl_exec ($ch);
+            // cerramos la sesión cURL
+            curl_close ($ch);
+            $user->setRegisterNotification(true);
+            $this->em->persist($user);
+            $this->em->flush();
+        }
         //// abrimos la sesión cURL
         $ch = curl_init();
         // definimos la URL a la que hacemos la petición
@@ -49,6 +68,9 @@ class UserSecure {
         }else{
             $response_temp= json_decode($response);
             $session->set('access-token', $response_temp->token);
+            $user->setOnline(true);
+            $this->em->persist($user);
+            $this->em->flush();
         }
 
 
