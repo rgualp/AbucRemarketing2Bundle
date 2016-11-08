@@ -215,11 +215,11 @@ class CartController extends Controller {
             }
             elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
                 //Es que el usuario mando a hacer una reserva
-                $this->checkDispo($arrayIdCart,$request,true);
+                $own_ids=$this->checkDispo($arrayIdCart,$request,true);
             }
             else{
                 if ( !$request->isXmlHttpRequest() ){
-                    $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                    $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
                     $this->get('session')->getFlashBag()->add('message_global_error', $message);
                 }
             }
@@ -251,7 +251,14 @@ class CartController extends Controller {
             return $response;
         }
         else{
-            return $this->redirect($this->generateUrl('frontend_view_cart'));
+            if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
+                $request->getSession()->set('reservation_own_ids', $own_ids);
+                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+            }
+            elseif($showErrorOwnExist)
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            else
+                return $this->redirect($this->generateUrl('frontend_view_cart'));
         }
     }
 
@@ -767,9 +774,6 @@ class CartController extends Controller {
                         array_push($own_ids, $ownership_reservation->getOwnResId());
                         $flag_1++;
                     }
-
-                    //dump($arrayKidsAge); die;
-
                     $general_reservation->setChildrenAges($arrayKidsAge);
                     $em->flush();
 
@@ -821,7 +825,10 @@ class CartController extends Controller {
             $em->remove($cartItem);
         }
         $em->flush();
-        return true;
+        if(!$inmediatily_booking) //esta consultando la disponibilidad
+            return true;
+        else                      //esta haciendo una reserva
+            return $own_ids;
     }
     public function checkAvailabilityAction(Request $request) {
 
