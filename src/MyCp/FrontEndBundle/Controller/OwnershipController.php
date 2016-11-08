@@ -153,7 +153,7 @@ class OwnershipController extends Controller {
                     $cont_numbers = 1;
                     foreach ((array)$array_dates as $date) {
 
-                        if ($date >= $reservationStartDate && $date <= $reservationEndDate) {
+                        if ($date >= $reservationStartDate && $date <= $reservationEndDate && $date != $dateTo->getTimestamp()) {
                             array_push($array_numbers_check, $cont_numbers);
                         }
                         $cont_numbers++;
@@ -163,6 +163,8 @@ class OwnershipController extends Controller {
                         'check' => $array_numbers_check
                     ));
             }
+
+
             $total_price_room = 0;
             $prices_dates_temp = array();
             $x = 1;
@@ -216,6 +218,7 @@ class OwnershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
+
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
         if ($mobileDetector->isMobile()){
