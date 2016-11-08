@@ -4017,17 +4017,25 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                     <target>Schauen jetzt</target>
                 </trans-unit>
                 <trans-unit id="1005">
-                                <source>pinterest</source>
-                                <target>pinterest</target>
-                            </trans-unit>
-                            <trans-unit id="1006">
-                                <source>youtube</source>
-                                <target>youtube</target>
-                            </trans-unit>
-                            <trans-unit id="1007">
-                                <source>PAYMENT_NOT_EXISTS</source>
-                                <target>Do not exists PDF voucher for selected payment</target>
-                            </trans-unit>
+                    <source>pinterest</source>
+                    <target>pinterest</target>
+                </trans-unit>
+                <trans-unit id="1006">
+                    <source>youtube</source>
+                    <target>youtube</target>
+                </trans-unit>
+                <trans-unit id="1007">
+                    <source>PAYMENT_NOT_EXISTS</source>
+                    <target>Do not exists PDF voucher for selected payment</target>
+                </trans-unit>
+                <trans-unit id="1008">
+                    <source>facebook</source>
+                    <target>facebook</target>
+                </trans-unit>
+                <trans-unit id="1009">
+                    <source>twitter</source>
+                    <target>twitter</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>
