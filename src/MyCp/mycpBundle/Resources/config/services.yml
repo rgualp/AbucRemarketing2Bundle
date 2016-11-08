@@ -79,7 +79,7 @@ services:
 
    mycp.notification.service:
        class: MyCp\mycpBundle\Service\NotificationService
-       arguments: [@doctrine.orm.entity_manager,"%notification_service_url%", "%notification_service_api_key%", @Time, "%notification_send_sms%", "%notification_test_environment%", "%notification_test_mobile%", "%sms_contact_phone%", "%sms_contact_mobile%", @mycp.logger]
+       arguments: [@doctrine.orm.entity_manager,"%notification_service_url%", "%notification_service_api_key%", @Time, "%notification_send_sms%", "%notification_test_environment%", "%notification_test_mobile%", "%sms_contact_phone%", "%sms_contact_mobile%", @mycp.logger, "%notification_send_checkings_sms%", "%notification_send_confirmation_sms%", "%notification_send_inmediatebooking_sms%"]
 
    mycp.notification.mail.service:
        class: MyCp\mycpBundle\Service\NotificationMailService
