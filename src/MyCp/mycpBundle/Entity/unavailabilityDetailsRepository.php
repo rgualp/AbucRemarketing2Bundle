@@ -34,6 +34,25 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $em->createQuery($query_string)->setParameter("id_room", $id_room)->getResult();
     }
 
+    public function getRoomDetailsByRoomAndDates($id_room, $dateFrom, $dateTo) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:unavailabilityDetails o
+                        JOIN o.room r
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED."
+                        AND r.room_id = :id_room
+                        AND ((o.ud_from_date >= :start AND o.ud_from_date <= :end) OR
+                             (o.ud_to_date >= :start AND o.ud_to_date <= :end) OR
+                             (o.ud_from_date <= :start AND o.ud_to_date >= :end))
+                        ORDER BY o.ud_from_date DESC";
+
+        return $em->createQuery($query_string)
+            ->setParameter("id_room", $id_room)
+            ->setParameter('start', $dateFrom)
+            ->setParameter('end', $dateTo)
+            ->getResult();
+    }
+
     public function getRoomDetailsForCalendar($id_room) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o

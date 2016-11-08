@@ -44,15 +44,14 @@ class OwnershipController extends Controller {
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
 
-        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
+        /*$general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
         $reservations = array();
         foreach ($general_reservations as $gen_res) {
             $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(), $dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
             foreach ($own_reservations as $own_res) {
                 array_push($reservations, $own_res);
             }
-        }
-
+        }*/
 
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true));
 
@@ -68,13 +67,15 @@ class OwnershipController extends Controller {
 
         foreach ($rooms as $room) {
             $temp_local = array();
-            $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetails($room->getRoomId());
+            $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsByRoomAndDates($room->getRoomId(), $dateFrom, $dateTo);
             $flag = 0;
             if ($unavailable_room) {
                 foreach ($unavailable_room as $ur) {
                     $unavailable_days = $service_time->datesBetween($ur->getUdFromDate()->getTimestamp(), $ur->getUdToDate()->getTimestamp());
                     // unavailable details
-                    if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    $flag = 1;
+                    /*if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
                             $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                         $flag = 1;
@@ -99,7 +100,7 @@ class OwnershipController extends Controller {
                             $end_timestamp <= $ur->getUdToDate()->getTimestamp()) {
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                         $flag = 1;
-                    }
+                    }*/
                     $temp = array();
                     foreach ($unavailable_days as $unav_date) {
                         for ($s = 0; $s < count($array_dates) - 1; $s++) {
@@ -114,46 +115,45 @@ class OwnershipController extends Controller {
                     }
                 }
             }
+
+            $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDateForCalendar($room->getRoomId(), $dateFrom, $dateTo);
+            //var_dump("Habitacion id ". $room->getRoomId(). ": REservaciones " .count($reservations). ". Desde: ".date("d-m-Y",$dateFrom->getTimestamp()). ". Hasta: ".date("d-m-Y",$dateTo->getTimestamp())."<br/>");
             foreach ($reservations as $reservation) {
+                $reservationStartDate = $reservation->getOwnResReservationFromDate()->getTimestamp();
+                $reservationEndDate = $reservation->getOwnResReservationToDate()->getTimestamp();
+                $date = new \DateTime();
+                $date->setTimestamp(strtotime("-1 day", $reservationEndDate));
+                $reservationEndDate = $date->getTimestamp();
 
-                if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
-                    $reservationStartDate = $reservation->getOwnResReservationFromDate()->getTimestamp();
-                    $reservationEndDate = $reservation->getOwnResReservationToDate()->getTimestamp();
-                    $date = new \DateTime();
-                    $date->setTimestamp(strtotime("-1 day", $reservationEndDate));
-                    $reservationEndDate = $date->getTimestamp();
+                $array_no_available[$room->getRoomId()] = $room->getRoomId();
 
-                    if ($start_timestamp <= $reservationStartDate &&
-                            $end_timestamp >= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
-
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                    }
-
-                    if ($start_timestamp >= $reservationStartDate &&
-                            $start_timestamp <= $reservationEndDate &&
-                            $end_timestamp >= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                    /*if ($start_timestamp <= $reservationStartDate && $end_timestamp >= $reservationEndDate) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
-                    if ($start_timestamp <= $reservationStartDate &&
-                            $end_timestamp <= $reservationEndDate &&
-                            $end_timestamp >= $reservationStartDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                    if ($start_timestamp >= $reservationStartDate && $start_timestamp <= $reservationEndDate &&
+                            $end_timestamp >= $reservationEndDate) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
-                    if ($start_timestamp >= $reservationStartDate &&
-                            $end_timestamp <= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                    if ($start_timestamp <= $reservationStartDate && $end_timestamp <= $reservationEndDate &&
+                            $end_timestamp >= $reservationStartDate) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
+
+                    if ($start_timestamp >= $reservationStartDate && $end_timestamp <= $reservationEndDate) {
+
+                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    }*/
 
                     $array_numbers_check = array();
                     $cont_numbers = 1;
                     foreach ((array)$array_dates as $date) {
 
-                        if ($date >= $reservationStartDate && $date <= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                        if ($date >= $reservationStartDate && $date <= $reservationEndDate && $date != $dateTo->getTimestamp()) {
                             array_push($array_numbers_check, $cont_numbers);
                         }
                         $cont_numbers++;
@@ -162,8 +162,9 @@ class OwnershipController extends Controller {
                         $room->getRoomId() => $room->getRoomId(),
                         'check' => $array_numbers_check
                     ));
-                }
             }
+
+
             $total_price_room = 0;
             $prices_dates_temp = array();
             $x = 1;
@@ -183,7 +184,6 @@ class OwnershipController extends Controller {
             array_push($array_prices, $total_price_room);
             array_push($prices_dates, $prices_dates_temp);
         }
-
 
         foreach ($no_available_days as $item) {
             $keys = array_keys($item);
@@ -218,7 +218,9 @@ class OwnershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
+
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         if ($mobileDetector->isMobile()){
             return $this->render('MyCpMobileFrontendBundle:ownership:ownershipReservationCalendar.html.twig', array(
                 'array_dates' => $array_dates_keys,
