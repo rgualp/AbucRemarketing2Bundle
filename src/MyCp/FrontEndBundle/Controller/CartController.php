@@ -164,7 +164,12 @@ class CartController extends Controller {
                     $cart->setCartDateTo($toDate);
                     $cart->setCartRoom($room);
                     $cart->setServiceFee($serviceFee);
-
+                    if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && $user_ids["user_id"] == null){
+                        $cart->setCheckAvailable(true);
+                    }
+                    if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && $user_ids["user_id"] == null){
+                        $cart->setInmediateBooking(true);
+                    }
                     if (isset($array_count_guests[$a]))
                         $cart->setCartCountAdults($array_count_guests[$a]);
                     else
@@ -251,9 +256,9 @@ class CartController extends Controller {
                     return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
                 }
                 else{
-                    $message = $this->get('translator')->trans("MSG_ADD_WISH_LITS");
+                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_view_cart'));
+                    return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
                 }
 
             }
@@ -663,6 +668,7 @@ class CartController extends Controller {
         $own_ids = array();
         $array_photos = array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $cartItems=array();
         foreach($arrayIdCart as $temp){
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
             $cartItems[]=$cartItem;
