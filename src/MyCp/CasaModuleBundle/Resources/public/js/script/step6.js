@@ -201,6 +201,7 @@ var Step6 = function () {
 
     var saveStep6=function(index){
         if(index==6) {
+            HoldOn.open();
             var _url = $('#mycp_mycpbundle_ownership_step_photos').attr('action');
             //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
             var form = $('#mycp_mycpbundle_ownership_step_photos');

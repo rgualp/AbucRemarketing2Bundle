@@ -644,6 +644,9 @@ class StepsController extends Controller
                     ->setOdlAutomaticTranslation(0);
             } else {
                 $response = $translator->translate($description, 'ES', $lang->getLangCode());
+                $translatedDescription = "";
+                $translatedBriefDescription = "";
+
                 if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
                     $translatedDescription = $response->getTranslation();
 
@@ -782,29 +785,49 @@ class StepsController extends Controller
         $em->getRepository("mycpBundle:ownership")->updateGeneralData($accommodation);
 
         //Enviar correo
-        if(!$request->get("dashboard") && $publishAccommodation)
+        if(!$request->get("dashboard") && $publishAccommodation && !$hasError)
         {
             $service_email = $this->get('Email');
             $service_email->sendInfoCasaRentaCommand($this->getUser());
         }
 
-        if ($request->get('dashboard')) {
-            return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
-                'ownership' => $accommodation,
-                'dashboard' => true
-            ));
+        if($hasError) {
+            return new JsonResponse([
+                'success' => false,
+                'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.'
+            ]);
         }
         else {
-            if($hasError)
-                return new JsonResponse([
-                    'success' => false,
-                    'msg' => 'Para publicar su alojamiento debe tener fotos, una descripción y al menos una habitación.'
-                ]);
+            if ($request->get('dashboard')) {
+                return $this->render('MyCpCasaModuleBundle:Steps:step7.html.twig', array(
+                    'ownership' => $accommodation,
+                    'dashboard' => true
+                ));
+            }
             else
                 return new JsonResponse([
                     'success' => true
                 ]);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="can_publish_accommodation", path="/can-publish-accommodation")
+     */
+    public function canPublishAccommodationAction(Request $request)
+    {
+        $idAccommodation = $request->get('idAccommodation');
+
+        $em = $this->getDoctrine()->getManager();
+        $accommodation = $em->getRepository('mycpBundle:ownership')->find($idAccommodation);
+        $canPublish = $em->getRepository("mycpBundle:ownership")->canActive($accommodation);
+
+        return new JsonResponse([
+            'success' => true,
+            'canPublish' => $canPublish
+        ]);
     }
 
     /**
