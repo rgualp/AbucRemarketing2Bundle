@@ -47,7 +47,7 @@ class StepsController extends Controller
         if(empty($user->getUserUserCasa()))
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
-        $form=$this->createForm(new ownershipStep1Type(),$ownership);
+        $form=$this->createForm(new ownershipStep1Type($ownership->getOwnAddressProvince()),$ownership);
         //        die(dump($form['own_langs1']));
         $langs=array();
         if($ownership->getOwnLangs()){
@@ -105,7 +105,7 @@ class StepsController extends Controller
         if (empty($user->getUserUserCasa()))
             return new NotFoundHttpException('El usuario no es usuario casa');
         $ownership = $user->getUserUserCasa()[0]->getUserCasaOwnership();
-        $form = $this->createForm(new ownershipStep1Type(), $ownership);
+        $form = $this->createForm(new ownershipStep1Type($ownership->getOwnAddressProvince()), $ownership);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $langs = $ownership->getOwnLangs();
@@ -324,6 +324,7 @@ class StepsController extends Controller
         if ($photosForm->isValid()) {
             $ownership->setPhotos(new ArrayCollection());
            if(!empty($request->files->get('mycp_mycpbundle_ownership_step_photos'))){
+               $photoIndex = 1;
            foreach ($request->files->get('mycp_mycpbundle_ownership_step_photos')['photos'] as $index => $file) {
                 if($request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['own_pho_id']=='') {
                    $desc = $request->get('mycp_mycpbundle_ownership_step_photos')['photos'][$index]['description'];
@@ -348,7 +349,8 @@ class StepsController extends Controller
 
                         }
                     }
-                    $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership, $file, $this->get('service_container'), $post);
+                    $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership, $file, $this->get('service_container'), $post, $photoIndex);
+                    $photoIndex++;
                 }
                 else{
 

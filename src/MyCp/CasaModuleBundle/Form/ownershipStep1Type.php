@@ -5,9 +5,17 @@ namespace MyCp\CasaModuleBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class ownershipStep1Type extends AbstractType
 {
+    private $province;
+
+    function __construct($province)
+    {
+        $this->province = $province;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -110,7 +118,21 @@ class ownershipStep1Type extends AbstractType
             ->add('own_geolocate_y', 'hidden')
             ->add('own_address_province')
             ->add('own_address_municipality')
-            ->add('own_destination')
+            ->add('own_destination', 'entity', [
+                'class' => 'MyCp\mycpBundle\Entity\destination',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                              ->select("distinct u")
+                              ->join("u.locations", "location")
+                              ->where("location.des_loc_province = :province")
+                              ->orderBy("u.des_name", "ASC")
+                              ->setParameter("province", $this->province->getProvId())
+                        ;
+                },
+                'property' => 'des_name',
+                'required' => false,
+                'multiple' => false])
+            //->add('own_destination')
 
         ;
     }
