@@ -173,6 +173,7 @@ var Step4 = function () {
 
         },
         saveRoom:function(flag){
+            HoldOn.open();
             var rooms = new Array();
             var url='';
             for(var i=0;i<$('#nav-tabs-backend li').size();i++){
@@ -205,6 +206,8 @@ var Step4 = function () {
                                     document.getElementById('id-room-'+i).value=idRoom;
                                 }
                             }
+
+                            HoldOn.close();
                         }
                     }
                 });
