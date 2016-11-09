@@ -63,7 +63,6 @@ class CartController extends Controller {
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
-        //var_dump($data); exit();
         $data = explode('/', $data);
 
         $from_date = $data[0];
@@ -104,6 +103,7 @@ class CartController extends Controller {
 
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+
         if(isset($check_dispo) && $check_dispo!='' && ($check_dispo==1 || $check_dispo==2 ) ){
             $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
         }
@@ -208,6 +208,7 @@ class CartController extends Controller {
                 }
             }
         }
+        $own_ids=array();
         if ($user_ids["user_id"] != null){
             if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
                 //Es que el usuario mando a consultar la disponibilidad
@@ -224,13 +225,6 @@ class CartController extends Controller {
                 }
             }
         }
-        else{
-            if ( !$request->isXmlHttpRequest() ){
-                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
-                $this->get('session')->getFlashBag()->add('message_global_error', $message);
-            }
-        }
-
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
 
@@ -252,8 +246,16 @@ class CartController extends Controller {
         }
         else{
             if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
-                $request->getSession()->set('reservation_own_ids', $own_ids);
-                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                if ($user_ids["user_id"] != null){
+                    $request->getSession()->set('reservation_own_ids', $own_ids);
+                    return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                }
+                else{
+                    $message = $this->get('translator')->trans("MSG_ADD_WISH_LITS");
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                    return $this->redirect($this->generateUrl('frontend_view_cart'));
+                }
+
             }
             elseif($showErrorOwnExist)
                 return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
