@@ -63,7 +63,6 @@ class CartController extends Controller {
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
-        //var_dump($data); exit();
         $data = explode('/', $data);
 
         $from_date = $data[0];
@@ -104,6 +103,7 @@ class CartController extends Controller {
 
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+
         if(isset($check_dispo) && $check_dispo!='' && ($check_dispo==1 || $check_dispo==2 ) ){
             $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
         }
@@ -112,7 +112,7 @@ class CartController extends Controller {
         $showError = false;
         $showErrorOwnExist = false;
         $showErrorItem='';
-
+        $arrayIdCart=array();
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
             $insert = 1;
             foreach ($cartItems as $item) {
@@ -128,7 +128,7 @@ class CartController extends Controller {
                         $item->getCartRoom() == $array_ids_rooms[$a]
                 ) {
                     $insert = 0;
-                    $showError = 1;
+                    $showError = true;
                     $showErrorItem=$item;
                 }
             }
@@ -144,16 +144,14 @@ class CartController extends Controller {
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
                             $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]) {
                             $insert = 0;
-                            $showError = 1;
-                            $showErrorOwnExist = 1;
+                            $showError = true;
+                            $showErrorOwnExist = true;
                         }
-
                     }
                 }
             }
             if ($insert == 1) {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
-
                 if($room != null) {
                     $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
                     $cart = new cart();
@@ -166,7 +164,12 @@ class CartController extends Controller {
                     $cart->setCartDateTo($toDate);
                     $cart->setCartRoom($room);
                     $cart->setServiceFee($serviceFee);
-
+                    if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && $user_ids["user_id"] == null){
+                        $cart->setCheckAvailable(true);
+                    }
+                    if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && $user_ids["user_id"] == null){
+                        $cart->setInmediateBooking(true);
+                    }
                     if (isset($array_count_guests[$a]))
                         $cart->setCartCountAdults($array_count_guests[$a]);
                     else
@@ -200,6 +203,7 @@ class CartController extends Controller {
 
                     $em->persist($cart);
                     $em->flush();
+                    $arrayIdCart[]=$cart->getCartId();
                     if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
                         // inform listeners that a reservation was sent out
                         $dispatcher = $this->get('event_dispatcher');
@@ -209,29 +213,23 @@ class CartController extends Controller {
                 }
             }
         }
+        $own_ids=array();
         if ($user_ids["user_id"] != null){
             if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && !$showErrorOwnExist){
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,false);
+                $this->checkDispo($arrayIdCart,$request,false);
             }
             elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
                 //Es que el usuario mando a hacer una reserva
-                $this->checkDispo(($showErrorItem!='')?$showErrorItem->getCartId():$cart->getCartId(),$request,true);
+                $own_ids=$this->checkDispo($arrayIdCart,$request,true);
             }
             else{
                 if ( !$request->isXmlHttpRequest() ){
-                    $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                    $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
                     $this->get('session')->getFlashBag()->add('message_global_error', $message);
                 }
             }
         }
-        else{
-            if ( !$request->isXmlHttpRequest() ){
-                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
-                $this->get('session')->getFlashBag()->add('message_global_error', $message);
-            }
-        }
-
         //If ajax
         if ( $request->isXmlHttpRequest() ) {
 
@@ -252,7 +250,22 @@ class CartController extends Controller {
             return $response;
         }
         else{
-            return $this->redirect($this->generateUrl('frontend_view_cart'));
+            if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
+                if ($user_ids["user_id"] != null){
+                    $request->getSession()->set('reservation_own_ids', $own_ids);
+                    return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                }
+                else{
+                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER");
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                    return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
+                }
+
+            }
+            elseif($showErrorOwnExist)
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            else
+                return $this->redirect($this->generateUrl('frontend_view_cart'));
         }
     }
 
@@ -648,15 +661,19 @@ class CartController extends Controller {
      * @param $request
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function checkDispo($id_car,$request,$inmediatily_booking){
+    public function checkDispo($arrayIdCart,$request,$inmediatily_booking){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $cartItem = $em->getRepository('mycpBundle:cart')->find($id_car);
-        $cartItems[]=$cartItem;
+        $cartItems=array();
+        foreach($arrayIdCart as $temp){
+            $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
+            $cartItems[]=$cartItem;
+        }
+
         $min_date = null;
         $max_date = null;
         $generalReservations = array();
@@ -765,9 +782,6 @@ class CartController extends Controller {
                         array_push($own_ids, $ownership_reservation->getOwnResId());
                         $flag_1++;
                     }
-
-                    //dump($arrayKidsAge); die;
-
                     $general_reservation->setChildrenAges($arrayKidsAge);
                     $em->flush();
 
@@ -814,9 +828,15 @@ class CartController extends Controller {
                 \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
             }
         }
-        $em->remove($cartItem);
+        foreach($arrayIdCart as $temp){
+            $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
+            $em->remove($cartItem);
+        }
         $em->flush();
-        return true;
+        if(!$inmediatily_booking) //esta consultando la disponibilidad
+            return true;
+        else                      //esta haciendo una reserva
+            return $own_ids;
     }
     public function checkAvailabilityAction(Request $request) {
 

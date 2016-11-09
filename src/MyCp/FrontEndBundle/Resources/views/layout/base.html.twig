@@ -131,89 +131,6 @@
     {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
     {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
 
-    {#<script>#}
-        {#// socket.io specific code#}
-        {#var socket = io.connect('http://localhost:9203');#}
-
-        {#socket.on('connect', function () {#}
-            {#$('#small-chat').addClass('connected');#}
-        {#});#}
-
-        {#socket.on('announcement', function (msg) {#}
-            {#$('#lines').append($('<p>').append($('<em>').text(msg)));#}
-        {#});#}
-
-        {#socket.on('nicknames', function (nicknames) {#}
-            {#$('#nicknames').empty().append($('<span>Online: </span>'));#}
-            {#for (var i in nicknames) {#}
-                {#$('#nicknames').append($('<b>').text(nicknames[i]));#}
-            {#}#}
-        {#});#}
-
-        {#socket.on('user message', message);#}
-        {#socket.on('reconnect', function () {#}
-            {#$('#lines').remove();#}
-            {#message('System', 'Reconnected to the server');#}
-        {#});#}
-
-        {#socket.on('reconnecting', function () {#}
-            {#$('#small-chat').addClass('reconnecting');#}
-            {#message('System', 'Attempting to re-connect to the server');#}
-        {#});#}
-
-        {#socket.on('error', function (e) {#}
-            {#$('#small-chat').addClass('error');#}
-            {#message('System', e ? e : 'A unknown error occurred');#}
-        {#});#}
-
-        {#function message (from, msg) {#}
-            {#var msg_body = $('<div class="left"><div class="author-name"><small class="chat-date"></small></div><div class="chat-message active"> </div></div>');#}
-            {#msg_body.find(".chat-message").append(msg);#}
-            {#msg_body.find(".author-name").append(from);#}
-
-            {#$(".small-chat-box .content").append(msg_body);#}
-
-        {#}#}
-
-        {#// dom manipulation#}
-        {#$(function () {#}
-{#//            $('#set-nickname').submit(function (ev) {#}
-{#//                socket.emit('nickname', $('#nick').val(), function (set) {#}
-{#//                    if (!set) {#}
-{#//                        clear();#}
-{#//                        return $('#chat').addClass('nickname-set');#}
-{#//                    }#}
-{#//                    $('#nickname-err').css('visibility', 'visible');#}
-{#//                });#}
-{#//                return false;#}
-{#//            });#}
-
-            {#$('#chat-btn-send').click(function () {#}
-                {#message('me', $('#chat-text-input').val());#}
-                {#socket.emit('user message', $('#chat-text-input').val());#}
-                {#clear();#}
-                {#$('#lines').get(0).scrollTop = 10000000;#}
-                {#return false;#}
-            {#});#}
-
-            {#function clear () {#}
-                {#$('#message').val('').focus();#}
-            {#};#}
-
-            {#// Open close small chat#}
-            {#$('.open-small-chat').click(function () {#}
-                {#$(this).children().toggleClass('fa-comments').toggleClass('fa-remove');#}
-                {#$('.small-chat-box').toggleClass('active');#}
-            {#});#}
-
-            {#// Initialize slimscroll for small chat#}
-            {#$('.small-chat-box .content').slimScroll({#}
-                {#height: '234px',#}
-                {#railOpacity: 0.4#}
-            {#});#}
-        {#});#}
-    {#</script>#}
-
     {% block include_javascripts_and_css %}{% endblock %}
 
     {#<!-- Google Analytics -->#}
@@ -479,12 +396,17 @@
     });
 
     function showMarqee(){
+        if ($("#top-menu").find(".breadcrumb-top").length != 0){
+            $(".marquesina").css("top","78px");
+        }
         $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
             $(this).removeClass('animated bounceInDown');
         });
     }
     function hideMarqee(){
-
+        if ($("#top-menu").find(".breadcrumb-top").length != 0){
+            $(".marquesina").css("top","0");
+        }
     }
 </script>
 

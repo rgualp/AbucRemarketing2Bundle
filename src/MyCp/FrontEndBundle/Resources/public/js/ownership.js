@@ -332,7 +332,7 @@ function datePickersStarUp(){
             $('#filter_date_to').datepicker("setDate", date);
             $('.datepicker').hide();
 
-            refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+            refresh_calendar(startDate.getDate() + '/' + (startDate.getMonth() + 1) + '/' + startDate.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
 
             /*var start_date = new Date(ev.date);
              start_date.setDate(start_date.getDate() + 1);
