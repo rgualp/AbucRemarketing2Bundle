@@ -41,6 +41,26 @@ var App = function () {
                 {
                     $("#btnNext").addClass("hidden");
                     $("#btnPublish").removeClass("hidden");
+
+                    /*var url = $("#btnPublish").data("url");
+
+                    $.ajax({
+                        type: 'post',
+                        url: url,
+                        data: {
+                            idAccommodation: App.getOwnId()
+                        },
+                        success: function (data) {
+                            if(data.canPublish)
+                                $("#btnPublish").removeClass("hidden");
+                            else
+                                $("#btnPublish").addClass("hidden");
+                        },
+                        error: function(data){
+                            $("#btnPublish").addClass("hidden");
+                        }
+                    });*/
+
                 }
                 else{
                     $("#btnNext").removeClass("hidden");
