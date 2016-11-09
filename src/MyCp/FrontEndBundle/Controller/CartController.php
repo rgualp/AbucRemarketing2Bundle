@@ -256,7 +256,7 @@ class CartController extends Controller {
                     return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
                 }
                 else{
-                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER");
+                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER_NEWMSG");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
                 }
