@@ -37,7 +37,7 @@ var Mean = function () {
     };
     $.ajax({
       type: 'get',
-      url: url_server+'/api/notifications/',
+      url: url_server+'api/notifications/',
       data: data,
       headers: {
         "token":access_token
@@ -75,7 +75,7 @@ var Mean = function () {
       };
       $.ajax({
         type: 'post',
-        url: url_server+'/api/notifications/',
+        url: url_server+'api/notifications/',
         data: data,
         headers: {
           "token":access_token

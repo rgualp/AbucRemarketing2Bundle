@@ -3,8 +3,6 @@
  Mean script to handle the entire layout and base functions
  **/
 var MeanClient = function () {
-    var url_server='http://node.lvps92-51-151-239.dedicated.hosteurope.de';
-    var ws_url='node.lvps92-51-151-239.dedicated.hosteurope.de:9202';
     var showNotification=function(data){
         $('#count-notifications').html(data.total);
          $('#count-notifications').text(data.total);
@@ -43,7 +41,7 @@ var MeanClient = function () {
     }
     return {
         //main function to initiate template pages
-        init: function () {
+        init: function (url_server,ws_url) {
             //IMPORTANT!!!: Do not modify the call order.
             Mean.init({
                 url_server:url_server,
@@ -56,4 +54,3 @@ var MeanClient = function () {
         }
     };
 }();
-MeanClient.init();
