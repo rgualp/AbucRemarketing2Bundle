@@ -98,3 +98,140 @@
 .small-chat-box .form-chat {
     padding: 10px;
 }
+
+#list-notification:hover{
+    color: #fff;
+}
+
+/*Right Side Bar */
+
+#right-sidebar {
+    background-color: #fff;
+    border-left: 1px solid #e7eaec;
+    border-top: 1px solid #e7eaec;
+    bottom: 0;
+    overflow: hidden;
+    position: fixed;
+    right: -360px;
+    top: 0;
+    width: 350px !important;
+    z-index: 1009;
+}
+#right-sidebar.sidebar-open {
+    right: 0;
+}
+#right-sidebar.sidebar-open.sidebar-top {
+    top: 0;
+    border-top: none;
+}
+.sidebar-container ul.nav-tabs {
+    border: none;
+    margin: 0;
+}
+.sidebar-container ul.nav-tabs.navs-4 li {
+    width: 25%;
+}
+.sidebar-container ul.nav-tabs.navs-3 li {
+    width: 33.3333%;
+}
+.sidebar-container ul.nav-tabs.navs-2 li {
+    width: 50%;
+}
+.sidebar-container ul.nav-tabs li {
+    border: none;
+    margin: 0;
+}
+.sidebar-container ul.nav-tabs li a {
+    border: none;
+    padding: 11px 5px;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #84b231;
+    text-align: center;
+}
+.sidebar-container ul.nav-tabs li.active a {
+    background: #9bc948 none repeat scroll 0 0;
+    color: #416f00;
+}
+.sidebar-container .nav-tabs > li.active > a:hover,
+.sidebar-container .nav-tabs > li.active > a:focus {
+    border: none;
+}
+.sidebar-container ul.sidebar-list {
+    margin: 0;
+    padding: 0;
+}
+.sidebar-container ul.sidebar-list li {
+    border-bottom: 1px solid #e7eaec;
+    padding: 15px 20px;
+    list-style: none;
+    font-size: 12px;
+}
+.sidebar-container .sidebar-message:nth-child(2n+2) {
+    background: #f9f9f9;
+}
+.sidebar-container ul.sidebar-list li a {
+    text-decoration: none;
+    color: inherit;
+}
+.sidebar-container .sidebar-content {
+    padding: 15px 20px ;
+    font-size: 12px;
+}
+.sidebar-container .sidebar-title {
+    background: #4e67c1 none repeat scroll 0 0;
+    border-bottom: 1px solid #e7eaec;
+    color: #fff;
+    padding: 5px 17px;
+}
+.sidebar-container .sidebar-title h3 {
+    margin-bottom: 3px;
+    padding-left: 2px;
+}
+.sidebar-container .tab-content h4 {
+    margin-bottom: 5px;
+}
+.sidebar-container .sidebar-message > a > .pull-left {
+    margin-right: 10px;
+}
+.sidebar-container .sidebar-message > a {
+    color: inherit;
+    font-size: 13px;
+}
+.sidebar-container .sidebar-message {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px 15px 50px;
+    position: relative;
+}
+.sidebar-container .sidebar-message button{
+    background: #abc83c none repeat scroll 0 0;
+    border: 0 none;
+    color: #fff;
+    font-size: 11px;
+    height: 17px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 16px;
+}
+.sidebar-container .sidebar-message .message-avatar {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+}
+.sidebar-container .setings-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e7eaec;
+}
+
+.sidebar-container .sidebar-message .item-icon{
+    bottom: 0;
+    font-size: 18px;
+    height: 29px;
+    left: 19px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+}

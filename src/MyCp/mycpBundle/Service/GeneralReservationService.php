@@ -6,12 +6,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 use MyCp\FrontEndBundle\Helpers\Time;
+use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\Notifications;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -241,30 +243,70 @@ class GeneralReservationService extends Controller
 
             }
 
+
             $reservation->setGenResTotalInSite($totalPrice);
             $reservation->setGenResSaved(1);
             $reservation->setGenResNights($nights);
             $reservation->setModified(new \DateTime());
             $reservation->setModifiedBy($this->getLoggedUserId());
+            $send_notification = false;
             if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
                 if ($non_available_total > 0 && $non_available_total == $details_total) {
+                    $status = generalReservation::STATUS_NOT_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
                 } else if ($available_total > 0 && $available_total == $details_total) {
+                    $status = generalReservation::STATUS_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-                } else if ($non_available_total > 0 && $available_total > 0)
+                    $send_notification = true;
+                } else if ($non_available_total > 0 && $available_total > 0){
+                    $status = generalReservation::STATUS_PARTIAL_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
-
+                }
                 else if ($cancelled_total > 0 && $cancelled_total != $details_total) {
+                    $status = generalReservation::STATUS_PARTIAL_CANCELLED;
                     $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
-                } else if ($outdated_total > 0 && $outdated_total == $details_total)
+                } else if ($outdated_total > 0 && $outdated_total == $details_total){
+                    $status = generalReservation::STATUS_OUTDATED;
                     $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+                }
+
             }
             if ($cancelled_total > 0 && $cancelled_total == $details_total) {
+                $status = generalReservation::STATUS_CANCELLED;
                 $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
             }
+
+            if ($send_notification){
+                if ($status == generalReservation::STATUS_AVAILABLE)
+                    $status_url = $this->generateUrl('frontend_mycasatrip_available');
+                else
+                    $status_url = $this->generateUrl('frontend_mycasatrip_pending');
+
+                $ownership = $reservation->getGenResOwnId();
+                $own_name = Utils::urlNormalize($ownership->getOwnName());
+                $own_url = $this->generateUrl('frontend_details_ownership', array('own_name' => $own_name));
+
+                $metadata = array(
+                    "msg" => $ownership->getOwnName(),
+                    "status" => generalReservation::getStatusName($status),
+                    "codigo" => $reservation->getCASId(),
+                    "date" => new \DateTime(),
+                    "url_status" => $status_url,
+                    "own_url" => $own_url
+                );
+                $param = array(
+                    'to' => [$reservation->getGenResUserId()->getUserEmail()."_mycp"],
+                    'pending' => 0,
+                    "metadata" => $metadata
+                );
+                $url = $this->container->getParameter('url.mean')."api/notifications/";
+                Notifications::sendNotifications($url, $param, $this->getRequest()->getSession()->get('access-token'));
+            }
+
             $this->em->persist($reservation);
             $this->em->flush();
             $this->logger->saveLog('Edit entity for ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
+
         }
 
         return $errors;

@@ -54,6 +54,7 @@
     '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
     '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
     '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+    '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
     '@FrontEndBundle/Resources/public/css/chat.css'
     filter='?uglifycss'
     %}
@@ -78,11 +79,15 @@
 
     {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
     {% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
-        <script src="http://node.dev:9203/socket.io/socket.io.js" type="text/javascript"></script>
+        <script src="{{ url_server_node }}socket.io/socket.io.js" type="text/javascript"></script>
         <script type="text/javascript">
             var access_token="{{app.session.get('access-token')}}";
         </script>
     {% endif %}
+    <script>
+        var start_date="{{"now"|date("d/m/Y") }}";
+        var end_date="{{ "+2 days" |date("d/m/Y") }}";
+    </script>
     {% javascripts
     '@FrontEndBundle/Resources/public/js/jquery.js'
     '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
@@ -102,6 +107,8 @@
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
     '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
     '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr-hds.js'
     filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
@@ -124,88 +131,88 @@
     {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
     {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
 
-    <script>
-        // socket.io specific code
-        var socket = io.connect('http://localhost:9203');
+    {#<script>#}
+        {#// socket.io specific code#}
+        {#var socket = io.connect('http://localhost:9203');#}
 
-        socket.on('connect', function () {
-            $('#small-chat').addClass('connected');
-        });
+        {#socket.on('connect', function () {#}
+            {#$('#small-chat').addClass('connected');#}
+        {#});#}
 
-        socket.on('announcement', function (msg) {
-            $('#lines').append($('<p>').append($('<em>').text(msg)));
-        });
+        {#socket.on('announcement', function (msg) {#}
+            {#$('#lines').append($('<p>').append($('<em>').text(msg)));#}
+        {#});#}
 
-        socket.on('nicknames', function (nicknames) {
-            $('#nicknames').empty().append($('<span>Online: </span>'));
-            for (var i in nicknames) {
-                $('#nicknames').append($('<b>').text(nicknames[i]));
-            }
-        });
+        {#socket.on('nicknames', function (nicknames) {#}
+            {#$('#nicknames').empty().append($('<span>Online: </span>'));#}
+            {#for (var i in nicknames) {#}
+                {#$('#nicknames').append($('<b>').text(nicknames[i]));#}
+            {#}#}
+        {#});#}
 
-        socket.on('user message', message);
-        socket.on('reconnect', function () {
-            $('#lines').remove();
-            message('System', 'Reconnected to the server');
-        });
+        {#socket.on('user message', message);#}
+        {#socket.on('reconnect', function () {#}
+            {#$('#lines').remove();#}
+            {#message('System', 'Reconnected to the server');#}
+        {#});#}
 
-        socket.on('reconnecting', function () {
-            $('#small-chat').addClass('reconnecting');
-            message('System', 'Attempting to re-connect to the server');
-        });
+        {#socket.on('reconnecting', function () {#}
+            {#$('#small-chat').addClass('reconnecting');#}
+            {#message('System', 'Attempting to re-connect to the server');#}
+        {#});#}
 
-        socket.on('error', function (e) {
-            $('#small-chat').addClass('error');
-            message('System', e ? e : 'A unknown error occurred');
-        });
+        {#socket.on('error', function (e) {#}
+            {#$('#small-chat').addClass('error');#}
+            {#message('System', e ? e : 'A unknown error occurred');#}
+        {#});#}
 
-        function message (from, msg) {
-            var msg_body = $('<div class="left"><div class="author-name"><small class="chat-date"></small></div><div class="chat-message active"> </div></div>');
-            msg_body.find(".chat-message").append(msg);
-            msg_body.find(".author-name").append(from);
+        {#function message (from, msg) {#}
+            {#var msg_body = $('<div class="left"><div class="author-name"><small class="chat-date"></small></div><div class="chat-message active"> </div></div>');#}
+            {#msg_body.find(".chat-message").append(msg);#}
+            {#msg_body.find(".author-name").append(from);#}
 
-            $(".small-chat-box .content").append(msg_body);
+            {#$(".small-chat-box .content").append(msg_body);#}
 
-        }
+        {#}#}
 
-        // dom manipulation
-        $(function () {
-//            $('#set-nickname').submit(function (ev) {
-//                socket.emit('nickname', $('#nick').val(), function (set) {
-//                    if (!set) {
-//                        clear();
-//                        return $('#chat').addClass('nickname-set');
-//                    }
-//                    $('#nickname-err').css('visibility', 'visible');
-//                });
-//                return false;
-//            });
+        {#// dom manipulation#}
+        {#$(function () {#}
+{#//            $('#set-nickname').submit(function (ev) {#}
+{#//                socket.emit('nickname', $('#nick').val(), function (set) {#}
+{#//                    if (!set) {#}
+{#//                        clear();#}
+{#//                        return $('#chat').addClass('nickname-set');#}
+{#//                    }#}
+{#//                    $('#nickname-err').css('visibility', 'visible');#}
+{#//                });#}
+{#//                return false;#}
+{#//            });#}
 
-            $('#chat-btn-send').click(function () {
-                message('me', $('#chat-text-input').val());
-                socket.emit('user message', $('#chat-text-input').val());
-                clear();
-                $('#lines').get(0).scrollTop = 10000000;
-                return false;
-            });
+            {#$('#chat-btn-send').click(function () {#}
+                {#message('me', $('#chat-text-input').val());#}
+                {#socket.emit('user message', $('#chat-text-input').val());#}
+                {#clear();#}
+                {#$('#lines').get(0).scrollTop = 10000000;#}
+                {#return false;#}
+            {#});#}
 
-            function clear () {
-                $('#message').val('').focus();
-            };
+            {#function clear () {#}
+                {#$('#message').val('').focus();#}
+            {#};#}
 
-            // Open close small chat
-            $('.open-small-chat').click(function () {
-                $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
-                $('.small-chat-box').toggleClass('active');
-            });
+            {#// Open close small chat#}
+            {#$('.open-small-chat').click(function () {#}
+                {#$(this).children().toggleClass('fa-comments').toggleClass('fa-remove');#}
+                {#$('.small-chat-box').toggleClass('active');#}
+            {#});#}
 
-            // Initialize slimscroll for small chat
-            $('.small-chat-box .content').slimScroll({
-                height: '234px',
-                railOpacity: 0.4
-            });
-        });
-    </script>
+            {#// Initialize slimscroll for small chat#}
+            {#$('.small-chat-box .content').slimScroll({#}
+                {#height: '234px',#}
+                {#railOpacity: 0.4#}
+            {#});#}
+        {#});#}
+    {#</script>#}
 
     {% block include_javascripts_and_css %}{% endblock %}
 
@@ -286,6 +293,9 @@
         </div>
         <div class="container">
             {{ include('FrontEndBundle:utils:navTopBody.html.twig') }}
+        </div>
+        <div class="" style="position: absolute; top: 14px; right: 18px;">
+            {{ render(controller('FrontEndBundle:Notification:countNotificationtItems')) }}
         </div>
         {% if is_home is not defined %}
             <div class="breadcrumb-top">
@@ -454,6 +464,18 @@
             //Inicializar el servidor de mensajeria
             MeanClient.init("{{ url_mean }}","{{ ws_mean }}");
         {% endif %}
+
+        // Open close right sidebar
+        $('.right-sidebar-toggle, .close-btn').click(function () {
+            $('#right-sidebar').toggleClass('sidebar-open');
+        });
+
+        // Initialize slimscroll for right sidebar
+        $('.sidebar-container').slimScroll({
+            height: '100%',
+            railOpacity: 0.4,
+            wheelStep: 10
+        });
     });
 
     function showMarqee(){

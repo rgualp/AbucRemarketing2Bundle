@@ -4,40 +4,40 @@
  **/
 var MeanClient = function () {
     var showNotification=function(data){
-        $('#count-notifications').html(data.total);
-         $('#count-notifications').text(data.total);
+        console.log(data);
+        $('.count-notifications').html(data.total);
          for(var i=0;i<data.data.length;i++)
-             $('#notifications-user').append(buildHtml(data.data[i]));
+             $('.notifications-body').append(buildHtml(data.data[i]));
     }
     var buildHtml = function(data){
-        var html='<li>'
-            +'<a href="mailbox.html">'
-            +'<div>'
-            +'<i class="fa fa-envelope fa-fw"></i> ' + data.metadata[0].msg
-            +'<span class="pull-right text-muted small"></span>'
-            +'</div>'
-            +'</a>'
-            +'<div style="right: 5px; float: right; margin: -20px;"><a>'
-            +'<i data-idnotice="'+data._id+'" class="fa fa-trash"></i>|<i class="fa fa-eye"></i></a>'
-            +'</div>'
-            +'</li>'
-            +'<li class="divider"></li>';
+        var html=$('<div class="sidebar-message clearfix"><div class="media-body"><div class="item-icon"><i class="fa fa-bullhorn"></i></div><a class="main-msg" href="#"><span></span></a><br><a href="#" class="status"><span>Estado: <b></b></span></a><br><small class="text-muted"></small></div><button><i class="fa fa-times"></i></button></div>');
+        html.find(".media-body a.main-msg span").html(data.metadata.msg);
+        html.find(".media-body a.main-msg").attr("href",data.metadata.own_url);
+        html.find(".media-body a.status span b").html(data.metadata.status);
+        html.find(".media-body a.status").attr("href",data.metadata.url_status);
+        // html.find(".media-body .text-muted").html(data.metadata.date.date);
+        html.find("a").attr("href",data.metadata.url);
+        html.find("button").attr("data-not-id", data._id);
+        html.find("button").attr("data-user-id", data.from._id).on('click', function (e) {
+            deleteNotification($(this).attr("data-user-id"),$(this).attr("data-not-id"),html);
+        });
+
         return html;
     }
     var showMsgNotification = function(notice){
-        hds.msg.show(1, notice.notice.metadata[0].msg);
-        $('#notifications-user').append(buildHtml(notice.notice));
-        var temp=$('#count-notifications').text();
+        hds.msg.show(1,"You Have a New Notifications","1 Notification");
+        $('.notifications-body').append(buildHtml(notice.notice));
+        var temp = $('#list-notification .count-notifications').text() * 1;
         temp++;
-        $('#count-notifications').text(temp);
-        $('#count-notifications').html(temp);
+        $('.count-notifications').empty().html(temp);
     }
-    var deleteNotification = function(){
-        $('#notifications-user').on('click','.fa-trash',function(){
-             var el=$(this);
-             var idnotice=el.data('idnotice');
-             alert(idnotice);
-        });
+    var deleteNotification = function(userId, notifId, elem){
+        Mean.deleteNotifications(userId, notifId, function (e) {
+            elem.remove();
+            var temp = $('#list-notification .count-notifications').text() * 1;
+            temp--;
+            $('.count-notifications').empty().html(temp);
+        })
     }
     return {
         //main function to initiate template pages
@@ -50,7 +50,6 @@ var MeanClient = function () {
             var event=Mean.getEvent();
             event.getNotifications.add(showNotification,this);
             event.sendNotification.add(showMsgNotification,this);
-            deleteNotification();
         }
     };
 }();

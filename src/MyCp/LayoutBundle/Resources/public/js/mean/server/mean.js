@@ -22,8 +22,8 @@ var Mean = function () {
     socket.on("disconnect", function () {
       console.log("Disconnected!");
     });
-    socket.on('notice.incoming', function (notice) {
-      event.sendNotification.dispatch(notice);
+    socket.on('notice.incoming', function (data) {
+      event.sendNotification.dispatch(data);
     });
   }
   /**
@@ -47,6 +47,25 @@ var Mean = function () {
       }
     });
   }
+  /**
+   * Para mandar a cargar las notificaciones
+   */
+  var deleteNotifications=function(user_id, notif_id, callback){
+    var data = {
+      id: notif_id
+    };
+    $.ajax({
+      type: 'delete',
+      url: url_server+'api/notifications/'+notif_id,
+      headers: {
+        "token":access_token
+      },
+      success: function (data) {
+        callback();
+      }
+    });
+  }
+
   /**
    * Crear los eventos
    */
@@ -86,6 +105,9 @@ var Mean = function () {
     },
     getEvent:function(){
       return event;
+    },
+    deleteNotifications: function(user_id, notif_id, callback){
+      deleteNotifications(user_id, notif_id, callback);
     }
   };
 }();
