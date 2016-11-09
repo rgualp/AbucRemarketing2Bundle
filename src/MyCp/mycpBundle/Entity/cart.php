@@ -90,6 +90,20 @@ class cart {
     private $service_fee;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="inmediate_booking", type="boolean", nullable=true)
+     */
+    private $inmediate_booking;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="check_available", type="boolean", nullable=true)
+     */
+    private $check_available;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -369,6 +383,46 @@ class cart {
     {
         $this->service_fee = $service_fee;
         return $this;
+    }
+    /**
+     * Set inmediate_booking
+     *
+     * @param boolean $inmediate_booking
+     * @return cart
+     */
+    public function setInmediateBooking($inmediate_booking) {
+        $this->inmediate_booking = $inmediate_booking;
+
+        return $this;
+    }
+
+    /**
+     * Get inmediate_booking
+     *
+     * @return boolean
+     */
+    public function getInmediateBooking() {
+        return $this->inmediate_booking;
+    }
+    /**
+     * Set check_available
+     *
+     * @param boolean $check_available
+     * @return cart
+     */
+    public function setCheckAvailable($check_available) {
+        $this->check_available = $check_available;
+
+        return $this;
+    }
+
+    /**
+     * Get check_available
+     *
+     * @return boolean
+     */
+    public function getCheckAvailable() {
+        return $this->check_available;
     }
 
 }
