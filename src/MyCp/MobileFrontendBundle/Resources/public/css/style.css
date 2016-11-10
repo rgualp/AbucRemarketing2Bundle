@@ -1033,6 +1033,13 @@ footer {
     width: 310px !important;
 }
 
+#whish-list .dropdown-menu, .tt-dropdown-menu {
+    left: auto;
+    min-width: 80px;
+    right: -60px;
+    width: 310px !important;
+}
+
 #top-menu .dropdown-menu, .tt-dropdown-menu {
     left: auto;
     right: -152px;
