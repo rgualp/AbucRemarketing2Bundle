@@ -176,6 +176,7 @@ class cartRepository extends EntityRepository {
 
             if ($count == 0) {
                 $cartItem->setCartUser($user);
+                $cartItem->setCartSessionId(null);
                 $em->persist($cartItem);
             }
             else
