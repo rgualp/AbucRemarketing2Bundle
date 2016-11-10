@@ -3283,6 +3283,12 @@
             <target>Glückwünsch! Sie haben reserviert.</target>
         </trans-unit>
 
+        <trans-unit id="11966">
+                            <source>VOUCHER_PREHEADER_NEWMSG</source>
+                            <target>herzlichen Glückwünsch! Ein Schritt mehr und Sie werden Ihre Reservation abschliessen. Bevor die Anzahlung, müssen Sie anmelden.</target>
+                        </trans-unit>
+
+
         <trans-unit id="967">
             <source>NEW_OFFER_TOURIST_SUBJECT</source>
             <target>Schauen Sie diese Zimmer an!</target>

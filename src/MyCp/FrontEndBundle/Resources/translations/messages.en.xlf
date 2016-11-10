@@ -3868,6 +3868,11 @@
             <source>VOUCHER_PREHEADER</source>
             <target>Congratulations! You have booked!</target>
         </trans-unit>
+            <trans-unit id="11966">
+                    <source>VOUCHER_PREHEADER_NEWMSG</source>
+                    <target>Congratulations! Just with a step forward, your reservation will be completed. Before the payment, please log in.</target>
+                </trans-unit>
+
 
         <trans-unit id="967">
             <source>NEW_OFFER_TOURIST_SUBJECT</source>
