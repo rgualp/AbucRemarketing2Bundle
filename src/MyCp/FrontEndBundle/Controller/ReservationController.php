@@ -46,13 +46,13 @@ class ReservationController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsAfterLogin($user_ids);
         $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
-
+        $insert=1;
         //Validar que no se haga una reserva que ya fuese realizada
         foreach ($ownerShip as $item){
             $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
             $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
 
-            $insert=1;
+
             foreach ($cartItems as $cart) {
                 $cartDateFrom = $cart->getCartDateFrom()->getTimestamp();
                 $cartDateTo = $cart->getCartDateTo()->getTimestamp();
