@@ -4022,6 +4022,26 @@
                     <source>twitter</source>
                     <target>twitter</target>
                 </trans-unit>
+                <trans-unit id="1010">
+                    <source>STATEMENT</source>
+                    <target>Statement</target>
+                </trans-unit>
+            <trans-unit id="1011">
+                 <source>NOTIFICATIONS</source>
+                 <target>Notifications</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                 <source>YOU HAVE</source>
+                 <target>You have</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                 <source>YOU_HAVE_AN_NEW_NOTIFICATION</source>
+                 <target>You have a new notification</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                 <source>NOTIFICATION</source>
+                 <target>Notification</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

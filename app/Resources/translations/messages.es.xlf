@@ -4006,6 +4006,26 @@
                 <source>twitter</source>
                 <target>twitter</target>
             </trans-unit>
+            <trans-unit id="1010">
+                 <source>STATEMENT</source>
+                 <target>Estado</target>
+             </trans-unit>
+            <trans-unit id="1011">
+                 <source>NOTIFICATIONS</source>
+                 <target>Notificaciones</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                 <source>YOU HAVE</source>
+                 <target>Tu tienes</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                 <source>YOU_HAVE_AN_NEW_NOTIFICATION</source>
+                 <target>Tienes una nueva notificación</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                 <source>NOTIFICATION</source>
+                 <target>Notificación</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

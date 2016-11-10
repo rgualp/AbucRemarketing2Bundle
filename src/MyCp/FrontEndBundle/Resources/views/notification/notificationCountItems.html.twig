@@ -2,6 +2,7 @@
     <span style="height: 19px; margin-top: 3px; position: absolute; right: 12px; padding: 3px; min-width: 20px; text-align: center; font-size: 11px;" class="label count-notifications" > 0 </span>
     <i class="fa fa-bell-o" style="font-size: 20px"></i>
 </a>
+<div id="trans-toaster-msg" class="hide"><span>{{ 'YOU_HAVE_AN_NEW_NOTIFICATION' | trans }}</span><small>1 {{ 'NOTIFICATION'|trans }}</small></div>
 <div id="right-sidebar">
     <a class="close-btn" style="cursor: pointer; position: absolute; right: 0px; z-index: 9999; border-radius: 50%; background: transparent none repeat scroll 0% 0%; color: rgb(49, 80, 118); text-align: center; line-height: 1; height: 19px; width: 19px; border: 2px solid rgb(49, 80, 118); margin: 13px 4px;">
         <i class="fa fa-times"></i>
@@ -10,7 +11,7 @@
         <ul class="nav nav-tabs navs-3">
             <li class="active">
                 <a data-toggle="tab" href="#tab-1">
-                    <i class="fa fa-bell-o"></i> Notifications
+                    <i class="fa fa-bell-o"></i> {{ 'NOTIFICATIONS'|trans }}
                 </a>
             </li>
             {#<li class="">#}
@@ -22,7 +23,7 @@
         <div class="tab-content">
             <div id="tab-1" class="tab-pane active">
                 <div class="sidebar-title">
-                    <small><i class="fa fa-tim"></i> You have <span class="count-notifications">0</span> notifications.</small>
+                    <small><i class="fa fa-tim"></i> {{ 'YOU HAVE'|trans }} <span class="count-notifications">0</span> {{ 'NOTIFICATIONS'|trans }}.</small>
                 </div>
                 <div class="notifications-body"></div>
             </div>

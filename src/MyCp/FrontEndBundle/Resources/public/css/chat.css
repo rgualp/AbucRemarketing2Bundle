@@ -201,7 +201,7 @@
 }
 .sidebar-container .sidebar-message {
     border-bottom: 1px solid #ccc;
-    padding: 15px 20px 15px 50px;
+    padding: 10px;
     position: relative;
 }
 .sidebar-container .sidebar-message button{
@@ -234,4 +234,17 @@
     margin: auto;
     position: absolute;
     top: 0;
+}
+.sidebar-container .sidebar-message .icon-rating{
+    display: inline-block;
+    width: 20%;
+}
+.sidebar-container .sidebar-message .icon-rating .not-rating{
+    color: #e5ac00;
+    margin-top: 6px;
+    font-size: 10px;
+}
+.sidebar-container .sidebar-message .media-body-content{
+    display: inline-block;
+    width: 80%;
 }

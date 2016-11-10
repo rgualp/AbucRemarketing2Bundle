@@ -285,14 +285,57 @@ class GeneralReservationService extends Controller
                 $ownership = $reservation->getGenResOwnId();
                 $own_name = Utils::urlNormalize($ownership->getOwnName());
                 $own_url = $this->generateUrl('frontend_details_ownership', array('own_name' => $own_name));
+                $rating = $ownership->getOwnRating();
+                $photo = $ownership->getPhotos();
+                if (count($photo) > 0){
+                    $file_name = $photo[0]->getOwnPhoPhoto()->getPhoName();
+                }else{
+                    $file_name = "no_photo.png";
+                }
+                $url_images = $this->container->get('templating.helper.assets')->getUrl("uploads/ownershipImages/").$file_name;
+
+                if ($reservation->getGenResUserId()->getUserLanguage()){
+                    $lang = $reservation->getGenResUserId()->getUserLanguage()->getLangCode();
+                }else{
+                    $lang = "en";
+                }
+
+
+                $from = $this->get('translator')->trans(
+                    'FROM_DATE',
+                    array(),
+                    'messages',
+                    $lang
+                );
+                $to = $this->get('translator')->trans(
+                    'TO_DATE',
+                    array(),
+                    'messages',
+                    $lang
+                );
+                $status = $this->get('translator')->trans(
+                    'AVAILABLE',
+                    array(),
+                    'messages',
+                    $lang
+                );
+                $title_status = $this->get('translator')->trans(
+                    'STATEMENT',
+                    array(),
+                    'messages',
+                    $lang
+                );
+
 
                 $metadata = array(
                     "msg" => $ownership->getOwnName(),
-                    "status" => generalReservation::getStatusName($status),
+                    "status" => $title_status.': <b>'.$status.'</b>',//generalReservation::getStatusName($status),
                     "codigo" => $reservation->getCASId(),
-                    "date" => new \DateTime(),
+                    "from_to_date" => $from.": ".date_format($reservation->getGenResFromDate(),"d-m-Y")." ".$to.": ".date_format($reservation->getGenResToDate(),"d-m-Y"),
                     "url_status" => $status_url,
-                    "own_url" => $own_url
+                    "own_url" => $own_url,
+                    "rating" => $rating,
+                    "url_images" => $url_images
                 );
                 $param = array(
                     'to' => [$reservation->getGenResUserId()->getUserEmail()."_mycp"],
