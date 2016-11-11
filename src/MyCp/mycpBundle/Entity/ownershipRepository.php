@@ -41,7 +41,7 @@ class ownershipRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container, $userService) {
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
@@ -263,7 +263,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
+            $em->getRepository('mycpBundle:userCasa')->createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService);
         }
 
         //save owner photo
@@ -286,7 +286,7 @@ class ownershipRepository extends EntityRepository {
         return $ownership;
     }
 
-    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container, $userService = null) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
@@ -534,7 +534,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
+            $em->getRepository('mycpBundle:userCasa')->createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService);
         }
 
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled

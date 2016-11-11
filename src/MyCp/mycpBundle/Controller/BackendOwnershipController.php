@@ -725,6 +725,7 @@ class BackendOwnershipController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get("mycp.translator.service");
+        $userService = $this->get('mycp.user.service');
         $count_rooms = 1;
         $post = $request->request->getIterator()->getArrayCopy();
         $errors = array();
@@ -1021,7 +1022,7 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog($db_ownership->getLogDescription(), BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
                         }
 
-                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $translator,$this->container );
+                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $translator,$this->container, $userService );
                         $current_ownership_id = $ownership->getOwnId();
 
                         //Enviar correo a los propietarios
@@ -1035,20 +1036,20 @@ class BackendOwnershipController extends Controller {
                                 $em->persist($ownership);
                                 $em->flush();
 
-                                UserMails::sendOwnersMail($this,
+                                /*UserMails::sendOwnersMail($this,
                                     $post['ownership_email_1'],
                                     $post['ownership_email_2'],
                                     $post['ownership_homeowner_1'],
                                     $post['ownership_homeowner_2'],
                                     $post['ownership_name'],
-                                    $ownership->getOwnMcpCode());
+                                    $ownership->getOwnMcpCode());*/
                             }
                         }
 
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido actualizada satisfactoriamente.';
                     } else {
 
-                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this,$translator, $this->container);
+                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this,$translator, $this->container, $userService);
                         $current_ownership_id = $ownership->getOwnId();
 
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
@@ -1056,9 +1057,9 @@ class BackendOwnershipController extends Controller {
                         $service_log->saveLog($ownership->getLogDescription(), BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP);
 
                         //Enviar correo a los propietarios
-                        if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
+                        /*if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
                             UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $ownership->getOwnMcpCode());
-
+                        */
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
