@@ -1058,6 +1058,7 @@ class BackendOwnershipController extends Controller {
                         //Enviar correo a los propietarios
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
                             UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $ownership->getOwnMcpCode());
+
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 

@@ -184,6 +184,24 @@ class Email
         );
     }
 
+    public function sendOwnersBackendRegisterMail($email_to, $owners_name, $own_name, $own_mycp_code)
+    {
+        $templating = $this->container->get('templating');
+
+        if(!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $content = $templating->render('FrontEndBundle:mails:ownersMailBody.html.twig', array(
+            'owners_name' => $owners_name,
+            'own_name' => $own_name,
+            'own_mycp_code' => $own_mycp_code
+        ));
+
+        $this->sendEmail(
+            "Bienvenido a MyCasaParticular", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+        );
+    }
+
     public function sendCreateUserCasaMail($email_to, $userName, $userFullName, $secret_token, $own_mycp_code, $own_name)
     {
         $templating = $this->container->get('templating');
