@@ -51,12 +51,12 @@ var Mean = function () {
    * Para mandar a cargar las notificaciones
    */
   var deleteNotifications=function(user_id, notif_id, callback){
-    var data = {
-      id: notif_id
-    };
+    var ids = new Array();
+      ids.push(notif_id);
     $.ajax({
       type: 'delete',
-      url: url_server+'api/notifications/'+notif_id,
+      url: url_server+'api/notifications/',
+      data:{ids:ids},
       headers: {
         "token":access_token
       },
