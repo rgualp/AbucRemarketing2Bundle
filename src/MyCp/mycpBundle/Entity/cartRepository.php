@@ -176,6 +176,7 @@ class cartRepository extends EntityRepository {
 
             if ($count == 0) {
                 $cartItem->setCartUser($user);
+                $cartItem->setCartSessionId(null);
                 $em->persist($cartItem);
             }
             else
@@ -249,6 +250,36 @@ class cartRepository extends EntityRepository {
             // disponibles Mayores que hoy
             $date = \date('Y-m-j');
             $where .= "AND c.cart_date_from >= '$date'";
+
+            $orderBy = " ORDER BY o.own_id ASC";
+
+            if ($where != "")
+                return $em->createQuery($query_string . $where . $orderBy)->getResult();
+            else
+                return null;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+    public function getCartItemsAfterLoginFacebook($user_ids) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c FROM mycpBundle:cart c JOIN c.cart_room r JOIN r.room_ownership o ";
+            $where = "";
+            $flag=true;
+            if ($user_ids["user_id"] != null)
+                $where.= " WHERE c.cart_user = " . $user_ids['user_id'];
+            else if ($user_ids["session_id"] != null)
+                $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
+
+            $where.= " AND c.inmediate_booking = " . $flag; //reservas inmediatas
+
+            // disponibles Mayores que hoy
+            $date = \date('Y-m-j');
+            $where .= "AND c.cart_date_from >= '$date'";
+
+            //Las creadas hoy
+            $where .= "AND c.cart_created_date = '$date'";
 
             $orderBy = " ORDER BY o.own_id ASC";
 
