@@ -107,7 +107,7 @@ class cart {
      * Constructor
      */
     public function __construct() {
-        $this->cart_created_date = new \DateTime();
+        $this->cart_created_date = new \DateTime(date('Y-m-d'));
     }
 
     /**
