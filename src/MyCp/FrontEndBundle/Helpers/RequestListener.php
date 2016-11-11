@@ -46,6 +46,9 @@ class RequestListener {
                 if($attr['_route']=='mycp_main')
                     $this->container->get('session')->set('browser_lang',null);
 
+                if($attr['_route']=='facebook_login')
+                    $this->container->get('session')->set('browser_lang',null);
+
                 if(isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
                     $lang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2);
                     $lang = strtolower($lang);

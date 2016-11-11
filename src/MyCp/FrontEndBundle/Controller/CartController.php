@@ -58,6 +58,7 @@ class CartController extends Controller {
     }
 
     public function addToCartAction($id_ownership, Request $request) {
+
         $check_dispo=$request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         if (!$request->get('data_reservation'))
@@ -114,6 +115,7 @@ class CartController extends Controller {
         $showErrorItem='';
         $arrayIdCart=array();
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
+
             $insert = 1;
             foreach ($cartItems as $item) {
                 $cartDateFrom = $item->getCartDateFrom()->getTimestamp();
@@ -125,7 +127,7 @@ class CartController extends Controller {
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
                         (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) ||
                         ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
-                        $item->getCartRoom() == $array_ids_rooms[$a]
+                        $item->getCartRoom() == $array_ids_rooms[$a] && $check_dispo!=2
                 ) {
                     $insert = 0;
                     $showError = true;
@@ -142,7 +144,7 @@ class CartController extends Controller {
                         $ownDateTo = $date->getTimestamp();
                         if ((($ownDateFrom <= $start_timestamp && $ownDateTo >= $start_timestamp) ||
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
-                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]) {
+                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a] ) {
                             $insert = 0;
                             $showError = true;
                             $showErrorOwnExist = true;
@@ -194,7 +196,7 @@ class CartController extends Controller {
                     if (count($kidsAge))
                         $cart->setChildrenAges($kidsAge);
 
-                    $cart->setCartCreatedDate(new \DateTime());
+                    $cart->setCartCreatedDate(new \DateTime(date('Y-m-d')));
                     if ($user_ids["user_id"] != null) {
                         $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
                         $cart->setCartUser($user);
@@ -319,7 +321,7 @@ class CartController extends Controller {
                 $em->persist($cartItemNext);
             }
 
-            $cartItem->setCartCreatedDate(new \DateTime());
+            $cartItem->setCartCreatedDate(new \DateTime(date('Y-m-d')));
             $em->persist($cartItem);
             $em->flush();
             $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
