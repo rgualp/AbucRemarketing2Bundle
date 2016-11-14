@@ -134,6 +134,22 @@
                 {#</ul>#}
             {#</div>#}
             <div class="col-xs-12 border-top-gray">
+                <a data-toggle="collapse" data-target="#category" href="#category">
+                    <span class="f-s-18 f-f-Arial color-454242 f-w-bold text-xs-center col-xs-12">{{"CATEGORY" | trans}}</span>
+                </a>
+                <ul id="category" class="list-inline collapse">
+                    {%for category in owns_categories%}
+                        <li>
+                            <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
+                                <input data-icon="{{category[0] | trans}}" class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>
+                                <div class="control__indicator border-gray"></div>
+                                {{category[0] | trans}}
+                            </label>
+                        </li>
+                    {%endfor%}
+                </ul>
+            </div>
+            <div class="col-xs-12 border-top-gray">
                 <a data-toggle="collapse" data-target="#rooms_type" href="#rooms_type">
                     <span class="f-s-18 f-f-Arial color-454242 f-w-bold text-xs-center col-xs-12">{{"SELECT_ROOM_TYPE_OPTION" | trans}}</span>
                 </a>
@@ -383,21 +399,7 @@
                         </label>
                 {%endfor%}
         </div>
-        <div class="col-xs-4 p-a-0">
-            <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
-                <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking" name="own_inmediate_booking"  {%if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %} data-aux-text="{{"quick_bookinhg" | trans}}" data-aux-text="{{"quick_bookinhg" | trans}}" />
-                <div class="control__indicator border-gray"></div>
-                {{ 'quick_bookinhg'|trans }}
-            </label>
         </div>
-        </div>
-    </div>
-    <div class="col-xs-12 p-a-0">
-        <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
-                    <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2" name="own_inmediate_booking2" {%if inmediate is defined and inmediate == "1" %} checked="checked" {%endif%} />
-                    <div class="control__indicator border-gray"></div>
-                    {{ "IMMEDIATE_BOOKING" | trans}}
-        </label>
     </div>
     <div class="col-xs-12">
         <div class="row">

@@ -8,7 +8,7 @@
         {% set today_date = "now" | date("d-m-Y") %}
         {% set leavingDate = "+2 days" |date("d-m-Y") %}
         <div class="col-sm-1 text-center p-a-0">
-            <a href="{{ path('frontend_search_ownership',{'text':"la-habana", 'arrival': today_date,'departure':leavingDate,'guests':'1','rooms':'1','inmediate':'1'})}}" class="btn btn-warning">{{ 'SEE_NOW' | trans }}</a>
+            <a href="{{ path('frontend_search_ownership',{'text':"null", 'arrival': today_date,'departure':leavingDate,'guests':'1','rooms':'1','inmediate':'1'})}}" class="btn btn-warning">{{ 'SEE_NOW' | trans }}</a>
         </div>
         <div class="col-sm-1 text-right pull-right p-a-0"><a style="color: rgb(255, 255, 255); font-size: 21px;" id="marquee-close" href="#"><i class="ion-android-cancel"></i></a></div>
     </div>
