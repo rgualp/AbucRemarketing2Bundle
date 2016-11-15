@@ -156,7 +156,6 @@ class BackendUnavailabilityDetailsController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
                 } else {
                     $unavailabilityDetail = array();
-                    //$firtDateInMonth = date('Y-m-01', $date_from->getTimestamp());
                     $unavailabilityDetail["start"] = date('Y-m-d',$date_from->getTimestamp());
                     $unavailabilityDetail["end"] = date('Y-m-d', $date_to->getTimestamp());
                     $unavailabilityDetail["reason"] = $post_form['ud_reason'];
@@ -177,14 +176,6 @@ class BackendUnavailabilityDetailsController extends Controller {
                         //La fecha de inicio de la reserva es menor que la de inicio del rango y la fecha fin de la reserva esta en el rango
                         if($reservation["own_res_reservation_from_date"] < $startDate && $reservation["own_res_reservation_to_date"] >= $startDate && $reservation["own_res_reservation_to_date"] < $endDate)
                         {
-
-                            var_dump("Entre en 1 <br/>");
-                            var_dump("Fecha inicio: ".date('Y-m-d',$startDate->getTimestamp())."<br/>");
-                            var_dump("Fecha fin: ".date('Y-m-d',$endDate->getTimestamp())."<br/>");
-                            var_dump("Fecha inicio reserva: ".date('Y-m-d',$reservation["own_res_reservation_from_date"]->getTimestamp())."<br/>");
-                            var_dump("Fecha fin reserva: ".date('Y-m-d',$reservation["own_res_reservation_to_date"]->getTimestamp())."<br/>");
-
-
                             if($reservation["own_res_reservation_to_date"] != $endDate)
                                 $intervals[] = array("start" => $reservation["own_res_reservation_to_date"] , "end" => $endDate);
                             $startDate = $endDate;
@@ -192,14 +183,6 @@ class BackendUnavailabilityDetailsController extends Controller {
                         //si la reserva esta dentro del rango
                         elseif($reservation["own_res_reservation_from_date"] >= $startDate && $reservation["own_res_reservation_to_date"] <= $endDate)
                         {
-
-                            var_dump("Entre en 2 <br/>");
-                            var_dump("Fecha inicio: ".date('Y-m-d',$startDate->getTimestamp())."<br/>");
-                            var_dump("Fecha fin: ".date('Y-m-d',$endDate->getTimestamp())."<br/>");
-                            var_dump("Fecha inicio reserva: ".date('Y-m-d',$reservation["own_res_reservation_from_date"]->getTimestamp())."<br/>");
-                            var_dump("Fecha fin reserva: ".date('Y-m-d',$reservation["own_res_reservation_to_date"]->getTimestamp())."<br/>");
-
-
                             $dateBefore = date_modify($reservation["own_res_reservation_from_date"], "-1 day");
 
                             if($startDate != $dateBefore)
@@ -212,13 +195,6 @@ class BackendUnavailabilityDetailsController extends Controller {
                         //La fecha de inicio de la reserva esta en el rango pero la fecha fin de la reserva es mayor que la fecha fin del rango
                         elseif($reservation["own_res_reservation_to_date"] > $endDate && $reservation["own_res_reservation_from_date"] >= $startDate && $reservation["own_res_reservation_from_date"] <= $endDate)
                         {
-
-                            var_dump("Entre en 3 <br/>");
-                            var_dump("Fecha inicio: ".date('Y-m-d',$startDate->getTimestamp())."<br/>");
-                            var_dump("Fecha fin: ".date('Y-m-d',$endDate->getTimestamp())."<br/>");
-                            var_dump("Fecha inicio reserva: ".date('Y-m-d',$reservation["own_res_reservation_from_date"]->getTimestamp())."<br/>");
-                            var_dump("Fecha fin reserva: ".date('Y-m-d',$reservation["own_res_reservation_to_date"]->getTimestamp())."<br/>");
-
                             $dateBefore = date_modify($reservation["own_res_reservation_from_date"], "-1 day");
 
                             if($startDate != $dateBefore)
