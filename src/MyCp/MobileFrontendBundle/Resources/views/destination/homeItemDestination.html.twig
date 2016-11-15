@@ -1,6 +1,6 @@
 
 <div class="col-xs-12">
-    <div class="detination-thumbnail" style="background-image: url('{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}');">
+    <div class="detination-thumbnail" style="background-image: url('{{ asset('uploads/destinationImages/' ~ photo) | imagine_filter('my_thumb_destination') }}');">
         <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}"></a>
     </div>
     <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">

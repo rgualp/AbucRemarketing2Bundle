@@ -1,6 +1,9 @@
 
+{#{% set url_image = asset("uploads/ownershipImages/" ~ photo) %}#}
+{#<img class="lazyload" alt="{{ title }}" data-src="{{ url_image | imagine_filter('my_thumb') }}" src="{{ url_image | imagine_filter('my_thumb') }}" />#}
+
 <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-    <div style="background-image: url('{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") }}')"
+    <div style="background-image: url('{{ (photo != "") ? asset("uploads/ownershipImages/" ~ photo) | imagine_filter('my_thumb') : asset("uploads/ownershipImages/no_photo.png") | imagine_filter('my_thumb') }}')"
          class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
 
          {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %}

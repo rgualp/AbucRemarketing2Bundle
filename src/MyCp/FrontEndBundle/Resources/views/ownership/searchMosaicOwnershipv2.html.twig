@@ -138,13 +138,16 @@
                         {% endif %}
                         <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
+                            {#{% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}#}
+                            {#<img class="lazyload" alt="{{ ownership.own_name }}" data-src="{{ url_image | imagine_filter('my_thumb') }}" src="{{ url_image | imagine_filter('my_thumb') }}" />#}
+
                         </a>
 
                         <div class="thumbnail-over col-sm-12" style="text-align: right;">
                             <div class="efect-blur" style="
                                     background-blend-mode: lighten;
                                     background-color: rgba(255, 255, 255, 0.8);
-                                    background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) }}');
+                                    background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) | imagine_filter('my_thumb') }}');
                                     background-position: center top;
                                     background-repeat: no-repeat;
                                     background-size: 100% auto;

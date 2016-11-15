@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             //new Lsw\MemcacheBundle\LswMemcacheBundle(),
             //new BeSimple\SoapBundle\BeSimpleSoapBundle()
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
             new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(),
             new Abuc\RemarketingBundle\AbucRemarketingBundle(),
 			new hds\SeoBundle\SeoBundle(),
