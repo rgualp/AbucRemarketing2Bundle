@@ -197,7 +197,7 @@
             {{ include('FrontEndBundle:utils:navTopBody.html.twig') }}
         </div>
         {% if is_home is not defined %}
-            <div class="breadcrumb-top">
+            <div class="{% block class_breadcrumbs %} breadcrumb-top {% endblock %}">
                 <div class="container">
                     {% block breadcrumbs %}
                         <a href="#">&nbsp;</a>
