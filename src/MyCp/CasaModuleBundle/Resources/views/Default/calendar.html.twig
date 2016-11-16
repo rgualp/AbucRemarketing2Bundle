@@ -185,6 +185,7 @@
                     if(data['success']==true){
                         toastr.success('Se guardó la información correctamente');
                         var id= $('div.tab-pane.active').data('id');
+                        $('#calendar'+ id).fullCalendar('removeEvents');
                         $('#calendar'+ id).fullCalendar('refetchEvents');
                         //window.location = data["refreshUrl"];
                         $("#loading").addClass("hide");
