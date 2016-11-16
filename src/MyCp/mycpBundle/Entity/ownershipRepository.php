@@ -883,20 +883,31 @@ class ownershipRepository extends EntityRepository {
         $where .= ")";
 
         $or = "";
-        if( $inmediate != null || (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']) ){
-            $or = " AND (";
 
-            if($inmediate != null)
-                $or .= "o.own_inmediate_booking_2 = :inmediate";
+        if (is_array($filters)){
+            if( $inmediate != null || ( array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']) ){
+                $or = " AND (";
 
-            if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']){
-                $ors = ($inmediate != null) ? " OR " : "";
-                $or .= $ors."o.own_inmediate_booking = 1";
+                if($inmediate != null)
+                    $or .= "o.own_inmediate_booking_2 = :inmediate";
+
+                if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']){
+                    $ors = ($inmediate != null) ? " OR " : "";
+                    $or .= $ors."o.own_inmediate_booking = 1";
+                }
+
+
+                $or .= ")";
             }
-
-
-            $or .= ")";
+        }else{
+            if($inmediate != null){
+                $or = " AND (";
+                $or .= "o.own_inmediate_booking_2 = :inmediate";
+                $or .= ")";
+            }
         }
+
+
 
         if($where != '' ){
             $query_string .= $where." ".$or;
