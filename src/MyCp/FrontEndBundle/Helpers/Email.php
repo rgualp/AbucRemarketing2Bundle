@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Helpers;
 
+use MyCp\mycpBundle\Helpers\FileIO;
 use Swift_Message;
 use MyCp\mycpBundle\Entity\generalReservation;
 
@@ -184,6 +185,24 @@ class Email
         );
     }
 
+    public function sendOwnersBackendRegisterMail($email_to, $owners_name, $own_name, $own_mycp_code)
+    {
+        $templating = $this->container->get('templating');
+
+        if(!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $content = $templating->render('FrontEndBundle:mails:ownersMailBody.html.twig', array(
+            'owners_name' => $owners_name,
+            'own_name' => $own_name,
+            'own_mycp_code' => $own_mycp_code
+        ));
+
+        $this->sendEmail(
+            "Bienvenido a MyCasaParticular", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+        );
+    }
+
     public function sendCreateUserCasaMail($email_to, $userName, $userFullName, $secret_token, $own_mycp_code, $own_name)
     {
         $templating = $this->container->get('templating');
@@ -196,7 +215,34 @@ class Email
             'user_full_name' => $userFullName,
             'own_name' => $own_name,
             'own_mycp_code' => $own_mycp_code,
-            'secret_token' => $secret_token
+            'secret_token' => $secret_token,
+            'user_locale' => "es"
+        ));
+
+        $this->sendEmail(
+            "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+        );
+    }
+
+    public function sendCreateUserCasaMailBackend($email_to, $user, $password, $accommodation, $container)
+    {
+        $templating = $this->container->get('templating');
+
+        if(!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $manualPath = $container->getParameter("configuration.dir.additionalsFiles");
+        $manualPath .= "manualCasa.pdf";
+
+        $existsManual = file_exists($manualPath);
+
+        $content = $templating->render('FrontEndBundle:mails:createUserCasaMailBodyBackend.html.twig', array(
+            'accommodation' => $accommodation,
+            'user' => $user,
+            'password' => $password,
+            'manualPath' => $manualPath,
+            'existsManual' => $existsManual,
+            'user_locale' => "es"
         ));
 
         $this->sendEmail(
@@ -215,7 +261,8 @@ class Email
             'user_full_name' => $userFullName,
             'own_name' => $own_name,
             'own_mycp_code' => $own_mycp_code,
-            'secret_token' => $secret_token
+            'secret_token' => $secret_token,
+            'user_locale' => "es"
         ));
 
         $this->sendEmail(

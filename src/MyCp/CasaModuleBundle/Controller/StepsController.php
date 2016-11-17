@@ -981,15 +981,23 @@ class StepsController extends Controller
         $start=\DateTime::createFromFormat('d/m/Y',$request->get('date_from'));
         $end=\DateTime::createFromFormat('d/m/Y',$request->get('date_to'));
         $status=$request->get('status');
-        $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomCasaModule($room,$start->format('Y-m-d'), $end->format('Y-m-d'));
+        /*$reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomCasaModule($room,$start->format('Y-m-d'), $end->format('Y-m-d'));
          if(count($reserved)>0){
             return new JsonResponse([
                 'success' => false,
                 'message'=>'No se puede modificar en ese período pues tiene reservaciones pagadas',
                 "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")
             ]);
+        }*/
+        $udetailsService = $this->get('mycp.udetails.service');
+
+        if($status==0)
+            $udetailsService->addUDetail($room, $start, $end, 'Por el propietario');
+        else //remove uDetails
+        {
+            $udetailsService->removeUDetail($room, $start, $end, 'Por el propietario');
         }
-        $unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
+        /*$unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
         foreach($unavailability as $item){
           if($item->getUdFromDate()>=$start&&$item->getUdToDate()<=$end){
               $em->remove($item);
@@ -1013,7 +1021,8 @@ class StepsController extends Controller
             $em->persist($nu);
         }
 
-        $em->flush();
+        $em->flush();*/
+
         return new JsonResponse([
             'success' => true,
             "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")

@@ -1030,6 +1030,7 @@ class OwnershipController extends Controller {
                 $search_departure_date = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
 
             $text = $request->request->get('text');
+
             $text = ($text == "") ? "null" : $text;
 
             $session->set('search_text', $text);
@@ -1064,7 +1065,9 @@ class OwnershipController extends Controller {
 //             $orderBy.=', o.own_ranking DESC';
 //
 //            }
-            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'),$session->get('search_order'), $room_filter, $check_filters);
+            $inmediate = ($request->request->get('own_inmediate_booking2') == 'true' || $request->request->get('own_inmediate_booking2') == '1') ? 1 : null;
+
+            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'),$session->get('search_order'), $room_filter, $check_filters, $inmediate);
 
             $own_ids = "0";
             foreach ($results_list as $own)
