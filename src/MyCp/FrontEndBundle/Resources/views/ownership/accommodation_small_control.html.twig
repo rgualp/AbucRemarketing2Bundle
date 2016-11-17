@@ -41,7 +41,7 @@
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
         {% set url_image = asset("uploads/ownershipImages/" ~ photo) %}
-        <img class="lazyload" alt="{{ name }}" data-src="{{ url_image | imagine_filter('my_thumb') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" />
+        <img class="lazyload" alt="{{ name }}" data-src="{{ url_image | apply_filter('mycp_thumb_front') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" />
     </a>
 </div>
 

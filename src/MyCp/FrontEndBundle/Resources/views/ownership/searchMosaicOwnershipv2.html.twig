@@ -147,7 +147,7 @@
                             <div class="efect-blur" style="
                                     background-blend-mode: lighten;
                                     background-color: rgba(255, 255, 255, 0.8);
-                                    background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) | imagine_filter('my_thumb') }}');
+                                    background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) | apply_filter('mycp_thumb_search') }}');
                                     background-position: center top;
                                     background-repeat: no-repeat;
                                     background-size: 100% auto;

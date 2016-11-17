@@ -3,7 +3,7 @@
 {#<img class="lazyload" alt="{{ title }}" data-src="{{ url_image | imagine_filter('my_thumb') }}" src="{{ url_image | imagine_filter('my_thumb') }}" />#}
 
 <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-    <div style="background-image: url('{{ (photo != "") ? asset("uploads/ownershipImages/" ~ photo) | imagine_filter('my_thumb') : asset("uploads/ownershipImages/no_photo.png") | imagine_filter('my_thumb') }}')"
+    <div style="background-image: url('{{ (photo != "") ? asset("uploads/ownershipImages/" ~ photo) | apply_filter('mycp_thumb_search') : asset("uploads/ownershipImages/no_photo.png") | apply_filter('mycp_thumb_search') }}')"
          class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
 
          {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %}

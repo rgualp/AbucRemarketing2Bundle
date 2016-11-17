@@ -159,5 +159,6 @@ my_cp_mobile_frontend:
     prefix:   /{_locale}/mobile
     type: be_simple_i18n
 
-_liip_imagine:
-    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+_imagine:
+    resource: .
+    type:     imagine
