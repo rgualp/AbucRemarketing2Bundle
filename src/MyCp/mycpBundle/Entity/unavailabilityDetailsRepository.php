@@ -230,4 +230,20 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return true;
     }
 
+    function getUDetailsByRoomAndDate($idRoom, $startParam, $endParam) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u
+            FROM mycpBundle:unavailabilityDetails u
+            JOIN u.room ro
+        WHERE u.ud_sync_st<>" . SyncStatuses::DELETED .
+        "AND ((u.ud_from_date >= '$startParam' AND u.ud_to_date <= '$endParam')
+         OR (u.ud_to_date >= '$startParam' AND u.ud_to_date <= '$endParam')
+         OR (u.ud_from_date <= '$endParam' AND u.ud_from_date >= '$startParam')
+         OR (u.ud_from_date <= '$startParam' AND u.ud_to_date >= '$endParam'))
+        AND ro.room_id = $idRoom
+        ORDER BY u.ud_from_date");
+
+        //dump($query->getDQL());exit;
+        return $query->getResult();
+    }
 }

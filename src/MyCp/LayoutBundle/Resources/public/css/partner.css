@@ -1577,6 +1577,22 @@ a.payButton.bg-grey{ cursor: default; }
 .paSearcher .chosen-container{
     width: 100%;
 }
+.calendar-cont {
+    font-size: 12px;
+}
+.price {
+    border-top: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    display: block;
+    line-height: 23px;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    transition: all 0.2s ease-in-out 0s;
+}
+.guest_number.form-control.form-control-2{
+    padding: 6px 2px;
+}
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;
