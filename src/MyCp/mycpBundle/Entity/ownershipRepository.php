@@ -861,12 +861,10 @@ class ownershipRepository extends EntityRepository {
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);
-        $where = (!$room_filter) ? (" WHERE o.own_status = 1 ") : (" WHERE o.own_status = 1 AND r.room_active = 1 ");
+
+        $where = (!$room_filter) ? (" WHERE ( o.own_status = 1 ") : (" WHERE ( o.own_status = 1 AND r.room_active = 1 ");
         $textWhere = SearchUtils::getTextWhere($text);
         $where .= ($textWhere != "") ? " AND " . $textWhere : "";
-
-        if($inmediate != null)
-            $where .= " AND " . "o.own_inmediate_booking_2 = :inmediate";
 
         if($guest_total != null && $guest_total != 'null' && $guest_total != "")
             $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
@@ -879,21 +877,49 @@ class ownershipRepository extends EntityRepository {
 
         $filterWhere = SearchUtils::getFilterWhere($filters);
 
-        $where .= ($filterWhere != "") ? $filterWhere : "";
 
-        if($where != ''){
-            $query_string .= $where;
-            $query_count_string .= $where;
+
+        $where .= ($filterWhere != "") ? $filterWhere : "";
+        $where .= ")";
+
+        $or = "";
+
+        if (is_array($filters)){
+            if( $inmediate != null || ( array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']) ){
+                $or = " AND (";
+
+                if($inmediate != null)
+                    $or .= "o.own_inmediate_booking_2 = :inmediate";
+
+                if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']){
+                    $ors = ($inmediate != null) ? " OR " : "";
+                    $or .= $ors."o.own_inmediate_booking = 1";
+                }
+
+
+                $or .= ")";
+            }
+        }else{
+            if($inmediate != null){
+                $or = " AND (";
+                $or .= "o.own_inmediate_booking_2 = :inmediate";
+                $or .= ")";
+            }
+        }
+
+
+
+        if($where != '' ){
+            $query_string .= $where." ".$or;
+            $query_count_string .= $where." ".$or;
         }
 
         $order = SearchUtils::getOrder($order_by);
 
         $query_string .= $order;
-//        die(dump($query_string));
         $query = $em->createQuery($query_string);
         $query_count = $em->createQuery($query_count_string);
 
-//        die(dump($query));
         if($user_id != null){
             $query->setParameter('user_id', $user_id);
         }
