@@ -1378,5 +1378,22 @@ class BackendReservationController extends Controller {
         $service_email->sendTemplatedEmail($request->get("emailSubject"), 'noreply@mycasaparticular.com', $request->get("emailUser"), $content);
         return new JsonResponse(array('success' => true));
     }
+
+    public function sendVoucherToReservationTeamFromBookingAction($id_booking) {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $bookingService = $this->get('front_end.services.booking');
+            $service_email = $this->get('mycp.service.email_manager');
+            $emailToSend = 'reservation@mycasaparticular.com';
+
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucherByBookingId($em, $bookingService, $service_email, $this, $id_booking, $emailToSend, false);
+        }
+        catch (\Exception $e) {
+            $message = 'Error al enviar el voucher asociado al booking ' . $id_booking . ". " . $e->getMessage();
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+
+        return $this->redirect($this->generateUrl('mycp_details_reservations_booking', array("id_booking" => $id_booking)));
+    }
 }
 
