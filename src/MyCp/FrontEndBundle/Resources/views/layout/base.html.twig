@@ -9,43 +9,6 @@
         {{ get_metas('Main', lang_code)|raw }}
     {% endblock metas %}
 
-    {#<meta charset="utf-8">#}
-    {#<meta name="google-site-verification" content="D3B7Zo_ELB0RPsw2VojNY8ilJc4jeSyWiUB4va-vEx0" />#}
-    {#{%if section is not defined%}#}
-        {#{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}#}
-    {#{%endif%}#}
-    {#{%if meta_description is not defined%}#}
-        {#{%set meta_description =render(controller('FrontEndBundle:Public:getMetaTags', {'section':section, 'onlyDescription': true}))%}#}
-    {#{%endif%}#}
-    {#{% block metas %}#}
-        {#{{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}#}
-    {#{% endblock %}#}
-
-    {#<meta name="author" content="ABUC media network GmbH">#}
-    {#<meta name="copyright" content="ABUC media network GmbH">#}
-    {#<meta name="language-content" content="{{app.request.locale}}">#}
-
-    {#{% block open_graph_metas %}#}
-    {#<!-- Twitter -->#}
-    {#<meta name="twitter:card" content="summary">#}
-    {#<meta name="twitter:site" content="@MyCP">#}
-    {#<meta name="twitter:title" content="MyCasaParticular *** {{block('title')}}">#}
-    {#<meta name="twitter:description" content="{{meta_description}}">#}
-    {#<meta name="twitter:creator" content="@MyCP">#}
-    {#<meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">#}
-
-    {#<!-- Propiedades Open Graph -->#}
-    {#<meta property="og:title" content="MyCasaParticular *** {{block('title')}}" />#}
-    {#<meta property="og:type" content="website" />#}
-    {#<meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />#}
-    {#<meta property="og:author" content="ABUC media network GmbH" />#}
-    {#<meta property="og:site_name" content="MyCasaParticular" />#}
-    {#<meta property="og:description" content="{{meta_description}}" />#}
-    {#<meta property="og:url" content="http://www.mycasaparticular.com" />#}
-    {#<meta property=”fb:admins” content=”312774092497”/>#}
-    {#{% endblock %}#}
-
-    {#<meta name="viewport" content="width=device-width, initial-scale=1.0">#}
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
     '@FrontEndBundle/Resources/public/css/glyphicons.css'
@@ -78,8 +41,8 @@
     <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
     <script>
-        var start_date = "{{ (app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
-        var end_date = "{{(app.session.get('search_departure_date') != null and app.session.get('search_departure_date').timestamp is defined) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+        var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
     </script>
 
     {% javascripts
@@ -104,68 +67,15 @@
     '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
     '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
     '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/jquery.unveil.js'
     filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
-
-     <!-- Apple Touch Icon -->
-    {#<link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />#}
-    {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
-    {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
-
     {% block include_javascripts_and_css %}{% endblock %}
-
-    <!-- Google Analytics -->
-    <script>
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-16697066-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-    <!-- Facebook Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-                document,'script','//connect.facebook.net/en_US/fbevents.js');
-
-        fbq('init', '1240648305949371');
-        fbq('track', "PageView");</script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
-    <!-- End Facebook Pixel Code -->
-
-
 </head>
 <body>
-{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
-<!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>(function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({'gtm.start':
-                new Date().getTime(), event: 'gtm.js'});
-        var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-                '//www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
-<!-- End Google Tag Manager -->
-{{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
 {% block marquesina %}
     {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
 {% endblock %}
@@ -335,6 +245,7 @@
         </div>
     </div>
 </footer>
+{{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
 <script type="text/javascript">
     var today_date="{{"now"|date("d/m/Y") }}";
     topmenucont = $('#top-menu-cont');
@@ -349,8 +260,7 @@
     });
 
     $(function() {
-        $('img.lazy').jail();
-
+        $("img.lazyload").unveil();
         NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
         $("#marquee-close").on("click", function (e) {
             e.preventDefault();
@@ -386,6 +296,49 @@
         <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
     </div>
 </noscript>
+<!-- Google Analytics -->
+<script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-16697066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+            document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '1240648305949371');
+    fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
+<!-- End Facebook Pixel Code -->
+{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({'gtm.start':
+                new Date().getTime(), event: 'gtm.js'});
+        var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+                '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
+<!-- End Google Tag Manager -->
 {% block javascripts %}
 {% endblock javascripts %}
 </body>

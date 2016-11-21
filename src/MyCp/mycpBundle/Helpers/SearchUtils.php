@@ -504,9 +504,6 @@ class SearchUtils {
             if (array_key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where .= " AND r.room_safe = 1";
 
-            if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking'])
-                $where .= " AND o.own_inmediate_booking = 1";
-
             if (array_key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
                 $where .= " AND (r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";
 
