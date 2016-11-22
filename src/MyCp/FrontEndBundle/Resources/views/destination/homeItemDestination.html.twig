@@ -2,8 +2,11 @@
 <div class="col-sm-4">
 <div class="thumbnail">
         <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">
-            <img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}"/>
-            <noscript><img class="nolazy" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}" alt="{{"Thumbnails" | trans}}"></noscript>
+            {% set url_image = asset("uploads/destinationImages/" ~ photo) %}
+            <img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" class="lazyload thumbnail full-width" data-src="{{ url_image | apply_filter('my_thumb_destination') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" />
+
+            {#<img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}"/>#}
+            {#<noscript><img class="nolazy" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}" alt="{{"Thumbnails" | trans}}"></noscript>#}
         </a>
     </div>
     <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">

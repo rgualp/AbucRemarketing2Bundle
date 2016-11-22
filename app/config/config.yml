@@ -63,12 +63,12 @@ assetic:
     #java: /usr/bin/java
     node: %nodejs_path%
     filters:
-            uglifyjs2:
-                # the path to the uglifyjs executable
-                bin: %uglifyjs_path%
-            cssrewrite: ~
-            uglifycss:
-                bin: %uglifycss_path%
+        uglifyjs2:
+            # the path to the uglifyjs executable
+            bin: %uglifyjs_path%
+        cssrewrite: ~
+        uglifycss:
+            bin: %uglifycss_path%
 
 # Doctrine Configuration
 doctrine:
@@ -269,6 +269,22 @@ avalanche_imagine:
         mycp_thumb:
             type:    thumbnail
             options: { size: [120, 90], mode: outbound }
+
+        mycp_thumb_front:
+            type:    thumbnail
+            options: { size: [239, 160], mode: outbound, quality: 100 }
+
+        mycp_thumb_search:
+            type:    thumbnail
+            options: { size: [325, 244], mode: outbound, quality: 80 }
+        # the name of the "filter set"
+        my_thumb_destination:
+            type:    thumbnail
+            options: { size: [180, 120], mode: outbound, quality: 100 }
+
+        my_slideshow:
+            type:    thumbnail
+            options: { size: [1400, 350], mode: outbound }
 
 be_simple_i18n_routing: ~
 
