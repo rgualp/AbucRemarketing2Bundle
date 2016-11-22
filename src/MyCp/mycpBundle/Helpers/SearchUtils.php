@@ -567,7 +567,7 @@ class SearchUtils {
                 if($insideWhere != "")
                     $where.= " AND (" .$insideWhere. ")";
             }
-            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+            /*if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
 
@@ -576,7 +576,7 @@ class SearchUtils {
 
 //                if($insideWhere != "")
 //                    $where .= " AND award_id IN (" . $insideWhere . ")";
-            }
+            }*/
 
         }
         return $where;
