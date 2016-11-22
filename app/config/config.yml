@@ -284,7 +284,7 @@ avalanche_imagine:
 
         my_slideshow:
             type:    thumbnail
-            options: { size: [1400, 400], mode: outbound, quality: 80 }
+            options: { size: [1400, 350], mode: outbound }
 
 be_simple_i18n_routing: ~
 
