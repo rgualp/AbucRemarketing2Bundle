@@ -288,13 +288,6 @@
                         </label>
                     </div>
                 {%endfor%}
-                <br>
-                <span class="h-dark-grey-2">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
-                <div class="checkbox">
-                    <label>
-                        <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2" name="own_inmediate_booking2"  {%if inmediate is defined and inmediate == "1" %} checked="checked"{% endif %} data-aux-text="{{"IMMEDIATE_BOOKING" | trans}}" data-aux-text="{{"IMMEDIATE_BOOKING" | trans}}" />{{ 'IMMEDIATE_BOOKING'|trans }}
-                    </label>
-                </div>
             </div>
             <div class="col-sm-4">
                 <span class="h-dark-grey-2">{{"SELECT_BATHROOM_TYPE_OPTION" | trans}}</span>
@@ -313,15 +306,18 @@
                         <input class="action_remove_filter_up" type="checkbox" name="room_bathroom" value="Compartido" {%if check_filters is defined  and check_filters['room_bathroom'] is defined and 'Compartido' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_shared%} disabled="disabled" {%endif%}/>{{"SHARED_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_shared']}})
                     </label>
                 </div>
-               <br>
-                <span class="h-dark-grey-2">{{ 'quick_bookinhg'|trans }}</span>
-                 <div class="checkbox">
+            </div>
+            <div class="col-sm-4">
+                <span class="h-dark-grey-2">{{"CATEGORY" | trans}}</span>
+                {%for category in owns_categories%}
+                    <div class="checkbox">
                         <label>
-                            <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking" name="own_inmediate_booking"  {%if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %} data-aux-text="{{"quick_bookinhg" | trans}}" data-aux-text="{{"quick_bookinhg" | trans}}" />{{ 'quick_bookinhg'|trans }}
+                            <input class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>  {{category[0] | trans}} ({{category[1]}})
                         </label>
                     </div>
-
+                {%endfor%}
             </div>
+
         </div>
     </div>
 <div class="content-button" style="margin-top: 20px;">

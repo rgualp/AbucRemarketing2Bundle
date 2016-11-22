@@ -37,6 +37,7 @@ class ownershipStep1Type extends AbstractType
             ])
             ->add('own_address_street','text', array(
                 'label'=>false,
+                'required' => true,
                 'attr'=>[
                     'class'=>'form-control',
                     'placeholder'=>'Calle'
@@ -44,6 +45,7 @@ class ownershipStep1Type extends AbstractType
             ))
             ->add('own_address_number','text', array(
                 'label'=>false,
+                'required' => true,
                 'attr'=>[
                     'class'=>'form-control',
                     'placeholder'=>'Número'

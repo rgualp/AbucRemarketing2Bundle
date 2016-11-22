@@ -6,7 +6,7 @@
                    href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                     <div class="col-xs-12">
                         <div class="row">
-                            <div style="background-image: url('{{ (ownership.photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") }}')"
+                            <div style="background-image: url('{{ (ownership.photo != "") ? asset("uploads/ownershipImages/" ~ ownership.photo) | apply_filter('mycp_thumb_search') : asset("uploads/ownershipImages/no_photo.png") | apply_filter('mycp_thumb_search') }}')"
                                  class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
 
                                  {% if ownership.OwnInmediateBooking %}data-text="{{ 'quick_bookinhg'|trans }}"{% endif %}
@@ -16,7 +16,7 @@
          {% endif %}">
 
                                 {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
-                                    <div class="quick-ribbon" style="background-color: #98cd34">
+                                    <div class="quick-ribbon" style="background-color: #ff0000">
                                         <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
                                     </div>
                                 {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
@@ -24,7 +24,7 @@
                                         <i class="glyphicons white electricity"></i> <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
                                     </div>
                                 {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
-                                    <div class="quick-ribbon" style="background-color: #98cd34">
+                                    <div class="quick-ribbon" style="background-color: #ff0000">
                                         <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
                                     </div>
                                 {% endif %}
