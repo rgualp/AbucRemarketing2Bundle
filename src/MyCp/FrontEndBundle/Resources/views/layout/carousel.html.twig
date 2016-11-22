@@ -1,7 +1,7 @@
 <div id="myCarousel" class="carousel slide">
     <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
         {% for slide in slides %}
-            <div data-thumb="{{ slide | apply_filter('my_slideshow') }}" data-src="{{ slide | apply_filter('my_slideshow') }}">
+            <div data-thumb="{{ app.request.getSchemeAndHttpHost() }}/{{ slide }}" data-src="{{ app.request.getSchemeAndHttpHost() }}/{{ slide }}">
             </div>
         {% endfor %}
     </div><!-- #camera_wrap_1 -->
