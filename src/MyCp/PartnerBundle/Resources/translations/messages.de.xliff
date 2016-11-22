@@ -2263,6 +2263,10 @@
             <source>cancel.reservation.error.alert</source>
             <target>This reservation do not belongs to your agency</target>
       </trans-unit>
+      <trans-unit id="14">
+                              <source>client_name_require</source>
+                              <target>The client name is equired field.</target>
+                        </trans-unit>
         </body>
   </file>
 </xliff>
