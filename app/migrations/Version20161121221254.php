@@ -28,7 +28,7 @@ class Version20161121221254 extends AbstractMigration
                         IF(o.own_homeowner_1 IS NOT NULL AND o.own_homeowner_1 != '', o.own_homeowner_1, o.own_homeowner_2) as owner
                         from ownership o
                         where o.own_status = 1
-                        and ((o.own_email_1 IS NOT NULL and o.own_email_1 != '') OR (o.own_email_2 IS NOT NULL and o.own_email_2 != '')));");
+                        and ((o.own_email_1 IS NOT NULL and o.own_email_1 != '') OR (o.own_email_2 IS NOT NULL and o.own_email_2 != ''))) T;");
 
 
         $this->addSql("set @contentES = '
