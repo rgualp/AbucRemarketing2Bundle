@@ -185,10 +185,16 @@
                     if(data['success']==true){
                         toastr.success('Se guardó la información correctamente');
                         var id= $('div.tab-pane.active').data('id');
-                        $('#calendar'+ id).fullCalendar('removeEvents');
-                        $('#calendar'+ id).fullCalendar('refetchEvents');
-                        //window.location = data["refreshUrl"];
-                        $("#loading").addClass("hide");
+
+                        if(data['refreshPage'])
+                            window.location = data["refreshUrl"];
+                        else {
+                            //$('#calendar' + id).fullCalendar('removeEvents');
+                            $('#calendar' + id).fullCalendar('refetchEvents');
+                            //$('#calendar'+ id).fullCalendar('refetchEvents');
+                            //window.location = data["refreshUrl"];
+                            $("#loading").addClass("hide");
+                        }
                     }
                     else
                         toastr.error(data['message']);
@@ -201,7 +207,7 @@
               todayBtn:'linked',
               language:'es',
               autoclose: true,
-              startDate: 0,
+              startDate: 0, //new Date(),
               minDate: new Date()
             }).data('datepicker');
             $('#date_from').datepicker({
@@ -210,7 +216,7 @@
                 language:'es',
                 autoclose: true,
                 minDate: new Date(),
-                startDate: 0
+                startDate: 0//new Date()
             }).on('changeDate', function(ev){
                 var date = new Date(ev.date);
                 dateTo.setStartDate(date);
