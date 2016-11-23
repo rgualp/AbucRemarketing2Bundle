@@ -111,10 +111,10 @@ class UDetailsService extends Controller
 //                var_dump($date_from->format("Y-m-d"));
 //                var_dump($uDetail->getUdToDate()->format("Y-m-d"));
 //                var_dump($date_to->format("Y-m-d"));
-                //var_dump($uDetail->getUdFromDate()->format("Y-m-d") != $date_from->format("Y-m-d") && $uDetail->getUdToDate()->format("Y-m-d") != $date_to->format("Y-m-d"));
-                //die;
+//                var_dump($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to);
+//                die;
 
-                if($uDetail->getUdFromDate() != $date_from && $uDetail->getUdToDate() != $date_to)
+                if($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to)
                 {
                     $room = $this->em->getRepository("mycpBundle:room")->find($id_room);
                     $dateBefore = $date_from;
@@ -149,12 +149,12 @@ class UDetailsService extends Controller
             //La fecha de inicio de otra no disponibilidad es menor que la de inicio del rango y la fecha fin de la no disponibilidad esta en el rango
             elseif($uDetail->getUdFromDate() < $date_from && $uDetail->getUdToDate() >= $date_from && $uDetail->getUdToDate() < $date_to)
             {
-//                var_dump("Caso 2");
+                var_dump("Caso 2");
 //                var_dump(date("d-M-Y H:i:s", $uDetail->getUdFromDate()->getTimestamp()));
 //                var_dump(date("d-M-Y H:i:s", $date_from->getTimestamp()));
 //                var_dump(date("d-M-Y", $uDetail->getUdToDate()->getTimestamp()));
 //                var_dump($uDetail->getUdFromDate() < $date_from);
-//                die;
+                die;
                 $dateBefore = $date_from;
                 $dateBefore = date_modify($dateBefore, "-1 day");
 
@@ -168,19 +168,19 @@ class UDetailsService extends Controller
             //si la no disponibilidad esta dentro del rango
             elseif($uDetail->getUdFromDate() >= $date_from && $uDetail->getUdToDate() <= $date_to)
             {
-//                var_dump("Caso 3");
+                var_dump("Caso 3");
 //                var_dump(date("d-M-Y", $uDetail->getUdFromDate()->getTimestamp()));
 //                var_dump(date("d-M-Y", $uDetail->getUdToDate()->getTimestamp()));
-//                die;
+                die;
                 $this->em->remove($uDetail);
             }
             //La fecha de inicio de otra no disponibilidad esta en el rango pero la fecha fin de la no disponibilidad es mayor que la fecha fin del rango
             elseif($uDetail->getUdToDate() > $date_to && $uDetail->getUdFromDate() >= $date_from && $uDetail->getUdFromDate() <= $date_to)
             {
-//                var_dump("Caso 4");
+                var_dump("Caso 4");
 //                var_dump(date("d-M-Y", $uDetail->getUdFromDate()->getTimestamp()));
 //                var_dump(date("d-M-Y", $uDetail->getUdToDate()->getTimestamp()));
-//                die;
+                die;
 
                 $dateAfter = $date_to;
                 $dateAfter = date_modify($dateAfter, "+1 day");
