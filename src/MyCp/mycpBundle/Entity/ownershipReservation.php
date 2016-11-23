@@ -538,7 +538,7 @@ class ownershipReservation {
     }
 
     public function getTripleRoomCharged() {
-        return ($this->own_res_room_type == "Habitación Triple") &&
+        return ($this->own_res_room_type == "Habitación Triple" || $this->own_res_room_type == "Habitación doble" || $this->own_res_room_type == "Habitación doble (Dos camas)") &&
                 ($this->own_res_count_adults + $this->own_res_count_childrens >= 3);
     }
 

@@ -63,7 +63,9 @@
                         data_curr="{{ currRate }}"
                         class="guest_number form-control form-control-2"
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
-                        data_type_room='{{room.getRoomType}}' style="width: 40px">
+                        data_type_room='{{room.getRoomType}}'
+                        data_is_triple='{{room.isTriple}}'
+                        style="width: 40px">
                     <option value="0">0</option>
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                 </select>
@@ -78,6 +80,7 @@
                         class="guest_number form-control form-control-2"
                         data_type_room='{{room.getRoomType}}'
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
+                        data_is_triple='{{room.isTriple}}'
                         style="width: 40px">
                     <option value="0">0</option>
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
