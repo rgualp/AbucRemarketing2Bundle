@@ -72,6 +72,10 @@ class SummaryCommand extends ContainerAwareCommand
         $factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($yesterday,$day);
         $factura=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($yesterday,$yesterday);
 
+
+        $first_day=$this->_data_first_month_day();
+        $total_factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($first_day,$day);
+
         $clientPendig=$em->getRepository("mycpBundle:generalReservation")->clientPendig();
 
         $totalPending=0;
@@ -80,6 +84,7 @@ class SummaryCommand extends ContainerAwareCommand
             $totalPending+=round($tmp);
         }
 
+         $meta=44000;
         //Cuerpo del correo
         $body = $templatingService
             ->renderResponse('mycpBundle:reports:emailSummary.html.twig', array(
@@ -104,9 +109,10 @@ class SummaryCommand extends ContainerAwareCommand
                 'totalPending'=>$totalPending,
                 'totalClient'=>count($clientPendig)+$reserved[0][1],
                 'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:$totalPending,
-                'factura'=>(count($factura))?$factura[0]['facturacion']:0
+                'factura'=>(count($factura))?$factura[0]['facturacion']:0,
+                'diferencia'=>(count($total_factu))?$meta-$total_factu[0]['facturacion']:0,
+                'meta'=>$meta
             ));
-
         try {
             $subject = "Sumario MyCasaParticular";
 
@@ -125,4 +131,21 @@ class SummaryCommand extends ContainerAwareCommand
         $output->writeln('Operation completed!!!');
         return 0;
     }
+    /** Ultimo dia de este mes **/
+    function _data_last_month_day() {
+        $month = date('m');
+        $year = date('Y');
+        $day = date("d", mktime(0,0,0, $month+1, 0, $year));
+
+        return date('Y-m-d', mktime(0,0,0, $month, $day, $year));
+    }
+
+    /** Primer dia de este mes **/
+    function _data_first_month_day() {
+        $month = date('m');
+        $year = date('Y');
+        return date('Y-m-d', mktime(0,0,0, $month, 1, $year));
+    }
+
+
 }
