@@ -159,6 +159,8 @@
     <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}"></script>
     <script type="text/javascript">
         $(document).on('ready', function(){
+            var yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
 //            var id='';
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                id=$(this).data('id');
@@ -207,16 +209,17 @@
               todayBtn:'linked',
               language:'es',
               autoclose: true,
-              startDate: 0,
+              startDate: yesterday, //new Date(),
               minDate: new Date()
             }).data('datepicker');
+
             $('#date_from').datepicker({
                 format:'dd/mm/yyyy',
                 todayBtn:'linked',
                 language:'es',
                 autoclose: true,
                 minDate: new Date(),
-                startDate: 0
+                startDate: yesterday//new Date()
             }).on('changeDate', function(ev){
                 var date = new Date(ev.date);
                 dateTo.setStartDate(date);

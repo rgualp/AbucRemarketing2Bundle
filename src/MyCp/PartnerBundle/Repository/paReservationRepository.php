@@ -90,6 +90,8 @@ class paReservationRepository extends EntityRepository {
         {
             $openReservation = new paReservation();
             $openReservation->setClient($client);
+            $openReservation->setClosed(true);
+
         }
 
         $openReservation->setAdults($adults)
