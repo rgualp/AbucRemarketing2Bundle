@@ -1,40 +1,41 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
-{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS')%}
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 {% block title %}
-    {{"SEARCH_RESULTS_PAGE_TITLE" | trans}}
+    {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
 {% endblock %}
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
-    {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
+    {{ "SEARCH_DESCRIPTION_MAIN_MENU" | trans }}
 {% endblock %}
 {% block breadcrumbs %}
-    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <a href="{{ path('frontend_welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
     <span>››</span>
-    <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
+    <a href="#" class="active" title="{{ "OWNERSHIPS" | trans }}">{{ "OWNERSHIPS" | trans }}</a>
 {% endblock %}
 {% block body %}
-    <div  class="container">
+    <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                {%if view_results != 'MAP'%}
+                {% if view_results != 'MAP' %}
                     <div class="thumbnail" id="map" style="width:100%;height:150px;" class="google-maps"></div>
-                {%endif%}
-                <div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
-                      data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+                {% endif %}
+                <div id="json_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"
+                     data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
+                     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
                 {{ include('FrontEndBundle:ownership:verticalSearcherOwnership.html.twig',
                 {'is_within_search_results':true,
-                'autocomplete_text_list': autocomplete_text_list,
-                'locale': locale})}}
+                    'autocomplete_text_list': autocomplete_text_list,
+                    'locale': locale}) }}
                 <div class="filter">
-                    <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}" data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
-                        {%if check_filters is defined%}
+                    <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"
+                         data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
+                        {% if check_filters is defined %}
                             {{ include('FrontEndBundle:ownership:filters.html.twig',
                             {'own_statistics': own_statistics,'check_filters': check_filters}) }}
-                        {%else%}
+                        {% else %}
                             {{ include('FrontEndBundle:ownership:filters.html.twig',
                             {'own_statistics': own_statistics}) }}
-                        {%endif%}
+                        {% endif %}
                     </div>
                 </div>
 
@@ -42,50 +43,65 @@
             <div class="col-sm-9">
                 <div id="loading" class="hidden">
                     <div class="layer-loading"></div>
-                    <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
+                    <div class="loading-signal"><img class="img-circle load-icon"
+                                                     src="{{ asset('bundles/frontend/img/loading.gif') }}"
+                                                     alt="{{ "Loading" | trans }}"/></div>
                 </div>
                 <div id="filter_upper">
-                    {%if check_filters is defined and check_filters | length%}
+                    {% if check_filters is defined and check_filters | length %}
 
-                    {%endif%}
+                    {% endif %}
                 </div>
                 <div class="bg-solid-blue-bar" style="margin-top: 0">
                     <div class="row">
                         <div class="col-xs-5">
-                            <select class="form-control" id="select_change_order" data-url="{{ path('frontend_order_search_results_ownership_callback') }}">
+                            <select class="form-control" id="select_change_order"
+                                    data-url="{{ path('frontend_order_search_results_ownership_callback') }}">
                                 {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': app.session.get("search_order"), 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::SEARCHER'), 'doTranlations': true})) }}
                             </select>
                         </div>
                         <div class="col-xs-7 text-right">
-                            <a href="#" id="change_view_to_list" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon" alt="{{"Pixel" | trans}}"/></a>
-                            <a href="#" id="change_view_to_photo" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon" alt="{{"Pixel" | trans}}"/></a>
-                            <a href="#" id="change_view_to_map" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon" alt="{{"Pixel" | trans}}"/></a>
+                            <a href="#" id="change_view_to_list"
+                               data-url="{{ path('frontend_change_view_ownership_callback') }}" rel="tooltip"
+                               data-placement="top" title="{{ 'LIST_VIEW' | trans }}"><img
+                                        src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                        class="icon three-lines2-icon" alt="{{ "Pixel" | trans }}"/></a>
+                            <a href="#" id="change_view_to_photo"
+                               data-url="{{ path('frontend_change_view_ownership_callback') }}" rel="tooltip"
+                               data-placement="top" title="{{ 'MOISAIC_VIEW' | trans }}"><img
+                                        src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon cam-icon"
+                                        alt="{{ "Pixel" | trans }}"/></a>
+                            <a href="#" id="change_view_to_map"
+                               data-url="{{ path('frontend_change_view_ownership_callback') }}" rel="tooltip"
+                               data-placement="top" title="{{ 'MAP_VIEW' | trans }}"><img
+                                        src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                        class="icon point-icon" alt="{{ "Pixel" | trans }}"/></a>
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="houses-list thumbs-houses lazy-cont" id="div_result">
-                        {%if view_results == 'LIST'%}
+                        {% if view_results == 'LIST' %}
                             {{ include('FrontEndBundle:ownership:searchListOwnership.html.twig',
                             {'list': list,
-                            'list_preffix': 'list'
+                                'list_preffix': 'list'
                             }) }}
-                        {%else%}
-                            {%if view_results == 'PHOTOS'%}
+                        {% else %}
+                            {% if view_results == 'PHOTOS' %}
                                 {{ include('FrontEndBundle:ownership:searchMosaicOwnership.html.twig',
                                 {'list': list,
-                                'list_preffix': 'mosaic'
+                                    'list_preffix': 'mosaic'
                                 }) }}
-                            {%else%}
-                                {%if view_results == 'MAP'%}
+                            {% else %}
+                                {% if view_results == 'MAP' %}
                                     {{ include('FrontEndBundle:ownership:searchMapOwnership.html.twig',
                                     {'list': list,
-                                    'list_preffix': 'map',
-                                    'show_paginator': true
+                                        'list_preffix': 'map',
+                                        'show_paginator': true
                                     }) }}
-                                {%endif%}
-                            {%endif%}
-                        {%endif%}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -11,12 +11,14 @@
 
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
+
     '@FrontEndBundle/Resources/public/css/glyphicons.css'
     '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
     '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
     '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
     '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
     '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+    '@LayoutBundle/Resources/public/css/bootstrap-submenu.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -38,7 +40,7 @@
         {% endstylesheets %}
     {% endif %}
 
-    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+    {#<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>#}
 
     <script>
         var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
@@ -51,17 +53,14 @@
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+    '@LayoutBundle/Resources/public/js/bootstrap-submenu.js'
     '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
     '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
     '@FrontEndBundle/Resources/public/js/respond.min.js'
     '@FrontEndBundle/Resources/public/js/jail.min.js'
     '@FrontEndBundle/Resources/public/js/custom.min.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
     '@FrontEndBundle/Resources/public/js/destinations.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-    '@FrontEndBundle/Resources/public/js/map.min.js'
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
     '@FrontEndBundle/Resources/public/js/ownership.min.js'
     '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
@@ -76,24 +75,22 @@
     {% block include_javascripts_and_css %}{% endblock %}
 </head>
 <body>
-{% block marquesina %}
-    {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
-{% endblock %}
-<div class="space space-20"></div>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3 " id="center-cont">
-            <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
-                <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
-            </a>
-        </div>
+{% block custom_menus %}
+    <div class="space space-20"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 " id="center-cont">
+                <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
+                    <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+                </a>
+            </div>
 
-        {% if app.request.get('_route') %}
-        {{ render_esi(url('frontend_public_top_nav_control', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
-        {% endif %}
+            {% if app.request.get('_route') %}
+            {{ render_esi(url('frontend_public_top_nav_control', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
+            {% endif %}
+        </div>
     </div>
-</div>
-<div id="top-menu-cont" style="height: {% block nav_heigth %}{% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}{% endblock %}">
+    <div id="top-menu-cont" style="height: {% block nav_heigth %}{% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}{% endblock %}">
     <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
@@ -116,8 +113,8 @@
             </div>
         {% endif %}
     </nav>
-
 </div>
+{% endblock %}
 {% block big_banner %}{% endblock %}
 {% for message in app.session.flashbag.get('message_global_success') %}
     <div class="container">
@@ -150,7 +147,7 @@
     <p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
 {% endblock %}
 
-<footer class="bg-gradient-blue">
+<footer class="bg-gradient-blue {% block forsearch %}{% endblock %}">
     <div class="container">
         <div class="row">
             <div class="col-xs-2">
@@ -261,84 +258,84 @@
 
     $(function() {
         $("img.lazyload").unveil();
-        NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
-        $("#marquee-close").on("click", function (e) {
-            e.preventDefault();
-            $(".marquesina").hide();
-        })
+//        NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
+//        $("#marquee-close").on("click", function (e) {
+//            e.preventDefault();
+//            $(".marquesina").hide();
+//        })
     });
 
-    function showMarqee(){
-        if ($("#top-menu").find(".breadcrumb-top").length != 0){
-            $(".marquesina").css("top","78px");
-        }
-        $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $(this).removeClass('animated bounceInDown');
-        });
-    }
-    function hideMarqee(){
-        if ($("#top-menu").find(".breadcrumb-top").length != 0){
-            $(".marquesina").css("top","0");
-        }
-    }
+//    function showMarqee(){
+//        if ($("#top-menu").find(".breadcrumb-top").length != 0){
+//            $(".marquesina").css("top","78px");
+//        }
+//        $(".marquesina").removeClass('animated bounceInDown').addClass('animated bounceInDown').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+//            $(this).removeClass('animated bounceInDown');
+//        });
+//    }
+//    function hideMarqee(){
+//        if ($("#top-menu").find(".breadcrumb-top").length != 0){
+//            $(".marquesina").css("top","0");
+//        }
+//    }
 </script>
 
-<script type="text/javascript">
-    /* <![CDATA[ */
-    var google_conversion_id = 1016854742;
-    var google_custom_params = window.google_tag_params;
-    var google_remarketing_only = true;
-    /* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
-<noscript>
-    <div style="display:inline;">
-        <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
-    </div>
-</noscript>
-<!-- Google Analytics -->
-<script>
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-16697066-1']);
-    _gaq.push(['_trackPageview']);
+{#<script type="text/javascript">#}
+    {#/* <![CDATA[ */#}
+    {#var google_conversion_id = 1016854742;#}
+    {#var google_custom_params = window.google_tag_params;#}
+    {#var google_remarketing_only = true;#}
+    {#/* ]]> */#}
+{#</script>#}
+{#<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>#}
+{#<noscript>#}
+    {#<div style="display:inline;">#}
+        {#<img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>#}
+    {#</div>#}
+{#</noscript>#}
+{#<!-- Google Analytics -->#}
+{#<script>#}
+    {#var _gaq = _gaq || [];#}
+    {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
+    {#_gaq.push(['_trackPageview']);#}
 
-    (function() {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-<!-- Facebook Pixel Code -->
-<script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-            document,'script','//connect.facebook.net/en_US/fbevents.js');
+    {#(function() {#}
+        {#var ga = document.createElement('script');#}
+        {#ga.type = 'text/javascript';#}
+        {#ga.async = true;#}
+        {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
+        {#var s = document.getElementsByTagName('script')[0];#}
+        {#s.parentNode.insertBefore(ga, s);#}
+    {#})();#}
+{#</script>#}
+{#<!-- Facebook Pixel Code -->#}
+{#<script>#}
+    {#!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
+            {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;#}
+        {#n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;#}
+        {#t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,#}
+            {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
 
-    fbq('init', '1240648305949371');
-    fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
-<!-- End Facebook Pixel Code -->
-{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
-<!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>(function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({'gtm.start':
-                new Date().getTime(), event: 'gtm.js'});
-        var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-                '//www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
-<!-- End Google Tag Manager -->
+    {#fbq('init', '1240648305949371');#}
+    {#fbq('track', "PageView");</script>#}
+{#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
+{#<!-- End Facebook Pixel Code -->#}
+{#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
+{#<!-- Google Tag Manager -->#}
+{#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"#}
+                  {#height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
+{#<script>(function(w, d, s, l, i) {#}
+        {#w[l] = w[l] || [];#}
+        {#w[l].push({'gtm.start':#}
+                {#new Date().getTime(), event: 'gtm.js'});#}
+        {#var f = d.getElementsByTagName(s)[0],#}
+                {#j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';#}
+        {#j.async = true;#}
+        {#j.src =#}
+                {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
+        {#f.parentNode.insertBefore(j, f);#}
+    {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>#}
+{#<!-- End Google Tag Manager -->#}
 {% block javascripts %}
 {% endblock javascripts %}
 </body>
