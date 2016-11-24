@@ -123,7 +123,7 @@
                     <div class="row">
                         <div class="col-xs-12 p-x-1 p-t-1 text-center">
                             <div class="col-xs-6">
-                                <button style="padding: 5px 10px" type="submit" onclick="$('#check_dispo').val('')" class="btn btn-primary p-x-1" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <button style="padding: 5px 10px" type="submit" onclick="$('#check_dispo').val('')" class="btn btn-primary p-x-1  {% if ownership.OwnInmediateBooking2 %} hide {% endif %}" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                     <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/>
                                     {#{{ 'ADD_WHISH_LIST' | trans }}#}
                                 </button>

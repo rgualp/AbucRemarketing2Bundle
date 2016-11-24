@@ -913,13 +913,22 @@ class ownershipRepository extends EntityRepository {
             $query_string .= $where." ".$or;
             $query_count_string .= $where." ".$or;
         }
+        if (count($filters)){
+            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
+
+                if($insideWhere != "")
+                    $query_string .= " HAVING award1 IN (" . $insideWhere . ")";
+            }
+        }
 
         $order = SearchUtils::getOrder($order_by);
 
         $query_string .= $order;
         $query = $em->createQuery($query_string);
         $query_count = $em->createQuery($query_count_string);
-
+        //dump($query_string);die;
         if($user_id != null){
             $query->setParameter('user_id', $user_id);
         }

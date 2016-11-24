@@ -978,8 +978,10 @@ class StepsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $room=$request->get('room');
-        $start=\DateTime::createFromFormat('d/m/Y',$request->get('date_from'));
-        $end=\DateTime::createFromFormat('d/m/Y',$request->get('date_to'));
+
+        //El simbolo ! delante indica que no tenga en cuenta la hora
+        $start=\DateTime::createFromFormat('!d/m/Y',$request->get('date_from'));
+        $end=\DateTime::createFromFormat('!d/m/Y',$request->get('date_to'));
         $status=$request->get('status');
         /*$reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomCasaModule($room,$start->format('Y-m-d'), $end->format('Y-m-d'));
          if(count($reserved)>0){
@@ -1025,6 +1027,7 @@ class StepsController extends Controller
 
         return new JsonResponse([
             'success' => true,
+            "refreshPage" => ($status != 0),
             "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar")
         ]);
     }

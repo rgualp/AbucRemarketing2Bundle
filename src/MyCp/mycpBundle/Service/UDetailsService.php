@@ -56,9 +56,10 @@ class UDetailsService extends Controller
             //si la reserva esta dentro del rango
             elseif($reservation["own_res_reservation_from_date"] >= $startDate && $reservation["own_res_reservation_to_date"] <= $endDate)
             {
-                $dateBefore = date_modify($reservation["own_res_reservation_from_date"], "-1 day");
+                $dateBefore = $reservation["own_res_reservation_from_date"];
+                $dateBefore = date_modify($dateBefore, "-1 day");
 
-                if($startDate != $dateBefore)
+                if($startDate != $dateBefore && $startDate < $dateBefore)
                     $intervals[] = array("start" => $startDate, "end" => $dateBefore);
 
                 if($reservation["own_res_reservation_to_date"] != $endDate)
@@ -68,9 +69,10 @@ class UDetailsService extends Controller
             //La fecha de inicio de la reserva esta en el rango pero la fecha fin de la reserva es mayor que la fecha fin del rango
             elseif($reservation["own_res_reservation_to_date"] > $endDate && $reservation["own_res_reservation_from_date"] >= $startDate && $reservation["own_res_reservation_from_date"] <= $endDate)
             {
-                $dateBefore = date_modify($reservation["own_res_reservation_from_date"], "-1 day");
+                $dateBefore = $reservation["own_res_reservation_from_date"];
+                $dateBefore = date_modify($dateBefore, "-1 day");
 
-                if($startDate != $dateBefore)
+                if($startDate != $dateBefore && $startDate < $dateBefore)
                     $intervals[] = array("start" => $startDate, "end" => $dateBefore);
                 $startDate = $reservation["own_res_reservation_from_date"];
             }
@@ -104,42 +106,59 @@ class UDetailsService extends Controller
             //La no disponibilidad tiene un rango mayor al seleccionado. SE crean dos no disponibilidades
             if($uDetail->getUdFromDate() <= $date_from && $uDetail->getUdToDate() >= $date_to)
             {
-                $room = $this->em->getRepository("mycpBundle:room")->find($id_room);
-                $dateBefore = date_modify($date_from, "-1 day");
-                $dateAfter = date_modify($date_to, "+1 day");
+//                var_dump("Caso 1");
+//                var_dump($uDetail->getUdFromDate()->format("Y-m-d"));
+//                var_dump($date_from->format("Y-m-d"));
+//                var_dump($uDetail->getUdToDate()->format("Y-m-d"));
+//                var_dump($date_to->format("Y-m-d"));
+//                var_dump($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to);
+//                die;
 
-                if($uDetail->getUdFromDate() != $dateBefore)
+                if($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to)
                 {
-                    $newDetail = new unavailabilityDetails();
-                    $newDetail->setRoom($room)
-                        ->setUdFromDate($uDetail->getUdFromDate())
-                        ->setUdToDate($dateBefore)
-                        ->setUdReason($reason)
-                        ->setUdSyncSt(SyncStatuses::ADDED);
+                    $room = $this->em->getRepository("mycpBundle:room")->find($id_room);
+                    $dateBefore = $date_from;
+                    $dateBefore = date_modify($dateBefore, "-1 day");
+                    $dateAfter = $date_to;
+                    $dateAfter = date_modify($dateAfter, "+1 day");
 
-                    $this->em->persist($newDetail);
+                    if ($uDetail->getUdFromDate() != $dateBefore && $uDetail->getUdFromDate() < $dateBefore) {
+                        $newDetail = new unavailabilityDetails();
+                        $newDetail->setRoom($room)
+                            ->setUdFromDate($uDetail->getUdFromDate())
+                            ->setUdToDate($dateBefore)
+                            ->setUdReason($reason)
+                            ->setUdSyncSt(SyncStatuses::ADDED);
+
+                        $this->em->persist($newDetail);
+                    }
+
+                    if ($uDetail->getUdToDate() != $dateAfter && $dateAfter < $uDetail->getUdToDate()) {
+                        $newDetail = new unavailabilityDetails();
+                        $newDetail->setRoom($room)
+                            ->setUdFromDate($dateAfter)
+                            ->setUdToDate($uDetail->getUdToDate())
+                            ->setUdReason($reason)
+                            ->setUdSyncSt(SyncStatuses::ADDED);
+
+                        $this->em->persist($newDetail);
+                    }
                 }
-
-                if($uDetail->getUdToDate() != $dateAfter)
-                {
-                    $newDetail = new unavailabilityDetails();
-                    $newDetail->setRoom($room)
-                        ->setUdFromDate($dateAfter)
-                        ->setUdToDate($uDetail->getUdToDate())
-                        ->setUdReason($reason)
-                        ->setUdSyncSt(SyncStatuses::ADDED);
-
-                    $this->em->persist($newDetail);
-                }
-
                 $this->em->remove($uDetail);
             }
             //La fecha de inicio de otra no disponibilidad es menor que la de inicio del rango y la fecha fin de la no disponibilidad esta en el rango
             elseif($uDetail->getUdFromDate() < $date_from && $uDetail->getUdToDate() >= $date_from && $uDetail->getUdToDate() < $date_to)
             {
-                $dateBefore = date_modify($date_from, "-1 day");
+                var_dump("Caso 2");
+//                var_dump(date("d-M-Y H:i:s", $uDetail->getUdFromDate()->getTimestamp()));
+//                var_dump(date("d-M-Y H:i:s", $date_from->getTimestamp()));
+//                var_dump(date("d-M-Y", $uDetail->getUdToDate()->getTimestamp()));
+//                var_dump($uDetail->getUdFromDate() < $date_from);
+                die;
+                $dateBefore = $date_from;
+                $dateBefore = date_modify($dateBefore, "-1 day");
 
-                if($dateBefore != $uDetail->getUdFromDate()) {
+                if($dateBefore != $uDetail->getUdFromDate() && $uDetail->getUdFromDate() < $dateBefore) {
                     $uDetail->setUdToDate($dateBefore);
                     $this->em->persist($uDetail);
                 }
@@ -149,12 +168,22 @@ class UDetailsService extends Controller
             //si la no disponibilidad esta dentro del rango
             elseif($uDetail->getUdFromDate() >= $date_from && $uDetail->getUdToDate() <= $date_to)
             {
+                var_dump("Caso 3");
+//                var_dump(date("d-M-Y", $uDetail->getUdFromDate()->getTimestamp()));
+//                var_dump(date("d-M-Y", $uDetail->getUdToDate()->getTimestamp()));
+                die;
                 $this->em->remove($uDetail);
             }
             //La fecha de inicio de otra no disponibilidad esta en el rango pero la fecha fin de la no disponibilidad es mayor que la fecha fin del rango
             elseif($uDetail->getUdToDate() > $date_to && $uDetail->getUdFromDate() >= $date_from && $uDetail->getUdFromDate() <= $date_to)
             {
-                $dateAfter = date_modify($date_to, "+1 day");
+                var_dump("Caso 4");
+//                var_dump(date("d-M-Y", $uDetail->getUdFromDate()->getTimestamp()));
+//                var_dump(date("d-M-Y", $uDetail->getUdToDate()->getTimestamp()));
+                die;
+
+                $dateAfter = $date_to;
+                $dateAfter = date_modify($dateAfter, "+1 day");
 
                 if($uDetail->getUdToDate() != $dateAfter) {
                     $uDetail->setUdFromDate($dateAfter);
