@@ -281,4 +281,88 @@ class payment
         }
         return 0;
     }
+
+    public function generateEcomerceTracking($em, $controller){
+        $booking = $this->getBooking();
+
+        if ($booking){
+            $id_booking = $booking = $this->getBooking()->getBookingId();
+            $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
+
+            if ($reservations){
+                $casId = 0;
+                $acomodations = array();
+                $total = 0;
+                $prepago = 0;
+                $tarifa = 0;
+                $habitaciones = 0;
+
+                foreach ($reservations as $reservation){
+                    $tarifa = $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent();
+                    if ($casId === 0){
+                        $casId = $reservation->getOwnResGenResId()->getCASId();
+                    }
+                    if ($reservation->getOwnResGenResId()->getCASId() === $casId){
+                        $habitaciones++;
+                        $total += ($reservation->getOwnResTotalInSite() * ($tarifa / 100)) * $this->getCurrentCucChangeRate() ;
+                        $acomodations[$casId] = array(
+                            'total' => $total,
+                            'cant_hab' => $habitaciones,
+                            'idCasa' => "CAS".$reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),
+                            'nombreCasa' => $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnName(),
+                            'destino' => $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesName()
+                        );
+                    }else{
+                        $prepago += $total;
+                        $casId = $reservation->getOwnResGenResId()->getCASId();
+                        $total = 0;
+                        $habitaciones = 0;
+                        $total += ($reservation->getOwnResTotalInSite() * ($tarifa / 100)) * $this->getCurrentCucChangeRate();
+                        $habitaciones++;
+                        $acomodations[$casId] = array(
+                            'total' => $total,
+                            'cant_hab' => $habitaciones,
+                            'idCasa' => "CAS".$reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),
+                            'nombreCasa' => $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnName(),
+                            'destino' => $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesName()
+                        );
+                    }
+                }
+                $prepago += $total;
+
+                $tarifaFija =  ($this->getBooking()->getBookingPrepay() - $prepago) / count($acomodations);
+
+                $booking = $this->getBooking();
+                $transaction = new \AntiMattr\GoogleBundle\Analytics\Transaction();
+                $transaction->setOrderNumber($booking->getBookingId());
+                $transaction->setAffiliation('MyCasaParticular.com');
+                $transaction->setTotal($booking->getBookingPrepay());
+                $transaction->setCurrency($this->getCurrency()->getCurrCode());
+                $controller->get('google.analytics')->setTransaction($transaction);
+
+                foreach ($acomodations as $key => $acomodation){
+
+//            $total = $acomodations[$key]['total'];
+//            $acomodations[$key]['total'] = $total + $tarifaFija;
+
+                    $item = new \AntiMattr\GoogleBundle\Analytics\Item();
+                    $item->setOrderNumber($booking->getBookingId());
+                    $item->setSku($acomodations[$key]['idCasa']);
+                    $item->setName($acomodations[$key]['nombreCasa']);
+                    $item->setCategory($acomodations[$key]['destino']);
+                    $item->setPrice($acomodations[$key]['total'] + $tarifaFija);
+                    $item->setQuantity($acomodations[$key]['cant_hab']);
+                    $item->setCurrency($this->getCurrency()->getCurrCode());
+                    $controller->get('google.analytics')->addItem($item);
+
+
+                }
+            }
+        }
+//        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
+//
+//        if ($payment){
+//
+//        }
+    }
 }

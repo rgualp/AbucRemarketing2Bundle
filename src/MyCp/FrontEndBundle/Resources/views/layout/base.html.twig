@@ -296,22 +296,23 @@
         <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
     </div>
 </noscript>
-<!-- Google Analytics -->
-<script>
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-16697066-1']);
-    _gaq.push(['_trackPageview']);
+{#<!-- Google Analytics -->#}
+{% include "GoogleBundle:Analytics:async_universal.html.twig" %}
+{#<script>#}
+    {#var _gaq = _gaq || [];#}
+    {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
+    {#_gaq.push(['_trackPageview']);#}
 
-    (function() {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-<!-- Facebook Pixel Code -->
+    {#(function() {#}
+        {#var ga = document.createElement('script');#}
+        {#ga.type = 'text/javascript';#}
+        {#ga.async = true;#}
+        {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
+        {#var s = document.getElementsByTagName('script')[0];#}
+        {#s.parentNode.insertBefore(ga, s);#}
+    {#})();#}
+{#</script>#}
+{#<!-- Facebook Pixel Code -->#}
 <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;

@@ -34,7 +34,8 @@ class AppKernel extends Kernel
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new MyCp\MobileFrontendBundle\MyCpMobileFrontendBundle(),
             new MyCp\LayoutBundle\LayoutBundle(),
-            new MyCp\PartnerBundle\PartnerBundle()
+            new MyCp\PartnerBundle\PartnerBundle(),
+            new AntiMattr\GoogleBundle\GoogleBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
