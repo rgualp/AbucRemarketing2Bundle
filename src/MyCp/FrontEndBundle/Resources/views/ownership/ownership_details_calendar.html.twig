@@ -127,7 +127,7 @@
             <div class="row">
                 <div class="col-sm-12 text-center">
                     <div class="col-sm-6">
-                        <button style="padding: 5px 10px" onclick="$('#check_dispo').val('')" class="btn btn-primary" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                        <button style="padding: 5px 10px" onclick="$('#check_dispo').val('')" class="btn btn-primary {% if ownership.OwnInmediateBooking2 %} hide {% endif %}" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
                         </button>
                     </div>
