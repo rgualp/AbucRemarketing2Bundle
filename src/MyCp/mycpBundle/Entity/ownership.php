@@ -403,6 +403,13 @@ class ownership {
     /**
      * @var datetime
      *
+     * @ORM\Column(name="own_availability_update", type="datetime", nullable=true)
+     */
+    private $own_availability_update;
+
+    /**
+     * @var datetime
+     *
      * @ORM\Column(name="own_publish_date", type="datetime", nullable=true)
      */
     private $own_publish_date;
@@ -604,6 +611,7 @@ class ownership {
         $this->comments = new ArrayCollection();
         $this->ownershipLogs = new ArrayCollection();
         $this->own_creation_date = new \DateTime();
+        $this->own_availability_update = new \DateTime();
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
         $this->own_inmediate_booking_2 = false;
@@ -663,6 +671,21 @@ class ownership {
 
         return $this;
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getOwnAvailabilityUpdate() {
+        return $this->own_availability_update;
+    }
+
+    /**
+     * @param DateTime $own_availability_update
+     */
+    public function setOwnAvailabilityUpdate($own_availability_update) {
+        $this->own_availability_update = $own_availability_update;
+    }
+
 
     /**
      * Get own_destination
