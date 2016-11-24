@@ -82,7 +82,7 @@ class SecurityController extends Controller
                         $body = $this->render('@Partner/Mail/restorePassword.html.twig', array('changeUrl' => $changeUrl, 'newPassword' => $newPassword));
 
                         $service_email = $this->get('Email');
-                        $service_email->sendTemplatedEmail(
+                        $service_email->sendTemplatedEmailPartner(
                             $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                         $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
                         $this->get('session')->getFlashBag()->add('message_global_success', $message);

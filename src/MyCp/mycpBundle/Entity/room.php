@@ -748,7 +748,7 @@ class room {
 
     public function isTriple()
     {
-        return $this->room_type == "Habitación Triple";
+        return ($this->room_type == "Habitación Triple" || $this->room_type == "Habitación doble" || $this->room_type == "Habitación doble (Dos camas)");
     }
 
 

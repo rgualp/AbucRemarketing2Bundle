@@ -167,62 +167,55 @@
     {% endif %}
     var form = $("#form-check-available");
         form.on("submit", function (e) {
-            if($('#check_dispo').val()!=2){
-                e.stopPropagation();
-                e.preventDefault();
+            if( $("#partner_reservation_name").val() !=''){
+                if($('#check_dispo').val()!=2){
+                    e.stopPropagation();
+                    e.preventDefault();
 
-                var clientName = $("#partner_reservation_name").val();
-                var clientId = $("#partner_reservation_client").val();
-                var formData = new FormData(form[0]);
-                formData.append("clientName", clientName);
-                formData.append("clientId", clientId);
-                $.ajax({
-                    url: form.attr('action'),
-                    type: "post",
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        if(response=='0'){
-                            if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
-                                swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
-                            }
-                            else
-                                swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
-                            $('#addWhisList').removeClass('hide');
-                        }
-                        else{
-                            if(login){
-                                if($('#check_dispo').val()==''){
-                                    $('#list-cart').attr('href','#');
-                                    $('#list-cart').attr('data-toggle','dropdown');
-                                    $('#list-cart').addClass('dropdown-toggle');
-                                    $('#whish-list').html(response);
-                                    $('#count-cart').text($('#total-cart').data('counter'));
-                                    swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
-                                    $('#addWhisList').removeClass('hide');
+                    var clientName = $("#partner_reservation_name").val();
+                    var clientId = $("#partner_reservation_client").val();
+                    var formData = new FormData(form[0]);
+                    formData.append("clientName", clientName);
+                    formData.append("clientId", clientId);
+                    HoldOn.open();
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "post",
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            HoldOn.close();
+                            $('#myModalReservation').modal('hide');
+                            if(response=='0'){
+                                if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
+                                    swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
                                 }
-                                if($('#check_dispo').val()==1){
-                                    swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
-                                }
-                                if($('#check_dispo').val()==2){
-                                    window.location.href="{{ path('frontend_mycasatrip_available') }}";
-                                    swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
-                                }
+                                else
+                                    swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
                             }
                             else{
-                                swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
-                                window.location.href="{{ path('frontend_public_login') }}";
-                                $('#addWhisList').removeClass('hide');
+                                    if($('#check_dispo').val()==1){
+                                        swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                                    }
+                                    if($('#check_dispo').val()==2){
+                                        swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                                    }
+
                             }
 
                         }
-
-                    }
-                });
+                    });
+                }
             }
+            else{
+                swal("{{ 'client_name_require'| trans }}", "", "error");
+                e.stopPropagation();
+                e.preventDefault();
+            }
+
         });
 
     $('#checkAvailable').on('click',function(){

@@ -41,7 +41,11 @@
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
         {% set url_image = asset("uploads/ownershipImages/" ~ photo) %}
-        <img class="lazyload" alt="{{ name }}" data-src="{{ url_image | apply_filter('mycp_thumb_front') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" />
+        {% if notLazyLoad is defined and notLazyLoad == true %}
+            <img class="lazyload" src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+        {% else %}
+            <img class="lazyload" alt="{{ name }}" data-src="{{ url_image | apply_filter('mycp_thumb_front') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" />
+        {% endif %}
     </a>
 </div>
 

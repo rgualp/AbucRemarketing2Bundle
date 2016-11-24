@@ -1144,7 +1144,7 @@
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Dreibettzimmer mit Aufpreis von</target>
+                <target>Alle doppel und drittel Zimmern eine Nachgebuhr haben</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
@@ -1724,7 +1724,7 @@
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Dreibettzimmer mit Aufpreis von</target>
+                <target>Alle doppel und drittel Zimmern eine Nachgebuhr haben</target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>

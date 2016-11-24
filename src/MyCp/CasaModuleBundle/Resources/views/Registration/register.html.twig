@@ -92,6 +92,28 @@
 
         </div>
         <hr>
+        {% for message in app.session.flashbag.get('message_ok') %}
+            <div class="alert alert-info alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ message }}</div>
+        {% endfor %}
+        {% for message in app.session.flashbag.get('message_error') %}
+            <div class="alert alert-danger alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ message }}</div>
+        {% endfor %}
+        {% if error is defined and error is not null %}
+            <div class="alert alert-danger alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
+        {% endif %}
+        {% if errors is defined and errors is not empty %}
+            <div class="alert alert-danger alert-dismissable">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                {% for error in errors %}
+                    {{ error | trans }}
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="col-md-4">
             <div class="loginscreen text-center animated fadeInDown">
                 <form class="form-horizontal" action="{{ path('my_cp_casa_login_check') }}" method="post" id="login">
@@ -134,28 +156,6 @@
             </div>
         </div>
         <div class="col-md-8">
-                {% for message in app.session.flashbag.get('message_ok') %}
-                    <div class="alert alert-info alert-dismissable">
-                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ message }}</div>
-                {% endfor %}
-                {% for message in app.session.flashbag.get('message_error') %}
-                    <div class="alert alert-danger alert-dismissable">
-                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ message }}</div>
-                {% endfor %}
-                {% if error is defined and error is not null %}
-                    <div class="alert alert-danger alert-dismissable">
-                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
-                {% endif %}
-                {% if errors is defined and errors is not empty %}
-                    <div class="alert alert-danger alert-dismissable">
-                        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-                        {% for error in errors %}
-                            {{ error | trans }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
                 <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn" class="form-registerOwn">
                     <div class="col-md-12 text-center">
                         <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>

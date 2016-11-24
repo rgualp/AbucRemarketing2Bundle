@@ -27,7 +27,7 @@ class SecurityController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
-        return $this->render('MyCpCasaModuleBundle:Security:login.html.twig', array(
+        return $this->render('MyCpCasaModuleBundle:Registration:register.html.twig', array(
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error' => $error,
             'urlLogin' => $urlLogin,
