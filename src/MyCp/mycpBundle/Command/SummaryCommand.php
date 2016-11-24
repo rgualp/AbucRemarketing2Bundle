@@ -75,6 +75,10 @@ class SummaryCommand extends ContainerAwareCommand
 
         $first_day=$this->_data_first_month_day();
         $total_factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($first_day,$day);
+        $totalFactu=0;
+        foreach($total_factu as $aux){
+            $totalFactu+=$aux['facturacion'];
+        }
 
         $clientPendig=$em->getRepository("mycpBundle:generalReservation")->clientPendig();
 
@@ -83,8 +87,7 @@ class SummaryCommand extends ContainerAwareCommand
             $tmp=($client['own_res_total_in_site']*$client['own_commission_percent'])/100;
             $totalPending+=round($tmp);
         }
-
-         $meta=44000;
+        $meta=44000;
         //Cuerpo del correo
         $body = $templatingService
             ->renderResponse('mycpBundle:reports:emailSummary.html.twig', array(
@@ -110,7 +113,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'totalClient'=>count($clientPendig)+$reserved[0][1],
                 'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:$totalPending,
                 'factura'=>(count($factura))?$factura[0]['facturacion']:0,
-                'diferencia'=>(count($total_factu))?$meta-$total_factu[0]['facturacion']:0,
+                'diferencia'=>$meta-$totalFactu,
                 'meta'=>$meta
             ));
         try {
