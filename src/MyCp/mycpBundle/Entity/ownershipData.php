@@ -63,6 +63,20 @@ class ownershipData
      */
     private $principalPhoto;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="visits", type="integer", nullable=true)
+     */
+    private $visits;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="visitsLastWeek", type="integer", nullable=true)
+     */
+    private $visitsLastWeek;
+
 
     /**
      * @return mixed
@@ -177,6 +191,42 @@ class ownershipData
     public function setPhotosCount($photosCount)
     {
         $this->photosCount = $photosCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVisits()
+    {
+        return $this->visits;
+    }
+
+    /**
+     * @param int $visits
+     * @return mixed
+     */
+    public function setVisits($visits)
+    {
+        $this->visits = $visits;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVisitsLastWeek()
+    {
+        return $this->visitsLastWeek;
+    }
+
+    /**
+     * @param int $visitsLastWeek
+     * @return mixed
+     */
+    public function setVisitsLastWeek($visitsLastWeek)
+    {
+        $this->visitsLastWeek = $visitsLastWeek;
         return $this;
     }
 
