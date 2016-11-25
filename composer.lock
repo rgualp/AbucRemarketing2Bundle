@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3a8e40183c68609d99594f16d65e548c",
-    "content-hash": "a959fd02b0d3fa128941890ca93fd1d3",
+    "hash": "423889ede115e6c232057bfb54cbc76f",
+    "content-hash": "d4cf631b22d975b923d53c7555fa4cb3",
     "packages": [
         {
             "name": "abuc/remarketing-bundle",
@@ -103,18 +103,19 @@
         },
         {
             "name": "antimattr/google-bundle",
-            "version": "v2.0.4",
+            "version": "dev-master",
             "target-dir": "AntiMattr/GoogleBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/antimattr/GoogleBundle.git",
-                "reference": "06cf924dc4c71cfd5a181594b92601fa3c1675a8"
+                "url": "git@gitlab.hdshub.net:ander/googlebundle.git",
+                "reference": "594336bf4222e1d29d15687725b997244cbe8008"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/antimattr/GoogleBundle/zipball/06cf924dc4c71cfd5a181594b92601fa3c1675a8",
-                "reference": "06cf924dc4c71cfd5a181594b92601fa3c1675a8",
-                "shasum": ""
+            "archive": {
+                "exclude": [
+                    "bin",
+                    "Tests",
+                    "*phpunit.xml"
+                ]
             },
             "require": {
                 "antimattr/common-product": "~1.0@stable",
@@ -133,7 +134,12 @@
                     "AntiMattr\\GoogleBundle": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-0": {
+                    "AntiMattr\\TestCase\\": "vendor/antimattr/test-case/src",
+                    "AntiMattr\\GoogleBundle\\Tests\\": "Tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -156,7 +162,7 @@
                 "product",
                 "symfony"
             ],
-            "time": "2015-04-01 17:57:44"
+            "time": "2016-11-25 21:33:54"
         },
         {
             "name": "ass/xmlsecurity",
@@ -4111,7 +4117,7 @@
         "dompdf/dompdf": 20,
         "abuc/remarketing-bundle": 20,
         "phpoffice/phpexcel": 20,
-        "antimattr/google-bundle": 0
+        "antimattr/google-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
