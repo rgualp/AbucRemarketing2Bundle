@@ -85,6 +85,9 @@ class BackendPenaltyController extends Controller {
                 $em->persist($penalty);
                 $em->flush();
 
+                $message='La penalización se ha insertado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
+
                 $logger = $this->get('log');
 
                 return $this->redirect($this->generateUrl('mycp_list_penalties', array("accommodationId" => $accommodationId)));
@@ -99,6 +102,19 @@ class BackendPenaltyController extends Controller {
 
     public function deleteAction($idPenalty)
     {
-        throw new NotImplementedException("Por implementar");
+//        $service_security= $this->get('Secure');
+//        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+
+        $penalty=$em->getRepository('mycpBundle:penalty')->find($idPenalty);
+        $accommodationId = $penalty->getAccommodation()->getOwnId();
+        $em->remove($penalty);
+        $em->flush();
+        $message='La penalización se ha eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
+
+        $service_log = $this->get('log');
+
+        return $this->redirect($this->generateUrl('mycp_list_penalties', array("accommodationId" => $accommodationId)));
     }
 }
