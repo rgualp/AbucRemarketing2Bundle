@@ -1,0 +1,84 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':accommodation.ownMcpCode}) }}">{{ accommodation.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li class="active">Penalizaciones </li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Penalizaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':accommodation}%}</h2>
+<hr/>
+<a class="btn" href="#"><i class="icon-plus"></i> Adicionar penalización</a>&nbsp;
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+{% if list %}
+<div class="paginator-cont span11">
+    {{ simple_paginator_render('mycp_list_penalties',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última'
+}) }}
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Fecha Creación</th>
+        <th>Usuario</th>
+        <th>Motivo</th>
+        <th>¿Activa?</th>
+        <th style="text-align: right">
+            Acciones
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for penalty in list %}
+    <tr>
+        <td>{{ penalty.creationDate | date("d/m/Y h:i tt")  }}</td>
+        <td>{{ penalty.user.getUserCompleteName }}</td>
+        <td>{{ penalty.description }}</td>
+        <td>
+            {% if penalty.finalizationDate | date("U") > "now" | date("U") %}
+                <span class="badge badge-danger">Sí</span>
+            {% else %}
+                <span class="badge badge-success">No</span>
+            {% endif %}
+        </td>
+        <td style="text-align: right">
+            <button data='{{ path('mycp_delete_penalty',{'idPenalty':penalty.id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="paginator-cont span11">
+    {{ simple_paginator_render('mycp_list_penalties',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última'
+}) }}
+</div>
+    {% else %}
+    <p> <div class="alert alert-block">Este alojamiento no tiene penalizaciones</div></p>
+    {% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

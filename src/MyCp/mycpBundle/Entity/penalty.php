@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * log
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\penaltyRepository")
  */
 class penalty
 {
