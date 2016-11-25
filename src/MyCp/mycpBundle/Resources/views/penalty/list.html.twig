@@ -11,7 +11,7 @@
 {% block content %}
 <h2>Penalizaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':accommodation}%}</h2>
 <hr/>
-<a class="btn" href="#"><i class="icon-plus"></i> Adicionar penalización</a>&nbsp;
+<a class="btn" href="{{ path("mycp_create_penalty", {"accommodationId": accommodation.ownId}) }}"><i class="icon-plus"></i> Adicionar penalización</a>&nbsp;
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
@@ -42,7 +42,7 @@
     <tbody>
     {% for penalty in list %}
     <tr>
-        <td>{{ penalty.creationDate | date("d/m/Y h:i tt")  }}</td>
+        <td>{{ penalty.creationDate | date("d/m/Y h:i A")  }}</td>
         <td>{{ penalty.user.getUserCompleteName }}</td>
         <td>{{ penalty.description }}</td>
         <td>

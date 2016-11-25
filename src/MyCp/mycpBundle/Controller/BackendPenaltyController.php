@@ -4,7 +4,9 @@ namespace MyCp\mycpBundle\Controller;
 
 use MyCp\mycpBundle\Entity\batchType;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\penalty;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Form\penaltyType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
@@ -57,9 +59,42 @@ class BackendPenaltyController extends Controller {
         ));
     }
 
-    public function createAction($accommodationId)
+    public function createAction($accommodationId, Request $request)
     {
-        throw new NotImplementedException("Por implementar");
+//        $service_security = $this->get('Secure');
+//        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $penalty = new penalty();
+        $form = $this->createForm(new penaltyType(), $penalty);
+        $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
+
+        if ($request->getMethod() == 'POST') {
+            //$post_form = $request->get('mycp_mycpbundle_penaltytype');
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $creationDate = new \DateTime();
+                $finalizationDate = new \DateTime();
+                $finalizationDate->add(new \DateInterval('P61D'));
+
+                $penalty->setAccommodation($accommodation)
+                    ->setCreationDate($creationDate)
+                    ->setUser($this->getUser())
+                    ->setFinalizationDate($finalizationDate);
+
+                $em->persist($penalty);
+                $em->flush();
+
+                $logger = $this->get('log');
+
+                return $this->redirect($this->generateUrl('mycp_list_penalties', array("accommodationId" => $accommodationId)));
+            }
+        }
+
+        return $this->render(
+            'mycpBundle:penalty:new.html.twig',
+            array('form' => $form->createView(), 'accommodation' => $accommodation)
+        );
     }
 
     public function deleteAction($idPenalty)
