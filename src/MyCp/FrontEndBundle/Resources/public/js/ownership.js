@@ -320,7 +320,24 @@ function research(_page)
     var checked_filters = load_upper_filters(page);
 
     $.post(url, checked_filters, function(data) {
-        result.html(data);
+
+        result.attr("data-cant-page", data.cant_pages);
+
+        if (page == 1 && page == parseInt(data.cant_pages)){
+            otherpage = 1;
+            result.empty();
+            result.append(data.html);
+        }else if (page == 1){
+            otherpage = 1;
+            result.empty();
+            result.append(data.html);
+        } else if ( page <= data.cant_pages ){
+            result.append(data.html);
+        }
+
+
+
+
         hide_loading();
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");

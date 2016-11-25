@@ -173,7 +173,7 @@ hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
 .icon-facebook{background-position: -62px -211px; width: 22px; height: 22px;vertical-align: middle;}
 
 .tt-dropdown-menu{
-    z-index: 251 !important;
+    z-index: 1000 !important;
 }
 @media (max-width:400px){
     #main-search{

@@ -41,6 +41,7 @@
 {% block content_nav_top_body %}
     {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
+{% block marquesina %}{% endblock %}
 {% block custom_menus %}
     <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
         <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
@@ -88,7 +89,8 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <div class="houses-list thumbs-houses lazy-cont" id="div_result" data-current-page="{{ current_page }}">
+                    <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
+                    <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result" data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
 
                         {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                                 {#{'list': list,#}
@@ -108,8 +110,11 @@
 
             </div>
         </div>
-
+    {% block marquesina_js %}{% endblock %}
     {% block include_javascripts %}
+
+        <script>var otherpage = {{ current_page }};</script>
+
         {% javascripts
         '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
         '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
@@ -128,13 +133,32 @@
             var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
 
 
+
             $('#div_result').slimScroll({
                 height: h+'px',
                 start: 'top',
                 allowPageScroll: true
             }).bind('slimscrolling', function(e, pos){
-                $(window).scroll();
+                if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
+                    otherpage++;
+                    if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
+                        $('#div_result')[0].scrollTop = pos - 200;
+                        research(otherpage);
+
+//                        $(".elementList").each(function (e) {
+//                            var h = $(this).height();
+//                            if ($(this).find('img.lazy').hasClass('taller'))
+//                                $(this).find('.efect-blur').css('background-size', 'auto ' + h + "px");
+//                        });
+                    }
+                }
             });
+
+//            $('#div_result').scroll(function () {
+//                if ($('#search-result').scrollTop() >= $('#list-ownership').height() - $('#search-result').height()) {
+//
+//                }
+//            });
 
             var h1 = $('#search-container').height();
 
@@ -151,6 +175,7 @@
             });
 
         </script>
+        {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 {% endblock %}
 {% block go_up %}

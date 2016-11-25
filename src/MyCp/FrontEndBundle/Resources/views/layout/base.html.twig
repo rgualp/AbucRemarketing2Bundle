@@ -75,6 +75,9 @@
     {% block include_javascripts_and_css %}{% endblock %}
 </head>
 <body>
+{% block marquesina %}
+    {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
+{% endblock %}
 {% block custom_menus %}
     <div class="space space-20"></div>
     <div class="container">
@@ -258,11 +261,15 @@
 
     $(function() {
         $("img.lazyload").unveil();
-//        NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
-//        $("#marquee-close").on("click", function (e) {
-//            e.preventDefault();
-//            $(".marquesina").hide();
-//        })
+
+        {% block marquesina_js %}
+            NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
+            $("#marquee-close").on("click", function (e) {
+                e.preventDefault();
+                $(".marquesina").hide();
+            })
+        {% endblock %}
+
     });
 
 //    function showMarqee(){
