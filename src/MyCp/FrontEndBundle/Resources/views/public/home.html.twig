@@ -117,6 +117,10 @@
                 height:'400px'
             });
         });
+
+        $('#th-destination-carousel').on('slid.bs.carousel', function () {
+            $(window).trigger("scroll");
+        })
     });
 </script>
 {% endblock javascripts %}
