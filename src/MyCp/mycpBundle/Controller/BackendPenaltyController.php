@@ -38,8 +38,8 @@ class BackendPenaltyController extends Controller {
 
     public function listAction($accommodationId)
     {
-//        $service_security = $this->get('Secure');
-//        $service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
@@ -61,8 +61,8 @@ class BackendPenaltyController extends Controller {
 
     public function createAction($accommodationId, Request $request)
     {
-//        $service_security = $this->get('Secure');
-//        $service_security->verifyAccess();
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $penalty = new penalty();
         $form = $this->createForm(new penaltyType(), $penalty);
@@ -102,8 +102,8 @@ class BackendPenaltyController extends Controller {
 
     public function deleteAction($idPenalty)
     {
-//        $service_security= $this->get('Secure');
-//        $service_security->verifyAccess();
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
         $penalty=$em->getRepository('mycpBundle:penalty')->find($idPenalty);
