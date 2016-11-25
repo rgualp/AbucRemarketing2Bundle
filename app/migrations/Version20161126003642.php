@@ -29,6 +29,10 @@ class Version20161126003642 extends AbstractMigration
             ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (select max(perm_id) from permission where perm_route = 'mycp_create_penalty')),
             ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (select max(perm_id) from permission where perm_route = 'mycp_delete_penalty'))");
 
+        $this->addSql("insert rolepermission (rp_role, rp_permission)
+            values ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM'), (select max(perm_id) from permission where perm_route = 'mycp_list_penalties')),
+            ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM'), (select max(perm_id) from permission where perm_route = 'mycp_create_penalty')),
+            ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM'), (select max(perm_id) from permission where perm_route = 'mycp_delete_penalty'))");
 
     }
 
@@ -44,6 +48,10 @@ class Version20161126003642 extends AbstractMigration
         $this->addSql("delete from rolepermission where rp_role = (select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF') and rp_permission = (select max(perm_id) from permission where perm_route = 'mycp_list_penalties')");
         $this->addSql("delete from rolepermission where rp_role = (select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF') and rp_permission = (select max(perm_id) from permission where perm_route = 'mycp_create_penalty')");
         $this->addSql("delete from rolepermission where rp_role = (select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF') and rp_permission = (select max(perm_id) from permission where perm_route = 'mycp_delete_penalty')");
+
+        $this->addSql("delete from rolepermission where rp_role = (select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM') and rp_permission = (select max(perm_id) from permission where perm_route = 'mycp_list_penalties')");
+        $this->addSql("delete from rolepermission where rp_role = (select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM') and rp_permission = (select max(perm_id) from permission where perm_route = 'mycp_create_penalty')");
+        $this->addSql("delete from rolepermission where rp_role = (select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM') and rp_permission = (select max(perm_id) from permission where perm_route = 'mycp_delete_penalty')");
 
         //Deleting permissions
         $this->addSql("delete from permission where perm_description = 'Listar penalizaciones' and perm_category = 'Penalizaciones' and perm_route = 'mycp_list_penalties'");
