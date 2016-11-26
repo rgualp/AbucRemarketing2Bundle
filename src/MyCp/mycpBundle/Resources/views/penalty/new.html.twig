@@ -4,7 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':accommodation.ownMcpCode}) }}">{{ accommodation.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':accommodation.ownId}) }}">{{ accommodation.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li class="active">Penalizaciones </li>
 </ul>
 {% endblock %}
