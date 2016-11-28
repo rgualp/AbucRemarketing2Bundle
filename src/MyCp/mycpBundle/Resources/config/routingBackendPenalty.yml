@@ -1,0 +1,12 @@
+mycp_list_penalties:
+    pattern:  /list/{accommodationId}
+    defaults: { _controller: mycpBundle:BackendPenalty:list}
+
+mycp_create_penalty:
+    pattern:  /create/{accommodationId}
+    defaults: { _controller: mycpBundle:BackendPenalty:create }
+
+
+mycp_delete_penalty:
+    pattern:  /delete/{idPenalty}
+    defaults: { _controller: mycpBundle:BackendPenalty:delete }

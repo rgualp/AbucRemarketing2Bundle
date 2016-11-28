@@ -593,6 +593,11 @@ class ownership {
      */
     private $rankingExtra;
 
+    /**
+     * @ORM\OneToMany(targetEntity="penalty", mappedBy="accommodation")
+     */
+    private $penalties;
+
 
     /**
      * Constructor
@@ -618,6 +623,7 @@ class ownership {
         $this->owners = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->insertedInCasaModule = false;
+        $this->penalties = new ArrayCollection();
     }
 
     /**
@@ -2551,6 +2557,45 @@ class ownership {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPenalties()
+    {
+        return $this->penalties;
+    }
 
+    /**
+     * @param mixed $penalties
+     * @return mixed
+     */
+    public function setPenalties($penalties)
+    {
+        $this->penalties = $penalties;
+        return $this;
+    }
+
+    /**
+     * Add created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     *
+     * @return user
+     */
+    public function addPenalty(penalty $penalty)
+    {
+        $this->penalties[] = $penalty;
+        return $this;
+    }
+
+    /**
+     * Remove created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     */
+    public function removePenalty(penalty $penalty)
+    {
+        $this->penalties->removeElement($penalty);
+    }
 
 }
