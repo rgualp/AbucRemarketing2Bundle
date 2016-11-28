@@ -1,17 +1,20 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
-{% block nav_heigth %}52px{% endblock %}
 {% block include_javascripts_and_css %}
-    {#{% stylesheets#}
-    {#'@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'#}
-    {#filter='?uglifycss'#}
-    {#%}#}
-    {#<link rel="stylesheet" href="{{ asset_url }}" />#}
-    {#{% endstylesheets %}#}
-    <link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/ion.rangeSlider.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/frontend/js/plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/frontend/css/slider.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/frontend/css/filtersv2.css') }}" rel="stylesheet">
+    {% stylesheets
+    '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
+    '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+    '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
+    '@FrontEndBundle/Resources/public/css/slider.css'
+    '@FrontEndBundle/Resources/public/css/filtersv2.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {#<link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/ion.rangeSlider.css') }}" rel="stylesheet">#}
+    {#<link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/') }}" rel="stylesheet">#}
+    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
+    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
+    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
     {% javascripts
     '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
     '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
@@ -37,6 +40,16 @@
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
     {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
+{% endblock %}
+{% block marquesina %}{% endblock %}
+{% block custom_menus %}
+    <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
+        <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+            <div class="container">
+                {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
+            </div>
+        </nav>
+    </div>
 {% endblock %}
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
@@ -76,7 +89,8 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <div class="houses-list thumbs-houses lazy-cont" id="div_result" data-current-page="{{ current_page }}">
+                    <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
+                    <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result" data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
 
                         {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                                 {#{'list': list,#}
@@ -88,7 +102,7 @@
             </div>
             <div class="col-sm-5 p-0">
                 {%if view_results != 'MAP'%}
-                <div class="thumbnail" id="search_map" style="width:100%;height:500px;" class="google-maps"></div>
+                <div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>
                 {%endif%}
                 <div  id="json_search_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
                 data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
@@ -96,8 +110,11 @@
 
             </div>
         </div>
-
+    {% block marquesina_js %}{% endblock %}
     {% block include_javascripts %}
+
+        <script>var otherpage = {{ current_page }};</script>
+
         {% javascripts
         '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
         '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
@@ -108,22 +125,60 @@
         {% endjavascripts %}
 
         <script>
-$('.bs-select').selectpicker({
-    iconBase: 'fa',
-    tickIcon: 'fa-check'
-});
-var h=$(window).height()-55-$('.filters-container').height();
-var h1=h+$('.filters-container').height();
+            $('.bs-select').selectpicker({
+                iconBase: 'fa',
+                tickIcon: 'fa-check'
+            });
 
-$('#search_map').css('height',h1+'px');
+            var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
 
-$('#div_result').slimScroll({
-    height: h+'px',
-    start: 'top',
-    allowPageScroll: true
-}).bind('slimscrolling', function(e, pos){
-    $(window).scroll();
-});
+
+
+            $('#div_result').slimScroll({
+                height: h+'px',
+                start: 'top',
+                allowPageScroll: true
+            }).bind('slimscrolling', function(e, pos){
+                if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
+                    otherpage++;
+                    if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
+                        $('#div_result')[0].scrollTop = pos - 200;
+                        research(otherpage);
+
+//                        $(".elementList").each(function (e) {
+//                            var h = $(this).height();
+//                            if ($(this).find('img.lazy').hasClass('taller'))
+//                                $(this).find('.efect-blur').css('background-size', 'auto ' + h + "px");
+//                        });
+                    }
+                }
+            });
+
+//            $('#div_result').scroll(function () {
+//                if ($('#search-result').scrollTop() >= $('#list-ownership').height() - $('#search-result').height()) {
+//
+//                }
+//            });
+
+            var h1 = $('#search-container').height();
+
+            $('#search_map').css('height',h1+'px');
+
+
+            $('[data-submenu]').submenupicker();
+
+            $(function() {
+               $(".show-more-footer a").click(function (e) {
+                   e.preventDefault();
+                   $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
+               })
+            });
+
         </script>
+        {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 {% endblock %}
+{% block go_up %}
+    <div class="show-more-footer text-center"><a title="{{"FOOTER" | trans }}" href="#"><i class="ion-more"></i></a></div>
+{% endblock %}
+{% block forsearch %}{{ 'footer-static' }}{% endblock %}
