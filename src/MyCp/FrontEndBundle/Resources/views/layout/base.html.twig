@@ -266,12 +266,14 @@
         $("img.lazyload").unveil();
 
         {% block marquesina_js %}
-            NavbarScrollFixed.init(".marquesina","fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
-            $("#marquee-close").on("click", function (e) {
-                e.preventDefault();
-                $(".marquesina").hide();
-            })
+        NavbarScrollFixed.init(".marquesina", "fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
+        $("#marquee-close").on("click", function (e) {
+            e.preventDefault();
+            $(".marquesina").hide();
+        })
         {% endblock %}
+
+    });
 
     function showMarqee(){
         if ($("#top-menu").find(".breadcrumb-top").length != 0){

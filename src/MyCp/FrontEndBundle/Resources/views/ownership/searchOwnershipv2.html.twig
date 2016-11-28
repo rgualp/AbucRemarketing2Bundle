@@ -55,7 +55,7 @@
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
   <div class="row" id="search-container" style="width: 100%; margin:0;">
-            <div class="col-sm-7 p-0" style="padding-right: 0;">
+            <div class="col-sm-7 p-0" style="padding-right: 0; position: relative">
                 <div id="loading" class="hidden">
                     <div class="layer-loading"></div>
                     <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
@@ -132,8 +132,6 @@
 
             var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
 
-
-
             $('#div_result').slimScroll({
                 height: h+'px',
                 start: 'top',
@@ -172,6 +170,8 @@
                    e.preventDefault();
                    $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
                })
+
+                $("iframe").css("position", "fixed");
             });
 
         </script>
