@@ -1,0 +1,66 @@
+{% if main_tab is not defined %}
+    {% set main_tab = 0 %}
+{% endif %}
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav onhover helvetica-roman">
+        <li class="{% if  main_tab == 1 %}active{% endif %}">
+            <a style="padding: 2px;" title="{{ "HOMEPAGE_TITLE" | trans }}" href="{{ path('frontend_welcome') }}"><img
+                        src="{{ asset('bundles/frontend/img/icons/mycp-white.png') }}"></a></li>
+        <li class="dropdown {% if  main_tab == 2 %}active{% endif %} main-menu">
+            {{ render(controller('FrontEndBundle:Public:getMainMenuDestinations')) }}
+        </li>
+        <li class="dropdown {% if  main_tab == 5 %}active{% endif %} main-menu">
+            {{ render(controller('FrontEndBundle:Public:getMainMenuAccomodations')) }}
+        </li>
+        <li class="{% if  main_tab == 6 %}active{% endif %}">
+            {{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}
+        </li>
+        <li>
+            <a data-submenu="" data-toggle="dropdown" class="dropdown-toggle" style="font-size: 38px; padding: 0px 7px;" href="#"> <i
+                        class="ion-navicon"></i> </a>
+            <ul class="dropdown-menu">
+                <li><a title="{{ "JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration') }}">{{ "JOIN_CASA"| trans }}</a></li>
+                <li><a title="{{ "HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information') }}"><i style="color: #fff; font-size: 12px; margin-right: 5px;" class="glyphicons log_book"></i>{{ "HOW_IT_WORKS" | trans }}</a></li>
+                <li class="dropdown-submenu">
+                    <a tabindex="0" title="{{ "LANGUAGE" | trans }}"><i style="color: #fff; font-size: 12px; margin-right: 5px;" class="glyphicons chat"></i>
+                        {{ (app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name') }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a tabindex="0" title="{{ "CURRENCY" | trans }}"><i style="color: #fff; font-size: 12px; margin-right: 5px;" class="glyphicons coins"></i>
+                        {{ (app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper }}
+                        </a>
+                    <ul class="dropdown-menu">
+                        {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+    </ul>
+
+
+    <ul class="nav navbar-nav onhover helvetica-roman" style="float:right;margin-right: -10px">
+        <li>
+            {{ include('FrontEndBundle:utils:mainMenuUser.html.twig') }}
+        </li>
+    </ul>
+
+    <div class="pull-right" style="margin-right: 40px;">
+        <ul class="nav nav-pills">
+            <li>
+                {{ render(controller('FrontEndBundle:Favorite:favoriteTopNav')) }}
+            </li>
+            <li>
+                {{ render(controller('FrontEndBundle:Cart:countCartItems', { 'search' : true }) ) }}
+            </li>
+            <li>
+                {{ render(controller('FrontEndBundle:Cart:countCestatItems', { 'search' : true }) ) }}
+            </li>
+        </ul>
+    </div>
+
+</div>

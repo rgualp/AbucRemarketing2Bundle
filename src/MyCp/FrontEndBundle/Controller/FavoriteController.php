@@ -186,4 +186,17 @@ class FavoriteController extends Controller {
         }
     }
 
+    public function favoriteTopNavAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+
+        $countItems = $em->getRepository('mycpBundle:favorite')->getTotal($user_ids['user_id'],$user_ids['session_id']);
+        $response = $this->render('FrontEndBundle:favorite:topNavFavorites.html.twig', array(
+            'count_fav'=>$countItems
+        ));
+
+        return $response;
+    }
+
 }

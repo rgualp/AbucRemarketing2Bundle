@@ -18,19 +18,23 @@ class CartController extends Controller {
     /**
      * @return Response
      */
-    public function countCartItemsAction() {
+    public function countCartItemsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
+
+        $search = $request->get('search') ? $request->get('search') : false;
+
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
-                    'count' => $countItems
+            'count' => $countItems,
+            'search' => $search
         ));
     }
 
     /**
      * @return Response
      */
-    public function countCestatItemsAction() {
+    public function countCestatItemsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         // disponibles Mayores que (hoy - 30) días
@@ -41,9 +45,12 @@ class CartController extends Controller {
         $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
         $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
 
+        $search = $request->get('search') ? $request->get('search') : false;
+
         return $this->render('FrontEndBundle:cart:cestaCountItems.html.twig', array(
-                'count' => count($list)
-            ));
+            'count' => count($list),
+            'search' => $search
+        ));
     }
 
 
