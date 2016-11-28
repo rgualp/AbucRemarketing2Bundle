@@ -50,6 +50,28 @@
     <div class="content-filter">
         <div class="row">
             <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2"
+                               name="own_inmediate_booking2" {% if app.session.get('inmediate') != null and app.session.get('inmediate') == "1" %} checked="checked"{% endif %}
+                               data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"
+                               data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"/>{{ 'IMMEDIATE_BOOKING'|trans }}
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking"
+                               name="own_inmediate_booking" {% if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %}
+                               data-aux-text="{{ "quick_bookinhg" | trans }}"
+                               data-aux-text="{{ "quick_bookinhg" | trans }}"/>{{ 'quick_bookinhg'|trans }}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
                 <span class="h-dark-grey-2">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</span>
                 {% set count=owns_prices|length-1 %}
                 <div class="row" style="margin-top: 20px; padding-left: 15px;">
@@ -57,18 +79,6 @@
                     <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
                     <b style="display: inline-block; margin-left: 15px;">${{ owns_prices[count][1] }}</b>
                 </div>
-
-                {#<div id="ionrange_prices" style="margin-top: 20px; position: relative;"></div>#}
-                {#<span class="h-dark-grey-2">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</span>#}
-                {#{%for price in owns_prices%}#}
-                {#<div class="checkbox">#}
-                {#<label>#}
-                {#<input class="action_remove_filter_up" type="checkbox" name="own_price" value="{{price[0]}}" {%if check_filters is defined and price[0] in check_filters['own_price']%} checked="checked" {%endif%} {%if price[2] == '0'%} disabled="disabled" {%endif%}/>#}
-                {#{{"FROM_PRICES" | trans}} {{price[0] | price}} {{"TO_PRICES" | trans}} {{price[1] | price}} ({{price[2]}})#}
-                {#</label>#}
-                {#</div>#}
-                {#{%endfor%}#}
-
             </div>
             <div class="col-sm-3">
                 <span class="h-dark-grey-2">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</span>
@@ -139,39 +149,6 @@
         </div>
 
         <div class="row">
-            {#<div class="col-sm-4">#}
-            {#<span class="h-dark-grey-2">{{"ROOM_TOTAL_WATERMARK" | trans}}</span>#}
-            {#<div class="checkbox">#}
-            {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="1" {%if check_filters is defined and '1' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['rooms_total_1']}})#}
-            {#</label>#}
-            {#</div>#}
-            {#<div class="checkbox">#}
-            {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="2" {%if check_filters is defined and  '2' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['rooms_total_2']}})#}
-            {#</label>#}
-            {#</div>#}
-            {#<div class="checkbox">#}
-            {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="3" {%if check_filters is defined and '3' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['rooms_total_3']}})#}
-            {#</label>#}
-            {#</div>#}
-            {#<div class="checkbox">#}
-            {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="4" {%if check_filters is defined and '4' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['rooms_total_4']}})#}
-            {#</label>#}
-            {#</div>#}
-            {#<div class="checkbox">#}
-            {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="5" {%if check_filters is defined and '5' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['rooms_total_5']}})#}
-            {#</label>#}
-            {#</div>#}
-            {#<div class="checkbox">#}
-            {#<label>#}
-            {#<input class="action_remove_filter_up" data-aux-text="{{"RESERVATION_ROOMS" | trans}}" type="checkbox" name="room_total" value="+6" {%if check_filters is defined and '+6' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_more_5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['rooms_total_more_5']}})#}
-            {#</label>#}
-            {#</div>#}
-            {#</div>#}
             <div class="col-sm-4">
                 <span class="h-dark-grey-2">{{"backend.menu.package.services" | trans}}</span>
                 <div class="checkbox">
@@ -329,105 +306,7 @@
     </div>
 </div>
 </div>
-    {#<hr/>#}
-    {#<span class="h-dark-grey-2">{{"ROOM_WINDOWS" | trans}}</span>#}
-
-    {#<div class="checkbox">#}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="1" {%if check_filters is defined and '1' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['room_total_windows_1']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">#}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="2" {%if check_filters is defined and '2' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['room_total_windows_2']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">#}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="3" {%if check_filters is defined and '3' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['room_total_windows_3']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">#}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="4" {%if check_filters is defined and '4' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['room_total_windows_4']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">#}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="5" {%if check_filters is defined and '5' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['room_total_windows_5']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">#}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"WINDOWS_ROOMS" | trans}}" name="room_windows_total" value="+6" {%if check_filters is defined and '+6' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_more_5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_windows_more_5']}})#}
-        {#</label>#}
-    {#</div>#}
-
-    {#<span class="h-dark-grey-2">{{"SEARCH_ANOTHER_SERVICES" | trans}}</span>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" id="room_others_pets" {%if check_filters is defined and check_filters['own_others_pets']%} checked="checked" {%endif%} {%if not( own_statistics['own_services_pets'] > 0 or (check_filters is defined and check_filters['own_others_pets']))%} disabled="disabled" {%endif%}/> {{"PETS_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_pets']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" id="room_others_internet" {%if check_filters is defined and check_filters['own_others_internet']%} checked="checked" {%endif%} {%if not( own_statistics['own_service_internet_email'] > 0 or (check_filters is defined and check_filters['own_others_internet']))%} disabled="disabled" {%endif%}/> {{"INTERNET_OTHERS_FILTER" | trans}} ({{own_statistics['own_service_internet_email']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<hr/>#}
-    {#<span class="h-dark-grey-2">{{"SELECT_INCLUDE_IN_PRICE_OPTION" | trans}}</span>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_included" value="JACUZZY" {%if service_jacuzzy%} checked="checked" {%endif%} {%if not( own_statistics['own_water_jacuzzi'] > 0 or service_jacuzzy)%} disabled="disabled" {%endif%}/>{{"JACUZZI_BATROOM_FILTER" | trans}} ({{own_statistics['own_water_jacuzzi']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_included" value="SAUNA" {%if service_sauna%} checked="checked" {%endif%} {%if not(own_statistics['own_water_sauna'] > 0 or service_sauna)%} disabled="disabled" {%endif%}/>{{"SAUNA_BATHROOM_FILTER" | trans}} ({{own_statistics['own_water_sauna']}})#}
-        {#</label> #}
-    {#</div>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_included" value="POOL" {%if service_pool%} checked="checked" {%endif%} {%if not(own_statistics['own_water_pool'] > 0 or service_pool)%} disabled="disabled" {%endif%}/>{{"POOL_OTHERS_FILTER" | trans}} ({{own_statistics['own_water_pool']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<hr/>#}
-    {#<span class="h-dark-grey-2">{{"SELECT_NOT_INCLUDE_IN_PRICE_OPTION" | trans}}</span>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="BREAKFAST" {%if service_breakfast%} checked="checked" {%endif%} {%if not( own_statistics['own_services_breakfast'] > 0 or service_breakfast)%} disabled="disabled" {%endif%}/>{{"BREAKFAST_FILTER" | trans}} ({{own_statistics['own_services_breakfast']}})#}
-        {#</label> #}
-    {#</div>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="DINNER" {%if service_dinner%} checked="checked" {%endif%} {%if not(own_statistics['own_services_dinner'] > 0 or service_dinner)%} disabled="disabled" {%endif%}/>{{"DINNER_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_dinner']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="LAUNDRY" {%if service_laundry%} checked="checked" {%endif%} {%if not(own_statistics['own_services_laundry'] > 0 or service_laundry)%} disabled="disabled" {%endif%}/>{{"LAUNDRY_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_laundry']}})#}
-        {#</label>#}
-    {#</div>#}
-    {#<div class="checkbox">        #}
-        {#<label>#}
-            {#<input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="PARKING" {%if service_parking%} checked="checked" {%endif%} {%if not(own_statistics['own_services_parking'] > 0 or service_parking)%} disabled="disabled" {%endif%}/>{{"PARKING_THERS_FILTER" | trans}} ({{own_statistics['own_services_parking']}})#}
-        {#</label>#}
-    {#</div>#}
 <script>
-//    $("#ionrange_prices").ionRangeSlider({
-//        min: 0,
-//        max: 300,
-//        from: 10,
-//        to:200,
-//        type: 'double',
-//        prefix: "$",
-//        maxPostfix: "+",
-//        prettify: false,
-////        hasGrid: true,
-//        force_edges: true,
-//        hide_min_max: true,
-////        grid_num: 5
-//    });
 $("#priceFilter").slider({});
 $('#cancel-filters').on('click',function(){
     $('#button_research').removeClass('hide');
