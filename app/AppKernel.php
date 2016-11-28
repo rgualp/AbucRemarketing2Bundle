@@ -35,7 +35,7 @@ class AppKernel extends Kernel
             new MyCp\MobileFrontendBundle\MyCpMobileFrontendBundle(),
             new MyCp\LayoutBundle\LayoutBundle(),
             new MyCp\PartnerBundle\PartnerBundle(),
-            new AntiMattr\GoogleBundle\GoogleBundle()
+            new AntiMattr\GoogleBundle\GoogleBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
