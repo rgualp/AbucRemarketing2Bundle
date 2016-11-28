@@ -5,6 +5,7 @@ namespace MyCp\FrontEndBundle\Controller;
 use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MyCp\FrontEndBundle\Helpers\Utils;
@@ -830,6 +831,7 @@ class OwnershipController extends Controller {
                         'list' => $result_list,
                         'items_per_page' => $items_per_page,
                         'total_items' => $paginator->getTotalItems(),
+                        'cant_pages' => $paginator->getLastPage(),
                         'current_page' => $page,
                         'check_filters' => $check_filters,
                         'show_paginator' => true,
@@ -853,6 +855,7 @@ class OwnershipController extends Controller {
                         'list' => $result_list,
                         'items_per_page' => $items_per_page,
                         'total_items' => $paginator->getTotalItems(),
+                        'cant_pages' => $paginator->getMaxPagerItems(),
                         'current_page' => $page,
                         'show_paginator' => true,
                         'awards'=>$awards
@@ -1104,9 +1107,10 @@ class OwnershipController extends Controller {
             $session->set('own_ids', $own_ids);
 
             $paginator = $this->get('ideup.simple_paginator');
-            $items_per_page = 20;
+            $items_per_page = 8;
             $paginator->setItemsPerPage($items_per_page);
             $list = $paginator->paginate($results_list)->getResult();
+
             $page = 1;
             if (isset($_GET['page']))
                 $page = $_GET['page'];
@@ -1116,6 +1120,7 @@ class OwnershipController extends Controller {
                     'list' => $list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
+                    'cant_pages' => $paginator->getLastPage(),
                     'current_page' => $page,
                     'list_preffix' => 'search',
                     'show_paginator' => true
@@ -1123,6 +1128,7 @@ class OwnershipController extends Controller {
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
                 $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
                     'list' => $list,
+                    'cant_pages' => $paginator->getLastPage(),
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
@@ -1134,12 +1140,14 @@ class OwnershipController extends Controller {
                     'list' => $list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
+                    'cant_pages' => $paginator->getMaxPagerItems(),
                     'current_page' => $page,
                     'list_preffix' => 'search',
                     'show_paginator' => true
                 ));
 
-            return new Response($response, 200);
+
+            return new JsonResponse(array('html'=>$response, 'cant_pages' => $paginator->getLastPage()));
         }
     }
 

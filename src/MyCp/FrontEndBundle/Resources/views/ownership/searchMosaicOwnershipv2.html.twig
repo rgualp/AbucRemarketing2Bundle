@@ -1,13 +1,10 @@
-<div class="row result_list ownerships_mosaic">
+
     {% if list | length %}
         <div class="row">
         {% set cont=0 %}
 
-
-
-        <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
         {% for ownership in list %}
-            {% if cont <2 %}
+            {% if cont < 2 %}
                 <div class="col-sm-6">
                     <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon {% endif %}" data-id="{{ ownership.own_id }}">
                         {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
@@ -231,80 +228,29 @@
                     </div>
                 </div>
             {% endif %}
-        {% else %}
-            <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
         {% endfor %}
         </div>
-        {% if (show_paginator is defined and show_paginator) and list | length and total_items > items_per_page %}
-            <div class="text-center">
-                {% if paginator is defined %}
-                    {{ simple_paginator_render('frontend_search_ownership',null,{
-                        'container_class': 'pagination',
-                        'previousPageText': '«',
-                        'nextPageText': '»',
-                        'currentClass': 'current',
-                        'firstPageText': 'FIRST_PAGE' | trans,
-                        'lastPageText': 'LAST_PAGE' | trans,
-
-                        'firstPage': paginator['firstPage'],
-                        'previousPage':paginator['previousPage'],
-                        'minPage':paginator['minPage'],
-                        'maxPage':paginator['maxPage'],
-                        'currentPage':paginator['currentPage'],
-                        'nextPage':paginator['nextPage'],
-                        'lastPage':paginator['lastPage'],
-
-                        'route_params': {'text': app.session.get('search_text'),
-                            'arrival':app.session.get('search_arrival_date'),
-                            'departure': app.session.get('search_departure_date'),
-                            'guests': app.session.get('search_guests'),
-                            'rooms': app.session.get('search_rooms')}
-                    }) }}
-                {% else %}
-                    {{ simple_paginator_render('frontend_search_ownership',null,{
-                        'container_class': 'pagination',
-                        'previousPageText': '«',
-                        'nextPageText': '»',
-                        'currentClass': 'current',
-                        'firstPageText': 'FIRST_PAGE' | trans,
-                        'lastPageText': 'LAST_PAGE' | trans,
-                        'route_params': {'text': app.session.get('search_text'),
-                            'arrival':app.session.get('search_arrival_date'),
-                            'departure': app.session.get('search_departure_date'),
-                            'guests': app.session.get('search_guests'),
-                            'rooms': app.session.get('search_rooms')}
-                    }) }}
-                {% endif %}
-
-            </div>
-        {% endif %}
     {% else %}
         <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
     {% endif %}
 
-</div>
 
-<script type="text/javascript">
-    $(function () {
-        $('img.lazy').jail();
+{#<script type="text/javascript">#}
+    {#$(function () {#}
+        {#$("img.lazyload").unveil();#}
 
-        $(".elementList").each(function (e) {
-            var h = $(this).height();
-            if ($(this).find('img.lazy').hasClass('taller'))
-                $(this).find('.efect-blur').css('background-size', 'auto ' + h + "px");
-        });
-        /*$('.accommodationPhoto').each(function(){
-         var imageHeight = parseInt($(this).height());
-         var imageWidth = parseInt($(this).width());
-         if (imageHeight > imageWidth) {
-         $(this).addClass('taller');
-         }
-         });*/
+        {#/*$('.accommodationPhoto').each(function(){#}
+         {#var imageHeight = parseInt($(this).height());#}
+         {#var imageWidth = parseInt($(this).width());#}
+         {#if (imageHeight > imageWidth) {#}
+         {#$(this).addClass('taller');#}
+         {#}#}
+         {#});*/#}
 
 
-    });
-</script>
-{{ include('FrontEndBundle:script:script.html.twig') }}
+    {#});#}
+{#</script>#}
+{#{{ include('FrontEndBundle:script:script.html.twig') }}#}
 
 
 
