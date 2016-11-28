@@ -1606,10 +1606,21 @@ class ownershipRepository extends EntityRepository {
         {
             $data = $em->getRepository("mycpBundle:ownershipData")->findOneBy(array("accommodation" => $accommodation["own_id"]));
 
-            $data->setVisits($data->getVisits() + 1)
-                ->setVisitsLastWeek($data->getVisitsLastWeek() + 1);
 
-            $em->persist($data);
+            if($data != null) {
+                $data->setVisits($data->getVisits() + 1)
+                    ->setVisitsLastWeek($data->getVisitsLastWeek() + 1);
+
+                $em->persist($data);
+            }
+            /*else{
+                $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("accommodation" => $accommodation["own_id"]));
+                $data = new ownershipData();
+                $data->setAccommodation($ownership);
+                $data->setVisits(1);
+                $data->setVisitsLastWeek(1);
+                $data->set
+            }*/
             $em->flush();
         }
 
