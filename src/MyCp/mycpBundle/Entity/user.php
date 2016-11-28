@@ -175,10 +175,16 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $tourOperators;
 
+    /**
+     * @ORM\OneToMany(targetEntity="penalty", mappedBy="user")
+     */
+    private $createdPenalties;
+
     public function __construct() {
         $this->comments = new ArrayCollection();
         $this->modified_reservations = new ArrayCollection();
         $this->tourOperators = new ArrayCollection();
+        $this->createdPenalties = new ArrayCollection();
     }
 
 
@@ -923,5 +929,87 @@ class user implements AdvancedUserInterface,  \Serializable
     {
         $this->tourOperators = $tourOperators;
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getModifiedReservations()
+    {
+        return $this->modified_reservations;
+    }
+
+    /**
+     * @param ArrayCollection $modified_reservations
+     * @return mixed
+     */
+    public function setModifiedReservations($modified_reservations)
+    {
+        $this->modified_reservations = $modified_reservations;
+        return $this;
+    }
+
+    /**
+     * Add modified reservation
+     *
+     * @param mixed $reservation
+     *
+     * @return user
+     */
+    public function addModifiedReservation($reservation)
+    {
+        $this->modified_reservations[] = $reservation;
+        return $this;
+    }
+
+    /**
+     * Remove modified reservation
+     *
+     * @param mixed $reservation
+     */
+    public function removeModifiedReservation($reservation)
+    {
+        $this->modified_reservations->removeElement($reservation);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedPenalties()
+    {
+        return $this->createdPenalties;
+    }
+
+    /**
+     * @param mixed $createdPenalties
+     * @return mixed
+     */
+    public function setCreatedPenalties($createdPenalties)
+    {
+        $this->createdPenalties = $createdPenalties;
+        return $this;
+    }
+
+    /**
+     * Add created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     *
+     * @return user
+     */
+    public function addCreatedPenalty(penalty $penalty)
+    {
+        $this->createdPenalties[] = $penalty;
+        return $this;
+    }
+
+    /**
+     * Remove created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     */
+    public function removeCreatedPenalty(penalty $penalty)
+    {
+        $this->createdPenalties->removeElement($penalty);
     }
 }

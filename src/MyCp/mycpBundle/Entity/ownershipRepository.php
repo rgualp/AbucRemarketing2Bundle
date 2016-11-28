@@ -1600,7 +1600,31 @@ class ownershipRepository extends EntityRepository {
         $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
         $query_string .= " WHERE o.own_name = :own_name AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
 
-        return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
+        $accommodation =  $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
+
+        if($accommodation != null)
+        {
+            $data = $em->getRepository("mycpBundle:ownershipData")->findOneBy(array("accommodation" => $accommodation["own_id"]));
+
+
+            if($data != null) {
+                $data->setVisits($data->getVisits() + 1)
+                    ->setVisitsLastWeek($data->getVisitsLastWeek() + 1);
+
+                $em->persist($data);
+            }
+            /*else{
+                $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("accommodation" => $accommodation["own_id"]));
+                $data = new ownershipData();
+                $data->setAccommodation($ownership);
+                $data->setVisits(1);
+                $data->setVisitsLastWeek(1);
+                $data->set
+            }*/
+            $em->flush();
+        }
+
+        return $accommodation;
     }
 
     function getDetailsByCode($own_mycp_code, $locale = "ES", $isSimple = false) {
