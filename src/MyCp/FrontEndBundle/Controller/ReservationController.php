@@ -530,6 +530,9 @@ class ReservationController extends Controller {
             throw $this->createNotFoundException();
         }
 
+        if ($payment->getStatus() === PaymentHelper::STATUS_PROCESSED)
+            $payment->generateEcomerceTracking($this->getDoctrine()->getManager(), $this);
+
         switch ($payment->getStatus()) {
             case PaymentHelper::STATUS_PENDING:
             case PaymentHelper::STATUS_SUCCESS:
