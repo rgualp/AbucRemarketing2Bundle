@@ -598,6 +598,11 @@ class ownership {
      */
     private $penalties;
 
+    /**
+     * @ORM\OneToMany(targetEntity="touristFailure", mappedBy="accommodation")
+     */
+    private $touritsFailures;
+
 
     /**
      * Constructor
@@ -624,6 +629,7 @@ class ownership {
         $this->payments = new ArrayCollection();
         $this->insertedInCasaModule = false;
         $this->penalties = new ArrayCollection();
+        $this->touritsFailures = new ArrayCollection();
     }
 
     /**
@@ -2597,5 +2603,48 @@ class ownership {
     {
         $this->penalties->removeElement($penalty);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTouritsFailures()
+    {
+        return $this->touritsFailures;
+    }
+
+    /**
+     * @param mixed $touritsFailures
+     * @return mixed
+     */
+    public function setTouritsFailures($touritsFailures)
+    {
+        $this->touritsFailures = $touritsFailures;
+        return $this;
+    }
+
+    /**
+     * Add created touristFailure
+     *
+     * @param \MyCp\mycpBundle\Entity\touristFailure $failure
+     *
+     * @return user
+     */
+    public function addTouritsFailure(touristFailure $failure)
+    {
+        $this->touritsFailures[] = $failure;
+        return $this;
+    }
+
+    /**
+     * Remove created touristFailure
+     *
+     * @param \MyCp\mycpBundle\Entity\touristFailure $failure
+     */
+    public function removeTouritsFailure(touristFailure $failure)
+    {
+        $this->touritsFailures->removeElement($failure);
+    }
+
+
 
 }
