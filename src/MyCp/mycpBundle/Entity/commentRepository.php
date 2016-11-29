@@ -293,4 +293,22 @@ class commentRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function isFromUserWithReservations(comment $comment){
+        $em = $this->getEntityManager();
+
+        $queryStr = "SELECT COUNT(res) FROM mycpBundle:generalReservation res
+                JOIN res.own_reservations r
+                JOIN r.own_res_reservation_booking b
+                JOIN b.payments p
+                WHERE res.gen_res_user_id = :userId
+                AND res.gen_res_own_id = :accommodationId
+                AND res.gen_res_status = ".generalReservation::STATUS_RESERVED."
+                AND (p.status = ".PaymentHelper::STATUS_SUCCESS." OR p.status = ".PaymentHelper::STATUS_PROCESSED.")";
+
+        return $em->createQuery($queryStr)
+            ->setParameter('userId', $comment->getComUser()->getUserId())
+            ->setParameter('accommodationId', $comment->getComOwnership()->getOwnId())
+            ->getOneOrNullResult();
+    }
+
 }
