@@ -5,7 +5,6 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
-use Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation;
 
 /**
  * commentRepository

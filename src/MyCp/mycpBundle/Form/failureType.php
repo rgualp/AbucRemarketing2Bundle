@@ -4,20 +4,31 @@ namespace MyCp\mycpBundle\Form;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\generalReservationRepository;
-use MyCp\mycpBundle\Helpers\FormMode;
+use MyCp\mycpBundle\Entity\nomenclatorRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Collection;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
 
-class touristFailureType extends AbstractType
+class failureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('type', 'entity', array(
+                'label'=>'Tipo:',
+                'class' => 'MyCp\mycpBundle\Entity\nomenclator',
+                'query_builder' => function (nomenclatorRepository $er) {
+                    return $er->createQueryBuilder('n')
+                        ->innerJoin('n.translations', 't')
+                        ->join("t.nom_lang_id_lang", "lang")
+                        ->where("n.nom_category = 'failureType'")
+                        ->andWhere("lang.lang_code = 'ES'");
+                },
+                'property' => 'translations[0].nom_lang_description',
+                'required' => true,
+                'multiple' => false
+            ))
             ->add('reservation', 'entity', array(
                 'label'=>'Reserva:',
                 'class' => 'MyCp\mycpBundle\Entity\generalReservation',
@@ -45,12 +56,12 @@ class touristFailureType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MyCp\mycpBundle\Entity\touristFailure'
+            'data_class' => 'MyCp\mycpBundle\Entity\failure'
         ));
     }
 
     public function getName()
     {
-        return 'mycp_mycpbundle_touristfailuretype';
+        return 'mycp_mycpbundle_failuretype';
     }
 }
