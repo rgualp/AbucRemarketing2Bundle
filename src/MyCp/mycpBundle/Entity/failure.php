@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * log
  *
- * @ORM\Table(name="tourist_failure")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\touristFailureRepository")
+ * @ORM\Table(name="failure")
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\failureRepository")
  */
-class touristFailure
+class failure
 {
     /**
      * @var integer
@@ -28,7 +28,7 @@ class touristFailure
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="touritsFailures")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="failures")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
     private $accommodation;
@@ -45,6 +45,12 @@ class touristFailure
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="failureTypes")
+     * @ORM\JoinColumn(name="type", referencedColumnName="nom_id", nullable=true)
+     */
+    private $type;
 
     /**
      * @var \DateTime
@@ -153,6 +159,24 @@ class touristFailure
     public function setReservation($reservation)
     {
         $this->reservation = $reservation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return mixed
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 

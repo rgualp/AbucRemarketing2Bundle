@@ -150,11 +150,9 @@
                                                 <td>
                                                     <h5 style="margin:0">{{ comment.getComOwnership.getOwnMcpCode }}: {{comment.comownership.ownname}}</h5>
         {{ comment.getComComments }} <br/>
-                                                    {% if commentArray[1] %}
-                                                        ¿Es un comentario positivo?
-                                                        <a><i class="fa fa-thumbs-o-up"></i></a>
-                                                        <a class="btn btn-mini btn-sucess"><i class="fa fa-thumbs-o-down"></i></a>
-                                                    {% endif %}
+                                                    <div id="positive_{{ comment.comId }}">
+                                                        {% include 'mycpBundle:comment:positiveComment.html.twig' with { 'isFromUserWithReservation': commentArray[1], 'comment': comment } %}
+                                                    </div>
 
                                                     <div class="row-fluid text-right" style="text-align: right">
                                                         <a class="btn btn-mini" href="{{ path('mycp_edit_comment',{'id_comment':comment.getComId, 'return_url':return_url}) }}">Editar</a>
@@ -201,6 +199,9 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="text/javascript">
+
+        $("#bViewReport").click(viewReport);
+
         function actionSelected(isForPublic)
         {
             var checkValues = $('input[name=check_comment]:checked').map(function() {

@@ -46,12 +46,18 @@ class nomenclator
     private $payments;
 
     /**
+     * @ORM\OneToMany(targetEntity="failure",mappedBy="type")
+     */
+    private $failureTypes;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->translations = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->failureTypes = new ArrayCollection();
     }
     
     /**
@@ -143,6 +149,24 @@ class nomenclator
     public function setPayments($payments)
     {
         $this->payments = $payments;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFailureTypes()
+    {
+        return $this->failureTypes;
+    }
+
+    /**
+     * @param mixed $failureTypes
+     * @return mixed
+     */
+    public function setFailureTypes($failureTypes)
+    {
+        $this->failureTypes = $failureTypes;
         return $this;
     }
 
