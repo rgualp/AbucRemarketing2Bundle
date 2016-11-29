@@ -29,3 +29,7 @@ mycp_public_selected_callback_comment:
 mycp_delete_selected_callback_comment:
     pattern:  /delete_selected/
     defaults: { _controller: mycpBundle:BackendComment:deleteSelectedCallback }
+
+mycp_change_positive:
+    pattern:  /change-positive
+    defaults: { _controller: mycpBundle:BackendComment:changePositiveCallback}
