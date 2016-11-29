@@ -212,8 +212,14 @@ class BookingService extends Controller
         $booking = $this->getBooking($bookingId);
         $payment = $this->getPaymentByBooking($booking);
         $user = $this->getUserByBooking($booking);
-        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        if($user->getRoles()[0] == "ROLE_CLIENT_PARTNER"){
+            $userLocale = strtolower($user->getUserLanguage()->getLangCode());
+        }
+        else{
+            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+            $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        }
+
 
         $currency = $payment->getCurrency();
         $currencySymbol = $currency->getCurrSymbol();
@@ -403,6 +409,7 @@ class BookingService extends Controller
             && $status !== PaymentHelper::STATUS_SUCCESS) {
             return;
         }
+
 
         $paymentPending = $status == PaymentHelper::STATUS_PENDING;
         $this->updateReservationStatuses($bookingId, $status);

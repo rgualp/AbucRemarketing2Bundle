@@ -394,6 +394,7 @@ h6{
     left: -8px;
     top: -7px;
     padding: 4px;
+    min-width: 20px;
 }
 .navbar-inverse .navbar-toggle {
     border: medium none;
@@ -971,8 +972,15 @@ ul.details-desc li i{
     top: 0;
 }
 input[type="radio"][disabled], input[type="checkbox"][disabled], .radio[disabled], .radio-inline[disabled], .checkbox[disabled], .checkbox-inline[disabled], .table-condensed thead > tr > th, .table-condensed tbody > tr > th, .table-condensed tfoot > tr > th, .table-condensed thead > tr > td, .table-condensed tbody > tr > td, .table-condensed tfoot > tr > td {
-    font-size: 12px;
-    padding: 4px;
+    font-size: 10px;
+    padding: 3px;
+}
+.dropdown-menu.datepicker {
+    background-color: #ffffff;
+    left: auto;
+    min-width: 80px;
+    right: 0;
+    width: 142px !important;
 }
 
 select.form-control-2 {
@@ -1021,8 +1029,15 @@ footer {
 
 .dropdown-menu, .tt-dropdown-menu {
     left: auto;
-    right: -47px;
     min-width: 80px;
+    right: 0;
+    width: 310px !important;
+}
+
+#whish-list .dropdown-menu, .tt-dropdown-menu {
+    left: auto;
+    min-width: 80px;
+    right: -60px;
     width: 310px !important;
 }
 

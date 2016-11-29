@@ -17,6 +17,7 @@
 </ul>
     <div class="form-actions">
        <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
+       <a href="{{ path('mycp_send_voucher_reservation_booking',{ 'id_booking' :  payment.booking.bookingId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
     </div>
 {% endblock %}
 {% block content %}

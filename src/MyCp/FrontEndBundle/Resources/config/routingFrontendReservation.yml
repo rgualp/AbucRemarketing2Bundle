@@ -18,6 +18,10 @@ frontend_boucher_reservation:
     locales:  { en: "/user/confirmation/{id_booking}/", es: "/usuario/confirmacion/{id_booking}/", de: "/user/confirmation/{id_booking}/", fr: "/user/confirmation/{id_booking}/", it: "/user/confirmation/{id_booking}/" }
     defaults: { _controller: FrontEndBundle:Reservation:generatePdfVoucher }
 
+frontend_reservation_reservation_afterlogin:
+    locales:  { en: "/user/booking/", es: "/usuario/reservar/", de: "/user/booking/" }
+    defaults: { _controller: FrontEndBundle:Reservation:reservationAfterLogin }
+
 
 
 

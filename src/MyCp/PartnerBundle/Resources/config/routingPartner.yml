@@ -337,3 +337,12 @@ partner_dashboard_booking_cancel_reservation:
 partner_dashboard_cart_reservation_detail:
     locales:  { en: "/dashboard/cart-detail/{idReservation}", es: "/dashboard/carrito-detalle/{idReservation}", de: "/dashboard/cart-detail/{idReservation}", fr: "/dashboard/cart-detail/{idReservation}", it: "/dashboard/cart-detail/{idReservation}" }
     defaults: { _controller: PartnerBundle:Cart:cartWithOpenReservation }
+
+partner_frontend_get_reservation_calendar_ownership_callback:
+    pattern:  /reservation-calendar/
+    locales:  { en: "/reservation-calendar/", es: "/calendario-reservaciones/", de: "/reservation-calendar/" }
+    defaults: { _controller: PartnerBundle:Dashboard:getReservationCalendar }
+
+partner_add_to_cart:
+    locales:  { en: "/user/cart/add/{id_ownership}", es: "/usuario/cesta/agregar/{id_ownership}", de: "/user/cart/add/{id_ownership}" }
+    defaults: { _controller: PartnerBundle:Dashboard:addToCart }

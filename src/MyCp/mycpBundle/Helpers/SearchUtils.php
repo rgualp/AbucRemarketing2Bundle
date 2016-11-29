@@ -504,9 +504,6 @@ class SearchUtils {
             if (array_key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where .= " AND r.room_safe = 1";
 
-            if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking'])
-                $where .= " AND o.own_inmediate_booking = 1";
-
             if (array_key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
                 $where .= " AND (r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";
 
@@ -570,16 +567,16 @@ class SearchUtils {
                 if($insideWhere != "")
                     $where.= " AND (" .$insideWhere. ")";
             }
-            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+           /* if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
 
                 if($insideWhere != "")
-                    $where .= " HAVING award1 IN (" . $insideWhere . ")";
+                    $where .= " GROUP BY own_id HAVING award1 IN (" . $insideWhere . ")";
 
 //                if($insideWhere != "")
 //                    $where .= " AND award_id IN (" . $insideWhere . ")";
-            }
+            }*/
 
         }
         return $where;
@@ -668,7 +665,7 @@ class SearchUtils {
         
     }
 
-    private static function getStringFromArray($array, $has_string_items = true, $element_to_remove = null) {
+    public static function getStringFromArray($array, $has_string_items = true, $element_to_remove = null) {
         if (is_array($array)) {
             $quotas_element = (($has_string_items) ? "'" : "");
             $string_value = "";

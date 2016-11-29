@@ -98,6 +98,43 @@ class ReservationHelper {
 
         return $results;
     }
+    public static function sendingEmailToReservationTeamBodyPartner($genResId, $em, $controller, $service_time, $request) {
+        $generalReservation = $em
+            ->getRepository('mycpBundle:generalReservation')->find($genResId);
+
+        $user = $generalReservation->getGenResUserId();
+
+        $ownershipReservations = $em
+            ->getRepository('mycpBundle:generalReservation')
+            ->getOwnershipReservations($generalReservation);
+
+        $arrayNights = array();
+        $roomNums = array();
+
+        foreach ($ownershipReservations as $ownershipReservation) {
+            $nights = $service_time
+                ->nights(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+                );
+
+            array_push($arrayNights, $nights);
+
+            $room = $em->getRepository("mycpBundle:room")->find($ownershipReservation->getOwnResSelectedRoomId());
+            array_push($roomNums, $room->getRoomNum());
+        }
+        $results = array();
+        $results[] = $controller->render('FrontEndBundle:mails:rt_email_check_available_partner.html.twig', array(
+                'user' => $user,
+                'reservations' => $ownershipReservations,
+                'nigths' => $arrayNights,
+                'comment' => $request->getSession()->get('message_cart'),
+                'roomNums' => $roomNums
+            ));
+
+        $results[] = "MyCasaParticular Reservas - " . strtoupper($user->getUserLanguage()->getLangCode());
+
+        return $results;
+    }
 
     public static function sendingEmailToReservationTeam($genResId, $em, $controller, $service_email, $service_time, $request, $toAddress, $fromAddress) {
 
@@ -107,6 +144,16 @@ class ReservationHelper {
 
         $service_email->sendEmail(
                 $subject, $fromAddress, $subject, $toAddress, $body
+        );
+    }
+    public static function sendingEmailToReservationTeamPartner($genResId, $em, $controller, $service_email, $service_time, $request, $toAddress, $fromAddress) {
+
+        $texts = ReservationHelper::sendingEmailToReservationTeamBodyPartner($genResId, $em, $controller, $service_time, $request);
+        $subject = $texts[1];
+        $body = $texts[0];
+
+        $service_email->sendEmail(
+            $subject, $fromAddress, $subject, $toAddress, $body
         );
     }
 

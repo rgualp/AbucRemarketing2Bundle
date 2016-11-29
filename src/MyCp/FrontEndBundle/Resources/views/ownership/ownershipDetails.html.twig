@@ -1,5 +1,5 @@
-{% set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null and app.session.get('search_arrival_date').timestamp is defined ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y"))) %}
-{% set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null and app.session.get('search_departure_date').timestamp is defined ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))) %}
+{% set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y"))) %}
+{% set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))) %}
 {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
 
 {% extends 'FrontEndBundle:layout:base.html.twig' %}

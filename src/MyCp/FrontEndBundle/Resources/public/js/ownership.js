@@ -1,19 +1,21 @@
-$(document).ready(start);
+$(document).ready(start_s);
 
-function start() {
+function start_s() {
     $('#select_change_order').change(change_order);
     $('#change_view_to_list').click(change_view_to_list);
     $('#change_view_to_photo').click(change_view_to_photo);
     $('#change_view_to_map').click(change_view_to_map);
 
-    load_upper_filters();
+    // load_upper_filters();
 
     //Buscador que esta encima de los filtros
-    $('#button_research').click(research);
+    $('#button_research').click(function(){
+        research(1);
+    });
 
     $(window).keydown(function(event){
         if (event.keyCode == 13){
-            research();
+            research(1);
         }
     });
 
@@ -23,83 +25,20 @@ function start() {
     $('.action_remove_filter_up').change(function() {
         remove_filter_up($(this));
     });
-    //$('#own_reservation_type').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=own_category]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=own_type]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=own_price]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=room_total]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=room_type]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=room_bathroom]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_airconditioner').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_audiovisuals').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_kids').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_smoker').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_safe').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_balcony').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_terraza').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_courtyard').change(function() {
-    //    filter_by_others(false);
-    //});
-    //
-    //$('input[name=room_beds_total]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=room_windows_total]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=others_languages]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=others_included]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('input[name=others_not_included]').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_others_pets').change(function() {
-    //    filter_by_others(false);
-    //});
-    //$('#room_others_internet').change(function() {
-    //    filter_by_others(false);
-    //});
+
     $('#filters-submit').click(function () {
-        filter_by_others(false);
+        research(1);
     });
-    initialize_map();
     datePickersStarUp();
     $('#btn_insert_comment').click(insert_comment);
     //reservations_in_details();
     datePickersStarUp_searcher();
     connectSearchOnEnter();
-    $("#btn_search").click(search);
+    $("#btn_search").click(function () {
+        research(1);
+    });
+
+    research(-1);
 
     top_rated();
 }
@@ -174,98 +113,43 @@ function do_paginate()
     });
 }
 
-function datePickersStarUp_searcher() {
-    $('.show_calendar').click(function(){
-    $("#"+$(this).prev().attr('id')).datepicker('show');
-    });
-    $('#input_arrival_date').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: true,
-        autoclose: true,
-        startDate: today_date,
-        date: start_date,
-        language: $('#input_arrival_date').attr('data-localization')
-    }).on('changeDate', function(ev) {
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            departure_datepicker.setStartDate(startDate);
-            var valueDate = new Date(ev.date);
-            valueDate.setDate(valueDate.getDate() + 2);
-            departure_datepicker.setDate(valueDate);
-        });
-
-    var departure_datepicker = $('#input_departure_date').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: false,
-        autoclose: true,
-        startDate: '+1d',
-        date: end_date,
-        language: $('#input_departure_date').attr('data-localization')
-    }).data('datepicker');
-}
+// function datePickersStarUp_searcher() {
+//     $('.show_calendar').click(function(){
+//     $("#"+$(this).prev().attr('id')).datepicker('show');
+//     });
+//     $('#input_arrival_date').datepicker({
+//         format: 'dd/mm/yyyy',
+//         todayBtn: true,
+//         autoclose: true,
+//         startDate: today_date,
+//         date: start_date,
+//         language: $('#input_arrival_date').attr('data-localization')
+//     }).on('changeDate', function(ev) {
+//             var startDate = new Date(ev.date);
+//             startDate.setDate(startDate.getDate() + 1);
+//             departure_datepicker.setStartDate(startDate);
+//             var valueDate = new Date(ev.date);
+//             valueDate.setDate(valueDate.getDate() + 2);
+//             departure_datepicker.setDate(valueDate);
+//         });
+//
+//     var departure_datepicker = $('#input_departure_date').datepicker({
+//         format: 'dd/mm/yyyy',
+//         todayBtn: false,
+//         autoclose: true,
+//         startDate: '+1d',
+//         date: end_date,
+//         language: $('#input_departure_date').attr('data-localization')
+//     }).data('datepicker');
+// }
 
 function connectSearchOnEnter() {
     $('#orange_search_bar').keydown(function(e) {
         var keycode = (e.keyCode ? e.keyCode : e.which);
         if ((keycode === 13)) {
-            search();
+            research();
         }
     });
-}
-
-
-
-function search() {
-    var url = $('#btn_search').attr('data-url');
-
-    var text = $('#input_text').val().toString();
-    text = text.replace("-", "--");
-    text = text.replace(/ /g, "-");
-    text = text.replace("ñ", "_nn_");
-    text = text.replace("Ñ", "_nn_");
-    text = text.replace("á", "a");
-    text = text.replace("é", "e");
-    text = text.replace("í", "i");
-    text = text.replace("ó", "o");
-    text = text.replace("ú", "u");
-    text = text.replace("ü", "u");
-    text = text.toLowerCase();
-    text = text.replace("_nn_", "ñ");
-    if (text != $('#input_text').attr("placeholder") && text != "")
-        url = url.toString().replace('_text', text);
-    else
-        url = url.toString().replace('_text', null);
-
-    var arrival = $('#input_arrival_date').val();
-    if (typeof arrival !== "undefined" && arrival != $('#input_arrival_date').attr("placeholder") && arrival != "")
-        url = url.toString().replace('_arrival', create_dateDMY(arrival));
-    else
-        url = url.toString().replace('_arrival', null);
-
-    var departure = $('#input_departure_date').val();
-    if (typeof departure !== "undefined" && departure != $('#input_departure_date').attr("placeholder") && departure != "")
-        url = url.toString().replace('_departure', create_dateDMY(departure));
-    else
-        url = url.toString().replace('_departure', null);
-
-    var guests = $('#input_guests').val();
-    if (guests != $('#input_guests').attr("placeholder") && guests != "")
-        url = url.toString().replace('_guests', guests);
-    else
-        url = url.toString().replace('_guests', '1');
-
-    var rooms = $('#input_room').val();
-    if (rooms != $('#input_room').attr("placeholder") && rooms != "")
-        url = url.toString().replace('_rooms', rooms);
-    else
-        url = url.toString().replace('_rooms', '1');
-    //'order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books'
-    var order_price=$(input[type='radio', name='priceOrder']).val();
-    if (order_price != "")
-        url = url.toString().replace('_order_price', order_price);
-    else
-        url = url.toString().replace('_order_price', '');
-    window.location = url;
 }
 
 function create_dateDMY(date_text) {
@@ -278,77 +162,77 @@ function create_dateDMY(date_text) {
     return null;
 }
 
-function datePickersStarUp(){
-
-    $('#top_reservation_filter_date_from').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        autoclose: true,
-        startDate: today_date,
-        date: start_date,
-        language: $('#top_reservation_filter_date_from').attr('data-localization')
-    }).on('changeDate', function(ev){
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            reservation_filter_date_to.setStartDate(startDate);
-            var date = new Date(ev.date);
-            date.setDate(date.getDate() + 2);
-            reservation_filter_date_to.setDate(date);
-
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            $('#filter_date_from').datepicker("setDate", startDate);
-            $('#filter_date_to').datepicker("setDate", date);
-
-
-            $('.datepicker').hide();
-            $('#top_reservation_submit_button').attr('type','submit');
-            $('#top_reservation_submit_button').attr('onclick','');
-            $('#top_reservation_submit_button').html(reservation_see_prices_text);
-        });
-
-    var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:false,
-        autoclose: true,
-        startDate: '+1d',
-        date: end_date,
-        language: $('#top_reservation_filter_date_to').attr('data-localization')
-    }).data('datepicker');
-
-    $('#filter_date_from').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        autoclose: true,
-        startDate: today_date,
-        date: start_date,
-        language: $('#filter_date_from').attr('data-localization')
-    }).on('changeDate', function(ev){
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            $('#filter_date_to').datepicker("setStartDate", startDate);
-            var date = new Date(ev.date);
-            date.setDate(date.getDate() + 2);
-            $('#filter_date_to').datepicker("setDate", date);
-            $('.datepicker').hide();
-
-            refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
-
-            /*var start_date = new Date(ev.date);
-             start_date.setDate(start_date.getDate() + 1);
-             $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
-             $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
-        });
-
-    var filter_date_to =$('#filter_date_to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn: false,
-        autoclose: true,
-        startDate: '+1d',
-        date: end_date,
-        language: $('#filter_date_to').attr('data-localization')
-    }).data('datepicker');
-}
+// function datePickersStarUp(){
+//
+//     $('#top_reservation_filter_date_from').datepicker({
+//         format:'dd/mm/yyyy',
+//         todayBtn:'linked',
+//         autoclose: true,
+//         startDate: today_date,
+//         date: start_date,
+//         language: $('#top_reservation_filter_date_from').attr('data-localization')
+//     }).on('changeDate', function(ev){
+//             var startDate = new Date(ev.date);
+//             startDate.setDate(startDate.getDate() + 1);
+//             reservation_filter_date_to.setStartDate(startDate);
+//             var date = new Date(ev.date);
+//             date.setDate(date.getDate() + 2);
+//             reservation_filter_date_to.setDate(date);
+//
+//             var startDate = new Date(ev.date);
+//             startDate.setDate(startDate.getDate() + 1);
+//             $('#filter_date_from').datepicker("setDate", startDate);
+//             $('#filter_date_to').datepicker("setDate", date);
+//
+//
+//             $('.datepicker').hide();
+//             $('#top_reservation_submit_button').attr('type','submit');
+//             $('#top_reservation_submit_button').attr('onclick','');
+//             $('#top_reservation_submit_button').html(reservation_see_prices_text);
+//         });
+//
+//     var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
+//         format:'dd/mm/yyyy',
+//         todayBtn:false,
+//         autoclose: true,
+//         startDate: '+1d',
+//         date: end_date,
+//         language: $('#top_reservation_filter_date_to').attr('data-localization')
+//     }).data('datepicker');
+//
+//     $('#filter_date_from').datepicker({
+//         format:'dd/mm/yyyy',
+//         todayBtn:'linked',
+//         autoclose: true,
+//         startDate: today_date,
+//         date: start_date,
+//         language: $('#filter_date_from').attr('data-localization')
+//     }).on('changeDate', function(ev){
+//             var startDate = new Date(ev.date);
+//             startDate.setDate(startDate.getDate() + 1);
+//             $('#filter_date_to').datepicker("setStartDate", startDate);
+//             var date = new Date(ev.date);
+//             date.setDate(date.getDate() + 2);
+//             $('#filter_date_to').datepicker("setDate", date);
+//             $('.datepicker').hide();
+//
+//             refresh_calendar(startDate.getDate() + '/' + (startDate.getMonth() + 1) + '/' + startDate.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+//
+//             /*var start_date = new Date(ev.date);
+//              start_date.setDate(start_date.getDate() + 1);
+//              $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
+//              $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
+//         });
+//
+//     var filter_date_to =$('#filter_date_to').datepicker({
+//         format:'dd/mm/yyyy',
+//         todayBtn: false,
+//         autoclose: true,
+//         startDate: '+1d',
+//         date: end_date,
+//         language: $('#filter_date_to').attr('data-localization')
+//     }).data('datepicker');
+// }
 
 function change_order()
 {
@@ -420,360 +304,422 @@ function _changeViewTo(url, viewType, event) {
     return false;
 }
 
-function research()
+function research(_page)
 {
     show_loading();
+
     var url = $('#button_research').attr('data-url');
-
-    var arrival = $('#input_arrival_date').val();
-    var departure = $('#input_departure_date').val();
-    var guests = $('#input_guests').val();
-    var rooms = $('#input_room').val();
-    var text = $('#input_text').val();
-    var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
-    var order_comments='';
-    if($('#commentsOrder').hasClass('active'))
-        order_comments='ASC';
-    var order_books='';
-    if($('#booksOrder').hasClass('active'))
-        order_books='ASC';
     var result = $('#div_result');
-    var own_category_items=[];
-    $('input[name=own_category]:checked').each(function() {
-        own_category_items.push($(this).val());
-        if (document.getElementById("fu_own_category_" + $(this).val()) == null)
-        {
-            innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+
+    if (_page == -1){
+        var page = result.attr("data-current-page");
+    }else{
+        var page = _page;
+    }
+
+    var checked_filters = load_upper_filters(page);
+
+    $.post(url, checked_filters, function(data) {
+
+        result.attr("data-cant-page", data.cant_pages);
+
+        if (page == 1 && page == parseInt(data.cant_pages)){
+            otherpage = 1;
+            result.empty();
+            result.append(data.html);
+        }else if (page == 1){
+            otherpage = 1;
+            result.empty();
+            result.append(data.html);
+        } else if ( page <= data.cant_pages ){
+            result.append(data.html);
         }
-    });
 
-    arrival = (typeof arrival !== "undefined" && arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
-    departure = (typeof departure !== "undefined" && departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
-    text = (text != $('#input_text').attr('placeholder')) ? text : null;
 
-    $.post(url, {
-        'arrival': arrival,
-        'departure': departure,
-        'guests': guests,
-        'rooms': rooms,
-        'text': text,
-        'order_price': order_price,
-        'order_comments': order_comments,
-        'order_books': order_books,
-        'own_category': (own_category_items.length > 0) ? own_category_items : null
-    }, function(data) {
-        result.html(data);
+
+
+        hide_loading();
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
-        $(".filter_upper_item").each(function() {
-            var control_id = $(this).attr("data-control-id");
-            var control_name = $(this).attr("data-control-name");
-            var item_value = $(this).attr("data-value");
-
-            if (control_id =='#priceFilter')
-                $(control_id).val('');
-            else if (control_id !== "")
-                $("#"+control_id).removeAttr("checked");
-
-            if (control_name != "" && item_value != ""&& control_name != "own_category")
-            {
-                $('input[name=' + control_name + ']').each(function() {
-                    if ($(this).val() == item_value)
-                        $(this).removeAttr("checked");
-                });
-            }
-            $(this).remove();
-            hide_loading();
-        });
-        filter_by_others(true);
-        initialize_map();
+        initialize_search_map();
     });
 
     return false;
 }
 
-function load_upper_filters()
+function load_upper_filters(page)
 {
-    //var own_reservation_type= $("#own_reservation_type").val();
-    var own_type_items = [];
-    var own_category_items = [];
-    var own_price_items = [];
-    var own_price_from_items = [];
-    var own_price_to_items = [];
-    var room_total_items = [];
-    var room_type_items = [];
-    var room_bathroom_items = [];
-    var room_beds_total_items = [];
-    var room_windows_total_items = [];
-    var others_languages_items = [];
-    var others_included_items = [];
-    var own_awards = [];
-    var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
-    var own_inmediate_booking2 = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
-    var others_not_included_items = [];
-    var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
-    var order_comments='';
-    if($('#commentsOrder').hasClass('active'))
-        order_comments='ASC';
-    var order_books='';
-    if($('#booksOrder').hasClass('active'))
-        order_books='ASC';
-    var result = $('#div_result');
-    var innerHtml = $("#filter_upper").html();
+     //var own_reservation_type= $("#own_reservation_type").val();
+        var own_type_items = [];
+        var own_category_items = [];
+        var own_price_items = [];
+        var own_price_from_items = [];
+        var own_price_to_items = [];
+        var room_total_items = [];
+        var room_type_items = [];
+        var room_bathroom_items = [];
+        var room_beds_total_items = [];
+        var room_windows_total_items = [];
+        var others_languages_items = [];
+        var others_included_items = [];
+        var own_awards = [];
+        var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
+        var own_inmediate_booking2 = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
+        var others_not_included_items = [];
+        var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
+        var order_comments='';
+        if($('#commentsOrder').hasClass('active'))
+            order_comments='ASC';
+        var order_books='';
+        if($('#booksOrder').hasClass('active'))
+            order_books='ASC';
 
-    $('input[name=own_category]:checked').each(function() {
-        own_category_items.push($(this).val());
-        if (document.getElementById("fu_own_category_" + $(this).val()) == null)
+        $('input[name=own_category]:checked').each(function() {
+            own_category_items.push($(this).val());
+            if (document.getElementById("fu_own_category_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_own_category_" + $(this).val()).remove();
+            }
+        });
+        $('input[name=own_awards]:checked').each(function() {
+            own_awards.push($(this).val());
+            if (document.getElementById("fu_own_awards_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_awards_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_awards'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_own_awards_" + $(this).val()).remove();
+            }
+        });
+
+        //$('input[name=own_price]:checked').each(function() {
+        //    own_price_items.push($(this).val());
+        //    own_price_from_items.push($(this).val());
+        //    own_price_to_items.push(parseInt($(this).val()) + 25);
+        //
+        //    if (document.getElementById("fu_own_price_" + $(this).val()) == null)
+        //    {
+        //        innerHtml = $("#filter_upper").html();
+        //        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+        //    }
+        //});
+        var rangePrice=$('#priceFilter').val();
+        if(rangePrice!=''){
+            var res = rangePrice.split(",");
+            own_price_items.push(parseInt(res[0]));
+            own_price_from_items.push(parseInt(res[0]));
+            own_price_to_items.push(parseInt(res[1]));
+            if (document.getElementById("fu_own_price_" + rangePrice) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + rangePrice + "' data-control-id='#priceFilter' data-value='" + rangePrice + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + rangePrice + ")</a> ");
+            }else{
+                $("#fu_own_price_" + rangePrice).remove();
+            }
+        }
+        $('input[name=own_price]:checked').each(function() {
+            own_price_items.push($(this).val());
+            own_price_from_items.push($(this).val());
+            own_price_to_items.push(parseInt($(this).val()) + 25);
+
+            if (document.getElementById("fu_own_price_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_own_price_" + $(this).val()).remove();
+            }
+        });
+
+        $('input[name=room_total]:checked').each(function() {
+            room_total_items.push($(this).val());
+
+            if (document.getElementById("fu_room_total_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_total_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_total'><i class='icon-remove-sign'></i>" + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_room_total_" + $(this).val()).remove();
+            }
+        });
+        $('input[name=own_type]:checked').each(function() {
+            own_type_items.push($(this).val());
+            if (document.getElementById("fu_own_type_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_own_type_" + $(this).val()).remove();
+            }
+        });
+
+        $('input[name=room_type]:checked').each(function() {
+            room_type_items.push($(this).val());
+            if (document.getElementById("fu_room_type_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_room_type_" + $(this).val()).remove();
+            }
+        });
+
+        $('input[name=room_bathroom]:checked').each(function() {
+            room_bathroom_items.push($(this).val());
+            if (document.getElementById("fu_room_bathroom_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_bathroom_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_bathroom'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_room_bathroom_" + $(this).val()).remove();
+            }
+        });
+
+
+        var room_climatization = '';
+        room_climatization = room_climatization + ((document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked) ? $('#room_airconditioner').attr('data-value') : "");
+
+        if (document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked && document.getElementById("fu_room_airconditioner") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_airconditioner' data-control-id='room_airconditioner' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_airconditioner").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_airconditioner").remove();
         }
-    });
-    $('input[name=own_awards]:checked').each(function() {
-        own_awards.push($(this).val());
-        if (document.getElementById("fu_own_awards_" + $(this).val()) == null)
+
+        var room_audiovisuals = document.getElementById('room_audiovisuals') != null && document.getElementById('room_audiovisuals').checked;
+        if (room_audiovisuals && document.getElementById("fu_room_audiovisuals") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_awards_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_awards'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_audiovisuals' data-control-id='room_audiovisuals' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_audiovisuals").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_audiovisuals").remove();
         }
-    });
 
-    //$('input[name=own_price]:checked').each(function() {
-    //    own_price_items.push($(this).val());
-    //    own_price_from_items.push($(this).val());
-    //    own_price_to_items.push(parseInt($(this).val()) + 25);
-    //
-    //    if (document.getElementById("fu_own_price_" + $(this).val()) == null)
-    //    {
-    //        innerHtml = $("#filter_upper").html();
-    //        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
-    //    }
-    //});
-    var rangePrice=$('#priceFilter').val();
-    if(rangePrice!=''){
-        var res = rangePrice.split(",");
-    own_price_items.push(parseInt(res[0]));
-    own_price_from_items.push(parseInt(res[0]));
-    own_price_to_items.push(parseInt(res[1]));
-    if (document.getElementById("fu_own_price_" + rangePrice) == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + rangePrice + "' data-control-id='#priceFilter' data-value='" + rangePrice + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + rangePrice + ")</a> ");
-    }
-    }
-    $('input[name=own_price]:checked').each(function() {
-        own_price_items.push($(this).val());
-        own_price_from_items.push($(this).val());
-        own_price_to_items.push(parseInt($(this).val()) + 25);
+        var room_kids = document.getElementById('room_kids') != null && document.getElementById('room_kids').checked;
+        if (room_kids && document.getElementById("fu_room_kids") == null){
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_kids' data-control-id='room_kids' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_kids").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_kids").remove();
+        }
 
-        if (document.getElementById("fu_own_price_" + $(this).val()) == null)
+        var room_smoker = document.getElementById('room_smoker') != null && document.getElementById('room_smoker').checked;
+        if (room_smoker && document.getElementById("fu_room_smoker") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_smoker' data-control-id='room_smoker' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_smoker").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_smoker").remove();
         }
-    });
 
-    $('input[name=room_total]:checked').each(function() {
-        room_total_items.push($(this).val());
-
-        if (document.getElementById("fu_room_total_" + $(this).val()) == null)
+        var room_safe = document.getElementById('room_safe') != null && document.getElementById('room_safe').checked;
+        if (room_safe && document.getElementById("fu_room_safe") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_total_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_total'><i class='icon-remove-sign'></i>" + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_safe' data-control-id='room_safe' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_safe").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_safe").remove();
         }
-    });
-    $('input[name=own_type]:checked').each(function() {
-        own_type_items.push($(this).val());
-        if (document.getElementById("fu_own_type_" + $(this).val()) == null)
+
+        var room_balcony = document.getElementById('room_balcony') != null && document.getElementById('room_balcony').checked;
+        if (room_balcony && document.getElementById("fu_room_balcony") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_balcony' data-control-id='room_balcony' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_balcony").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_balcony").remove();
         }
-    });
 
-    $('input[name=room_type]:checked').each(function() {
-        room_type_items.push($(this).val());
-        if (document.getElementById("fu_room_type_" + $(this).val()) == null)
+        var room_terraza = document.getElementById('room_terraza') != null && document.getElementById('room_terraza').checked;
+        if (room_terraza && document.getElementById("fu_room_terraza") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_terraza' data-control-id='room_terraza' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_terraza").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_terraza").remove();
         }
-    });
 
-    $('input[name=room_bathroom]:checked').each(function() {
-        room_bathroom_items.push($(this).val());
-        if (document.getElementById("fu_room_bathroom_" + $(this).val()) == null)
+        var room_courtyard = document.getElementById('room_courtyard') != null && document.getElementById('room_courtyard').checked;
+        if (room_courtyard && document.getElementById("fu_room_courtyard") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_bathroom_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_bathroom'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_courtyard' data-control-id='room_courtyard' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_courtyard").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_courtyard").remove();
         }
-    });
 
 
-    var room_climatization = '';
-    room_climatization = room_climatization + ((document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked) ? $('#room_airconditioner').attr('data-value') : "");
+        $('input[name=room_beds_total]:checked').each(function() {
+            room_beds_total_items.push($(this).val());
+            if (document.getElementById("fu_room_beds_total_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_beds_total_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='room_beds_total'><i class='icon-remove-sign'></i> " + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_room_beds_total_" + $(this).val()).remove();
+            }
+        });
 
-    if (document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked && document.getElementById("fu_room_airconditioner") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_airconditioner' data-control-id='room_airconditioner' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_airconditioner").parent().text() + "</a> ");
-    }
+        $('input[name=room_windows_total]:checked').each(function() {
+            room_windows_total_items.push($(this).val());
+            if (document.getElementById("fu_room_windows_total_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_windows_total_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='room_windows_total'><i class='icon-remove-sign'></i> " + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_room_windows_total_" + $(this).val()).remove();
+            }
+        });
 
-    var room_audiovisuals = document.getElementById('room_audiovisuals') != null && document.getElementById('room_audiovisuals').checked;
-    if (room_audiovisuals && document.getElementById("fu_room_audiovisuals") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_audiovisuals' data-control-id='room_audiovisuals' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_audiovisuals").parent().text() + "</a> ");
-    }
+        $('input[name=others_languages]:checked').each(function() {
+            others_languages_items.push($(this).val());
+            if (document.getElementById("fu_others_languages_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_languages_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_languages'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_others_languages_" + $(this).val()).remove();
+            }
+        });
 
-    var room_kids = document.getElementById('room_kids') != null && document.getElementById('room_kids').checked;
-    if (room_kids && document.getElementById("fu_room_kids") == null)
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_kids' data-control-id='room_kids' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_kids").parent().text() + "</a> ");
+        $('input[name=others_included]:checked').each(function() {
+            others_included_items.push($(this).val());
+            if (document.getElementById("fu_others_included_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_included_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_included'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_others_included_" + $(this).val()).remove();
+            }
+        });
 
-    var room_smoker = document.getElementById('room_smoker') != null && document.getElementById('room_smoker').checked;
-    if (room_smoker && document.getElementById("fu_room_smoker") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_smoker' data-control-id='room_smoker' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_smoker").parent().text() + "</a> ");
-    }
+        $('input[name=others_not_included]:checked').each(function() {
+            others_not_included_items.push($(this).val());
+            if (document.getElementById("fu_others_not_included_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_not_included_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_not_included'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            }else{
+                $("#fu_others_not_included_" + $(this).val()).remove();
+            }
+        });
 
-    var room_safe = document.getElementById('room_safe') != null && document.getElementById('room_safe').checked;
-    if (room_safe && document.getElementById("fu_room_safe") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_safe' data-control-id='room_safe' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_safe").parent().text() + "</a> ");
-    }
-
-    var room_balcony = document.getElementById('room_balcony') != null && document.getElementById('room_balcony').checked;
-    if (room_balcony && document.getElementById("fu_room_balcony") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_balcony' data-control-id='room_balcony' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_balcony").parent().text() + "</a> ");
-    }
-
-    var room_terraza = document.getElementById('room_terraza') != null && document.getElementById('room_terraza').checked;
-    if (room_terraza && document.getElementById("fu_room_terraza") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_terraza' data-control-id='room_terraza' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_terraza").parent().text() + "</a> ");
-    }
-
-    var room_courtyard = document.getElementById('room_courtyard') != null && document.getElementById('room_courtyard').checked;
-    if (room_courtyard && document.getElementById("fu_room_courtyard") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_courtyard' data-control-id='room_courtyard' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_courtyard").parent().text() + "</a> ");
-    }
-
-
-    $('input[name=room_beds_total]:checked').each(function() {
-        room_beds_total_items.push($(this).val());
-        if (document.getElementById("fu_room_beds_total_" + $(this).val()) == null)
+        var room_others_pets = document.getElementById('room_others_pets') != null && document.getElementById('room_others_pets').checked;
+        if (room_others_pets && document.getElementById("fu_room_others_pets") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_beds_total_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='room_beds_total'><i class='icon-remove-sign'></i> " + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_pets' data-control-id='room_others_pets' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_pets").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_others_pets").remove();
         }
-    });
 
-    $('input[name=room_windows_total]:checked').each(function() {
-        room_windows_total_items.push($(this).val());
-        if (document.getElementById("fu_room_windows_total_" + $(this).val()) == null)
+        var room_others_internet = document.getElementById('room_others_internet') != null && document.getElementById('room_others_internet').checked;
+        if (room_others_internet && document.getElementById("fu_room_others_internet") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_windows_total_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='room_windows_total'><i class='icon-remove-sign'></i> " + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_internet' data-control-id='room_others_internet' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_internet").parent().text() + "</a> ");
+        }else{
+            $("#fu_room_others_internet").remove();
         }
-    });
 
-    $('input[name=others_languages]:checked').each(function() {
-        others_languages_items.push($(this).val());
-        if (document.getElementById("fu_others_languages_" + $(this).val()) == null)
+        if (own_inmediate_booking && document.getElementById("fu_own_inmediate_booking") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_languages_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_languages'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
+        }else{
+            $("#fu_own_inmediate_booking").remove();
         }
-    });
 
-    $('input[name=others_included]:checked').each(function() {
-        others_included_items.push($(this).val());
-        if (document.getElementById("fu_others_included_" + $(this).val()) == null)
+        if ( own_inmediate_booking2 && document.getElementById("fu_own_inmediate_booking2") == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_included_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_included'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking2' data-control-id='own_inmediate_booking2' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking2").parent().text() + "</a> ");
+        }else{
+            $("#fu_own_inmediate_booking2").remove();
         }
-    });
-
-    $('input[name=others_not_included]:checked').each(function() {
-        others_not_included_items.push($(this).val());
-        if (document.getElementById("fu_others_not_included_" + $(this).val()) == null)
-        {
-            innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_not_included_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_not_included'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
-        }
-    });
-
-    var room_others_pets = document.getElementById('room_others_pets') != null && document.getElementById('room_others_pets').checked;
-    if (room_others_pets && document.getElementById("fu_room_others_pets") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_pets' data-control-id='room_others_pets' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_pets").parent().text() + "</a> ");
-    }
-
-    var room_others_internet = document.getElementById('room_others_internet') != null && document.getElementById('room_others_internet').checked;
-    if (room_others_internet && document.getElementById("fu_room_others_internet") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_internet' data-control-id='room_others_internet' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_internet").parent().text() + "</a> ");
-    }
-
-    if (own_inmediate_booking && document.getElementById("fu_own_inmediate_booking") == null)
-    {
-        innerHtml = $("#filter_upper").html();
-        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
-    }
-
-    $(".filter_upper_item").click(function() {
-        filter_upper($(this));
-    });
-
-    if ($("#filter_upper").html() != "")
-        $("#filter_upper").css("display", "block");
-
-    var checked_filters = {
-        //"own_reservation_type": (own_reservation_type != null && own_reservation_type != "" && own_reservation_type != "-1" && own_reservation_type != -1) ? own_reservation_type : null,
-        "own_category": (own_category_items.length > 0) ? own_category_items : null,
-        "own_award": (own_awards.length > 0) ? own_awards: null,
-        "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
-        "own_inmediate_booking2": (own_inmediate_booking2) ? 1 : null,
-        "own_type": (own_type_items.length > 0) ? own_type_items : null,
-        "own_price": (own_price_items.length > 0) ? own_price_items : null,
-        "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
-        "own_price_to": (own_price_to_items.length > 0) ? own_price_to_items : null,
-        "own_rooms_number": (room_total_items.length > 0) ? room_total_items : null,
-        "room_type": (room_type_items.length > 0) ? room_type_items : null,
-        "own_beds_total": (room_beds_total_items.length > 0) ? room_beds_total_items : null,
-        "room_bathroom": (room_bathroom_items.length > 0) ? room_bathroom_items : null,
-        "room_windows_total": (room_windows_total_items.length > 0) ? room_windows_total_items : null,
-        "room_climatization": room_climatization,
-        "room_audiovisuals": room_audiovisuals,
-        "room_kids": room_kids,
-        "room_smoker": room_smoker,
-        "room_safe": room_safe,
-        "room_balcony": room_balcony,
-        "room_terraza": room_terraza,
-        "room_courtyard": room_courtyard,
-        "own_others_languages": (others_languages_items.length > 0) ? others_languages_items : null,
-        "own_others_included": (others_included_items.length > 0) ? others_included_items : null,
-        "own_others_not_included": (others_not_included_items.length > 0) ? others_not_included_items : null,
-        "own_others_pets": room_others_pets,
-        "own_others_internet": room_others_internet,
-        "order_price": order_price,
-        "order_comments": order_comments,
-        "order_books": order_books
 
 
-    };
-    return checked_filters;
+        $(".filter_upper_item").unbind();
+
+        $(".filter_upper_item").click(function() {
+            filter_upper($(this));
+        });
+
+        if ($("#filter_upper").html() != "")
+            $("#filter_upper").css("display", "block");
+
+        var arrival = $('#input_arrival_date').val();
+        var departure = $('#input_departure_date').val();
+        var guests = $('#input_guests').val();
+        var rooms = $('#input_room').val();
+        var text = $('#input_text').val();
+        var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
+        var order_comments='';
+        if($('#commentsOrder').hasClass('active'))
+            order_comments='ASC';
+        var order_books='';
+        if($('#booksOrder').hasClass('active'))
+            order_books='ASC';
+        var result = $('#div_result');
+        var own_category_items=[];
+        $('input[name=own_category]:checked').each(function() {
+            own_category_items.push($(this).val());
+            if (document.getElementById("fu_own_category_" + $(this).val()) == null)
+            {
+                innerHtml = $("#filter_upper").html();
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+            }
+        });
+
+        arrival = (arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
+        departure = (departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
+        text = (text != $('#input_text').attr('placeholder')) ? text : null;
+
+
+        var checked_filters = {
+            //"own_reservation_type": (own_reservation_type != null && own_reservation_type != "" && own_reservation_type != "-1" && own_reservation_type != -1) ? own_reservation_type : null,
+            'arrival': arrival,
+            'departure': departure,
+            'guests': guests,
+            'rooms': rooms,
+            'text': text,
+            'own_inmediate_booking2': (own_inmediate_booking2) ? 1 : null,
+            "own_category": (own_category_items.length > 0) ? own_category_items : null,
+            "own_award": (own_awards.length > 0) ? own_awards: null,
+            "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
+            "own_type": (own_type_items.length > 0) ? own_type_items : null,
+            "own_price": (own_price_items.length > 0) ? own_price_items : null,
+            "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
+            "own_price_to": (own_price_to_items.length > 0) ? own_price_to_items : null,
+            "own_rooms_number": (room_total_items.length > 0) ? room_total_items : null,
+            "room_type": (room_type_items.length > 0) ? room_type_items : null,
+            "own_beds_total": (room_beds_total_items.length > 0) ? room_beds_total_items : null,
+            "room_bathroom": (room_bathroom_items.length > 0) ? room_bathroom_items : null,
+            "room_windows_total": (room_windows_total_items.length > 0) ? room_windows_total_items : null,
+            "room_climatization": room_climatization,
+            "room_audiovisuals": room_audiovisuals,
+            "room_kids": room_kids,
+            "room_smoker": room_smoker,
+            "room_safe": room_safe,
+            "room_balcony": room_balcony,
+            "room_terraza": room_terraza,
+            "room_courtyard": room_courtyard,
+            "own_others_languages": (others_languages_items.length > 0) ? others_languages_items : null,
+            "own_others_included": (others_included_items.length > 0) ? others_included_items : null,
+            "own_others_not_included": (others_not_included_items.length > 0) ? others_not_included_items : null,
+            "own_others_pets": room_others_pets,
+            "own_others_internet": room_others_internet,
+            "order_price": order_price,
+            "order_comments": order_comments,
+            "order_books": order_books,
+            "page": page
+
+        };
+        return checked_filters;
+
 }
 
 function filter_by_others(refreshStatistics)
@@ -823,11 +769,7 @@ function filter_upper(element)
             });
         }
     }
-    //alert($("#filter_upper").html());
-    /*if ($("#filter_upper").html())
-     $("#filter_upper").css("display", "none");*/
-
-    filter_by_others(false);
+    research(1);
     element.remove();
 }
 
@@ -915,12 +857,12 @@ function refresh_filters_statistics(checked_filters)
 
 var map_big;
 var markers_big;
-function initialize_map() {
-    var json_url = $("#json_source").attr('data-url');
-    var icon_small = $("#json_source").attr('data-icon-small');
-    var icon = $("#json_source").attr('data-icon');
+function initialize_search_map() {
+    var json_url = $("#json_search_source").attr('data-url');
+    var icon_small = $("#json_search_source").attr('data-icon-small');
+    var icon = $("#json_search_source").attr('data-icon');
 
-    if (document.getElementById("map") != null)
+    if (document.getElementById("search_map") != null)
     {
         //create empty LatLngBounds object
         //var latlngbounds = new google.maps.LatLngBounds();
@@ -932,7 +874,7 @@ function initialize_map() {
             'mapTypeId': google.maps.MapTypeId.ROADMAP
         };
 
-        var map = new google.maps.Map(document.getElementById("map"), options);
+        var map = new google.maps.Map(document.getElementById("search_map"), options);
         var markers = [];
         $.getJSON(json_url, function(data) {
             if (data) {
@@ -1023,217 +965,8 @@ function initialize_map() {
             }
         });
     }
-
-    if (document.getElementById("big_map") != null)
-    {
-        var center_big = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
-        var options_big = {
-            'zoom': 6,
-            'center': center_big,
-            'mapTypeId': google.maps.MapTypeId.ROADMAP
-        };
-
-        map_big = new google.maps.Map(document.getElementById("big_map"), options_big);
-        var myOptions = {
-            disableAutoPan: false,
-            maxWidth: 0,
-            pixelOffset: new google.maps.Size(-140, 0),
-            zIndex: null,
-            boxStyle: {
-                opacity: 0.85,
-                width: "280px"
-            },
-            closeBoxMargin: "10px 2px 2px 2px",
-            infoBoxClearance: new google.maps.Size(1, 1),
-            isHidden: false,
-            pane: "floatPane",
-            enableEventPropagation: false
-        };
-        var ib = new InfoBox(myOptions);
-
-
-        markers_big = [];
-        $.getJSON(json_url, function(data) {
-            if (data) {
-                for (i = 0; i < data.length; i++) {
-                    var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
-                    var marker_bullet = new google.maps.Marker({
-                        id: data[i].id,
-                        map: map_big,
-                        position: latlng,
-                        //title:data[i].title,
-                        content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
-                        icon: icon
-
-                    });
-
-                    google.maps.event.addListener(marker_bullet, 'mouseover', (function(marker_bullet, i)
-                    {
-                        return function()
-                        {
-
-                            var boxText = document.createElement("div");
-                            boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-                            boxText.innerHTML = "<div class='row'>" +
-                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ")'></div>" +
-                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
-                                "<b>" + data[i].content + "</b>" +
-                                "</div>" +
-                                "</div>";
-
-                            ib.setContent(boxText);
-                            ib.open(map_big, marker_bullet);
-
-                            $('.elementList[data-id="' + data[i].id + '"]').addClass("markerActive");
-                        };
-                    })(marker_bullet, i));
-
-                    google.maps.event.addListener(marker_bullet, 'mouseout', (function(marker_bullet, i)
-                    {
-                        return function()
-                        {
-                            ib.close();
-                            $('.elementList[data-id="' + data[i].id + '"]').removeClass("markerActive");
-                        };
-                    })(marker_bullet, i));
-
-                    $("#own_" + data[i].id).onclick = generateTriggerCallback(marker_bullet, "mouseover");
-                    markers_big.push(marker_bullet);
-                }
-
-                var mcOptions = {
-                    gridSize: 50,
-                    maxZoom: 15
-                };
-                var markerClusterBig = new MarkerClusterer(map_big, markers_big, mcOptions);
-
-                //Evento click en un cluster - Hace q se actualice el listado
-                google.maps.event.addListener(markerClusterBig, 'click',
-                    function(cluster) {
-                        ib.close();
-                        var markers = cluster.getMarkers();
-
-                        var markers_in_bound = [];
-                        for (var i = 0; i < markers.length; i++) {
-                            if (map_big.getBounds().contains(markers[i].getPosition())) {
-                                markers_in_bound.push(markers[i].get("id"));
-                            }
-                        }
-                        showOwnershipsByIds(markers_in_bound);
-                    });
-            }
-        });
-
-        //Evento zoom_changed en el mapa general - Hace q se actualice el listado
-        google.maps.event.addListener(map_big, 'zoom_changed', function() {
-            var markers_in_bound = [];
-            for (var i = 0; i < markers_big.length; i++) {
-                if (map_big.getBounds().contains(markers_big[i].getPosition())) {
-                    markers_in_bound.push(markers_big[i].get("id"));
-                }
-            }
-            showOwnershipsByIds(markers_in_bound);
-
-        }); //close listener
-
-        //vento dragend en el mapa general - Hace q se actualice el listado
-        google.maps.event.addListener(map_big, 'dragend', function() {
-            var markers_in_bound = [];
-            for (var i = 0; i < markers_big.length; i++) {
-                if (map_big.getBounds().contains(markers_big[i].getPosition())) {
-                    markers_in_bound.push(markers_big[i].get("id"));
-                }
-            }
-            showOwnershipsByIds(markers_in_bound);
-        }); //close listener
-
-        $('.elementList').mouseover(function() {
-            showMarkerInfo($(this));
-        });
-
-        $('.elementList').mouseout(function() {
-            hideMarkerInfo($(this));
-        });
-
-    }
-
-    if(document.getElementById("big_map_details") !== null)
-    {
-        var x = $("#big_map_details").attr("data-x");
-        var y = $("#big_map_details").attr("data-y");
-        var name = $("#big_map_details").attr("data-name");
-        var description = $("#big_map_details").attr("data-description");
-        var image = $("#big_map_details").attr("data-image");
-        var icon = $("#big_map_details").attr("data-icon");
-
-        var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
-        var options_details = {
-            zoom: 17,
-            center: center_details,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-        var big_map_details = new google.maps.Map(document.getElementById("big_map_details"), options_details);
-
-        var marker = new google.maps.Marker({
-            position: center_details,
-            map: big_map_details,
-            title: name,
-            icon: icon
-        });
-
-
-
-        var boxText = document.createElement("div");
-        /*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-        boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*/
-
-        boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-        boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
-        /*boxText.innerHTML = "<div class='row'>" +
-            "<div class='map_image col-sm-4' style='background-image:url(" + image + ")'></div>" +
-            "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + name + "<br/>" +
-            "<b>" + description + "</b>" +
-            "</div>" +
-            "</div>";
-        */
-        var myOptions = {
-            content: boxText
-            ,disableAutoPan: false
-            ,maxWidth: 0
-            ,pixelOffset: new google.maps.Size(-140, 0)
-            ,zIndex: null
-            ,boxStyle: {
-                //background: "url('tipbox.gif') no-repeat",
-                opacity: 0.85,
-                width: "280px"
-            }
-            ,closeBoxMargin: "10px 2px 2px 2px"
-            ,infoBoxClearance: new google.maps.Size(1, 1)
-            ,isHidden: false
-            ,pane: "floatPane"
-            ,enableEventPropagation: false
-        };
-
-        var ib = new InfoBox(myOptions);
-
-        google.maps.event.addListener(marker, 'mouseover', function() {
-            ib.open(big_map_details, marker);
-        });
-
-        google.maps.event.addListener(marker, 'mouseout', function() {
-            ib.close();
-        });
-
-        $("#mapTab").on('shown.bs.tab', function() {
-
-  	/* Trigger map resize event */
-        var center = big_map_details.getCenter();
-	google.maps.event.trigger(big_map_details, 'resize');
-        big_map_details.setCenter(center);
-});
-    }
 }
+
 function getCenterPosition(tempdata){
     var latitudearray = [];
     var longitudearray = [];
@@ -1252,31 +985,7 @@ function getCenterPosition(tempdata){
     var longitudeMid = parseFloat(longitudearray[0]) + parseFloat(temp);
     return new Object({latitudeMid:latitudeMid,longitudeMid:longitudeMid});
 }
-function showMarkerInfo(div_element)
-{
-    var id_marker = div_element.attr('data-id');
-    $('.elementList[data-id="' + id_marker + '"]').addClass("markerActive");
-    for (var i = 0; i < markers_big.length; i++) {
-        if (map_big.getBounds().contains(markers_big[i].getPosition()) && markers_big[i].get("id") == id_marker) {
-            google.maps.event.trigger(markers_big[i], "mouseover");
-            break;
-        }
-    }
 
-}
-
-function hideMarkerInfo(div_element)
-{
-    var id_marker = div_element.attr('data-id');
-    $('.elementList[data-id="' + id_marker + '"]').removeClass("markerActive");
-
-    for (var i = 0; i < markers_big.length; i++) {
-        if (map_big.getBounds().contains(markers_big[i].getPosition()) && markers_big[i].get("id") == id_marker) {
-            google.maps.event.trigger(markers_big[i], "mouseout");
-            break;
-        }
-    }
-}
 function showMarkerInfoGeneric(div_element,map,markers)
 {
     var id_marker = div_element.attr('data-id');
@@ -1303,184 +1012,4 @@ function hideMarkerInfoGeneric(div_element,map,markers)
             break;
         }
     }
-}
-function showOwnershipsByIds(ids_array)
-{
-    var url = $('#big_map').attr('data-resized-url');
-    var result = $('#map_resized_results');
-    show_loading();
-    $.post(url,
-        {
-            'own_ids': ids_array
-        }
-        , function(data) {
-            result.html(data);
-            $('.elementList').mouseover(function() {
-                showMarkerInfo($(this));
-            });
-
-            $('.elementList').mouseout(function() {
-                hideMarkerInfo($(this));
-            });
-            hide_loading();
-        });
-}
-
-function generateTriggerCallback(object, eventType) {
-    return function() {
-        google.maps.event.trigger(object, eventType);
-    };
-}
-
-function checkCheckBoxes(array_of_values, name_checkboxes)
-{
-    if (array_of_values != null && array_of_values.length > 0)
-    {
-        for (var i = 0; i < array_of_values.length; i++)
-        {
-            for (var j = 0; j < document.getElementsByName(name_checkboxes).length; j++)
-                document.getElementsByName(name_checkboxes)[j].checked = (document.getElementsByName(name_checkboxes)[j].value == array_of_values[i]);
-        }
-    }
-}
-
-function show_loading()
-{
-    $('#loading').removeClass('hidden');
-}
-
-function hide_loading()
-{
-    $('#loading').addClass('hidden');
-
-}
-
-function create_date(date_text) {
-    var date = date_text.split('/');
-    if (date.length == 3)
-    {
-        var date_result = parseInt(date[2], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[0], 10);
-        return date_result;
-    }
-    return null;
-
-}
-
-function insert_comment()
-{
-    show_element($('#loading'));
-    hide_element($('#message_text'));
-
-    var result = $('#user_comments');
-    var url = $('#btn_insert_comment').attr('data-url');
-
-    /*var user_name = $('#input_name').val();
-     var user_email = $('#input_email').val();*/
-    var comment = $('#input_comment').val();
-    var rating = $('input[name=radio_rating]:checked').val();
-
-    if (validate())
-    {
-        $.post(url, {
-            'com_comments': comment,
-            'com_rating': rating
-        }, function(data) {
-            result.html(data);
-            clear_controls();
-            hide_element($('#loading'));
-            $('#message_text').html($('#message_text').attr('ok-message'));
-            show_element($('#message_text'));
-
-            refresh_rating();
-
-        });
-    }
-    else
-    {
-        hide_element($('#loading'));
-        show_element($('#message_text'));
-    }
-
-    return false;
-}
-
-function refresh_rating()
-{
-    var result = $('#ratings');
-    var url = $('#ratings').attr('data-url');
-
-    $.post(url, {
-        'nothig': true
-    }, function(data) {
-        result.html(data);
-    });
-
-    return false;
-}
-
-function show_element(element)
-{
-    element.removeClass('hidden');
-}
-
-function hide_element(element)
-{
-    element.addClass('hidden');
-}
-
-function clear_controls()
-{
-    $('#input_name').val('');
-    $('#input_email').val('');
-    $('#input_comment').val('');
-    $('input[name=radio_rating]').filter('[value=5]').attr('checked', 'checked');
-}
-
-function validate()
-{
-    /*var user_name = $('#input_name').val();
-     var user_email = $('#input_email').val();*/
-    var comment = $('#input_comment').val();
-    var valid = true;
-    var error_text = '';
-
-    /*if(user_name == '')
-     {
-     valid = false;
-     error_text += $('#input_name').attr("requiered-message") + ' <br/>';
-     }
-
-     if(user_email == '')
-     {
-     valid = false;
-     error_text += $('#input_email').attr("requiered-message") +  ' <br/>';
-
-     }
-     else if(!valid_email(user_email))
-     {
-     valid = false;
-     error_text += $('#input_email').attr("invalid-message") +  ' <br/>';
-     */
-
-    if (comment === '')
-    {
-        valid = false;
-        error_text += $('#input_comment').attr("requiered-message") + ' <br/>';
-
-    }
-
-    if (error_text !== '')
-    {
-        $('#message_text').html(error_text);
-    }
-
-
-    return valid;
-}
-
-function valid_email(email_text){
-    if( !(/\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(email_text)) ) {
-        return false;
-    }
-    return true;
 }

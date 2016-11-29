@@ -199,7 +199,7 @@
             <td nowrap="nowrap">
                 {{reservation_rooms.getOwnResTotalInSite}}CUC
                 {% if reservation_rooms.getTripleRoomCharged %}
-                    <span class="badge badge-important" title="Este precio tiene incluido 10 CUC adicionales por noche pues la habitación es triple y tiene 3 o más huéspedes">!</span>
+                    <span class="badge badge-important" title="Este precio tiene incluido 10 CUC adicionales por noche pues la habitación es triple o doble y tiene 3 o más huéspedes">!</span>
                 {% endif %}</td>
                 {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
                 {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%}

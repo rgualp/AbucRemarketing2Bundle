@@ -1153,7 +1153,7 @@
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Las Habitaciones triples tienen un recargo de $10</target>
+                <target>Todas las habitaciones dobles y las triples tienen un recargo de $10</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
@@ -1734,7 +1734,7 @@
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Las Habitaciones triples tienen un recargo de </target>
+                <target>Todas las habitaciones dobles y las triples tienen un recargo de </target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>
@@ -3287,6 +3287,10 @@
         <trans-unit id="966">
             <source>VOUCHER_PREHEADER</source>
             <target>A buena hora has reservado</target>
+        </trans-unit>
+        <trans-unit id="11966">
+            <source>VOUCHER_PREHEADER_NEWMSG</source>
+            <target>¡Enhorabuena! Un paso más y habrás completado la reserva. Antes de pagar debes registrarte.</target>
         </trans-unit>
 
         <trans-unit id="967">

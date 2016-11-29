@@ -40,24 +40,13 @@
         <span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span>
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-    {% if notLazyLoad is defined and notLazyLoad %}
-        <img alt="{{ name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}" alt="{{"Thumbnails" | trans}}"/>
-    {% else %}
-    <img alt="{{ name }}"
-         class="lazy"
-         data-src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
-         src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}"
-         {% if award %}style="position: relative; top:-15px; {% if ownership.OwnInmediateBooking %}z-index:0;{% endif %}"{% else %}{% if ownership.OwnInmediateBooking %}style="z-index: 0;"{% endif %}{% endif %}   />
-     </a>
-    <noscript>
-        <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-        <img class="nolazy" src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}" {% if award %}style="position: relative; top:-15px"{% endif %} alt="{{"Thumbnails" | trans}}" />
-    </a>
+        {% set url_image = asset("uploads/ownershipImages/" ~ photo) %}
+        {% if notLazyLoad is defined and notLazyLoad == true %}
+            <img class="lazyload" src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+        {% else %}
+            <img class="lazyload" alt="{{ name }}" data-src="{{ url_image | apply_filter('mycp_thumb_front') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" />
         {% endif %}
-    </noscript>
-    {#<div style="bottom: 0px;background:rgba(0, 0, 0, 0.8) none repeat scroll 0 0;height: 60px ">
-        <small style="color:#fff">Solicitar casa</small>
-    </div>#}
+    </a>
 </div>
 
 <div class="row">

@@ -1,0 +1,12 @@
+mycp_list_touristfailures:
+    pattern:  /list/{accommodationId}
+    defaults: { _controller: mycpBundle:BackendTouristFailure:list}
+
+mycp_create_touristfailures:
+    pattern:  /create/{accommodationId}
+    defaults: { _controller: mycpBundle:BackendTouristFailure:create }
+
+
+mycp_delete_touristfailures:
+    pattern:  /delete/{idFailure}
+    defaults: { _controller: mycpBundle:BackendTouristFailure:delete }

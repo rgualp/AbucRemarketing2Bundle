@@ -34,6 +34,25 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $em->createQuery($query_string)->setParameter("id_room", $id_room)->getResult();
     }
 
+    public function getRoomDetailsByRoomAndDates($id_room, $dateFrom, $dateTo) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:unavailabilityDetails o
+                        JOIN o.room r
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED."
+                        AND r.room_id = :id_room
+                        AND ((o.ud_from_date >= :start AND o.ud_from_date <= :end) OR
+                             (o.ud_to_date >= :start AND o.ud_to_date <= :end) OR
+                             (o.ud_from_date <= :start AND o.ud_to_date >= :end))
+                        ORDER BY o.ud_from_date DESC";
+
+        return $em->createQuery($query_string)
+            ->setParameter("id_room", $id_room)
+            ->setParameter('start', $dateFrom)
+            ->setParameter('end', $dateTo)
+            ->getResult();
+    }
+
     public function getRoomDetailsForCalendar($id_room) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o
@@ -138,4 +157,93 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $em->createQuery($query_string)->getSingleScalarResult();
     }
 
+    public function addAvailableRoomByRange($request, $idRoom){
+        $em = $this->getEntityManager();
+        $conn = $em->getConnection();
+        $start =  $request["start"];
+        $end = $request["end"];
+
+        /*Obtener la no disponibilidad que el start cae dentro de la no disponibilidad*/
+        $query = "SELECT unavailabilitydetails.ud_id, unavailabilitydetails.ud_to_date, unavailabilitydetails.ud_sync_st,  unavailabilitydetails.ud_reason FROM unavailabilitydetails";
+        $whereAndLimit = " WHERE room_id = :room_id AND ud_from_date < :start AND ud_to_date >= :start LIMIT 1";
+        $stmt = $conn->prepare($query.$whereAndLimit);
+        $stmt->bindValue('room_id', $idRoom);
+        $stmt->bindValue('start', $start);
+        $stmt->execute();
+        $unavailability = $stmt->fetch();
+
+        if($unavailability != false){
+            $ud_to_date_new = (new \DateTime($start))->modify('-1 day')->format('Y-m-d');
+            $query = "UPDATE unavailabilitydetails SET  ud_to_date = :ud_to_date";
+            $stmt = $conn->prepare($query.$whereAndLimit);
+            $stmt->bindValue('ud_to_date', $ud_to_date_new);
+            $stmt->bindValue('room_id', $idRoom);
+            $stmt->bindValue('start', $start);
+            $stmt->execute();
+
+            if((new \DateTime($unavailability['ud_to_date'])) > (new \DateTime($end))){
+                $ud_from_date = (new \DateTime($end))->modify('+1 day')->format('Y-m-d');
+
+                $query = "INSERT INTO unavailabilitydetails (room_id, ud_sync_st, ud_from_date, ud_to_date, ud_reason) VALUE (:room_id, :ud_sync_st, :ud_from_date, :ud_to_date, :ud_reason)";
+                $stmt = $conn->prepare($query);
+                $stmt->bindValue('room_id', $idRoom);
+                $stmt->bindValue('ud_sync_st', $unavailability['ud_sync_st']);
+                $stmt->bindValue('ud_from_date', $ud_from_date);
+                $stmt->bindValue('ud_to_date', $unavailability['ud_to_date']);
+                $stmt->bindValue('ud_reason', $unavailability['ud_reason']);
+                $stmt->execute();
+            }
+        }
+
+        /*Actualizar la no disponibilidades que el end cae dentro de la no disponibilidad*/
+        $ud_from_date = (new \DateTime($end))->modify('+1 day')->format('Y-m-d');
+
+        $query = "UPDATE unavailabilitydetails SET ud_from_date = :ud_from_date WHERE room_id = :room_id AND ud_from_date <= :end AND ud_to_date > :end LIMIT 1";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue('ud_from_date', $ud_from_date);
+        $stmt->bindValue('room_id', $idRoom);
+        $stmt->bindValue('end', $end);
+        $stmt->execute();
+
+        /*elimino las que estan en el rango*/
+        $query = "DELETE FROM unavailabilitydetails WHERE room_id = :room_id AND ud_from_date >= :start AND ud_from_date <= :end AND ud_to_date >= :start AND ud_to_date <= :end ";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue('room_id', $idRoom);
+        $stmt->bindValue('start', $start);
+        $stmt->bindValue('end', $end);
+        $stmt->execute();
+
+        /*incerto las no disponibilidades new*/
+        $unavailabilities=$request['date_range'];
+        $reason = $request['reason'];
+        $reason = isset($reason) ? $reason : '';
+        foreach ($unavailabilities as $unavailability) {
+            $uStart = $unavailability["start"];
+            $uStart = $uStart->format('Y-m-d');
+
+            $uEnd = $unavailability["end"];
+            $uEnd = $uEnd->format('Y-m-d');
+
+            $conn->insert('unavailabilitydetails', array('room_id' => $idRoom, 'ud_sync_st' => 0, 'ud_from_date' => $uStart, 'ud_to_date' => $uEnd, 'ud_reason' => $reason));
+        }
+
+        return true;
+    }
+
+    function getUDetailsByRoomAndDate($idRoom, $startParam, $endParam) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u
+            FROM mycpBundle:unavailabilityDetails u
+            JOIN u.room ro
+        WHERE u.ud_sync_st<>" . SyncStatuses::DELETED .
+        "AND ((u.ud_from_date >= '$startParam' AND u.ud_to_date <= '$endParam')
+         OR (u.ud_to_date >= '$startParam' AND u.ud_to_date <= '$endParam')
+         OR (u.ud_from_date <= '$endParam' AND u.ud_from_date >= '$startParam')
+         OR (u.ud_from_date <= '$startParam' AND u.ud_to_date >= '$endParam'))
+        AND ro.room_id = $idRoom
+        ORDER BY u.ud_from_date");
+
+        //dump($query->getDQL());exit;
+        return $query->getResult();
+    }
 }
