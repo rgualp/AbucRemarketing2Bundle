@@ -121,6 +121,10 @@ mycp_penalty:
     resource: "@mycpBundle/Resources/config/routingBackendPenalty.yml"
     prefix:   backend/penalties/
 
+mycp_touristfailures:
+    resource: "@mycpBundle/Resources/config/routingBackendTouristFailure.yml"
+    prefix:   backend/tourit-failures/
+
 #mycp_check:
 #  pattern: /check
 
