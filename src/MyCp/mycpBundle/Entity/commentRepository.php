@@ -82,7 +82,7 @@ class commentRepository extends EntityRepository {
                 JOIN b.payments p
                 WHERE res.gen_res_user_id = us.user_id
                 AND res.gen_res_own_id = own.own_id
-                AND res.gen_res_status = ".generalReservation::STATUS_RESERVED."
+                AND res.gen_res_status = ".\MyCp\mycpBundle\Entity\generalReservation::STATUS_RESERVED."
                 AND (p.status = ".PaymentHelper::STATUS_SUCCESS." OR p.status = ".PaymentHelper::STATUS_PROCESSED."))
         FROM mycpBundle:comment c
         JOIN c.com_ownership own
