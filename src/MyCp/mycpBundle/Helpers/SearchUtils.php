@@ -209,6 +209,7 @@ class SearchUtils {
                              o.own_geolocate_y as longitude,
                              o.own_geolocate_x as latitude,
                              o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                             o.own_availability_update as avaliableUpdate,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -278,6 +279,8 @@ class SearchUtils {
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
                             o.own_inmediate_booking as OwnInmediateBooking,
+                            o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                             o.own_availability_update as avaliableUpdate,
                             o.own_langs as langs
                              FROM mycpBundle:room r
                              JOIN r.room_ownership o
@@ -658,6 +661,8 @@ class SearchUtils {
                 return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
             case OrderByHelper::SEARCHER_WORST_VALUED:
                 return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_AVALIABLE_UPDATE:
+                return "  ORDER BY o.own_availability_update DESC";
             default:
                 return $order_by;
 

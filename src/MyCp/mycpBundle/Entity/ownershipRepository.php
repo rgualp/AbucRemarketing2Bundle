@@ -923,7 +923,12 @@ class ownershipRepository extends EntityRepository {
             }
         }
 
-        $order = SearchUtils::getOrder($order_by);
+        if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
+            $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
+        }else{
+            $order = SearchUtils::getOrder($order_by);
+        }
+
 
         $query_string .= $order;
         $query = $em->createQuery($query_string);
@@ -956,10 +961,11 @@ class ownershipRepository extends EntityRepository {
         }
 
         //$return_list = array();
-        if($start !== null && $limit !== null){
+        if($start !== null && $limit !== null) {
             $query->setFirstResult($start);
             $query->setMaxResults($limit);
         }
+
         $results = $query->getResult();
 
         for ($i = 0; $i < count($results); $i++) {

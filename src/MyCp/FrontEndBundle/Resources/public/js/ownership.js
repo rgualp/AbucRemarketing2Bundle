@@ -27,6 +27,7 @@ function start_s() {
     });
 
     $('#filters-submit').click(function () {
+        $('#button_research').removeClass('hide');
         research(1);
     });
     datePickersStarUp();
@@ -362,6 +363,7 @@ function load_upper_filters(page)
         var room_windows_total_items = [];
         var others_languages_items = [];
         var others_included_items = [];
+        var own_update_avaliable = $(':input[type="checkbox"][name="own_update_avaliable"]').is(':checked');
         var own_awards = [];
         var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
         var own_inmediate_booking2 = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
@@ -633,6 +635,14 @@ function load_upper_filters(page)
             $("#fu_own_inmediate_booking").remove();
         }
 
+        if (own_update_avaliable && document.getElementById("fu_own_update_avaliable") == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_update_avaliable' data-control-id='own_update_avaliable' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_update_avaliable").parent().text() + "</a> ");
+        }else{
+            $("#fu_own_update_avaliable").remove();
+        }
+
         if ( own_inmediate_booking2 && document.getElementById("fu_own_inmediate_booking2") == null)
         {
             innerHtml = $("#filter_upper").html();
@@ -686,6 +696,7 @@ function load_upper_filters(page)
             'guests': guests,
             'rooms': rooms,
             'text': text,
+            'own_update_avaliable': (own_update_avaliable) ? 1 : null,
             'own_inmediate_booking2': (own_inmediate_booking2) ? 1 : null,
             "own_category": (own_category_items.length > 0) ? own_category_items : null,
             "own_award": (own_awards.length > 0) ? own_awards: null,
@@ -818,6 +829,10 @@ function refresh_filters_statistics(checked_filters)
 
         if (document.getElementById('own_inmediate_booking2') != null)
             document.getElementById('own_inmediate_booking2').checked = checked_filters['own_inmediate_booking2'];
+
+        if (document.getElementById('own_update_avaliable') != null)
+            document.getElementById('own_update_avaliable').checked = checked_filters['own_update_avaliable'];
+
 
         if (document.getElementById('room_audiovisuals') != null)
             document.getElementById('room_audiovisuals').checked = checked_filters['room_audiovisuals'];
