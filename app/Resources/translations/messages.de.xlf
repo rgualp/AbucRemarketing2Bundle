@@ -4036,6 +4036,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                     <source>twitter</source>
                     <target>twitter</target>
                 </trans-unit>
+                <trans-unit id="1010">
+                     <source>Calendario Actualizado</source>
+                     <target>Kalender aktualisiert</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>

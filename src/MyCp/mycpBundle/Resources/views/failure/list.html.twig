@@ -5,11 +5,11 @@
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':accommodation.ownId}) }}">{{ accommodation.ownMcpCode }}</a> <span class="divider">/</span></li>
-    <li class="active">Fallos de turistas </li>
+    <li class="active">Fallos </li>
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Fallos de turistas: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':accommodation}%}</h2>
+<h2>Fallos: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':accommodation}%}</h2>
 <hr/>
 <a class="btn" href="{{ path("mycp_create_touristfailures", {"accommodationId": accommodation.ownId}) }}"><i class="icon-plus"></i> Adicionar fallo</a>&nbsp;
 <br/><br/>
@@ -33,6 +33,7 @@
     <tr>
         <th>Fecha Creación</th>
         <th>Usuario</th>
+        <th>Tipo</th>
         <th>Motivo</th>
         <th>Reserva</th>
         <th style="text-align: right">
@@ -45,6 +46,7 @@
     <tr>
         <td>{{ failure.creationDate | date("d/m/Y h:i A")  }}</td>
         <td>{{ failure.user.getUserCompleteName }}</td>
+        <td>{{ failure.type.translations[0].nomLangDescription }}</td>
         <td>{{ failure.description }}</td>
         <td>{% if failure.reservation != null %}<a href="{{ path("mycp_details_reservation", {"id_reservation": failure.reservation.genResId}) }}">{{ failure.reservation.casId }}</a>{% else %} - {% endif %}</td>
         <td style="text-align: right">

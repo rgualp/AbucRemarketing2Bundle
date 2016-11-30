@@ -180,6 +180,7 @@ var Search = function(){
         var others_included_items = [];
         var own_awards = [];
         var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
+        var own_update_avaliable = $(':input[type="checkbox"][name="own_update_avaliable"]').is(':checked');
         var inmediate = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
         var others_not_included_items = [];
         var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
@@ -400,6 +401,12 @@ var Search = function(){
             $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
         }
 
+        if (own_update_avaliable && document.getElementById("fu_own_update_avaliable") == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_update_avaliable' data-control-id='own_update_avaliable' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_update_avaliable").parent().text() + "</a> ");
+        }
+
         $(".filter_upper_item").click(function() {
             filter_upper($(this));
         });
@@ -446,6 +453,7 @@ var Search = function(){
             "own_category": (own_category_items.length > 0) ? own_category_items : null,
             "own_award": (own_awards.length > 0) ? own_awards: null,
             "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
+            "own_update_avaliable": (own_update_avaliable) ? own_update_avaliable: null,
             "own_type": (own_type_items.length > 0) ? own_type_items : null,
             "own_price": (own_price_items.length > 0) ? own_price_items : null,
             "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
