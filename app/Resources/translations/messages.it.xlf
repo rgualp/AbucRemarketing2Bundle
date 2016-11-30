@@ -4013,6 +4013,10 @@
                                 <source>PAYMENT_NOT_EXISTS</source>
                                 <target>Do not exists PDF voucher for selected payment</target>
                             </trans-unit>
+                <trans-unit id="1010">
+                    <source>Calendario Actualizado</source>
+                    <target>Calendario aggiornato</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
