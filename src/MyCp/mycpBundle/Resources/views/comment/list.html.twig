@@ -150,7 +150,7 @@
                                                 <td>
                                                     <h5 style="margin:0">{{ comment.getComOwnership.getOwnMcpCode }}: {{comment.comownership.ownname}}</h5>
         {{ comment.getComComments }} <br/>
-                                                    <div id="positive_{{ comment.comId }}">
+                                                    <div id="positive_{{ comment.comId }}" data-url="{{ path("mycp_change_positive") }}">
                                                         {% include 'mycpBundle:comment:positiveComment.html.twig' with { 'isFromUserWithReservation': commentArray[1], 'comment': comment } %}
                                                     </div>
 
@@ -200,7 +200,7 @@
     {% endjavascripts %}
     <script type="text/javascript">
 
-        $("#bViewReport").click(viewReport);
+        //$("#bViewReport").click(viewReport);
 
         function actionSelected(isForPublic)
         {
@@ -260,6 +260,23 @@
             url_submit = url_submit + '/' + items_per_page + '/' + filter_ownership + '/' + filter_user + '/' + filter_keyword + '/' + filter_rate+'/'+sort_by;
             $('#filter').attr('action', url_submit);
             $('#filter').submit();
+        }
+
+        function positiveAction(value, idComment)
+        {
+            var result = $("#positive_" + idComment);
+            var url = result.attr("data-url");
+            var loading = $("#loading_" + idComment);
+
+            loading.removeClass("hidden");
+
+            $.post(url, {
+                'positive': value,
+                'idComment': idComment
+            }, function(data) {
+                result.html(data);
+                loading.addClass("hidden");
+            });
         }
     </script>
 {% endblock %}
