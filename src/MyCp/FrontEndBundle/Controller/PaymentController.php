@@ -9,6 +9,7 @@ use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\SkrillHelper;
 use MyCp\FrontEndBundle\Helpers\PostFinanceHelper;
 use MyCp\mycpBundle\Entity\booking;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\postfinancePayment;
 use MyCp\mycpBundle\Entity\skrillPayment;
@@ -279,6 +280,7 @@ class PaymentController extends Controller
         $trans = $this->get('translator');
         $message = $trans->trans('PAYMENT_SUCCESS');
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
+        $payment->generateEcomerceTracking($this->getDoctrine()->getManager(), $this);
         return $this->redirect($this->generateUrl("frontend_mycasatrip_payment"));
     }
 
@@ -500,7 +502,6 @@ class PaymentController extends Controller
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ . ', TEST POST REQUEST'.PHP_EOL.
             ': URL ' . $urltopost . '. booking id: ' . $bookingId . 'Result: ' . print_r($result, true));
-
 
         return $this->redirect($this->generateUrl(
             'frontend_payment_skrill_return', array('bookingId' => $bookingId)));

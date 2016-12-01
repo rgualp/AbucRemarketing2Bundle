@@ -216,7 +216,7 @@
       </trans-unit>
       <trans-unit id="696e470058bcc7249b61750e5172fd20a925533a" resname="EMAIL_NEW_PASSWORD">
         <source>EMAIL_NEW_PASSWORD</source>
-        <target state="new">EMAIL_NEW_PASSWORD</target>
+        <target state="new">New password</target>
       </trans-unit>
       <trans-unit id="cf7fec9d844c5e93d700a9fec128d0581406a79a" resname="EMAIL_PASS_CHANGED">
         <source>EMAIL_PASS_CHANGED</source>
@@ -2263,6 +2263,10 @@
             <source>cancel.reservation.error.alert</source>
             <target>This reservation do not belongs to your agency</target>
       </trans-unit>
+      <trans-unit id="14">
+                        <source>client_name_require</source>
+                        <target>The client name is equired field.</target>
+                  </trans-unit>
     </body>
   </file>
 </xliff>

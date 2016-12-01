@@ -1144,7 +1144,7 @@
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Las Habitaciones triples tienen un recargo de $10</target>
+                <target>Todas las habitaciones dobles y las triples tienen un recargo de $10</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
@@ -1725,7 +1725,7 @@
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Las Habitaciones triples tienen un recargo de </target>
+                <target>Todas las habitaciones dobles y las triples tienen un recargo de </target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>
@@ -3980,7 +3980,7 @@
             </trans-unit>
             <trans-unit id="1003">
                 <source>MARQUESINA_TEXT</source>
-                <target>Reserva tu hospedaje ideal sin esperar confirmación. Planifica tu viaje en instantes con nuestro servicio de Reserva Inmediata. Disponible para La Habana.</target>
+                <target>Reserva tu hospedaje ideal sin esperar confirmación. Planifica tu viaje en instantes con nuestro servicio de Reserva Inmediata.</target>
             </trans-unit>
             <trans-unit id="1004">
                 <source>SEE_NOW</source>

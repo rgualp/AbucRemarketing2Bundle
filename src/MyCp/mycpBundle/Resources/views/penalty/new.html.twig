@@ -1,0 +1,24 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':accommodation.ownId}) }}">{{ accommodation.ownMcpCode }}</a> <span class="divider">/</span></li>
+    <li class="active">Penalizaciones </li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<div class="form-actions">
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_penalties', {"accommodationId": accommodation.ownId}) }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>Adicionar penalización a {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':accommodation}%}</h2>
+<hr/>
+<form class="sfgen" {{form_enctype(form)}} method="POST" action="{{path('mycp_create_penalty',{'accommodationId':accommodation.ownId})}}">
+{% if errors is defined and errors | length > 0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+    {{form_widget(form)}}
+{% endblock %}

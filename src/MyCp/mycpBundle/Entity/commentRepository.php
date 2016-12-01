@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 /**
@@ -73,13 +74,34 @@ class commentRepository extends EntityRepository {
     }
 
     function getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
-        $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
-        JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership";
+        $queryStr = "SELECT c,own,us,
+        (SELECT COUNT(res) FROM mycpBundle:generalReservation res
+                JOIN res.own_reservations r
+                JOIN r.own_res_reservation_booking b
+                JOIN b.payments p
+                WHERE res.gen_res_user_id = us.user_id
+                AND res.gen_res_own_id = own.own_id
+                AND res.gen_res_status = ".generalReservation::STATUS_RESERVED."
+                AND (p.status = ".PaymentHelper::STATUS_SUCCESS." OR p.status = ".PaymentHelper::STATUS_PROCESSED."))
+        FROM mycpBundle:comment c
+        JOIN c.com_ownership own
+        JOIN c.com_user us
+        WHERE own.own_mcp_code
+        LIKE :filter_ownership";
         return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr);
     }
 
     function getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
-        $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
+        $queryStr = "SELECT c,own,us,
+        (SELECT COUNT(res) FROM mycpBundle:generalReservation res
+                JOIN res.own_reservations r
+                JOIN r.own_res_reservation_booking b
+                JOIN b.payments p
+                WHERE res.gen_res_user_id = us.user_id
+                AND res.gen_res_own_id = own.own_id
+                AND res.gen_res_status = ".generalReservation::STATUS_RESERVED."
+                AND (p.status = ".PaymentHelper::STATUS_SUCCESS." OR p.status = ".PaymentHelper::STATUS_PROCESSED."))
+        FROM mycpBundle:comment c
         JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership
         AND c.com_public = 0";
         return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, 2, -1, $queryStr);
@@ -269,6 +291,24 @@ class commentRepository extends EntityRepository {
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function isFromUserWithReservations(comment $comment){
+        $em = $this->getEntityManager();
+
+        $queryStr = "SELECT COUNT(res) FROM mycpBundle:generalReservation res
+                JOIN res.own_reservations r
+                JOIN r.own_res_reservation_booking b
+                JOIN b.payments p
+                WHERE res.gen_res_user_id = :userId
+                AND res.gen_res_own_id = :accommodationId
+                AND res.gen_res_status = ".generalReservation::STATUS_RESERVED."
+                AND (p.status = ".PaymentHelper::STATUS_SUCCESS." OR p.status = ".PaymentHelper::STATUS_PROCESSED.")";
+
+        return $em->createQuery($queryStr)
+            ->setParameter('userId', $comment->getComUser()->getUserId())
+            ->setParameter('accommodationId', $comment->getComOwnership()->getOwnId())
+            ->getOneOrNullResult();
     }
 
 }

@@ -1144,7 +1144,7 @@
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Triple Rooms have a $10 surcharge</target>
+                <target>All double and triple rooms have an extra charge $10</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
@@ -1725,7 +1725,7 @@
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Triple Rooms have a surcharge of </target>
+                <target>All double and triple rooms have an extra charge </target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>
@@ -3995,7 +3995,7 @@
                 </trans-unit>
                 <trans-unit id="1003">
                     <source>MARQUESINA_TEXT</source>
-                    <target>Book the ideal lodging without waiting for confirmation. Plan your trip in moments with our service: Immediate Booking. Available in Havana.</target>
+                    <target>Book the ideal lodging without waiting for confirmation. Plan your trip in moments with our service: Immediate Booking.</target>
                 </trans-unit>
                 <trans-unit id="1004">
                     <source>SEE_NOW</source>

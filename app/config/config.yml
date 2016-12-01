@@ -63,12 +63,12 @@ assetic:
     #java: /usr/bin/java
     node: %nodejs_path%
     filters:
-            uglifyjs2:
-                # the path to the uglifyjs executable
-                bin: %uglifyjs_path%
-            cssrewrite: ~
-            uglifycss:
-                bin: %uglifycss_path%
+        uglifyjs2:
+            # the path to the uglifyjs executable
+            bin: %uglifyjs_path%
+        cssrewrite: ~
+        uglifycss:
+            bin: %uglifycss_path%
 
 # Doctrine Configuration
 doctrine:
@@ -270,6 +270,22 @@ avalanche_imagine:
             type:    thumbnail
             options: { size: [120, 90], mode: outbound }
 
+        mycp_thumb_front:
+            type:    thumbnail
+            options: { size: [239, 160], mode: outbound, quality: 100 }
+
+        mycp_thumb_search:
+            type:    thumbnail
+            options: { size: [325, 244], mode: outbound, quality: 80 }
+        # the name of the "filter set"
+        my_thumb_destination:
+            type:    thumbnail
+            options: { size: [180, 120], mode: outbound, quality: 100 }
+
+        my_slideshow:
+            type:    thumbnail
+            options: { size: [1400, 350], mode: outbound }
+
 be_simple_i18n_routing: ~
 
 # TODO: Gehört eigentlich ins Remarketing bundle. Wie soll das dorthin kommen?
@@ -316,4 +332,22 @@ mobile_detect:
     device_view_class: "SunCat\MobileDetectBundle\Helper\DeviceView"
     request_response_listener_class: "SunCat\MobileDetectBundle\EventListener\RequestResponseListener"
     twig_extension_class: "SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension"
+
+google:
+    analytics:
+        enhanced_ecommerce: false
+        session_auto_started: true
+        trackers:
+            default:
+                name: MyJavaScriptCompatibleVariableNameWithNoSpaces
+                accountId: %id_google_analitics%
+                domain: .mycasaparticular.com
+                setSiteSpeedSampleRate: 5
+                allowAnchor: true
+                allowHash: true
+                includeNamePrefix: false
+                plugins:
+                    - 'linkid'
+                    - 'ecommerce'
+        whitelist: [ 'q', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign' ]
 

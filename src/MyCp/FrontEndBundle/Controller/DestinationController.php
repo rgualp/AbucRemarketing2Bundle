@@ -44,6 +44,7 @@ class DestinationController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
@@ -84,45 +85,105 @@ class DestinationController extends Controller {
         foreach ($provinces as $prov)
             $provinces_for_url[$prov->getProvId()] = Utils::urlNormalize($prov->getProvName());
 
-        $view = $session->get('search_view_results_destination');
 
-        /**************************to pagin***********/
-        $page = 1;
-        if(isset($_GET['page']))
-            $page = $_GET['page'];
-        $items_per_page = 6;
-        //$paginator = $this->get('ideup.simple_paginator');
-        //$paginator->setItemsPerPage($items_per_page);
+        if ($mobileDetector->isMobile()){
+            $view = $session->get('search_view_results_destination');
 
-        $start = ($page - 1) * $items_per_page;
-        $limit = $items_per_page;
-        /**********************************************/
+            /**************************to pagin***********/
+            $page = 1;
+            if(isset($_GET['page']))
+                $page = $_GET['page'];
+            $items_per_page = 6;
+            //$paginator = $this->get('ideup.simple_paginator');
+            //$paginator->setItemsPerPage($items_per_page);
 
-        $view = 'PHOTOS';
-        $l = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null, null, $users_id['user_id'], $users_id['session_id'], $start, $limit);
-        $list = $l['results'];
-        $owns_nearby = $list;//$paginator->paginate($list)->getResult();
+            $start = ($page - 1) * $items_per_page;
+            $limit = $items_per_page;
+            /**********************************************/
 
-        /**************************to pagin***********/
-        $totalItems = $l['count'];
+            $view = 'PHOTOS';
+            $l = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null, null, $users_id['user_id'], $users_id['session_id'], $start, $limit);
+            $list = $l['results'];
+            $owns_nearby = $list;//$paginator->paginate($list)->getResult();
 
-        $currentPage = $page;
-        $firstPage = 1;
-        $previousPage = $page - 1;
-        $lastPage = (int)ceil((($totalItems > 0) ? $totalItems : 1) / $items_per_page);
-        $minPage = ($currentPage == $firstPage) ? ($firstPage) : ($currentPage - 1);//($page > $offset) ? ($page - $offset) : ($firstPage);
-        $maxPage = ($currentPage == $lastPage) ? ($lastPage) : ($currentPage + 1);//($minPage + $items_per_page > $lastPage) ? ($lastPage) : ($minPage + $items_per_page - 1);
-        $nextPage = $currentPage + 1;
-        $paginator = array(
-            'firstPage'=>$firstPage,
-            'previousPage'=>$previousPage,
-            'minPage'=>$minPage,
-            'lastPage'=>$lastPage,
-            'maxPage'=>$maxPage,
-            'currentPage'=>$currentPage,
-            'nextPage'=>$nextPage
-        );
-        /**********************************************/
+            /**************************to pagin***********/
+            $totalItems = $l['count'];
+
+            $currentPage = $page;
+            $firstPage = 1;
+            $previousPage = $page - 1;
+            $lastPage = (int)ceil((($totalItems > 0) ? $totalItems : 1) / $items_per_page);
+            $minPage = ($currentPage == $firstPage) ? ($firstPage) : ($currentPage - 1);//($page > $offset) ? ($page - $offset) : ($firstPage);
+            $maxPage = ($currentPage == $lastPage) ? ($lastPage) : ($currentPage + 1);//($minPage + $items_per_page > $lastPage) ? ($lastPage) : ($minPage + $items_per_page - 1);
+            $nextPage = $currentPage + 1;
+            $paginator = array(
+                'firstPage'=>$firstPage,
+                'previousPage'=>$previousPage,
+                'minPage'=>$minPage,
+                'lastPage'=>$lastPage,
+                'maxPage'=>$maxPage,
+                'currentPage'=>$currentPage,
+                'nextPage'=>$nextPage
+            );
+            /**********************************************/
+
+        }else{
+            /**************************to pagin***********/
+
+            //$paginator = $this->get('ideup.simple_paginator');
+            //$paginator->setItemsPerPage($items_per_page);
+
+            $start = null;
+            $limit = null;
+            /**********************************************/
+
+            $view = 'PHOTOS';
+            $list = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null, null, $users_id['user_id'], $users_id['session_id'], $start, $limit);
+
+            $items_per_page = 8;
+            $paginator = $this->get('ideup.simple_paginator');
+            $paginator->setItemsPerPage($items_per_page);
+            $owns_nearby = $paginator->paginate($list)->getResult();
+            $page = 1;
+            if (isset($_GET['page']))
+                $page = $_GET['page'];
+
+            $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
+
+            $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories();
+            $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes();
+            $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices();
+            $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
+            $awards = $em->getRepository('mycpBundle:award')->findAll();
+
+            $today = new \DateTime();
+            $desName = $destination->getDesName();
+            if ($desName === "La Habana Vieja"){
+                $desName = "Habana Vieja";
+            }
+            $search_text = Utils::getTextFromNormalized($desName);
+            $search_guests = "1";
+            $search_rooms = "1";
+            $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $today->format('d-m-Y');
+
+            $departure = null;
+            if($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null")
+                $departure = $request->get('departure');
+            else if($arrival != null)
+            {
+                $arrivalDateTime = \DateTime::createFromFormat("d-m-Y",$arrival);
+                $departure = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+            }
+            else
+                $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+
+            $session->set('search_text', $search_text);
+            $session->set('search_arrival_date', $arrival);
+            $session->set('search_departure_date', $departure);
+            $session->set('search_guests', $search_guests);
+            $session->set('search_rooms', $search_rooms);
+
+        }
 
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
 
@@ -131,7 +192,7 @@ class DestinationController extends Controller {
             $own_ids .= "," . $own['own_id'];
         $session->set('own_ids', $own_ids);
 
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
 
         if ($mobileDetector->isMobile()){
             return $this->render('MyCpMobileFrontendBundle:destination:destinationDetails.html.twig', array(
@@ -168,7 +229,7 @@ class DestinationController extends Controller {
                 'keyword' => $destination_array['keywords']
             ));
         }else{
-            return $this->render('FrontEndBundle:destination:destinationDetails.html.twig', array(
+            return $this->render('FrontEndBundle:destination:newDestinationDetails.html.twig', array(
                 'destination' => $destination_array[0],
                 'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
                 'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
@@ -188,9 +249,8 @@ class DestinationController extends Controller {
                 'total_other_destinations_in_province' => count($other_destinations_in_province),
                 'popular_list' => $popular_destinations_list,
                 'provinces' => $provinces,
-                'owns_nearby' => $owns_nearby,
                 'items_per_page' => $items_per_page,
-                'total_items' => $totalItems,
+                'total_items' => $paginator->getTotalItems(),
                 'paginator'=>$paginator,
                 'destination_name' => $original_destination_name,
                 'data_view' => (($view == null) ? 'LIST' : $view),
@@ -199,7 +259,18 @@ class DestinationController extends Controller {
                 'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
                 'provinces_for_url' => $provinces_for_url,
                 'keyword_description' => $destination_array['keyword_description'],
-                'keyword' => $destination_array['keywords']
+                'keyword' => $destination_array['keywords'],
+                'own_statistics' => $statistics_own_list,
+                'owns_categories' => $categories_own_list,
+                'owns_types' => $types_own_list,
+                'owns_prices' => $prices_own_list,
+                'awards'=>$awards,
+                'current_page' => $page,
+                'cant_pages' => $paginator->getLastPage(),
+                'search_text' => $search_text,
+                'search_guests' => $search_guests,
+                'search_arrival_date' => $arrival,
+                'search_departure_date' => $departure
             ));
         }
 
@@ -212,27 +283,28 @@ class DestinationController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
-        $show_rows = $request->request->get('show_rows');
-
-        if($show_rows != null)
-            $session->set('destination_details_show_rows', $show_rows);
-        else if($session->get("destination_details_show_rows") == null)
-            $session->set('destination_details_show_rows', 3);
-
-        $view = $session->get('search_view_results_destination');
 
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;
+        $items_per_page = 8;
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null, null, $users_id['user_id'], $users_id['session_id']))->getResult();
+        $list = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null, null, $users_id['user_id'], $users_id['session_id']))->getResult();
 
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $own_ids = "0";
+        foreach ($list as $own)
+            $own_ids .= "," . $own['own_id'];
+        $session->set('own_ids', $own_ids);
 
         $response = $this->renderView('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
-            'owns_nearby' => $owns_nearby,
+            'owns_nearby' => $list,
             'destination_name' => $destination_name,
-            'data_view' => (($view == null) ? 'LIST' : $view),
             'items_per_page' => $items_per_page,
-            'total_items' => $paginator->getTotalItems()
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+            'cant_pages' => $paginator->getLastPage()
         ));
 
         return new Response($response, 200);

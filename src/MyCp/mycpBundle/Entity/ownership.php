@@ -403,6 +403,13 @@ class ownership {
     /**
      * @var datetime
      *
+     * @ORM\Column(name="own_availability_update", type="datetime", nullable=true)
+     */
+    private $own_availability_update;
+
+    /**
+     * @var datetime
+     *
      * @ORM\Column(name="own_publish_date", type="datetime", nullable=true)
      */
     private $own_publish_date;
@@ -586,6 +593,16 @@ class ownership {
      */
     private $rankingExtra;
 
+    /**
+     * @ORM\OneToMany(targetEntity="penalty", mappedBy="accommodation")
+     */
+    private $penalties;
+
+    /**
+     * @ORM\OneToMany(targetEntity="failure", mappedBy="accommodation")
+     */
+    private $failures;
+
 
     /**
      * Constructor
@@ -604,12 +621,15 @@ class ownership {
         $this->comments = new ArrayCollection();
         $this->ownershipLogs = new ArrayCollection();
         $this->own_creation_date = new \DateTime();
+        $this->own_availability_update = new \DateTime();
         $this->own_sms_notifications = true;
         $this->own_inmediate_booking = false;
         $this->own_inmediate_booking_2 = false;
         $this->owners = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->insertedInCasaModule = false;
+        $this->penalties = new ArrayCollection();
+        $this->failures = new ArrayCollection();
     }
 
     /**
@@ -663,6 +683,21 @@ class ownership {
 
         return $this;
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getOwnAvailabilityUpdate() {
+        return $this->own_availability_update;
+    }
+
+    /**
+     * @param DateTime $own_availability_update
+     */
+    public function setOwnAvailabilityUpdate($own_availability_update) {
+        $this->own_availability_update = $own_availability_update;
+    }
+
 
     /**
      * Get own_destination
@@ -2526,6 +2561,88 @@ class ownership {
     {
         $this->own_inmediate_booking_2 = $own_inmediate_booking_2;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPenalties()
+    {
+        return $this->penalties;
+    }
+
+    /**
+     * @param mixed $penalties
+     * @return mixed
+     */
+    public function setPenalties($penalties)
+    {
+        $this->penalties = $penalties;
+        return $this;
+    }
+
+    /**
+     * Add created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     *
+     * @return user
+     */
+    public function addPenalty(penalty $penalty)
+    {
+        $this->penalties[] = $penalty;
+        return $this;
+    }
+
+    /**
+     * Remove created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     */
+    public function removePenalty(penalty $penalty)
+    {
+        $this->penalties->removeElement($penalty);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFailures()
+    {
+        return $this->failures;
+    }
+
+    /**
+     * @param mixed $failures
+     * @return mixed
+     */
+    public function setFailures($failures)
+    {
+        $this->failures = $failures;
+        return $this;
+    }
+
+    /**
+     * Add created failure
+     *
+     * @param \MyCp\mycpBundle\Entity\failure $failure
+     *
+     * @return user
+     */
+    public function addFailure(failure $failure)
+    {
+        $this->failures[] = $failure;
+        return $this;
+    }
+
+    /**
+     * Remove created failure
+     *
+     * @param \MyCp\mycpBundle\Entity\failure $failure
+     */
+    public function removeFailure(failure $failure)
+    {
+        $this->failures->removeElement($failure);
     }
 
 

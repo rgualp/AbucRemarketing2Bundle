@@ -139,14 +139,14 @@ class FrontendController extends Controller
                 //Create user
                 $factory = $this->get('security.encoder_factory');
 
-                $agencys = $em->getRepository('PartnerBundle:paTravelAgency')->getAll()->getResult();
-                if(count($agencys) >= 10){ //para la V beta.
-                    $user = $em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'), $request->get('password'), $language, $currency, true);
-                    $user->setUserEnabled(0);
-                }
-                else{
+//                $agencys = $em->getRepository('PartnerBundle:paTravelAgency')->getAll()->getResult();
+//                if(count($agencys) >= 10){ //para la V beta.
+//                    $user = $em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'), $request->get('password'), $language, $currency, true);
+//                    $user->setUserEnabled(0);
+//                }
+//                else{
                     $user = $em->getRepository('PartnerBundle:paTravelAgency')->createUser($obj, null, $factory, true, $this, $this->get('service_container'), $request->get('password'), $language, $currency);
-                }
+//                }
 
                 //Create tour operator
                 $tourOperator = new paTourOperator();

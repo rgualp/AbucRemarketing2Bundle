@@ -410,6 +410,7 @@ class BookingService extends Controller
             return;
         }
 
+
         $paymentPending = $status == PaymentHelper::STATUS_PENDING;
         $this->updateReservationStatuses($bookingId, $status);
         $this->processPaymentEmails($booking, $paymentPending);

@@ -60,20 +60,21 @@ var Step2 = function () {
 
     var saveStep2=function(index){
         if(index==2){
-      var _url=$('#mycp_mycpbundle_ownership_step1').attr('action');
-        var values = $('#mycp_mycpbundle_ownership_step1').serialize();
+            $("#mycp_mycpbundle_ownership_step1").validate();
+            var _url=$('#mycp_mycpbundle_ownership_step1').attr('action');
+            var values = $('#mycp_mycpbundle_ownership_step1').serialize();
 
-        var $envio = $.ajax({
-            url: _url,
-            data: values,
-            type: 'POST'
-        });
-        $envio.error(function(data){
-            //
-        });
-        $envio.success(function(data){
-    //
-        });
+            var $envio = $.ajax({
+                url: _url,
+                data: values,
+                type: 'POST'
+            });
+            $envio.error(function(data){
+                //
+            });
+            $envio.success(function(data){
+        //
+            });
         }
     }
 

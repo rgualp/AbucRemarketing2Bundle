@@ -72,6 +72,14 @@ class SummaryCommand extends ContainerAwareCommand
         $factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($yesterday,$day);
         $factura=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($yesterday,$yesterday);
 
+
+        $first_day=$this->_data_first_month_day();
+        $total_factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($first_day,$day);
+        $totalFactu=0;
+        foreach($total_factu as $aux){
+            $totalFactu+=$aux['facturacion'];
+        }
+
         $clientPendig=$em->getRepository("mycpBundle:generalReservation")->clientPendig();
 
         $totalPending=0;
@@ -79,7 +87,7 @@ class SummaryCommand extends ContainerAwareCommand
             $tmp=($client['own_res_total_in_site']*$client['own_commission_percent'])/100;
             $totalPending+=round($tmp);
         }
-
+        $meta=44000;
         //Cuerpo del correo
         $body = $templatingService
             ->renderResponse('mycpBundle:reports:emailSummary.html.twig', array(
@@ -104,13 +112,14 @@ class SummaryCommand extends ContainerAwareCommand
                 'totalPending'=>$totalPending,
                 'totalClient'=>count($clientPendig)+$reserved[0][1],
                 'totalCUC'=>(count($factu))?round($factu[0]['facturacion'])+$totalPending:$totalPending,
-                'factura'=>(count($factura))?$factura[0]['facturacion']:0
+                'factura'=>(count($factura))?$factura[0]['facturacion']:0,
+                'diferencia'=>$meta-$totalFactu,
+                'meta'=>$meta
             ));
-
         try {
             $subject = "Sumario MyCasaParticular";
 
-            $emailService->sendEmail(array('laura@hds.li','ptorres@abuc.ch','natalie@mycasaparticular.com','ptorres@mycasaparticular.com','anne.schweizer@abuc.ch','damian.flores@mycasaparticular.com','ander@mycasaparticular.com', 'jose.rafael@hds.li'), $subject,  $body, 'no-responder@mycasaparticular.com');
+            $emailService->sendEmail(array('laura@hds.li','luiseduardo@hds.li','ptorres@abuc.ch','natalie@mycasaparticular.com','ptorres@mycasaparticular.com','luiseduardo@hds.li','damian.flores@mycasaparticular.com','ander@mycasaparticular.com', 'jose.rafael@hds.li'), $subject,  $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email');
 
 
@@ -125,4 +134,21 @@ class SummaryCommand extends ContainerAwareCommand
         $output->writeln('Operation completed!!!');
         return 0;
     }
+    /** Ultimo dia de este mes **/
+    function _data_last_month_day() {
+        $month = date('m');
+        $year = date('Y');
+        $day = date("d", mktime(0,0,0, $month+1, 0, $year));
+
+        return date('Y-m-d', mktime(0,0,0, $month, $day, $year));
+    }
+
+    /** Primer dia de este mes **/
+    function _data_first_month_day() {
+        $month = date('m');
+        $year = date('Y');
+        return date('Y-m-d', mktime(0,0,0, $month, 1, $year));
+    }
+
+
 }
