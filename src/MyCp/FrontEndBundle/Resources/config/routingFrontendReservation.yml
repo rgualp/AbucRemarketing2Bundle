@@ -22,6 +22,10 @@ frontend_reservation_reservation_afterlogin:
     locales:  { en: "/user/booking/", es: "/usuario/reservar/", de: "/user/booking/" }
     defaults: { _controller: FrontEndBundle:Reservation:reservationAfterLogin }
 
+frontend_reservation_test_email:
+    locales:  { en: "/testemail/{idbooking}", es: "/testemail/{idbooking}", de: "/testemail/{idbooking}" }
+    defaults: { _controller: FrontEndBundle:Reservation:testPaymentEmails }
+
 
 
 
