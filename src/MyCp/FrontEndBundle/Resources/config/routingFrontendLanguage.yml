@@ -1,7 +1,7 @@
 frontend_change_language_callback:
-    locales:  { en: "/change-language/{lang}/{route}/{routeParams}", es: "/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/change-language/{lang}/{route}/{routeParams}" }
+    locales:  { en: "/change-language/{lang}/{route}/{routeParams}", es: "/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/change-language/{lang}/{route}/{routeParams}", fr: "/change-language/{lang}/{route}/{routeParams}", it: "/change-language/{lang}/{route}/{routeParams}" }
     defaults: { _controller: FrontEndBundle:Language:change, route: frontend_welcome, routeParams: null }
 
 frontend_get_languages:
-    locales:  { en: "/get-languages/{route}/{routeParams}", es: "/obtener-lenguajes/{route}/{routeParams}", de: "/get-languages/{route}/{routeParams}" }
+    locales:  { en: "/get-languages/{route}/{routeParams}", es: "/obtener-lenguajes/{route}/{routeParams}", de: "/get-languages/{route}/{routeParams}", fr: "/get-languages/{route}/{routeParams}", it: "/get-languages/{route}/{routeParams}" }
     defaults: { _controller: FrontEndBundle:Language:getLanguages, route: frontend_welcome, routeParams: null }

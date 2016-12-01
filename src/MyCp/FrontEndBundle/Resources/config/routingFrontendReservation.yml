@@ -1,26 +1,30 @@
 frontend_redirect_reservation_reservation:
-    locales:  { en: "/user/reservation/redirect/", es: "/usuario/reservacion/redireccionar/", de: "/user/reservation/redirect/" }
+    locales:  { en: "/user/reservation/redirect/", es: "/usuario/reservacion/redireccionar/", de: "/user/reservation/redirect/", fr: "/user/reservation/redirect/", it: "/user/reservation/redirect/" }
     defaults: { _controller: FrontEndBundle:Reservation:redirectReservation }
 
 frontend_reservation_reservation:
-    locales:  { en: "/user/reservation/", es: "/usuario/reservacion/", de: "/user/reservation/" }
+    locales:  { en: "/user/reservation/", es: "/usuario/reservacion/", de: "/user/reservation/", fr: "/user/reservation/", it: "/user/reservation/" }
     defaults: { _controller: FrontEndBundle:Reservation:reservation }
 
 frontend_confirmation_reservation:
-    locales:  { en: "/user/payment/{id_booking}/", es: "/usuario/pago/{id_booking}/", de: "/user/payment/{id_booking}/" }
+    locales:  { en: "/user/payment/{id_booking}/", es: "/usuario/pago/{id_booking}/", de: "/user/payment/{id_booking}/", fr: "/user/payment/{id_booking}/", it: "/user/payment/{id_booking}/" }
     defaults: { _controller: FrontEndBundle:Reservation:confirmation }
 
 frontend_view_confirmation_reservation:
-    locales:  { en: "/user/reservation/view/{id_booking}/", es: "/usuario/reservacion/detalles/{id_booking}/", de: "/user/reservation/view/{id_booking}/" }
+    locales:  { en: "/user/reservation/view/{id_booking}/", es: "/usuario/reservacion/detalles/{id_booking}/", de: "/user/reservation/view/{id_booking}/", fr: "/user/reservation/view/{id_booking}/", it: "/user/reservation/view/{id_booking}/" }
     defaults: { _controller: FrontEndBundle:Reservation:viewConfirmation }
 
 frontend_boucher_reservation:
-    locales:  { en: "/user/confirmation/{id_booking}/", es: "/usuario/confirmacion/{id_booking}/", de: "/user/confirmation/{id_booking}/" }
+    locales:  { en: "/user/confirmation/{id_booking}/", es: "/usuario/confirmacion/{id_booking}/", de: "/user/confirmation/{id_booking}/", fr: "/user/confirmation/{id_booking}/", it: "/user/confirmation/{id_booking}/" }
     defaults: { _controller: FrontEndBundle:Reservation:generatePdfVoucher }
 
 frontend_reservation_reservation_afterlogin:
     locales:  { en: "/user/booking/", es: "/usuario/reservar/", de: "/user/booking/" }
     defaults: { _controller: FrontEndBundle:Reservation:reservationAfterLogin }
+
+frontend_reservation_test_email:
+    locales:  { en: "/testemail/{idbooking}", es: "/testemail/{idbooking}", de: "/testemail/{idbooking}" }
+    defaults: { _controller: FrontEndBundle:Reservation:testPaymentEmails }
 
 
 
