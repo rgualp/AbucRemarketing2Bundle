@@ -14,13 +14,13 @@ var Step6 = function () {
     var addPhotoLink=$('#addPhotoLink');
     var newPhotoLi = $('<li></li>');
 
-    $(document).ready(function () {
+    var inits = function () {
         // Get the ul that holds the collection of Photos
         collectionHolderPhotos = $('ul#ownPhotos');
 
         // add a delete course link to all of the existing tag form li elements
         collectionHolderPhotos.find('li').each(function (index) {
-             addPhotoFormDeleteLink($(this),index);
+            addPhotoFormDeleteLink($(this),index);
         });
 
         // add the "add a Photo" anchor and li to the Photos ul
@@ -39,9 +39,9 @@ var Step6 = function () {
                 swal("Alcanzó el máximo de imagenes permitidas", "", "error");
             }
             else{
-            addPhotoForm(collectionHolderPhotos, newPhotoLi);
-            var temp = collectionHolderPhotos.find('li').length - 2;
-            $("#mycp_mycpbundle_ownership_step_photos_photos_"+temp+"_file").click();
+                addPhotoForm(collectionHolderPhotos, newPhotoLi);
+                var temp = collectionHolderPhotos.find('li').length - 2;
+                $("#mycp_mycpbundle_ownership_step_photos_photos_"+temp+"_file").click();
             }
             //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_title').focus();
             //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_title').rules( "add", {
@@ -53,7 +53,8 @@ var Step6 = function () {
 
         });
         //addPhotoForm(collectionHolderPhotos, newPhotoLi);
-    });
+        onclickBtnSavePhoto();
+    }
 
     function addPhotoForm(collectionHolder, newLinkLi) {
 
@@ -200,6 +201,7 @@ var Step6 = function () {
 
     var saveStep6=function(index){
         if(index==6) {
+            HoldOn.open();
             var _url = $('#mycp_mycpbundle_ownership_step_photos').attr('action');
             //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
             var form = $('#mycp_mycpbundle_ownership_step_photos');
@@ -225,20 +227,20 @@ var Step6 = function () {
         }
     }
 
-    //var onclickBtnSavePhoto=function(){
+    var onclickBtnSavePhoto=function(){
         $('#saveStepPhotos').on('click',function(){
             HoldOn.open();
-            Step6.saveStep6();
-
+            saveStep6(6);
         });
-    //}
+    }
     return {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
             var event=App.getEvent();
             event.clickBtnContinueAfter.add(saveStep6,this, -1);
-            //onclickBtnSavePhoto();
+            inits();
+
         },
         saveStep6: saveStep6
     };

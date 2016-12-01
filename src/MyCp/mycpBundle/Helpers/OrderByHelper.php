@@ -73,6 +73,7 @@ class OrderByHelper {
 
     const AWARD_ACCOMMODATION_CODE = 99;
     const AWARD_ACCOMMODATION_RANKING = 100;
+    const SEARCHER_AVALIABLE_UPDATE = 101;
 
     public static function getOrdersFor($elementToOrder)
     {

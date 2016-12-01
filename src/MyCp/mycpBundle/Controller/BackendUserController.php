@@ -728,7 +728,11 @@ class BackendUserController extends Controller {
     function changeStatusAction($userId, Request $request) {
         try {
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository('mycpBundle:user')->changeStatus($userId);
+            $user = $em->getRepository('mycpBundle:user')->changeStatus($userId, true);
+
+            if($user !== false && $user->getUserEnabled()){
+                $this->sendEmailToOwn($user);
+            }
 
             $message = 'Se ha modificado satisfactoriamente el estado del usuario asociado.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -743,6 +747,32 @@ class BackendUserController extends Controller {
         return $this->redirect($previousUrl);
             // return $this->redirect($this->generateUrl('mycp_list_ownerships'));
 
+    }
+
+    function sendEmailToOwn($user) {
+        $ownership = $user->getUserUserCasa()->first()->getUserCasaOwnership();
+        $userCasa = $user->getUserUserCasa()->first();
+        $em = $this->getDoctrine()->getManager();
+
+        //Enviar correo a los propietarios
+        $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
+        if(isset($accommodationEmail) && $accommodationEmail != ""){
+            $userName = ($ownership->getOwnHomeowner1()) ? $ownership->getOwnHomeowner1() : $ownership->getOwnHomeowner2();
+            $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId(), "active" => 1));
+
+            $emailSubject = "Bienvenido a MyCasaParticular.com";
+
+            $emailManager = $this->get('mycp.service.email_manager');
+
+            $emailBody = $emailManager->getViewContent('mycpBundle:mail:activation.html.twig',
+                array('user_name' => $userName,
+                    'assistant' => $localOperationAssistant,
+                    'accommodation' => $ownership,
+                    'secret_token' => $userCasa->getUserCasaSecretToken(),
+                    'user_locale' => "es"));
+
+            $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");
+        }
     }
 
     public function getUserPhotoPathAction($userId, $changePhotoLink = false)

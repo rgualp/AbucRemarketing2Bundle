@@ -38,7 +38,16 @@ class utilsExtension extends \Twig_Extension {
             'reservationPriceBySeason' => new \Twig_Function_Method($this, 'reservationPriceBySeason'),
             'getUrl' => new \Twig_Function_Method($this, 'getUrl'),
             'touristTax' => new \Twig_Function_Method($this, 'touristTax'),
+            'isDateTime' => new \Twig_Function_Method($this, 'isDateTime'),
         );
+    }
+
+    public function isDateTime($date) {
+        if (\DateTime::createFromFormat('d-m-Y', $date) !== FALSE) {
+            return true;
+        }
+        //return ($date instanceof \DateTime); /* edit */
+        return false;
     }
 
     public function ceil_round($number) {

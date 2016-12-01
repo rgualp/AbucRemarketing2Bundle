@@ -29,7 +29,7 @@ class emailDestinationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT  d.des_id ,d.des_name as desName ,ed.id,ed.contentEs,ed.contentEn,ed.contentDe FROM mycpBundle:emailDestination ed
         join ed.destination d
-        WHERE  ed.destination NOT IN('$arraydestinations_id')");
+        WHERE  ed.destination NOT IN($arraydestinations_id)");
         return $query->getResult();
     }
 }

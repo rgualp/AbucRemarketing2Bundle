@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: Arial; font-size: 15px">
+<h2>Voucher del booking ID_{{booking_id}}</h2>
+Fecha de Envío: {{ "now"|date("D, d M Y H:m:s O") }}
+<br/><br/>
+<b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}
+<br/>
+<b>Ciudad:</b> {{ user.getUserCity }}
+<br/>
+<b>País:</b> {{ user.getUserCountry.getCoName }}
+<br/>
+<b>Correo electrónico:</b> <a href="mailto:{{ user.getUserEmail }}">{{ user.getUserEmail }}</a>
+<br/>
+<b>Idioma:</b> {{ user_tourist.getUserTouristLanguage.getLangName }}
+</body>
+</html>

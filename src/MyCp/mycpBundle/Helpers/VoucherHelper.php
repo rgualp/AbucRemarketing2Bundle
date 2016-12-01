@@ -45,6 +45,35 @@ class VoucherHelper {
         }
     }
 
+    public static function sendVoucherByBookingId($entity_manager, $bookingService, $emailService, $controller, $idBooking, $emailToSend, $replaceExistingVoucher = false) {
+
+        try {
+            $booking = $entity_manager->getRepository('mycpBundle:booking')->find($idBooking);
+            $userTourist = $entity_manager->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $booking->getBookingUserId()));
+
+            // one could also use $bookingService->getVoucherFilePathByBookingId($bookingId) here, but then the PDF is not created
+
+            $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($idBooking, $replaceExistingVoucher);
+
+            $body = $controller->render('FrontEndBundle:mails:rt_voucher_booking.html.twig', array(
+                'user' => $userTourist->getUserTouristUser(),
+                'user_tourist' => $userTourist,
+                'booking_id' => $idBooking
+            ));
+
+            $emailService->sendEmail(
+                $emailToSend, 'Voucher del booking ID_' . $idBooking, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
+            );
+
+            $message = 'Se ha enviado satisfactoriamente el voucher asociado al booking ' . $idBooking;
+            $controller->get('session')->getFlashBag()->add('message_ok', $message);
+
+        } catch (\Exception $e) {
+            $message = 'Error al enviar el voucher asociado al booking ' . $idBooking . ". " . $e->getMessage();
+            $controller->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+    }
+
     public static function sendVoucherToClient($entity_manager, $bookingService, $emailService, $controller, $genRes, $subjectTranslatedKey, $message = null, $createVoucher = true) {
 
         $idReservation = $genRes->getGenResId();

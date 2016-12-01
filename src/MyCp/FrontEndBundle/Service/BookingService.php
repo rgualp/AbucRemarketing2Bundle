@@ -212,8 +212,14 @@ class BookingService extends Controller
         $booking = $this->getBooking($bookingId);
         $payment = $this->getPaymentByBooking($booking);
         $user = $this->getUserByBooking($booking);
-        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        if($user->getRoles()[0] == "ROLE_CLIENT_PARTNER"){
+            $userLocale = strtolower($user->getUserLanguage()->getLangCode());
+        }
+        else{
+            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+            $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        }
+
 
         $currency = $payment->getCurrency();
         $currencySymbol = $currency->getCurrSymbol();
@@ -403,6 +409,7 @@ class BookingService extends Controller
             && $status !== PaymentHelper::STATUS_SUCCESS) {
             return;
         }
+
 
         $paymentPending = $status == PaymentHelper::STATUS_PENDING;
         $this->updateReservationStatuses($bookingId, $status);
@@ -722,7 +729,18 @@ class BookingService extends Controller
         }
 
         // send email to accommodation owner
-        foreach ($arrayOwnershipReservationByHouse as $owns) {
+        foreach ($arrayOwnershipReservationByHouse as $key => $owns) {
+
+            $fromToTravel = $this->em->getRepository('mycpBundle:ownershipReservation')->getFromToDestinationCliente($key,$user->getUserId(), date_format($owns[0]->getOwnResReservationFromDate(), 'Y-m-d'), date_format($owns[0]->getOwnResReservationToDate(), 'Y-m-d'));
+            $houseFrom = null;
+            if (array_key_exists('from', $fromToTravel)){
+                $houseFrom = $this->em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $fromToTravel['from']));
+            }
+            $houseTo = null;
+            if (array_key_exists('to', $fromToTravel)){
+                $houseTo = $this->em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $fromToTravel['to']));
+            }
+
             $bodyOwner = $this->render(
                 'FrontEndBundle:mails:email_house_confirmation.html.twig',
                 array(
@@ -731,7 +749,9 @@ class BookingService extends Controller
                     'reservations' => $owns,
                     'nights' => $arrayNightsByOwnershipReservation,
                     'rooms' => $rooms,
-                    'booking' => $bookingId
+                    'booking' => $bookingId,
+                    'houseFrom' => $houseFrom,
+                    'houseTo' => $houseTo
                 )
             );
 

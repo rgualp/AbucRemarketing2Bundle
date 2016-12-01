@@ -70,6 +70,17 @@ class comment
      */
     private $com_comments;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="positive", type="boolean")
+     */
+    private $positive;
+
+    public function __construct()
+    {
+        $this->setPositive(false);
+    }
 
     /**
      * Get com_id
@@ -224,4 +235,24 @@ class comment
     {
         return "Comentario realizado ".$this->getComDate()->format("d/m/Y")." en alojamiento ".$this->getComOwnership()->getOwnMcpCode()." por ".$this->getComUser()->getUserCompleteName();
     }
+
+    /**
+     * @return boolean
+     */
+    public function isPositive()
+    {
+        return $this->positive;
+    }
+
+    /**
+     * @param boolean $positive
+     * @return mixed
+     */
+    public function setPositive($positive)
+    {
+        $this->positive = $positive;
+        return $this;
+    }
+
+
 }

@@ -43,7 +43,7 @@ class DefaultController extends Controller
             return new RedirectResponse($this->generateUrl('show_property'));
         }
         else{
-            $form=$this->createForm(new ownershipStep1Type(),$ownership);
+            $form=$this->createForm(new ownershipStep1Type($ownership->getOwnAddressProvince()),$ownership);
             $photosForm=$this->createForm(new ownershipStepPhotosType(),$ownership,array( 'action' => $this->generateUrl('save_step6'), 'attr' =>['id'=>'mycp_mycpbundle_ownership_step_photos']));
             return $this->render('MyCpCasaModuleBundle:Default:register.html.twig', array(
                 'ownership'=>$ownership,

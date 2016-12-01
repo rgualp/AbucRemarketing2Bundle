@@ -38,6 +38,7 @@ twig:
          mycasa_office_geolocate_x: 47.547490
          mycasa_office_geolocate_y: 7.594289
          mycasa_office_phone: (+41)44 586 64 44
+         mycasa_contact_cuba_phone: "%mycasa_contact_cuba_phone%"
          global_abuc_address: ABUC media network GmbH, Peter Merian-Strasse 54, 4052 Basel, Switzerland.
          configuration_triple_room_charge: %configuration.triple.room.charge%
          configuration_service_fee: %configuration.service.fee%
@@ -60,16 +61,14 @@ assetic:
     use_controller: false
     bundles: [ FrontEndBundle, mycpBundle, SeoBundle, MyCpCasaModuleBundle, MyCpMobileFrontendBundle,LayoutBundle, PartnerBundle  ]
     #java: /usr/bin/java
-    node: "%nodejs_path%"
+    node: %nodejs_path%
     filters:
-            uglifyjs2:
-                # the path to the uglifyjs executable
-                # bin: C:/Users/Standa/AppData/Roaming/npm/node_modules/uglify-js/bin/uglifyjs
-                bin: "%uglifyjs_path%"
-            cssrewrite: ~
-            uglifycss:
-                # bin:  "C:/Users/Standa/AppData/Roaming/npm/node_modules/uglifycss/uglifycss"
-                bin: "%uglifycss_path%"
+        uglifyjs2:
+            # the path to the uglifyjs executable
+            bin: %uglifyjs_path%
+        cssrewrite: ~
+        uglifycss:
+            bin: %uglifycss_path%
 
 # Doctrine Configuration
 doctrine:
@@ -271,6 +270,22 @@ avalanche_imagine:
             type:    thumbnail
             options: { size: [120, 90], mode: outbound }
 
+        mycp_thumb_front:
+            type:    thumbnail
+            options: { size: [239, 160], mode: outbound, quality: 100 }
+
+        mycp_thumb_search:
+            type:    thumbnail
+            options: { size: [325, 244], mode: outbound, quality: 80 }
+        # the name of the "filter set"
+        my_thumb_destination:
+            type:    thumbnail
+            options: { size: [180, 120], mode: outbound, quality: 100 }
+
+        my_slideshow:
+            type:    thumbnail
+            options: { size: [1400, 350], mode: outbound }
+
 be_simple_i18n_routing: ~
 
 # TODO: Gehört eigentlich ins Remarketing bundle. Wie soll das dorthin kommen?
@@ -295,7 +310,7 @@ mobile_detect:
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
         mobile:
-            is_enabled: true            # default false
+            is_enabled: false            # default false
             host: %mycp_mobile_url%     # with scheme (http|https), default null, url validate
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
@@ -304,9 +319,9 @@ mobile_detect:
             host: %mycp_mobile_url%     # with scheme (http|https), default null, url validate
             status_code: 301            # default 302
             action: redirect            # redirect, no_redirect, redirect_without_path
-        detect_tablet_as_mobile: false   # default false
+        detect_tablet_as_mobile: true   # default false
     switch_device_view:
-        save_referer_path: true        # default true
+        save_referer_path: false        # default true
                                         # true  redirectUrl = http://site.com/current/path?currentQuery=string
                                         # false redirectUrl = http://site.com
     service:
@@ -317,4 +332,22 @@ mobile_detect:
     device_view_class: "SunCat\MobileDetectBundle\Helper\DeviceView"
     request_response_listener_class: "SunCat\MobileDetectBundle\EventListener\RequestResponseListener"
     twig_extension_class: "SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension"
+
+google:
+    analytics:
+        enhanced_ecommerce: false
+        session_auto_started: true
+        trackers:
+            default:
+                name: MyJavaScriptCompatibleVariableNameWithNoSpaces
+                accountId: %id_google_analitics%
+                domain: .mycasaparticular.com
+                setSiteSpeedSampleRate: 5
+                allowAnchor: true
+                allowHash: true
+                includeNamePrefix: false
+                plugins:
+                    - 'linkid'
+                    - 'ecommerce'
+        whitelist: [ 'q', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign' ]
 

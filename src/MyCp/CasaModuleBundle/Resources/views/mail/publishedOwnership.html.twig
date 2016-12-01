@@ -10,7 +10,7 @@
        <br/>
         Recuerde que la inscripción de su propiedad tiene un costo de 30 cuc. Una vez terminado el proceso de inscripción, su casa se hará pública y usted tiene un plazo de 15 días para efectuar el pago. De no hacerlo, su casa se desactiva temporalmente hasta tanto se deposite el efectivo.
         <br/>
-        {% if assistant %}
+        {% if assistant is defined %}
             {% set phones = assistant.phone ~ ((assistant.phone and assistant.phone2) ? ", ": "") ~ assistant.phone2 %}
             {% set mobile = ((phones) ? "y ": "") ~ assistant.mobile %}
 

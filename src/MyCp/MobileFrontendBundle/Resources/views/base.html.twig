@@ -4,6 +4,7 @@
     <html id="top" {{ get_lang(lang_code)|raw }}>
     <head>
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %} *** MyCasaParticular</title>
+        <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
 
         {% block metas %}
             {{ get_metas('Main', lang_code)|raw }}
@@ -15,87 +16,90 @@
             '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/myicons.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/animate.css'
-            '@FrontEndBundle/Resources/public/css/custom.css'
+            '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/custom.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/style.css'
         filter='?uglifycss'
         %}
         {#'@MyCpMobileFrontendBundle/Resources/public/css/style.css'#}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-        {% if ownership.category is defined and  ownership.category == 'Económica'%}
-            {% stylesheets
-            '@FrontEndBundle/Resources/public/css/economic_house.css'
-            filter='?uglifycss'
-            %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
-        {% endif %}
-        {% if ownership.category is defined and  ownership.category == 'Premium'%}
-            {% stylesheets
-            '@FrontEndBundle/Resources/public/css/premium_house.css'
-            filter='?uglifycss'
-            %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
-        {% endif %}
+        {#{% if ownership.category is defined and  ownership.category == 'Económica'%}#}
+            {#{% stylesheets#}
+            {#'@FrontEndBundle/Resources/public/css/economic_house.css'#}
+            {#filter='?uglifycss'#}
+            {#%}#}
+            {#<link rel="stylesheet" href="{{ asset_url }}" />#}
+            {#{% endstylesheets %}#}
+        {#{% endif %}#}
+        {#{% if ownership.category is defined and  ownership.category == 'Premium'%}#}
+            {#{% stylesheets#}
+            {#'@FrontEndBundle/Resources/public/css/premium_house.css'#}
+            {#filter='?uglifycss'#}
+            {#%}#}
+            {#<link rel="stylesheet" href="{{ asset_url }}" />#}
+            {#{% endstylesheets %}#}
+        {#{% endif %}#}
 
         {% block include_css %}{% endblock %}
 
-        {#<!-- Google Analytics -->#}
-        {#<script>#}
-            {#var _gaq = _gaq || [];#}
-            {#_gaq.push(['_setAccount', 'UA-16697066-1']);#}
-            {#_gaq.push(['_trackPageview']);#}
+        <!-- Google Analytics -->
+        <script>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-16697066-1']);
+            _gaq.push(['_trackPageview']);
 
-            {#(function() {#}
-                {#var ga = document.createElement('script');#}
-                {#ga.type = 'text/javascript';#}
-                {#ga.async = true;#}
-                {#ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';#}
-                {#var s = document.getElementsByTagName('script')[0];#}
-                {#s.parentNode.insertBefore(ga, s);#}
-            {#})();#}
-        {#</script>#}
-        {#<!-- Facebook Pixel Code -->#}
-        {#<script>#}
-            {#!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
-                    {#n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;#}
-                {#n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;#}
-                {#t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,#}
-                    {#document,'script','//connect.facebook.net/en_US/fbevents.js');#}
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- Facebook Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                    document,'script','//connect.facebook.net/en_US/fbevents.js');
 
-            {#fbq('init', '1240648305949371');#}
-            {#fbq('track', "PageView");#}
-        {#</script>#}
-        {#<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>#}
-        {#<!-- End Facebook Pixel Code -->#}
+            fbq('init', '1240648305949371');
+            fbq('track', "PageView");
+        </script>
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1" alt="{{"Facebook" | trans}}"/></noscript>
+        <!-- End Facebook Pixel Code -->
 
 
     </head>
     <body>
-    {#{% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}#}
-    {#<!-- Google Tag Manager -->#}
-    {#<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
-    {#<script>#}
-        {#(function(w, d, s, l, i) {#}
-            {#w[l] = w[l] || [];#}
-            {#w[l].push({'gtm.start':#}
-                    {#new Date().getTime(), event: 'gtm.js'});#}
-            {#var f = d.getElementsByTagName(s)[0],#}
-                    {#j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';#}
-            {#j.async = true;#}
-            {#j.src =#}
-                    {#'//www.googletagmanager.com/gtm.js?id=' + i + dl;#}
-            {#f.parentNode.insertBefore(j, f);#}
-        {#})(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');#}
-    {#</script>#}
-    {#<!-- End Google Tag Manager -->#}
+    {% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'});
+            var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');
+    </script>
+    <!-- End Google Tag Manager -->
     {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
     <div class="container">
         <div class="row">
-            <div class="col-xs-7 p-a-1" id="center-cont">
-                <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
-                    <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+            <div class="space space-5"></div>
+            <div class="col-xs-3 p-x-1" id="center-cont">
+                <div class="space space-5"></div>
+                <a style="display: block; overflow: hidden; width: 36px;" href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
+                    <img style="width: 195px;" src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
                 </a>
             </div>
 
@@ -104,7 +108,7 @@
             {% endif %}
         </div>
     </div>
-    <nav id="top-menu" role="navigation" class="for-fixed navbar navbar-inverse bg-gradient-blue p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+    <nav id="top-menu" role="navigation" class="for-fixed navbar navbar-inverse bg-gradient-blue p-l-0 p-y-0" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle pull-left" type="button">
                 <span class="sr-only">Menu</span>
@@ -112,6 +116,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <div id="navbar-top-menu" class="nav navbar-nav pull-left"></div>
             <ul class="nav navbar-nav onhover helvetica-roman pull-right">
                 <li>
                     {{ include('@MyCpMobileFrontend/utils/mainMenuUser.html.twig') }}
@@ -156,10 +161,22 @@
     {% endblock %}
 
     {% include '@MyCpMobileFrontend/frontend/footer.html.twig' %}
+    {{ include('MyCpMobileFrontendBundle:utils:marquesina.html.twig') }}
 
-    <script>
-        var start_date ="{{"now"|date("d/m/Y") }}";
-        var end_date ="{{"now"|date("d/m/Y") }}";
+
+    {% set leavingDate = null %}
+    {% if isDateTime(app.session.get('search_departure_date')) %}
+        {% set leavingDate = app.session.get('search_departure_date')|date("d/m/Y") %}
+    {% elseif isDateTime(app.session.get('search_arrival_date')) %}
+        {% set leavingDate = app.session.get('search_arrival_date')|date_modify("+2 day")|date("d/m/Y") %}
+    {% else %}
+        {% set leavingDate = "+2 days" |date("d/m/Y") %}
+    {% endif %}
+
+    <script type="text/javascript">
+        var today_date="{{"now"|date("d/m/Y") }}";
+        var start_date="{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date="{{leavingDate}}";
     </script>
 
     {% javascripts
@@ -185,23 +202,25 @@
 
 
     '@FrontEndBundle/Resources/public/js/typeahead.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
+    '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
 
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {#<link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />#}
+    <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
 
     <!-- Apple Touch Icon -->
-    {#<link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />#}
-    {#<link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />#}
-    {#<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />#}
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone.png') }}" />
+    <link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png') }}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple-touch-icons/apple-touch-iphone4.png') }}" />
 
     <script type="text/javascript">
         var today_date="{{"now"|date("d/m/Y") }}";
 
-        NavbarScrollFixed.init(".for-fixed","navbar-fixed-top", 80);
+        NavbarScrollFixed.init(".for-fixed","navbar-fixed-top", 80, enrango, fuerarango);
 
         $('.scrollToTop').click(function(event){
             event.preventDefault();
@@ -209,24 +228,59 @@
             return false;
         });
 
+        function enrango(){
+            var _ul = $("#menu-favorites").clone();
+            $("#menu-favorites").remove();
+            $("#navbar-top-menu").html(_ul);
+        }
+        function fuerarango(){
+            var _ul = $("#menu-favorites").clone();
+            $("#menu-favorites").remove();
+            $("#menu-favorites-content").html(_ul);
+        }
+
+        var $menu = $('.navbar-ex1-collapse');
+        $(document).on('click', function (e) {
+            // if element is opened and click target is outside it, hide it
+            if ($menu.is(':visible') && !$menu.is(e.target) && !$menu.has(e.target).length) {
+                $menu.removeClass("in");
+            }
+        });
+        $(document).on('scroll', function (e) {
+            // if element is opened and click target is outside it, hide it
+            if ($menu.is(':visible') && !$menu.is(e.target) && !$menu.has(e.target).length) {
+                $menu.removeClass("in");
+            }
+        });
+
         $(function() {
-            $('img.lazy').jail();
+
+            $("#marquee-close").on("click", function (e) {
+                e.preventDefault();
+                $(".marquesina").hide();
+            });
+
+            $(".marquesina").addClass("fixed-top");
+            $(".marquesina").removeClass('animated bounceInRight').addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('animated bounceInRight');
+            });
+
         });
     </script>
 
-    {#<script type="text/javascript">#}
-        {#/* <![CDATA[ */#}
-        {#var google_conversion_id = 1016854742;#}
-        {#var google_custom_params = window.google_tag_params;#}
-        {#var google_remarketing_only = true;#}
-        {#/* ]]> */#}
-    {#</script>#}
-    {#<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>#}
-    {#<noscript>#}
-        {#<div style="display:inline;">#}
-            {#<img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>#}
-        {#</div>#}
-    {#</noscript>#}
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 1016854742;
+        var google_custom_params = window.google_tag_params;
+        var google_remarketing_only = true;
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+    <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="Google" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
+        </div>
+    </noscript>
     {% block javascripts %}
     {% endblock javascripts %}
     </body>

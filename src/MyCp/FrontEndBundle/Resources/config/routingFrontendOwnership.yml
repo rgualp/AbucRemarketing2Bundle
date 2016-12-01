@@ -1,104 +1,107 @@
 frontend_get_reservation_calendar_ownership_callback:
     pattern:  /reservation-calendar/
-    locales:  { en: "/reservation-calendar/", es: "/calendario-reservaciones/", de: "/reservation-calendar/" }
+    locales:  { en: "/reservation-calendar/", es: "/calendario-reservaciones/", de: "/reservation-calendar/", fr: "/reservation-calendar/", it: "/reservation-calendar/" }
     defaults: { _controller: FrontEndBundle:Ownership:getReservationCalendar }
 
 frontend_details_ownership:
-    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}" }
+    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}", fr: "/unterkunft/{own_name}", it: "/unterkunft/{own_name}" }
     defaults: { _controller: FrontEndBundle:Ownership:details }
 
 frontend_last_added_ownership:
-    locales:  { en: "/last-added-accommodation/", es: "/ultimos-alojamientos-agregados/", de: "/zuletzt-hinzugefuegte-unterkuenfte/" }
+    locales:  { en: "/last-added-accommodation/", es: "/ultimos-alojamientos-agregados/", de: "/zuletzt-hinzugefuegte-unterkuenfte/", fr: "/zuletzt-hinzugefuegte-unterkuenfte/", it: "/zuletzt-hinzugefuegte-unterkuenfte/" }
     defaults: { _controller: FrontEndBundle:Ownership:lastAddedList }
 
 frontend_category_ownership:
-    locales:  { en: "/accommodations-by-category/{category}", es: "/alojamientos-por-categoria/{category}", de: "/unterkuenfte-nach-kategorie/{category}" }
+    locales:  { en: "/accommodations-by-category/{category}", es: "/alojamientos-por-categoria/{category}", de: "/unterkuenfte-nach-kategorie/{category}", fr: "/unterkuenfte-nach-kategorie/{category}", it: "/unterkuenfte-nach-kategorie/{category}" }
     defaults: { _controller: FrontEndBundle:Ownership:category }
 
 frontend_search_ownership:
-    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}" }
-    defaults: { _controller: FrontEndBundle:Ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1,order_price:'null', order_comments: 'null', order_books:'null'}
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", fr: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", it: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}" }
+    defaults: { _controller: FrontEndBundle:Ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1, inmediate:'null',order_price:'null', order_comments: 'null', order_books:'null'}
 
 frontend_order_search_results_ownership_callback:
     pattern:  /order-results/
-    locales:  { en: "/order-results/", es: "/ordenar-resultados/", de: "/order-results/" }
+    locales:  { en: "/order-results/", es: "/ordenar-resultados/", de: "/order-results/", fr: "/order-results/", it: "/order-results/" }
     defaults: { _controller: FrontEndBundle:Ownership:searchOrderResults }
     methods:  [POST]
 
 frontend_change_view_ownership_callback:
     pattern:  /change-results-view/
-    locales:  { en: "/change-results-view/", es: "/cambiar-vista-resultados/", de: "/change-results-view/" }
+    locales:  { en: "/change-results-view/", es: "/cambiar-vista-resultados/", de: "/change-results-view/", fr: "/change-results-view/", it: "/change-results-view/" }
     defaults: { _controller: FrontEndBundle:Ownership:searchChangeViewResults }
 
 frontend_research_ownership_callback:
   pattern: /research/
-  locales:  { en: "/research/", es: "/research/", de: "/research/" }
+  locales:  { en: "/research/", es: "/research/", de: "/research/", fr: "/research/", it: "/research/" }
   defaults: {_controller: FrontEndBundle:Ownership:research }
   requirements:
         _method:  GET|POST
 
 frontend_filter_ownership_callback:
     pattern:  /filter/
-    locales:  { en: "/filter/", es: "/filtrar/", de: "/filter/" }
+    locales:  { en: "/filter/", es: "/filtrar/", de: "/filter/", fr: "/filter/", it: "/filter/" }
     defaults: { _controller: FrontEndBundle:Ownership:filter }
 
 frontend_filter_statistics_ownership_callback:
     pattern:  /filter-statistics/
-    locales:  { en: "/filter-statistics/", es: "/filtrar-estadisticas/", de: "/filter-statistics/" }
+    locales:  { en: "/filter-statistics/", es: "/filtrar-estadisticas/", de: "/filter-statistics/", fr: "/filter-statistics/", it: "/filter-statistics/" }
     defaults: { _controller: FrontEndBundle:Ownership:getFiltersStatistics }
 
 frontend_map_markers_ownership_callback:
     pattern:  /map-markers/
-    locales:  { en: "/map-markers/", es: "/map-markers/", de: "/map-markers/" }
+    locales:  { en: "/map-markers/", es: "/map-markers/", de: "/map-markers/", fr: "/map-markers/", it: "/map-markers/" }
     defaults: { _controller: FrontEndBundle:Ownership:mapMarkersList }
 
 frontend_update_rating_ownership:
     pattern:  /update-rating/{ownid}
-    locales:  { en: "/update-rating/{ownid}", es: "/actualizar-rating/{ownid}", de: "/update-rating/{ownid}" }
+    locales:  { en: "/update-rating/{ownid}", es: "/actualizar-rating/{ownid}", de: "/update-rating/{ownid}",  fr: "/update-rating/{ownid}",  it: "/update-rating/{ownid}" }
     defaults: { _controller: FrontEndBundle:Ownership:updateRating }
 
 frontend_map_details_ownership_callback:
     pattern:  /map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}
-    locales:  { en: "/map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}", es: "/mapa-detalles-alojamientos/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}", de: "/map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}" }
+    locales:  { en: "/map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}", es: "/mapa-detalles-alojamientos/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}", de: "/map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}", fr: "/map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}", it: "/map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}" }
     defaults: { _controller: FrontEndBundle:Ownership:mapDetailsOwnership }
 
 frontend_map_resized_ownership_callback:
     pattern:  /map-resized/{in_searcher}/{destination_name}
-    locales:  { en: "/map-resized/{in_searcher}/{destination_name}", es: "/redimensionar-mapa/{in_searcher}/{destination_name}", de: "/map-resized/{in_searcher}/{destination_name}" }
+    locales:  { en: "/map-resized/{in_searcher}/{destination_name}", es: "/redimensionar-mapa/{in_searcher}/{destination_name}", de: "/map-resized/{in_searcher}/{destination_name}", fr: "/map-resized/{in_searcher}/{destination_name}", it: "/map-resized/{in_searcher}/{destination_name}" }
     defaults: { _controller: FrontEndBundle:Ownership:mapResized }
 
 frontend_voted_best_list_ownership:
-    locales:  { en: "/top-rated-accommodations/", es: "/alojamientos-mejores-votados/", de: "/top-unterkuenfte/" }
+    locales:  { en: "/top-rated-accommodations/", es: "/alojamientos-mejores-votados/", de: "/top-unterkuenfte/", fr: "/top-unterkuenfte/", it: "/top-unterkuenfte/" }
     defaults: { _controller: FrontEndBundle:Ownership:votedBestList }
 
 frontend_type_list_ownership:
-    locales:  { en: "/accommodations-by-type/{type}", es: "/alojamientos-por-tipo/{type}", de: "/unterkuenfte-nach-typ/{type}" }
+    locales:  { en: "/accommodations-by-type/{type}", es: "/alojamientos-por-tipo/{type}", de: "/unterkuenfte-nach-typ/{type}", fr: "/unterkuenfte-nach-typ/{type}", it: "/unterkuenfte-nach-typ/{type}" }
     defaults: { _controller: FrontEndBundle:Ownership:typeList }
 
 frontend_top_rated_callback_ownership:
     pattern:  /top-rated-callback/
-    locales:  { en: "/top-rated-callback/", es: "/top-rated-callback/", de: "/top-rated-callback/" }
+    locales:  { en: "/top-rated-callback/", es: "/top-rated-callback/", de: "/top-rated-callback/", fr: "/top-rated-callback/", it: "/top-rated-callback/" }
     defaults: { _controller: FrontEndBundle:Ownership:topRatedCallback }
 
 frontend_top_rated_change_category_callback_ownership:
     pattern:  /top-rated-change-category-callback/
-    locales:  { en: "/top-rated-change-category-callback/", es: "/top-rated-change-category-callback/", de: "/top-rated-change-category-callback/" }
+    locales:  { en: "/top-rated-change-category-callback/", es: "/top-rated-change-category-callback/", de: "/top-rated-change-category-callback/", fr: "/top-rated-change-category-callback/", it: "/top-rated-change-category-callback/" }
     defaults: { _controller: FrontEndBundle:Ownership:topRatedChangeCategoryCallback }
 
 frontend_carrousel_last_added_callback:
     pattern:  /carrousel-last-added/
-    locales:  { en: "/carrousel-last-added/", es: "/carrousel-last-added/", de: "/carrousel-last-added/" }
+    locales:  { en: "/carrousel-last-added/", es: "/carrousel-last-added/", de: "/carrousel-last-added/", fr: "/carrousel-last-added/", it: "/carrousel-last-added/" }
     defaults: { _controller: FrontEndBundle:Ownership:getCarrouselLastAddedCallback }
 
 frontend_carrousel_bycategory_callback:
     path:  /carrousel-bycategory/
-    locales:  { en: "/carrousel-bycategory/", es: "/carrousel-bycategory/", de: "/carrousel-bycategory/" }
+    locales:  { en: "/carrousel-bycategory/", es: "/carrousel-bycategory/", de: "/carrousel-bycategory/", fr: "/carrousel-bycategory/", it: "/carrousel-bycategory/" }
     defaults: { _controller: FrontEndBundle:Ownership:getCarrouselByCategoryCallback }
 
 frontend_photo_thumbnail:
     pattern:  /thumbnail/{photo}/{title}
-    locales:  { en: "/thumbnail/{photo}/{title}", es: "/thumbnail/{photo}/{title}", de: "/thumbnail/{photo}/{title}" }
+    locales:  { en: "/thumbnail/{photo}/{title}", es: "/thumbnail/{photo}/{title}", de: "/thumbnail/{photo}/{title}", fr: "/thumbnail/{photo}/{title}", it: "/thumbnail/{photo}/{title}" }
     defaults: { _controller: FrontEndBundle:Ownership:getThumbnailForSearcher }
 
+frontend_show_modal_ownership_calendar:
+    locales:  { en: "/ownership/calendar", es: "/casa/calendario", de: "/ownership/calendar", fr: "/ownership/calendar", it: "/ownership/calendar" }
+    defaults: { _controller: FrontEndBundle:Ownership:showModalOwnerShipCalendar }
 
 

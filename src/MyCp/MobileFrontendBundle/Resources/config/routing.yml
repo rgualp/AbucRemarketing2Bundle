@@ -3,33 +3,37 @@ my_cp_mobile_frontend_homepage:
     defaults: { _controller: MyCpMobileFrontendBundle:Default:index }
 
 my_cp_mobile_frontend_top_nav_control:
-    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
+    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}", fr: "/topNav/{route}/{routeParams}", it: "/topNav/{route}/{routeParams}" }
     defaults: { _controller: MyCpMobileFrontendBundle:Mobile:topNav, route: frontend_welcome, routeParams: null  }
 
 my_cp_mobile_frontend_menu_lang_curr:
-    locales:  { en: "/langcurr/{route}/{routeParams}", es: "/langcurr/{route}/{routeParams}", de: "/langcurr/{route}/{routeParams}" }
+    locales:  { en: "/langcurr/{route}/{routeParams}", es: "/langcurr/{route}/{routeParams}", de: "/langcurr/{route}/{routeParams}", fr: "/langcurr/{route}/{routeParams}", it: "/langcurr/{route}/{routeParams}" }
     defaults: { _controller: MyCpMobileFrontendBundle:Mobile:langCurr, route: frontend_welcome, routeParams: null  }
 
 my_cp_mobile_insert_favorite_callback:
     pattern:  /favorite-insert/
-    locales:  { en: "/favorite-insert/", es: "/favoritos-insertar/", de: "/favorite-insert/" }
+    locales:  { en: "/favorite-insert/", es: "/favoritos-insertar/", de: "/favorite-insert/", fr: "/favorite-insert/", it: "/favorite-insert/" }
     defaults: { _controller: MyCpMobileFrontendBundle:Favorite:insert }
 
 my_cp_mobile_delete_favorite_callback:
     pattern:  /favorite-delete/
-    locales:  { en: "/favorite-delete/", es: "/favoritos-eliminar/", de: "/favorite-delete/" }
+    locales:  { en: "/favorite-delete/", es: "/favoritos-eliminar/", de: "/favorite-delete/", fr: "/favorite-delete/", it: "/favorite-delete/" }
     defaults: { _controller: MyCpMobileFrontendBundle:Favorite:delete }
 
 my_cp_mobile_top_rated_callback:
     pattern:  /top-rated-callback/
-    locales:  { en: "/top-rated-callback/", es: "/top-rated-callback/", de: "/top-rated-callback/" }
+    locales:  { en: "/top-rated-callback/", es: "/top-rated-callback/", de: "/top-rated-callback/", fr: "/top-rated-callback/" , it: "/top-rated-callback/"  }
     defaults: { _controller: MyCpMobileFrontendBundle:Ownership:topRatedCallback }
 
 my_cp_mobile_search_ownership:
-    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}" }
-    defaults: { _controller: MyCpMobileFrontendBundle:Search:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1,order_price:'null', order_comments: 'null', order_books:'null'}
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", fr: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", it: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Search:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1,inmediate:null,order_price:'null', order_comments: 'null', order_books:'null'}
 
 my_cp_mobile_filter_ownership_callback:
     pattern:  /filter/
-    locales:  { en: "/filter/", es: "/filtrar/", de: "/filter/" }
+    locales:  { en: "/filter/", es: "/filtrar/", de: "/filter/", fr: "/filter/", it: "/filter/" }
     defaults: { _controller: MyCpMobileFrontendBundle:Search:filter }
+
+my_cp_mobile_details_ownership:
+    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}", fr: "/unterkunft/{own_name}", it: "/unterkunft/{own_name}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Ownership:details }

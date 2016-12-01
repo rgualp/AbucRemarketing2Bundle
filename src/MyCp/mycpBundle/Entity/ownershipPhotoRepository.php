@@ -100,7 +100,7 @@ class ownershipPhotoRepository extends EntityRepository {
         }
     }
 
-    public function createPhotoFromRequest(ownership $ownership, UploadedFile $file, $container, $post)
+    public function createPhotoFromRequest(ownership $ownership, UploadedFile $file, $container, $post, $photoIndex = null)
     {
         $em = $this->getEntityManager();
 
@@ -137,6 +137,8 @@ class ownershipPhotoRepository extends EntityRepository {
             $file->move($dir.$newPathToPhoto, $fileName);
             $photo->setPhoName($newPathToPhoto."/".$fileName);
             $photo->setPhoNotes($fileName);
+            $photo->setPhoOrder($photoIndex);
+
 
             //Creando thumbnail, redimensionando y colocando marca de agua
             Images::createThumbnail($dir.$newPathToPhoto."/". $fileName, $dir_thumbs .$newPathToPhoto."/" . $fileName, $thumbs_size);

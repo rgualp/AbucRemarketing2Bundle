@@ -40,6 +40,84 @@ class userCasaRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    function createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService) {
+        $em = $this->getEntityManager();
+
+        $user_casa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_ownership' => $ownership->getOwnId()));
+
+        $generatedPassword = $userService->generatePassword();
+
+        if($user_casa == null) {
+            $dir_file = $container->getParameter('user.dir.photos');
+            $photoSize = $container->getParameter('user.photo.size');
+            $user = new user();
+            $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
+            $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
+
+            $address = $ownership->getOwnAddressStreet() . " #" . $ownership->getOwnAddressNumber() . ", " . $ownership->getOwnAddressMunicipality()->getMunName() . ", " . $ownership->getOwnAddressProvince()->getProvName();
+            $phone = '(+53) ' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ' ' . $ownership->getOwnPhoneNumber();
+
+            $email = $ownership->getOwnEmail1();
+            if (empty($email))
+                $email = $ownership->getOwnEmail2();
+
+            $user->setUserAddress($address);
+            $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
+            $user->setUserCountry($country[0]);
+            $user->setUserEmail($email);
+            $user->setUserPhone($phone);
+            $user->setUserName($ownership->getOwnMcpCode());
+
+            if ($file) {
+                $photo = new photo();
+                $fileName = uniqid('user-') . '-photo.jpg';
+                $file->move($dir_file, $fileName);
+                //Redimensionando la foto del usuario
+                \MyCp\mycpBundle\Helpers\Images::resize($dir_file . $fileName, $photoSize);
+                $photo->setPhoName($fileName);
+                $user->setUserPhoto($photo);
+                $em->persist($photo);
+            }
+
+            $user->setUserRole('ROLE_CLIENT_CASA');
+            $user->setUserEnabled(true);
+            $user->setUserActivationDate(new \DateTime());
+            $user->setUserCreationDate(new \DateTime());
+            $user->setUserCreatedByMigration(false);
+            $user->setUserSubrole($subrole);
+            $user_name = explode(' ', $ownership->getOwnHomeOwner1());
+            $user->setUserUserName($user_name[0]);
+            $lastName = (count($user_name) > 1) ? $user_name[1] : "";
+            $user->setUserLastName($lastName);
+
+            $user_casa = new userCasa();
+            $user_casa->setUserCasaOwnership($ownership);
+            $user_casa->setUserCasaUser($user);
+            $encoder = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($generatedPassword, $user->getSalt());
+            $user->setUserPassword($password);
+
+            $secret_token = $encoder->encodePassword("casa_" . $ownership->getOwnMcpCode(), $user->getSalt());
+            $secret_token = base64_encode($secret_token);
+            $secret_token = str_replace('/', '1', $secret_token);
+            $secret_token = str_replace(' ', '2', $secret_token);
+            $secret_token = str_replace('+', '3', $secret_token);
+            $secret_token = str_replace('=', '4', $secret_token);
+            $secret_token = str_replace('?', '5', $secret_token);
+            $user_casa->setUserCasaSecretToken($secret_token);
+
+            $em->persist($user);
+            $em->persist($user_casa);
+        }
+
+        //if ($send_creation_mail) {
+            $user = $user_casa->getUserCasaUser();
+            \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserCasaMailBackend($controller, $user, $generatedPassword, $ownership, $container);
+        //}
+
+        return $user_casa;
+    }
+
     function createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container) {
         $em = $this->getEntityManager();
 

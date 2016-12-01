@@ -94,7 +94,7 @@ class AccountActivationReminderWorkerCommand extends Worker
     {
         $userId =  $user->getUserId();
         $userEmail = $user->getUserEmail();
-        $userName = $user->getUserCompleteName();
+        $userName = $user->getUserUserName();
 
         $emailSubject = $this->translatorService->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER');
         $userLocale = $this->emailManager->getUserLocale($user);

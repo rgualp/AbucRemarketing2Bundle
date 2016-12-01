@@ -1,0 +1,46 @@
+<ul class="dropdown-menu dropdown-cesta" style="background-color:#fff;width: 340px">
+    <form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
+        {% for res in res_available %}
+                <li>
+                    <div class="dropdown-messages-box container">
+                        <div class="row">
+                            <div class="col-xs-12" style="padding: 0">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-12">
+                                            <strong>{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</strong>. <br>
+                                            <small class="text-muted">{{res['own_res_room_type']|trans}}</small>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <strong>{{"ADULTS"|trans}}:</strong>  {{res['own_res_count_adults']}} | <strong>{{"KIDS"|trans}}: </strong> {{res['own_res_count_childrens']}}
+                                        </div>
+                                        <div class="col-xs-12" style="color:#0088dd !important;font-size: 24px">
+                                            {%if res['own_res_night_price'] != 0%}
+                                                {{(res['own_res_night_price'] *(nights[loop.index0])) | price}}
+                                            {%else%}
+                                                {{res['own_res_total_in_site'] | price}}
+                                            {%endif%}
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <a>
+                                                <input name="checkbox_{{res['own_res_id']}}" type="checkbox" style="font-size: 12px"> {{"SELECT_FOR_PAYMENT" | trans}}
+                                            </a>
+
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <button class="btn btn-success" style=" background-image: none !important;font-size: 11px;padding: 4px;margin-left: -38px">{{"CONTINUE_RESERVING" | trans}}</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            <hr/>
+        {% endfor %}
+    </form>
+
+</ul>

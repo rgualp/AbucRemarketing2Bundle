@@ -1,0 +1,36 @@
+<div class="thumbs-houses container lazy-cont">
+{%for destination in list%}
+    <div class="row">
+    <div class="col-sm-3">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','-')}) }}">
+            <img class="lazy thumbnail full-width" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"DESTINATION" | trans}}"/>
+            <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}" alt="{{"Destination" | trans}}"></noscript>
+        </a>
+        <p class="margin-t-t">
+        {{destination['municipality_name']}} / {{destination['province_name']}}
+        </p>
+    </div>
+    <div class="col-sm-9">
+            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','-')}) }}">
+                <h1 class="h-blue margin-t-t">{{destination['destination_name']}}</h1>
+            </a>
+        <p class="t-size-12">{{(destination['desc_brief'] != "") ? destination['desc_brief'] |striptags: ""}}</p>
+    </div>
+            <div class="text-right">
+        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+        {'is_in_favorite': destination['is_in_favorities'],
+         'favorite_type': 'destination',
+         'element_id':destination['destination_id'],
+         'list_preffix' : list_preffix,
+         'include_text': true,
+         'is_in_favorites_list': is_in_favorites_list
+         }) }}
+    </div>
+    </div>
+    <hr/>
+{%endfor%}
+</div>
+{% if not list %}
+    <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+{% endif %}
+

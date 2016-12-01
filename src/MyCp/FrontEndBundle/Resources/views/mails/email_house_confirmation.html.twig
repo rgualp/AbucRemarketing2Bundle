@@ -59,10 +59,55 @@ Por este medio le confirmamos la reservación del cliente correspondientes al bo
 <br/>
 <br/>
 {% endfor %}
+
+<br/>
+<br/>
+<br/>
 El cliente debe pagar en su casa particular el saldo total de <b>{{ total_price }} CUC</b> en efectivo. La comisión y gastos por reservación ya han sido descontados por adelantado al turista.
+<br/>
+
+{% if houseFrom != null %}
+<h4>El cliente se hospedó antes en la casa:</h4>
+    <br/>
+<b>Nombre de la casa:</b> {{ houseFrom.ownName }}
+<br/>
+<b>Dirección:</b> {{ houseFrom.fullAddress }}
+<br/>
+<b>Nombre del Propietario:</b> {{ houseFrom.ownHomeowner1 }}
+<br/>
+<b>Teléfonos:</b> {{ houseFrom.ownPhoneNumber }} | {{ houseFrom.ownMobileNumber }}
+{% endif %}
+<br/>
+<br/>
+{#{% if houseTo != null %}#}
+    {#<h4>Despues de la estancia en su alojamiento se dirige hacia la casa:</h4>#}
+    {#<br/>#}
+    {#<b>Nombre de la casa:</b> {{ houseTo.ownName }}#}
+    {#<br/>#}
+    {#<b>Dirección:</b> {{ houseTo.fullAddress }}#}
+    {#<br/>#}
+    {#<b>Nombre del Propietario:</b> {{ houseTo.ownHomeowner1 }}#}
+    {#<br/>#}
+    {#<b>Teléfonos:</b> {{ houseTo.ownPhoneNumber }} | {{ houseTo.ownMobileNumber }}#}
+{#{% endif %}#}
 <br/>
 <br/>
 <b>Importante:</b> Si usted desea comunicarse directamente con el cliente por alguna razón tenga en cuenta el "idioma de comunicación del cliente".
+<p>
+    ¿Quieres conseguir tantas reservas como sea posible? Te sugerimos actualizar diariamente la disponibilidad de tus habitaciones de renta. Puedes hacerlo desde el perfil de tu casa en el menú ve a la opción <b>Reservaciones</b> y selecciona <b>Disponibilidad</b>.
+</p>
+<p>
+    Lo facilitamos para ti con nuestra aplicación móvil gratuita <b>MyCasaRenta</b>. Descárgatela aquí para Android:<br/><br/>
+    <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid">https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a><br/><br/>
+    <a href="https://www.mycasaparticular.com/es/apprenta">https://www.mycasaparticular.com/es/apprenta</a>
+</p>
+<p>
+    Y para IPhone:<br/><br/>
+    <a href="https://itunes.apple.com/us/app/mycasarenta/id1168650534?ls=1&mt=8">https://itunes.apple.com/us/app/mycasarenta/id1168650534?ls=1&mt=8</a>
+</p>
+<p>
+    Cualquier duda sobre la colaboración con <b>MyCasaParticular</b> comunícate con nuestro equipo a través del correo electrónico <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a> o llámanos al (+53) 7867 3574. ¡Será estupendo poder atenderte!
+</p>
 <br/>
 <br/>
 Atentamente

@@ -26,12 +26,12 @@ var Search = function(){
                 var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height()) - 5;
                 var scroll_h = full_height - 95;
 
-                $('.mobile-more-filter').css("height", full_height + "px");
-
-                $('#content-filter').slimScroll({
-                    height: scroll_h + 'px',
-                    start: 'top'
-                });
+                // $('.mobile-more-filter').css("height", full_height + "px");
+                //
+                // $('#content-filter').slimScroll({
+                //     height: scroll_h + 'px',
+                //     start: 'top'
+                // });
             }
             else {
                 $('#button_research').removeClass('hide');
@@ -52,7 +52,6 @@ var Search = function(){
             }
         });
 
-        datePickersStarUp();
         datePickersStarUp_searcher();
 
         research(false);
@@ -135,79 +134,6 @@ var Search = function(){
     }
 
 
-    var datePickersStarUp = function(){
-
-        $('#top_reservation_filter_date_from').datepicker({
-            format:'dd/mm/yyyy',
-            todayBtn:'linked',
-            autoclose: true,
-            startDate: today_date,
-            date: start_date,
-            language: $('#top_reservation_filter_date_from').attr('data-localization')
-        }).on('changeDate', function(ev){
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            reservation_filter_date_to.setStartDate(startDate);
-            var date = new Date(ev.date);
-            date.setDate(date.getDate() + 2);
-            reservation_filter_date_to.setDate(date);
-
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            $('#filter_date_from').datepicker("setDate", startDate);
-            $('#filter_date_to').datepicker("setDate", date);
-
-
-            $('.datepicker').hide();
-            $('#top_reservation_submit_button').attr('type','submit');
-            $('#top_reservation_submit_button').attr('onclick','');
-            $('#top_reservation_submit_button').html(reservation_see_prices_text);
-        });
-
-        var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
-            format:'dd/mm/yyyy',
-            todayBtn:false,
-            autoclose: true,
-            startDate: '+1d',
-            date: end_date,
-            language: $('#top_reservation_filter_date_to').attr('data-localization')
-        }).data('datepicker');
-
-        $('#filter_date_from').datepicker({
-            format:'dd/mm/yyyy',
-            todayBtn:'linked',
-            autoclose: true,
-            startDate: today_date,
-            date: start_date,
-            language: $('#filter_date_from').attr('data-localization')
-        }).on('changeDate', function(ev){
-            var startDate = new Date(ev.date);
-            startDate.setDate(startDate.getDate() + 1);
-            $('#filter_date_to').datepicker("setStartDate", startDate);
-            var date = new Date(ev.date);
-            date.setDate(date.getDate() + 2);
-            $('#filter_date_to').datepicker("setDate", date);
-            $('.datepicker').hide();
-
-            refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
-
-            /*var start_date = new Date(ev.date);
-             start_date.setDate(start_date.getDate() + 1);
-             $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
-             $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
-        });
-
-        var filter_date_to =$('#filter_date_to').datepicker({
-            format:'dd/mm/yyyy',
-            todayBtn: false,
-            autoclose: true,
-            startDate: '+1d',
-            date: end_date,
-            language: $('#filter_date_to').attr('data-localization')
-        }).data('datepicker');
-    }
-
-
     var research = function(update)
     {
         show_loading();
@@ -254,6 +180,8 @@ var Search = function(){
         var others_included_items = [];
         var own_awards = [];
         var own_inmediate_booking = $(':input[type="checkbox"][name="own_inmediate_booking"]').is(':checked');
+        var own_update_avaliable = $(':input[type="checkbox"][name="own_update_avaliable"]').is(':checked');
+        var inmediate = $(':input[type="checkbox"][name="own_inmediate_booking2"]').is(':checked');
         var others_not_included_items = [];
         var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
         var order_comments='';
@@ -473,6 +401,12 @@ var Search = function(){
             $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_inmediate_booking' data-control-id='own_inmediate_booking' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_inmediate_booking").parent().text() + "</a> ");
         }
 
+        if (own_update_avaliable && document.getElementById("fu_own_update_avaliable") == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_update_avaliable' data-control-id='own_update_avaliable' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#own_update_avaliable").parent().text() + "</a> ");
+        }
+
         $(".filter_upper_item").click(function() {
             filter_upper($(this));
         });
@@ -515,10 +449,11 @@ var Search = function(){
             'guests': guests,
             'rooms': rooms,
             'text': text,
-
+            'inmediate': (inmediate) ? 1 : null,
             "own_category": (own_category_items.length > 0) ? own_category_items : null,
             "own_award": (own_awards.length > 0) ? own_awards: null,
             "own_inmediate_booking": (own_inmediate_booking) ? own_inmediate_booking: null,
+            "own_update_avaliable": (own_update_avaliable) ? own_update_avaliable: null,
             "own_type": (own_type_items.length > 0) ? own_type_items : null,
             "own_price": (own_price_items.length > 0) ? own_price_items : null,
             "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,

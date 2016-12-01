@@ -50,6 +50,16 @@
     <div id="content-filter" class="content-filter">
         <div class="row">
             <div class="col-xs-12">
+
+                            <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
+                                <input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable" name="own_update_avaliable" {% if check_filters is defined and check_filters['own_update_avaliable'] is defined and check_filters['own_update_avaliable'] %} checked="checked"{% endif %} data-aux-text="{{"Calendario Actualizado" | trans}}" data-aux-text="{{"Calendario Actualizado" | trans}}"/>
+                                <div class="control__indicator border-gray"></div>
+                                {{"Calendario Actualizado" | trans}}
+                            </label>
+
+
+            </div>
+            <div class="col-xs-12">
                 <div class="row">
                     <span class="f-s-18 f-f-Arial color-454242 f-w-bold text-xs-center m-b-1 col-xs-12">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</span>
                     {% set count=owns_prices|length-1 %}
@@ -86,53 +96,22 @@
                     {%endfor%}
                 </ul>
             </div>
-            {#<div class="col-xs-12 border-top-gray">#}
-                {#<span class="f-s-18 f-f-Arial color-454242 f-w-bold text-xs-center m-y-1 col-xs-12">{{"ROOM_BEDS" | trans}}</span>#}
-                {#<ul id="ownership_type" class="list-inline">#}
-                    {#<li>#}
-                        {#<label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">#}
-                            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="1" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '1' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_1'] == 0%} disabled="disabled" {%endif%}/>#}
-                            {#<div class="control__indicator border-gray"></div>#}
-                            {#1#}
-                        {#</label>#}
-                    {#</li>#}
-                    {#<li>#}
-                        {#<label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">#}
-                            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="2" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '2' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_2'] == 0%} disabled="disabled" {%endif%}/>#}
-                            {#<div class="control__indicator border-gray"></div>#}
-                            {#2#}
-                        {#</label>#}
-                    {#</li>#}
-                    {#<li>#}
-                        {#<label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">#}
-                            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="3" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '3' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_3'] == 0%} disabled="disabled" {%endif%}/>#}
-                            {#<div class="control__indicator border-gray"></div>#}
-                            {#3#}
-                        {#</label>#}
-                    {#</li>#}
-                    {#<li>#}
-                        {#<label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">#}
-                            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="4" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '4' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_4'] == 0%} disabled="disabled" {%endif%}/>#}
-                            {#<div class="control__indicator border-gray"></div>#}
-                            {#4#}
-                        {#</label>#}
-                    {#</li>#}
-                    {#<li>#}
-                        {#<label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">#}
-                            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="5" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_5'] == 0%} disabled="disabled" {%endif%}/>#}
-                            {#<div class="control__indicator border-gray"></div>#}
-                            {#5#}
-                        {#</label>#}
-                    {#</li>#}
-                    {#<li>#}
-                        {#<label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">#}
-                            {#<input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="+6" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '+6' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_more_5'] == 0%} disabled="disabled" {%endif%}/>#}
-                            {#<div class="control__indicator border-gray"></div>#}
-                            {#+ 5#}
-                        {#</label>#}
-                    {#</li>#}
-                {#</ul>#}
-            {#</div>#}
+            <div class="col-xs-12 border-top-gray">
+                <a data-toggle="collapse" data-target="#category" href="#category">
+                    <span class="f-s-18 f-f-Arial color-454242 f-w-bold text-xs-center col-xs-12">{{"CATEGORY" | trans}}</span>
+                </a>
+                <ul id="category" class="list-inline collapse">
+                    {%for category in owns_categories%}
+                        <li>
+                            <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
+                                <input data-icon="{{category[0] | trans}}" class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>
+                                <div class="control__indicator border-gray"></div>
+                                {{category[0] | trans}}
+                            </label>
+                        </li>
+                    {%endfor%}
+                </ul>
+            </div>
             <div class="col-xs-12 border-top-gray">
                 <a data-toggle="collapse" data-target="#rooms_type" href="#rooms_type">
                     <span class="f-s-18 f-f-Arial color-454242 f-w-bold text-xs-center col-xs-12">{{"SELECT_ROOM_TYPE_OPTION" | trans}}</span>
@@ -358,7 +337,7 @@
             </div>
         </div>
     </div>
-<div class="content-button">
+<div class="content-button clearfix p-y-1">
     <div class="col-xs-12">
         <div class="row">
         <div class="col-xs-4 p-a-0">
@@ -383,23 +362,18 @@
                         </label>
                 {%endfor%}
         </div>
-        <div class="col-xs-4 p-a-0">
-            <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
-                <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking" name="own_inmediate_booking"  {%if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %} data-aux-text="{{"quick_bookinhg" | trans}}" data-aux-text="{{"quick_bookinhg" | trans}}" />
-                <div class="control__indicator border-gray"></div>
-                {{ 'quick_bookinhg'|trans }}
-            </label>
-        </div>
         </div>
     </div>
     <div class="col-xs-12">
-        <div class="col-xs-3">
-        </div>
-        <div class="col-xs-4">
-            <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-default btn-block pull-right" id="cancel-filters">{{ 'CANCEL'|trans }}</a>
-        </div>
-        <div class="col-xs-5 p-a-0">
-            <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-primary btn-block pull-right" id="filters-submit">{{ 'SHOW_RESULTS'|trans }}</a>
+        <div class="row">
+            <div class="col-xs-3">
+            </div>
+            <div class="col-xs-4">
+                <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-default btn-block pull-right" id="cancel-filters">{{ 'CANCEL'|trans }}</a>
+            </div>
+            <div class="col-xs-5 p-a-0">
+                <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-primary btn-block pull-right" id="filters-submit">{{ 'SHOW_RESULTS'|trans }}</a>
+            </div>
         </div>
     </div>
 </div>

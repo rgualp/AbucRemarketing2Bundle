@@ -597,5 +597,15 @@ class BackendReservationAgController extends Controller {
         return $this->render('mycpBundle:reservation:newCleanOfferAg.html.twig', array(
             'client' => $client, 'clientOfAg' => $paClient, "attendedDate" => $attendedDate));
     }
+
+    public function generateClientCallbackAction() {
+        $request = $this->getRequest();
+        $users_ids = array_unique($request->request->get('users_ids'));
+
+        $exporter = $this->get("mycp.service.export_to_excel");
+        $exporter->generateClientsAg($users_ids);
+
+        return new Response($this->generateUrl("mycp_download_clients"), 200);
+    }
 }
 

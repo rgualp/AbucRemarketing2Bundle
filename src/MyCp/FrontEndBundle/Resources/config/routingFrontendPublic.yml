@@ -1,23 +1,27 @@
 frontend_public_login:
-    locales:  { en: "/login/", es: "/login/", de: "/login/" }
+    locales:  { en: "/login/", es: "/login/", de: "/login/", fr: "/login/", it: "/login/" }
     defaults: { _controller: FrontEndBundle:Public:login }
 
 frontend_public_top_nav_control:
-    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
+    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}", fr: "/topNav/{route}/{routeParams}", it: "/topNav/{route}/{routeParams}" }
     defaults: { _controller: FrontEndBundle:Public:topNav, route: frontend_welcome, routeParams: null  }
+
+frontend_public_load_slide:
+    locales:  { en: "/loadslide/", es: "/loadslide/", de: "/loadslide/", fr: "/loadslide/", it: "/loadslide/" }
+    defaults: { _controller: FrontEndBundle:Public:loadSlides  }
 
 frontend_metatags_control:
     pattern:  /metatags
     defaults: { _controller: FrontEndBundle:Public:getMetaTags}
 
 frontend_download_apprenta:
-    locales:  { en: "/apprenta", es: "/apprenta", de: "/apprenta" }
+    locales:  { en: "/apprenta", es: "/apprenta", de: "/apprenta",  fr: "/apprenta",  it: "/apprenta" }
     defaults: { _controller: FrontEndBundle:Public:appRentaDownload }
 
 frontend_download_apptrip:
-    locales:  { en: "/apptrip", es: "/apptrip", de: "/apptrip" }
+    locales:  { en: "/apptrip", es: "/apptrip", de: "/apptrip", fr: "/apptrip", it: "/apptrip" }
     defaults: { _controller: FrontEndBundle:Public:appTripDownload }
 
 frontend_mycasatrip_apps:
-    locales:  { en: "/app/mycasatrip", es: "/app/mycasatrip", de: "/app/mycasatrip" }
+    locales:  { en: "/app/mycasatrip", es: "/app/mycasatrip", de: "/app/mycasatrip", fr: "/app/mycasatrip", it: "/app/mycasatrip" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:appsMycasatrip }

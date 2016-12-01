@@ -1,10 +1,10 @@
 
 frontend_userCasa_home:
-    locales:  { en: "/accommodation", es: "/alojamiento", de: "/unterkunft" }
+    locales:  { en: "/accommodation", es: "/alojamiento", de: "/unterkunft", fr: "/unterkunft", it: "/unterkunft" }
     defaults: { _controller: FrontEndBundle:UserCasa:home}
 
 frontend_userCasa_activateAccount:
-    locales:  { en: "/accommodation/user/activate/{token}", es: "/alojamiento/usuario/activar/{token}",de: "/unterkunft/user/activate/{token}" }
+    locales:  { en: "/accommodation/user/activate/{token}", es: "/alojamiento/usuario/activar/{token}",de: "/unterkunft/user/activate/{token}", fr: "/unterkunft/user/activate/{token}", it: "/unterkunft/user/activate/{token}" }
     defaults: { _controller: FrontEndBundle:UserCasa:activateAccount }
     requirements:
         token: .*

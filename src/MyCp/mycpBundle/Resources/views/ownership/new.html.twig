@@ -62,6 +62,8 @@
             {% if is_granted('ROLE_CLIENT_STAFF')  and data['ownership_mcp_code'] != null and data['ownership_mcp_code'] != ""%}
             <li><a href="{{path("mycp_download_zip_photo", {"idOwnership": post['ownership_id'], "ownMycpCode": data['ownership_mcp_code']})}}"><i class="icon-download-alt"></i> Descargar Fotos</a></li>
             {%endif%}
+             <li><a href="{{ path('mycp_list_penalties',{'accommodationId':post['ownership_id']}) }}">Penalizaciones</a></li>
+             <li><a href="{{ path('mycp_list_touristfailures',{'accommodationId':post['ownership_id']}) }}">Fallos de turistas</a></li>
             {%if (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "")%}
             <li class="divider"></li>
             <li><a style="cursor: hand" onclick="send_message();">Enviar Correo de Instrucciones</a></li>
@@ -104,6 +106,9 @@
     {%endif%}
     {%if data['inmediate_booking'] is defined and  data['inmediate_booking']%}
     <span class="label label-important vertical_middle" title="Reserva Rápida"><i class="glyphicons electricity white"></i> Reserva Rápida</span>
+    {%endif%}
+    {%if data['inmediate_booking_2'] is defined and  data['inmediate_booking_2']%}
+        <span class="label vertical_middle" style="color: #fff; background-color: #ff0000;" title="Reserva Inmediata"><i class="fa fa-rocket"></i> Reserva Inmediata</span>
     {%endif%}
     {%if data['not_recommendable'] is defined and data['not_recommendable']%}
     <span class="label label-important vertical_middle" title="No recomendables">No recomendable</span>
@@ -549,6 +554,10 @@
 <h3 class="title">Reserva Rápida</h3>
 <label class="checkbox">
     <input type="checkbox" {% if post['inmediate_booking'] is defined and (post['inmediate_booking'] ==1) %} checked="TRUE" {% endif %} name="inmediate_booking"> Habilitar para Reserva Rápida
+</label><br/>
+<h3 class="title">Reserva Inmediata</h3>
+<label class="checkbox">
+    <input type="checkbox" {% if post['inmediate_booking_2'] is defined and (post['inmediate_booking_2'] ==1) %} checked="TRUE" {% endif %} name="inmediate_booking_2"> Habilitar para Reserva Inmediata
 </label><br/>
 {% if is_granted('ROLE_CLIENT_STAFF') %}
 <h3 class="title">No Recomendable</h3>

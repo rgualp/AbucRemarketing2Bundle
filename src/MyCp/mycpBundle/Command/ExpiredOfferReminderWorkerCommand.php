@@ -89,12 +89,33 @@ class ExpiredOfferReminderWorkerCommand extends Worker
                 ->getRepository('mycpBundle:generalReservation')
                 ->getGeneralReservationById($reservationId);
 
-        if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
-            $user = $generalReservation->getGenResUserId();
-            $this->emailManager->setLocaleByUser($user);
+        if($generalReservation->hasStatusAvailable()) {
+            $ownershipReservations = $this->em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
 
-            $output->writeln('Send Offer Expired Reminder Email for Reservation ID ' . $reservationId);
-            $this->sendReminderEmail($generalReservation, $user);
+            //Set generalReservation status to Not Available
+            $generalReservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+            $generalReservation->setGenResStatusDate(new \DateTime());
+            $this->em->persist($generalReservation);
+
+            foreach ($ownershipReservations as $ownershipReservation) {
+
+                if($ownershipReservation->hasStatusAvailable()) {
+                    $ownershipReservation->setOwnResStatus(ownershipReservation::STATUS_OUTDATED);
+                    $this->em->persist($ownershipReservation);
+                }
+            }
+
+            $this->em->flush();
+
+            if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
+                $user = $generalReservation->getGenResUserId();
+                $this->emailManager->setLocaleByUser($user);
+
+                $output->writeln('Send Offer Expired Reminder Email for Reservation ID ' . $reservationId);
+                $this->sendReminderEmail($generalReservation, $user, $ownershipReservations);
+            }
         }
 
         $output->writeln('Successfully finished Offer Expired Reminder for Reservation ID ' . $reservationId);
@@ -107,14 +128,14 @@ class ExpiredOfferReminderWorkerCommand extends Worker
      * @param generalReservation $generalReservation
      * @param user $user
      */
-    private function sendReminderEmail(generalReservation $generalReservation, user $user)
+    private function sendReminderEmail(generalReservation $generalReservation, user $user, $ownershipReservations)
     {
         $userId = $user->getUserId();
         $userEmail = $user->getUserEmail();
 
         $emailSubject = $this->translatorService->trans('NOT_AVAILABLE_OFFER_SUBJECT');
 
-        $emailBody = $this->renderEmailBody($user, $generalReservation);
+        $emailBody = $this->renderEmailBody($user, $generalReservation, $ownershipReservations);
 
         $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
 
@@ -130,29 +151,14 @@ class ExpiredOfferReminderWorkerCommand extends Worker
      * @param generalReservation $generalReservation
      * @return string
      */
-    private function renderEmailBody(user $user, generalReservation $generalReservation)
+    private function renderEmailBody(user $user, generalReservation $generalReservation, $ownershipReservations)
     {
-        $ownershipReservations = $this->em
-                ->getRepository('mycpBundle:generalReservation')
-                ->getOwnershipReservations($generalReservation);
-
-        $userTourist = $this->em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
 
         $arrayPhotos = array();
         $arrayNights = array();
 
-        //$initialPayment = 0;
-
-        //Set generalReservation status to Not Available
-        $generalReservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
-        $generalReservation->setGenResStatusDate(new \DateTime());
-        $this->em->persist($generalReservation);
-
         foreach($ownershipReservations as $ownershipReservation)
         {
-            $ownershipReservation->setOwnResStatus(ownershipReservation::STATUS_OUTDATED);
-            $this->em->persist($ownershipReservation);
-
             $photos = $this->em
                 ->getRepository('mycpBundle:ownership')
                 ->getPhotos(
@@ -180,11 +186,11 @@ class ExpiredOfferReminderWorkerCommand extends Worker
                 $initialPayment += getOwnResTotalInSite() * $comission;*/
         }
 
-        $this->em->flush();
         if($user->getUserRole() == "ROLE_CLIENT_PARTNER"){
 
         }
         else{
+            $userTourist = $this->em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
             $body = $this->emailManager
                 ->getViewContent('FrontEndBundle:mails:expired_offer_reminder.html.twig', array(
                         'user' => $user,

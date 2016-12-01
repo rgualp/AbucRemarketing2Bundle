@@ -200,13 +200,16 @@ class SearchUtils {
         return $uDetails;
     }
 
-    public static function getBasicQuery($room_filter, $user_id, $session_id) {
+    public static function getBasicQuery($room_filter, $user_id, $session_id, $where = true) {
         $query_string = "";
+        $query_string_count = "";
         if (!$room_filter) {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
                              o.own_geolocate_y as longitude,
                              o.own_geolocate_x as latitude,
+                             o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                             o.own_availability_update as avaliableUpdate,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -239,8 +242,14 @@ class SearchUtils {
                              JOIN o.own_address_municipality mun
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
-                             LEFT JOIN op.own_pho_photo pho
-                             WHERE o.own_status = 1 ";
+                             LEFT JOIN op.own_pho_photo pho ";
+            $query_string .= ($where) ? ("WHERE o.own_status = 1 ") : ("");
+            $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
+                             JOIN o.data data
+                             LEFT JOIN data.principalPhoto op
+                             LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 ") : (""));
         } else {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
@@ -270,6 +279,8 @@ class SearchUtils {
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
                             o.own_inmediate_booking as OwnInmediateBooking,
+                            o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                             o.own_availability_update as avaliableUpdate,
                             o.own_langs as langs
                              FROM mycpBundle:room r
                              JOIN r.room_ownership o
@@ -277,12 +288,18 @@ class SearchUtils {
                              JOIN o.own_address_municipality mun
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
-                             LEFT JOIN op.own_pho_photo pho
-                             WHERE o.own_status = 1
-                               AND r.room_active = 1 ";
+                             LEFT JOIN op.own_pho_photo pho ";
+            $query_string .= ($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : ("");
+            $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:room r
+                             JOIN r.room_ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
+                             JOIN o.data data
+                             LEFT JOIN data.principalPhoto op
+                             LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : (""));
         }
 
-        return $query_string;
+        return array('query'=>$query_string, 'query_count'=>$query_string_count);
     }
 
     public static function getTextWhere($text) {
@@ -490,9 +507,6 @@ class SearchUtils {
             if (array_key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where .= " AND r.room_safe = 1";
 
-            if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking'])
-                $where .= " AND o.own_inmediate_booking = 1";
-
             if (array_key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
                 $where .= " AND (r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";
 
@@ -556,16 +570,16 @@ class SearchUtils {
                 if($insideWhere != "")
                     $where.= " AND (" .$insideWhere. ")";
             }
-            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+           /* if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
 
                 if($insideWhere != "")
-                    $where .= " HAVING award1 IN (" . $insideWhere . ")";
+                    $where .= " GROUP BY own_id HAVING award1 IN (" . $insideWhere . ")";
 
 //                if($insideWhere != "")
 //                    $where .= " AND award_id IN (" . $insideWhere . ")";
-            }
+            }*/
 
         }
         return $where;
@@ -647,6 +661,8 @@ class SearchUtils {
                 return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
             case OrderByHelper::SEARCHER_WORST_VALUED:
                 return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_AVALIABLE_UPDATE:
+                return "  ORDER BY o.own_availability_update DESC";
             default:
                 return $order_by;
 
@@ -654,7 +670,7 @@ class SearchUtils {
         
     }
 
-    private static function getStringFromArray($array, $has_string_items = true, $element_to_remove = null) {
+    public static function getStringFromArray($array, $has_string_items = true, $element_to_remove = null) {
         if (is_array($array)) {
             $quotas_element = (($has_string_items) ? "'" : "");
             $string_value = "";

@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
@@ -120,13 +121,14 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('own_id', $ownership)->getResult();
     }
 
-    function getReservationReservedByRoomAndDate($idRoom, $startParam, $endParam) {
+    function getReservationReservedByRoomAndDate($idRoom, $startParam, $endParam, $justReservations = false) {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
         $cancelledCode = ownershipReservation::STATUS_CANCELLED;
+        $statusWhere = ($justReservations) ? "ore.own_res_status = $reservedCode" : "(ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode)";
         $query = $em->createQuery("SELECT ore.own_res_status,ore.own_res_id,ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
             FROM mycpBundle:ownershipReservation ore
-        WHERE (ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode)
+        WHERE $statusWhere
         AND ((ore.own_res_reservation_from_date >= '$startParam' AND ore.own_res_reservation_to_date <= '$endParam')
          OR (ore.own_res_reservation_to_date >= '$startParam' AND ore.own_res_reservation_to_date <= '$endParam') OR
     (ore.own_res_reservation_from_date <= '$endParam' AND ore.own_res_reservation_from_date >= '$startParam'))
@@ -381,6 +383,22 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('gen_res_id', $genRes)->getResult();
     }
 
+    function getReservationReservedByRoomAndDateForCalendar($roomId, $startParam, $endParam) {
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $query = $em->createQuery("SELECT ore
+            FROM mycpBundle:ownershipReservation ore
+        WHERE (ore.own_res_status = $reservedCode)
+        AND ((ore.own_res_reservation_from_date >= :start AND ore.own_res_reservation_from_date <= :end) OR
+             (ore.own_res_reservation_to_date >= :start AND ore.own_res_reservation_to_date <= :end) OR
+             (ore.own_res_reservation_from_date <= :start AND ore.own_res_reservation_to_date >= :end))
+        AND  ore.own_res_reservation_from_date <> :end
+        AND  ore.own_res_reservation_to_date <> :start
+        AND ore.own_res_selected_room_id = :room_id
+        ORDER BY ore.own_res_reservation_from_date ASC");
+        return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('room_id', $roomId)->getResult();
+    }
+
     function getOwnReservationsForNightsCounterTotal()
     {
         $em = $this->getEntityManager();
@@ -534,6 +552,109 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('start', $startDate)->setParameter('endDate', $endDate)->setParameter('roomId', $roomId)->getSingleScalarResult();
     }
 
+    public function getFromToDestinationCliente($accommodationId, $userId, $confirmFromDate, $confirmToDate){
 
+
+        /*
+         * Parametros
+         *
+         *  set @accommodationId = 10;
+            set @userId = 23595;
+            set @confirmFromDate = "2016-08-05";
+            set @confirmToDate = "2016-08-07";
+         *
+         * De donde viene
+         *
+         * select o.own_mcp_code, owres.`own_res_reservation_from_date` as fromDate, owres.`own_res_reservation_to_date` as toDate
+from ownershipreservation owres
+join generalreservation gres on owres.own_res_gen_res_id = gres.gen_res_id
+join user u on u.user_id = gres.gen_res_user_id
+join ownership o on o.own_id = gres.gen_res_own_id
+join booking b on b.booking_id = owres.own_res_reservation_booking
+join payment p on p.`booking_id` = b.`booking_id`
+where gres.gen_res_status = 2
+and (p.status = 1 or p.status = 4)
+and u.user_id = @userId
+and gres.gen_res_own_id != @accommodationId
+and (owres.`own_res_reservation_to_date` >= DATE_SUB(@confirmFromDate, INTERVAL 14 day) and owres.`own_res_reservation_to_date` <= @confirmFromDate)
+order by owres.`own_res_reservation_from_date` DESC
+limit 1;
+
+        Para donde va
+select o.own_id, o.own_mcp_code, owres.`own_res_reservation_from_date` as fromDate, owres.`own_res_reservation_to_date` as toDate
+from ownershipreservation owres
+join generalreservation gres on owres.own_res_gen_res_id = gres.gen_res_id
+join user u on u.user_id = gres.gen_res_user_id
+join ownership o on o.own_id = gres.gen_res_own_id
+join booking b on b.booking_id = owres.own_res_reservation_booking
+join payment p on p.`booking_id` = b.`booking_id`
+where gres.gen_res_status = 2
+and (p.status = 1 or p.status = 4)
+and u.user_id = @userId
+and gres.gen_res_own_id != @accommodationId
+and (owres.`own_res_reservation_from_date` >= @confirmToDate and owres.`own_res_reservation_from_date` <= DATE_ADD(@confirmToDate, INTERVAL 14 day))
+order by owres.`own_res_reservation_from_date` ASC
+limit 1
+;
+
+        */
+
+        $em = $this->getEntityManager();
+
+
+        $query = 'select  o.own_id as idCasa, 
+                          owres.own_res_reservation_from_date as fromDate, 
+                          owres.own_res_reservation_to_date as toDate
+                from ownershipreservation owres
+                join generalreservation gres on owres.own_res_gen_res_id = gres.gen_res_id
+                join user u on u.user_id = gres.gen_res_user_id
+                join ownership o on o.own_id = gres.gen_res_own_id
+                join booking b on b.booking_id = owres.own_res_reservation_booking
+                join payment p on p.booking_id = b.booking_id
+                where gres.gen_res_status = 2
+                and (p.status = 1 or p.status = 4)
+                and u.user_id = '. $userId .'
+                and gres.gen_res_own_id != '. $accommodationId .'
+                and (owres.own_res_reservation_to_date >= DATE_SUB("'. $confirmFromDate .'", INTERVAL 14 day) and owres.own_res_reservation_to_date <= "'. $confirmFromDate .'")
+                order by owres.own_res_reservation_from_date DESC
+                limit 1
+         ';
+
+        $stmt = $em->getConnection()->query($query);
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $FromToTravel = array();
+        if (count($results) > 0){
+            $FromToTravel['from'] = $results[0]['idCasa'];
+        }
+
+        $query = 'select o.own_id as idCasa, 
+                          owres.own_res_reservation_from_date as fromDate, 
+                          owres.own_res_reservation_to_date as toDate
+                    from ownershipreservation owres
+                    join generalreservation gres on owres.own_res_gen_res_id = gres.gen_res_id
+                    join user u on u.user_id = gres.gen_res_user_id
+                    join ownership o on o.own_id = gres.gen_res_own_id
+                    join booking b on b.booking_id = owres.own_res_reservation_booking
+                    join payment p on p.`booking_id` = b.`booking_id`
+                    where gres.gen_res_status = 2
+                    and (p.status = 1 or p.status = 4)
+                    and u.user_id = '. $userId .'
+                    and gres.gen_res_own_id != '. $accommodationId .'
+                    and (owres.`own_res_reservation_from_date` >= "'. $confirmToDate .'" and owres.`own_res_reservation_from_date` <= DATE_ADD("'. $confirmToDate .'", INTERVAL 14 day))
+                    order by owres.`own_res_reservation_from_date` ASC
+                    limit 1
+         ';
+
+        $stmt = $em->getConnection()->query($query);
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (count($results) > 0){
+            $FromToTravel['to'] = $results[0]['idCasa'];
+        }
+
+        return $FromToTravel;
+
+    }
 
 }

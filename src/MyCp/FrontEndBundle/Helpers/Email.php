@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Helpers;
 
+use MyCp\mycpBundle\Helpers\FileIO;
 use Swift_Message;
 use MyCp\mycpBundle\Entity\generalReservation;
 
@@ -86,7 +87,7 @@ class Email
         return $this->container->get('mailer')->send($message);
     }
 
-    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = false)
+    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = false, $isANewOffer = false)
     {
         $templating = $this->container->get('templating');
         $reservation = $this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -112,8 +113,10 @@ class Email
             array_push($array_nigths, $totalNights);
         }
         $touristLanguage = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage() : $user->getUserLanguage();
-        $user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
+        $user_locale = (isset($touristLanguage)) ? strtolower($touristLanguage->getLangCode()) : strtolower($this->defaultLanguageCode);
 
+        $locale = $this->container->get('translator');
+        $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
         // Enviando mail al cliente
         if($user->getUserRole()=="ROLE_CLIENT_PARTNER"){
             $body = $templating->render('PartnerBundle:Mail:email_offer_available.html.twig', array(
@@ -128,7 +131,12 @@ class Email
                 ));
         }
         else{
-            $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+
+            if($isANewOffer)
+            {
+                $subject = $locale->trans('NEW_OFFER_TOURIST_SUBJECT', array(), "messages", $user_locale);
+
+                $body = $templating->render('FrontEndBundle:mails:email_new_offer_available.html.twig', array(
                     'user' => $user,
                     'reservations' => $reservations,
                     'photos' => $array_photos,
@@ -138,11 +146,21 @@ class Email
                     'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
                     'reservationStatus' => $reservation->getGenResStatus()
                 ));
+            }
+            else {
+                $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $reservations,
+                    'photos' => $array_photos,
+                    'nights' => $array_nigths,
+                    'message' => $custom_message,
+                    'user_locale' => $user_locale,
+                    'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : $user->getUserLanguage(),
+                    'reservationStatus' => $reservation->getGenResStatus()
+                ));
+            }
+
         }
-
-        $locale = $this->container->get('translator');
-        $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
-
 
         $this->sendEmail(
             $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
@@ -150,6 +168,24 @@ class Email
     }
 
     public function sendOwnersMail($email_to, $owners_name, $own_name, $own_mycp_code)
+    {
+        $templating = $this->container->get('templating');
+
+        if(!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $content = $templating->render('FrontEndBundle:mails:ownersMailBody.html.twig', array(
+            'owners_name' => $owners_name,
+            'own_name' => $own_name,
+            'own_mycp_code' => $own_mycp_code
+        ));
+
+        $this->sendEmail(
+            "Bienvenido a MyCasaParticular", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+        );
+    }
+
+    public function sendOwnersBackendRegisterMail($email_to, $owners_name, $own_name, $own_mycp_code)
     {
         $templating = $this->container->get('templating');
 
@@ -179,7 +215,34 @@ class Email
             'user_full_name' => $userFullName,
             'own_name' => $own_name,
             'own_mycp_code' => $own_mycp_code,
-            'secret_token' => $secret_token
+            'secret_token' => $secret_token,
+            'user_locale' => "es"
+        ));
+
+        $this->sendEmail(
+            "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+        );
+    }
+
+    public function sendCreateUserCasaMailBackend($email_to, $user, $password, $accommodation, $container)
+    {
+        $templating = $this->container->get('templating');
+
+        if(!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $manualPath = $container->getParameter("configuration.dir.additionalsFiles");
+        $manualPath .= "manualCasa.pdf";
+
+        $existsManual = file_exists($manualPath);
+
+        $content = $templating->render('FrontEndBundle:mails:createUserCasaMailBodyBackend.html.twig', array(
+            'accommodation' => $accommodation,
+            'user' => $user,
+            'password' => $password,
+            'manualPath' => $manualPath,
+            'existsManual' => $existsManual,
+            'user_locale' => "es"
         ));
 
         $this->sendEmail(
@@ -198,7 +261,8 @@ class Email
             'user_full_name' => $userFullName,
             'own_name' => $own_name,
             'own_mycp_code' => $own_mycp_code,
-            'secret_token' => $secret_token
+            'secret_token' => $secret_token,
+            'user_locale' => "es"
         ));
 
         $this->sendEmail(

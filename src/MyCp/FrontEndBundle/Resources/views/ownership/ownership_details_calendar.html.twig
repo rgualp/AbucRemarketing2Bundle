@@ -123,14 +123,28 @@
         {% else %}
             {% set date_to = "+6 day"|date("d&m&Y") %}
         {% endif %}
-        <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}"
-              method="POST">
+        <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}" id="form-check-available" method="POST">
             <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4 text-center">
-                    <button style="padding: 5px 10px" type="submit" class="btn btn-primary">
-                        <i class="icon-shopping-cart"></i> {{ 'ADD_TO_CART' | trans }}
-                    </button>
+                <div class="col-sm-12 text-center">
+                    <div class="col-sm-6">
+                        <button style="padding: 5px 10px" onclick="$('#check_dispo').val('')" class="btn btn-primary {% if ownership.OwnInmediateBooking2 %} hide {% endif %}" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
+                        </button>
+                    </div>
+                        <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
+                    <div class="col-sm-6">
+                        {% if ownership.OwnInmediateBooking2 %}
+                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
+                            </button>
+                            {% else %}
+                                <button style="padding: 5px 10px" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                    <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
+                                </button>
+                        {% endif %}
+                    </div>
+
+
                     <div class="col-sm-4">
                         <input from_date="{{ start_date | replace('/','&') }}"
                                to_date="{{ end_date | replace('/','&') }}" type="text"
@@ -142,3 +156,81 @@
         </form>
     </li>
 </ul>
+<script type="text/javascript">
+    var login=false;
+    {% if app.user.getUserUserName is defined %}
+        login=true;
+    {% endif %}
+    var form = $("#form-check-available");
+            form.on("submit", function (e) {
+                if($('#check_dispo').val()!=2){
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var formData = new FormData(form[0]);
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "post",
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            if(response=='0'){
+                                if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
+                                    swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
+                                }
+                                else
+                                    swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                                $('#addWhisList').removeClass('hide');
+                            }
+                            else{
+                                if(login){
+                                    if($('#check_dispo').val()==''){
+                                        $('#list-cart').attr('href','#');
+                                        $('#list-cart').attr('data-toggle','dropdown');
+                                        $('#list-cart').addClass('dropdown-toggle');
+                                        $('#whish-list').html(response);
+                                        $('#count-cart').text($('#total-cart').data('counter'));
+                                        swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                        $('#addWhisList').removeClass('hide');
+                                    }
+                                    if($('#check_dispo').val()==1){
+                                        swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                                    }
+                                    if($('#check_dispo').val()==2){
+                                        window.location.href="{{ path('frontend_mycasatrip_available') }}";
+                                        swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                                    }
+                                }
+                                else{
+                                    swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                    window.location.href="{{ path('frontend_public_login') }}";
+                                    $('#addWhisList').removeClass('hide');
+                                }
+
+                            }
+
+                        }
+                    });
+                }
+            });
+
+    $('#addWhisList').on('click',function(){
+        $('#addWhisList').addClass('hide');
+        $('#myModalOwnerShipCalendar').modal('hide');
+        if($(this).data('modal')){
+            $('#myModalOwnerShipCalendar').modal('hide');
+
+        }
+
+    });
+    $('#checkAvailable').on('click',function(){
+        $('#check_dispo').val('1');
+        $('#myModalOwnerShipCalendar').modal('hide');
+    });
+    $('#reservedOwnerShip').on('click',function(){
+        $('#check_dispo').val('2');
+        $('#myModalOwnerShipCalendar').modal('hide');
+    });
+</script>

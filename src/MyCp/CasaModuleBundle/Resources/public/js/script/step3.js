@@ -40,7 +40,7 @@ var Step3 = function () {
                     url: $("#form-description-room").attr('action'),
                     data:  data,
                     success: function (data) {
-                        if(flag)
+                        //if(!flag)
                             HoldOn.close();
                     }
                 });

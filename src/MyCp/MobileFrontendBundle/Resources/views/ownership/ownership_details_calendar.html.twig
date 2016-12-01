@@ -1,0 +1,237 @@
+<div class="col-xs-12 p-a-1 text-xs-center bg-blue-mycp no-bg-in-modal no-yp-in-modal">
+    <div class="row">
+        <form id="calendar_form" method="POST"
+              action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize}) }}"
+              novalidate>
+            <div class="col-xs-6 p-5">
+                <div rel="tooltip" title="{{ 'ARRIVAL_WATERMARK' | trans }}"
+                     class="input-group" style="padding: 0">
+                    <input value="{{ start_date }}" type="text" id="filter_date_from"
+                           class="form-control"
+                           placeholder="{{ "ARRIVAL_RESERVATION" | trans }}"
+                           data-localization='{{ locale }}'>
+                    <span class="input-group-addon show_calendar"><span
+                                class="icon-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-xs-6 p-5">
+                <div rel="tooltip" title="{{ 'DEPARTURE_WATERMARK' | trans }}"
+                     class="input-group" style="padding: 0">
+                    <input value="{{ end_date }}" type="text" id="filter_date_to"
+                           class="form-control"
+                           placeholder="{{ "DEPARTURE_RESERVATION" | trans }}"
+                           data-localization='{{ locale }}'>
+                    <span class="input-group-addon show_calendar"><span
+                                class="icon-calendar"></span></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="col-xs-12 p-5 p-y-1">
+    <div id="body_calendar">
+
+    </div>
+</div>
+<div class="col-xs-12 text-xs-center bg-blue-mycp price calendar-cont calendar-results">
+    <div class="col-xs-12 bg-gray-mycp p-y-1 p-x-5 box-shadow-inset">
+        <table id="rooms_selected" class="table" style="margin-bottom: 0px; display: none;">
+            <thead>
+            <tr>
+                <th style="display: none;"></th>
+                <th><i class="glyphicons gray keys f-s-16"></i></th>
+                <th>{{ 'RESERVATION_TYPE' | trans }} <i class="glyphicons gray keys f-s-16"></i></th>
+                <th><i class="gray f-s-16">#</i></th>
+                <th style="text-align: center;"><i class="ion-man f-s-24"></i><i class="ion-woman f-s-24"></i></th>
+                <th style="text-align: center;"><i class="f-s-20 ion-android-contacts"></i></th>
+                <th><i class="f-s-20 ion-social-usd"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12 p-y-1">
+        <div class="row all-prices-numbers">
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'ACCOMMODATION_TOTAL_COST' | trans }}</span>
+                <span class="f-s-16 white">
+                    {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="accommodation_price"></span>
+                </span>
+            </div>
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'SERVICE_TOURIST_TAX' | trans }}</span>
+                <span class="f-s-16 white">
+                    {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="tourist_service"
+                                                                                                                                       data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                                                                                                                                       data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                                                                                                                                       data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                                                                                                                                       data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                                                                                                                                       data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                                                                                                                                       data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                                                                                                                                       data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                                                                                                                                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                                                                                                                                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
+                </span>
+            </div>
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'SERVICE_FIXED_TAX' | trans }}</span>
+                <span class="f-s-16 white">
+                    {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+                    {{ currSymbol }}
+                    <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+                </span>
+            </div>
+            <div class="col-xs-12 text-xs-right">
+                <span class="f-s-12 white">{{ 'RESERVATION_TOTAL_PRICE' | trans }}</span>
+                <span class="f-s-20 f-w-bold white">
+                    {{ currSymbol }}
+                    <span id="total_price"></span>
+                </span>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px; margin-top: 10px">
+            <div class="col-xs-12 text-xs-left">
+                <div class="col-xs-12 text-uppercase white f-s-16 p-a-0">
+                    {{ 'PREPAYMENT'|trans }}
+                    : {{ currSymbol }}
+                    <span class="f-s-20 f-w-bold" id="total_prepayment"></span>
+                </div>
+                <div class="col-xs-12 text-uppercase white f-s-14 p-a-0">
+                    {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
+                    : {{ currSymbol }}
+                    <span class="f-s-14" id="pay_at_service"></span>
+                    {% if currSymbol != "CUC" %}
+                        (<span id="pay_at_service_cuc" class="f-w-bold f-s-18"></span>)
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                {% if post['reservation_filter_date_from'] is defined %}
+                    {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
+                {% else %}
+                    {% set date_from = "now"|date("d&m&Y") %}
+                {% endif %}
+
+                {% if post['reservation_filter_date_to'] is defined %}
+                    {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
+                {% else %}
+                    {% set date_to = "+6 day"|date("d&m&Y") %}
+                {% endif %}
+                <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}" id="form-check-available" method="POST">
+                    <div class="row">
+                        <div class="col-xs-12 p-x-1 p-t-1 text-center">
+                            <div class="col-xs-6">
+                                <button style="padding: 5px 10px" type="submit" onclick="$('#check_dispo').val('')" class="btn btn-primary p-x-1  {% if ownership.OwnInmediateBooking2 %} hide {% endif %}" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                    <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/>
+                                    {#{{ 'ADD_WHISH_LIST' | trans }}#}
+                                </button>
+                            </div>
+
+                            <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
+                            <div class="col-xs-6">
+                                {% if ownership.OwnInmediateBooking2 %}
+                                    <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                        <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
+                                    </button>
+                                {% else %}
+                                    <button style="padding: 5px 10px" type="submit" class="btn btn-primary p-x-1" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                        <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/>
+                                        {#{{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}#}
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-12 p-a-0">
+                                <input from_date="{{ start_date | replace('/','&') }}"
+                                       to_date="{{ end_date | replace('/','&') }}" type="text"
+                                       style="visibility: hidden; margin-bottom: -50px"
+                                       name="data_reservation" id="data_reservation"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% if modal_check_class is defined %}
+    <script type="text/javascript">
+        var login=false;
+        {% if app.user.getUserUserName is defined %}
+        login=true;
+        {% endif %}
+        var form = $("#form-check-available");
+        form.on("submit", function (e) {
+            if($('#check_dispo').val()!=2){
+                e.stopPropagation();
+                e.preventDefault();
+                var formData = new FormData(form[0]);
+                $.ajax({
+                    url: form.attr('action'),
+                    type: "post",
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        if(response=='0'){
+                            if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
+                                swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
+                            }
+                            else
+                                swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                            $('#addWhisList').removeClass('hide');
+                        }
+                        else{
+                            if(login){
+                                if($('#check_dispo').val()==''){
+                                    $('#list-cart').attr('href','#');
+                                    $('#list-cart').attr('data-toggle','dropdown');
+                                    $('#list-cart').addClass('dropdown-toggle');
+                                    $('#whish-list').html(response);
+                                    $('#count-cart').text($('#total-cart').data('counter'));
+                                    swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                    $('#addWhisList').removeClass('hide');
+                                }
+                                if($('#check_dispo').val()==1){
+                                    swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                                }
+                                if($('#check_dispo').val()==2){
+                                    window.location.href="{{ path('frontend_mycasatrip_available') }}";
+                                    swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                                }
+                            }
+                            else{
+                                swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                window.location.href="{{ path('frontend_public_login') }}";
+                                $('#addWhisList').removeClass('hide');
+                            }
+
+                        }
+
+                    }
+                });
+            }
+        });
+
+        $('#addWhisList').on('click',function(){
+            $('#addWhisList').addClass('hide');
+            $('#myModalOwnerShipCalendar').modal('hide');
+            if($(this).data('modal')){
+                $('#myModalOwnerShipCalendar').modal('hide');
+
+            }
+
+        });
+        $('#checkAvailable').on('click',function(){
+            $('#check_dispo').val('1');
+            $('#myModalOwnerShipCalendar').modal('hide');
+        });
+        $('#reservedOwnerShip').on('click',function(){
+            $('#check_dispo').val('2');
+            $('#myModalOwnerShipCalendar').modal('hide');
+        });
+    </script>
+{% endif %}

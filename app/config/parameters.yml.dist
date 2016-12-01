@@ -51,10 +51,19 @@ parameters:
     notification_send_sms: 0
     notification_test_environment: 0
     notification_test_mobile: 0
+    notification_send_checkings_sms: 0
+    notification_send_confirmation_sms: 0
+    notification_send_inmediatebooking_sms: 0
 
     mycasa_contact_cuba_phone: (+53) 78673574
     sms_contact_phone: 78673574
     sms_contact_mobile: 58419821
 
     mycp_mobile_url: "http://m.mycasaparticular.com"
+
+    newsletter_testing_mode: 0
+    newsletter_testing_email: yanet.moralesr@gmail.com
+    newsletter_testing_mobile: 52540669
+
+    id_google_analitics: UA-16697066-1
 

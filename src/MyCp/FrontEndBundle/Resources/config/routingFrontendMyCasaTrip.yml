@@ -3,47 +3,47 @@ frontend_mycasatrip_home:
     defaults: { _controller: FrontEndBundle:Mycasatrip:home }
 
 frontend_mycasatrip_pending:
-    locales:  { en: "/pending/{order_by}", es: "/pendientes/{order_by}", de: "/ausstehend/{order_by}" }
+    locales:  { en: "/pending/{order_by}", es: "/pendientes/{order_by}", de: "/ausstehend/{order_by}", fr: "/ausstehend/{order_by}", it: "/ausstehend/{order_by}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:pending ,order_by:0}
 
 frontend_mycasatrip_available:
-    locales:  { en: "/available/{order_by}", es: "/disponibles/{order_by}",de: "/verfuegbar/{order_by}" }
-    defaults: { _controller: FrontEndBundle:Mycasatrip:available,order_by:0 }
+    locales:  { en: "/available/{order_by}", es: "/disponibles/{order_by}",de: "/verfuegbar/{order_by}", fr: "/verfuegbar/{order_by}", it: "/verfuegbar/{order_by}" }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:available,order_by:0,flag:0 }
 
 frontend_mycasatrip_reserve:
-    locales:  { en: "/reserved/{order_by}", es: "/reservadas/{order_by}",de: "/reserviert/{order_by}" }
+    locales:  { en: "/reserved/{order_by}", es: "/reservadas/{order_by}",de: "/reserviert/{order_by}", fr: "/reserviert/{order_by}", it: "/reserviert/{order_by}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:reserve,order_by:0 }
 
 frontend_mycasatrip_historial_reserve:
-    locales:  { en: "/booking-history/{order_by}", es: "/historial-reservas/{order_by}",de: "/buchungsverlauf/{order_by}" }
+    locales:  { en: "/booking-history/{order_by}", es: "/historial-reservas/{order_by}",de: "/buchungsverlauf/{order_by}", fr: "/buchungsverlauf/{order_by}", it: "/buchungsverlauf/{order_by}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:historyReserve,order_by:0 }
 
 frontend_mycasatrip_payment:
-    locales:  { en: "/payment-confirmed/{order_by}", es: "/confirmadas-pago/{order_by}", de: "/zahlung-bestaetigt/{order_by}" }
+    locales:  { en: "/payment-confirmed/{order_by}", es: "/confirmadas-pago/{order_by}", de: "/zahlung-bestaetigt/{order_by}", fr: "/zahlung-bestaetigt/{order_by}", it: "/zahlung-bestaetigt/{order_by}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:payments,order_by:0 }
 
 frontend_mycasatrip_historial_consult:
-    locales:  { en: "/inquired-history/{order_by}", es: "/historial-consultadas/{order_by}",de: "/anfragenverlauf/{order_by}" }
+    locales:  { en: "/inquired-history/{order_by}", es: "/historial-consultadas/{order_by}",de: "/anfragenverlauf/{order_by}", fr: "/anfragenverlauf/{order_by}", it: "/anfragenverlauf/{order_by}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:historyConsult,order_by:0 }
 
 frontend_mycasatrip_favorites_destinations:
-    locales:  { en: "/favorites/destinations", es: "/favoritos/destinos",de: "/favoriten/reiseziele" }
+    locales:  { en: "/favorites/destinations", es: "/favoritos/destinos",de: "/favoriten/reiseziele", fr: "/favoriten/reiseziele", it: "/favoriten/reiseziele" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:favoritesDestinations }
 
 frontend_mycasatrip_favorites_accomodations:
-    locales:  { en: "/favorites/accomodations", es: "/favoritos/alojamientos", de: "/favoriten/unterkuenfte" }
+    locales:  { en: "/favorites/accomodations", es: "/favoritos/alojamientos", de: "/favoriten/unterkuenfte", fr: "/favoriten/unterkuenfte", it: "/favoriten/unterkuenfte" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:favoritesAccomodations }
 
 frontend_mycasatrip_comments:
-    locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}",de: "/bewertungen/{comment_type}" }
+    locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}",de: "/bewertungen/{comment_type}", fr: "/bewertungen/{comment_type}", it: "/bewertungen/{comment_type}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:comments }
 
 frontend_mycasatrip_cancel_offer:
-    locales:  { en: "/cancel-offer/{generalReservationId}", es: "/cancelar-oferta/{generalReservationId}",de: "/offerte-annullieren/{generalReservationId}" }
+    locales:  { en: "/cancel-offer/{generalReservationId}", es: "/cancelar-oferta/{generalReservationId}",de: "/offerte-annullieren/{generalReservationId}", fr: "/offerte-annullieren/{generalReservationId}", it: "/offerte-annullieren/{generalReservationId}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:cancelOffer }
 
 frontend_cancel_offer_callback:
-    locales:  { en: "/cancel-offer-callback/{genResID}", es: "/cancelar-oferta-callback/{genResID}",de: "/offerte-annullieren-callback/{genResID}" }
+    locales:  { en: "/cancel-offer-callback/{genResID}", es: "/cancelar-oferta-callback/{genResID}",de: "/offerte-annullieren-callback/{genResID}", fr: "/offerte-annullieren-callback/{genResID}", it: "/offerte-annullieren-callback/{genResID}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:cancelOfferCallback }
 
 

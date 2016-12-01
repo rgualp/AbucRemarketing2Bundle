@@ -1,0 +1,4035 @@
+﻿<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>HOW_IT_WORKS</source>
+                <target>Comment ça marche?</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>REGISTER</source>
+                <target>S’Inscrire</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>LOG_IN</source>
+                <target>Se connecter</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>FAVORITIES</source>
+                <target>Favoris</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>HELP</source>
+                <target>Aide</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>CURRENCY</source>
+                <target>Monnaie</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>LANGUAGE</source>
+                <target>Langues </target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>LOG_OUT</source>
+                <target>Se déconnecter </target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>HOMEPAGE_TITLE</source>
+                <target>My Casa Particular – page d´accueil</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>GO_UP</source>
+                <target>Aller en haut</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>DESTINATIONS</source>
+                <target>Destinations</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>MOST_VISITED_CITIES</source>
+                <target>Villes les plus visitées </target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>LOCAL_FESTIVALS_AND_FUN</source>
+                <target>Fêtes locales et loisirs</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>GALLERIES</source>
+                <target>Galerie de photos</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>YOUR_PHOTOS</source>
+                <target>Vos Photos</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>ACCOMMODATION</source>
+                <target>Hébergement</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>ECONOMICS_OWNS</source>
+                <target>Logements bon marchés </target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>MIDRANGE_OWNS</source>
+                <target>Logements prix moyens </target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>PREMIUM_OWNS</source>
+                <target>Logements Premium</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>TOP_OWNS</source>
+                <target>Les meilleures </target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>TOP_RATED</source>
+                <target>Avec plus d’étoiles</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>RATINGS</source>
+                <target>Classement</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>COMPANY</source>
+                <target>Entreprise</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>WHO_ARE_WE</source>
+                <target>Qui sommes-nous?</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>FAQ</source>
+                <target>Questions Fréquentes</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>LEGAL_TERMS</source>
+                <target>Règles et conditions d’utilisation</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>SECURITY_AND_PRIVACITY</source>
+                <target>Sécurité et Confidentialité</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>CONTACT_US</source>
+                <target>Contactez-nous</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>SITE_MAP</source>
+                <target>Plan du site</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>FOLLOW_US_FACEBOOK</source>
+                <target>Suivez nous sur Facebook</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>FOLLOW_US_TWITTER</source>
+                <target>Suivez nous sur Twitter</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>FOOTER_COPYRIGHT</source>
+                <target>32.	Un produit d´ABUC Media Network GmbH. Tous droits réservés</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>WELCOMEPAGE_TITLE</source>
+                <target>Loger, où Cuba, Cuba est!</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>PLACE_WATERMARK</source>
+                <target>Choisir une destination</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>ARRIVAL_WATERMARK</source>
+                <target>Date d´arrivée</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>DEPARTURE_WATERMARK</source>
+                <target>Date de départ</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>GUEST_WATERMARK</source>
+                <target>1 Hôte</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>SEARCH</source>
+                <target>Rechercher</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>SLOGAN_1</source>
+                <target>Loger ,</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>SLOGAN_2</source>
+                <target>où Cuba, Cuba est!</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>SLOGAN_3</source>
+                <target>MyCasaParticular.com, sa première adresse à Cuba</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>HOME_MAIN_MENU</source>
+                <target>Démarrer</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>HOME_DESCRIPTION_MAIN_MENU</source>
+                <target>43.	Information pour le  démarrage,  Information pour le démarrage,  </target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>DESTINATIONS_MAIN_MENU</source>
+                <target>Destinations</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>DESTINATIONS_DESCRIPTION_MAIN_MENU</source>
+                <target>Destinations...Destinations...</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>OFFERS_MAIN_MENU</source>
+                <target>Offres</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>OFFERS_DESCRIPTION_MAIN_MENU</source>
+                <target>Offres... Offres....Offres...Offres...Offres...</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>INFO_MAIN_MENU</source>
+                <target>Guide et Information</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>INFO_DESCRIPTION_MAIN_MENU</source>
+                <target>49.	Guide et information ..Guide e Information...</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>SEARCH_MAIN_MENU</source>
+                <target>Logements</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
+                <target>Description du navigateur </target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>GO_HOME_TITLE</source>
+                <target>Aller à la page d´accueil</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>SEARCHER_BREADCRUMB</source>
+                <target>Navigateur</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>HOMEPAGE_SUBTITLE_1</source>
+                <target>Pourquoi loger chez l´habitant?</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>HOMEPAGE_SUBTITLE_2</source>
+                <target>Connaître Cuba, vivre Cuba!!</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>HOMEPAGE_TEXT</source>
+                <target>Loger dans une chambre chez l´habitant  est l´une des expériences les plus intéressantes dont vous pourriez profiter lors de votre voyage à Cuba. En plus de  l´occasion de rencontrer des touristes de tout le monde, vous aurez un aperçu de la réalité cubaine. Vous pourrez profiter de l´accueil des Cubains et apprendre davantage de leur culture. Le prix constitue un autre avantage très important. Les chambres chez l’habitant représentent l´option la plus économique pour votre séjour à Cuba. Compte tenu du fait qu’il s´agit des affaires du secteur privé, quand vous choisissez l´une de ces maisons, vous contribuez à l´économie de la famille cubaine </target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>TOP_HOUSES_HOME_TITLE</source>
+                <target>Chambres chez l´habitant les plus réputées</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>MORE_INFO_PREFFIX</source>
+                <target>En savoir plus</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>VISUALIZE</source>
+                <target>Visualiser</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>PAGER</source>
+                <target>Paginateur</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>TELL_A_FRIEND</source>
+                <target>Recommander un ami</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>POPULAR_DESTINATIONS_HOME_TABS</source>
+                <target>Destinations populaires</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>LAST_ADDED_HOME_TABS</source>
+                <target>Dernières ajoutées</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>OFFERS_HOME_TABS</source>
+                <target>Offres</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>ECONOMIC_HOME_TABS</source>
+                <target>Bon marchés</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>MIDRANGE_HOME_TABS</source>
+                <target>Prix moyens </target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>PREMIUM_HOME_TABS</source>
+                <target>Premium</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>SEEMORE_LINK_TEXT</source>
+                <target>Voir plus[+]</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>POPULAR_DESTINATIONS_TOOLTIP_HOME_TAB</source>
+                <target>Voir plus de destinations populaires</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>LAST_ADDED_TOOLTIP_HOME_TAB</source>
+                <target>Voir les derniers logements ajoutés </target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>OFFERS_TOOLTIP_HOME_TAB</source>
+                <target>Voir plus d´offres</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>ECONOMIC_TOOLTIP_HOME_TAB</source>
+                <target>Voir plus de maisons économiques </target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>MIDRANGE_TOOLTIP_HOME_TAB</source>
+                <target>Voir plus de maisons milieu de gamme</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>PREMIUM_TOOLTIP_HOME_TAB</source>
+                <target>Voir plus de maisons Premium</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>FILTER_RANGE_PRICE</source>
+                <target>Par catégorie / par prix</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>ACCOMMODATION_SEARCH_TITLE</source>
+                <target> Rechercher un hébergement</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>SELECT_OPTION</source>
+                <target>(Choisissez)</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>FILTER_TYPE</source>
+                <target>Par type</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>LOADING_MESSAGE</source>
+                <target>en cours de chargement...</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>SEARCH_RESULT_ORDER_BY</source>
+                <target>Ranger par </target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>PRICE_LOW_HIGH_ORDER_BY</source>
+                <target>Prix / dans l’ordre croissant</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>PRICE_HIGH_LOW_ORDER_BY</source>
+                <target>Prix / dans l’ordre décroissant</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>BEST_VALUED_ORDER_BY</source>
+                <target>la plus réputée</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>WORST_VALUED_ORDER_BY</source>
+                <target> la moins réputée </target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>A_Z_ORDER_BY</source>
+                <target>Alphabétiquement /A – Z</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>Z_A_ORDER_BY</source>
+                <target>Alphabétiquement /Z - A</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>LIST_VIEW_RESULTS</source>
+                <target>Voir les résultats sous forme de liste </target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>PHOTO_VIEW_RESULTS</source>
+                <target>Voir les résultats sous forme de mosaïques </target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>MAP_VIEW_RESULTS</source>
+                <target>Voir résultats sur la carte.</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>LAST_ADDED_BREADCRUMB</source>
+                <target>Dernières ajoutées</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>LIST_BY_CATEGORIES_BREADCRUMB</source>
+                <target>Liste par Catégories</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>PHOTO_TAB_DETAILS</source>
+                <target>Photos</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>NEARBY_HOUSES_DETAILS</source>
+                <target>Maisons proches</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>MORE_IN_DETAILS</source>
+                <target>Plus à</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>MORE_DESTINATIONS_DETAILS</source>
+                <target>Voir plus de destinations </target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>SEE_ALL_DETAILS</source>
+                <target>(voir toutes)</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>MAPS_TAB_DETAILS</source>
+                <target>Cartes</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>DESCRIPTION_TAB_DETAILS</source>
+                <target>Description</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>SERVICES_TAB_DETAILS</source>
+                <target>Services</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>ROOMS_TAB_DETAILS</source>
+                <target>Chambres</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>TYPE_TAB_DESCRIPTION</source>
+                <target>Types</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>CAPACITY_TAB_DESCRIPTION</source>
+                <target>Capacité</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>BEDROOMS_TAB_DESCRIPTION</source>
+                <target>Chambres</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>CITY_TAB_DESCRIPTION</source>
+                <target>Ville</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>PROVINCE_TAB_DESCRIPTION</source>
+                <target>Province</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>SERVICES_TAB_DESCRIPTION</source>
+                <target>Services</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>BREAKFAST_TAB_DESCRIPTION</source>
+                <target>Petit-déjeuner</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>YES</source>
+                <target>Oui</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>DINNER_TAB_DESCRIPTION</source>
+                <target>Dîner</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>PARKING_TAB_DESCRIPTION</source>
+                <target>Garage</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>BIKE_PARKING_TAB_DESCRIPTION</source>
+                <target>Garage à bicyclettes </target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>PETS_TAB_DESCRIPTION</source>
+                <target>Mascottes</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>LAUNDRY_TAB_DESCRIPTION</source>
+                <target>Lessive</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>INTERNET_TAB_DESCRIPTION</source>
+                <target>Internet / Courrier électronique</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>JACUZEE_TAB_DESCRIPTION</source>
+                <target>Jacuzzi</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>SAUNA_TAB_DESCRIPTION</source>
+                <target>Sauna</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>POOL_TAB_DESCRIPTION</source>
+                <target>Piscine</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>UP_SEASON_ROOMS</source>
+                <target>Haute saison</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>DOWN_SEASON_ROOMS</source>
+                <target>Basse saison</target>
+            </trans-unit>
+            <trans-unit id="129">
+                <source>BEDS_ROOMS</source>
+                <target>Lits</target>
+            </trans-unit>
+            <trans-unit id="130">
+                <source>MAIN_FEATURES_ROOMS</source>
+                <target>Caractéristiques Principales</target>
+            </trans-unit>
+            <trans-unit id="131">
+                <source>CLIMATIZATION_ROOMS</source>
+                <target>Climatisation</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>WINDOWS_ROOMS</source>
+                <target>Fenêtres</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>BALCONY_ROOMS</source>
+                <target>Balcon</target>
+            </trans-unit>
+            <trans-unit id="134">
+                <source>TERRACE_ROOMS</source>
+                <target>Terrasse</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>YARD_ROOMS</source>
+                <target>Cour</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>NO</source>
+                <target>Non</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>AUDIOVISUALS_ROOMS</source>
+                <target>Audiovisuels</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>BATHROOM_ROOMS</source>
+                <target>Salle de bain</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>OTHERS_ROOMS</source>
+                <target>autres</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>SMOKER_ROOMS</source>
+                <target>Fumeur</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>SAFE_ROOMS</source>
+                <target>Coffre-fort</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>STEREO_ROOMS</source>
+                <target>Stéréo</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>KIDS_ROOMS</source>
+                <target>Lit de bébé</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>FROM_PRICES</source>
+                <target>À partir de </target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>BYNIGHTS_PRICES</source>
+                <target>Pour nuit </target>
+            </trans-unit>
+            <trans-unit id="146">
+                <source>ARRIVAL_RESERVATION</source>
+                <target>Arrivée</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>DEPARTURE_RESERVATION</source>
+                <target>Départ</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>GUESTS_RESERVATION</source>
+                <target>Personnes</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>SUBTOTAL_RESERVATION</source>
+                <target>Sous total</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>RESERVE_RESERVATION</source>
+                <target>Réservez</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>CLEANING_TAX_RESERVATION</source>
+                <target>Inclut tarif  de ménage</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>ADD_FAVORITIES_DETAILS</source>
+                <target>Ajouter à mes favoris </target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>NAME_COMMENTS_DETAILS</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>MAIL_COMMENTS_DETAILS</source>
+                <target>Adresse e-mail</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>TEXT_COMMENTS_DETAILS</source>
+                <target>Commentaire</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>REQUIERED_TEXT_VALIDATOR_COMMENTS_DETAILS</source>
+                <target>Les champs marqués (*) sont obligatoires.</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>QUEST_COMMENTS_DETAILS</source>
+                <target>Recommanderez-vous ce logement pour passer les vacances?</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>5_STARS_COMMENTS_DETAILS</source>
+                <target>Un logement excellent!!</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>4_STARS_COMMENTS_DETAILS</source>
+                <target>Oui, j’ai aimé ce logement.</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>3_STARS_COMMENTS_DETAILS</source>
+                <target>Normal.</target>
+            </trans-unit>
+            <trans-unit id="161">
+                <source>2_STARS_COMMENTS_DETAILS</source>
+                <target>Je n’ai pas aimé ce logement.</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>1_STARS_COMMENTS_DETAILS</source>
+                <target>Je ne le recommanderais pas.</target>
+            </trans-unit>
+            <trans-unit id="163">
+                <source>SEND_COMMENT_DETAILS</source>
+                <target>Envoyer</target>
+            </trans-unit>
+            <trans-unit id="164">
+                <source>SIMILAR_OWNERSHIPS_DETAILS</source>
+                <target>Propriétés similaires</target>
+            </trans-unit>
+            <trans-unit id="165">
+                <source>LISTINGS_TEXT_DETAILS</source>
+                <target>éléments</target>
+            </trans-unit>
+            <trans-unit id="166">
+                <source>SEE_MORE_OWNERSHIPS_DETAILS</source>
+                <target>Voir plus de maisons</target>
+            </trans-unit>
+            <trans-unit id="167">
+                <source>IN</source>
+                <target>à</target>
+            </trans-unit>
+            <trans-unit id="168">
+                <source>ROOM_SINGULAR</source>
+                <target>chambre</target>
+            </trans-unit>
+            <trans-unit id="169">
+                <source>ROOM_PLURAL</source>
+                <target>chambres</target>
+            </trans-unit>
+            <trans-unit id="170">
+                <source>NIGHT_PER_ROOM</source>
+                <target>nuit/chambre</target>
+            </trans-unit>
+            <trans-unit id="171">
+                <source>LAST_ADDED_PAGE_TITLE</source>
+                <target>dernières ajoutées</target>
+            </trans-unit>
+            <trans-unit id="172">
+                <source>OWNERSHIP_ECONOMY_CATEGORYPAGE_TITLE</source>
+                <target> Liste de logements économiques</target>
+            </trans-unit>
+            <trans-unit id="173">
+                <source>OWNERSHIP_MID_RANGE_CATEGORYPAGE_TITLE</source>
+                <target>Liste de logements à prix moyens</target>
+            </trans-unit>
+            <trans-unit id="174">
+                <source>OWNERSHIP_PREMIUM_CATEGORYPAGE_TITLE</source>
+                <target>Liste de logements Premium</target>
+            </trans-unit>
+            <trans-unit id="175">
+                <source>MID_RANGE_OWNERSHIP</source>
+                <target>Hébergements prix moyens</target>
+            </trans-unit>
+            <trans-unit id="176">
+                <source>ECONOMY_OWNERSHIP</source>
+                <target>Hébergements économiques</target>
+            </trans-unit>
+            <trans-unit id="177">
+                <source>PREMIUM_OWNERSHIP</source>
+                <target>	Hébergements Premium</target>
+            </trans-unit>
+            <trans-unit id="178">
+                <source>OFFERS_PAGE_TITLE</source>
+                <target>Offres</target>
+            </trans-unit>
+            <trans-unit id="179">
+                            <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
+                            <target>Les meilleures destinations touristiques de Cuba  </target>
+                        </trans-unit>
+            <trans-unit id="180">
+                <source>ALL_ITEMS</source>
+                <target>(Toutes)</target>
+            </trans-unit>
+            <trans-unit id="181">
+                <source>SEARCH_RESULTS_PAGE_TITLE</source>
+                <target>Les meilleures chambres chez l’habitant à Cuba  </target>
+            </trans-unit>
+            <trans-unit id="182">
+                <source>ROOM_FEATURES_HEADING_FILTER</source>
+                <target>Caractéristiques de la chambre</target>
+            </trans-unit>
+            <trans-unit id="183">
+                <source>SINGLE_ROOM_FILTER</source>
+                <target>Individuelle</target>
+            </trans-unit>
+            <trans-unit id="184">
+                <source>DOUBLE_ROOM_FILTER</source>
+                <target>Double</target>
+            </trans-unit>
+            <trans-unit id="185">
+                <source>DOUBLE_2_BEDS_FILTER</source>
+                <target>Double (lits jumeaux)</target>
+            </trans-unit>
+            <trans-unit id="186">
+                <source>TRIPLE_ROOM_FILTER</source>
+                <target>Triple</target>
+            </trans-unit>
+            <trans-unit id="187">
+                <source>AIR_CONDITIONING_FILTER</source>
+                <target>Climatisation</target>
+            </trans-unit>
+            <trans-unit id="188">
+                <source>AUDIOVISUALS_FILTER</source>
+                <target>Audiovisuels</target>
+            </trans-unit>
+            <trans-unit id="189">
+                <source>KIDS_FILTER</source>
+                <target>Facilités pour bébés (berceau)</target>
+            </trans-unit>
+            <trans-unit id="190">
+                <source>SMOKER_FILTER</source>
+                <target>Fumeur</target>
+            </trans-unit>
+            <trans-unit id="191">
+                <source>SAFE_FILTER</source>
+                <target>Coffre-fort</target>
+            </trans-unit>
+            <trans-unit id="192">
+                <source>BREAKFAST_FILTER</source>
+                <target>Petit-déjeuner inclus</target>
+            </trans-unit>
+            <trans-unit id="193">
+                <source>WINDOWS_FILTER</source>
+                <target>fenêtres</target>
+            </trans-unit>
+            <trans-unit id="194">
+                <source>BALCONY_FILTER</source>
+                <target>Balcon</target>
+            </trans-unit>
+            <trans-unit id="195">
+                <source>TERRACE_FILTER</source>
+                <target>Terrasse</target>
+            </trans-unit>
+            <trans-unit id="196">
+                <source>COURTYARD_FILTER</source>
+                <target>Cour</target>
+            </trans-unit>
+            <trans-unit id="197">
+                <source>BATHROOM_TYPES_HEADING_FILTER</source>
+                <target>Toilettes</target>
+            </trans-unit>
+            <trans-unit id="198">
+                <source>INNER_PRIVATE_BATHROOM_FILTER</source>
+                <target>Intérieur Privé</target>
+            </trans-unit>
+            <trans-unit id="199">
+                <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
+                <target>Extérieur Privé</target>
+            </trans-unit>
+            <trans-unit id="200">
+                <source>SHARED_BATHROOM_FILTER</source>
+                <target>Extérieur partagé</target>
+            </trans-unit>
+            <trans-unit id="201">
+                <source>SAUNA_BATHROOM_FILTER</source>
+                <target>Sauna</target>
+            </trans-unit>
+            <trans-unit id="202">
+                <source>JACUZZI_BATROOM_FILTER</source>
+                <target>Jacuzzi</target>
+            </trans-unit>
+            <trans-unit id="203">
+                <source>OTHER_SERVICES_HEADING_FILTER</source>
+                <target>D’autres services</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>DINNER_OTHERS_FILTER</source>
+                <target>Dîner</target>
+            </trans-unit>
+            <trans-unit id="205">
+                <source>PARKING_THERS_FILTER</source>
+                <target>Parking</target>
+            </trans-unit>
+            <trans-unit id="206">
+                <source>PETS_OTHERS_FILTER</source>
+                <target>Mascottes</target>
+            </trans-unit>
+            <trans-unit id="207">
+                <source>LAUNDRY_OTHERS_FILTER</source>
+                <target>Lessive</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>POOL_OTHERS_FILTER</source>
+                <target>Piscine</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>INTERNET_OTHERS_FILTER</source>
+                <target>Internet / courrier électronique</target>
+            </trans-unit>
+            <trans-unit id="210">
+                <source>ALL_ITEMS_M</source>
+                <target>(Toutes)</target>
+            </trans-unit>
+            <trans-unit id="211">
+                <source>USER_COMMENTS_TAB</source>
+                <target>Opinions des utilisateurs</target>
+            </trans-unit>
+            <trans-unit id="212">
+                <source>FRIENDS_COMMENTS_TAB</source>
+                <target>Amis</target>
+            </trans-unit>
+            <trans-unit id="213">
+                <source>RATINGS_TEXT_1</source>
+                <target>Évaluation</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>RATINGS_TEXT_2</source>
+                <target>de ce logement</target>
+            </trans-unit>
+            <trans-unit id="215">
+                <source>RECOMENDS_RATINGS</source>
+                <target>Recommandations</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>TOTAL_RECOMENDS_RATING</source>
+                <target>cette maison a un total %total_recomends% recommandations</target>
+            </trans-unit>
+            <trans-unit id="217">
+                <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
+                <target> Restaurer mot de passe</target>
+            </trans-unit>
+            <trans-unit id="218">
+                <source>PASSWORD_RECOVERY_SUBTITLE</source>
+                <target>Restaurer mot de passe</target>
+            </trans-unit>
+            <trans-unit id="219">
+                <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
+                <target>Réinitialiser le mot de passe</target>
+            </trans-unit>
+            <trans-unit id="220">
+                <source>USER_REGISTRATION_PAGE_TITLE</source>
+                <target>Inscrivez-vous</target>
+            </trans-unit>
+            <trans-unit id="221">
+                <source>USER_REGISTRATION_SUBTITLE</source>
+                <target>Inscrivez-vous</target>
+            </trans-unit>
+            <trans-unit id="222">
+                <source>PRIVATE_POLICY_USER_REGISTRATION</source>
+                <target> J’accepte les règles de confidentialité de MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="223">
+                <source>NEWSLETTER_USER_REGISTRATION</source>
+                <target>Je veux recevoir les newsletters de MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="224">
+                <source>REGISTER_USER_REGISTRATION</source>
+                <target>S’inscrire</target>
+            </trans-unit>
+            <trans-unit id="225">
+                <source>REGISTER_LOGIN_USER_REGISTRATION</source>
+                <target>Êtes-vous déjà inscrit? Authentifiez-vous ici!</target>
+            </trans-unit>
+            <trans-unit id="226">
+                <source>REGISTER_CONFIRMATION_PAGE_TITLE</source>
+                <target>Renvoyer des instructions de confirmation</target>
+            </trans-unit>
+            <trans-unit id="227">
+                <source>REGISTER_CONFIRMATION_SUBTITLE</source>
+                <target>Renvoyer des instructions de confirmation</target>
+            </trans-unit>
+            <trans-unit id="228">
+                <source>REGISTER_CONFIRMATION_BUTTON</source>
+                <target>Réinitialiser mot de passe</target>
+            </trans-unit>
+            <trans-unit id="229">
+                <source>FORGOT_PASSWORD_PAGE_TITLE</source>
+                <target>mot de passe oublié?</target>
+            </trans-unit>
+            <trans-unit id="230">
+                <source>FORGOT_PASSWORD_SUBTITLE</source>
+                <target>mot de passe oublié?</target>
+            </trans-unit>
+            <trans-unit id="231">
+                <source>FORGOT_PASSWORD_BUTTON</source>
+                <target>Réinitialiser mot de passe</target>
+            </trans-unit>
+            <trans-unit id="232">
+                <source>EMPTY_LIST</source>
+                <target>Il n’y a pas de résultats pour votre recherche</target>
+            </trans-unit>
+            <trans-unit id="233">
+                <source>ADD_TO_FAVORITIES</source>
+                <target>Ajouter à favorites</target>
+            </trans-unit>
+            <trans-unit id="234">
+                <source>Económica</source>
+                <target>Bon marchés</target>
+            </trans-unit>
+            <trans-unit id="235">
+                <source>Rango medio</source>
+                <target>Prix moyens</target>
+            </trans-unit>
+            <trans-unit id="236">
+                <source>Premium</source>
+                <target>Premium</target>
+            </trans-unit>
+            <trans-unit id="237">
+                <source>TV</source>
+                <target>TV</target>
+            </trans-unit>
+            <trans-unit id="238">
+                <source>TV+DVD / Video</source>
+                <target> TV+DVD / Vidéo</target>
+            </trans-unit>
+            <trans-unit id="239">
+                <source>TV cable</source>
+                <target>TV câbles</target>
+            </trans-unit>
+            <trans-unit id="240">
+                <source>Interior privado</source>
+                <target>Intérieur privé</target>
+            </trans-unit>
+            <trans-unit id="241">
+                <source>Exterior privado</source>
+                <target>Extérieur privé</target>
+            </trans-unit>
+            <trans-unit id="242">
+                <source>Compartido</source>
+                <target>Partagé</target>
+            </trans-unit>
+            <trans-unit id="243">
+                <source>Natural</source>
+                <target>Naturel</target>
+            </trans-unit>
+            <trans-unit id="244">
+                <source>Ventilador</source>
+                <target>Ventilateur</target>
+            </trans-unit>
+            <trans-unit id="245">
+                <source>Aire acondicionado</source>
+                <target>Air conditionné</target>
+            </trans-unit>
+            <trans-unit id="246">
+                <source>Habitación individual</source>
+                <target>Chambre individuelle</target>
+            </trans-unit>
+            <trans-unit id="247">
+                <source>Habitación doble</source>
+                <target>Chambre double</target>
+            </trans-unit>
+            <trans-unit id="248">
+                <source>Habitación doble (Dos camas)</source>
+                <target>Chambre double (lits jumeaux)</target>
+            </trans-unit>
+            <trans-unit id="249">
+                <source>Habitación Triple</source>
+                <target>Chambre triple</target>
+            </trans-unit>
+            <trans-unit id="250">
+                <source>Penthouse</source>
+                <target>Penthouse</target>
+            </trans-unit>
+            <trans-unit id="251">
+                <source>Villa con piscina</source>
+                <target>Villa avec piscine</target>
+            </trans-unit>
+            <trans-unit id="252">
+                <source>Apartamento</source>
+                <target>Appartement</target>
+            </trans-unit>
+            <trans-unit id="253">
+                <source>Propiedad completa</source>
+                <target>Propriété complète</target>
+            </trans-unit>
+            <trans-unit id="254">
+                <source>Casa particular</source>
+                <target>Chambrez chez l’habitant</target>
+            </trans-unit>
+            <trans-unit id="255">
+                <source>REMOVE_FAVORITIES_DETAILS</source>
+                <target>Supprimer des favoris</target>
+            </trans-unit>
+            <trans-unit id="256">
+                <source>TO_PRICES</source>
+                <target> jusqu’à</target>
+            </trans-unit>
+            <trans-unit id="257">
+                <source>CATEGORY_TAB_DESCRIPTION</source>
+                <target>Catégorie</target>
+            </trans-unit>
+            <trans-unit id="258">
+                <source>CATEGORY</source>
+                <target>Catégorie</target>
+            </trans-unit>
+            <trans-unit id="259">
+                <source>GO_DESTINATION_TITLE</source>
+                <target>Voir liste de destinations</target>
+            </trans-unit>
+            <trans-unit id="260">
+                <source>NAME_REQUIERED_MESSAGE</source>
+                <target> Le nom ne peut pas être vide</target>
+            </trans-unit>
+            <trans-unit id="261">
+                <source>EMAIL_REQUIERED_MESSAGE</source>
+                <target>L’e-mail ne peut pas être vide</target>
+            </trans-unit>
+            <trans-unit id="262">
+                <source>EMAIL_INVALID_MESSAGE</source>
+                <target> L’adresse e-mail n’est pas valide</target>
+            </trans-unit>
+
+            <trans-unit id="11928">
+                                        <source>find_partner</source>
+                                        <target>Pour des agences de voyage.</target>
+                                      </trans-unit>
+                                       <trans-unit id="11929">
+                                                      <source>hazte_partner</source>
+                                                      <target>Devenez Partenaire</target>
+                                                    </trans-unit>
+
+
+            <trans-unit id="263">
+                <source>COMMENTTEXT_REQUIERED_MESSAGE</source>
+                <target>Le commentaire ne peut  pas être vide</target>
+            </trans-unit>
+            <trans-unit id="264">
+                <source>COMMENT_INSERTED</source>
+                <target>Le commentaire a été enregistré</target>
+            </trans-unit>
+            <trans-unit id="265">
+                <source>OWNERSHIP_FEATURES_HEADING_FILTER</source>
+                <target>Caractéristiques du logement</target>
+            </trans-unit>
+            <trans-unit id="266">
+                <source>SELECT_RESERVATION_TYPE_OPTION</source>
+                <target>(Façon de réserver)</target>
+            </trans-unit>
+            <trans-unit id="267">
+                <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
+                <target>Type de propriété</target>
+            </trans-unit>
+            <trans-unit id="268">
+                <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
+                <target> Catégorie de la maison</target>
+            </trans-unit>
+            <trans-unit id="269">
+                <source>SELECT_OWNERSHIP_PRICES_OPTION</source>
+                <target>Prix</target>
+            </trans-unit>
+            <trans-unit id="270">
+                <source>ROOM_TOTAL_WATERMARK</source>
+                <target>Nombre de chambres</target>
+            </trans-unit>
+            <trans-unit id="271">
+                <source>SELECT_ROOM_TYPE_OPTION</source>
+                <target>Type de chambre</target>
+            </trans-unit>
+            <trans-unit id="272">
+                <source>ROOM_WINDOWS</source>
+                <target>Fenêtres</target>
+            </trans-unit>
+            <trans-unit id="273">
+                <source>ROOM_BEDS</source>
+                <target>Nombre de lits</target>
+            </trans-unit>
+            <trans-unit id="274">
+                <source>SELECT_BATHROOM_TYPE_OPTION</source>
+                <target>Type de salle de bain</target>
+            </trans-unit>
+            <trans-unit id="275">
+                <source>OTHER_HEADING_FILTER</source>
+                <target>Autres caractéristiques du logement</target>
+            </trans-unit>
+            <trans-unit id="276">
+                <source>SELECT_OTHER_LANGUAGE_OPTION</source>
+                <target>Langues parlées dans la maison</target>
+            </trans-unit>
+            <trans-unit id="277">
+                <source>LANG_ENGLISH</source>
+                <target> Anglais</target>
+            </trans-unit>
+            <trans-unit id="278">
+                <source>LANG_FRENCH</source>
+                <target>Français</target>
+            </trans-unit>
+            <trans-unit id="279">
+                <source>LANG_GERMAN</source>
+                <target>Allemand</target>
+            </trans-unit>
+            <trans-unit id="280">
+                <source>LANG_ITALIAN</source>
+                <target>Italien</target>
+            </trans-unit>
+            <trans-unit id="281">
+                <source>SELECT_INCLUDE_IN_PRICE_OPTION</source>
+                <target>Services compris dans le prix</target>
+            </trans-unit>
+            <trans-unit id="282">
+                <source>SELECT_NOT_INCLUDE_IN_PRICE_OPTION</source>
+                <target>Services non compris dans le prix</target>
+            </trans-unit>
+            <trans-unit id="283">
+                <source>SELECT_ROOM_OTHER</source>
+                <target>D’autres</target>
+            </trans-unit>
+            <trans-unit id="284">
+                <source>RESETVATION_BREADCRUMB</source>
+                <target>Réservation</target>
+            </trans-unit>
+            <trans-unit id="285">
+                <source>RESERVATION_REVIEW</source>
+                <target>Révision</target>
+            </trans-unit>
+            <trans-unit id="286">
+                <source>RESERVATION_RESERVE</source>
+                <target>Réserver</target>
+            </trans-unit>
+            <trans-unit id="287">
+                <source>RESERVATION_PAYMENT</source>
+                <target>Paiement</target>
+            </trans-unit>
+            <trans-unit id="288">
+                <source>RESERVATION_CONFIRMATION</source>
+                <target>Confirmation</target>
+            </trans-unit>
+            <trans-unit id="289">
+                <source>RESERVATION_OWNERSHIP</source>
+                <target>Propriété</target>
+            </trans-unit>
+            <trans-unit id="290">
+                <source>RESERVATION_DATE</source>
+                <target>Date</target>
+            </trans-unit>
+            <trans-unit id="291">
+                <source>RESERVATION_ROOM</source>
+                <target>Chambre</target>
+            </trans-unit>
+            <trans-unit id="292">
+                <source>RESERVATION_GUESTS</source>
+                <target>Personnes</target>
+            </trans-unit>
+            <trans-unit id="293">
+                <source>RESERVATION_BYBED</source>
+                <target>Pour lit</target>
+            </trans-unit>
+            <trans-unit id="294">
+                <source>RESERVATION_TOTAL</source>
+                <target>Total</target>
+            </trans-unit>
+            <trans-unit id="295">
+                <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
+                <target>Las chambres triples ont un supplément de $10</target>
+            </trans-unit>
+            <trans-unit id="296">
+                <source>RESERVATION_TOTAL_PRICE</source>
+                <target>Prix total:</target>
+            </trans-unit>
+            <trans-unit id="297">
+                <source>RESERVATION_CHECK_AVAILABILITY</source>
+                <target>Consulter disponibilité</target>
+            </trans-unit>
+            <trans-unit id="298">
+                <source>RESERVATION_TITLE</source>
+                <target>Réservations</target>
+            </trans-unit>
+            <trans-unit id="299">
+                <source>RESERVATION_ROOMS</source>
+                <target>Chambres</target>
+            </trans-unit>
+            <trans-unit id="300">
+                <source>RESERVATION_PRICES_FOR</source>
+                <target>Prix pour</target>
+            </trans-unit>
+            <trans-unit id="301">
+                <source>RESERVATION_ROOM_TYPE</source>
+                <target>Type de chambre</target>
+            </trans-unit>
+            <trans-unit id="302">
+                <source>RESERVATION_SELECTED_ROOM</source>
+                <target>chambres choisies</target>
+            </trans-unit>
+            <trans-unit id="303">
+                <source>RESERVATION_TYPE</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="304">
+                <source>RESERVATION_ROOM_NUMBER</source>
+                <target>Nombre de chambres</target>
+            </trans-unit>
+            <trans-unit id="305">
+                <source>RESERVATION_PRICE</source>
+                <target>Prix</target>
+            </trans-unit>
+            <trans-unit id="306">
+                <source>Tue</source>
+                <target>Mar.</target>
+            </trans-unit>
+            <trans-unit id="307">
+                <source>Wed</source>
+                <target>Mer</target>
+            </trans-unit>
+            <trans-unit id="308">
+                <source>Thu</source>
+                <target>Jeu.</target>
+            </trans-unit>
+            <trans-unit id="309">
+                <source>Fri</source>
+                <target>Ven.</target>
+            </trans-unit>
+            <trans-unit id="310">
+                <source>Sat</source>
+                <target>Sam.</target>
+            </trans-unit>
+            <trans-unit id="311">
+                <source>Sun</source>
+                <target>Dim.</target>
+            </trans-unit>
+            <trans-unit id="312">
+                <source>Mon</source>
+                <target>Lun.</target>
+            </trans-unit>
+            <trans-unit id="313">
+                <source>RESERVATION_SEE_PRICES</source>
+                <target>Voir prix</target>
+            </trans-unit>
+            <trans-unit id="314">
+                <source>TOTAL</source>
+                <target>Total</target>
+            </trans-unit>
+            <trans-unit id="315">
+                <source>CUC_NAME</source>
+                <target>Peso Cubain Convertible</target>
+            </trans-unit>
+            <trans-unit id="316">
+                <source>ABOUT_US</source>
+                <target> Qui sommes-nous?</target>
+            </trans-unit>
+            <trans-unit id="317">
+                <source>ABOUT_US_CONTENT</source>
+                <target>Description pour qui sommes-nous</target>
+            </trans-unit>
+            <trans-unit id="318">
+                <source>LEGAL_TERMS_CONTENT</source>
+                <target>Description pour Conditions légales d’utilisation</target>
+            </trans-unit>
+            <trans-unit id="319">
+                <source>TERM_COND</source>
+                <target>Conditions d’utilisation</target>
+            </trans-unit>
+            <trans-unit id="320">
+                <source>TERM_COND_CONTENT</source>
+                <target> Description pour conditions d’utilisation</target>
+            </trans-unit>
+            <trans-unit id="321">
+                <source>SECURITY_PRIVACITY</source>
+                <target>Sécurité et confidentialité</target>
+            </trans-unit>
+            <trans-unit id="322">
+                <source>SECURITY_PRIVACITY_CONTENT</source>
+                <target> Description pour sécurité et confidentialité</target>
+            </trans-unit>
+            <trans-unit id="323">
+                <source>FAQ_PAGE_TITLE</source>
+                <target>Questions  fréquentes</target>
+            </trans-unit>
+            <trans-unit id="324">
+                <source>FAQ_PAGE_CONTENT</source>
+                <target>Contenu des questions  fréquentes</target>
+            </trans-unit>
+            <trans-unit id="325">
+                <source>TOP_OWNERSHIP_TITLE</source>
+                <target>Les meilleures maisons</target>
+            </trans-unit>
+            <trans-unit id="326">
+                <source>VOTING</source>
+                <target>Classements</target>
+            </trans-unit>
+            <trans-unit id="327">
+                <source>TOP_OWNERSHIP</source>
+                <target> Les meilleures maisons</target>
+            </trans-unit>
+            <trans-unit id="328">
+                <source>TOP_RATED_TITLE</source>
+                <target>Avec plus d’étoiles</target>
+            </trans-unit>
+            <trans-unit id="329">
+                <source>TOP_RATED</source>
+                <target> Avec plus d’étoiles</target>
+            </trans-unit>
+            <trans-unit id="330">
+                <source>ABOUT_MYCP</source>
+                <target>À propos</target>
+            </trans-unit>
+            <trans-unit id="331">
+                <source>TESTIMONIES</source>
+                <target>Témoignages</target>
+            </trans-unit>
+            <trans-unit id="332">
+                <source>PRESS</source>
+                <target>Presse</target>
+            </trans-unit>
+            <trans-unit id="333">
+                <source>PARTNERS</source>
+                <target>Partenaires</target>
+            </trans-unit>
+            <trans-unit id="334">
+                <source>JOBS</source>
+                <target> Emplois
+                         </target>
+            </trans-unit>
+            <trans-unit id="335">
+                <source>OUR_SERVICES</source>
+                <target>Nos services</target>
+            </trans-unit>
+            <trans-unit id="336">
+                <source>SERVICE_GUARANTEE</source>
+                <target>Garantie du service</target>
+            </trans-unit>
+            <trans-unit id="337">
+                <source>SERVICE_GUARANTEE_CONTENT</source>
+                <target>Description pour garantie des services</target>
+            </trans-unit>
+            <trans-unit id="338">
+                <source>TESTIMONIES_CONTENT</source>
+                <target>Description pour témoignages</target>
+            </trans-unit>
+            <trans-unit id="339">
+                <source>PRESS_CONTENT</source>
+                <target>Description pour presse</target>
+            </trans-unit>
+            <trans-unit id="340">
+                <source>PARTNERS_CONTENT</source>
+                <target>Description pour partenaires</target>
+            </trans-unit>
+            <trans-unit id="341">
+                <source>JOBS_CONTENT</source>
+                <target>Description pour emplois</target>
+            </trans-unit>
+            <trans-unit id="342">
+                <source>OWNERSHIPS_LOWER</source>
+                <target>logement(s)</target>
+            </trans-unit>
+            <trans-unit id="343">
+                <source>ROOM_WATERMARK</source>
+                <target> 1 Chambre</target>
+            </trans-unit>
+            <trans-unit id="344">
+                <source>GUESTS</source>
+                <target>Personnes</target>
+            </trans-unit>
+            <trans-unit id="345">
+                <source>ROOMS</source>
+                <target>Chambres</target>
+            </trans-unit>
+            <trans-unit id="346">
+                <source>ADD_FAVORITIES</source>
+                <target> Ajouter à favoris</target>
+            </trans-unit>
+            <trans-unit id="347">
+                <source>ADULTS</source>
+                <target>Adultes</target>
+            </trans-unit>
+            <trans-unit id="348">
+                <source>KIDS</source>
+                <target>Enfants</target>
+            </trans-unit>
+            <trans-unit id="349">
+                <source>SEND</source>
+                <target>Envoyer</target>
+            </trans-unit>
+            <trans-unit id="350">
+                <source>SITEMAP</source>
+                <target>Plan du site</target>
+            </trans-unit>
+            <trans-unit id="351">
+                <source>SITEMAP_CONTENT</source>
+                <target>Description pour plan du site</target>
+            </trans-unit>
+            <trans-unit id="352">
+                <source>HOW_IT_WORKS_CONTENT</source>
+                <target>Description pour comment ça marche</target>
+            </trans-unit>
+            <trans-unit id="353">
+                <source>USER_COMUNITY</source>
+                <target>Communauté d’utilisateurs</target>
+            </trans-unit>
+            <trans-unit id="354">
+                <source>FIRST_PAGE</source>
+                <target>Première</target>
+            </trans-unit>
+            <trans-unit id="355">
+                <source>LAST_PAGE</source>
+                <target>Dernière</target>
+            </trans-unit>
+            <trans-unit id="356">
+                <source>VISITS</source>
+                <target>Visites</target>
+            </trans-unit>
+            <trans-unit id="357">
+                <source>OWNERSHIPS</source>
+                <target>Logements</target>
+            </trans-unit>
+            <trans-unit id="358">
+                <source>FORMS_NAME</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="359">
+                <source>FORMS_LASTNAME</source>
+                <target>Noms</target>
+            </trans-unit>
+            <trans-unit id="360">
+                <source>FORMS_EMAIL</source>
+                <target> e-mail</target>
+            </trans-unit>
+            <trans-unit id="361">
+                <source>FORMS_PHONE</source>
+                <target>Numéro de téléphone</target>
+            </trans-unit>
+            <trans-unit id="362">
+                <source>FORMS_COMMENTS</source>
+                <target>Remarques</target>
+            </trans-unit>
+            <trans-unit id="363">
+                <source>FORMS_NAME_LASTNAME_OWNER</source>
+                <target>Prénom et noms du propriétaire</target>
+            </trans-unit>
+            <trans-unit id="364">
+                <source>FORMS_OWN_NAME</source>
+                <target>Nom de la propriété</target>
+            </trans-unit>
+            <trans-unit id="365">
+                <source>FORMS_REPEAT</source>
+                <target>Répéter</target>
+            </trans-unit>
+            <trans-unit id="366">
+                <source>FORMS_PROVINCE</source>
+                <target>Province</target>
+            </trans-unit>
+            <trans-unit id="367">
+                <source>FORMS_MUNICIPALITY</source>
+                <target>Commune</target>
+            </trans-unit>
+            <trans-unit id="368">
+                <source>CONTACT_US_TOURIST_HEADER</source>
+                <target>Formulaire pour le touriste</target>
+            </trans-unit>
+            <trans-unit id="369">
+                <source>CONTACT_US_OWNER_HEADER</source>
+                <target>Formulaire pour le propriétaire</target>
+            </trans-unit>
+            <trans-unit id="370">
+                <source>FORMS_PASSWORD</source>
+                <target>Mot de passe</target>
+            </trans-unit>
+            <trans-unit id="371">
+                <source>FORMS_REMEMBER_ME</source>
+                <target>Rappelez-moi sur cet ordinateur</target>
+            </trans-unit>
+            <trans-unit id="372">
+                <source>FORMS_IDENTIFY</source>
+                <target>Se connecter</target>
+            </trans-unit>
+            <trans-unit id="373">
+                <source>FORMS_FORGOT_PASSWORD_QUESTION</source>
+                <target> Avez-vous oublié votre mot de passe?</target>
+            </trans-unit>
+            <trans-unit id="374">
+                <source>FORMS_CONFIRMATION_QUESTION</source>
+                <target>N’avez-vous reçu la confirmation?
+                </target>
+            </trans-unit>
+            <trans-unit id="375">
+                <source>FORMS_CREATE_ACCOUNT_QUESTION</source>
+                <target>N’êtes-vous pas inscrit? Inscrivez-vous ici!</target>
+            </trans-unit>
+            <trans-unit id="376">
+                <source>FORMS_LOGIN_QUESTION</source>
+                <target>Êtes-vous déjà  inscrit? Connectez-vous ici!</target>
+            </trans-unit>
+            <trans-unit id="377">
+                <source>DELETE_FAVORITIES</source>
+                <target> Supprimer des favoris</target>
+            </trans-unit>
+            <trans-unit id="378">
+                <source>FAVORITIES_PAGE_DESCRIPTION</source>
+                <target>Description des favoris</target>
+            </trans-unit>
+            <trans-unit id="379">
+                <source>OPINIONS</source>
+                <target>Évaluations</target>
+            </trans-unit>
+            <trans-unit id="380">
+                <source>HISTORY</source>
+                <target>Historique</target>
+            </trans-unit>
+            <trans-unit id="381">
+                <source>CONSULTS</source>
+                <target>Connexions</target>
+            </trans-unit>
+            <trans-unit id="382">
+                <source>RESERVES</source>
+                <target>Réservations</target>
+            </trans-unit>
+            <trans-unit id="383">
+                <source>RESERVED</source>
+                <target>Réservées</target>
+            </trans-unit>
+            <trans-unit id="384">
+                <source>PAYMENT_CONFIRM</source>
+                <target>Confirmées paiements</target>
+            </trans-unit>
+            <trans-unit id="385">
+                <source>DISPONIBILITY</source>
+                <target>Disponibilité</target>
+            </trans-unit>
+            <trans-unit id="386">
+                <source>RESPONSE_PENDING</source>
+                <target>En attente de réponse</target>
+            </trans-unit>
+            <trans-unit id="387">
+                <source>RESERVATIONS</source>
+                <target>Réservations</target>
+            </trans-unit>
+            <trans-unit id="388">
+                <source>FAV_DESTINATION</source>
+                <target>Destinations favorites</target>
+            </trans-unit>
+            <trans-unit id="389">
+                <source>FAV_OWNERSHIPS</source>
+                <target>Logements favoris</target>
+            </trans-unit>
+            <trans-unit id="390">
+                <source>HISTORY_DESTINATIONS</source>
+                <target> Destinations visitées</target>
+            </trans-unit>
+            <trans-unit id="391">
+                <source>HISTORY_OWNERSHIPS</source>
+                <target> Logements visités</target>
+            </trans-unit>
+            <trans-unit id="392">
+                <source>FOLLOW_US_YOUTUBE</source>
+                <target>Suivez-nous sur  Youtube</target>
+            </trans-unit>
+            <trans-unit id="393">
+                <source>FOLLOW_US_PINENTEREST</source>
+                <target> Suivez-nous sur  Pinterest</target>
+            </trans-unit>
+            <trans-unit id="394">
+                <source>SEND_TO_FRIEND</source>
+                <target>Recommander un  ami</target>
+            </trans-unit>
+            <trans-unit id="395">
+                <source>HIW_SEARCH_LINK</source>
+                <target>Recommandations</target>
+            </trans-unit>
+            <trans-unit id="396">
+                <source>HIW_SEARCH_CONTENT</source>
+                <target>Contenu rechercher</target>
+            </trans-unit>
+            <trans-unit id="397">
+                <source>HIW_CONTACT_TITLE</source>
+                <target>Contacter</target>
+            </trans-unit>
+            <trans-unit id="398">
+                <source>HIW_CONTACT_LINK</source>
+                <target>Contact spécifique</target>
+            </trans-unit>
+            <trans-unit id="399">
+                <source>HIW_CONTACT_CONTENT</source>
+                <target>Contenu contact</target>
+            </trans-unit>
+            <trans-unit id="400">
+                <source>HIW_RESERVE_TITLE</source>
+                <target>Réserver</target>
+            </trans-unit>
+            <trans-unit id="401">
+                <source>HIW_RESERVE_LINK</source>
+                <target>Logements libres</target>
+            </trans-unit>
+            <trans-unit id="402">
+                <source>HIW_RESERVE_CONTENT</source>
+                <target>Contenu/ réserver</target>
+            </trans-unit>
+            <trans-unit id="403">
+                <source>START_SEARCHING</source>
+                <target> Commencer la recherche</target>
+            </trans-unit>
+            <trans-unit id="404">
+                <source>HIW_TRAVEL_TITLE</source>
+                <target>Voyager</target>
+            </trans-unit>
+            <trans-unit id="405">
+                <source>HIW_TRAVEL_LINK</source>
+                <target>Transport à Cuba</target>
+            </trans-unit>
+            <trans-unit id="406">
+                <source>HIW_TRAVEL_CONTENT</source>
+                <target>Contenu de voyager  </target>
+            </trans-unit>
+            <trans-unit id="407">
+                <source>USER_RESEND_INSTRUCTIONS</source>
+                <target>Renvoyer des instructions de confirmation</target>
+            </trans-unit>
+            <trans-unit id="408">
+                <source>USER_INSTRUCTIONS_QUESTIONS</source>
+                <target> N’avez-vous reçu la confirmation?</target>
+            </trans-unit>
+            <trans-unit id="409">
+                <source>ALL_PROVINCES_TAB</source>
+                <target>Toutes les provinces à Cuba</target>
+            </trans-unit>
+            <trans-unit id="410">
+                <source>ADDRESS</source>
+                <target>Adresse</target>
+            </trans-unit>
+            <trans-unit id="411">
+                <source>ADDRESS_MCP_COUNTRY</source>
+                <target>Suisse</target>
+            </trans-unit>
+            <trans-unit id="412">
+                <source>COMMERCIAL_NUMBER_REGISTRY</source>
+                <target>Numéro de registre du commerce</target>
+            </trans-unit>
+            <trans-unit id="413">
+                <source>CONTACT_OWNER_QUESTION</source>
+                <target> Aimeriez-vous insérer une nouvelle maison de Cuba sur notre web?</target>
+            </trans-unit>
+            <trans-unit id="414">
+                <source>CONTACT_OWNER_FILL_FORM</source>
+                <target>S’il vous plaît, remplissez à ces fins le formulaire suivant ou écrivez-nous à:</target>
+            </trans-unit>
+            <trans-unit id="415">
+                <source>CONTACT_OWNER_FILL_FORM</source>
+                <target>Nous vous contacterons!</target>
+            </trans-unit>
+            <trans-unit id="416">
+                <source>DES_POBLATION</source>
+                <target>Population:</target>
+            </trans-unit>
+            <trans-unit id="417">
+                <source>DES_REF_PLACE</source>
+                <target>Référence:</target>
+            </trans-unit>
+            <trans-unit id="418">
+                <source>INFORMATION_PRO_TRAVELLER</source>
+                <target>Information professionnelle pour les voyageurs</target>
+            </trans-unit>
+            <trans-unit id="419">
+                <source>INFORMATION_PUBLICITY_HOUSES</source>
+                <target> Publicité des chambres chez l’habitant à Cuba</target>
+            </trans-unit>
+            <trans-unit id="420">
+                <source>POSSIBILITY_RESERVE_ONLINE</source>
+                <target> Possibilité d’effectuer votre réservation en ligne </target>
+            </trans-unit>
+            <trans-unit id="421">
+                <source>SOME_NUMBERS</source>
+                <target> Quelques chiffres</target>
+            </trans-unit>
+            <trans-unit id="422">
+                <source>FOUNDED_APRIL_2010</source>
+                <target> Fondé en avril 2010</target>
+            </trans-unit>
+            <trans-unit id="423">
+                <source>ACCOMMODATIONS_ALL_PROVINCES</source>
+                <target> Logements dans les 16 provinces</target>
+            </trans-unit>
+            <trans-unit id="424">
+                <source>RESERVATION_CONFIRM</source>
+                <target> Confirmation de réservation</target>
+            </trans-unit>
+            <trans-unit id="425">
+                <source>RESERVATION_CONFIRM_TITLE</source>
+                <target>Votre demande de réservation a été envoyée.</target>
+            </trans-unit>
+            <trans-unit id="426">
+                <source>RESERVATION_CONFIRM_SUBTITLE</source>
+                <target>Vous aurez une réponse dans votre courrier électronique sous 24 heures </target>
+            </trans-unit>
+            <trans-unit id="427">
+                <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
+                <target>D’autres logements peuvent être disponibles</target>
+            </trans-unit>
+            <trans-unit id="428">
+                <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
+                <target>  Nous vous conseillons de consulter les disponibilités d’autres logements pareils dans la même destination</target>
+            </trans-unit>
+            <trans-unit id="429">
+                <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
+                <target>logements disponibles dans cette destination</target>
+            </trans-unit>
+            <trans-unit id="430">
+                <source>RESERVATION_CONFIRM_DESTINATION_AREA_TITLE</source>
+                <target>Avez-vous consulté d’autres destinations?</target>
+            </trans-unit>
+            <trans-unit id="431">
+                <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
+                <target> logements disponibles </target>
+            </trans-unit>
+            <trans-unit id="432">
+                <source>RESERVATION_CONFIRM_DESTINATION_MORE</source>
+                <target>plus</target>
+            </trans-unit>
+            <trans-unit id="433">
+                <source>OUR_OFFICE</source>
+                <target> Notre bureau</target>
+            </trans-unit>
+            <trans-unit id="434">
+                <source>ALL_PROVINCES</source>
+                <target>Toutes les provinces</target>
+            </trans-unit>
+            <trans-unit id="435">
+                <source>CART</source>
+                <target>Chariot</target>
+            </trans-unit>
+            <trans-unit id="436">
+                <source>SENT_EMAIL_FROM</source>
+                <target>Envoyer au nom de:</target>
+            </trans-unit>
+            <trans-unit id="437">
+                <source>EMAIL_TO</source>
+                <target>Courrier électronique:</target>
+            </trans-unit>
+            <trans-unit id="438">
+                <source>MAIN_CUBAN_DESTINATIONS</source>
+                <target>Principales destinations de Cuba</target>
+            </trans-unit>
+            <trans-unit id="439">
+                <source>RESERVATION_DETAILS</source>
+                <target>Détails de la réservation</target>
+            </trans-unit>
+            <trans-unit id="440">
+                <source>RESERVATION_TRIPLE_CHARGE</source>
+                <target> Les chambres triples ont un supplément de  </target>
+            </trans-unit>
+            <trans-unit id="441">
+                <source>PRICE_NIGHT</source>
+                <target>Prix/Nuit</target>
+            </trans-unit>
+            <trans-unit id="442">
+                <source>KEEP_SEARCHING</source>
+                <target>Continuer la recherche</target>
+            </trans-unit>
+            <trans-unit id="443">
+                <source>REMOVE</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="444">
+                <source>EMPTY_CART</source>
+                <target>Vider chariot</target>
+            </trans-unit>
+            <trans-unit id="445">
+                <source>NOT_AVAILABLE</source>
+                <target>Non disponible</target>
+            </trans-unit>
+            <trans-unit id="446">
+                <source>REMOVE_RESERVATION_CONFIRM</source>
+                <target>Confirmez-vous que vous voulez supprimer la réservation?</target>
+            </trans-unit>
+            <trans-unit id="447">
+                <source>CANCEL</source>
+                <target>Annuler</target>
+            </trans-unit>
+            <trans-unit id="448">
+                <source>CART_EMPTY_SUCCESSFUL</source>
+                <target>Le chariot a été vidé avec succès .</target>
+            </trans-unit>
+            <trans-unit id="449">
+                <source>CART_DESCRIPTION</source>
+                <target>Description du chariot </target>
+            </trans-unit>
+            <trans-unit id="450">
+                <source>LAST_ADDED_DESCRIPTION</source>
+                <target>Description des dernières ajoutées</target>
+            </trans-unit>
+            <trans-unit id="451">
+                <source>OWNERSHIP_ECONOMY_DESCRIPTION</source>
+                <target>Description des logements économiques</target>
+            </trans-unit>
+            <trans-unit id="452">
+                <source>OWNERSHIP_PREMIUM_DESCRIPTION</source>
+                <target> Description des logements premium</target>
+            </trans-unit>
+            <trans-unit id="453">
+                <source>OWNERSHIP_MID_RANGE_DESCRIPTION </source>
+                <target>Description des logements prix moyens</target>
+            </trans-unit>
+            <trans-unit id="454">
+                <source>SEE_REQUEST</source>
+                <target> Voir demande de réservation</target>
+            </trans-unit>
+            <trans-unit id="455">
+                <source>ID_RESERVATION</source>
+                <target> ID Réservation</target>
+            </trans-unit>
+            <trans-unit id="456">
+                <source>RESERVATION_DETAILS</source>
+                <target>Détails de la Réservation</target>
+            </trans-unit>
+            <trans-unit id="457">
+                <source>DATE</source>
+                <target>Date</target>
+            </trans-unit>
+            <trans-unit id="458">
+                <source>PRICE</source>
+                <target>Prix</target>
+            </trans-unit>
+            <trans-unit id="459">
+                <source>ROOM_DETAIL</source>
+                <target> Détails de la chambre</target>
+            </trans-unit>
+            <trans-unit id="460">
+                <source>YOUR_DATA</source>
+                <target> Vos données</target>
+            </trans-unit>
+            <trans-unit id="461">
+                <source>REQUIRED_FIELDS</source>
+                <target>(*Champs obligatoires)</target>
+            </trans-unit>
+            <trans-unit id="462">
+                <source>ADD_TO_CART</source>
+                <target> Ajouter au chariot</target>
+            </trans-unit>
+            <trans-unit id="463">
+                <source>INITIAL_DEPOSIT</source>
+                <target> Dépôt initial</target>
+            </trans-unit>
+            <trans-unit id="464">
+                <source>SERVICE_RECHARGE</source>
+                <target>Frais de service</target>
+            </trans-unit>
+            <trans-unit id="465">
+                <source>TOTAL_PREPAYMENT</source>
+                <target> Total d’acompte</target>
+            </trans-unit>
+            <trans-unit id="466">
+                <source>LAST_VISITED_OWNERSHIPS</source>
+                <target>Derniers logements visités</target>
+            </trans-unit>
+            <trans-unit id="467">
+                <source>VISIT_ANOTHER_DESTINATIONS</source>
+                <target>Visitez d’autres destinations</target>
+            </trans-unit>
+            <trans-unit id="468">
+                <source>GENDER</source>
+                <target>Genre</target>
+            </trans-unit>
+            <trans-unit id="469">
+                <source>SELECT</source>
+                <target>(Sélectionnez)</target>
+            </trans-unit>
+            <trans-unit id="470">
+                <source>MALE</source>
+                <target>Masculin</target>
+            </trans-unit>
+            <trans-unit id="471">
+                <source>FEMALE</source>
+                <target>Féminin</target>
+            </trans-unit>
+            <trans-unit id="472">
+                <source>ZIPCODE</source>
+                <target>Code Postal</target>
+            </trans-unit>
+            <trans-unit id="473">
+                <source>CONFIRM_MAIL</source>
+                <target>Confirmer e-mail</target>
+            </trans-unit>
+            <trans-unit id="474">
+                <source>NACIONALITY</source>
+                <target>Nationalité</target>
+            </trans-unit>
+            <trans-unit id="475">
+                <source>ARRIVAL_TIME</source>
+                <target>Heure d’arrivée</target>
+            </trans-unit>
+            <trans-unit id="476">
+                <source>CELL_NUMBER</source>
+                <target>Portable</target>
+            </trans-unit>
+            <trans-unit id="477">
+                <source>YOUR_PAYMENT</source>
+                <target>Votre paiement</target>
+            </trans-unit>
+            <trans-unit id="478">
+                <source>SKRILL_PAYMENT</source>
+                <target> Payez moyennant un compte Skrill</target>
+            </trans-unit>
+            <trans-unit id="479">
+                <source>FINAL_STEP</source>
+                <target>Pas final</target>
+            </trans-unit>
+            <trans-unit id="480">
+                <source>OBTAIN_PROTECTION</source>
+                <target>Obtenir protection d’annulation pour</target>
+            </trans-unit>
+            <trans-unit id="481">
+                <source>ACCEPT_TERMS_CONDITIONS</source>
+                <target>J’accepte les Conditions d’utilisation</target>
+            </trans-unit>
+            <trans-unit id="482">
+                <source>SEND_ME_OFFERS</source>
+                <target> Envoyez-moi des offres spéciales et des conseils de voyage à l’adresse e-mail</target>
+            </trans-unit>
+            <trans-unit id="483">
+                <source>PAYMENT_CONFIRM</source>
+                <target> Confirmer paiement</target>
+            </trans-unit>
+            <trans-unit id="484">
+                <source>PAYMENT_CONFIRMATION_TEXT</source>
+                <target>En  cliquant sur l´option «confirmer» vous  acceptez les Conditions d’utilisation et un tarif remboursable de </target>
+            </trans-unit>
+            <trans-unit id="485">
+                <source>TO</source>
+                <target>Pour</target>
+            </trans-unit>
+            <trans-unit id="486">
+                <source>FROM</source>
+                <target>De</target>
+            </trans-unit>
+            <trans-unit id="487">
+                <source>GOOD_MORNING</source>
+                <target>Bonjour</target>
+            </trans-unit>
+            <trans-unit id="488">
+                <source>THANKS_CHECK_AVAILABLE</source>
+                <target>Merci  de votre demande de réservation.  </target>
+            </trans-unit>
+            <trans-unit id="489">
+                <source>REQUEST_IN_PROCESS_24_HOURS</source>
+                <target>Votre demande de réservation est en attente de réponse sous  24 heures .</target>
+            </trans-unit>
+            <trans-unit id="490">
+                <source>THANKS_RESERVATION_TEAM</source>
+                <target>Merci, équipe de réservations</target>
+            </trans-unit>
+            <trans-unit id="491">
+                <source>STAY_WHERE_CUBA_CUBA_IS</source>
+                <target>Loger où Cuba, Cuba est!</target>
+            </trans-unit>
+            <trans-unit id="492">
+                <source>NIGHTS</source>
+                <target>Nuits</target>
+            </trans-unit>
+            <trans-unit id="493">
+                <source>PENDING</source>
+                <target> En suspens</target>
+            </trans-unit>
+            <trans-unit id="494">
+                <source>VIEW_DETAILS</source>
+                <target>Voir détails</target>
+            </trans-unit>
+            <trans-unit id="495">
+                <source>REQUEST_SENT</source>
+                <target> Demande de réservation envoyée</target>
+            </trans-unit>
+            <trans-unit id="496">
+                <source>CONTINUE_RESERVING</source>
+                <target>¡PAYER MAINTENANT!</target>
+            </trans-unit>
+            <trans-unit id="497">
+                <source>AVAILABLE</source>
+                <target>Disponible</target>
+            </trans-unit>
+            <trans-unit id="498">
+                <source>EMAIL_RESTORE_ACCOUNT</source>
+                <target> Restauration de votre compte sur MyCasaParticular</target>
+            </trans-unit>
+             <trans-unit id="499">
+                <source>EMAIL_VISIT_LINK</source>
+                <target>Visitez le lien suivant pour changer votre mot de passe:  </target>
+            </trans-unit>
+            <trans-unit id="500">
+                <source>EMAIL_PASS_CHANGED</source>
+                <target>votre mot de passe a été correctement changé.</target>
+            </trans-unit>
+            <trans-unit id="501">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT</source>
+                <target>Activation de votre compte sur MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="502">
+                <source>EMAIL_ACCOUNT_REGISTERED_TEXT</source>
+                <target> Merci de votre inscription sur MyCasaParticular.com. Visitez le lien suivant pour activer votre compte:  </target>
+            </trans-unit>
+             <trans-unit id="503">
+                 <source>LOOK_FOR_ALTERNATIVE</source>
+                 <target> Rechercher alternative</target>
+             </trans-unit>
+             <trans-unit id="504">
+                  <source>REQUEST_STATUS_CHANGED</source>
+                  <target> L’état de votre réservation a changé.</target>
+              </trans-unit>
+              <trans-unit id="505">
+                  <source>AMOUNT_TO_PAY_NOW</source>
+                  <target> Total à payer maintenant</target>
+              </trans-unit>
+              <trans-unit id="506">
+                  <source>DEAR_MR</source>
+                  <target>Salut</target>
+              </trans-unit>
+              <trans-unit id="507">
+                  <source>THANKS_RESERVATION_MYCP</source>
+                  <target> Merci de votre réservation à</target>
+              </trans-unit>
+              <trans-unit id="508">
+                  <source>PLEASE_PRINT_CONFIRMATION_OF_SERVICE</source>
+                  <target>S’il vous plaît,  imprimez cette confirmation (voucher)  et montrez-le avant  de recevoir le service réservé.</target>
+              </trans-unit>
+              <trans-unit id="509">
+                    <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>
+                    <target>Vous pouvez voir les détails de vos réservations dans </target>
+              </trans-unit>
+              <trans-unit id="510">
+                  <source>PRINT</source>
+                  <target>Imprimer</target>
+              </trans-unit>
+              <trans-unit id="511">
+                  <source>CLIENT_INFORMATION</source>
+                  <target> Information du client</target>
+              </trans-unit>
+              <trans-unit id="512">
+                  <source>RESERVATION_NUMBER</source>
+                  <target> Booking ID </target>
+              </trans-unit>
+              <trans-unit id="513">
+                  <source>CLIENT_NAME</source>
+                  <target> Nom du client</target>
+              </trans-unit>
+              <trans-unit id="514">
+                    <source>RESERVE_SERVICE</source>
+                    <target>Service réservé</target>
+                </trans-unit>
+                <trans-unit id="515">
+                    <source>ACCOMMODATIONS</source>
+                    <target>Logements</target>
+                </trans-unit>
+                <trans-unit id="516">
+                    <source>ACCOMMODATION_NAME</source>
+                    <target>Nom du logement</target>
+                </trans-unit>
+                <trans-unit id="517">
+                    <source>ID_HOME</source>
+                    <target>Code de la_Maison</target>
+                </trans-unit>
+                <trans-unit id="518">
+                    <source>OWNERS_NAME</source>
+                    <target>Nom des propriétaires</target>
+                </trans-unit>
+                <trans-unit id="519">
+                    <source>PAYMENT_DETAILS</source>
+                    <target>Détails  du paiement</target>
+                </trans-unit>
+                <trans-unit id="520">
+                    <source>PRICE_OF_ACCOMMODATION_SERVICE</source>
+                    <target>Prix total du service d’hébergement</target>
+                </trans-unit>
+                <trans-unit id="521">
+                    <source>BILL</source>
+                    <target>Reçu</target>
+                </trans-unit>
+                <trans-unit id="522">
+                    <source>TOTAL_TO_PAY_SERVICING</source>
+                    <target>Total à payer à  l’arrivée  </target>
+                </trans-unit>
+                <trans-unit id="523">
+                    <source>FILL_ALL_FIELDS</source>
+                    <target>S’il vous plaît, complétez tous les champs marqués avec (*).</target>
+                </trans-unit>
+                <trans-unit id="525">
+                    <source>NOT_EQUALS_EMAIL</source>
+                    <target>Les adresses e-mail ne coïncident pas.</target>
+                </trans-unit>
+                <trans-unit id="526">
+                    <source>FILL_FIELD</source>
+                    <target> Ce champ ne peut pas être vide.</target>
+                </trans-unit>
+                <trans-unit id="527">
+                    <source>INVALID_EMAIL</source>
+                    <target>L’adresse e-mail n’est pas valide.</target>
+                </trans-unit>
+                <trans-unit id="528">
+                    <source>COUNTRY</source>
+                    <target>Pays</target>
+                </trans-unit>
+                <trans-unit id="529">
+                    <source>FILL_FORM_CORRECTLY</source>
+                    <target>Vous devez remplir le formulaire correctement.</target>
+                </trans-unit>
+                 <trans-unit id="530">
+                    <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                    <target> Description pour logements prix moyens.</target>
+                </trans-unit>
+                <trans-unit id="531">
+                    <source>RESERVE_SINGULAR</source>
+                    <target>Réservée</target>
+                </trans-unit>
+                <trans-unit id="532">
+                    <source>PAYED</source>
+                    <target>Payée</target>
+                </trans-unit>
+            <trans-unit id="533">
+                <source>SKRILL_CONFIRMATION_NOTE</source>
+                <target>MyCasaParticular vous souhaite un séjour agréable à Cuba</target>
+            </trans-unit>
+                <trans-unit id="534">
+                <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
+                <target>Booking ID: </target>
+            </trans-unit>
+            <trans-unit id="535">
+                <source>SKRILL_PAY_WITH_SKRILL</source>
+                <target>Payez avec Skrill</target>
+            </trans-unit>
+            <trans-unit id="536">
+                <source>SKRILL_RETURN_TO_MYCP</source>
+                <target>Rentrer sur MyCasaParticular</target>
+            </trans-unit>
+             <trans-unit id="537">
+                    <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                    <target>Description des logements prix moyens.</target>
+             </trans-unit>
+             <trans-unit id="538">
+                 <source>ERROR_TITLE_PAGE</source>
+                 <target> Il y a eu erreur</target>
+             </trans-unit>
+             <trans-unit id="539">
+                 <source>OOPS</source>
+                 <target>Désolé!</target>
+             </trans-unit>
+             <trans-unit id="540">
+                 <source>PAGE_NOT_FOUND</source>
+                 <target>La page que vous demandez est introuvable.</target>
+             </trans-unit>
+             <trans-unit id="541">
+                 <source>TRY_OTHER_PAGES</source>
+                 <target>Nous vous conseillons d’essayer avec les liens suivants .</target>
+             </trans-unit>
+             <trans-unit id="542">
+                  <source>PLEASE_SELECT_RESERVATION</source>
+                  <target>S’il vous plaît, choisissez au moins une réservation pour continuer.</target>
+              </trans-unit>
+              <trans-unit id="543">
+                  <source>PAYMENT_CONFIRM_2</source>
+                  <target> Confirmées paiement</target>
+              </trans-unit>
+              <trans-unit id="544">
+                  <source>USER_EMAIL_IN_USE</source>
+                  <target>L’adresse e-mail existe déjà. </target>
+              </trans-unit>
+              <trans-unit id="545">
+                  <source>USER_CREATE_ACCOUNT_SUCCESS</source>
+                  <target> Merci de votre inscription. Un e-mail a été envoyé pour que vous activiez votre compte.</target>
+              </trans-unit>
+              <trans-unit id="546">
+                  <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
+                  <target>Merci. Vous êtes authentifié avec succès.</target>
+              </trans-unit>
+              <trans-unit id="547">
+                  <source>USER_ACTIVATE_ERROR</source>
+                  <target>Impossible d’activer votre compte d’utilisateur, les paramètres ne sont pas corrects.</target>
+              </trans-unit>
+              <trans-unit id="548">
+                  <source>USER_PASSWORD_RECOVERY</source>
+                  <target>un e-mail a été envoyé pour que vous récupériez votre mot de passe.</target>
+              </trans-unit>
+              <trans-unit id="549">
+                  <source>USER_PASSWORD_RECOVERY_ERROR</source>
+                  <target> Il n’existe aucun utilisateur avec cette adresse électronique.</target>
+              </trans-unit>
+              <trans-unit id="550">
+                  <source>USER_PASSWORD_CHANGE_ERROR</source>
+                  <target>Impossible de changer le mot de passe, les paramètres ne sont pas corrects.</target>
+              </trans-unit>
+              <trans-unit id="551">
+                  <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
+                  <target> BIENVENU À NOTRE COMMUNAUTÉ</target>
+              </trans-unit>
+              <trans-unit id="552">
+                  <source>USER_CONTACT_TOURIST_SUCCESS</source>
+                  <target>Merci de nous contacter . Votre commentaire a été envoyé.</target>
+              </trans-unit>
+              <trans-unit id="553">
+                  <source>USER_CONTACT_OWNER_SUCCESS</source>
+                  <target>Merci de nous contacter. Vos informations ont été envoyées.</target>
+              </trans-unit>
+              <trans-unit id="554">
+                  <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
+                  <target>Total à payer maintenant</target>
+              </trans-unit>
+              <trans-unit id="555">
+                    <source>VIEW_CONFIRMATION</source>
+                    <target>Voir confirmation</target>
+                </trans-unit>
+                <trans-unit id="556">
+                    <source>PAYMENT_CONFIRMATION</source>
+                    <target>VOUCHER DE LA RÉSERVATION</target>
+                </trans-unit>
+                <trans-unit id="557">
+                    <source>VALID_OFFER_FOUR_EIGHT</source>
+                    <target>Cette offre n’est valable que pendant 48 heures</target>
+                </trans-unit>
+                <trans-unit id="558">
+                    <source>REMINDER_AVAILABLE</source>
+                    <target>Nous vous rappelons que les logements choisis sont disponibles pour la date prévue</target>
+                </trans-unit>
+                <trans-unit id="559">
+                    <source>VALID_OFFER_TWENTY_FOUR</source>
+                    <target>Cette offre est valable pendant 24 heures de plus.</target>
+                </trans-unit>
+                <trans-unit id="560">
+                    <source>REMINDER</source>
+                    <target>DÉCOUVREZ CUBA, RÉSERVEZ MAINTENANT  </target>
+                </trans-unit>
+                <trans-unit id="561">
+                    <source>NOT_ENABLED_USER</source>
+                    <target>Utilisateur non actif, s’il vous plaît, activez votre compte à l’aide des informations reçues dans notre e-mail de confirmation.</target>
+                </trans-unit>
+                <trans-unit id="562">
+                    <source>Bad credentials</source>
+                    <target>Informations d’identification incorrectes</target>
+                </trans-unit>
+                <trans-unit id="563">
+                    <source>HELLO</source>
+                    <target>Salut</target>
+                </trans-unit>
+                <trans-unit id="564">
+                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
+                    <target> veut vous recommander un logement sur MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="565">
+                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
+                    <target>veut vous recommander une destination sur MyCasaParticular </target>
+                </trans-unit>
+                <trans-unit id="566">
+                    <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
+                    <target>veux vous recommander de visiter</target>
+                </trans-unit>
+                <trans-unit id="567">
+                    <source>ENABLE_ACCOUNT</source>
+                    <target>Activer compte</target>
+                </trans-unit>
+                <trans-unit id="568">
+                    <source>USER_MY_PROFILE</source>
+                    <target> Mon profil d’utilisateur</target>
+                </trans-unit>
+                <trans-unit id="569">
+                    <source>SAVE</source>
+                    <target>Enregistrer</target>
+                </trans-unit>
+                <trans-unit id="570">
+                    <source>SELECT_PHOTO</source>
+                    <target>choisir  photo...</target>
+                </trans-unit>
+                <trans-unit id="571">
+                    <source>USER_PROFILE_SAVED</source>
+                    <target>Votre profil d’utilisateur a été modifié avec succès</target>
+                </trans-unit>
+                <trans-unit id="572">
+                    <source>USER_PROFILE_EMAIL_ERROR</source>
+                    <target> Il y a un autre utilisateur avec cette adresse e-mail </target>
+                </trans-unit>
+                <trans-unit id="573">
+                    <source>USER_ZONE</source>
+                    <target>Utilisateur</target>
+                </trans-unit>
+                <trans-unit id="574">
+                    <source>USER_NEW_ACCOUNT</source>
+                    <target>S’inscrire</target>
+                </trans-unit>
+                <trans-unit id="575">
+                    <source>USER_FORGOT_PASSWORD</source>
+                    <target>Avez-vous oublié votre mot de passe?</target>
+                </trans-unit>
+                <trans-unit id="576">
+                    <source>USER_SEND_CONFIRMATION</source>
+                    <target>Envoyer confirmation</target>
+                </trans-unit>
+                <trans-unit id="577">
+                    <source>USER_PROFILE</source>
+                    <target>Mon profil</target>
+                </trans-unit>
+                <trans-unit id="578">
+                    <source>USER_CHANGE_PASSWORD</source>
+                    <target>Changer mot de passe </target>
+                </trans-unit>
+                <trans-unit id="579">
+                    <source>MYCASATRIP_MAIN_MENU_NOTIFICATIONS</source>
+                    <target> Vous avez %notifications% messages sans lire</target>
+                </trans-unit>
+                <trans-unit id="580">
+                    <source>PLACE_IN_CUBA_TO_VISIT</source>
+                    <target>Quel endroit de Cuba  aimeriez-vous visiter?</target>
+                </trans-unit>
+                <trans-unit id="581">
+                    <source>ROWS</source>
+                    <target>Files</target>
+                </trans-unit>
+                <trans-unit id="582">
+                    <source>FIND_DESTINATIONS_BY_PROVINCES</source>
+                    <target>Connaissez les destinations par provinces</target>
+                </trans-unit>
+                <trans-unit id="583">
+                    <source>WHERE_RENT_IN_DESTINATION</source>
+                    <target>Où loger à %destinationName%</target>
+                </trans-unit>
+                <trans-unit id="584">
+                    <source>LIST_VIEW</source>
+                    <target> Vue sous forme de liste</target>
+                </trans-unit>
+                <trans-unit id="585">
+                    <source>MOISAIC_VIEW</source>
+                    <target>Vue sous forme de mosaïque</target>
+                </trans-unit>
+                <trans-unit id="586">
+                    <source>MAP_VIEW</source>
+                    <target> Vue sur la carte </target>
+                </trans-unit>
+                <trans-unit id="587">
+                    <source>SEARCH_ANOTHER_SERVICES</source>
+                    <target>D’autres services</target>
+                </trans-unit>
+                 <trans-unit id="588">
+                    <source>VERIFY_PRICES_FOR_THIS_DATES</source>
+                    <target> Vérifier prix pour cette date</target>
+                </trans-unit>
+                <trans-unit id="589">
+                    <source>SELECT_FOR_PAYMENT</source>
+                    <target>choisir pour payer</target>
+                </trans-unit>
+                <trans-unit id="590">
+                    <source>CART_OF_RESERVES</source>
+                    <target>Chariot de réservations</target>
+                </trans-unit>
+                <trans-unit id="591">
+                    <source>MANAGE_CART</source>
+                    <target>Gérez vos réservations</target>
+                </trans-unit>
+                <trans-unit id="592">
+                    <source>PRICE_NIGHT</source>
+                    <target>Prix/Nuit</target>
+                </trans-unit>
+                <trans-unit id="593">
+                    <source>REMOVE_RESERVE</source>
+                    <target>Supprimer cette réservation</target>
+                </trans-unit>
+                <trans-unit id="594">
+                    <source>BYNIGHT</source>
+                    <target>pour nuit</target>
+                </trans-unit>
+                <trans-unit id="595">
+                    <source>REQUIRED_FIELDS_NEXT_STEP</source>
+                    <target>Complétez tous les champs afin de passer au niveau suivant </target>
+                </trans-unit>
+                <trans-unit id="596">
+                    <source>BEACHES</source>
+                    <target>Plages</target>
+                </trans-unit>
+                <trans-unit id="597">
+                    <source>DIVING</source>
+                    <target>Plongée </target>
+                </trans-unit>
+                <trans-unit id="598">
+                    <source>VIEWPOINTS</source>
+                    <target>Miradors</target>
+                </trans-unit>
+                <trans-unit id="599">
+                    <source>MUSEUMS</source>
+                    <target>Musées</target>
+                </trans-unit>
+                <trans-unit id="600">
+                    <source>TREKKING</source>
+                    <target>Randonnée pédestre</target>
+                </trans-unit>
+                <trans-unit id="601">
+                    <source>CYCLING</source>
+                    <target>Cyclisme</target>
+                </trans-unit>
+                <trans-unit id="602">
+                    <source>MARINES</source>
+                    <target>Marinas</target>
+                </trans-unit>
+                <trans-unit id="603">
+                    <source>FISHING</source>
+                    <target>Pêche</target>
+                </trans-unit>
+                <trans-unit id="604">
+                    <source>CASCADES</source>
+                    <target>Cascades</target>
+                </trans-unit>
+                <trans-unit id="605">
+                    <source>FORESTS</source>
+                    <target>Forêts</target>
+                </trans-unit>
+                <trans-unit id="606">
+                    <source>MOUNTAINS</source>
+                    <target>Montagnes</target>
+                </trans-unit>
+                <trans-unit id="607">
+                    <source>SELECT_PHOTOGRAPHY</source>
+                    <target>Sélectionner photo...</target>
+                </trans-unit>
+                <trans-unit id="608">
+                    <source>THE_ENTERPRISE</source>
+                    <target>L’entreprise</target>
+                </trans-unit>
+                <trans-unit id="609">
+                    <source>ALL_CATGORIES_OWNS</source>
+                    <target>Toutes les catégories</target>
+                </trans-unit>
+                <trans-unit id="610">
+                    <source>LANG_TAB_DESCRIPTION</source>
+                    <target>Langues</target>
+                </trans-unit>
+                <trans-unit id="611">
+                    <source>LANG_SPANISH</source>
+                    <target>Espagnol</target>
+                </trans-unit>
+                <trans-unit id="612">
+                    <source>OWNERS</source>
+                    <target>Propriétaire(s)</target>
+                </trans-unit>
+                <trans-unit id="613">
+                    <source>ALL_FAQS</source>
+                    <target>Toutes les catégories </target>
+                </trans-unit>
+                <trans-unit id="614">
+                    <source>NEARBY_DESTINATION</source>
+                    <target>Destinations proches</target>
+                </trans-unit>
+                 <trans-unit id="615">
+                    <source>Rango Medio</source>
+                    <target> Milieu de gamme</target>
+                </trans-unit>
+                <trans-unit id="616">
+                    <source>FOOTER_EMAIL</source>
+                    <target> <![CDATA[Ajouter reservation@mycasaparticular.com à votre carnet d’adresses pour continuer à recevoir ces e-mails.<br/><br/>Vous pouvez aussi lire notre Politique de confidentialité<a href="%policieslink%Aquí.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d’être vérifiés en ce qui concerne la disponibilité. Consultez nos <a href="%termlink%Conditions d’utilisation</a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle, Suisse.]]></target>
+                </trans-unit>
+                <trans-unit id="617">
+                    <source>OF</source>
+                    <target> de</target>
+                </trans-unit>
+                <trans-unit id="618">
+                    <source>TOTAL_ALL_PREPAYMENT</source>
+                    <target>Total du paiement partiel</target>
+                </trans-unit>
+                <trans-unit id="619">
+                    <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>
+                    <target>Total de réservations /dans l’ordre décroissant</target>
+                </trans-unit>
+                <trans-unit id="620">
+                    <source>RESERVATIONS_LOW_HIGH_ORDERBY</source>
+                    <target>Total de réservations / dans l’ordre croissant</target>
+                </trans-unit>
+            <trans-unit id="621">
+                <source>TOP_DESTINATIONS</source>
+                <target> Destinations les plus visitées </target>
+            </trans-unit>
+            <trans-unit id="622">
+                <source>DEAR</source>
+                <target>Bonjour</target>
+            </trans-unit>
+            <trans-unit id="623">
+                <source>REMINDER_TRIP_ORGANISATION</source>
+                <target>
+                <![CDATA[Il ne vous reste que 24 heures  de plus pour réserver n’importe quelle des chambres disponibles. Vous avez plusieurs demandes de réservations confirmées et il se peut que d’autres personnes y soient  intéressées. <br/><br/> Voulez-vous connaître Cuba? C’est le meilleur moment. Profitez de cette (ces) offre (s) et assurez votre réservation moyennant un acompte de %prepayment%]]></target>
+            </trans-unit>
+            <trans-unit id="624">
+                <source>REMINDER_OPPORTUNITY</source>
+                <target>Découvrez Cuba, réservez maintenant. Pour confirmer votre réservation, cliquez sur l’URL ou copiez-la dans votre navigateur:</target>
+            </trans-unit>
+            <trans-unit id="625">
+                <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
+                <target>Nous vous rappelons que l’offre est valide pendant 24 heures de plus.</target>
+            </trans-unit>
+            <trans-unit id="626">
+                <source>THANK_YOU_VERY_MUCH</source>
+                <target>Merci beaucoup</target>
+            </trans-unit>
+            <trans-unit id="627">
+                <source>THE_RESERVATION_TEAM</source>
+                <target> Équipe de réservations</target>
+            </trans-unit>
+            <trans-unit id="628">
+                <source>END_OF_YOUR_RESERVATION</source>
+                <target>Fin de votre réservation</target>
+            </trans-unit>
+            <trans-unit id="629">
+                <source>PAYMENTS</source>
+                <target>Paiements</target>
+            </trans-unit>
+            <trans-unit id="630">
+                <source>USER_ACCOUNT_ACTIVATION_EMAIL_REMINDER</source>
+                <target>Rappelez: Activez votre compte sur MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="631">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
+                <target>Rappelez: Activez votre compte sur MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="632">
+                <source>OWN_STATUS_ACTIVE</source>
+                <target>Actif</target>
+            </trans-unit>
+            <trans-unit id="633">
+                <source>OWN_STATUS_DELETED</source>
+                <target>Supprimé</target>
+            </trans-unit>
+            <trans-unit id="634">
+                <source>OWN_STATUS_INACTIVE</source>
+                <target>Inactif</target>
+            </trans-unit>
+            <trans-unit id="635">
+                <source>OWN_STATUS_IN_PROCESS</source>
+                <target>En cours d’activation</target>
+            </trans-unit>
+            <trans-unit id="636">
+                <source>OWN_NO_STATUS</source>
+                <target>Sans État</target>
+            </trans-unit>
+            <trans-unit id="637">
+                <source>FORMS_SECRET_TOKEN</source>
+                <target>Jeton d’authentification</target>
+            </trans-unit>
+            <trans-unit id="638">
+                <source>INVALID_SECRET_TOKEN</source>
+                <target> Le jeton d’authentification n’est pas valide.  </target>
+            </trans-unit>
+            <trans-unit id="639">
+                <source>USER_ACCOUNT_ACTIVATION_EMAIL_LATE_REMINDER</source>
+                <target> N’avez-vous pas encore activé votre compte Avez-vous des difficultés?</target>
+            </trans-unit>
+            <trans-unit id="640">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
+                <target>CRÉER VOTRE COMPTE ET GAGNEZ</target>
+            </trans-unit>
+            <trans-unit id="641">
+                <source>EMAIL_GREETINGS</source>
+                <target>Loger où Cuba, Cuba est!</target>
+            </trans-unit>
+            <trans-unit id="642">
+                <source>EMAIL_REMINDER_BODY_TEXT_1</source>
+                <target><![CDATA[Créer votre compte maintenant et rejoignez la famille de <b>MyCasaParticular.com</b>. Nous avons plus de 25 000 utilisateurs qui vous attendent : les meilleurs hôtes, des logements incroyables et beaucoup d’amis du monde entier.]]></target>
+            </trans-unit>
+            <trans-unit id="643">
+                <source>HERE</source>
+                <target>ici</target>
+            </trans-unit>
+             <trans-unit id="644">
+                <source>EMAIL_REMINDER_BODY_TEXT_2</source>
+                <target> Pour créer votre compte, cliquez sur cette URL ou copiez- la dans le navigateur: </target>
+            </trans-unit>
+            <trans-unit id="645">
+                <source>EMAIL_REMINDER_BODY_TEXT_3</source>
+                <target>Avez-vous besoin d’aide? Contactez-nous</target>
+            </trans-unit>
+            <trans-unit id="646">
+                <source>SUPPORT_TEAM</source>
+                <target> Support technique</target>
+            </trans-unit>
+            <trans-unit id="647">
+                <source>EMAIL_LATE_REMINDER_BODY_TEXT_4</source>
+                <target>Nous aimerions vous aider.</target>
+            </trans-unit>
+            <trans-unit id="648">
+                <source>EMAIL_GREETINGS_2</source>
+                <target>Nous vous attendons,  </target>
+            </trans-unit>
+            <trans-unit id="649">
+                <source>MYCP_TEAM</source>
+                <target> Équipe de MyCasaParticular.com  </target>
+            </trans-unit>
+            <trans-unit id="650">
+                <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
+                <target><![CDATA[Maintenant vous appartenez à notre famille. ¡Congratulations! Votre processus d’inscription sur<b>MyCasaParticular.com</b> est complet. Activez votre compte  pour commencer à profiter des avantages de rejoindre notre communauté.]]></target>
+            </trans-unit>
+            <trans-unit id="651">
+                <source>USER_ACTIVATION_LINK_TEXT</source>
+                <target>activer votre compte</target>
+            </trans-unit>
+             <trans-unit id="652">
+                <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
+                <target>Cliquez sur l’URL ou copiez-la dans votre navigateur:</target>
+            </trans-unit>
+             <trans-unit id="653">
+                <source>COMMENT_TO_PUBLIC</source>
+                <target>Merci. Votre commentaire sera bientôt publié. </target>
+            </trans-unit>
+             <trans-unit id="654">
+                <source>USER_RESERVED_ACCOMMODATION</source>
+                <target>Vous avez réservé ce logement sur MyCasaParticular.</target>
+            </trans-unit>
+             <trans-unit id="655">
+                <source>FOOTER_MAIL_1</source>
+                <target> <![CDATA[Si vous ne voulez plus recevoir d’e-mails de MyCasaParticular, cliquez <a href="%link%aquí.</a>]]></target>
+            </trans-unit>
+             <trans-unit id="656">
+                <source>LAST_REMINDER_TEXT_1</source>
+                <target> <![CDATA[Vous avez des chambres disponibles et d’autres personnes peuvent être intéressées. Il ne reste que des heures pour qu’elles soient réservées. Nous vous conseillons de ne pas rater l’occasion de loger au style de <b>MyCasaParticular.com</b> et vivre une expérience unique.]]> </target>
+            </trans-unit>
+             <trans-unit id="657">
+                <source>LAST_REMINDER_TEXT_2</source>
+                <target>Si vous voulez encore loger dans quelque(s) de ces chambres, nous vous conseillons d’effectuer maintenant un dépôt initial de %prepayment%</target>
+            </trans-unit>
+             <trans-unit id="658">
+                <source>NOT_INTERESTED_ANYMORE</source>
+                <target>Je ne suis pas intéressé</target>
+            </trans-unit>
+             <trans-unit id="659">
+                <source>BOOK_OTHER_ACCOMMODATIONS</source>
+                <target>Faire une nouvelle recherche</target>
+            </trans-unit>
+             <trans-unit id="660">
+                <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
+                <target>NOUS VOUS INVITONS  À  RÉSERVER MAINTENANT</target>
+            </trans-unit>
+             <trans-unit id="661">
+                <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
+                <target> NOUS VOUS INVITONS  À  RÉSERVER </target>
+            </trans-unit>
+            <trans-unit id="662">
+                <source>EXPIRED_OFFER_TEXT_1</source>
+                <target>
+                 <![CDATA[Le délai de 48 heures pour payer vos demandes de réservation répondues comme disponibles est échu. Mais ne vous en faites pas, vous pouvez réserver à nouveau et  vous pouvez trouver probablement de meilleures offres. <b>MyCasaParticular.com</b>  a tout ce dont vous avez besoin. Voulez-vous <a style="color: #000000; text-decoration:underline" href="%link%<b>essayer de nouveau</b></a>?]]>
+                 </target>
+            </trans-unit>
+            <trans-unit id="663">
+                <source>EXPIRED_OFFER_TEXT_2</source>
+                <target><![CDATA[Nous pouvons vous aider. Contactez-nous  <a href="mailto:reservation@mycasaparticular.comreservation@mycasaparticular.com</a>]]></target>
+            </trans-unit>
+            <trans-unit id="664">
+                <source>EXPIRED_OFFER_TEXT_3</source>
+                <target>Nous pensons que nous pouvons vous aider.</target>
+            </trans-unit>
+            <trans-unit id="665">
+                <source>CANCEL_OFFER</source>
+                <target>Annuler l’offre </target>
+            </trans-unit>
+            <trans-unit id="666">
+                <source>CANCELLED</source>
+                <target>Annulée</target>
+            </trans-unit>
+            <trans-unit id="667">
+                <source>CANCEL_OFFER_TEXT_1</source>
+                <target>l’offre est sur le point d’être annulée</target>
+            </trans-unit>
+            <trans-unit id="668">
+                <source>CANCEL_OFFER_TEXT_2</source>
+                <target>Si vous êtes encore intéressé à réserver, nous  vous conseillons d’effectuer un dépôt initial de</target>
+            </trans-unit>
+            <trans-unit id="669">
+                <source>CANCEL_OFFER_SUCESS</source>
+                <target>L’offre a été annulée</target>
+            </trans-unit>
+            <trans-unit id="670">
+                <source>NOT_ALLOW_OFFER</source>
+                <target>Cette offre ne vous appartient pas.</target>
+            </trans-unit>
+            <trans-unit id="671">
+                <source>NOT_ALLOW_STATUS_OFFER</source>
+                <target>Cette offre ne peut pas être annulée.</target>
+            </trans-unit>
+            <trans-unit id="672">
+                <source>USER_CART_FULL_REMINDER</source>
+                <target> Vous pouvez avoir des chambres disponibles</target>
+            </trans-unit>
+            <trans-unit id="673">
+                <source>USER_CART_FULL_TEXT1</source>
+                <target>Certaines chambres choisies peuvent être disponibles dans votre chariot.
+                        Nous vous conseillons d’analyser toutes les options. Qu’est-ce que vous aimeriez faire avec ces offres?
+</target>
+            </trans-unit>
+            <trans-unit id="674">
+                <source>FROM_DATE</source>
+                <target>Du</target>
+            </trans-unit>
+            <trans-unit id="675">
+                <source>TO_DATE</source>
+                <target> jusqu’au</target>
+            </trans-unit>
+            <trans-unit id="676">
+                <source>FEEDBACK_REMINDER</source>
+                <target>FAITES NOUS SAVOIR VOTRE OPINION</target>
+            </trans-unit>
+            <trans-unit id="677">
+                <source>USER_FEEDBACK_TEXT1</source>
+                <target>Votre opinion est très importante pour d’autres utilisateurs…racontez-nous sur votre voyage à Cuba. Nous voulons connaître chaque détail sur ces vacances  extraordinaires. Nous espérons que cela a été une expérience inoubliable!</target>
+            </trans-unit>
+            <trans-unit id="678">
+                <source>USER_FEEDBACK_TEXT2</source>
+                <target>Partagez votre avis  sur nos services et sur les chambres chez l’habitant où vous avez logé. Grâce à votre avis  nous pouvons continuer à améliorer notre site.</target>
+            </trans-unit>
+            <trans-unit id="679">
+                <source>COMMENT</source>
+                <target>Laissez un commentaire</target>
+            </trans-unit>
+            <trans-unit id="680">
+                <source>ADD_TO_CART_ERROR</source>
+                <target>L’une de ces chambres existe déjà sur votre wishlist et la période prévue pour le séjour coïncide avec celle qui est déjà enregistrée. S’il vous plaît, modifiez la date.</target>
+            </trans-unit>
+            <trans-unit id="681">
+                <source>ADDRESS_STREET</source>
+                <target>Rue</target>
+            </trans-unit>
+            <trans-unit id="682">
+                <source>ADDRESS_NUMBER</source>
+                <target>Numéro </target>
+            </trans-unit>
+            <trans-unit id="683">
+                <source>OUTDATED</source>
+                <target>Expirée </target>
+            </trans-unit>
+            <trans-unit id="684">
+                <source>NEW_OFFER_SUBJECT</source>
+                <target>Nouvelle offre</target>
+            </trans-unit>
+            <trans-unit id="685">
+                <source>Aire acondicionado / Ventilador</source>
+                <target> Air conditionné / Ventilateur</target>
+            </trans-unit>
+            <trans-unit id="686">
+                <source>FORM_OPTIONS</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="687">
+                <source>FORM_OPTIONS_INSTRUCTIONS</source>
+                <target>Je veux recevoir un e-mail avec des explications pour inscrire mon logement</target>
+            </trans-unit>
+            <trans-unit id="688">
+                <source>INSTRUCTIONS_CONTACT_SUBJECT</source>
+                <target>Instructions pour inscrire logement</target>
+            </trans-unit>
+            <trans-unit id="689">
+                 <source>SEND_INSTRUCTIONS_MESSAGE_SUCCESS</source>
+                 <target>Merci  de nous  contacter. Nous vous avons envoyé un e-mail contenant des explications pour inscrire votre logement.</target>
+            </trans-unit>
+            <trans-unit id="690">
+                 <source>SHARE_FACEBOOK</source>
+                 <target> Partager sur Facebook</target>
+            </trans-unit>
+             <trans-unit id="691">
+                 <source>SEND_VOUCHER_SUBJECT</source>
+                 <target>Voucher de votre réservation</target>
+            </trans-unit>
+            <trans-unit id="692">
+                 <source>AUTOMATIC_TRANSLATED</source>
+                 <target>Traduit automatiquement en utilisant Google Translator</target>
+            </trans-unit>
+            <trans-unit id="693">
+                 <source>SENDER_NAME</source>
+                 <target>Votre nom</target>
+            </trans-unit>
+            <trans-unit id="694">
+                 <source>SENDER_EMAIL</source>
+                 <target>Votre courrier électronique</target>
+            </trans-unit>
+            <trans-unit id="695">
+                <source>PACKAGETOUR</source>
+                <target>FORFAITS TOURISTIQUES</target>
+            </trans-unit>
+            <trans-unit id="696">
+                <source>TITLEPACKAGE</source>
+                <target>Connaître Cuba, vivre Cuba!</target>
+            </trans-unit>
+            <trans-unit id="697">
+                <source>TITLEPACKAGE2</source>
+                <target>Connaissez Cuba en jours</target>
+            </trans-unit>
+            <trans-unit id="698">
+                <source>DETAILS_PACKAGE</source>
+                <target>Détails du forfait touristique</target>
+            </trans-unit>
+            <trans-unit id="699">
+                <source>DETAILS_PACKAGE_TITLE_1</source>
+                <target>Cuba classique Casa</target>
+            </trans-unit>
+            <trans-unit id="700">
+                <source>DETAILS_PACKAGE_TITLE_2</source>
+                <target> Voulez-vous connaître Cuba pendant une semaine?</target>
+            </trans-unit>
+            <trans-unit id="701">
+                <source>DETAILS_PACKAGE_ITINERARY</source>
+                <target>Itinéraire</target>
+            </trans-unit>
+            <trans-unit id="702">
+                <source>DETAILS_PACKAGE_ITINERARY_DAY</source>
+                <target>Jour</target>
+            </trans-unit>
+            <trans-unit id="703">
+                <source>DETAILS_PACKAGE_ADD_HAB</source>
+                <target>Ajouter chambre</target>
+            </trans-unit>
+            <trans-unit id="704">
+                <source>DETAILS_PACKAGE_ADULTS</source>
+                <target>Adultes</target>
+            </trans-unit>
+            <trans-unit id="705">
+                <source>DETAILS_PACKAGE_CHILD</source>
+                <target>Enfant</target>
+            </trans-unit>
+            <trans-unit id="706">
+                <source>DETAILS_PACKAGE_RESERV</source>
+                <target>Faites votre réservation,  </target>
+            </trans-unit>
+            <trans-unit id="707">
+                <source>DETAILS_PACKAGE_SERVICE</source>
+                <target>Services inclus dans le prix du forfait :</target>
+            </trans-unit>
+            <trans-unit id="708">
+                <source>DETAILS_PACKAGE_NO_SERVICE</source>
+                <target>Services qui ne sont pas inclus </target>
+            </trans-unit>
+            <trans-unit id="709">
+                <source>DETAILS_PACKAGE_ROOM</source>
+                <target>Chambre</target>
+            </trans-unit>
+            <trans-unit id="710">
+                <source>DETAILS_PACKAGE_ROOMSIMPLE</source>
+                <target>Chambre simple</target>
+            </trans-unit>
+            <trans-unit id="711">
+                <source>DETAILS_PACKAGE_ROOMDOBLE</source>
+                <target>Chambre double</target>
+            </trans-unit>
+            <trans-unit id="712">
+                <source>DETAILS_PACKAGE_DAY</source>
+                <target>Jours</target>
+            </trans-unit>
+            <trans-unit id="713">
+                <source>DETAILS_PACKAGE_AND</source>
+                <target>Et</target>
+            </trans-unit>
+            <trans-unit id="714">
+                <source>DETAILS_PACKAGE_SOLIC</source>
+                <target>Personne qui demande</target>
+            </trans-unit>
+            <trans-unit id="715">
+                <source>DETAILS_PACKAGE_ADD</source>
+                <target>Ajouter</target>
+            </trans-unit>
+            <trans-unit id="716">
+                <source>DETAILS_PACKAGE_SUBMIT</source>
+                <target>Envoyer tout</target>
+            </trans-unit>
+            <trans-unit id="717">
+                <source>DETAILS_PACKAGE_FORM_TITLE</source>
+                <target>Registre de participants</target>
+            </trans-unit>
+            <trans-unit id="718">
+                <source>DETAILS_PACKAGE_FORM_PNAME</source>
+                <target>Premier prénom</target>
+            </trans-unit>
+            <trans-unit id="719">
+                <source>DETAILS_PACKAGE_FORM_SAPELS</source>
+                <target>Noms</target>
+            </trans-unit>
+            <trans-unit id="720">
+                <source>DETAILS_PACKAGE_FORM_EMAIL</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="721">
+                <source>DETAILS_PACKAGE_FORM_FNAC</source>
+                <target>Date de naissance </target>
+            </trans-unit>
+            <trans-unit id="722">
+                <source>DETAILS_PACKAGE_FORM_CALLE</source>
+                <target>Rue</target>
+            </trans-unit>
+            <trans-unit id="723">
+                <source>DETAILS_PACKAGE_FORM_CP</source>
+                <target>Code postal</target>
+            </trans-unit>
+            <trans-unit id="724">
+                <source>DETAILS_PACKAGE_FORM_CITY</source>
+                <target>Ville</target>
+            </trans-unit>
+            <trans-unit id="725">
+                <source>DETAILS_PACKAGE_FORM_COUNTRY</source>
+                <target>Pays</target>
+            </trans-unit>
+            <trans-unit id="726">
+                <source>DETAILS_PACKAGE_FORM_PHONE</source>
+                <target>Numéro de téléphone</target>
+            </trans-unit>
+            <trans-unit id="727">
+                <source>DETAILS_PACKAGE_RESERVE</source>
+                <target>Votre demande de réservation a été correctement enregistrée.</target>
+            </trans-unit>
+            <trans-unit id="728">
+                <source>DETAILS_PACKAGE_RESERVE2</source>
+                <target>Sous 24 heures vous recevrez un e-mail de  confirmation avec tous les services qu’inclus le forfait.</target>
+            </trans-unit>
+            <trans-unit id="729">
+                <source>DETAILS_PACKAGE_DETAILS_RESERVE</source>
+                <target>Détails de votre réservation</target>
+            </trans-unit>
+            <trans-unit id="730">
+                <source>DETAILS_PACKAGE_DETAILS</source>
+                <target>Avez-vous eu l’impression que le temps n’a pas suffi pour connaître tout ce que vous voulez? Jouir des vacances au maximum pourrait être compliqué si les possibilités de notre destination touristique ne sont pas claires. Cependant, cela pourrait devenir plus simple avec le choix du paquet de services adéquat. Les destinations plus célèbres de l’île, les options de location de voitures, l’accueil des familles cubaines dans leurs maisons, salsa, rhum, cigares. Tout cela, au rendez-vous à Cuba, une île où vous pouvez sentir la joie de vivre.
+
+                        </target>
+            </trans-unit>
+            <trans-unit id="731">
+                <source>DETAILS_PACKAGE_PRICECHECK</source>
+                <target>vérifier prix</target>
+            </trans-unit>
+            <trans-unit id="732">
+                <source>DETAILS_PACKAGE_PEOPLE</source>
+                <target>personnes</target>
+            </trans-unit>
+            <trans-unit id="733">
+                <source>DETAILS_PACKAGE_SR</source>
+                <target>M.</target>
+            </trans-unit>
+            <trans-unit id="734">
+                <source>DETAILS_PACKAGE_SRA</source>
+                <target>Mme. </target>
+            </trans-unit>
+            <trans-unit id="735">
+                <source>DETAILS_PACKAGE_MSG</source>
+                <target> S’il vous plaît, vérifiez: la quantité d’inscriptions doit être égale à la quantité  de personnes réservées.</target>
+            </trans-unit>
+            <trans-unit id="736">
+                <source>DETAILS_PACKAGE_BTN_MOD</source>
+                <target>Modifier</target>
+            </trans-unit>
+            <trans-unit id="737">
+                <source>DETAILS_PACKAGE_MSG2</source>
+                <target>S’il vous plaît, vérifiez que la quantité de personnes dans la réservation ne dépasse pas la limite de personnes conçue dans le forfait.</target>
+            </trans-unit>
+            <trans-unit id="738">
+                <source>DETAILS_PACKAGE_MSG3</source>
+                <target>Pour votre séjour, vous devez ajouter au moins une chambre et choisir un adulte ou un enfant.</target>
+            </trans-unit>
+            <trans-unit id="739">
+                <source>VOUCHER_RES_DETAILS</source>
+                <target>Détails de votre réservation</target>
+            </trans-unit>
+            <trans-unit id="740">
+                <source>VOUCHER_PEOPLE_QTY</source>
+                <target>Quantités de personnes</target>
+            </trans-unit>
+            <trans-unit id="741">
+                <source>VOUCHER_ROOMS_QTY</source>
+                <target>Quantité de chambres</target>
+            </trans-unit>
+            <trans-unit id="742">
+                <source>VOUCHER_PAYMENT_DATA</source>
+                <target>paiement</target>
+            </trans-unit>
+            <trans-unit id="743">
+                <source>PQT_RESERVATION_CLIENT_MAIL_1</source>
+                <target>CONFIRMATION DE L’ORDRE.</target>
+            </trans-unit>
+            <trans-unit id="744">
+                <source>PQT_RESERVATION_CLIENT_MAIL_2</source>
+                <target>Wir legen Ihnen die Details Ihrer Buchung. Überprüfen Sie bitte das.</target>
+            </trans-unit>
+            <trans-unit id="745">
+                <source>PQT_RESERVATION_CLIENT_MAIL_3</source>
+                <target>Während der nächsten 24 Stunden werden wir Sie bestätigen die Dienste und dann schicken wir Ihnen einen Gutschein mit dem alle Informationen.</target>
+            </trans-unit>
+            <trans-unit id="746">
+                <source>PQT_RESERVATION_CLIENT_MAIL_4</source>
+                <target>Grettings,</target>
+            </trans-unit>
+            <trans-unit id="747">
+                <source>PQT_RESERVATION_CLIENT_MAIL_5</source>
+                <target>Mycasaparticular Team.</target>
+            </trans-unit>
+            <trans-unit id="748">
+                <source>PQT_RESERVATION_CLIENT_MAIL_6</source>
+                <target>... Und dann für mehr gehen ... </target>
+            </trans-unit>
+            <trans-unit id="749">
+                <source>PQT_RESERVATION_CLIENT_MAIL_7</source>
+                <target>Hosting in jeder Ecke der Insel. </target>
+            </trans-unit>
+            <trans-unit id="750">
+                <source>PQT_RESERVATION_CLIENT_MAIL_8</source>
+                <target>Übernachten, wo Kuba kuba ist!</target>
+            </trans-unit>
+            <trans-unit id="751">
+                <source>PQT_RESERVATION_CLIENT_MAIL_SUBJECT</source>
+                <target>CONFIRMATION DE L’ORDRE</target>
+            </trans-unit>
+            <trans-unit id="752">
+                <source>FOOTER_EMAIL_PACKAGE</source>
+                <target><![CDATA[Ajoutez service@mycasaparticular.com à votre carnet d’adresse pour continuer de recevoir  ces e-mails.<br/><br/> Vous pouvez aussi lire notre Politique de confidentialité <a href="%policieslink% Ici.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptible d’être vérifiés en ce qui concerne la disponibilité Consultez nos <a href="%termlink% Conditions d’utilisation </a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle. Suisse.]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="753">
+                <source>PQT_RESERVATION_ER_MAIL_SUBJECT</source>
+                <target>Nouveau forfait réservé</target>
+            </trans-unit>
+            <trans-unit id="754">
+                <source>PQT_RESERVATION_COMPANION</source>
+                <target>Personnes qui vous  accompagnent</target>
+            </trans-unit>
+            <trans-unit id="755">
+                <source>PACKAGE_TOUR_TITLE</source>
+                <target>Forfaits touristiques</target>
+            </trans-unit>
+            <trans-unit id="756">
+                <source>PACKAGE_TOUR_SUBTITLE</source>
+                <target>Assurez-vous que vous  venez à Cuba pour vous amuser!</target>
+            </trans-unit>
+            <trans-unit id="757">
+                <source>PACKAGE_RESTRICT_ALERT</source>
+                <target>Ce service n’est disponible que pour des personnes résidant en Suisse ou en Allemagne.</target>
+            </trans-unit>
+             <trans-unit id="758">
+                <source>NEWSLETTER_HEAD_1</source>
+                <target>Indispensables!</target>
+            </trans-unit>
+            <trans-unit id="759">
+                <source>NEWSLETTER_PARR_1</source>
+                <target>Les documents de voyage, l’appareil de photos et le maillot de bain ne peuvent manquer dans vos bagages.</target>
+            </trans-unit>
+            <trans-unit id="760">
+                <source>NEWSLETTER_SUBHEAD_1</source>
+                <target>On ne peut pas se rendre à Cuba sans un maillot de bain!</target>
+            </trans-unit>
+            <trans-unit id="761">
+                <source>NEWSLETTER_PARR_2</source>
+                <target>Généralement, la plupart de l’année le climat à  Cuba est chaud et humide, c’est pourquoi vos bagages se limiteront à des vêtements légers. Mais peut-être vous aurez éventuellement besoin, d’une veste parce qu’à Cuba l’air conditionné est fréquent dans certains endroits. Les Cubains sont très habitués mais pour les étrangers cela peut être déplaisant.</target>
+            </trans-unit>
+            <trans-unit id="762">
+                <source>NEWSLETTER_PARR_3</source>
+                <target>762  Le soleil à Cuba est particulièrement fort. C’est pourquoi une crème solaire (+50) sera indispensable. Et si vous avez des plans de visiter des zones rurales, des zones côtières ou d’une végétation abondante; un répulsif anti-insecte vous sera très utile.</target>
+                </trans-unit>
+            <trans-unit id="763">
+                <source>NEWSLETTER_PARR_4</source>
+                <target>Prenez congé de vos contacts habituels et annoncez que vous partez quelques jours en vacances. Quand vous allez à Cuba, vous devez être conscient du fait que vous serez quelques jours offline. Le service d’internet est cher et n’est pas rapide. Laissez donc, vos questions d’Internet pour votre retour.</target>
+                </trans-unit>
+            <trans-unit id="764">
+                <source>NEWSLETTER_HEAD_2</source>
+                <target>Faites attention!</target>
+                </trans-unit>
+            <trans-unit id="765">
+                <source>NEWSLETTER_PARR_5</source>
+                <target>Probablement l’une de vos premières expériences à Cuba sera la rencontre avec des personnes qui agacent les touristes. Ces personnes (hommes et femmes) vous feront croire qu’ils ont les meilleures offres de restaurants, de transport, d’hébergement, de tours, entre autres. Chaque jour leur travail est de persuader les touristes et dans la plupart des cas le résultat est l’escroquerie.</target>
+                </trans-unit>
+            <trans-unit id="766">
+                <source>NEWSLETTER_PARR_6</source>
+                <target>En tout cas, le mieux qu'on puisse faire, c'est de refuser ces offres qui en réalité, ne sont pas plus économiques. Les tarifs à Cuba pour les touristes sont assez standardisés Dans les cas où ils seraient significativement plus économiques, il se peut que l’on assiste à des illégalités. Ne contribuez  pas à la prolifération de ces phénomènes dans notre pays.	</target>
+                </trans-unit>
+            <trans-unit id="767">
+                <source>NEWSLETTER_HEAD_3</source>
+                <target>Aidez-nous à développer un tourisme responsable.</target>
+                </trans-unit>
+            <trans-unit id="768">
+                <source>NEWSLETTER_PARR_7</source>
+                <target>N’acceptez pas dès le début et interrompez la conversation  parce qu’ils peuvent insister et utiliser toutes sortes d’arguments.</target>
+                </trans-unit>
+            <trans-unit id="769">
+                <source>NEWSLETTER_PARR_8</source>
+                <target>Faites confiance dans les décisions prises et évaluez des options sur l’Internet. Vous pouvez lire sur les  expériences d’autres  voyageurs ou consulter des guides de voyage sur Cuba.</target>
+                </trans-unit>
+            <trans-unit id="770">
+                <source>NEWSLETTER_HEAD_4</source>
+                <target>Ne risquez pas la tranquillité de votre voyage.</target>
+                </trans-unit>
+            <trans-unit id="771">
+                <source>NEWSLETTER_PARR_9</source>
+                <target>Un autre aspect auquel il faut faire attention c’est au change de monnaie. Ne changez pas dans la rue. Il y a beaucoup d´établissements étatiques appelés  CADECA (Bureaux de  Change) où vous pouvez obtenir le CUC qui est la monnaie cubaine convertible. Vous pouvez aussi changer dans les banques.</target>
+                </trans-unit>
+            <trans-unit id="772">
+                <source>NEWSLETTER_PARR_10</source>
+                <target>Et finalement, l’eau est un autre élément important. Le climat cubain est très humide. C’est  important que vous soyez hydraté mais il faut  boire plutôt de l’eau en bouteille, ce qui est mieux pour votre santé.</target>
+                </trans-unit>
+            <trans-unit id="773">
+                <source>NEWSLETTER_INTRO_TEXT</source>
+                <target><![CDATA[Vous avez réservé à la bonne heure sur<b>MyCasaParticular.com</b>. Nous vous souhaitons des vacances extraordinaires. Nous vous envoyons ci-joint le voucher de votre réservation. Il vous faudra l’imprimer.]]></target>
+            </trans-unit>
+            <trans-unit id="774">
+                <source>NEWSLETTER_INTRO_TEXT1</source>
+                <target>Vivez  une expérience unique chez l´habitant. Découvrez Cuba, nous nous chargeons de vous loger.</target>
+            </trans-unit>
+            <trans-unit id="775">
+                <source>NEWSLETTER_INTRO_TEXT2</source>
+                <target>Nous nous chargeons de vous loger.</target>
+                </trans-unit>
+              <trans-unit id="776">
+                <source>NEWSLETTER_LINK_TEXT</source>
+                <target>Voyez votre historique de réservations.</target>
+                </trans-unit>
+              <trans-unit id="777">
+                <source>NEWSLETTER_LINK_TEXT1</source>
+                <target>Décidez-vous pour d’autres destinations.</target>
+                </trans-unit>
+              <trans-unit id="778">
+                <source>NEWSLETTER_LINK_BTN1</source>
+                <target>Quel autre endroit de Cuba aimeriez-vous visiter?</target>
+                </trans-unit>
+              <trans-unit id="779">
+              <source>backend.dashboard</source>
+              <target>Administration</target>
+              </trans-unit>
+              <trans-unit id="780">
+              <source>backend.welcome.user</source>
+              <target>Soyez le /la Bienvenu(à)</target>
+              </trans-unit>
+              <trans-unit id="781">
+              <source>backend.welcome.text</source>
+              <target> Visitez les sections qui se trouvent au menu à gauche pour réaliser les devoirs administratifs correspondant à votre rôle.</target>
+              </trans-unit>
+              <trans-unit id="782">
+              <source>backend.user.profile</source>
+              <target>Profil  d’utilisateur</target>
+              </trans-unit>
+              <trans-unit id="783">
+              <source>backend.user.logout</source>
+              <target> Se déconnecter</target>
+              </trans-unit>
+              <trans-unit id="784">
+              <source>backend.menu.content</source>
+              <target>Contenus</target>
+              </trans-unit>
+              <trans-unit id="785">
+              <source>backend.menu.content.metatags</source>
+              <target> Meta Tags</target>
+              </trans-unit>
+              <trans-unit id="786">
+              <source>backend.menu.content.municipalities</source>
+              <target>Commune</target>
+              </trans-unit>
+              <trans-unit id="787">
+              <source>backend.menu.content.destinations</source>
+              <target>Destinations</target>
+              </trans-unit>
+              <trans-unit id="788">
+              <source>backend.menu.content.accommodations</source>
+              <target>Logements</target>
+              </trans-unit>
+              <trans-unit id="789">
+              <source>backend.menu.content.unavailability_details</source>
+              <target>Disponibilité</target>
+              </trans-unit>
+              <trans-unit id="790">
+              <source>backend.menu.content.albums</source>
+              <target>Albums</target>
+              </trans-unit>
+              <trans-unit id="791">
+              <source>backend.menu.content.faqs</source>
+              <target>	Questions  fréquentes</target>
+              </trans-unit>
+              <trans-unit id="792">
+              <source>backend.menu.content.informations</source>
+              <target> Informations Générales </target>
+              </trans-unit>
+              <trans-unit id="793">
+              <source>backend.menu.content.comments</source>
+              <target>Opinions</target>
+              </trans-unit>
+              <trans-unit id="794">
+              <source>backend.menu.reservations</source>
+              <target>Réservations </target>
+              </trans-unit>
+              <trans-unit id="795">
+              <source>backend.menu.reservations.reservations</source>
+              <target>Réservations</target>
+              </trans-unit>
+              <trans-unit id="796">
+              <source>backend.menu.reservations.clients</source>
+              <target>Clients</target>
+              </trans-unit>
+              <trans-unit id="797">
+              <source>backend.menu.reservations.bookings</source>
+              <target>Bookings</target>
+              </trans-unit>
+              <trans-unit id="798">
+              <source>backend.menu.reservations.check_in</source>
+              <target>Check-in</target>
+              </trans-unit>
+              <trans-unit id="799">
+              <source>backend.menu.package</source>
+              <target>Forfaits</target>
+              </trans-unit>
+              <trans-unit id="800">
+              <source>backend.menu.package.reservations</source>
+              <target>Réservations</target>
+              </trans-unit>
+              <trans-unit id="801">
+              <source>backend.menu.package.packages</source>
+              <target>Forfaits</target>
+              </trans-unit>
+              <trans-unit id="802">
+              <source>backend.menu.package.services</source>
+              <target>Services</target>
+              </trans-unit>
+              <trans-unit id="803">
+              <source>backend.menu.generals</source>
+              <target>Générales</target>
+              </trans-unit>
+              <trans-unit id="804">
+              <source>backend.menu.generals.users</source>
+              <target>Utilisateurs</target>
+              </trans-unit>
+              <trans-unit id="805">
+              <source>backend.menu.generals.logs</source>
+              <target>Logs</target>
+              </trans-unit>
+              <trans-unit id="806">
+              <source>backend.menu.generals.currencies</source>
+              <target>Monnaies</target>
+              </trans-unit>
+              <trans-unit id="807">
+              <source>backend.menu.generals.languages</source>
+              <target>Langues</target>
+              </trans-unit>
+              <trans-unit id="808">
+              <source>backend.menu.generals.seasons</source>
+              <target>Saisons</target>
+              </trans-unit>
+              <trans-unit id="809">
+              <source>backend.menu.statistics</source>
+              <target>Statistiques</target>
+              </trans-unit>
+              <trans-unit id="810">
+              <source>backend.menu.statistics.reports</source>
+              <target>Rapports</target>
+              </trans-unit>
+              <trans-unit id="811">
+              <source>backend.menu.configurations</source>
+              <target>Configurations</target>
+              </trans-unit>
+              <trans-unit id="812">
+              <source>backend.menu.configurations.mail_lists</source>
+              <target> Listes d’e-mail</target>
+              </trans-unit>
+              <trans-unit id="813">
+              <source>backend.menu.configurations.roles</source>
+              <target>Rôles</target>
+              </trans-unit>
+              <trans-unit id="814">
+              <source>backend.menu.configurations.permissions</source>
+              <target>Permis</target>
+              </trans-unit>
+              <trans-unit id="815">
+              <source>backend.menu.configurations.downloads</source>
+              <target>Téléchargement</target>
+              </trans-unit>
+              <trans-unit id="816">
+              <source>backend.menu.testings</source>
+              <target>Testings</target>
+              </trans-unit>
+              <trans-unit id="817">
+              <source>backend.menu.testings.mails</source>
+              <target>E-mails</target>
+              </trans-unit>
+              <trans-unit id="818">
+              <source>backend.acces_denied</source>
+              <target>Accès nié</target>
+              </trans-unit>
+              <trans-unit id="819">
+              <source>backend.acces_denied.text</source>
+              <target>Ses privilèges ne sont pas suffisants pour accéder à cette section.</target>
+              </trans-unit>
+              <trans-unit id="820">
+              <source>backend.filter.filter_list</source>
+              <target> Filtrer liste </target>
+              </trans-unit>
+              <trans-unit id="821">
+              <source>backend.filter.remove_filter</source>
+              <target>Réinitialiser filtrage </target>
+              </trans-unit>
+              <trans-unit id="822">
+              <source>backend.package.package_list.add</source>
+              <target> Ajouter paquet</target>
+              </trans-unit>
+              <trans-unit id="823">
+              <source>backend.list.summary_header</source>
+              <target>En train de montrer du %firstItem% au %lastItem% de %totalItems% registres</target>
+              </trans-unit>
+              <trans-unit id="824">
+              <source>backend.list.items_to_show</source>
+              <target>Montrer:</target>
+              </trans-unit>
+              <trans-unit id="825">
+              <source>backend.loading</source>
+              <target>En cours de chargement...</target>
+              </trans-unit>
+              <trans-unit id="826">
+              <source>backend.package.code</source>
+              <target>Code</target>
+              </trans-unit>
+              <trans-unit id="827">
+              <source>backend.package.nights</source>
+              <target>Nuits</target>
+              </trans-unit>
+              <trans-unit id="828">
+              <source>backend.package.destination</source>
+              <target>Destination</target>
+              </trans-unit>
+              <trans-unit id="829">
+              <source>backend.package.province</source>
+              <target>Province</target>
+              </trans-unit>
+              <trans-unit id="830">
+              <source>backend.package.status</source>
+              <target>État</target>
+              </trans-unit>
+              <trans-unit id="831">
+              <source>backend.package.itinerary</source>
+              <target>Itinéraire</target>
+              </trans-unit>
+              <trans-unit id="832">
+              <source>backend.package.name</source>
+              <target>Prénom</target>
+              </trans-unit>
+              <trans-unit id="833">
+              <source>backend.package.min_price</source>
+              <target>Prix Minimum</target>
+              </trans-unit>
+              <trans-unit id="834">
+              <source>backend.actions</source>
+              <target>Actions</target>
+              </trans-unit>
+              <trans-unit id="835">
+              <source>backend.edit</source>
+              <target>Éditer</target>
+              </trans-unit>
+              <trans-unit id="836">
+              <source>backend.details</source>
+              <target>Détails </target>
+              </trans-unit>
+              <trans-unit id="837">
+              <source>backend.package.empty_list</source>
+              <target> Il n’y pas de forfaits disponibles.</target>
+              </trans-unit>
+              <trans-unit id="838">
+              <source>backend.confirm_delete_text</source>
+              <target>Confirmez-vous que vous désirez supprimer l’élément?</target>
+              </trans-unit>
+              <trans-unit id="839">
+              <source>backend.delete</source>
+              <target>supprimer </target>
+              </trans-unit>
+              <trans-unit id="840">
+              <source>backend.add</source>
+              <target>Ajouter</target>
+              </trans-unit>
+              <trans-unit id="841">
+              <source>backend.package.edit_package</source>
+              <target>Editer paquet de services</target>
+              </trans-unit>
+              <trans-unit id="842">
+              <source>backend.save</source>
+              <target>Enregistrer</target>
+              </trans-unit>
+              <trans-unit id="843">
+              <source>backend.save_and_new</source>
+              <target>Enregistrer et ajouter nouveau</target>
+              </trans-unit>
+              <trans-unit id="844">
+              <source>backend.save_and_return</source>
+              <target>Enregistrer et aller sur la liste</target>
+              </trans-unit>
+              <trans-unit id="845">
+              <source>backend.package.general_data</source>
+              <target>Informations générales</target>
+              </trans-unit>
+              <trans-unit id="846">
+              <source>backend.package.services</source>
+              <target>Services</target>
+              </trans-unit>
+              <trans-unit id="847">
+              <source>backend.package.images</source>
+              <target>Images</target>
+              </trans-unit>
+              <trans-unit id="848">
+              <source>backend.package.title</source>
+              <target>Título</target>
+              </trans-unit>
+              <trans-unit id="849">
+              <source>backend.package.subtitle</source>
+              <target>Sous-titre</target>
+              </trans-unit>
+              <trans-unit id="850">
+              <source>backend.package.short_description</source>
+              <target>Brève description </target>
+              </trans-unit>
+              <trans-unit id="851">
+              <source>backend.package.keywords</source>
+              <target>Mots clés</target>
+              </trans-unit>
+              <trans-unit id="852">
+              <source>backend.package.maximum_pax_number</source>
+              <target>Maximum de personnes</target>
+              </trans-unit>
+              <trans-unit id="853">
+              <source>backend.package.description</source>
+              <target>Description</target>
+              </trans-unit>
+              <trans-unit id="854">
+              <source>backend.package.accommodation_prices</source>
+              <target>Prix du logement</target>
+              </trans-unit>
+              <trans-unit id="855">
+              <source>backend.package.accommodation_prices.single_room.low_season</source>
+              <target>Chambre simple (Basse saison) </target>
+              </trans-unit>
+              <trans-unit id="856">
+              <source>backend.package.accommodation_prices.single_room.high_season</source>
+              <target> Chambre simple (Haute saison)</target>
+              </trans-unit>
+              <trans-unit id="857">
+              <source>backend.package.accommodation_prices.double_room.low_season</source>
+              <target>Chambre double (Basse saison)</target>
+              </trans-unit>
+              <trans-unit id="858">
+              <source>backend.package.accommodation_prices.double_room.high_season</source>
+              <target>Chambre double (Haute saison)</target>
+              </trans-unit>
+              <trans-unit id="859">
+              <source>backend.package.minimum_price_package</source>
+              <target>Prix minimum forfait</target>
+              </trans-unit>
+              <trans-unit id="860">
+              <source>backend.package.itinerary.add</source>
+              <target>Ajouter jour</target>
+              </trans-unit>
+              <trans-unit id="861">
+              <source>backend.package.itinerary.day</source>
+              <target>jour  %dayNumber%</target>
+              </trans-unit>
+              <trans-unit id="862">
+              <source>backend.package.itinerary.empty_list</source>
+              <target>Ce forfait n’a pas un itinéraire défini.</target>
+              </trans-unit>
+              <trans-unit id="863">
+              <source>backend.package.services.type</source>
+              <target>Type</target>
+              </trans-unit>
+              <trans-unit id="864">
+              <source>backend.package.services.service</source>
+              <target>Service</target>
+              </trans-unit>
+              <trans-unit id="865">
+              <source>backend.package.services.included</source>
+              <target> Inclus</target>
+              </trans-unit>
+              <trans-unit id="866">
+              <source>backend.package.services.duration_in_days</source>
+              <target>Duré / Jours</target>
+              </trans-unit>
+              <trans-unit id="867">
+              <source>backend.package.services.add</source>
+              <target>Ajouter service</target>
+              </trans-unit>
+              <trans-unit id="868">
+              <source>backend.package.services.price</source>
+              <target>Prix</target>
+              </trans-unit>
+              <trans-unit id="869">
+              <source>backend.package.services.per_pax</source>
+              <target>Par personne </target>
+              </trans-unit>
+              <trans-unit id="870">
+              <source>backend.remove</source>
+              <target>Supprimer</target>
+              </trans-unit>
+              <trans-unit id="871">
+              <source>backend.package.services_package.empty_list</source>
+              <target>Ce paquet n’a pas de services définis.</target>
+              </trans-unit>
+              <trans-unit id="872">
+              <source>backend.package.images.small_title</source>
+              <target>petite image </target>
+              </trans-unit>
+              <trans-unit id="873">
+              <source>backend.package.images.large_title</source>
+              <target>grande image</target>
+              </trans-unit>
+              <trans-unit id="874">
+              <source>backend.file_upload.select</source>
+              <target>Sélectionner fichier...</target>
+              </trans-unit>
+              <trans-unit id="875">
+              <source>backend.package.services.new</source>
+              <target>Ajouter service</target>
+              </trans-unit>
+              <trans-unit id="876">
+              <source>backend.package.services.empty_list</source>
+              <target>Il n’y a pas de services disponibles.</target>
+              </trans-unit>
+              <trans-unit id="877">
+              <source>backend.actions.inactive</source>
+              <target>Désactiver</target>
+              </trans-unit>
+               <trans-unit id="878">
+               <source>backend.package.services.edit</source>
+               <target>Éditer service</target>
+               </trans-unit>
+               <trans-unit id="879">
+               <source>backend.package.services.edit_in_package</source>
+               <target>Éditer service en %packageCode%</target>
+               </trans-unit>
+               <trans-unit id="880">
+               <source>backend.package.package</source>
+               <target>Forfait</target>
+               </trans-unit>
+               <trans-unit id="881">
+               <source>backend.package.services.class</source>
+               <target> Icône (Clase CSS)</target>
+               </trans-unit>
+               <trans-unit id="882">
+               <source>backend.package.bookings</source>
+               <target>Réservation</target>
+               </trans-unit>
+               <trans-unit id="883">
+               <source>backend.package.bookings.id</source>
+               <target> ID Réservation</target>
+               </trans-unit>
+               <trans-unit id="884">
+               <source>backend.package.bookings.package_name</source>
+               <target>Nom forfait</target>
+               </trans-unit>
+               <trans-unit id="885">
+               <source>backend.package.bookings.client_name</source>
+               <target> Nom client</target>
+               </trans-unit>
+               <trans-unit id="886">
+               <source>backend.package.bookings.booking_date</source>
+               <target> Date réservation</target>
+               </trans-unit>
+               <trans-unit id="887">
+               <source>backend.package.bookings.arrival_date</source>
+               <target>Date d’arrivée</target>
+               </trans-unit>
+               <trans-unit id="888">
+               <source>backend.package.bookings.status</source>
+               <target>  État de la réservation</target>
+               </trans-unit>
+               <trans-unit id="889">
+               <source>backend.package.bookings.date</source>
+               <target>Date</target>
+               </trans-unit>
+               <trans-unit id="890">
+               <source>backend.package.bookings.rooms</source>
+               <target>Chambres</target>
+               </trans-unit>
+               <trans-unit id="891">
+               <source>backend.package.bookings.guests</source>
+               <target>Personnes</target>
+               </trans-unit>
+               <trans-unit id="892">
+               <source>backend.package.bookings.arrival</source>
+               <target>Arrivée</target>
+               </trans-unit>
+               <trans-unit id="893">
+               <source>backend.package.bookings.nights</source>
+               <target>Nuitées</target>
+               </trans-unit>
+               <trans-unit id="894">
+               <source>backend.package.bookings.price</source>
+               <target>Prix</target>
+               </trans-unit>
+               <trans-unit id="895">
+               <source>backend.package.bookings.empty_date</source>
+               <target>	Il n’y a pas de réservations disponibles.</target>
+               </trans-unit>
+               <trans-unit id="896">
+               <source>backend.package.bookings.rooms.header_text</source>
+               <target>	  Liste de réservations</target>
+               </trans-unit>
+               <trans-unit id="897">
+               <source>backend.package.bookings.rooms.accommodation</source>
+               <target>Logement</target>
+               </trans-unit>
+               <trans-unit id="898">
+               <source>backend.package.bookings.rooms.room</source>
+               <target>Chambre</target>
+               </trans-unit>
+               <trans-unit id="899">
+               <source>backend.package.bookings.rooms.adults</source>
+               <target>Adultes</target>
+               </trans-unit>
+               <trans-unit id="900">
+               <source>backend.package.bookings.rooms.children</source>
+               <target>Enfants</target>
+               </trans-unit>
+               <trans-unit id="901">
+               <source>backend.package.bookings.rooms.from</source>
+               <target>Du</target>
+               </trans-unit>
+               <trans-unit id="902">
+               <source>backend.package.bookings.rooms.to</source>
+               <target>Jusqu’au</target>
+               </trans-unit>
+               <trans-unit id="903">
+               <source>backend.package.bookings.edit</source>
+               <target>Éditer réservation</target>
+               </trans-unit>
+               <trans-unit id="904">
+               <source>backend.package.bookings.add</source>
+               <target>Ajouter réservation</target>
+               </trans-unit>
+               <trans-unit id="905">
+               <source>backend.package.bookings.booking</source>
+               <target>Réservation</target>
+               </trans-unit>
+               <trans-unit id="906">
+               <source>backend.package.bookings.client_comments</source>
+               <target>Considérations</target>
+               </trans-unit>
+               <trans-unit id="907">
+               <source>backend.package.bookings.booking_code</source>
+               <target>Code de réservation</target>
+               </trans-unit>
+               <trans-unit id="908">
+               <source>backend.package.bookings.double_room</source>
+               <target>Double</target>
+               </trans-unit>
+               <trans-unit id="909">
+               <source>backend.package.bookings.simple_room</source>
+               <target>Simple</target>
+               </trans-unit>
+               <trans-unit id="910">
+               <source>backend.package.bookings.adults_plural</source>
+               <target>  {1} adulte|[2,Inf] adultes</target>
+               </trans-unit>
+               <trans-unit id="911">
+               <source>backend.package.bookings.child_plural</source>
+               <target>  {1} enfant|[2,Inf] enfants</target>
+               </trans-unit>
+               <trans-unit id="912">
+               <source>backend.package.bookings.client</source>
+               <target>Client</target>
+               </trans-unit>
+               <trans-unit id="913">
+               <source>backend.package.bookings.companion</source>
+               <target>Personnes qui accompagnent</target>
+               </trans-unit>
+               <trans-unit id="914">
+               <source>backend.package.bookings.companion.empty_list</source>
+               <target>D’autres personnes n´ont pas été enregistrées.</target>
+               </trans-unit>
+               <trans-unit id="915">
+               <source>backend.package.bookings.days_nights</source>
+               <target> %daysCount% jours / %nightsCount% nuits</target>
+               </trans-unit>
+               <trans-unit id="916">
+               <source>backend.accommodation_selection</source>
+               <target>Sélection</target>
+               </trans-unit>
+               <trans-unit id="917">
+               <source>backend.reserve_action</source>
+               <target>Réserver</target>
+               </trans-unit>
+               <trans-unit id="918">
+               <source>backend.package.bookings.confirmation_cancel</source>
+               <target>Annuler confirmation</target>
+               </trans-unit>
+               <trans-unit id="919">
+               <source>backend.package.bookings.service_details</source>
+               <target>	Détails du service</target>
+               </trans-unit>
+               <trans-unit id="920">
+               <source>backend.package.bookings.confirm</source>
+               <target>Confirmer</target>
+               </trans-unit>
+               <trans-unit id="921">
+               <source>backend.package.bookings.confirmed_services</source>
+               <target>Services confirmés</target>
+               </trans-unit>
+               <trans-unit id="922">
+               <source>backend.package.bookings.confirmed_services.empty_list</source>
+               <target>  Il n’y a pas de services confirmés </target>
+               </trans-unit>
+               <trans-unit id="923">
+               <source>backend.package.bookings.comments_to_client</source>
+               <target>Explications au client</target>
+               </trans-unit>
+               <trans-unit id="924">
+               <source>backend.menu.statistics.reports.sales</source>
+               <target>Rapport de ventes</target>
+               </trans-unit>
+               <trans-unit id="925">
+               <source>package.services.note</source>
+               <target>Les services qui ne sont pas mentionnés ne sont pas compris dans le prix du forfait.</target>
+               </trans-unit>
+               <trans-unit id="926">
+               <source>package.payment.data</source>
+               <target>Vous recevrez la facture avec les détails du paiement par e-mail. La somme totale devra être payée au cours des 30 jours suivants. En ce qui concerne les réservations de dernière minute, il faut les payer immédiatement. Vous recevrez aussi par e-mail, les documents de voyage (billets/voucher) contenant tous les prix payés.</target>
+               </trans-unit>
+               <trans-unit id="927">
+               <source>package.max</source>
+               <target>Max.</target>
+               </trans-unit>
+               <trans-unit id="928">
+               <source>package.pers</source>
+               <target>Personnes</target>
+               </trans-unit>
+				 <trans-unit id="929">
+              <source>backend.package.accommodation_price</source>
+              <target>Precio habitación</target>
+              </trans-unit>
+              <trans-unit id="930">
+                <source>package.for</source>
+                <target>Par personne</target>
+                </trans-unit>
+                <trans-unit id="931">
+              <source>package.max</source>
+              <target>maximum</target>
+              </trans-unit>
+              <trans-unit id="932">
+                <source>package.payment.iban</source>
+                <target>IBAN</target>
+                </trans-unit>
+              <trans-unit id="933">
+                <source>package.payment.swift</source>
+                <target>BIC/SWIFT</target>
+                </trans-unit>
+            <trans-unit id="934">
+            <source>children.ages</source>
+            <target>Âge des enfants</target>
+            </trans-unit>
+            <trans-unit id="935">
+            <source>PRICE_HIGHER</source>
+            <target>Prix le plus élevé</target>
+            </trans-unit>
+            <trans-unit id="936">
+            <source>PRICE_LOWER</source>
+            <target> Prix le plus bas</target>
+            </trans-unit>
+            <trans-unit id="937">
+            <source>COMMENT_ASC</source>
+            <target> Avec plus de  commentaires</target>
+            </trans-unit>
+            <trans-unit id="938">
+            <source>BOOKS_ASC</source>
+            <target>les plus réservées</target>
+            </trans-unit>
+            <trans-unit id="939">
+            <source>SHOW_RESULTS</source>
+            <target>Montrer résultats</target>
+            </trans-unit>
+            <trans-unit id="940">
+            <source>MORE_FILTERS</source>
+            <target>plus de filtres</target>
+            </trans-unit>
+                        <trans-unit id="941">
+                            <source>HOW_IT_WORKS_QUESTION</source>
+                            <target>Comment ça  fonctionne?</target>
+                        </trans-unit>
+              <trans-unit id="942">
+                            <source>MYCASA_RENTA_PARR1</source>
+                            <target>Une application mobile qui permet au propriétaire de gérer la disponibilité de ses chambres et tenir leur calendrier à jour pour actualiser ainsi dans notre site la disponibilité de celles-ci.</target>
+                        </trans-unit>
+              <trans-unit id="943">
+                            <source>MYCASA_RENTA_PARR2</source>
+                           <target>  <![CDATA[Connectez-vous sur l’Internet avec votre portable, système Android 2.2 ou supérieur et téléchargez l’application à partir de cette adresse: <a href="https://mycasaparticular.com/es/apprenta" target="_blankhttps://mycasaparticular.com/es/apprenta</a> ou directement sur <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blankGoogle Play</a>. Une fois l’ l’application téléchargé, installez-la.]]></target>
+                        </trans-unit>
+                 <trans-unit id="944">
+                            <source>MYCASA_RENTA_PARR3</source>
+                            <target>   Pour commencer à utiliser MyCasa Renta vous aurez besoin d’activer votre compte d’utilisateur. Les instructions pour l’activation ont été envoyées par notre équipe dans un e-mail. Si vous n’avez pas encore reçu cette information précisant les détails de votre compte, vous pouvez la demander à  info@mycasaparticular.com.</target>
+                        </trans-unit>
+                <trans-unit id="945">
+                            <source>MYCASA_RENTA_PARR4</source>
+                            <target>	"Une fois l’application installée dans votre portable et le processus d’activation de compte fini, vous pourrez commencer à utiliser  MyCasa Renta. Dans la page d’accueil de l’application vous devez appuyer sur le bouton Entrer
+                                     Pour commencer à utiliser MyCasa Renta vous devrez vous connecter en employant le code de votre maison, comme utilisateur, code reçu dans l’e-mail de création de la compte d’accès. En tant que mot de passe, utilisez celle que vous avez mis dans le formulaire d’activation."
+                                           </target>
+                        </trans-unit>
+                 <trans-unit id="946">
+                            <source>MYCASA_RENTA_PARR5</source>
+                            <target>L’application est fondée sur un calendrier interactif, visant à modifier l’état de différentes chambres de votre maison. Chacune des chambres montrera les dates marquées comme Non Disponibles au moment de l’authentification. La première fois que vous utilisez l’application, vous devrez être connecté sur l’Internet afin de pouvoir synchroniser les données de vos logements avec ceux qui sont enregistrés dans notre système.
+                                    </target>
+                        </trans-unit>
+                      <trans-unit id="947">
+                            <source>MYCASA_RENTA_STEP</source>
+                            <target>Pas</target>
+                        </trans-unit>
+                               <trans-unit id="948">
+                                    <source>DOWNLOAD_APP</source>
+                                    <target>Télécharger l’application</target>
+                                </trans-unit>
+            <trans-unit id="949" resname="Bad credentials.">
+                <source>Bad credentials.</source>
+                <target>Nom d’utilisateur ou mot de passe n´est pas valide.</target>
+                </trans-unit>
+
+                 <trans-unit id="950" resname="OWN_PRIZES">
+                <source>OWN_PRIZES</source>
+                <target>Prix</target>
+            </trans-unit>
+                            <trans-unit id="951">
+                                <source>FOOTER_EMAIL1</source>
+                                <target>"<![CDATA[Ajoutez <a href='mailto:reservation@mycasaparticular.com'>reservation@mycasaparticular.com</a> à votre carnet d´adresses pour continuer à recevoir nos mails.<br/><br/>
+Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d´être vérifiés en ce qui concerne la disponibilité.
+Consultez nos <a href="%termlink% Conditions d’utilisation</a> pour en savoir plus
+Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Conditions d’utilisation. ]]>"
+
+                                </target>
+                            </trans-unit>
+                                                  <trans-unit id="952">
+                                                      <source>FOOTER_EMAIL1_SUBTEXT</source>
+                                                      <target><![CDATA[MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle, Suisse.]]></target>
+                                                  </trans-unit>
+                             <trans-unit id="953">
+                                                      <source>quick_bookinhg</source>
+                                                      <target>  Réservation Rapide </target>
+                                                  </trans-unit>
+                                     <trans-unit id="954">
+                                                      <source>quick_booking_tooltip</source>
+                                                      <target>L´hôte de maison doit répondre à votre demande de réservation le plus rapidement possible.</target>
+                                                  </trans-unit>
+             <trans-unit id="955">
+                 <source>VOUCHER_CONSULT_TEXT</source>
+                 <target> Consultez les détails de vos réservations</target>
+                 </trans-unit>
+              <trans-unit id="956">
+                 <source>VOUCHER_MOVIL_TEXT</source>
+                 <target>Disponible maintenant sur votre portable.</target>
+                 </trans-unit>
+
+                 <trans-unit id="957">
+                 <source>VOUCHER_MOVIL_TEXT1</source>
+                 <target>C’est gratuit!</target>
+                 </trans-unit>
+
+
+
+   <trans-unit id="10957">
+                 <source>MYTAXICUBA</source>
+                 <target>Réservez nos services sur:</target>
+                 </trans-unit>
+ <trans-unit id="10958">
+                 <source>MYTAXICUBACONTE1</source>
+                 <target>Descubre Cuba con estilo. Recogidas en el aeropuerto y hasta la puerta de casa, paseos en autos antiguos y servicio de transfer. Estamos a tu lado siempre. Muevete con MyTaxiCuba.</target>
+                 </trans-unit>
+
+<trans-unit id="10959">
+                                      <source>MYTAXICUBACONTE2</source>
+                                      <target> Réservez nos services sur:</target>
+                                    </trans-unit>
+                 <trans-unit id="958">
+                 <source>VOUCHER_ON_SITE</source>
+                 <target>Voir sur le site</target>
+                 </trans-unit>
+                 <trans-unit id="959">
+                 <source>VOUCHER_HEADER_OWNS</source>
+                 <target> Chambres chez l’habitant dans tous les coins de l’île.</target>
+                 </trans-unit>
+                  <trans-unit id="960">
+                 <source>VOUCHER_MYCM_HEAD</source>
+                 <target>Votre voyage prend forme avec nous.</target>
+                 </trans-unit>
+                 <trans-unit id="961">
+                 <source>VOUCHER_MYCM_HEAD1</source>
+                 <target>pour</target>
+                 </trans-unit>
+                 <trans-unit id="962">
+                 <source>VOUCHER_CUCOU_HEAD</source>
+                 <target>Loger c’est seulement le début. Nous faisons de votre voyage une expérience unique.</target>
+                 </trans-unit>
+                 <trans-unit id="963">
+                  <source>ESCAPE_TEXT</source>
+                  <target>  <![CDATA[Faites une escapade  à Cuba! ...<br/>Toute l’ aventure pour la moitié du prix]]></target>
+                  </trans-unit>
+                    <trans-unit id="964">
+                  <source>DOUBLE_TEXT</source>
+                  <target>Divertissement double avec chaque ticket</target>
+                  </trans-unit>
+                   <trans-unit id="965">
+                    <source>CODE_TEXT</source>
+                    <target> Gardez ce code et utilisez-le!  </target>
+                    </trans-unit>
+                    <trans-unit id="971">
+                      <source>MYCASARENTA_TITLE</source>
+                      <target>MyCasa Renta, aplicación móvil </target>
+                    </trans-unit>
+                    <trans-unit id="972">
+                                          <source>MYCASATRIP_TITLE</source>
+                                          <target> MyCasa Trip, application portable </target>
+                                        </trans-unit>
+                    <trans-unit id="973">
+                                                            <source>DESTINATION_DETAILS</source>
+                                                            <target>Le meilleures chambres chez l´habitant à %destinationName%, Cuba </target>
+                                                        </trans-unit>
+                    <trans-unit id="974">
+                        <source>MOST_VISITED_CITIES_TITLE</source>
+                        <target>  Les villes les plus visitées à Cuba </target>
+                    </trans-unit>
+                    <trans-unit id="975">
+                     <source>NEW</source>
+                     <target>Nouveau!</target>
+                 </trans-unit>
+                 <trans-unit id="976">
+                      <source>JOIN_CASA</source>
+                      <target>Joignez-vous! Inscrivez votre maison</target>
+                 </trans-unit>
+                  <trans-unit id="977">
+                       <source>PRICE_TOTAL_TO_PAY</source>
+                       <target>Total à payer</target>
+                  </trans-unit>
+                  <trans-unit id="978">
+                       <source>FACEBOOK_SECOND_STEP</source>
+                       <target>Nous avons vos données Facebook. Il faut seulement une autre information pour compléter votre inscription sur MyCasaParticular.</target>
+                  </trans-unit>
+                  <trans-unit id="979">
+                       <source>FACEBOOK_BUTTON_TEXT</source>
+                       <target>Entrer</target>
+                  </trans-unit>
+                  <trans-unit id="980">
+                       <source>FACEBOOK_TITLE</source>
+                       <target>Il ne reste qu´un pas de plus...</target>
+                  </trans-unit>
+                  <trans-unit id="981">
+                       <source>ACCOMMODATION_TOTAL_COST</source>
+                       <target>Montant pour l’hébergement</target>
+                  </trans-unit>
+                  <trans-unit id="982">
+                       <source>SERVICES_TOTAL_COST</source>
+                       <target>Tarifs du service</target>
+                  </trans-unit>
+                  <trans-unit id="983">
+                       <source>PAY_AT_ACCOMMODATION</source>
+                       <target>Paiement  à la maison</target>
+                  </trans-unit>
+                  <trans-unit id="984">
+                       <source>ONLINE_PREPAYMENT</source>
+                       <target>Paiement acompte en ligne. </target>
+                  </trans-unit>
+                  <trans-unit id="985">
+                       <source>PERCENT_ACCOMMODATION_AMOUNT</source>
+                       <target>  %percent% du montant pour hébergement</target>
+                  </trans-unit>
+                  <trans-unit id="986">
+                     <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
+                     <target>montants pour  hébergements</target>
+                </trans-unit>
+                  <trans-unit id="987">
+                     <source>PREPAYMENT</source>
+                     <target>Acompte</target>
+                </trans-unit>
+                  <trans-unit id="988">
+                     <source>PRICE_NIGHT</source>
+                     <target>Prix / Nuitée</target>
+                </trans-unit>
+                <trans-unit id="989">
+                     <source>RESERVATION_COST</source>
+                     <target>  Prix de la réservation </target>
+                </trans-unit>
+
+		<trans-unit id="990">
+          <source>POSTFINANCE_PAYMENT</source>
+          <target>Payez en utilisant compte Postfinance,VISA ou MASTERCARD</target>
+        </trans-unit>
+        <trans-unit id="991">
+          <source>VISA_PAYMENT</source>
+          <target>Payez en utilisant Visa</target>
+        </trans-unit>
+        <trans-unit id="992">
+          <source>MASTERCARD_PAYMENT</source>
+          <target>Payez en utilisant Mastercard</target>
+        </trans-unit>
+        <trans-unit id="993">
+          <source>PAYMENT_SUCCESS</source>
+          <target>Super! Vous avez payé toutes vos réservations avec succès. Cuba vous attend.</target>
+        </trans-unit>
+       <trans-unit id="994">
+             <source>CREATE_ACCOUNT_SUCCESS</source>
+             <target>Vous vous êtes inscrit  avec succès sur  MyCasaParticular </target>
+        </trans-unit>
+        <trans-unit id="995">
+             <source>CREATE_ACCOUNT_EMAIL_SUBJECT</source>
+             <target>Merci de votre inscription  sur MyCasaParticular</target>
+        </trans-unit>
+        <trans-unit id="996">
+             <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
+             <target>Vous vous êtes inscrit  avec succès sur  MyCasaParticular .</target>
+        </trans-unit>
+        <trans-unit id="997">
+             <source>NEW_USER_ACCOUNT</source>
+             <target> Nouveau compte d´utilisateur</target>
+        </trans-unit>
+                <trans-unit id="998">
+                     <source>Logo</source>
+                     <target>Logo</target>
+                </trans-unit>
+ <trans-unit id="999">
+                       <source>ROOM</source>
+                       <target>Chambre</target>
+                  </trans-unit>
+                  <trans-unit id="1000">
+                        <source>SHARE</source>
+                        <target>Partager</target>
+                   </trans-unit>
+                  <trans-unit id="1001">
+                          <source>Bookings</source>
+                          <target>Réservation</target>
+                   </trans-unit>
+            <trans-unit id="1002">
+                <source>TOP_HOUSES_HOME_TITLE_MOBILE</source>
+                <target>Maisons les plus réputées</target>
+            </trans-unit>
+            <trans-unit id="1003">
+                <source>MARQUESINA_TEXT</source>
+                <target>	Réservez votre logement idéal sans attendre une confirmation. Organisez votre voyage en instants avec notre service de Réservation Immédiate. Disponible à La Havane.</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>SEE_NOW</source>
+                <target>Voir maintenant</target>
+            </trans-unit>
+            <trans-unit id="1005">
+                <source>pinterest</source>
+                <target>pinterest</target>
+            </trans-unit>
+            <trans-unit id="1006">
+                <source>youtube</source>
+                <target>youtube</target>
+            </trans-unit>
+            <trans-unit id="1007">
+                <source>PAYMENT_NOT_EXISTS</source>
+                <target>1007 Il n’existe pas de voucher PDF pour le paiement choisi</target>
+            </trans-unit>
+            <trans-unit id="1008">
+                <source>facebook</source>
+                <target>facebook</target>
+            </trans-unit>
+            <trans-unit id="1009">
+                <source>twitter</source>
+                <target>twitter</target>
+            </trans-unit>
+            <trans-unit id="1010">
+                 <source>Calendario Actualizado</source>
+                 <target>Calendrier mis à jour</target>
+             </trans-unit>
+        </body>
+    </file>
+</xliff>

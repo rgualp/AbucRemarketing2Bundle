@@ -1,0 +1,43 @@
+ <h3 id="prov-name" class="text-left" style="margin:0px;margin-left: 10px; color: #868A8D">
+ {{"NEARBY_DESTINATION" | trans}}
+ </h3>
+{%if list | length%}
+ <div class="carousel slide carousel-mini province_map_houses" id="housesCarousel" style="margin-top:0px">
+                <h4 class="carousel-title"></h4>
+                <div class="carousel-inner">
+                    {% set flag_item = 0 %}
+                    {% set decimalPart = ((list|length)/4) - ((list|length)%4) %}
+                    {% set decimalPart = (decimalPart != 0) ? 1 : 0 %}
+                    {% set pages = ((list|length)%4) + decimalPart %}
+                        {% for i in 1..pages%}
+                        <div class="item {% if i == 1 %}active{% endif %}">                            
+                            {% for e in 1..4%}
+                            {% if list[flag_item] is defined %}
+                            <div class="row">
+                            <div class="col-xs-6">
+                                <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
+                                    <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width" alt="{{"Thumbnails" | trans}}"/>
+                                <!--img data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width lazy" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}"/>
+                                <noscript><img class="nolazy" src="{{ asset('uploads/destinationImages/thumbnails/' ~ list[flag_item].photo)}}"></noscript-->
+                                </a>
+                            </div>
+                            <div class="col-xs-6"><b>
+                                    <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
+                                    {{list[flag_item].des_name}}
+                                    </a>
+                                </b><br/>{{list[flag_item].min_price | price}} {{"BYNIGHTS_PRICES" | trans | lower}}
+                             </div>
+                            {% set flag_item = flag_item + 1 %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        
+                    </div>
+                        {% endfor %}
+                </div>
+                {% if (list|length)/4 > 1%}
+                <a data-slide="prev" href="#housesCarousel" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#housesCarousel" class="right carousel-control">›</a>
+                {%endif%}
+            </div>
+{%endif%}
