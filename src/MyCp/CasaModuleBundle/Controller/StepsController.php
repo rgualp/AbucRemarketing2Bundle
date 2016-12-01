@@ -999,6 +999,10 @@ class StepsController extends Controller
         {
             $udetailsService->removeUDetail($room, $start, $end, 'Por el propietario');
         }
+
+        //Actualizar la frecuencia de actualizacion
+        $em->getRepository("mycpBundle:accommodationCalendarFrequency")->addFrequencyByRoom($room);
+
         /*$unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
         foreach($unavailability as $item){
           if($item->getUdFromDate()>=$start&&$item->getUdToDate()<=$end){

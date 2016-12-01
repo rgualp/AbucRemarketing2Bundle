@@ -23,10 +23,7 @@ class accommodationCalendarFrequencyRepository extends EntityRepository
         $em = $this->getEntityManager();
         $date = new \DateTime();
 
-        $frequency = $em->getRepository("mycpBundle:accommodationCalendarFrequency")->findOneBy(array(
-            "accommodation" => $idAccommodation,
-            "updatedDate" => date("Y-m-d", $date->getTimestamp())
-        ));
+        $frequency = $this->getFrequency($idAccommodation, $date);
 
         if($frequency == null)
         {
@@ -44,5 +41,30 @@ class accommodationCalendarFrequencyRepository extends EntityRepository
         }
 
         return false;
+    }
+
+    public function addFrequencyByRoom($idRoom, $source = "Módulo Casa")
+    {
+        $em = $this->getEntityManager();
+        $room = $em->getRepository("mycpBundle:room")->find($idRoom);
+
+        return $this->addFrequency($room->getRoomOwnership()->getOwnId(), $source);
+    }
+
+    public function getFrequency($idAccommodation, $date)
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:accommodationCalendarFrequency", "freq")
+            ->select("freq")
+            ->join("freq.accommodation", "accommodation")
+            ->where("accommodation.own_id = :accommodationId")
+            ->andWhere("DATE_DIFF(:date, freq.updatedDate) = 0")
+            ->setParameter("date", $date)
+            ->setParameter("accommodationId", $idAccommodation)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }
