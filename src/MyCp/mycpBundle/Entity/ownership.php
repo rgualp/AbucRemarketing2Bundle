@@ -603,6 +603,11 @@ class ownership {
      */
     private $failures;
 
+    /**
+     * @ORM\OneToMany(targetEntity="accommodationCalendarFrequency", mappedBy="accommodation")
+     */
+    private $calendarUpdateFrequency;
+
 
     /**
      * Constructor
@@ -630,6 +635,7 @@ class ownership {
         $this->insertedInCasaModule = false;
         $this->penalties = new ArrayCollection();
         $this->failures = new ArrayCollection();
+        $this->calendarUpdateFrequency = new ArrayCollection();
     }
 
     /**
@@ -2645,6 +2651,45 @@ class ownership {
         $this->failures->removeElement($failure);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCalendarUpdateFrequency()
+    {
+        return $this->calendarUpdateFrequency;
+    }
 
+    /**
+     * @param mixed $calendarUpdateFrequency
+     * @return mixed
+     */
+    public function setCalendarUpdateFrequency($calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency = $calendarUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Add created calendarUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationCalendarFrequency $calendarUpdateFrequency
+     *
+     * @return user
+     */
+    public function addCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency[] = $calendarUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Remove created calendarUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationCalendarFrequency $calendarUpdateFrequency
+     */
+    public function removeCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency->removeElement($calendarUpdateFrequency);
+    }
 
 }

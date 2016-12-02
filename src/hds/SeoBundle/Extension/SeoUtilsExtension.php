@@ -109,6 +109,12 @@ class SeoUtilsExtension extends \Twig_Extension
 				case 'de':
 					$lang.= 'lang="de"';
 					break;
+                case 'fr':
+                    $lang.= 'lang="fr"';
+                    break;
+                case 'it':
+                    $lang.= 'lang="it"';
+                    break;
 				default:
 					$lang.= 'lang="en" <!---Seo: "'.$language_code.'" no esta definido... --->';
 			}

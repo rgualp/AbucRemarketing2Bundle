@@ -1,11 +1,6 @@
 {% if isFromUserWithReservation %}
     <br/>¿Es un comentario positivo?
-    <a class="changePositive btn btn-mini {% if comment.isPositive %}btn-success{% endif %}" data-id="{{ comment.comId }}" data-url="{{ path("mycp_change_positive") }}" data-positive="1"><i class="fa fa-thumbs-o-up"></i></a>
-    <a class="changePositive btn btn-mini {% if not comment.isPositive %}btn-danger{% endif %}" data-id="{{ comment.comId }}" data-url="{{ path("mycp_change_positive") }}"  data-positive="0"><i class="fa fa-thumbs-o-down"></i></a>
+    <a class="changePositive btn btn-mini {% if comment.isPositive %}btn-success{% endif %}" onclick="positiveAction(true, {{ comment.comId }});" data-id="{{ comment.comId }}" data-url="{{ path("mycp_change_positive") }}" data-positive="1"><i class="fa fa-thumbs-o-up"></i></a>
+    <a class="changePositive btn btn-mini {% if not comment.isPositive %}btn-danger{% endif %}" onclick="positiveAction(false, {{ comment.comId }});" data-id="{{ comment.comId }}" data-url="{{ path("mycp_change_positive") }}"  data-positive="0"><i class="fa fa-thumbs-o-down"></i></a>
+    <span id="loading_{{ comment.comId }}" class="hidden"><i class="fa fa-refresh fa-spin"></i></span>
 {% endif %}
-
-<script>
-    $(".changePositive").click(function(){
-
-    });
-</script>

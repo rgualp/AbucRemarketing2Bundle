@@ -1052,6 +1052,8 @@ class OwnershipController extends Controller {
             $orderBooks=$request->request->get('order_books');
 
             $check_filters = array();
+
+            $check_filters['own_update_avaliable'] = $request->request->get('own_update_avaliable');
             $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
             $check_filters['own_award'] = $request->request->get('own_award');
             $check_filters['own_category'] = $request->request->get('own_category');
