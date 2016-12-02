@@ -108,10 +108,10 @@ class TranslationCommand extends ContainerAwareCommand {
                     ->setOdlAutomaticTranslation($translated);
 
                 $em->persist($translatedDescription);
+                $em->flush();
             }
         }
 
-        $em->flush();
         $output->writeln('You are amazing with translations!');
         return 0;
     }
