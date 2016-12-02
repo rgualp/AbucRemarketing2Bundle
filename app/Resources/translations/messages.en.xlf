@@ -4026,10 +4026,6 @@
                     <source>Calendario Actualizado</source>
                     <target>Updated calendar</target>
                 </trans-unit>
-                <trans-unit id="1010">
-                    <source>STATEMENT</source>
-                    <target>Statement</target>
-                </trans-unit>
             <trans-unit id="1011">
                  <source>NOTIFICATIONS</source>
                  <target>Notifications</target>
@@ -4045,6 +4041,10 @@
             <trans-unit id="1014">
                  <source>NOTIFICATION</source>
                  <target>Notification</target>
+            </trans-unit>
+            <trans-unit id="1015">
+                <source>STATEMENT</source>
+                <target>Statement</target>
             </trans-unit>
         </body>
     </file>
