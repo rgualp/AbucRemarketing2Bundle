@@ -100,6 +100,47 @@ class UserController extends Controller {
                 $dispatcher->dispatch(PredefinedEvents::USER_SIGN_UP, new JobEvent($eventData));*/
 
                 //return $this->redirect($this->generateUrl('frontend_login'));
+
+                //Registrando al user en HDS-MEAN
+                // abrimos la sesión cURL
+                $ch = curl_init();
+                // definimos la URL a la que hacemos la petición
+                curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."register");
+                // definimos el número de campos o parámetros que enviamos mediante POST
+                curl_setopt($ch, CURLOPT_POST, 1);
+                // definimos cada uno de los parámetros
+                $hash_user = hash('sha256', $user_db->getUserUserName());
+                $hash_email = hash('sha256', $user_db->getUserEmail());
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "email=".$hash_email.'_'.$this->container->getParameter('mean_project')."&last=".$user_db->getUserLastName()."&first=".$user_db->getUserLastName()."&password=".$user_db->getUserPassword()."&username=".$hash_user.'_'.$this->container->getParameter('mean_project'));
+                // recibimos la respuesta y la guardamos en una variable
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $remote_server_output = curl_exec ($ch);
+                // cerramos la sesión cURL
+                curl_close ($ch);
+                $user_db->setRegisterNotification(true);
+                $em->persist($user_db);
+                $em->flush();
+                /*-----------------Autenticando al usuario en HDS-MEN-----------------------*/
+                $session = $this->container->get('session');
+                //// abrimos la sesión cURL
+                $ch = curl_init();
+                // definimos la URL a la que hacemos la petición
+                curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."access-token?username=".$hash_user.'_'.$this->container->getParameter('mean_project')."&password=".$user_db->getPassword()."&email=".$hash_email.'_'.$this->container->getParameter('mean_project'));
+                // recibimos la respuesta y la guardamos en una variable
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec ($ch);
+                // cerramos la sesión cURL
+                curl_close ($ch);
+                if(!$response) {
+                    $session->set('access-token', "");
+                }else{
+                    $response_temp= json_decode($response);
+                    $session->set('access-token', $response_temp->token);
+                    $user_db->setOnline(true);
+                    $em->persist($user_db);
+                    $em->flush();
+                }
+
                 return $this->redirect($this->generateUrl('frontend_welcome'));
             }
         }

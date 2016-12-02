@@ -1,0 +1,250 @@
+#small-chat {
+    bottom: 20px;
+    position: fixed;
+    right: 20px;
+    z-index: 100;
+}
+#small-chat .badge {
+    position: absolute;
+    right: -4px;
+    top: -3px;
+}
+.open-small-chat {
+    background: #1ab394 none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #fff;
+    display: block;
+    height: 38px;
+    padding: 9px 8px;
+    text-align: center;
+    width: 38px;
+    cursor: pointer;
+}
+.open-small-chat:hover {
+    background: #1ab394 none repeat scroll 0 0;
+    color: white;
+}
+.small-chat-box {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #e7eaec;
+    border-radius: 4px;
+    bottom: 20px;
+    display: none;
+    height: 320px;
+    position: fixed;
+    right: 75px;
+    width: 230px;
+    z-index: 9999;
+}
+.small-chat-box.ng-small-chat {
+    display: block;
+}
+.body-small .small-chat-box {
+    bottom: 70px;
+    right: 20px;
+}
+.small-chat-box.active {
+    display: block;
+}
+.small-chat-box .heading {
+    background: #2f4050 none repeat scroll 0 0;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px 15px;
+}
+.small-chat-box .chat-date {
+    font-size: 10px;
+    font-weight: normal;
+    opacity: 0.6;
+}
+.small-chat-box .content {
+    padding: 15px;
+}
+.small-chat-box .content .author-name {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+.small-chat-box .content > div {
+    padding-bottom: 20px;
+}
+.small-chat-box .content .chat-message {
+    background: #f3f3f4 none repeat scroll 0 0;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 14px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    padding: 5px 10px;
+}
+.small-chat-box .content .chat-message.active {
+    background: #1ab394 none repeat scroll 0 0;
+    color: #fff;
+}
+.small-chat-box .content .left {
+    clear: both;
+    text-align: left;
+}
+.small-chat-box .content .left .chat-message {
+    float: left;
+}
+.small-chat-box .content .right {
+    clear: both;
+    text-align: right;
+}
+.small-chat-box .content .right .chat-message {
+    float: right;
+}
+.small-chat-box .form-chat {
+    padding: 10px;
+}
+
+#list-notification:hover{
+    color: #fff;
+}
+
+/*Right Side Bar */
+
+#right-sidebar {
+    background-color: #fff;
+    border-left: 1px solid #e7eaec;
+    border-top: 1px solid #e7eaec;
+    bottom: 0;
+    overflow: hidden;
+    position: fixed;
+    right: -360px;
+    top: 0;
+    width: 350px !important;
+    z-index: 1009;
+}
+#right-sidebar.sidebar-open {
+    right: 0;
+}
+#right-sidebar.sidebar-open.sidebar-top {
+    top: 0;
+    border-top: none;
+}
+.sidebar-container ul.nav-tabs {
+    border: none;
+    margin: 0;
+}
+.sidebar-container ul.nav-tabs.navs-4 li {
+    width: 25%;
+}
+.sidebar-container ul.nav-tabs.navs-3 li {
+    width: 33.3333%;
+}
+.sidebar-container ul.nav-tabs.navs-2 li {
+    width: 50%;
+}
+.sidebar-container ul.nav-tabs li {
+    border: none;
+    margin: 0;
+}
+.sidebar-container ul.nav-tabs li a {
+    border: none;
+    padding: 11px 5px;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #84b231;
+    text-align: center;
+}
+.sidebar-container ul.nav-tabs li.active a {
+    background: #9bc948 none repeat scroll 0 0;
+    color: #416f00;
+}
+.sidebar-container .nav-tabs > li.active > a:hover,
+.sidebar-container .nav-tabs > li.active > a:focus {
+    border: none;
+}
+.sidebar-container ul.sidebar-list {
+    margin: 0;
+    padding: 0;
+}
+.sidebar-container ul.sidebar-list li {
+    border-bottom: 1px solid #e7eaec;
+    padding: 15px 20px;
+    list-style: none;
+    font-size: 12px;
+}
+.sidebar-container .sidebar-message:nth-child(2n+2) {
+    background: #f9f9f9;
+}
+.sidebar-container ul.sidebar-list li a {
+    text-decoration: none;
+    color: inherit;
+}
+.sidebar-container .sidebar-content {
+    padding: 15px 20px ;
+    font-size: 12px;
+}
+.sidebar-container .sidebar-title {
+    background: #4e67c1 none repeat scroll 0 0;
+    border-bottom: 1px solid #e7eaec;
+    color: #fff;
+    padding: 5px 17px;
+}
+.sidebar-container .sidebar-title h3 {
+    margin-bottom: 3px;
+    padding-left: 2px;
+}
+.sidebar-container .tab-content h4 {
+    margin-bottom: 5px;
+}
+.sidebar-container .sidebar-message > a > .pull-left {
+    margin-right: 10px;
+}
+.sidebar-container .sidebar-message > a {
+    color: inherit;
+    font-size: 13px;
+}
+.sidebar-container .sidebar-message {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+}
+.sidebar-container .sidebar-message button{
+    background: #abc83c none repeat scroll 0 0;
+    border: 0 none;
+    color: #fff;
+    font-size: 11px;
+    height: 17px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 16px;
+}
+.sidebar-container .sidebar-message .message-avatar {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+}
+.sidebar-container .setings-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e7eaec;
+}
+
+.sidebar-container .sidebar-message .item-icon{
+    bottom: 0;
+    font-size: 18px;
+    height: 29px;
+    left: 19px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+}
+.sidebar-container .sidebar-message .icon-rating{
+    display: inline-block;
+    width: 20%;
+}
+.sidebar-container .sidebar-message .icon-rating .not-rating{
+    color: #e5ac00;
+    margin-top: 6px;
+    font-size: 10px;
+}
+.sidebar-container .sidebar-message .media-body-content{
+    display: inline-block;
+    width: 80%;
+}

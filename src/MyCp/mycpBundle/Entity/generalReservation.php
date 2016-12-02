@@ -821,6 +821,9 @@ class generalReservation {
         return $this;
     }
 
-
+    public function getCasDateAndTourist()
+    {
+        return $this->getCASId()." - ".date("d/m/Y", $this->getGenResFromDate()->getTimestamp())." - ".$this->getGenResUserId()->getUserCompleteName();
+    }
 
 }

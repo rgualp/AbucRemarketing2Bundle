@@ -1,13 +1,13 @@
 <div class="modal inmodal fade form-agency" id="myModalReservation" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content clearfix" style="background-color: #25323b !important;">
             <div class="modal-header modal-header-agency" style="background-color: #25323b !important;">
                 <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             </div>
-            <div class="modal-body modal-agency modal-reservation pb-0" style="height: 420px">
+            <div class="modal-body modal-agency pb-0">
                 <form class="form-horizontal form-agency agency modal-reservation" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
                     <div class="col-md-8">
-                        <h3>{{ "pa.modal.reservation.title" | trans }}</h3>
+                        <h3>{{ "pa.modal.reservation.new_reservation" | trans }}</h3>
 
                         <div id="divResult">
                             <div class="row m-0" id="openReservationsList" data-content="false" data-url="{{ path("partnet_dashboard_open_reservations_list") }}" data-loadingtext="{{ "pa.loading" | trans }}">
@@ -21,7 +21,7 @@
                     <div class="col-md-4">
                         <h4 class="text-right" id="accommodationName"></h4>
 
-                        <div class="row">
+                        {#<div class="row">
                             <div class="col-md-6" style="padding-left: 0">
                                 <div class="col-sm-10" style="padding: 0">
                                     <input type="text" value="{{ "+2 days" |date("d/m/Y") }}" data-localization="{{ locale }}" data-container="body" data-toggle="tooltip" placeholder="{{ 'label.filter.arrival'|trans }}" class="form-control input-date" required="required" name="modalDateFrom" id="modalDateFrom" aria-required="true"/>
@@ -38,10 +38,10 @@
                                     <i class="glyphicons calendar" style="margin-left: 5px; color: #fff !important"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                        </div>#}
+                        {#<div class="row">
                             <h3 class="text-right">{{ "pa.modal.reservation.new_reservation" | trans }}</h3>
-                        </div>
+                        </div>#}
                         <div class="row">
                             <div class="col-md-10" style="padding: 0px">
                                 <div class="inner-addon left-addon">
@@ -69,7 +69,7 @@
                                 {{ form_widget(form.email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             </div>
                         </div>#}
-                        <div class="row" style="margin-top: 10px;">
+                        {#<div class="row" style="margin-top: 10px;">
                             <div class="col-md-6" style="padding-left: 0">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons user"></i>
@@ -82,8 +82,8 @@
                                     {{ form_widget(form.children, { 'attr': {'placeholder': 'label.reservation.children'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control'}}) }}
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-top: 10px;">
+                        </div>#}
+                        {#<div class="row" style="margin-top: 10px;">
                             <div class="col-md-4" style="padding-left: 0">
 
                             </div>
@@ -93,7 +93,7 @@
                             <div class="col-md-4 text-right" style="padding-right: 0">
                                 <a class="glyphicons plus" style="color: #fff !important;font-family: MyriadProBoldCond;font-size: 22px" id="btnAddNewOpenReservation" data-url="{{ path("partnet_dashboard_new_open_reservation") }}"> {{ "pa.modal.reservation.add" | trans }}</a>
                             </div>
-                        </div>
+                        </div>#}
                         <div class="row" style="margin-top: 10px;">
                             <span class="hidden alertLabel">{{ "missing_data" | trans }}</span>
                         </div>

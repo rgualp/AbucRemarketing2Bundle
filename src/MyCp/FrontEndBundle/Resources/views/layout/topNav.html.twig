@@ -5,7 +5,7 @@
                 <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                 <li><a class="count-info" title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}">
                         <img  style="width: 26px; height: 23px;" class="icon big-heart-icon" alt="{{"Heart" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/> {{"FAVORITIES" | trans }}
-                        <span style="height: 15px;width: 20px;margin-left: -15px;" class="label" id="count-fav"> {{ count_fav }} </span>
+                        <span class="label" id="count-fav"> {{ count_fav }} </span>
                     </a></li>
                 <li>
                     {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
@@ -32,7 +32,7 @@
                         {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
                     </ul>
                 </li>
-                 </ul>
+            </ul>
         </div>
     </div>
 </div>

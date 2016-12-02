@@ -175,10 +175,30 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $tourOperators;
 
+    /**
+     * @ORM\OneToMany(targetEntity="penalty", mappedBy="user")
+     */
+    private $createdPenalties;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="register_notification", type="boolean", nullable=true)
+     */
+    private $register_notification;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="online", type="boolean", nullable=true)
+     */
+    private $online;
+
     public function __construct() {
         $this->comments = new ArrayCollection();
         $this->modified_reservations = new ArrayCollection();
         $this->tourOperators = new ArrayCollection();
+        $this->createdPenalties = new ArrayCollection();
     }
 
 
@@ -923,5 +943,133 @@ class user implements AdvancedUserInterface,  \Serializable
     {
         $this->tourOperators = $tourOperators;
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getModifiedReservations()
+    {
+        return $this->modified_reservations;
+    }
+
+    /**
+     * @param ArrayCollection $modified_reservations
+     * @return mixed
+     */
+    public function setModifiedReservations($modified_reservations)
+    {
+        $this->modified_reservations = $modified_reservations;
+        return $this;
+    }
+
+    /**
+     * Add modified reservation
+     *
+     * @param mixed $reservation
+     *
+     * @return user
+     */
+    public function addModifiedReservation($reservation)
+    {
+        $this->modified_reservations[] = $reservation;
+        return $this;
+    }
+
+    /**
+     * Remove modified reservation
+     *
+     * @param mixed $reservation
+     */
+    public function removeModifiedReservation($reservation)
+    {
+        $this->modified_reservations->removeElement($reservation);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedPenalties()
+    {
+        return $this->createdPenalties;
+    }
+
+    /**
+     * @param mixed $createdPenalties
+     * @return mixed
+     */
+    public function setCreatedPenalties($createdPenalties)
+    {
+        $this->createdPenalties = $createdPenalties;
+        return $this;
+    }
+
+    /**
+     * Add created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     *
+     * @return user
+     */
+    public function addCreatedPenalty(penalty $penalty)
+    {
+        $this->createdPenalties[] = $penalty;
+        return $this;
+    }
+
+    /**
+     * Remove created penalty
+     *
+     * @param \MyCp\mycpBundle\Entity\penalty $penalty
+     */
+    public function removeCreatedPenalty(penalty $penalty)
+    {
+        $this->createdPenalties->removeElement($penalty);
+    }
+    /**
+     * Set register_notification
+     *
+     * @param boolean $register_notification
+     *
+     * @return user
+     */
+    public function setRegisterNotification($register_notification)
+    {
+        $this->register_notification = $register_notification;
+
+        return $this;
+    }
+
+    /**
+     * Get register_notification
+     *
+     * @return boolean
+     */
+    public function getRegisterNotification()
+    {
+        return $this->register_notification;
+    }
+    /**
+     * Set online
+     *
+     * @param boolean $online
+     *
+     * @return user
+     */
+    public function setOnline($online)
+    {
+        $this->online = $online;
+
+        return $this;
+    }
+
+    /**
+     * Get online
+     *
+     * @return boolean
+     */
+    public function getOnline()
+    {
+        return $this->online;
     }
 }

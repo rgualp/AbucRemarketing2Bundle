@@ -1144,7 +1144,7 @@
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Dreibettzimmer mit Aufpreis von</target>
+                <target>Alle doppel und drittel Zimmern eine Nachgebuhr haben</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
@@ -1724,7 +1724,7 @@
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Dreibettzimmer mit Aufpreis von</target>
+                <target>Alle doppel und drittel Zimmern eine Nachgebuhr haben</target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>
@@ -4010,7 +4010,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 </trans-unit>
                 <trans-unit id="1003">
                      <source>MARQUESINA_TEXT</source>
-                     <target>Buchen Ihre Unterkunft ohne Bestätigung zu warten. Organisieren Sie Ihre Reise in wenigen minuten mithilfe unserem Service: sofortige Buchung. Gültig für Havannna.</target>
+                     <target>Buchen Ihre Unterkunft ohne Bestätigung zu warten. Organisieren Sie Ihre Reise in wenigen minuten mithilfe unserem Service: sofortige Buchung.</target>
                  </trans-unit>
                 <trans-unit id="1004">
                     <source>SEE_NOW</source>
@@ -4036,6 +4036,30 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                     <source>twitter</source>
                     <target>twitter</target>
                 </trans-unit>
+                <trans-unit id="1010">
+                     <source>Calendario Actualizado</source>
+                     <target>Kalender aktualisiert</target>
+                </trans-unit>
+                <trans-unit id="1010">
+                    <source>STATEMENT</source>
+                    <target>Status</target>
+                </trans-unit>
+            <trans-unit id="1011">
+                 <source>NOTIFICATIONS</source>
+                 <target>Benachrichtigungen</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                 <source>YOU HAVE</source>
+                 <target>Du hast</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                 <source>YOU_HAVE_AN_NEW_NOTIFICATION</source>
+                 <target>Sie haben eine neue Benachrichtigung</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                 <source>NOTIFICATION</source>
+                 <target>Benachrichtigung</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

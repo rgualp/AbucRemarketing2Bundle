@@ -117,6 +117,14 @@ mycp_revision:
     resource: "@mycpBundle/Resources/config/routingBackendRevision.yml"
     prefix:   backend/revision/
 
+mycp_penalty:
+    resource: "@mycpBundle/Resources/config/routingBackendPenalty.yml"
+    prefix:   backend/penalties/
+
+mycp_failure:
+    resource: "@mycpBundle/Resources/config/routingBackendFailure.yml"
+    prefix:   backend/failures/
+
 #mycp_check:
 #  pattern: /check
 

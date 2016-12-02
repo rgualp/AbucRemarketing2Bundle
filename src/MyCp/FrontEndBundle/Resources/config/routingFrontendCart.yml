@@ -1,29 +1,29 @@
 frontend_view_cart:
-    locales:  { en: "/user/whishlist/", es: "/usuario/listadeseo/", de: "/user/whishlist/" }
+    locales:  { en: "/user/whishlist/", es: "/usuario/listadeseo/", de: "/user/whishlist/", fr: "/user/whishlist/", it: "/user/whishlist/" }
     defaults: { _controller: FrontEndBundle:Cart:viewCart }
 
 frontend_add_to_cart:
-    locales:  { en: "/user/cart/add/{id_ownership}", es: "/usuario/cesta/agregar/{id_ownership}", de: "/user/cart/add/{id_ownership}" }
+    locales:  { en: "/user/cart/add/{id_ownership}", es: "/usuario/cesta/agregar/{id_ownership}", de: "/user/cart/add/{id_ownership}", fr: "/user/cart/add/{id_ownership}", it: "/user/cart/add/{id_ownership}" }
     defaults: { _controller: FrontEndBundle:Cart:addToCart }
 
 frontend_remove_from_cart_callback:
-    locales:  { en: "/user/cart/remove/{data}", es: "/usuario/cesta/eliminar/{data}", de: "/user/cart/remove/{data}" }
+    locales:  { en: "/user/cart/remove/{data}", es: "/usuario/cesta/eliminar/{data}", de: "/user/cart/remove/{data}", fr: "/user/cart/remove/{data}", it: "/user/cart/remove/{data}" }
     defaults: { _controller: FrontEndBundle:Cart:removeFromCart }
 
 frontend_remove_from_whislist:
-    locales:  { en: "/user/whislist/remove", es: "/usuario/listadeseo/eliminar", de: "/user/whislist/remove" }
+    locales:  { en: "/user/whislist/remove", es: "/usuario/listadeseo/eliminar", de: "/user/whislist/remove", fr: "/user/whislist/remove", it: "/user/whislist/remove" }
     defaults: { _controller: FrontEndBundle:Cart:removeFromWhisList }
 
 frontend_empty_cart:
-    locales:  { en: "/user/cart/clear/", es: "/usuario/cesta/vaciar/", de: "/benutzer/einkaufs-reservierungen/leer/" }
+    locales:  { en: "/user/cart/clear/", es: "/usuario/cesta/vaciar/", de: "/benutzer/einkaufs-reservierungen/leer/", fr: "/benutzer/einkaufs-reservierungen/leer/", it: "/benutzer/einkaufs-reservierungen/leer/" }
     defaults: { _controller: FrontEndBundle:Cart:emptyCart }
     
 frontend_check_availability_cart:
-    locales:  { en: "/user/reservation/check-confirm/", es: "/usuario/reservacion/chequear-confirmacion/", de: "/user/reservation/check-confirm/" }
+    locales:  { en: "/user/reservation/check-confirm/", es: "/usuario/reservacion/chequear-confirmacion/", de: "/user/reservation/check-confirm/", fr: "/user/reservation/check-confirm/", it: "/user/reservation/check-confirm/" }
     defaults: { _controller: FrontEndBundle:Cart:checkAvailability }
 
 frontend_check_availability_submit_cart:
-    locales:  { en: "/review-submit", es: "/review-submit", de: "/review-submit" }
+    locales:  { en: "/review-submit", es: "/review-submit", de: "/review-submit", fr: "/review-submit", it: "/review-submit" }
     defaults: { _controller: FrontEndBundle:Cart:checkAvailabilitySubmit }
 
 

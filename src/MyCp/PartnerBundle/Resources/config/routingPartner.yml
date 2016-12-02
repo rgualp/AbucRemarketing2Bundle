@@ -1,33 +1,33 @@
 #Rounting PARTNER-HOME
 #Home PARTNER
 frontend_partner_home:
-    locales:  { en: "/welcome", es: "/bienvenido", de: "/willkommen" }
+    locales:  { en: "/welcome", es: "/bienvenido", de: "/willkommen", it: "/willkommen", fr: "/willkommen" }
     defaults: { _controller: PartnerBundle:Frontend:index }
 
 #Printing language and currency in navbar
 frontend_partner_navbar:
-    locales:  { en: "/navbar/{route}/{routeParams}", es: "/navbar/{route}/{routeParams}", de: "/navbar/{route}/{routeParams}" }
+    locales:  { en: "/navbar/{route}/{routeParams}", es: "/navbar/{route}/{routeParams}", de: "/navbar/{route}/{routeParams}", fr: "/navbar/{route}/{routeParams}", it: "/navbar/{route}/{routeParams}" }
     defaults: { _controller: PartnerBundle:Frontend:navBar }
 
 #Change language update profile data
 frontend_partner_change_language_callback:
-    locales:  { en: "/partner/change-language/{lang}/{route}/{routeParams}", es: "/partner/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/partner/change-language/{lang}/{route}/{routeParams}" }
+    locales:  { en: "/partner/change-language/{lang}/{route}/{routeParams}", es: "/partner/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/partner/change-language/{lang}/{route}/{routeParams}", fr: "/partner/change-language/{lang}/{route}/{routeParams}", it: "/partner/change-language/{lang}/{route}/{routeParams}" }
     defaults: { _controller: PartnerBundle:Language:change, route: frontend_welcome, routeParams: null }
 
 #Change currency update profile data
 frontend_partner_change_currency_callback:
-    locales:  { en: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", es: "/partner/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", }
+    locales:  { en: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", es: "/partner/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", fr: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", it: "/partner/change-currency/{currencyCode}/{route}/{routeParams}" }
     defaults: { _controller: PartnerBundle:Currency:change, route: frontend_welcome, routeParams: null }
 
 
 #Login content
 frontend_partner_logincontent:
-    locales:  { en: "/login/content", es: "/login/content", de: "/login/content" }
+    locales:  { en: "/login/content", es: "/login/content", de: "/login/content", fr: "/login/content", it: "/login/content" }
     defaults: { _controller: PartnerBundle:Frontend:contentLogin }
 
 #Test email
 frontend_partner_testemail:
-    locales:  { en: "/test/email", es: "/test/email", de: "/test/email" }
+    locales:  { en: "/test/email", es: "/test/email", de: "/test/email", fr: "/test/email", it: "/test/email" }
     defaults: { _controller: PartnerBundle:Frontend:testEmail }
 
 
@@ -35,295 +35,295 @@ frontend_partner_testemail:
 
 #Register content
 frontend_partner_registercontent:
-    locales:  { en: "/register/content", es: "/register/content", de: "/register/content" }
+    locales:  { en: "/register/content", es: "/register/content", de: "/register/content", it: "/register/content", fr: "/register/content" }
     defaults: { _controller: PartnerBundle:Frontend:contentRegister }
 
 #Forgot Password
 frontend_partner_forgopassword:
-    locales:  { en: "/forgot_password", es: "/forgot_password", de: "/forgot_password" }
+    locales:  { en: "/forgot_password", es: "/forgot_password", de: "/forgot_password", fr: "/forgot_password", it: "/forgot_password" }
     defaults: { _controller: PartnerBundle:Frontend:contentForgot }
 
 frontend_partner_restore_password_user:
-    locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/" }
+    locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/", fr: "/passwort-wiederherstellen/", it: "/passwort-wiederherstellen/" }
     defaults: { _controller: PartnerBundle:Security:restorePassword }
 
 frontend_partner_change_password_user:
-    locales:  { en: "/change-password/{string}/{token}", es: "/cambiar-clave/{string}/{token}", de: "/passwort-aendern/{string}/{token}" }
+    locales:  { en: "/change-password/{string}/{token}", es: "/cambiar-clave/{string}/{token}", de: "/passwort-aendern/{string}/{token}", fr: "/passwort-aendern/{string}/{token}", it: "/passwort-aendern/{string}/{token}" }
     defaults: { _controller: PartnerBundle:Security:changePassword }
 
 #Register agency
 frontend_partner_registeragency:
-    locales:  { en: "/register/agency", es: "/registrar/agencia", de: "/register/agency" }
+    locales:  { en: "/register/agency", es: "/registrar/agencia", de: "/register/agency", fr: "/register/agency", it: "/register/agency" }
     defaults: { _controller: PartnerBundle:Frontend:registerAgency }
 
 #Activate account
 frontend_partner_activateacount:
-    locales:  { en: "/activateaccount/{token}", es: "/activateaccount/{token}", de: "/activateaccount/{token}" }
+    locales:  { en: "/activateaccount/{token}", es: "/activateaccount/{token}", de: "/activateaccount/{token}", fr: "/activateaccount/{token}", it: "/activateaccount/{token}" }
     defaults: { _controller: PartnerBundle:Security:activateAccount }
 
 #Register account page
 frontend_partner_registeracountpage:
-    locales:  { en: "/activation", es: "/activacion", de: "/aktivierung" }
+    locales:  { en: "/activation", es: "/activacion", de: "/aktivierung", fr: "/aktivierung", it: "/aktivierung" }
     defaults: { _controller: PartnerBundle:Frontend:registerAccountPage }
 
 #About us page
 frontend_partner_who_are:
-    locales:  { en: "/about", es: "/nosotros", de: "/about" }
+    locales:  { en: "/about", es: "/nosotros", de: "/about", fr: "/about", it: "/about" }
     defaults: { _controller: PartnerBundle:Frontend:whoAre }
 
 #How work page
 frontend_partner_how_work:
-    locales:  { en: "/help", es: "/ayuda", de: "/hilfe" }
+    locales:  { en: "/help", es: "/ayuda", de: "/hilfe", fr: "/hilfe", it: "/hilfe" }
     defaults: { _controller: PartnerBundle:Frontend:howWork }
 
 #Faq's page
 frontend_partner_faqs:
-    locales:  { en: "/faqs", es: "/faqs", de: "/faqs" }
+    locales:  { en: "/faqs", es: "/faqs", de: "/faqs", fr: "/faqs", it: "/faqs" }
     defaults: { _controller: PartnerBundle:Frontend:faqs }
 
 #Legal page
 frontend_partner_legal:
-    locales:  { en: "/legal", es: "/legal", de: "/rechtlich" }
+    locales:  { en: "/legal", es: "/legal", de: "/rechtlich",  fr: "/rechtlich",  it: "/rechtlich" }
     defaults: { _controller: PartnerBundle:Frontend:legal }
 
 #Site map page
 frontend_partner_sitemap:
-    locales:  { en: "/sitemap", es: "/mapa", de: "/sitemap" }
+    locales:  { en: "/sitemap", es: "/mapa", de: "/sitemap", fr: "/sitemap", it: "/sitemap" }
     defaults: { _controller: PartnerBundle:Frontend:sitemap }
 
 #Contactus page
 frontend_partner_contactus:
-    locales:  { en: "/contactus", es: "/contactos", de: "/kontaktiere" }
+    locales:  { en: "/contactus", es: "/contactos", de: "/kontaktiere",fr: "/kontaktiere", it: "/kontaktiere" }
     defaults: { _controller: PartnerBundle:Frontend:contactus }
 
 #Rounting PARTNER-BACKEND
 backend_partner_dashboard:
-    locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard" }
+    locales:  { en: "/dashboard", es: "/dashboard", de: "/dashboard", fr: "/dashboard", it: "/dashboard" }
     defaults: { _controller: PartnerBundle:Backend:index }
 
 backend_partner_seacrh:
-    locales:  { en: "/dashboard/search", es: "/dashboard/buscar", de: "/dashboard/search" }
+    locales:  { en: "/dashboard/search", es: "/dashboard/buscar", de: "/dashboard/search", fr: "/dashboard/search", it: "/dashboard/search" }
     defaults: { _controller: PartnerBundle:Backend:search }
 
 partner_dashboard_booking_pending:
-    locales:  { en: "/dashboard/booking/pending", es: "/dashboard/booking/pending", de: "/dashboard/booking/pending" }
+    locales:  { en: "/dashboard/booking/pending", es: "/dashboard/booking/pending", de: "/dashboard/booking/pending", fr: "/dashboard/booking/pending", it: "/dashboard/booking/pending" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingPending }
 
 partner_dashboard_booking_list_pending:
-    locales:  { en: "/dashboard/booking/pending/list", es: "/dashboard/booking/pending/list", de: "/dashboard/booking/pending/list" }
+    locales:  { en: "/dashboard/booking/pending/list", es: "/dashboard/booking/pending/list", de: "/dashboard/booking/pending/list", fr: "/dashboard/booking/pending/list", it: "/dashboard/booking/pending/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingPending }
 
 partner_dashboard_booking_detail:
-    locales:  { en: "/dashboard/booking/detail/{id_reservation}", es: "/dashboard/booking/detail/{id_reservation}", de: "/dashboard/booking/detail/{id_reservation}" }
+    locales:  { en: "/dashboard/booking/detail/{id_reservation}", es: "/dashboard/booking/detail/{id_reservation}", de: "/dashboard/booking/detail/{id_reservation}", fr: "/dashboard/booking/detail/{id_reservation}", it: "/dashboard/booking/detail/{id_reservation}" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingDetail,id_reservation:''}
 
 partner_dashboard_booking_cancel:
-    locales:  { en: "/dashboard/booking/cancel", es: "/dashboard/booking/cancel", de: "/dashboard/booking/cancel" }
+    locales:  { en: "/dashboard/booking/cancel", es: "/dashboard/booking/cancel", de: "/dashboard/booking/cancel", fr: "/dashboard/booking/cancel", it: "/dashboard/booking/cancel" }
     defaults: { _controller: PartnerBundle:Dashboard:cancelFromAgency}
 
 partner_dashboard_booking_availability:
-    locales:  { en: "/dashboard/booking/availability", es: "/dashboard/booking/availability", de: "/dashboard/booking/availability" }
+    locales:  { en: "/dashboard/booking/availability", es: "/dashboard/booking/availability", de: "/dashboard/booking/availability", fr: "/dashboard/booking/availability", it: "/dashboard/booking/availability" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingAvailability }
 
 partner_dashboard_booking_list_availability:
-    locales:  { en: "/dashboard/booking/availability/list", es: "/dashboard/booking/availability/list", de: "/dashboard/booking/availability/list" }
+    locales:  { en: "/dashboard/booking/availability/list", es: "/dashboard/booking/availability/list", de: "/dashboard/booking/availability/list", fr: "/dashboard/booking/availability/list", it: "/dashboard/booking/availability/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingAvailability }
 
 partner_dashboard_booking_notavailability:
-    locales:  { en: "/dashboard/booking/notavailability", es: "/dashboard/booking/notavailability", de: "/dashboard/booking/notavailability" }
+    locales:  { en: "/dashboard/booking/notavailability", es: "/dashboard/booking/notavailability", de: "/dashboard/booking/notavailability", fr: "/dashboard/booking/notavailability", it: "/dashboard/booking/notavailability" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingNotavailability }
 
 partner_dashboard_booking_list_notavailability:
-    locales:  { en: "/dashboard/booking/notavailability/list", es: "/dashboard/booking/notavailability/list", de: "/dashboard/booking/notavailability/list" }
+    locales:  { en: "/dashboard/booking/notavailability/list", es: "/dashboard/booking/notavailability/list", de: "/dashboard/booking/notavailability/list", fr: "/dashboard/booking/notavailability/list", it: "/dashboard/booking/notavailability/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingNotavailability }
 
 partner_dashboard_booking_beaten:
-    locales:  { en: "/dashboard/booking/beaten", es: "/dashboard/booking/beaten", de: "/dashboard/booking/beaten" }
+    locales:  { en: "/dashboard/booking/beaten", es: "/dashboard/booking/beaten", de: "/dashboard/booking/beaten", fr: "/dashboard/booking/beaten", it: "/dashboard/booking/beaten" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingBeaten }
 
 partner_dashboard_booking_list_beaten:
-    locales:  { en: "/dashboard/booking/beaten/list", es: "/dashboard/booking/beaten/list", de: "/dashboard/booking/beaten/list" }
+    locales:  { en: "/dashboard/booking/beaten/list", es: "/dashboard/booking/beaten/list", de: "/dashboard/booking/beaten/list", fr: "/dashboard/booking/beaten/list", it: "/dashboard/booking/beaten/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingBeaten }
 
 partner_dashboard_booking_reserved:
-    locales:  { en: "/dashboard/booking/reserved", es: "/dashboard/booking/reserved", de: "/dashboard/booking/reserved" }
+    locales:  { en: "/dashboard/booking/reserved", es: "/dashboard/booking/reserved", de: "/dashboard/booking/reserved", fr: "/dashboard/booking/reserved", it: "/dashboard/booking/reserved" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingReserved }
 
 partner_dashboard_booking_list_reserved:
-    locales:  { en: "/dashboard/booking/reserved/list", es: "/dashboard/booking/reserved/list", de: "/dashboard/booking/reserved/list" }
+    locales:  { en: "/dashboard/booking/reserved/list", es: "/dashboard/booking/reserved/list", de: "/dashboard/booking/reserved/list", fr: "/dashboard/booking/reserved/list", it: "/dashboard/booking/reserved/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingReserved }
 
 partner_dashboard_booking_canceled:
-    locales:  { en: "/dashboard/booking/canceled", es: "/dashboard/booking/canceled", de: "/dashboard/booking/canceled" }
+    locales:  { en: "/dashboard/booking/canceled", es: "/dashboard/booking/canceled", de: "/dashboard/booking/canceled", fr: "/dashboard/booking/canceled", it: "/dashboard/booking/canceled" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingCanceled }
 
 partner_dashboard_booking_list_canceled:
-    locales:  { en: "/dashboard/booking/canceled/list", es: "/dashboard/booking/canceled/list", de: "/dashboard/booking/canceled/list" }
+    locales:  { en: "/dashboard/booking/canceled/list", es: "/dashboard/booking/canceled/list", de: "/dashboard/booking/canceled/list", fr: "/dashboard/booking/canceled/list", it: "/dashboard/booking/canceled/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCanceled }
 
 partner_dashboard_booking_checkin:
-    locales:  { en: "/dashboard/booking/checkin", es: "/dashboard/booking/checkin", de: "/dashboard/booking/checkin" }
+    locales:  { en: "/dashboard/booking/checkin", es: "/dashboard/booking/checkin", de: "/dashboard/booking/checkin", fr: "/dashboard/booking/checkin", it: "/dashboard/booking/checkin" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingCheckin }
 
 partner_dashboard_booking_list_checkin:
-    locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list" }
+    locales:  { en: "/dashboard/booking/checkin/list", es: "/dashboard/booking/checkin/list", de: "/dashboard/booking/checkin/list", fr: "/dashboard/booking/checkin/list", it: "/dashboard/booking/checkin/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingCheckin }
 
 partner_dashboard_booking_list_export_checkin:
-    locales:  { en: "/dashboard/booking/checkin/list/export", es: "/dashboard/booking/checkin/list/export", de: "/dashboard/booking/checkin/list/export" }
+    locales:  { en: "/dashboard/booking/checkin/list/export", es: "/dashboard/booking/checkin/list/export", de: "/dashboard/booking/checkin/list/export", fr: "/dashboard/booking/checkin/list/export", it: "/dashboard/booking/checkin/list/export" }
     defaults: { _controller: PartnerBundle:Dashboard:listExportBookingCheckin }
 
 partner_dashboard_booking_proccess:
-    locales:  { en: "/dashboard/booking/proccess", es: "/dashboard/booking/proccess", de: "/dashboard/booking/proccess" }
+    locales:  { en: "/dashboard/booking/proccess", es: "/dashboard/booking/proccess", de: "/dashboard/booking/proccess",  fr: "/dashboard/booking/proccess",  it: "/dashboard/booking/proccess" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingProccess }
 
 partner_dashboard_booking_list_proccess:
-    locales:  { en: "/dashboard/booking/proccess/list", es: "/dashboard/booking/proccess/list", de: "/dashboard/booking/proccess/list" }
+    locales:  { en: "/dashboard/booking/proccess/list", es: "/dashboard/booking/proccess/list", de: "/dashboard/booking/proccess/list", fr: "/dashboard/booking/proccess/list", it: "/dashboard/booking/proccess/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingProccess }
 
 partner_dashboard_close_booking_proccess:
-    locales:  { en: "/dashboard/close-booking", es: "/dashboard/close-booking", de: "/dashboard/close-booking" }
+    locales:  { en: "/dashboard/close-booking", es: "/dashboard/close-booking", de: "/dashboard/close-booking", fr: "/dashboard/close-booking", it: "/dashboard/close-booking" }
     defaults: { _controller: PartnerBundle:Dashboard:closeReservation }
 
 partner_dashboard_close_all_booking_proccess:
-    locales:  { en: "/dashboard/close-all-booking", es: "/dashboard/close-all-booking", de: "/dashboard/close-all-booking" }
+    locales:  { en: "/dashboard/close-all-booking", es: "/dashboard/close-all-booking", de: "/dashboard/close-all-booking", fr: "/dashboard/close-all-booking", it: "/dashboard/close-all-booking" }
     defaults: { _controller: PartnerBundle:Dashboard:closeAllReservation }
 
 partner_dashboard_booking_proccess_detail:
-    locales:  { en: "/dashboard/booking/proccess/detail/{id_reservation}", es: "/dashboard/booking/proccess/detail/{id_reservation}", de: "/dashboard/booking/proccess/detail/{id_reservation}" }
+    locales:  { en: "/dashboard/booking/proccess/detail/{id_reservation}", es: "/dashboard/booking/proccess/detail/{id_reservation}", de: "/dashboard/booking/proccess/detail/{id_reservation}", fr: "/dashboard/booking/proccess/detail/{id_reservation}", it: "/dashboard/booking/proccess/detail/{id_reservation}" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingProccessDetail,id_reservation:''}
 
 partner_dashboard_page_detail:
-    locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}" }
+    locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}", fr: "/dashboard/accomodation/{own_name}", it: "/dashboard/accomodation/{own_name}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
 
 partner_dashboard_add_favorites:
-    locales:  { en: "/dashboard/add_favorites", es: "/dashboard/add_favorites", de: "/dashboard/add_favorites" }
+    locales:  { en: "/dashboard/add_favorites", es: "/dashboard/add_favorites", de: "/dashboard/add_favorites", fr: "/dashboard/add_favorites", it: "/dashboard/add_favorites" }
     defaults: { _controller: PartnerBundle:Dashboard:addFavorites }
 
 partner_dashboard_remove_favorites:
-    locales:  { en: "/dashboard/remove_favorites", es: "/dashboard/remove_favorites", de: "/dashboard/remove_favorites" }
+    locales:  { en: "/dashboard/remove_favorites", es: "/dashboard/remove_favorites", de: "/dashboard/remove_favorites", fr: "/dashboard/remove_favorites", it: "/dashboard/remove_favorites" }
     defaults: { _controller: PartnerBundle:Dashboard:removeFavorites }
 
 #Rounting showing list of open reservations - callback
 partnet_dashboard_open_reservations_list:
-    locales:  { en: "/dashboard/open-reservations", es: "/dashboard/open-reservations", de: "/dashboard/open-reservations" }
+    locales:  { en: "/dashboard/open-reservations", es: "/dashboard/open-reservations", de: "/dashboard/open-reservations", fr: "/dashboard/open-reservations", it: "/dashboard/open-reservations" }
     defaults: { _controller: PartnerBundle:Backend:openReservationsList }
 
 partnet_dashboard_profile_agency:
-    locales:  { en: "/dashboard/agency/profile", es: "/dashboard/agency/perfil", de: "/dashboard/agency/profile" }
+    locales:  { en: "/dashboard/agency/profile", es: "/dashboard/agency/perfil", de: "/dashboard/agency/profile", fr: "/dashboard/agency/profile", it: "/dashboard/agency/profile" }
     defaults: { _controller: PartnerBundle:Profile:profileAgency }
 
 partnet_dashboard_changepassword_agency:
-    locales:  { en: "/dashboard/agency/cambiarclave", es: "/dashboard/agency/changepassword", de: "/dashboard/agency/changepassword" }
+    locales:  { en: "/dashboard/agency/cambiarclave", es: "/dashboard/agency/changepassword", de: "/dashboard/agency/changepassword", fr: "/dashboard/agency/changepassword", it: "/dashboard/agency/changepassword" }
     defaults: { _controller: PartnerBundle:Profile:changePassword }
 
 partnet_dashboard_deactivate_agency:
-    locales:  { en: "/dashboard/agency/desactivar", es: "/dashboard/agency/deactivate", de: "/dashboard/agency/deactivate" }
+    locales:  { en: "/dashboard/agency/desactivar", es: "/dashboard/agency/deactivate", de: "/dashboard/agency/deactivate", fr: "/dashboard/agency/deactivate", it: "/dashboard/agency/deactivate" }
     defaults: { _controller: PartnerBundle:Profile:deactivateAgency }
 
 #Adding new open reservation - callback
 partnet_dashboard_new_open_reservation:
-    locales:  { en: "/dashboard/new-reservation", es: "/dashboard/new-reservation", de: "/dashboard/new-reservation" }
+    locales:  { en: "/dashboard/new-reservation", es: "/dashboard/new-reservation", de: "/dashboard/new-reservation", fr: "/dashboard/new-reservation", it: "/dashboard/new-reservation" }
     defaults: { _controller: PartnerBundle:Backend:newReservation }
 
 partnet_dashboard_avatar_agency:
-    locales:  { en: "/dashboard/agency/avatar", es: "/dashboard/agency/avatar", de: "/dashboard/agency/avatar" }
+    locales:  { en: "/dashboard/agency/avatar", es: "/dashboard/agency/avatar", de: "/dashboard/agency/avatar", fr: "/dashboard/agency/avatar", it: "/dashboard/agency/avatar" }
     defaults: { _controller: PartnerBundle:Profile:saveAvatar }
 
 partnet_dashboard_updateprofile_agency:
-    locales:  { en: "/dashboard/agency/update", es: "/dashboard/agency/actualizar", de: "/dashboard/agency/update" }
+    locales:  { en: "/dashboard/agency/update", es: "/dashboard/agency/actualizar", de: "/dashboard/agency/update", fr: "/dashboard/agency/update", it: "/dashboard/agency/update" }
     defaults: { _controller: PartnerBundle:Profile:updateAgency }
 
 #Adding new open reservation - callback
 partner_dashboard_close_reservation:
-    locales:  { en: "/dashboard/close-reservation", es: "/dashboard/close-reservation", de: "/dashboard/close-reservation" }
+    locales:  { en: "/dashboard/close-reservation", es: "/dashboard/close-reservation", de: "/dashboard/close-reservation", fr: "/dashboard/close-reservation" , it: "/dashboard/close-reservation"  }
     defaults: { _controller: PartnerBundle:Backend:closeReservation }
 
 partner_dashboard_add_to_open_reservation:
-    locales:  { en: "/dashboard/add-reservation", es: "/dashboard/add-reservation", de: "/dashboard/add-reservation" }
+    locales:  { en: "/dashboard/add-reservation", es: "/dashboard/add-reservation", de: "/dashboard/add-reservation", fr: "/dashboard/add-reservation", it: "/dashboard/add-reservation" }
     defaults: { _controller: PartnerBundle:Backend:addReservation }
 
 partner_dashboard_detailed_open_reservations_list:
-    locales:  { en: "/dashboard/detailed-open-reservations", es: "/dashboard/detailed-open-reservations", de: "/dashboard/detailed-open-reservations" }
+    locales:  { en: "/dashboard/detailed-open-reservations", es: "/dashboard/detailed-open-reservations", de: "/dashboard/detailed-open-reservations", fr: "/dashboard/detailed-open-reservations", it: "/dashboard/detailed-open-reservations" }
     defaults: { _controller: PartnerBundle:Backend:detailedOpenReservationsList }
 
 partner_dashboard_detailed_open_reservations_delete:
-    locales:  { en: "/dashboard/detailed-open-reservations-delete", es: "/dashboard/detailed-open-reservations-delete", de: "/dashboard/detailed-open-reservations-delete" }
+    locales:  { en: "/dashboard/detailed-open-reservations-delete", es: "/dashboard/detailed-open-reservations-delete", de: "/dashboard/detailed-open-reservations-delete", fr: "/dashboard/detailed-open-reservations-delete", it: "/dashboard/detailed-open-reservations-delete" }
     defaults: { _controller: PartnerBundle:Backend:deleteDetailedOpenReservation }
 
 partner_dashboard_cart:
-    locales:  { en: "/dashboard/cart", es: "/dashboard/carrito", de: "/dashboard/cart" }
+    locales:  { en: "/dashboard/cart", es: "/dashboard/carrito", de: "/dashboard/cart", fr: "/dashboard/cart", it: "/dashboard/cart" }
     defaults: { _controller: PartnerBundle:Cart:index }
 
 partner_dashboard_cart_show_reservation_details:
-    locales:  { en: "/dashboard/cart-show-details", es: "/dashboard/cart-show-details", de: "/dashboard/cart-show-details" }
+    locales:  { en: "/dashboard/cart-show-details", es: "/dashboard/cart-show-details", de: "/dashboard/cart-show-details", fr: "/dashboard/cart-show-details", it: "/dashboard/cart-show-details" }
     defaults: { _controller: PartnerBundle:Cart:showReservationsDetails }
 
 partner_dashboard_delete_from_cart:
-    locales:  { en: "/dashboard/delete-from-cart", es: "/dashboard/delete-from-cart", de: "/dashboard/delete-from-cart" }
+    locales:  { en: "/dashboard/delete-from-cart", es: "/dashboard/delete-from-cart", de: "/dashboard/delete-from-cart", fr: "/dashboard/delete-from-cart", it: "/dashboard/delete-from-cart" }
     defaults: { _controller: PartnerBundle:Cart:deleteFromCart }
 
 partner_dashboard_empty_cart:
-    locales:  { en: "/dashboard/empty-cart", es: "/dashboard/vaciar-carrito", de: "/dashboard/empty-cart" }
+    locales:  { en: "/dashboard/empty-cart", es: "/dashboard/vaciar-carrito", de: "/dashboard/empty-cart", fr: "/dashboard/empty-cart", it: "/dashboard/empty-cart" }
     defaults: { _controller: PartnerBundle:Cart:emptyCart }
 
 partner_dashboard_pay_selected_reservations_cart:
-    locales:  { en: "/dashboard/show-reservations-to-pay-cart", es: "/dashboard/show-reservations-to-pay-cart", de: "/dashboard/show-reservations-to-pay-cart" }
+    locales:  { en: "/dashboard/show-reservations-to-pay-cart", es: "/dashboard/show-reservations-to-pay-cart", de: "/dashboard/show-reservations-to-pay-cart", fr: "/dashboard/show-reservations-to-pay-cart", it: "/dashboard/show-reservations-to-pay-cart" }
     defaults: { _controller: PartnerBundle:Cart:showReservationsToPay }
 
 partner_dashboard_paynow_cart:
-    locales:  { en: "/dashboard/paynow", es: "/dashboard/paynow", de: "/dashboard/paynow" }
+    locales:  { en: "/dashboard/paynow", es: "/dashboard/paynow", de: "/dashboard/paynow", fr: "/dashboard/paynow", it: "/dashboard/paynow" }
     defaults: { _controller: PartnerBundle:Cart:payNow }
 
 #Skrill Payment routes
 partner_payment_poll_payment:
-    locales:  { en: "/payment/poll-payment/{bookingId}", es: "/payment/poll-payment/{bookingId}", de: "/payment/poll-payment/{bookingId}" }
+    locales:  { en: "/payment/poll-payment/{bookingId}", es: "/payment/poll-payment/{bookingId}", de: "/payment/poll-payment/{bookingId}", fr: "/payment/poll-payment/{bookingId}", it: "/payment/poll-payment/{bookingId}" }
     defaults: { _controller: PartnerBundle:Payment:pollPayment, bookingId: 0 }
 
 partner_payment_skrill:
-    locales:  { en: "/payment/skrill-payment/{bookingId}", es: "/payment/skrill-payment/{bookingId}", de: "/payment/skrill-payment/{bookingId}" }
+    locales:  { en: "/payment/skrill-payment/{bookingId}", es: "/payment/skrill-payment/{bookingId}", de: "/payment/skrill-payment/{bookingId}", fr: "/payment/skrill-payment/{bookingId}", it: "/payment/skrill-payment/{bookingId}" }
     defaults: { _controller: PartnerBundle:Payment:skrillPayment, bookingId: 0}
 
 partner_payment_skrill_return:
-    locales:  { en: "/payment/skrill-return/{bookingId}", es: "/payment/skrill-return/{bookingId}", de: "/payment/skrill-return/{bookingId}" }
+    locales:  { en: "/payment/skrill-return/{bookingId}", es: "/payment/skrill-return/{bookingId}", de: "/payment/skrill-return/{bookingId}", fr: "/payment/skrill-return/{bookingId}", it: "/payment/skrill-return/{bookingId}" }
     defaults: { _controller: PartnerBundle:Payment:skrillReturn, bookingId: 0}
 
 partner_payment_skrill_cancel:
-    locales:  { en: "/payment/skrill-cancel", es: "/payment/skrill-cancel", de: "/payment/skrill-cancel" }
+    locales:  { en: "/payment/skrill-cancel", es: "/payment/skrill-cancel", de: "/payment/skrill-cancel", fr: "/payment/skrill-cancel", it: "/payment/skrill-cancel" }
     defaults: { _controller: PartnerBundle:Payment:skrillCancel }
 
 partner_payment_skrill_status:
-    locales:  { en: "/skrill/status", es: "/skrill/status", de: "/skrill/status" }
+    locales:  { en: "/skrill/status", es: "/skrill/status", de: "/skrill/status", fr: "/skrill/status", it: "/skrill/status" }
     defaults: { _controller: PartnerBundle:Payment:skrillStatus }
 
 partner_payment_skrill_test_response:
-    locales:  { en: "/payment/skrill-test-response/{status}", es: "/payment/skrill-test-response/{status}", de: "/payment/skrill-test-response/{status}" }
+    locales:  { en: "/payment/skrill-test-response/{status}", es: "/payment/skrill-test-response/{status}", de: "/payment/skrill-test-response/{status}", fr: "/payment/skrill-test-response/{status}", it: "/payment/skrill-test-response/{status}" }
     defaults: { _controller: PartnerBundle:Payment:skrillTestResponse, status: 'no status' }
 
 partner_payment_skrill_test_status:
-    locales:  { en: "/payment/skrill-test-status/{bookingId}/{status}", es: "/payment/skrill-test-status/{bookingId}/{status}", de: "/payment/skrill-test-status/{bookingId}/{status}" }
+    locales:  { en: "/payment/skrill-test-status/{bookingId}/{status}", es: "/payment/skrill-test-status/{bookingId}/{status}", de: "/payment/skrill-test-status/{bookingId}/{status}", fr: "/payment/skrill-test-status/{bookingId}/{status}", it: "/payment/skrill-test-status/{bookingId}/{status}" }
     defaults: { _controller: PartnerBundle:Payment:skrillSendTestPostRequest, bookingId: 0, status: 0 }
 
 partner_payment_skrill_test_payment:
-    locales:  { en: "/payment/skrill-test-payment/{bookingId}", es: "/payment/skrill-test-payment/{bookingId}", de: "/payment/skrill-test-payment/{bookingId}" }
+    locales:  { en: "/payment/skrill-test-payment/{bookingId}", es: "/payment/skrill-test-payment/{bookingId}", de: "/payment/skrill-test-payment/{bookingId}", fr: "/payment/skrill-test-payment/{bookingId}", it: "/payment/skrill-test-payment/{bookingId}" }
     defaults: { _controller: PartnerBundle:Payment:skrillTestPayment, bookingId: 0 }
 
 partner_test_voucher_payment:
-    locales:  { en: "/payment/test/voucher", es: "/payment/test/voucher", de: "/payment/test/voucher" }
+    locales:  { en: "/payment/test/voucher", es: "/payment/test/voucher", de: "/payment/test/voucher", fr: "/payment/test/voucher", it: "/payment/test/voucher" }
     defaults: { _controller: PartnerBundle:Payment:testVoucher }
 
 
 partner_get_client:
-    locales:  { en: "/client", es: "/cliente", de: "/client" }
+    locales:  { en: "/client", es: "/cliente", de: "/client", fr: "/client", it: "/client" }
     defaults: { _controller: PartnerBundle:Backend:getClient }
 
 partner_list_client:
-    locales:  { en: "/client/list", es: "/cliente/listado", de: "/client/list" }
+    locales:  { en: "/client/list", es: "/cliente/listado", de: "/client/list", fr: "/client/list", it: "/client/list" }
     defaults: { _controller: PartnerBundle:Backend:listClient }
 
 partner_download_voucher:
-    locales:  { en: "/partner/voucher/{bookingId}", es: "/partner/voucher/{bookingId}", de: "/partner/voucher/{bookingId}" }
+    locales:  { en: "/partner/voucher/{bookingId}", es: "/partner/voucher/{bookingId}", de: "/partner/voucher/{bookingId}", fr: "/partner/voucher/{bookingId}", it: "/partner/voucher/{bookingId}" }
     defaults: { _controller: PartnerBundle:Dashboard:downloadVoucher, bookingId:'' }
 
 partner_payment_postfinance_status:
@@ -331,9 +331,18 @@ partner_payment_postfinance_status:
     defaults: { _controller: PartnerBundle:Payment:postfinanceStatus }
 
 partner_dashboard_booking_cancel_reservation:
-    locales:  { en: "/dashboard/booking/cancel-reservation/{idReservation}", es: "/dashboard/booking/cancel-reservation/{idReservation}", de: "/dashboard/booking/cancel-reservation/{idReservation}" }
+    locales:  { en: "/dashboard/booking/cancel-reservation/{idReservation}", es: "/dashboard/booking/cancel-reservation/{idReservation}", de: "/dashboard/booking/cancel-reservation/{idReservation}", fr: "/dashboard/booking/cancel-reservation/{idReservation}", it: "/dashboard/booking/cancel-reservation/{idReservation}" }
     defaults: { _controller: PartnerBundle:Dashboard:cancelReservation}
 
 partner_dashboard_cart_reservation_detail:
-    locales:  { en: "/dashboard/cart-detail/{idReservation}", es: "/dashboard/carrito-detalle/{idReservation}", de: "/dashboard/cart-detail/{idReservation}" }
+    locales:  { en: "/dashboard/cart-detail/{idReservation}", es: "/dashboard/carrito-detalle/{idReservation}", de: "/dashboard/cart-detail/{idReservation}", fr: "/dashboard/cart-detail/{idReservation}", it: "/dashboard/cart-detail/{idReservation}" }
     defaults: { _controller: PartnerBundle:Cart:cartWithOpenReservation }
+
+partner_frontend_get_reservation_calendar_ownership_callback:
+    pattern:  /reservation-calendar/
+    locales:  { en: "/reservation-calendar/", es: "/calendario-reservaciones/", de: "/reservation-calendar/" }
+    defaults: { _controller: PartnerBundle:Dashboard:getReservationCalendar }
+
+partner_add_to_cart:
+    locales:  { en: "/user/cart/add/{id_ownership}", es: "/usuario/cesta/agregar/{id_ownership}", de: "/user/cart/add/{id_ownership}" }
+    defaults: { _controller: PartnerBundle:Dashboard:addToCart }

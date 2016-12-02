@@ -2,7 +2,9 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -153,7 +155,11 @@ class BackendUnavailabilityDetailsController extends Controller {
                 if ($date_from > $date_to) {
                     $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
                 } else {
-                    $unavailabilities = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'));
+                    //$post_form['ud_reason']
+                    $udetailsService = $this->get('mycp.udetails.service');
+                    $udetailsService->addUDetail($id_room, $date_from, $date_to, $post_form['ud_reason']);
+
+                    /*$unavailabilities = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'));
                     $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDate($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'));
                     $selectedRange = ['start'=>$date_from, 'end'=>$date_to];
 
@@ -184,6 +190,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                             $service_log->saveLog($unavailability->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_INSERT, DataBaseTables::UNAVAILABILITY_DETAILS);
                         }
                     }
+                    */
 
                     //Update iCal of selected room
                     $message = $this->updateICal($room);

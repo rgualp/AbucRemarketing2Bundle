@@ -1,21 +1,21 @@
 frontend_about_us:
-    locales:  { en: "/about-us/", es: "/sobre-nosotros/",de: "/uber-uns/" }
+    locales:  { en: "/about-us/", es: "/sobre-nosotros/",de: "/uber-uns/", fr: "/uber-uns/", it: "/uber-uns/" }
     defaults: { _controller: FrontEndBundle:Information:aboutUs }
 
 frontend_legal_terms:
-    locales:  { en: "/terms/", es: "/terminos-legales/",de: "/nutzungsbedingungen/" }
+    locales:  { en: "/terms/", es: "/terminos-legales/",de: "/nutzungsbedingungen/", fr: "/nutzungsbedingungen/", it: "/nutzungsbedingungen/" }
     defaults: { _controller: FrontEndBundle:Information:legalTerms }
 
 frontend_security_privacity:
-    locales:  { en: "/security-privacy/", es: "/seguridad-privacidad/",de: "/datenschutz/" }
+    locales:  { en: "/security-privacy/", es: "/seguridad-privacidad/",de: "/datenschutz/", fr: "/datenschutz/", it: "/datenschutz/" }
     defaults: { _controller: FrontEndBundle:Information:securityPrivacity }
 
 frontend_sitemap_information:
-    locales:  { en: "/sitemap/", es: "/mapa-del-sitio/", de: "/sitemap/" }
+    locales:  { en: "/sitemap/", es: "/mapa-del-sitio/", de: "/sitemap/", fr: "/sitemap/", it: "/sitemap/" }
     defaults: { _controller: FrontEndBundle:Information:sitemap }
 
 frontend_how_it_works_information:
-    locales:  { en: "/how-it-works/", es: "/como-funciona/", de: "/so-funktioniert-es/" }
+    locales:  { en: "/how-it-works/", es: "/como-funciona/", de: "/so-funktioniert-es/", fr: "/so-funktioniert-es/" , it: "/so-funktioniert-es/"  }
     defaults: { _controller: FrontEndBundle:Information:howItWorks }
 
 
