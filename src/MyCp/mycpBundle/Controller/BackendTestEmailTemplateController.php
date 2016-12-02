@@ -413,17 +413,17 @@ class BackendTestEmailTemplateController extends Controller {
 
     private function sendEmail($newMethod, $mail, $body, $subject) {
         try {
-            $subject = '=?UTF-8?B?'.base64_encode(utf8_encode("&#x1F385; ".$subject)).'?=';
+            $newSubject = '=?UTF-8?B?'.base64_encode("&#x1F385; ".$subject).'?=';
             if ($newMethod) {
                 $service_email = $this->get('mycp.service.email_manager');
 
-                $service_email->sendEmail($mail, $subject . " (Nuevo)", $body);
+                $service_email->sendEmail($mail, $newSubject . " (Nuevo)", $body);
 
                 $message = 'Mensaje enviado utilizando el método actual.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
             } else {
                 $service_email = $this->get('Email');
-                $service_email->sendEmail($subject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
+                $service_email->sendEmail($newSubject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
 
                 $message = 'Mensaje enviado utilizando el método antiguo.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
