@@ -57,9 +57,17 @@ class TranslationCommand extends ContainerAwareCommand {
 
         $output->writeln("Let's translate ".count($untranslatedAccommodations).' accommodations to '. $targetLanguage->getLangName());
 
+        $counter = 1;
         foreach($untranslatedAccommodations as $untranslatedOwnership) {
             try {
-                $output->writeln('Analizing ' . $untranslatedOwnership->getOwnMcpCode());
+                if($counter == 20)
+                {
+                    $counter = 1;
+                    $output->writeln("I'm going to sleep a while");
+                    sleep(5);
+                }
+                else{
+                    $output->writeln('Analizing ' . $untranslatedOwnership->getOwnMcpCode());
                 $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($fromLangcode));
 
                 $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($toLangcode));
@@ -113,6 +121,8 @@ class TranslationCommand extends ContainerAwareCommand {
                     $em->persist($translatedDescription);
                     $em->flush();
                 }
+                    $counter++;
+            }
             }
             catch(\Exception $e)
             {
