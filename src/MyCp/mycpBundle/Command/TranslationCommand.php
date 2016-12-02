@@ -18,7 +18,8 @@ class TranslationCommand extends ContainerAwareCommand {
         $this
                 ->setName('mycp:translate')
                 ->setDefinition(array(
-                    new InputOption('lang-code', 'code', InputOption::VALUE_REQUIRED)
+                    new InputOption('from-lang-code', 'from-code', InputOption::VALUE_REQUIRED),
+                    new InputOption('to-lang-code', 'to-code', InputOption::VALUE_REQUIRED)
                 ))
                 ->setDescription('Translate all empty description of a language from English');
     }
@@ -27,29 +28,38 @@ class TranslationCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $translatorService = $container->get('mycp.translator.service');
-        $code= $input->getOption('lang-code');
+        $toLangcode= $input->getOption('to-lang-code');
+        $fromLangcode= $input->getOption('from-lang-code');
 
         $output->writeln(date(DATE_W3C) . ': Starting translator command...');
 
         //Select all ownership with description in English and no description in given language
-        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => strtoupper($code)));
+        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => strtoupper($toLangcode)));
+        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => strtoupper($fromLangcode)));
 
         if($targetLanguage == null)
         {
-            $output->writeln("Error: Language with code ".$code." do not exists in database");
+            $output->writeln("Error: Language with code ".$toLangcode." do not exists in database");
             $output->writeln('Bye bye!');
             return;
         }
 
-        $untranslatedAccommodations = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getAccommodationsToTranslate("en", strtolower($code));
+        if($sourceLanguage == null)
+        {
+            $output->writeln("Error: Language with code ".$fromLangcode." do not exists in database");
+            $output->writeln('Bye bye!');
+            return;
+        }
+
+        $untranslatedAccommodations = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getAccommodationsToTranslate(strtolower($fromLangcode), strtolower($toLangcode));
 
         $output->writeln("Let's translate ".count($untranslatedAccommodations).' accommodations to '. $targetLanguage->getLangName());
 
         foreach($untranslatedAccommodations as $untranslatedOwnership) {
             $output->writeln('Analizing ' . $untranslatedOwnership->getOwnMcpCode());
-            $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "en");
+            $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($fromLangcode));
 
-            $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($code));
+            $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($toLangcode));
 
             if ($translatedDescription == null)
                 $translatedDescription = new ownershipDescriptionLang();
@@ -62,7 +72,7 @@ class TranslationCommand extends ContainerAwareCommand {
             if ($sourceDescription != null) {
                 if ($briefDescription == "" && $description == "" && $sourceDescription->getOdlDescription() != "" && $sourceDescription->getOdlBriefDescription() != "") {
                     $output->writeln('Full translating ' . $untranslatedOwnership->getOwnMcpCode());
-                    $response = $translatorService->multipleTranslations(array($sourceDescription->getOdlDescription(), $sourceDescription->getOdlBriefDescription()), "en", strtolower($code));
+                    $response = $translatorService->multipleTranslations(array($sourceDescription->getOdlDescription(), $sourceDescription->getOdlBriefDescription()), strtolower($fromLangcode), strtolower($toLangcode));
 
                     if ($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                         $description = $response[0]->getTranslation();
@@ -75,7 +85,7 @@ class TranslationCommand extends ContainerAwareCommand {
                     }
                 } else if ($briefDescription == "" && $sourceDescription->getOdlBriefDescription() != "") {
                     $output->writeln('Translating brief description of ' . $untranslatedOwnership->getOwnMcpCode());
-                    $response = $translatorService->translate($sourceDescription->getOdlBriefDescription(), "en", strtolower($code));
+                    $response = $translatorService->translate($sourceDescription->getOdlBriefDescription(), strtolower($fromLangcode), strtolower($toLangcode));
 
                     if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                         $briefDescription = $response->getTranslation();
@@ -83,7 +93,7 @@ class TranslationCommand extends ContainerAwareCommand {
                     }
                 } else if ($description == "" && $sourceDescription->getOdlDescription() != "") {
                     $output->writeln('Translating description of ' . $untranslatedOwnership->getOwnMcpCode());
-                    $response = $translatorService->translate($sourceDescription->getOdlDescription(), "en", strtolower($code));
+                    $response = $translatorService->translate($sourceDescription->getOdlDescription(), strtolower($fromLangcode), strtolower($toLangcode));
 
                     if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
                         $description = $response->getTranslation();
