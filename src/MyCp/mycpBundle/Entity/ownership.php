@@ -599,9 +599,14 @@ class ownership {
     private $penalties;
 
     /**
-     * @ORM\OneToMany(targetEntity="touristFailure", mappedBy="accommodation")
+     * @ORM\OneToMany(targetEntity="failure", mappedBy="accommodation")
      */
-    private $touritsFailures;
+    private $failures;
+
+    /**
+     * @ORM\OneToMany(targetEntity="accommodationCalendarFrequency", mappedBy="accommodation")
+     */
+    private $calendarUpdateFrequency;
 
 
     /**
@@ -629,7 +634,8 @@ class ownership {
         $this->payments = new ArrayCollection();
         $this->insertedInCasaModule = false;
         $this->penalties = new ArrayCollection();
-        $this->touritsFailures = new ArrayCollection();
+        $this->failures = new ArrayCollection();
+        $this->calendarUpdateFrequency = new ArrayCollection();
     }
 
     /**
@@ -2607,44 +2613,83 @@ class ownership {
     /**
      * @return mixed
      */
-    public function getTouritsFailures()
+    public function getFailures()
     {
-        return $this->touritsFailures;
+        return $this->failures;
     }
 
     /**
-     * @param mixed $touritsFailures
+     * @param mixed $failures
      * @return mixed
      */
-    public function setTouritsFailures($touritsFailures)
+    public function setFailures($failures)
     {
-        $this->touritsFailures = $touritsFailures;
+        $this->failures = $failures;
         return $this;
     }
 
     /**
-     * Add created touristFailure
+     * Add created failure
      *
-     * @param \MyCp\mycpBundle\Entity\touristFailure $failure
+     * @param \MyCp\mycpBundle\Entity\failure $failure
      *
      * @return user
      */
-    public function addTouritsFailure(touristFailure $failure)
+    public function addFailure(failure $failure)
     {
-        $this->touritsFailures[] = $failure;
+        $this->failures[] = $failure;
         return $this;
     }
 
     /**
-     * Remove created touristFailure
+     * Remove created failure
      *
-     * @param \MyCp\mycpBundle\Entity\touristFailure $failure
+     * @param \MyCp\mycpBundle\Entity\failure $failure
      */
-    public function removeTouritsFailure(touristFailure $failure)
+    public function removeFailure(failure $failure)
     {
-        $this->touritsFailures->removeElement($failure);
+        $this->failures->removeElement($failure);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCalendarUpdateFrequency()
+    {
+        return $this->calendarUpdateFrequency;
+    }
 
+    /**
+     * @param mixed $calendarUpdateFrequency
+     * @return mixed
+     */
+    public function setCalendarUpdateFrequency($calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency = $calendarUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Add created calendarUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationCalendarFrequency $calendarUpdateFrequency
+     *
+     * @return user
+     */
+    public function addCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency[] = $calendarUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Remove created calendarUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationCalendarFrequency $calendarUpdateFrequency
+     */
+    public function removeCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency->removeElement($calendarUpdateFrequency);
+    }
 
 }

@@ -69,6 +69,16 @@
                     </label>
                 </div>
             </div>
+            <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable"
+                               name="own_update_avaliable" {% if check_filters is defined and check_filters['own_update_avaliable'] is defined and check_filters['own_update_avaliable'] %} checked="checked"{% endif %}
+                               data-aux-text="{{"Calendario Actualizado" | trans}}"
+                               data-aux-text="{{"Calendario Actualizado" | trans}}"/>{{"Calendario Actualizado" | trans}}
+                    </label>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-3">

@@ -4006,6 +4006,10 @@
                 <source>twitter</source>
                 <target>twitter</target>
             </trans-unit>
+            <trans-unit id="1010">
+                <source>Calendario Actualizado</source>
+                <target>Calendario Actualizado</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

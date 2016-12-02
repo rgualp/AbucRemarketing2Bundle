@@ -290,4 +290,25 @@ class BackendCommentController extends Controller {
         }
         return new Response($response);
     }
+
+    public function changePositiveCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $positive = $request->get("positive");
+        $id = $request->get("idComment");
+        $comment = $em->getRepository('mycpBundle:comment')->find($id);
+
+        $comment->setPositive(($positive == "1" || $positive == "true"));
+        $em->persist($comment);
+        $em->flush();
+
+        $isFromUserWithReservation = $em->getRepository('mycpBundle:comment')->isFromUserWithReservations($comment);
+
+        $commentContent =  $this->renderView('mycpBundle:comment:positiveComment.html.twig', array(
+            'comment' => $comment,
+            "isFromUserWithReservation" => $isFromUserWithReservation
+        ));
+
+        return new Response($commentContent, 200);
+    }
 }
