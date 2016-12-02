@@ -4040,10 +4040,6 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                      <source>Calendario Actualizado</source>
                      <target>Kalender aktualisiert</target>
                 </trans-unit>
-                <trans-unit id="1010">
-                    <source>STATEMENT</source>
-                    <target>Status</target>
-                </trans-unit>
             <trans-unit id="1011">
                  <source>NOTIFICATIONS</source>
                  <target>Benachrichtigungen</target>
@@ -4059,6 +4055,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <trans-unit id="1014">
                  <source>NOTIFICATION</source>
                  <target>Benachrichtigung</target>
+            </trans-unit>
+            <trans-unit id="1015">
+                <source>STATEMENT</source>
+                <target>Status</target>
             </trans-unit>
     </body>
     </file>
