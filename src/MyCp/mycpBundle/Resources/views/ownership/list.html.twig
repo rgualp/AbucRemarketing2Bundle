@@ -246,8 +246,7 @@
                                         <th>Provincia</th>
                                         <th>Destino</th>
                                         <th>Estado</th>
-                                        <th style="text-align: center">Fotos</th>
-                                        <th style="text-align: right">Acciones</th>
+                                        <th style="text-align: right; width: 100px">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -259,12 +258,14 @@
                                             <td>{{ownership.prov_name}}</td>
                                             <td> {%if ownership.des_name%}{{ownership.des_name}}{%else%} - {%endif%} </td>
                                             <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
-                                            <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
-                                            <td style="text-align: right">
+                                            <td style="text-align: center">
+                                                <a class="black-icon" href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Fotos: {{ ownership.photos_count }}">{% if ownership.photos_count > 0 %}<i class="fa fa-picture-o"></i>{% else %}<i class="fa fa-camera"></i>{% endif %}</a> |
                                                 {% if is_granted('ROLE_CLIENT_STAFF') and ownership.own_mcp_code != null and ownership.own_mcp_code != ""%}
-                                                    <a class="btn btn-mini btn-info" title="Descargar fotos - {{ownership.own_name}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.own_id, "ownMycpCode": ownership.own_mcp_code})}}"><i class="icon-download-alt"></i></a>
+                                                    <a class="black-icon" title="Descargar fotos" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.own_id, "ownMycpCode": ownership.own_mcp_code})}}"><i class="fa fa-download"></i></a> |
                                                 {%endif%}
-                                                <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}" title="Editar - {{ownership.own_name}}"><i class="icon-edit"></i></a>
+                                                <a class="black-icon" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}" title="Editar"><i class="fa fa-edit"></i></a> |
+                                                <a class="black-icon" href="{{ path('mycp_list_penalties',{'accommodationId':ownership.own_id}) }}" title="Penalizaciones"><i class="fa fa-bullhorn"></i></a> |
+                                                <a class="black-icon" href="{{ path('mycp_list_touristfailures',{'accommodationId':ownership.own_id}) }}" title="Fallos"><i class="fa fa-warning"></i></a>
                                             </td>
                                            </tr>
     {% endfor %}

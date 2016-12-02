@@ -100,12 +100,12 @@ class TranslatorService extends Controller
 
         $json = json_decode($this->curl_get_contents($url));
 
-        $code = (isset($json->error)) ? $json->error->code : TranslatorResponseStatusCode::STATUS_200;
+        $code = (!isset($json)) ? TranslatorResponseStatusCode::STATUS_500 : ((isset($json->error)) ? $json->error->code : TranslatorResponseStatusCode::STATUS_200);
 
         return new TranslatorResponse(
             $code,
-            ($code != TranslatorResponseStatusCode::STATUS_200) ? $json->error->errors[0]->message : "",
-            ($code != TranslatorResponseStatusCode::STATUS_200) ? "" : $json->data->translations[0]->translatedText
+            ($code != TranslatorResponseStatusCode::STATUS_200) ? ((!isset($json) || !isset($json->error)) ? "Ha ocurrido un error": $json->error->errors[0]->message) : "",
+            ($code != TranslatorResponseStatusCode::STATUS_200 || !isset($json) || !isset($json->data)) ? "" : $json->data->translations[0]->translatedText
             );
     }
 

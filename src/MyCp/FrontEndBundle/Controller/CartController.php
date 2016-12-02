@@ -18,19 +18,23 @@ class CartController extends Controller {
     /**
      * @return Response
      */
-    public function countCartItemsAction() {
+    public function countCartItemsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
+
+        $search = $request->get('search') ? $request->get('search') : false;
+
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
-                    'count' => $countItems
+            'count' => $countItems,
+            'search' => $search
         ));
     }
 
     /**
      * @return Response
      */
-    public function countCestatItemsAction() {
+    public function countCestatItemsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         // disponibles Mayores que (hoy - 30) días
@@ -41,9 +45,12 @@ class CartController extends Controller {
         $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
         $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
 
+        $search = $request->get('search') ? $request->get('search') : false;
+
         return $this->render('FrontEndBundle:cart:cestaCountItems.html.twig', array(
-                'count' => count($list)
-            ));
+            'count' => count($list),
+            'search' => $search
+        ));
     }
 
 
@@ -58,6 +65,7 @@ class CartController extends Controller {
     }
 
     public function addToCartAction($id_ownership, Request $request) {
+
         $check_dispo=$request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         if (!$request->get('data_reservation'))
@@ -114,6 +122,7 @@ class CartController extends Controller {
         $showErrorItem='';
         $arrayIdCart=array();
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
+
             $insert = 1;
             foreach ($cartItems as $item) {
                 $cartDateFrom = $item->getCartDateFrom()->getTimestamp();
@@ -125,7 +134,7 @@ class CartController extends Controller {
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
                         (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) ||
                         ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
-                        $item->getCartRoom() == $array_ids_rooms[$a]
+                        $item->getCartRoom() == $array_ids_rooms[$a] && $check_dispo!=2
                 ) {
                     $insert = 0;
                     $showError = true;
@@ -142,7 +151,7 @@ class CartController extends Controller {
                         $ownDateTo = $date->getTimestamp();
                         if ((($ownDateFrom <= $start_timestamp && $ownDateTo >= $start_timestamp) ||
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
-                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]) {
+                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a] ) {
                             $insert = 0;
                             $showError = true;
                             $showErrorOwnExist = true;
@@ -194,7 +203,7 @@ class CartController extends Controller {
                     if (count($kidsAge))
                         $cart->setChildrenAges($kidsAge);
 
-                    $cart->setCartCreatedDate(new \DateTime());
+                    $cart->setCartCreatedDate(new \DateTime(date('Y-m-d')));
                     if ($user_ids["user_id"] != null) {
                         $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
                         $cart->setCartUser($user);
@@ -256,7 +265,7 @@ class CartController extends Controller {
                     return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
                 }
                 else{
-                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER");
+                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER_NEWMSG");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
                 }
@@ -319,7 +328,7 @@ class CartController extends Controller {
                 $em->persist($cartItemNext);
             }
 
-            $cartItem->setCartCreatedDate(new \DateTime());
+            $cartItem->setCartCreatedDate(new \DateTime(date('Y-m-d')));
             $em->persist($cartItem);
             $em->flush();
             $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);

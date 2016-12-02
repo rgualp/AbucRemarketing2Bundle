@@ -1,7 +1,7 @@
 frontend_list_faq:
-    locales:  { en: "/faq/", es: "/faq/",de: "/faq/" }
+    locales:  { en: "/faq/", es: "/faq/",de: "/faq/", fr: "/faq/", it: "/faq/"  }
     defaults: { _controller: FrontEndBundle:Faq:list }
 
 frontend_filter_faq_callback:
-    locales:  { en: "/filter-faqs/", es: "/filtrar-faqs/",de: "/filter-faqs/" }
+    locales:  { en: "/filter-faqs/", es: "/filtrar-faqs/",de: "/filter-faqs/", fr: "/filter-faqs/",it: "/filter-faqs/" }
     defaults: { _controller: FrontEndBundle:Faq:filter }

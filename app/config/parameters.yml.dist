@@ -69,3 +69,5 @@ parameters:
     ws_mean: 'node.dev:9203'
     mean_project: 'mycp'
 
+    id_google_analitics: UA-16697066-1
+

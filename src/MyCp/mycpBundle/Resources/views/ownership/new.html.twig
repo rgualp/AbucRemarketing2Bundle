@@ -62,6 +62,8 @@
             {% if is_granted('ROLE_CLIENT_STAFF')  and data['ownership_mcp_code'] != null and data['ownership_mcp_code'] != ""%}
             <li><a href="{{path("mycp_download_zip_photo", {"idOwnership": post['ownership_id'], "ownMycpCode": data['ownership_mcp_code']})}}"><i class="icon-download-alt"></i> Descargar Fotos</a></li>
             {%endif%}
+             <li><a href="{{ path('mycp_list_penalties',{'accommodationId':post['ownership_id']}) }}">Penalizaciones</a></li>
+             <li><a href="{{ path('mycp_list_touristfailures',{'accommodationId':post['ownership_id']}) }}">Fallos de turistas</a></li>
             {%if (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "")%}
             <li class="divider"></li>
             <li><a style="cursor: hand" onclick="send_message();">Enviar Correo de Instrucciones</a></li>

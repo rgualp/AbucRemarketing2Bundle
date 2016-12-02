@@ -19,6 +19,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class OAuthController extends Controller
 {
@@ -130,6 +132,45 @@ class OAuthController extends Controller
                         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
                         $this->get("security.context")->setToken($token);
                         $this->get('session')->set('_security_user', serialize($token));
+                        $this->afterLogin();
+                        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+                        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsAfterLoginFacebook($user_ids);
+
+                        if(count($cartItems)){
+                            $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
+                            $insert=1;
+                            //Validar que no se haga una reserva que ya fuese realizada
+                            foreach ($ownerShip as $item){
+                                $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
+                                $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
+
+
+                                foreach ($cartItems as $cart) {
+                                    $cartDateFrom = $cart->getCartDateFrom()->getTimestamp();
+                                    $cartDateTo = $cart->getCartDateTo()->getTimestamp();
+                                    if((($ownDateFrom <= $cartDateFrom && $ownDateTo >= $cartDateFrom) ||
+                                            ($ownDateFrom <= $cartDateTo && $ownDateTo >= $cartDateTo))
+                                        && $item->getOwnResSelectedRoomId()==$cart->getCartRoom()->getRoomId())
+                                        $insert=0;
+                                }
+                            }
+                            if($insert==1){  //sino hay un error
+                                $arrayIdCart=array();
+                                foreach ($cartItems as $cart){
+                                    $arrayIdCart[]=$cart->getCartId();
+                                }
+                                $own_ids=array();
+                                //Es que el usuario mando a hacer una reserva
+                                $own_ids=$this->checkDispo($arrayIdCart,$request,true);
+                                $request->getSession()->set('reservation_own_ids', $own_ids);
+                                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                            }
+                            else{
+                                $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
+                                $this->get('session')->getFlashBag()->add('message_global_error', $message);
+                                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+                            }
+                        }
 
                         $hash_user = hash('sha256', $user->getUserUserName());
                         $hash_email = hash('sha256', $user->getUserEmail());

@@ -566,8 +566,8 @@ class BackendTestEmailTemplateController extends Controller {
                     ->find($reservation);
             $bookingService = $this->get('front_end.services.booking');
             $service_email = $this->get('mycp.service.email_manager');
-            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail, true);
-            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucherToClientTest($em, $bookingService, $service_email, $this, $generalReservation, "Asunto Test", $mail, null, true);
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail, false);
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucherToClientTest($em, $bookingService, $service_email, $this, $generalReservation, "Asunto Test", $mail, null, false);
         return $this->redirect($this->generateUrl('mycp_test_home'));
     }
 

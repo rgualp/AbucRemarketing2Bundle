@@ -4,27 +4,27 @@ frontend_details_insert_favorite_callback:
 
 frontend_details_delete_favorite_callback:
     pattern:  /favorite-details-delete/
-    locales:  { en: "/favorite-details-delete/", es: "/favoritos-detalles-eliminar/", de: "/favorite-details-delete/" }
+    locales:  { en: "/favorite-details-delete/", es: "/favoritos-detalles-eliminar/", de: "/favorite-details-delete/", fr: "/favorite-details-delete/", it: "/favorite-details-delete/" }
     defaults: { _controller: FrontEndBundle:Favorite:detailsDelete }
 
 frontend_insert_favorite_callback:
     pattern:  /favorite-insert/
-    locales:  { en: "/favorite-insert/", es: "/favoritos-insertar/", de: "/favorite-insert/" }
+    locales:  { en: "/favorite-insert/", es: "/favoritos-insertar/", de: "/favorite-insert/", fr: "/favorite-insert/", it: "/favorite-insert/" }
     defaults: { _controller: FrontEndBundle:Favorite:insert }
 
 frontend_delete_favorite_callback:
     pattern:  /favorite-delete/
-    locales:  { en: "/favorite-delete/", es: "/favoritos-eliminar/", de: "/favorite-delete/" }
+    locales:  { en: "/favorite-delete/", es: "/favoritos-eliminar/", de: "/favorite-delete/", fr: "/favorite-delete/", it: "/favorite-delete/" }
     defaults: { _controller: FrontEndBundle:Favorite:delete }
 
 frontend_list_favorite:
     pattern:  /favorite-list/
-    locales:  { en: "/favorites/", es: "/favoritos/", de: "/favoriten/" }
+    locales:  { en: "/favorites/", es: "/favoritos/", de: "/favoriten/", fr: "/favoriten/", it: "/favoriten/" }
     defaults: { _controller: FrontEndBundle:Favorite:list }
 
 frontend_delete_from_list_favorite_callback:
     pattern:  /favorite-delete-from-list/
-    locales:  { en: "/favorite-delete-from-list/", es: "/favoritos-eliminar-de-lista/", de: "/favorite-delete-from-list/" }
+    locales:  { en: "/favorite-delete-from-list/", es: "/favoritos-eliminar-de-lista/", de: "/favorite-delete-from-list/", fr: "/favorite-delete-from-list/", it: "/favorite-delete-from-list/" }
     defaults: { _controller: FrontEndBundle:Favorite:deleteFromList }
 
 frontend_update_favorites_statistics_callback:

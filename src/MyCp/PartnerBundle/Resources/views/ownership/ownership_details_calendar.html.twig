@@ -1,0 +1,229 @@
+{% set start_date = "now"|date("d/m/Y") %}
+{% set end_date = "+2 days" |date("d/m/Y") %}
+<ul class="price calendar-cont" style="border-top: 0">
+    <li class="lead-2">
+        <div class="row">
+            <form id="calendar_form" method="POST"
+                  action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize}) }}"
+                  novalidate>
+                <div class="col-sm-6">
+                    <div class="col-sm-10" style="padding: 0">
+                        <input value="{{ start_date }}" type="text" id="filter_date_from"
+                               class="form-control"
+                               placeholder="{{ "ARRIVAL_RESERVATION" | trans }}"
+                               data-localization='{{ locale }}'>
+                    </div>
+                    <div class="col-sm-2" style="padding: 0">
+                        <i class="glyphicons calendar" style="margin-top: 5px; color: #fff !important"></i>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="col-sm-10" style="padding: 0">
+                        <input value="{{ end_date }}" type="text" id="filter_date_to"
+                               class="form-control"
+                               placeholder="{{ "DEPARTURE_RESERVATION" | trans }}"
+                               data-localization='{{ locale }}'>
+                    </div>
+                    <div class="col-sm-2" style="padding: 0">
+                        <i class="glyphicons calendar" style="margin-top: 5px; color: #fff !important"></i>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </li>
+    <li class="lead-2">
+        <div id="body_calendar" style="overflow-x: auto;">
+
+        </div>
+    </li>
+</ul>
+<ul class="price calendar-cont calendar-results">
+    <li class="lead-2">
+        <table id="rooms_selected" class="table" style="margin-bottom: 0px; display: none;">
+            <thead>
+            <tr>
+                <th>{{ 'RESERVATION_SELECTED_ROOM' | trans }}</th>
+                <th>{{ 'RESERVATION_TYPE' | trans }}</th>
+                <th>{{ 'RESERVATION_ROOM_NUMBER' | trans }}</th>
+                <th>{{ 'ADULTS' | trans }}</th>
+                <th>{{ 'KIDS' | trans }}</th>
+                <th>{{ 'RESERVATION_PRICE' | trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </li>
+    <li class="lead">
+        <div class="row all-prices-numbers">
+            <div class="col-sm-3">
+                {{ 'ACCOMMODATION_TOTAL_COST' | trans }} <br/>
+                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                <span id="accommodation_price"></span>
+            </div>
+            <div class="col-sm-1">
+                <label>+</label>
+            </div>
+            <div class="col-sm-2"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+                {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
+                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                <span id="tourist_service"
+                      data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                      data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                      data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                      data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                      data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                      data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                      data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                      data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                      data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
+            </div>
+            <div class="col-sm-1">
+                <label>+</label>
+            </div>
+            <div class="col-sm-2"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+                {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+                {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
+                {{ currSymbol }}
+                <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+            </div>
+            <div class="col-sm-1" style="width: 5%">
+                <label>=</label>
+            </div>
+            <div class="col-sm-2">
+                {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
+                {{ currSymbol }}
+                <span id="total_price"></span>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px; margin-top: 10px">
+            <div class="col-sm-6">
+                {{ 'PREPAYMENT'|trans }}
+                : {{ currSymbol }}
+                <span id="total_prepayment"></span>
+            </div>
+            <div class="col-sm-6 text-right" style="padding-right: 25px">
+                {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
+                : {{ currSymbol }}
+                <span id="pay_at_service"></span><br/>
+                {% if currSymbol != "CUC" %}
+                <span id="pay_at_service_cuc" style="font-size: small"></span>
+                {% endif %}
+            </div>
+        </div>
+    </li>
+    <li class="lead-2">
+        {% if post['reservation_filter_date_from'] is defined %}
+            {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
+        {% else %}
+            {% set date_from = "now"|date("d&m&Y") %}
+        {% endif %}
+
+        {% if post['reservation_filter_date_to'] is defined %}
+            {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
+        {% else %}
+            {% set date_to = "+6 day"|date("d&m&Y") %}
+        {% endif %}
+        <form action="{{ path('partner_add_to_cart',{'id_ownership':ownership.own_id}) }}" id="form-check-available" method="POST">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    {#<div class="col-sm-6">
+                        <button style="padding: 5px 10px" onclick="$('#check_dispo').val('')" class="btn btn-primary" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
+                        </button>
+                    </div>#}
+                        <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
+                    <div class="col-sm-6">
+                        {% if ownership.OwnInmediateBooking2 %}
+                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
+                            </button>
+                            {% else %}
+                                <button style="padding: 5px 10px" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                    <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
+                                </button>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <input from_date="{{ start_date | replace('/','&') }}"
+                               to_date="{{ end_date | replace('/','&') }}" type="text"
+                               style="visibility: hidden; margin-bottom: -50px"
+                               name="data_reservation" id="data_reservation"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </li>
+</ul>
+<script type="text/javascript">
+    var login=false;
+    {% if app.user.getUserUserName is defined %}
+        login=true;
+    {% endif %}
+    var form = $("#form-check-available");
+        form.on("submit", function (e) {
+            if( $("#partner_reservation_name").val() !=''){
+                if($('#check_dispo').val()!=2){
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var clientName = $("#partner_reservation_name").val();
+                    var clientId = $("#partner_reservation_client").val();
+                    var formData = new FormData(form[0]);
+                    formData.append("clientName", clientName);
+                    formData.append("clientId", clientId);
+                    HoldOn.open();
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "post",
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            HoldOn.close();
+                            $('#myModalReservation').modal('hide');
+                            if(response=='0'){
+                                if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
+                                    swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
+                                }
+                                else
+                                    swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                            }
+                            else{
+                                    if($('#check_dispo').val()==1){
+                                        swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                                    }
+                                    if($('#check_dispo').val()==2){
+                                        swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                                    }
+
+                            }
+
+                        }
+                    });
+                }
+            }
+            else{
+                swal("{{ 'client_name_require'| trans }}", "", "error");
+                e.stopPropagation();
+                e.preventDefault();
+            }
+
+        });
+
+    $('#checkAvailable').on('click',function(){
+        $('#check_dispo').val('1');
+        $('#myModalOwnerShipCalendar').modal('hide');
+    });
+    $('#reservedOwnerShip').on('click',function(){
+        $('#check_dispo').val('2');
+        $('#myModalOwnerShipCalendar').modal('hide');
+    });
+</script>

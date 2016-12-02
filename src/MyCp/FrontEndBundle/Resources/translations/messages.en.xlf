@@ -1144,7 +1144,7 @@
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Triple Rooms have a $10 surcharge</target>
+                <target>All double and triple rooms have an extra charge $10</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
@@ -1725,7 +1725,7 @@
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Triple Rooms have a surcharge of </target>
+                <target>All double and triple rooms have an extra charge </target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>
@@ -3868,6 +3868,11 @@
             <source>VOUCHER_PREHEADER</source>
             <target>Congratulations! You have booked!</target>
         </trans-unit>
+            <trans-unit id="11966">
+                    <source>VOUCHER_PREHEADER_NEWMSG</source>
+                    <target>Congratulations! Just with a step forward, your reservation will be completed. Before the payment, please log in.</target>
+                </trans-unit>
+
 
         <trans-unit id="967">
             <source>NEW_OFFER_TOURIST_SUBJECT</source>

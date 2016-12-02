@@ -41,7 +41,7 @@ class ownershipRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container, $userService) {
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
         $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
         $active_selection = (isset($data['selection'])) ? 1 : 0;
@@ -263,7 +263,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
+            $em->getRepository('mycpBundle:userCasa')->createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService);
         }
 
         //save owner photo
@@ -286,7 +286,7 @@ class ownershipRepository extends EntityRepository {
         return $ownership;
     }
 
-    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container, $userService = null) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
@@ -534,7 +534,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
+            $em->getRepository('mycpBundle:userCasa')->createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService);
         }
 
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled
@@ -847,7 +847,7 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate, $start = null, $limit = null) {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate=0, $start = null, $limit = null) {
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
@@ -861,12 +861,10 @@ class ownershipRepository extends EntityRepository {
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);
-        $where = (!$room_filter) ? (" WHERE o.own_status = 1 ") : (" WHERE o.own_status = 1 AND r.room_active = 1 ");
+
+        $where = (!$room_filter) ? (" WHERE ( o.own_status = 1 ") : (" WHERE ( o.own_status = 1 AND r.room_active = 1 ");
         $textWhere = SearchUtils::getTextWhere($text);
         $where .= ($textWhere != "") ? " AND " . $textWhere : "";
-
-        if($inmediate != null)
-            $where .= " AND " . "o.own_inmediate_booking_2 = :inmediate";
 
         if($guest_total != null && $guest_total != 'null' && $guest_total != "")
             $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
@@ -879,21 +877,63 @@ class ownershipRepository extends EntityRepository {
 
         $filterWhere = SearchUtils::getFilterWhere($filters);
 
-        $where .= ($filterWhere != "") ? $filterWhere : "";
 
-        if($where != ''){
-            $query_string .= $where;
-            $query_count_string .= $where;
+
+        $where .= ($filterWhere != "") ? $filterWhere : "";
+        $where .= ")";
+
+        $or = "";
+
+        if (is_array($filters)){
+            if( $inmediate != null || ( array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']) ){
+                $or = " AND (";
+
+                if($inmediate != null)
+                    $or .= "o.own_inmediate_booking_2 = :inmediate";
+
+                if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']){
+                    $ors = ($inmediate != null) ? " OR " : "";
+                    $or .= $ors."o.own_inmediate_booking = 1";
+                }
+
+
+                $or .= ")";
+            }
+        }else{
+            if($inmediate != null){
+                $or = " AND (";
+                $or .= "o.own_inmediate_booking_2 = :inmediate";
+                $or .= ")";
+            }
         }
 
-        $order = SearchUtils::getOrder($order_by);
+
+
+        if($where != '' ){
+            $query_string .= $where." ".$or;
+            $query_count_string .= $where." ".$or;
+        }
+        if (count($filters)){
+            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
+
+                if($insideWhere != "")
+                    $query_string .= " HAVING award1 IN (" . $insideWhere . ")";
+            }
+        }
+
+        if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
+            $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
+        }else{
+            $order = SearchUtils::getOrder($order_by);
+        }
+
 
         $query_string .= $order;
-//        die(dump($query_string));
         $query = $em->createQuery($query_string);
         $query_count = $em->createQuery($query_count_string);
-
-//        die(dump($query));
+        //dump($query_string);die;
         if($user_id != null){
             $query->setParameter('user_id', $user_id);
         }
@@ -921,10 +961,11 @@ class ownershipRepository extends EntityRepository {
         }
 
         //$return_list = array();
-        if($start !== null && $limit !== null){
+        if($start !== null && $limit !== null) {
             $query->setFirstResult($start);
             $query->setMaxResults($limit);
         }
+
         $results = $query->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
@@ -1565,7 +1606,31 @@ class ownershipRepository extends EntityRepository {
         $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
         $query_string .= " WHERE o.own_name = :own_name AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
 
-        return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
+        $accommodation =  $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
+
+        if($accommodation != null)
+        {
+            $data = $em->getRepository("mycpBundle:ownershipData")->findOneBy(array("accommodation" => $accommodation["own_id"]));
+
+
+            if($data != null) {
+                $data->setVisits($data->getVisits() + 1)
+                    ->setVisitsLastWeek($data->getVisitsLastWeek() + 1);
+
+                $em->persist($data);
+            }
+            /*else{
+                $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("accommodation" => $accommodation["own_id"]));
+                $data = new ownershipData();
+                $data->setAccommodation($ownership);
+                $data->setVisits(1);
+                $data->setVisitsLastWeek(1);
+                $data->set
+            }*/
+            $em->flush();
+        }
+
+        return $accommodation;
     }
 
     function getDetailsByCode($own_mycp_code, $locale = "ES", $isSimple = false) {
