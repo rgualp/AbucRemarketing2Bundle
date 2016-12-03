@@ -298,7 +298,7 @@ class BackendCommentController extends Controller {
         $id = $request->get("idComment");
         $comment = $em->getRepository('mycpBundle:comment')->find($id);
 
-        $comment->setPositive(($positive == "1"));
+        $comment->setPositive(($positive == "1" || $positive == "true"));
         $em->persist($comment);
         $em->flush();
 

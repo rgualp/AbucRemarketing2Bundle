@@ -17,80 +17,128 @@ class TranslationCommand extends ContainerAwareCommand {
     protected function configure() {
         $this
                 ->setName('mycp:translate')
-                ->setDefinition(array())
-                ->setDescription('Translate all empty German description from English');
+                ->setDefinition(array(
+                    new InputOption('from-lang-code', 'from-code', InputOption::VALUE_REQUIRED),
+                    new InputOption('to-lang-code', 'to-code', InputOption::VALUE_REQUIRED)
+                ))
+                ->setDescription('Translate all empty description of a language from English');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $translatorService = $container->get('mycp.translator.service');
+        $toLangcode= $input->getOption('to-lang-code');
+        $fromLangcode= $input->getOption('from-lang-code');
+        $totalAccommodationsWithErrors = 0;
+        $accommodationsWithErrors = "";
 
         $output->writeln(date(DATE_W3C) . ': Starting translator command...');
 
-        //Select all ownership with description in English and no description in Deutch
-        $untranslatedAccommodations = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getAccommodationsToTranslate("en", "de");
+        //Select all ownership with description in English and no description in given language
+        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => strtoupper($toLangcode)));
+        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => strtoupper($fromLangcode)));
 
-        $output->writeln('Translating '.count($untranslatedAccommodations).' accommodations');
-        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
+        if($targetLanguage == null)
+        {
+            $output->writeln("Error: Language with code ".$toLangcode." do not exists in database");
+            $output->writeln('Bye bye!');
+            return;
+        }
+
+        if($sourceLanguage == null)
+        {
+            $output->writeln("Error: Language with code ".$fromLangcode." do not exists in database");
+            $output->writeln('Bye bye!');
+            return;
+        }
+
+        $untranslatedAccommodations = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getAccommodationsToTranslate(strtolower($fromLangcode), strtolower($toLangcode));
+
+        $output->writeln("Let's translate ".count($untranslatedAccommodations).' accommodations to '. $targetLanguage->getLangName());
+
+        $counter = 1;
         foreach($untranslatedAccommodations as $untranslatedOwnership) {
-            $output->writeln('Analizing ' . $untranslatedOwnership->getOwnMcpCode());
-            $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "en");
-
-            $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "de");
-
-            if ($translatedDescription == null)
-                $translatedDescription = new ownershipDescriptionLang();
-
-            $briefDescription = $translatedDescription->getOdlBriefDescription();
-
-            $description = $translatedDescription->getOdlDescription();
-            $translated = $translatedDescription->getOdlAutomaticTranslation();
-
-            if ($sourceDescription != null) {
-                if ($briefDescription == "" && $description == "" && $sourceDescription->getOdlDescription() != "" && $sourceDescription->getOdlBriefDescription() != "") {
-                    $output->writeln('Full translating ' . $untranslatedOwnership->getOwnMcpCode());
-                    $response = $translatorService->multipleTranslations(array($sourceDescription->getOdlDescription(), $sourceDescription->getOdlBriefDescription()), "en", "de");
-
-                    if ($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
-                        $description = $response[0]->getTranslation();
-                        $translated = true;
-                    }
-
-                    if ($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
-                        $briefDescription = $response[1]->getTranslation();
-                        //$translated = true;
-                    }
-                } else if ($briefDescription == "" && $sourceDescription->getOdlBriefDescription() != "") {
-                    $output->writeln('Translating brief description of ' . $untranslatedOwnership->getOwnMcpCode());
-                    $response = $translatorService->translate($sourceDescription->getOdlBriefDescription(), "en", "de");
-
-                    if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
-                        $briefDescription = $response->getTranslation();
-                        //$translated = true;
-                    }
-                } else if ($description == "" && $sourceDescription->getOdlDescription() != "") {
-                    $output->writeln('Translating description of ' . $untranslatedOwnership->getOwnMcpCode());
-                    $response = $translatorService->translate($sourceDescription->getOdlDescription(), "en", "de");
-
-                    if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
-                        $description = $response->getTranslation();
-                        $translated = true;
-                    }
+            try {
+                if($counter == 20)
+                {
+                    $counter = 1;
+                    $output->writeln("I'm going to sleep a while");
+                    sleep(5);
                 }
+                else{
+                    $output->writeln('Analizing ' . $untranslatedOwnership->getOwnMcpCode());
+                $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($fromLangcode));
 
-                $translatedDescription->setOdlIdLang($targetLanguage)
-                    ->setOdlDescription($description)
-                    ->setOdlBriefDescription($briefDescription)
-                    ->setOdlOwnership($untranslatedOwnership)
-                    ->setOdlAutomaticTranslation($translated);
+                $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, strtolower($toLangcode));
 
-                $em->persist($translatedDescription);
+                if ($translatedDescription == null)
+                    $translatedDescription = new ownershipDescriptionLang();
+
+                $briefDescription = $translatedDescription->getOdlBriefDescription();
+
+                $description = $translatedDescription->getOdlDescription();
+                $translated = $translatedDescription->getOdlAutomaticTranslation();
+
+                if ($sourceDescription != null) {
+                    if ($briefDescription == "" && $description == "" && $sourceDescription->getOdlDescription() != "" && $sourceDescription->getOdlBriefDescription() != "") {
+                        $output->writeln('Full translating ' . $untranslatedOwnership->getOwnMcpCode());
+                        $response = $translatorService->multipleTranslations(array($sourceDescription->getOdlDescription(), $sourceDescription->getOdlBriefDescription()), strtolower($fromLangcode), strtolower($toLangcode));
+
+                        if ($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                            $description = $response[0]->getTranslation();
+                            $translated = true;
+                        }
+
+                        if ($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                            $briefDescription = $response[1]->getTranslation();
+                            //$translated = true;
+                        }
+                    } else if ($briefDescription == "" && $sourceDescription->getOdlBriefDescription() != "") {
+                        $output->writeln('Translating brief description of ' . $untranslatedOwnership->getOwnMcpCode());
+                        $response = $translatorService->translate($sourceDescription->getOdlBriefDescription(), strtolower($fromLangcode), strtolower($toLangcode));
+
+                        if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                            $briefDescription = $response->getTranslation();
+                            //$translated = true;
+                        }
+                    } else if ($description == "" && $sourceDescription->getOdlDescription() != "") {
+                        $output->writeln('Translating description of ' . $untranslatedOwnership->getOwnMcpCode());
+                        $response = $translatorService->translate($sourceDescription->getOdlDescription(), strtolower($fromLangcode), strtolower($toLangcode));
+
+                        if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                            $description = $response->getTranslation();
+                            $translated = true;
+                        }
+                    }
+
+                    $translatedDescription->setOdlIdLang($targetLanguage)
+                        ->setOdlDescription($description)
+                        ->setOdlBriefDescription($briefDescription)
+                        ->setOdlOwnership($untranslatedOwnership)
+                        ->setOdlAutomaticTranslation($translated);
+
+                    $em->persist($translatedDescription);
+                    $em->flush();
+                }
+                    $counter++;
+            }
+            }
+            catch(\Exception $e)
+            {
+                $totalAccommodationsWithErrors++;
+                $output->writeln("Oops! There is an error: ".$e->getMessage());
+                $accommodationsWithErrors = $untranslatedOwnership->getOwnMcpCode().", ";
+                continue;
             }
         }
 
-        $em->flush();
-        $output->writeln('Operation completed!!!');
+        if($totalAccommodationsWithErrors == 0)
+            $output->writeln('You are amazing with translations!');
+        else{
+            $output->writeln('You need some practice with translations!');
+            $output->writeln($totalAccommodationsWithErrors. ' accommodations are not translated: '.$accommodationsWithErrors);
+        }
         return 0;
     }
 

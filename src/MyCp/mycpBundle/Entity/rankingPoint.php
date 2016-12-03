@@ -1,18 +1,16 @@
 <?php
 
-
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ownershipRankingExtra
+ * rankingPoint
  *
- * @ORM\Table(name="ownership_ranking_extra")
- * @ORM\Entity
- *
+ * @ORM\Table(name="ranking_point")
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\rankingPointRepository")
  */
-class ownershipRankingExtra
+class rankingPoint
 {
     /**
      * @var integer
@@ -24,172 +22,150 @@ class ownershipRankingExtra
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="ownership",inversedBy="rankingExtra")
-     * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
-     */
-    private $accommodation;
-
-    /**
-     * @ORM\OneToOne(targetEntity="rankingPoint",inversedBy="accommodationsRanking")
-     * @ORM\JoinColumn(name="rankingPoints",referencedColumnName="id")
-     */
-    private $rankingPoints;
-
-    /**
-     * @var datetime
+     * @var \DateTime
      *
-     * @ORM\Column(name="startDate", type="date")
+     * @ORM\Column(name="creationDate", type="datetime")
      */
-    private $startDate;
+    private $creationDate;
 
     /**
-     * @var datetime
+     * @var boolean
      *
-     * @ORM\Column(name="endDate", type="date")
+     * @ORM\Column(name="active", type="boolean")
      */
-    private $endDate;
+    private $active;
 
     /**
-     * @var int
+     * @var integer
      *
-     * @ORM\Column(name="fad", type="integer", nullable=true)
+     * @ORM\Column(name="fad", type="integer")
      */
     private $fad;
 
     /**
-     * @var int
+     * @var integer
      *
-     * @ORM\Column(name="rr", type="integer", nullable=true)
+     * @ORM\Column(name="rr", type="integer")
      */
     private $rr;
 
     /**
-     * @var int
+     * @var integer
      *
-     * @ORM\Column(name="ri", type="integer", nullable=true)
+     * @ORM\Column(name="ri", type="integer")
      */
     private $ri;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="sd", type="integer", nullable=true)
+     * @ORM\Column(name="sd", type="integer")
      */
     private $sd;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="reservations", type="integer", nullable=true)
+     * @ORM\Column(name="reservations", type="integer")
      */
     private $reservations;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="positiveComments", type="integer", nullable=true)
+     * @ORM\Column(name="positiveComments", type="integer")
      */
     private $positiveComments;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="awards", type="integer", nullable=true)
+     * @ORM\Column(name="awards", type="integer")
      */
     private $awards;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="confidence", type="integer", nullable=true)
+     * @ORM\Column(name="confidence", type="integer")
      */
     private $confidence;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="newOffersReserved", type="integer", nullable=true)
+     * @ORM\Column(name="newOffers", type="integer")
      */
-    private $newOffersReserved;
+    private $newOffers;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="failureCasa", type="integer", nullable=true)
+     * @ORM\Column(name="failureCasa", type="integer")
      */
     private $failureCasa;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="negativeComments", type="integer", nullable=true)
+     * @ORM\Column(name="negativeComments", type="integer")
      */
     private $negativeComments;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="snd", type="integer", nullable=true)
+     * @ORM\Column(name="snd", type="integer")
      */
     private $snd;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="penalties", type="integer", nullable=true)
+     * @ORM\Column(name="penalties", type="integer")
      */
     private $penalties;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="failureClients", type="integer", nullable=true)
+     * @ORM\Column(name="failureClients", type="integer")
      */
     private $failureClients;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="facturation", type="integer", nullable=true)
+     * @ORM\Column(name="facturation", type="integer")
      */
     private $facturation;
 
-    /**
-     * @var decimal
-     *
-     * @ORM\Column(name="ranking", type="decimal", nullable=true)
-     */
-    private $ranking;
 
     /**
-     * @var integer
+     * Get id
      *
-     * @ORM\Column(name="place", type="integer", nullable=true)
+     * @return integer
      */
-    private $place;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="destinationPlace", type="integer", nullable=true)
-     */
-    private $destinationPlace;
-
-    /**
-     * @return mixed
-     */
-    public function getAccommodation()
+    public function getId()
     {
-        return $this->accommodation;
+        return $this->id;
     }
 
     /**
-     * @param mixed $accommodation
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
      * @return mixed
      */
-    public function setAccommodation($accommodation)
+    public function setActive($active)
     {
-        $this->accommodation = $accommodation;
+        $this->active = $active;
         return $this;
     }
 
@@ -230,38 +206,20 @@ class ownershipRankingExtra
     }
 
     /**
-     * @return int
+     * @return \DateTime
      */
-    public function getDestinationPlace()
+    public function getCreationDate()
     {
-        return $this->destinationPlace;
+        return $this->creationDate;
     }
 
     /**
-     * @param int $destinationPlace
+     * @param \DateTime $creationDate
      * @return mixed
      */
-    public function setDestinationPlace($destinationPlace)
+    public function setCreationDate($creationDate)
     {
-        $this->destinationPlace = $destinationPlace;
-        return $this;
-    }
-
-    /**
-     * @return datetime
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
-    }
-
-    /**
-     * @param datetime $endDate
-     * @return mixed
-     */
-    public function setEndDate($endDate)
-    {
-        $this->endDate = $endDate;
+        $this->creationDate = $creationDate;
         return $this;
     }
 
@@ -340,14 +298,6 @@ class ownershipRankingExtra
     /**
      * @return int
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return int
-     */
     public function getNegativeComments()
     {
         return $this->negativeComments;
@@ -366,18 +316,18 @@ class ownershipRankingExtra
     /**
      * @return int
      */
-    public function getNewOffersReserved()
+    public function getNewOffers()
     {
-        return $this->newOffersReserved;
+        return $this->newOffers;
     }
 
     /**
-     * @param int $newOffersReserved
+     * @param int $newOffers
      * @return mixed
      */
-    public function setNewOffersReserved($newOffersReserved)
+    public function setNewOffers($newOffers)
     {
-        $this->newOffersReserved = $newOffersReserved;
+        $this->newOffers = $newOffers;
         return $this;
     }
 
@@ -402,24 +352,6 @@ class ownershipRankingExtra
     /**
      * @return int
      */
-    public function getPlace()
-    {
-        return $this->place;
-    }
-
-    /**
-     * @param int $place
-     * @return mixed
-     */
-    public function setPlace($place)
-    {
-        $this->place = $place;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
     public function getPositiveComments()
     {
         return $this->positiveComments;
@@ -432,42 +364,6 @@ class ownershipRankingExtra
     public function setPositiveComments($positiveComments)
     {
         $this->positiveComments = $positiveComments;
-        return $this;
-    }
-
-    /**
-     * @return decimal
-     */
-    public function getRanking()
-    {
-        return $this->ranking;
-    }
-
-    /**
-     * @param decimal $ranking
-     * @return mixed
-     */
-    public function setRanking($ranking)
-    {
-        $this->ranking = $ranking;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRankingPoints()
-    {
-        return $this->rankingPoints;
-    }
-
-    /**
-     * @param mixed $rankingPoints
-     * @return mixed
-     */
-    public function setRankingPoints($rankingPoints)
-    {
-        $this->rankingPoints = $rankingPoints;
         return $this;
     }
 
@@ -560,25 +456,4 @@ class ownershipRankingExtra
         $this->snd = $snd;
         return $this;
     }
-
-    /**
-     * @return datetime
-     */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * @param datetime $startDate
-     * @return mixed
-     */
-    public function setStartDate($startDate)
-    {
-        $this->startDate = $startDate;
-        return $this;
-    }
-
-
-
 }

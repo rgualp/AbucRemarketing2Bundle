@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\FileIO;
 use MyCp\mycpBundle\Helpers\Images;
+use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -39,9 +40,14 @@ class ownershipDescriptionLangRepository extends EntityRepository {
         $qb = $em->createQueryBuilder()
             ->select('o')
             ->from("mycpBundle:ownership", "o")
+            ->join("o.own_status", "s")
             ->where("(SELECT count(odl) FROM mycpBundle:ownershipDescriptionLang odl JOIN odl.odl_id_lang lang WHERE odl.odl_ownership = o.own_id AND lang.lang_code = :sourceLangCode AND (odl.odl_brief_description <> '' OR odl.odl_description <> 0)) > 0")
             ->andWhere("((SELECT count(odl1) FROM mycpBundle:ownershipDescriptionLang odl1 JOIN odl1.odl_id_lang lang1 WHERE odl1.odl_ownership = o.own_id AND lang1.lang_code = :targetLangCode) = 0) OR ((SELECT count(odl2) FROM mycpBundle:ownershipDescriptionLang odl2 JOIN odl2.odl_id_lang lang2 WHERE odl2.odl_ownership = o.own_id AND lang2.lang_code = :targetLangCode AND (odl2.odl_brief_description = '' OR odl2.odl_description = '')) > 0)")
-            ->setParameters(array("sourceLangCode" => strtoupper($sourceLangCode), "targetLangCode" => strtoupper($targetLangsCode)));
+            ->andWhere("s.status_id = :activeStatus")
+            ->setParameters(array("sourceLangCode" => strtoupper($sourceLangCode),
+                "targetLangCode" => strtoupper($targetLangsCode),
+                "activeStatus" => OwnershipStatuses::ACTIVE
+            ));
 
         return $qb->getQuery()->getResult();
     }
