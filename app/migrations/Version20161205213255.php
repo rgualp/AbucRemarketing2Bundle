@@ -116,6 +116,7 @@ class Version20161205213255 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql("DROP TRIGGER IF EXISTS ownershipreservation_after_update_trigger");
         //Tabla ownershipreservation
         $this->addSql("
                 CREATE TRIGGER ownershipreservation_after_update_trigger AFTER UPDATE ON ownershipreservation
