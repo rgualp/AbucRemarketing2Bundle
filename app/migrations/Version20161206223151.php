@@ -29,6 +29,8 @@ class Version20161206223151 extends AbstractMigration
                     set @accommodation = NEW.accommodation;
                     set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(NEW.creationDate));
                     set @awards = IF(@awards >= 1, 5, 0);
+                    set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= NEW.creationDate AND finalizationDate <= NEW.creationDate AND accommodation = @accommodation);
+                    set @penaltiesRanking = IF(@penalties > 0, 5, 0);
 
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
@@ -48,12 +50,13 @@ class Version20161206223151 extends AbstractMigration
                     set @touristFailuresRanking = IF(@touristFailures = 0, 0, IF(@touristFailures = 1, 1, IF(@touristFailures >= 3, 5, 3)));
 
                     IF @exists = 0 THEN
-                         INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,failureCasa,rankingPoints, awards, failureClients)
-                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @accommodationFailuresRanking, @rankingPoints, @awards, @touristFailuresRanking);
+                         INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,failureCasa,rankingPoints, awards, failureClients, penalties)
+                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @accommodationFailuresRanking, @rankingPoints, @awards, @touristFailuresRanking, @penaltiesRanking);
                     ELSE
                          UPDATE ownership_ranking_extra rank
                          SET rank.failureCasa = @accommodationFailuresRanking,
                              rank.failureClients = @touristFailuresRanking,
+                             rank.penalties = @penaltiesRanking,
                              rank.awards = @awards
                          WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                     END IF;
@@ -70,6 +73,8 @@ class Version20161206223151 extends AbstractMigration
                     set @accommodation = OLD.accommodation;
                     set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(OLD.creationDate));
                     set @awards = IF(@awards >= 1, 5, 0);
+                    set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= OLD.creationDate AND finalizationDate <= OLD.creationDate AND accommodation = @accommodation);
+                    set @penaltiesRanking = IF(@penalties > 0, 5, 0);
 
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
@@ -89,12 +94,13 @@ class Version20161206223151 extends AbstractMigration
                     set @touristFailuresRanking = IF(@touristFailures = 0, 0, IF(@touristFailures = 1, 1, IF(@touristFailures >= 3, 5, 3)));
 
                     IF @exists = 0 THEN
-                         INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,failureCasa,rankingPoints, awards, failureClients)
-                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @accommodationFailuresRanking, @rankingPoints, @awards, @touristFailuresRanking);
+                         INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,failureCasa,rankingPoints, awards, failureClients, penalties)
+                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @accommodationFailuresRanking, @rankingPoints, @awards, @touristFailuresRanking, @penaltiesRanking);
                     ELSE
                          UPDATE ownership_ranking_extra rank
                          SET rank.failureCasa = @accommodationFailuresRanking,
                              rank.failureClients = @touristFailuresRanking,
+                             rank.penalties = @penaltiesRanking,
                              rank.awards = @awards
                          WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                     END IF;

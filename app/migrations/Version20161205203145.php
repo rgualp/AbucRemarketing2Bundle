@@ -50,28 +50,32 @@ class Version20161205203145 extends AbstractMigration
                     set @rankingPoints = (SELECT id FROM ranking_point WHERE active = 1 ORDER BY creationDate DESC LIMIT 1);
                     set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(NOW()));
                     set @awards = IF(@awards >= 1, 5, 0);
+                    set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= CURDATE() AND finalizationDate <= CURDATE() AND accommodation = @accommodation);
+                    set @penaltiesRanking = IF(@penalties > 0, 5, 0);
 
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = NEW.own_id AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
                     IF NEW.own_inmediate_booking = 1 AND OLD.own_inmediate_booking = 0 THEN
                         IF @exists = 0 THEN
-                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,rr, ri,rankingPoints, awards)
-                            VALUES (NEW.own_id,@firstOfCurrentMonth,@lastOfCurrentMonth, 5, 0, @rankingPoints, @awards);
+                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,rr, ri,rankingPoints, awards, penalties)
+                            VALUES (NEW.own_id,@firstOfCurrentMonth,@lastOfCurrentMonth, 5, 0, @rankingPoints, @awards, @penaltiesRanking);
                         ELSE
                             UPDATE ownership_ranking_extra rank
                             SET rank.rr = 5,
                                 rank.ri = 0,
+                                rank.penalties = @penaltiesRanking,
                                 rank.awards = @awards
                             WHERE rank.accommodation = NEW.own_id AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                         END IF;
                     ELSEIF NEW.own_inmediate_booking_2 = 1 AND OLD.own_inmediate_booking_2 = 0  THEN
                         IF @exists = 0 THEN
-                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,rr,ri,rankingPoints, awards)
-                            VALUES (NEW.own_id,@firstOfCurrentMonth,@lastOfCurrentMonth, 0, 5, @rankingPoints, @awards);
+                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,rr,ri,rankingPoints, awards, penalties)
+                            VALUES (NEW.own_id,@firstOfCurrentMonth,@lastOfCurrentMonth, 0, 5, @rankingPoints, @awards, @penaltiesRanking);
                         ELSE
                             UPDATE ownership_ranking_extra rank
                             SET rank.ri = 5,
                                 rank.rr = 0,
+                                rank.penalties = @penaltiesRanking,
                                 rank.awards = @awards
                             WHERE rank.accommodation = NEW.own_id AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                         END IF;

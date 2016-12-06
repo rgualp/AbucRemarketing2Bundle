@@ -28,6 +28,8 @@ class Version20161206220239 extends AbstractMigration
                     set @accommodation = NEW.gen_res_own_id;
                     set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(NOW()));
                     set @awards = IF(@awards >= 1, 5, 0);
+                    set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= CURDATE() AND finalizationDate <= CURDATE() AND accommodation = @accommodation);
+                    set @penaltiesRanking = IF(@penalties > 0, 5, 0);
 
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
@@ -45,11 +47,12 @@ class Version20161206220239 extends AbstractMigration
                     set @payedNewOffersRanking = IF(@payedNewOffersPercent = 0, 0, IF(@payedNewOffersPercent = 100, 5, IF(@payedNewOffersPercent <= 33, 3, 1)));
 
                     IF @exists = 0 THEN
-                         INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,newOffersReserved,rankingPoints, awards)
-                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @payedNewOffersRanking, @rankingPoints, @awards);
+                         INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,newOffersReserved,rankingPoints, awards, penalties)
+                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @payedNewOffersRanking, @rankingPoints, @awards, @penaltiesRanking);
                     ELSE
                          UPDATE ownership_ranking_extra rank
                          SET rank.newOffersReserved = @payedNewOffersRanking,
+                             rank.penalties = @penaltiesRanking,
                              rank.awards = @awards
                          WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                     END IF;
