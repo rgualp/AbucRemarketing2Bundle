@@ -32,18 +32,14 @@ class Version20161206235152 extends AbstractMigration
 
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
-                    set @penalties = (SELECT COUNT(*) FROM penalty
-                                   WHERE creationDate <= CURDATE() AND finalizationDate >= CURDATE()
-                                   AND accommodation = @accommodation);
-
                     set @penaltiesRanking = IF(@penalties > 0, 5, 0);
 
                     IF @exists = 0 THEN
                          INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,rankingPoints, awards, penalties)
-                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @rankingPoints, @awards, @penaltiesRanking);
+                         VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @rankingPoints, @awards, 5);
                     ELSE
                          UPDATE ownership_ranking_extra rank
-                         SET rank.penalties = @penaltiesRanking,
+                         SET rank.penalties = 5,
                              rank.awards = @awards
                          WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                     END IF;
