@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -140,6 +141,18 @@ class rankingPoint
      */
     private $facturation;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipRankingExtra",mappedBy="rankingPoints")
+     */
+    private $accommodationsRanking;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->accommodationsRanking = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -456,4 +469,22 @@ class rankingPoint
         $this->snd = $snd;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAccommodationsRanking()
+    {
+        return $this->accommodationsRanking;
+    }
+
+    /**
+     * @param mixed $accommodationsRanking
+     */
+    public function setAccommodationsRanking($accommodationsRanking)
+    {
+        $this->accommodationsRanking = $accommodationsRanking;
+    }
+
+
 }

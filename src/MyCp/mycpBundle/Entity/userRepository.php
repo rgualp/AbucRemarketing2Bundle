@@ -79,7 +79,8 @@ class userRepository extends EntityRepository {
         if ($request->get('user_newsletters'))
             $user->setUserNewsletters(1);
         $user->setUserEnabled(true);
-        $password = $encoder->encodePassword($post['user_password'][$translator->trans("FORMS_PASSWORD")], $user->getSalt());
+
+        $password = $encoder->encodePassword($post['user_password']['first'], $user->getSalt());
 
         $user->setUserPassword($password);
         $user_tourist->setUserTouristCurrency($currency);

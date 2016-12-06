@@ -51,6 +51,11 @@ class nomenclator
     private $failureTypes;
 
     /**
+     * @ORM\OneToMany(targetEntity="ownershipRankingExtra",mappedBy="category")
+     */
+    private $rankingCategories;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -58,6 +63,7 @@ class nomenclator
         $this->translations = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->failureTypes = new ArrayCollection();
+        $this->rankingCategories = new ArrayCollection();
     }
     
     /**
@@ -167,6 +173,24 @@ class nomenclator
     public function setFailureTypes($failureTypes)
     {
         $this->failureTypes = $failureTypes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRankingCategories()
+    {
+        return $this->rankingCategories;
+    }
+
+    /**
+     * @param mixed $rankingCategories
+     * @return mixed
+     */
+    public function setRankingCategories($rankingCategories)
+    {
+        $this->rankingCategories = $rankingCategories;
         return $this;
     }
 

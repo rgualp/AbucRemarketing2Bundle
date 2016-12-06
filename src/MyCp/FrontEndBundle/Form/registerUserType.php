@@ -41,11 +41,11 @@ class registerUserType extends AbstractType
                 'constraints'=>array(new NotBlank(), new Email())
             ))
             ->add('user_password','repeated',array(
-            'first_name' => $this->translate->trans('FORMS_PASSWORD'),
-            'second_name' => $this->translate->trans('FORMS_REPEAT'),
-            'type' => 'password',
-            'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
-        ))
+                'first_options' => array('label' => $this->translate->trans('FORMS_PASSWORD')),
+                'second_options' => array('label' =>$this->translate->trans('FORMS_REPEAT')),
+                'type' => 'password',
+                'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
+            ))
             ->add('user_country','choice',array(
             'choices'=>$array_countries,
             'empty_value' => '',
