@@ -38,8 +38,8 @@ class Version20161206163159 extends AbstractMigration
 
                       set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
-                      set @total = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalReservation gres where gres.gen_res_status = 2));
-                      set @positive = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.positive = 1 and c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalReservation gres where gres.gen_res_status = 2));
+                      set @total = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalreservation gres where gres.gen_res_status = 2));
+                      set @positive = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.positive = 1 and c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalreservation gres where gres.gen_res_status = 2));
 
                       set @negative = @total - @positive;
 
@@ -96,8 +96,8 @@ class Version20161206163159 extends AbstractMigration
 
                           set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
-                          set @total = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalReservation gres where gres.gen_res_status = 2));
-                          set @positive = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.positive = 1 and c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalReservation gres where gres.gen_res_status = 2));
+                          set @total = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalreservation gres where gres.gen_res_status = 2));
+                          set @positive = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.positive = 1 and c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalreservation gres where gres.gen_res_status = 2));
 
                           set @negative = @total - @positive;
 
@@ -139,8 +139,8 @@ class Version20161206163159 extends AbstractMigration
 
                       set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
-                      set @total = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalReservation gres where gres.gen_res_status = 2));
-                      set @positive = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.positive = 1 and c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalReservation gres where gres.gen_res_status = 2));
+                      set @total = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalreservation gres where gres.gen_res_status = 2));
+                      set @positive = (SELECT COUNT(*) FROM comment c WHERE c.com_date >= @firstOfCurrentMonth AND c.com_date <= @lastOfCurrentMonth AND c.com_ownership = @accommodation AND c.positive = 1 and c.com_public = 1 AND c.com_user IN (select distinct gres.gen_res_user_id from generalreservation gres where gres.gen_res_status = 2));
 
                       set @negative = @total - @positive;
 
