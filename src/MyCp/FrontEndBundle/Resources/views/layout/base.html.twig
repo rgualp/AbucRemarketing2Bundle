@@ -43,6 +43,13 @@
 
     <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
+    {% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
+        <script src="{{ url_server_node }}socket.io/socket.io.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var access_token="{{app.session.get('access-token')}}";
+        </script>
+    {% endif %}
+
     <script>
         var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
         var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
@@ -90,6 +97,12 @@
         {% endjavascripts %}
     {% endif %}
 
+    <script>
+        {% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
+        //Inicializar el servidor de mensajeria
+        MeanClient.init("{{ url_mean }}","{{ ws_mean }}");
+        {% endif %}
+    </script>
     {% block include_javascripts_and_css %}{% endblock %}
 </head>
 <body>
