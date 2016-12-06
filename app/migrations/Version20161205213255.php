@@ -26,6 +26,8 @@ class Version20161205213255 extends AbstractMigration
                     set @lastOfCurrentMonth = LAST_DAY(NOW());
                     set @rankingPoints = (SELECT id FROM ranking_point WHERE active = 1 ORDER BY creationDate DESC LIMIT 1);
                     set @accommodation = (SELECT MIN(gres.gen_res_own_id) FROM generalReservation gres where gres.gen_res_id = NEW.own_res_gen_res_id);
+                    set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(NOW()));
+                    set @awards = IF(@awards >= 1, 5, 0);
 
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
@@ -48,11 +50,12 @@ class Version20161205213255 extends AbstractMigration
                       set @reservationsRanking = IF(@reservationsPercent = 0, 0, IF(@reservations = 1, 1, IF(@reservationsPercent = 100, 5, 3)));
 
                       IF @exists = 0 THEN
-                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,reservations,rankingPoints)
-                            VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @reservationsRanking, @rankingPoints);
+                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,reservations,rankingPoints, awards)
+                            VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @reservationsRanking, @rankingPoints, @awards);
                         ELSE
                             UPDATE ownership_ranking_extra rank
-                            SET rank.reservations = @reservationsRanking
+                            SET rank.reservations = @reservationsRanking,
+                                rank.awards = @awards
                             WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                         END IF;
 
@@ -72,11 +75,12 @@ class Version20161205213255 extends AbstractMigration
                         set @reservationsRanking = IF(@reservationsPercent = 0, 0, IF(@reservations = 1, 1, IF(@reservationsPercent = 100, 5, 3)));
 
                         IF @exists = 0 THEN
-                                INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,reservations,rankingPoints)
-                                VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @reservationsRanking, @rankingPoints);
+                                INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,reservations,rankingPoints, awards)
+                                VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @reservationsRanking, @rankingPoints, @awards);
                         ELSE
                                 UPDATE ownership_ranking_extra rank
-                                SET rank.reservations = @reservationsRanking
+                                SET rank.reservations = @reservationsRanking,
+                                    rank.awards = @awards
                                 WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                         END IF;
                     END IF;
@@ -96,12 +100,13 @@ class Version20161205213255 extends AbstractMigration
                         set @sndRanking = IF(@snd = 0, 0, IF(@snd = 1, 1, IF(@sndPercent > 33, 5, 3)));
 
                         IF @exists = 0 THEN
-                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,sd,snd,rankingPoints)
-                            VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @sdRanking, @sndRanking, @rankingPoints);
+                            INSERT INTO ownership_ranking_extra (accommodation,startDate,endDate,sd,snd,rankingPoints, awards)
+                            VALUES (@accommodation,@firstOfCurrentMonth,@lastOfCurrentMonth, @sdRanking, @sndRanking, @rankingPoints, @awards);
                         ELSE
                             UPDATE ownership_ranking_extra rank
                             SET rank.sd = @sdRanking,
-                                rank.snd = @sndRanking
+                                rank.snd = @sndRanking,
+                                rank.awards = @awards
                             WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth;
                         END IF;
                     END IF;
