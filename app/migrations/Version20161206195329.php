@@ -28,7 +28,7 @@ class Version20161206195329 extends AbstractMigration
                       set @rankingPoints = (SELECT id FROM ranking_point WHERE active = 1 ORDER BY creationDate DESC LIMIT 1);
                       set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(NOW()));
                       set @awards = IF(@awards >= 1, 5, 0);
-                      set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= CURDATE() AND finalizationDate <= CURDATE() AND accommodation = @accommodation);
+                      set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= CURDATE() AND finalizationDate >= CURDATE() AND accommodation = @accommodation);
                       set @penaltiesRanking = IF(@penalties > 0, 5, 0);
                       set @accommodation = NEW.accommodation;
 
@@ -55,7 +55,7 @@ class Version20161206195329 extends AbstractMigration
                       set @rankingPoints = (SELECT id FROM ranking_point WHERE active = 1 ORDER BY creationDate DESC LIMIT 1);
                       set @awards = (SELECT COUNT(*) FROM accommodation_award aa WHERE aa.accommodation = @accommodation AND aa.year = YEAR(NOW()));
                       set @awards = IF(@awards >= 1, 5, 0);
-                      set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= CURDATE() AND finalizationDate <= CURDATE() AND accommodation = @accommodation);
+                      set @penalties = (SELECT COUNT(*) FROM penalty WHERE creationDate <= CURDATE() AND finalizationDate >= CURDATE() AND accommodation = @accommodation);
                       set @penaltiesRanking = IF(@penalties > 0, 5, 0);
                       set @accommodation = OLD.accommodation;
 

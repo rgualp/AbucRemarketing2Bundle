@@ -64,7 +64,7 @@ class Version20161206235152 extends AbstractMigration
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
                     set @penalties = (SELECT COUNT(*) FROM penalty
-                                   WHERE creationDate <= CURDATE() AND finalizationDate <= CURDATE()
+                                   WHERE creationDate <= CURDATE() AND finalizationDate >= CURDATE()
                                    AND accommodation = @accommodation);
 
                     set @penaltiesRanking = IF(@penalties > 0, 5, 0);
