@@ -3337,6 +3337,10 @@
             <source>ADD_TO_CEST_ERROR</source>
             <target>Eines der Zimmer ist bereits in Warenkorb, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
         </trans-unit>
+        <trans-unit id="978">
+                            <source>VOUCHER_PREHEADER_QUERYAVAILABLE</source>
+                            <target>¡Enhorabuena! Un paso más y habrás completado su consulta de disponibilidad. Antes de que la consulta sea enviada debes registrarte.</target>
+                        </trans-unit>
     </body>
     </file>
 </xliff>
