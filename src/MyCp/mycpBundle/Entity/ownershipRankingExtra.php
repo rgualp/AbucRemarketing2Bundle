@@ -24,7 +24,7 @@ class ownershipRankingExtra
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="ownership",inversedBy="rankingExtra")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="rankingExtras")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
     private $accommodation;
