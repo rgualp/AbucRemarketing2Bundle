@@ -922,12 +922,15 @@ class ownershipRepository extends EntityRepository {
                     $query_string .= " HAVING award1 IN (" . $insideWhere . ")";
             }
         }
-
-        if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
-            $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
-        }else{
-            $order = SearchUtils::getOrder($order_by);
+        if(is_array($filters)){
+            if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
+                $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
+            }else{
+                $order = SearchUtils::getOrder($order_by);
+            }
         }
+        else
+            $order = SearchUtils::getOrder($order_by);
 
 
         $query_string .= $order;
