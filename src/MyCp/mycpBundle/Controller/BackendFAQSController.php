@@ -105,9 +105,16 @@ class BackendFAQSController extends Controller
                 foreach($languages as $language)
                 {
                     $faq_cat_lang=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_lang'=>$language,'faq_cat_id_cat'=>$id_category));
-                    $faq_cat_lang[0]->setFaqCatDescription($post['lang'.$language->getLangId()]);
-                    $em->persist($faq_cat_lang[0]);
-
+                    if (count($faq_cat_lang) > 0){
+                        $faq_cat_lang[0]->setFaqCatDescription($post['lang'.$language->getLangId()]);
+                        $em->persist($faq_cat_lang[0]);
+                    }else{
+                        $category_lang= new faqCategoryLang();
+                        $category_lang->setFaqCatIdCat($category);
+                        $category_lang->setFaqCatIdLang($language);
+                        $category_lang->setFaqCatDescription($post['lang'.$language->getLangId()]);
+                        $em->persist($category_lang);
+                    }
                 }
 
                 $em->flush();

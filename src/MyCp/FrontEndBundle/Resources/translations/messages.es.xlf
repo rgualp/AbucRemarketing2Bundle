@@ -3340,6 +3340,10 @@
             <source>ADD_TO_CEST_ERROR</source>
             <target>Una de las habitaciones ya existe en su cesta y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
         </trans-unit>
+        <trans-unit id="978">
+                    <source>VOUCHER_PREHEADER_QUERYAVAILABLE</source>
+                    <target>¡Enhorabuena! Un paso más y habrás completado su consulta de disponibilidad. Antes de que la consulta sea enviada debes registrarte.</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
