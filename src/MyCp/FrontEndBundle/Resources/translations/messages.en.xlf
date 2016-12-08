@@ -3923,7 +3923,7 @@
         </trans-unit>
         <trans-unit id="978">
                             <source>VOUCHER_PREHEADER_QUERYAVAILABLE</source>
-                            <target>¡Enhorabuena! Un paso más y habrás completado su consulta de disponibilidad. Antes de que la consulta sea enviada debes registrarte.</target>
+                            <target>Congratulations! one more step and your availability request will be finished.You must log in before you send it.</target>
                         </trans-unit>
         </body>
     </file>
