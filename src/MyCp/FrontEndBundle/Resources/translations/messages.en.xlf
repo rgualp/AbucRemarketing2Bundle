@@ -3921,6 +3921,10 @@
             <source>ADD_TO_CEST_ERROR</source>
             <target>One room already exists in your cart and the selected date range collides with which it is stored. Please change the date range.</target>
         </trans-unit>
+        <trans-unit id="978">
+                            <source>VOUCHER_PREHEADER_QUERYAVAILABLE</source>
+                            <target>¡Enhorabuena! Un paso más y habrás completado su consulta de disponibilidad. Antes de que la consulta sea enviada debes registrarte.</target>
+                        </trans-unit>
         </body>
     </file>
 </xliff>
