@@ -4017,6 +4017,98 @@
                     <source>Calendario Actualizado</source>
                     <target>Calendario aggiornato</target>
                 </trans-unit>
+                <trans-unit id="1011">
+                    <source>SERVICE_TOURIST_TAX</source>
+                    <target>Tourist Service</target>
+                </trans-unit>
+                <trans-unit id="1012">
+                    <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+                    <target>Prenotare l'alloggio dei vostri sogni in pochi secondi.</target>
+                </trans-unit>
+                <trans-unit id="1013">
+                    <source>SERVICE_FIXED_TAX</source>
+                    <target>Tasso Fisso</target>
+                </trans-unit>
+                <trans-unit id="1014">
+                    <source>TOTAL_PAY_AT_SERVICE</source>
+                    <target>Pagamento a casa</target>
+                </trans-unit>
+                <trans-unit id="1015">
+                    <source>IMMEDIATE_BOOKING</source>
+                    <target>Prenotazione Istantanea</target>
+                </trans-unit>
+                <trans-unit id="1016">
+                    <source>with Facebook</source>
+                    <target>Collegati a Facebook</target>
+                </trans-unit>
+                <trans-unit id="1017">
+                    <source>or</source>
+                    <target>o</target>
+                </trans-unit>
+                <trans-unit id="1018" resname="Bad credentials.">
+                    <source>Bad credentials.</source>
+                    <target>Nome utente o password non valido</target>
+                </trans-unit>
+                <trans-unit id="1019">
+                     <source>find_reservations</source>
+                     <target>Trova la tua prenotazione</target>
+                </trans-unit>
+                <trans-unit id="1020">
+                    <source>HOUSE_QUESTION</source>
+                    <target>Avete una casa?</target>
+                </trans-unit>
+                <trans-unit id="1021">
+                    <source>find_location</source>
+                    <target>Dove vuoi andare?</target>
+                </trans-unit>
+                <trans-unit id="1022">
+                    <source>MSG_ADD_WISH_LITS</source>
+                    <target>Congratulazioni! La vostra lista continua a crescere. Trasformiamo i vostri desideri in un buon ricordo.</target>
+                </trans-unit>
+                <trans-unit id="1023">
+                    <source>EMPTY_WHISH_LIST</source>
+                    <target>Wishlist vuoto</target>
+                </trans-unit>
+                <trans-unit id="1024">
+                    <source>mycasatrip_description</source>
+                    <target>MyCasaTrip è un'applicazione mobile attraverso una mappa ti dà l'esatta posizione delle tue prenotazioni attive, è possibile calcolare la distanza tra loro e sa come arrivare in modo rapido ed efficiente.</target>
+                </trans-unit>
+                <trans-unit id="1025">
+                    <source>mycasatrip_location</source>
+                    <target>Posizione</target>
+                </trans-unit>
+                <trans-unit id="1026">
+                    <source>mycasatrip_location_text</source>
+                    <target>Conosciuto in tutta la mappa la posizione esatta delle vostre riserve di attivi.</target>
+                </trans-unit>
+                <trans-unit id="1027">
+                    <source>mycasatrip_optimization</source>
+                    <target>Ottimizzazione</target>
+                </trans-unit>
+                <trans-unit id="1028">
+                    <source>mycasatrip_optimization_text</source>
+                    <target>Determinare il percorso dal tuo cellulare.</target>
+                </trans-unit>
+                <trans-unit id="1029">
+                    <source>mycasatrip_reservations_text</source>
+                    <target>Trova i dettagli della vostra prenotazione attivi attraverso MyCasaTrip.</target>
+                </trans-unit>
+                <trans-unit id="1030">
+                    <source>mycasatrip_accuracy</source>
+                    <target>Esattezza</target>
+                </trans-unit>
+                <trans-unit id="1031">
+                    <source>mycasatrip_accuracy_text</source>
+                    <target>Calcola la distanza esatta tra le tue prenotazioni.</target>
+                </trans-unit>
+                <trans-unit id="1032">
+                    <source>mycasatrip_bearing</source>
+                    <target>Orientamento</target>
+                </trans-unit>
+                <trans-unit id="1033">
+                    <source>mycasatrip_bearing_text</source>
+                    <target>Controllare le istruzioni per il viaggio più efficiente.</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
