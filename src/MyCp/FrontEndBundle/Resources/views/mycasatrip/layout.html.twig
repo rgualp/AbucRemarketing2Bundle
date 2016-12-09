@@ -16,7 +16,7 @@
    {% endblock %}
 </div>
 {% if app.session.get('app_lang_code')|lower =='de' or  app.session.get('app_lang_code')|lower =='en'%}
-    <div class="tabbable" onclick="window.location='https://www.touristenkarte-kuba.de/?sPartner=mc';" style="background: url({{ asset('bundles/frontend/img/promo_'~app.session.get('app_lang_code')|lower)}}.jpg)  no-repeat scroll 50%;height: 300px;background-size: 100%;cursor: pointer">
+    <div class="tabbable" onclick="window.location='https://www.touristenkarte-kuba.de/?sPartner=mc';"  style="background: url({{ asset('bundles/frontend/img/promo_'~app.session.get('app_lang_code')|lower)}}.jpg)  no-repeat scroll 50%;height: 300px;background-size: 100%;cursor: pointer">
 
     </div>
     {% else %}
