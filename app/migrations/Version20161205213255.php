@@ -34,7 +34,7 @@ class Version20161205213255 extends AbstractMigration
                     set @exists = (SELECT COUNT(*) from ownership_ranking_extra rank WHERE rank.accommodation = @accommodation AND rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth);
 
                     set @total = (SELECT COUNT(*) FROM ownershipreservation owres JOIN generalreservation gres on gres.gen_res_id = owres.own_res_gen_res_id
-                                   WHERE gres.gen_res_date >= @firstOfCurrentMonth AND gres.gen_res_date <= @lastOfCurrentMonth AND gres.gen_res_own_id = @accommodation);
+                                   WHERE gres.gen_res_date >= @firstOfCurrentMonth AND gres.gen_res_date <= @lastOfCurrentMonth AND gres.gen_res_own_id = @accommodation  AND owres.own_res_status IN (1, 2));
 
                     IF OLD.own_res_status != 5  AND NEW.own_res_status = 5  THEN
                       UPDATE ownershipdata
@@ -90,6 +90,9 @@ class Version20161205213255 extends AbstractMigration
                     END IF;
 
                     IF OLD.own_res_status != 1  AND OLD.own_res_status != 2 AND (NEW.own_res_status = 1 OR NEW.own_res_status = 2)  THEN
+                        set @total = (SELECT COUNT(*) FROM ownershipreservation owres JOIN generalreservation gres on gres.gen_res_id = owres.own_res_gen_res_id
+                                   WHERE gres.gen_res_date >= @firstOfCurrentMonth AND gres.gen_res_date <= @lastOfCurrentMonth AND gres.gen_res_own_id = @accommodation);
+
                         set @sd = (SELECT COUNT(*) FROM ownershipreservation owres JOIN generalreservation gres on gres.gen_res_id = owres.own_res_gen_res_id
                                    WHERE gres.gen_res_date >= @firstOfCurrentMonth AND gres.gen_res_date <= @lastOfCurrentMonth AND gres.gen_res_own_id = @accommodation
                                    AND owres.own_res_status IN (1, 2, 4, 5, 6) );
