@@ -153,14 +153,13 @@ class OAuthController extends Controller
                             }
                         }
                         if(count($cartItemsQueryBooking)){
+
                             $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
                             $insert=1;
                             //Validar que no se haga una reserva que ya fuese realizada
                             foreach ($ownerShip as $item){
                                 $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
                                 $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
-
-
                                 foreach ($cartItems as $cart) {
                                     $cartDateFrom = $cart->getCartDateFrom()->getTimestamp();
                                     $cartDateTo = $cart->getCartDateTo()->getTimestamp();
@@ -172,7 +171,7 @@ class OAuthController extends Controller
                             }
                             if($insert==1){  //sino hay un error
                                 $arrayIdCart=array();
-                                foreach ($cartItems as $cart){
+                                foreach ($cartItemsQueryBooking as $cart){
                                     $arrayIdCart[]=$cart->getCartId();
                                 }
                                 $own_ids=array();
