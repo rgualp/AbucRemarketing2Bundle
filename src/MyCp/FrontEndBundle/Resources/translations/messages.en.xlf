@@ -3925,6 +3925,14 @@
                             <source>VOUCHER_PREHEADER_QUERYAVAILABLE</source>
                             <target>Congratulations! one more step and your availability request will be finished.You must log in before you send it.</target>
                         </trans-unit>
+        <trans-unit id="979">
+            <source>OTHER_SERVICES</source>
+            <target>Other services</target>
+        </trans-unit>
+        <trans-unit id="980">
+                    <source>YOUR_VISA</source>
+                    <target>Get Your Visa</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
