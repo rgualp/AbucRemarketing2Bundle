@@ -138,7 +138,7 @@
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                             {% else %}
-                                <button style="padding: 5px 10px" class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <button style="padding: 5px 10px" {% if app.user.getUserUserName is not defined %} type="submit"  {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                     <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                                 </button>
                         {% endif %}
@@ -163,7 +163,10 @@
     {% endif %}
     var form = $("#form-check-available");
             form.on("submit", function (e) {
-                if($('#check_dispo').val()!=2){
+                //Solo se envia por ajax
+                //1-si el usuario no esta logueado solo se envia para el wishlist.
+                //2-Cuando el usser esta login se manda por ajax la wishlist y la consulta de disponibilidad.
+                if((login && ($('#check_dispo').val()==1 || $('#check_dispo').val()=='')) || (!login && $('#check_dispo').val()=='')){
                     e.stopPropagation();
                     e.preventDefault();
                     var formData = new FormData(form[0]);
