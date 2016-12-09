@@ -4010,6 +4010,14 @@
                 <source>Calendario Actualizado</source>
                 <target>Calendario Actualizado</target>
             </trans-unit>
+            <trans-unit id="1011">
+                 <source>with Facebook</source>
+                 <target>con facebook</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                 <source>o</source>
+                 <target>o</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
