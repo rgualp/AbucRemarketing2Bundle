@@ -105,6 +105,7 @@ class ReservationController extends Controller {
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
+        $cartItems= array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         foreach($arrayIdCart as $temp){
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
