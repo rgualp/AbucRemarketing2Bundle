@@ -538,6 +538,7 @@ class ExportToExcel extends Controller {
 
             $data[9] = $own["status"];
             $data[10] = $own["municipality"];
+            $data[11] = ($own["rr"] == 1 ? "Reserva Rápida" : ($own["ri"] == 1 ? "Reserva Inmediata": "Solicitud de Disponibilidad"));
 
             array_push($results, $data);
         }
@@ -558,13 +559,14 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('i1', 'Temporada Alta');
         $sheet->setCellValue('j1', 'Estado');
         $sheet->setCellValue('k1', 'Municipio');
+        $sheet->setCellValue('l1', 'Modalidad');
 
 
-        $sheet = $this->styleHeader("a1:k1", $sheet);
+        $sheet = $this->styleHeader("a1:l1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
-        $this->setColumnAutoSize("a", "k", $sheet);
+        $this->setColumnAutoSize("a", "l", $sheet);
 
         for($i = 0; $i < count($data); $i++)
         {
@@ -575,7 +577,7 @@ class ExportToExcel extends Controller {
                         'color' => array('rgb' => 'FF0000'),
                     ),
                 );
-                $sheet->getStyle("A".($i + 2).":K".($i + 2))->applyFromArray($style);
+                $sheet->getStyle("A".($i + 2).":L".($i + 2))->applyFromArray($style);
             }
         }
 
