@@ -26,7 +26,7 @@ class MycasatripController extends Controller {
 
         // pendientes Mayores hoy - 30 días
         $date = \date('Y-m-j');
-        $new_date = strtotime('-30 day', strtotime($date));
+        $new_date = strtotime('-2 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date > '$new_date'";
         $status_string = 'ownre.own_res_status = ' . ownershipReservation::STATUS_PENDING;
