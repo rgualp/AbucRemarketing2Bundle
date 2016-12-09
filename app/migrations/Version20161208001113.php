@@ -100,7 +100,7 @@ class Version20161208001113 extends AbstractMigration
             set @negative = @totalComments - @positive;
             set @positivePercent = COALESCE((@positive / @totalComments) * 100, 0);
             set @negativePercent = COALESCE((@negative / @totalComments) * 100, 0);
-            set @positiveRanking = IF(@totalComments = 0, 0, IF(@positivePercent = 100, 100, IF(@totalComments = 1, 1, 3)));
+            set @positiveRanking = IF(@totalComments = 0, 0, IF(@positivePercent = 100, 5, IF(@totalComments = 1, 1, 3)));
             set @negativeRanking = IF(@negative = 0, 0, IF(@negativePercent >= 50, 5, IF(@negativePercent < 33, 1, 3)));
 
             /*Reservas*/
@@ -193,21 +193,9 @@ class Version20161208001113 extends AbstractMigration
             SET o.own_ranking = @ranking
             WHERE o.own_id = @accommodation;
 
-            /*Lugares generales*/
-            set @rownum = 0;
-            UPDATE ownership_ranking_extra rankOuter
-            JOIN (select @rownum := @rownum + 1 AS rownum,
-            rank.accommodation, rank.ranking from ownership_ranking_extra rank
-            order by rank.ranking DESC, rank.fad DESC,
-            rank.failureCasa ASC, rank.penalties ASC,
-            rank.sd DESC, rank.snd ASC, rank.confidence DESC, rank.ri DESC, rank.rr DESC, rank.reservations DESC,
-            rank.awards DESC, rank.negativeComments ASC, rank.newOffersReserved DESC, rank.positiveComments DESC,
-            rank.failureClients DESC, rank.facturation DESC) T on T.accommodation = rankOuter.accommodation
-            set rankOuter.place = T.rownum
-            WHERE rankOuter.startDate = @firstOfCurrentMonth AND rankOuter.endDate = @lastOfCurrentMonth;
-
           END LOOP;
           CLOSE accommodationsCursor;
+
         END;
         ");
 

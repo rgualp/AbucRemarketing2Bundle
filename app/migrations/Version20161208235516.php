@@ -32,6 +32,20 @@ class Version20161208235516 extends AbstractMigration
               set @firstOfCurrentMonth = DATE_SUB(LAST_DAY(@date),INTERVAL DAY(LAST_DAY(@date))-1 DAY);
               set @lastOfCurrentMonth = LAST_DAY(@date);
 
+              /*Lugares generales*/
+            set @rownum = 0;
+            UPDATE ownership_ranking_extra rankOuter
+            JOIN (select @rownum := @rownum + 1 AS rownum,
+            rank.accommodation, rank.ranking from ownership_ranking_extra rank
+            WHERE rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth
+            order by rank.ranking DESC, rank.fad DESC,
+            rank.failureCasa ASC, rank.penalties ASC,
+            rank.sd DESC, rank.snd ASC, rank.confidence DESC, rank.ri DESC, rank.rr DESC, rank.reservations DESC,
+            rank.awards DESC, rank.negativeComments ASC, rank.newOffersReserved DESC, rank.positiveComments DESC,
+            rank.failureClients DESC, rank.facturation DESC) T on T.accommodation = rankOuter.accommodation
+            set rankOuter.place = T.rownum
+            WHERE rankOuter.startDate = @firstOfCurrentMonth AND rankOuter.endDate = @lastOfCurrentMonth;
+
               OPEN destinationsCursor;
 
               read_loop: LOOP
@@ -53,8 +67,9 @@ class Version20161208235516 extends AbstractMigration
                 JOIN (select @rownum := @rownum + 1 AS rownum,
                 rank.accommodation, rank.ranking
                 from ownership_ranking_extra rank
-                JOIN ownership o on o.own_id = rankOuter.accommodation
+                JOIN ownership o on o.own_id = rank.accommodation
                 WHERE o.own_destination = destinationId
+                and rank.startDate = @firstOfCurrentMonth AND rank.endDate = @lastOfCurrentMonth
                 order by rank.ranking DESC, rank.fad DESC,
                 rank.failureCasa ASC, rank.penalties ASC,
                 rank.sd DESC, rank.snd ASC, rank.confidence DESC, rank.ri DESC, rank.rr DESC, rank.reservations DESC,
