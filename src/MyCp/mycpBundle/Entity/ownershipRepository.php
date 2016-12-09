@@ -1226,7 +1226,9 @@ class ownershipRepository extends EntityRepository {
                          min(r.room_price_down_to) as lowDown,
                          max(r.room_price_down_to) as highDown,
                          min(r.room_price_up_to) as lowUp,
-                         max(r.room_price_up_to) as highUp
+                         max(r.room_price_up_to) as highUp,
+                         o.own_inmediate_booking as rr,
+                         o.own_inmediate_booking_2 as ri
                          FROM mycpBundle:room r
                          JOIN r.room_ownership o
                          JOIN o.own_address_province prov
