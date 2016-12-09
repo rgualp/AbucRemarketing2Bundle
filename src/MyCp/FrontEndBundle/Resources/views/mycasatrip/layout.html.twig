@@ -16,12 +16,12 @@
    {% endblock %}
 </div>
 {% if app.session.get('app_lang_code')|lower =='de' or  app.session.get('app_lang_code')|lower =='en'%}
-    <div class="tabbable" onclick="window.location='https://www.touristenkarte-kuba.de/?sPartner=mc';"  style="background: url({{ asset('bundles/frontend/img/promo_'~app.session.get('app_lang_code')|lower)}}.jpg)  no-repeat scroll 50%;height: 300px;background-size: 100%;cursor: pointer">
+    <div class="tabbable" onclick="window.location='https://www.touristenkarte-kuba.de/?sPartner=mc';" style="background: url({{ asset('bundles/frontend/img/promo_'~app.session.get('app_lang_code')|lower)}}.jpg)  no-repeat scroll 50%;height: 300px;background-size: 100%;cursor: pointer">
 
     </div>
     {% else %}
         <div class="tabbable banner-dow" onclick="window.location='{{ path('frontend_mycasatrip_apps') }}';">
-
+            {#<img src="{{ asset('bundles/frontend/img/mycasatrip/b1.png') }}">#}
             <div id="div_b" style="float: right; vertical-align: middle; margin-right: 50px; margin-top: 55px">
                 <h4>{{ 'find_reservations'|trans }}</h4>
                 <h1>MyCasa Trip APP</h1>
