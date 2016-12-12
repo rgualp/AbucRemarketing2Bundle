@@ -165,6 +165,9 @@
     {% if app.user.getUserUserName is defined %}
         login=true;
     {% endif %}
+    $('#partner_reservation_client').change(function() {
+        $("#partner_reservation_name").val($('#partner_reservation_client option:selected').text());
+    });
     var form = $("#form-check-available");
         form.on("submit", function (e) {
             if( $("#partner_reservation_name").val() !=''){
