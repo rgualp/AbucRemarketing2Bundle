@@ -18,9 +18,14 @@
         <li class="{{ activeClass('show_room') }}"><a class="glyphicons keys menu-icon normal" href="{{ path('show_room') }}"><span>Habitaciones</span></a></li>
         <li class="{{ activeClass('show_facilities') }}"><a class="glyphicons plus menu-icon normal" href="{{ path("show_facilities") }}"><span>Facilidades</span></a></li>
         <li class="{{ activeClass('casa_show_photos') }}"><a class="glyphicons picture menu-icon normal" href="{{ path('casa_show_photos') }}"><span>Imágenes</span></a></li>
+
         {#<li><a class="glyphicons chat menu-icon normal" href="graph_sparkline.html"><span>Ver comentarios</span></a></li>#}
     </ul>
 </li>
 <li class="{{ activeClass('show_user_profile') }}">
     <a href="{{ path("show_user_profile") }}" class="normal"><i class="glyphicons nameplate menu-icon"></i> <span class="nav-label">Perfil</span></a>
+</li>
+
+<li class="{{ activeClass('show_stats') }}">
+    <a href="{{ path("show_stats") }}" class="normal"><i class="glyphicons stats menu-icon"></i> <span class="nav-label">Estadística</span></a>
 </li>

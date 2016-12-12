@@ -71,6 +71,22 @@ from old_payment
 group by YEAR(creation_date)
 order by YEAR(creation_date);
 
+
+/*General facturacion de una casa en este mes y este año */
+select T.Anno, T.Mes, T.Casa, FORMAT(T.Facturacion, 2) as Facturacion from
+(select YEAR(gres.`gen_res_date`) as Anno,
+MONTH(gres.`gen_res_date`) as Mes,
+o.own_mcp_code as Casa,
+SUM(IF(p.`current_cuc_change_rate` IS NOT NULL, (p.`payed_amount`/p.`current_cuc_change_rate`) ,((owres.`own_res_total_in_site` * o.`own_commission_percent`)/100))) as Facturacion
+from ownership o
+join generalreservation gres on gres.gen_res_own_id = o.`own_id`
+join `ownershipreservation` owres on owres.`own_res_gen_res_id` = gres.`gen_res_id`
+join booking b on b.`booking_id` = owres.`own_res_reservation_booking`
+join payment p on p.`booking_id` = b.`booking_id`
+group by YEAR(gres.`gen_res_date`), MONTH(gres.`gen_res_date`), gres.gen_res_own_id) T
+where   T.Casa like '%ch001%'and T.Anno = YEAR(now()) and  T.Mes=MONTH(now());
+
+
 /*General total de reservaciones por años (bookings)*/
 select YEAR(creation_date) as Anno, count(id) as totals
 from old_payment
