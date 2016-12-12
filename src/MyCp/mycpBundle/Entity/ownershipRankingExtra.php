@@ -24,13 +24,13 @@ class ownershipRankingExtra
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="ownership",inversedBy="rankingExtra")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="rankingExtras")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
     private $accommodation;
 
     /**
-     * @ORM\OneToOne(targetEntity="rankingPoint",inversedBy="accommodationsRanking")
+     * @ORM\ManyToOne(targetEntity="rankingPoint",inversedBy="accommodationsRanking")
      * @ORM\JoinColumn(name="rankingPoints",referencedColumnName="id")
      */
     private $rankingPoints;
@@ -174,6 +174,12 @@ class ownershipRankingExtra
      * @ORM\Column(name="destinationPlace", type="integer", nullable=true)
      */
     private $destinationPlace;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="rankingCategories")
+     * @ORM\JoinColumn(name="category",referencedColumnName="nom_id")
+     */
+    private $category;
 
     /**
      * @return mixed
@@ -576,6 +582,24 @@ class ownershipRankingExtra
     public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     * @return mixed
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
         return $this;
     }
 

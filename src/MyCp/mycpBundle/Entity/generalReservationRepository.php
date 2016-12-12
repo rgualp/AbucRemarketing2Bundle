@@ -33,7 +33,7 @@ class generalReservationRepository extends EntityRepository {
         (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id),
         u.user_user_name, u.user_last_name, u.user_email,
         (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
-        own.own_inmediate_booking
+        own.own_inmediate_booking,own.own_inmediate_booking_2
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
@@ -149,20 +149,25 @@ class generalReservationRepository extends EntityRepository {
 
 
         $queryStr = "SELECT c.fullname, ag.id
-FROM PartnerBundle:paReservationDetail pard
-JOIN pard.reservation par
-JOIN par.client c
-JOIN c.travelAgency ag
-WHERE pard.reservationDetail = :gen_res_id";
+                    FROM PartnerBundle:paReservationDetail pard
+                    JOIN pard.reservation par
+                    JOIN par.client c
+                    JOIN c.travelAgency ag
+                    WHERE pard.reservationDetail = :gen_res_id";
         $query = $em->createQuery($queryStr);
         $query->setMaxResults(1);
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
             $query->setParameter('gen_res_id', $gen_res_id);
             $r = $query->getArrayResult();
-            $client = (count($r) > 0) ? $r[0] : array('fullname' => '', 'id' => '');
-            $data[$key]['client'] = $client['fullname'];
-            $data[$key]['ag_id'] = $client['id'];
+            if(count($r)){
+                $client = $r[0];
+                $data[$key]['client'] = $client['fullname'];
+                $data[$key]['ag_id'] = $client['id'];
+            }
+            else
+                unset($data[$key]);
+
         }
         return array("reservations" => $data, "totalItems" => $total);
     }

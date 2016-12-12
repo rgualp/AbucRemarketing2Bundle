@@ -95,7 +95,7 @@
             <td>
                 {% if item.accommodation.ownStatus%}
                     {% if item.accommodation.ownStatus.statusId ==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
-                    {% else %} <span class="label label-important">{{ item.accommodation.ownStatus.statusName }}</span>{% endif %}
+                    {% else %} <span class="label label-important">{{ item.accommodation.ownStatus.getStatusName }}</span>{% endif %}
                 {%else%}
                     <span class="label">Sin estado</span>
                 {% endif %}
