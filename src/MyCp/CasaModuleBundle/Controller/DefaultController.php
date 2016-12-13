@@ -20,10 +20,16 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $user=$this->getUser();
+        $em = $this->getDoctrine()->getManager();
 
         if($user->getUserUserCasa()->isEmpty())
             throw new AccessDeniedHttpException('Sorry, this section is only for owners!!!');
         $ownership=  $user->getUserUserCasa()[0]->getUserCasaOwnership();
+
+        $ranking = $em->getRepository("mycpBundle:ownership")->getRankingFormula($ownership);
+
+        //$canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
+
         if($ownership->getOwnLangs()){
             if(substr($ownership->getOwnLangs(),0,1))
                 $langs[]='1000';
@@ -50,7 +56,9 @@ class DefaultController extends Controller
                 'form'=>$form->createView(),
                 'photoForm'=>$photosForm->createView(),
                 'dashboard'=>false,
-                'langs'=>(isset($langs))?$langs:array()
+                'langs'=>(isset($langs))?$langs:array(),
+                //'price'=>$canPublish,
+                'ranking'=>$ranking
             ));
         }
 

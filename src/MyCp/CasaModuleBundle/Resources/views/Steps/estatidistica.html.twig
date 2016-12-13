@@ -3,18 +3,17 @@
         <div class="row-eq-height animated fadeInRight">
             <div class="col-md-9 col-xs-12 white-bg">
                 <div class="row">
-                    <div class="col-sm-1 col-xs-3">
+                    <div class="col-sm-2 col-xs-3">
                         <img src="{{ asset('bundles/mycpcasamodule/img/estdisticas.png') }}"
-                             class="img-title-step m-t-25">
+                             class="img-title-step" style="width: 100px; height: 100px;">
                     </div>
-                    <div class="col-sm-11 col-xs-9">
+                    <div class="col-sm-10 col-xs-9">
                         <h2 class="font-blue">Estadísticas</h2>
-                        <h3 class="font-blue">El cielo puede ser la meta si se lo propone. Solo los mejores descubren
-                            como
+                        <h3 class="font-blue">El cielo puede ser la meta si se lo propone. Solo los mejores descubren como
                             ser un Best Casa</h3>
                     </div>
                 </div>
-                <div class="bg-gray m-t-20 col-md-11 font-black">
+                <div class="bg-gray p-a-5 m-t-20 col-md-12 font-black">
                     {#{% include 'MyCpCasaModuleBundle:form:description.html.twig'%}#}
                     <div class="col-sm-1 col-xs-1" >
                         <img src="{{ asset('bundles/mycpcasamodule/img/guionimposible.png') }}">
@@ -26,7 +25,7 @@
                     <div class="col-md-12">
                      <div class="col-md-1 col-md-offset-4"> <img src="{{ asset('bundles/mycpcasamodule/img/10imageizquierda.png') }}"></div>
                         <div class="col-md-3" style="margin-top: 0.5em;text-align: center"> <span class="font-blue step-span "
-                                                     style="font-size: 16px;font-variant-caps: petite-caps"><strong>{{ price[0].messs }} {{ price[0].anno }}</strong>  </span></div>
+                                                     style="font-size: 16px;font-variant-caps: petite-caps"><strong></strong>  </span></div>
                         <div class="col-md-1"> <img src="{{ asset('bundles/mycpcasamodule/img/11imagederecha.png') }}"></div>
                     </div>
 
@@ -35,7 +34,7 @@
                             <img src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}">
                         </div> <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
                    <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
-                    Su casa tiene <strong>{{ ranking[0].ranking }}</strong> puntos en el ranking
+                    Su casa tiene <strong>{{ ranking }}</strong> puntos en el ranking
                    </span>
                     </div>
                     </div>
@@ -107,7 +106,7 @@
                           <span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">
                         En este mes has facturado <strong>
 
-                                  {{ price[0].facturacion }}</strong> cuc
+                                  </strong> cuc
                               </span>
                     </div>
                     </div>
