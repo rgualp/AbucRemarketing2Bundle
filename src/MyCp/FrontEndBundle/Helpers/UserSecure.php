@@ -2,6 +2,8 @@
 
 namespace MyCp\FrontEndBundle\Helpers;
 
+use BeSimple\SoapWsdl\Dumper\Dumper;
+use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -117,10 +119,15 @@ class UserSecure {
                 $session->set('app_lang_code', $tourist_language->getLangCode());
                 $session->set("just_logged", true);
 
-
                 //$locale = array('locale' => $locale, '_locale' => $locale);
             }
         }
+    }
+
+    public function onAuthenticationFailure(AuthenticationFailureEvent $event)
+    {
+        $lang = $this->container->get('session')->get('user_language');
+        $this->container->get('session')->set('user_failure_language', $lang);
     }
 
 }

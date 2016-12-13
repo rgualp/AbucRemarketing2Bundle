@@ -19,7 +19,7 @@ frontend_boucher_reservation:
     defaults: { _controller: FrontEndBundle:Reservation:generatePdfVoucher }
 
 frontend_reservation_reservation_afterlogin:
-    locales:  { en: "/user/booking/", es: "/usuario/reservar/", de: "/user/booking/", fr: "/user/booking/", it: "/user/booking/" }
+    locales:  { en: "/user/booking/{option}/", es: "/usuario/reservar/{option}/", de: "/user/booking/{option}/", fr: "/user/booking/{option}/", it: "/user/booking/{option}/" }
     defaults: { _controller: FrontEndBundle:Reservation:reservationAfterLogin }
 
 frontend_reservation_test_email:

@@ -42,10 +42,14 @@ class ReservationController extends Controller {
         else
             return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
     }
-    public function reservationAfterLoginAction(Request $request){
+    public function reservationAfterLoginAction(Request $request,$option){
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsAfterLogin($user_ids);
+        if($option==1)
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsQueryBookingAfterLogin($user_ids);
+        if($option==2)
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsAfterLogin($user_ids);
+
         $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
         $insert=1;
         //Validar que no se haga una reserva que ya fuese realizada
@@ -70,14 +74,24 @@ class ReservationController extends Controller {
             }
             $own_ids=array();
             //Es que el usuario mando a hacer una reserva
-            $own_ids=$this->checkDispo($arrayIdCart,$request,true);
-            $request->getSession()->set('reservation_own_ids', $own_ids);
-            return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+            if($option==2){
+                $own_ids=$this->checkDispo($arrayIdCart,$request,true);
+                $request->getSession()->set('reservation_own_ids', $own_ids);
+                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+            }
+            if($option==1){
+                $own_ids=$this->checkDispo($arrayIdCart,$request,false);
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
+            }
+
         }
         else{
             $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
             $this->get('session')->getFlashBag()->add('message_global_error', $message);
-            return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            if($option==2)
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            if($option==1)
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
         }
     }
     /**
@@ -91,6 +105,7 @@ class ReservationController extends Controller {
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
+        $cartItems= array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         foreach($arrayIdCart as $temp){
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
@@ -243,7 +258,6 @@ class ReservationController extends Controller {
                 );
             }
         }
-
         if(!$inmediatily_booking){
             //Enviando mail al reservation team
             foreach($generalReservations as $genResId){
@@ -255,11 +269,10 @@ class ReservationController extends Controller {
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
             $em->remove($cartItem);
         }
-        $em->flush();
+        $em->flush();                 //esta haciendo una reserva
         if(!$inmediatily_booking) //esta consultando la disponibilidad
             return true;
-        else                      //esta haciendo una reserva
-            return $own_ids;
+        return $own_ids;
     }
 
     public function reservationAction(Request $request) {

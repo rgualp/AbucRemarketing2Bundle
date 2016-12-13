@@ -4046,6 +4046,10 @@
                 <source>STATEMENT</source>
                 <target>Statement</target>
             </trans-unit>
+                <trans-unit id="1011">
+                     <source>or</source>
+                     <target>or</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
