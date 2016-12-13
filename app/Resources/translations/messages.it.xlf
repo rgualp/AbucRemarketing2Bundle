@@ -1108,7 +1108,7 @@
             </trans-unit>
             <trans-unit id="286">
                 <source>RESERVATION_RESERVE</source>
-                <target>Libro!</target>
+                <target>Riserva!</target>
             </trans-unit>
             <trans-unit id="287">
                 <source>RESERVATION_PAYMENT</source>
@@ -1404,7 +1404,7 @@
             </trans-unit>
             <trans-unit id="360">
                 <source>FORMS_EMAIL</source>
-                <target>E</target>
+                <target>e-mail</target>
             </trans-unit>
             <trans-unit id="361">
                 <source>FORMS_PHONE</source>
@@ -2069,7 +2069,7 @@
                 </trans-unit>
                 <trans-unit id="527">
                     <source>INVALID_EMAIL</source>
-                    <target>E non valido.</target>
+                    <target>E-Mail non valido</target>
                 </trans-unit>
                 <trans-unit id="528">
                     <source>COUNTRY</source>
@@ -3493,7 +3493,7 @@
                </trans-unit>
                <trans-unit id="883">
                <source>backend.package.bookings.id</source>
-               <target>ID Libro</target>
+               <target>ID Riserva</target>
                </trans-unit>
                <trans-unit id="884">
                <source>backend.package.bookings.package_name</source>

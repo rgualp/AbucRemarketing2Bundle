@@ -608,6 +608,12 @@ class ownership {
      */
     private $calendarUpdateFrequency;
 
+    /**
+     * @var integer
+     * @ORM\Column(name="count_visits", type="integer")
+     */
+    private $count_visits;
+
 
     /**
      * Constructor
@@ -2691,6 +2697,22 @@ class ownership {
     public function removeCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
     {
         $this->calendarUpdateFrequency->removeElement($calendarUpdateFrequency);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountVisits()
+    {
+        return $this->count_visits;
+    }
+
+    /**
+     * @param int $count_visits
+     */
+    public function setCountVisits($count_visits)
+    {
+        $this->count_visits = $count_visits;
     }
 
 }
