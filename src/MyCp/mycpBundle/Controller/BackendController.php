@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Form\changePasswordUserType;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
+use MyCp\mycpBundle\Helpers\Notifications;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ class BackendController extends Controller
 
     public function backend_frontAction(Request $request)
     {
+
         if (!$this->getUser() instanceof UserInterface)
             return $this->redirect($this->generateUrl('backend_login'));
         if ($this->get('security.context')->isGranted('ROLE_CLIENT_TOURIST')) {

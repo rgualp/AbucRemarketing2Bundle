@@ -51,6 +51,7 @@ class ownershipRepository extends EntityRepository {
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
+        $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
 
         //languages
@@ -108,6 +109,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSelection($active_selection)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
+            ->setConfidence($confidence)
             ->setOwnSmsNotifications($smsNotification);
 
 
@@ -298,6 +300,7 @@ class ownershipRepository extends EntityRepository {
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
+        $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
 
         //languages
@@ -353,6 +356,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSelection($active_selection)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
+            ->setConfidence($confidence)
             ->setOwnSmsNotifications($smsNotification);
 
         if($active_inmediate_booking_2)
@@ -726,6 +730,9 @@ class ownershipRepository extends EntityRepository {
                 break;
             case FilterHelper::ACCOMMODATION_WITH_ERRORS_MOBILE:
                 $condition .= "AND ow.own_mobile_number IS NOT NULL AND ow.own_mobile_number != '' AND ow.own_mobile_number NOT LIKE '5_______' ";
+                break;
+            case FilterHelper::ACCOMMODATION_CONFIDENCE:
+                $condition .= "AND ow.confidence = 1 ";
                 break;
         }
 
