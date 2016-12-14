@@ -490,6 +490,8 @@ class BackendOwnershipController extends Controller {
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
         $post['cubacoupon'] = $ownership->getOwnCubaCoupon();
         $data['cubacoupon'] = $ownership->getOwnCubaCoupon();
+        $post['confidence'] = $ownership->isConfidence();
+        $data['confidence'] = $ownership->isConfidence();
         $post['sms_notification'] = $ownership->getOwnSmsNotifications();
         $data['sms_notification'] = $ownership->getOwnSmsNotifications();
 
