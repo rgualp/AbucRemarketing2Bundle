@@ -337,8 +337,9 @@ class GeneralReservationService extends Controller
                     "rating" => $rating,
                     "url_images" => $url_images
                 );
+                $hash_email = hash('sha256', $reservation->getGenResUserId()->getUserEmail());
                 $param = array(
-                    'to' => [$reservation->getGenResUserId()->getUserEmail()."_mycp"],
+                    'to' => [$hash_email."_mycp"],
                     'pending' => 0,
                     "metadata" => $metadata
                 );
