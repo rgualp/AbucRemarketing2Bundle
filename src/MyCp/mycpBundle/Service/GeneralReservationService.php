@@ -353,6 +353,7 @@ class GeneralReservationService extends Controller
 
         }
         return $errors;
+        
     }
 
     private function processPost($post)
