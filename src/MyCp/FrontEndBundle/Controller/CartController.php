@@ -65,7 +65,6 @@ class CartController extends Controller {
     }
 
     public function addToCartAction($id_ownership, Request $request) {
-
         $check_dispo=$request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         if (!$request->get('data_reservation'))
@@ -259,16 +258,24 @@ class CartController extends Controller {
             return $response;
         }
         else{
-            if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
-                if ($user_ids["user_id"] != null){
-                    $request->getSession()->set('reservation_own_ids', $own_ids);
-                    return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+            if(isset($check_dispo) && $check_dispo!='' && !$showErrorOwnExist){
+                if($check_dispo==1){
+                        $message = $this->get('translator')->trans("VOUCHER_PREHEADER_QUERYAVAILABLE");
+                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                        return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin',array('option'=>$check_dispo)));
                 }
-                else{
-                    $message = $this->get('translator')->trans("VOUCHER_PREHEADER_NEWMSG");
-                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
-                }
+               if($check_dispo==2){
+                   if ($user_ids["user_id"] != null){
+                       $request->getSession()->set('reservation_own_ids', $own_ids);
+                       return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                   }
+                   else{
+                       $message = $this->get('translator')->trans("VOUCHER_PREHEADER_NEWMSG");
+                       $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                       return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin',array('option'=>$check_dispo)));
+                   }
+               }
+
 
             }
             elseif($showErrorOwnExist)

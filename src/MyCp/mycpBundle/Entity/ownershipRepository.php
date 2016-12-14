@@ -922,12 +922,15 @@ class ownershipRepository extends EntityRepository {
                     $query_string .= " HAVING award1 IN (" . $insideWhere . ")";
             }
         }
-
-        if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
-            $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
-        }else{
-            $order = SearchUtils::getOrder($order_by);
+        if(is_array($filters)){
+            if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
+                $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
+            }else{
+                $order = SearchUtils::getOrder($order_by);
+            }
         }
+        else
+            $order = SearchUtils::getOrder($order_by);
 
 
         $query_string .= $order;
@@ -1223,7 +1226,9 @@ class ownershipRepository extends EntityRepository {
                          min(r.room_price_down_to) as lowDown,
                          max(r.room_price_down_to) as highDown,
                          min(r.room_price_up_to) as lowUp,
-                         max(r.room_price_up_to) as highUp
+                         max(r.room_price_up_to) as highUp,
+                         o.own_inmediate_booking as rr,
+                         o.own_inmediate_booking_2 as ri
                          FROM mycpBundle:room r
                          JOIN r.room_ownership o
                          JOIN o.own_address_province prov

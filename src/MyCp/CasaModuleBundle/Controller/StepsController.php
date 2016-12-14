@@ -1136,4 +1136,37 @@ class StepsController extends Controller
         return new JsonResponse($response);
     }
 
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_stats", path="/estadistica")
+     */
+    public function showStatsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+       $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+      $code = $this->getUser()->getName();
+
+        $ranking=$em->getRepository("mycpBundle:ownership")->getRankingCasa($code);
+
+        $canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
+//        die(dump($ranking));
+//        if(empty($canPublish)){
+//            $canPublish
+//
+//
+//        }
+        return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
+            'ownership'=>$ownership,
+            'price'=>$canPublish,
+            'ranking'=>$ranking,
+            'dashboard'=>true
+        ));
+    }
+
+
+
+
 }

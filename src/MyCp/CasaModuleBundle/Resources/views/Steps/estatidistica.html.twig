@@ -1,0 +1,149 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig' %}
+    {% block content %}
+        <div class="row-eq-height animated fadeInRight">
+            <div class="col-md-9 col-xs-12 white-bg">
+                <div class="row">
+                    <div class="col-sm-1 col-xs-3">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/estdisticas.png') }}"
+                             class="img-title-step m-t-25">
+                    </div>
+                    <div class="col-sm-11 col-xs-9">
+                        <h2 class="font-blue">Estadísticas</h2>
+                        <h3 class="font-blue">El cielo puede ser la meta si se lo propone. Solo los mejores descubren
+                            como
+                            ser un Best Casa</h3>
+                    </div>
+                </div>
+                <div class="bg-gray m-t-20 col-md-11 font-black">
+                    {#{% include 'MyCpCasaModuleBundle:form:description.html.twig'%}#}
+                    <div class="col-sm-1 col-xs-1" >
+                        <img src="{{ asset('bundles/mycpcasamodule/img/guionimposible.png') }}">
+                    </div>
+                    <div class="col-sm-11 col-xs-11" >
+                        <p style="color: black;font-style: normal;font-weight: lighter; font-variant-caps: petite-caps"
+                           class="lead">Siga las estadísticas de su casa este mes </p>
+                    </div>
+                    <div class="col-md-12">
+                     <div class="col-md-1 col-md-offset-4"> <img src="{{ asset('bundles/mycpcasamodule/img/10imageizquierda.png') }}"></div>
+                        <div class="col-md-3" style="margin-top: 0.5em;text-align: center"> <span class="font-blue step-span "
+                                                     style="font-size: 16px;font-variant-caps: petite-caps"><strong>{{ price[0].messs }} {{ price[0].anno }}</strong>  </span></div>
+                        <div class="col-md-1"> <img src="{{ asset('bundles/mycpcasamodule/img/11imagederecha.png') }}"></div>
+                    </div>
+
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}">
+                        </div> <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                   <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
+                    Su casa tiene <strong>{{ ranking[0].ranking }}</strong> puntos en el ranking
+                   </span>
+                    </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}">
+                        </div> <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                        <span class="font-blue step-span "
+                              style="font-size: 14px;font-variant-caps: petite-caps"> Va en el lugar <strong>133</strong>, en <span style="color: green;font-weight: bold">My</span><strong>CasaParticular</strong></span>
+                    </div></div>
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}">
+                        </div>
+                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                   <span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">  Es el numero <strong>5</strong> entre los alojamientos de Trinidad.
+                   </span>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}">
+                        </div>
+                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+
+                        <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
+                        El perfil de su alojamiento en <span style="color: green;font-weight: bold">My</span><strong>CasaParticular</strong> Recibió <strong>1000</strong> visitas hoy
+                    </span>
+                    </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/4imagdisponible.png') }}">
+                        </div>
+                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+
+                          <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
+                       Los clientes solicitaron <strong>30</strong> habitaciones <strong> disponibles</strong>
+                              </span>
+                    </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/5imagennodispo.png') }}">
+                        </div>
+                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                          <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
+                        Los clientes solicitaron <strong>30</strong> habitaciones que se encontraban <strong>no disponibles</strong>
+                              </span>
+                    </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}">
+                        </div>
+                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                          <span class="font-blue step-span " style="font-size: 14px">
+                        Tiene <strong>15</strong> habitaciones reservadas para ello debe de facturar <strong>300</strong> cuc
+                              </span>
+                    </div>
+                    </div>
+
+                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                        <div class="col-md-1">
+                            <img src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}">
+                        </div>
+                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                          <span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">
+                        En este mes has facturado <strong>
+
+                                  {{ price[0].facturacion }}</strong> cuc
+                              </span>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3 oneblue-bg col-content">
+                <div id="help-step3-one" class="row">
+                    <div class="col-md-12 m-t-20">
+                        <p>Conviértase en una Best Casa y descubra los privilegios que reciben nuestros mejores
+                            anfitriones:
+                            visibilidad, opciones de búsqueda predeterminada, promociones... y mucho más para ayudarle a
+                            ganar nuevos huéspedes. <br> <br> Ponga en práctica nuestros <br>  <span style="font-weight: bold; color: #0b4b77">Consejos para ser una Best Casa</span>
+                            <br> y siga los números de su alojamiento cada mes. Escalar posiciones juntos será estupendo</p>
+                    </div>
+                </div>
+                {#<div id="help-step3-two" class="row">#}
+                {#<div class="col-md-12 m-t-40">#}
+                {#<p>Puede apoyarse en estas descripciones de los destinos para enriquecer la suya.</p>#}
+                {#</div>#}
+                {#</div>#}
+            </div>
+        </div>
+
+        <div class="col-md-9 col-xs-12 white-bg">
+        {#{% if dashboard is defined and dashboard %}#}
+        <div class="bg-gray m-t-20 col-md-11 font-black">
+            {#{% include 'MyCpCasaModuleBundle:form:description.html.twig'%}#}
+            <div class="col-sm-1 col-xs-1" >
+                <img src="{{ asset('bundles/mycpcasamodule/img/9imagenmas.png') }}">
+            </div>
+            <div class="col-sm-11 col-xs-11" >
+                <p style="color: black;font-style: normal;font-weight: lighter; font-variant-caps: petite-caps"
+                   class="lead">Siga las estadísticas de su casa este año </p>
+            </div>
+            </div>
+            </div>
+        {#{% endif %}#}
+    {% endblock %}

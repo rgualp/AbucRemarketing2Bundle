@@ -589,9 +589,9 @@ class ownership {
     private $insertedInCasaModule;
 
     /**
-     * @ORM\OneToOne(targetEntity="ownershipRankingExtra", mappedBy="accommodation")
+     * @ORM\OneToMany(targetEntity="ownershipRankingExtra", mappedBy="accommodation")
      */
-    private $rankingExtra;
+    private $rankingExtras;
 
     /**
      * @ORM\OneToMany(targetEntity="penalty", mappedBy="accommodation")
@@ -607,6 +607,12 @@ class ownership {
      * @ORM\OneToMany(targetEntity="accommodationCalendarFrequency", mappedBy="accommodation")
      */
     private $calendarUpdateFrequency;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="count_visits", type="integer")
+     */
+    private $count_visits;
 
 
     /**
@@ -636,6 +642,7 @@ class ownership {
         $this->penalties = new ArrayCollection();
         $this->failures = new ArrayCollection();
         $this->calendarUpdateFrequency = new ArrayCollection();
+        $this->rankingExtras = new ArrayCollection();
     }
 
     /**
@@ -2074,7 +2081,7 @@ class ownership {
 
     /**
      * @param mixed $awards
-     * @return this
+     * @return mixed
      */
     public function setAwards($awards)
     {
@@ -2092,7 +2099,7 @@ class ownership {
 
     /**
      * @param mixed $ownershipKeywordOwnership
-     * @return this
+     * @return mixed
      */
     public function setOwnershipKeywordOwnership($ownershipKeywordOwnership)
     {
@@ -2528,18 +2535,18 @@ class ownership {
     /**
      * @return mixed
      */
-    public function getRankingExtra()
+    public function getRankingExtras()
     {
-        return $this->rankingExtra;
+        return $this->rankingExtras;
     }
 
     /**
-     * @param mixed $rankingExtra
+     * @param mixed $rankingExtras
      * @return mixed
      */
-    public function setRankingExtra($rankingExtra)
+    public function setRankingExtras($rankingExtras)
     {
-        $this->rankingExtra = $rankingExtra;
+        $this->rankingExtras = $rankingExtras;
         return $this;
     }
 
@@ -2690,6 +2697,22 @@ class ownership {
     public function removeCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
     {
         $this->calendarUpdateFrequency->removeElement($calendarUpdateFrequency);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountVisits()
+    {
+        return $this->count_visits;
+    }
+
+    /**
+     * @param int $count_visits
+     */
+    public function setCountVisits($count_visits)
+    {
+        $this->count_visits = $count_visits;
     }
 
 }

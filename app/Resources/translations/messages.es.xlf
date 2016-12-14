@@ -4030,6 +4030,14 @@
                  <source>STATEMENT</source>
                  <target>Estado</target>
             </trans-unit>
+            <trans-unit id="1016">
+                 <source>with Facebook</source>
+                 <target>con facebook</target>
+            </trans-unit>
+            <trans-unit id="1017">
+                 <source>o</source>
+                 <target>o</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
