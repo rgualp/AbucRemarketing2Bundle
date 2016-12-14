@@ -352,7 +352,6 @@ class GeneralReservationService extends Controller
             $this->logger->saveLog('Edit entity for ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
 
         }
-
         return $errors;
     }
 
