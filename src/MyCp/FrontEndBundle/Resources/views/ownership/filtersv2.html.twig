@@ -49,36 +49,36 @@
 <div class="thumbnail col-sm-12" style="background-color: #fff; padding: 25px 25px 10px;border-bottom: 3px solid #d6d6d6;">
     <div class="content-filter">
         <div class="row">
-            <div class="col-sm-3">
-                <div class="checkbox">
-                    <label>
-                        <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2"
-                               name="own_inmediate_booking2" {% if app.session.get('inmediate') != null and app.session.get('inmediate') == "1" %} checked="checked"{% endif %}
-                               data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"
-                               data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"/>{{ 'IMMEDIATE_BOOKING'|trans }}
-                    </label>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="checkbox">
-                    <label>
-                        <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking"
-                               name="own_inmediate_booking" {% if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %}
-                               data-aux-text="{{ "quick_bookinhg" | trans }}"
-                               data-aux-text="{{ "quick_bookinhg" | trans }}"/>{{ 'quick_bookinhg'|trans }}
-                    </label>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="checkbox">
-                    <label>
-                        <input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable"
-                               name="own_update_avaliable" {% if check_filters is defined and check_filters['own_update_avaliable'] is defined and check_filters['own_update_avaliable'] %} checked="checked"{% endif %}
-                               data-aux-text="{{"Calendario Actualizado" | trans}}"
-                               data-aux-text="{{"Calendario Actualizado" | trans}}"/>{{"Calendario Actualizado" | trans}}
-                    </label>
-                </div>
-            </div>
+            {#<div class="col-sm-3">#}
+                {#<div class="checkbox">#}
+                    {#<label>#}
+                        {#<input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2"#}
+                               {#name="own_inmediate_booking2" {% if app.session.get('inmediate') != null and app.session.get('inmediate') == "1" %} checked="checked"{% endif %}#}
+                               {#data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"#}
+                               {#data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"/>{{ 'IMMEDIATE_BOOKING'|trans }}#}
+                    {#</label>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="col-sm-3">#}
+                {#<div class="checkbox">#}
+                    {#<label>#}
+                        {#<input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking"#}
+                               {#name="own_inmediate_booking" {% if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %}#}
+                               {#data-aux-text="{{ "quick_bookinhg" | trans }}"#}
+                               {#data-aux-text="{{ "quick_bookinhg" | trans }}"/>{{ 'quick_bookinhg'|trans }}#}
+                    {#</label>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="col-sm-3">#}
+                {#<div class="checkbox">#}
+                    {#<label>#}
+                        {#<input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable"#}
+                               {#name="own_update_avaliable" {% if check_filters is defined and check_filters['own_update_avaliable'] is defined and check_filters['own_update_avaliable'] %} checked="checked"{% endif %}#}
+                               {#data-aux-text="{{"Calendario Actualizado" | trans}}"#}
+                               {#data-aux-text="{{"Calendario Actualizado" | trans}}"/>{{"Calendario Actualizado" | trans}}#}
+                    {#</label>#}
+                {#</div>#}
+            {#</div>#}
         </div>
         <div class="row">
             <div class="col-sm-3">
