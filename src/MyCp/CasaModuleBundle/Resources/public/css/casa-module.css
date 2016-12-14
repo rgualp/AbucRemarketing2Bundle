@@ -768,6 +768,138 @@ a.green-link{
     padding: 15px;
 }
 
+/*Estadisticas */
+.graph-premiun{
+    height: 150px;
+    padding-top: 64px;
+    position: relative;
+}
+.graph-premiun span{
+    font-size: 18px;
+}
+.graph-premiun .graph-bar-content{
+    background: #959595 none repeat scroll 0 0;
+    border-radius: 5px;
+    position: relative;
+}
+.graph-premiun .graph-bar-content .graph-bar{
+    height: 25px;
+}
+.graph-premiun .graph-bar-content .graph-marker{
+    position: absolute;
+}
+.graph-premiun .graph-bar-content .graph-marker:before{
+    bottom: -29px;
+    content: " ";
+    display: block;
+    height: 25px;
+    left: 0;
+    position: absolute;
+    width: 3px;
+}
+.graph-premiun .graph-bar-content .graph-marker.oro{
+    left: 70%;
+    top: -49px;
+}
+.graph-premiun .graph-bar-content .graph-marker.oro:before{
+    background: #d0a41e none repeat scroll 0 0;
+}
+.graph-premiun .graph-bar-content .graph-marker.plata{
+    left: 22%;
+    top: -45px;
+}
+.graph-premiun .graph-bar-content .graph-marker.plata:before{
+    background: #c8c8c8 none repeat scroll 0 0;
+}
+.graph-premiun .graph-bar-content .graph-marker.bronce{
+    left: 8%;
+    top: -39px;
+}
+.graph-premiun .graph-bar-content .graph-marker.bronce:before{
+    background: #b57940 none repeat scroll 0 0;
+}
+.graph-premiun .graph-bar-content .graph-marker img{
+    margin-left: -15px;
+}
+.graph-premiun .graph-bar-content .graph-current-marker{
+    position: absolute;
+    left: 46%;
+}
+.graph-premiun .graph-bar-content .graph-current-marker:after{
+    border-left: 7px solid transparent;
+    border-top: 7px solid #f12e2e;
+    content: " ";
+    display: block;
+    height: 0;
+    left: -2px;
+    position: absolute;
+    top: 1px;
+    transform: rotate(-45deg);
+    width: 0;
+}
+.graph-premiun .graph-bar-content .graph-current-marker:before{
+    background: #f12e2e none repeat scroll 0 0;
+    content: " ";
+    display: block;
+    height: 25px;
+    position: absolute;
+    top: -25px;
+    width: 2px;
+}
+.graph-premiun .graph-bar-content .graph-current-marker span{
+    display: block;
+    margin-left: -13px;
+    text-align: center;
+    width: 32px;
+}
+
+ul.ranking-mycp{
+    list-style: outside none none;
+    margin: 0;
+    padding: 0 10px;
+}
+ul.ranking-mycp li{
+    background-color: #bdd2de;
+    font-size: 18px;
+}
+ul.ranking-mycp.inprovince li{
+    background-color: #fff;
+}
+ul.ranking-mycp li.current {
+    background-color: #a6a6a6;
+    font-size: 20px;
+}
+ul.ranking-mycp.inprovince li.current{
+    background-color: #fff;
+    font-size: 20px;
+    border: 1px solid #094e75;
+}
+ul.ranking-mycp li.current span{
+    font-weight: bold;
+}
+ul.ranking-mycp li i{
+    color: #80807e;
+    font-size: 17px;
+    margin-top: -5px;
+    padding: 0 8px;
+}
+ul.ranking-mycp li i.fa-minus{
+    color: #80807e;
+}
+ul.ranking-mycp li i.up_arrow{
+    color: #52872a;
+}
+ul.ranking-mycp li i.down_arrow{
+    color: #790b00;
+}
+ul.ranking-mycp li span{
+    color: #64a433;
+}
+ul.ranking-mycp li span:last-child{
+    color: #80807e;
+    font-weight: normal;
+}
+
 @media (max-width: 768px) {
     body.mini-navbar #page-wrapper {
         margin: 0;

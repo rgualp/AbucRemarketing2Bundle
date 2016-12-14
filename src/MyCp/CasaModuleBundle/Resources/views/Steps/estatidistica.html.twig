@@ -15,101 +15,207 @@
                 </div>
                 <div class="bg-gray p-a-5 m-t-20 col-md-12 font-black">
                     {#{% include 'MyCpCasaModuleBundle:form:description.html.twig'%}#}
-                    <div class="col-sm-1 col-xs-1" >
+                    <div class="col-sm-1 col-xs-1 p-0" >
                         <img src="{{ asset('bundles/mycpcasamodule/img/guionimposible.png') }}">
                     </div>
-                    <div class="col-sm-11 col-xs-11" >
-                        <p style="color: black;font-style: normal;font-weight: lighter; font-variant-caps: petite-caps"
+                    <div class="col-sm-6 col-xs-11 p-0" >
+                        <p style="font-size: 20px; color: black;font-style: normal;font-weight: lighter; font-variant-caps: petite-caps"
                            class="lead">Siga las estadísticas de su casa este mes </p>
                     </div>
+                    <div class="col-md-5 p-0">
+                     <div class="col-md-1 p-0">
+                         <a style="font-size: 21px;" ><i class="fa fa-chevron-left"></i></a>
+                     </div>
+                        <div class="col-md-10" style="text-align: center">
+                            <span class="font-blue step-span " style="font-size: 20px;font-variant-caps: petite-caps">
+                                <b class="mm">Septiembre</b> &numsp; <b class="yy">2016</b>
+                            </span>
+                        </div>
+                        <div class="col-md-1 p-0">
+                            <a style="font-size: 21px;" ><i class="fa fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
-                     <div class="col-md-1 col-md-offset-4"> <img src="{{ asset('bundles/mycpcasamodule/img/10imageizquierda.png') }}"></div>
-                        <div class="col-md-3" style="margin-top: 0.5em;text-align: center"> <span class="font-blue step-span "
-                                                     style="font-size: 16px;font-variant-caps: petite-caps"><strong></strong>  </span></div>
-                        <div class="col-md-1"> <img src="{{ asset('bundles/mycpcasamodule/img/11imagederecha.png') }}"></div>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img width="50" src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}"> <span class="font-blue" style="font-size: 22px; margin-left: 10px;">Puntos en el Ranking</span>
+                                    </div>
+                                    <div class="col-md-12 graph-premiun">
+                                        <div class="row">
+                                            <div class="col-sm-1"><span class="font-blue">0</span></div>
+                                            <div class="col-sm-9 graph-bar-content">
+                                                <div class="graph-marker bronce"><img width="30" src="{{ asset('bundles/mycpcasamodule/img/bronce50.png') }}"></div>
+                                                <div class="graph-marker plata"><img width="35" src="{{ asset('bundles/mycpcasamodule/img/plata140.png') }}"></div>
+                                                <div class="graph-marker oro"><img width="40" src="{{ asset('bundles/mycpcasamodule/img/oro460.png') }}"></div>
+                                                <div class="graph-bar"></div>
+                                                <div class="graph-current-marker"><span class="font-blue">350</span></div>
+                                            </div>
+                                            <div class="col-sm-1"><span class="font-blue">650</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 m-t-40">
+                                <div class="col-sm-12 m-t-30">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <img style="display: none;" class="trofeo-oro" width="100%" src="{{ asset('bundles/mycpcasamodule/img/trofeooro.png') }}">
+                                            <img class="trofeo-plata" width="100%" src="{{ asset('bundles/mycpcasamodule/img/trofeoplata.png') }}">
+                                            <img style="display: none;" class="trofeo-bronce" width="100%" src="{{ asset('bundles/mycpcasamodule/img/trofeobronce.png') }}">
+                                        </div>
+                                        <div class="col-sm-7 m-t-10">
+                                            <span class="font-blue" style="display: none; font-size: 45px; font-weight: bold; color: #d0a41e;">ORO</span>
+                                            <span style="font-size: 45px; font-weight: bold; color: #c8c8c8;" class="font-blue">PLATA</span>
+                                            <span style="display: none; font-size: 45px; font-weight: bold; color: #b57940;" class="font-blue">BRONCE</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}">
-                        </div> <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
-                   <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
-                    Su casa tiene <strong>{{ ranking }}</strong> puntos en el ranking
-                   </span>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img width="50" src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}"> <span class="font-blue step-span " style="font-size: 20px;font-variant-caps: petite-caps">Lugar en <b style="color: green;font-weight: bold">My</b><b>CasaParticular</b></span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <ul class="ranking-mycp">
+                                            <li><i class="fa fa-minus"></i><span>1200</span><span> Casa de Pedro</span></li>
+                                            <li class="current"><i class="glyphicons up_arrow"></i><span>1201</span><span> Casa de Pedro</span></li>
+                                            <li><i class="glyphicons down_arrow"></i><span>1202</span><span> Casa de Pedro</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span style="display: block; margin: 0px 10px; text-align: center; color: rgb(255, 255, 255); background: rgb(149, 149, 149) none repeat scroll 0px 0px; font-size: 18px;">de 2500 Casas</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img width="50" src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}"> <span class="font-blue step-span " style="font-size: 20px;font-variant-caps: petite-caps">Lugar en Trinidad</span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <ul class="ranking-mycp inprovince">
+                                            <li><i class="fa fa-minus"></i><span>1200</span><span> Casa de Pedro</span></li>
+                                            <li class="current"><i class="glyphicons up_arrow"></i><span>1201</span><span> Casa de Pedro</span></li>
+                                            <li><i class="glyphicons down_arrow"></i><span>1202</span><span> Casa de Pedro</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span style="display: block; margin: 0px 10px; text-align: center; color: rgb(255, 255, 255); background: rgb(149, 149, 149) none repeat scroll 0px 0px; font-size: 18px;">de 2500 Casas</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
+                    <div class="col-sm-12 m-t-30">
+                        <div class="col-sm-6">
+                            <span style="font-size: 20px;">Total de solicitudes: <b>100</b></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img style="margin-right: 10px;" width="35" src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}"> <span class="font-blue step-span " style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>1000</b></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <img style="margin-right: 10px;" width="35" src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}"> <span class="font-green step-span " style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>20</b></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <i class="glyphicons coins" style="color: rgb(149, 149, 149); margin: 0px 11px;"></i> <span class="font-green step-span " style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>200 cuc</b></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <img style="margin: 6px;" width="35" src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}"> <span class="font-blue step-span " style="font-size: 17px;font-variant-caps: petite-caps">Facturado por alojamiento:</span>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-sm-6">
 
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}">
-                        </div> <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
-                        <span class="font-blue step-span "
-                              style="font-size: 14px;font-variant-caps: petite-caps"> Va en el lugar <strong>133</strong>, en <span style="color: green;font-weight: bold">My</span><strong>CasaParticular</strong></span>
-                    </div></div>
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}">
-                        </div>
-                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
-                   <span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">  Es el numero <strong>5</strong> entre los alojamientos de Trinidad.
-                   </span>
-                        </div>
-                    </div>
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}">
-                        </div>
-                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                                    </div>
+                                    <div class="col-sm-6">
 
-                        <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
-                        El perfil de su alojamiento en <span style="color: green;font-weight: bold">My</span><strong>CasaParticular</strong> Recibió <strong>1000</strong> visitas hoy
-                    </span>
-                    </div>
-                    </div>
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/4imagdisponible.png') }}">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
+                    </div>
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
 
-                          <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
-                       Los clientes solicitaron <strong>30</strong> habitaciones <strong> disponibles</strong>
-                              </span>
-                    </div>
-                    </div>
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/5imagennodispo.png') }}">
-                        </div>
-                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
-                          <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
-                        Los clientes solicitaron <strong>30</strong> habitaciones que se encontraban <strong>no disponibles</strong>
-                              </span>
-                    </div>
-                    </div>
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}">
-                        </div>
-                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
-                          <span class="font-blue step-span " style="font-size: 14px">
-                        Tiene <strong>15</strong> habitaciones reservadas para ello debe de facturar <strong>300</strong> cuc
-                              </span>
-                    </div>
-                    </div>
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}">#}
+                        {#</div> <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
+                        {#<span class="font-blue step-span "#}
+                              {#style="font-size: 14px;font-variant-caps: petite-caps"> Va en el lugar <strong>133</strong>, en <span style="color: green;font-weight: bold">My</span><strong>CasaParticular</strong></span>#}
+                    {#</div></div>#}
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}">#}
+                        {#</div>#}
+                        {#<div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
+                   {#<span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">  Es el numero <strong>5</strong> entre los alojamientos de Trinidad.#}
+                   {#</span>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}">#}
+                        {#</div>#}
+                        {#<div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
 
-                    <div class="col-md-12" style="margin-bottom: 0.6em">
-                        <div class="col-md-1">
-                            <img src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}">
-                        </div>
-                        <div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">
-                          <span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">
-                        En este mes has facturado <strong>
+                        {#<span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">#}
+                        {#El perfil de su alojamiento en <span style="color: green;font-weight: bold">My</span><strong>CasaParticular</strong> Recibió <strong>1000</strong> visitas hoy#}
+                    {#</span>#}
+                    {#</div>#}
+                    {#</div>#}
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/4imagdisponible.png') }}">#}
+                        {#</div>#}
+                        {#<div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
 
-                                  </strong> cuc
-                              </span>
-                    </div>
-                    </div>
+                          {#<span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">#}
+                       {#Los clientes solicitaron <strong>30</strong> habitaciones <strong> disponibles</strong>#}
+                              {#</span>#}
+                    {#</div>#}
+                    {#</div>#}
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/5imagennodispo.png') }}">#}
+                        {#</div>#}
+                        {#<div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
+                          {#<span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">#}
+                        {#Los clientes solicitaron <strong>30</strong> habitaciones que se encontraban <strong>no disponibles</strong>#}
+                              {#</span>#}
+                    {#</div>#}
+                    {#</div>#}
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}">#}
+                        {#</div>#}
+                        {#<div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
+                          {#<span class="font-blue step-span " style="font-size: 14px">#}
+                        {#Tiene <strong>15</strong> habitaciones reservadas para ello debe de facturar <strong>300</strong> cuc#}
+                              {#</span>#}
+                    {#</div>#}
+                    {#</div>#}
+
+                    {#<div class="col-md-12" style="margin-bottom: 0.6em">#}
+                        {#<div class="col-md-1">#}
+                            {#<img src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}">#}
+                        {#</div>#}
+                        {#<div class="col-md-11" style="margin-top: 1.2em;padding-left: 1.5em">#}
+                          {#<span class="font-blue step-span " style="font-size: 14px;font-weight: 500;font-variant-caps: petite-caps">#}
+                        {#En este mes has facturado <strong>#}
+
+                                  {#</strong> cuc#}
+                              {#</span>#}
+                    {#</div>#}
+                    {#</div>#}
 
                 </div>
             </div>
