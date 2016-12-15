@@ -37,7 +37,7 @@ class UserSecure {
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $session = $this->container->get('session');
         $user = $this->security_context->getToken()->getUser();
-        $hash_user = hash('sha256', $user->getUserUserName());
+       /* $hash_user = hash('sha256', $user->getUserUserName());
         $hash_email = hash('sha256', $user->getUserEmail());
         if($user->getRegisterNotification()==''){
             //Registrando al user en HDS-MEAN
@@ -75,7 +75,7 @@ class UserSecure {
             $user->setOnline(true);
             $this->em->persist($user);
             $this->em->flush();
-        }
+        }*/
 
 
         //Pasar lo q esta en los favoritos al usuario loggueado
