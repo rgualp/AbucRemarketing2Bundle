@@ -3352,6 +3352,14 @@
             <source>YOUR_VISA</source>
             <target>Obtenga su visa</target>
         </trans-unit>
+        <trans-unit id="981">
+                    <source>OFFER_RECOMMENDATION</source>
+                    <target><![CDATA[Apreciamos en gran medida su interés por MyCasaParticular.com.<br/>
+
+                            Lamentablemente la casa estará ocupada para la fecha deseada.<br/>
+
+                            Le recomendamos buscar en nuestro sitio, las casas de reserva inmediata que se encuentren disponibles para la fecha u otras casas de su agrado.]]></target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
