@@ -105,7 +105,7 @@ class OAuthController extends Controller
                             $em->persist($userTourist);
 
 
-                            $hash_user = hash('sha256', $fbLoginData->getName());
+                           /* $hash_user = hash('sha256', $fbLoginData->getName());
                             $hash_email = hash('sha256', strtolower($fbLoginData->getEmail()));
                             $password="";
                             //Registrando al user en HDS-MEAN
@@ -123,7 +123,7 @@ class OAuthController extends Controller
                             // cerramos la sesión cURL
                             curl_close ($ch);
                             $user->setRegisterNotification(true);
-                            $em->persist($user);
+                            $em->persist($user);*/
                             $em->flush();
                         }
 
@@ -208,9 +208,9 @@ class OAuthController extends Controller
                             }
                         }
 
-                        $hash_user = hash('sha256', $user->getUserUserName());
+                        /*$hash_user = hash('sha256', $user->getUserUserName());
                         $hash_email = hash('sha256', $user->getUserEmail());
-                        /*-----------------Autenticando al usuario en HDS-MEN-----------------------*/
+                        //-----------------Autenticando al usuario en HDS-MEN
                         $session = $this->container->get('session');
                         //// abrimos la sesión cURL
                         $ch = curl_init();
@@ -229,7 +229,7 @@ class OAuthController extends Controller
                             $user->setOnline(true);
                             $em->persist($user);
                             $em->flush();
-                        }
+                        }*/
 
                     }
                     else{
