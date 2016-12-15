@@ -569,6 +569,12 @@
 <label class="checkbox">
     <input type="checkbox" {% if post['cubacoupon'] is defined and (post['cubacoupon'] ==1) %} checked="TRUE" {% endif %} name="cubacoupon"> Trabaja con CubaCoupon
 </label><br/>
+
+<h3 class="title">¿Es Confiable?</h3>
+<label class="checkbox">
+    <input type="checkbox" {% if post['confidence'] is defined and (post['confidence'] ==1) %} checked="TRUE" {% endif %} name="confidence"> Es una casa confiable para MyCasaParticular
+</label><br/>
+
 <h3 class="title">Publicado</h3>
 {%if errors["status"] is defined %}<label class="error">{{errors["status"]|trim(':')}}</label>{%endif%}
 <select name="status" class="input-block-level" id="status">

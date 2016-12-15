@@ -73,7 +73,7 @@ class commentRepository extends EntityRepository {
         return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
     }
 
-    function getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
+    function getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $filter_date_from, $filter_date_to) {
         $queryStr = "SELECT c,own,us,
         (SELECT COUNT(res) FROM mycpBundle:generalReservation res
                 JOIN res.own_reservations r
@@ -88,7 +88,7 @@ class commentRepository extends EntityRepository {
         JOIN c.com_user us
         WHERE own.own_mcp_code
         LIKE :filter_ownership";
-        return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr);
+        return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr, $filter_date_from, $filter_date_to);
     }
 
     function getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
@@ -115,7 +115,7 @@ class commentRepository extends EntityRepository {
         return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr);
     }
 
-    function getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr) {
+    function getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr, $filter_date_from = "", $filter_date_to = "") {
         $string = '';
         if ($filter_user != 'null' && $filter_user != '') {
             $string = "AND c.com_user = :filter_user";
@@ -128,6 +128,14 @@ class commentRepository extends EntityRepository {
         $string3 = '';
         if ($filter_rate != 'null' && $filter_rate != '') {
             $string3 = "AND c.com_rate = :filter_rate";
+        }
+        $stringDateFrom = '';
+        if ($filter_date_from != 'null' && $filter_date_from != '') {
+            $stringDateFrom = "AND c.com_date >= :filter_date_from";
+        }
+        $stringDateTo = '';
+        if ($filter_date_to != 'null' && $filter_date_to != '') {
+            $stringDateTo = "AND c.com_date <= :filter_date_to";
         }
 
 
@@ -155,7 +163,7 @@ class commentRepository extends EntityRepository {
                 break;
         }
 
-        $queryStr = $queryStr . " " . $string . " " . $string2 . " " . $string3 . " " . $string4;
+        $queryStr = $queryStr . " " . $string . " " . $string2 . " " . $string3 . " " . $stringDateFrom . " " . $stringDateTo . " " . $string4;
         $em = $this->getEntityManager();
         $query = $em->createQuery($queryStr);
 
@@ -168,12 +176,17 @@ class commentRepository extends EntityRepository {
         if ($filter_rate != 'null' && $filter_rate != '')
             $query->setParameter('filter_rate', $filter_rate);
 
+        if ($filter_date_from != 'null' && $filter_date_from != '') {
+            $query->setParameter('filter_date_from', $filter_date_from);
+        }
+        if ($filter_date_to != 'null' && $filter_date_to != '') {
+            $query->setParameter('filter_date_to', $filter_date_to);
+        }
+
         if ($user_casa_id != -1)
             $query->setParameter("user_casa_id", $user_casa_id);
 
         $query->setParameter('filter_ownership', "%" . $filter_ownership . "%");
-
-
 
         return $query->getResult();
     }
