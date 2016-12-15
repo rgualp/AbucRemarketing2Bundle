@@ -2314,5 +2314,94 @@ class ownershipRepository extends EntityRepository {
 
         return $haveDescriptions && $havePhotos && $haveRooms;
     }
+    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null, $price = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null,$innmediate=null) {
+        if($municipality_id != null || $province_id != null) {
+            $em = $this->getEntityManager();
+
+            $query_string = "SELECT DISTINCT o.own_id,
+                             o.own_name,
+                             prov.prov_name,
+                             mun.mun_name,
+                             o.own_comments_total as comments_total,
+                             o.own_rating as rating,
+                             o.own_category as category,
+                             o.own_type as type,
+                             o.own_minimum_price as minimum_price,
+                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
+                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
+                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
+                        (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
+                             FROM mycpBundle:room r1
+                             JOIN r1.room_ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
+                             WHERE r1.room_active = 1 AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
+
+            if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+                $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
+
+            if($province_id != null && $province_id != -1 && $province_id != '')
+                $query_string = $query_string . " AND o.own_address_province =$province_id";
+
+            if($exclude_own_id != null && $exclude_own_id != "")
+                $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
+
+            if($price != null && $price != "")
+                $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
+
+            if($innmediate != null && $innmediate != "")
+                $query_string = $query_string . " AND o.own_inmediate_booking_2 = $innmediate";
+
+            $owns_with_reservations = array();
+            if($checkin_date != null && $checkin_date != "" && $checkout_date != null && $checkout_date != "") {
+                $query_reservations = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation ores
+                                   JOIN ores.own_res_gen_res_id gr
+                                   JOIN gr.gen_res_own_id o
+                                   WHERE ores.own_res_reservation_from_date >= :checkin_date
+                                     AND ores.own_res_reservation_to_date <= :checkout_date";
+
+                $owns_with_reservations = $em->createQuery($query_reservations)
+                    ->setParameter("checkin_date", $checkin_date)
+                    ->setParameter("checkout_date", $checkout_date)
+                    ->getResult();
+
+                $owns_id = "0";
+
+                foreach ($owns_with_reservations as $oid) {
+                    $owns_id .= "," . $oid["own_id"];
+                }
+                $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
+            }
+
+            $query_string = $query_string . " AND o.own_not_recommendable = 0";
+
+            if($max_result_set != null && $max_result_set > 0) {
+                $rows_total = count($em->createQuery($query_string)->getResult());
+                $offset = max(0, rand(0, $rows_total - $max_result_set - 1));
+
+                $results = $em->createQuery($query_string)
+                    ->setMaxResults($max_result_set)
+                    ->setFirstResult($offset)
+                    ->getResult();
+            }
+            else {
+                $results = $em->createQuery($query_string)
+                    ->getResult();
+            }
+
+            for ($i = 0; $i < count($results); $i++) {
+                if($results[$i]['photo'] == null)
+                    $results[$i]['photo'] = "no_photo.png";
+                else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                    $results[$i]['photo'] = "no_photo.png";
+                }
+            }
+            return $results;
+        }
+        return null;
+    }
 
 }
