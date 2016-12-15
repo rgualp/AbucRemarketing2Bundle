@@ -337,14 +337,14 @@ class GeneralReservationService extends Controller
                     "rating" => $rating,
                     "url_images" => $url_images
                 );
-                $hash_email = hash('sha256', $reservation->getGenResUserId()->getUserEmail());
+                /*$hash_email = hash('sha256', $reservation->getGenResUserId()->getUserEmail());
                 $param = array(
                     'to' => [$hash_email."_mycp"],
                     'pending' => 0,
                     "metadata" => $metadata
                 );
                 $url = $this->container->getParameter('url.mean')."api/notifications/";
-                Notifications::sendNotifications($url, $param, $this->getRequest()->getSession()->get('access-token'));
+                Notifications::sendNotifications($url, $param, $this->getRequest()->getSession()->get('access-token'));*/
             }
 
             $this->em->persist($reservation);
