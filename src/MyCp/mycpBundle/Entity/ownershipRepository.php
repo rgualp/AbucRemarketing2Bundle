@@ -769,7 +769,10 @@ class ownershipRepository extends EntityRepository {
         }
         if($filter_destination != 'null' && $filter_destination != '') {
 
-            $condition .= " AND ow.own_destination = :filter_destination ";
+            if($filter_destination == "-1")
+                $condition .= " AND ow.own_destination IS NULL ";
+            else
+                $condition .= " AND ow.own_destination = :filter_destination ";
         }
         if($filter_commission != 'null' && $filter_commission != '') {
 
@@ -832,7 +835,7 @@ class ownershipRepository extends EntityRepository {
             $query->setParameter('filter_visit_date_plus_day', $filter_date->format("Y-m-d"));
         }
 
-        if($filter_destination != 'null' && $filter_destination != '')
+        if($filter_destination != 'null' && $filter_destination != '' && $filter_destination != '-1')
             $query->setParameter('filter_destination', $filter_destination);
 
         if(isset($filter_code))
