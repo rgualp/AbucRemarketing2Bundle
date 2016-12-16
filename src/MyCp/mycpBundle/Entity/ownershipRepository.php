@@ -2407,4 +2407,19 @@ class ownershipRepository extends EntityRepository {
         return null;
     }
 
+    public function getRankingStatisticsToSendEmails($month, $year)
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownership", "o")
+            ->join("o.rankingExtras", "rank")
+            ->join("o.data", "data")
+            ->where("o.own_status = :activeStatus")
+            ->andWhere("((o.own_email_1 IS NOT NULL AND o.own_email_1 != '') OR (o.own_email_2 IS NOT NULL AND o.own_email_2 != ''))")
+            ->andWhere("(MONTH(rank.startDate) = :montValue AND YEAR(rank.startDate) = :yearValue)")
+            ->select("o.own_id as id, o.own_name as name, o.own_mcp_code as code, IF()")
+        ;
+    }
+
 }
