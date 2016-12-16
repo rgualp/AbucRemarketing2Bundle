@@ -2343,8 +2343,8 @@ class ownershipRepository extends EntityRepository {
                              JOIN o.own_address_municipality mun
                              WHERE r1.room_active = 1 AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
-            if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
-                $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
+            /*if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+                $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";*/
 
             if($province_id != null && $province_id != -1 && $province_id != '')
                 $query_string = $query_string . " AND o.own_address_province =$province_id";
@@ -2352,8 +2352,8 @@ class ownershipRepository extends EntityRepository {
             if($exclude_own_id != null && $exclude_own_id != "")
                 $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
 
-            if($price != null && $price != "")
-                $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
+           /* if($price != null && $price != "")
+                $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";*/
 
             if($innmediate != null && $innmediate != "")
                 $query_string = $query_string . " AND o.own_inmediate_booking_2 = $innmediate";

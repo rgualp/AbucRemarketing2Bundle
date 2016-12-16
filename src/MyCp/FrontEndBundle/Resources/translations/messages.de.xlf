@@ -3349,14 +3349,6 @@
                     <source>YOUR_VISA</source>
                     <target>Visa Erhalten</target>
                 </trans-unit>
-        <trans-unit id="981">
-            <source>OFFER_RECOMMENDATION</source>
-            <target><![CDATA[Vielen Dank fuer Ihr Interesse an MyCasaParticular.com.
-
-                             Leider, die angefragte Unterkunft ist nicht verfügbar zum gewünschten Zeitraum.
-
-                             Wir empfehlen Ihnen durch unsere Website andere Unterkünfte unter «sofortige Buchung», oder andere gewünschten Casas zu suchen.]]></target>
-        </trans-unit>
 
     </body>
     </file>

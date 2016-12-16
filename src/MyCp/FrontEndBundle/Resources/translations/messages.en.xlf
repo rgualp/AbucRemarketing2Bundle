@@ -3933,14 +3933,6 @@
                     <source>YOUR_VISA</source>
                     <target>Get Your Visa</target>
                 </trans-unit>
-        <trans-unit id="981">
-            <source>OFFER_RECOMMENDATION</source>
-            <target><![CDATA[We appreciate very much your interest in MyCasaParticular.com.<br/>
-
-                             Unfortunately, the accommodation selected will be busy for the intended date.<br/>
-
-                             We recommend you to search through our Website the available casas in ¨Immediate Booking¨ or other houses that you prefer. ]]></target>
-        </trans-unit>
 
         </body>
     </file>
