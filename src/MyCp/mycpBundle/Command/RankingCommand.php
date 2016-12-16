@@ -76,13 +76,15 @@ class RankingCommand extends ContainerAwareCommand {
         $output->writeln('And now we are going to send emails to accommodations owners');
         $this->sendEmails($monthArg, $yearArg);
 
+
+
         $output->writeln('Oh yeah!!! Ranking is calculated!!');
         return 0;
     }
 
     protected function sendEmails($monthArg, $yearArg)
     {
-
+        //Settear el campo visitsLastWeek en 0 para cada alojamiento
     }
 
 }

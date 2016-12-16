@@ -2415,10 +2415,16 @@ class ownershipRepository extends EntityRepository {
             ->from("mycpBundle:ownership", "o")
             ->join("o.rankingExtras", "rank")
             ->join("o.data", "data")
+            ->join("o.own_destination", "destination")
             ->where("o.own_status = :activeStatus")
             ->andWhere("((o.own_email_1 IS NOT NULL AND o.own_email_1 != '') OR (o.own_email_2 IS NOT NULL AND o.own_email_2 != ''))")
             ->andWhere("(MONTH(rank.startDate) = :montValue AND YEAR(rank.startDate) = :yearValue)")
-            ->select("o.own_id as id, o.own_name as name, o.own_mcp_code as code, IF()")
+            ->select("o.own_id as id, o.own_name as name, o.own_mcp_code as code, destination.des_name as destination, rank.endDate as date
+            IF((o.own_email_1 IS NOT NULL AND o.own_email_1 != ''), o.own_email_1, o.own_email_2) as email,
+            IF(o.own_homeowner_1 IS NOT NULL AND o.own_homeowner_1 != '', o.own_homeowner_1, o.own_homeowner_2) as homeOwner,
+            data.visitsLastWeek, rank.totalAvailableRooms, rank.totalNonAvailableRooms, rank.totalReservedRooms, rank.totalFacturation, rank.currentMonthFacturation, rank.place, rank.destinationPlace,
+            rank.ranking
+            ")
         ;
     }
 
