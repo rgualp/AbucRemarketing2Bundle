@@ -900,6 +900,86 @@ ul.ranking-mycp li span:last-child{
     font-weight: normal;
 }
 
+.facturated{
+    position: relative;
+}
+.facturated i{
+    font-size: 100px;
+}
+
+.facturated.blue i{
+    color: #094e75;
+}
+
+.facturated.green i{
+    color: #64a433;
+}
+
+.facturated span{
+    background: #ececec none repeat scroll 0 0;
+    bottom: 0;
+    display: block;
+    font-size: 26px;
+    height: 35px;
+    left: 0;
+    margin: auto;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 53px;
+    width: 81px;
+}
+.facturated.blue span.mes{
+    background: #094e75 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    top: -4px;
+}
+.facturated.blue span.number{
+    color: #094e75;
+}
+.facturated.green span.mes{
+    background: #64a433 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    top: -4px;
+}
+.facturated.green span.number{
+    color: #64a433;
+}
+#flot-pie-chart .pieLabel div{
+    color: #fff !important;
+    font-size: 18px !important;
+}
+#flot-pie-chart .pieLabel div i{
+    font-size: 24px !important;
+}
+
+.block-collapse{
+    overflow: hidden;
+}
+.block-collapse.off{
+    height: 56px;
+}
+
+.btn-show-block i:first-child{
+    display: none;
+}
+.btn-show-block.closed i:first-child{
+    display: block;
+}
+
+.btn-show-block i:last-child{
+    display: block;
+}
+.btn-show-block.closed i:last-child{
+    display: none;
+}
+
+
 @media (max-width: 768px) {
     body.mini-navbar #page-wrapper {
         margin: 0;
