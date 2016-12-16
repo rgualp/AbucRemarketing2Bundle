@@ -268,7 +268,13 @@ class GeneralReservationService extends Controller
                         array('user' => $reservation->getGenResUserId(),
                             'owns_in_destination' =>$owns_in_destination,
                             'user_locale' => $userLocale));
-                    $subject='test';
+
+                    $subject= $this->get('translator')->trans(
+                        'NEW_OFFER_TOURIST_SUBJECT',
+                        array(),
+                        'messages',
+                        $userLocale
+                    );
                     $service_email->sendEmail($subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $reservation->getGenResUserId()->getUserEmail(), $emailBody);
 
                 } else if ($available_total > 0 && $available_total == $details_total) {
