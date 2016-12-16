@@ -95,10 +95,25 @@ class BackendDestinationController extends Controller
                 $post = $form->getData();
 
                 foreach ($languages as $language) {
-                    $dest_cat_lang = new destinationCategoryLang();
+
                     $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang' => $language,'des_cat_id_cat'=>$id_category));
-                    $dest_cat_lang[0]->setDesCatName($post['lang' . $language->getLangId()]);
-                    $em->persist($dest_cat_lang[0]);
+
+                    if($dest_cat_lang != null && count($dest_cat_lang) >= 1)
+                    {
+                        $dest_cat_lang[0]->setDesCatName($post['lang' . $language->getLangId()]);
+                        $em->persist($dest_cat_lang[0]);
+                    }
+                    else
+                    {
+                        $dest_cat_lang = new destinationCategoryLang();
+                        $destinationCategory = $em->getRepository("mycpBundle:destinationCategory")->find($id_category);
+                        $dest_cat_lang->setDesCatIdCat($destinationCategory)
+                            ->setDesCatIdLang($language)
+                            ->setDesCatName($post['lang' . $language->getLangId()]);
+
+                        $em->persist($dest_cat_lang);
+                    }
+
                 }
 
                 $category=$em->getRepository('mycpBundle:destinationCategory')->find($id_category);

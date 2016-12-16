@@ -4122,6 +4122,14 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                         <source>mycasatrip_bearing_text</source>
                         <target>Vérifiez les instructions de votre voyage plus efficace.</target>
                     </trans-unit>
+                    <trans-unit id="1034">
+                        <source>OFFER_RECOMMENDATION</source>
+                        <target><![CDATA[Merci de votre intérêt pour MyCasaParticular.com.<br/>
+
+                                         C’est dommage mais nous devons vous informer que la maison n’est pas disponible pour la date prévue.<br/>
+
+                                         Nous vous conseillons de rechercher sur notre site les maisons de réservation immédiate qui sont libres pour la date prévu ou d’autres logements aimés.]]></target>
+                    </trans-unit>
         </body>
     </file>
 </xliff>

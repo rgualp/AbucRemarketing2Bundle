@@ -254,6 +254,29 @@ class GeneralReservationService extends Controller
                 if ($non_available_total > 0 && $non_available_total == $details_total) {
                     $status = generalReservation::STATUS_NOT_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+                    //Enviar oferta con 3 casas de reserva inmediata
+                    $service_email = $this->container->get('Email');
+                    $emailManager = $this->container->get('mycp.service.email_manager');
+                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+                    $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
+
+                    $ownership = $this->em->getRepository('mycpBundle:ownership')->find($reservation->getGenResOwnId()->getOwnId());
+
+                    $owns_in_destination = $this->em->getRepository("mycpBundle:ownership")->getRecommendableAccommodations($reservation->getGenResFromDate(), $reservation->getGenResToDate(), $ownership->getOwnMinimumPrice(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $reservation->getGenResUserId()->getUserId(),null,true);
+
+                    $emailBody = $emailManager->getViewContent('FrontEndBundle:mails:sendOffer.html.twig',
+                        array('user' => $reservation->getGenResUserId(),
+                            'owns_in_destination' =>$owns_in_destination,
+                            'user_locale' => $userLocale));
+
+                    $subject= $this->get('translator')->trans(
+                        'NEW_OFFER_TOURIST_SUBJECT',
+                        array(),
+                        'messages',
+                        $userLocale
+                    );
+                    $service_email->sendEmail($subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $reservation->getGenResUserId()->getUserEmail(), $emailBody);
+
                 } else if ($available_total > 0 && $available_total == $details_total) {
                     $status = generalReservation::STATUS_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
@@ -337,14 +360,14 @@ class GeneralReservationService extends Controller
                     "rating" => $rating,
                     "url_images" => $url_images
                 );
-                $hash_email = hash('sha256', $reservation->getGenResUserId()->getUserEmail());
+                /*$hash_email = hash('sha256', $reservation->getGenResUserId()->getUserEmail());
                 $param = array(
                     'to' => [$hash_email."_mycp"],
                     'pending' => 0,
                     "metadata" => $metadata
                 );
                 $url = $this->container->getParameter('url.mean')."api/notifications/";
-                Notifications::sendNotifications($url, $param, $this->getRequest()->getSession()->get('access-token'));
+                Notifications::sendNotifications($url, $param, $this->getRequest()->getSession()->get('access-token'));*/
             }
 
             $this->em->persist($reservation);

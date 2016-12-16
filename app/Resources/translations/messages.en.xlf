@@ -4046,10 +4046,19 @@
                 <source>STATEMENT</source>
                 <target>Statement</target>
             </trans-unit>
-                <trans-unit id="1016">
-                     <source>or</source>
-                     <target>or</target>
-                </trans-unit>
+            <trans-unit id="1016">
+                 <source>or</source>
+                 <target>or</target>
+            </trans-unit>
+              <trans-unit id="1017">
+                 <source>OFFER_RECOMMENDATION</source>
+                 <target><![CDATA[We appreciate very much your interest in MyCasaParticular.com.<br/>
+
+                                  Unfortunately, the accommodation selected will be busy for the intended date.<br/>
+
+                                  We recommend you to search through our Website the available casas in ¨Immediate Booking¨ or other houses that you prefer. ]]></target>
+             </trans-unit>
+
         </body>
     </file>
 </xliff>

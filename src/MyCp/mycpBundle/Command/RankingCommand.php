@@ -18,6 +18,10 @@ use MyCp\mycpBundle\Entity\mailList;
 
 class RankingCommand extends ContainerAwareCommand {
 
+    private $em;
+    private $container;
+    private $notification_email;
+
     protected function configure() {
         $this
                 ->setName('mycp:calculate_ranking')
@@ -28,9 +32,14 @@ class RankingCommand extends ContainerAwareCommand {
         ;
     }
 
+    protected function loadConfig(){
+        $this->container = $this->getContainer();
+        $this->em = $this->container->get('doctrine')->getManager();
+        $this->notification_email = $this->container->get('mycp.notification.mail.service');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $container = $this->getContainer();
-        $em = $container->get('doctrine')->getManager();
+        $this->loadConfig();
 
         $output->writeln(date(DATE_W3C) . ': Starting ranking command...');
         $monthArg = intval($input->getArgument("month"));
@@ -45,22 +54,37 @@ class RankingCommand extends ContainerAwareCommand {
         }
 
         $output->writeln('Month: '.$monthArg.". Year: ".$yearArg);
+        $output->writeln('Calculating ranking...');
 
-        $qb = $em->createNativeQuery(
-            'CALL calculateRanking (:monthValue, :yearValue)',
-            new ResultSetMapping()
-        );
-        $qb->setParameters(
-            array(
-                'monthValue' => $monthArg,
-                'yearValue' => $yearArg
-            ));
-        $qb->execute();
-        //$em->flush();
+        try {
+            $qb = $this->em->createNativeQuery(
+                'CALL calculateRanking (:monthValue, :yearValue)',
+                new ResultSetMapping()
+            );
+            $qb->setParameters(
+                array(
+                    'monthValue' => $monthArg,
+                    'yearValue' => $yearArg
+                ));
+            $qb->execute();
+            //$em->flush();
+        }
+        catch(\Exception $e){
+            $output->writeln('Server is crazy. Said: ' . $e->getMessage());
+        }
+
+        $output->writeln('And now we are going to send emails to accommodations owners');
+        $this->sendEmails($monthArg, $yearArg);
 
 
-        $output->writeln('Operation completed!!!');
+
+        $output->writeln('Oh yeah!!! Ranking is calculated!!');
         return 0;
+    }
+
+    protected function sendEmails($monthArg, $yearArg)
+    {
+        //Settear el campo visitsLastWeek en 0 para cada alojamiento
     }
 
 }
