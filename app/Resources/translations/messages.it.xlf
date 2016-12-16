@@ -4109,6 +4109,14 @@
                     <source>mycasatrip_bearing_text</source>
                     <target>Controllare le istruzioni per il viaggio più efficiente.</target>
                 </trans-unit>
+                <trans-unit id="1034">
+                                        <source>OFFER_RECOMMENDATION</source>
+                                        <target><![CDATA[Apprezziamo molto il vostro interesse per MyCasaParticular.com.<br/>
+
+                                                         Purtroppo la casa sarà occupata per la giornata.<br/>
+
+                                                         Si consiglia di ricerca del nostro sito, immediati case di prenotazione che sono disponibili per la data o altre case di vostro gradimento.]]></target>
+                                    </trans-unit>
         </body>
     </file>
 </xliff>

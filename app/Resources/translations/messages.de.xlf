@@ -4060,6 +4060,14 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 <source>STATEMENT</source>
                 <target>Status</target>
             </trans-unit>
+            <trans-unit id="1016">
+                <source>OFFER_RECOMMENDATION</source>
+                <target><![CDATA[Vielen Dank fuer Ihr Interesse an MyCasaParticular.com.<br/>
+
+                                 Leider, die angefragte Unterkunft ist nicht verfügbar zum gewünschten Zeitraum.<br/>
+
+                                 Wir empfehlen Ihnen durch unsere Website andere Unterkünfte unter «sofortige Buchung», oder andere gewünschten Casas zu suchen.]]></target>
+            </trans-unit>
     </body>
     </file>
 </xliff>
