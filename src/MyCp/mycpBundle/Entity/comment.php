@@ -73,7 +73,7 @@ class comment
     /**
      * @var boolean
      *
-     * @ORM\Column(name="positive", type="boolean")
+     * @ORM\Column(name="positive", type="boolean", nullable= true)
      */
     private $positive;
 
@@ -154,7 +154,7 @@ class comment
     /**
      * Get com_public
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getComPublic()
     {

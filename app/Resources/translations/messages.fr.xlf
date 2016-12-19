@@ -164,11 +164,11 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>MyCasaParticular.com, sa première adresse à Cuba</target>
+                <target>MyCasaParticular.com, votre première adresse à Cuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
-                <target>Démarrer</target>
+                <target>Accueil</target>
             </trans-unit>
             <trans-unit id="43">
                 <source>HOME_DESCRIPTION_MAIN_MENU</source>
@@ -224,7 +224,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Loger dans une chambre chez l´habitant  est l´une des expériences les plus intéressantes dont vous pourriez profiter lors de votre voyage à Cuba. En plus de  l´occasion de rencontrer des touristes de tout le monde, vous aurez un aperçu de la réalité cubaine. Vous pourrez profiter de l´accueil des Cubains et apprendre davantage de leur culture. Le prix constitue un autre avantage très important. Les chambres chez l’habitant représentent l´option la plus économique pour votre séjour à Cuba. Compte tenu du fait qu’il s´agit des affaires du secteur privé, quand vous choisissez l´une de ces maisons, vous contribuez à l´économie de la famille cubaine </target>
+                <target>Loger dans une chambre chez l'habitant  est l'une des expériences les plus intéressantes dont vous pourriez profiter lors de votre voyage à Cuba. En plus de  l'occasion de rencontrer des touristes du monde entier, vous aurez un aperçu de la réalité cubaine. Vous pourrez profiter de l'accueil des Cubains et apprendre davantage de leur culture. Le prix constitue un autre avantage très important. Les chambres chez l'habitant représentent l'option la plus économique pour votre séjour à Cuba. Compte tenu du fait qu'il s'agit des affaires du secteur privé, quand vous choisissez l'une de ces maisons, vous contribuez à l'économie de la famille cubaine </target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
@@ -2437,7 +2437,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target> <![CDATA[Ajouter reservation@mycasaparticular.com à votre carnet d’adresses pour continuer à recevoir ces e-mails.<br/><br/>Vous pouvez aussi lire notre Politique de confidentialité<a href="%policieslink%Aquí.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d’être vérifiés en ce qui concerne la disponibilité. Consultez nos <a href="%termlink%Conditions d’utilisation</a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle, Suisse.]]></target>
+                    <target> <![CDATA[Ajouter reservation@mycasaparticular.com à votre carnet d’adresses pour continuer à recevoir ces e-mails.<br/><br/>Vous pouvez aussi lire notre Politique de confidentialité <a href="%policieslink%">ici.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d’être vérifiés en ce qui concerne la disponibilité. Consultez nos <a href="%termlink%">Conditions d’utilisation</a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle, Suisse.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>
@@ -2594,7 +2594,7 @@
             </trans-unit>
              <trans-unit id="655">
                 <source>FOOTER_MAIL_1</source>
-                <target> <![CDATA[Si vous ne voulez plus recevoir d’e-mails de MyCasaParticular, cliquez <a href="%link%aquí.</a>]]></target>
+                <target> <![CDATA[Si vous ne voulez plus recevoir d’e-mails de MyCasaParticular, cliquez <a href="%link%">ici.</a>]]></target>
             </trans-unit>
              <trans-unit id="656">
                 <source>LAST_REMINDER_TEXT_1</source>
@@ -2628,7 +2628,7 @@
             </trans-unit>
             <trans-unit id="663">
                 <source>EXPIRED_OFFER_TEXT_2</source>
-                <target><![CDATA[Nous pouvons vous aider. Contactez-nous  <a href="mailto:reservation@mycasaparticular.comreservation@mycasaparticular.com</a>]]></target>
+                <target><![CDATA[Nous pouvons vous aider. Contactez-nous  <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
             </trans-unit>
             <trans-unit id="664">
                 <source>EXPIRED_OFFER_TEXT_3</source>
@@ -2988,7 +2988,7 @@
             </trans-unit>
             <trans-unit id="752">
                 <source>FOOTER_EMAIL_PACKAGE</source>
-                <target><![CDATA[Ajoutez service@mycasaparticular.com à votre carnet d’adresse pour continuer de recevoir  ces e-mails.<br/><br/> Vous pouvez aussi lire notre Politique de confidentialité <a href="%policieslink% Ici.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptible d’être vérifiés en ce qui concerne la disponibilité Consultez nos <a href="%termlink% Conditions d’utilisation </a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle. Suisse.]]>
+                <target><![CDATA[Ajoutez service@mycasaparticular.com à votre carnet d’adresse pour continuer de recevoir  ces e-mails.<br/><br/> Vous pouvez aussi lire notre Politique de confidentialité <a href="%policieslink%"> Ici.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptible d’être vérifiés en ce qui concerne la disponibilité Consultez nos <a href="%termlink%"> Conditions d’utilisation </a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle. Suisse.]]>
                 </target>
             </trans-unit>
             <trans-unit id="753">
@@ -3791,7 +3791,7 @@
                                 <source>FOOTER_EMAIL1</source>
                                 <target>"<![CDATA[Ajoutez <a href='mailto:reservation@mycasaparticular.com'>reservation@mycasaparticular.com</a> à votre carnet d´adresses pour continuer à recevoir nos mails.<br/><br/>
 Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d´être vérifiés en ce qui concerne la disponibilité.
-Consultez nos <a href="%termlink% Conditions d’utilisation</a> pour en savoir plus
+Consultez nos <a href="%termlink%"> Conditions d’utilisation</a> pour en savoir plus
 Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Conditions d’utilisation. ]]>"
 
                                 </target>
@@ -4000,7 +4000,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             </trans-unit>
             <trans-unit id="1003">
                 <source>MARQUESINA_TEXT</source>
-                <target>	Réservez votre logement idéal sans attendre une confirmation. Organisez votre voyage en instants avec notre service de Réservation Immédiate. Disponible à La Havane.</target>
+                <target>	Réservez votre logement idéal sans attendre une confirmation. Organisez votre voyage en instants avec notre service de Réservation Immédiate.</target>
             </trans-unit>
             <trans-unit id="1004">
                 <source>SEE_NOW</source>
@@ -4030,6 +4030,106 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                  <source>Calendario Actualizado</source>
                  <target>Calendrier mis à jour</target>
              </trans-unit>
+                <trans-unit id="1011">
+                        <source>SERVICE_TOURIST_TAX</source>
+                        <target>Service au touriste</target>
+                    </trans-unit>
+                    <trans-unit id="1012">
+                        <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
+                        <target>Réservez le logement de vos rêves en seulement quelques secondes.</target>
+                    </trans-unit>
+                    <trans-unit id="1013">
+                        <source>SERVICE_FIXED_TAX</source>
+                        <target>Tarif fixe</target>
+                    </trans-unit>
+                    <trans-unit id="1014">
+                        <source>TOTAL_PAY_AT_SERVICE</source>
+                        <target>Paiement  à la maison</target>
+                    </trans-unit>
+                    <trans-unit id="1015">
+                        <source>IMMEDIATE_BOOKING</source>
+                        <target>Réservation immédiate</target>
+                    </trans-unit>
+                    <trans-unit id="1016">
+                        <source>with Facebook</source>
+                        <target>avec Facebook</target>
+                    </trans-unit>
+                    <trans-unit id="1017">
+                        <source>or</source>
+                        <target>o</target>
+                    </trans-unit>
+                    <trans-unit id="1018" resname="Bad credentials.">
+                        <source>Bad credentials.</source>
+                        <target>Nom d'utilisateur ou mot de passe non valide</target>
+                    </trans-unit>
+                    <trans-unit id="1019">
+                         <source>find_reservations</source>
+                         <target>Trouvez vos réservations</target>
+                    </trans-unit>
+                    <trans-unit id="1020">
+                        <source>HOUSE_QUESTION</source>
+                        <target>Avez-vous une maison?</target>
+                    </trans-unit>
+                    <trans-unit id="1021">
+                        <source>find_location</source>
+                        <target>Où veux-tu aller?</target>
+                    </trans-unit>
+                    <trans-unit id="1022">
+                        <source>MSG_ADD_WISH_LITS</source>
+                        <target>Félicitations! Votre liste continue de croître. Nous nous tournons vos désirs en bons souvenirs.</target>
+                    </trans-unit>
+                    <trans-unit id="1023">
+                        <source>EMPTY_WHISH_LIST</source>
+                        <target>Vide Liste</target>
+                    </trans-unit>
+                    <trans-unit id="1024">
+                        <source>mycasatrip_description</source>
+                        <target>MyCasaTrip est une application mobile via une carte vous donne l'emplacement exact de vos réservations actives, vous pouvez calculer la distance entre eux et de savoir comment y arriver rapidement et efficacement.</target>
+                    </trans-unit>
+                    <trans-unit id="1025">
+                        <source>mycasatrip_location</source>
+                        <target>Emplacement</target>
+                    </trans-unit>
+                    <trans-unit id="1026">
+                        <source>mycasatrip_location_text</source>
+                        <target>Connu à travers la carte l'emplacement exact de vos réserves actives.</target>
+                    </trans-unit>
+                    <trans-unit id="1027">
+                        <source>mycasatrip_optimization</source>
+                        <target>Optimisation</target>
+                    </trans-unit>
+                    <trans-unit id="1028">
+                        <source>mycasatrip_optimization_text</source>
+                        <target>Déterminez votre itinéraire depuis votre téléphone mobile.</target>
+                    </trans-unit>
+                    <trans-unit id="1029">
+                        <source>mycasatrip_reservations_text</source>
+                        <target>Trouver les détails de vos réservations actives par MyCasaTrip.</target>
+                    </trans-unit>
+                    <trans-unit id="1030">
+                        <source>mycasatrip_accuracy</source>
+                        <target>exactitude</target>
+                    </trans-unit>
+                    <trans-unit id="1031">
+                        <source>mycasatrip_accuracy_text</source>
+                        <target>Calcule la distance exacte entre vos réservations.</target>
+                    </trans-unit>
+                    <trans-unit id="1032">
+                        <source>mycasatrip_bearing</source>
+                        <target>Orientation</target>
+                    </trans-unit>
+                    <trans-unit id="1033">
+                        <source>mycasatrip_bearing_text</source>
+                        <target>Vérifiez les instructions de votre voyage plus efficace.</target>
+                    </trans-unit>
+                    <trans-unit id="1034">
+                        <source>OFFER_RECOMMENDATION</source>
+                        <target><![CDATA[Merci de votre intérêt pour MyCasaParticular.com.<br/>
+
+                                         C’est dommage mais nous devons vous informer que la maison n’est pas disponible pour la date prévue.<br/>
+
+                                         Nous vous conseillons de rechercher sur notre site les maisons de réservation immédiate qui sont libres pour la date prévu ou d’autres logements aimés.]]></target>
+                    </trans-unit>
         </body>
     </file>
 </xliff>

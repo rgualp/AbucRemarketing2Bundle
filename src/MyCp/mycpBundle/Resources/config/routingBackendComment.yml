@@ -1,6 +1,6 @@
 mycp_list_comments:
-    pattern:  /list/{items_per_page}/{filter_ownership}/{filter_user}/{filter_keyword}/{filter_rate}/{sort_by}
-    defaults: { _controller: mycpBundle:BackendComment:list_comment, items_per_page: 100,filter_ownership:'',filter_user:'',filter_keyword:'',filter_rate:'',sort_by:'0'}
+    pattern:  /list/{items_per_page}/{filter_ownership}/{filter_user}/{filter_keyword}/{filter_rate}/{sort_by}/{filter_date_from}/{filter_date_to}
+    defaults: { _controller: mycpBundle:BackendComment:list_comment, items_per_page: 100,filter_ownership:'',filter_user:'',filter_keyword:'',filter_rate:'',sort_by:'0',filter_date_from:'',filter_date_to:''}
 
 mycp_edit_comment:
     pattern:  /edit/{return_url}/{id_comment}

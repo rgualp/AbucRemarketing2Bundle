@@ -8,7 +8,7 @@ frontend_payment_skrill:
 
 frontend_payment_skrill_return:
     pattern:  /payment/skrill-return/{bookingId}
-    locales:  { en: "/payment/skrill-return/{bookingId}", es: "/payment/skrill-return/{bookingId}", de: "/payment/skrill-return/{bookingId}" }
+    locales:  { en: "/payment/skrill-return/{bookingId}", es: "/payment/skrill-return/{bookingId}", de: "/payment/skrill-return/{bookingId}", fr: "/payment/skrill-return/{bookingId}", it: "/payment/skrill-return/{bookingId}" }
     defaults: { _controller: FrontEndBundle:Payment:skrillReturn, bookingId: 0}
 
 frontend_payment_skrill_cancel:

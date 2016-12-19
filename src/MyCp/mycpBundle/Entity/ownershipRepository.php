@@ -51,6 +51,7 @@ class ownershipRepository extends EntityRepository {
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
+        $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
 
         //languages
@@ -108,6 +109,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSelection($active_selection)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
+            ->setConfidence($confidence)
             ->setOwnSmsNotifications($smsNotification);
 
 
@@ -298,6 +300,7 @@ class ownershipRepository extends EntityRepository {
         $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
+        $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
 
         //languages
@@ -353,6 +356,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSelection($active_selection)
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
+            ->setConfidence($confidence)
             ->setOwnSmsNotifications($smsNotification);
 
         if($active_inmediate_booking_2)
@@ -727,6 +731,9 @@ class ownershipRepository extends EntityRepository {
             case FilterHelper::ACCOMMODATION_WITH_ERRORS_MOBILE:
                 $condition .= "AND ow.own_mobile_number IS NOT NULL AND ow.own_mobile_number != '' AND ow.own_mobile_number NOT LIKE '5_______' ";
                 break;
+            case FilterHelper::ACCOMMODATION_CONFIDENCE:
+                $condition .= "AND ow.confidence = 1 ";
+                break;
         }
 
         if($filter_active != 'null' && $filter_active != '') {
@@ -762,7 +769,10 @@ class ownershipRepository extends EntityRepository {
         }
         if($filter_destination != 'null' && $filter_destination != '') {
 
-            $condition .= " AND ow.own_destination = :filter_destination ";
+            if($filter_destination == "-1")
+                $condition .= " AND ow.own_destination IS NULL ";
+            else
+                $condition .= " AND ow.own_destination = :filter_destination ";
         }
         if($filter_commission != 'null' && $filter_commission != '') {
 
@@ -825,7 +835,7 @@ class ownershipRepository extends EntityRepository {
             $query->setParameter('filter_visit_date_plus_day', $filter_date->format("Y-m-d"));
         }
 
-        if($filter_destination != 'null' && $filter_destination != '')
+        if($filter_destination != 'null' && $filter_destination != '' && $filter_destination != '-1')
             $query->setParameter('filter_destination', $filter_destination);
 
         if(isset($filter_code))
@@ -922,12 +932,15 @@ class ownershipRepository extends EntityRepository {
                     $query_string .= " HAVING award1 IN (" . $insideWhere . ")";
             }
         }
-
-        if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
-            $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
-        }else{
-            $order = SearchUtils::getOrder($order_by);
+        if(is_array($filters)){
+            if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
+                $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
+            }else{
+                $order = SearchUtils::getOrder($order_by);
+            }
         }
+        else
+            $order = SearchUtils::getOrder($order_by);
 
 
         $query_string .= $order;
@@ -1223,7 +1236,9 @@ class ownershipRepository extends EntityRepository {
                          min(r.room_price_down_to) as lowDown,
                          max(r.room_price_down_to) as highDown,
                          min(r.room_price_up_to) as lowUp,
-                         max(r.room_price_up_to) as highUp
+                         max(r.room_price_up_to) as highUp,
+                         o.own_inmediate_booking as rr,
+                         o.own_inmediate_booking_2 as ri
                          FROM mycpBundle:room r
                          JOIN r.room_ownership o
                          JOIN o.own_address_province prov
@@ -2301,6 +2316,220 @@ class ownershipRepository extends EntityRepository {
         $haveDescriptions = ($haveDescriptions > 0);
 
         return $haveDescriptions && $havePhotos && $haveRooms;
+    }
+    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null, $price = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null,$innmediate=null) {
+        if($municipality_id != null || $province_id != null) {
+            $em = $this->getEntityManager();
+
+            $query_string = "SELECT DISTINCT o.own_id,
+                             o.own_name,
+                             prov.prov_name,
+                             mun.mun_name,
+                             o.own_comments_total as comments_total,
+                             o.own_rating as rating,
+                             o.own_category as category,
+                             o.own_type as type,
+                             o.own_minimum_price as minimum_price,
+                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
+                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
+                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
+                        (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
+                             FROM mycpBundle:room r1
+                             JOIN r1.room_ownership o
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
+                             WHERE r1.room_active = 1 AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
+
+            /*if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+                $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";*/
+
+            if($province_id != null && $province_id != -1 && $province_id != '')
+                $query_string = $query_string . " AND o.own_address_province =$province_id";
+
+            if($exclude_own_id != null && $exclude_own_id != "")
+                $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
+
+           /* if($price != null && $price != "")
+                $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";*/
+
+            if($innmediate != null && $innmediate != "")
+                $query_string = $query_string . " AND o.own_inmediate_booking_2 = $innmediate";
+
+            $owns_with_reservations = array();
+            if($checkin_date != null && $checkin_date != "" && $checkout_date != null && $checkout_date != "") {
+                $query_reservations = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation ores
+                                   JOIN ores.own_res_gen_res_id gr
+                                   JOIN gr.gen_res_own_id o
+                                   WHERE ores.own_res_reservation_from_date >= :checkin_date
+                                     AND ores.own_res_reservation_to_date <= :checkout_date";
+
+                $owns_with_reservations = $em->createQuery($query_reservations)
+                    ->setParameter("checkin_date", $checkin_date)
+                    ->setParameter("checkout_date", $checkout_date)
+                    ->getResult();
+
+                $owns_id = "0";
+
+                foreach ($owns_with_reservations as $oid) {
+                    $owns_id .= "," . $oid["own_id"];
+                }
+                $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
+            }
+
+            $query_string = $query_string . " AND o.own_not_recommendable = 0";
+
+            if($max_result_set != null && $max_result_set > 0) {
+                $rows_total = count($em->createQuery($query_string)->getResult());
+                $offset = max(0, rand(0, $rows_total - $max_result_set - 1));
+
+                $results = $em->createQuery($query_string)
+                    ->setMaxResults($max_result_set)
+                    ->setFirstResult($offset)
+                    ->getResult();
+            }
+            else {
+                $results = $em->createQuery($query_string)
+                    ->getResult();
+            }
+
+            for ($i = 0; $i < count($results); $i++) {
+                if($results[$i]['photo'] == null)
+                    $results[$i]['photo'] = "no_photo.png";
+                else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                    $results[$i]['photo'] = "no_photo.png";
+                }
+            }
+            return $results;
+        }
+        return null;
+    }
+
+    public function getRankingStatisticsToSendEmails($month, $year)
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipRankingExtra", "rank")
+            ->join("rank.accommodation", "o")
+            ->leftJoin("mycpBundle:ownershipRankingExtra", 'pRank', 'WITH', "pRank.accommodation = rank.accommodation")
+            ->join("o.data", "data")
+            ->join("o.own_destination", "des")
+            ->join("rank.category", "currCat")
+            ->join("pRank.category", "prevCat")
+            ->where("o.own_status = :activeStatus")
+            ->andWhere("((o.own_email_1 IS NOT NULL AND o.own_email_1 != '') OR (o.own_email_2 IS NOT NULL AND o.own_email_2 != ''))")
+            ->andWhere("(MONTH(rank.startDate) = :monthValue AND YEAR(rank.startDate) = :yearValue)")
+            ->andWhere("DATE_DIFF(rank.startDate, pRank.endDate) = 1")
+            ->select("o.own_id as id, o.own_name as name, o.own_mcp_code as code, des.des_name as destination, rank.endDate as date,
+            IF(o.own_email_1 IS NOT NULL AND o.own_email_1 != '', o.own_email_1, o.own_email_2) as email,
+            IF(o.own_homeowner_1 IS NOT NULL AND o.own_homeowner_1 != '', o.own_homeowner_1, o.own_homeowner_2) as homeOwner,
+            data.visitsLastWeek as visits, rank.totalAvailableRooms, rank.totalNonAvailableRooms, rank.totalReservedRooms, rank.totalFacturation, rank.currentMonthFacturation, rank.place, rank.destinationPlace,
+            rank.ranking, rank.place, rank.destinationPlace, pRank.ranking as previousRank, pRank.place as previousPlace, pRank.destinationPlace as previousDestinationPlace,
+            'es' as user_locale, currCat.nom_name as currentCategory, prevCat.nom_name as previousCategory")
+            ->setParameter("activeStatus", OwnershipStatuses::ACTIVE)
+            ->setParameter("monthValue", $month)
+            ->setParameter("yearValue", $year)
+            ->getQuery();
+        return $qb->getResult();
+    }
+
+    public function getAllDateRankingCalculate(){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("select DISTINCT rank.startDate from mycpBundle:ownershipRankingExtra rank order by rank.startDate ASC");
+
+        return $objects = $query->getResult();
+    }
+
+    public function getRankingStatisticsByOwnership($ownership, $month, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtra rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         WHERE o.own_status = 1
+         AND rank.accommodation = :id
+         AND (MONTH(rank.startDate) = :montValue 
+         AND YEAR(rank.startDate) = :yearValue)
+         ");
+
+        $query->setParameter("montValue", $month)
+            ->setParameter("yearValue", $year)
+            ->setParameter("id", $ownership->getOwnId());
+
+        return $objects = $query->getResult();
+
+    }
+
+    public function getRankingByPosition($position, $month, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtra rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         WHERE o.own_status = 1
+         AND rank.place = :place
+         AND (MONTH(rank.startDate) = :montValue 
+         AND YEAR(rank.startDate) = :yearValue)
+         ");
+
+        $query->setParameter("montValue", $month)
+            ->setParameter("yearValue", $year)
+            ->setParameter("place", $position);
+
+        return $objects = $query->getResult();
+    }
+
+    public function getRankingDestinationByPosition($position, $destination, $month, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtra rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         WHERE o.own_status = 1
+         AND rank.destinationPlace = :place
+         AND o.own_destination = :destination
+         AND (MONTH(rank.startDate) = :montValue 
+         AND YEAR(rank.startDate) = :yearValue)
+         ");
+
+        $query->setParameter("montValue", $month)
+            ->setParameter("yearValue", $year)
+            ->setParameter("place", $position)
+            ->setParameter("destination", $destination);
+
+        return $objects = $query->getResult();
+    }
+
+    public function getRankingStatistics($ownership, $month, $year){
+
+        $result = $this->getRankingStatisticsByOwnership($ownership, $month, $year);
+
+        if (count($result) > 0){
+            $upPosition = $this->getRankingByPosition($result[0]['current_rank']->getPLace() - 1, $month, $year);
+            $downPosition = $this->getRankingByPosition($result[0]['current_rank']->getPLace() + 1, $month, $year);
+
+            //dump($result);die;
+
+            $upDestinationPosition = $this->getRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() - 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+            $downDestinationPosition = $this->getRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() + 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+
+            return array(
+                "ranking" => $result,
+                "upPosition" => $upPosition,
+                "downPosition" => $downPosition,
+                "upDestinationPosition" => $upDestinationPosition,
+                "downDestinationPosition" => $downDestinationPosition
+            );
+        }
+
+        return false;
+
     }
 
 }

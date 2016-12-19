@@ -999,6 +999,10 @@ class StepsController extends Controller
         {
             $udetailsService->removeUDetail($room, $start, $end, 'Por el propietario');
         }
+
+        //Actualizar la frecuencia de actualizacion
+        $em->getRepository("mycpBundle:accommodationCalendarFrequency")->addFrequencyByRoom($room);
+
         /*$unavailability = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsForCasaModuleCalendar($room, $start->format('Y-m-d'), $end->format('Y-m-d'));
         foreach($unavailability as $item){
           if($item->getUdFromDate()>=$start&&$item->getUdToDate()<=$end){
@@ -1131,5 +1135,101 @@ class StepsController extends Controller
         }
         return new JsonResponse($response);
     }
+
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="show_stats", path="/estadistica")
+     */
+    public function showStatsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        $code = $this->getUser()->getName();
+
+        $lastDateCalculateRanking = $em->getRepository("mycpBundle:ownership")->getAllDateRankingCalculate();
+        $totalOwnerShipActive = count($em->getRepository("mycpBundle:ownership")->getAll("",1)->getResult());
+        $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("",1,"","","",$ownership->getOwnDestination()->getDesId())->getResult());
+
+//        dump($lastDateCalculateRanking);die;
+        $ranking = array();
+
+        if (count($lastDateCalculateRanking) > 0){
+            $cant_dates = count($lastDateCalculateRanking) - 1;
+            $lastDate = $lastDateCalculateRanking[$cant_dates]['startDate'];
+            $year = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y");
+            $mount = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"m");
+            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+
+            $datestring = date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y-m-d");
+            $beforedate = strtotime($datestring.' -1 months');
+
+            $year = (int)date("Y",$beforedate);
+            $mount = (int)date("m",$beforedate);
+
+            $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+        }
+
+        //$canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
+
+        return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
+            'ownership'=>$ownership,
+            'ranking'=>$ranking,
+            'dashboard'=>true,
+            'lastDateCalculateRanking' => $lastDate,
+            'dates_with_ranking' => $lastDateCalculateRanking,
+            "totalOwnerShipActive" => $totalOwnerShipActive,
+            "totalOwnerShipByDestination" => $totalOwnerShipByDestination,
+            "beforeranking" => $beforeranking
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="update_ranking", path="/update_ranking")
+     */
+    public function updateRankingAction(Request $request)
+    {
+        $ownid = $request->get('ownershipID');
+        $currentDate = $request->get('fecha');
+
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_id" => $ownid));
+
+        $fecha = date_create($currentDate);
+        $year = (int)date_format($fecha,"Y");
+        $mount = (int)date_format($fecha,"m");
+
+        $html = "<p>No existe datos del ranking para este mes</p>";
+        if ($ownership){
+            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+
+            $datestring = date_format($fecha,"Y-m-d");
+            $beforedate = strtotime($datestring.' -1 months');
+            $year = (int)date("Y",$beforedate);
+            $mount = (int)date("m",$beforedate);
+            $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+
+            $totalOwnerShipActive = count($em->getRepository("mycpBundle:ownership")->getAll("",1)->getResult());
+            $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("",1,"","","",$ownership->getOwnDestination()->getDesId())->getResult());
+
+            if (count($ranking) > 0){
+                return $this->render('MyCpCasaModuleBundle:statistics:resumen_mensual.html.twig', array(
+                    "ranking" => $ranking,
+                    "ownership" => $ownership,
+                    "totalOwnerShipActive" => $totalOwnerShipActive,
+                    "totalOwnerShipByDestination" => $totalOwnerShipByDestination,
+                    "beforeranking" => $beforeranking
+                ));
+            }
+
+        }
+
+        return $html;
+    }
+
 
 }

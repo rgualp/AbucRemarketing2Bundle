@@ -128,6 +128,14 @@ class PublicController extends Controller {
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $request = $this->getRequest();
         $session = $request->getSession();
+        $session->set('user_language', $this->getRequest()->getLocale());
+
+        if ($session->get('user_failure_language')){
+            $la = $session->get('user_failure_language');
+            $session->remove('user_failure_language');
+            return $this->redirect($this->generateUrl('frontend_login', array('_locale' => $la)));
+        }
+
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {

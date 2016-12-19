@@ -1,0 +1,96 @@
+{% extends dashboard ? 'MyCpCasaModuleBundle:Default:dashboard.html.twig': 'MyCpCasaModuleBundle::layout.html.twig' %}
+    {% block content %}
+        <div class="row-eq-height animated fadeInRight">
+            <div class="col-md-9 col-xs-12 white-bg">
+                <div class="row">
+                    <div class="col-sm-2 col-xs-3">
+                        <img src="{{ asset('bundles/mycpcasamodule/img/estdisticas.png') }}"
+                             class="img-title-step" style="width: 100px; height: 100px;">
+                    </div>
+                    <div class="col-sm-10 col-xs-9">
+                        <h2 class="font-blue">Estadísticas</h2>
+                        <h3 class="font-blue">El cielo puede ser la meta si se lo propone. Solo los mejores descubren como ser un Best Casa</h3>
+                    </div>
+                </div>
+                <div id="mounthreview" class="bg-gray p-a-5 m-t-20 col-md-12 font-black block-collapse">
+                    {#{% include 'MyCpCasaModuleBundle:form:description.html.twig'%}#}
+                    <div class="col-sm-1 col-xs-1 p-0 text-center">
+                        <a href="#mounthreview" class="btn-show-block" style="font-size: 25px; display: block; padding: 3px;">
+                            <i class="fa fa-plus font-blue"></i>
+                            <i class="fa fa-minus font-blue"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xs-11 p-0">
+                        <p style="font-size: 20px; color: black;font-style: normal;font-weight: lighter; font-variant-caps: petite-caps"
+                           class="lead">Siga las estadísticas de su casa este mes </p>
+                    </div>
+                    <div class="col-md-5 p-0">
+                        <div class="col-md-1 p-0">
+                            <a class="btn-control-calendar {% if dates_with_ranking | length == 1 %} inactive {% endif %}" data-index="-1" style="font-size: 21px;"><i class="fa fa-chevron-left"></i></a>
+                        </div>
+                        <div id="calendar-date-content" class="col-md-10" style="text-align: center">
+                            {% for dateRanking in dates_with_ranking %}
+                                <span id="date{{ loop.index }}" data-dates="{{ dateRanking['startDate'] | date("d-m-Y") }}" class="span-dates font-blue step-span {% if loop.last %} dateactive {% endif %}" style="font-size: 20px;font-variant-caps: petite-caps">
+                                    <b>{{dateRanking['startDate'] | localizeddate('none', 'none', "es", null, "MMMM Y") | capitalize}}</b>
+                                </span>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-1 p-0">
+                            <a class="btn-control-calendar inactive" data-index="1" style="font-size: 21px;"><i class="fa fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <div id="spiner" class="col-sm-12 text-center" style="display: none;">
+                        <div class="spiner-example">
+                            <div class="sk-spinner sk-spinner-wave">
+                                <div class="sk-rect1"></div>
+                                <div class="sk-rect2"></div>
+                                <div class="sk-rect3"></div>
+                                <div class="sk-rect4"></div>
+                                <div class="sk-rect5"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="resumen-mensual">
+                        {% if ranking | length > 0 %}
+                            {% include "MyCpCasaModuleBundle:statistics:resumen_mensual.html.twig" with { "ranking" : ranking, "ownership": ownership, "totalOwnerShipActive": totalOwnerShipActive, "totalOwnerShipByDestination": totalOwnerShipByDestination, "beforeranking": beforeranking} %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 oneblue-bg col-content">
+                <div id="help-step3-one" class="row">
+                    <div class="col-md-12 m-t-20">
+                        <p>Conviértase en una Best Casa y descubra los privilegios que reciben nuestros mejores
+                            anfitriones:
+                            visibilidad, opciones de búsqueda predeterminada, promociones... y mucho más para ayudarle a
+                            ganar nuevos huéspedes. <br> <br> Ponga en práctica nuestros <br> <span
+                                    style="font-weight: bold; color: #0b4b77">Consejos para ser una Best Casa</span>
+                            <br> y siga los números de su alojamiento cada mes. Escalar posiciones juntos será estupendo
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;" class="col-md-9 col-xs-12 white-bg">
+            <div id="yearreview" class="bg-gray m-t-20 col-md-12 font-black block-collapse off" style="padding: 5px;">
+                <div class="col-sm-1 col-xs-1 text-center">
+                    <a href="#yearreview" class="btn-show-block closed" style="font-size: 25px; display: block; padding: 11px 0;">
+                        <i class="fa fa-plus font-blue"></i>
+                        <i class="fa fa-minus font-blue"></i>
+                    </a>
+                </div>
+                <div class="col-sm-11 col-xs-12 p-0">
+                    <p style="color: black; font-style: normal; font-weight: lighter; font-variant-caps: petite-caps; font-size: 31px; margin: 0px;" class="lead">Siga las estadísticas de su casa este año </p>
+                </div>
+                <div class="col-sm-12">
+                    Resumen Anual
+                </div>
+            </div>
+        </div>
+<script>
+    var last_date_calculate = "{{ lastDateCalculateRanking | date("d/m/Y") }}";
+    var statistic_ownershipID = {{ ownership.getOwnId }};
+    var url_load_date = "{{ path('update_ranking') }}";
+</script>
+    {% endblock %}

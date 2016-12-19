@@ -180,6 +180,20 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $createdPenalties;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="register_notification", type="boolean", nullable=true)
+     */
+    private $register_notification;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="online", type="boolean", nullable=true)
+     */
+    private $online;
+
     public function __construct() {
         $this->comments = new ArrayCollection();
         $this->modified_reservations = new ArrayCollection();
@@ -1011,5 +1025,51 @@ class user implements AdvancedUserInterface,  \Serializable
     public function removeCreatedPenalty(penalty $penalty)
     {
         $this->createdPenalties->removeElement($penalty);
+    }
+    /**
+     * Set register_notification
+     *
+     * @param boolean $register_notification
+     *
+     * @return user
+     */
+    public function setRegisterNotification($register_notification)
+    {
+        $this->register_notification = $register_notification;
+
+        return $this;
+    }
+
+    /**
+     * Get register_notification
+     *
+     * @return boolean
+     */
+    public function getRegisterNotification()
+    {
+        return $this->register_notification;
+    }
+    /**
+     * Set online
+     *
+     * @param boolean $online
+     *
+     * @return user
+     */
+    public function setOnline($online)
+    {
+        $this->online = $online;
+
+        return $this;
+    }
+
+    /**
+     * Get online
+     *
+     * @return boolean
+     */
+    public function getOnline()
+    {
+        return $this->online;
     }
 }
