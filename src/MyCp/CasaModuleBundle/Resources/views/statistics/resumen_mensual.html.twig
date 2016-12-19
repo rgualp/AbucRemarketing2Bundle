@@ -223,14 +223,14 @@
                                     <span class="font-green">
                                         <b>{{ current_ranking.totalAvailableRooms }}</b> Disponibles
                                     <br>
-                                        A recibir <b>1000 CUC</b>
+                                        A recibir <b>{{ current_ranking.getTotalAvailableFacturation }} CUC</b>
                                 </span>
                     </div>
                     <div class="col-sm-6 p-0">
                                     <span class="font-blue">
                                         <b>{{ current_ranking.totalNonAvailableRooms }}</b> No Disponibles
                                         <br>
-                                        Dejo de recibir <b>2000 CUC</b>
+                                        Dejo de recibir <b>{{ current_ranking.getTotalNonAvailableFacturation }} CUC</b>
                                     </span>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
                 <img style="margin-right: 10px;" width="35"
                      src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}"> <span
                         class="font-blue step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{ ownership.getCountVisits }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{ current_ranking.getVisits }}</b></span>
             </div>
             <div class="col-md-12">
                 <img style="margin-right: 10px;" width="35"
