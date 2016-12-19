@@ -217,6 +217,27 @@ class ownershipRankingExtra
     private $totalReservedRooms;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="visits", type="integer", nullable=true)
+     */
+    private $visits;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="totalAvailableFacturation", type="decimal", nullable=true)
+     */
+    private $totalAvailableFacturation;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="totalNonAvailableFacturation", type="decimal", nullable=true)
+     */
+    private $totalNonAvailableFacturation;
+
+    /**
      * @return mixed
      */
     public function getAccommodation()
@@ -725,6 +746,60 @@ class ownershipRankingExtra
     public function setTotalReservedRooms($totalReservedRooms)
     {
         $this->totalReservedRooms = $totalReservedRooms;
+        return $this;
+    }
+
+    /**
+     * @return decimal
+     */
+    public function getTotalAvailableFacturation()
+    {
+        return $this->totalAvailableFacturation;
+    }
+
+    /**
+     * @param decimal $totalAvailableFacturation
+     * @return mixed
+     */
+    public function setTotalAvailableFacturation($totalAvailableFacturation)
+    {
+        $this->totalAvailableFacturation = $totalAvailableFacturation;
+        return $this;
+    }
+
+    /**
+     * @return decimal
+     */
+    public function getTotalNonAvailableFacturation()
+    {
+        return $this->totalNonAvailableFacturation;
+    }
+
+    /**
+     * @param decimal $totalNonAvailableFacturation
+     * @return mixed
+     */
+    public function setTotalNonAvailableFacturation($totalNonAvailableFacturation)
+    {
+        $this->totalNonAvailableFacturation = $totalNonAvailableFacturation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVisits()
+    {
+        return $this->visits;
+    }
+
+    /**
+     * @param int $visits
+     * @return mixed
+     */
+    public function setVisits($visits)
+    {
+        $this->visits = $visits;
         return $this;
     }
 
