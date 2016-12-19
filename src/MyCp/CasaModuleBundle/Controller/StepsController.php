@@ -1136,8 +1136,6 @@ class StepsController extends Controller
         return new JsonResponse($response);
     }
 
-
-
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException

@@ -109,4 +109,14 @@ class DefaultController extends Controller
             'sort_by' => $sort_by
         ));
     }
+
+
+    public function showAdviceAction(Request $request)
+    {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
+        return $this->render('MyCpCasaModuleBundle:Steps:advice.html.twig', array(
+                'ownership'=>$ownership,
+                'dashboard'=>true)
+        );
+    }
 }
