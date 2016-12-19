@@ -126,6 +126,17 @@ class ownershipStatRepository extends EntityRepository
             foreach($status as $st){
                 $owns=  $ownershipRepository->findBy(array('own_address_municipality'=>$municipality, 'own_status'=>$st));
                 $nomStat=$nomenclatorRepository->findOneBy(array('nom_name'=>$st->getStatusName()));
+                if($nomStat == null)
+                {
+                    $parent=$nomenclatorRepository->findOneBy(array('nom_name'=>"Estados"));
+                    $nomStat = new nomenclatorStat();
+                    $nomStat->setNomParent($parent)
+                        ->setNomName($st->getStatusName());
+
+                    $em->persist($nomStat);
+                    $em->flush();
+                }
+
                 $ownStat=new ownershipStat();
                 $ownStat->setStatMunicipality($municipality);
                 $ownStat->setStatNomenclator($nomStat);
@@ -365,7 +376,7 @@ class ownershipStatRepository extends EntityRepository
                     break;
                 }
                 case "Idiomas": $queryBuilder = $this->addLanguageNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
-                //case "Resúmen": $queryBuilder = $this->addSummaryNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
+                case "Resúmen": $queryBuilder = $this->addSummaryNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
             }
         }
         return $queryBuilder;
@@ -389,7 +400,8 @@ class ownershipStatRepository extends EntityRepository
         switch($nomenclatorName)
         {
             case "Casa Selección": $queryBuilder->andWhere("o.own_selection = 1"); break;
-            case "Reserva Inmediata": $queryBuilder->andWhere("o.own_inmediate_booking = 1"); break;
+            case "Reserva Rápida": $queryBuilder->andWhere("o.own_inmediate_booking = 1"); break;
+            case "Reserva Inmediata": $queryBuilder->andWhere("o.own_inmediate_booking_2 = 1"); break;
         }
 
         return $queryBuilder;
