@@ -11,29 +11,62 @@ var Estadistica = function () {
         initCollapse();
         initControlCalendar();
 
-        var data = [{
-            label: "<i class='mycp-icon-disponible'></i>",
-            data: 25,
-            color: "#64a433",
-        }, {
-            label: "<i class='mycp-icon-nodisponible'></i>",
-            data: 75,
-            color: "#094e75",
-        }];
+        // data-nonavaliable-percent="{{ nonavaliable_percent }}" data-avaliable-percent="{{ avaliable_percent }}"
 
-        createFlot(data);
+
+
+        createFlot();
     }
 
     var initControlCalendar = function(){
-        var now = new Date();
-        var mes = now.getMonth();
-        console.log(mes);
+
+        var lastdates = last_date_calculate.split("/");
+        var laststartDate,currentDate = new Date(parseInt(lastdates[2]),parseInt(lastdates[1]) - 1, parseInt(lastdates[0]) );
+
+
+        // currentDate.setMonth(currentDate.getMonth() + increment);
+        //
+        // if ( laststartDate == currentDate ){
+        //     console.log(currentDate);
+        //     $(this).toggleClass("inactive");
+        // }
+        //
         $(".btn-control-calendar").each(function (e) {
             $(this).click(function (s) {
                 s.preventDefault();
+                if (!$(this).hasClass("inactive")){
+                    var increment = parseInt($(this).attr("data-index"));
+                    var current_index = $("#calendar-date-content").find("span.span-dates.dateactive").index();
+                    $("#calendar-date-content").find("span.span-dates.dateactive").removeClass("dateactive");
+                    $("#calendar-date-content").find("span.span-dates").eq(current_index + increment).addClass("dateactive");
+                    $(".btn-control-calendar").eq(0).removeClass("inactive");
+                    $(".btn-control-calendar").eq(1).removeClass("inactive");
+                    if ((current_index + increment) == 0){
+                        $(".btn-control-calendar").eq(0).addClass("inactive");
+                    }
+                    if ((current_index + increment) == ($("#calendar-date-content").find("span.span-dates").length - 1)){
+                        $(".btn-control-calendar").eq(1).addClass("inactive");
+                    }
 
+                    loadStatisticByDate($("#calendar-date-content").find("span.span-dates.dateactive").attr("data-dates"));
+                }
             })
         })
+    }
+
+    var loadStatisticByDate = function (statistic_date) {
+        var data = {
+            fecha: statistic_date,
+            ownershipID: statistic_ownershipID
+        }
+
+        $("#spiner").show();
+        $("#resumen-mensual").empty();
+
+        $("#resumen-mensual").load(url_load_date, data, function (result) {
+            createFlot();
+            $("#spiner").hide();
+        });
     }
 
     var initCollapse = function () {
@@ -47,8 +80,20 @@ var Estadistica = function () {
         })
     }
 
-    var createFlot = function (data) {
+    var createFlot = function () {
 
+        var avaliable = parseInt($("#flot-pie-chart").attr("data-avaliable-percent"));
+        var nonavaliable = parseInt($("#flot-pie-chart").attr("data-nonavaliable-percent"));
+
+        var data = [{
+            label: "<i class='mycp-icon-disponible'></i>",
+            data: avaliable,
+            color: "#64a433",
+        }, {
+            label: "<i class='mycp-icon-nodisponible'></i>",
+            data: nonavaliable,
+            color: "#094e75",
+        }];
 
         plotObj = $.plot($("#flot-pie-chart"), data, {
             series: {
@@ -68,17 +113,13 @@ var Estadistica = function () {
         });
     }
 
-    var refreshFlot = function (data) {
-        plotObj.setData(data);
-    }
-
     return {
         //main function to initiate template pages
         init: function () {
             inits();
         },
         refreshPLot: function (data) {
-            refreshFlot(data);
+
         }
     };
 }();

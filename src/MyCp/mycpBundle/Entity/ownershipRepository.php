@@ -2428,4 +2428,100 @@ class ownershipRepository extends EntityRepository {
         ;
     }
 
+    public function getAllDateRankingCalculate(){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("select DISTINCT rank.startDate from mycpBundle:ownershipRankingExtra rank order by rank.startDate ASC");
+
+        return $objects = $query->getResult();
+    }
+
+    public function getRankingStatisticsByOwnership($ownership, $month, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtra rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         WHERE o.own_status = 1
+         AND rank.accommodation = :id
+         AND (MONTH(rank.startDate) = :montValue 
+         AND YEAR(rank.startDate) = :yearValue)
+         ");
+
+        $query->setParameter("montValue", $month)
+            ->setParameter("yearValue", $year)
+            ->setParameter("id", $ownership->getOwnId());
+
+        return $objects = $query->getResult();
+
+    }
+
+    public function getRankingByPosition($position, $month, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtra rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         WHERE o.own_status = 1
+         AND rank.place = :place
+         AND (MONTH(rank.startDate) = :montValue 
+         AND YEAR(rank.startDate) = :yearValue)
+         ");
+
+        $query->setParameter("montValue", $month)
+            ->setParameter("yearValue", $year)
+            ->setParameter("place", $position);
+
+        return $objects = $query->getResult();
+    }
+
+    public function getRankingDestinationByPosition($position, $destination, $month, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtra rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         WHERE o.own_status = 1
+         AND rank.destinationPlace = :place
+         AND o.own_destination = :destination
+         AND (MONTH(rank.startDate) = :montValue 
+         AND YEAR(rank.startDate) = :yearValue)
+         ");
+
+        $query->setParameter("montValue", $month)
+            ->setParameter("yearValue", $year)
+            ->setParameter("place", $position)
+            ->setParameter("destination", $destination);
+
+        return $objects = $query->getResult();
+    }
+
+    public function getRankingStatistics($ownership, $month, $year){
+
+        $result = $this->getRankingStatisticsByOwnership($ownership, $month, $year);
+
+        if (count($result) > 0){
+            $upPosition = $this->getRankingByPosition($result[0]['current_rank']->getPLace() - 1, $month, $year);
+            $downPosition = $this->getRankingByPosition($result[0]['current_rank']->getPLace() + 1, $month, $year);
+
+            //dump($result);die;
+
+            $upDestinationPosition = $this->getRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() - 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+            $downDestinationPosition = $this->getRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() + 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+
+            return array(
+                "ranking" => $result,
+                "upPosition" => $upPosition,
+                "downPosition" => $downPosition,
+                "upDestinationPosition" => $upDestinationPosition,
+                "downDestinationPosition" => $downDestinationPosition
+            );
+        }
+
+        return false;
+
+    }
+
 }

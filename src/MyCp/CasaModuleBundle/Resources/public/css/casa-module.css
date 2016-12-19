@@ -860,7 +860,10 @@ ul.ranking-mycp{
 }
 ul.ranking-mycp li{
     background-color: #bdd2de;
+    content: " ";
+    display: table;
     font-size: 18px;
+    width: 100%;
 }
 ul.ranking-mycp.inprovince li{
     background-color: #fff;
@@ -897,7 +900,12 @@ ul.ranking-mycp li span{
 }
 ul.ranking-mycp li span:last-child{
     color: #80807e;
+    display: block;
+    float: right;
+    font-size: 17px;
     font-weight: normal;
+    text-align: right;
+    width: 80%;
 }
 
 .facturated{
@@ -979,6 +987,15 @@ ul.ranking-mycp li span:last-child{
     display: none;
 }
 
+#calendar-date-content .span-dates{
+    display: none;
+}
+#calendar-date-content .span-dates.dateactive{
+    display: inline-block;
+}
+.btn-control-calendar.inactive{
+    color: #ccc;
+}
 
 @media (max-width: 768px) {
     body.mini-navbar #page-wrapper {

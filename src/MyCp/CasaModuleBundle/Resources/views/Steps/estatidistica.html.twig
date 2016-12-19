@@ -26,202 +26,35 @@
                     </div>
                     <div class="col-md-5 p-0">
                         <div class="col-md-1 p-0">
-                            <a class="btn-control-calendar" data-index="-1" style="font-size: 21px;"><i class="fa fa-chevron-left"></i></a>
+                            <a class="btn-control-calendar {% if dates_with_ranking | length == 1 %} inactive {% endif %}" data-index="-1" style="font-size: 21px;"><i class="fa fa-chevron-left"></i></a>
                         </div>
-                        <div class="col-md-10" style="text-align: center">
-                            <span id="calendar-control" class="font-blue step-span " style="font-size: 20px;font-variant-caps: petite-caps">
-                                <b class="mm">Septiembre</b> &numsp; <b class="yy">2016</b>
-                            </span>
+                        <div id="calendar-date-content" class="col-md-10" style="text-align: center">
+                            {% for dateRanking in dates_with_ranking %}
+                                <span id="date{{ loop.index }}" data-dates="{{ dateRanking['startDate'] | date("d-m-Y") }}" class="span-dates font-blue step-span {% if loop.last %} dateactive {% endif %}" style="font-size: 20px;font-variant-caps: petite-caps">
+                                    <b>{{dateRanking['startDate'] | localizeddate('none', 'none', "es", null, "MMMM Y") | capitalize}}</b>
+                                </span>
+                            {% endfor %}
                         </div>
                         <div class="col-md-1 p-0">
-                            <a class="btn-control-calendar" data-index="+1" style="font-size: 21px;"><i class="fa fa-chevron-right"></i></a>
+                            <a class="btn-control-calendar inactive" data-index="1" style="font-size: 21px;"><i class="fa fa-chevron-right"></i></a>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img width="50" src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}">
-                                        <span class="font-blue" style="font-size: 22px; margin-left: 10px;">Puntos en el Ranking</span>
-                                    </div>
-                                    <div class="col-md-12 graph-premiun">
-                                        <div class="row">
-                                            <div class="col-sm-1"><span class="font-blue">0</span></div>
-                                            <div class="col-sm-9 graph-bar-content">
-                                                <div class="graph-marker bronce"><img width="30"
-                                                                                      src="{{ asset('bundles/mycpcasamodule/img/bronce50.png') }}">
-                                                </div>
-                                                <div class="graph-marker plata"><img width="35"
-                                                                                     src="{{ asset('bundles/mycpcasamodule/img/plata140.png') }}">
-                                                </div>
-                                                <div class="graph-marker oro"><img width="40"
-                                                                                   src="{{ asset('bundles/mycpcasamodule/img/oro460.png') }}">
-                                                </div>
-                                                <div class="graph-bar"></div>
-                                                <div class="graph-current-marker"><span class="font-blue">350</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1"><span class="font-blue">650</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 m-t-40">
-                                <div class="col-sm-12 m-t-30">
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <img style="display: none;" class="trofeo-oro" width="100%"
-                                                 src="{{ asset('bundles/mycpcasamodule/img/trofeooro.png') }}">
-                                            <img class="trofeo-plata" width="100%"
-                                                 src="{{ asset('bundles/mycpcasamodule/img/trofeoplata.png') }}">
-                                            <img style="display: none;" class="trofeo-bronce" width="100%"
-                                                 src="{{ asset('bundles/mycpcasamodule/img/trofeobronce.png') }}">
-                                        </div>
-                                        <div class="col-sm-7 m-t-10">
-                                            <span class="font-blue"
-                                                  style="display: none; font-size: 45px; font-weight: bold; color: #d0a41e;">ORO</span>
-                                            <span style="font-size: 45px; font-weight: bold; color: #c8c8c8;"
-                                                  class="font-blue">PLATA</span>
-                                            <span style="display: none; font-size: 45px; font-weight: bold; color: #b57940;"
-                                                  class="font-blue">BRONCE</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img width="50"
-                                             src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}"> <span
-                                                class="font-blue step-span "
-                                                style="font-size: 20px;font-variant-caps: petite-caps">Lugar en <b
-                                                    style="color: green;font-weight: bold">My</b><b>CasaParticular</b></span>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <ul class="ranking-mycp">
-                                            <li><i class="fa fa-minus"></i><span>1200</span><span> Casa de Pedro</span>
-                                            </li>
-                                            <li class="current"><i
-                                                        class="glyphicons up_arrow"></i><span>1201</span><span> Casa de Pedro</span>
-                                            </li>
-                                            <li><i class="glyphicons down_arrow"></i><span>1202</span><span> Casa de Pedro</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <span style="display: block; margin: 0px 10px; text-align: center; color: rgb(255, 255, 255); background: rgb(149, 149, 149) none repeat scroll 0px 0px; font-size: 18px;">de 2500 Casas</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img width="50" src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}">
-                                        <span class="font-blue step-span "
-                                              style="font-size: 20px;font-variant-caps: petite-caps">Lugar en Trinidad</span>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <ul class="ranking-mycp inprovince">
-                                            <li><i class="fa fa-minus"></i><span>1200</span><span> Casa de Pedro</span>
-                                            </li>
-                                            <li class="current"><i
-                                                        class="glyphicons up_arrow"></i><span>1201</span><span> Casa de Pedro</span>
-                                            </li>
-                                            <li><i class="glyphicons down_arrow"></i><span>1202</span><span> Casa de Pedro</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <span style="display: block; margin: 0px 10px; text-align: center; color: rgb(255, 255, 255); background: rgb(149, 149, 149) none repeat scroll 0px 0px; font-size: 18px;">de 2500 Casas</span>
-                                    </div>
-                                </div>
+                    <div id="spiner" class="col-sm-12 text-center" style="display: none;">
+                        <div class="spiner-example">
+                            <div class="sk-spinner sk-spinner-wave">
+                                <div class="sk-rect1"></div>
+                                <div class="sk-rect2"></div>
+                                <div class="sk-rect3"></div>
+                                <div class="sk-rect4"></div>
+                                <div class="sk-rect5"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 m-t-30">
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <span style="font-size: 20px;">Total de solicitudes: <b>100</b></span>
-                                </div>
-                                <div class="col-sm-12 m-t-20">
-                                    <div class="flot-chart">
-                                        <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 m-t-20">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                    <span class="font-green">
-                                        <b>25</b> Disponibles
-                                    <br>
-                                        A recibir <b>1000 CUC</b>
-                                </span>
-                                        </div>
-                                        <div class="col-sm-6 p-0">
-                                    <span class="font-blue">
-                                        <b>75</b> No Disponibles
-                                        <br>
-                                        Dejo de recibir <b>2000 CUC</b>
-                                    </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <img style="margin-right: 10px;" width="35"
-                                         src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}"> <span
-                                            class="font-blue step-span "
-                                            style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>1000</b></span>
-                                </div>
-                                <div class="col-md-12">
-                                    <img style="margin-right: 10px;" width="35"
-                                         src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}"> <span
-                                            class="font-green step-span "
-                                            style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>20</b></span>
-                                </div>
-                                <div class="col-md-12">
-                                    <i class="glyphicons coins"
-                                       style="color: rgb(149, 149, 149); margin: 0px 11px;"></i> <span
-                                            class="font-green step-span "
-                                            style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>200 cuc</b></span>
-                                </div>
-                                <div class="col-md-12">
-                                    <img style="margin: 6px;" width="35"
-                                         src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}"> <span
-                                            class="font-blue step-span "
-                                            style="font-size: 17px;font-variant-caps: petite-caps">Facturado por alojamiento:</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 facturated blue">
-                                            <i class="glyphicons calendar"></i>
-                                            <span class="mes">Diciembre</span>
-                                            <span class="number">1000</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 facturated green">
-                                            <i class="glyphicons calendar"></i>
-                                            <span class="mes">Diciembre</span>
-                                            <span class="number">1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="resumen-mensual">
+                        {% if ranking | length > 0 %}
+                            {% include "MyCpCasaModuleBundle:statistics:resumen_mensual.html.twig" with { "ranking" : ranking, "ownership": ownership, "totalOwnerShipActive": totalOwnerShipActive, "totalOwnerShipByDestination": totalOwnerShipByDestination, "beforeranking": beforeranking} %}
+                        {% endif %}
                     </div>
-                    <div class="col-sm-12 m-t-20"></div>
                 </div>
             </div>
             <div class="col-md-3 oneblue-bg col-content">
@@ -236,11 +69,6 @@
                         </p>
                     </div>
                 </div>
-                {#<div id="help-step3-two" class="row">#}
-                {#<div class="col-md-12 m-t-40">#}
-                {#<p>Puede apoyarse en estas descripciones de los destinos para enriquecer la suya.</p>#}
-                {#</div>#}
-                {#</div>#}
             </div>
         </div>
 
@@ -260,5 +88,9 @@
                 </div>
             </div>
         </div>
-
+<script>
+    var last_date_calculate = "{{ lastDateCalculateRanking | date("d/m/Y") }}";
+    var statistic_ownershipID = {{ ownership.getOwnId }};
+    var url_load_date = "{{ path('update_ranking') }}";
+</script>
     {% endblock %}
