@@ -29,6 +29,7 @@ class RankingCommand extends ContainerAwareCommand {
                 ->setDescription('Calculate ranking monthly')
                 ->addArgument("month", InputArgument::OPTIONAL,"Month to calculate ranking")
                 ->addArgument("year", InputArgument::OPTIONAL,"Year to calculate ranking")
+                ->addOption("sendEmails", null, InputOption::VALUE_NONE, 'Indicate if command send emails or not')
         ;
     }
 
@@ -44,6 +45,7 @@ class RankingCommand extends ContainerAwareCommand {
         $output->writeln(date(DATE_W3C) . ': Starting ranking command...');
         $monthArg = intval($input->getArgument("month"));
         $yearArg = intval($input->getArgument("year"));
+        $sendEmails= $input->getOption('sendEmails');
 
         if($monthArg == null or $monthArg == "" or $yearArg == null or $yearArg == "")
         {
@@ -73,8 +75,11 @@ class RankingCommand extends ContainerAwareCommand {
             $output->writeln('Server is crazy. Said: ' . $e->getMessage());
         }
 
-        $output->writeln('And now we are going to send emails to accommodations owners');
-        $this->sendEmails($monthArg, $yearArg, $output);
+
+        if($sendEmails) {
+            $output->writeln('And now we are going to send emails to accommodations owners');
+            $this->sendEmails($monthArg, $yearArg, $output);
+        }
 
         $output->writeln('Oh yeah!!! Ranking is calculated!!');
         return 0;
