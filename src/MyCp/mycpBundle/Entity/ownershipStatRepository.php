@@ -194,7 +194,9 @@ class ownershipStatRepository extends EntityRepository
         foreach($municipalities as $municipality){
             $nomTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Total'));
             $nomCasaSelec=$nomenclatorRepository->findOneBy(array('nom_name'=>'Casa Selección'));
+            $nomReservRapida=$nomenclatorRepository->findOneBy(array('nom_name'=>'Reserva Rápida'));
             $nomReservInm=$nomenclatorRepository->findOneBy(array('nom_name'=>'Reserva Inmediata'));
+
             $owns=  $ownershipRepository->findBy(array('own_address_municipality'=>$municipality));
             $ownStat=new ownershipStat();
             $ownStat->setStatMunicipality($municipality);
@@ -210,6 +212,13 @@ class ownershipStatRepository extends EntityRepository
             $result[]=$ownStat;
 
             $owns=  $ownershipRepository->findBy(array('own_address_municipality'=>$municipality, 'own_inmediate_booking'=>true));
+            $ownStat=new ownershipStat();
+            $ownStat->setStatMunicipality($municipality);
+            $ownStat->setStatNomenclator($nomReservRapida);
+            $ownStat->setStatValue(count($owns));
+            $result[]=$ownStat;
+
+            $owns=  $ownershipRepository->findBy(array('own_address_municipality'=>$municipality, 'own_inmediate_booking_2'=>true));
             $ownStat=new ownershipStat();
             $ownStat->setStatMunicipality($municipality);
             $ownStat->setStatNomenclator($nomReservInm);
