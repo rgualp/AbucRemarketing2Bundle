@@ -2412,20 +2412,28 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $qb = $em->createQueryBuilder()
-            ->from("mycpBundle:ownership", "o")
-            ->join("o.rankingExtras", "rank")
+            ->from("mycpBundle:ownershipRankingExtra", "rank")
+            ->join("rank.accommodation", "o")
+            ->leftJoin("mycpBundle:ownershipRankingExtra", 'pRank', 'WITH', "pRank.accommodation = rank.accommodation")
             ->join("o.data", "data")
-            ->join("o.own_destination", "destination")
+            ->join("o.own_destination", "des")
+            ->join("rank.category", "currCat")
+            ->join("pRank.category", "prevCat")
             ->where("o.own_status = :activeStatus")
             ->andWhere("((o.own_email_1 IS NOT NULL AND o.own_email_1 != '') OR (o.own_email_2 IS NOT NULL AND o.own_email_2 != ''))")
-            ->andWhere("(MONTH(rank.startDate) = :montValue AND YEAR(rank.startDate) = :yearValue)")
-            ->select("o.own_id as id, o.own_name as name, o.own_mcp_code as code, destination.des_name as destination, rank.endDate as date
-            IF((o.own_email_1 IS NOT NULL AND o.own_email_1 != ''), o.own_email_1, o.own_email_2) as email,
+            ->andWhere("(MONTH(rank.startDate) = :monthValue AND YEAR(rank.startDate) = :yearValue)")
+            ->andWhere("DATE_DIFF(rank.startDate, pRank.endDate) = 1")
+            ->select("o.own_id as id, o.own_name as name, o.own_mcp_code as code, des.des_name as destination, rank.endDate as date,
+            IF(o.own_email_1 IS NOT NULL AND o.own_email_1 != '', o.own_email_1, o.own_email_2) as email,
             IF(o.own_homeowner_1 IS NOT NULL AND o.own_homeowner_1 != '', o.own_homeowner_1, o.own_homeowner_2) as homeOwner,
-            data.visitsLastWeek, rank.totalAvailableRooms, rank.totalNonAvailableRooms, rank.totalReservedRooms, rank.totalFacturation, rank.currentMonthFacturation, rank.place, rank.destinationPlace,
-            rank.ranking
-            ")
-        ;
+            data.visitsLastWeek as visits, rank.totalAvailableRooms, rank.totalNonAvailableRooms, rank.totalReservedRooms, rank.totalFacturation, rank.currentMonthFacturation, rank.place, rank.destinationPlace,
+            rank.ranking, rank.place, rank.destinationPlace, pRank.ranking as previousRank, pRank.place as previousPlace, pRank.destinationPlace as previousDestinationPlace,
+            'es' as user_locale, currCat.nom_name as currentCategory, prevCat.nom_name as previousCategory")
+            ->setParameter("activeStatus", OwnershipStatuses::ACTIVE)
+            ->setParameter("monthValue", $month)
+            ->setParameter("yearValue", $year)
+            ->getQuery();
+        return $qb->getResult();
     }
 
     public function getAllDateRankingCalculate(){

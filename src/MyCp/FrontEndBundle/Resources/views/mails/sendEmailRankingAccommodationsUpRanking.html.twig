@@ -1,0 +1,30 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <p style="font-family: Arial; font-size: 14px">
+    <p>Hola, {{ homeOwner }}:</p>
+    <p>Cada día que pasa tu alojamiento gana más seguidores en <b>MyCasaParticular</b>. Eres popular entre los viajeros y recibes muy buenas recomendaciones.</p>
+    <p>Todo es posible porque tu gestión como anfitrión está dando excelentes resultados. Este es el momento de poner el pie en el acelerador y llegar a la puntuación máxima.</p>
+    <p>Esfuérzate al tope y descubrirás las ventajas de ser un <b>Anfitrión Estrella</b> de <b>MyCasaParticular</b>. Podemos ayudarte a subir en el ranking si consultas nuestros <a>Consejos para ser una Best Casa</a>.</p>
+    <p>Te mantenemos al tanto de cada avance que hagas. Verte escalar posiciones será estupendo. Cuenta con nosotros para lograrlo.</p>
+    <p>
+        <br/>
+        <b>SIGUE LAS ESTADÍSTICAS DE TU CASA ESTE MES</b>
+    </p>
+    <p>{{ date | date('d/m/Y') }}</p>
+    <p><b>Tu casa tiene {{ ranking }} puntos en el ranking</b></p>
+    <p>Vas en {{ place }} lugar entre los alojamientos de <b>MyCasaParticular</b></p>
+    <p><b>Eres el número {{ destinationPlace }} entre los alojamientos de {{ destination }}</b></p>
+    <p>El perfil de tu alojamiento en <b>MyCasaParticular</b> recibió {{ visits }} visitas</p>
+    <p>Los clientes solicitaron {{ totalAvailableRooms }} habitaciones disponibles</p>
+    <p>Los clientes solicitaron {{ totalNonAvailableRooms }} habitaciones, que se encontraban no disponibles</p>
+    <p>Tienes {{ totalReservedRooms }} habitaciones reservada, por ello debes facturar {{ totalFacturation | number_format(2) }} CUC</p>
+    <p><b>En este mes has facturado {{ currentMonthFacturation | number_format(2) }} CUC </b></p>
+    <p>
+        <br/> <br/>
+        Sigue avanzando hasta conseguir escalar nuevas posiciones. Te lo recomendamos de <span style="font-size: 20px">&#x2661;</span>
+    </p>
+    <p><b>Equipo de MyCasaParticular</b></p>
+
+
+{% endblock %}
