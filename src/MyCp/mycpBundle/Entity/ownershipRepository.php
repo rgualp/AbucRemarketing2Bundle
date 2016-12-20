@@ -2443,10 +2443,17 @@ class ownershipRepository extends EntityRepository {
         return $objects = $query->getResult();
     }
 
+    public function getAllYearRankingCalculate(){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("select DISTINCT rank.year from mycpBundle:ownershipRankingExtraYear rank order by rank.year ASC");
+
+        return $objects = $query->getResult();
+    }
+
     public function getRankingStatisticsByOwnership($ownership, $month, $year){
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
          FROM mycpBundle:ownershipRankingExtra rank
          JOIN rank.accommodation o
          LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
@@ -2467,7 +2474,7 @@ class ownershipRepository extends EntityRepository {
     public function getRankingByPosition($position, $month, $year){
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
          FROM mycpBundle:ownershipRankingExtra rank
          JOIN rank.accommodation o
          LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
@@ -2487,7 +2494,7 @@ class ownershipRepository extends EntityRepository {
     public function getRankingDestinationByPosition($position, $destination, $month, $year){
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place = previousRank.place, 'mantuvo', 'bajo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace = previousRank.destinationPlace, 'mantuvo', 'bajo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
          FROM mycpBundle:ownershipRankingExtra rank
          JOIN rank.accommodation o
          LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
@@ -2530,6 +2537,89 @@ class ownershipRepository extends EntityRepository {
 
         return false;
 
+    }
+
+    //By Year
+
+    public function getYearRankingStatistics($ownership, $year){
+
+        $result = $this->getYearRankingStatisticsByOwnership($ownership, $year);
+
+        if (count($result) > 0){
+            $upPosition = $this->getYearRankingByPosition($result[0]['current_rank']->getPLace() - 1, $year);
+            $downPosition = $this->getYearRankingByPosition($result[0]['current_rank']->getPLace() + 1, $year);
+
+            $upDestinationPosition = $this->getYearRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() - 1, $ownership->getOwnDestination()->getDesId(), $year);
+            $downDestinationPosition = $this->getYearRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() + 1, $ownership->getOwnDestination()->getDesId(), $year);
+
+            return array(
+                "ranking" => $result,
+                "upPosition" => $upPosition,
+                "downPosition" => $downPosition,
+                "upDestinationPosition" => $upDestinationPosition,
+                "downDestinationPosition" => $downDestinationPosition
+            );
+        }
+
+        return false;
+
+    }
+
+    public function getYearRankingStatisticsByOwnership($ownership, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF( rank.place > previousRank.place , 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtraYear rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtraYear previousRank WITH previousRank.accommodation = rank.accommodation AND (rank.year - previousRank.year) = 1
+         WHERE o.own_status = 1
+         AND rank.accommodation = :id
+         AND rank.year = :yearValue
+         ");
+
+        $query->setParameter("yearValue", $year)
+            ->setParameter("id", $ownership->getOwnId());
+
+        return $objects = $query->getResult();
+
+    }
+
+    public function getYearRankingByPosition($position, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF( rank.place > previousRank.place , 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtraYear rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtraYear previousRank WITH previousRank.accommodation = rank.accommodation AND (rank.year - previousRank.year) = 1
+         WHERE o.own_status = 1
+         AND rank.place = :place
+         AND rank.year = :yearValue
+         ");
+
+        $query->setParameter("yearValue", $year)
+            ->setParameter("place", $position);
+
+        return $objects = $query->getResult();
+    }
+
+    public function getYearRankingDestinationByPosition($position, $destination, $year){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF( rank.place > previousRank.place , 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+         FROM mycpBundle:ownershipRankingExtraYear rank
+         JOIN rank.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtraYear previousRank WITH previousRank.accommodation = rank.accommodation AND (rank.year - previousRank.year) = 1
+         WHERE o.own_status = 1
+         AND rank.destinationPlace = :place
+         AND o.own_destination = :destination
+         AND rank.year = :yearValue
+         ");
+
+        $query->setParameter("yearValue", $year)
+            ->setParameter("place", $position)
+            ->setParameter("destination", $destination);
+
+        return $objects = $query->getResult();
     }
 
 }

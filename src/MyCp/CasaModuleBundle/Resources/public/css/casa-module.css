@@ -958,11 +958,11 @@ ul.ranking-mycp li span:last-child{
 .facturated.green span.number{
     color: #64a433;
 }
-#flot-pie-chart .pieLabel div{
+.flot-chart-pie-content .pieLabel div{
     color: #fff !important;
     font-size: 18px !important;
 }
-#flot-pie-chart .pieLabel div i{
+.flot-chart-pie-content .pieLabel div i{
     font-size: 24px !important;
 }
 
@@ -993,7 +993,18 @@ ul.ranking-mycp li span:last-child{
 #calendar-date-content .span-dates.dateactive{
     display: inline-block;
 }
+
+#calendar-year-content .span-dates{
+    display: none;
+}
+#calendar-year-content .span-dates.dateactive{
+    display: inline-block;
+}
+
 .btn-control-calendar.inactive{
+    color: #ccc;
+}
+.btn-control-year.inactive{
     color: #ccc;
 }
 

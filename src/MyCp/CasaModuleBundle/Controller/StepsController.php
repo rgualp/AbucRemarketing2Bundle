@@ -1148,18 +1148,25 @@ class StepsController extends Controller
         $code = $this->getUser()->getName();
 
         $lastDateCalculateRanking = $em->getRepository("mycpBundle:ownership")->getAllDateRankingCalculate();
+        $allYearCalculateRanking = $em->getRepository("mycpBundle:ownership")->getAllYearRankingCalculate();
+
         $totalOwnerShipActive = count($em->getRepository("mycpBundle:ownership")->getAll("",1)->getResult());
         $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("",1,"","","",$ownership->getOwnDestination()->getDesId())->getResult());
 
 //        dump($lastDateCalculateRanking);die;
         $ranking = array();
+        $yearRanking = array();
 
         if (count($lastDateCalculateRanking) > 0){
             $cant_dates = count($lastDateCalculateRanking) - 1;
             $lastDate = $lastDateCalculateRanking[$cant_dates]['startDate'];
             $year = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y");
             $mount = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"m");
+
             $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+            $yearRanking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year);
+
+
 
             $datestring = date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y-m-d");
             $beforedate = strtotime($datestring.' -1 months');
@@ -1168,6 +1175,7 @@ class StepsController extends Controller
             $mount = (int)date("m",$beforedate);
 
             $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+            $beforeYearranking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year - 1);
         }
 
         //$canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
@@ -1175,12 +1183,15 @@ class StepsController extends Controller
         return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
             'ownership'=>$ownership,
             'ranking'=>$ranking,
+            'yearranking'=>$yearRanking,
             'dashboard'=>true,
             'lastDateCalculateRanking' => $lastDate,
             'dates_with_ranking' => $lastDateCalculateRanking,
+            'years_with_ranking' => $allYearCalculateRanking,
             "totalOwnerShipActive" => $totalOwnerShipActive,
             "totalOwnerShipByDestination" => $totalOwnerShipByDestination,
-            "beforeranking" => $beforeranking
+            "beforeranking" => $beforeranking,
+            "beforeYearranking" => $beforeYearranking,
         ));
     }
 
@@ -1229,5 +1240,40 @@ class StepsController extends Controller
         return $html;
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="update_year_ranking", path="/update_year_ranking")
+     */
+    public function updateYearRankingAction(Request $request)
+    {
+        $ownid = $request->get('ownershipID');
+        $year = (int)$request->get('year');
+
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_id" => $ownid));
+
+        $html = "<p>No existe datos del ranking para este mes</p>";
+        if ($ownership){
+            $ranking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year);
+            $beforeranking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year-1);
+
+            $totalOwnerShipActive = count($em->getRepository("mycpBundle:ownership")->getAll("",1)->getResult());
+            $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("",1,"","","",$ownership->getOwnDestination()->getDesId())->getResult());
+
+            if (count($ranking) > 0){
+                return $this->render('MyCpCasaModuleBundle:statistics:resumen_anual.html.twig', array(
+                    "ranking" => $ranking,
+                    "ownership" => $ownership,
+                    "totalOwnerShipActive" => $totalOwnerShipActive,
+                    "totalOwnerShipByDestination" => $totalOwnerShipByDestination,
+                    "beforeranking" => $beforeranking
+                ));
+            }
+
+        }
+
+        return $html;
+    }
 
 }
