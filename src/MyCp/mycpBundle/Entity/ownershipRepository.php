@@ -113,14 +113,21 @@ class ownershipRepository extends EntityRepository {
             ->setOwnSmsNotifications($smsNotification);
 
 
+        $nomenclator = null;
         if($active_inmediate_booking_2)
         {
             $ownership->setOwnInmediateBooking(false)
                 ->setOwnInmediateBooking2($active_inmediate_booking_2);
+            $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'riModality'));
         }
-        else
+        elseif($active_inmediate_booking) {
             $ownership->setOwnInmediateBooking($active_inmediate_booking)
                 ->setOwnInmediateBooking2(false);
+
+            $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'rrModality'));
+        }
+        else
+            $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'normalModality'));
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
@@ -262,6 +269,16 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
         $em->persist($ownership);
 
+        //Crear frecuencia de modalidad
+        if($nomenclator != null)
+        {
+            $freq = new accommodationModalityFrequency();
+            $freq->setAccommodation($ownership);
+            $freq->setStartDate(new \DateTime());
+            $freq->setModality($nomenclator);
+            $em->persist($freq);
+        }
+
         //save client casa
         if($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
@@ -359,14 +376,49 @@ class ownershipRepository extends EntityRepository {
             ->setConfidence($confidence)
             ->setOwnSmsNotifications($smsNotification);
 
+        $nomenclator = null;
         if($active_inmediate_booking_2)
         {
             $ownership->setOwnInmediateBooking(false)
                 ->setOwnInmediateBooking2($active_inmediate_booking_2);
+
+            $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'riModality'));
+
+
         }
-        else
+        elseif($active_inmediate_booking){
             $ownership->setOwnInmediateBooking($active_inmediate_booking)
                 ->setOwnInmediateBooking2(false);
+
+            $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'rrModality'));
+        }
+        else
+        {
+            $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'normalModality'));
+        }
+
+        if($nomenclator != null)
+        {
+            $oldFreq = $em->getRepository("mycpBundle:accommodationModalityFrequency")->findOneBy(array("accommodation" => $ownership->getOwnId()),
+                array("startDate" => "DESC"));
+
+
+
+            if($oldFreq != null && $oldFreq->getModality()->getNomId() != $nomenclator->getNomId())
+            {
+                $oldFreq->setEndDate(new \DateTime());
+                $em->persist($oldFreq);
+            }
+
+            if($oldFreq == null || $oldFreq->getModality()->getNomId() != $nomenclator->getNomId()) {
+                $freq = new accommodationModalityFrequency();
+                $freq->setAccommodation($ownership);
+                $freq->setStartDate(new \DateTime());
+                $freq->setModality($nomenclator);
+                $em->persist($freq);
+            }
+        }
+
 
         if($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);

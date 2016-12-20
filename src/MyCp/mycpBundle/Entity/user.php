@@ -188,6 +188,11 @@ class user implements AdvancedUserInterface,  \Serializable
     private $register_notification;
 
     /**
+     * @ORM\OneToMany(targetEntity="failure", mappedBy="user")
+     */
+    private $createdFailures;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="online", type="boolean", nullable=true)
@@ -199,6 +204,7 @@ class user implements AdvancedUserInterface,  \Serializable
         $this->modified_reservations = new ArrayCollection();
         $this->tourOperators = new ArrayCollection();
         $this->createdPenalties = new ArrayCollection();
+        $this->createdFailures = new ArrayCollection();
     }
 
 
@@ -1071,5 +1077,46 @@ class user implements AdvancedUserInterface,  \Serializable
     public function getOnline()
     {
         return $this->online;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedFailures()
+    {
+        return $this->createdFailures;
+    }
+
+    /**
+     * @param mixed $createdFAilures
+     * @return mixed
+     */
+    public function setCreatedFailures($createdFAilures)
+    {
+        $this->createdFailures = $createdFAilures;
+        return $this;
+    }
+
+    /**
+     * Add created failure
+     *
+     * @param \MyCp\mycpBundle\Entity\failure $failure
+     *
+     * @return user
+     */
+    public function addCreatedFailure(failure $failure)
+    {
+        $this->createdFailures[] = $failure;
+        return $this;
+    }
+
+    /**
+     * Remove created failure
+     *
+     * @param \MyCp\mycpBundle\Entity\failure $failure
+     */
+    public function removeCreatedFailure(failure $failure)
+    {
+        $this->createdFailures->removeElement($failure);
     }
 }

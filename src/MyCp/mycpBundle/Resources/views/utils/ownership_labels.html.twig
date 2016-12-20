@@ -13,7 +13,10 @@
                                                         <br/><span class="label label-info">Casa Selección</span>
         {%endif%}
         {%if ownership.ownInmediateBooking%}
-                                                        <br/><span class="label label-info1">Reserva Rápida</span>
+               <br/><span class="label label-important"><i class="glyphicons electricity white"></i> Reserva Rápida</span>
+        {%endif%}
+        {%if ownership.ownInmediateBooking2%}
+            <br/><span class="label" style="color: #fff; background-color: #ff0000;"><i class="fa fa-rocket"></i> Reserva Inmediata</span>
         {%endif%}
         {%if ownership.ownNotRecommendable%}
                                                         <br/><span class="label label-warning">No recomendable</span>
