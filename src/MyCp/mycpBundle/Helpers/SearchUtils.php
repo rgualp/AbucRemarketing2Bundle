@@ -209,6 +209,7 @@ class SearchUtils {
                              o.own_geolocate_y as longitude,
                              o.own_geolocate_x as latitude,
                              o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                             o.own_availability_update as avaliableUpdate,
                             pho.pho_name as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
@@ -278,6 +279,8 @@ class SearchUtils {
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
                             o.own_inmediate_booking as OwnInmediateBooking,
+                            o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                             o.own_availability_update as avaliableUpdate,
                             o.own_langs as langs
                              FROM mycpBundle:room r
                              JOIN r.room_ownership o
@@ -643,21 +646,23 @@ class SearchUtils {
             case OrderByHelper::DEFAULT_ORDER_BY:
                 return '';
             case OrderByHelper::SEARCHER_BEST_VALUED:
-                return "  ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+                return "  ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
             case OrderByHelper::SEARCHER_A_Z:
-                return "  ORDER BY o.own_name ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+                return "  ORDER BY o.own_name ASC, o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
             case OrderByHelper::SEARCHER_Z_A:
-                return "  ORDER BY o.own_name DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+                return "  ORDER BY o.own_name DESC, o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
             case OrderByHelper::SEARCHER_PRICE_HIGH_LOW:
-                return "  ORDER BY o.own_minimum_price DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+                return "  ORDER BY o.own_minimum_price DESC, o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
             case OrderByHelper::SEARCHER_PRICE_LOW_HIGH:
-                return "  ORDER BY o.own_minimum_price ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
+                return "  ORDER BY o.own_minimum_price ASC, o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
             case OrderByHelper::SEARCHER_RESERVATIONS_HIGH_LOW:
-                return "  ORDER BY count_reservations DESC, o.own_ranking DESC, o.own_comments_total DESC ";
+                return "  ORDER BY count_reservations DESC,o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC ";
             case OrderByHelper::SEARCHER_RESERVATIONS_LOW_HIGH:
-                return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
+                return "  ORDER BY count_reservations ASC,o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC ";
             case OrderByHelper::SEARCHER_WORST_VALUED:
-                return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
+                return "  ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_AVALIABLE_UPDATE:
+                return "  ORDER BY o.own_inmediate_booking_2 DESC, o.own_availability_update DESC";
             default:
                 return $order_by;
 

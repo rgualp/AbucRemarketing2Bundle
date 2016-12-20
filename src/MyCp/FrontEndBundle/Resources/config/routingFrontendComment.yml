@@ -1,3 +1,3 @@
 frontend_insert_comment:
-    locales:  { en: "/insert-comment/{ownid}", es: "/insertar-commentario/{ownid}", de: "/insert-comment/{ownid}" }
+    locales:  { en: "/insert-comment/{ownid}", es: "/insertar-commentario/{ownid}", de: "/insert-comment/{ownid}", fr: "/insert-comment/{ownid}", it: "/insert-comment/{ownid}" }
     defaults: { _controller: FrontEndBundle:Comment:insert }

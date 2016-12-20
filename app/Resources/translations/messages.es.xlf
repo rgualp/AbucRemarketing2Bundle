@@ -4006,6 +4006,46 @@
                 <source>twitter</source>
                 <target>twitter</target>
             </trans-unit>
+            <trans-unit id="1010">
+                <source>Calendario Actualizado</source>
+                <target>Calendario Actualizado</target>
+            </trans-unit>
+            <trans-unit id="1011">
+                 <source>NOTIFICATIONS</source>
+                 <target>Notificaciones</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                 <source>YOU HAVE</source>
+                 <target>Tu tienes</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                 <source>YOU_HAVE_AN_NEW_NOTIFICATION</source>
+                 <target>Tienes una nueva notificación</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                 <source>NOTIFICATION</source>
+                 <target>Notificación</target>
+            </trans-unit>
+            <trans-unit id="1015">
+                 <source>STATEMENT</source>
+                 <target>Estado</target>
+            </trans-unit>
+            <trans-unit id="1016">
+                 <source>with Facebook</source>
+                 <target>con facebook</target>
+            </trans-unit>
+            <trans-unit id="1017">
+                 <source>o</source>
+                 <target>o</target>
+            </trans-unit>
+            <trans-unit id="1018">
+                <source>OFFER_RECOMMENDATION</source>
+                <target><![CDATA[Apreciamos en gran medida su interés por MyCasaParticular.com.<br/>
+
+                        Lamentablemente la casa estará ocupada para la fecha deseada.<br/>
+
+                        Le recomendamos buscar en nuestro sitio, las casas de reserva inmediata que se encuentren disponibles para la fecha u otras casas de su agrado.]]></target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

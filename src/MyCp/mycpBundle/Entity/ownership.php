@@ -589,9 +589,9 @@ class ownership {
     private $insertedInCasaModule;
 
     /**
-     * @ORM\OneToOne(targetEntity="ownershipRankingExtra", mappedBy="accommodation")
+     * @ORM\OneToMany(targetEntity="ownershipRankingExtra", mappedBy="accommodation")
      */
-    private $rankingExtra;
+    private $rankingExtras;
 
     /**
      * @ORM\OneToMany(targetEntity="penalty", mappedBy="accommodation")
@@ -602,6 +602,24 @@ class ownership {
      * @ORM\OneToMany(targetEntity="failure", mappedBy="accommodation")
      */
     private $failures;
+
+    /**
+     * @ORM\OneToMany(targetEntity="accommodationCalendarFrequency", mappedBy="accommodation")
+     */
+    private $calendarUpdateFrequency;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="count_visits", type="integer")
+     */
+    private $count_visits;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="confidence", type="boolean")
+     */
+    private $confidence;
 
 
     /**
@@ -630,6 +648,9 @@ class ownership {
         $this->insertedInCasaModule = false;
         $this->penalties = new ArrayCollection();
         $this->failures = new ArrayCollection();
+        $this->calendarUpdateFrequency = new ArrayCollection();
+        $this->rankingExtras = new ArrayCollection();
+        $this->confidence = false;
     }
 
     /**
@@ -2068,7 +2089,7 @@ class ownership {
 
     /**
      * @param mixed $awards
-     * @return this
+     * @return mixed
      */
     public function setAwards($awards)
     {
@@ -2086,7 +2107,7 @@ class ownership {
 
     /**
      * @param mixed $ownershipKeywordOwnership
-     * @return this
+     * @return mixed
      */
     public function setOwnershipKeywordOwnership($ownershipKeywordOwnership)
     {
@@ -2522,18 +2543,18 @@ class ownership {
     /**
      * @return mixed
      */
-    public function getRankingExtra()
+    public function getRankingExtras()
     {
-        return $this->rankingExtra;
+        return $this->rankingExtras;
     }
 
     /**
-     * @param mixed $rankingExtra
+     * @param mixed $rankingExtras
      * @return mixed
      */
-    public function setRankingExtra($rankingExtra)
+    public function setRankingExtras($rankingExtras)
     {
-        $this->rankingExtra = $rankingExtra;
+        $this->rankingExtras = $rankingExtras;
         return $this;
     }
 
@@ -2643,6 +2664,83 @@ class ownership {
     public function removeFailure(failure $failure)
     {
         $this->failures->removeElement($failure);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCalendarUpdateFrequency()
+    {
+        return $this->calendarUpdateFrequency;
+    }
+
+    /**
+     * @param mixed $calendarUpdateFrequency
+     * @return mixed
+     */
+    public function setCalendarUpdateFrequency($calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency = $calendarUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Add created calendarUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationCalendarFrequency $calendarUpdateFrequency
+     *
+     * @return user
+     */
+    public function addCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency[] = $calendarUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Remove created calendarUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationCalendarFrequency $calendarUpdateFrequency
+     */
+    public function removeCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
+    {
+        $this->calendarUpdateFrequency->removeElement($calendarUpdateFrequency);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountVisits()
+    {
+        return $this->count_visits;
+    }
+
+    /**
+     * @param int $count_visits
+     * @return mixed
+     */
+    public function setCountVisits($count_visits)
+    {
+        $this->count_visits = $count_visits;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isConfidence()
+    {
+        return $this->confidence;
+    }
+
+    /**
+     * @param boolean $confidence
+     * @return mixed
+     */
+    public function setConfidence($confidence)
+    {
+        $this->confidence = $confidence;
+        return $this;
     }
 
 

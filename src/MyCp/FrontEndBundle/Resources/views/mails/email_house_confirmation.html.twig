@@ -59,7 +59,37 @@ Por este medio le confirmamos la reservación del cliente correspondientes al bo
 <br/>
 <br/>
 {% endfor %}
+
+<br/>
+<br/>
+<br/>
 El cliente debe pagar en su casa particular el saldo total de <b>{{ total_price }} CUC</b> en efectivo. La comisión y gastos por reservación ya han sido descontados por adelantado al turista.
+<br/>
+
+{% if houseFrom != null %}
+<h4>El cliente se hospedó antes en la casa:</h4>
+    <br/>
+<b>Nombre de la casa:</b> {{ houseFrom.ownName }}
+<br/>
+<b>Dirección:</b> {{ houseFrom.fullAddress }}
+<br/>
+<b>Nombre del Propietario:</b> {{ houseFrom.ownHomeowner1 }}
+<br/>
+<b>Teléfonos:</b> {{ houseFrom.ownPhoneNumber }} | {{ houseFrom.ownMobileNumber }}
+{% endif %}
+<br/>
+<br/>
+{#{% if houseTo != null %}#}
+    {#<h4>Despues de la estancia en su alojamiento se dirige hacia la casa:</h4>#}
+    {#<br/>#}
+    {#<b>Nombre de la casa:</b> {{ houseTo.ownName }}#}
+    {#<br/>#}
+    {#<b>Dirección:</b> {{ houseTo.fullAddress }}#}
+    {#<br/>#}
+    {#<b>Nombre del Propietario:</b> {{ houseTo.ownHomeowner1 }}#}
+    {#<br/>#}
+    {#<b>Teléfonos:</b> {{ houseTo.ownPhoneNumber }} | {{ houseTo.ownMobileNumber }}#}
+{#{% endif %}#}
 <br/>
 <br/>
 <b>Importante:</b> Si usted desea comunicarse directamente con el cliente por alguna razón tenga en cuenta el "idioma de comunicación del cliente".

@@ -6,12 +6,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 use MyCp\FrontEndBundle\Helpers\Time;
+use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\Notifications;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -241,33 +243,140 @@ class GeneralReservationService extends Controller
 
             }
 
+
             $reservation->setGenResTotalInSite($totalPrice);
             $reservation->setGenResSaved(1);
             $reservation->setGenResNights($nights);
             $reservation->setModified(new \DateTime());
             $reservation->setModifiedBy($this->getLoggedUserId());
+            $send_notification = false;
             if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
                 if ($non_available_total > 0 && $non_available_total == $details_total) {
+                    $status = generalReservation::STATUS_NOT_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
-                } else if ($available_total > 0 && $available_total == $details_total) {
-                    $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-                } else if ($non_available_total > 0 && $available_total > 0)
-                    $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+                    //Enviar oferta con 3 casas de reserva inmediata
+                    $service_email = $this->container->get('Email');
+                    $emailManager = $this->container->get('mycp.service.email_manager');
+                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+                    $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
 
+                    $ownership = $this->em->getRepository('mycpBundle:ownership')->find($reservation->getGenResOwnId()->getOwnId());
+
+                    $owns_in_destination = $this->em->getRepository("mycpBundle:ownership")->getRecommendableAccommodations($reservation->getGenResFromDate(), $reservation->getGenResToDate(), $ownership->getOwnMinimumPrice(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $reservation->getGenResUserId()->getUserId(),null,true);
+
+                    $emailBody = $emailManager->getViewContent('FrontEndBundle:mails:sendOffer.html.twig',
+                        array('user' => $reservation->getGenResUserId(),
+                            'owns_in_destination' =>$owns_in_destination,
+                            'user_locale' => $userLocale));
+
+                    $subject= $this->get('translator')->trans(
+                        'NEW_OFFER_TOURIST_SUBJECT',
+                        array(),
+                        'messages',
+                        $userLocale
+                    );
+                    $service_email->sendEmail($subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $reservation->getGenResUserId()->getUserEmail(), $emailBody);
+
+                } else if ($available_total > 0 && $available_total == $details_total) {
+                    $status = generalReservation::STATUS_AVAILABLE;
+                    $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+                    $send_notification = true;
+                } else if ($non_available_total > 0 && $available_total > 0){
+                    $status = generalReservation::STATUS_PARTIAL_AVAILABLE;
+                    $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+                }
                 else if ($cancelled_total > 0 && $cancelled_total != $details_total) {
+                    $status = generalReservation::STATUS_PARTIAL_CANCELLED;
                     $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
-                } else if ($outdated_total > 0 && $outdated_total == $details_total)
+                } else if ($outdated_total > 0 && $outdated_total == $details_total){
+                    $status = generalReservation::STATUS_OUTDATED;
                     $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+                }
+
             }
             if ($cancelled_total > 0 && $cancelled_total == $details_total) {
+                $status = generalReservation::STATUS_CANCELLED;
                 $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
             }
+
+            if ($send_notification){
+                if ($status == generalReservation::STATUS_AVAILABLE)
+                    $status_url = $this->generateUrl('frontend_mycasatrip_available');
+                else
+                    $status_url = $this->generateUrl('frontend_mycasatrip_pending');
+
+                $ownership = $reservation->getGenResOwnId();
+                $own_name = Utils::urlNormalize($ownership->getOwnName());
+                $own_url = $this->generateUrl('frontend_details_ownership', array('own_name' => $own_name));
+                $rating = $ownership->getOwnRating();
+                $photo = $ownership->getPhotos();
+                if (count($photo) > 0){
+                    $file_name = $photo[0]->getOwnPhoPhoto()->getPhoName();
+                }else{
+                    $file_name = "no_photo.png";
+                }
+                $url_images = $this->container->get('templating.helper.assets')->getUrl("uploads/ownershipImages/").$file_name;
+
+                if ($reservation->getGenResUserId()->getUserLanguage()){
+                    $lang = $reservation->getGenResUserId()->getUserLanguage()->getLangCode();
+                }else{
+                    $lang = "en";
+                }
+
+
+                $from = $this->get('translator')->trans(
+                    'FROM_DATE',
+                    array(),
+                    'messages',
+                    $lang
+                );
+                $to = $this->get('translator')->trans(
+                    'TO_DATE',
+                    array(),
+                    'messages',
+                    $lang
+                );
+                $status = $this->get('translator')->trans(
+                    'AVAILABLE',
+                    array(),
+                    'messages',
+                    $lang
+                );
+                $title_status = $this->get('translator')->trans(
+                    'STATEMENT',
+                    array(),
+                    'messages',
+                    $lang
+                );
+
+
+                $metadata = array(
+                    "msg" => $ownership->getOwnName(),
+                    "status" => $title_status.': <b>'.$status.'</b>',//generalReservation::getStatusName($status),
+                    "codigo" => $reservation->getCASId(),
+                    "from_to_date" => $from.": ".date_format($reservation->getGenResFromDate(),"d-m-Y")." ".$to.": ".date_format($reservation->getGenResToDate(),"d-m-Y"),
+                    "url_status" => $status_url,
+                    "own_url" => $own_url,
+                    "rating" => $rating,
+                    "url_images" => $url_images
+                );
+                /*$hash_email = hash('sha256', $reservation->getGenResUserId()->getUserEmail());
+                $param = array(
+                    'to' => [$hash_email."_mycp"],
+                    'pending' => 0,
+                    "metadata" => $metadata
+                );
+                $url = $this->container->getParameter('url.mean')."api/notifications/";
+                Notifications::sendNotifications($url, $param, $this->getRequest()->getSession()->get('access-token'));*/
+            }
+
             $this->em->persist($reservation);
             $this->em->flush();
             $this->logger->saveLog('Edit entity for ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
-        }
 
+        }
         return $errors;
+        
     }
 
     private function processPost($post)

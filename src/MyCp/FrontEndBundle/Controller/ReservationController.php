@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use MyCp\mycpBundle\Entity\mycpService;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,10 +42,14 @@ class ReservationController extends Controller {
         else
             return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
     }
-    public function reservationAfterLoginAction(Request $request){
+    public function reservationAfterLoginAction(Request $request,$option){
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsAfterLogin($user_ids);
+        if($option==1)
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsQueryBookingAfterLogin($user_ids);
+        if($option==2)
+            $cartItems = $em->getRepository('mycpBundle:cart')->getCartItemsAfterLogin($user_ids);
+
         $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
         $insert=1;
         //Validar que no se haga una reserva que ya fuese realizada
@@ -69,14 +74,24 @@ class ReservationController extends Controller {
             }
             $own_ids=array();
             //Es que el usuario mando a hacer una reserva
-            $own_ids=$this->checkDispo($arrayIdCart,$request,true);
-            $request->getSession()->set('reservation_own_ids', $own_ids);
-            return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+            if($option==2){
+                $own_ids=$this->checkDispo($arrayIdCart,$request,true);
+                $request->getSession()->set('reservation_own_ids', $own_ids);
+                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+            }
+            if($option==1){
+                $own_ids=$this->checkDispo($arrayIdCart,$request,false);
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
+            }
+
         }
         else{
             $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
             $this->get('session')->getFlashBag()->add('message_global_error', $message);
-            return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            if($option==2)
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            if($option==1)
+                return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
         }
     }
     /**
@@ -90,6 +105,7 @@ class ReservationController extends Controller {
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
+        $cartItems= array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         foreach($arrayIdCart as $temp){
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
@@ -242,7 +258,6 @@ class ReservationController extends Controller {
                 );
             }
         }
-
         if(!$inmediatily_booking){
             //Enviando mail al reservation team
             foreach($generalReservations as $genResId){
@@ -254,11 +269,10 @@ class ReservationController extends Controller {
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
             $em->remove($cartItem);
         }
-        $em->flush();
+        $em->flush();                 //esta haciendo una reserva
         if(!$inmediatily_booking) //esta consultando la disponibilidad
             return true;
-        else                      //esta haciendo una reserva
-            return $own_ids;
+        return $own_ids;
     }
 
     public function reservationAction(Request $request) {
@@ -586,6 +600,201 @@ class ReservationController extends Controller {
         return $this->forward(
                         'FrontEndBundle:Reservation:viewConfirmation', array('id_booking' => $id_booking)
         );
+    }
+
+
+    public function testPaymentEmailsAction(Request $request, $idbooking)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $idbooking));
+
+        $booking = $payment->getBooking();
+        $bookingId = $booking->getBookingId();
+        $user = $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+        $userId = $user->getUserId();
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $userId));
+        $ownershipReservations = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_reservation_booking' => $bookingId), array("own_res_gen_res_id" => "ASC"));
+
+        $rooms = array();
+
+        foreach($ownershipReservations as $reservation)
+        {
+            $room = $em->getRepository('mycpBundle:room')->find($reservation->getOwnResSelectedRoomId());
+
+            $rooms[$reservation->getOwnResId()] = $room;
+        }
+
+        $arrayPhotos = array();
+        $arrayNights = array();
+        $arrayNightsByOwnershipReservation = array();
+        $arrayHouses = array();
+        $arrayHousesIds = array();
+        $arrayOwnershipReservationByHouse = array();
+        $timeService = $this->get('time');
+
+        $cont = 0;
+
+        foreach ($ownershipReservations as $own) {
+            $rootOwn = $own->getOwnResGenResId()->getGenResOwnId();
+            $rootOwnId = $rootOwn->getOwnId();
+
+            $photos = $em
+                ->getRepository('mycpBundle:ownership')
+                ->getPhotos($rootOwnId);
+
+            array_push($arrayPhotos, $photos);
+            $array_dates = $timeService->datesBetween(
+                $own->getOwnResReservationFromDate()->getTimestamp(),
+                $own->getOwnResReservationToDate()->getTimestamp()
+            );
+            array_push($arrayNights, count($array_dates) - 1);
+            $arrayNightsByOwnershipReservation[$own->getOwnResId()] = count($array_dates) - 1;
+
+            $insert = true;
+            foreach ($arrayHousesIds as $item) {
+                if ($rootOwnId == $item) {
+                    $insert = false;
+                }
+            }
+
+            if ($insert) {
+                array_push($arrayHousesIds, $rootOwnId);
+                array_push($arrayHouses, $rootOwn);
+            }
+
+            if (isset($arrayOwnershipReservationByHouse[$rootOwnId])) {
+                $temp_array = $arrayOwnershipReservationByHouse[$rootOwnId];
+            } else {
+                $temp_array = array();
+            }
+
+            array_push($temp_array, $own);
+            $arrayOwnershipReservationByHouse[$rootOwnId] = $temp_array;
+            $cont++;
+        }
+
+//        $pdfFilePath = $this->createBookingVoucherIfNotExisting($bookingId);
+
+        // Send email to customer
+        $emailService = $this->get('Email');
+
+        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+//        $body = $this->render('FrontEndBundle:mails:boletin.html.twig', array(
+//            'bookId' => $bookingId,
+//            'user' => $user,
+//            'reservations' => $ownershipReservations,
+//            'photos' => $arrayPhotos,
+//            'nights' => $arrayNights,
+//            'user_locale' => $userLocale,
+//            'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null,
+//            'reservationStatus' => (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
+//        ));
+
+        $locale = $this->get('translator');
+        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
+
+        $logger = $this->get('logger');
+        $userEmail = trim($user->getUserEmail());
+
+//        try {
+//            $emailService->sendEmail(
+//                $subject,
+//                'send@mycasaparticular.com',
+//                $subject . ' - MyCasaParticular.com',
+//                $userEmail,
+//                $body,
+//                $pdfFilePath
+//            );
+//
+//            /*$emailService->sendEmail(
+//                 $subject,
+//                 'send@mycasaparticular.com',
+//                 $subject . ' - MyCasaParticular.com',
+//                 "luiseduardo@hds.li",
+//                 $body,
+//                 $pdfFilePath
+//             );*/
+//
+//            $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
+//                (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
+//        } catch (\Exception $e) {
+//            $logger->error(sprintf(
+//                'EMAIL: Could not send Email to User. Booking ID: %s, Email: %s',
+//                $bookingId, $userEmail));
+//            $logger->error($e->getMessage());
+//        }
+
+//        // send email to reservation team
+//        foreach ($arrayOwnershipReservationByHouse as $owns) {
+//            $bodyRes = $this->render(
+//                'FrontEndBundle:mails:rt_payment_confirmation.html.twig',
+//                array(
+//                    'user' => $user,
+//                    'user_tourist' => array($userTourist),
+//                    'reservations' => $owns,
+//                    'nights' => $arrayNightsByOwnershipReservation,
+//                    'payment_pending' => $paymentPending,
+//                    'rooms' => $rooms,
+//                    'booking' => $bookingId,
+//                    'payedAmount' => $booking->getPayedAmount()
+//                )
+//            );
+//
+//            try {
+//                /* $emailService->sendEmail(
+//                     'Confirmación de pago',
+//                     'no-reply@mycasaparticular.com',
+//                     'MyCasaParticular.com',
+//                     'reservation@mycasaparticular.com',
+//                     $bodyRes
+//                 );*/
+//
+//                $emailService->sendEmail(
+//                    'Confirmación de pago',
+//                    'no-reply@mycasaparticular.com',
+//                    'MyCasaParticular.com',
+//                    'confirmacion@mycasaparticular.com',
+//                    $bodyRes
+//                );
+//
+//                $logger->info('Successfully sent email to reservation team. Booking ID: ' . $bookingId);
+//            } catch (\Exception $e) {
+//                $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $bookingId);
+//                $logger->error($e->getMessage());
+//            }
+//        }
+
+        //dump($arrayOwnershipReservationByHouse);die;
+
+        // send email to accommodation owner
+        foreach ($arrayOwnershipReservationByHouse as $key => $owns) {
+
+            $fromToTravel = $em->getRepository('mycpBundle:ownershipReservation')->getFromToDestinationCliente($key,$user->getUserId(), date_format($owns[0]->getOwnResReservationFromDate(), 'Y-m-d'), date_format($owns[0]->getOwnResReservationToDate(), 'Y-m-d'));
+            $houseFrom = null;
+            if (array_key_exists('from', $fromToTravel)){
+                $houseFrom = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $fromToTravel['from']));
+            }
+            $houseTo = null;
+            if (array_key_exists('to', $fromToTravel)){
+                $houseTo = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $fromToTravel['to']));
+            }
+
+            return $this->render(
+                'FrontEndBundle:mails:email_house_confirmation.html.twig',
+                array(
+                    'user' => $user,
+                    'user_tourist' => array($userTourist),
+                    'reservations' => $owns,
+                    'nights' => $arrayNightsByOwnershipReservation,
+                    'rooms' => $rooms,
+                    'booking' => $bookingId,
+                    'houseFrom' => $houseFrom,
+                    'houseTo' => $houseTo
+                )
+            );
+        }
     }
 
 }

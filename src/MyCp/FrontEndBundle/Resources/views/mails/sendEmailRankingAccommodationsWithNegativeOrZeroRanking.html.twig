@@ -1,0 +1,30 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <p style="font-family: Arial; font-size: 14px">
+    <p>Hola, {{ homeOwner }}:</p>
+    <p>Has comenzado un fabuloso camino como anfitrión en <b>MyCasaParticular</b>. Desde este momento, puedes atraer nuevos clientes y conseguir más reservas si escalas posiciones en nuestro ranking.</p>
+    <p>Sabemos que tienes todo el potencial para ser un <b>Anfitrión Estrella</b>. El cielo puede ser tu meta si te lo propones. Solo los mejores descubren cómo llegar a ser una <b>Best Casa</b>.</p>
+    <p>Pon en práctica nuestros <a>Consejos para ser una Best Casa</a> y sigue los números de tu alojamiento cada semana.</p>
+    <p>Te mantenemos al tanto de cada avance que hagas. Verte escalar posiciones será estupendo. Cuenta con nosotros para lograrlo.</p>
+    <p>
+        <br/>
+        <b>SIGUE LAS ESTADÍSTICAS DE TU CASA ESTE MES</b>
+    </p>
+    <p>{{ date | date('d/m/Y') }}</p>
+    <p><b>Tu casa tiene {{ ranking }} puntos en el ranking</b></p>
+    <p>Vas en {{ place }} lugar entre los alojamientos de <b>MyCasaParticular</b></p>
+    <p><b>Eres el número {{ destinationPlace }} entre los alojamientos de {{ destination }}</b></p>
+    <p>El perfil de tu alojamiento en <b>MyCasaParticular</b> recibió {{ visits }} visitas</p>
+    <p>Los clientes solicitaron {{ totalAvailableRooms }} habitaciones disponibles</p>
+    <p>Los clientes solicitaron {{ totalNonAvailableRooms }} habitaciones, que se encontraban no disponibles</p>
+    <p>Tienes {{ totalReservedRooms }} habitaciones reservada, por ello debes facturar {{ totalFacturation | number_format(2) }} CUC</p>
+    <p><b>En este mes has facturado {{ currentMonthFacturation | number_format(2) }} CUC </b></p>
+    <p>
+        <br/> <br/>
+        Sigue avanzando hasta conseguir escalar nuevas posiciones. Te lo recomendamos de <span style="font-size: 20px">&#x2661;</span>
+    </p>
+    <p><b>Equipo de MyCasaParticular</b></p>
+
+
+{% endblock %}

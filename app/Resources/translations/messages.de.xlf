@@ -4036,6 +4036,38 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                     <source>twitter</source>
                     <target>twitter</target>
                 </trans-unit>
+                <trans-unit id="1010">
+                     <source>Calendario Actualizado</source>
+                     <target>Kalender aktualisiert</target>
+                </trans-unit>
+            <trans-unit id="1011">
+                 <source>NOTIFICATIONS</source>
+                 <target>Benachrichtigungen</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                 <source>YOU HAVE</source>
+                 <target>Du hast</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                 <source>YOU_HAVE_AN_NEW_NOTIFICATION</source>
+                 <target>Sie haben eine neue Benachrichtigung</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                 <source>NOTIFICATION</source>
+                 <target>Benachrichtigung</target>
+            </trans-unit>
+            <trans-unit id="1015">
+                <source>STATEMENT</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="1016">
+                <source>OFFER_RECOMMENDATION</source>
+                <target><![CDATA[Vielen Dank fuer Ihr Interesse an MyCasaParticular.com.<br/>
+
+                                 Leider, die angefragte Unterkunft ist nicht verfügbar zum gewünschten Zeitraum.<br/>
+
+                                 Wir empfehlen Ihnen durch unsere Website andere Unterkünfte unter «sofortige Buchung», oder andere gewünschten Casas zu suchen.]]></target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

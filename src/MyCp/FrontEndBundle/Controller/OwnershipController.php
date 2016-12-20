@@ -380,9 +380,23 @@ class OwnershipController extends Controller {
         foreach ($langs_array as $lang)
             $languages .= ", " . $lang;
 
+
+
         $owner_id = $ownership_array['own_id'];
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodation($owner_id);
 
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $owner_id));
+
+        if ($ownership){
+            if ($ownership->getCountVisits() == null){
+                $ownership->setCountVisits(1);
+            }else{
+                $count = (int)$ownership->getCountVisits();
+                $ownership->setCountVisits($count + 1);
+            }
+            $em->persist($ownership);
+            $em->flush();
+        }
         // $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
         // $total_similar_houses = count($similar_houses);
 
@@ -429,8 +443,6 @@ class OwnershipController extends Controller {
 
         $service_time = $this->get('Time');
         $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
-
-
 
         $array_no_available = array();
         $no_available_days = array();
@@ -1052,6 +1064,8 @@ class OwnershipController extends Controller {
             $orderBooks=$request->request->get('order_books');
 
             $check_filters = array();
+
+            $check_filters['own_update_avaliable'] = $request->request->get('own_update_avaliable');
             $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
             $check_filters['own_award'] = $request->request->get('own_award');
             $check_filters['own_category'] = $request->request->get('own_category');

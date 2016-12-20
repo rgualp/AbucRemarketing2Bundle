@@ -25,11 +25,15 @@ class categoryType extends AbstractType
             $array_langs_text=$this->data['album_cat_lang'];
             foreach($this->data['languages'] as $language)
             {
+                $value=(isset($array_langs_text[$a])) ? $array_langs_text[$a]->getAlbumCatDescription() : '';
+
                 $builder->add('lang'.$language->getLangId(), 'text',array(
-                    'attr' => array('class'=>'span6','value'=>$array_langs_text[$a]->getAlbumCatDescription()),
+                    'attr' => array('class'=>'span6','value'=> $value),
                     'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
                     'constraints'=>array(new NotBlank(), new Length(array('max'=>255,'min'=>3)))
                 ));
+
+
                 $a++;
             }
         }
@@ -39,11 +43,8 @@ class categoryType extends AbstractType
             $array_langs_text=$this->data['faq_cat_lang'];
             foreach($this->data['languages'] as $language)
             {
-                $value='';
-                if(isset($array_langs_text[$a]))
-                {
-                   $value= $array_langs_text[$a]->getFaqCatDescription();
-                }
+                $value=(isset($array_langs_text[$a])) ? $array_langs_text[$a]->getFaqCatDescription() : '';
+
                 $builder->add('lang'.$language->getLangId(), 'text',array(
                     'attr' => array('class'=>'span6','value'=>$value),
                     'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
@@ -58,8 +59,10 @@ class categoryType extends AbstractType
             $array_langs_text=$this->data['des_cat_lang'];
             foreach($this->data['languages'] as $language)
             {
+                $value=(isset($array_langs_text[$a])) ? $array_langs_text[$a]->getDesCatName() : '';
+
                 $builder->add('lang'.$language->getLangId(), 'text',array(
-                    'attr' => array('class'=>'span6','value'=>$array_langs_text[$a]->getDesCatName()),
+                    'attr' => array('class'=>'span6','value'=> $value),
                     'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
                     'constraints'=>array(new NotBlank(), new Length(array('max'=>255,'min'=>3)))
                 ));

@@ -37,6 +37,20 @@ class UDetailsService extends Controller
         $intervals = array();
         $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDate($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'), true);
 
+        //OwnerShip Availability Update
+        $room = $this->em->getRepository('mycpBundle:room')->find($id_room);
+        if ($room){
+            $ownership = $room->getRoomOwnership();
+            if ($ownership){
+                $now = new \DateTime();
+                $ownership->setOwnAvailabilityUpdate($now);
+                $this->em->persist($ownership);
+                $this->em->flush();
+            }
+        }
+
+
+
         $index = 0;
         $startDate = $date_from;
         //$endDate = $date_to;
