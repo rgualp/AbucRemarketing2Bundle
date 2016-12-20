@@ -64,14 +64,14 @@
         <thead>
         <tr>
             <th>Propiedad</th>
-            <th style="text-align: center">Estado</th>
+            <th>Estado</th>
         </tr>
         </thead>
         <tbody>
         {% for ownership in content %}
             <tr>
                 <td><a href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.ownId}) }}" title="Editar - {{ownership.ownName}}">{{ownership.ownMcpCode}} - {{ownership.ownName}}</a></td>
-                <td style="text-align: center">{% include 'mycpBundle:utils:ownership_labels.html.twig' with {'ownership':ownership}%}</td>
+                <td>{% include 'mycpBundle:utils:ownership_labels.html.twig' with {'ownership':ownership}%}</td>
             </tr>
         {% endfor %}
         </tbody>
