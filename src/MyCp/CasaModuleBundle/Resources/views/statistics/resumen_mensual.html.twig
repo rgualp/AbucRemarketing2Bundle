@@ -266,7 +266,7 @@
             <div class="col-md-12">
                 <div class="col-sm-6">
                     {% if before_ranking is defined %}
-                        <div class="col-sm-12 facturated blue">
+                        <div class="col-sm-12 text-center facturated blue">
                             <i class="glyphicons calendar"></i>
                             <span class="mes">{{ before_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
                             <span class="number">{{ before_ranking.currentMonthFacturation }}</span>
@@ -274,7 +274,7 @@
                     {% endif %}
                 </div>
                 <div class="col-sm-6">
-                    <div class="col-sm-12 facturated green">
+                    <div class="col-sm-12 text-center facturated green">
                         <i class="glyphicons calendar"></i>
                         <span class="mes">{{ current_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
                         <span class="number">{{ current_ranking.currentMonthFacturation }}</span>
