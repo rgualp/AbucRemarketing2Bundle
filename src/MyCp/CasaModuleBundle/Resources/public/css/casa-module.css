@@ -200,6 +200,9 @@ h1,h2,h3,h4,h5,h6{
 .p-l-0{
     padding-left: 0px;
 }
+.p-a-5{
+    padding: 5px !important;
+}
 .m-t-5{
     margin-top: 5px;
 }
@@ -763,6 +766,246 @@ a.green-link{
 }
 #rootwizard #tab-content-backend.tab-content{
     padding: 15px;
+}
+
+/*Estadisticas */
+.graph-premiun{
+    height: 150px;
+    padding-top: 64px;
+    position: relative;
+}
+.graph-premiun span{
+    font-size: 18px;
+}
+.graph-premiun .graph-bar-content{
+    background: #959595 none repeat scroll 0 0;
+    border-radius: 5px;
+    position: relative;
+}
+.graph-premiun .graph-bar-content .graph-bar{
+    height: 25px;
+}
+.graph-premiun .graph-bar-content .graph-marker{
+    position: absolute;
+}
+.graph-premiun .graph-bar-content .graph-marker:before{
+    bottom: -29px;
+    content: " ";
+    display: block;
+    height: 25px;
+    left: 0;
+    position: absolute;
+    width: 3px;
+}
+.graph-premiun .graph-bar-content .graph-marker.oro{
+    left: 70%;
+    top: -49px;
+}
+.graph-premiun .graph-bar-content .graph-marker.oro:before{
+    background: #d0a41e none repeat scroll 0 0;
+}
+.graph-premiun .graph-bar-content .graph-marker.plata{
+    left: 22%;
+    top: -45px;
+}
+.graph-premiun .graph-bar-content .graph-marker.plata:before{
+    background: #c8c8c8 none repeat scroll 0 0;
+}
+.graph-premiun .graph-bar-content .graph-marker.bronce{
+    left: 8%;
+    top: -39px;
+}
+.graph-premiun .graph-bar-content .graph-marker.bronce:before{
+    background: #b57940 none repeat scroll 0 0;
+}
+.graph-premiun .graph-bar-content .graph-marker img{
+    margin-left: -15px;
+}
+.graph-premiun .graph-bar-content .graph-current-marker{
+    position: absolute;
+    left: 46%;
+}
+.graph-premiun .graph-bar-content .graph-current-marker:after{
+    border-left: 7px solid transparent;
+    border-top: 7px solid #f12e2e;
+    content: " ";
+    display: block;
+    height: 0;
+    left: -2px;
+    position: absolute;
+    top: 1px;
+    transform: rotate(-45deg);
+    width: 0;
+}
+.graph-premiun .graph-bar-content .graph-current-marker:before{
+    background: #f12e2e none repeat scroll 0 0;
+    content: " ";
+    display: block;
+    height: 25px;
+    position: absolute;
+    top: -25px;
+    width: 2px;
+}
+.graph-premiun .graph-bar-content .graph-current-marker span{
+    display: block;
+    margin-left: -13px;
+    text-align: center;
+    width: 32px;
+}
+
+ul.ranking-mycp{
+    list-style: outside none none;
+    margin: 0;
+    padding: 0 10px;
+}
+ul.ranking-mycp li{
+    background-color: #bdd2de;
+    content: " ";
+    display: table;
+    font-size: 18px;
+    width: 100%;
+}
+ul.ranking-mycp.inprovince li{
+    background-color: #fff;
+}
+ul.ranking-mycp li.current {
+    background-color: #a6a6a6;
+    font-size: 20px;
+}
+ul.ranking-mycp.inprovince li.current{
+    background-color: #fff;
+    font-size: 20px;
+    border: 1px solid #094e75;
+}
+ul.ranking-mycp li.current span{
+    font-weight: bold;
+}
+ul.ranking-mycp li i{
+    color: #80807e;
+    font-size: 17px;
+    margin-top: -5px;
+    padding: 0 8px;
+}
+ul.ranking-mycp li i.fa-minus{
+    color: #80807e;
+}
+ul.ranking-mycp li i.up_arrow{
+    color: #52872a;
+}
+ul.ranking-mycp li i.down_arrow{
+    color: #790b00;
+}
+ul.ranking-mycp li span{
+    color: #64a433;
+}
+ul.ranking-mycp li span:last-child{
+    color: #80807e;
+    display: block;
+    float: right;
+    font-size: 17px;
+    font-weight: normal;
+    text-align: right;
+    width: 80%;
+}
+
+.facturated{
+    position: relative;
+}
+.facturated i{
+    font-size: 100px;
+}
+
+.facturated.blue i{
+    color: #094e75;
+}
+
+.facturated.green i{
+    color: #64a433;
+}
+
+.facturated span{
+    background: #ececec none repeat scroll 0 0;
+    bottom: 0;
+    display: block;
+    font-size: 26px;
+    height: 35px;
+    left: 0;
+    margin: auto;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 53px;
+    width: 81px;
+}
+.facturated.blue span.mes{
+    background: #094e75 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    top: -4px;
+}
+.facturated.blue span.number{
+    color: #094e75;
+}
+.facturated.green span.mes{
+    background: #64a433 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    top: -4px;
+}
+.facturated.green span.number{
+    color: #64a433;
+}
+.flot-chart-pie-content .pieLabel div{
+    color: #fff !important;
+    font-size: 18px !important;
+}
+.flot-chart-pie-content .pieLabel div i{
+    font-size: 24px !important;
+}
+
+.block-collapse{
+    overflow: hidden;
+}
+.block-collapse.off{
+    height: 56px;
+}
+
+.btn-show-block i:first-child{
+    display: none;
+}
+.btn-show-block.closed i:first-child{
+    display: block;
+}
+
+.btn-show-block i:last-child{
+    display: block;
+}
+.btn-show-block.closed i:last-child{
+    display: none;
+}
+
+#calendar-date-content .span-dates{
+    display: none;
+}
+#calendar-date-content .span-dates.dateactive{
+    display: inline-block;
+}
+
+#calendar-year-content .span-dates{
+    display: none;
+}
+#calendar-year-content .span-dates.dateactive{
+    display: inline-block;
+}
+
+.btn-control-calendar.inactive{
+    color: #ccc;
+}
+.btn-control-year.inactive{
+    color: #ccc;
 }
 
 @media (max-width: 768px) {

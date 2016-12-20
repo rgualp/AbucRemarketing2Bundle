@@ -53,3 +53,7 @@ my_casa_module_client_detail:
 my_casa_module_comments:
     pattern:  /comments/{sort_by}
     defaults: { _controller: MyCpCasaModuleBundle:Default:comments,sort_by:0}
+
+my_casa_module_advice:
+    pattern:  /consejos
+    defaults: { _controller: MyCpCasaModuleBundle:Default:showAdvice}

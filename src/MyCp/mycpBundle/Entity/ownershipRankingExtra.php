@@ -182,6 +182,62 @@ class ownershipRankingExtra
     private $category;
 
     /**
+     * @var decimal
+     *
+     * @ORM\Column(name="currentMonthFacturation", type="decimal", nullable=true)
+     */
+    private $currentMonthFacturation;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="totalFacturation", type="decimal", nullable=true)
+     */
+    private $totalFacturation;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="totalAvailableRooms", type="integer", nullable=true)
+     */
+    private $totalAvailableRooms;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="totalNonAvailableRooms", type="integer", nullable=true)
+     */
+    private $totalNonAvailableRooms;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="totalReservedRooms", type="integer", nullable=true)
+     */
+    private $totalReservedRooms;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="visits", type="integer", nullable=true)
+     */
+    private $visits;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="totalAvailableFacturation", type="decimal", nullable=true)
+     */
+    private $totalAvailableFacturation;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="totalNonAvailableFacturation", type="decimal", nullable=true)
+     */
+    private $totalNonAvailableFacturation;
+
+    /**
      * @return mixed
      */
     public function getAccommodation()
@@ -600,6 +656,150 @@ class ownershipRankingExtra
     public function setCategory($category)
     {
         $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * @return decimal
+     */
+    public function getCurrentMonthFacturation()
+    {
+        return $this->currentMonthFacturation;
+    }
+
+    /**
+     * @param decimal $currentMonthFacturation
+     * @return mixed
+     */
+    public function setCurrentMonthFacturation($currentMonthFacturation)
+    {
+        $this->currentMonthFacturation = $currentMonthFacturation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalAvailableRooms()
+    {
+        return $this->totalAvailableRooms;
+    }
+
+    /**
+     * @param int $totalAvailableRooms
+     * @return mixed
+     */
+    public function setTotalAvailableRooms($totalAvailableRooms)
+    {
+        $this->totalAvailableRooms = $totalAvailableRooms;
+        return $this;
+    }
+
+    /**
+     * @return decimal
+     */
+    public function getTotalFacturation()
+    {
+        return $this->totalFacturation;
+    }
+
+    /**
+     * @param decimal $totalFacturation
+     * @return mixed
+     */
+    public function setTotalFacturation($totalFacturation)
+    {
+        $this->totalFacturation = $totalFacturation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalNonAvailableRooms()
+    {
+        return $this->totalNonAvailableRooms;
+    }
+
+    /**
+     * @param int $totalNonAvailableRooms
+     * @return mixed
+     */
+    public function setTotalNonAvailableRooms($totalNonAvailableRooms)
+    {
+        $this->totalNonAvailableRooms = $totalNonAvailableRooms;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalReservedRooms()
+    {
+        return $this->totalReservedRooms;
+    }
+
+    /**
+     * @param int $totalReservedRooms
+     * @return mixed
+     */
+    public function setTotalReservedRooms($totalReservedRooms)
+    {
+        $this->totalReservedRooms = $totalReservedRooms;
+        return $this;
+    }
+
+    /**
+     * @return decimal
+     */
+    public function getTotalAvailableFacturation()
+    {
+        return $this->totalAvailableFacturation;
+    }
+
+    /**
+     * @param decimal $totalAvailableFacturation
+     * @return mixed
+     */
+    public function setTotalAvailableFacturation($totalAvailableFacturation)
+    {
+        $this->totalAvailableFacturation = $totalAvailableFacturation;
+        return $this;
+    }
+
+    /**
+     * @return decimal
+     */
+    public function getTotalNonAvailableFacturation()
+    {
+        return $this->totalNonAvailableFacturation;
+    }
+
+    /**
+     * @param decimal $totalNonAvailableFacturation
+     * @return mixed
+     */
+    public function setTotalNonAvailableFacturation($totalNonAvailableFacturation)
+    {
+        $this->totalNonAvailableFacturation = $totalNonAvailableFacturation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVisits()
+    {
+        return $this->visits;
+    }
+
+    /**
+     * @param int $visits
+     * @return mixed
+     */
+    public function setVisits($visits)
+    {
+        $this->visits = $visits;
         return $this;
     }
 

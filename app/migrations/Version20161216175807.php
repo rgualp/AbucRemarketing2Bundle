@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20161205184153 extends AbstractMigration
+class Version20161216175807 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,7 @@ class Version20161205184153 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-       // $this->addSql('ALTER TABLE ownership_ranking_extra DROP INDEX UNIQ_5F0FA74FA7EA3032, ADD INDEX IDX_5F0FA74FA7EA3032 (rankingPoints)');
-       /// $this->addSql('ALTER TABLE ownership_ranking_extra DROP INDEX IDX_5F0FA74F2D385412, ADD UNIQUE INDEX UNIQ_5F0FA74F2D385412 (accommodation)');
+        $this->addSql('ALTER TABLE ownership_ranking_extra ADD currentMonthFacturation NUMERIC(10, 0) DEFAULT NULL, ADD totalFacturation NUMERIC(10, 0) DEFAULT NULL, ADD totalAvailableRooms INT DEFAULT NULL, ADD totalNonAvailableRooms INT DEFAULT NULL, ADD totalReservedRooms INT DEFAULT NULL');
 
     }
 
@@ -31,8 +30,7 @@ class Version20161205184153 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        //$this->addSql('ALTER TABLE ownership_ranking_extra DROP INDEX UNIQ_5F0FA74F2D385412, ADD INDEX IDX_5F0FA74F2D385412 (accommodation)');
-        //$this->addSql('ALTER TABLE ownership_ranking_extra DROP INDEX IDX_5F0FA74FA7EA3032, ADD UNIQUE INDEX UNIQ_5F0FA74FA7EA3032 (rankingPoints)');
+        $this->addSql('ALTER TABLE ownership_ranking_extra DROP currentMonthFacturation, DROP totalFacturation, DROP totalAvailableRooms, DROP totalNonAvailableRooms, DROP totalReservedRooms');
 
     }
 }

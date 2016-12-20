@@ -1,0 +1,287 @@
+{% set current_ranking = ranking["ranking"][0]["current_rank"] %}
+
+{% if beforeranking | length > 0 %}
+    {% set before_ranking = beforeranking["ranking"][0]["current_rank"] %}
+{% endif %}
+
+{% set up_current_ranking = ranking["upPosition"][0]["current_rank"] %}
+{% set down_current_ranking = ranking["downPosition"][0]["current_rank"] %}
+
+{% set up_destination_ranking = ranking["upDestinationPosition"][0]["current_rank"] %}
+{% set down_destination_ranking = ranking["downDestinationPosition"][0]["current_rank"] %}
+
+{% set how_move_current_destination_rankig = ranking["ranking"][1]["up_down_destination"] %}
+{% set how_move_up_destination_ranking = ranking["upDestinationPosition"][1]["up_down_destination"] %}
+{% set how_move_down_destination_ranking = ranking["downDestinationPosition"][1]["up_down_destination"] %}
+
+{% set how_move_current_rankig = ranking["ranking"][1]["up_down"] %}
+{% set how_move_up_current_ranking = ranking["upPosition"][1]["up_down"] %}
+{% set how_move_down_current_ranking = ranking["downPosition"][1]["up_down"] %}
+
+{% set max_point_ranking = 525 %}
+{% set bronce = 50 %}
+{% set plata = 140 %}
+{% set oro = 360 %}
+
+{% set positionBronce = bronce * 100 / max_point_ranking %}
+{% set positionPlata = plata * 100 / max_point_ranking %}
+{% set positionOro = oro * 100 / max_point_ranking %}
+{% set current_position = current_ranking.ranking * 100 / max_point_ranking %}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <img width="50" src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}">
+                    <span class="font-blue" style="font-size: 22px; margin-left: 10px;">Puntos en el Ranking</span>
+                </div>
+                <div class="col-md-12 graph-premiun">
+                    <div class="row">
+                        <div class="col-sm-1"><span class="font-blue">0</span></div>
+                        <div class="col-sm-9 graph-bar-content">
+                            <div style="left: {{ positionBronce }}%" class="graph-marker bronce"><img width="30"
+                                                                                                      src="{{ asset('bundles/mycpcasamodule/img/bronce50.png') }}">
+                            </div>
+                            <div style="left: {{ positionPlata }}%" class="graph-marker plata"><img width="35"
+                                                                                                    src="{{ asset('bundles/mycpcasamodule/img/plata140.png') }}">
+                            </div>
+                            <div style="left: {{ positionOro }}%" class="graph-marker oro"><img width="40"
+                                                                                                src="{{ asset('bundles/mycpcasamodule/img/oro460.png') }}">
+                            </div>
+                            <div class="graph-bar"></div>
+                            <div style="left: {{ current_position }}%" class="graph-current-marker"><span
+                                        class="font-blue">{{ current_ranking.ranking }}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"><span class="font-blue">{{ max_point_ranking }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 m-t-40">
+            <div class="col-sm-12 m-t-30">
+                <div class="row">
+                    {% if current_ranking.ranking < bronce %}
+                        <div class="col-sm-12 text-center">
+                                            <span style="font-size: 45px; font-weight: bold; color: #c8c8c8;"
+                                                  class="font-blue">AMATEUR</span>
+                        </div>
+                    {% else %}
+                        <div class="col-sm-12 text-center p-0">
+                            <div class="col-sm-5">
+                                {% if current_ranking.ranking >= oro %}
+                                    <img class="trofeo-oro" width="100%"
+                                         src="{{ asset('bundles/mycpcasamodule/img/trofeooro.png') }}">
+                                {% elseif current_ranking.ranking >= plata and current_ranking.ranking < oro %}
+                                    <img class="trofeo-plata" width="100%"
+                                         src="{{ asset('bundles/mycpcasamodule/img/trofeoplata.png') }}">
+                                {% elseif current_ranking.ranking >= bronce and current_ranking.ranking < plata %}
+                                    <img class="trofeo-bronce" width="100%"
+                                         src="{{ asset('bundles/mycpcasamodule/img/trofeobronce.png') }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-7 m-t-10">
+                                {% if current_ranking.ranking >= oro %}
+                                    <span class="font-blue" style="font-size: 45px; font-weight: bold; color: #d0a41e;">ORO</span>
+                                {% elseif current_ranking.ranking >= plata and current_ranking.ranking < oro %}
+                                    <span style="font-size: 45px; font-weight: bold; color: #c8c8c8;" class="font-blue">PLATA</span>
+                                {% elseif current_ranking.ranking >= bronce and current_ranking.ranking < plata %}
+                                    <span style="font-size: 45px; font-weight: bold; color: #b57940;" class="font-blue">BRONCE</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <img width="50"
+                         src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}"> <span
+                            class="font-blue step-span "
+                            style="font-size: 20px;font-variant-caps: petite-caps">Lugar en <b
+                                style="color: green;font-weight: bold">My</b><b>CasaParticular</b></span>
+                </div>
+                <div class="col-sm-12">
+                    <ul class="ranking-mycp">
+                        <li>
+                            {% if how_move_up_current_ranking == "subio" %}
+                                <i class="glyphicons up_arrow"></i>
+                            {% elseif how_move_up_current_ranking == "mantuvo" %}
+                                <i class="fa fa-minus"></i>
+                            {% else %}
+                                <i class="glyphicons down_arrow"></i>
+                            {% endif %}
+                            <span>{{ up_current_ranking.place }}</span>
+                            <span> {{ up_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
+                        </li>
+                        <li class="current">
+                            {% if how_move_current_rankig == "subio" %}
+                                <i class="glyphicons up_arrow"></i>
+                            {% elseif how_move_current_rankig == "mantuvo" %}
+                                <i class="fa fa-minus"></i>
+                            {% else %}
+                                <i class="glyphicons down_arrow"></i>
+                            {% endif %}
+                            <span>{{ current_ranking.place }}</span>
+                            <span> {{ current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
+                        </li>
+                        <li>
+                            {% if how_move_down_current_ranking == "subio" %}
+                                <i class="glyphicons up_arrow"></i>
+                            {% elseif how_move_down_current_ranking == "mantuvo" %}
+                                <i class="fa fa-minus"></i>
+                            {% else %}
+                                <i class="glyphicons down_arrow"></i>
+                            {% endif %}
+                            <span>{{ down_current_ranking.place }}</span>
+                            <span> {{ down_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-12">
+                    <span style="display: block; margin: 0px 10px; text-align: center; color: rgb(255, 255, 255); background: rgb(149, 149, 149) none repeat scroll 0px 0px; font-size: 18px;">de {{ totalOwnerShipActive }} Casas</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <img width="50" src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}">
+                    <span class="font-blue step-span "
+                          style="font-size: 20px;font-variant-caps: petite-caps">Lugar en {{ ownership.getOwnDestination.getDesName }}</span>
+                </div>
+                <div class="col-sm-12">
+                    <ul class="ranking-mycp inprovince">
+                        <li>
+                            {% if how_move_up_destination_ranking == "subio" %}
+                                <i class="glyphicons up_arrow"></i>
+                            {% elseif how_move_up_destination_ranking == "mantuvo" %}
+                                <i class="fa fa-minus"></i>
+                            {% else %}
+                                <i class="glyphicons down_arrow"></i>
+                            {% endif %}
+                            <span>{{ up_destination_ranking.destinationPlace }}</span>
+                            <span> {{ up_destination_ranking.accommodation.getOwnName }}</span>
+                        </li>
+                        <li class="current">
+                            {% if how_move_current_destination_rankig == "subio" %}
+                                <i class="glyphicons up_arrow"></i>
+                            {% elseif how_move_current_destination_rankig == "mantuvo" %}
+                                <i class="fa fa-minus"></i>
+                            {% else %}
+                                <i class="glyphicons down_arrow"></i>
+                            {% endif %}
+                            <span>{{ current_ranking.destinationPlace }}</span>
+                            <span> {{ current_ranking.accommodation.getOwnName }}</span>
+                        </li>
+                        <li>
+                            {% if how_move_down_destination_ranking == "subio" %}
+                                <i class="glyphicons up_arrow"></i>
+                            {% elseif how_move_down_destination_ranking == "mantuvo" %}
+                                <i class="fa fa-minus"></i>
+                            {% else %}
+                                <i class="glyphicons down_arrow"></i>
+                            {% endif %}
+                            <span>{{ down_destination_ranking.destinationPlace }}</span>
+                            <span> {{ down_destination_ranking.accommodation.getOwnName }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-12">
+                    <span style="display: block; margin: 0px 10px; text-align: center; color: rgb(255, 255, 255); background: rgb(149, 149, 149) none repeat scroll 0px 0px; font-size: 18px;">de {{ totalOwnerShipByDestination }} Casas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12 m-t-30">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-12">
+                {% set total_reserved = current_ranking.totalAvailableRooms + current_ranking.totalNonAvailableRooms %}
+                {% set nonavaliable_percent = current_ranking.totalNonAvailableRooms * 100 / total_reserved %}
+                {% set avaliable_percent = current_ranking.totalAvailableRooms * 100 / total_reserved %}
+
+                <span style="font-size: 20px;">Total de solicitudes: <b>{{ total_reserved }}</b></span>
+            </div>
+            <div class="col-sm-12 m-t-20">
+                <div class="flot-chart">
+                    <div data-nonavaliable-percent="{{ nonavaliable_percent }}" data-avaliable-percent="{{ avaliable_percent }}" class="flot-chart-pie-content" id="flot-pie-chart"></div>
+                </div>
+            </div>
+            <div class="col-sm-12 m-t-20">
+                <div class="row">
+                    <div class="col-sm-6">
+                                    <span class="font-green">
+                                        <b>{{ current_ranking.totalAvailableRooms }}</b> Disponibles
+                                    <br>
+                                        A recibir <b>{{ current_ranking.getTotalAvailableFacturation }} CUC</b>
+                                </span>
+                    </div>
+                    <div class="col-sm-6 p-0">
+                                    <span class="font-blue">
+                                        <b>{{ current_ranking.totalNonAvailableRooms }}</b> No Disponibles
+                                        <br>
+                                        Dejo de recibir <b>{{ current_ranking.getTotalNonAvailableFacturation }} CUC</b>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-md-12">
+                <img style="margin-right: 10px;" width="35"
+                     src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}"> <span
+                        class="font-blue step-span "
+                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{ current_ranking.getVisits }}</b></span>
+            </div>
+            <div class="col-md-12">
+                <img style="margin-right: 10px;" width="35"
+                     src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}"> <span
+                        class="font-green step-span "
+                        style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>{{ current_ranking.totalReservedRooms }}</b></span>
+            </div>
+            <div class="col-md-12">
+                <i class="glyphicons coins"
+                   style="color: rgb(149, 149, 149); margin: 0px 11px;"></i> <span
+                        class="font-green step-span "
+                        style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>{{ current_ranking.totalFacturation }}</b></span>
+            </div>
+            <div class="col-md-12">
+                <img style="margin: 6px;" width="35"
+                     src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}"> <span
+                        class="font-blue step-span "
+                        style="font-size: 17px;font-variant-caps: petite-caps">Facturado por alojamiento:</span>
+            </div>
+            <div class="col-md-12">
+                <div class="col-sm-6">
+                    {% if before_ranking is defined %}
+                        <div class="col-sm-12 facturated blue">
+                            <i class="glyphicons calendar"></i>
+                            <span class="mes">{{ before_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
+                            <span class="number">{{ before_ranking.currentMonthFacturation }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <div class="col-sm-12 facturated green">
+                        <i class="glyphicons calendar"></i>
+                        <span class="mes">{{ current_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
+                        <span class="number">{{ current_ranking.currentMonthFacturation }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12 m-t-20"></div>
