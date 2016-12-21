@@ -48,7 +48,7 @@
      {% set textParams = textParams ~ "/_location" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::ACCOMMODATION_MODALITY_NOMENCLATOR_NAME")%}
           <div class="span6" {% if parameter.parameterOrder > 1  %}style="margin-top: 5px"{% endif %}>
-              <select class="input-block-level" name="filter_municipality" id="filter_municipality">
+              <select class="input-block-level" name="filter_accommodation_modality" id="filter_accommodation_modality">
                   <option value="" selected disabled>Modalidad</option>
                   {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': '', 'category': 'accommodationModality'})) }}
               </select>

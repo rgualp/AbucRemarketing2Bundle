@@ -18,4 +18,10 @@ class ReportParameterHelper  {
     const ACCOMMODATION_MODALITY_NOMENCLATOR_NAME = "accommodationModality";
 }
 
+class AccommodationModality{
+    const RR = "rrModality";
+    const RI = "riModality";
+    const NORMAL = "normalModality";
+}
+
 ?>
