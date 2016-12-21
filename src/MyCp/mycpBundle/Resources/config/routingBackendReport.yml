@@ -157,28 +157,29 @@ mycp_reports_clients_summary_excel_yearly:
     pattern:  /clients/all-summary-excel-yearly/{report}
     defaults: { _controller: mycpBundle:BackendReport:clientsSummaryExcelYearly, report:''}
 mycp_reports_clients_facturation_summary_daily:
-    pattern:  /clients-facturation/all-summary/{from_date}/{to_date}
-    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummary,from_date:'',to_date:''}
+    pattern:  /clients-facturation/all-summary/{from_date}/{to_date}/{accommodation_modality}
+    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummary,from_date:'',to_date:'', accommodation_modality: ''}
 
 mycp_reports_clients_facturation_summary_excel_daily:
-    pattern:  /clients-facturation/all-summary-excel/{report}/{from_date}/{to_date}
-    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryExcel, report:'',from_date:'',to_date:''}
+    pattern:  /clients-facturation/all-summary-excel/{report}/{from_date}/{to_date}/{accommodation_modality}
+    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryExcel, report:'',from_date:'',to_date:'', accommodation_modality: ''}
 
 mycp_reports_clients_facturation_summary_monthly:
-    pattern:  /clients-facturation/all-summary-monthly/{from_date}/{to_date}
-    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryMonthly,from_date:'',to_date:''}
+    pattern:  /clients-facturation/all-summary-monthly/{from_date}/{to_date}/{accommodation_modality}
+    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryMonthly,from_date:'',to_date:'', accommodation_modality: ''}
 
 mycp_reports_clients_facturation_summary_excel_monthly:
-    pattern:  /clients-facturation/all-summary-excel-monthly/{report}/{from_date}/{to_date}
-    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryExcelMonthly, report:'',from_date:'',to_date:''}
+    pattern:  /clients-facturation/all-summary-excel-monthly/{report}/{from_date}/{to_date}/{accommodation_modality}
+    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryExcelMonthly, report:'',from_date:'',to_date:'', accommodation_modality: ''}
 
 mycp_reports_clients_facturation_summary_yearly:
-    pattern:  /clients-facturation/all-summary-yearly
-    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryYearly}
+    pattern:  /clients-facturation/all-summary-yearly/{accommodation_modality}
+    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryYearly, accommodation_modality: ''}
 
 mycp_reports_clients_facturation_summary_excel_yearly:
-    pattern:  /clients-facturation/all-summary-excel-yearly/{report}
-    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryExcelYearly, report:''}
+    pattern:  /clients-facturation/all-summary-excel-yearly/{report}/{accommodation_modality}
+    defaults: { _controller: mycpBundle:BackendReport:clientsFacturationSummaryExcelYearly, report:'', accommodation_modality: ''}
+
 mycp_reports_reservations_statement_excel:
     pattern:  /reservations/statement-excel
     defaults: { _controller: mycpBundle:BackendReport:reservationsStatementExcel}
