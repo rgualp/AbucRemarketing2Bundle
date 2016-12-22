@@ -2505,10 +2505,18 @@ class ownershipRepository extends EntityRepository {
     public function getRankingStatisticsByOwnership($ownership, $month, $year){
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank
+        $currentDate = "01-".$month."-".$year;
+        $fecha = date_create($currentDate);
+        $datestring = date_format($fecha,"Y-m-d");
+        $currentDate = strtotime($datestring.' +1 months');
+        $currentDate = date("Y-m-d",$currentDate);
+
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank, currentRank as current_statistic
          FROM mycpBundle:ownershipRankingExtra rank
          JOIN rank.accommodation o
          LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
+         LEFT JOIN mycpBundle:ownershipRankingExtra currentRank WITH currentRank.accommodation = rank.accommodation AND currentRank.startDate = :currentDate
+         
          WHERE o.own_status = 1
          AND rank.accommodation = :id
          AND (MONTH(rank.startDate) = :montValue 
@@ -2517,6 +2525,7 @@ class ownershipRepository extends EntityRepository {
 
         $query->setParameter("montValue", $month)
             ->setParameter("yearValue", $year)
+            ->setParameter("currentDate", $currentDate)
             ->setParameter("id", $ownership->getOwnId());
 
         return $objects = $query->getResult();
