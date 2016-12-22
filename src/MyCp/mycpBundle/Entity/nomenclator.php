@@ -56,6 +56,11 @@ class nomenclator
     private $rankingCategories;
 
     /**
+     * @ORM\OneToMany(targetEntity="accommodationModalityFrequency",mappedBy="modality")
+     */
+    private $modalityUpdateFrequency;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -64,6 +69,7 @@ class nomenclator
         $this->payments = new ArrayCollection();
         $this->failureTypes = new ArrayCollection();
         $this->rankingCategories = new ArrayCollection();
+        $this->modalityUpdateFrequency = new ArrayCollection();
     }
     
     /**
@@ -191,6 +197,24 @@ class nomenclator
     public function setRankingCategories($rankingCategories)
     {
         $this->rankingCategories = $rankingCategories;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModalityUpdateFrequency()
+    {
+        return $this->modalityUpdateFrequency;
+    }
+
+    /**
+     * @param mixed $modalityUpdateFrequency
+     * @return mixed
+     */
+    public function setModalityUpdateFrequency($modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency = $modalityUpdateFrequency;
         return $this;
     }
 
