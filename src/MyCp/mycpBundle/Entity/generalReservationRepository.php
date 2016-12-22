@@ -7,6 +7,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\AST\Join;
 use MyCp\FrontEndBundle\Helpers\Time;
+use MyCp\mycpBundle\Helpers\AccommodationModality;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
@@ -1806,7 +1807,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
     }
 
     /***Aqui los resumenes por clientes**/
-    function getClientsDailySummary($filter_date_from = null, $filter_date_to = null) {
+    function getClientsDailySummary($filter_date_from = null, $filter_date_to = null, $accommodationModality=null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1825,10 +1826,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+              ->join("o.modalityUpdateFrequency", "modality")
+              ->join("modality.modality", "mod")
+              ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsDailySummaryAvailable($filter_date_from = null, $filter_date_to = null) {
+    function getClientsDailySummaryAvailable($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1849,10 +1863,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsDailySummaryPayments($filter_date_from = null, $filter_date_to = null) {
+    function getClientsDailySummaryPayments($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1876,10 +1903,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsDailySummaryPaymentsx($filter_date_from = null, $filter_date_to = null) {
+    function getClientsDailySummaryPaymentsx($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1901,10 +1941,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsDailySummaryPaymentsFacturation($filter_date_from = null, $filter_date_to = null) {
+    function getClientsDailySummaryPaymentsFacturation($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1940,10 +1993,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsMonthlySummary($filter_date_from = null, $filter_date_to = null) {
+    function getClientsMonthlySummary($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1964,10 +2030,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsMonthlySummaryAvailable($filter_date_from = null, $filter_date_to = null) {
+    function getClientsMonthlySummaryAvailable($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -1989,10 +2068,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsMonthlySummaryPayments($filter_date_from = null, $filter_date_to = null) {
+    function getClientsMonthlySummaryPayments($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2018,10 +2110,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsMonthlySummaryPaymentsFacturation($filter_date_from = null, $filter_date_to = null) {
+    function getClientsMonthlySummaryPaymentsFacturation($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2048,10 +2153,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsYearlySummary($filter_date_from = null, $filter_date_to = null) {
+    function getClientsYearlySummary($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2072,10 +2190,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsYearlySummaryAvailable($filter_date_from = null, $filter_date_to = null) {
+    function getClientsYearlySummaryAvailable($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2097,10 +2228,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsYearlySummaryPayments($filter_date_from = null, $filter_date_to = null) {
+    function getClientsYearlySummaryPayments($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2126,10 +2270,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
-    function getClientsYearlySummaryPaymentsFacturation($filter_date_from = null, $filter_date_to = null) {
+    function getClientsYearlySummaryPaymentsFacturation($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2155,6 +2312,20 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
         }
+
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
+
         return $qb->getQuery()->getResult();
     }
 
@@ -2180,7 +2351,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         return $tfr;
     }
 
-    function getClientsYearlySummaryOnlyFacturation($filter_date_from = null, $filter_date_to = null) {
+    function getClientsYearlySummaryOnlyFacturation($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -2191,6 +2362,22 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->groupBy("fecha")
             ->having('fecha>2013')
             ->orderBy("fecha");
+
+        if($accommodationModality != null && $accommodationModality != "")
+        {
+            $qb->join("p.booking", "b")
+                ->join("b.booking_own_reservations", "owres")
+                ->join("owres.own_res_gen_res_id", "gres")
+                ->join("gres.gen_res_own_id", "o")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->andWhere("mod.nom_id = $accommodationModality")
+                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+            ;
+        }
 
 //        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
 //        {

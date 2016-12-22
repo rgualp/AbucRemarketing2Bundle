@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\EntityListeners({"MyCp\mycpBundle\Listener\OwnershipListener"})
  */
 class ownership {
-
     /**
      * All allowed statuses
      */
@@ -621,6 +620,11 @@ class ownership {
      */
     private $confidence;
 
+    /**
+     * @ORM\OneToMany(targetEntity="accommodationModalityFrequency", mappedBy="accommodation")
+     */
+    private $modalityUpdateFrequency;
+
 
     /**
      * Constructor
@@ -651,6 +655,7 @@ class ownership {
         $this->calendarUpdateFrequency = new ArrayCollection();
         $this->rankingExtras = new ArrayCollection();
         $this->confidence = false;
+        $this->calendarModalityFrequency = new ArrayCollection();
     }
 
     /**
@@ -2743,6 +2748,45 @@ class ownership {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getModalityUpdateFrequency()
+    {
+        return $this->modalityUpdateFrequency;
+    }
 
+    /**
+     * @param mixed $modalityUpdateFrequency
+     * @return mixed
+     */
+    public function setModalityUpdateFrequency($modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency = $modalityUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Add created modalityUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationModalityFrequency $modalityUpdateFrequency
+     *
+     * @return user
+     */
+    public function addModalityUpdateFrequency(accommodationModalityFrequency $modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency[] = $modalityUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Remove created accommodationModalityFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationModalityFrequency $modalityUpdateFrequency
+     */
+    public function removeModalityUpdateFrequency(accommodationModalityFrequency $modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency->removeElement($modalityUpdateFrequency);
+    }
 
 }

@@ -93,7 +93,7 @@
 
     <table style="margin-top: 20px;">
         <tr>
-            <td>
+            <td colspan="3">
                 {% set period='' %}
                 {% if dateFilter=='F' %}
                     {% set period='Mensual' %}
@@ -109,18 +109,23 @@
             <td>
                <b> Fecha de creación:</b> {{ 'now'|date('d/m/Y') }}
             </td>
-            <td>
+            <td colspan="2">
                 <b>Autor:</b> {{ app.user.userUserName }} {{ app.user.userLastName }}
             </td>
         </tr>
         {% if dateFilter!='Y'  %}
         <tr>
             <td>
-               <b>Filtros:</b> <span style="color: #63A343;">Fecha de inicio: {{ 'now'|date('d/m/Y') }}</span>
+               <b>Filtros:</b> <span style="color: #63A343;">Fecha de inicio: {{ dateFrom | date('d/m/Y') }}</span>
             </td>
             <td>
-                <span style="color: #63A343;">Fecha de fin: {{ 'now'|date('d/m/Y') }}</span>
+                <span style="color: #63A343;">Fecha de fin: {{ dateTo | date('d/m/Y') }}</span>
                   </td>
+            <td>
+                {% if accommodationModality is defined and accommodationModality != null %}
+                    <span style="color: #63A343;">Modalidad: {{ accommodationModality.translations[0].nomLangDescription }}</span>
+                {% endif %}
+            </td>
         </tr>
         {% endif %}
     </table>
