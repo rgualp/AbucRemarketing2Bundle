@@ -206,9 +206,9 @@ class generalReservation {
     private $travelAgencyDetailReservations;
 
     /**
-     * @var \DateTime
+     * @var decimal
      *
-     * @ORM\Column(name="responseTime", type="time", nullable=true)
+     * @ORM\Column(name="responseTime", type="decimal", scale=2, nullable=true)
      */
     private $responseTime;
 
@@ -834,7 +834,7 @@ class generalReservation {
     }
 
     /**
-     * @return DateTime
+     * @return decimal
      */
     public function getResponseTime()
     {
@@ -842,13 +842,28 @@ class generalReservation {
     }
 
     /**
-     * @param DateTime $responseTime
+     * @param decimal $responseTime
      * @return mixed
      */
     public function setResponseTime($responseTime)
     {
         $this->responseTime = $responseTime;
         return $this;
+    }
+
+    public function setCurrentResponseTime()
+    {
+        if($this->getResponseTime() == null) {
+            $date = $this->getGenResDate();
+            $time = $this->getGenResDateHour();
+            $date->setTime($time->format('H'), $time->format('i'), $time->format('s'));
+            $now = new \DateTime();
+            $interval = $now->diff($date);
+            $hours = $interval->h;
+            $hours = $hours + ($interval->days * 24);
+            $hours = $hours + ($interval->i / 60);
+            $this->setResponseTime($hours);
+        }
     }
 
 

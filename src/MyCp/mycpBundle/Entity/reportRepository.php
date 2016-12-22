@@ -188,7 +188,9 @@ class reportRepository extends EntityRepository
                 COUNT(gres.gen_res_id) as Total,
                 (select count(ofl1.nom_id) from offerlog ofl1
                 where ofl1.log_date >= gres.gen_res_date and ofl1.log_date <= DATE_ADD(gres.gen_res_date, INTERVAL 1 DAY)
-                group by DATE_FORMAT(ofl1.log_date, 'Y-m-d') ) as Ofertas
+                group by DATE_FORMAT(ofl1.log_date, 'Y-m-d') ) as Ofertas,
+                AVG(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, gres.responseTime, 0)) as PTRDisponible,
+                AVG(if(gres.gen_res_status = 3, gres.responseTime, 0)) as PTRNoDisponible
                 FROM
                 generalreservation gres
                 where gres.gen_res_date >= :d1 AND gres.gen_res_date <= Now()
