@@ -84,6 +84,13 @@ function viewReport()
         location += "/" + filter_destination;
         parameters = parameters.replace('_location', filter_destination);
     }
+
+    var filter_accommodation_modality = ($('#filter_accommodation_modality').val() !== undefined) ?   $('#filter_accommodation_modality').val() : "";
+    if(filter_accommodation_modality!='') {
+        location += "/" + filter_accommodation_modality;
+        parameters = parameters.replace('_accommodationModality', filter_accommodation_modality);
+    }
+
     reportUrl = reportUrl + parameters;
 
     var exportParameters = $('#hdParamText').val();
@@ -91,6 +98,7 @@ function viewReport()
     exportParameters = exportParameters.replace('_dateFrom', dateRangeFrom);
     exportParameters = exportParameters.replace('_dateTo', dateRangeTo);
     exportParameters = exportParameters.replace('_date', dateParam);
+    exportParameters = exportParameters.replace('_accommodationModality', filter_accommodation_modality);
     var report = $('#ddlReport').val();
     exportUrl = exportUrl + '/' + report  + exportParameters  ;
 
@@ -108,7 +116,8 @@ function viewReport()
             'dateRangeTo': dateRangeTo,
             'filter_province':filter_province,
             'filter_municipality':filter_municipality,
-            'filter_destination':filter_destination
+            'filter_destination':filter_destination,
+            'accommodationModality':filter_accommodation_modality
         },
         function(data)
         {

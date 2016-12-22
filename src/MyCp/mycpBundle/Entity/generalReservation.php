@@ -206,6 +206,13 @@ class generalReservation {
     private $travelAgencyDetailReservations;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="responseTime", type="time", nullable=true)
+     */
+    private $responseTime;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -825,5 +832,24 @@ class generalReservation {
     {
         return $this->getCASId()." - ".date("d/m/Y", $this->getGenResFromDate()->getTimestamp())." - ".$this->getGenResUserId()->getUserCompleteName();
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getResponseTime()
+    {
+        return $this->responseTime;
+    }
+
+    /**
+     * @param DateTime $responseTime
+     * @return mixed
+     */
+    public function setResponseTime($responseTime)
+    {
+        $this->responseTime = $responseTime;
+        return $this;
+    }
+
 
 }

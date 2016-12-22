@@ -1810,6 +1810,7 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
+        $accommodationModality = $request->get("accommodationModality");
         //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
@@ -1817,9 +1818,9 @@ ORDER BY own.own_mcp_code ASC
             //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
         }
 
-        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
-        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo);
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
 
         $tc = 0;
         $ts = 0;
@@ -1876,12 +1877,13 @@ ORDER BY own.own_mcp_code ASC
             'clientsSummaryPayments' => $clientsSummaryPayments,
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
+            'accommodationModality' => $accommodationModality,
             'summary' => $summary,
             "dateFilter" => "d/m/Y"
         ));
     }
 
-    public function clientsFacturationSummaryExcelAction(Request $request,$report, $from_date, $to_date)
+    public function clientsFacturationSummaryExcelAction(Request $request,$report, $from_date, $to_date, $accommodation_modality)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
@@ -1890,6 +1892,7 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $from_date;
         $dateTo = $to_date;
+        $accommodationModality = $accommodation_modality;
         //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
         if($timer->diffInDays($dateFrom, $dateTo) > 30) {
@@ -1897,9 +1900,9 @@ ORDER BY own.own_mcp_code ASC
             //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
         }
 
-        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo);
-        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo);
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
 
         $tc = 0;
         $ts = 0;
@@ -1956,6 +1959,7 @@ ORDER BY own.own_mcp_code ASC
             'clientsSummaryPayments' => $clientsSummaryPayments,
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
+            'accommodationModality' => $em->getRepository("mycpBundle:nomenclator")->find($accommodationModality),
             'summary' => $summary,
             "dateFilter" => "d/m/Y"
         ));
@@ -1976,11 +1980,12 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
         $dateTo = $request->get("dateRangeTo");
+        $accommodationModality = $request->get("accommodationModality");
         //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
-        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
-        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo);
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
 
         $tc = 0;
         $ts = 0;
@@ -2036,13 +2041,14 @@ ORDER BY own.own_mcp_code ASC
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
             'dateFrom' => $dateFrom,
+            'accommodationModality' => $accommodationModality,
             'dateTo' => $dateTo,
             'summary' => $summary,
             "dateFilter" => "F"
         ));
     }
 
-    public function clientsFacturationSummaryExcelMonthlyAction(Request $request,$report, $from_date, $to_date)
+    public function clientsFacturationSummaryExcelMonthlyAction(Request $request,$report, $from_date, $to_date, $accommodation_modality)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
@@ -2051,11 +2057,12 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $from_date;
         $dateTo = $to_date;
+        $accommodationModality = $accommodation_modality;
         //$dateToPayment = $timer->add("+1 day", $dateTo, "Y-m-d");
 
-        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo);
-        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo);
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo);
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
 
         $tc = 0;
         $ts = 0;
@@ -2113,6 +2120,7 @@ ORDER BY own.own_mcp_code ASC
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'summary' => $summary,
+            'accommodationModality' => $em->getRepository("mycpBundle:nomenclator")->find($accommodationModality),
             "dateFilter" => "F"
         ));
         $name='clientsSummayReportMonthly';
@@ -2128,12 +2136,13 @@ ORDER BY own.own_mcp_code ASC
     {
         $timer = $this->get("Time");
         $em = $this->getDoctrine()->getManager();
+        $accommodationModality = $request->get("accommodationModality");
 
 
-        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
-        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation();
-        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary(null, null,$accommodationModality);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable(null, null,$accommodationModality);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation(null, null,$accommodationModality);
+        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation(null, null,$accommodationModality);
         foreach($clientsSummaryFacturation as  $i=>$y){
             $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
         }
@@ -2195,7 +2204,7 @@ ORDER BY own.own_mcp_code ASC
             "dateFilter" => "Y"
         ));
     }
-    public function clientsFacturationSummaryExcelYearlyAction(Request $request,$report)
+    public function clientsFacturationSummaryExcelYearlyAction(Request $request,$report, $accommodation_modality)
     {
         /*$exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportReservationUser($request, $report, $from_date, $to_date);*/
@@ -2204,10 +2213,10 @@ ORDER BY own.own_mcp_code ASC
 
 
 
-        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary();
-        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable();
-        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation();
-        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation();
+        $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummary(null, null, $accommodation_modality);
+        $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable(null, null, $accommodation_modality);
+        $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation(null, null, $accommodation_modality);
+        $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation(null, null, $accommodation_modality);
         foreach($clientsSummaryFacturation as  $i=>$y){
             $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
         }
@@ -2265,6 +2274,7 @@ ORDER BY own.own_mcp_code ASC
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
             'summary' => $summary,
+            'accommodationModality' => $em->getRepository("mycpBundle:nomenclator")->find($accommodation_modality),
             "dateFilter" => "Y"
         ));
         $name='clientsSummayReportYearly';
