@@ -2505,27 +2505,27 @@ class ownershipRepository extends EntityRepository {
     public function getRankingStatisticsByOwnership($ownership, $month, $year){
         $em = $this->getEntityManager();
 
-        $currentDate = "01-".$month."-".$year;
-        $fecha = date_create($currentDate);
-        $datestring = date_format($fecha,"Y-m-d");
-        $currentDate = strtotime($datestring.' +1 months');
-        $currentDate = date("Y-m-d",$currentDate);
+//        $currentDate = "01-".$month."-".$year;
+//        dump($currentDate);die;
+//        $fecha = date_create($currentDate);
+//        $datestring = date_format($fecha,"Y-m-d");
+//        $currentDate = strtotime($datestring.' +1 months');
+//        $currentDate = date("Y-m-d",$currentDate);
 
-        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank, currentRank as current_statistic
-         FROM mycpBundle:ownershipRankingExtra rank
-         JOIN rank.accommodation o
-         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = rank.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1
-         LEFT JOIN mycpBundle:ownershipRankingExtra currentRank WITH currentRank.accommodation = rank.accommodation AND currentRank.startDate = :currentDate
-         
+        $query = $em->createQuery("SELECT IF(rank.place < previousRank.place, 'subio',IF(rank.place > previousRank.place, 'bajo', 'mantuvo')) as up_down, IF(rank.destinationPlace < previousRank.destinationPlace, 'subio',IF(rank.destinationPlace > previousRank.destinationPlace, 'bajo', 'mantuvo')) as up_down_destination ,rank as current_rank, previousRank as previous_rank, stat as current_statistic
+         FROM mycpBundle:ownershipRankingExtra stat
+         JOIN stat.accommodation o
+         LEFT JOIN mycpBundle:ownershipRankingExtra rank WITH rank.accommodation = stat.accommodation AND DATE_DIFF(stat.startDate, rank.endDate) = 1
+         LEFT JOIN mycpBundle:ownershipRankingExtra previousRank WITH previousRank.accommodation = stat.accommodation AND DATE_DIFF(rank.startDate, previousRank.endDate) = 1         
          WHERE o.own_status = 1
-         AND rank.accommodation = :id
-         AND (MONTH(rank.startDate) = :montValue 
-         AND YEAR(rank.startDate) = :yearValue)
+         AND stat.accommodation = :id
+         AND (MONTH(stat.startDate) = :montValue 
+         AND YEAR(stat.startDate) = :yearValue)
          ");
 
         $query->setParameter("montValue", $month)
             ->setParameter("yearValue", $year)
-            ->setParameter("currentDate", $currentDate)
+//            ->setParameter("currentDate", $currentDate)
             ->setParameter("id", $ownership->getOwnId());
 
         return $objects = $query->getResult();
@@ -2579,13 +2579,22 @@ class ownershipRepository extends EntityRepository {
         $result = $this->getRankingStatisticsByOwnership($ownership, $month, $year);
 
         if (count($result) > 0){
-            $upPosition = $this->getRankingByPosition($result[0]['current_rank']->getPLace() - 1, $month, $year);
-            $downPosition = $this->getRankingByPosition($result[0]['current_rank']->getPLace() + 1, $month, $year);
 
-            //dump($result);die;
+            $upPosition = array();
+            $downPosition = array();
+            $upDestinationPosition = array();
+            $downDestinationPosition = array();
 
-            $upDestinationPosition = $this->getRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() - 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
-            $downDestinationPosition = $this->getRankingDestinationByPosition($result[0]['current_rank']->getDestinationPlace() + 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+            if ($result[1]['current_rank'] != null){
+                $year = (int)date_format($result[1]['current_rank']->getStartDate(),"Y");
+                $month = (int)date_format($result[1]['current_rank']->getStartDate(),"m");
+
+                $upPosition = $this->getRankingByPosition($result[1]['current_rank']->getPLace() - 1, $month, $year);
+                $downPosition = $this->getRankingByPosition($result[1]['current_rank']->getPLace() + 1, $month, $year);
+                //dump($result);die;
+                $upDestinationPosition = $this->getRankingDestinationByPosition($result[1]['current_rank']->getDestinationPlace() - 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+                $downDestinationPosition = $this->getRankingDestinationByPosition($result[1]['current_rank']->getDestinationPlace() + 1, $ownership->getOwnDestination()->getDesId(), $month, $year);
+            }
 
             return array(
                 "ranking" => $result,
@@ -2681,6 +2690,43 @@ class ownershipRepository extends EntityRepository {
             ->setParameter("destination", $destination);
 
         return $objects = $query->getResult();
+    }
+
+    public function registerVisit($owner_id){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipRankingExtra", "rank")
+            ->select("rank")
+            ->where("MONTH(rank.startDate) = MONTH(:today) AND YEAR(rank.startDate) = YEAR(:today)")
+            ->andWhere("rank.accommodation = :accommodationId")
+            ->setMaxResults(1)
+            ->setParameter("today", new \DateTime())
+            ->setParameter("accommodationId", $owner_id)
+        ;
+
+        $rank = $qb->getQuery()->getOneOrNullResult();
+
+        if($rank != null)
+        {
+            $rank->setVisits($rank->getVisits() + 1);
+            $em->persist($rank);
+        }
+        else{
+            $today = new \DateTime();
+            $firstDayOfMonth = date('Y-m-01', strtotime($today));
+            $lastDayOfMonth = date('Y-m-t', strtotime($today));
+
+            $accommodation = $em->getRepository("mycpBundle:ownership")->find($owner_id);
+            $rank = new ownershipRankingExtra();
+            $rank->setAccommodation($accommodation);
+            $rank->setStartDate($firstDayOfMonth);
+            $rank->setEndDate($lastDayOfMonth);
+            $rank->setVisits(1);
+
+            $em->persist($rank);
+        }
+
+        $em->flush();
     }
 
 }

@@ -968,7 +968,8 @@ ORDER BY own.own_mcp_code ASC
         $tprtnd = 0;
         foreach($reservationSummaryPTR as $item)
         {
-            $tptr += $item["total"];
+            //$tptr += $item["total"];
+            $tptr += $item["ptr_available"] + $item["ptr_non_available"];
             $tptrd += $item["ptr_available"];
             $tprtnd += $item["ptr_non_available"];
         }

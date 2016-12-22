@@ -333,11 +333,9 @@ class OwnershipController extends Controller {
 
     public function detailsAction($own_name, Request $request)
     {
-
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $locale = $this->get('translator')->getLocale();
-
 
         $own_name = str_replace('-', ' ', $own_name);
         $own_name = str_replace('  ', '-', $own_name);
@@ -386,6 +384,8 @@ class OwnershipController extends Controller {
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodation($owner_id);
 
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $owner_id));
+
+        $em->getRepository('mycpBundle:ownership')->registerVisit($owner_id);
 
         if ($ownership){
             if ($ownership->getCountVisits() == null){
