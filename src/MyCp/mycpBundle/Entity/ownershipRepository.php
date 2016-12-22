@@ -2683,4 +2683,41 @@ class ownershipRepository extends EntityRepository {
         return $objects = $query->getResult();
     }
 
+    public function registerVisit($owner_id){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipRankingExtra", "rank")
+            ->select("rank")
+            ->where("MONTH(rank.startDate) = MONTH(:today) AND YEAR(rank.startDate) = YEAR(:today)")
+            ->andWhere("rank.accommodation = :accommodationId")
+            ->setMaxResults(1)
+            ->setParameter("today", new \DateTime())
+            ->setParameter("accommodationId", $owner_id)
+        ;
+
+        $rank = $qb->getQuery()->getOneOrNullResult();
+
+        if($rank != null)
+        {
+            $rank->setVisits($rank->getVisits() + 1);
+            $em->persist($rank);
+        }
+        else{
+            $today = new \DateTime();
+            $firstDayOfMonth = date('Y-m-01', strtotime($today));
+            $lastDayOfMonth = date('Y-m-t', strtotime($today));
+
+            $accommodation = $em->getRepository("mycpBundle:ownership")->find($owner_id);
+            $rank = new ownershipRankingExtra();
+            $rank->setAccommodation($accommodation);
+            $rank->setStartDate($firstDayOfMonth);
+            $rank->setEndDate($lastDayOfMonth);
+            $rank->setVisits(1);
+
+            $em->persist($rank);
+        }
+
+        $em->flush();
+    }
+
 }
