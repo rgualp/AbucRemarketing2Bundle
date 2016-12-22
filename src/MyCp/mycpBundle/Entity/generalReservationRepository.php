@@ -1620,6 +1620,32 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         return $qb->getQuery()->getResult();
     }
 
+    function getReservationDailySummaryPTR($filter_date_from = null, $filter_date_to = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("DATE(gres.gen_res_date) as fecha, AVG(gres.responseTime) as total,
+            AVG(if(gres.gen_res_status = 1 or gres.gen_res_status = 2 or gres.gen_res_status = 6 or gres.gen_res_status = 8, gres.responseTime, 0)) as ptr_available,
+            AVG(if(gres.gen_res_status = 3, gres.responseTime, 0)) as ptr_non_available
+        ")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->groupBy("fecha");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     function countReservationPag() {
         $yesterday = date("Y-m-d", strtotime('-1 day'));
         $day = date("Y-m-d");
