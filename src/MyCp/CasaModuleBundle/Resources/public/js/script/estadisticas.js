@@ -85,8 +85,11 @@ var Estadistica = function () {
         $("#resumen-mensual").empty();
 
         $("#resumen-mensual").load(url_load_date, data, function (result) {
-            createFlot();
             $("#spiner").hide();
+            if ($(this).find("p").length == 1){}
+            else{
+                createFlot();
+            }
         });
     }
 
@@ -100,8 +103,12 @@ var Estadistica = function () {
         $("#resumen-anual").empty();
 
         $("#resumen-anual").load(url_load_year, data, function (result) {
-            createYearPlot();
             $("#spineryear").hide();
+            if ($(this).find("p").length == 1){}
+            else{
+                createYearPlot();
+            }
+
         });
     }
 

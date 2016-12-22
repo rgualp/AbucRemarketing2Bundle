@@ -1,36 +1,39 @@
+{% set accommdationDetailsUrl = mail_base_url ~'/accommodation-email/'~own.own_name | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower%}
 
-<div class="col-sm-4">
-                <table class="full-width">
-                    <tbody><tr>
-                        <td class="">
-                            <div class="thumbnail has-ribbon has-ribbon-right">
-                                <a target="_blank" title="{{ own_name }}" href="{{ accommdationDetailsUrl  }}">
-                                    <img alt="{{ own_name }}" src="{{ mail_base_url~'uploads/ownershipImages/thumbnails/' ~ photo }}" alt="{{"Thumbnails" | trans}}">
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name-cont">
-                            <a target="_blank" title="{{ own_name }}" href="{{ accommdationDetailsUrl }}">
-                            <h1 class="h-blue">{{ own_name }}</h1>
-                            </a>
-                            <small>{{own_province}}, {{own_municipality}}<br>{{own_type  | trans}} {%if (own_rooms_count != 0) %}
-                        / {{own_rooms_count}} {% if own_rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small>
-                        </td>
-                        <td style="text-align: right">
-                            <small>{{"FROM_PRICES" | trans | lower}}:</small>
-                            <div class="big-price-blue">{{own_minimum_price | price }}</div>
+<table width="100%" cellpadding="10" cellspacing="0" border="0">
+    <tr>
+        <td bgcolor="#F5F5F5" style="background-color: #F5F5F5;border: 1px solid #E3E3E3;">
+            <table width="100%" cellpadding="6" cellspacing="0" border="0">
+                <tr>
+                    <td width="66%" valign="top" align="left" >
+                        <table cellpadding="4" border="0" cellspacing="0">
+                            <tr>
+                                <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
+                                    <a href="{{ accommdationDetailsUrl }}">
+                                            <img width="100%" style="display:block;" border="0" src="{{mail_base_url~'/uploads/ownershipImages/thumbnails/'~own.photo}}" alt="{{"Thumbnails" | trans}}"/>
+                                    </a>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
+                                    <h3 style="color: #084D74">
+                                        <a class="titleLink" href="{{ accommdationDetailsUrl }}">
+                                            {{own.own_name}}
+                                        </a>
+                                    </h3>
+                                    {{ own.prov_name}}
+                                    - {{own.mun_name}}<br/>
+                                    {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}<br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
+                        <h3>{{"FROM_PRICES" | trans | lower}}:</h3>
+                            <div class="big-price-blue">{{own.minimum_price | price }}</div>
                             <small>{{"BYNIGHT" | trans}}</small>
-
-                        </td>
-                    </tr>
-                    </tbody></table>
-            </div>
-
-
-
-
-
-
-
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
