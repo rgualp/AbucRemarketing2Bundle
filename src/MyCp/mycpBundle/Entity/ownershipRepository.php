@@ -2449,9 +2449,9 @@ class ownershipRepository extends EntityRepository {
 
             for ($i = 0; $i < count($results); $i++) {
                 if($results[$i]['photo'] == null)
-                    $results[$i]['photo'] = "no_photo.png";
+                    $results[$i]['photo'] = "no_photo_square.gif";
                 else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
-                    $results[$i]['photo'] = "no_photo.png";
+                    $results[$i]['photo'] = "no_photo_square.gif";
                 }
             }
             return $results;

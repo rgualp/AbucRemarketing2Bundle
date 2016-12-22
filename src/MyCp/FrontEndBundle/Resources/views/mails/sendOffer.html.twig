@@ -10,23 +10,8 @@
 
     <div class="row thumbs-houses-2">
         {%for own in owns_in_destination%}
-            {% set accommdationDetailsUrl = mail_base_url ~'/accommodation-email/'~own.own_name | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower%}
-
-            {{ include('FrontEndBundle:ownership:checkReviewMosaicOwnershipOffer.html.twig',{
-            'own_id': own.own_id,
-            'own_name': own.own_name,
-            'own_comments': own.comments_total,
-            'own_rating': own.rating,
-            'own_type': own.type,
-            'own_province': own.prov_name,
-            'own_municipality': own.mun_name,
-            'own_rooms_count':own.rooms_count,
-            'own_minimum_price': own.minimum_price,
-            'is_in_favorite':own.is_in_favorites,
-            'photo': own.photo,
-            'category': own.category,
-            'accommdationDetailsUrl':accommdationDetailsUrl,
-            'list_preffix': 'owns_in_destination' }) }}
+            {{ include('FrontEndBundle:ownership:checkReviewMosaicOwnershipOffer.html.twig', {"index" : loop.index0, "own": own}) }}
+            <br/>
         {%endfor%}
     </div>
     <p style="font-size: 14px;font-family: arial">
