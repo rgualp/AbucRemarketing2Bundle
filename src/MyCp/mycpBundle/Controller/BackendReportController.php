@@ -929,6 +929,7 @@ ORDER BY own.own_mcp_code ASC
         $reservationSummary = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummary($dateFrom, $dateTo);
         $reservationSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryAvailable($dateFrom, $dateTo);
         $reservationSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPayments($dateFrom, $dateTo);
+        $reservationSummaryPTR = $em->getRepository("mycpBundle:generalReservation")->getReservationDailySummaryPTR($dateFrom, $dateTo);
 
         $ts = 0;
         $ths = 0;
@@ -962,16 +963,27 @@ ORDER BY own.own_mcp_code ASC
             $tfr += $item["facturacion"];
         }
 
+        $tptr = 0;
+        $tptrd = 0;
+        $tprtnd = 0;
+        foreach($reservationSummaryPTR as $item)
+        {
+            $tptr += $item["total"];
+            $tptrd += $item["ptr_available"];
+            $tprtnd += $item["ptr_non_available"];
+        }
+
         $summary = array(
             "ts" => $ts, "ths" => $ths, "tns" => $tns,
             "tsd" => $tsd, "thsd" => $thsd, "tnsd" => $tnsd,
-            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr
+            "trp" => $trp, "thp" => $thp, "tnp" => $tnp, "tfr" => $tfr, "tptr" => $tptr, "tptrd" => $tptrd, "tptrnd" => $tprtnd
         );
 
         return $this->render('mycpBundle:reports:reservationSummaryReport.html.twig', array(
             'reservationSummary' => $reservationSummary,
             'reservationSummaryAvailable' => $reservationSummaryAvailable,
             'reservationSummaryPayments' => $reservationSummaryPayments,
+            'reservationSummaryPTR' => $reservationSummaryPTR,
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'summary' => $summary,
