@@ -1160,15 +1160,20 @@ class StepsController extends Controller
         if (count($lastDateCalculateRanking) > 0){
             $cant_dates = count($lastDateCalculateRanking) - 1;
             $lastDate = $lastDateCalculateRanking[$cant_dates]['startDate'];
-            $year = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y");
-            $mount = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"m");
+            $datestring = date_format($lastDate,"Y-m-d");
+            $currentbeforedate = strtotime($datestring.' -1 months');
+            $byear = (int)date("Y",$currentbeforedate);
+            $bmount = (int)date("m",$currentbeforedate);
 
-            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+            $year = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y");
+//            $mount = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"m");
+
+            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $bmount, $byear);
             $yearRanking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year);
 
 
 
-            $datestring = date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y-m-d");
+            $datestring = date("Y-m-d", $currentbeforedate);
             $beforedate = strtotime($datestring.' -1 months');
 
             $year = (int)date("Y",$beforedate);
@@ -1209,8 +1214,14 @@ class StepsController extends Controller
         $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_id" => $ownid));
 
         $fecha = date_create($currentDate);
-        $year = (int)date_format($fecha,"Y");
-        $mount = (int)date_format($fecha,"m");
+        $datestring = date_format($fecha,"Y-m-d");
+        $currentbeforedate = strtotime($datestring.' -1 months');
+
+        $year = (int)date("Y",$currentbeforedate);
+        $mount = (int)date("m",$currentbeforedate);
+
+//        $year = (int)date_format($fecha,"Y");
+//        $mount = (int)date_format($fecha,"m");
 
         $html = "<p>No existe datos del ranking para este mes</p>";
         if ($ownership){
@@ -1224,6 +1235,7 @@ class StepsController extends Controller
 
             $totalOwnerShipActive = count($em->getRepository("mycpBundle:ownership")->getAll("",1)->getResult());
             $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("",1,"","","",$ownership->getOwnDestination()->getDesId())->getResult());
+
 
             if (count($ranking) > 0){
                 return $this->render('MyCpCasaModuleBundle:statistics:resumen_mensual.html.twig', array(
