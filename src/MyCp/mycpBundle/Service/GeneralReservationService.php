@@ -254,6 +254,8 @@ class GeneralReservationService extends Controller
                 if ($non_available_total > 0 && $non_available_total == $details_total) {
                     $status = generalReservation::STATUS_NOT_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+                    $reservation->setCurrentResponseTime();
+
                     //Enviar oferta con 3 casas de reserva inmediata
                     $service_email = $this->container->get('Email');
                     $emailManager = $this->container->get('mycp.service.email_manager');
@@ -281,9 +283,11 @@ class GeneralReservationService extends Controller
                     $status = generalReservation::STATUS_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     $send_notification = true;
+                    $reservation->setCurrentResponseTime();
                 } else if ($non_available_total > 0 && $available_total > 0){
                     $status = generalReservation::STATUS_PARTIAL_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+                    $reservation->setCurrentResponseTime();
                 }
                 else if ($cancelled_total > 0 && $cancelled_total != $details_total) {
                     $status = generalReservation::STATUS_PARTIAL_CANCELLED;
@@ -378,6 +382,7 @@ class GeneralReservationService extends Controller
         return $errors;
         
     }
+
 
     private function processPost($post)
     {

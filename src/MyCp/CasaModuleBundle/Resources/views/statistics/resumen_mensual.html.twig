@@ -1,4 +1,9 @@
+{% if ranking == false %}
+    <div class="col-md-12"><p>No existe datos del ranking para este mes</p></div>
+{% else %}
+
 {% set current_ranking = ranking["ranking"][0]["current_rank"] %}
+{% set current_statistic = ranking["ranking"][2]["current_statistic"] %}
 
 {% if beforeranking | length > 0 %}
     {% set before_ranking = beforeranking["ranking"][0]["current_rank"] %}
@@ -10,11 +15,11 @@
 {% set up_destination_ranking = ranking["upDestinationPosition"][0]["current_rank"] %}
 {% set down_destination_ranking = ranking["downDestinationPosition"][0]["current_rank"] %}
 
-{% set how_move_current_destination_rankig = ranking["ranking"][1]["up_down_destination"] %}
+{% set how_move_current_destination_rankig = ranking["ranking"][2]["up_down_destination"] %}
 {% set how_move_up_destination_ranking = ranking["upDestinationPosition"][1]["up_down_destination"] %}
 {% set how_move_down_destination_ranking = ranking["downDestinationPosition"][1]["up_down_destination"] %}
 
-{% set how_move_current_rankig = ranking["ranking"][1]["up_down"] %}
+{% set how_move_current_rankig = ranking["ranking"][2]["up_down"] %}
 {% set how_move_up_current_ranking = ranking["upPosition"][1]["up_down"] %}
 {% set how_move_down_current_ranking = ranking["downPosition"][1]["up_down"] %}
 
@@ -205,36 +210,39 @@
 <div class="col-sm-12 m-t-30">
     <div class="col-sm-6">
         <div class="row">
-            <div class="col-sm-12">
-                {% set total_reserved = current_ranking.totalAvailableRooms + current_ranking.totalNonAvailableRooms %}
-                {% set nonavaliable_percent = current_ranking.totalNonAvailableRooms * 100 / total_reserved %}
-                {% set avaliable_percent = current_ranking.totalAvailableRooms * 100 / total_reserved %}
+            {% if current_statistic.totalAvailableRooms is not null  %}
+                <div class="col-sm-12">
 
-                <span style="font-size: 20px;">Total de solicitudes: <b>{{ total_reserved }}</b></span>
-            </div>
-            <div class="col-sm-12 m-t-20">
-                <div class="flot-chart">
-                    <div data-nonavaliable-percent="{{ nonavaliable_percent }}" data-avaliable-percent="{{ avaliable_percent }}" class="flot-chart-pie-content" id="flot-pie-chart"></div>
+                    {% set total_reserved = current_statistic.totalAvailableRooms + current_statistic.totalNonAvailableRooms %}
+                    {% set nonavaliable_percent = current_statistic.totalNonAvailableRooms * 100 / total_reserved %}
+                    {% set avaliable_percent = current_statistic.totalAvailableRooms * 100 / total_reserved %}
+
+                    <span style="font-size: 20px;">Total de solicitudes: <b>{{ total_reserved }}</b></span>
                 </div>
-            </div>
-            <div class="col-sm-12 m-t-20">
-                <div class="row">
-                    <div class="col-sm-6">
-                                    <span class="font-green">
-                                        <b>{{ current_ranking.totalAvailableRooms }}</b> Disponibles
-                                    <br>
-                                        A recibir <b>{{ current_ranking.getTotalAvailableFacturation }} CUC</b>
-                                </span>
+                <div class="col-sm-12 m-t-20">
+                    <div class="flot-chart">
+                        <div data-nonavaliable-percent="{{ nonavaliable_percent }}" data-avaliable-percent="{{ avaliable_percent }}" class="flot-chart-pie-content" id="flot-pie-chart"></div>
                     </div>
-                    <div class="col-sm-6 p-0">
-                                    <span class="font-blue">
-                                        <b>{{ current_ranking.totalNonAvailableRooms }}</b> No Disponibles
+                </div>
+                <div class="col-sm-12 m-t-20">
+                    <div class="row">
+                        <div class="col-sm-6">
+                                        <span class="font-green">
+                                            <b>{{ current_statistic.totalAvailableRooms is null ? 0 : current_statistic.totalAvailableRooms }}</b> Disponibles
                                         <br>
-                                        Dejo de recibir <b>{{ current_ranking.getTotalNonAvailableFacturation }} CUC</b>
+                                            A recibir <b>{{ current_statistic.getTotalAvailableFacturation is null ? 0 : current_statistic.getTotalAvailableFacturation }} CUC</b>
                                     </span>
+                        </div>
+                        <div class="col-sm-6 p-0">
+                                        <span class="font-blue">
+                                            <b>{{ current_statistic.totalNonAvailableRooms is null ? 0 : current_statistic.totalNonAvailableRooms }}</b> No Disponibles
+                                            <br>
+                                            Dejo de recibir <b>{{ current_statistic.getTotalNonAvailableFacturation is null ? 0 : current_statistic.getTotalNonAvailableFacturation }} CUC</b>
+                                        </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
     <div class="col-sm-6">
@@ -243,19 +251,19 @@
                 <img style="margin-right: 10px;" width="35"
                      src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}"> <span
                         class="font-blue step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{ current_ranking.getVisits }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{  current_statistic.getVisits is null ? 0 : current_statistic.getVisits }}</b></span>
             </div>
             <div class="col-md-12">
                 <img style="margin-right: 10px;" width="35"
                      src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}"> <span
                         class="font-green step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>{{ current_ranking.totalReservedRooms }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>{{ current_statistic.totalReservedRooms is null ? 0 : current_statistic.totalReservedRooms }}</b></span>
             </div>
             <div class="col-md-12">
                 <i class="glyphicons coins"
                    style="color: rgb(149, 149, 149); margin: 0px 11px;"></i> <span
                         class="font-green step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>{{ current_ranking.totalFacturation }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>{{ current_statistic.totalFacturation is null ? 0 : current_statistic.totalFacturation }}</b></span>
             </div>
             <div class="col-md-12">
                 <img style="margin: 6px;" width="35"
@@ -265,19 +273,19 @@
             </div>
             <div class="col-md-12">
                 <div class="col-sm-6">
-                    {% if before_ranking is defined %}
+                    {% if current_ranking is defined %}
                         <div class="col-sm-12 text-center facturated blue">
                             <i class="glyphicons calendar"></i>
-                            <span class="mes">{{ before_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
-                            <span class="number">{{ before_ranking.currentMonthFacturation }}</span>
+                            <span class="mes">{{ current_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
+                            <span class="number">{{ current_ranking.currentMonthFacturation }}</span>
                         </div>
                     {% endif %}
                 </div>
                 <div class="col-sm-6">
                     <div class="col-sm-12 text-center facturated green">
                         <i class="glyphicons calendar"></i>
-                        <span class="mes">{{ current_ranking.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
-                        <span class="number">{{ current_ranking.currentMonthFacturation }}</span>
+                        <span class="mes">{{ current_statistic.startDate | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }}</span>
+                        <span class="number">{{ current_statistic.currentMonthFacturation is null ? 0 : current_statistic.currentMonthFacturation }} </span>
                     </div>
                 </div>
             </div>
@@ -285,3 +293,4 @@
     </div>
 </div>
 <div class="col-sm-12 m-t-20"></div>
+{% endif %}

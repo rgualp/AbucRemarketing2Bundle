@@ -62,11 +62,11 @@
                                 <td><span class="badge">{{ dia['Total'] }}</span></td>
                             </tr>
                             <tr>
-                                <td>Disponibles</td>
+                                <td>Disponibles (<span title="PTR: Promedio de Tiempo de Respuesta">{{ dia['PTRDisponible'] | number_format(2) }} h PTR</span>)</td>
                                 <td><span class="badge">{{ dia['Disponible'] }}</span></td>
                             </tr>
                             <tr>
-                                <td>No Disponibles</td>
+                                <td>No Disponibles (<span title="PTR: Promedio de Tiempo de Respuesta">{{ dia['PTRNoDisponible'] | number_format(2) }} h PTR</span>)</td>
                                 <td><span class="badge">{{ dia['NoDisponible'] }}</span></td>
                             </tr>
                             <tr>

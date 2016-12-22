@@ -1,3 +1,7 @@
+{% if ranking == false %}
+    <div class="col-md-12"><p>No existe datos del ranking para este mes</p></div>
+{% else %}
+
 {% set current_ranking = ranking["ranking"][0]["current_rank"] %}
 
 {% if beforeranking | length > 0 %}
@@ -285,3 +289,4 @@
     </div>
 </div>
 <div class="col-sm-12 m-t-20"></div>
+{% endif %}
