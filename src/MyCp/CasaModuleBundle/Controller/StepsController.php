@@ -1160,26 +1160,26 @@ class StepsController extends Controller
         if (count($lastDateCalculateRanking) > 0){
             $cant_dates = count($lastDateCalculateRanking) - 1;
             $lastDate = $lastDateCalculateRanking[$cant_dates]['startDate'];
-            $datestring = date_format($lastDate,"Y-m-d");
-            $currentbeforedate = strtotime($datestring.' -1 months');
-            $byear = (int)date("Y",$currentbeforedate);
-            $bmount = (int)date("m",$currentbeforedate);
+//            $datestring = date_format($lastDate,"Y-m-d");
+//            $currentbeforedate = strtotime($datestring.' -1 months');
+//            $byear = (int)date("Y",$currentbeforedate);
+//            $bmount = (int)date("m",$currentbeforedate);
 
-            $year = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"Y");
-//            $mount = (int)date_format($lastDateCalculateRanking[$cant_dates]['startDate'],"m");
+            $year = (int)date_format($lastDate,"Y");
+            $mount = (int)date_format($lastDate,"m");
 
-            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $bmount, $byear);
+            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
             $yearRanking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year);
 
 
 
-            $datestring = date("Y-m-d", $currentbeforedate);
-            $beforedate = strtotime($datestring.' -1 months');
-
-            $year = (int)date("Y",$beforedate);
-            $mount = (int)date("m",$beforedate);
-
-            $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+//            $datestring = date("Y-m-d", $currentbeforedate);
+//            $beforedate = strtotime($datestring.' -1 months');
+//
+//            $year = (int)date("Y",$beforedate);
+//            $mount = (int)date("m",$beforedate);
+//
+//            $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
             $beforeYearranking = $em->getRepository("mycpBundle:ownership")->getYearRankingStatistics($ownership, $year - 1);
         }
 
@@ -1195,7 +1195,7 @@ class StepsController extends Controller
             'years_with_ranking' => $allYearCalculateRanking,
             "totalOwnerShipActive" => $totalOwnerShipActive,
             "totalOwnerShipByDestination" => $totalOwnerShipByDestination,
-            "beforeranking" => $beforeranking,
+//            "beforeranking" => $beforeranking,
             "beforeYearranking" => $beforeYearranking,
         ));
     }
@@ -1214,24 +1214,26 @@ class StepsController extends Controller
         $ownership = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_id" => $ownid));
 
         $fecha = date_create($currentDate);
-        $datestring = date_format($fecha,"Y-m-d");
-        $currentbeforedate = strtotime($datestring.' -1 months');
+//        $datestring = date_format($fecha,"Y-m-d");
+//
+//
+//        $currentbeforedate = strtotime($datestring.' -1 months');
+//
+//        $year = (int)date("Y",$currentbeforedate);
+//        $mount = (int)date("m",$currentbeforedate);
 
-        $year = (int)date("Y",$currentbeforedate);
-        $mount = (int)date("m",$currentbeforedate);
-
-//        $year = (int)date_format($fecha,"Y");
-//        $mount = (int)date_format($fecha,"m");
+        $year = (int)date_format($fecha,"Y");
+        $mount = (int)date_format($fecha,"m");
 
         $html = "<p>No existe datos del ranking para este mes</p>";
         if ($ownership){
-            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
 
-            $datestring = date_format($fecha,"Y-m-d");
-            $beforedate = strtotime($datestring.' -1 months');
-            $year = (int)date("Y",$beforedate);
-            $mount = (int)date("m",$beforedate);
-            $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+            $ranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
+//            $datestring = date_format($fecha,"Y-m-d");
+//            $beforedate = strtotime($datestring.' -1 months');
+//            $year = (int)date("Y",$beforedate);
+//            $mount = (int)date("m",$beforedate);
+//            $beforeranking = $em->getRepository("mycpBundle:ownership")->getRankingStatistics($ownership, $mount, $year);
 
             $totalOwnerShipActive = count($em->getRepository("mycpBundle:ownership")->getAll("",1)->getResult());
             $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("",1,"","","",$ownership->getOwnDestination()->getDesId())->getResult());
@@ -1242,8 +1244,8 @@ class StepsController extends Controller
                     "ranking" => $ranking,
                     "ownership" => $ownership,
                     "totalOwnerShipActive" => $totalOwnerShipActive,
-                    "totalOwnerShipByDestination" => $totalOwnerShipByDestination,
-                    "beforeranking" => $beforeranking
+                    "totalOwnerShipByDestination" => $totalOwnerShipByDestination
+//                    "beforeranking" => $beforeranking
                 ));
             }
 

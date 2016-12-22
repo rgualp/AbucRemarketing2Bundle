@@ -52,7 +52,7 @@
                     </div>
                     <div id="resumen-mensual">
                         {% if ranking | length > 0 %}
-                            {% include "MyCpCasaModuleBundle:statistics:resumen_mensual.html.twig" with { "ranking" : ranking, "ownership": ownership, "totalOwnerShipActive": totalOwnerShipActive, "totalOwnerShipByDestination": totalOwnerShipByDestination, "beforeranking": beforeranking} %}
+                            {% include "MyCpCasaModuleBundle:statistics:resumen_mensual.html.twig" with { "ranking" : ranking, "ownership": ownership, "totalOwnerShipActive": totalOwnerShipActive, "totalOwnerShipByDestination": totalOwnerShipByDestination} %}
                         {% endif %}
                     </div>
                 </div>

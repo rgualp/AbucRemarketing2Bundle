@@ -86,10 +86,7 @@ var Estadistica = function () {
 
         $("#resumen-mensual").load(url_load_date, data, function (result) {
             $("#spiner").hide();
-            if ($(this).find("p").length == 1){}
-            else{
-                createFlot();
-            }
+            createFlot();
         });
     }
 
