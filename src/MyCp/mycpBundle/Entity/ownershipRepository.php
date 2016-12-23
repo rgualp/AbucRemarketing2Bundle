@@ -394,6 +394,8 @@ class ownershipRepository extends EntityRepository {
         }
         else
         {
+            $ownership->setOwnInmediateBooking(false)
+                ->setOwnInmediateBooking2(false);
             $nomenclator = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => 'normalModality'));
         }
 
