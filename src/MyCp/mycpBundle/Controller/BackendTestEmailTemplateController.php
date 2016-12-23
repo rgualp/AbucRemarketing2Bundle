@@ -588,17 +588,17 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function viewVoucherAction($reservation, Request $request) {
-        try {
+        //try {
             $em = $this->getDoctrine()->getManager();
             $bookingService = $this->get('front_end.services.booking');
             $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($reservation);
             $idBooking = $bookings_ids[0]["booking_id"];
             return $bookingService->getPrintableBookingConfirmationResponse($idBooking);
-        }
+        /*}
         catch(\Exception $e) {
             $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
             return $this->redirect($this->generateUrl('mycp_test_home'));
-        }
+        }*/
     }
 
     public function sendDirectoryAction($mail, Request $request) {
