@@ -129,6 +129,10 @@ class PublicController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('user_language', $this->getRequest()->getLocale());
+        $user = $this->getUser();
+
+        if($user != null)
+            return $this->redirect($this->generateUrl('frontend_welcome'));
 
         if ($session->get('user_failure_language')){
             $la = $session->get('user_failure_language');
