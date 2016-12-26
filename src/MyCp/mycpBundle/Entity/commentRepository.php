@@ -28,6 +28,7 @@ class commentRepository extends EntityRepository {
         $comment->setComComments($data['com_comments']);
         $comment->setComUser($user);
         $comment->setComPublic($is_public);
+        $comment->setPositive(null);
 
         $em->persist($comment);
         $em->flush();
