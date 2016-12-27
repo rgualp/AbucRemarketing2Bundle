@@ -65,6 +65,7 @@
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
                         data_type_room='{{room.getRoomType}}'
                         data_is_triple='{{room.isTriple}}'
+                        data-up-2 = '{{ room.roomType == "Habitación doble" and room.roomBeds < 2 }}'
                         style="width: 40px">
                     <option value="0">0</option>
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
@@ -81,6 +82,7 @@
                         data_type_room='{{room.getRoomType}}'
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
                         data_is_triple='{{room.isTriple}}'
+                        data-up-2 = '{{ room.roomType == "Habitación doble" and room.roomBeds < 2 }}'
                         style="width: 40px">
                     <option value="0">0</option>
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}

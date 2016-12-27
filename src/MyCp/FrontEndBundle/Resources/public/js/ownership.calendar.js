@@ -155,9 +155,40 @@ function showAgesCombos(rowId)
     }
 }
 
+function isUp2(name, id)
+{
+    var name = "#" + name;
+    var doubleUp2 = $(name).attr("data-up-2");
+
+    if(doubleUp2 == "1"){
+        var guests = $(name).val();
+        var otherName = (name == "#combo_guest_" + id) ? "#combo_kids_" + id : "#combo_guest_" + id;
+
+        if(guests == 1)
+        {
+            $(otherName + " option[value='2']").remove();
+        }
+        else if(guests == 2){
+            $(otherName + " option[value='1']").remove();
+            $(otherName + " option[value='2']").remove();
+        }
+        else
+        {
+            $(otherName).empty();
+            $(otherName).append('<option value="0">0</option>');
+            $(otherName).append('<option value="1">1</option>');
+            $(otherName).append('<option value="2">2</option>');
+
+            $(name).empty();
+            $(name).append('<option value="0">0</option>');
+            $(name).append('<option value="1">1</option>');
+            $(name).append('<option value="2">2</option>');
+        }
+    }
+}
+
 function reservations_in_details()
 {
-
     $('#rooms_selected > tbody tr').each(function(){
         $(this).remove();
     });
@@ -167,7 +198,10 @@ function reservations_in_details()
         total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
     });
     $('.guest_number').change(function(){
+
+        isUp2($(this).attr("name"), $(this).attr('data'));
         showAgesCombos($(this).attr('data'));
+
         if($('#tr_'+$(this).attr('data')).html()){
 
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
@@ -179,6 +213,8 @@ function reservations_in_details()
                 }
                 else
                 {
+                    console.log("Antes de ver el up 2");
+                    isUp2($(this).attr("name"), $(this).attr('data'));
                     total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
                 }
             }
@@ -186,7 +222,8 @@ function reservations_in_details()
             {
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-
+                console.log("Antes de ver el up 2");
+                isUp2($(this).attr("name"), $(this).attr('data'));
                 if($(this).attr('data_is_triple')==='true' && persons>=3)
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
