@@ -29,7 +29,7 @@
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
                     {% else %}
                         {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
-                        <span class="font-blue step-span">{% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}{% else  %}-{% endif %}</span>
+                        <span class="font-blue step-span">{% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription | slice(0,10) }}...{% else  %}-{% endif %}</span>
                         <label class="control-label hide">Descripción</label>
                         {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}
