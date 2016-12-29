@@ -589,6 +589,7 @@ class generalReservation {
         $genRes->setGenResToDate($this->gen_res_to_date);
         $genRes->setGenResTotalInSite($this->gen_res_total_in_site);
         $genRes->setGenResUserId($this->gen_res_user_id);
+        $genRes->setServiceFee($this->service_fee);
 
         return $genRes;
     }
