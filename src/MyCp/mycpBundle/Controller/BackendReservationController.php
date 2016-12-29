@@ -78,6 +78,8 @@ class BackendReservationController extends Controller {
                 }
                 $em->flush();
 
+
+
                 try {
                     $emailService = $this->get('mycp.service.email_manager');
                     //Enviar correo al cliente con el texto escrito y el voucher como adjunto
