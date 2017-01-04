@@ -413,15 +413,13 @@ class BackendTestEmailTemplateController extends Controller {
 
     private function sendEmail($newMethod, $mail, $body, $subject) {
         try {
-            //$newSubject = '=?UTF-8?B?'.base64_encode("&#10047; ".$subject).'?=';
-
-            //dump($newSubject); die;
+//            $newSubject = '=?utf-8?Q?New_post:_The_top_25_blog_posts_of_2016_=f0=9f=8e=89?=';
 //
 //            $mailService = $this->get('mycp.notification.mail.service');
-//            $mailService->setTo(array($mail));
-//            $mailService->setSubject($subject);
+//            $mailService->setTo(array("yanet.moralesr@gmail.com"));
+//            $mailService->setSubject($newSubject);
 //            $mailService->setFrom('no-reply@mycasaparticular.com', 'MyCasaParticular.com');
-//            $mailService->setBody($body);
+//            $mailService->setBody("Hi");
 //            $mailService->setEmailType("TESTING");
 //
 //            $mailService->sendEmail();

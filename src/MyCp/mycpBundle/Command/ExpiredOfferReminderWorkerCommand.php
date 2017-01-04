@@ -109,13 +109,13 @@ class ExpiredOfferReminderWorkerCommand extends Worker
 
             $this->em->flush();
 
-            if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
+            //if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
                 $user = $generalReservation->getGenResUserId();
                 $this->emailManager->setLocaleByUser($user);
 
                 $output->writeln('Send Offer Expired Reminder Email for Reservation ID ' . $reservationId);
                 $this->sendReminderEmail($generalReservation, $user, $ownershipReservations);
-            }
+           // }
         }
 
         $output->writeln('Successfully finished Offer Expired Reminder for Reservation ID ' . $reservationId);
