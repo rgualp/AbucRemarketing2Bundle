@@ -857,7 +857,8 @@ class generalReservation {
         if($this->getResponseTime() == null) {
             $date = $this->getGenResDate();
             $time = $this->getGenResDateHour();
-            $date->setTime($time->format('H'), $time->format('i'), $time->format('s'));
+            if($time != null)
+                $date->setTime($time->format('H'), $time->format('i'), $time->format('s'));
             $now = new \DateTime();
             $interval = $now->diff($date);
             $hours = $interval->h;
