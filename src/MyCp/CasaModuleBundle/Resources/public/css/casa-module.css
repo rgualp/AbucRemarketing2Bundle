@@ -32,6 +32,23 @@ body{
 .text-save{
     color:#a3a3a3;
 }
+.popover {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.42857;
+    text-align: start;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    max-width: 600px;
+    z-index: 5000;
+}
 .glyphicons span {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;

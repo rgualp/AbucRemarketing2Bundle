@@ -117,7 +117,7 @@ class RankingCommand extends ContainerAwareCommand {
             }
 
             if($emailValues["subject"] != "" && $emailValues["content"] != "") {
-                $this->notification_email->setTo($rankingValue["email"]);
+                $this->notification_email->setTo(array($rankingValue["email"]));
                 //$this->notification_email->setTo("yanet.moralesr@gmail.com");
                 $this->notification_email->setSubject($emailValues["subject"]);
                 $this->notification_email->setFrom($from_email, $from_name);
