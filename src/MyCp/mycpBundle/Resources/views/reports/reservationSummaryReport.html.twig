@@ -82,6 +82,11 @@
         </tbody>
     </table>
 
+    {% if dateFilter == "d/m/Y" %}
+        <h4>Promedio de tiempo de respuesta (PTR): {{ summary.tptr | number_format(2) }} horas</h4>
+        <br/>
+    {% endif %}
+
 
     <h3>DESGLOSE DEL ESTADO DE LAS RESERVAS</h3>
 
@@ -291,6 +296,49 @@
         </tr>
         </tfoot>
     </table>
+
+    {% if dateFilter == "d/m/Y" %}
+        <h4>Promedio de tiempo de respuesta (PTR)</h4>
+        <table class="table table-striped table-hover" style="font-size: 12px;">
+            <thead>
+            <tr>
+                <th rowspan="2">No.</th>
+                <th rowspan="2">Fecha</th>
+                <th colspan="3" style="text-align: center">Promedio de Tiempo de Respuesta (PTR)</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">Total (TPTR)</th>
+                <th style="text-align: center">Disponibles (TPTRD)</th>
+                <th style="text-align: center">No Disponibles (TPTRND)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in reservationSummary | keys %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        {% if dateFilter == "Y" %}
+                            {{ reservationSummary[i].fecha}}
+                        {% else %}
+                            {{ reservationSummary[i].fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ reservationSummary[i].year }}{% endif %}
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].ptr_available + reservationSummaryPTR[i].ptr_non_available) | number_format(2) ~ " horas" : "-" }}</td>
+                    <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].ptr_available) | number_format(2) ~ " horas" : "-" }}</td>
+                    <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].ptr_non_available) | number_format(2) ~ " horas" : "-" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2">TOTAL</td>
+                <td style="text-align: center">{{ (summary.tptr > 0) ? (summary.tptr) | number_format(2)~" horas":"-" }}</td>
+                <td style="text-align: center">{{ (summary.tptrd > 0) ? (summary.tptrd) | number_format(2)~" horas":"-" }}</td>
+                <td style="text-align: center">{{ (summary.tptrnd > 0) ? (summary.tptrnd) | number_format(2)~" horas":"-" }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    {% endif %}
 </div>
 
 

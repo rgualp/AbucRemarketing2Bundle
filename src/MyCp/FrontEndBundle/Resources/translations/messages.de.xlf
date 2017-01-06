@@ -3341,6 +3341,15 @@
                             <source>VOUCHER_PREHEADER_QUERYAVAILABLE</source>
                             <target>Alles Gute! noch ein Schritt mehr und Ihre Verfuegbarkeitskontrolle vollstaendig wird. Bitte einloggen vor die Anfrage zu.</target>
                         </trans-unit>
+        <trans-unit id="979">
+            <source>OTHER_SERVICES</source>
+            <target>Andere Dienste</target>
+        </trans-unit>
+        <trans-unit id="980">
+                    <source>YOUR_VISA</source>
+                    <target>Visa Erhalten</target>
+                </trans-unit>
+
     </body>
     </file>
 </xliff>

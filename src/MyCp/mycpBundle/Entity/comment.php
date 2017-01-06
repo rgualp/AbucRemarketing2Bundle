@@ -26,18 +26,19 @@ class comment
      * @ORM\ManyToOne(targetEntity="user", inversedBy="comments")
      * @ORM\JoinColumn(name="com_user", referencedColumnName="user_id", nullable=true)
      * @ORM\OrderBy({"user_user_name" = "ASC", "user_last_name" = "ASC"})
-     * @Assert\NotBlank()
      */
     private $com_user;
-    
+
+    private $com_user_email;
     
     /**
      * @ORM\ManyToOne(targetEntity="ownership", inversedBy="comments")
      * @ORM\JoinColumn(name="com_ownership", referencedColumnName="own_id")
      * @ORM\OrderBy({"own_mcp_code" = "ASC", "own_name" = "ASC"})
-     * @Assert\NotBlank()
      */
     private $com_ownership;
+
+    private $com_ownership_code;
 
     /**
      * @var datetime
@@ -73,7 +74,7 @@ class comment
     /**
      * @var boolean
      *
-     * @ORM\Column(name="positive", type="boolean")
+     * @ORM\Column(name="positive", type="boolean", nullable= true)
      */
     private $positive;
 
@@ -154,7 +155,7 @@ class comment
     /**
      * Get com_public
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getComPublic()
     {
@@ -252,6 +253,38 @@ class comment
     {
         $this->positive = $positive;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComUserEmail()
+    {
+        return $this->com_user_email;
+    }
+
+    /**
+     * @param mixed $com_user_email
+     */
+    public function setComUserEmail($com_user_email)
+    {
+        $this->com_user_email = $com_user_email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComOwnershipCode()
+    {
+        return $this->com_ownership_code;
+    }
+
+    /**
+     * @param mixed $com_ownership_code
+     */
+    public function setComOwnershipCode($com_ownership_code)
+    {
+        $this->com_ownership_code = $com_ownership_code;
     }
 
 

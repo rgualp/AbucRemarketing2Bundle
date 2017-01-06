@@ -206,6 +206,13 @@ class generalReservation {
     private $travelAgencyDetailReservations;
 
     /**
+     * @var decimal
+     *
+     * @ORM\Column(name="responseTime", type="decimal", scale=2, nullable=true)
+     */
+    private $responseTime;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -582,6 +589,7 @@ class generalReservation {
         $genRes->setGenResToDate($this->gen_res_to_date);
         $genRes->setGenResTotalInSite($this->gen_res_total_in_site);
         $genRes->setGenResUserId($this->gen_res_user_id);
+        $genRes->setServiceFee($this->service_fee);
 
         return $genRes;
     }
@@ -825,5 +833,40 @@ class generalReservation {
     {
         return $this->getCASId()." - ".date("d/m/Y", $this->getGenResFromDate()->getTimestamp())." - ".$this->getGenResUserId()->getUserCompleteName();
     }
+
+    /**
+     * @return decimal
+     */
+    public function getResponseTime()
+    {
+        return $this->responseTime;
+    }
+
+    /**
+     * @param decimal $responseTime
+     * @return mixed
+     */
+    public function setResponseTime($responseTime)
+    {
+        $this->responseTime = $responseTime;
+        return $this;
+    }
+
+    public function setCurrentResponseTime()
+    {
+        if($this->getResponseTime() == null) {
+            $date = $this->getGenResDate();
+            $time = $this->getGenResDateHour();
+            if($time != null)
+                $date->setTime($time->format('H'), $time->format('i'), $time->format('s'));
+            $now = new \DateTime();
+            $interval = $now->diff($date);
+            $hours = $interval->h;
+            $hours = $hours + ($interval->days * 24);
+            $hours = $hours + ($interval->i / 60);
+            $this->setResponseTime($hours);
+        }
+    }
+
 
 }

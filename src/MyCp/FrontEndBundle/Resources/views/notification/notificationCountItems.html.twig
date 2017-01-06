@@ -1,0 +1,150 @@
+<a id="list-notification" style="margin-top: 10px"   class="right-sidebar-toggle count-info" >
+    <span style="height: 19px; margin-top: 3px; position: absolute; right: 12px; padding: 3px; min-width: 20px; text-align: center; font-size: 11px;" class="label count-notifications" > 0 </span>
+    <i class="fa fa-bell-o" style="font-size: 20px"></i>
+</a>
+<div id="trans-toaster-msg" class="hide"><span>{{ 'YOU_HAVE_AN_NEW_NOTIFICATION' | trans }}</span><small>1 {{ 'NOTIFICATION'|trans }}</small></div>
+<div id="right-sidebar">
+    <a class="close-btn" style="cursor: pointer; position: absolute; right: 0px; z-index: 9999; border-radius: 50%; background: transparent none repeat scroll 0% 0%; color: rgb(49, 80, 118); text-align: center; line-height: 1; height: 19px; width: 19px; border: 2px solid rgb(49, 80, 118); margin: 13px 4px;">
+        <i class="fa fa-times"></i>
+    </a>
+    <div class="sidebar-container">
+        <ul class="nav nav-tabs navs-3">
+            <li class="active">
+                <a data-toggle="tab" href="#tab-1">
+                    <i class="fa fa-bell-o"></i> {{ 'NOTIFICATIONS'|trans }}
+                </a>
+            </li>
+            {#<li class="">#}
+                {#<a data-toggle="tab" href="#tab-3">#}
+                    {#<i class="fa fa-gear"></i>#}
+                {#</a>#}
+            {#</li>#}
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+                <div class="sidebar-title">
+                    <small><i class="fa fa-tim"></i> {{ 'YOU HAVE'|trans }} <span class="count-notifications">0</span> {{ 'NOTIFICATIONS'|trans }}.</small>
+                </div>
+                <div class="notifications-body"></div>
+            </div>
+            {#<div id="tab-3" class="tab-pane">#}
+
+                {#<div class="sidebar-title">#}
+                    {#<h3><i class="fa fa-gears"></i> Settings</h3>#}
+                    {#<small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>#}
+                {#</div>#}
+
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Show notifications#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example">#}
+                            {#<label class="onoffswitch-label" for="example">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Disable Chat#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" name="collapsemenu" checked class="onoffswitch-checkbox" id="example2">#}
+                            {#<label class="onoffswitch-label" for="example2">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Enable history#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example3">#}
+                            {#<label class="onoffswitch-label" for="example3">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Show charts#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example4">#}
+                            {#<label class="onoffswitch-label" for="example4">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Offline users#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" checked name="collapsemenu" class="onoffswitch-checkbox" id="example5">#}
+                            {#<label class="onoffswitch-label" for="example5">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Global search#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" checked name="collapsemenu" class="onoffswitch-checkbox" id="example6">#}
+                            {#<label class="onoffswitch-label" for="example6">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="setings-item">#}
+                    {#<span>#}
+                        {#Update everyday#}
+                    {#</span>#}
+                    {#<div class="switch">#}
+                        {#<div class="onoffswitch">#}
+                            {#<input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example7">#}
+                            {#<label class="onoffswitch-label" for="example7">#}
+                                {#<span class="onoffswitch-inner"></span>#}
+                                {#<span class="onoffswitch-switch"></span>#}
+                            {#</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+
+                {#<div class="sidebar-content">#}
+                    {#<h4>Settings</h4>#}
+                    {#<div class="small">#}
+                        {#I belive that. Lorem Ipsum is simply dummy text of the printing and typesetting industry.#}
+                        {#And typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.#}
+                        {#Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).#}
+                    {#</div>#}
+                {#</div>#}
+
+            {#</div>#}
+        </div>
+
+    </div>
+</div>
+ {#{{ render(controller('FrontEndBundle:Notification:getNotificationBody')) }}#}

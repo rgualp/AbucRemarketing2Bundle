@@ -22,7 +22,8 @@ IMPORTANT:
             {#<input type="hidden" NAME="BUTTONTXTCOLOR" value="fill here your button text color">#}
             {#<input type="hidden" NAME="FONTTYPE" value="fill here your font">#}
             {#<input type="hidden" NAME="LOGO" value="fill here your logo file name">            <!-- or dynamic template page -->#}
-            {#<input type="hidden" NAME="TP" value="fill here your template page">#}
+
+            <input type="hidden" NAME="TP" value="{{ mail_base_url }}/templates/postfinance.html">
 
             <!-- post-payment redirection -->
             <input type="hidden" NAME="ACCEPTURL" VALUE="{{ ACCEPTURL }}">

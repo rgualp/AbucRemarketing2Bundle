@@ -25,7 +25,9 @@ class BackendCommentController extends Controller {
         $sort_by = $request->get('sort_by');
         $filter_keyword = $request->get('filter_keyword');
         $filter_rate = $request->get('filter_rate');
-        if ($request->getMethod() == 'POST' && $filter_ownership == 'null' && $filter_user == 'null' && $filter_keyword == 'null' && $filter_rate == 'null' && $sort_by == 'null') {
+        $filter_date_from = $request->get('filter_date_from');
+        $filter_date_to = $request->get('filter_date_to');
+        if ($request->getMethod() == 'POST' && $filter_date_from == 'null' && $filter_date_to == 'null' && $filter_ownership == 'null' && $filter_user == 'null' && $filter_keyword == 'null' && $filter_rate == 'null' && $sort_by == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_comments'));
@@ -34,12 +36,17 @@ class BackendCommentController extends Controller {
             $filter_ownership = '';
         if ($filter_keyword == 'null')
             $filter_keyword = '';
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+
         if (isset($_GET['page']))
             $page = $_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $em = $this->getDoctrine()->getManager();
-        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by))->getResult();
+        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $filter_date_from, $filter_date_to))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
 //        $service_log = $this->get('log');
@@ -53,6 +60,8 @@ class BackendCommentController extends Controller {
                     'filter_user' => $filter_user,
                     'filter_keyword' => $filter_keyword,
                     'filter_rate' => $filter_rate,
+                    'filter_date_from' => $filter_date_from,
+                    'filter_date_to' => $filter_date_to,
                     'sort_by' => $sort_by,
                     'return_url' => 'mycp_list_comments'
         ));
@@ -64,33 +73,46 @@ class BackendCommentController extends Controller {
         $comment = new comment();
         $form = $this->createForm(new commentType(), $comment);
         if ($request->getMethod() == 'POST') {
-            $post_form = $request->get('mycp_mycpbundle_currencytype');
+            $post_form = $request->get('mycp_mycpbundle_commenttype');
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $comment->setComDate(new \DateTime(date('Y-m-d')));
-                $em->persist($comment);
-                $em->flush();
+                $accommodation = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_mcp_code" => $comment->getComOwnershipCode()));
+                $user = $em->getRepository("mycpBundle:user")->findOneBy(array("user_email" => $comment->getComUserEmail()));
+                $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
 
-                $em->getRepository("mycpBundle:ownership")->updateRating($comment->getComOwnership());
+                if($accommodation != null && $user != null && $userTourist != null) {
+                    $comment->setComDate(new \DateTime(date('Y-m-d')));
+                    $comment->setComOwnership($accommodation);
+                    $comment->setComUser($user);
+                    $em->persist($comment);
+                    $em->flush();
 
-                if($comment->getComOwnership()->getOwnEmail1()!=null) {
-                    $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
-                        'host_user_name' => $comment->getComOwnership()->getOwnHomeowner1(),
-                        'user_name' => $comment->getComUser()->getName() . ' ' . $comment->getComUser()->getUserLastName(),
-                        'comment' => $comment->getComComments()
-                    ));
+                    $em->getRepository("mycpBundle:ownership")->updateRating($comment->getComOwnership());
 
-                    $service_email = $this->get('mycp.service.email_manager');
-                    $service_email->sendEmail($comment->getComOwnership()->getOwnEmail1(),'Nuevos comentarios recibidos', $body->getContent());
+                    if ($comment->getComOwnership()->getOwnEmail1() != null) {
+                        $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
+                            'host_user_name' => $comment->getComOwnership()->getOwnHomeowner1(),
+                            'user_name' => $comment->getComUser()->getName() . ' ' . $comment->getComUser()->getUserLastName(),
+                            'comment' => $comment->getComComments()
+                        ));
+
+                        $service_email = $this->get('mycp.service.email_manager');
+                        $service_email->sendEmail($comment->getComOwnership()->getOwnEmail1(), 'Nuevos comentarios recibidos', $body->getContent());
+                    }
+                    $message = 'Comentario añadido satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    $service_log = $this->get('log');
+                    $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_INSERT, DataBaseTables::COMMENT);
+
+                    return $this->redirect($this->generateUrl('mycp_list_comments'));
                 }
-                $message = 'Comentario añadido satisfactoriamente.';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-                $service_log = $this->get('log');
-                $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_INSERT, DataBaseTables::COMMENT);
-
-                return $this->redirect($this->generateUrl('mycp_list_comments'));
+                else{
+                    $message = 'Error: No existe usuario con ese correo o no existe alojamiento con ese código';
+                    $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                    return $this->render('mycpBundle:comment:new.html.twig', array('form' => $form->createView()));
+                }
             }
         }
         return $this->render('mycpBundle:comment:new.html.twig', array('form' => $form->createView()));
@@ -102,26 +124,39 @@ class BackendCommentController extends Controller {
         $message = '';
         $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
+        $comment->setComOwnershipCode($comment->getComOwnership()->getOwnMcpCode());
+        $comment->setComUserEmail($comment->getComUser()->getUserEmail());
         $form = $this->createForm(new commentType, $comment);
         if ($request->getMethod() == 'POST') {
             $post_form = $request->get('mycp_mycpbundle_commenttype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em->persist($comment);
-                $em->flush();
-                $ownership = $comment->getComOwnership();
-                $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
-                $em->getRepository("mycpBundle:ownership")->updateRating($ownership);
-                $message = 'Comentario actualizado satisfactoriamente.';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                $accommodation = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_mcp_code" => $comment->getComOwnershipCode()));
+                $user = $em->getRepository("mycpBundle:user")->findOneBy(array("user_email" => $comment->getComUserEmail()));
+                $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
 
-                $service_log = $this->get('log');
-                $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_UPDATE, DataBaseTables::COMMENT);
+                if($accommodation != null && $user != null && $userTourist != null) {
+                    $em->persist($comment);
+                    $em->flush();
+                    $ownership = $comment->getComOwnership();
+                    $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
+                    $em->getRepository("mycpBundle:ownership")->updateRating($ownership);
+                    $message = 'Comentario actualizado satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                if ($return_url == '' || $return_url == 'null' || $return_url == null)
-                    return $this->redirect($this->generateUrl('mycp_list_comments'));
-                else
-                    return $this->redirect($this->generateUrl($return_url));
+                    $service_log = $this->get('log');
+                    $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_UPDATE, DataBaseTables::COMMENT);
+
+                    if ($return_url == '' || $return_url == 'null' || $return_url == null)
+                        return $this->redirect($this->generateUrl('mycp_list_comments'));
+                    else
+                        return $this->redirect($this->generateUrl($return_url));
+                }
+                else{
+                    $message = 'Error: No existe usuario con ese correo o no existe alojamiento con ese código';
+                    $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                    return $this->render('mycpBundle:comment:new.html.twig', array('form' => $form->createView(), 'edit_comment' => $comment->getComId()));
+                }
             }
         }
 
@@ -298,7 +333,7 @@ class BackendCommentController extends Controller {
         $id = $request->get("idComment");
         $comment = $em->getRepository('mycpBundle:comment')->find($id);
 
-        $comment->setPositive(($positive == "1" || $positive == "true"));
+        $comment->setPositive(($positive == "1" || $positive == "true") ? 1 : 0);
         $em->persist($comment);
         $em->flush();
 

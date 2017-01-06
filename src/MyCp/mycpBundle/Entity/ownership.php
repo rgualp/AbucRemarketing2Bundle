@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\EntityListeners({"MyCp\mycpBundle\Listener\OwnershipListener"})
  */
 class ownership {
-
     /**
      * All allowed statuses
      */
@@ -608,6 +607,24 @@ class ownership {
      */
     private $calendarUpdateFrequency;
 
+    /**
+     * @var integer
+     * @ORM\Column(name="count_visits", type="integer")
+     */
+    private $count_visits;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="confidence", type="boolean")
+     */
+    private $confidence;
+
+    /**
+     * @ORM\OneToMany(targetEntity="accommodationModalityFrequency", mappedBy="accommodation")
+     */
+    private $modalityUpdateFrequency;
+
 
     /**
      * Constructor
@@ -637,6 +654,8 @@ class ownership {
         $this->failures = new ArrayCollection();
         $this->calendarUpdateFrequency = new ArrayCollection();
         $this->rankingExtras = new ArrayCollection();
+        $this->confidence = false;
+        $this->calendarModalityFrequency = new ArrayCollection();
     }
 
     /**
@@ -2691,6 +2710,83 @@ class ownership {
     public function removeCalendarUpdateFrequency(accommodationCalendarFrequency $calendarUpdateFrequency)
     {
         $this->calendarUpdateFrequency->removeElement($calendarUpdateFrequency);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountVisits()
+    {
+        return $this->count_visits;
+    }
+
+    /**
+     * @param int $count_visits
+     * @return mixed
+     */
+    public function setCountVisits($count_visits)
+    {
+        $this->count_visits = $count_visits;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isConfidence()
+    {
+        return $this->confidence;
+    }
+
+    /**
+     * @param boolean $confidence
+     * @return mixed
+     */
+    public function setConfidence($confidence)
+    {
+        $this->confidence = $confidence;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModalityUpdateFrequency()
+    {
+        return $this->modalityUpdateFrequency;
+    }
+
+    /**
+     * @param mixed $modalityUpdateFrequency
+     * @return mixed
+     */
+    public function setModalityUpdateFrequency($modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency = $modalityUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Add created modalityUpdateFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationModalityFrequency $modalityUpdateFrequency
+     *
+     * @return user
+     */
+    public function addModalityUpdateFrequency(accommodationModalityFrequency $modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency[] = $modalityUpdateFrequency;
+        return $this;
+    }
+
+    /**
+     * Remove created accommodationModalityFrequency
+     *
+     * @param \MyCp\mycpBundle\Entity\accommodationModalityFrequency $modalityUpdateFrequency
+     */
+    public function removeModalityUpdateFrequency(accommodationModalityFrequency $modalityUpdateFrequency)
+    {
+        $this->modalityUpdateFrequency->removeElement($modalityUpdateFrequency);
     }
 
 }

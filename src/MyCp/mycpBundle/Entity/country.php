@@ -157,7 +157,7 @@ class country
 
     public function __toString()
     {
-        return $this->co_name;
+        return (string) $this->co_name;
     }
 
     /**

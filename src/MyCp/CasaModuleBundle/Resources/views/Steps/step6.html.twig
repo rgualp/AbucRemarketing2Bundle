@@ -29,7 +29,14 @@
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
                     {% else %}
                         {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
-                        <span class="font-blue step-span">{% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}{% else  %}-{% endif %}</span>
+                        <span class="font-blue step-span" {% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}title="{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}"{% endif %}>
+                            {% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}
+                                {{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription | slice(0,9) }}...
+                                <button type="button" class="btn btn-default" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            {% else  %}-{% endif %}
+                        </span>
                         <label class="control-label hide">Descripción</label>
                         {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}

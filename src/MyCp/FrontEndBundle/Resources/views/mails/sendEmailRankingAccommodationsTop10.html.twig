@@ -1,0 +1,30 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <p style="font-family: Arial; font-size: 14px">
+    <p>Hola, {{ homeOwner }}:</p>
+    <p>Tu alojamiento está que arde. El buen trabajo que has hecho en las últimas semanas te ha posicionado entre los primeros lugares del ranking de <b>MyCasaParticular</b>.</p>
+    <p>Ofrecer un servicio WOW y mantener actualizada la disponibilidad de tu casa particular te mantiene en la preferencia de los viajeros. Tu hospedaje sí sabe cómo colocarse en la cima.</p>
+    <p>Has demostrado todo tu potencial como <b>Anfitrión Estrella</b>, pero estamos seguros de que puedes llegar aún más lejos. Ahora tienes la oportunidad de convertir tu alojamiento en una <b>Best Casa</b>, solo sigue nuestros <a href="https://www.mycasaparticular.com/mycasa/consejos">Consejos para ser una Best Casa</a>.</p>
+    <p>Te mantenemos al tanto de cada avance que hagas. Verte escalar posiciones será estupendo. Cuenta con nosotros para lograrlo.</p>
+    <p>
+        <br/>
+        <b>SIGUE LAS ESTADÍSTICAS DE TU CASA ESTE MES</b>
+    </p>
+    <p>{{ date | date('d/m/Y') }}</p>
+    <p><b>Tu casa tiene {{ ranking }} puntos en el ranking</b></p>
+    <p>Vas en {{ place }} lugar entre los alojamientos de <b>MyCasaParticular</b></p>
+    <p><b>Eres el número {{ destinationPlace }} entre los alojamientos de {{ destination }}</b></p>
+    <p>El perfil de tu alojamiento en <b>MyCasaParticular</b> recibió {{ visits }} visitas</p>
+    <p>Los clientes solicitaron {{ totalAvailableRooms }} habitaciones disponibles</p>
+    <p>Los clientes solicitaron {{ totalNonAvailableRooms }} habitaciones, que se encontraban no disponibles</p>
+    <p>Tienes {{ totalReservedRooms }} habitaciones reservadas, por ello debes facturar {{ totalFacturation | number_format(2) }} CUC</p>
+    <p><b>En este mes has facturado {{ currentMonthFacturation | number_format(2) }} CUC </b></p>
+    <p>
+        <br/> <br/>
+        Sigue avanzando hasta conseguir escalar nuevas posiciones. Te lo recomendamos de <span style="font-size: 20px">&#x2661;</span>
+    </p>
+    <p><b>Equipo de MyCasaParticular</b></p>
+
+
+{% endblock %}
