@@ -7,19 +7,31 @@
 
 {% if current_ranking is not null %}
 
-{% set up_current_ranking = ranking["upPosition"][0]["current_rank"] %}
-{% set down_current_ranking = ranking["downPosition"][0]["current_rank"] %}
+    {% if ranking["upPosition"] | length > 0 %}
+        {% set up_current_ranking = ranking["upPosition"][0]["current_rank"] %}
+        {% set how_move_up_current_ranking = ranking["upPosition"][1]["up_down"] %}
+    {% endif %}
 
-{% set up_destination_ranking = ranking["upDestinationPosition"][0]["current_rank"] %}
-{% set down_destination_ranking = ranking["downDestinationPosition"][0]["current_rank"] %}
+    {% if ranking["downPosition"] | length > 0 %}
+        {% set down_current_ranking = ranking["downPosition"][0]["current_rank"] %}
+        {% set how_move_down_current_ranking = ranking["downPosition"][1]["up_down"] %}
+    {% endif %}
 
-{% set how_move_current_destination_rankig = ranking["ranking"][2]["up_down_destination"] %}
-{% set how_move_up_destination_ranking = ranking["upDestinationPosition"][1]["up_down_destination"] %}
-{% set how_move_down_destination_ranking = ranking["downDestinationPosition"][1]["up_down_destination"] %}
+    {% if ranking["upDestinationPosition"] | length > 0 %}
+        {% set up_destination_ranking = ranking["upDestinationPosition"][0]["current_rank"] %}
+        {% set how_move_up_destination_ranking = ranking["upDestinationPosition"][1]["up_down_destination"] %}
+    {% endif %}
 
-{% set how_move_current_rankig = ranking["ranking"][2]["up_down"] %}
-{% set how_move_up_current_ranking = ranking["upPosition"][1]["up_down"] %}
-{% set how_move_down_current_ranking = ranking["downPosition"][1]["up_down"] %}
+    {% if ranking["downDestinationPosition"] | length > 0 %}
+        {% set down_destination_ranking = ranking["downDestinationPosition"][0]["current_rank"] %}
+        {% set how_move_down_destination_ranking = ranking["downDestinationPosition"][1]["up_down_destination"] %}
+    {% endif %}
+
+
+    {% set how_move_current_destination_rankig = ranking["ranking"][2]["up_down_destination"] %}
+    {% set how_move_current_rankig = ranking["ranking"][2]["up_down"] %}
+
+
 
 {% set max_point_ranking = 525 %}
 {% set bronce = 50 %}
@@ -111,21 +123,23 @@
                     <img width="50"
                          src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}"> <span
                             class="font-blue step-span "
-                            style="font-size: 20px;font-variant-caps: petite-caps">Lugar en <b
+                            style="font-size: 19px;font-variant-caps: petite-caps">Lugar en <b
                                 style="color: green;font-weight: bold">My</b><b>CasaParticular</b></span>
                 </div>
                 <div class="col-sm-12">
                     <ul class="ranking-mycp">
                         <li>
-                            {% if how_move_up_current_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_up_current_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ up_current_ranking.place }}</span>
-                            <span> {{ up_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
+                                {% if up_current_ranking is defined %}
+                                    {% if how_move_up_current_ranking == "subio" %}
+                                        <i class="glyphicons up_arrow"></i>
+                                    {% elseif how_move_up_current_ranking == "mantuvo" %}
+                                        <i class="fa fa-minus"></i>
+                                    {% else %}
+                                        <i class="glyphicons down_arrow"></i>
+                                    {% endif %}
+                                    <span>{{ up_current_ranking.place }}</span>
+                                    <span> {{ up_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
+                                {% endif %}
                         </li>
                         <li class="current">
                             {% if how_move_current_rankig == "subio" %}
@@ -138,17 +152,21 @@
                             <span>{{ current_ranking.place }}</span>
                             <span> {{ current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
                         </li>
-                        <li>
-                            {% if how_move_down_current_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_down_current_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ down_current_ranking.place }}</span>
-                            <span> {{ down_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
-                        </li>
+
+                            <li>
+                                {% if down_current_ranking is defined %}
+                                    {% if how_move_down_current_ranking == "subio" %}
+                                        <i class="glyphicons up_arrow"></i>
+                                    {% elseif how_move_down_current_ranking == "mantuvo" %}
+                                        <i class="fa fa-minus"></i>
+                                    {% else %}
+                                        <i class="glyphicons down_arrow"></i>
+                                    {% endif %}
+                                    <span>{{ down_current_ranking.place }}</span>
+                                    <span> {{ down_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
+                                {% endif %}
+                            </li>
+
                     </ul>
                 </div>
                 <div class="col-sm-12">
@@ -165,17 +183,21 @@
                 </div>
                 <div class="col-sm-12">
                     <ul class="ranking-mycp inprovince">
-                        <li>
-                            {% if how_move_up_destination_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_up_destination_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ up_destination_ranking.destinationPlace }}</span>
-                            <span> {{ up_destination_ranking.accommodation.getOwnName }}</span>
-                        </li>
+                            <li>
+                                {% if up_destination_ranking is defined %}
+
+                                {% if how_move_up_destination_ranking == "subio" %}
+                                    <i class="glyphicons up_arrow"></i>
+                                {% elseif how_move_up_destination_ranking == "mantuvo" %}
+                                    <i class="fa fa-minus"></i>
+                                {% else %}
+                                    <i class="glyphicons down_arrow"></i>
+                                {% endif %}
+                                <span>{{ up_destination_ranking.destinationPlace }}</span>
+                                <span> {{ up_destination_ranking.accommodation.getOwnName }}</span>
+                                {% endif %}
+
+                            </li>
                         <li class="current">
                             {% if how_move_current_destination_rankig == "subio" %}
                                 <i class="glyphicons up_arrow"></i>
@@ -187,17 +209,21 @@
                             <span>{{ current_ranking.destinationPlace }}</span>
                             <span> {{ current_ranking.accommodation.getOwnName }}</span>
                         </li>
-                        <li>
-                            {% if how_move_down_destination_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_down_destination_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ down_destination_ranking.destinationPlace }}</span>
-                            <span> {{ down_destination_ranking.accommodation.getOwnName }}</span>
-                        </li>
+                            <li>
+                                {% if down_destination_ranking is defined %}
+
+                                {% if how_move_down_destination_ranking == "subio" %}
+                                    <i class="glyphicons up_arrow"></i>
+                                {% elseif how_move_down_destination_ranking == "mantuvo" %}
+                                    <i class="fa fa-minus"></i>
+                                {% else %}
+                                    <i class="glyphicons down_arrow"></i>
+                                {% endif %}
+                                <span>{{ down_destination_ranking.destinationPlace }}</span>
+                                <span> {{ down_destination_ranking.accommodation.getOwnName }}</span>
+                                {% endif %}
+
+                            </li>
                     </ul>
                 </div>
                 <div class="col-sm-12">
