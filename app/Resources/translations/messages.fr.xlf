@@ -3789,7 +3789,7 @@
             </trans-unit>
                             <trans-unit id="951">
                                 <source>FOOTER_EMAIL1</source>
-                                <target>"<![CDATA[Ajoutez <a href='mailto:reservation@mycasaparticular.com'>reservation@mycasaparticular.com</a> à votre carnet d´adresses pour continuer à recevoir nos mails.<br/><br/>
+                                <target>"<![CDATA[Ajoutez <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a> à votre carnet d´adresses pour continuer à recevoir nos mails.<br/><br/>
 Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d´être vérifiés en ce qui concerne la disponibilité.
 Consultez nos <a href="%termlink%"> Conditions d’utilisation</a> pour en savoir plus
 Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Conditions d’utilisation. ]]>"

@@ -43,8 +43,8 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
         $now = new \DateTime();
         $now_format = $now->format('Y-m-d H:i:s');
-        $output->writeln('<info>**** ---------------------------------------------------- ****</info>');
-        $output->writeln('<info>**** Recopilando disponibilidades dadas por propietarios ' . $now_format . ' ****</info>');
+        $output->writeln('<info>**** ---------------------Inicio:' . $now_format .'--------------------- ****</info>');
+        $output->writeln('<info>**** Recopilando disponibilidades dadas por propietarios ****</info>');
 
         $this->container = $this->getContainer();
         $this->em = $this->container->get('doctrine')->getManager();
@@ -103,6 +103,10 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
                 $output->writeln('<info>**** Job incertado ****</info>');
             }
         }
+
+        $now = new \DateTime();
+        $now_format = $now->format('Y-m-d H:i:s');
+        $output->writeln('<info>**** -------------------------Fin:' . $now_format .'--------------------------- ****</info>');
     }
 
 }

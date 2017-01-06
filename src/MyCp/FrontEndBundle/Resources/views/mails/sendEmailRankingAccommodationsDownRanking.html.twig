@@ -1,4 +1,4 @@
-{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
 
 {% block content %}
     <p style="font-family: Arial; font-size: 14px">
@@ -18,7 +18,7 @@
     <p>El perfil de tu alojamiento en <b>MyCasaParticular</b> recibió {{ visits }} visitas</p>
     <p>Los clientes solicitaron {{ totalAvailableRooms }} habitaciones disponibles</p>
     <p>Los clientes solicitaron {{ totalNonAvailableRooms }} habitaciones, que se encontraban no disponibles</p>
-    <p>Tienes {{ totalReservedRooms }} habitaciones reservada, por ello debes facturar {{ totalFacturation | number_format(2) }} CUC</p>
+    <p>Tienes {{ totalReservedRooms }} habitaciones reservadas, por ello debes facturar {{ totalFacturation | number_format(2) }} CUC</p>
     <p><b>En este mes has facturado {{ currentMonthFacturation | number_format(2) }} CUC </b></p>
     <p>
         <br/> <br/>
