@@ -104,6 +104,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             }
         }
 
+        $now = new \DateTime();
         $now_format = $now->format('Y-m-d H:i:s');
         $output->writeln('<info>**** -------------------------Fin:' . $now_format .'--------------------------- ****</info>');
     }
