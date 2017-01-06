@@ -413,33 +413,35 @@ class BackendTestEmailTemplateController extends Controller {
 
     private function sendEmail($newMethod, $mail, $body, $subject) {
         try {
-//            $newSubject = '=?utf-8?Q?New_post:_The_top_25_blog_posts_of_2016_=f0=9f=8e=89?=';
+            $subject = "☺";
+            $newSubject = '=?utf-8?B?'.base64_encode($subject).'?=';
+            //$newSubject = "=?UTF-8?B?JiN4MjY2MTs=?=";
+
+            $mailService = $this->get('mycp.notification.mail.service');
+            $mailService->setTo(array("yanet.moralesr@gmail.com"));
+            $mailService->setSubject($newSubject);
+            $mailService->setFrom('no-reply@mycasaparticular.com', 'MyCasaParticular.com');
+            $mailService->setBody("Hi");
+            $mailService->setEmailType("TESTING");
+
+            $mailService->sendEmail();
+            $message = 'Mensaje enviado!!';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+//            if ($newMethod) {
+//                $service_email = $this->get('mycp.service.email_manager');
 //
-//            $mailService = $this->get('mycp.notification.mail.service');
-//            $mailService->setTo(array("yanet.moralesr@gmail.com"));
-//            $mailService->setSubject($newSubject);
-//            $mailService->setFrom('no-reply@mycasaparticular.com', 'MyCasaParticular.com');
-//            $mailService->setBody("Hi");
-//            $mailService->setEmailType("TESTING");
+//                $service_email->sendEmail($mail, $subject . " (Nuevo)", $body);
 //
-//            $mailService->sendEmail();
-//            $message = 'Mensaje enviado!!';
-//            $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-            if ($newMethod) {
-                $service_email = $this->get('mycp.service.email_manager');
-
-                $service_email->sendEmail($mail, $subject . " (Nuevo)", $body);
-
-                $message = 'Mensaje enviado utilizando el método actual.';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
-            } else {
-                $service_email = $this->get('Email');
-                $service_email->sendEmail($subject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
-
-                $message = 'Mensaje enviado utilizando el método antiguo.';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
-            }
+//                $message = 'Mensaje enviado utilizando el método actual.';
+//                $this->get('session')->getFlashBag()->add('message_ok', $message);
+//            } else {
+//                $service_email = $this->get('Email');
+//                $service_email->sendEmail($subject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
+//
+//                $message = 'Mensaje enviado utilizando el método antiguo.';
+//                $this->get('session')->getFlashBag()->add('message_ok', $message);
+//            }
         }
         catch(\Exception $e){
             $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
