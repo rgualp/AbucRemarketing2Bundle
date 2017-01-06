@@ -27,9 +27,23 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $this->testingCheckingSMSNotifications($em, $output, $container);
+        $this->testingStoreProcedure($em, $output, $container);
 
         $output->writeln("End of testings");
+    }
+
+    private function testingStoreProcedure($em,OutputInterface $output, $container){
+        $userId = 0;
+        $conn = $em->getConnection();
+        $reservationId = 110203;
+        $sth = $conn->prepare("CALL sp_expired_offer(?1, @u)");
+        $sth->bindParam(1, $reservationId, \PDO::PARAM_INT);
+        $sth->execute();
+
+        $id = $sth->fetch();
+        //$result = $sth->fetch();
+
+        $output->writeln($id) ;
     }
 
     private function testingCheckingSMSNotifications($em,OutputInterface $output, $container)

@@ -91,6 +91,7 @@ class VoucherHelper {
                 else
                     $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId);
 
+
                 /*$ownershipReservations = $entity_manager->getRepository('mycpBundle:ownershipReservation')
                         ->findBy(array('own_res_reservation_booking' => $bookId));
                 $serviceTime = $controller->get('time');

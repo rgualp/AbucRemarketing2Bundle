@@ -29,6 +29,7 @@ class serviceFeeRepository extends EntityRepository {
 
         $currentServiceFee = ($taxId == null) ? $this->getCurrent(): $em->getRepository("mycpBundle:serviceFee")->find($taxId);
         $touristTax = 0;
+        $totalNights = ceil($totalNights);
 
         if($totalNights == 1)
         {

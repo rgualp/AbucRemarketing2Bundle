@@ -78,6 +78,8 @@ class BackendReservationController extends Controller {
                 }
                 $em->flush();
 
+
+
                 try {
                     $emailService = $this->get('mycp.service.email_manager');
                     //Enviar correo al cliente con el texto escrito y el voucher como adjunto
@@ -187,6 +189,8 @@ class BackendReservationController extends Controller {
                 $newGeneralReservation = $reservation->getClone();
                 $newGeneralReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
                 $newGeneralReservation->setGenResDate(new \DateTime());
+                $newGeneralReservation->setModified(new \DateTime());
+                $newGeneralReservation->setModifiedBy($this->getUser());
                 $em->persist($newGeneralReservation);
                 $em->flush();
 
@@ -223,7 +227,6 @@ class BackendReservationController extends Controller {
                             $newOwnRes->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
                         }
 
-
                         if($fromDate == null || $newOwnRes->getOwnResReservationFromDate() < $fromDate)
                             $fromDate = $newOwnRes->getOwnResReservationFromDate();
                         if($toDate == null || $newOwnRes->getOwnResReservationToDate() > $toDate)
@@ -231,6 +234,8 @@ class BackendReservationController extends Controller {
 
                         $em->persist($newOwnRes);
                         array_push($newReservations, $newOwnRes);
+
+                        $em->flush();
 
                         $ownership_reservation->setOwnResReservationBooking(null);
                         $em->persist($ownership_reservation);

@@ -323,7 +323,7 @@
                             {{ reservationSummary[i].fecha | date(dateFilter) }}  {% if dateFilter == "F" %}- {{ reservationSummary[i].year }}{% endif %}
                         {% endif %}
                     </td>
-                    <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].total) | number_format(2) ~ " horas" : "-" }}</td>
+                    <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].ptr_available + reservationSummaryPTR[i].ptr_non_available) | number_format(2) ~ " horas" : "-" }}</td>
                     <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].ptr_available) | number_format(2) ~ " horas" : "-" }}</td>
                     <td style="text-align: center">{{ (reservationSummaryPTR[i] is defined) ? (reservationSummaryPTR[i].ptr_non_available) | number_format(2) ~ " horas" : "-" }}</td>
                 </tr>
