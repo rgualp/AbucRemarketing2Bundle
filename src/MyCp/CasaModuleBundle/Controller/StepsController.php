@@ -1185,6 +1185,7 @@ class StepsController extends Controller
 
         //$canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
 
+        //dump($ranking);die;
         return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
             'ownership'=>$ownership,
             'ranking'=>$ranking,

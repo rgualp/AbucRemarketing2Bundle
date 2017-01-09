@@ -33,6 +33,11 @@ class NotificationMailService extends Controller
 			$addresses = array($addresses => $name);
 		}
 
+        if (!is_array($addresses) && !isset($name)){
+            $addresses = array($addresses);
+        }
+
+
 		$this->to= $addresses;
 		return $this;
 	}

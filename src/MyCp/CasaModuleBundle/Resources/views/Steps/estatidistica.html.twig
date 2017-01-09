@@ -31,7 +31,7 @@
                         <div id="calendar-date-content" class="col-md-10" style="text-align: center">
                             {% for dateRanking in dates_with_ranking %}
                                 <span id="date{{ loop.index }}" data-dates="{{ dateRanking['startDate'] | date("d-m-Y") }}" class="span-dates font-blue step-span {% if loop.last %} dateactive {% endif %}" style="font-size: 20px;font-variant-caps: petite-caps">
-                                    <b>{{dateRanking['startDate'] | localizeddate('none', 'none', "es", null, "MMMM Y") | capitalize}}</b>
+                                    <b>{{ dateRanking['startDate'] | localizeddate('none', 'none', "es", null, "MMMM") | capitalize }} {{ dateRanking['startDate'] | date("Y") }}</b>
                                 </span>
                             {% endfor %}
                         </div>

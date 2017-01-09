@@ -90,35 +90,52 @@ class RankingCommand extends ContainerAwareCommand {
         //Buscar informacion de los alojamientos
         $accommodationsRankingValues = $this->em->getRepository("mycpBundle:ownership")->getRankingStatisticsToSendEmails($monthArg, $yearArg);
 
+//        $sendTestingEmail1 = false;
+//        $sendTestingEmail2 = false;
+//        $sendTestingEmail3 = false;
+//        $sendTestingEmail4 = false;
+
         foreach($accommodationsRankingValues as $rankingValue)
         {
             //Enviar correo
-            $from_email= 'no_responder@mycasaparticular.com';
+            $from_email= 'casa@mycasaparticular.com';
             $from_name= 'MyCasaParticular.com';
             $email_type= 'RANKING_EMAIL';
             $emailValues = array("subject" => "", "content" => "");
 
+
             if($rankingValue["ranking"] <= 0 || $rankingValue["previousRank"] == null)
             {
-                $emailValues = $this->sendEmailAccommodationsWithNegativeOrZeroRanking($rankingValue);
+//                if(!$sendTestingEmail1)
+                    $emailValues = $this->sendEmailAccommodationsWithNegativeOrZeroRanking($rankingValue);
+//                $sendTestingEmail1 = true;
             }
             elseif($rankingValue["place"] <= 10)
             {
-                $emailValues = $this->sendEmailAccommodationsTop10($rankingValue);
+//                if(!$sendTestingEmail2)
+                    $emailValues = $this->sendEmailAccommodationsTop10($rankingValue);
+
+//                $sendTestingEmail2 = true;
             }
 
             elseif($rankingValue["place"] > 10 && $rankingValue["place"] <= $rankingValue["previousPlace"])
             {
-                $emailValues = $this->sendEmailAccommodationsUpRanking($rankingValue);
+//                if(!$sendTestingEmail3)
+                    $emailValues = $this->sendEmailAccommodationsUpRanking($rankingValue);
+
+//                $sendTestingEmail3 = true;
             }
             elseif($rankingValue["place"] > 10 && $rankingValue["place"] > $rankingValue["previousPlace"])
             {
-                $emailValues = $this->sendEmailAccommodationsDownRanking($rankingValue);
+//                if(!$sendTestingEmail4)
+                    $emailValues = $this->sendEmailAccommodationsDownRanking($rankingValue);
+
+//                $sendTestingEmail4 = true;
             }
 
             if($emailValues["subject"] != "" && $emailValues["content"] != "") {
                 $this->notification_email->setTo(array($rankingValue["email"]));
-                //$this->notification_email->setTo("yanet.moralesr@gmail.com");
+                //$this->notification_email->setTo(array("yanet.moralesr@gmail.com"));
                 $this->notification_email->setSubject($emailValues["subject"]);
                 $this->notification_email->setFrom($from_email, $from_name);
                 $this->notification_email->setBody($emailValues["content"]);
