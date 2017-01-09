@@ -63,14 +63,14 @@
                         <td class="color-td-onepackage"></td>
                         <td style="background-color: #eea733">
                             {% if app.user.getUserUserName is not defined %}
-                                <a style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
+                                <a class="aRegisterAgency" style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency" data-package="{{ packagesArray["Básico"] }}">
                                     {{ 'frontend.partner' | trans }}
                                 </a>
                             {% endif %}
                         </td>
                         <td style="background-color: #eea733; border-left: 2px solid #063b5b">
                             {% if app.user.getUserUserName is not defined %}
-                                <a style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency">
+                                <a class="aRegisterAgency" style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency" data-package="{{ packagesArray["Económico"] }}">
                                     {{ 'frontend.partner' | trans }}
                                 </a>
                             {% endif %}

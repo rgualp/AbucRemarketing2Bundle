@@ -25,11 +25,21 @@ class FrontendController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+        $packagesArray = array();
+
+        foreach($packages as $pack)
+        {
+            $packagesArray[$pack->getName()] = $pack->getId();
+        }
+
         $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
         if($this->getUser() == null) {
             return $this->render('PartnerBundle:Frontend:index.html.twig', array(
                 'remoteLogin' => true,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'packages' => $packages,
+                'packagesArray' => $packagesArray
             ));
         }
         else {
@@ -128,10 +138,10 @@ class FrontendController extends Controller
                 $em->flush();
 
                 //Save relations package agency
-                $package = $em->getRepository('PartnerBundle:paPackage')->findAll(); //Esperando a que venga de la vista
-                if(count($package)) {
+                $package = $em->getRepository('PartnerBundle:paPackage')->find($request->get('packageSelect')); //Esperando a que venga de la vista
+                if($package != null) {
                     $package_agency = new paAgencyPackage();
-                    $package_agency->setPackage($package[0]);
+                    $package_agency->setPackage($package);
                     $package_agency->setTravelAgency($obj);
                     $em->persist($package_agency);
                     $em->flush();

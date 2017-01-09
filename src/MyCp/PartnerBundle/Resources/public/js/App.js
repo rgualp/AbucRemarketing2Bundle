@@ -21,6 +21,14 @@ var App = function () {
     var addFormContactInAgency=function(){
         App.addTagForm($collectionHolder, $newLinkLi);
     }
+
+    var registerAgency=function(){
+        $('#myModalRegisterAgency').on('show.bs.modal', function (e) {
+            //var $invoker = $(e.relatedTarget);
+            $("#packageSelect").val($(e.relatedTarget).data('package'));
+            $('#packageSelect').trigger('chosen:updated');
+        });
+    }
     /**
      * Register Agency
      */
@@ -111,6 +119,7 @@ var App = function () {
           //IMPORTANT!!!: Do not modify the call order.
             addFormContactInAgency();
             initForm();
+            registerAgency();
         },
         addTagForm:function($collectionHolder, $newLinkLi) {
         // Get the data-prototype explained earlier
