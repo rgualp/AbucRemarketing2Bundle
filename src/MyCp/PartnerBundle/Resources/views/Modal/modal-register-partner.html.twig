@@ -6,7 +6,8 @@
             </div>
             <div class="modal-body modal-agency pb-0">
                 <form class="form-horizontal form-agency" action="{{ path('frontend_partner_registeragency') }}" method="post" id="form-agency">
-                <div class="col-md-3  hidden-xs">
+
+                    <div class="col-md-3  hidden-xs">
                     <div class="row" style="background: url({{ asset('bundles/partner/img/icon/unete_partner_'~app.session.get('app_lang_code')|lower)}}.png)  no-repeat scroll 50%;height: 188px;width:180px;background-size: 100%">
                     </div>
                     <div class="row">
@@ -51,15 +52,28 @@
                         </div>
                         <div class="row agency text-right" >
                             <p class="m-r-12">{{ 'label.form.agency.three' | trans }}</p>
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
-                                <div class="inner-addon left-addon">
-                                    <i class="glyphicon glyphicons keys"></i>
-                                    <input placeholder="{{ 'label.password' | trans }}" type="password" class="form-control" name="password" id="password" aria-required="true" aria-invalid="false">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons package"></i>
+                                        <select required="required" aria-required="true" aria-describedby="partner_agency_plan-error" name="packageSelect" id="packageSelect" data-placeholder="{{ 'title.column_one'|trans }}" data-toggle="tooltip" data-container="body" class="form-control chosen-select-deselect">
+                                            {% for package in packages %}
+                                            <option value="{{ package.id }}">{{ package.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span id="partner_agency_plan-error" class="has-error"></span>
+
+                                    </div>
                                 </div>
-                                <div class="inner-addon left-addon">
-                                    <i class="glyphicon glyphicons keys"></i>
-                                    <input placeholder="{{ 'label.password.repeat' | trans }}" type="password" class="form-control" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
+                                <div class="col-md-6">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons keys"></i>
+                                        <input placeholder="{{ 'label.password' | trans }}" type="password" class="form-control" name="password" id="password" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons keys"></i>
+                                        <input placeholder="{{ 'label.password.repeat' | trans }}" type="password" class="form-control" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
+                                    </div>
                                 </div>
                             </div>
                         </div>

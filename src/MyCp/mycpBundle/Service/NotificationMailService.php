@@ -33,6 +33,11 @@ class NotificationMailService extends Controller
 			$addresses = array($addresses => $name);
 		}
 
+        if (!is_array($addresses) && !isset($name)){
+            $addresses = array($addresses);
+        }
+
+
 		$this->to= $addresses;
 		return $this;
 	}
@@ -121,10 +126,11 @@ class NotificationMailService extends Controller
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
 		$response = curl_exec($curl);//{"id":#}
+        var_dump($response);
 		$info = curl_getinfo($curl);
 		curl_close($curl);
 		$code = $info['http_code'];//201==success/
-
+        var_dump($code);
 		#region Init all
 		$this->to =$this->bcc =$this->cc= array();
 		$this->subject= $this->from_email= $this->from_name= $this->msg= $this->email_type= '';

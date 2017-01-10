@@ -1,5 +1,15 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+    '@mycpBundle/Resources/public/vendors/select2/css/select2.min.css'
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -21,4 +31,29 @@
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{{path('mycp_create_touristfailures',{'accommodationId':accommodation.ownId})}}">
 {% if errors is defined and errors | length > 0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
     {{form_widget(form)}}
+{% endblock %}
+
+    {% block javascripts %}
+    <script type="text/javascript">
+        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+    </script>
+
+    {% javascripts
+    '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(document).on('ready', function(){
+            $('.select').select2();
+        });
+
+
+    </script>
 {% endblock %}
