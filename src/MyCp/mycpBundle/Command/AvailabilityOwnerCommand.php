@@ -91,7 +91,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             $container = $this->getContainer();
             $id_reservation = $generalReservation->getGenResId();
             $service_email = $container->get('Email');
-            $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta", false);
+            $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta. Hora servidor:".$now_format, false);
             $output->writeln('<info>**** Enviando Correo ****</info>');
 
             if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){
