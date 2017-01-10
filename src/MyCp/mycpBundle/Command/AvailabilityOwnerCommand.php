@@ -88,20 +88,28 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
 
             /*Envio de Email*/
             $output->writeln('<info>**** Enviando Correo ****</info>');
-            $container = $this->getContainer();
+            /*$container = $this->getContainer();
             $id_reservation = $generalReservation->getGenResId();
             $service_email = $container->get('Email');
-            $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta. Hora servidor:".$now_format, false);
+            $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta. Hora servidor:".$now_format, false);*/
+
+            $message = Swift_Message::newInstance()
+                ->setSubject("subject")
+                ->setFrom("reservation@mycasaparticular.com", "MyCasaParticular.com")
+                ->setTo("mgleonsc@gmail.com")
+                ->setBody('<!DOCTYPE html><html><head><title>MyCasaParticular.com</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body style="font-family: Arial;">Test</body></html>', 'text/html');
+            $container = $this->getContainer();
+            $container->get('mailer')->send($message);
             $output->writeln('<info>**** Enviando Correo ****</info>');
 
-            if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){
+            /*if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){
                 $output->writeln('<info>**** Incertando job ****</info>');
                 // inform listeners that a reservation was sent out
                 $dispatcher = $container->get('event_dispatcher');
                 $eventData = new GeneralReservationJobData($id_reservation);
                 $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
                 $output->writeln('<info>**** Job incertado ****</info>');
-            }
+            }*/
         }
 
         $now = new \DateTime();
