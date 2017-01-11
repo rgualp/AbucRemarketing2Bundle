@@ -64,9 +64,9 @@ parameters:
     newsletter_testing_mode: 0
     newsletter_testing_email: yanet.moralesr@gmail.com
     newsletter_testing_mobile: 52540669
-    url_server_node: 'http://localhost:9203/'
-    url_mean: 'http://node.dev/'
-    ws_mean: 'node.dev:9203'
+    url_server_node: 'https://notificacion.cubacoupon.com/'
+    url_mean: 'https://notificacion.cubacoupon.com/'
+    ws_mean: 'notificacion.cubacoupon.com:9203'
     mean_project: 'mycp'
 
     id_google_analitics: UA-16697066-1
