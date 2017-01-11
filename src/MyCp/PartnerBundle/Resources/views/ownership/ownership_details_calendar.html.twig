@@ -68,7 +68,7 @@
                 <label>+</label>
             </div>
             <div class="col-sm-2"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
-                {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
+                {{ 'SERVICE_AGENCY_TAX' | trans }}<br/>
                 {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                 <span id="tourist_service"
                       data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"

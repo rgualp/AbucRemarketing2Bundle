@@ -2267,6 +2267,10 @@
                         <source>client_name_require</source>
                         <target>The client name is equired field.</target>
                   </trans-unit>
+      <trans-unit id="15">
+                  <source>SERVICE_AGENCY_TAX</source>
+                  <target>Agency Tax</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

@@ -2266,6 +2266,10 @@
                   <source>client_name_require</source>
                   <target>El nombre del cliente es un campo obligatorio.</target>
             </trans-unit>
+      <trans-unit id="15">
+                  <source>SERVICE_AGENCY_TAX</source>
+                  <target>Tarifa de la Agencia</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1285,7 +1285,14 @@ class DashboardController extends Controller
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,$name);
         return $response;
     }
+
     public function getReservationCalendarAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+        $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
+
         $from = $request->get('from');
         $to = $request->get('to');
         $fromBackend = $request->get('backend');
@@ -1497,6 +1504,8 @@ class DashboardController extends Controller
                     'prices_dates' => $prices_dates,
                     'reservations' => $array_no_available,
                     'fromBackend' => $fromBackend,
+                    'fromPartner' => true,
+                    'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
                     'nights' => $nights
                 ));
     }
