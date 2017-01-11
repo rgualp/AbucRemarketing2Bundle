@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * paAgencyPackage
  *
  * @ORM\Table(name="pa_agency_package")
- * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPackageRepository")
+ * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paAgencyPackageRepository")
  * @ORM\EntityListeners({"MyCp\PartnerBundle\Listener\BaseEntityListener"})
  *
  */
