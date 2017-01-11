@@ -101,7 +101,7 @@ class UserController extends Controller {
 
                 //return $this->redirect($this->generateUrl('frontend_login'));
 
-                //Registrando al user en HDS-MEAN
+                /*//Registrando al user en HDS-MEAN
                 // abrimos la sesión cURL
                 $ch = curl_init();
                 // definimos la URL a la que hacemos la petición
@@ -143,7 +143,7 @@ class UserController extends Controller {
                     $user_db->setOnline(true);
                     $em->persist($user_db);
                     $em->flush();
-                }
+                }*/
 
                 return $this->redirect($this->generateUrl('frontend_welcome'));
             }
