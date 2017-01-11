@@ -44,6 +44,18 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
         $now = new \DateTime();
         $now_format = $now->format('Y-m-d H:i:s');
         $output->writeln('<info>**** ---------------------Inicio:' . $now_format .'--------------------- ****</info>');
+
+        /*Informe Test*/
+        /*$message = \Swift_Message::newInstance()
+            ->setSubject('subject time:'.$now_format)
+            ->setFrom("reservation@mycasaparticular.com", "MyCasaParticular.com")
+            ->setTo("mgleonsc@gmail.com")
+            ->setBody('<!DOCTYPE html><html><head><title>MyCasaParticular.com</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body style="font-family: Arial;">Test</body></html>', 'text/html');
+        $container = $this->getContainer();
+        $container->get('mailer')->send($message);*/
+        /**************/
+
+
         $output->writeln('<info>**** Recopilando disponibilidades dadas por propietarios ****</info>');
 
         $this->container = $this->getContainer();
@@ -91,7 +103,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             $container = $this->getContainer();
             $id_reservation = $generalReservation->getGenResId();
             $service_email = $container->get('Email');
-            $service_email->sendReservation($id_reservation, "", false);
+            $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta", false);
             $output->writeln('<info>**** Enviando Correo ****</info>');
 
             if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){

@@ -37,7 +37,7 @@ class UserSecure {
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $session = $this->container->get('session');
         $user = $this->security_context->getToken()->getUser();
-       /* $hash_user = hash('sha256', $user->getUserUserName());
+        $hash_user = hash('sha256', $user->getUserUserName());
         $hash_email = hash('sha256', $user->getUserEmail());
         if($user->getRegisterNotification()==''){
             //Registrando al user en HDS-MEAN
@@ -49,6 +49,8 @@ class UserSecure {
             curl_setopt($ch, CURLOPT_POST, 1);
             // definimos cada uno de los parámetros
             curl_setopt($ch, CURLOPT_POSTFIELDS, "email=".$hash_email.'_'.$this->container->getParameter('mean_project')."&last=".$user->getUserLastName()."&first=".$user->getUserLastName()."&password=".$user->getUserPassword()."&username=".$hash_user.'_'.$this->container->getParameter('mean_project'));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             // recibimos la respuesta y la guardamos en una variable
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $remote_server_output = curl_exec ($ch);
@@ -62,6 +64,8 @@ class UserSecure {
         $ch = curl_init();
         // definimos la URL a la que hacemos la petición
         curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."access-token?username=".$hash_user.'_'.$this->container->getParameter('mean_project')."&password=".$user->getPassword()."&email=".$hash_email.'_'.$this->container->getParameter('mean_project'));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         // recibimos la respuesta y la guardamos en una variable
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec ($ch);
@@ -75,7 +79,7 @@ class UserSecure {
             $user->setOnline(true);
             $this->em->persist($user);
             $this->em->flush();
-        }*/
+        }
 
 
         //Pasar lo q esta en los favoritos al usuario loggueado
