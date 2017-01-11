@@ -8,8 +8,10 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use MyCp\mycpBundle\Entity\ownershipStatus;
@@ -118,5 +120,14 @@ class DefaultController extends Controller
                 'ownership'=>$ownership,
                 'dashboard'=>true)
         );
+    }
+
+    public function manualMyCRDownloadAction(){
+        //variable
+        $pathToFile = $this->container->getParameter("configuration.dir.additionalsFiles");
+
+        $response = new BinaryFileResponse($pathToFile.'Instructivo_para_propietarios_de_MyCasa_Renta_v2.0.pdf');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'Instructivo_para_propietarios_de_MyCasa_Renta_v2.0.pdf');
+        return $response;
     }
 }
