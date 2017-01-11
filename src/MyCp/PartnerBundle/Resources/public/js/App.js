@@ -25,8 +25,12 @@ var App = function () {
     var registerAgency=function(){
         $('#myModalRegisterAgency').on('show.bs.modal', function (e) {
             //var $invoker = $(e.relatedTarget);
-            $("#packageSelect").val($(e.relatedTarget).data('package'));
-            $('#packageSelect').trigger('chosen:updated');
+
+            if($(e.relatedTarget).attr("data-package")) {
+                var packageId = $(e.relatedTarget).data('package');
+                $("#packageSelect").val(packageId);
+                $('#packageSelect').trigger('chosen:updated');
+            }
         });
     }
     /**
@@ -43,6 +47,7 @@ var App = function () {
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
+
         var form = $("#form-agency");
         var formData = new FormData(form[0]);
         formData.append("password", $('#password').val());

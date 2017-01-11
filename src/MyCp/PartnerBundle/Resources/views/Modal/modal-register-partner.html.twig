@@ -58,7 +58,7 @@
                                         <i class="glyphicon glyphicons package"></i>
                                         <select required="required" aria-required="true" aria-describedby="partner_agency_plan-error" name="packageSelect" id="packageSelect" data-placeholder="{{ 'title.column_one'|trans }}" data-toggle="tooltip" data-container="body" class="form-control chosen-select-deselect">
                                             {% for package in packages %}
-                                            <option value="{{ package.id }}">{{ package.name }}</option>
+                                            <option value="{{ package.id }}" {% if loop.index0 == 0 %}selected="selected"{% endif %}>{{ package.name }}</option>
                                             {% endfor %}
                                         </select>
                                         <span id="partner_agency_plan-error" class="has-error"></span>
