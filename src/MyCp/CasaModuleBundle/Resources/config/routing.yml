@@ -57,3 +57,7 @@ my_casa_module_comments:
 my_casa_module_advice:
     pattern:  /consejos
     defaults: { _controller: MyCpCasaModuleBundle:Default:showAdvice}
+
+my_casarenta_manual_download:
+    pattern:  /manual_download
+    defaults: { _controller: MyCpCasaModuleBundle:Default:manualMyCRDownload}

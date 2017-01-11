@@ -26,6 +26,8 @@ class Notifications  {
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($param));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headr);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         $remote_server_output = curl_exec ($curl);
         // cerramos la sesión cURL
         curl_close ($curl);
