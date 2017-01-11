@@ -105,7 +105,7 @@ class OAuthController extends Controller
                             $em->persist($userTourist);
 
 
-                            $hash_user = hash('sha256', $fbLoginData->getName());
+                           /* $hash_user = hash('sha256', $fbLoginData->getName());
                             $hash_email = hash('sha256', strtolower($fbLoginData->getEmail()));
                             $password="";
                             //Registrando al user en HDS-MEAN
@@ -117,15 +117,13 @@ class OAuthController extends Controller
                             curl_setopt($ch, CURLOPT_POST, 1);
                             // definimos cada uno de los parámetros
                             curl_setopt($ch, CURLOPT_POSTFIELDS, "email=".$hash_email.'_'.$this->container->getParameter('mean_project')."&last=".$fbLoginData->getLastName()."&first=".$fbLoginData->getLastName()."&password=".$password."&username=".$hash_user.'_'.$this->container->getParameter('mean_project'));
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                             // recibimos la respuesta y la guardamos en una variable
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             $remote_server_output = curl_exec ($ch);
                             // cerramos la sesión cURL
                             curl_close ($ch);
                             $user->setRegisterNotification(true);
-                            $em->persist($user);
+                            $em->persist($user);*/
                             $em->flush();
                         }
 
@@ -210,7 +208,7 @@ class OAuthController extends Controller
                             }
                         }
 
-                        $hash_user = hash('sha256', $user->getUserUserName());
+                        /*$hash_user = hash('sha256', $user->getUserUserName());
                         $hash_email = hash('sha256', $user->getUserEmail());
                         //-----------------Autenticando al usuario en HDS-MEN
                         $session = $this->container->get('session');
@@ -218,8 +216,6 @@ class OAuthController extends Controller
                         $ch = curl_init();
                         // definimos la URL a la que hacemos la petición
                         curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."access-token?username=".$hash_user.'_'.$this->container->getParameter('mean_project')."&password=".$user->getPassword()."&email=".$hash_email.'_'.$this->container->getParameter('mean_project'));
-                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                         // recibimos la respuesta y la guardamos en una variable
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         $response = curl_exec ($ch);
@@ -233,7 +229,7 @@ class OAuthController extends Controller
                             $user->setOnline(true);
                             $em->persist($user);
                             $em->flush();
-                        }
+                        }*/
 
                     }
                     else{
