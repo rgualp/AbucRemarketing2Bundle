@@ -35,34 +35,36 @@ function totalPrice(curr,percent, totalNights)
         if(roomsTotal == 1)
         {
             if(avgPrice < 20*curr )
-                tourist_fee_percent = parseFloat($("#tourist_service").data("one-nr-until-20-percent"));
+                tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-until-20-percent"));
             else if(avgPrice >= 20*curr && avgPrice < 25*curr)
-                tourist_fee_percent = parseFloat($("#tourist_service").data("one-nr-from-20-to-25-percent"));
+                tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-from-20-to-25-percent"));
             else if(avgPrice >= 25*curr)
-                tourist_fee_percent = parseFloat($("#tourist_service").data("one-nr-from-more-25-percent"));
+                tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-from-more-25-percent"));
         }
         else
-            tourist_fee_percent = parseFloat($("#tourist_service").data("one-night-several-rooms-percent"));
+            tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-night-several-rooms-percent"));
     }
     else if(totalNights == 2) {
-        tourist_fee_percent = parseFloat($("#tourist_service").data("one-2-nights-percent"));
+        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-2-nights-percent"));
     }
     else if(totalNights == 3)
-        tourist_fee_percent = parseFloat($("#tourist_service").data("one-3-nights-percent"));
+        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-3-nights-percent"));
     else if(totalNights == 4)
-        tourist_fee_percent = parseFloat($("#tourist_service").data("one-4-nights-percent"));
+        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-4-nights-percent"));
     else if(totalNights >= 5)
-        tourist_fee_percent = parseFloat($("#tourist_service").data("one-5-nights-percent"));
+        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-5-nights-percent"));
 
 
     $('#data_reservation').val(string_url);
-    $('#total_price').html( normalize_prices(total_price_var) );
+    console.log(total_price_var);
+
     $('#subtotal_price').html(normalize_prices(total_price_var));
     var percent_value=total_price_var * percent / 100;
     var tourist_service = total_price_var*tourist_fee_percent;
 
     $("#tourist_service").html(normalize_prices(tourist_service));
     $('#initial_deposit').html(normalize_prices(percent_value));
+    $('#accommodation_price').html(normalize_prices(total_price_var));
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
 
     var fixed_tax = $("#tourist_service").data("fixed-tax");
@@ -72,22 +74,20 @@ function totalPrice(curr,percent, totalNights)
     var summatoryTax = parseFloat(total_price_var)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
     var agencyCommissionTax = parseFloat(summatoryTax * commissionAgency/100);
     var totalCost = parseFloat(summatoryTax * 1.1);
-    console.log(summatoryTax);
-    console.log(agencyCommissionTax);
-    console.log(totalCost);
 
     if(completePayment != 0)
         var prepayment = parseFloat(totalCost - agencyCommissionTax);
     else
         var prepayment = parseFloat(percent_value)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
-    console.log(prepayment);
+
     $('#total_prepayment').html(normalize_prices(prepayment));
+    $('#total_price').html( normalize_prices(totalCost) );
 
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
     $('.calendar-results').css({display: 'block'});
 
-    if(checkTotalPrice) {
+    /*if(checkTotalPrice) {
         if (total_price_var !== originalTotalPrice) {
             $("#btn_submit").attr("disabled", true);
             $(".btn_submit").attr("disabled", true);
@@ -103,12 +103,12 @@ function totalPrice(curr,percent, totalNights)
 
         }
     }
-    else{
+    else{*/
         $("#btn_submit").removeAttr("disabled");
         $(".btn_submit").removeAttr("disabled");
         $("#error").css({display: 'none'});
         $(".all-prices-numbers").removeClass("error");
-    }
+    //}
 }
 function reservationsBody()
 {

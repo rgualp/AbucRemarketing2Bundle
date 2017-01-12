@@ -1494,9 +1494,11 @@ class DashboardController extends Controller
             $do_operation = true;
             $flag_room++;
         }
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
             //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
             return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
                     'array_dates' => $array_dates_keys,
+                    'currentServiceFee' => $currentServiceFee,
                     'rooms' => $rooms,
                     'array_prices' => $array_prices,
                     'ownership' => $ownership,
