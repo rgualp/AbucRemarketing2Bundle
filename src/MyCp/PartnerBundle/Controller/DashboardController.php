@@ -1505,6 +1505,7 @@ class DashboardController extends Controller
                     'reservations' => $array_no_available,
                     'fromBackend' => $fromBackend,
                     'fromPartner' => true,
+                    'commissionAgency' => $currentTravelAgency->getCommission(),
                     'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
                     'nights' => $nights
                 ));
