@@ -456,6 +456,24 @@ class BackendReservationController extends Controller {
         ));
     }
 
+    /**
+     * @param $id_booking
+     * @return Response
+     */
+    public function cancel_bookingAction($id_booking) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
+        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
+        return $this->render('mycpBundle:reservation:bookingCancel.html.twig', array(
+                'user' => $user,
+                'reservations' => $reservations,
+                'payment' => $payment
+            ));
+    }
+
     public function list_reservations_userAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
@@ -721,6 +739,45 @@ class BackendReservationController extends Controller {
             }
         }
         return $this->render('mycpBundle:reservation:new.html.twig', array('form' => $form->createView(), 'role' => $role[0]));
+    }
+
+    /**
+     * @param $id_reservation
+     * @return Response
+     */
+    public function details_casreservation_partialAction($id_reservation) {
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getByIdObj($id_reservation);
+
+        $service_time = $this->get('time');
+        $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
+        $rooms = array();
+        $total_nights = array();
+        foreach ($ownership_reservations as $res) {
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            $temp_total_nights = 0;
+            $nights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            $temp_total_nights += $nights;
+
+            array_push($total_nights, $temp_total_nights);
+        }
+
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null, "", false);
+        $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($id_reservation);
+        $currentServiceFee = $reservation->getServiceFee();
+        return $this->render('mycpBundle:reservation:reservationCasDetailsPartial.html.twig', array(
+                'nights' => $total_nights,
+                'reservation' => $reservation,
+                'user' => $user,
+                'reservations' => $ownership_reservations,
+                'rooms' => $rooms,
+                'id_reservation' => $id_reservation,
+                'bookings' => $bookings,
+                'logs' => $logs,
+                'currentServiceFee' => $currentServiceFee
+            ));
     }
 
     public function details_reservation_partialAction($id_reservation) {

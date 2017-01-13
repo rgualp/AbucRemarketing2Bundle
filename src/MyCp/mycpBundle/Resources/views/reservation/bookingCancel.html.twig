@@ -1,0 +1,83 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_booking') }}">Bookings</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de Booking</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_booking') }}">Bookings</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de Booking</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+    <div class="form-actions">
+       <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
+       <a href="{{ path('mycp_send_voucher_reservation_booking',{ 'id_booking' :  payment.booking.bookingId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
+    </div>
+{% endblock %}
+{% block content %}
+<h2>Booking {{ payment.booking.bookingId }}</h2>
+<hr/>
+<div class="row-fluid">
+    {% set generalReservation = 0 %}
+    {% set cucPayment = 0 %}
+    {% for reservation in reservations %}
+        {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
+            {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
+        {% endif %}
+        {% set cucPayment = cucPayment +  reservation.ownResTotalInSite * (reservation.getOwnResGenResId.genResOwnId.ownCommissionPercent) / 100%}
+    {% endfor %}
+    {{include('mycpBundle:reservation:bookingInfoTab.html.twig', {"payment":payment,"cucPayment":cucPayment})}}
+    {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":user.getUserTouristUser, "tourist": user})}}
+    <div class="row-fluid">
+    <div class="span12">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#reservas" data-toggle="tab">Reservaciones</a>
+        </li>
+    </ul>
+        <table class="table table-striped" style="font-size: 12px">
+            <thead>
+            <tr>
+                {% set cat='cas' %}
+                <th><input name="all_select_{{cat}}" class="all_select {{cat}}" type="checkbox"/></th>
+                <th>CAS</th>
+                <th>Código Alojamiento</th>
+                <th>Nombre Alojamiento</th>
+                <th>Tipo Habitación</th>
+                <th>Precio Habitación</th>
+                <th>Fecha llegada</th>
+                <th>Fecha Salida</th>
+            </tr>
+            </thead>
+        {% set generalReservation = 0 %}
+        {% set cucPayment = 0 %}
+        {% for reservation in reservations %}
+            {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
+                {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
+                        {{ render(controller('mycpBundle:BackendReservation:details_casreservation_partial', {"id_reservation": reservation.getOwnResGenResId.getGenResId})) }}
+        {% endif %}
+        {% endfor %}
+        </table>
+</div>
+</div>
+</div>
+<hr/>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(".all_select").change(function(){
+            class_name=this.className;
+            array_class_name=class_name.split(' ');
+            if(this.checked)
+                $("input:checkbox."+array_class_name[1]).attr('checked','checked');
+            else
+                $("input:checkbox."+array_class_name[1]).removeAttr('checked');
+        });
+    </script>
+{% endblock %}

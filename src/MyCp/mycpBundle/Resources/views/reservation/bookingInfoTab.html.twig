@@ -1,0 +1,15 @@
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#reservas" data-toggle="tab">Booking</a>
+    </li>
+</ul>
+<table class="table  table-striped" style="font-size: 12px;">
+    <tr>
+        <td><b>Id Booking:</b> {{payment.booking.bookingId}}</td>
+        <td><b>Fecha del booking:</b> {{ payment.created|date("d/m/Y") }}</td>
+        <td><b>Prepago Online:</b> {{payment.currency.currCode}} {{payment.payedAmount}} | CUC {{ ceil_round(cucPayment + 10) }} </td>
+        <td><b>Pago en Casa:</b> Pendiente</td>
+
+    </tr>
+
+</table>
