@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Form\cancelPaymentType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
@@ -22,6 +23,7 @@ use MyCp\mycpBundle\Form\reservationType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\VoucherHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use MyCp\mycpBundle\Form\emailDestinationType;
 
 class BackendReservationController extends Controller {
 
@@ -467,8 +469,11 @@ class BackendReservationController extends Controller {
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
+
+        $form = $this->createForm(new cancelPaymentType());
         return $this->render('mycpBundle:reservation:bookingCancel.html.twig', array(
                 'user' => $user,
+                'form'=>$form->createView(),
                 'reservations' => $reservations,
                 'payment' => $payment
             ));

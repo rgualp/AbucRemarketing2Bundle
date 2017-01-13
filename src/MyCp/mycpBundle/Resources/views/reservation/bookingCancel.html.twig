@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -35,49 +43,103 @@
     {{include('mycpBundle:reservation:bookingInfoTab.html.twig', {"payment":payment,"cucPayment":cucPayment})}}
     {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":user.getUserTouristUser, "tourist": user})}}
     <div class="row-fluid">
-    <div class="span12">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="#reservas" data-toggle="tab">Reservaciones</a>
-        </li>
-    </ul>
-        <table class="table table-striped" style="font-size: 12px">
-            <thead>
-            <tr>
-                {% set cat='cas' %}
-                <th><input name="all_select_{{cat}}" class="all_select {{cat}}" type="checkbox"/></th>
-                <th>CAS</th>
-                <th>Código Alojamiento</th>
-                <th>Nombre Alojamiento</th>
-                <th>Tipo Habitación</th>
-                <th>Precio Habitación</th>
-                <th>Fecha llegada</th>
-                <th>Fecha Salida</th>
-            </tr>
-            </thead>
-        {% set generalReservation = 0 %}
-        {% set cucPayment = 0 %}
-        {% for reservation in reservations %}
-            {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
-                {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
-                        {{ render(controller('mycpBundle:BackendReservation:details_casreservation_partial', {"id_reservation": reservation.getOwnResGenResId.getGenResId})) }}
-        {% endif %}
-        {% endfor %}
-        </table>
-</div>
-</div>
+            <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#reservas" data-toggle="tab">Reservaciones</a>
+                </li>
+            </ul>
+                <table class="table table-striped" style="font-size: 12px">
+                    <thead>
+                    <tr>
+                        {% set cat='cas' %}
+                        <th><input name="all_select_{{cat}}" class="all_select {{cat}}" type="checkbox"/></th>
+                        <th>CAS</th>
+                        <th>Código Alojamiento</th>
+                        <th>Nombre Alojamiento</th>
+                        <th>Tipo Habitación</th>
+                        <th>Precio Habitación</th>
+                        <th>Fecha llegada</th>
+                        <th>Fecha Salida</th>
+                    </tr>
+                    </thead>
+                {% set generalReservation = 0 %}
+                {% set cucPayment = 0 %}
+                {% for reservation in reservations %}
+                    {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
+                        {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
+                                {{ render(controller('mycpBundle:BackendReservation:details_casreservation_partial', {"id_reservation": reservation.getOwnResGenResId.getGenResId})) }}
+                {% endif %}
+                {% endfor %}
+                </table>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#cancel" data-toggle="tab">Detalles de la Cancelación</a>
+                </li>
+            </ul>
+            <form class="form-horizontal" action="#" id="form-cancel-payment" method="post">
+                <div class="row-fluid">
+                    <div class="span3">
+                        <strong>Tipo de Cancelación:</strong>
+                    </div>
+                    <div class="span3">
+                        {{ form_widget(form.type, { 'attr': {'placeholder': 'Asunto del correo (Español)','data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                    </div>
+                    <div class="span3">
+                        <strong>Devolver a turista:</strong>
+                    </div>
+                    <div class="span3">
+                        {{ form_widget(form.give_tourist) }}
+                    </div>
+                </div>
+                <div class="row-fluid" style="margin-top: 20px">
+                    <div class="span3">
+                        <strong>Motivo:</strong>
+                    </div>
+                    <div class="span3">
+                        {{ form_widget(form.reason, { 'attr': {'placeholder': 'Motivos','data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                    </div>
+                    <div class="span2">
+                        <strong>Fecha de cancelación:</strong>
+                    </div>
+                    <div class="span3">
+                        {{ form_widget(form.cancel_date) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <hr/>
 {% endblock %}
 {% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script type="text/javascript">
-        $(".all_select").change(function(){
-            class_name=this.className;
-            array_class_name=class_name.split(' ');
-            if(this.checked)
-                $("input:checkbox."+array_class_name[1]).attr('checked','checked');
-            else
-                $("input:checkbox."+array_class_name[1]).removeAttr('checked');
+        $(document).ready(function() {
+            $('.datepicker-from').datepicker({
+                format:'dd/mm/yyyy',
+                todayBtn:'linked',
+                language:'es',
+                autoclose: true
+            });
+            $(".all_select").change(function(){
+                class_name=this.className;
+                array_class_name=class_name.split(' ');
+                if(this.checked)
+                    $("input:checkbox."+array_class_name[1]).attr('checked','checked');
+                else
+                    $("input:checkbox."+array_class_name[1]).removeAttr('checked');
+            });
         });
     </script>
 {% endblock %}
