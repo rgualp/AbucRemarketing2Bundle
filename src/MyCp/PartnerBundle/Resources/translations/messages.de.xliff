@@ -2283,6 +2283,14 @@
           <source>SERVICE_TRANSFERENCE_TAX</source>
           <target>Transference tax</target>
     </trans-unit>
+    <trans-unit id="19">
+        <source>payment.agency_commission</source>
+        <target>#percent#% by Agency Commission</target>
+      </trans-unit>
+    <trans-unit id="20">
+        <source>payment.online_payment</source>
+        <target>Online Payment</target>
+      </trans-unit>
         </body>
   </file>
 </xliff>
