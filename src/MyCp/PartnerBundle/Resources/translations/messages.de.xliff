@@ -2271,6 +2271,18 @@
                   <source>SERVICE_AGENCY_TAX</source>
                   <target>Agency Tax</target>
             </trans-unit>
+      <trans-unit id="16">
+          <source>AGENCY_COMMISSION</source>
+          <target>Travel agency commission</target>
+    </trans-unit>
+      <trans-unit id="17">
+          <source>PAYMENT_COMPLETE</source>
+          <target>Complete payment</target>
+    </trans-unit>
+      <trans-unit id="18">
+          <source>SERVICE_TRANSFERENCE_TAX</source>
+          <target>Transference tax</target>
+    </trans-unit>
         </body>
   </file>
 </xliff>

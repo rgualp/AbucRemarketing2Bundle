@@ -1525,9 +1525,10 @@ class DashboardController extends Controller
         $ids_rooms = $data[2];
         $count_guests = $data[3];
         $count_kids = $data[4];
-        $count_kidsAge_1 = $data[5];
-        $count_kidsAge_2 = $data[6];
-        $count_kidsAge_3 = $data[7];
+
+        $count_kidsAge_1 = (count($data) >= 6) ? $data[5] : 0;
+        $count_kidsAge_2 = (count($data) >= 7) ? $data[6] : 0;
+        $count_kidsAge_3 = (count($data) >= 8) ? $data[7] : 0;
 
         $array_ids_rooms = explode('&', $ids_rooms);
         array_shift($array_ids_rooms);
