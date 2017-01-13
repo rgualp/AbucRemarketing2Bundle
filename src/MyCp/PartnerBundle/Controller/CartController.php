@@ -301,11 +301,17 @@ class CartController extends Controller
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
         $em->persist($booking);
 
+        $total_pay_at_service = 0;
         foreach ($roomsToPay as $own_res) {
             $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
             $own->setOwnResReservationBooking($booking);
             $em->persist($own);
+
+            $total_pay_at_service += $own->getOwnResTotalInSite() * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent());
         }
+
+        $booking->setPayAtService($total_pay_at_service);
+        $em->persist($booking);
         $em->flush();
 
         $bookingId = $booking->getBookingId();
