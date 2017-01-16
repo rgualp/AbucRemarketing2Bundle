@@ -43,6 +43,14 @@ class cancelPayment
      */
     private $type;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="booking")
+     * @ORM\JoinColumn(name="booking", referencedColumnName="booking_id", nullable=false)
+     */
+    private $booking;
+
+
     /**
      * @var boolean
      *
@@ -123,6 +131,26 @@ class cancelPayment
      */
     public function setType($type) {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * Get booking
+     *
+     * @return booking
+     */
+    public function getBooking() {
+        return $this->booking;
+    }
+
+    /**
+     * Set type
+     *
+     * @param booking $booking
+     * @return cancelPayment
+     */
+    public function setBooking($booking) {
+        $this->booking = $booking;
         return $this;
     }
 

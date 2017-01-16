@@ -30,7 +30,7 @@
                     {% else %}
                     {% set res_type = rooms[flag].getRoomType %}
                     {% endif %}
-                    <td><input type="checkbox" name="check_reservations" class="{{ cat }}" data-reservation-id="{{ reservation_rooms.ownResId }}"/></td>
+                    <td><input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ reservation_rooms.ownResId }}"/></td>
                     <td>{{ reservation_rooms.getOwnResGenResId.getCASId }}</td>
                     <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if reservation_rooms.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
                     <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
@@ -47,6 +47,7 @@
                     </td>
                     <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
                     <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
+                    <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': reservation_rooms.getOwnResStatus})) }}</td>
 
                 </tr>
                 {% set flag = flag + 1%}

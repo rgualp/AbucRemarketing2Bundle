@@ -22,6 +22,10 @@ mycp_cancel_reservations_booking:
     pattern:  /booking/cancel/{id_booking}
     defaults: { _controller: mycpBundle:BackendReservation:cancel_booking }
 
+mycp_save_cancelreservations_booking:
+    pattern:  /booking/save/cancel/
+    defaults: { _controller: mycpBundle:BackendReservation:save_cancel_booking }
+
 mycp_list_reservations_user:
     pattern:  /users/list/{items_per_page}/{filter_user_name}/{filter_user_email}/{filter_user_city}/{filter_user_country}/{sort_by}
     defaults: { _controller: mycpBundle:BackendReservation:list_reservations_user,items_per_page:100,filter_user_name:'',filter_user_email:'',filter_user_city:'',filter_user_country:'',sort_by:0}

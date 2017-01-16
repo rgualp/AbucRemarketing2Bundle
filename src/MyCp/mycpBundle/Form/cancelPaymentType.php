@@ -13,6 +13,7 @@ class cancelPaymentType extends AbstractType
     {
         $builder
             ->add('type', 'entity', array(
+                    'label' => 'Tipo de Cancelación:',
                 'class' => 'MyCp\mycpBundle\Entity\cancelType',
                 'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('d')->orderBy('d.cancel_name', 'ASC');
@@ -24,8 +25,8 @@ class cancelPaymentType extends AbstractType
                 'multiple' => false
             ))
             ->add('give_tourist', 'checkbox', array('label' => 'Devolver dinero a turista:', 'attr' => array('checked' => true)))
-            ->add('cancel_date',null,array('attr'=>array('class'=>'input-block-level datepicker-from')))
-            ->add('reason','textarea',array('required' => false,'attr'=>array('class'=>'input-block-level')))
+            ->add('cancel_date','text',array('label'=>'Fecha de cancelación de la reserva:','attr'=>array('class'=>'input-block-level datepicker')))
+            ->add('reason','textarea',array('label' => 'Motivos:','required' => false,'attr'=>array('class'=>'input-block-level')))
 
         ;
     }
@@ -33,12 +34,12 @@ class cancelPaymentType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MyCp\mycpBundle\Entity\emailDestination'
+            'data_class' => 'MyCp\mycpBundle\Entity\cancelPayment'
         ));
     }
 
     public function getName()
     {
-        return 'mycp_mycpbundle_emaildestination';
+        return 'mycp_mycpbundle_cancelpayment';
     }
 }
