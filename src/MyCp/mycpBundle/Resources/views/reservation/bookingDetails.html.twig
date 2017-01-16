@@ -64,7 +64,7 @@
         {% endfor %}
         <tr>
             <td colspan="6" style="text-align: right"><b>TOTAL PREPAGADO</b></td>
-            <td>{{payment.currency.currCode}} {{payment.payedAmount}} | CUC {{ ceil_round(cucPayment + 10) }} </td>
+            <td>{{payment.currency.currCode}} {{payment.payedAmount}} | CUC {{ (payment.currentCucChangeRate is defined and payment.currentCucChangeRate > 0) ? ceil_round(payment.payedAmount / payment.currentCucChangeRate) : ceil_round(cucPayment + 10) }} </td>
         </tr>
     </table>
 </div>
