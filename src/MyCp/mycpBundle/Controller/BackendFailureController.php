@@ -39,7 +39,7 @@ class BackendFailureController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $failure = new failure();
-        $form = $this->createForm(new failureType(), $failure);
+        $form = $this->createForm(new failureType($accommodationId), $failure);
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
         if ($request->getMethod() == 'POST') {
