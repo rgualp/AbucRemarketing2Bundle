@@ -193,7 +193,14 @@ class FrontendController extends Controller
      */
     public function howWorkAction()
     {
-        return $this->render('PartnerBundle:Pages:how_work.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+
+        return $this->render('PartnerBundle:Pages:how_work.html.twig', array(
+            'form' => $form->createView(),
+            'packages' => $packages
+        ));
     }
 
     /**

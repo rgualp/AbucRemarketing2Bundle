@@ -107,7 +107,6 @@ class BookingService extends Controller
 
                 $totalNights += $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
 
-
             }
 
             if($serviceChargeInCuc == 0)
@@ -220,7 +219,6 @@ class BookingService extends Controller
             $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
         }
 
-
         $currency = $payment->getCurrency();
         $currencySymbol = $currency->getCurrSymbol();
         $currencyRate = $currency->getCurrCucChange();
@@ -266,6 +264,7 @@ class BookingService extends Controller
                     $tempNights += $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
                     $tempTotalRooms++;
                     $tempPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
+
                 }
                 else{
                     $totalNights += ($tempNights / $tempTotalRooms);

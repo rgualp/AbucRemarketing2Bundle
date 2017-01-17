@@ -2,6 +2,8 @@
 
 namespace MyCp\PartnerBundle\Form;
 
+use MyCp\PartnerBundle\Entity\paAgencyPackage;
+use MyCp\PartnerBundle\Entity\paPackage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -31,6 +33,7 @@ class paTravelAgencyType extends AbstractType
             ->add('address', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phone', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('phoneAux', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('commission', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('country', 'entity', [
                 'class' => 'MyCp\mycpBundle\Entity\country',
                 'query_builder' => function (EntityRepository $er) {
@@ -50,7 +53,6 @@ class paTravelAgencyType extends AbstractType
                     'class' => 'col-md-6'
                 ]
             ))
-
         ;
     }
     

@@ -49,6 +49,8 @@ function total_price(curr,percent)
     var tourist_fee_percent = 0;
     var roomsTotal = $('.id_room').size();
 
+    //nights = nights * roomsTotal;
+
     if(nights == 1)
     {
         if(roomsTotal == 1)
