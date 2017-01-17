@@ -109,6 +109,36 @@
                         <hr/>
                     {% endfor %}
                 </div>
+
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#reservas">Planes</a>
+                    </li>
+                </ul>
+                <table style="font-size: 12px" class="table table-striped ">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <span class="input-group-addon"><i class="glyphicons package"></i> Plan</span>
+                        </td>
+                        <td>
+                            <select class="form-control" name="plan" id="plan">
+                                {% for pack in packages %}
+                                    <option value="{{ pack.id }}" {% if pack.hasPackage %}selected="selected"{% endif %}>{{ pack.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="input-group-addon"><i class="glyphicons coins"></i> Comisión</span>
+                        </td>
+                        <td>
+                            {{ form_widget(form.commission, { 'attr': {'placeholder': 'label.name.commission'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }} %
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 {{ form_widget(form._token) }}
             </div>
         </div>

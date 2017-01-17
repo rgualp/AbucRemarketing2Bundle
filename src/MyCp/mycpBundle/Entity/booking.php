@@ -67,6 +67,13 @@ class booking
     private $payments;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="payAtService", type="decimal", precision=10, scale=2 )
+     */
+    private $payAtService;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -231,6 +238,25 @@ class booking
 
         return $payedAmount;
     }
+
+    /**
+     * @return int
+     */
+    public function getPayAtService()
+    {
+        return $this->payAtService;
+    }
+
+    /**
+     * @param int $payAtService
+     * @return mixed
+     */
+    public function setPayAtService($payAtService)
+    {
+        $this->payAtService = $payAtService;
+        return $this;
+    }
+
 
 
 }

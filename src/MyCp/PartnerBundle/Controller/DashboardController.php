@@ -1285,7 +1285,14 @@ class DashboardController extends Controller
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,$name);
         return $response;
     }
+
     public function getReservationCalendarAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+        $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
+
         $from = $request->get('from');
         $to = $request->get('to');
         $fromBackend = $request->get('backend');
@@ -1487,9 +1494,11 @@ class DashboardController extends Controller
             $do_operation = true;
             $flag_room++;
         }
+        $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
             //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
             return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
                     'array_dates' => $array_dates_keys,
+                    'currentServiceFee' => $currentServiceFee,
                     'rooms' => $rooms,
                     'array_prices' => $array_prices,
                     'ownership' => $ownership,
@@ -1497,6 +1506,9 @@ class DashboardController extends Controller
                     'prices_dates' => $prices_dates,
                     'reservations' => $array_no_available,
                     'fromBackend' => $fromBackend,
+                    'fromPartner' => true,
+                    'commissionAgency' => $currentTravelAgency->getCommission(),
+                    'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
                     'nights' => $nights
                 ));
     }
@@ -1513,9 +1525,10 @@ class DashboardController extends Controller
         $ids_rooms = $data[2];
         $count_guests = $data[3];
         $count_kids = $data[4];
-        $count_kidsAge_1 = $data[5];
-        $count_kidsAge_2 = $data[6];
-        $count_kidsAge_3 = $data[7];
+
+        $count_kidsAge_1 = (count($data) >= 6) ? $data[5] : 0;
+        $count_kidsAge_2 = (count($data) >= 7) ? $data[6] : 0;
+        $count_kidsAge_3 = (count($data) >= 8) ? $data[7] : 0;
 
         $array_ids_rooms = explode('&', $ids_rooms);
         array_shift($array_ids_rooms);

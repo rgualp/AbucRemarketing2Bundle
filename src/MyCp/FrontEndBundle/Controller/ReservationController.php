@@ -302,6 +302,7 @@ class ReservationController extends Controller {
         $array_partial_dates = array();
         $array_limits_dates = array();
         $total_price = 0;
+        $total_pay_at_service = 0;
         $total_percent_price = 0;
         $commissions = array();
         $rooms = array();
@@ -329,6 +330,7 @@ class ReservationController extends Controller {
             $total_price_current_reservation = ReservationHelper::getTotalPrice($em, $service_time, $reservation, $triple_room_recharge);
             $total_price += $total_price_current_reservation;
             $total_percent_price += $total_price_current_reservation * $commission / 100;
+            $total_pay_at_service += $total_price_current_reservation * (1 - $commission / 100);
 
             $insert = 1;
             foreach ($commissions as $com) {
@@ -472,6 +474,7 @@ class ReservationController extends Controller {
                 $booking->setBookingPrepay($prepayment);
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
+                $booking->setPayAtService($total_pay_at_service);
                 $em->persist($booking);
 
                 foreach ($own_reservations as $own_res) {
