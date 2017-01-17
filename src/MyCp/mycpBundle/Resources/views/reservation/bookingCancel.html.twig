@@ -87,6 +87,7 @@
                     <th>Devolver al turista</th>
                     <th>Motivo</th>
                     <th>Fecha de cancelación</th>
+                    <th>Usuario STAFF que realizó la cancelación</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -96,6 +97,7 @@
                         <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
                         <td>{{ item.reason }}</td>
                         <td>{{ item.cancelDate | date("d/m/Y") }}</td>
+                        <td>{{ item.user.UserUserName }} {{ item.user.UserLastName }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

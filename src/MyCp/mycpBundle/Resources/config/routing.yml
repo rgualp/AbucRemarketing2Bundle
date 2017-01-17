@@ -203,3 +203,11 @@ mycp_config_email:
 mycp_reservations_ag:
     resource: "@mycpBundle/Resources/config/routingBackendReservationsAg.yml"
     prefix:   backend/reservation_ag/
+
+mycp_backend_payment_pending_tourist:
+    resource: "@mycpBundle/Resources/config/routingBackendPaymentPendingTourist.yml"
+    prefix:   backend/payments/pending/tourist/
+
+mycp_backend_payment_pending_ownership:
+    resource: "@mycpBundle/Resources/config/routingBackendPaymentPendingOwnership.yml"
+    prefix:   backend/payments/pending/ownership/

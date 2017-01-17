@@ -50,6 +50,12 @@ class cancelPayment
      */
     private $booking;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\JoinColumn(name="user", referencedColumnName="user_id", nullable=false)
+     */
+    private $user;
+
 
     /**
      * @var boolean
@@ -154,6 +160,25 @@ class cancelPayment
         return $this;
     }
 
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * Set user
+     *
+     * @param user $user
+     * @return cancelPayment
+     */
+    public function setUser($user) {
+        $this->user = $user;
+        return $this;
+    }
     /**
      * Set give_tourist
      *
