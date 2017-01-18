@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Form\emailDestinationType;
 use MyCp\mycpBundle\Entity\cancelPayment;
 use MyCp\mycpBundle\Entity\pendingPaytourist;
-
+use MyCp\mycpBundle\Entity\pendingPayown;
 
 
 class BackendReservationController extends Controller {
@@ -1500,22 +1500,33 @@ class BackendReservationController extends Controller {
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
+                        //Se registra un Pago Pendiente a Turista
+                        //Se penaliza la casa en el ranking
                     }
                     if($form_data['type']==2)//Si el tipo de cancelación  es de turista
                     {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
+                            //Se registra un Pago Pendiente a Turista 
                             $pending_tourist=new pendingPaytourist();
                             $pending_tourist->setCancelId($obj);
                             $pending_tourist->setPayAmount(23);
                             $pending_tourist->setUserTourist($user_tourist);
+                            $pending_tourist->setUser($this->getUser());
                             $em->persist($pending_tourist);
+                            //Se de da putos en el ranking a la casa
                         }
                         else{
+                            //Se registra un Pago Pendiente a Propietario
+                            $pending_own=new pendingPayown();
+                            $pending_own->setCancelId($obj);
+                            $pending_own->setPayAmount(23);
+                            $pending_own->setUserTourist($user_tourist);
+                            $pending_own->setUser($this->getUser());
+                            $em->persist($pending_tourist);
+                            //Se le da puntos positivos en el Ranking a la casa
                         }
                     }
                 }
-                else
-                    return new JsonResponse(['success' => false, 'message' =>'La fecha de cancelación debe ser menor que la de arrivo']);
 
                 //Change status reservations
                 $reservations_ids= $request->get('checked');

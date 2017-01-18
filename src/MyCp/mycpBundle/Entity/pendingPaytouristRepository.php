@@ -16,7 +16,11 @@ class pendingPaytouristRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
-            ->from("mycpBundle:pendingPaytourist", "op");
+            ->select("op")
+            ->from("mycpBundle:pendingPaytourist", "op")
+            ->orderBy("op.pending_id", "DESC")
+            ->orderBy("op.payment_date", "DESC");
+
        return $qb->getQuery();
 
     }

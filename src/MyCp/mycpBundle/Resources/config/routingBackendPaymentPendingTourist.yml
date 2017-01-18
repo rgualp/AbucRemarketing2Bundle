@@ -1,3 +1,15 @@
 mycp_list_payments_pending_tourist:
     pattern:  /list/{items_per_page}
     defaults: { _controller: mycpBundle:BackendPendingPayTourist:list, items_per_page: 100}
+
+mycp_details_payment_pending_tourist:
+    pattern:  /detail/pending/tourist/{id}
+    defaults: { _controller: mycpBundle:BackendPendingPayTourist:detail }
+
+mycp_edit_payment_pending_tourist:
+    pattern:  /edit/pending/tourist/{id}
+    defaults: { _controller: mycpBundle:BackendPendingPayTourist:edit }
+
+mycp_delete_payment_pending_tourist:
+    pattern:  /delete/pending/tourist/{id}
+    defaults: { _controller: mycpBundle:BackendPendingPayTourist:delete }

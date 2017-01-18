@@ -58,7 +58,17 @@ class pendingPayown
      */
     private $pay_amount;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\JoinColumn(name="user", referencedColumnName="user_id", nullable=false)
+     */
+    private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="")
+     * @ORM\JoinColumn(name="type",referencedColumnName="nom_id")
+     */
+    private $type;
 
     /**
      * Get pending_id
@@ -168,5 +178,46 @@ class pendingPayown
         $this->pay_amount = $pay_amount;
         return $this;
     }
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser() {
+        return $this->user;
+    }
 
+    /**
+     * Set user
+     *
+     * @param user $user
+     * @return cancelPayment
+     */
+    public function setUser($user) {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * Set type
+     *
+     * @param nomenclator $type
+     * @return pendingPayown
+     */
+    public function setType(nomenclator $type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return nomenclator
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

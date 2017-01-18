@@ -80,6 +80,7 @@
             <button type="button" class="btn btn-primary" id="btn-addcancel">
                 Adicionar Cancelación
             </button>
+            <span style="font-style: italic;font-weight: bold">  (Debe de seleccionar algún CAS en el listado de reservas)*</span>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -131,8 +132,16 @@
              * Onclick btn add cancel payment
              */
             $('#btn-addcancel').on('click',function(){
-                idconfig='';
-                loadModal({'title':'Adicionar cancelación'});
+                var arr_checkbox="";
+                if($("input:checkbox[name='check_reservations']").is(":checked")){ // Al menos un checkbox en true
+                    arr_checkbox = $('input[name=check_reservations]:checked').map(function() {
+                        return $(this).attr('id');
+                    }).get();
+                }
+                if(arr_checkbox.length>0)
+                    loadModal({'title':'Adicionar cancelación'});
+                else
+                    toastr.error('Debe de seleccionar alguna reserva.(CAS en el listado de reservaciones)');
             });
             /**
              * Load modal cancel payment
@@ -182,7 +191,8 @@
                         contentType: false,
                         processData: false,
                         success: function(data, textStatus, jqXHR){
-                            HoldOn.close();
+                            var modal = $('#myModal');
+                            modal.modal('hide');
                             window.location.href = "{{ url('mycp_cancel_reservations_booking',{'id_booking':payment.booking.bookingId}) }}";
                         },
                         error: function(jqXHR, textStatus, errorThrown){
