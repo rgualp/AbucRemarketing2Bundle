@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * pendingPayown
  *
- * @ORM\Table(name="pending_paytourist")
+ * @ORM\Table(name="pending_payown")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\pendingPayownRepository")
  */
 class pendingPayown
