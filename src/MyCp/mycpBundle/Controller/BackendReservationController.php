@@ -1474,6 +1474,7 @@ class BackendReservationController extends Controller {
      * @return JsonResponse|Response
      */
     public function save_cancel_bookingAction(Request $request){
+
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
         $obj = ($id!='') ? $em->getRepository('mycpBundle:cancelPayment')->find($id) : new cancelPayment();
@@ -1512,6 +1513,7 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setPayAmount(23);
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
+                            $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                             $em->persist($pending_tourist);
                             //Se de da putos en el ranking a la casa
                         }
@@ -1522,7 +1524,7 @@ class BackendReservationController extends Controller {
                             $pending_own->setPayAmount(23);
                             $pending_own->setUserTourist($user_tourist);
                             $pending_own->setUser($this->getUser());
-                            $em->persist($pending_tourist);
+                            $em->persist($pending_own);
                             //Se le da puntos positivos en el Ranking a la casa
                         }
                     }

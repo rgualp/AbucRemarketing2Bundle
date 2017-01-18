@@ -104,6 +104,7 @@
             <th>Fecha Pago</th>
             <th>Cantidad</th>
             <th>Motivo</th>
+            <th>Estado</th>
             <th>Turistas</th>
             <th style="text-align: right">Acciones</th>
         </tr>
@@ -115,6 +116,7 @@
             <td>{% if payment.paymentDate is not null %}{{payment.paymentDate | date ("d/m/Y")}}{% else %}-{% endif %}</td>
             <td>{{ payment.payAmount }} CUC</td>
             <td>{{ payment.reason }}</td>
+            <td>{{ payment.type.translations[0].nomLangDescription }}</td>
             <td>{{ payment.userTourist.userTouristUser.userUserName }} {{ payment.userTourist.userTouristUser.userLastName }}</td>
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_tourist", {"id": payment.pendingId}) }}">Detalles</a>

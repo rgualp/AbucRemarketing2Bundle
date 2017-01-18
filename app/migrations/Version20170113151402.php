@@ -35,7 +35,7 @@ class Version20170113151402 extends AbstractMigration
         $this->addSql('ALTER TABLE pending_paytourist ADD CONSTRAINT FK_B3BD307FEBA5B1E8 FOREIGN KEY (user) REFERENCES user (user_id)');
         $this->addSql('ALTER TABLE pending_paytourist ADD CONSTRAINT FK_B6BD307FEBA5B1F5 FOREIGN KEY (type) REFERENCES nomenclator (nom_id)');
 
-        $this->addSql('ALTER TABLE pending_payown ADD CONSTRAINT FK_B6BD307FEBA5B1R5 FOREIGN KEY (user_casa) REFERENCES usercasa (user_casa_id)');
+        $this->addSql('ALTER TABLE pending_payown ADD CONSTRAINT FK_B6BD307FEBA5B1R5 FOREIGN KEY (user_casa) REFERENCES ownership (own_id)');
         $this->addSql('ALTER TABLE pending_payown ADD CONSTRAINT FK_B6BD307FEBA5B1T8 FOREIGN KEY (cancel_id) REFERENCES cancel_payment (cancel_id)');
         $this->addSql('ALTER TABLE pending_payown ADD CONSTRAINT FK_B3BD307FEBA5B1E9 FOREIGN KEY (user) REFERENCES user (user_id)');
         $this->addSql('ALTER TABLE pending_payown ADD CONSTRAINT FK_B6BD307FEBA5B5RR FOREIGN KEY (type) REFERENCES nomenclator (nom_id)');
@@ -49,9 +49,18 @@ class Version20170113151402 extends AbstractMigration
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_tourist','paymentPendingType')");
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_partner','paymentPendingType')");
 
+        /*Payment pending status*/
+        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_pending','paymentPendingStatus')");
+        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_proccess','paymentPendingStatus')");
+        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_successful','paymentPendingStatus')");
+
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_own'), 'De Propietario')");
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_tourist'), 'De Turista')");
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_partner'), 'De Agencia')");
+
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_pending'), 'Pendiente')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_proccess'), 'En proceso')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_successful'), 'Pagado')");
     }
 
     /**

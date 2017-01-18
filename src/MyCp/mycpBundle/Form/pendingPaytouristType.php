@@ -17,6 +17,20 @@ class pendingPaytouristType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('type', 'entity', array(
+                    'label'=>'Estado:',
+                    'class' => 'MyCp\mycpBundle\Entity\nomenclator',
+                    'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('n')
+                                ->innerJoin('n.translations', 't')
+                                ->join("t.nom_lang_id_lang", "lang")
+                                ->where("n.nom_category = 'paymentPendingStatus'")
+                                ->andWhere("lang.lang_code = 'ES'");
+                        },
+                    'property' => 'translations[0].nom_lang_description',
+                    'required' => true,
+                    'multiple' => false
+                ))
             ->add('pay_amount','text',array(
                 'label'=>'Cantidad pagada:',
                 'constraints'=>array(new NotBlank())

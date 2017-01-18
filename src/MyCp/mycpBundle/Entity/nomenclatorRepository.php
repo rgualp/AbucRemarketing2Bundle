@@ -41,4 +41,24 @@ class nomenclatorRepository extends EntityRepository
                 ->setParameters(array('lang_code' => $lang_code, 'id_nomenclator' => $id_nomenclator))
                 ->getOneOrNullResult();
     }
+
+    /**
+     * @param $name
+     * @param string $lang_code
+     * @return array
+     */
+    public function getByName($name, $lang_code = "ES")
+    {
+        $em=$this->getEntityManager();
+        $query_string = "SELECT nl FROM mycpBundle:nomenclatorLang nl
+                        JOIN nl.nom_lang_id_nomenclator n
+                        JOIN nl.nom_lang_id_lang lang
+                        WHERE lang.lang_code = :lang_code
+                        AND n.nom_name = :name
+                        ORDER BY nl.nom_lang_description";
+
+        return $em->createQuery($query_string)
+            ->setParameters(array('lang_code' => $lang_code, 'name' => $name))
+            ->getResult();
+    }
 }

@@ -23,8 +23,8 @@ class pendingPayown
     private $pending_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="userCasa")
-     * @ORM\JoinColumn(name="user_casa", referencedColumnName="user_casa_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ownership")
+     * @ORM\JoinColumn(name="user_casa", referencedColumnName="own_id", nullable=false)
      */
     private $user_casa;
 
@@ -92,7 +92,7 @@ class pendingPayown
     /**
      * Set user_casa
      *
-     * @param userCasa $user_casa
+     * @param ownership $user_casa
      * @return pendingPayown
      */
     public function setUserCasa($user_casa) {
