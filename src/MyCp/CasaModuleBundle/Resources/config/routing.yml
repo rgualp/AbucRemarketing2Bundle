@@ -61,3 +61,7 @@ my_casa_module_advice:
 my_casarenta_manual_download:
     pattern:  /manual_download
     defaults: { _controller: MyCpCasaModuleBundle:Default:manualMyCRDownload}
+
+my_casa_module_manual_ranking_download:
+    pattern:  /manual_ranking_download
+    defaults: { _controller: MyCpCasaModuleBundle:Default:manualRankingDownload}

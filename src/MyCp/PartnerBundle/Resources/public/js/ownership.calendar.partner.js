@@ -73,6 +73,7 @@ function totalPrice(curr,percent, totalNights)
 
     var summatoryTax = parseFloat(total_price_var)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
     var agencyCommissionTax = parseFloat(summatoryTax * commissionAgency/100);
+    var transferTax = parseFloat(summatoryTax * 0.1);
     var totalCost = parseFloat(summatoryTax * 1.1);
 
     if(completePayment != 0)
@@ -85,6 +86,8 @@ function totalPrice(curr,percent, totalNights)
 
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
+    $("#service_transfer_tax").html(normalize_prices(transferTax));
+    $("#agency_commission").html(normalize_prices(agencyCommissionTax));
     $('.calendar-results').css({display: 'block'});
 
     /*if(checkTotalPrice) {

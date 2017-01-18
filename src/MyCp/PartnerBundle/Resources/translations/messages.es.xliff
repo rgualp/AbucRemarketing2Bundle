@@ -2270,6 +2270,26 @@
                   <source>SERVICE_AGENCY_TAX</source>
                   <target>Tarifa de la Agencia</target>
             </trans-unit>
+      <trans-unit id="16">
+          <source>AGENCY_COMMISSION</source>
+          <target>Comisión de la Agencia</target>
+    </trans-unit>
+      <trans-unit id="17">
+          <source>PAYMENT_COMPLETE</source>
+          <target>Pago Completo</target>
+    </trans-unit>
+      <trans-unit id="18">
+          <source>SERVICE_TRANSFERENCE_TAX</source>
+          <target>Tarifa por Transferencia</target>
+    </trans-unit>
+    <trans-unit id="19">
+        <source>payment.agency_commission</source>
+        <target>#percent#% por Comisión de la Agencia</target>
+      </trans-unit>
+    <trans-unit id="20">
+        <source>payment.online_payment</source>
+        <target>Pago Online</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

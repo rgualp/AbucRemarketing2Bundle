@@ -12,6 +12,14 @@ use Symfony\Component\Validator\Constraints\Collection;
 
 class failureType extends AbstractType
 {
+    private $accommodationId;
+
+    public function __construct($accommodationId)
+    {
+        $this->accommodationId = $accommodationId;
+
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -39,10 +47,15 @@ class failureType extends AbstractType
                         ->join("b.payments", "p")
                         ->where("o.gen_res_status = :reservedStatus")
                         ->andWhere("(p.status = :successfulPayment or p.status = :processedPayment)")
+                        ->andWhere("o.gen_res_date >= :date")
+                        ->andWhere("o.gen_res_own_id = :accommodationId")
                         ->orderBy('o.gen_res_id', 'DESC')
                         ->setParameter("reservedStatus", generalReservation::STATUS_RESERVED)
                         ->setParameter("successfulPayment", PaymentHelper::STATUS_SUCCESS)
-                        ->setParameter("processedPayment", PaymentHelper::STATUS_PROCESSED);
+                        ->setParameter("processedPayment", PaymentHelper::STATUS_PROCESSED)
+                        ->setParameter("accommodationId", $this->accommodationId)
+                        ->setParameter("date", new \DateTime('-3 month'))
+                        ;
                 },
                 'property' => 'casDateAndTourist',
                 'required' => false,

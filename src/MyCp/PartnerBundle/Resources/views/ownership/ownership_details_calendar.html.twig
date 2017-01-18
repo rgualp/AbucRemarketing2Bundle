@@ -58,6 +58,60 @@
         </table>
     </li>
     <li class="lead">
+        {% if completePayment is defined and completePayment %}
+        {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+        <div class="row all-prices-numbers">
+            <div class="row text-right">
+                {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:
+                {{ currSymbol }} <span id="accommodation_price"></span>
+            </div>
+            <div class="row text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+                {{ 'SERVICE_AGENCY_TAX' | trans }}:
+                {{ currSymbol }}
+                <span id="tourist_service"
+                      data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                      data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                      data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                      data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                      data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                      data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                      data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                      data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                      data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
+            </div>
+            <div  class="row text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+                {{ 'SERVICE_TRANSFERENCE_TAX' | trans }}:
+                {{ currSymbol }}
+                <span id="service_transfer_tax"></span>
+            </div>
+            <div  class="row text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+                {{ 'SERVICE_FIXED_TAX' | trans }}:
+                {{ currSymbol }}
+                <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+            </div>
+            <hr/>
+            <div  class="row text-right">
+                {{ 'RESERVATION_TOTAL_PRICE' | trans }}
+                {{ currSymbol }}
+                <span id="total_price"></span>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px; margin-top: 10px">
+            <div class="col-sm-6">
+                {{ 'PAYMENT_COMPLETE'|trans }}
+                : {{ currSymbol }}
+                <span id="total_prepayment"></span>
+            </div>
+            <div class="col-sm-6 text-right" style="padding-right: 25px">
+                {{ 'AGENCY_COMMISSION'|trans }}
+                : {{ currSymbol }}
+                <span id="agency_commission"></span><br/>
+                {% if currSymbol != "CUC" %}
+                    <span id="pay_at_service_cuc" style="font-size: small"></span>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
         <div class="row all-prices-numbers">
             <div class="col-sm-3">
                 {{ 'ACCOMMODATION_TOTAL_COST' | trans }} <br/>
@@ -68,7 +122,7 @@
                 <label>+</label>
             </div>
             <div class="col-sm-2"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
-                {{ 'SERVICE_AGENCY_TAX' | trans }}<br/>
+                {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
                 {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                 <span id="tourist_service"
                       data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
@@ -114,6 +168,7 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     </li>
     <li class="lead-2">
         {% if post['reservation_filter_date_from'] is defined %}
