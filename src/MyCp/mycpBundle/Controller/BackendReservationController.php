@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Form\cancelPaymentType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
@@ -22,6 +23,9 @@ use MyCp\mycpBundle\Form\reservationType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\VoucherHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use MyCp\mycpBundle\Form\emailDestinationType;
+use MyCp\mycpBundle\Entity\cancelPayment;
+
 
 class BackendReservationController extends Controller {
 
@@ -456,6 +460,29 @@ class BackendReservationController extends Controller {
         ));
     }
 
+    /**
+     * @param $id_booking
+     * @return Response
+     */
+    public function cancel_bookingAction($id_booking) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
+        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
+
+        $form = $this->createForm(new cancelPaymentType());
+
+        return $this->render('mycpBundle:reservation:bookingCancel.html.twig', array(
+                'user' => $user,
+                'form'=>$form->createView(),
+                'reservations' => $reservations,
+                'payment' => $payment,
+                'cancel_payment'=>$em->getRepository('mycpBundle:cancelPayment')->findBy(array('booking' => $id_booking))
+            ));
+    }
+
     public function list_reservations_userAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
@@ -721,6 +748,45 @@ class BackendReservationController extends Controller {
             }
         }
         return $this->render('mycpBundle:reservation:new.html.twig', array('form' => $form->createView(), 'role' => $role[0]));
+    }
+
+    /**
+     * @param $id_reservation
+     * @return Response
+     */
+    public function details_casreservation_partialAction($id_reservation) {
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getByIdObj($id_reservation);
+
+        $service_time = $this->get('time');
+        $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
+        $rooms = array();
+        $total_nights = array();
+        foreach ($ownership_reservations as $res) {
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            $temp_total_nights = 0;
+            $nights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            $temp_total_nights += $nights;
+
+            array_push($total_nights, $temp_total_nights);
+        }
+
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null, "", false);
+        $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($id_reservation);
+        $currentServiceFee = $reservation->getServiceFee();
+        return $this->render('mycpBundle:reservation:reservationCasDetailsPartial.html.twig', array(
+                'nights' => $total_nights,
+                'reservation' => $reservation,
+                'user' => $user,
+                'reservations' => $ownership_reservations,
+                'rooms' => $rooms,
+                'id_reservation' => $id_reservation,
+                'bookings' => $bookings,
+                'logs' => $logs,
+                'currentServiceFee' => $currentServiceFee
+            ));
     }
 
     public function details_reservation_partialAction($id_reservation) {
@@ -1399,6 +1465,48 @@ class BackendReservationController extends Controller {
         }
 
         return $this->redirect($this->generateUrl('mycp_details_reservations_booking', array("id_booking" => $id_booking)));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function save_cancel_bookingAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        $obj = ($id!='') ? $em->getRepository('mycpBundle:cancelPayment')->find($id) : new cancelPayment();
+
+        $newForm= new cancelPaymentType();
+        $form = $this->createForm($newForm, $obj);
+
+        if(!$request->get('formEmpty')){
+            $form->handleRequest($request);
+            if($form->isValid()){
+                $booking = $em->getRepository('mycpBundle:booking')->find($request->get('idBooking'));
+                //Change status reservations
+                $reservations_ids= $request->get('checked');
+                if($reservations_ids != ''){
+                    $reservations_ids=explode(",",$reservations_ids);
+                    if(count($reservations_ids)){
+                        foreach($reservations_ids as $genResId){
+                            $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                            $reservation->setOwnResStatus(generalReservation::STATUS_CANCELLED);
+                            $em->persist($reservation);
+                        }
+                    }
+                }
+
+                //Set booking save relations
+                $obj->setBooking($booking);
+                $form_data=$request->get('mycp_mycpbundle_cancelpayment');
+                $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1));
+                $em->persist($obj);
+                $em->flush();
+                return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado satisfactoriamente']);
+            }
+        }
+        $data['form']= $form->createView();
+        return $this->render('mycpBundle:reservation:modal_cancel_payment.html.twig', $data);
     }
 }
 

@@ -1,0 +1,54 @@
+
+            {% set flag = 0 %}
+            {% set total_adults = 0 %}
+            {% set total_childrens = 0 %}
+            {% set total_nights = 0 %}
+            {% set real_total_nights = 0 %}
+            {% set total_price_own_res = 0%}
+            {% set total_price = 0 %}
+            {% set total_rooms = 0 %}
+            {% set initialDate = null %}
+            {% set endDate = null %}
+            {% set cat='cas' %}
+            {% for reservation_rooms in reservations%}
+                {%if rooms[flag] != null and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
+                {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
+                {% set total_nights = total_nights +  nights[loop.index0] %}
+                {% if initialDate != reservation_rooms.ownResReservationFromDate and endDate != reservation_rooms.ownResReservationToDate %}
+                    {% set real_total_nights = real_total_nights + nights[loop.index0] %}
+                    {% set initialDate = reservation_rooms.ownResReservationFromDate %}
+                    {% set endDate = reservation_rooms.ownResReservationToDate %}
+                {% endif %}
+                {% set total_price_own_res = total_price_own_res +   nights[loop.index0] * reservation_rooms.getOwnResNightPrice %}
+
+                {%endif%}
+                <tr>
+                    {% set res_type ='' %}
+                    {% if reservation_rooms.getOwnResRoomType %}
+                    {% set res_type = reservation_rooms.getOwnResRoomType %}
+                    {% else %}
+                    {% set res_type = rooms[flag].getRoomType %}
+                    {% endif %}
+                    <td><input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ reservation_rooms.ownResId }}"/></td>
+                    <td>{{ reservation_rooms.getOwnResGenResId.getCASId }}</td>
+                    <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if reservation_rooms.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
+                    <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+                    <td>Hab #{{rooms[flag].getRoomNum}} - {{rooms[flag].getRoomType}}</td>
+                    <td nowrap=nowrap>
+                        {%if rooms[flag]%}
+                            Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
+                            Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                            {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
+                                <br/>
+                                Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                            {%endif%}
+                        {%endif%}
+                    </td>
+                    <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
+                    <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
+                    <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': reservation_rooms.getOwnResStatus})) }}</td>
+
+                </tr>
+                {% set flag = flag + 1%}
+            {% endfor %}
