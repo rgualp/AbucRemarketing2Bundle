@@ -25,6 +25,8 @@ use MyCp\mycpBundle\Helpers\VoucherHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Form\emailDestinationType;
 use MyCp\mycpBundle\Entity\cancelPayment;
+use MyCp\mycpBundle\Entity\pendingPaytourist;
+use MyCp\mycpBundle\Entity\pendingPayown;
 
 
 class BackendReservationController extends Controller {
@@ -1483,6 +1485,49 @@ class BackendReservationController extends Controller {
             $form->handleRequest($request);
             if($form->isValid()){
                 $booking = $em->getRepository('mycpBundle:booking')->find($request->get('idBooking'));
+                $min_date = $em->getRepository('mycpBundle:ownershipReservation')->getBookingById($request->get('idBooking'));
+
+                $form_data=$request->get('mycp_mycpbundle_cancelpayment');
+
+                $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
+                $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+
+                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
+                $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+
+                if($date_cancel_payment<$min_date_arrive){
+                    //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
+                    $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
+                    if($form_data['type']==1)//Si el tipo de cancelación es de propietario
+                    {
+                        //Se registra un Pago Pendiente a Turista
+                        //Se penaliza la casa en el ranking
+                    }
+                    if($form_data['type']==2)//Si el tipo de cancelación  es de turista
+                    {
+                        if($day>=7){  //Antes  de los 7 días de llegada del turista:
+                            //Se registra un Pago Pendiente a Turista 
+                            $pending_tourist=new pendingPaytourist();
+                            $pending_tourist->setCancelId($obj);
+                            $pending_tourist->setPayAmount(23);
+                            $pending_tourist->setUserTourist($user_tourist);
+                            $pending_tourist->setUser($this->getUser());
+                            $em->persist($pending_tourist);
+                            //Se de da putos en el ranking a la casa
+                        }
+                        else{
+                            //Se registra un Pago Pendiente a Propietario
+                            $pending_own=new pendingPayown();
+                            $pending_own->setCancelId($obj);
+                            $pending_own->setPayAmount(23);
+                            $pending_own->setUserTourist($user_tourist);
+                            $pending_own->setUser($this->getUser());
+                            $em->persist($pending_tourist);
+                            //Se le da puntos positivos en el Ranking a la casa
+                        }
+                    }
+                }
+
                 //Change status reservations
                 $reservations_ids= $request->get('checked');
                 if($reservations_ids != ''){
@@ -1498,7 +1543,10 @@ class BackendReservationController extends Controller {
 
                 //Set booking save relations
                 $obj->setBooking($booking);
-                $form_data=$request->get('mycp_mycpbundle_cancelpayment');
+                //Set user save relations
+                $obj->setUser($this->getUser());
+
+
                 $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1));
                 $em->persist($obj);
                 $em->flush();
@@ -1508,5 +1556,14 @@ class BackendReservationController extends Controller {
         $data['form']= $form->createView();
         return $this->render('mycpBundle:reservation:modal_cancel_payment.html.twig', $data);
     }
+
+    public function savePendingPaymentTourist(){
+
+    }
+    public function savePendingPaymentOwnnership(){
+
+    }
+
+
 }
 

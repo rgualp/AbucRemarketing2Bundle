@@ -656,5 +656,13 @@ limit 1
         return $FromToTravel;
 
     }
+    /**
+     */
+    function getBookingById($id_booking) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT min(ore.own_res_reservation_from_date) as arrivalDate  FROM mycpBundle:ownershipReservation ore
+        WHERE ore.own_res_reservation_booking = :id_booking");
+        return $query->setParameter('id_booking', $id_booking)->getResult();
+    }
 
 }
