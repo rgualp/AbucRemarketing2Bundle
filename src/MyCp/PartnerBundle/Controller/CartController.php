@@ -379,7 +379,7 @@ class CartController extends Controller
 
         $total_pay_at_service = 0;
 
-        if($completePayment) {
+        if(!$completePayment) {
             foreach ($roomsToPay as $own_res) {
                 $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
                 $own->setOwnResReservationBooking($booking);
