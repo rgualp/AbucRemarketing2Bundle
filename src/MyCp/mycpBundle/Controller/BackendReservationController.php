@@ -27,6 +27,7 @@ use MyCp\mycpBundle\Form\emailDestinationType;
 use MyCp\mycpBundle\Entity\cancelPayment;
 use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Entity\pendingPayown;
+use MyCp\mycpBundle\Entity\failure;
 
 
 class BackendReservationController extends Controller {
@@ -1477,6 +1478,9 @@ class BackendReservationController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
+        $reservations_ids= $request->get('checked');
+        $reservations_ids=explode(",",$reservations_ids);
+
         $obj = ($id!='') ? $em->getRepository('mycpBundle:cancelPayment')->find($id) : new cancelPayment();
 
         $newForm= new cancelPaymentType();
@@ -1516,6 +1520,27 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                             $em->persist($pending_tourist);
                             //Se de da putos en el ranking a la casa
+                            if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
+                                $array_id_ownership=array();
+                                foreach($reservations_ids as $genResId){
+                                    $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                                    if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                        //Registro un fallo de tipo turista
+                                        $failure_tourist = new failure();
+                                        $failure_tourist->setUser($this->getUser());
+                                        $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                        $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                        $failure_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                        $failure_tourist->setDescription($form_data['reason']);
+                                        $failure_tourist->setCreationDate(new \DateTime());
+                                        $em->persist($failure_tourist);
+                                        //Adiciono el id de la casa al arreglo de casas
+                                        $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                                    }
+
+                                }
+                            }
+
                         }
                         else{
                             //Se registra un Pago Pendiente a Propietario
@@ -1531,9 +1556,6 @@ class BackendReservationController extends Controller {
                 }
 
                 //Change status reservations
-                $reservations_ids= $request->get('checked');
-                if($reservations_ids != ''){
-                    $reservations_ids=explode(",",$reservations_ids);
                     if(count($reservations_ids)){
                         foreach($reservations_ids as $genResId){
                             $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
@@ -1541,7 +1563,6 @@ class BackendReservationController extends Controller {
                             $em->persist($reservation);
                         }
                     }
-                }
 
                 //Set booking save relations
                 $obj->setBooking($booking);
