@@ -1475,7 +1475,6 @@ class BackendReservationController extends Controller {
      * @return JsonResponse|Response
      */
     public function save_cancel_bookingAction(Request $request){
-
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
         $reservations_ids= $request->get('checked');
@@ -1506,15 +1505,44 @@ class BackendReservationController extends Controller {
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
                         //Se registra un Pago Pendiente a Turista
+                        $pending_tourist=new pendingPaytourist();
+                        $pending_tourist->setCancelId($obj);
+                        $pending_tourist->setPayAmount($booking->getBookingPrepay());
+                        $pending_tourist->setUserTourist($user_tourist);
+                        $pending_tourist->setUser($this->getUser());
+                        $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
+                        $em->persist($pending_tourist);
+
                         //Se penaliza la casa en el ranking
+                        if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
+                            $array_id_ownership=array();
+                            foreach($reservations_ids as $genResId){
+                                $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                                if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                    //Registro un fallo de tipo propietario
+                                    $failure_own = new failure();
+                                    $failure_own->setUser($this->getUser());
+                                    $failure_own->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                    $failure_own->setReservation($ownershipReservation->getOwnResGenResId());
+                                    $failure_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'accommodation_failure')));
+                                    $failure_own->setDescription($form_data['reason']);
+                                    $failure_own->setCreationDate(new \DateTime());
+                                    $em->persist($failure_own);
+                                    //Adiciono el id de la casa al arreglo de casas
+                                    $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                                }
+
+                            }
+                        }
                     }
                     if($form_data['type']==2)//Si el tipo de cancelación  es de turista
                     {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
-                            //Se registra un Pago Pendiente a Turista 
+
+                            //Se registra un Pago Pendiente a Turista
                             $pending_tourist=new pendingPaytourist();
                             $pending_tourist->setCancelId($obj);
-                            $pending_tourist->setPayAmount(23);
+                            $pending_tourist->setPayAmount($booking->getBookingPrepay());                 //------------------Pendiente-----------
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
@@ -1542,15 +1570,38 @@ class BackendReservationController extends Controller {
                             }
 
                         }
-                        else{
-                            //Se registra un Pago Pendiente a Propietario
-                            $pending_own=new pendingPayown();
-                            $pending_own->setCancelId($obj);
-                            $pending_own->setPayAmount(23);
-                            $pending_own->setUserTourist($user_tourist);
-                            $pending_own->setUser($this->getUser());
-                            $em->persist($pending_own);
-                            //Se le da puntos positivos en el Ranking a la casa
+                        else{   //Despues de los 7 días antes de la fecha de llegada
+
+                            if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
+                                $array_id_ownership=array();
+                                foreach($reservations_ids as $genResId){
+                                    $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                                    $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
+                                    //Se registra un Pago Pendiente a Propietario
+                                    $pending_own=new pendingPayown();
+                                    $pending_own->setCancelId($obj);
+                                    $pending_own->setPayAmount($price);
+                                    $pending_own->setUserCasa($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                    $pending_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
+                                    $pending_own->setUser($this->getUser());
+                                    $em->persist($pending_own);
+                                    //Se le da puntos positivos en el Ranking a la casa
+                                    if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                        //Registro un fallo de tipo turista
+                                        $failure_tourist = new failure();
+                                        $failure_tourist->setUser($this->getUser());
+                                        $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                        $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                        $failure_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                        $failure_tourist->setDescription($form_data['reason']);
+                                        $failure_tourist->setCreationDate(new \DateTime());
+                                        $em->persist($failure_tourist);
+                                        //Adiciono el id de la casa al arreglo de casas
+                                        $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
@@ -1580,13 +1631,23 @@ class BackendReservationController extends Controller {
         return $this->render('mycpBundle:reservation:modal_cancel_payment.html.twig', $data);
     }
 
-    public function savePendingPaymentTourist(){
-
+    /**
+     * @param $from
+     * @param $to
+     * @param $price_total_in_site
+     * @param $commission_percent
+     * @return float
+     */
+    public function calculatePriceOwn($from,$to,$price_total_in_site,$commission_percent){
+        $day=date_diff($to,$from)->days;
+        if($day==1 || $day ==2){
+            $price=($price_total_in_site/$day)*(1-$commission_percent/100)*0.5;
+            return $price;
+        }
+        else{
+            $price=($price_total_in_site/$day)*(1-$commission_percent/100);
+            return $price;
+        }
     }
-    public function savePendingPaymentOwnnership(){
-
-    }
-
-
 }
 

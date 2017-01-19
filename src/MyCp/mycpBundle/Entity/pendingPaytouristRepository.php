@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class pendingPaytouristRepository extends EntityRepository {
 
-    function findAllByFilters()
+    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_payment_date_from="", $filter_payment_date_to="")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -21,7 +21,7 @@ class pendingPaytouristRepository extends EntityRepository {
             ->orderBy("op.pending_id", "DESC")
             ->orderBy("op.payment_date", "DESC");
 
-       return $qb->getQuery();
+        return $qb->getQuery();
 
     }
 }

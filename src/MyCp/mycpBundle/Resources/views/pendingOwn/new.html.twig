@@ -14,13 +14,13 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_payments_pending_tourist') }}">Pagos pendientes a turistas</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_payments_pending_ownership') }}">Pagos pendientes a propietarios</a> <span class="divider">/</span></li>
     {% if edit_payment is defined %}
-    <li class="active">Editar pago pendiente a turista</li>
+    <li class="active">Editar pago pendiente a propietario</li>
     {% else %}
-    <li class="active">Adicionar pago pendiente a turista</li>
+    <li class="active">Adicionar pago pendiente a propietario</li>
     {% endif %}
-    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_tourist') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
 {% block form_actions %}
@@ -33,11 +33,11 @@
     {% else %}
     <li class="active">Adicionar pago</li>
     {% endif %}
-    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_tourist') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <button class="btn btn-success" type="submit">Guardar</button>
-    <a class="btn" href="{{ path('mycp_list_payments_pending_tourist') }}">Cancelar</a>
+    <a class="btn" href="{{ path('mycp_list_payments') }}">Cancelar</a>
 </div>
 </form>
 {% endblock %}
@@ -45,7 +45,7 @@
 <h2>{% if edit_payment is defined %}Editar pago # {{payment.pendingId}}{% else %} Adicionar pago {% endif %}</h2>
         <hr/>
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment_pending_tourist', {'id': edit_payment})}}{% else %}{{ path('mycp_new_payment')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
+<form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment_pending_ownership', {'id': edit_payment})}}{% else %}{{ path('mycp_new_payment')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
 {% if edit_payment is defined %}<input style="display: none;" name="edit_payment" value="{{edit_payment}}"> {% endif %}
 
     {{form_widget(form)}}

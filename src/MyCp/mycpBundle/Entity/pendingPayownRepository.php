@@ -12,11 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class pendingPayownRepository extends EntityRepository {
 
-    function findAllByFilters()
+    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_payment_date_from="", $filter_payment_date_to="")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
-            ->from("mycpBundle:pendingPayown", "op");
+            ->select("op")
+            ->from("mycpBundle:pendingPayown", "op")
+            ->orderBy("op.pending_id", "DESC")
+            ->orderBy("op.payment_date", "DESC");
+
         return $qb->getQuery();
 
     }

@@ -23,71 +23,65 @@
     </ul>
 <div class="tab-content" id="myTabContent">
     <div id="payments" class="tab-pane fade active in">
-    {#<a class="btn" href="{{ path("mycp_new_payment") }}"><i class="icon-plus"></i> Adicionar Pago</a>&nbsp;#}
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
-    {#<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_payments')}}">
-        <div class="well well-small">
-            <div class="row-fluid">
-                <div class="span3">
-                    <label>No.Pago:</label><input id="filter_number" value="{{(filter_number != "null")?filter_number:''}}" class="input-block-level" name="filter_number" type="text"/></div>
-                <div class="span3"><label>Código Alojamiento:</label>
-                    <input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>
+        <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_payments_pending_tourist')}}">
+            <div class="well well-small">
+                <div class="row-fluid">
+                    <div class="span3">
+                        <label>No.Pago:</label><input id="filter_number" value="{{(filter_number != "null")?filter_number:''}}" class="input-block-level" name="filter_number" type="text"/></div>
+                    <div class="span3"><label>Código Alojamiento:</label>
+                        <input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>
+                    </div>
+
+                    <div class="span3">
+                        <label>Estado:</label>
+                        <select id="filter_method" class="input-block-level" name="filter_method">
+                            {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': filter_method, 'category': 'paymentPendingStatus'})) }}
+                        </select></div>
                 </div>
-                <div class="span3">
-                    <label>Servicio:</label>
-                    <select id="filter_service" class="input-block-level" name="filter_service">
-                        {{ render(controller('mycpBundle:Public:getMycpService', {'selectedValue': filter_service})) }}
-                    </select></div>
-                <div class="span3">
-                    <label>Método:</label>
-                    <select id="filter_method" class="input-block-level" name="filter_method">
-                        {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': filter_method, 'category': 'accommodationPaymentType'})) }}
-                    </select></div>
-                </div>
-            <div class="row-fluid">
-                <div class="span5">
-                    <label>Fecha Desde:</label>
-                    <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
-                </div>
-                <div class="span5">
-                    <label>Fecha Hasta:</label>
-                    <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
-                </div>
-                <div class="span2">
-                    <label>&nbsp;</label>
-                    <div class="row-fluid">
-                        <div class="span6">
-                            <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
-                        </div>
-                        <div class="span6">
-                            <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_payments') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Fecha Desde:</label>
+                        <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
+                    </div>
+                    <div class="span5">
+                        <label>Fecha Hasta:</label>
+                        <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
+                    </div>
+                    <div class="span2">
+                        <label>&nbsp;</label>
+                        <div class="row-fluid">
+                            <div class="span6">
+                                <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                            </div>
+                            <div class="span6">
+                                <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_payments_pending_ownership') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>#}
+        </form>
     {% if list %}
 <div class="alert">
     <div class="row-fluid">
         <div class="pull-left">
             Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
         </div>
-        {#<div class="pull-right">
+        <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_payments',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_service': filter_service, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_payments',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_service': filter_service, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_payments',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_service': filter_service, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_payments_pending_ownership',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_payments_pending_ownership',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_payments_pending_ownership',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
-        </div>#}
+        </div>
     </div>
 </div>
 <div class="paginator-cont span11">
-    {# % if filter_name ==''%}{% set filter_name='null'%}{%endif% #}
-    {{ simple_paginator_render('mycp_list_payments',null,{
+    {{ simple_paginator_render('mycp_list_payments_pending_tourist',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
 'nextPageText': '»',
@@ -121,15 +115,13 @@
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_tourist", {"id": payment.pendingId}) }}">Detalles</a>
                 <a class="btn btn-mini" href="{{ path("mycp_edit_payment_pending_tourist", {"id": payment.pendingId}) }}">Editar</a>
-                <button data='{{ path("mycp_delete_payment_pending_tourist", {"id": payment.pendingId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
             </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 <div class="paginator-cont span11">
-{# % if filter_name ==''%}{% set filter_name='null'%}{%endif% #}
-{{ simple_paginator_render('mycp_list_payments',null,{
+{{ simple_paginator_render('mycp_list_payments_pending_tourist',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
 'nextPageText': '»',
@@ -144,7 +136,6 @@
     {% endif %}
    </div>
     </div>
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
     {% javascripts
@@ -180,9 +171,6 @@
             var filter_code=$('#filter_code').val();
             if(filter_code=='')filter_code='null';
 
-            var filter_service=$('#filter_service').val();
-            if(filter_service=='')filter_service='null';
-
             var filter_method=$('#filter_method').val();
             if(filter_method=='')filter_method='null';
 
@@ -193,7 +181,7 @@
             if(filter_payment_date_to=='')filter_payment_date_to='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_service+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }

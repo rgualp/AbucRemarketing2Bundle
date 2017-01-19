@@ -10,6 +10,3 @@ mycp_edit_payment_pending_tourist:
     pattern:  /edit/pending/tourist/{id}
     defaults: { _controller: mycpBundle:BackendPendingPayTourist:edit }
 
-mycp_delete_payment_pending_tourist:
-    pattern:  /delete/pending/tourist/{id}
-    defaults: { _controller: mycpBundle:BackendPendingPayTourist:delete }
