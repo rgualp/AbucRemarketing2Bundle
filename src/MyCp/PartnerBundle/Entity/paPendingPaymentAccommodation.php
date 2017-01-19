@@ -42,7 +42,7 @@ class paPendingPaymentAccommodation
 
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="created_date", type="datetime")
      */
@@ -50,7 +50,7 @@ class paPendingPaymentAccommodation
 
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="pay_date", type="datetime")
      */
@@ -65,9 +65,15 @@ class paPendingPaymentAccommodation
 
     /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\nomenclator")
-     * @ORM\JoinColumn(name="type",referencedColumnName="nom_id")
+     * @ORM\JoinColumn(name="status",referencedColumnName="nom_id")
      */
     private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\nomenclator")
+     * @ORM\JoinColumn(name="type",referencedColumnName="nom_id")
+     */
+    private $type;
 
     /**
      * @return int
@@ -132,7 +138,7 @@ class paPendingPaymentAccommodation
     }
 
     /**
-     * @return datetime
+     * @return \DateTime
      */
     public function getCreatedDate()
     {
@@ -140,7 +146,7 @@ class paPendingPaymentAccommodation
     }
 
     /**
-     * @param datetime $createdDate
+     * @param \DateTime $createdDate
      * @return mixed
      */
     public function setCreatedDate($createdDate)
@@ -150,7 +156,7 @@ class paPendingPaymentAccommodation
     }
 
     /**
-     * @return datetime
+     * @return \DateTime
      */
     public function getPayDate()
     {
@@ -158,7 +164,7 @@ class paPendingPaymentAccommodation
     }
 
     /**
-     * @param datetime $pay_date
+     * @param \DateTime $pay_date
      * @return mixed
      */
     public function setPayDate($pay_date)
@@ -202,5 +208,25 @@ class paPendingPaymentAccommodation
         $this->status = $status;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return mixed
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+
 
 }
