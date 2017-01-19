@@ -488,10 +488,11 @@ class BookingService extends Controller
                     $toPayAtService += $own->getOwnResTotalInSite() * $accommodation->getOwnCommissionPercent() / 100;
 
                     if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId) {
-                        $toDate = $own->getOwnResGenResId()->getGenResToDate();
-                        $new_date = strtotime('+3 day', strtotime($toDate));
+                        $payDate = $own->getOwnResGenResId()->getGenResToDate();
+                        $payDate->add(new \DateInterval('P3D'));
+                        /*$new_date = strtotime('+3 day', strtotime($toDate));
                         $payDate = new \DateTime();
-                        $payDate->setTimestamp($new_date);
+                        $payDate->setTimestamp($new_date);*/
 
                         $generalReservationId = $own->getOwnResGenResId()->getGenResId();
                         $pendingPayment = new paPendingPaymentAccommodation();
