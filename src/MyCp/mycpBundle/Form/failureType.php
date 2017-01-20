@@ -49,6 +49,7 @@ class failureType extends AbstractType
                         ->andWhere("(p.status = :successfulPayment or p.status = :processedPayment)")
                         ->andWhere("o.gen_res_date >= :date")
                         ->andWhere("o.gen_res_own_id = :accommodationId")
+                        ->andWhere("NOT EXISTS (SELECT f FROM mycpBundle:failure f WHERE f.reservation = o.gen_res_id)")
                         ->orderBy('o.gen_res_id', 'DESC')
                         ->setParameter("reservedStatus", generalReservation::STATUS_RESERVED)
                         ->setParameter("successfulPayment", PaymentHelper::STATUS_SUCCESS)
