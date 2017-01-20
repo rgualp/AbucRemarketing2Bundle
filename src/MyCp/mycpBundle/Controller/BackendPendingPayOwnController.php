@@ -2,7 +2,6 @@
 
 namespace MyCp\mycpBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,16 +10,13 @@ use MyCp\mycpBundle\Form\pendingPayownershipType;
 use MyCp\mycpBundle\Form\cancelPaymentType;
 use MyCp\mycpBundle\Entity\pendingPayown;
 
-
-
-
 class BackendPendingPayOwnController extends Controller {
+
     /**
      * @param $items_per_page
      * @param Request $request
      * @return Response
      */
-
     function listAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
@@ -57,6 +53,7 @@ class BackendPendingPayOwnController extends Controller {
                 'filter_payment_date_to' => $filter_payment_date_to
             ));
     }
+
     /**
      * @param $id
      * @param Request $request
@@ -111,5 +108,24 @@ class BackendPendingPayOwnController extends Controller {
         return $this->render('mycpBundle:pendingOwn:new.html.twig', array(
                 'form' => $form->createView(), 'edit_payment' => $id, 'payment' => $payment
             ));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    function saveAction(Request $request){
+       $em = $this->getDoctrine()->getManager();
+       $cheked=$request->get('cheked');
+       if(count($cheked)){
+           foreach($cheked as $item){
+               $pay= $em->getRepository('mycpBundle:pendingPayown')->find($item);
+               $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_successful')));
+               $em->persist($pay);
+           }
+           $em->flush();
+           return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado el pago satisfactoriamente']);
+       }
+        return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
     }
 }

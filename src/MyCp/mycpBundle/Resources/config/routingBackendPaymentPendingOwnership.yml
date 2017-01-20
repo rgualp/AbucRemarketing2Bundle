@@ -10,3 +10,7 @@ mycp_details_payment_pending_ownership:
 mycp_edit_payment_pending_ownership:
     pattern:  /edit/pending/ownership/{id}
     defaults: { _controller: mycpBundle:BackendPendingPayOwn:edit }
+
+mycp_save_payment_pending_ownership:
+    pattern:  /save/pending/payment
+    defaults: { _controller: mycpBundle:BackendPendingPayOwn:save }

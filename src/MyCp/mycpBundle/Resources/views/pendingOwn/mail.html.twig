@@ -1,0 +1,39 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
+
+{% block content %}
+
+    {% set flag = 0 %}
+    <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
+    <div style="font-family: Arial; font-size: 14px">
+        <p>Se ha registrado un pago pendiente a propietario en MyCasaParticular</p>
+        <p>
+            <b>Datos del Propietario:</b><br/>
+            <b>Código Alojamiento:</b> {{ ownership.getOwnMcpCode }}<br/>
+            <b>Nombre de Alojamiento:</b> {{ ownership.getOwnName }}<br/>
+            <b>Destino:</b> {{ ownership.getOwnDestination.getDesName }}<br/>
+            <b>Dirección:</b> {{ ownership.getFullAddress }}<br/>
+            <b>Correo:</b> {{ ownership.getOwnEmail1 }}<br/>
+            <b>Teléfono:</b> {{ ownership.getOwnPhoneNumber }}<br/>
+        </p>
+        <p>
+            <b>Habitaciones:</b><br/>
+            <b>{{ ownershipReservation.getOwnResGenResId.getCASId }}</b><br/>
+            <b>Precio Habitación:</b>
+            Baja: {{ ownershipReservation.getOwnResRoomPriceDown }} CUC <br/>
+            Alta: {{ ownershipReservation.getOwnResRoomPriceUp }} CUC<br/>
+            <b>Fecha llegada:</b> {{ ownershipReservation.getOwnResReservationFromDate| date("d/m/Y") }}<br/>
+            <b>Cantidad de Noches:</b><br/>
+        </p>
+        <p>
+            <b>Datos de la Devolución:</b><br/>
+            <b>Fecha Pago:</b><br/>
+            <b>Monto de la devolución en la moneda que pago el cliente:</b> <br/>
+            <b>Motivo de la devolución:</b><br/>
+        </p>
+
+
+        <p>Para consultar sus dudas, por favor, escr&iacute;banos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas tambi&eacute;n estar&aacute; a su disposici&oacute;n a trav&eacute;s del tel&eacute;fono 78673574</p>
+        <p>Saludos Cordiales,</p>
+        <p>Equipo de MyCasaParticular.com</p>
+    </div>
+{% endblock %}

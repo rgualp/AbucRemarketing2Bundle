@@ -772,7 +772,6 @@ class BackendReservationController extends Controller {
             $temp_total_nights = 0;
             $nights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
             $temp_total_nights += $nights;
-
             array_push($total_nights, $temp_total_nights);
         }
 
@@ -1479,6 +1478,12 @@ class BackendReservationController extends Controller {
         $id = $request->get('id');
         $reservations_ids= $request->get('checked');
         $reservations_ids=explode(",",$reservations_ids);
+        $templatingService = $this->container->get('templating');
+        $emailService = $this->container->get('mycp.service.email_manager');
+
+        $rooms = array();
+        $total_nights = array();
+        $service_time = $this->get('time');
 
         $obj = ($id!='') ? $em->getRepository('mycpBundle:cancelPayment')->find($id) : new cancelPayment();
 
@@ -1489,6 +1494,7 @@ class BackendReservationController extends Controller {
             $form->handleRequest($request);
             if($form->isValid()){
                 $booking = $em->getRepository('mycpBundle:booking')->find($request->get('idBooking'));
+                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
                 $min_date = $em->getRepository('mycpBundle:ownershipReservation')->getBookingById($request->get('idBooking'));
 
                 $form_data=$request->get('mycp_mycpbundle_cancelpayment');
@@ -1547,6 +1553,8 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                             $em->persist($pending_tourist);
+                            //Array $ownershipReservation para mandar el correo
+                            $ownershipReservations=array();
                             //Se de da putos en el ranking a la casa
                             if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                                 $array_id_ownership=array();
@@ -1564,11 +1572,32 @@ class BackendReservationController extends Controller {
                                         $em->persist($failure_tourist);
                                         //Adiciono el id de la casa al arreglo de casas
                                         $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                                        //Adiciono al arreglo de reservaciones
+                                        $ownershipReservations[]=$ownershipReservation;
+                                        //Adiciono las rooms de esa casa
+                                        array_push($rooms, $em->getRepository('mycpBundle:room')->find($ownershipReservation->getOwnResSelectedRoomId()));
+                                        $temp_total_nights = 0;
+                                        $nights = $service_time->nights($ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp());
+                                        $temp_total_nights += $nights;
+                                        array_push($total_nights, $temp_total_nights);
                                     }
 
                                 }
                             }
+                            //Notificar Pago Pendiente a Turista
 
+                            $pay_cost=$booking->getBookingPrepay();
+
+                            $body = $templatingService->renderResponse('mycpBundle:pendingTourist:mail.html.twig', array(
+                                        'user_locale'=>'es',
+                                        'user_tourist' => $user_tourist,
+                                        'payment'=>$payment,
+                                        'pending_tourist'=>$pending_tourist,
+                                        'pay_cost'=>$pay_cost,
+                                        'ownershipReservations'=>$ownershipReservations,
+                                        'rooms'=>$rooms
+                                    ));
+                            $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
                         }
                         else{   //Despues de los 7 días antes de la fecha de llegada
 
@@ -1585,6 +1614,16 @@ class BackendReservationController extends Controller {
                                     $pending_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                                     $pending_own->setUser($this->getUser());
                                     $em->persist($pending_own);
+
+                                    //Notificar Pago Pendiente a Propietario
+                                    $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(
+                                            'user_locale'=>'es',
+                                            'ownership'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId(),
+                                            'ownershipReservation'=>$ownershipReservation
+                                    ));
+                                   // dump($body);die;
+                                    $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
+
                                     //Se le da puntos positivos en el Ranking a la casa
                                     if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
                                         //Registro un fallo de tipo turista
@@ -1600,26 +1639,28 @@ class BackendReservationController extends Controller {
                                         $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                     }
                                 }
+
                             }
 
                         }
+
                     }
                 }
 
                 //Change status reservations
-                    if(count($reservations_ids)){
-                        foreach($reservations_ids as $genResId){
-                            $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
-                            $reservation->setOwnResStatus(generalReservation::STATUS_CANCELLED);
-                            $em->persist($reservation);
-                        }
+                if(count($reservations_ids)){
+                    foreach($reservations_ids as $genResId){
+                        $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                        $reservation->setOwnResStatus(generalReservation::STATUS_CANCELLED);
+                        $em->persist($reservation);
+                        $obj->addOwnershipReservation($reservation);
                     }
+                }
 
                 //Set booking save relations
                 $obj->setBooking($booking);
                 //Set user save relations
                 $obj->setUser($this->getUser());
-
 
                 $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1));
                 $em->persist($obj);
@@ -1648,6 +1689,18 @@ class BackendReservationController extends Controller {
             $price=($price_total_in_site/$day)*(1-$commission_percent/100);
             return $price;
         }
+    }
+
+    /**
+     * @param $subject
+     * @param $body
+     * @param $from
+     * @param $to
+     */
+    public function sendMailCancelPayment($subject,$body,$from,$to){
+        //Servicios
+        $emailService = $this->container->get('mycp.service.email_manager');
+        $emailService->sendEmail($from, $subject,  $body, $to);
     }
 }
 

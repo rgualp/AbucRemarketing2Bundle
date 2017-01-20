@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * cancelPayment
@@ -63,6 +64,55 @@ class cancelPayment
      * @ORM\Column(name="give_tourist", type="boolean")
      */
     private $give_tourist;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="ownershipReservation")
+     * @ORM\JoinTable(name="cpayment_ownreservation",
+     * joinColumns={@ORM\JoinColumn(name="cancel" , referencedColumnName="cancel_id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="ownreservation", referencedColumnName="own_res_id")})
+     */
+    private $ownreservations;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->ownreservations = new ArrayCollection();
+    }
+    /**
+     * Add ownreservations
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownreservation
+     * @return cancelPayment
+     */
+    public function addOwnershipReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownreservation)
+    {
+        $this->ownreservations[] = $ownreservation;
+
+        return $this;
+    }
+
+    /**
+     * Remove ownreservations
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownreservation
+     */
+    public function removeOwnershipReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownreservation)
+    {
+        $this->ownreservations->removeElement($ownreservation);
+    }
+
+    /**
+     * Get ownreservations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOwnershipReservations()
+    {
+        return $this->OwnershipReservation;
+    }
+
 
     /**
      * Get cancel_id
