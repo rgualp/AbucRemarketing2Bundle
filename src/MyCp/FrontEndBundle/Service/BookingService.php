@@ -67,15 +67,22 @@ class BookingService extends Controller
         $timeService = $this->get('Time');
         $em = $this->em;
         $booking = $this->getBooking($bookingId);
+        $completePayment = $booking->getCompletePayment();
         $payment = $this->getPaymentByBooking($booking);
         $user = $this->getUserByBooking($booking);
-        //$userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
 
         $currency = $payment->getCurrency();
         $currencySymbol = $currency->getCurrSymbol();
         $currencyRate = $currency->getCurrCucChange();
         $touristTaxTotal = 0;
+        $totalTransferTax = 0;
+        $totalAccommodationPayment = 0;
+        $totalOnlinePayment = 0;
+        $commissionAgency = 0;
 
         $nights = array();
         $rooms = array();
@@ -110,12 +117,10 @@ class BookingService extends Controller
 
             }
 
-            if($serviceChargeInCuc == 0)
+            if(($serviceChargeInCuc == 0) || ($serviceChargeInCuc != $own_r["fixedFee"] && $own_r["currentFee"]))
             {
                 $serviceChargeInCuc = $own_r["fixedFee"];
             }
-            else if($serviceChargeInCuc != $own_r["fixedFee"] && $own_r["currentFee"])
-                $serviceChargeInCuc = $own_r["fixedFee"];
 
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
             $totalRooms = count($ownReservations);
@@ -123,14 +128,19 @@ class BookingService extends Controller
 
             $touristTaxTotal += $totalPrice * $tax;
 
+                $payments[$own_r["id"]] = array(
+                    'total_price' => $totalPrice * $currencyRate,
+                    'prepayment' => $totalPercentPrice * $currencyRate,
+                    'touristTax' => $totalPrice * $tax * $currencyRate,
+                    'pay_at_service_cuc' => $totalPrice - $totalPercentPrice,
+                    'pay_at_service' => ($totalPrice - $totalPercentPrice) * $currencyRate
+                );
 
-            $payments[$own_r["id"]] = array(
-                'total_price' => $totalPrice * $currencyRate,
-                'prepayment' => $totalPercentPrice * $currencyRate,
-                'touristTax' => $totalPrice * $tax * $currencyRate,
-                'pay_at_service_cuc' => $totalPrice - $totalPercentPrice,
-                'pay_at_service' => ($totalPrice - $totalPercentPrice) * $currencyRate
-            );
+            if($completePayment)
+            {
+                //Calcular elementos para el voucher
+
+            }
         }
 
         $ownReservations = $em
@@ -167,6 +177,17 @@ class BookingService extends Controller
             }
         }
 
+        $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
+
+        if($completePayment){
+            //Calcular los totales
+            $totalTransferTax = 0.1*($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
+            $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax) * $currencyRate;
+            $totalTransferTax = $totalTransferTax * $currencyRate;
+            $commissionAgency = ($travelAgency->getCommission()/100) * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal) * $currencyRate;
+            $totalOnlinePayment = $totalAccommodationPayment - $commissionAgency;
+        }
+
         $accommodationServiceCharge = $totalPrice * $currencyRate;
         $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
         $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
@@ -174,8 +195,6 @@ class BookingService extends Controller
         $totalPrepayment = $serviceChargeTotal + $prepaymentAccommodations + $touristTaxTotal;
         $totalPrepaymentInCuc = $totalPrepayment / $currencyRate;
         $totalServicingPrice = ($totalPrice - $totalPercentPrice) * $currencyRate;
-
-        $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
 
         return array(
             'user_locale' => $userLocale,
@@ -196,7 +215,12 @@ class BookingService extends Controller
             'total_prepayment_cuc' => $totalPrepaymentInCuc,
             'total_servicing_price' => $totalServicingPrice,
             'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC,
-            'tourist_tax_total' => $touristTaxTotal
+            'tourist_tax_total' => $touristTaxTotal,
+            'totalTransferTax' => $totalTransferTax,
+            'totalAccommodationPayment' => $totalAccommodationPayment,
+            'commissionAgency' => $commissionAgency,
+            'totalOnlinePayment' => $totalOnlinePayment,
+            'commissionAgencyPercent' => $travelAgency->getCommission()
         );
     }
     /**

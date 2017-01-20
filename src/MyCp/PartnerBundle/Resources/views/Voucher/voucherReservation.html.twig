@@ -311,6 +311,36 @@
     </tr>
 </table>
 {% else %}
+    <table style="width:100%">
+        <tr>
+            <td><b>{{ "ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale) }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (accommodations_service_charge)| number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td><b>{{"SERVICE_AGENCY_TAX"|trans({}, "messages", user_locale)}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td><b>{{"SERVICE_TRANSFERENCE_TAX"|trans({}, "messages", user_locale)}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (totalTransferTax) | number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total * 1.1 | number_format(2)}}</h4></td>
+        </tr>
+        <tr class="b-cyan">
+            <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((totalAccommodationPayment)) | number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>
+            <td class="text-right">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</td>
+        </tr>
+        <tr>
+            <td><b>{{ "payment.online_payment" | trans({}, "messages", user_locale) }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ totalOnlinePayment | number_format(2)}}</h4></td>
+        </tr>
+    </table>
 {% endif %}
 </body>
 </html>

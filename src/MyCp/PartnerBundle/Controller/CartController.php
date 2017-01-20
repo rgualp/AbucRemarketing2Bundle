@@ -237,7 +237,7 @@ class CartController extends Controller
                     "reservations" => $reservations,
                     "lodgingPrice" => $item["totalInSite"],
                     "agencyCommissionPercent" => $currentTravelAgency->getCommission(),
-                    "fixedFee" => $fixedFee,
+                    "fixedFee" => $fixedFee * 1.1,
                     "taxFees" => $touristFee + $transferFee
                 );
             }
@@ -248,7 +248,9 @@ class CartController extends Controller
         else
         {
             $totalPrepayment += 1.1*$currentServiceFee->getFixedFee();
-            $totalOnlinePayment += 1.1*$currentServiceFee->getFixedFee();
+            $totalTransferFee += 0.1*$currentServiceFee->getFixedFee();
+            $totalAgencyCommission += $currentServiceFee->getFixedFee() * $currentTravelAgency->getCommission() / 100;
+            $totalOnlinePayment = $totalPrepayment - $totalAgencyCommission;
         }
 
         $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
