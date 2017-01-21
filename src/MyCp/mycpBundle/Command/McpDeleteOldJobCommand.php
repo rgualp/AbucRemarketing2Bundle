@@ -152,7 +152,7 @@ class McpDeleteOldJobCommand extends ContainerAwareCommand {
         $repository->createQueryBuilder('r')
             ->delete()
             ->where('r.name = :name')
-            ->andWhere('r.processed < :processed')
+            ->andWhere('r.processed = :processed')
             ->setParameter('name', $name)
             ->setParameter('processed', $processed)
             ->getQuery()
