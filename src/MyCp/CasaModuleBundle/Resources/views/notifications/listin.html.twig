@@ -1,0 +1,167 @@
+{% extends 'MyCpCasaModuleBundle:Default:dashboard.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #map_canvas {
+            min-height: 200px;
+            /*padding-left: 15px;*/
+        }
+
+        .glyphicons.step-form-icon {
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+    </style>
+{% endblock %}
+{% block title %}Notificaciones{% endblock title %}
+
+{% block content %}
+    <div class="row-eq-height">
+        <div class="col-md-9 col-xs-12 white-bg">
+            <div class="row">
+                <div class="col-sm-1 col-xs-3">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/notifications.png') }}" class="img-title-step m-t-25">
+                </div>
+                <div class="col-sm-11 col-xs-9">
+                    <h2 class="font-blue">Notificaciones Inactivas</h2>
+                </div>
+            </div>
+            <div id="reservationDetail" class="hidden">
+            </div>
+            <div class="bg-gray m-t-20 col-md-12 font-black">
+                <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{ path('my_casa_module_inactives_notifications') }}">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <label class="control-label">Tipo</label>
+                            <div class="row">
+                                <div class="col-sm-10 col-xs-10">
+                                    <select id="filter_status" name="filter[subtype]" class="input-block-level form-control">
+                                        <option></option>
+                                        <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_CHECKIN') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_CHECKIN') }}">CHECKIN</option>
+                                        <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_INMEDIATE_BOOKING') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_INMEDIATE_BOOKING') }}">SOLICITUD DE DISPONIBILIDAD</option>
+                                        <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_RESERVATION_PAID') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_RESERVATION_PAID') }}">RESERVACIÓN PAGADA</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-xs-12">
+                        {#<br/><br/>#}
+                        <a id="btnFilter" class="btn btn-primary dim m-r-5 m-t-30" href="javascript:action_submit();" >Filtrar</a>
+                        <a href="{{ path('my_casa_module_actives_notifications') }}" class="btn btn-default dim m-t-30">Limpiar</a>
+                    </div>
+                </form>
+
+                {% if notifications %}
+                <div class="row">
+                    <div class="col-md-7 col-xs-12 m-t-10">
+                    <div class="text-center font-blue">
+                        {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}                             </div>
+                    </div>
+                </div>
+                <div class="m-t-20">
+                <div class="table-responsive">
+                                            <table class="table table-hover table-casa" style="font-size: 12px">
+                        <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Respuesta</th>
+                            <th>Descripción</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for notification in notifications %}
+                    <tr>
+                        <td>{{notification.getStringSubtype}}</td>
+                        <td>{{notification.getStringActionResponse}}</td>
+                        <td>{{notification.message}}</td>
+                        <td style=" text-align: center;">
+                                            <a onclick="deleteNotification(this)" data-href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':4}) }}" title="Eliminar">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                    </tr>
+                {% endfor %}
+                        </tbody>
+                    </table>
+
+</div>
+                    <div class="row text-center">
+                        <div class="paginator-cont">
+                            {{ simple_paginator_render('my_casa_module_notifications',null,{
+                            'container_class': 'paginator',
+                            'previousPageText': '«',
+                            'nextPageText': '»',
+                            'currentClass': 'current',
+                            'firstPageText': 'Primera',
+                            'lastPageText': 'Última',
+                            'route_params': {'items_per_page':items_per_page}
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <p> <div class="alert alert-block">No hay notificaciones inactivas.</div></p>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="col-md-3 oneblue-bg col-content">
+            <div id="help-reservations-one" class="row">
+                <div class="col-md-12 m-t-20">
+                    <p>Esta sección muestra el listado de todas las reservaciones que ha recibido su propiedad a través de MyCasaParticular</p>
+                </div>
+            </div>
+            <div id="help-reservations-two" class="row">
+                <div class="col-md-12 m-t-40">
+                    <p>Puede realizar búsquedas en el listado utilizando el formulario que aparece en el recuadro gris justo encima del listado</p>
+                </div>
+            </div>
+            <div id="help-reservations-three" class="row">
+                <div class="col-md-12 m-t-40">
+                    <p>Cada reservación posee un botón "Detalles" a la derecha. Si acciona sobre este, se visualizará una página que contiene la información de la reserva seleccionada.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
+    '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        function deleteNotification(el){
+            swal({
+                title: "¿Estás seguro?",
+                text: "¿Está seguro que desea eliminar esta notificación?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e94b3d",
+                cancelButtonColor: "#64a433",
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+                closeOnConfirm: true
+            }, function () {
+                var ss = $(el).data('href');
+                window.location.href=ss;
+            });
+        }
+
+        function submit_filters(ev) {
+            if (ev.keyCode == 13) {
+                action_submit();
+            }
+        }
+
+        function action_submit() {
+            $('#filter').submit();
+        }
+    </script>
+{% endblock %}

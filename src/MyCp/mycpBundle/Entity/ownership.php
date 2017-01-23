@@ -30,7 +30,6 @@ class ownership {
     const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
 
-
     /**
      * Contains all possible statuses
      *
@@ -203,6 +202,11 @@ class ownership {
      * @ORM\OneToMany(targetEntity="room",mappedBy="room_ownership")
      */
     private $own_rooms;
+
+    /**
+     * @ORM\OneToMany(targetEntity="notification",mappedBy="ownership")
+     */
+    private $notifications;
 
     /**
      * @var boolean
@@ -2789,4 +2793,72 @@ class ownership {
         $this->modalityUpdateFrequency->removeElement($modalityUpdateFrequency);
     }
 
+
+    /**
+     * Get confidence
+     *
+     * @return boolean
+     */
+    public function getConfidence()
+    {
+        return $this->confidence;
+    }
+
+    /**
+     * Add notification
+     *
+     * @param \MyCp\mycpBundle\Entity\notification $notification
+     *
+     * @return ownership
+     */
+    public function addNotification(\MyCp\mycpBundle\Entity\notification $notification)
+    {
+        $this->notifications[] = $notification;
+
+        return $this;
+    }
+
+    /**
+     * Remove notification
+     *
+     * @param \MyCp\mycpBundle\Entity\notification $notification
+     */
+    public function removeNotification(\MyCp\mycpBundle\Entity\notification $notification)
+    {
+        $this->notifications->removeElement($notification);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * Add rankingExtra
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipRankingExtra $rankingExtra
+     *
+     * @return ownership
+     */
+    public function addRankingExtra(\MyCp\mycpBundle\Entity\ownershipRankingExtra $rankingExtra)
+    {
+        $this->rankingExtras[] = $rankingExtra;
+
+        return $this;
+    }
+
+    /**
+     * Remove rankingExtra
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipRankingExtra $rankingExtra
+     */
+    public function removeRankingExtra(\MyCp\mycpBundle\Entity\ownershipRankingExtra $rankingExtra)
+    {
+        $this->rankingExtras->removeElement($rankingExtra);
+    }
 }
