@@ -10,11 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
  * notification
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\notificationsRepository")
  *
  */
 class notification
 {
+    const SUB_TYPE_CHECKIN = "CHECKIN";
+    const SUB_TYPE_INMEDIATE_BOOKING = "INMEDIATE_BOOKING";
+    const SUB_TYPE_RESERVATION_PAID = "RESERVATION_PAID";
+
+    const ACTION_RESPONSE_CLOSE = "CLOSE";
+    const ACTION_RESPONSE_AVAILABLE = "AVAILABLE";
+    const ACTION_RESPONSE_UNAVAILABLE = "UNAVAILABLE";
+
     /**
      * @var integer
      *
@@ -84,12 +92,25 @@ class notification
      * @ORM\Column(name="description",  type="text", nullable=true)
      */
     private $description;
+
     /**
      * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="")
      * @ORM\JoinColumn(name="reservation",referencedColumnName="gen_res_id")
      */
     private $reservation;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="actionResponse",  type="string", length=255)
+     */
+    private $actionResponse;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="notifications")
+     * @ORM\JoinColumn(name="id_ownership",referencedColumnName="own_id")
+     */
+    private $ownership;
 
     /**
      * @return int
@@ -140,6 +161,22 @@ class notification
      */
     public function getSubtype()
     {
+        return $this->subtype;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringSubtype()
+    {
+        switch($this->subtype){
+            case notification::SUB_TYPE_CHECKIN:
+                return "CHECKIN";
+            case notification::SUB_TYPE_INMEDIATE_BOOKING:
+                return "SOLICITUD DE DISPONIBILIDAD";
+            case notification::SUB_TYPE_RESERVATION_PAID:
+                return "RESERVACIÓN PAGADA";
+        }
         return $this->subtype;
     }
 
@@ -279,6 +316,67 @@ class notification
         return $this;
     }
 
+    /**
+     * Set actionResponse
+     *
+     * @param string $actionResponse
+     *
+     * @return notification
+     */
+    public function setActionResponse($actionResponse)
+    {
+        $this->actionResponse = $actionResponse;
 
+        return $this;
+    }
 
+    /**
+     * Get actionResponse
+     *
+     * @return string
+     */
+    public function getActionResponse()
+    {
+        return $this->actionResponse;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringActionResponse()
+    {
+        switch($this->actionResponse){
+            case notification::ACTION_RESPONSE_AVAILABLE:
+                return "Disponible";
+            case notification::ACTION_RESPONSE_UNAVAILABLE:
+                return "NO Disponible";
+            case notification::ACTION_RESPONSE_CLOSE:
+                return "Cerrada";
+        }
+        return $this->subtype;
+    }
+
+    /**
+     * Set ownership
+     *
+     * @param \MyCp\mycpBundle\Entity\ownership $ownership
+     *
+     * @return notification
+     */
+    public function setOwnership(\MyCp\mycpBundle\Entity\ownership $ownership = null)
+    {
+        $this->ownership = $ownership;
+
+        return $this;
+    }
+
+    /**
+     * Get ownership
+     *
+     * @return \MyCp\mycpBundle\Entity\ownership
+     */
+    public function getOwnership()
+    {
+        return $this->ownership;
+    }
 }

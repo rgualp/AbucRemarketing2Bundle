@@ -29,6 +29,17 @@
 <li class="{{ activeClass('show_stats') }}">
     <a href="{{ path("show_stats") }}" class="normal"><i class="glyphicons stats menu-icon"></i> <span class="nav-label">Estadística</span></a>
 </li>
+
+<li class="with-sons {{ activeClass('my_casa_module_actives_notifications') }} {{ activeClass('my_casa_module_inactives_notifications') }}">
+    <a href="#"><i class="ion-android-textsms glyphicons menu-icon"></i>
+        <span class="nav-label">Notificaciones</span> <span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level">
+        <li class="{{ activeClass('my_casa_module_actives_notifications') }}"><a class="glyphicons tags menu-icon normal" href="{{ path("my_casa_module_actives_notifications") }}"><span>Activas</span></a></li>
+        <li class="{{ activeClass('my_casa_module_inactives_notifications') }}"><a class="glyphicons tags menu-icon normal" href="{{ path("my_casa_module_inactives_notifications") }}"><span>Inactivas</span></a></li>
+        {#<li class="{{ activeClass('my_casa_module_clients') }}"><a class="glyphicons parents menu-icon normal" href="{{ path("my_casa_module_clients") }}"><span>Clientes</span></a></li>#}
+    </ul>
+</li>
+
 <li class="{{ activeClass('my_casa_module_advice') }}">
     <a href="{{ path("my_casa_module_advice") }}" class="normal"><i class="glyphicons conversation menu-icon"></i> <span class="nav-label">Consejos</span></a>
 </li>
