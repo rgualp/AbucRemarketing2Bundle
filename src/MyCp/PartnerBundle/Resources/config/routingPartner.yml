@@ -330,6 +330,10 @@ partner_payment_postfinance_status:
     pattern:  /postfinance/status
     defaults: { _controller: PartnerBundle:Payment:postfinanceStatus }
 
+partner_dashboard_cancel_payed_reservation:
+    locales:  { en: "/dashboard/reservations/cancel-reservation/{idReservation}", es: "/dashboard/reservations/cancel-reservation/{idReservation}", de: "/dashboard/reservations/cancel-reservation/{idReservation}", fr: "/dashboard/reservations/cancel-reservation/{idReservation}", it: "/dashboard/reservations/cancel-reservation/{idReservation}" }
+    defaults: { _controller: PartnerBundle:Dashboard:cancelPayedReservation}
+
 partner_dashboard_booking_cancel_reservation:
     locales:  { en: "/dashboard/booking/cancel-reservation/{idReservation}", es: "/dashboard/booking/cancel-reservation/{idReservation}", de: "/dashboard/booking/cancel-reservation/{idReservation}", fr: "/dashboard/booking/cancel-reservation/{idReservation}", it: "/dashboard/booking/cancel-reservation/{idReservation}" }
     defaults: { _controller: PartnerBundle:Dashboard:cancelReservation}

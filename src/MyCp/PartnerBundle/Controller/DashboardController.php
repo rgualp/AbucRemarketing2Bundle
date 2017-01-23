@@ -270,6 +270,7 @@ class DashboardController extends Controller
                 'cas'=>''.$reservation->getGenResId(),
                 'from'=>$reservation->getGenResFromDate()->format('d-m-Y'),
                 'to'=>$reservation->getGenResToDate()->format('d-m-Y'),
+                'canBeCanceled' => ($reservation->getGenResFromDate() > new \DateTime()),
                 'own_mcp_code'=>$reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination'=>$reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date'=>$reservation->getGenResDate()->format('d-m-Y'),
@@ -1250,6 +1251,60 @@ class DashboardController extends Controller
             $this->get('session')->getFlashBag()->add('message_global_error', $message);
 
             return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+        }
+    }
+
+    public function cancelPayedReservationAction($idReservation, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $trans = $this->get('translator');
+        $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($idReservation);
+        $generalReservation = $ownershipReservation->getOwnResGenResId();
+
+        $user = $this->getUser();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+
+        $reservationUser = $generalReservation->getGenResUserId();
+        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
+        $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
+
+        if($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId())
+        {
+            //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
+
+            //Calcular el dinero a devolver
+            $hasToRefund = ($generalReservation->getGenResStatus() == generalReservation::STATUS_RESERVED);
+
+
+            $ownershipReservations = $generalReservation->getOwn_reservations();
+            foreach ($ownershipReservations as $ownRes) {
+                $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                $em->persist($ownRes);
+
+                if($hasToRefund)
+                {
+
+                }
+            }
+
+            $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+            $generalReservation->setGenResStatusDate(new \DateTime());
+            $generalReservation->setCanceledBy($user);
+            $em->persist($generalReservation);
+
+
+            $em->flush();
+
+            $message = $trans->trans('cancel.reservation.successful.alert');
+            $this->get('session')->getFlashBag()->add('message_global_success', $message);
+
+            return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+
+        }
+        else{
+            $message = $trans->trans('cancel.reservation.error.alert');
+            $this->get('session')->getFlashBag()->add('message_global_error', $message);
         }
     }
 

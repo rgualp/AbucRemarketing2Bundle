@@ -173,6 +173,7 @@
                                 '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
 
+                        var today = new Date();
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
                                 '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
@@ -182,8 +183,17 @@
                                 '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
-                                rooms + '<br>' +
-                                '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                rooms + '<br>';
+                                if (data.canBeCanceled)
+                                    html += '<a class="cancelReservationFromDashboard" onClick="onCancelReservation(this)" ' +
+                                    'data-cancelbutton="{{ "cart.alert.cancel_button" | trans }}" ' +
+                                    'data-confirmbutton="{{ "cart.alert.confirm_button" | trans }}" ' +
+                                    'data-alerttitle="{{ "cart.alert.title" | trans }}" ' +
+                                    'data-alertcontent="{{ "cart.alert.content" | trans }}" ' +
+                                    'data-url="{{ "cart.alert.content" | trans }}" ' +
+                                    'data-id="'+data.id+'"> <span class="rt" style="float: right; margin-left: 20px;"> {{ 'label.cancel' | trans }} </span> </a>';
+
+                        html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                                 '<a href="{{ path("partner_download_voucher") }}/' + booking_code + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>' +
                         '</div> ' +
                         '</div>';
@@ -219,5 +229,32 @@
         });
 
         oTableReserved.ajax.reload();
+    }
+
+    function onCancelReservation(that) {
+        swal({
+            title: that.data("alerttitle"),
+            text: that.data("alertcontent"),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: that.data("confirmbutton"),
+            cancelButtonText: that.data("cancelbutton"),
+            closeOnConfirm: false
+        }, function () {
+            var result = $('#cartBody');
+            var id = that.data("id");
+            var _url = that.data("url");
+
+            //$("#loading_" + id).removeClass('hide');
+
+            $.post(_url, {
+                'reservationId': id
+            }, function (response) {
+                if (response.success) {
+
+                }
+            });
+        });
     }
 </script>

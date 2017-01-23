@@ -937,6 +937,7 @@ var Dashboard = function () {
         })
 
     }
+
     return {
         init: function () {
             initPlugins();
