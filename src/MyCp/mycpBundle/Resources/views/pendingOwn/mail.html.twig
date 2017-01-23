@@ -21,14 +21,16 @@
             <b>Precio Habitación:</b>
             Baja: {{ ownershipReservation.getOwnResRoomPriceDown }} CUC <br/>
             Alta: {{ ownershipReservation.getOwnResRoomPriceUp }} CUC<br/>
-            <b>Fecha llegada:</b> {{ ownershipReservation.getOwnResReservationFromDate| date("d/m/Y") }}<br/>
-            <b>Cantidad de Noches:</b><br/>
+            <b>Fecha llegada:</b> {{ ownershipReservation.getOwnResReservationFromDate | date("d/m/Y") }}<br/>
+            {% set diferencia = ownershipReservation.getOwnResReservationFromDate.diff(ownershipReservation.getOwnResReservationToDate) %}
+            {% set diasRestantes = diferencia.days %}
+            <b>Cantidad de Noches:</b>{{ diasRestantes }}<br/>
         </p>
         <p>
             <b>Datos de la Devolución:</b><br/>
-            <b>Fecha Pago:</b><br/>
-            <b>Monto de la devolución en la moneda que pago el cliente:</b> <br/>
-            <b>Motivo de la devolución:</b><br/>
+            <b>Fecha Pago:</b>{{ date_payment | date("d/m/Y")}}<br/>
+            <b>Monto de la devolución:</b> {{ price }} CUC<br/>
+            <b>Motivo de la devolución:</b>{{ reason }}<br/>
         </p>
 
 

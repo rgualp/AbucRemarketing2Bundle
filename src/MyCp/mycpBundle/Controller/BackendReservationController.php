@@ -1619,9 +1619,12 @@ class BackendReservationController extends Controller {
                                     $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(
                                             'user_locale'=>'es',
                                             'ownership'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId(),
-                                            'ownershipReservation'=>$ownershipReservation
+                                            'ownershipReservation'=>$ownershipReservation,
+                                            'price'=>$price,
+                                            'date_payment'=>date_modify($date_cancel_payment, "+3 days"),
+                                            'reason'=>$form_data['reason']
                                     ));
-                                   // dump($body);die;
+                                    
                                     $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
 
                                     //Se le da puntos positivos en el Ranking a la casa
