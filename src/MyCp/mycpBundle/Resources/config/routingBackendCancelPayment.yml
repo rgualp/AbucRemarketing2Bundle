@@ -1,0 +1,5 @@
+mycp_list_cancel_payment:
+    pattern:  /list/{items_per_page}/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
+    defaults: { _controller: mycpBundle:BackendCancelPayment:list, items_per_page: 100,filter_number:'',filter_code:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:''}
+
+

@@ -13,4 +13,52 @@ use MyCp\mycpBundle\Entity\cart;
  */
 class cancelPaymentRepository extends EntityRepository {
 
+    /**
+     * @param string $filter_number
+     * @param string $filter_code
+     * @param string $filter_method
+     * @param string $filter_payment_date_from
+     * @param string $filter_payment_date_to
+     * @return \Doctrine\ORM\Query
+     */
+    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_payment_date_from="", $filter_payment_date_to="")
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("op")
+            ->from("mycpBundle:cancelPayment", "op")
+            ->join("op.type", "type")
+            ->join("op.booking", "booking")
+            ->orderBy("op.cancel_id", "DESC")
+            ->orderBy("op.cancel_date", "DESC");
+        if($filter_number != null && $filter_number != "" && $filter_number != "null")
+        {
+            $qb->andWhere("op.cancel_id LIKE :cancel_id")
+                ->setParameter("cancel_id", '%'.$filter_number.'%');
+        }
+        if($filter_payment_date_from != null && $filter_payment_date_from != "" && $filter_payment_date_from != "null")
+        {
+            $qb->andWhere("op.cancel_date >= :dateFrom")
+                ->setParameter("dateFrom", $filter_payment_date_from);
+        }
+
+        if($filter_payment_date_to != null && $filter_payment_date_to != "" && $filter_payment_date_to != "null")
+        {
+            $qb->andWhere("op.cancel_date <= :dateTo")
+                ->setParameter("dateTo", $filter_payment_date_to);
+        }
+        if($filter_method != null && $filter_method != "" && $filter_method != "null")
+        {
+            $qb->andWhere("type.cancel_id = :type")
+                ->setParameter("type", $filter_method);
+        }
+        if($filter_code != null && $filter_code != "" && $filter_code != "null")
+        {
+            $qb->andWhere("booking.booking_id LIKE :code")
+                ->setParameter("code", '%'.$filter_code.'%');
+        }
+        return $qb->getQuery();
+
+    }
+
 }

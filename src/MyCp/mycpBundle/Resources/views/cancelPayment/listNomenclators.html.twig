@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for nomenclator in nomenclators %}
+    <option{% if(selected is defined and selected == nomenclator.cancelId) %} selected="TRUE" {% endif %} value="{{ nomenclator.cancelId }}"> {{ nomenclator.cancelName }}</option>
+{% endfor %}

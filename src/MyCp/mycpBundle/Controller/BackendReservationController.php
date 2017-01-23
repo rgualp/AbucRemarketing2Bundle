@@ -28,6 +28,7 @@ use MyCp\mycpBundle\Entity\cancelPayment;
 use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Entity\pendingPayown;
 use MyCp\mycpBundle\Entity\failure;
+use MyCp\mycpBundle\Helpers\DateTimeEnhanced;
 
 
 class BackendReservationController extends Controller {
@@ -1519,6 +1520,9 @@ class BackendReservationController extends Controller {
                         $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                         $em->persist($pending_tourist);
 
+                        //Asocio un pago pendiente a una cancelación del pago
+                        $obj->addPendingTourist($pending_tourist);
+
                         //Se penaliza la casa en el ranking
                         if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                             $array_id_ownership=array();
@@ -1553,6 +1557,8 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                             $em->persist($pending_tourist);
+                            //Asocio un pago pendiente a una cancelación del pago
+                            $obj->addPendingTourist($pending_tourist);
                             //Array $ownershipReservation para mandar el correo
                             $ownershipReservations=array();
                             //Se de da putos en el ranking a la casa
@@ -1604,7 +1610,10 @@ class BackendReservationController extends Controller {
                             if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                                 $array_id_ownership=array();
                                 foreach($reservations_ids as $genResId){
+
                                     $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                                    $ownershipReservationClone= $ownershipReservation->getClone();
+
                                     $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
                                     //Se registra un Pago Pendiente a Propietario
                                     $pending_own=new pendingPayown();
@@ -1615,16 +1624,17 @@ class BackendReservationController extends Controller {
                                     $pending_own->setUser($this->getUser());
                                     $em->persist($pending_own);
 
+                                    //Asocio un pago pendiente a una cancelación del pago
+                                    $obj->addPendingOwn($pending_own);
+
                                     //Notificar Pago Pendiente a Propietario
                                     $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(
                                             'user_locale'=>'es',
                                             'ownership'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId(),
                                             'ownershipReservation'=>$ownershipReservation,
                                             'price'=>$price,
-                                            'date_payment'=>date_modify($date_cancel_payment, "+3 days"),
                                             'reason'=>$form_data['reason']
                                     ));
-                                    
                                     $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
 
                                     //Se le da puntos positivos en el Ranking a la casa

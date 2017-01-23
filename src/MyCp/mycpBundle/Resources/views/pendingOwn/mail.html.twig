@@ -5,6 +5,7 @@
     {% set flag = 0 %}
     <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
     <div style="font-family: Arial; font-size: 14px">
+        {% set datepay = ownershipReservation.getOwnResReservationFromDate |date_modify("+3 day")|date("d/m/Y") %}
         <p>Se ha registrado un pago pendiente a propietario en MyCasaParticular</p>
         <p>
             <b>Datos del Propietario:</b><br/>
@@ -28,7 +29,7 @@
         </p>
         <p>
             <b>Datos de la Devolución:</b><br/>
-            <b>Fecha Pago:</b>{{ date_payment | date("d/m/Y")}}<br/>
+            <b>Fecha Pago:</b>{{ datepay}}<br/>
             <b>Monto de la devolución:</b> {{ price }} CUC<br/>
             <b>Motivo de la devolución:</b>{{ reason }}<br/>
         </p>
