@@ -116,6 +116,7 @@ class paTravelAgency extends baseEntity
         $this->agencyPackages = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->tourOperators = new ArrayCollection();
+        $this->commission = 10;
     }
 
     /**
