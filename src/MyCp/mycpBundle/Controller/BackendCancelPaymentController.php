@@ -28,6 +28,7 @@ class BackendCancelPaymentController extends Controller {
         $filter_number = $request->get('filter_number');
         $filter_code = $request->get('filter_code');
         $filter_method = $request->get('filter_method');
+        $filter_name = $request->get('filter_name');
         $filter_payment_date_from = $request->get('filter_payment_date_from');
         $filter_payment_date_to = $request->get('filter_payment_date_to');
 
@@ -39,7 +40,13 @@ class BackendCancelPaymentController extends Controller {
         }
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $results = $paginator->paginate($em->getRepository('mycpBundle:cancelPayment')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+        $flag=false;
+        if($filter_name != null && $filter_name != "" && $filter_name != "null"){
+            $results = $paginator->paginate($em->getRepository('mycpBundle:pendingPaytourist')->findAllByFiltersByCancel($filter_number, $filter_code, $filter_method,$filter_name, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+            $flag=true;
+        }
+        else
+            $results = $paginator->paginate($em->getRepository('mycpBundle:cancelPayment')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -51,8 +58,10 @@ class BackendCancelPaymentController extends Controller {
                 'filter_number' => $filter_number,
                 'filter_code' => $filter_code,
                 'filter_method' => $filter_method,
+                'filter_name' => $filter_name,
                 'filter_payment_date_from' => $filter_payment_date_from,
-                'filter_payment_date_to' => $filter_payment_date_to
+                'filter_payment_date_to' => $filter_payment_date_to,
+                'flag'=>$flag
             ));
     }
 

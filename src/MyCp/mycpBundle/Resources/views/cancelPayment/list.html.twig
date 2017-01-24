@@ -43,7 +43,12 @@
                         <label>Tipo de Cancelación:</label>
                         <select id="filter_method" class="input-block-level" name="filter_method">
                             {{ render(controller('mycpBundle:BackendCancelPayment:getNomenclatorList', {'selectedValue': filter_method})) }}
-                        </select></div>
+                        </select>
+                    </div>
+                    <div class="span3">
+                        <label>Nombre turista:</label>
+                        <input id="filter_name" value="{{(filter_name != "null")?filter_name:''}}" class="input-block-level" name="filter_name" type="text"/>
+                    </div>
                 </div>
                 <div class="row-fluid">
                     <div class="span5">
@@ -76,9 +81,9 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
@@ -109,12 +114,17 @@
         <tbody>
         {% for item in list %}
         <tr>
-            <td>{{item.cancelId}}</td>
-            <td>{{item.cancelDate | date ("d/m/Y")}}</td>
-            <td>{{ item.type.cancelName }}</td>
-            <td>{{ item.booking.bookingId }}</td>
-            <td>{{ item.ownreservations | length }}</td>
-            {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':item.cancelId}})) }}
+            {% if flag=='1'%}
+                {% set id= item.cancelId.cancelId %}
+            {% else %}
+                {% set id= item.cancelId %}
+            {% endif %}
+            <td>{% if flag=='1'%}{{item.cancelId.cancelId}}{% else %}{{item.cancelId}}{% endif %}</td>
+            <td>{% if flag=='1'%}{{item.cancelId.cancelDate | date ("d/m/Y")}}{% else %}{{item.cancelDate | date ("d/m/Y")}}{% endif %}</td>
+            <td>{% if flag=='1'%}{{item.cancelId.type.cancelName}}{% else %}{{item.type.cancelName}}{% endif %}</td>
+            <td>{% if flag=='1'%}{{item.cancelId.booking.bookingId}}{% else %}{{item.booking.bookingId}}{% endif %}</td>
+            <td>{% if flag=='1'%}{{item.cancelId.ownreservations | length}}{% else %}{{item.ownreservations | length}}{% endif %}</td>
+            {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':id}})) }}
         </tr>
         {% endfor %}
         </tbody>
@@ -170,6 +180,9 @@
             var filter_code=$('#filter_code').val();
             if(filter_code=='')filter_code='null';
 
+            var filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
+
             var filter_method=$('#filter_method').val();
             if(filter_method=='')filter_method='null';
 
@@ -180,7 +193,7 @@
             if(filter_payment_date_to=='')filter_payment_date_to='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_name+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }
