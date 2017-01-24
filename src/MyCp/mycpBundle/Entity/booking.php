@@ -81,6 +81,13 @@ class booking
     private $complete_payment;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="tax_for_service", type="decimal", precision=10, scale=2 )
+     */
+    private $taxForService;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -282,4 +289,24 @@ class booking
         $this->complete_payment = $complete_payment;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getTaxForService()
+    {
+        return $this->taxForService;
+    }
+
+    /**
+     * @param int $taxForService
+     * @return mixed
+     */
+    public function setTaxForService($taxForService)
+    {
+        $this->taxForService = $taxForService;
+        return $this;
+    }
+
+
 }
