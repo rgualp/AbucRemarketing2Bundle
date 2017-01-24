@@ -25,7 +25,7 @@ class NotificationService extends Controller
         $this->container = $container;
     }
 
-    public function notificationresp(notification $notification, $availability){
+    public function notificationresp(notification $notification, $availability, $sendEmail = true){
         $generalReservation = $notification->getReservation();
         $ownership_reservations = $generalReservation->getOwnReservations();
         foreach ($ownership_reservations as $ownership_reservation) {
@@ -46,10 +46,12 @@ class NotificationService extends Controller
             $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
         }
 
-        /*Envio de Email*/
-        $id_reservation = $generalReservation->getGenResId();
-        $service_email = $this->container->get('Email');
-        $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde el Módulo Casa", false);
+        if($sendEmail){
+            /*Envio de Email*/
+            $id_reservation = $generalReservation->getGenResId();
+            $service_email = $this->container->get('Email');
+            $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde el Módulo Casa", false);
+        }
 
         if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){
             // inform listeners that a reservation was sent out
