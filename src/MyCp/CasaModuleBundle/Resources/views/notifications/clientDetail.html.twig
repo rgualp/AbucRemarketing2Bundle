@@ -1,0 +1,105 @@
+<div class="bg-gray font-black p-0 m-t-10 clientDetailsContainer">
+    <div class="row">
+        <div class="row">
+            <div class="col-sm-6 p-40">
+                <span class="font-blue step-span">Cliente {{client.getUserUserName | capitalize}} {{client.getUserLastName | capitalize}}</span>
+            </div>
+            <div class="col-sm-6">
+                <div class="pull-right"><a class="closeClientDetails" style="margin: 18px"><i class="glyphicons remove_2"></i></a></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 text-center">
+                <img  class='img-circle img-grey-border' title='{{ client.userCompleteName }}' src='{{ (client.userPhoto != null) ? asset("uploads/userImages/") ~ client.userPhoto.phoName : asset("uploads/userImages/no_photo.gif") }}' alt="{{"Photo" | trans}}"/>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <span class="control-label">Nombre: </span> <span class="font-blue">{{ client.userCompleteName }}</span>
+                </div>
+                <div class="row m-t-5">
+                    <span class="control-label">Correo: </span> <span class="font-blue">{{ client.userEmail | lower }}</span>
+                </div>
+                <div class="row m-t-5">
+                    <span class="control-label">Idioma: </span> <span class="font-blue">{{ tourist.userTouristLanguage.langName }}</span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row m-t-5">
+                    <span class="control-label">Moneda: </span> <span class="font-blue">{{ tourist.userTouristCurrency.currCode }}</span>
+                </div>
+                <div class="row m-t-5">
+                    <span class="control-label">Ciudad: </span> <span class="font-blue">{{ (client.userCity != null and client.userCity != "") ? user.userTouristUser.userCity : " - " }}</span>
+                </div>
+                <div class="row m-t-5">
+                    <span class="control-label">País: </span> <span class="font-blue">{{ client.userCountry}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-20" style="padding-left: 40px">
+            <h3 class="font-blue">Reservas de {{ client.userCompleteName }}</h3>
+<div class="table-responsive">
+    <table class="table table-hover table-casa" style="font-size: 12px; width:95%">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th>No. Reserva</th>
+            <th>Habit.</th>
+            <th>Adult.</th>
+            <th>Niños</th>
+            <th>Llegada</th>
+            <th>Noches</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+        </thead>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
+                <td>{{reservation.gen_res_id | getCASId}}</td>
+                <td>{{reservation.rooms}}</td>
+                <td>{{reservation.adults}}</td>
+                <td>{{reservation.childrens}}</td>
+                <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
+                <td>{{reservation.totalNights}}</td>
+                <td>{{reservation.gen_res_total_in_site}} CUC</td>
+                <td>
+                    {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
+                </td>
+                <td style="text-align: right">
+                    <a class="green-link detail" href="#reservationDetail" data-reservation="{{ reservation.gen_res_id }}">Detalles</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.closeClientDetails').click(function(){
+        $(".clientDetailsContainer").addClass('hidden');
+    });
+
+    $(".detail").click(function(){
+        var url = "{{ path("my_casa_module_reservation_detail") }}";
+        var idReservation = $(this).data("reservation");
+        $("#reservationDetail").removeClass("hidden");
+
+        $("#reservationDetail").html('<span class="font-blue step-span">Cargando...</span>');
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data:  {
+                idReservation:idReservation
+            },
+            success: function (data) {
+                $("#reservationDetail").html(data);
+            }
+        });
+    });
+</script>

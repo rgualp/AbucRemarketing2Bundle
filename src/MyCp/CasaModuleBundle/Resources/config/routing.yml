@@ -65,3 +65,16 @@ my_casarenta_manual_download:
 my_casa_module_manual_ranking_download:
     pattern:  /manual_ranking_download
     defaults: { _controller: MyCpCasaModuleBundle:Default:manualRankingDownload}
+
+my_casa_module_actives_notifications:
+    pattern:  /notifications/activas/{items_per_page}
+    defaults: { _controller: MyCpCasaModuleBundle:Notification:notificationsActives,items_per_page:10}
+
+my_casa_module_inactives_notifications:
+    pattern:  /notifications/inactives/{items_per_page}
+    defaults: { _controller: MyCpCasaModuleBundle:Notification:notificationsInactives,items_per_page:10}
+
+my_casa_module_notificationresp:
+    pattern:  /notifications/{id}/{act}
+    defaults: { _controller: MyCpCasaModuleBundle:Notification:notificationresp,id:'',act:''}
+
