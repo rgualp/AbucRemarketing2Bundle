@@ -206,7 +206,7 @@ class generalReservation {
     private $travelAgencyDetailReservations;
 
     /**
-     * @ORM\OneToMany(targetEntity="notification",mappedBy="ownership")
+     * @ORM\OneToMany(targetEntity="notification",mappedBy="reservation")
      */
     private $notifications;
 

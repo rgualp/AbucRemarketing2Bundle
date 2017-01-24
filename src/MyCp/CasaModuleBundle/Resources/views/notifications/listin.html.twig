@@ -88,7 +88,7 @@
                         {% for notification in notifications %}
                     <tr>
                         <td>{{notification.getStringSubtype}}</td>
-                        <td>{{notification.message}}</td>
+                        <td>{{notification.message}} <br> <b>Respuesta:</b> </b>{{notification.getStringActionResponse}} </td>
                         <td>{{notification.created |date("d/m/Y")}}</td>
                         <td style=" text-align: center;">
                                             <a onclick="deleteNotification(this)" data-href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':4}) }}" title="Eliminar">
