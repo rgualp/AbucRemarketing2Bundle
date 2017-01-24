@@ -94,7 +94,7 @@ class notification
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="notifications")
      * @ORM\JoinColumn(name="reservation",referencedColumnName="gen_res_id")
      */
     private $reservation;
