@@ -23,18 +23,69 @@ use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
 
 
 class notificationsRepository extends EntityRepository {
-    function getActives($idOwnership, $filters) {
+    function getNotifications($idOwnership, $filters, $active = true) {
+        if(!isset($filters)){
+            $filters = array();
+        }
+
         $filters['ownership'] = $idOwnership;
-        $filters['actionResponse'] = '';
+
+        if($active){
+            $filters['actionResponse'] = '';
+        }
+        else{
+            $filters['actionResponse'] = array('prop'=>'actionResponse', 'key'=>'actionResponse', 'operator'=>'!=', 'value'=>'');
+        }
+
 
         if(!isset($filters['subtype']) || $filters['subtype'] == ''){
             unset($filters['subtype']);
         }
 
-        return $this->findBy($filters, array('created' => 'DESC'));
+        if(isset($filters['date_from']) && $filters['date_from'] != '' && isset($filters['date_to']) && $filters['date_to'] != ''){
+            $date_from =  \DateTime::createFromFormat('d/m/Y H:i:s', $filters['date_from'].'00:00:00');
+            $date_to =  \DateTime::createFromFormat('d/m/Y H:i:s', $filters['date_to'].'00:00:00');
+
+            if($filters['date_from'] == $filters['date_to']){
+                $date_to->modify('+1 day');
+            }
+
+            $filters['created_date_from'] = array('prop'=>'created', 'key'=>'created_date_from', 'operator'=>'>=', 'value'=>$date_from->format('Y-m-d'));
+            $filters['created_date_to'] = array('prop'=>'created', 'key'=>'created_date_to', 'operator'=>'<=', 'value'=>$date_to->format('Y-m-d'));
+        }
+        unset($filters['date_from']);
+        unset($filters['date_to']);
+
+
+        $qb = $this->createQueryBuilder('n');
+        foreach ($filters as $key => $value) {
+            if(is_array($value)){
+                if(count($qb->getParameters()) < 1){
+                    $qb->where('n.'.$value['prop'].$value['operator'].':'.$value['key'])->setParameter($value['key'], $value['value']);
+                }
+                else{
+                    $qb->andWhere('n.'.$value['prop'].$value['operator'].':'.$value['key'])->setParameter($value['key'], $value['value']);
+                }
+            }
+            else{
+                if(count($qb->getParameters()) < 1){
+                    $qb->where('n.'.$key.' = :'.$key)->setParameter($key, $value);
+                }
+                else{
+                    $qb->andWhere('n.'.$key.' = :'.$key)->setParameter($key, $value);
+                }
+            }
+        }
+        $qb->orderBy('n.created', 'DESC');
+        return $qb->getQuery()->getResult();
+        //return $this->findBy($filters, array('created' => 'DESC'));
     }
 
     function getInactives($idOwnership, $filters) {
+        if(!isset($filters)){
+            $filters = array();
+        }
+
         $qb = $this->createQueryBuilder('n');
         $qb->where('n.ownership = :ownership')->andWhere('n.actionResponse != :actionResponse')
             ->setParameter('ownership', $idOwnership)

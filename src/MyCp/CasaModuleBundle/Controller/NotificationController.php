@@ -32,7 +32,7 @@ class NotificationController extends Controller
         if ($user->getUserRole() == 'ROLE_CLIENT_CASA'){
             $ownership =  $user->getUserUserCasa()[0]->getUserCasaOwnership();
 
-            $notifications = $em->getRepository('mycpBundle:notification')->getActives($ownership->getOwnId(), $filters);
+            $notifications = $em->getRepository('mycpBundle:notification')->getNotifications($ownership->getOwnId(), $filters, true);
         }
         /*else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
@@ -71,7 +71,8 @@ class NotificationController extends Controller
 
         if ($user->getUserRole() == 'ROLE_CLIENT_CASA'){
             $ownership =  $user->getUserUserCasa()[0]->getUserCasaOwnership();
-            $notifications = $em->getRepository('mycpBundle:notification')->getInactives($ownership->getOwnId(), $filters);
+
+            $notifications = $em->getRepository('mycpBundle:notification')->getNotifications($ownership->getOwnId(), $filters, false);
         }
         /*else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
@@ -80,16 +81,19 @@ class NotificationController extends Controller
 
         $notifications = $paginator->paginate($notifications)->getResult();
 
+        if(!isset($filters)){
+            $filters = array();
+        }
+
         return $this->render('MyCpCasaModuleBundle:notifications:listin.html.twig',array(
             'ownership'=>$ownership,
-            'notifications' => $notifications,
             'filters'=>$filters,
+            'notifications' => $notifications,
             'items_per_page' => $items_per_page,
             'current_page' => $page,
             'total_items' => $paginator->getTotalItems(),
             'dashboard'=>true
         ));
-
     }
 
     public function notificationrespAction($id, $act, Request $request){
@@ -131,38 +135,7 @@ class NotificationController extends Controller
     }
 
     public function notificationresp(notification $notification, $availability){
-        $em=$this->getDoctrine()->getManager();
-        $generalReservation = $notification->getReservation();
-        $ownership_reservations = $generalReservation->getOwnReservations();
-        foreach ($ownership_reservations as $ownership_reservation) {
-            if($availability == 1){
-                $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_AVAILABLE);
-            }
-            else{
-                $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
-            }
-            $em->persist($ownership_reservation);
-            $em->flush();
-        }
-
-        if($availability == 1) {
-            $generalReservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-        }
-        else {
-            $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
-        }
-
-        /*Envio de Email*/
-        $container = $this;
-        $id_reservation = $generalReservation->getGenResId();
-        $service_email = $container->get('Email');
-        $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta", false);
-
-        if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){
-            // inform listeners that a reservation was sent out
-            $dispatcher = $container->get('event_dispatcher');
-            $eventData = new GeneralReservationJobData($id_reservation);
-            $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
-        }
+        $service = $this->get('mycp.my_casa_module.service');
+        $service->notificationresp($notification, $availability);
     }
 }

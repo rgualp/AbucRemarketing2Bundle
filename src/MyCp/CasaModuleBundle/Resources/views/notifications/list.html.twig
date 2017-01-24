@@ -44,6 +44,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4 col-xs-12">
+                            <label class="control-label">Rango de fecha</label>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <input name="filter[date_from]" type="text" class="datepicker input-block-level form-control" {% if filters['date_from'] is defined %} value="{{ filters['date_from'] }}" {% endif %}/>
+                                        <span class="input-group-addon">a</span>
+                                        <input name="filter[date_to]" type="text" class="datepicker input-block-level form-control" {% if filters['date_to'] is defined %} value="{{ filters['date_to'] }}" {% endif %}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-sm-4 col-xs-12">
@@ -59,29 +72,6 @@
                     <div class="text-center font-blue">
                         {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} resultados de {{total_items}}                             </div>
                     </div>
-                    {#<div class="col-sm-5 col-xs-12 pull-right">
-                            <div class="row">
-                              <div class="col-sm-5 col-xs-5">
-                        <span class="font-blue pull-right m-t-10"> Organizar por:</span></div>
-                        {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
-                        {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
-                        {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
-                        {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
-                        {% if filter_date_to ==''%}{% set filter_date_to='null'%}{%endif%}
-                        {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
-                        {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
-                        {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
-                        {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
-                        {% if sort_by=='' %}
-                    {% set sort_by=0 %}
-                {% endif %}
-                              <div class="col-sm-7 col-xs-7">
-                        <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right form-control">
-                            {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::RESERVATION_LODGING_MODULE')})) }}
-                        </select>
-                        </div>
-                            </div>
-                        </div>#}
                 </div>
                 <div class="m-t-20">
                 <div class="table-responsive">
@@ -89,8 +79,8 @@
                         <thead>
                         <tr>
                             <th>Tipo</th>
-                            {#<th>Fecha</th>#}
                             <th>Descripción</th>
+                            <th>Fecha</th>
                             <th>Acción</th>
                         </tr>
                         </thead>
@@ -98,11 +88,11 @@
                         {% for notification in notifications %}
                     <tr>
                         <td>{{notification.getStringSubtype}}</td>
-                        {#<td>{{notification.created |date("d/m/Y")}}</td>#}
                         <td>{{notification.message}}</td>
+                        <td>{{notification.created |date("d/m/Y")}}</td>
                         <td style=" text-align: center; width: 80px;">
                                             {% if notification.subtype==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_INMEDIATE_BOOKING') %}
-                                             <a href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':1}) }}" title="Disponible">
+                                            <a href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':1}) }}" title="Disponible">
                                                 <i class="mycp-icon-disponible"></i>
                                             </a>
                                             |
@@ -114,14 +104,7 @@
                                             <a href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':3}) }}" title="Cerrar">
                                                 <i class="fa fa-close"></i>
                                             </a>
-                                            {#|
-                                            <a data-idapi="{{ api.id }}" href="#modal-new-api" data-toggle="modal" class="edit-api"  data-action="{{ path('backend_edit_api') }}" data-action-success="{{ path('homepage') }}">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                            |#}
-                                            {#<a href="#">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a></td>#}
+                                            </td>
                     </tr>
                 {% endfor %}
                         </tbody>
@@ -130,7 +113,7 @@
 </div>
                     <div class="row text-center">
                         <div class="paginator-cont">
-                            {{ simple_paginator_render('my_casa_module_notifications',null,{
+                            {{ simple_paginator_render('my_casa_module_actives_notifications',null,{
                             'container_class': 'paginator',
                             'previousPageText': '«',
                             'nextPageText': '»',
@@ -188,5 +171,14 @@
         function action_submit() {
             $('#filter').submit();
         }
+
+        $(document).on('ready', function(){
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayBtn: 'linked',
+                language: 'es',
+                autoclose: true
+            });
+        });
     </script>
 {% endblock %}
