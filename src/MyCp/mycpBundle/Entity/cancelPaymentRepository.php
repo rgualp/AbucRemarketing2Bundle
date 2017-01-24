@@ -21,7 +21,7 @@ class cancelPaymentRepository extends EntityRepository {
      * @param string $filter_payment_date_to
      * @return \Doctrine\ORM\Query
      */
-    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_payment_date_from="", $filter_payment_date_to="")
+    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_name="",$filter_payment_date_from="", $filter_payment_date_to="",$filter_own="")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -29,6 +29,9 @@ class cancelPaymentRepository extends EntityRepository {
             ->from("mycpBundle:cancelPayment", "op")
             ->join("op.type", "type")
             ->join("op.booking", "booking")
+            ->join("op.ownreservations", "cpown")
+            ->join("cpown.own_res_gen_res_id", "gr")
+            ->join("gr.gen_res_own_id", "own")
             ->orderBy("op.cancel_id", "DESC")
             ->orderBy("op.cancel_date", "DESC");
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
@@ -56,6 +59,16 @@ class cancelPaymentRepository extends EntityRepository {
         {
             $qb->andWhere("booking.booking_id LIKE :code")
                 ->setParameter("code", '%'.$filter_code.'%');
+        }
+        if($filter_name != null && $filter_name != "" && $filter_name != "null")
+        {
+            $qb->andWhere("booking.booking_user_dates LIKE :booking_user_dates")
+                ->setParameter("booking_user_dates", '%'.$filter_name.'%');
+        }
+        if($filter_own != null && $filter_own != "" && $filter_own != "null")
+        {
+            $qb->andWhere("own.own_mcp_code LIKE :own_mcp_code")
+                ->setParameter("own_mcp_code", '%'.$filter_own.'%');
         }
         return $qb->getQuery();
 

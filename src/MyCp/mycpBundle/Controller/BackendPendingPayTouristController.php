@@ -112,4 +112,23 @@ class BackendPendingPayTouristController extends Controller {
                 'form' => $form->createView(), 'edit_payment' => $id, 'payment' => $payment
             ));
     }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    function saveAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $cheked=$request->get('cheked');
+        if(count($cheked)){
+            foreach($cheked as $item){
+                $pay= $em->getRepository('mycpBundle:pendingPaytourist')->find($item);
+                $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_successful')));
+                $em->persist($pay);
+            }
+            $em->flush();
+            return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado el pago satisfactoriamente']);
+        }
+        return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
+    }
 }

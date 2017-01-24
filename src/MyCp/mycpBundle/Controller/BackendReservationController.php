@@ -1517,11 +1517,9 @@ class BackendReservationController extends Controller {
                         $pending_tourist->setPayAmount($booking->getBookingPrepay());
                         $pending_tourist->setUserTourist($user_tourist);
                         $pending_tourist->setUser($this->getUser());
+                        $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
                         $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                         $em->persist($pending_tourist);
-
-                        //Asocio un pago pendiente a una cancelación del pago
-                        $obj->addPendingTourist($pending_tourist);
 
                         //Se penaliza la casa en el ranking
                         if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
@@ -1555,10 +1553,10 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setPayAmount($booking->getBookingPrepay());                 //------------------Pendiente-----------
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
+                            $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
                             $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                             $em->persist($pending_tourist);
-                            //Asocio un pago pendiente a una cancelación del pago
-                            $obj->addPendingTourist($pending_tourist);
+
                             //Array $ownershipReservation para mandar el correo
                             $ownershipReservations=array();
                             //Se de da putos en el ranking a la casa
@@ -1622,10 +1620,8 @@ class BackendReservationController extends Controller {
                                     $pending_own->setUserCasa($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
                                     $pending_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                                     $pending_own->setUser($this->getUser());
+                                    $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
                                     $em->persist($pending_own);
-
-                                    //Asocio un pago pendiente a una cancelación del pago
-                                    $obj->addPendingOwn($pending_own);
 
                                     //Notificar Pago Pendiente a Propietario
                                     $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(

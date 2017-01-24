@@ -51,15 +51,19 @@
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class="span5">
+                    <div class="span3">
                         <label>Fecha Desde:</label>
                         <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
                     </div>
-                    <div class="span5">
+                    <div class="span3">
                         <label>Fecha Hasta:</label>
                         <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
                     </div>
-                    <div class="span2">
+                    <div class="span3">
+                        <label>Código de la Casa:</label>
+                        <input id="filter_own" value="{{(filter_own != "null")?filter_own:''}}" class="input-block-level" name="filter_own" type="text"/>
+                    </div>
+                    <div class="span3">
                         <label>&nbsp;</label>
                         <div class="row-fluid">
                             <div class="span6">
@@ -81,9 +85,9 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
@@ -109,22 +113,22 @@
             <th>Habitaciones canceladas</th>
             <th>Devolver A </th>
             <th>Monto a devolver </th>
+            <th style="text-align: right">Acciones</th>
         </tr>
         </thead>
         <tbody>
         {% for item in list %}
         <tr>
-            {% if flag=='1'%}
-                {% set id= item.cancelId.cancelId %}
-            {% else %}
-                {% set id= item.cancelId %}
-            {% endif %}
-            <td>{% if flag=='1'%}{{item.cancelId.cancelId}}{% else %}{{item.cancelId}}{% endif %}</td>
-            <td>{% if flag=='1'%}{{item.cancelId.cancelDate | date ("d/m/Y")}}{% else %}{{item.cancelDate | date ("d/m/Y")}}{% endif %}</td>
-            <td>{% if flag=='1'%}{{item.cancelId.type.cancelName}}{% else %}{{item.type.cancelName}}{% endif %}</td>
-            <td>{% if flag=='1'%}{{item.cancelId.booking.bookingId}}{% else %}{{item.booking.bookingId}}{% endif %}</td>
-            <td>{% if flag=='1'%}{{item.cancelId.ownreservations | length}}{% else %}{{item.ownreservations | length}}{% endif %}</td>
-            {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':id}})) }}
+            <td>{{item.cancelId}}</td>
+            <td>{{item.cancelDate | date ("d/m/Y")}}</td>
+            <td>{{item.type.cancelName}}</td>
+            <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':item.booking.bookingId}) }}">{{item.booking.bookingId}}</a></td>
+            <td>{{item.ownreservations | length}}</td>
+            {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':item.cancelId}})) }}
+            <td style="text-align: right">
+                <a class="btn btn-mini" href="{{ path("mycp_details_cancel_payment", {"id": item.cancelId}) }}">Detalles</a>
+                <a class="btn btn-mini" href="{{ path("mycp_edit_cancel_payment", {"id": item.cancelId}) }}">Editar</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
@@ -192,8 +196,11 @@
             var filter_payment_date_to = $("#filter_payment_date_to").val();
             if(filter_payment_date_to=='')filter_payment_date_to='null';
 
+            var filter_own = $("#filter_own").val();
+            if(filter_own=='')filter_own='null';
+
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_name+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_name+'/'+filter_payment_date_from+'/'+filter_payment_date_to+'/'+filter_own;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }

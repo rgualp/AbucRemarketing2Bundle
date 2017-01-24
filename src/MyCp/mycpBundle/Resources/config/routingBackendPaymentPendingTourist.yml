@@ -4,10 +4,13 @@ mycp_list_payments_pending_tourist:
 
 
 mycp_details_payment_pending_tourist:
-    pattern:  /detail/pending/tourist/{id}
+    pattern:  /detail/{id}
     defaults: { _controller: mycpBundle:BackendPendingPayTourist:detail }
 
 mycp_edit_payment_pending_tourist:
-    pattern:  /edit/pending/tourist/{id}
+    pattern:  /edit/{id}
     defaults: { _controller: mycpBundle:BackendPendingPayTourist:edit }
 
+mycp_save_payment_pending_tourist:
+    pattern:  /save
+    defaults: { _controller: mycpBundle:BackendPendingPayTourist:save }
