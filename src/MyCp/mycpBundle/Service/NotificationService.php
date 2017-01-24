@@ -71,8 +71,10 @@ class NotificationService extends Controller
 
                 $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
 
-                if ($response != null)
-                    $this->createNotification($reservationObj, $subType, $response);
+                if ($response == null){
+                    $response = 'respuesta del servidor de notificaciones no recibida';
+                }
+                $this->createNotification($reservationObj, $subType, $response);
             }
         }
     }
@@ -87,8 +89,11 @@ class NotificationService extends Controller
 
                 $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
 
-                if ($response != null)
-                    $this->createNotification($reservationObj, $subType, $response);
+                if ($response == null){
+                    $response = 'respuesta del servidor de notificaciones no recibida';
+                }
+
+                $this->createNotification($reservationObj, $subType, $response);
             }
         }
     }
@@ -127,8 +132,10 @@ class NotificationService extends Controller
 
                     $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
 
-                    if ($response != null)
-                        $this->createNotification($reservationObj, $subType, $response);
+                    if ($response == null){
+                        $response = 'respuesta del servidor de notificaciones no recibida';
+                    }
+                    $this->createNotification($reservationObj, $subType, $response);
                 }
             }
         }
@@ -191,7 +198,7 @@ class NotificationService extends Controller
                 ->setNotificationType($notificationType)
                 ->setStatus($notificationStatus)
                 ->setOwnership($reservation->getGenResOwnId())
-            ;
+                ->setActionResponse('');
 
             $this->em->persist($notification);
             $this->em->flush();

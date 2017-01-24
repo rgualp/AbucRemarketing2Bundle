@@ -44,12 +44,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4 col-xs-12">
+                            <label class="control-label">Rango de fecha</label>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <input name="filter[date_from]" type="text" class="datepicker input-block-level form-control" {% if filters['date_from'] is defined %} value="{{ filters['date_from'] }}" {% endif %}/>
+                                        <span class="input-group-addon">a</span>
+                                        <input name="filter[date_to]" type="text" class="datepicker input-block-level form-control" {% if filters['date_to'] is defined %} value="{{ filters['date_to'] }}" {% endif %}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-sm-4 col-xs-12">
                         {#<br/><br/>#}
                         <a id="btnFilter" class="btn btn-primary dim m-r-5 m-t-30" href="javascript:action_submit();" >Filtrar</a>
-                        <a href="{{ path('my_casa_module_actives_notifications') }}" class="btn btn-default dim m-t-30">Limpiar</a>
+                        <a href="{{ path('my_casa_module_inactives_notifications') }}" class="btn btn-default dim m-t-30">Limpiar</a>
                     </div>
                 </form>
 
@@ -66,8 +79,8 @@
                         <thead>
                         <tr>
                             <th>Tipo</th>
-                            <th>Respuesta</th>
                             <th>Descripción</th>
+                            <th>Fecha</th>
                             <th>Acción</th>
                         </tr>
                         </thead>
@@ -75,12 +88,13 @@
                         {% for notification in notifications %}
                     <tr>
                         <td>{{notification.getStringSubtype}}</td>
-                        <td>{{notification.getStringActionResponse}}</td>
                         <td>{{notification.message}}</td>
+                        <td>{{notification.created |date("d/m/Y")}}</td>
                         <td style=" text-align: center;">
                                             <a onclick="deleteNotification(this)" data-href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':4}) }}" title="Eliminar">
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
+                        </td>
                     </tr>
                 {% endfor %}
                         </tbody>
@@ -89,7 +103,7 @@
 </div>
                     <div class="row text-center">
                         <div class="paginator-cont">
-                            {{ simple_paginator_render('my_casa_module_notifications',null,{
+                            {{ simple_paginator_render('my_casa_module_inactives_notifications',null,{
                             'container_class': 'paginator',
                             'previousPageText': '«',
                             'nextPageText': '»',
@@ -102,7 +116,7 @@
                     </div>
                 </div>
                 {% else %}
-                    <p> <div class="alert alert-block">No hay notificaciones inactivas.</div></p>
+                    <p> <div class="alert alert-block">No hay notificaciones activas.</div></p>
                 {% endif %}
 
             </div>
@@ -136,7 +150,18 @@
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
     <script>
+        function submit_filters(ev) {
+            if (ev.keyCode == 13) {
+                action_submit();
+            }
+        }
+
+        function action_submit() {
+            $('#filter').submit();
+        }
+
         function deleteNotification(el){
             swal({
                 title: "¿Estás seguro?",
@@ -154,14 +179,13 @@
             });
         }
 
-        function submit_filters(ev) {
-            if (ev.keyCode == 13) {
-                action_submit();
-            }
-        }
-
-        function action_submit() {
-            $('#filter').submit();
-        }
+        $(document).on('ready', function(){
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayBtn: 'linked',
+                language: 'es',
+                autoclose: true
+            });
+        });
     </script>
 {% endblock %}
