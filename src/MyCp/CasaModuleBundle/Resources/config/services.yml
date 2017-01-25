@@ -15,9 +15,3 @@ services:
         arguments:
             - @router
             - @session
-
-    mycp.my_casa_module.service:
-        class: MyCp\CasaModuleBundle\Service\NotificationService
-        arguments:
-            em: "@doctrine.orm.entity_manager"
-            container: "@service_container"
