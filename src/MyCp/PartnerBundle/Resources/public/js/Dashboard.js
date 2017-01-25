@@ -757,13 +757,15 @@ var Dashboard = function () {
                         if (response.html != "") {
                             result.html(response.html);
                             onShowMorePaymentButton();
-                            $("#completePayment").val(response.completePayment);
-                            $("#totalTouristAgencyTax").val(response.totalTouristAgencyTax);
+                            console.log("Tarifa agencia " + response.totalTouristAgencyTax);
+
 
                             if(!response.completePayment) {
                                 $("#totalPrepayment").html(response.totalPrepaymentTxt);
                                 $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
                                 $("#totalPrepaymentGeneralInput").val(response.totalPrepayment);
+                                $("#completePayment").val(response.completePayment);
+                                $("#totalTouristAgencyTax").val(response.totalTouristAgencyTax);
                                 $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
                                 $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
                                 $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
@@ -779,6 +781,8 @@ var Dashboard = function () {
                                 $("#totalPayment").html(response.totalPaymentTxt);
 
                                 $("#totalPrepaymentGeneralInput").val(response.totalPrepayment);
+                                $("#completePayment").val(response.completePayment);
+                                $("#totalTouristAgencyTax").val(response.totalTouristAgencyTax);
                                 $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
                                 $("#totalTransferFeePayment").html(response.totalTransferFeePaymentTxt);
 
