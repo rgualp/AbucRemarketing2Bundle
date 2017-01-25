@@ -758,6 +758,7 @@ var Dashboard = function () {
                             result.html(response.html);
                             onShowMorePaymentButton();
                             $("#completePayment").val(response.completePayment);
+                            $("#totalTouristAgencyTax").val(response.totalTouristAgencyTax);
 
                             if(!response.completePayment) {
                                 $("#totalPrepayment").html(response.totalPrepaymentTxt);
@@ -770,6 +771,7 @@ var Dashboard = function () {
                                 $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
                                 $("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
                                 $("#totalPayment").html(response.totalPaymentTxt);
+
                             }
                             else{
                                 $("#totalPrepayment").html(response.totalPrepaymentTxt);
@@ -792,6 +794,7 @@ var Dashboard = function () {
 
                                 $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
                                 $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
+
                             }
 
                             //cartPrepayment = response.totalPrepayment;

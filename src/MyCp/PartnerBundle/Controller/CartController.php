@@ -181,6 +181,7 @@ class CartController extends Controller
         $totalPercentAccommodationPrepayment = 0;
         $totalAgencyCommission = 0;
         $totalOnlinePayment = 0;
+        $totalTouristAgencyTax = 0;
 
         $totalTransferFee = 0;
 
@@ -191,6 +192,8 @@ class CartController extends Controller
         {
             $touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
             $commission = $item["totalInSite"]*$item["commission"]/100;
+
+            $totalTouristAgencyTax += $touristFee;
 
             $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
 
@@ -238,7 +241,7 @@ class CartController extends Controller
                     "lodgingPrice" => $item["totalInSite"],
                     "agencyCommissionPercent" => $currentTravelAgency->getCommission(),
                     "fixedFee" => $fixedFee * 1.1,
-                    "taxFees" => $touristFee + $transferFee
+                    "taxFees" => $touristFee + $transferFee,
                 );
             }
         }
@@ -279,7 +282,8 @@ class CartController extends Controller
                 'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
                 'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
-                'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol()
+                'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                "totalTouristAgencyTax" => $totalTouristAgencyTax
 
             ]);
         }
@@ -302,7 +306,8 @@ class CartController extends Controller
                 'totalTransferFeePayment' => $totalTransferFee,
                 'totalTransferFeePaymentTxt' => number_format(($totalTransferFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalAgencyCommission' => $totalAgencyCommission,
-                'totalAgencyCommissionTxt' => number_format($totalAgencyCommission * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol()
+                'totalAgencyCommissionTxt' => number_format($totalAgencyCommission * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                "totalTouristAgencyTax" => $totalTouristAgencyTax
 
             ]);
         }
@@ -325,6 +330,7 @@ class CartController extends Controller
         $extraData = explode(",", $extraData);
         $extraData = array_unique($extraData);
         $cartPrepayment = $request->get("totalPrepaymentGeneralInput");
+        $totalTouristAgencyTax = $request->get("totalTouristAgencyTax");
         //$completePayment = $request->get("completePayment");
         $paymentMethod = $request->get('payment_method');
 
@@ -377,10 +383,10 @@ class CartController extends Controller
         $booking->setBookingUserId($user->getUserId());
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
         $booking->setCompletePayment($completePayment);
+        $booking->setTaxForService($totalTouristAgencyTax);
         $em->persist($booking);
 
         $total_pay_at_service = 0;
-
 
         foreach ($roomsToPay as $own_res) {
             $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
@@ -388,7 +394,6 @@ class CartController extends Controller
             $em->persist($own);
             $total_pay_at_service += $own->getOwnResTotalInSite() * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent()/100);
         }
-
 
         $booking->setPayAtService($total_pay_at_service);
         $em->persist($booking);

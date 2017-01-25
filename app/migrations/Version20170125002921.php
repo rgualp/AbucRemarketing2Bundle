@@ -28,10 +28,12 @@ class Version20170125002921 extends AbstractMigration
               DECLARE rooms INT;
               DECLARE nights INT;
               DECLARE roomPrice DECIMAL(10,2);
+              DECLARE totalPrice DECIMAL(10,2);
               DECLARE serviceFeeTax INT;
               DECLARE bookingCursor CURSOR FOR select
             T.bookingId, SUM(T.rooms) as rooms, SUM(T.nights) as nights,
             ROUND(SUM(T.totalPrice) / (SUM(T.rooms) * SUM(T.nights)), 2) as roomPrice,
+            SUM(T.totalPrice) as totalPrice,
             T.serviceFeeTax
             from
             (select owres.own_res_reservation_booking as bookingId, owres.own_res_gen_res_id,
@@ -52,12 +54,12 @@ class Version20170125002921 extends AbstractMigration
               OPEN bookingCursor;
 
               read_loop: LOOP
-                FETCH bookingCursor INTO bookingId, rooms, nights, roomPrice, serviceFeeTax;
+                FETCH bookingCursor INTO bookingId, rooms, nights, roomPrice, totalPrice, serviceFeeTax;
                 IF done THEN
                   LEAVE read_loop;
                 END IF;
 
-                set @serviceFeeTax = getTaxForServiceWithServiceFee(rooms, nights, roomPrice, serviceFeeTax);
+                set @serviceFeeTax = totalPrice * getTaxForServiceWithServiceFee(rooms, nights, roomPrice, serviceFeeTax);
 
                 update booking
                 set tax_for_service = @serviceFeeTax
