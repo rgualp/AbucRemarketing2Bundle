@@ -1644,6 +1644,7 @@ class BackendReservationController extends Controller {
                                         $failure_tourist->setDescription($form_data['reason']);
                                         $failure_tourist->setCreationDate(new \DateTime());
                                         $em->persist($failure_tourist);
+
                                         //Adiciono el id de la casa al arreglo de casas
                                         $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                     }

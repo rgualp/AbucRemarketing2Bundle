@@ -72,7 +72,7 @@ class BackendCancelPaymentController extends Controller {
 
             if(count($pay_own))
                 return $this->render('mycpBundle:cancelPayment:pay_detail_own.html.twig',array(
-                        'pay'=>$pay_tourist[0]
+                        'pay'=>$pay_own[0]
                     ));
             if(count($pay_tourist))
                 return $this->render('mycpBundle:cancelPayment:pay_detail_tourist.html.twig',array(
@@ -136,14 +136,13 @@ class BackendCancelPaymentController extends Controller {
 
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $cancel->getBooking()->getBookingUserId()));
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
 
         $form = $this->createForm(new cancelPaymentType());
 
         return $this->render('mycpBundle:cancelPayment:detail.html.twig', array(
                 'user' => $user,
                 'form'=>$form->createView(),
-                'reservations' => $reservations,
+                'reservations' => $cancel->getOwnreservations(),
                 'payment' => $payment,
                 'cancel_payment'=>$em->getRepository('mycpBundle:cancelPayment')->findBy(array('booking' => $id_booking))
             ));

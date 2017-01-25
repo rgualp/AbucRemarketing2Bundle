@@ -51,8 +51,7 @@
                 <table class="table table-striped" style="font-size: 12px">
                     <thead>
                     <tr>
-                        {% set cat='cas' %}
-                        <th></th>
+
                         <th>CAS</th>
                         <th>Código Alojamiento</th>
                         <th>Nombre Alojamiento</th>
@@ -63,13 +62,22 @@
                         <th>Estado</th>
                     </tr>
                     </thead>
-                    {% set generalReservation = 0 %}
-                    {% set cucPayment = 0 %}
-                    {% for reservation in reservations %}
-                        {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
-                            {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
-                            {{ render(controller('mycpBundle:BackendReservation:details_casreservation_partial', {"id_reservation": reservation.getOwnResGenResId.getGenResId})) }}
-                        {% endif %}
+                    {% for reservation_rooms in reservations %}
+                        <tr>
+                            <td>{{ reservation_rooms.getOwnResGenResId.getCASId }}</td>
+                            <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if reservation_rooms.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
+                            <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+                            <td>{{ reservation_rooms.getOwnResRoomType }}</td>
+                            <td nowrap=nowrap>
+                                    Baja: {{ reservation_rooms.getOwnResRoomPriceDown }} CUC <br/>
+                                    Alta: {{ reservation_rooms.getOwnResRoomPriceUp }} CUC
+                            </td>
+                            <td>{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}</td>
+                            <td>{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}</td>
+
+                            <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': reservation_rooms.getOwnResStatus})) }}</td>
+
+                        </tr>
                     {% endfor %}
                 </table>
             </div>

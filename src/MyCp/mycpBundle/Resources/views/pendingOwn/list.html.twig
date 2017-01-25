@@ -106,6 +106,9 @@
             <th>Monto a pagar en casa</th>
             <th>Código Alojamiento</th>
             <th>Nombre Alojamiento</th>
+            <th>CAS</th>
+            <th>Id Booking</th>
+            <th>Fecha de Registro</th>
             <th>Estado</th>
             <th style="text-align: right">Acciones</th>
         </tr>
@@ -119,6 +122,9 @@
             <td>{{ payment.payAmount }} CUC</td>
             <td>{{ payment.getUserCasa.ownMcpCode }}</td>
             <td>{{ payment.getUserCasa.ownName }}</td>
+            <td></td>
+            <td></td>
+            <td>{{payment.registerDate | date ("d/m/Y")}}</td>
             <td>{{ payment.type.translations[0].nomLangDescription }}</td>
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_ownership", {"id": payment.pendingId}) }}">Detalles</a>
