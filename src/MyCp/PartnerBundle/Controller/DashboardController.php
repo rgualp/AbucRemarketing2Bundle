@@ -1154,12 +1154,21 @@ class DashboardController extends Controller
         $array_nights = array();
         $array_total_prices = array();
         $rooms = array();
+        $canBeCanceled = array();
         $curr = $this->getCurr($request);
+        $today = new \DateTime();
+        $oneCanBeCanceled = false;
 
         foreach ($ownership_reservations as $res) {
             $nights = $res->getNights($service_time);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
+
+            $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
+            array_push($canBeCanceled, $canCancel);
+
+            if(!$oneCanBeCanceled)
+                $oneCanBeCanceled = $canCancel;
 
             $total_price = ($res->getPriceTotal($service_time) * $curr['change']).$curr['code'];
             array_push($array_total_prices, $total_price);
@@ -1175,7 +1184,9 @@ class DashboardController extends Controller
                 'reservations' => $ownership_reservations,
                 'rooms' => $rooms,
                 'nights' => $array_nights,
-                'total_prices'=>$array_total_prices
+                'total_prices'=>$array_total_prices,
+                'canBeCanceled' => $canBeCanceled,
+                'oneCanBeCanceled' => $oneCanBeCanceled
             )),
             'msg' => 'Vista del detalle de una reserva']);
     }

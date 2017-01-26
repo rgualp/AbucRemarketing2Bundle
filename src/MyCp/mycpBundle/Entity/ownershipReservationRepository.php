@@ -689,7 +689,8 @@ limit 1
             $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedTax());
         }
         else{
-            $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedTax());
+            if($nights > 1)
+                $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedTax());
         }
 
         return $refundTotal;

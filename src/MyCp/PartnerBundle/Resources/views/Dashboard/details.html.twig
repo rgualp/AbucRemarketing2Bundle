@@ -80,6 +80,7 @@
         <table class="table striped1 table-striped table-bordered table-hover dataTables-example" style="font-size: 12px">
             <thead>
             <tr>
+                <th></th>
                 <th><span class="rt">Habitación</span></th>
                 <th><span class="rt">Adultos</span></th>
                 <th><span class="rt">Niños</span></th>
@@ -112,6 +113,11 @@
                     {% set total_rooms = total_rooms + 1 %}
                 {% endif %}
                 <tr>
+                    <td class="text-center">
+                        {% if canBeCanceled[flag] %}
+                            <input name="selectToCancel" data-id="{{ reservation_rooms.getOwnResId }}" type="checkbox"/>
+                        {% endif %}
+                    </td>
                     <td>
                         <span class="rst">Hab #{{ rooms[flag].getRoomNum }} - {{ rooms[flag].getRoomType }}</span>
                     </td>
@@ -137,6 +143,10 @@
                 {% set flag = flag + 1 %}
             {% endfor %}
         </table>
+
+        {% if oneCanBeCanceled %}
+            <a id="btnCancel"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
+        {% endif %}
 
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
     </div>
