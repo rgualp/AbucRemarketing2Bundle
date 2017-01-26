@@ -131,4 +131,12 @@ class BackendPendingPayTouristController extends Controller {
         }
         return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function exportAction(Request $request) {
+
+    }
 }

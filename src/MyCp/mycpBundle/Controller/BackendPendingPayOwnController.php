@@ -145,11 +145,12 @@ class BackendPendingPayOwnController extends Controller {
             $filter_payment_date_from = $request->get('filter_payment_date_from');
             $filter_payment_date_to = $request->get('filter_payment_date_to');
 
-            $reservations = $em->getRepository('mycpBundle:pendingPayown')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
+            $items = $em->getRepository('mycpBundle:pendingPayown')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
 
-            if(count($reservations)) {
+            $date = new \DateTime();
+            if(count($items)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportReservations($reservations, $date);
+                return $exporter->exportPendingOwn($items, $date);
             }
             else {
                 $message = 'No hay datos para llenar el Excel a descargar.';

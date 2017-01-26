@@ -1720,6 +1720,104 @@ ORDER BY own.own_mcp_code ASC
             return $this->export($fileName);
         }
     }
+    public function exportPendingOwn($items, $startingDate, $fileName = "reservaciones") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de pagos pendientes a propietarios", "Listado de pagos pendientes a propietarios", "pagos");
+
+            $data = $this->dataForPendingOwn($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForPendingOwn($excel, "Pagos", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForPendingOwn($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+            //Fecha de pago
+            $data[] = $item->getPaymentDate()->format("d/m/Y");
+            //Monto a la casa
+            $data[] = $item->getPayAmount()." CUC";
+            //Código de la Casa
+            $data[] = $item->getUserCasa()->getOwnMcpCode();
+            //Nombre de la casa
+            $data[] = $item->getUserCasa()->getOwnName();
+            //Destino
+            $data[] = $item->getUserCasa()->getOwnDestination()->getDesName();
+            //Id Booking
+            $data[] = $item->getCancelId()->getBooking()->getBookingId();
+            //Fecha de Registro
+            $data[] = $item->getRegisterDate()->format("d/m/Y");
+            //Estado: (Pendiente/En proceso/Pagado
+            $data[] = $item->getType()->getTranslations()[0]->getNomLangDescription();
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForPendingOwn($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de pagos pendientes a propietarios");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Fecha de pago');
+        $sheet->setCellValue('b5', 'Monto a pagar a la casa');
+        $sheet->setCellValue('c5', 'Código de la Casa');
+        $sheet->setCellValue('d5', 'Nombre de la casa');
+        $sheet->setCellValue('e5', 'Destino');
+        $sheet->setCellValue('f5', 'Id Booking)');
+        $sheet->setCellValue('g5', 'Fecha de Registro');
+        $sheet->setCellValue('h5', 'Estado: (Pendiente/En proceso/Pagado)');
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:H1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:H5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "h", $sheet);
+
+        $sheet->setAutoFilter("A5:H".(count($data)+5));
+
+        return $excel;
+    }
 
     private function dataForReservations($excel,$reservations) {
         $results = array();

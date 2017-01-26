@@ -14,3 +14,7 @@ mycp_edit_payment_pending_tourist:
 mycp_save_payment_pending_tourist:
     pattern:  /save
     defaults: { _controller: mycpBundle:BackendPendingPayTourist:save }
+
+mycp_export_list_payment_pending_tourist:
+    pattern:  /export/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
+    defaults: { _controller: mycpBundle:BackendPendingPayTourist:export,filter_number:'',filter_code:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:''}
