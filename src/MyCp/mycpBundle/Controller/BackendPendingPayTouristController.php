@@ -137,6 +137,36 @@ class BackendPendingPayTouristController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function exportAction(Request $request) {
+        try {
+            $service_security = $this->get('Secure');
+            $service_security->verifyAccess();
+            $em = $this->getDoctrine()->getManager();
 
+            $filter_number = $request->get('filter_number');
+            $filter_code = $request->get('filter_code');
+            $filter_method = $request->get('filter_method');
+            $filter_payment_date_from = $request->get('filter_payment_date_from');
+            $filter_payment_date_to = $request->get('filter_payment_date_to');
+
+
+            $items = $em->getRepository('mycpBundle:pendingPaytourist')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
+
+            $date = new \DateTime();
+            if(count($items)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportPendingTourist($items, $date);
+            }
+            else {
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_payments_pending_tourist"));
+            }
+        }
+        catch (\Exception $e) {
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_payments_pending_tourist"));
+        }
     }
 }

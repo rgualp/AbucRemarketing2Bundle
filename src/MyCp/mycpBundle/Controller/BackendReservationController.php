@@ -1520,6 +1520,11 @@ class BackendReservationController extends Controller {
                         $pending_tourist->setUserTourist($user_tourist);
                         $pending_tourist->setUser($this->getUser());
                         $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
+
+                        $date_pay = \MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+                        $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
+                        $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
+
                         $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                         $em->persist($pending_tourist);
 
@@ -1556,6 +1561,11 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
+
+                            $date_pay = \MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+                            $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
+                            $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
+
                             $pending_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
                             $em->persist($pending_tourist);
 
@@ -1591,7 +1601,6 @@ class BackendReservationController extends Controller {
                                 }
                             }
                             //Notificar Pago Pendiente a Turista
-
                             $pay_cost=$booking->getBookingPrepay();
 
                             $body = $templatingService->renderResponse('mycpBundle:pendingTourist:mail.html.twig', array(
