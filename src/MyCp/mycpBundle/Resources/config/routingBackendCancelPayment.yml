@@ -9,3 +9,7 @@ mycp_details_cancel_payment:
 mycp_edit_cancel_payment:
     pattern:  /edit/{id}
     defaults: { _controller: mycpBundle:BackendCancelPayment:edit }
+
+mycp_pay_cancel_payment:
+    pattern:  /details/pay/{idcancel}
+    defaults: { _controller: mycpBundle:BackendCancelPayment:pay }

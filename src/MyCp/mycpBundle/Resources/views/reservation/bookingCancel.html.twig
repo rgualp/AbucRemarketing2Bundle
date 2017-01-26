@@ -105,6 +105,8 @@
             </table>
         </div>
     </div>
+    {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user, 'showSubject' : true})) }}
+
 </div>
 <hr/>
 {% endblock %}

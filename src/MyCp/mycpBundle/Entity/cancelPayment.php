@@ -72,20 +72,6 @@ class cancelPayment
      * inverseJoinColumns={@ORM\JoinColumn(name="ownreservation", referencedColumnName="own_res_id")})
      */
     private $ownreservations;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="pendingPaytourist", mappedBy="cancel_id")
-     */
-    private $pending_tourist;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="pendingPayown", mappedBy="cancel_id")
-     */
-    private $pending_own;
-
-
     /**
      * Constructor
      */
@@ -262,44 +248,6 @@ class cancelPayment
     public function getGiveTourist()
     {
         return $this->give_tourist;
-    }
-
-
-
-
-
-    /**
-     * Add pendingTourist
-     *
-     * @param \MyCp\mycpBundle\Entity\pendingPaytourist $pendingTourist
-     *
-     * @return user
-     */
-    public function addPendingTourist(\MyCp\mycpBundle\Entity\pendingPaytourist $pendingTourist)
-    {
-        $this->pending_tourist[] = $pendingTourist;
-
-        return $this;
-    }
-
-    /**
-     * Remove pendingTourist
-     *
-     * @param \MyCp\mycpBundle\Entity\pendingPaytourist $pendingTourist
-     */
-    public function removePendingTourist(\MyCp\mycpBundle\Entity\userCasa $userUserCasa)
-    {
-        $this->user_user_casa->removeElement($userUserCasa);
-    }
-
-    /**
-     * Get userUserCasa
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUserUserCasa()
-    {
-        return $this->user_user_casa;
     }
 
 }

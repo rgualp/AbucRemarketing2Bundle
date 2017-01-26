@@ -72,11 +72,15 @@ class BackendCancelPaymentController extends Controller {
 
             if(count($pay_own))
                 return $this->render('mycpBundle:cancelPayment:pay_detail_own.html.twig',array(
-                        'pay'=>$pay_own[0]
+                        'pays'=>$pay_own
                     ));
-            if(count($pay_tourist))
+            else if(count($pay_tourist))
                 return $this->render('mycpBundle:cancelPayment:pay_detail_tourist.html.twig',array(
-                        'pay'=>$pay_tourist[0]
+                        'pays'=>$pay_tourist
+                    ));
+            else
+                return $this->render('mycpBundle:cancelPayment:pay_detail_tourist.html.twig',array(
+                        'pays'=>array()
                     ));
         }
     }
@@ -105,6 +109,7 @@ class BackendCancelPaymentController extends Controller {
         $obj = $em->getRepository('mycpBundle:cancelPayment')->find($id);
         $form = $this->createForm(new cancelPaymentType(), $obj);
 
+        $user_tourist= $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $obj->getBooking()->getBookingUserId()));
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -120,7 +125,7 @@ class BackendCancelPaymentController extends Controller {
         }
 
         return $this->render('mycpBundle:cancelPayment:new.html.twig', array(
-                'form' => $form->createView(), 'edit_payment' => $id, 'obj' => $obj
+                'form' => $form->createView(), 'edit_payment' => $id, 'obj' => $obj,'user_tourist'=>$user_tourist[0]
             ));
     }
 
@@ -146,5 +151,42 @@ class BackendCancelPaymentController extends Controller {
                 'payment' => $payment,
                 'cancel_payment'=>$em->getRepository('mycpBundle:cancelPayment')->findBy(array('booking' => $id_booking))
             ));
+    }
+
+    /**
+     * @param $idcancel
+     * @return Response
+     */
+    public function payAction($idcancel){
+        return $this->render('mycpBundle:cancelPayment:pay.html.twig', array(
+                'idcancel'=>$idcancel
+        ));
+    }
+
+    /**
+     * @param $post
+     * @return Response
+     */
+    public function getPaymentByCancelAction($post) {
+        if(isset($post['selected']) && $post['selected'] != ""){
+            $em = $this->getDoctrine()->getManager();
+            $pay_own = $em->getRepository("mycpBundle:pendingPayown")->findBy(array("cancel_id" => $post['selected']));
+            $pay_tourist = $em->getRepository("mycpBundle:pendingPaytourist")->findBy(array("cancel_id" => $post['selected']));
+
+            if(count($pay_own))
+                return $this->render('mycpBundle:cancelPayment:pay_detail_own_full.html.twig',array(
+                        'pays'=>$pay_own,
+                        'idcancel'=>$post['selected']
+                    ));
+            else if(count($pay_tourist))
+                return $this->render('mycpBundle:cancelPayment:pay_detail_tourist_full.html.twig',array(
+                        'pays'=>$pay_tourist,
+                        'idcancel'=>$post['selected']
+                    ));
+            else
+                return $this->render('mycpBundle:cancelPayment:pay_detail_tourist_full.html.twig',array(
+                        'pays'=>array()
+                    ));
+        }
     }
 }

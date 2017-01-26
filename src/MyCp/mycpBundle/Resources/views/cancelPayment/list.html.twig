@@ -128,6 +128,7 @@
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path("mycp_details_cancel_payment", {"id": item.cancelId}) }}">Detalles</a>
                 <a class="btn btn-mini" href="{{ path("mycp_edit_cancel_payment", {"id": item.cancelId}) }}">Editar</a>
+                <a class="btn btn-mini" href="{{ path("mycp_pay_cancel_payment", {"idcancel": item.cancelId}) }}">Ver pago</a>
             </td>
         </tr>
         {% endfor %}

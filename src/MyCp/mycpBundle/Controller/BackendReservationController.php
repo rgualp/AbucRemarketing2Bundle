@@ -1491,6 +1491,8 @@ class BackendReservationController extends Controller {
         $newForm= new cancelPaymentType();
         $form = $this->createForm($newForm, $obj);
 
+
+
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
             if($form->isValid()){
@@ -1607,34 +1609,12 @@ class BackendReservationController extends Controller {
 
                             if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                                 $array_id_ownership=array();
+
                                 foreach($reservations_ids as $genResId){
-
                                     $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
-                                    $ownershipReservationClone= $ownershipReservation->getClone();
-
                                     $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
-                                    //Se registra un Pago Pendiente a Propietario
-                                    $pending_own=new pendingPayown();
-                                    $pending_own->setCancelId($obj);
-                                    $pending_own->setPayAmount($price);
-                                    $pending_own->setUserCasa($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
-                                    $pending_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
-                                    $pending_own->setUser($this->getUser());
-                                    $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
-                                    $em->persist($pending_own);
-
-                                    //Notificar Pago Pendiente a Propietario
-                                    $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(
-                                            'user_locale'=>'es',
-                                            'ownership'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId(),
-                                            'ownershipReservation'=>$ownershipReservation,
-                                            'price'=>$price,
-                                            'reason'=>$form_data['reason']
-                                    ));
-                                    $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
-
-                                    //Se le da puntos positivos en el Ranking a la casa
-                                    if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                    if (!array_key_exists($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                        //Se le da puntos positivos en el Ranking a la casa
                                         //Registro un fallo de tipo turista
                                         $failure_tourist = new failure();
                                         $failure_tourist->setUser($this->getUser());
@@ -1644,10 +1624,38 @@ class BackendReservationController extends Controller {
                                         $failure_tourist->setDescription($form_data['reason']);
                                         $failure_tourist->setCreationDate(new \DateTime());
                                         $em->persist($failure_tourist);
-
                                         //Adiciono el id de la casa al arreglo de casas
-                                        $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                                        $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$price,'ownershipReservations'=>array($ownershipReservation),'arrival_date'=>$ownershipReservation->getOwnResReservationFromDate());
                                     }
+                                  else{
+                                      $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price'] = $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price']+$price;
+                                      $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['ownershipReservations'][] = $ownershipReservation;
+                                  }
+                                }
+                                foreach($array_id_ownership as $item){
+                                    $ownership = $em->getRepository('mycpBundle:ownership')->find($item['idown']);
+                                    //Se registra un Pago Pendiente a Propietario
+                                    $pending_own=new pendingPayown();
+                                    $pending_own->setCancelId($obj);
+                                    $pending_own->setPayAmount($item['price']);
+                                    $pending_own->setUserCasa($ownership);
+                                    $pending_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_pending')));
+                                    $pending_own->setUser($this->getUser());
+                                    $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
+                                    $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
+                                    $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
+                                    $em->persist($pending_own);
+
+                                    //Notificar Pago Pendiente a Propietario
+                                    $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(
+                                            'user_locale'=>'es',
+                                            'ownership'=>$ownership,
+                                            'ownershipReservations'=>$item['ownershipReservations'],
+                                            'price'=>$item['price'],
+                                            'reason'=>$form_data['reason']
+                                    ));
+                                    $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
+
                                 }
 
                             }

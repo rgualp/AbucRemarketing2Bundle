@@ -1,2 +1,4 @@
-<td><b>Código de Casa:</b> {{ pay.getUserCasa.getOwnMcpCode }} - <b>Nombre de la casa:</b> {{ pay.getUserCasa.getOwnName }}</td>
-<td>{{ pay.getPayAmount }} CUC </td>
+{% for pay in pays %}
+        <td><b>Código de Casa:</b> {{ pay.getUserCasa.getOwnMcpCode }} - <b>Nombre de la casa:</b> {{ pay.getUserCasa.getOwnName }}</td>
+        <td>{{ pay.getPayAmount }} CUC </td>
+{% endfor %}

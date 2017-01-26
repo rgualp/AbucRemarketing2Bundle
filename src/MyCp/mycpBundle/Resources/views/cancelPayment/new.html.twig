@@ -47,8 +47,10 @@
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form action="{% if edit_payment is defined %}{{ path('mycp_edit_cancel_payment', {'id': edit_payment})}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
 {% if edit_payment is defined %}<input style="display: none;" name="edit_payment" value="{{edit_payment}}"> {% endif %}
-
     {{form_widget(form)}}
+
+    {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user_tourist, 'showSubject' : true})) }}
+
 {% endblock %}
     {% block javascripts %}
         <script type="text/javascript">
