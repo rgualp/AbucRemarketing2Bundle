@@ -145,7 +145,7 @@
         </table>
 
         {% if oneCanBeCanceled %}
-            <a id="btnCancel"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
+            <a id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
         {% endif %}
 
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
@@ -154,7 +154,38 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#btnCancel").on('click', function (e) {
+            var checkValues = $('input[name=selectToCancel]:checked').map(function () {
+                return $(this).data('id');
+            }).get();
 
+            if (checkValues.length == 0) {
+                sweetAlert("Oops...", "Seleccione una o varias reservas para cancelar", "error");
+            }
+            else {
+                $("#overlayLoading").removeClass("hide");
+                var _url = $(this).data("url");//Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+
+                $.post(_url, {
+                    'checkValues': checkValues
+                }, function (response) {
+                    if (response.success) {
+                        if (response.html != "") {
+                            console.log(response.html);
+
+                        }
+                    }
+                });
+
+                $('#selectedReservations').slimScroll({
+                    height: '350px',
+                    railOpacity: 0.9,
+                    color: '#0d3044',
+                    opacity: 1,
+                    alwaysVisible: true
+                });
+            }
+        });
     });
 
 </script>

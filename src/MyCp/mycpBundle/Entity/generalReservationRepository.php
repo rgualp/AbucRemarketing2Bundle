@@ -3309,6 +3309,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
             ->orderBy("ownRes.own_res_reservation_from_date");
         return $qb->getQuery()->getResult();
     }
+
     function getOwnShipReserByUser($iduser){
         $res=array();
         $day = date("Y-m-d");
@@ -3328,6 +3329,54 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         }
     return $res;
 
+    }
+
+     function changeReservationStatus(generalReservation $generalReservation){
+        $em = $this->getEntityManager();
+        $available = 0;
+        $nonAvailable = 0;
+        $reserved = 0;
+        $canceled = 0;
+        $pending = 0;
+        $outdated = 0;
+
+        $totalSubReservations = count($generalReservation->getOwn_reservations());
+
+        foreach($generalReservation->getOwn_reservations() as $reservation){
+            switch($reservation->getOwnResStatus())
+            {
+                case ownershipReservation::STATUS_RESERVED: $reserved++; break;
+                case ownershipReservation::STATUS_AVAILABLE: $available++; break;
+                case ownershipReservation::STATUS_AVAILABLE2: $available++; break;
+                case ownershipReservation::STATUS_CANCELLED: $canceled++; break;
+                case ownershipReservation::STATUS_NOT_AVAILABLE: $nonAvailable++; break;
+                case ownershipReservation::STATUS_OUTDATED: $outdated++; break;
+                case ownershipReservation::STATUS_PENDING: $pending++; break;
+            }
+        }
+
+        if($totalSubReservations == $pending)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PENDING);
+        elseif($totalSubReservations == $reserved)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
+        elseif($totalSubReservations == $available)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+        elseif($totalSubReservations == $canceled)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+        elseif($totalSubReservations == $nonAvailable)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+        elseif($totalSubReservations == $outdated)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+        elseif($reserved < $totalSubReservations)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_RESERVED);
+        elseif($available < $totalSubReservations)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+        elseif($canceled < $totalSubReservations)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
+
+
+        $em->persist($generalReservation);
+        $em->flush();
     }
 
 }

@@ -350,3 +350,8 @@ partner_frontend_get_reservation_calendar_ownership_callback:
 partner_add_to_cart:
     locales:  { en: "/user/cart/add/{id_ownership}", es: "/usuario/cesta/agregar/{id_ownership}", de: "/user/cart/add/{id_ownership}" }
     defaults: { _controller: PartnerBundle:Dashboard:addToCart }
+
+partner_frontend_cancel_reservations_callback:
+    pattern:  /cancel-reservations/
+    locales:  { en: "/cancel-reservations/", es: "/cancel-reservations/", de: "/cancel-reservations/" }
+    defaults: { _controller: PartnerBundle:Dashboard:reservationsToCancel }

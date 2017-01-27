@@ -665,9 +665,8 @@ limit 1
         return $query->setParameter('id_booking', $id_booking)->getResult();
     }
 
-    function cancelReservationByAgency($ownershipReservationId, $timerService){
+    function cancelReservationByAgency($ownershipReservation, $timerService){
         $em = $this->getEntityManager();
-        $ownershipReservation = $em->getRepository("mycpBundle:ownershipReservation")->find($ownershipReservationId);
         $generalReservation = $ownershipReservation->getOwnResGenResId();
 
         $user = $generalReservation->getGenResUserId();
@@ -694,6 +693,16 @@ limit 1
         }
 
         return $refundTotal;
+    }
+
+    function getByIds($idsArray){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder("owres")
+            ->where("owres.own_res_id IN (:ids)")
+            ->setParameter("ids", $idsArray)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->getResult();
     }
 
 }
