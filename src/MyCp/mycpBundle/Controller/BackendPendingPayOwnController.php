@@ -120,7 +120,7 @@ class BackendPendingPayOwnController extends Controller {
        if(count($cheked)){
            foreach($cheked as $item){
                $pay= $em->getRepository('mycpBundle:pendingPayown')->find($item);
-               $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'payment_successful')));
+               $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_payed_status')));
                $em->persist($pay);
            }
            $em->flush();
