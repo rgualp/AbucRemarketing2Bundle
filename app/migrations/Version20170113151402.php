@@ -49,18 +49,10 @@ class Version20170113151402 extends AbstractMigration
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_tourist','paymentPendingType')");
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_partner','paymentPendingType')");
 
-        /*Payment pending status*/
-        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_pending','paymentPendingStatus')");
-        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_proccess','paymentPendingStatus')");
-        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payment_successful','paymentPendingStatus')");
-
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_own'), 'De Propietario')");
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_tourist'), 'De Turista')");
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_partner'), 'De Agencia')");
 
-        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_pending'), 'Pendiente')");
-        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_proccess'), 'En proceso')");
-        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payment_successful'), 'Pagado')");
     }
 
     /**
