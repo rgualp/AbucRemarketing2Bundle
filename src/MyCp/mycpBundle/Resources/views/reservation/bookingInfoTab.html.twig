@@ -8,7 +8,7 @@
         <td><b>Id Booking:</b> {{payment.booking.bookingId}}</td>
         <td><b>Fecha del booking:</b> {{ payment.created|date("d/m/Y") }}</td>
         <td><b>Prepago Online:</b> {{payment.currency.currCode}} {{payment.payedAmount}} | CUC {{ ceil_round(cucPayment + 10) }} </td>
-        <td><b>Pago en Casa:</b> Pendiente</td>
+        <td><b>Pago en Casa:</b> {{payment.booking.payAtService}} CUC</td>
 
     </tr>
 

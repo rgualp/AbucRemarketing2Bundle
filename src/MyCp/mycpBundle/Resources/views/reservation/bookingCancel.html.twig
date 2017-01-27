@@ -105,6 +105,8 @@
             </table>
         </div>
     </div>
+    {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user, 'showSubject' : true})) }}
+
 </div>
 <hr/>
 {% endblock %}
@@ -161,12 +163,13 @@
              * Submit form cancel payment email
              */
             function initForm(){
-                $('.datepicker').datepicker({
-                    format:'dd/mm/yyyy',
-                    todayBtn:'linked',
-                    language:'es',
-                    autoclose: true
-                });
+                $('.datepicker_textbox').datepicker({
+                    language: 'es',
+                    format:'dd/mm/yyyy'
+                }).on('changeDate', function(ev){
+                            $('.datepicker').hide();
+
+                        });
                 var form = $("#form-cancelpayment");
                 var arr_checkbox_cheked;
 

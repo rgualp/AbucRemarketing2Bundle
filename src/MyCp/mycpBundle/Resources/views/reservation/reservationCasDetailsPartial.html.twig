@@ -45,8 +45,9 @@
                             {%endif%}
                         {%endif%}
                     </td>
-                    <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
-                    <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
+                    <td>{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}</td>
+                    <td>{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}</td>
+
                     <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': reservation_rooms.getOwnResStatus})) }}</td>
 
                 </tr>

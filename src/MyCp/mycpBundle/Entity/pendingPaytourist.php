@@ -52,6 +52,13 @@ class pendingPaytourist
     private $payment_date;
 
     /**
+     * @var datetime
+     *
+     * @ORM\Column(name="register_date", type="datetime")
+     */
+    private $register_date;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="pay_amount", type="float", precision=2, nullable=true)
@@ -165,6 +172,30 @@ class pendingPaytourist
     {
         return $this->payment_date;
     }
+
+    /**
+     * Set register_date
+     *
+     * @param \DateTime $registerDate
+     * @return pendingPaytourist
+     */
+    public function setRegisterDate($registerDate)
+    {
+        $this->register_date = $registerDate;
+
+        return $this;
+    }
+
+    /**
+     * Get register_date
+     *
+     * @return datetime
+     */
+    public function getRegisterDate()
+    {
+        return $this->register_date;
+    }
+
     /**
      * @return float
      */

@@ -39,9 +39,12 @@
                         <div class="col-md-8 col-xs-12">
                             <span style="color: #b5b5b5 ; font-size: 36px;margin-left: -10px;">{{ ownership.ownMcpCode }}</span>
                         </div>
-                        <div class="col-md-4 col-xs-12 text-center">
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="row text-right">
                             <button type="button" id="deactive-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId !=1 %} hide {% endif %}" ><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
                             <button type="button" id="activate-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==1 %} hide {% endif %}" ><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
+                            <button type="button" id="modify-property" class="btn btn-primary  dim" onclick="window.location = '{{ path('modify_property') }}'"><i class="glyphicons pencil" style="color:#fff"></i> Modificar</button>
                             <button type="button" id="delete-property" class="btn btn-danger  dim"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
                         </div>
                     </div>

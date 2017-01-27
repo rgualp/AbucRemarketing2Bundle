@@ -25,10 +25,16 @@ class cancelPaymentType extends AbstractType
                 'multiple' => false
             ))
             ->add('give_tourist', 'checkbox', array('label' => 'Devolver dinero a turista:', 'attr' => array('checked' => true)))
-            ->add('cancel_date','text',array('label'=>'Fecha de cancelación de la reserva:','attr'=>array('class'=>'input-block-level datepicker')))
-            ->add('reason','textarea',array('label' => 'Motivos:','required' => false,'attr'=>array('class'=>'input-block-level')))
-
-        ;
+            ->add('cancel_date',null,array(
+                    'widget'=>'single_text',
+                    'format'=>'dd/MM/yyyy',
+                    'label'=>'Fecha de cancelación de la reserva: (dia/mes/año - dd/mm/yyyy):',
+                    'attr'=>array('class'=>'input-block-level datepicker_textbox', "style" => "width: 30%")
+                ))
+            ->add('reason','textarea',array(
+                    'label'=>'Motivos:',
+                    'attr'=>array('class'=>'textarea', "style" => "width: 80%")
+                ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

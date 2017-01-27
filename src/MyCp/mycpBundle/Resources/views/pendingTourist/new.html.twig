@@ -33,11 +33,11 @@
     {% else %}
     <li class="active">Adicionar pago</li>
     {% endif %}
-    <li class="pull-right"><a href="{{ path('mycp_list_payments') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_tourist') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <button class="btn btn-success" type="submit">Guardar</button>
-    <a class="btn" href="{{ path('mycp_list_payments') }}">Cancelar</a>
+    <a class="btn" href="{{ path('mycp_list_payments_pending_tourist') }}">Cancelar</a>
 </div>
 </form>
 {% endblock %}

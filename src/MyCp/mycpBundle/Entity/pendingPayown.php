@@ -23,8 +23,8 @@ class pendingPayown
     private $pending_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="userCasa")
-     * @ORM\JoinColumn(name="user_casa", referencedColumnName="user_casa_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ownership")
+     * @ORM\JoinColumn(name="user_casa", referencedColumnName="own_id", nullable=false)
      */
     private $user_casa;
 
@@ -50,6 +50,13 @@ class pendingPayown
      * @ORM\Column(name="payment_date", type="datetime")
      */
     private $payment_date;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="register_date", type="datetime")
+     */
+    private $register_date;
 
     /**
      * @var float
@@ -92,7 +99,7 @@ class pendingPayown
     /**
      * Set user_casa
      *
-     * @param userCasa $user_casa
+     * @param ownership $user_casa
      * @return pendingPayown
      */
     public function setUserCasa($user_casa) {
@@ -165,6 +172,30 @@ class pendingPayown
     {
         return $this->payment_date;
     }
+
+    /**
+     * Set register_date
+     *
+     * @param \DateTime $registerDate
+     * @return pendingPayown
+     */
+    public function setRegisterDate($registerDate)
+    {
+        $this->register_date = $registerDate;
+
+        return $this;
+    }
+
+    /**
+     * Get register_date
+     *
+     * @return datetime
+     */
+    public function getRegisterDate()
+    {
+        return $this->register_date;
+    }
+
     /**
      * @return float
      */
