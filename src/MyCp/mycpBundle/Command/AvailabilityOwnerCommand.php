@@ -94,10 +94,13 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
                 $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
             }
 
+            $output->writeln('<info>**** Respondiendo notificacions****</info>');
             $notifications = $generalReservation->getNotifications();
-            $serviceNotification = $container->get('mycp.my_casa_module.service');
+            $serviceNotification = $container->get('mycp.notification.service');
             foreach($notifications as $notification){
-                $serviceNotification->notificationresp($notification, $availability);
+                $output->writeln('<info>**** Respondiendo notificacion:' . $notification->getId() . ' ****</info>');
+                $serviceNotification->notificationresp($notification, $availability, false);
+                $output->writeln('<info>**** Respondida notificacion:' . $notification->getId() . ' ****</info>');
             }
 
             $output->writeln('<info>**** AvailabilityOwner:' . $availabilityOwner->getId() . ' ****</info>');

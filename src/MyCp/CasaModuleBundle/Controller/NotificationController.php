@@ -135,7 +135,7 @@ class NotificationController extends Controller
     }
 
     public function notificationresp(notification $notification, $availability){
-        $service = $this->get('mycp.my_casa_module.service');
+        $service = $this->get('mycp.notification.service');
         $service->notificationresp($notification, $availability);
     }
 }
