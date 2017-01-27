@@ -178,6 +178,7 @@ security:
         - { path: ^/mycasa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/manual_download, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
 #        - { path: ^/casa, roles: IS_AUTHENTICATED_REMEMBERED}
