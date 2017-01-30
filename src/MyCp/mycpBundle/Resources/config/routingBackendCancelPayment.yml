@@ -13,3 +13,8 @@ mycp_edit_cancel_payment:
 mycp_pay_cancel_payment:
     pattern:  /details/pay/{idcancel}
     defaults: { _controller: mycpBundle:BackendCancelPayment:pay }
+
+mycp_export_list_cancel_payment:
+    pattern:  /export/{filter_number}/{filter_code}/{filter_method}/{filter_name}/{filter_payment_date_from}/{filter_payment_date_to}/{filter_own}
+    defaults: { _controller: mycpBundle:BackendCancelPayment:export,filter_number:'',filter_code:'',filter_method:'',filter_name:'', filter_payment_date_from:'',filter_payment_date_to:'',filter_own:''}
+

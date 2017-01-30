@@ -109,7 +109,6 @@
             <th>Monto a pagar a la casa</th>
             <th>Código Alojamiento</th>
             <th>Nombre Alojamiento</th>
-            <th>CAS</th>
             <th>Id Booking</th>
             <th>Fecha de Registro</th>
             <th>Estado</th>
@@ -125,8 +124,7 @@
             <td>{{ payment.payAmount }} CUC</td>
             <td>{{ payment.getUserCasa.ownMcpCode }}</td>
             <td>{{ payment.getUserCasa.ownName }}</td>
-            <td></td>
-            <td></td>
+            <td>{{payment.getCancelId.getBooking.getBookingId}}</td>
             <td>{{payment.registerDate | date ("d/m/Y")}}</td>
             <td>{{ payment.type.translations[0].nomLangDescription }}</td>
             <td style="text-align: right">

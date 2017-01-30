@@ -456,7 +456,8 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
+        //$reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
         return $this->render('mycpBundle:reservation:bookingDetails.html.twig', array(
             'user' => $user,
             'reservations' => $reservations,
@@ -1513,10 +1514,11 @@ class BackendReservationController extends Controller {
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
+                        $price_tourist=$this->calculateTourist($reservations_ids);
                         //Se registra un Pago Pendiente a Turista
                         $pending_tourist=new pendingPaytourist();
                         $pending_tourist->setCancelId($obj);
-                        $pending_tourist->setPayAmount($booking->getBookingPrepay());
+                        $pending_tourist->setPayAmount($price_tourist);
                         $pending_tourist->setUserTourist($user_tourist);
                         $pending_tourist->setUser($this->getUser());
                         $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
@@ -1554,10 +1556,11 @@ class BackendReservationController extends Controller {
                     {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
 
+                            $price_tourist=$this->calculateTourist($reservations_ids);
                             //Se registra un Pago Pendiente a Turista
                             $pending_tourist=new pendingPaytourist();
                             $pending_tourist->setCancelId($obj);
-                            $pending_tourist->setPayAmount($booking->getBookingPrepay());                 //------------------Pendiente-----------
+                            $pending_tourist->setPayAmount($price_tourist);
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
@@ -1678,7 +1681,7 @@ class BackendReservationController extends Controller {
                 if(count($reservations_ids)){
                     foreach($reservations_ids as $genResId){
                         $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
-                        $reservation->setOwnResStatus(generalReservation::STATUS_CANCELLED);
+                        $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
                         $em->persist($reservation);
                         $obj->addOwnershipReservation($reservation);
                     }
@@ -1688,8 +1691,7 @@ class BackendReservationController extends Controller {
                 $obj->setBooking($booking);
                 //Set user save relations
                 $obj->setUser($this->getUser());
-
-                $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1));
+                $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1));
                 $em->persist($obj);
                 $em->flush();
                 return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado satisfactoriamente']);
@@ -1697,6 +1699,23 @@ class BackendReservationController extends Controller {
         }
         $data['form']= $form->createView();
         return $this->render('mycpBundle:reservation:modal_cancel_payment.html.twig', $data);
+    }
+
+    /**
+     * @param $reservations_ids
+     * @return int
+     */
+    public function calculateTourist($reservations_ids){
+        $em = $this->getDoctrine()->getManager();
+        $service_time = $this->get('time');
+        $price=0;
+        if(count($reservations_ids)){
+            foreach($reservations_ids as $genResId){
+                $price =$price+ $em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time);
+            }
+        }
+        return $price;
+
     }
 
     /**

@@ -8,15 +8,16 @@ var Estadistica = function () {
 
     var inits = function () {
 
-        initCollapse();
-        initControlCalendar();
+        try{
+            initCollapse();
+            initControlCalendar();
+            // data-nonavaliable-percent="{{ nonavaliable_percent }}" data-avaliable-percent="{{ avaliable_percent }}"
+            createFlot();
+            createYearPlot();
+        }
+        catch(e){
+        }
 
-        // data-nonavaliable-percent="{{ nonavaliable_percent }}" data-avaliable-percent="{{ avaliable_percent }}"
-
-
-
-        createFlot();
-        createYearPlot();
     }
 
     var initControlCalendar = function(){
@@ -135,22 +136,27 @@ var Estadistica = function () {
             color: "#094e75",
         }];
 
-        plotObj = $.plot($("#flot-pie-chart"), data, {
-            series: {
-                pie: {
-                    show: true,
-                    radius: 1,
-                    label: {
+        try{
+            plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
                         show: true,
-                        radius: 3/4,
-                        threshold: 0
+                        radius: 1,
+                        label: {
+                            show: true,
+                            radius: 3/4,
+                            threshold: 0
+                        }
                     }
+                },
+                legend: {
+                    show: false
                 }
-            },
-            legend: {
-                show: false
-            }
-        });
+            });
+        }
+        catch(e){
+        }
+
     }
 
     var createYearPlot = function () {

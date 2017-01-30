@@ -1721,6 +1721,8 @@ ORDER BY own.own_mcp_code ASC
         }
     }
 
+
+
     /**
      * @param $items
      * @param $startingDate
@@ -1763,6 +1765,125 @@ ORDER BY own.own_mcp_code ASC
             return $this->export($fileName);
         }
     }
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportCancelPayment($items, $startingDate, $fileName = "reservaciones") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de cancelaciones", "Listado de cancelaciones", "pagos");
+
+            $data = $this->dataForCancelPayment($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForCancelPayment($excel, "Pagos", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForCancelPayment($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+            $pay_own = $this->em->getRepository("mycpBundle:pendingPayown")->findBy(array("cancel_id" => $item->getCancelId()));
+            $pay_tourist = $this->em->getRepository("mycpBundle:pendingPaytourist")->findBy(array("cancel_id" => $item->getCancelId()));
+            $dest='';
+            $pay=0;
+
+            if(count($pay_own)){
+                $dest='Código de Casa:'.$pay_own[0]->getUserCasa()->getOwnMcpCode().'- Nombre de la casa:'.$pay_own[0]->getUserCasa()->getOwnName();
+                $pay=$pay_own[0]->getPayAmount().' CUC';
+
+            }
+            else if(count($pay_tourist)){
+                $dest='Nombre Cliente (Turista) :'.' '.$pay_tourist[0]->getUserTourist()->getUserTouristUser()->getUserCompleteName().' -Correo: '.$pay_tourist[0]->getUserTourist()->getUserTouristUser()->getUserEmail();
+                $pay=$pay_tourist[0]->getPayAmount().' '.$pay_tourist[0]->getCancelId()->getBooking()->getBookingCurrency()->getCurrSymbol();
+
+            }
+
+            //Número
+            $data[] = $item->getCancelId();
+            //Fecha
+            $data[] = ($item->getCancelDate()!='')?$item->getCancelDate()->format("d/m/Y"):'';
+            //Tipo de Cancelación (De Propietario /De Turista)
+            $data[] = $item->getType()->getCancelName();
+            //Id booking
+            $data[] = $item->getBooking()->getBookingId();
+            //Habitaciones canceladas
+            $data[] = count($item->getOwnreservations());
+            //Devolver a
+            $data[] = $dest;
+            //Monto a pagar
+            $data[] = $pay;
+
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForCancelPayment($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de cancelaciones");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Número');
+        $sheet->setCellValue('b5', 'Fecha de Registro)');
+        $sheet->setCellValue('c5', 'Tipo de Cancelación');
+        $sheet->setCellValue('d5', 'Id Booking');
+        $sheet->setCellValue('e5', 'Habitaciones canceladas');
+        $sheet->setCellValue('f5', 'Devolver A');
+        $sheet->setCellValue('g5', 'Monto a devolver');
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:H1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:H5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "h", $sheet);
+
+        $sheet->setAutoFilter("A5:H".(count($data)+5));
+
+        return $excel;
+    }
+
     /**
      * @param $excel
      * @param $items
