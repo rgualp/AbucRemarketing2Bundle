@@ -665,4 +665,33 @@ limit 1
         return $query->setParameter('id_booking', $id_booking)->getResult();
     }
 
+    /**
+     * @param $ownershipReservation
+     * @param $timerService
+     * @return int
+     */
+    function cancelReservationByTourist($ownershipReservation, $timerService){
+        $em = $this->getEntityManager();
+        $generalReservation = $ownershipReservation->getOwnResGenResId();
+
+        $commission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent()/ 100;
+        $today = \date('Y-m-d');
+
+        $totalDiffDays = $timerService->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
+        $serviceFee = $generalReservation->getServiceFee();
+        $refundTotal = 0;
+
+        $nights = date_diff($ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResReservationFromDate())->days;
+
+        $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
+
+        $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
+        $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
+
+        if($totalDiffDays > 7){
+            $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;
+        }
+        return $refundTotal;
+    }
+
 }

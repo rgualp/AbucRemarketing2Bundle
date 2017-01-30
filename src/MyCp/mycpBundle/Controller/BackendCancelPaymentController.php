@@ -14,6 +14,45 @@ use MyCp\mycpBundle\Entity\cancelPayment;
 
 class BackendCancelPaymentController extends Controller {
 
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function exportAction(Request $request) {
+        try {
+            $service_security = $this->get('Secure');
+            $service_security->verifyAccess();
+            $em = $this->getDoctrine()->getManager();
+
+            $filter_number = $request->get('filter_number');
+            $filter_code = $request->get('filter_code');
+            $filter_method = $request->get('filter_method');
+            $filter_name = $request->get('filter_name');
+            $filter_payment_date_from = $request->get('filter_payment_date_from');
+            $filter_payment_date_to = $request->get('filter_payment_date_to');
+            $filter_own = $request->get('filter_own');
+
+            $items = $em->getRepository('mycpBundle:cancelPayment')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_name,$filter_payment_date_from, $filter_payment_date_to,$filter_own)->getResult();
+
+            $date = new \DateTime();
+            if(count($items)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportCancelPayment($items, $date);
+            }
+            else {
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_cancel_payment"));
+            }
+        }
+        catch (\Exception $e) {
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_cancel_payment"));
+        }
+    }
     /**
      * @param $items_per_page
      * @param Request $request

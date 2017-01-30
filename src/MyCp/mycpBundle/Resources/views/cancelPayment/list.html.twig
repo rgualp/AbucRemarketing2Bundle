@@ -66,11 +66,14 @@
                     <div class="span3">
                         <label>&nbsp;</label>
                         <div class="row-fluid">
-                            <div class="span6">
+                            <div class="span4">
                                 <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                             </div>
-                            <div class="span6">
+                            <div class="span4">
                                 <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_cancel_payment') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                            </div>
+                            <div class="span4">
+                                <a {% if list | length > 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_cancel_payment',{'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                             </div>
                         </div>
                     </div>
