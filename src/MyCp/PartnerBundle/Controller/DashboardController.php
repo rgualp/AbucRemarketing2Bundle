@@ -5,6 +5,7 @@ namespace MyCp\PartnerBundle\Controller;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use MyCp\PartnerBundle\Form\FilterOwnershipType;
 use MyCp\PartnerBundle\Form\paReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -2005,11 +2006,14 @@ class DashboardController extends Controller
 
         $idsArray = $request->get('checkValues');
         $generalReservationsArray = array();
-        $generalReservationId = 0;
         $totalRefund = 0;
+        $firstNightPaymentAccommodationTotal = 0;
+        $totalToSubstract = 0;
         $today = new \DateTime();
 
         $ownershipReservations = $em->getRepository("mycpBundle:ownershipReservation")->getByIds($idsArray);
+        $generalReservationId = (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResId() : 0;
+        $accommodationCommission = (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100: 0;
 
         foreach ($ownershipReservations as $reservation) {
 
@@ -2020,29 +2024,110 @@ class DashboardController extends Controller
             if ($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
                 if ($generalReservationId != $reservation->getOwnResGenResId()->getGenResId()) {
                     $generalReservationId = $reservation->getOwnResGenResId()->getGenResId();
-                    array_push($generalReservationsArray, $generalReservationId);
+                    $accommodationCommission = $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
+
+                    $generalReservationsArray[] = array(
+                        "reservation" => $reservation->getOwnResGenResId(),
+                        "firstNightPayment" => $firstNightPaymentAccommodationTotal,
+                        "newCompletePaymentTotal" => ($reservation->getOwnResGenResId()->getGenResTotalInSite() * (1 - $accommodationCommission)) - $totalToSubstract,
+                        "accommodationCommission" => $accommodationCommission
+                    );
+
+                    $firstNightPaymentAccommodationTotal = 0;
+                    $totalToSubstract = 0;
                 }
 
                 //Calcular el dinero a devolver
                 $hasToRefund = ($reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED && $reservation->getOwnResReservationFromDate() > $today);
-
                 if ($hasToRefund) {
                     $refund = $em->getRepository("mycpBundle:ownershipReservation")->cancelReservationByAgency($reservation, $timer);
-                    $totalRefund += $refund;
+                    $firstNightPaymentAccommodationTotal += $refund["firstNightPayment"];
+                    $totalRefund += $refund["refundTotal"];
+                    $totalToSubstract += $refund["totalToSubtract"];
                 }
 
                 $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
                 $em->persist($reservation);
             }
         }
+
+        $generalReservationsArray[] = array(
+            "reservation" => $reservation->getOwnResGenResId(),
+            "firstNightPayment" => $firstNightPaymentAccommodationTotal,
+            "newCompletePaymentTotal" => ($reservation->getOwnResGenResId()->getGenResTotalInSite() * (1 - $accommodationCommission)) - $totalToSubstract,
+            "accommodationCommission" => $accommodationCommission
+        );
+
         $em->flush();
 
-        foreach($generalReservationsArray as $genRes)
-        {
-            $em->getRepository("mycpBundle:generalReservation")->changeReservationStatus($genRes);
-        }
+
+        $this->afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency);
 
         //enviar datos al script, el refund total
+    }
+
+    private function afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cancelPendingPaymentStatus = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array(
+            "nom_name" => "pendingPayment_canceled_status",
+            "nom_category" => "paymentPendingStatus"
+        ));
+
+        $completePaymentType = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array(
+            "nom_name" => "complete_payment",
+            "nom_category" => "paymentPendingType"
+        ));
+
+        $pendingPaymentStatusPending = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
+        $cancelPaymentType= $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "cancel_payment_accommodation", "nom_category" => "paymentPendingType"));
+
+        foreach($generalReservationsArray as $genReservation)
+        {
+            $reservation = $genReservation["reservation"];
+            $em->getRepository("mycpBundle:generalReservation")->changeReservationStatus($reservation);
+
+                //Modificar pago completo. Si el monto a cancelar es el mismo que tiene el pago, se cancela
+                $completePayment = $em->getRepository("PartnerBundle:paPendingPaymentAccommodation")->findOneBy(array(
+                    "reservation" => $reservation,
+                    "agency" => $currentTravelAgency,
+                    "type" => $completePaymentType
+                ));
+
+                if ($genReservation["newCompletePaymentTotal"] == 0) {
+                    $completePayment->setStatus($cancelPendingPaymentStatus);
+                } else {
+                    $completePayment->setAmount($genReservation["newCompletePaymentTotal"]);
+                }
+
+                $em->persist($completePayment);
+
+            //Crear un pago pendiente a propietario por motivo de cancelacion
+            if($reservation["firstNightPayment"] > 0) {
+                $payDate = $reservation->getGenResToDate();
+                $payDate->add(new \DateInterval('P3D'));
+
+                $pendingPayment = new paPendingPaymentAccommodation();
+                $pendingPayment->setReservation($reservation);
+                $pendingPayment->setPayDate($payDate);
+                $pendingPayment->setCreatedDate(new \DateTime());
+                $pendingPayment->setAgency($currentTravelAgency);
+                $pendingPayment->setAmount($reservation["firstNightPayment"]);
+                $pendingPayment->setBooking($reservation->getFirstBookingWithPayment());
+                $pendingPayment->setStatus($pendingPaymentStatusPending);
+                $pendingPayment->setType($cancelPaymentType);
+                $em->persist($pendingPayment);
+            }
+
+            $em->flush();
+
+
+            //Si se decide enviar correo de cancelacion al propietario, este seria el lugar ideal para hacerlo
+        }
+
+        //Enviar correo a la agencia con el total a devolver
+
+        //Enviar correo a Nataly y a Sarahi con el total a devolver
     }
 }
 

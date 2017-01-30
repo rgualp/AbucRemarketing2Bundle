@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * paPendingPaymentAccommodation
+ * paPendingPaymentAgency
  *
- * @ORM\Table(name="pa_pending_payment_accommodation")
- * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPendingPaymentAccommodationRepository")
+ * @ORM\Table(name="pa_pending_payment_agency")
+ * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPendingPaymentAgencyRepository")
  */
-class paPendingPaymentAccommodation
+class paPendingPaymentAgency
 {
     /**
      * @var integer
@@ -21,12 +21,6 @@ class paPendingPaymentAccommodation
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\booking")
-     * @ORM\JoinColumn(name="booking", referencedColumnName="booking_id", nullable=false)
-     */
-    private $booking;
 
     /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\generalReservation")
@@ -116,24 +110,6 @@ class paPendingPaymentAccommodation
     public function setAmount($amount)
     {
         $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBooking()
-    {
-        return $this->booking;
-    }
-
-    /**
-     * @param mixed $booking
-     * @return mixed
-     */
-    public function setBooking($booking)
-    {
-        $this->booking = $booking;
         return $this;
     }
 

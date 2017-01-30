@@ -678,26 +678,41 @@ limit 1
         $totalDiffDays = $timerService->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
         $serviceFee = $generalReservation->getServiceFee();
         $refundTotal = 0;
-        $nights = $timerService->nigths($ownershipReservation->getOwnResReservationToDate(), $ownershipReservation->getOwnResReservationFromDate());
+        $totalToSubstractFromGeneralTotal = 0;
+        $nights = $timerService->diffInDays($ownershipReservation->getOwnResReservationToDate()->format("Y-m-d"), $ownershipReservation->getOwnResReservationFromDate()->format("Y-m-d"));
         $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
 
         $agencyTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
         $agencyTax = $agencyTax * $ownershipReservation->getOwnResTotalInSite();
 
+        $accommodationCommission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100;
+        $firstNightPayment = 0;
+
         if($totalDiffDays > 7){
+            $firstNightPayment = $roomPrice * (1 - $accommodationCommission);
+
             $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedTax());
         }
         else{
+
             if($nights > 1)
                 $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedTax());
         }
 
-        return $refundTotal;
-    }
+        $totalToSubstractFromGeneralTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $accommodationCommission);
+
+        return array(
+            "refundTotal" => $refundTotal,
+            "firstNightPayment" => $firstNightPayment,
+            "totalToSubtract" => $totalToSubstractFromGeneralTotal
+        );
+}
 
     function getByIds($idsArray){
         $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder("owres")
+        $qb = $em->createQueryBuilder()
+            ->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
             ->where("owres.own_res_id IN (:ids)")
             ->setParameter("ids", $idsArray)
             ->orderBy("owres.own_res_gen_res_id");
