@@ -660,6 +660,7 @@ class ownership {
         $this->rankingExtras = new ArrayCollection();
         $this->confidence = false;
         $this->calendarModalityFrequency = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     /**

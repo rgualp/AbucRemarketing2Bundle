@@ -94,7 +94,7 @@ class notification
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="notifications")
      * @ORM\JoinColumn(name="reservation",referencedColumnName="gen_res_id")
      */
     private $reservation;
@@ -102,7 +102,7 @@ class notification
     /**
      * @var string
      *
-     * @ORM\Column(name="actionResponse",  type="string", length=255)
+     * @ORM\Column(name="actionResponse",  type="string", length=255, nullable=true)
      */
     private $actionResponse;
 

@@ -65,6 +65,8 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
         $r = $this->availabilityOwnerRepository->availabilityOwner();
         $output->writeln('<info>**** Cantidad de disponibilidades no leidas ' . count($r) . ' ****</info>');
 
+        $container = $this->getContainer();
+
         foreach ($r as $availabilityOwner){
             /*Proceso de actualización*/
             $generalReservation = $availabilityOwner->getReservation();
@@ -92,6 +94,15 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
                 $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
             }
 
+            $output->writeln('<info>**** Respondiendo notificacions****</info>');
+            $notifications = $generalReservation->getNotifications();
+            $serviceNotification = $container->get('mycp.notification.service');
+            foreach($notifications as $notification){
+                $output->writeln('<info>**** Respondiendo notificacion:' . $notification->getId() . ' ****</info>');
+                $serviceNotification->notificationresp($notification, $availability, false);
+                $output->writeln('<info>**** Respondida notificacion:' . $notification->getId() . ' ****</info>');
+            }
+
             $output->writeln('<info>**** AvailabilityOwner:' . $availabilityOwner->getId() . ' ****</info>');
             $availabilityOwner->setActive(0);
             $this->em->persist($availabilityOwner);
@@ -100,7 +111,6 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
 
             /*Envio de Email*/
             $output->writeln('<info>**** Enviando Correo ****</info>');
-            $container = $this->getContainer();
             $id_reservation = $generalReservation->getGenResId();
             $service_email = $container->get('Email');
             $service_email->sendReservation($id_reservation, "Disponibilidad dada por propietario desde MyCasa Renta", false);

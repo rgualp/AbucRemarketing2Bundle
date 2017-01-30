@@ -206,6 +206,11 @@ class generalReservation {
     private $travelAgencyDetailReservations;
 
     /**
+     * @ORM\OneToMany(targetEntity="notification",mappedBy="reservation")
+     */
+    private $notifications;
+
+    /**
      * @var decimal
      *
      * @ORM\Column(name="responseTime", type="decimal", scale=2, nullable=true)
@@ -222,6 +227,7 @@ class generalReservation {
         $this->gen_res_status_date = new \DateTime();
 
         $this->travelAgencyDetailReservations = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     /**
@@ -868,5 +874,37 @@ class generalReservation {
         }
     }
 
+    /**
+     * Add notification
+     *
+     * @param \MyCp\mycpBundle\Entity\notification $notification
+     *
+     * @return ownership
+     */
+    public function addNotification(\MyCp\mycpBundle\Entity\notification $notification)
+    {
+        $this->notifications[] = $notification;
 
+        return $this;
+    }
+
+    /**
+     * Remove notification
+     *
+     * @param \MyCp\mycpBundle\Entity\notification $notification
+     */
+    public function removeNotification(\MyCp\mycpBundle\Entity\notification $notification)
+    {
+        $this->notifications->removeElement($notification);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
 }
