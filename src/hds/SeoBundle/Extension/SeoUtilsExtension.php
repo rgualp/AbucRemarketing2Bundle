@@ -26,16 +26,22 @@ class SeoUtilsExtension extends \Twig_Extension
 	 */
 	protected $request;
 
+    /**
+     * @var \MyCp\mycpBundle\Entity\langRepository
+     */
+	protected $languaje_repository;
+
 	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
 	 */
-	public function __construct($container, $block_repository, $blockcontent_repository)
+	public function __construct($container, $block_repository, $blockcontent_repository, $languaje_repository)
 	{
 		$this->container = $container;
 		$this->block_repository = $block_repository;
-		$this->blockcontent_repository= $blockcontent_repository;
+		$this->blockcontent_repository = $blockcontent_repository;
+		$this->languaje_repository = $languaje_repository;
 
 		if ($this->container->isScopeActive('request')) {
 			$this->request = $this->container->get('request');
@@ -79,13 +85,42 @@ class SeoUtilsExtension extends \Twig_Extension
 				return '<!---Seo: Bloque "'.$block_name.'" con el idioma "'.$language_code.'" no tiene headers asociados!!! --->';
 			}
 
-
-//			$headers= array();
 			foreach($block_contents as $block_content){
-//				$header= $block_content->getHeader();
-//				$headers[]= $header;
-				$metas.= $block_content->getMeta($replacements);
+			    $aux = $block_content->getMeta($replacements);
+				if ( strpos($aux,'alternate') == false && strpos($aux,'canonical') == false)
+				    $metas.= $block_content->getMeta($replacements);
 			}
+
+            //Creating Alternate and Canonical links
+
+            $allLanguage = $this->languaje_repository->findBy(array('lang_active' => 1));
+
+            $rel = "";
+            $href = "";
+            $hreflang = '';
+
+            $attributes = $this->container->get('request')->attributes->all();
+            $paramas = $attributes['_route_params'];
+            $paramas['locale'] = "es";
+
+            if (count($allLanguage) > 0){
+                foreach ($allLanguage as $lang){
+                    $paramas['locale'] = strtolower($lang->getLangCode());
+                    $url = $this->container->get('router')->generate($attributes['_route'],$paramas, true);
+                    $new_url = str_replace("/".$language_code."/", "/".strtolower($lang->getLangCode())."/", $url);
+
+                    $hreflang = 'hreflang=';
+                    $rel = "alternate";
+                    $hreflang = $hreflang.'"'.strtolower($lang->getLangCode()).'"';
+
+                    if (strtolower($lang->getLangCode()) == $language_code){
+                        $rel = "canonical";
+                        $hreflang = "";
+                    }
+
+                    $metas .= '<link rel="'.$rel.'" href="'.$new_url.'" '. $hreflang .' >';
+                }
+            }
 
 		}catch(\Exception $ee){
 			$content= $ee->getFile().':'.$ee->getLine().':'.$ee->getMessage();

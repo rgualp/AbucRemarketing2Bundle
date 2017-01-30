@@ -49,6 +49,12 @@
             var access_token="{{app.session.get('access-token')}}";
         </script>
     {% endif %}#}
+    {% if app.session.get('search_guests') != null and app.session.get('search_guests') == "0" %}
+        {{ app.session.set('search_guests', 1) }}
+    {% endif %}
+    {% if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "0" %}
+        {{ app.session.set('search_rooms', 1) }}
+    {% endif %}
 
     <script>
         var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
