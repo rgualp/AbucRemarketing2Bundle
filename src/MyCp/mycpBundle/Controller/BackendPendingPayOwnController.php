@@ -60,8 +60,8 @@ class BackendPendingPayOwnController extends Controller {
      * @return Response
      */
     function listFromAgencyAction($items_per_page, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
         $filter_number = $request->get('filter_number');
@@ -79,11 +79,11 @@ class BackendPendingPayOwnController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $payments = $paginator->paginate($em->getRepository('mycpBundle:pendingPayown')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+        $payments = $paginator->paginate($em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        return $this->render('mycpBundle:pendingOwn:list.html.twig', array(
+        return $this->render('mycpBundle:pendingOwnAgency:list.html.twig', array(
             'list' => $payments,
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),

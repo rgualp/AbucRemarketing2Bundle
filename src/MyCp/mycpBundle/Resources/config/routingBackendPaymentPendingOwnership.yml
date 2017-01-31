@@ -21,5 +21,5 @@ mycp_export_list_payment_pending_ownership:
 
 
 mycp_list_payments_agency_pending_ownership:
-    pattern:  /list/{items_per_page}/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
+    pattern: /agency/list/{items_per_page}/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
     defaults: { _controller: mycpBundle:BackendPendingPayOwn:listFromAgency, items_per_page: 100,filter_number:'',filter_code:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:''}
