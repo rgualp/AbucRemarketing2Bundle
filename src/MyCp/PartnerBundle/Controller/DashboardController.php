@@ -2010,6 +2010,7 @@ class DashboardController extends Controller
         $firstNightPaymentAccommodationTotal = 0;
         $totalToSubstract = 0;
         $today = new \DateTime();
+        $bookingArrays = array();
 
         $ownershipReservations = $em->getRepository("mycpBundle:ownershipReservation")->getByIds($idsArray);
         $generalReservationId = (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResId() : 0;
@@ -2020,6 +2021,11 @@ class DashboardController extends Controller
             $reservationUser = $reservation->getOwnResGenResId()->getGenResUserId();
             $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
             $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
+
+            $bookingId = $reservation->getOwnResReservationBooking()->getBookingId();
+            if(!in_array($bookingId, $bookingArrays, true)){
+                array_push($bookingArrays, $bookingId);
+            }
 
             if ($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
                 if ($generalReservationId != $reservation->getOwnResGenResId()->getGenResId()) {
@@ -2063,7 +2069,20 @@ class DashboardController extends Controller
 
         $this->afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency);
 
-        //enviar datos al script, el refund total
+        //Enviar correo a Nataly y a Sarahi con el total a devolver
+        $body = $this->render('FrontEndBundle:mails:rt_agency_cancel.html.twig', array(
+            'travelAgency' => $currentTravelAgency,
+            'reservations' => $generalReservationsArray,
+            'bookings' => $bookingArrays,
+            'refund' => $totalRefund
+        ));
+
+
+        $service_email = $this->get('Email');
+        //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body);
+        //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'sarahy_amor@yahoo.com', $body);
+        $service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'andy@hds.li', $body);
+
     }
 
     private function afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency)
@@ -2125,9 +2144,6 @@ class DashboardController extends Controller
             //Si se decide enviar correo de cancelacion al propietario, este seria el lugar ideal para hacerlo
         }
 
-        //Enviar correo a la agencia con el total a devolver
-
-        //Enviar correo a Nataly y a Sarahi con el total a devolver
     }
 }
 
