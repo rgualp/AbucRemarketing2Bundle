@@ -95,6 +95,7 @@
                 <tbody>
                 {% for item in cancel_payment %}
                     <tr>
+                        <td>{{ item.cancelId }}</td>
                         <td>{{ item.type.cancelName }}</td>
                         <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
                         <td>{{ item.reason }}</td>
