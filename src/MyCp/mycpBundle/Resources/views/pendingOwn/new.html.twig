@@ -42,7 +42,7 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>{% if edit_payment is defined %}Editar pago # {{payment.pendingId}}{% else %} Adicionar pago {% endif %}</h2>
+<h2>{% if edit_payment is defined %}Editar pago # {{payment.pendingId}} Nombre de la casa:{{ payment.getUserCasa.ownName }}{% else %} Adicionar pago {% endif %}</h2>
         <hr/>
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment_pending_ownership', {'id': edit_payment})}}{% else %}{{ path('mycp_new_payment')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
