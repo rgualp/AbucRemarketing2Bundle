@@ -55,6 +55,48 @@ class BackendPendingPayOwnController extends Controller {
     }
 
     /**
+     * @param $items_per_page
+     * @param Request $request
+     * @return Response
+     */
+    function listFromAgencyAction($items_per_page, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_number = $request->get('filter_number');
+        $filter_code = $request->get('filter_code');
+        $filter_method = $request->get('filter_method');
+        $filter_payment_date_from = $request->get('filter_payment_date_from');
+        $filter_payment_date_to = $request->get('filter_payment_date_to');
+
+        if ($request->getMethod() == 'POST' && $filter_number == 'null' && $filter_code == 'null' &&
+            $filter_method == 'null' && $filter_payment_date_from == 'null' && $filter_payment_date_to == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_payments_pending_ownership'));
+        }
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $payments = $paginator->paginate($em->getRepository('mycpBundle:pendingPayown')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        return $this->render('mycpBundle:pendingOwn:list.html.twig', array(
+            'list' => $payments,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+            'filter_number' => $filter_number,
+            'filter_code' => $filter_code,
+            'filter_method' => $filter_method,
+            'filter_payment_date_from' => $filter_payment_date_from,
+            'filter_payment_date_to' => $filter_payment_date_to
+        ));
+    }
+
+    /**
      * @param $id
      * @param Request $request
      * @return mixed
