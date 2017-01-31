@@ -1615,7 +1615,8 @@ class BackendReservationController extends Controller {
                                         'ownershipReservations'=>$ownershipReservations,
                                         'rooms'=>$rooms
                                     ));
-                            $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
+                            //$emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
+                            $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
                         }
                         else{   //Despues de los 7 días antes de la fecha de llegada
 
@@ -1666,7 +1667,8 @@ class BackendReservationController extends Controller {
                                             'price'=>$item['price'],
                                             'reason'=>$form_data['reason']
                                     ));
-                                    $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
+                                   // $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
+                                    $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
 
                                 }
 
