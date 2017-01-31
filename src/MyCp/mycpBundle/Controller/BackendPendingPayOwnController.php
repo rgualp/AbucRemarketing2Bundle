@@ -69,6 +69,10 @@ class BackendPendingPayOwnController extends Controller {
         $filter_method = $request->get('filter_method');
         $filter_payment_date_from = $request->get('filter_payment_date_from');
         $filter_payment_date_to = $request->get('filter_payment_date_to');
+        $filter_agency = $request->get('filter_agency');
+        $filter_booking = $request->get("filter_booking");
+        $filter_destination = $request->get("filter_destination");
+        $filter_type = $request->get("filter_type");
 
         if ($request->getMethod() == 'POST' && $filter_number == 'null' && $filter_code == 'null' &&
             $filter_method == 'null' && $filter_payment_date_from == 'null' && $filter_payment_date_to == 'null') {
@@ -79,7 +83,7 @@ class BackendPendingPayOwnController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $payments = $paginator->paginate($em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+        $payments = $paginator->paginate($em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to, $filter_agency, $filter_booking, $filter_destination, $filter_type))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -92,7 +96,11 @@ class BackendPendingPayOwnController extends Controller {
             'filter_code' => $filter_code,
             'filter_method' => $filter_method,
             'filter_payment_date_from' => $filter_payment_date_from,
-            'filter_payment_date_to' => $filter_payment_date_to
+            'filter_payment_date_to' => $filter_payment_date_to,
+            'filter_agency' => $filter_agency,
+            'filter_booking' => $filter_booking,
+            'filter_destination' => $filter_destination,
+            'filter_type' => $filter_type
         ));
     }
 

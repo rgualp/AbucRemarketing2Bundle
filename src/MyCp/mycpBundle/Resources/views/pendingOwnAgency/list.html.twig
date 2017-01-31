@@ -34,26 +34,58 @@
         <div class="well well-small">
             <div class="row-fluid">
                 <div class="span3">
-                    <label>No.Pago:</label><input id="filter_number" value="{{(filter_number != "null")?filter_number:''}}" class="input-block-level" name="filter_number" type="text"/></div>
+                    <label>Reserva (CAS):</label><input id="filter_number" value="{{(filter_number != "null")?filter_number:''}}" class="input-block-level" name="filter_number" type="text"/></div>
                 <div class="span3"><label>Código Alojamiento:</label>
                     <input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>
                 </div>
-
-                <div class="span3">
+                <div class="span3"><label>Agencia:</label>
+                    <input id="filter_agency" value="{{(filter_agency != "null")?filter_agency:''}}" class="input-block-level" name="filter_agency" type="text"/>
+                </div>
+                <div class="span3"><label>Booking:</label>
+                    <input id="filter_booking" value="{{(filter_booking != "null")?filter_booking:''}}" class="input-block-level" name="filter_booking" type="text"/>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                    <label>Destino:</label>
+                    <select id="filter_destination" class="input-block-level" name="filter_destination">
+                        {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':filter_destination}})) }}
+                    </select>
+                </div>
+                <div class="span4">
                     <label>Estado:</label>
                     <select id="filter_method" class="input-block-level" name="filter_method">
                         {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': filter_method, 'category': 'paymentPendingStatus'})) }}
-                    </select></div>
+                    </select>
                 </div>
+                <div class="span4">
+                    <label>Tipo:</label>
+                    <select id="filter_type" class="input-block-level" name="filter_type">
+                        {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': filter_type, 'category': 'paymentPendingType'})) }}
+                    </select>
+                </div>
+
+            </div>
             <div class="row-fluid">
-                <div class="span5">
-                    <label>Fecha Desde:</label>
+                <div class="span3">
+                    <label>Fecha Pago <br/><small>Desde</small></label>
                     <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
                 </div>
-                <div class="span5">
-                    <label>Fecha Hasta:</label>
+                <div class="span3">
+                    <label><br/><small>Hasta</small></label>
                     <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
                 </div>
+                <div class="span3">
+                    <label>Fecha Llegada <br/><small>Desde</small></label>
+                    <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
+                </div>
+                <div class="span3">
+                    <label><br/><small>Hasta</small></label>
+                    <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
+                </div>
+                </div>
+            <div class="row-fluid">
+                <div class="span10"></div>
                 <div class="span2">
                     <label>&nbsp;</label>
                     <div class="row-fluid">
@@ -79,9 +111,9 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
@@ -94,7 +126,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page}
+'route_params': {'items_per_page':items_per_page, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination}
 }) }}
 </div>
     <a class="btn" id="btn-addpay">Registrar pagos </a>
@@ -121,7 +153,11 @@
         <tbody>
         {% for payment in list %}
         <tr>
-            <td><input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ payment.id }}"/></td>
+            <td>
+                {% if payment.status.nomName == "pendingPayment_pending_status" %}
+                    <input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ payment.id }}"/>
+                {% endif %}
+            </td>
             <td>{{payment.id}}</td>
             <td>
                 <small> <b>Fecha:</b> {{payment.payDate | date ("d/m/Y")}}</small> <br/>
@@ -152,7 +188,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page}
+'route_params': {'items_per_page':items_per_page, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination}
 }) }}
 </div>
     {% else %}
@@ -246,6 +282,9 @@
             var filter_code=$('#filter_code').val();
             if(filter_code=='')filter_code='null';
 
+            var filter_agency=$('#filter_agency').val();
+            if(filter_agency=='')filter_agency='null';
+
             var filter_method=$('#filter_method').val();
             if(filter_method=='')filter_method='null';
 
@@ -255,8 +294,14 @@
             var filter_payment_date_to = $("#filter_payment_date_to").val();
             if(filter_payment_date_to=='')filter_payment_date_to='null';
 
+            var filter_booking = $("#filter_booking").val();
+            if(filter_booking=='')filter_booking='null';
+
+            var filter_destination = $("#filter_destination").val();
+            if(filter_destination=='')filter_destination='null';
+
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to+'/'+filter_agency+'/'+filter_booking+'/'+filter_destination;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }
