@@ -1497,17 +1497,17 @@ class BackendReservationController extends Controller {
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
             if($form->isValid()){
+                //Obtener datos de los repositorios
                 $booking = $em->getRepository('mycpBundle:booking')->find($request->get('idBooking'));
-                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
                 $min_date = $em->getRepository('mycpBundle:ownershipReservation')->getBookingById($request->get('idBooking'));
+                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
+                $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
 
+                //Obtener los datos del formulario
                 $form_data=$request->get('mycp_mycpbundle_cancelpayment');
 
                 $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
-                $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
-
-                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
-                $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+                $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
 
                 if($date_cancel_payment<$min_date_arrive){
                     //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
