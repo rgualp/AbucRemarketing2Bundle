@@ -63,21 +63,23 @@
                     </tr>
                     </thead>
                     {% for item in pending_payment.getCancelId.getOwnreservations %}
-                        <td>{{ item.getOwnResGenResId.getCASId }}</td>
-                        <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": item.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ item.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if item.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
-                        <td>{{ item.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
-                        <td>Hab {{item.getOwnResRoomType}}</td>
-                        <td nowrap=nowrap>
-                                Baja: {{ item.getOwnResRoomPriceDown }} CUC <br/>
-                                Alta: {{ item.getOwnResRoomPriceUp }} CUC
-                                {%if item.getOwnResRoomPriceSpecial is defined and item.getOwnResRoomPriceSpecial != "" and item.getOwnResRoomPriceSpecial != 0%}
-                                    <br/>
-                                    Especial: {{ item.getOwnResRoomPriceSpecial }} CUC
-                                {%endif%}
-                        </td>
-                        <td>{{ item.getOwnResReservationFromDate | date("d/m/Y") }}</td>
-                        <td>{{ item.getOwnResReservationToDate | date("d/m/Y") }}</td>
-                        <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': item.getOwnResStatus})) }}</td>
+                        <tr>
+                            <td>{{ item.getOwnResGenResId.getCASId }}</td>
+                            <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": item.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ item.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if item.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
+                            <td>{{ item.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+                            <td>Hab {{item.getOwnResRoomType}}</td>
+                            <td nowrap=nowrap>
+                                    Baja: {{ item.getOwnResRoomPriceDown }} CUC <br/>
+                                    Alta: {{ item.getOwnResRoomPriceUp }} CUC
+                                    {%if item.getOwnResRoomPriceSpecial is defined and item.getOwnResRoomPriceSpecial != "" and item.getOwnResRoomPriceSpecial != 0%}
+                                        <br/>
+                                        Especial: {{ item.getOwnResRoomPriceSpecial }} CUC
+                                    {%endif%}
+                            </td>
+                            <td>{{ item.getOwnResReservationFromDate | date("d/m/Y") }}</td>
+                            <td>{{ item.getOwnResReservationToDate | date("d/m/Y") }}</td>
+                            <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': item.getOwnResStatus})) }}</td>
+                        </tr>
                     {% endfor %}
                 </table>
             </div>
