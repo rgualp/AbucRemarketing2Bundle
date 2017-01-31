@@ -78,7 +78,7 @@ class BackendPendingPayTouristController extends Controller {
                 'form'=>$form->createView(),
                 'reservations' => $reservations,
                 'payment' => $payment,
-                'cancel_payment'=>$em->getRepository('mycpBundle:cancelPayment')->findBy(array('booking' => $id_booking))
+                'pending_payment'=>$pending_payment
             ));
     }
 
