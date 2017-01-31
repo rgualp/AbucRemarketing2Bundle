@@ -150,6 +150,7 @@
 
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
     </div>
+    <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans }}" data-alertcontent="{{ "cart.alert.content" | trans }}" data-cancelbutton="{{ "cart.alert.cancel_button" | trans }}" data-confirmbutton="{{ "cart.alert.confirm_button" | trans }}"></span>
 </div>
 
 <script type="text/javascript">
@@ -163,19 +164,30 @@
                 sweetAlert("Oops...", "Seleccione una o varias reservas para cancelar", "error");
             }
             else {
-                $("#overlayLoading").removeClass("hide");
-                var _url = $(this).data("url");//Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
 
-                $.post(_url, {
-                    'checkValues': checkValues
-                }, function (response) {
-                    if (response.success) {
-                        if (response.html != "") {
-                            console.log(response.html);
+                /*swal({
+                    title: $("#alertMessages").data("alerttitle"),
+                    text: $("#alertMessages").data("alertcontent"),
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                    cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                    closeOnConfirm: true
+                }, function () {*/
+                    $("#overlayLoading").removeClass("hide");
+                    HoldOn.open();
+                    var _url = $(this).data("url");//Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
 
+                    $.post(_url, {
+                        'checkValues': checkValues
+                    }, function (response) {
+                        if (response.success) {
+                            var link = $("#ajaxifyReserved");
+                            executeAjax(link, null);
                         }
-                    }
-                });
+                    });
+                /*});*/
 
                 $('#selectedReservations').slimScroll({
                     height: '350px',

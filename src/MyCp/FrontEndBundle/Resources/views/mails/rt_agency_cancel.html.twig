@@ -12,14 +12,14 @@ Hola:<br/><br/>
 La Agencia {{ travelAgency.name }} ha cancelado las siguientes reservas:
 
 <ul>
-{% foreach reservation in reservations %}
+{% for reservation in reservations %}
     <li>CAS.{{ reservation["reservation"].genResId }}: {{ reservation["reservation"].genResOwnId.ownMcpCode }} - {{ reservation["reservation"].genResOwnId.ownName }}</li>
 {% endfor %}
 </ul>
 
 pagadas con el/los bookings:
-{% foreach booking in bookings %}
-{% if loop.index0 > 0 %}, {% endif %} booking
+{% for booking in bookings %}
+{% if loop.index0 > 0 %}, {% endif %} {{ booking }}
 {% endfor %}
 
 El monto a devolver es de <b>{{ refund }}</b> CUC.

@@ -2069,19 +2069,27 @@ class DashboardController extends Controller
 
         $this->afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency);
 
-        //Enviar correo a Nataly y a Sarahi con el total a devolver
-        $body = $this->render('FrontEndBundle:mails:rt_agency_cancel.html.twig', array(
-            'travelAgency' => $currentTravelAgency,
-            'reservations' => $generalReservationsArray,
-            'bookings' => $bookingArrays,
-            'refund' => $totalRefund
-        ));
+        if($totalRefund > 0) {
+            //Enviar correo a Nataly y a Sarahi con el total a devolver
+            $body = $this->render('FrontEndBundle:mails:rt_agency_cancel.html.twig', array(
+                'travelAgency' => $currentTravelAgency,
+                'reservations' => $generalReservationsArray,
+                'bookings' => $bookingArrays,
+                'refund' => $totalRefund
+            ));
 
 
-        $service_email = $this->get('Email');
-        //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body);
-        //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'sarahy_amor@yahoo.com', $body);
-        $service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'andy@hds.li', $body);
+            $service_email = $this->get('Email');
+            //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body);
+            //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'sarahy_amor@yahoo.com', $body);
+            $service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'andy@hds.li', $body);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_reserved',
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array()),
+            'msg' => 'Vista del listado de reservas PENDIENTES']);
 
     }
 
@@ -2122,7 +2130,7 @@ class DashboardController extends Controller
                 $em->persist($completePayment);
 
             //Crear un pago pendiente a propietario por motivo de cancelacion
-            if($reservation["firstNightPayment"] > 0) {
+            if($genReservation["firstNightPayment"] > 0) {
                 $payDate = $reservation->getGenResToDate();
                 $payDate->add(new \DateInterval('P3D'));
 
@@ -2131,7 +2139,7 @@ class DashboardController extends Controller
                 $pendingPayment->setPayDate($payDate);
                 $pendingPayment->setCreatedDate(new \DateTime());
                 $pendingPayment->setAgency($currentTravelAgency);
-                $pendingPayment->setAmount($reservation["firstNightPayment"]);
+                $pendingPayment->setAmount($genReservation["firstNightPayment"]);
                 $pendingPayment->setBooking($reservation->getFirstBookingWithPayment());
                 $pendingPayment->setStatus($pendingPaymentStatusPending);
                 $pendingPayment->setType($cancelPaymentType);
