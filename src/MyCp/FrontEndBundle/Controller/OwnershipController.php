@@ -705,7 +705,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1, $inmediate="null",$order_price='null', $order_comments='null', $order_books='null') {
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 0, $rooms = 0, $inmediate="null",$order_price='null', $order_comments='null', $order_books='null') {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
