@@ -52,7 +52,6 @@
                     <thead>
                     <tr>
                         {% set cat='cas' %}
-                        <th></th>
                         <th>CAS</th>
                         <th>Código Alojamiento</th>
                         <th>Nombre Alojamiento</th>
@@ -63,13 +62,22 @@
                         <th>Estado</th>
                     </tr>
                     </thead>
-                    {% set generalReservation = 0 %}
-                    {% set cucPayment = 0 %}
-                    {% for reservation in reservations %}
-                        {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
-                            {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
-                            {{ render(controller('mycpBundle:BackendReservation:details_casreservation_partial', {"id_reservation": reservation.getOwnResGenResId.getGenResId})) }}
-                        {% endif %}
+                    {% for item in pending_payment.getCancelId.getOwnreservations %}
+                        <td>{{ item.getOwnResGenResId.getCASId }}</td>
+                        <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": item.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ item.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if item.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
+                        <td>{{ item.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+                        <td>Hab {{item.getOwnResRoomType}}</td>
+                        <td nowrap=nowrap>
+                                Baja: {{ item.getOwnResRoomPriceDown }} CUC <br/>
+                                Alta: {{ item.getOwnResRoomPriceUp }} CUC
+                                {%if item.getOwnResRoomPriceSpecial is defined and item.getOwnResRoomPriceSpecial != "" and item.getOwnResRoomPriceSpecial != 0%}
+                                    <br/>
+                                    Especial: {{ item.getOwnResRoomPriceSpecial }} CUC
+                                {%endif%}
+                        </td>
+                        <td>{{ item.getOwnResReservationFromDate | date("d/m/Y") }}</td>
+                        <td>{{ item.getOwnResReservationToDate | date("d/m/Y") }}</td>
+                        <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': item.getOwnResStatus})) }}</td>
                     {% endfor %}
                 </table>
             </div>
@@ -89,15 +97,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for item in cancel_payment %}
                         <tr>
-                            <td>{{ item.type.cancelName }}</td>
-                            <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
-                            <td>{{ item.reason }}</td>
-                            <td>{{ item.cancelDate | date("d/m/Y") }}</td>
-                            <td>{{ item.user.UserUserName }} {{ item.user.UserLastName }}</td>
+                            <td>{{ pending_payment.getCancelId.type.cancelName }}</td>
+                            <td>{% if pending_payment.getCancelId.giveTourist %}Si{% else %}No{% endif %}</td>
+                            <td>{{ pending_payment.getCancelId.reason }}</td>
+                            <td>{{ pending_payment.getCancelId.cancelDate | date("d/m/Y") }}</td>
+                            <td>{{ pending_payment.getCancelId.user.UserUserName }} {{ pending_payment.getCancelId.user.UserLastName }}</td>
                         </tr>
-                    {% endfor %}
                     </tbody>
                 </table>
             </div>
