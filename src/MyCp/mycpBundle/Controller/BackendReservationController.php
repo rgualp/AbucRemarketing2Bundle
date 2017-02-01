@@ -1523,7 +1523,7 @@ class BackendReservationController extends Controller {
                         $pending_tourist->setUser($this->getUser());
                         $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
-                        $date_pay = \MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+                        $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
                         $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
                         $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
 
@@ -1568,7 +1568,7 @@ class BackendReservationController extends Controller {
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
-                            $date_pay = \MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+                            $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
                             $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
                             $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
 
