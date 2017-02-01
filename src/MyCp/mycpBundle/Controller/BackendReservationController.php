@@ -1516,7 +1516,13 @@ class BackendReservationController extends Controller {
                     {
 
                         $price_tourist=$this->calculateTourist($reservations_ids);
-                        $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                        if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
+                            $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                        }
+                        else{
+                            $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                        }
+
 
                         //Se registra un Pago Pendiente a Turista
                         $pending_tourist=new pendingPaytourist();
@@ -1563,12 +1569,15 @@ class BackendReservationController extends Controller {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
 
                             $price_tourist=$this->calculateTourist($reservations_ids);
-                            $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                            if(count($booking->getBookingOwnReservations())==count($reservations_ids))
+                                $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                            else
+                                $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
 
                             //Se registra un Pago Pendiente a Turista
                             $pending_tourist=new pendingPaytourist();
                             $pending_tourist->setCancelId($obj);
-                            $pending_tourist->setPayAmount($price_tourist['price']);
+                            $pending_tourist->setPayAmount($total_price);
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
@@ -1683,16 +1692,11 @@ class BackendReservationController extends Controller {
                                     ));
                                    // $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
                                     $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
-
                                 }
-
                             }
-
                         }
-
                     }
                 }
-
                 //Change status reservations
                 if(count($reservations_ids)){
                     foreach($reservations_ids as $genResId){
@@ -1702,7 +1706,6 @@ class BackendReservationController extends Controller {
                         $obj->addOwnershipReservation($reservation);
                     }
                 }
-
                 //Set booking save relations
                 $obj->setBooking($booking);
                 //Set user save relations
