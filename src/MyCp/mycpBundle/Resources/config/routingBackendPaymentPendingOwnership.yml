@@ -27,3 +27,7 @@ mycp_list_payments_agency_pending_ownership:
 mycp_edit_payment_agency_pending_ownership:
     pattern:  /agency/edit/{id}
     defaults: { _controller: mycpBundle:BackendPendingPayOwn:editAgency }
+
+mycp_save_payment_agency_pending_ownership:
+    pattern:  /agency/save
+    defaults: { _controller: mycpBundle:BackendPendingPayOwn:saveAgency }

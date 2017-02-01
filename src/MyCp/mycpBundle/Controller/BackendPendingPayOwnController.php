@@ -191,12 +191,8 @@ class BackendPendingPayOwnController extends Controller {
                     $payment->setAccommodation($accommodation);
 
                 $user = $this->getUser();
-
-                if($payment->getUser() == null)
-                    $payment->setUser($user);
-
-                if($payment->getRegisterDate() == null)
-                    $payment->setRegisterDate(new \DateTime());
+                $payment->setUser($user);
+                $payment->setRegisterDate(new \DateTime());
 
                 $em->persist($payment);
                 $em->flush();
@@ -229,6 +225,31 @@ class BackendPendingPayOwnController extends Controller {
            $em->flush();
            return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado el pago satisfactoriamente']);
        }
+        return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    function saveAgencyAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $cheked=$request->get('cheked');
+        if(count($cheked)){
+            foreach($cheked as $item){
+                $pay= $em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->find($item);
+                $pay->setStatus($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_payed_status')));
+
+                $user = $this->getUser();
+
+                $pay->setUser($user);
+                $pay->setRegisterDate(new \DateTime());
+
+                $em->persist($pay);
+            }
+            $em->flush();
+            return new JsonResponse(['success' => true, 'message' =>'Se han registrado los pagos satisfactoriamente']);
+        }
         return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
     }
 
