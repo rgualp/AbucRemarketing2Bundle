@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class paPendingPaymentAccommodationRepository extends EntityRepository {
 
-    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_payment_date_from="", $filter_payment_date_to="", $filter_agency = "", $filter_booking = "", $filter_destination = "", $filter_type = "")
+    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_payment_date_from="", $filter_payment_date_to="", $filter_agency = "", $filter_booking = "", $filter_destination = "", $filter_type = "", $filter_reservation_date_from = "", $filter_reservation_date_to = "")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -74,6 +74,18 @@ class paPendingPaymentAccommodationRepository extends EntityRepository {
             $qb->andWhere("destination.des_name = :destination")
                 ->setParameter("destination", $filter_destination);
         }
+        if($filter_reservation_date_from != null && $filter_reservation_date_from != "" && $filter_reservation_date_from != "null")
+        {
+            $qb->andWhere("resevation.gen_res_from_date >= :dateFromReservation")
+                ->setParameter("dateFromReservation", $filter_reservation_date_from);
+        }
+
+        if($filter_reservation_date_to != null && $filter_reservation_date_to != "" && $filter_reservation_date_to != "null")
+        {
+            $qb->andWhere("resevation.gen_res_from_date <= :dateToReservation")
+                ->setParameter("dateToReservation", $filter_reservation_date_to);
+        }
+
         return $qb->getQuery();
 
     }
