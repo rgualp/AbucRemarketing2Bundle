@@ -2143,6 +2143,7 @@ class DashboardController extends Controller
                 $pendingPayment->setBooking($reservation->getFirstBookingWithPayment());
                 $pendingPayment->setStatus($pendingPaymentStatusPending);
                 $pendingPayment->setType($cancelPaymentType);
+                $pendingPayment->setAccommodation($reservation->getGenResOwnId());
                 $em->persist($pendingPayment);
             }
 

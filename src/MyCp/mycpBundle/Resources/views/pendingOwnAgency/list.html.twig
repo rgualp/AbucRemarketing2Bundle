@@ -111,9 +111,9 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_type': filter_type, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_type': filter_type, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_payments_agency_pending_ownership',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_type': filter_type, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
@@ -126,7 +126,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to}
+'route_params': {'items_per_page':items_per_page, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_type': filter_type, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to}
 }) }}
 </div>
     <a class="btn" id="btn-addpay">Registrar pagos </a>
@@ -136,7 +136,7 @@
         <thead>
         <tr>
             {% set cat='pay' %}
-            <th><input name="all_select_{{cat}}" class="all_select {{cat}}" type="checkbox"/></th>
+            <th></th>
             <th>Id</th>
             <th>A Pagar</th>
             <th>Alojamiento</th>
@@ -153,18 +153,14 @@
         <tbody>
         {% for payment in list %}
         <tr>
-            <td>
-                {% if payment.status.nomName == "pendingPayment_pending_status" %}
-                    <input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ payment.id }}"/>
-                {% endif %}
-            </td>
+            <td></td>
             <td>{{payment.id}}</td>
             <td>
                 <small> <b>Fecha:</b> {{payment.payDate | date ("d/m/Y")}}</small> <br/>
                 <small><b>Monto:</b> {{ payment.amount }} CUC</small>
             </td>
-            <td><a target="_blank" href="{{ path("mycp_edit_ownership", {"id_ownership": payment.reservation.genResOwnId.ownId}) }}">{{ payment.reservation.genResOwnId.ownMcpCode }}</a></td>
-            <td>{{ payment.reservation.genResOwnId.ownDestination.desName }}</td>
+            <td><a target="_blank" href="{{ path("mycp_edit_ownership", {"id_ownership": payment.accommodation.ownId}) }}">{{ payment.accommodation.ownMcpCode }}</a></td>
+            <td>{{ payment.accommodation.ownDestination.desName }}</td>
             <td><a target="_blank" href="{{ path("mycp_details_reservation_ag", {"id_reservation": payment.reservation.genResId}) }}">{{ payment.reservation.genResId }}</a></td>
             <td><a target="_blank" href="{{ path("mycp_details_reservations_ag_booking", {"id_booking": payment.booking.getBookingId}) }}">{{payment.booking.getBookingId}}</a></td>
             <td>{{ payment.agency.name }}</td>
@@ -174,6 +170,8 @@
             <td style="text-align: right">
                 {% if payment.status.nomName == "pendingPayment_process_status" or payment.status.nomName == "pendingPayment_payed_status" %}
                     <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_ownership", {"id": payment.id}) }}">Ver pago</a>
+                {% elseif payment.status.nomName == "pendingPayment_pending_status" %}
+                    <a class="btn btn-mini btn-info" href="{{ path("mycp_edit_payment_agency_pending_ownership", {"id": payment.id}) }}">Registrar pago</a>
                 {% endif %}
             </td>
         </tr>
@@ -188,7 +186,7 @@
 'currentClass': 'current',
 'firstPageText': 'Primera',
 'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to}
+'route_params': {'items_per_page':items_per_page, 'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_type': filter_type, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to}
 }) }}
 </div>
     {% else %}
@@ -300,6 +298,9 @@
             var filter_destination = $("#filter_destination").val();
             if(filter_destination=='')filter_destination='null';
 
+            var filter_type = $("#filter_type").val();
+            if(filter_type=='')filter_type='null';
+
             var filter_reservation_date_from = $("#filter_reservation_date_from").val();
             if(filter_reservation_date_from=='')filter_reservation_date_from='null';
 
@@ -307,7 +308,7 @@
             if(filter_reservation_date_to=='')filter_reservation_date_to='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to+'/'+filter_agency+'/'+filter_booking+'/'+filter_destination+'/'+filter_reservation_date_from+'/'+filter_reservation_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to+'/'+filter_agency+'/'+filter_booking+'/'+filter_destination+'/'+filter_type+'/'+filter_reservation_date_from+'/'+filter_reservation_date_to;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }

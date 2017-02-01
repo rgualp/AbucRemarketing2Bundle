@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Form\paPendingPaymentAccommodationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -165,6 +166,51 @@ class BackendPendingPayOwnController extends Controller {
         return $this->render('mycpBundle:pendingOwn:new.html.twig', array(
                 'form' => $form->createView(), 'edit_payment' => $id, 'payment' => $payment
             ));
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    function editAgencyAction($id, Request $request) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->find($id);
+        $form = $this->createForm(new paPendingPaymentAccommodationType(), $payment);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $accommodationCode = $request->get("accommodation_code");
+                $accommodation = $em->getRepository("mycpBundle:ownership")->findOneBy(array("own_mcp_code" => $accommodationCode));
+
+                if($accommodation != null)
+                    $payment->setAccommodation($accommodation);
+
+                $user = $this->getUser();
+
+                if($payment->getUser() == null)
+                    $payment->setUser($user);
+
+                if($payment->getRegisterDate() == null)
+                    $payment->setRegisterDate(new \DateTime());
+
+                $em->persist($payment);
+                $em->flush();
+
+                $message = 'Pago actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                return $this->redirect($this->generateUrl('mycp_list_payments_agency_pending_ownership'));
+            }
+        }
+
+        return $this->render('mycpBundle:pendingOwnAgency:new.html.twig', array(
+            'form' => $form->createView(), 'edit_payment' => $id, 'payment' => $payment
+        ));
     }
 
     /**

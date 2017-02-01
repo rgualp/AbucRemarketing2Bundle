@@ -14,40 +14,60 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_payments_pending_ownership') }}">Pagos pendientes a propietarios</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_payments_agency_pending_ownership') }}">Agencia - Pagos pendientes a propietarios</a> <span class="divider">/</span></li>
     {% if edit_payment is defined %}
     <li class="active">Editar pago pendiente a propietario</li>
     {% else %}
     <li class="active">Adicionar pago pendiente a propietario</li>
     {% endif %}
-    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_payments_agency_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
 {% block form_actions %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_ownerships') }}">Alojamientos</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_payments') }}">Pagos</a> <span class="divider">/</span></li>
+    <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_payments_agency_pending_ownership') }}">Agencia - Pagos pendientes a propietarios</a> <span class="divider">/</span></li>
     {% if edit_payment is defined %}
-    <li class="active">Editar pago</li>
+        <li class="active">Editar pago pendiente a propietario</li>
     {% else %}
-    <li class="active">Adicionar pago</li>
+        <li class="active">Adicionar pago pendiente a propietario</li>
     {% endif %}
-    <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li class="pull-right"><a href="{{ path('mycp_list_payments_agency_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <button class="btn btn-success" type="submit">Guardar</button>
-    <a class="btn" href="{{ path('mycp_list_payments') }}">Cancelar</a>
+    <a class="btn" href="{{ path('mycp_list_payments_agency_pending_ownership') }}">Cancelar</a>
 </div>
 </form>
 {% endblock %}
 {% block content %}
-<h2>{% if edit_payment is defined %}Editar pago # {{payment.pendingId}} Nombre de la casa:{{ payment.getUserCasa.ownName }}{% else %} Adicionar pago {% endif %}</h2>
+<h2>{% if edit_payment is defined %}Editar pago # {{payment.id}} - {{ payment.accommodation.ownName }} ({{ payment.accommodation.ownMcpCode }}){% else %} Adicionar pago {% endif %}</h2>
         <hr/>
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment_pending_ownership', {'id': edit_payment})}}{% else %}{{ path('mycp_new_payment')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
+<div class="well well-small">
+    <h4>Datos del pago</h4>
+    <div class="row-fluid">
+        <div class="span3">
+            <label>Número del pago: <b>{{ payment.id }}</b></label>
+        </div>
+        <div class="span3">
+            <label>Fecha del pago: <b>{{ payment.payDate | date("d/m/Y") }}</b></label>
+        </div>
+        <div class="span3">
+            <label>Reserva: <b>CAS.{{ payment.reservation.genResId }}</b></label>
+        </div>
+        <div class="span3">
+            <label>Tipo: <b>{{ payment.type.translations[0].nomLangDescription }}</b></label>
+        </div>
+    </div>
+</div>
+<form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment_agency_pending_ownership', {'id': edit_payment})}}{% else %}{{ path('mycp_new_payment')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
 {% if edit_payment is defined %}<input style="display: none;" name="edit_payment" value="{{edit_payment}}"> {% endif %}
-
+    <div>
+        <label class="required" for="accommodation_code">Código alojamiento:</label>
+        <input id="accommodation_code" name="accommodation_code" required="required" value="{{ payment.accommodation.ownMcpCode }}" type="text">
+    </div>
     {{form_widget(form)}}
 {% endblock %}
     {% block javascripts %}
