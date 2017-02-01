@@ -1497,17 +1497,17 @@ class BackendReservationController extends Controller {
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
             if($form->isValid()){
+                //Obtener datos de los repositorios
                 $booking = $em->getRepository('mycpBundle:booking')->find($request->get('idBooking'));
-                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
                 $min_date = $em->getRepository('mycpBundle:ownershipReservation')->getBookingById($request->get('idBooking'));
+                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
+                $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
 
+                //Obtener los datos del formulario
                 $form_data=$request->get('mycp_mycpbundle_cancelpayment');
 
                 $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
-                $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
-
-                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
-                $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+                $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
 
                 if($date_cancel_payment<$min_date_arrive){
                     //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
@@ -1536,15 +1536,18 @@ class BackendReservationController extends Controller {
                             foreach($reservations_ids as $genResId){
                                 $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
                                 if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
-                                    //Registro un fallo de tipo propietario
-                                    $failure_own = new failure();
-                                    $failure_own->setUser($this->getUser());
-                                    $failure_own->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
-                                    $failure_own->setReservation($ownershipReservation->getOwnResGenResId());
-                                    $failure_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'accommodation_failure')));
-                                    $failure_own->setDescription($form_data['reason']);
-                                    $failure_own->setCreationDate(new \DateTime());
-                                    $em->persist($failure_own);
+                                    $failure = $em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
+                                    if(count($failure)==0){
+                                        //Registro un fallo de tipo propietario
+                                        $failure_own = new failure();
+                                        $failure_own->setUser($this->getUser());
+                                        $failure_own->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                        $failure_own->setReservation($ownershipReservation->getOwnResGenResId());
+                                        $failure_own->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'accommodation_failure')));
+                                        $failure_own->setDescription($form_data['reason']);
+                                        $failure_own->setCreationDate(new \DateTime());
+                                        $em->persist($failure_own);
+                                    }
                                     //Adiciono el id de la casa al arreglo de casas
                                     $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                 }
@@ -1580,15 +1583,18 @@ class BackendReservationController extends Controller {
                                 foreach($reservations_ids as $genResId){
                                     $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
                                     if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
-                                        //Registro un fallo de tipo turista
-                                        $failure_tourist = new failure();
-                                        $failure_tourist->setUser($this->getUser());
-                                        $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
-                                        $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
-                                        $failure_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
-                                        $failure_tourist->setDescription($form_data['reason']);
-                                        $failure_tourist->setCreationDate(new \DateTime());
-                                        $em->persist($failure_tourist);
+                                        $failure = $em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
+                                        if(count($failure)==0){
+                                            //Registro un fallo de tipo turista
+                                            $failure_tourist = new failure();
+                                            $failure_tourist->setUser($this->getUser());
+                                            $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                            $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                            $failure_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                            $failure_tourist->setDescription($form_data['reason']);
+                                            $failure_tourist->setCreationDate(new \DateTime());
+                                            $em->persist($failure_tourist);
+                                        }
                                         //Adiciono el id de la casa al arreglo de casas
                                         $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                         //Adiciono al arreglo de reservaciones
@@ -1627,16 +1633,19 @@ class BackendReservationController extends Controller {
                                     $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
                                     $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
                                     if (!array_key_exists($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
-                                        //Se le da puntos positivos en el Ranking a la casa
-                                        //Registro un fallo de tipo turista
-                                        $failure_tourist = new failure();
-                                        $failure_tourist->setUser($this->getUser());
-                                        $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
-                                        $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
-                                        $failure_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
-                                        $failure_tourist->setDescription($form_data['reason']);
-                                        $failure_tourist->setCreationDate(new \DateTime());
-                                        $em->persist($failure_tourist);
+                                        $failure = $em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
+                                        if(count($failure)==0){
+                                            //Se le da puntos positivos en el Ranking a la casa
+                                            //Registro un fallo de tipo turista
+                                            $failure_tourist = new failure();
+                                            $failure_tourist->setUser($this->getUser());
+                                            $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                            $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                            $failure_tourist->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                            $failure_tourist->setDescription($form_data['reason']);
+                                            $failure_tourist->setCreationDate(new \DateTime());
+                                            $em->persist($failure_tourist);
+                                        }
                                         //Adiciono el id de la casa al arreglo de casas
                                         $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$price,'ownershipReservations'=>array($ownershipReservation),'arrival_date'=>$ownershipReservation->getOwnResReservationFromDate());
                                     }

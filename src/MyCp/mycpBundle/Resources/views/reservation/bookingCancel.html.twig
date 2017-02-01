@@ -84,6 +84,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
+                    <th>Id cancelación</th>
                     <th>Tipo cancelación</th>
                     <th>Devolver al turista</th>
                     <th>Motivo</th>
@@ -94,6 +95,7 @@
                 <tbody>
                 {% for item in cancel_payment %}
                     <tr>
+                        <td>{{ item.cancelId }}</td>
                         <td>{{ item.type.cancelName }}</td>
                         <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
                         <td>{{ item.reason }}</td>
