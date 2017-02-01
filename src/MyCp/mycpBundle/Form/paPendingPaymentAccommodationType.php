@@ -32,7 +32,7 @@ class paPendingPaymentAccommodationType extends AbstractType
                     'multiple' => false
                 ))
             ->add('amount','text',array(
-                'label'=>'Cantidad pagada:',
+                'label'=>'Cantidad a pagar:',
                 'constraints'=>array(new NotBlank())
             ))
 
