@@ -203,3 +203,7 @@ mycp_config_email:
 mycp_reservations_ag:
     resource: "@mycpBundle/Resources/config/routingBackendReservationsAg.yml"
     prefix:   backend/reservation_ag/
+
+mycp_override_user:
+    resource: "@mycpBundle/Resources/config/routingOverrideUser.yml"
+    prefix:   backend/override/

@@ -1,0 +1,16 @@
+mycp_list_override_user:
+    pattern:  /list/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendOverride:list, items_per_page: 100}
+
+mycp_add_override_user:
+    pattern:  /add
+    defaults: { _controller: mycpBundle:BackendOverride:add }
+
+mycp_edit_override_user:
+    pattern:  /edit/{overrideId}
+    defaults: { _controller: mycpBundle:BackendOverride:edit }
+
+mycp_delete_override_user:
+    pattern:  /delete/{overrideId}
+    defaults: { _controller: mycpBundle:BackendOverride:delete }
+

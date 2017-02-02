@@ -361,6 +361,13 @@ class userRepository extends EntityRepository {
             ->setMaxResults(1)
             ->getQuery()->getOneOrNullResult();
     }
-
+    /**
+     */
+    public function getUsers()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u FROM mycpBundle:user u");
+        return $query->getResult();
+    }
 
 }
