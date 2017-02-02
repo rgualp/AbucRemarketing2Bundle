@@ -1,5 +1,24 @@
 services:
 
+    ### Languaje
+    languaje_repository:
+        alias: languaje.repository.custom
+        public: true
+
+    languaje.repository.doctrine:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ MyCp\mycpBundle\Entity\lang ]
+        public: false
+
+    languaje.repository.custom:
+        class: MyCp\mycpBundle\Entity\langRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ MyCp\mycpBundle\Entity\lang ]
+        public: false
+
     ### Block
     block_repository:
         alias: block.repository.custom
