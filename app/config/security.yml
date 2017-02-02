@@ -179,6 +179,7 @@ security:
         - { path: ^/mycasa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/manual_download, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
 #        - { path: ^/casa, roles: IS_AUTHENTICATED_REMEMBERED}
         - { path: ^/casa, roles: IS_AUTHENTICATED_ANONYMOUSLY}
@@ -186,7 +187,7 @@ security:
        # - { path: ^/alojamiento/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento, roles: IS_AUTHENTICATED_REMEMBERED}
-        #[ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
+        #[ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA.] }
         - { path: '^/[a-z]{2}/user/cart', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/[a-z]{2}/user/confirmation', roles: [ROLE_CLIENT_TOURIST]}
         - { path: '^/[a-z]{2}/user/cart/add', roles: IS_AUTHENTICATED_ANONYMOUSLY }
