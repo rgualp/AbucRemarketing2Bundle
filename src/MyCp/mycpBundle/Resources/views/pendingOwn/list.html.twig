@@ -128,7 +128,7 @@
             <td>{{payment.registerDate | date ("d/m/Y")}}</td>
             <td>{{ payment.type.translations[0].nomLangDescription }}</td>
             <td style="text-align: right">
-                <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_ownership", {"id": payment.pendingId}) }}">Detalles</a>
+                <a rel="tooltip" title="Detalle de la cancelación" class="btn btn-mini" href="{{ path("mycp_details_payment_pending_ownership", {"id": payment.pendingId}) }}">Detalles</a>
                 <a class="btn btn-mini" href="{{ path("mycp_edit_payment_pending_ownership", {"id": payment.pendingId}) }}">Editar</a>
             </td>
         </tr>

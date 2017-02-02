@@ -1514,16 +1514,25 @@ class BackendReservationController extends Controller {
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
+
                         $price_tourist=$this->calculateTourist($reservations_ids);
+                        if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
+                            $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                        }
+                        else{
+                            $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                        }
+
+
                         //Se registra un Pago Pendiente a Turista
                         $pending_tourist=new pendingPaytourist();
                         $pending_tourist->setCancelId($obj);
-                        $pending_tourist->setPayAmount($price_tourist);
+                        $pending_tourist->setPayAmount($total_price);
                         $pending_tourist->setUserTourist($user_tourist);
                         $pending_tourist->setUser($this->getUser());
                         $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
-                        $date_pay = \MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+                        $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
                         $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
                         $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
 
@@ -1560,15 +1569,20 @@ class BackendReservationController extends Controller {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
 
                             $price_tourist=$this->calculateTourist($reservations_ids);
+                            if(count($booking->getBookingOwnReservations())==count($reservations_ids))
+                                $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                            else
+                                $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+
                             //Se registra un Pago Pendiente a Turista
                             $pending_tourist=new pendingPaytourist();
                             $pending_tourist->setCancelId($obj);
-                            $pending_tourist->setPayAmount($price_tourist);
+                            $pending_tourist->setPayAmount($total_price);
                             $pending_tourist->setUserTourist($user_tourist);
                             $pending_tourist->setUser($this->getUser());
                             $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
-                            $date_pay = \MyCp\mycpBundle\Helpers\Dates::createFromString($form_data['cancel_date'], '/', 1);
+                            $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
                             $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
                             $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
 
@@ -1678,16 +1692,11 @@ class BackendReservationController extends Controller {
                                     ));
                                    // $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
                                     $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
-
                                 }
-
                             }
-
                         }
-
                     }
                 }
-
                 //Change status reservations
                 if(count($reservations_ids)){
                     foreach($reservations_ids as $genResId){
@@ -1697,7 +1706,6 @@ class BackendReservationController extends Controller {
                         $obj->addOwnershipReservation($reservation);
                     }
                 }
-
                 //Set booking save relations
                 $obj->setBooking($booking);
                 //Set user save relations
@@ -1714,18 +1722,23 @@ class BackendReservationController extends Controller {
 
     /**
      * @param $reservations_ids
-     * @return int
+     * @return array
      */
     public function calculateTourist($reservations_ids){
         $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
         $price=0;
+        $fixed=0;
         if(count($reservations_ids)){
             foreach($reservations_ids as $genResId){
+                $ownershipReservation=$em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                $generalReservation = $ownershipReservation->getOwnResGenResId();
+                if($fixed==0)
+                    $fixed=$generalReservation->getServiceFee()->getFixedFee();
                 $price =$price+ $em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time);
             }
         }
-        return $price;
+        return array('price'=>$price,'fixed'=>$fixed);
 
     }
 
