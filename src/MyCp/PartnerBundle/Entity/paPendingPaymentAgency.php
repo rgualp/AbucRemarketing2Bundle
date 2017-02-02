@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * paPendingPaymentAccommodation
+ * paPendingPaymentAgency
  *
- * @ORM\Table(name="pa_pending_payment_accommodation")
- * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPendingPaymentAccommodationRepository")
+ * @ORM\Table(name="pa_pending_payment_agency")
+ * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPendingPaymentAgencyRepository")
  */
-class paPendingPaymentAccommodation
+class paPendingPaymentAgency
 {
     /**
      * @var integer
@@ -23,22 +23,10 @@ class paPendingPaymentAccommodation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\booking")
-     * @ORM\JoinColumn(name="booking", referencedColumnName="booking_id", nullable=false)
-     */
-    private $booking;
-
-    /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\generalReservation")
      * @ORM\JoinColumn(name="reservation", referencedColumnName="gen_res_id", nullable=false)
      */
     private $reservation;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\ownership")
-     * @ORM\JoinColumn(name="accommodation", referencedColumnName="own_id", nullable=true)
-     */
-    private $accommodation;
 
     /**
      * @ORM\ManyToOne(targetEntity="paTravelAgency")
@@ -82,19 +70,6 @@ class paPendingPaymentAccommodation
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\user")
-     * @ORM\JoinColumn(name="user", referencedColumnName="user_id", nullable=true)
-     */
-    private $user;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="register_date", type="datetime", nullable=true)
-     */
-    private $register_date;
-
-    /**
      * @return int
      */
     public function getId()
@@ -135,24 +110,6 @@ class paPendingPaymentAccommodation
     public function setAmount($amount)
     {
         $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBooking()
-    {
-        return $this->booking;
-    }
-
-    /**
-     * @param mixed $booking
-     * @return mixed
-     */
-    public function setBooking($booking)
-    {
-        $this->booking = $booking;
         return $this;
     }
 
@@ -243,60 +200,6 @@ class paPendingPaymentAccommodation
     public function setType($type)
     {
         $this->type = $type;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getRegisterDate()
-    {
-        return $this->register_date;
-    }
-
-    /**
-     * @param \DateTime $register_date
-     * @return mixed
-     */
-    public function setRegisterDate($register_date)
-    {
-        $this->register_date = $register_date;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     * @return mixed
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccommodation()
-    {
-        return $this->accommodation;
-    }
-
-    /**
-     * @param mixed $accommodation
-     * @return mixed
-     */
-    public function setAccommodation($accommodation)
-    {
-        $this->accommodation = $accommodation;
         return $this;
     }
 

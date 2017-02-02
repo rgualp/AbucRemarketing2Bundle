@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+     table td{ padding:3px;}
+     tr.content td{font-size: 12px;}
+    </style>
+</head>
+<body style="font-family: Arial; font-size: 15px">
+Hola:<br/><br/>
+La Agencia {{ travelAgency.name }} ha cancelado las siguientes reservas:
+
+<ul>
+{% for reservation in reservations %}
+    <li>CAS.{{ reservation["reservation"].genResId }}: {{ reservation["reservation"].genResOwnId.ownMcpCode }} - {{ reservation["reservation"].genResOwnId.ownName }}</li>
+{% endfor %}
+</ul>
+
+pagadas con el/los bookings:
+{% for booking in bookings %}
+{% if loop.index0 > 0 %}, {% endif %} {{ booking }}
+{% endfor %}
+
+El monto a devolver es de <b>{{ refund }}</b> CUC.
+
+<br/>
+Saludos
+</body>
+</html>

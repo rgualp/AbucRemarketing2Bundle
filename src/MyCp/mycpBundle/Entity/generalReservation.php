@@ -907,4 +907,15 @@ class generalReservation {
     {
         return $this->notifications;
     }
+
+    public function getFirstBookingWithPayment()
+    {
+        foreach($this->getOwn_reservations() as $resevation)
+        {
+            if($resevation->getOwnResReservationBooking() != null && count($resevation->getOwnResReservationBooking()->getPayments()))
+                return $resevation->getOwnResReservationBooking();
+        }
+
+        return null;
+    }
 }
