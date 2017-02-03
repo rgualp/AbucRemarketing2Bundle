@@ -89,10 +89,11 @@
                     <th>Devolver al turista</th>
                     <th>Motivo</th>
                     <th>Fecha de cancelación</th>
-                    <th>Usuario STAFF que realizó la cancelación</th>
+                    <th>Cacelada por</th>
                 </tr>
                 </thead>
                 <tbody>
+                {% if cancel_payment | length==0%}<tr><p> <div class="alert alert-block">No hay cancelaciones disponibles.</div></p></tr>{% endif %}
                 {% for item in cancel_payment %}
                     <tr>
                         <td>{{ item.cancelId }}</td>

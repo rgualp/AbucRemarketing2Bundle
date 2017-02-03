@@ -725,7 +725,7 @@ limit 1
      * @param $timerService
      * @return int
      */
-    function cancelReservationByTourist($ownershipReservation, $timerService){
+    function cancelReservationByTourist($ownershipReservation, $timerService,$sum_tax){
         $em = $this->getEntityManager();
         $generalReservation = $ownershipReservation->getOwnResGenResId();
 
@@ -744,7 +744,10 @@ limit 1
         $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
 
         if($totalDiffDays > 7){
-            $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;
+            if($sum_tax)
+                $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;
+            else
+                $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission);
         }
         return $refundTotal;
     }
