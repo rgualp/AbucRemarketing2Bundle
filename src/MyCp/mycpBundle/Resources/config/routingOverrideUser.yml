@@ -7,10 +7,10 @@ mycp_add_override_user:
     defaults: { _controller: mycpBundle:BackendOverride:add }
 
 mycp_edit_override_user:
-    pattern:  /edit/{overrideId}
+    pattern:  /edit/{id}
     defaults: { _controller: mycpBundle:BackendOverride:edit }
 
 mycp_delete_override_user:
-    pattern:  /delete/{overrideId}
+    pattern:  /delete/{id}
     defaults: { _controller: mycpBundle:BackendOverride:delete }
 

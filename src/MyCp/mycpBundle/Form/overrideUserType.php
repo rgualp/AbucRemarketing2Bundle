@@ -6,29 +6,36 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Doctrine\ORM\EntityRepository;
+
 
 class overrideUserType extends AbstractType {
 
-    private $data;
-
-    public function __construct($data) {
-        $this->data = $data;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $users = array();
-        foreach ($this->data['users'] as $user) {
-            $users[$user->getUserId()] = $user->getUserCompleteName().' - '.$user->getUserEmail();
-        }
 
         $builder
-                ->add('override_by', 'choice', array('empty_value' => '', 'choices' => $users,
-                    'label' => 'Usuario:',
-                    'constraints' => array(new NotBlank())
+            /*->add('override_by', 'entity', array(
+                    'label' => 'Tipo de Cancelación:',
+                    'class' => 'MyCp\mycpBundle\Entity\user',
+                    'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('d')->orderBy('d.user_name', 'ASC');
+                        },
+                    'empty_data'  => null,
+                    'empty_value' => "",
+                    'property' => 'user_name',
+                    'required' => true,
+                    'multiple' => false
+                ))*/
+            ->add('override_by','text',array(
+                    'label'=>'Usuario que suplanta:'
                 ))
-            ->add('override_to', 'choice', array('empty_value' => '', 'choices' => $users,
-                    'label' => 'Suplanta a:',
-                    'constraints' => array(new NotBlank())
+            ->add('override_to','text',array(
+                    'label'=>'Usuario a suplantado:'
+                ))
+            ->add('reason','textarea',array(
+                    'label'=>'Motivos:',
+                    'attr'=>array('class'=>'textarea', "style" => "width: 80%")
                 ))
         ;
     }

@@ -3,18 +3,19 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li class="active">Listas de correo</li>
+    <li class="active">Listado de suplantación de usuario</li>
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Listas de correo</h2>
+<h2>Listado de suplantación de usuario</h2>
 <hr/>
-<a class="btn" href="{{path('mycp_add_mail_list')}}"><i class="icon-plus"></i> Adicionar lista</a>&nbsp;
+<a class="btn" href="{{path('mycp_add_override_user')}}"><i class="icon-plus"></i> Adicionar suplantación</a>&nbsp;
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
-{% if list %}
+
+    {% if list %}
 <div class="alert">
     <div class="row-fluid">
         <div class="pull-left">

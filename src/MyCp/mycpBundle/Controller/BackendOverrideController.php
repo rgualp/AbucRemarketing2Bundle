@@ -26,11 +26,7 @@ class BackendOverrideController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $items = $paginator->paginate($em->getRepository('mycpBundle:overrideuser')->getAll())->getResult();
 
-        $data = array();
-        $overrideUser = new overrideuser();
-        //$data["users"] = $em->getRepository("mycpBundle:user")->findAll();
 
-        //$form = $this->createForm(new overrideUserType($data), $overrideUser);
         return $this->render('mycpBundle:overrideUser:list.html.twig', array(
                     'list' => $items,
                     'items_per_page' => $items_per_page,
@@ -38,7 +34,30 @@ class BackendOverrideController extends Controller {
                     'total_items' => $paginator->getTotalItems()
         ));
     }
-    public function addAction(){}
+    public function addAction(Request $request){
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $overrideUser = new overrideuser();
+        $form = $this->createForm(new overrideUserType(), $overrideUser);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->persist($overrideUser);
+                $em->flush();
+
+                $message = 'Suplantación realizada satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                return $this->redirect($this->generateUrl('mycp_list_override_user'));
+            }
+        }
+        return $this->render('mycpBundle:overrideUser:new.html.twig', array(
+                'form' => $form->createView(),
+            ));
+    }
     public function editAction(){}
     public function deleteAction(){}
 

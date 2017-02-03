@@ -22,19 +22,19 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>{% if edit is defined %}Editar {% else %}Adicionar {% endif %}lista de correo</h2>
+<h2>{% if edit is defined %}Editar {% else %}Adicionar {% endif %}suplantación de usuario</h2>
 <hr/>
-<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit is defined %}{{path('mycp_edit_mail_list',{'listId': listId})}}{% else %}{{path('mycp_add_mail_list')}}{% endif %}" novalidate="true">
-<div class="row-fluid">
-    <div class="span4">
-        {{form_row(form.mail_list_name)}}
-        {{form_row(form.mail_list_function)}}
-        {{form_rest(form)}}
-    </div>
-</div>
+<form action="{% if edit_override is defined %}{{ path('mycp_edit_override_user', {'id': edit_override})}}{% else %}{{ path('mycp_add_override_user')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
+    {% if edit_override is defined %}<input style="display: none;" name="edit_override" value="{{edit_override}}"> {% endif %}
+
+    {{form_widget(form)}}
 {% endblock %}
 {% block javascripts %}
     {% javascripts
+    '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
     '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
     filter='?uglifyjs2'
     %}
@@ -42,8 +42,9 @@
     {% endjavascripts %}
     {%if edit is defined%}
         <script>
+            $('.textarea').wysihtml5();
             $(document).ready(function() {
-                $(".functionList").attr("disabled", "disabled");
+
             });
         </script>
     {%endif%}
