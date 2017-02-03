@@ -15,18 +15,7 @@ class overrideUserType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder
-            /*->add('override_by', 'entity', array(
-                    'label' => 'Tipo de Cancelación:',
-                    'class' => 'MyCp\mycpBundle\Entity\user',
-                    'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('d')->orderBy('d.user_name', 'ASC');
-                        },
-                    'empty_data'  => null,
-                    'empty_value' => "",
-                    'property' => 'user_name',
-                    'required' => true,
-                    'multiple' => false
-                ))*/
+
             ->add('override_by','text',array(
                     'label'=>'Usuario que suplanta:'
                 ))
@@ -35,7 +24,7 @@ class overrideUserType extends AbstractType {
                 ))
             ->add('reason','textarea',array(
                     'label'=>'Motivos:',
-                    'attr'=>array('class'=>'textarea', "style" => "width: 80%")
+                    'attr'=>array('class'=>'textarea', "style" => "width: 83%")
                 ))
         ;
     }

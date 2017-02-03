@@ -6,14 +6,17 @@ use MyCp\mycpBundle\Helpers\RedirectCode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\overrideuser;
-use MyCp\mycpBundle\Helpers\BackendModuleName;
-use \MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Form\overrideUserType;
 
 class BackendOverrideController extends Controller {
 
+    /**
+     * @param $items_per_page
+     * @param Request $request
+     * @return Response
+     */
     function listAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
@@ -34,6 +37,11 @@ class BackendOverrideController extends Controller {
                     'total_items' => $paginator->getTotalItems()
         ));
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function addAction(Request $request){
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
@@ -58,9 +66,26 @@ class BackendOverrideController extends Controller {
                 'form' => $form->createView(),
             ));
     }
-    public function editAction(){}
     public function deleteAction(){}
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function findAction(Request $request){
+        $name = $request->get('name');
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $item = $em->getRepository('mycpBundle:user')->findBy(array('user_name' => $name));
+        if(count($item))
+            return new JsonResponse(['success' => true, 'iduser' =>$item[0]->getUserId(),'name'=> $item[0]->getUserUserName() . ' ' . $item[0]->getUserLastName(),'email'=>$item[0]->getUserEmail()]);
+
+        else
+            return new JsonResponse(['success' => false, 'iduser' =>'','name'=> '','email'=>'']);
+
+
+    }
     public function suplantarAction(){
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find(26);
