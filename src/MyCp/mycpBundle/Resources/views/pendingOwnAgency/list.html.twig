@@ -96,7 +96,7 @@
                             <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_payments_agency_pending_ownership') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                         </div>
                         <div class="span4">
-                            <a {% if list | length > 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_payment_pending_ownership',{'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                            <a {% if list | length == 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_payments_agency_pending_ownership',{'filter_number':filter_number, 'filter_code': filter_code,'filter_method': filter_method, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to, 'filter_agency': filter_agency, 'filter_booking': filter_booking, 'filter_destination': filter_destination, 'filter_type': filter_type, 'filter_reservation_date_from': filter_reservation_date_from, 'filter_reservation_date_to': filter_reservation_date_to})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                         </div>
                     </div>
                 </div>

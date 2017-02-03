@@ -254,9 +254,9 @@ class BackendPendingPayOwnController extends Controller {
     }
 
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
+ * @param Request $request
+ * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+ */
     public function exportAction(Request $request) {
         try {
             $service_security = $this->get('Secure');
@@ -288,5 +288,48 @@ class BackendPendingPayOwnController extends Controller {
 
             return $this->redirect($this->generateUrl("mycp_list_payments_pending_ownership"));
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function exportAgencyAction(Request $request) {
+       /* try {*/
+            /*$service_security = $this->get('Secure');
+            $service_security->verifyAccess();*/
+            $em = $this->getDoctrine()->getManager();
+
+            $filter_number = $request->get('filter_number');
+            $filter_code = $request->get('filter_code');
+            $filter_method = $request->get('filter_method');
+            $filter_payment_date_from = $request->get('filter_payment_date_from');
+            $filter_payment_date_to = $request->get('filter_payment_date_to');
+            $filter_agency = $request->get('filter_agency');
+            $filter_booking = $request->get("filter_booking");
+            $filter_destination = $request->get("filter_destination");
+            $filter_type = $request->get("filter_type");
+            $filter_reservation_date_from = $request->get("filter_reservation_date_from");
+            $filter_reservation_date_to = $request->get("filter_reservation_date_to");
+
+            $items = $em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to, $filter_agency, $filter_booking, $filter_destination, $filter_type, $filter_reservation_date_from, $filter_reservation_date_to)->getResult();
+
+            $date = new \DateTime();
+            if(count($items)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportPendingAccommodationAgencyPayment($items, $date);
+            }
+            else {
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_payments_agency_pending_ownership"));
+            }
+       /* }
+       /* catch (\Exception $e) {
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_payments_agency_pending_ownership"));
+        }*/
     }
 }

@@ -1721,8 +1721,6 @@ ORDER BY own.own_mcp_code ASC
         }
     }
 
-
-
     /**
      * @param $items
      * @param $startingDate
@@ -1744,6 +1742,210 @@ ORDER BY own.own_mcp_code ASC
             return $this->export($fileName);
         }
     }
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportPendingAccommodationAgencyPayment($items, $startingDate, $fileName = "pagos") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de pagos pendientes a propietarios por reservas de agencias", "Listado de pagos pendientes a propietarios por reservas de agencias", "pagos");
+
+            $data = $this->dataForPendingAccommodationAgencyPayment($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForPendingAccommodationAgencyPayment($excel, "Pagos", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForPendingAccommodationAgencyPayment($excel,$items) {
+        $results = array();
+        $timer = $this->get("Time");
+
+        foreach ($items as $item) {
+            $data = array();
+
+            //Alojamiento
+            $accommodation = $item->getAccommodation();
+
+            //Código de la Casa
+            $data[] = $accommodation->getOwnMcpCode();
+            //Nombre de la casa
+            $data[] = $accommodation->getOwnName();
+            //Destino
+            $data[] = $accommodation->getOwnDestination()->getDesName();
+
+            //Dirección
+            $data[] = "Calle ". $accommodation->getOwnAddressStreet()." No.".$accommodation->getOwnAddressNumber().(($accommodation->getOwnAddressBetweenStreet1() != "" && $accommodation->getOwnAddressBetweenStreet2() != "") ? " entre ".$accommodation->getOwnAddressBetweenStreet1()." y ".$accommodation->getOwnAddressBetweenStreet2() : "");
+
+            //Propietario
+            $data[] = $accommodation->getOwnHomeowner1().(($accommodation->getOwnHomeowner2() != "")? " / ". $accommodation->getOwnHomeowner2() : "");
+
+            //Teléfonos
+            $data[] = (($accommodation->getOwnPhoneNumber() != "")?"(+53) ".$accommodation->getOwnPhoneCode(). " ".$accommodation->getOwnPhoneNumber() : "").(($accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnPhoneNumber() != "") ? " / ": "").(($accommodation->getOwnMobileNumber() != "") ? $accommodation->getOwnMobileNumber(): "");
+
+            //Correos
+            $data[] = $accommodation->getOwnEmail1().(($accommodation->getOwnEmail2() != "")? " / ". $accommodation->getOwnEmail2() : "");
+
+            //Reserva
+            $reservation = $item->getReservation();
+
+            //CAS
+            $data[] = $reservation->getGenResId();
+
+            //Llegada
+            $data[] = $reservation->getGenResFromDate()->format("d/m/Y");
+
+            $nights = 0;
+            $roomNumbers = "";
+            $roomTypes = "";
+            $roomPriceFirstNight = "";
+
+            $reservedRooms = $this->em->getRepository("mycpBundle:ownershipReservation")->findBy(array(
+                "own_res_gen_res_id" => $reservation->getGenResId(),
+                "own_res_status" => ownershipReservation::STATUS_RESERVED
+            ));
+
+            foreach($reservedRooms as $roomReservation)
+            {
+                $currentNight = $timer->nights($roomReservation->getOwnResReservationFromDate()->getTimestamp(), $roomReservation->getOwnResReservationToDate()->getTimestamp());
+                $nights += $currentNight;
+
+                $room = $this->em->getRepository("mycpBundle:room")->find($roomReservation->getOwnResSelectedRoomId());
+
+                $roomNumbers = $roomNumbers . "Habitación No.". $room->getRoomNum() . "\n";
+                $roomTypes = $roomTypes . $roomReservation->getOwnResRoomType() . "\n";
+                $roomPriceFirstNight = $roomPriceFirstNight . $roomReservation->getOwnResTotalInSite() / $currentNight . " CUC \n";
+            }
+
+            //Noches
+            $data[] = $nights;
+
+            //Número Habitaciones
+            $data[] = trim($roomNumbers, "\n");
+
+            //Tipos Habitaciones
+            $data[] = trim($roomTypes, "\n");
+
+            //Precio primera noche
+            $data[] = trim($roomPriceFirstNight, "\n");
+
+            //Booking
+            $booking = $item->getBooking();
+
+            //Id booking
+            $data[] = $booking->getBookingId();
+
+            //Fecha del booking
+            $data[] = $item->getCreatedDate()->format("d/m/Y");
+
+            //Nombre agencia
+            $data[] = $item->getAgency()->getName();
+
+            $agencyReservation = $this->em->getRepository("PartnerBundle:paReservationDetail")->findOneBy(array("reservationDetail" => $reservation->getGenResId()));
+
+            //Nombre del cliente
+            $data[] = $agencyReservation->getReservation()->getClient()->getFullName();
+
+            //Pago
+            //Fecha del pago
+            $data[] = $item->getPayDate()->format("d/m/Y");
+
+            //Monto a la casa
+            $data[] = $item->getAmount()." CUC";
+
+            //Tipo
+            $data[] = $item->getType()->getTranslations()[0]->getNomLangDescription();
+
+            //Estado: (Pendiente/En proceso/Pagado
+            $data[] = $item->getStatus()->getTranslations()[0]->getNomLangDescription();
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForPendingAccommodationAgencyPayment($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de pagos pendientes a propietarios  por reservas de agencias");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Código');
+        $sheet->setCellValue('b5', 'Nombre alojamiento');
+        $sheet->setCellValue('c5', 'Destino');
+        $sheet->setCellValue('d5', 'Dirección');
+        $sheet->setCellValue('e5', 'Propietarios');
+        $sheet->setCellValue('f5', 'Teléfonos');
+        $sheet->setCellValue('g5', 'Correos');
+        $sheet->setCellValue('h5', 'CAS');
+        $sheet->setCellValue('i5', 'Fecha llegada');
+        $sheet->setCellValue('j5', 'Noches');
+        $sheet->setCellValue('k5', 'Número habitación');
+        $sheet->setCellValue('l5', 'Tipo habitación');
+        $sheet->setCellValue('m5', 'Precio/noche');
+        $sheet->setCellValue('n5', 'Id booking');
+        $sheet->setCellValue('o5', 'Fecha booking');
+        $sheet->setCellValue('p5', 'Agencia');
+        $sheet->setCellValue('q5', 'Cliente');
+        $sheet->setCellValue('r5', 'A pagar');
+        $sheet->setCellValue('s5', 'Monto a pagar');
+        $sheet->setCellValue('t5', 'Tipo');
+        $sheet->setCellValue('u5', 'Estado');
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:U1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:U5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "u", $sheet);
+
+        $sheet->setAutoFilter("A5:U".(count($data)+5));
+        $sheet->getStyle("A5:U".(count($data)+5))
+              ->getAlignment()
+              ->setWrapText(true);
+
+        return $excel;
+    }
+
     /**
      * @param $items
      * @param $startingDate
