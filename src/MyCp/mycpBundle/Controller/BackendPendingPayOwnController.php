@@ -140,6 +140,20 @@ class BackendPendingPayOwnController extends Controller {
     /**
      * @param $id
      * @param Request $request
+     * @return mixed
+     */
+    public function detailAgencyAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->find($id);
+
+        return $this->render('mycpBundle:pendingOwnAgency:detail.html.twig', array(
+            'payment'=>$payment
+        ));
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     function editAction($id, Request $request) {

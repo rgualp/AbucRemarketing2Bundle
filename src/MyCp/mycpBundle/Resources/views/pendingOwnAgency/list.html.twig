@@ -173,7 +173,7 @@
             <td>{{payment.createdDate | date ("d/m/Y")}}</td>
             <td style="text-align: right">
                 {% if payment.status.nomName == "pendingPayment_process_status" or payment.status.nomName == "pendingPayment_payed_status" %}
-                    <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_ownership", {"id": payment.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-mini" href="{{ path("mycp_details_paymen_agency_pending_ownership", {"id": payment.id}) }}"><i class="fa fa-eye"></i></a>
                 {% endif %}
                 {% if payment.status.nomName == "pendingPayment_pending_status" or payment.status.nomName == "pendingPayment_process_status" %}
                     <a class="btn btn-mini btn-info" href="{{ path("mycp_edit_payment_agency_pending_ownership", {"id": payment.id}) }}"><i class="fa fa-edit"></i></a>
