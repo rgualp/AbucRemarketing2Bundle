@@ -1569,7 +1569,13 @@ class BackendReservationController extends Controller {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
 
                             $price_tourist=$this->calculateTourist($reservations_ids,false);
-                            $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+
+                            if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
+                                $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                            }
+                            else{
+                                $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                            }
 
                             //Se registra un Pago Pendiente a Turista
                             $pending_tourist=new pendingPaytourist();
