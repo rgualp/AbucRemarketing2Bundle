@@ -13,3 +13,7 @@ mycp_delete_override_user:
 mycp_find_user:
     pattern:  /find
     defaults: { _controller: mycpBundle:BackendOverride:find }
+
+mycp_override_user:
+    pattern:  /override
+    defaults: { _controller: mycpBundle:BackendOverride:override }

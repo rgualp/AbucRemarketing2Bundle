@@ -25,7 +25,7 @@
     <li class="pull-right"><a href="{{ path('mycp_list_mail_list') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-success" type="submit">Guardar</button>
+    <button class="btn btn-success" id="btn_save">Guardar</button>
     <a class="btn" href="{{ path('mycp_list_mail_list') }}">Cancelar</a>
 </div>
 </form>
@@ -93,16 +93,29 @@
             var idOverrideBy='';
             var idOverrideTo='';
             $('#find_user_by').click(function () {
-                find_user($('#user_name_by').val(),$('#label_name_by'),$('#label_email_by'));
+                find_user($('#user_name_by').val(),$('#label_name_by'),$('#label_email_by'),idOverrideBy);
             });
             $('#find_user_to').click(function () {
-                find_user($('#user_name_to').val(),$('#label_name_to'),$('#label_email_to'));
+                find_user($('#user_name_to').val(),$('#label_name_to'),$('#label_email_to'),idOverrideTo);
+            });
+            $('#btn_save').click(function () {
+                HoldOn.open();
+                $.ajax({
+                    type:"POST",
+                    url:"{{ path('mycp_override_user') }}",
+                    data:{'idOverrideBy':idOverrideBy,'idOverrideTo':idOverrideTo},
+                    success:function (response) {
+                        HoldOn.close();
+                        if(response.success){
+                        }
+                    }
+                });
             });
             /**
              *
              * @param name
              */
-            function find_user(name,lbName,lbEmail){
+            function find_user(name,lbName,lbEmail,id){
                 if(name!=''){
                     HoldOn.open();
                     $.ajax({
@@ -113,7 +126,7 @@
                             HoldOn.close();
                             if(response.success){
                                 lbName.text(response.name);
-                                idOverrideBy=response.iduser;
+                                id=response.iduser;
                             }
                         }
                     });

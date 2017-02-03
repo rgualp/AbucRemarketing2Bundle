@@ -86,7 +86,13 @@ class BackendOverrideController extends Controller {
 
 
     }
-    public function suplantarAction(){
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function overrideAction(Request $request){
+        print_r(1);die;
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find(26);
         $user->setUserPassword($this->getUser()->getUserPassword());
