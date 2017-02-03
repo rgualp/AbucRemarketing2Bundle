@@ -23,10 +23,9 @@ class paPendingPaymentAgencyRepository extends EntityRepository {
             ->join("op.status", "status")
             ->join("op.type", "type")
             ->join("op.reservation", "reservation")
-            ->join("resevation.own_reservations", "roomReservation")
-            ->leftJoin("roomReservation.own_res_reservation_booking", "booking")
+            ->leftJoin("op.booking", "booking")
             ->join("reservation.gen_res_own_id", "accommodation")
-            ->leftJoin("accommodation.ownDestination", "destination")
+            ->leftJoin("accommodation.own_destination", "destination")
             ->orderBy("op.id", "DESC")
             ->orderBy("op.pay_date", "DESC");
 

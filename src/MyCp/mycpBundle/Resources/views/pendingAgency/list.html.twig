@@ -14,11 +14,11 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
-    <li class="active">Pagos pendientes a turistas</li>
+    <li class="active">Pagos pendientes a agencias</li>
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Pagos pendientes a turistas</h2>
+<h2>Pagos pendientes a agencias</h2>
 <hr/>
     <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-toggle="tab" href="#payments">Pagos</a></li>
@@ -136,8 +136,9 @@
             <th>Alojamiento</th>
             <th>Destino</th>
             <th>CAS</th>
+            <th>Booking</th>
             <th>Estado</th>
-            <th>Turistas</th>
+            <th>Fecha Creación</th>
             <th style="text-align: right">Acciones</th>
         </tr>
         </thead>
@@ -153,11 +154,12 @@
             <td>{{ payment.reservation.genResOwnId.ownMcpCode }}</td>
             <td>{{ payment.reservation.genResOwnId.ownDestination.desName }}</td>
             <td>CAS.{{ payment.reservation.genResId }}</td>
+            <td>{{ payment.booking.bookin_id }}</td>
             <td>{{ payment.status.translations[0].nomLangDescription }}</td>
-            <td>{{ payment.userTourist.userTouristUser.userUserName }} {{ payment.userTourist.userTouristUser.userLastName }}</td>
+            <td>{{ payment.createdDate | date("d/m/Y")}}</td>
             <td style="text-align: right">
-                <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_agency", {"id": payment.pendingId}) }}">Detalles</a>
-                <a class="btn btn-mini" href="{{ path("mycp_edit_payment_pending_agency", {"id": payment.pendingId}) }}">Editar</a>
+                <a class="btn btn-mini" href="{{ path("mycp_details_payment_pending_agency", {"id": payment.id}) }}">Detalles</a>
+                <a class="btn btn-mini" href="{{ path("mycp_edit_payment_pending_agency", {"id": payment.id}) }}">Editar</a>
             </td>
         </tr>
         {% endfor %}

@@ -16,5 +16,5 @@ mycp_save_payment_pending_agency:
     defaults: { _controller: mycpBundle:BackendPendingPaymentAgency:save }
 
 mycp_export_list_payment_pending_agency:
-    pattern:  /export/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}/{filter_payment_date_to}/{filter_type}/{filter_destination}/{filter_booking}/{filter_accommodation}/{filter_reservation}
+    pattern:  /export/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}/{filter_type}/{filter_destination}/{filter_booking}/{filter_accommodation}/{filter_reservation}
     defaults: { _controller: mycpBundle:BackendPendingPaymentAgency:export,filter_number:'',filter_code:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:'', filter_type:'', filter_destination:'', filter_booking:'', filter_accommodation:'', filter_reservation:''}
