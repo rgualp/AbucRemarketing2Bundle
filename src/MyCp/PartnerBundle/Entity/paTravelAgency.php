@@ -101,6 +101,13 @@ class paTravelAgency extends baseEntity
      */
     private $tourOperators;
 
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="commission", type="decimal", precision=2)
+     */
+    private $commission;
+
 
     public function __construct() {
         parent::__construct();
@@ -435,4 +442,24 @@ class paTravelAgency extends baseEntity
         $this->tourOperators = $tourOperators;
         return $this;
     }
+
+    /**
+     * @return decimal
+     */
+    public function getCommission()
+    {
+        return $this->commission;
+    }
+
+    /**
+     * @param decimal $commission
+     * @return mixed
+     */
+    public function setCommission($commission)
+    {
+        $this->commission = $commission;
+        return $this;
+    }
+
+
 }

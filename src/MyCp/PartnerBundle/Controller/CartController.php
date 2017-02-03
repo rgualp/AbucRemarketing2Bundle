@@ -167,6 +167,10 @@ class CartController extends Controller
         $ownReservationIds = $request->get("checkValues");
         $timer = $this->get("Time");
         $user = $this->getUser();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+        $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
+        $completePayment = $agencyPackage->getPackage()->getCompletePayment();
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
         $payments = array();
@@ -175,6 +179,10 @@ class CartController extends Controller
         $totalAccommodationPayment = 0;
         $totalServicesTax = 0;
         $totalPercentAccommodationPrepayment = 0;
+        $totalAgencyCommission = 0;
+        $totalOnlinePayment = 0;
+
+        $totalTransferFee = 0;
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $fixedFee = $currentServiceFee->getFixedFee();
@@ -186,61 +194,127 @@ class CartController extends Controller
 
             $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
 
-            $totalAccommodationPayment += $item["totalInSite"];
-            $totalServicesTax += $touristFee;
-            $totalPercentAccommodationPrepayment += $commission;
+            if(!$completePayment) {
+                $totalPrepayment += $commission + $touristFee;
+                $totalAccommodationPayment += $item["totalInSite"];
+                $totalServicesTax += $touristFee;
+                $totalPercentAccommodationPrepayment += $commission;
 
-            $totalPrepayment += $commission + $touristFee;
+                $payments[$item["gen_res_id"]] = array(
+                    "totalPayment" => $item["totalInSite"] + $touristFee,
+                    "totalPrepayment" => $commission + $touristFee,
+                    "payAtAccommodation" => $item["totalInSite"] - $commission,
+                    "touristFee" => $touristFee,
+                    "commission" => $commission,
+                    "commissionPercent" => $item["commission"],
+                    "reservations" => $reservations,
+                    "lodgingPrice" => $item["totalInSite"],
+                    "fixedFee" => $fixedFee,
+                    "taxFees" => $touristFee + $fixedFee
+                );
+            }
+            else{
+                $transferFee = 0.1 * ($item["totalInSite"] + $touristFee);
+                $agencyCommission = ($item["totalInSite"] + $touristFee) * $currentTravelAgency->getCommission() / 100;
+                $totalPayment = ($item["totalInSite"] + $touristFee) * 1.1;
 
-            $payments[$item["gen_res_id"]] = array(
-                "totalPayment" => $item["totalInSite"] + $touristFee,
-                "totalPrepayment" => $commission + $touristFee,
-                "payAtAccommodation" => $item["totalInSite"] - $commission,
-                "touristFee" => $touristFee,
-                "commission" => $commission,
-                "commissionPercent" => $item["commission"],
-                "reservations" => $reservations,
-                "lodgingPrice" => $item["totalInSite"],
-                "fixedFee" => $fixedFee,
-                "taxFees" => $touristFee + $fixedFee
-            );
+                $totalOnlinePayment += $totalPayment - $agencyCommission;
+
+                $totalPrepayment += $totalPayment;
+
+                $totalAccommodationPayment += $item["totalInSite"];
+                $totalServicesTax += $touristFee + $transferFee;
+
+                $totalTransferFee += $transferFee;
+                $totalAgencyCommission += $agencyCommission;
+
+                $payments[$item["gen_res_id"]] = array(
+                    "totalPayment" => $totalPayment,
+                    "transferFee" => $transferFee,
+                    "agencyCommission" => $agencyCommission,
+                    "onlinePayment" => $totalPayment -  $agencyCommission,
+                    "agencyFee" => $touristFee,
+                    "reservations" => $reservations,
+                    "lodgingPrice" => $item["totalInSite"],
+                    "agencyCommissionPercent" => $currentTravelAgency->getCommission(),
+                    "fixedFee" => $fixedFee,
+                    "taxFees" => $touristFee + $transferFee
+                );
+            }
         }
 
-        $totalPrepayment += $currentServiceFee->getFixedFee();
+        if(!$completePayment)
+            $totalPrepayment += $currentServiceFee->getFixedFee();
+        else
+        {
+            $totalPrepayment += 1.1*$currentServiceFee->getFixedFee();
+            $totalOnlinePayment += 1.1*$currentServiceFee->getFixedFee();
+        }
 
         $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
             'items' => $list,
-            'payments' => $payments
+            'payments' => $payments,
+            'completePayment' => $completePayment
         ));
 
-        return new JsonResponse([
-            'success' => true,
-            'html' => $response,
-            'message' => "",
-            'totalPrepayment' => $totalPrepayment,
-            'totalPrepaymentTxt' => number_format($totalPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
-            'totalAccommodationPayment' => $totalAccommodationPayment,
-            'totalAccommodationPaymentTxt' => number_format($totalAccommodationPayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
-            'totalServiceTaxPayment' => $totalServicesTax,
-            'totalServiceTaxPaymentTxt' => number_format($totalServicesTax * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
-            'fixedTax' => $fixedFee,
-            'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
-            'totalPayment' => $totalAccommodationPayment + $totalServicesTax + $fixedFee,
-            'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax + $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
-            'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
-            'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol(),
-            'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
-            'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2)." ".$user->getUserCurrency()->getCurrSymbol()
+        //$totalPayAtAccommodation = ($completePayment) ? $totalAccommodationPayment : $totalAccommodationPayment - $totalPercentAccommodationPrepayment;
+        if(!$completePayment) {
+            return new JsonResponse([
+                'success' => true,
+                'html' => $response,
+                'message' => "",
+                'completePayment' => $completePayment,
+                'totalPrepayment' => $totalPrepayment,
+                'totalPrepaymentTxt' => number_format($totalPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalAccommodationPayment' => $totalAccommodationPayment,
+                'totalAccommodationPaymentTxt' => number_format($totalAccommodationPayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalServiceTaxPayment' => $totalServicesTax,
+                'totalServiceTaxPaymentTxt' => number_format($totalServicesTax * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'fixedTax' => $fixedFee,
+                'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalPayment' => $totalAccommodationPayment + $totalServicesTax + $fixedFee,
+                'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax + $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
+                'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
+                'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol()
 
-        ]);
+            ]);
+        }
+        else {
+            return new JsonResponse([
+                'success' => true,
+                'html' => $response,
+                'message' => "",
+                'completePayment' => $completePayment,
+                'totalPrepayment' => $totalOnlinePayment,
+                'totalPrepaymentTxt' => number_format($totalOnlinePayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalAccommodationPayment' => $totalAccommodationPayment,
+                'totalAccommodationPaymentTxt' => number_format($totalAccommodationPayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalServiceTaxPayment' => $totalServicesTax + 1.1 * $fixedFee,
+                'totalServiceTaxPaymentTxt' => number_format(($totalServicesTax + 1.1 * $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'fixedTax' => $fixedFee,
+                'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalPayment' => $totalPrepayment,
+                'totalPaymentTxt' => number_format(($totalPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalTransferFeePayment' => $totalTransferFee,
+                'totalTransferFeePaymentTxt' => number_format(($totalTransferFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalAgencyCommission' => $totalAgencyCommission,
+                'totalAgencyCommissionTxt' => number_format($totalAgencyCommission * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol()
+
+            ]);
+        }
+
     }
 
     public function payNowAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        /*$user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $travelAgency = $tourOperator->getTravelAgency();*/
+        $user = $this->getUser();
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+        $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
+        $completePayment = $agencyPackage->getPackage()->getCompletePayment();
 
         $roomsToPay = $request->get("roomsToPay");
         $roomsToPay = explode(",", $roomsToPay);
@@ -249,6 +323,7 @@ class CartController extends Controller
         $extraData = explode(",", $extraData);
         $extraData = array_unique($extraData);
         $cartPrepayment = $request->get("totalPrepaymentGeneralInput");
+        //$completePayment = $request->get("completePayment");
         $paymentMethod = $request->get('payment_method');
 
         //Guardar hora de llegada y actualizar nombre del cliente
@@ -299,13 +374,23 @@ class CartController extends Controller
         $booking->setBookingPrepay($prepayment);
         $booking->setBookingUserId($user->getUserId());
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
+        $booking->setCompletePayment($completePayment);
         $em->persist($booking);
 
-        foreach ($roomsToPay as $own_res) {
-            $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
-            $own->setOwnResReservationBooking($booking);
-            $em->persist($own);
+        $total_pay_at_service = 0;
+
+        if(!$completePayment) {
+            foreach ($roomsToPay as $own_res) {
+                $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
+                $own->setOwnResReservationBooking($booking);
+                $em->persist($own);
+
+                $total_pay_at_service += $own->getOwnResTotalInSite() * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent());
+            }
         }
+
+        $booking->setPayAtService($total_pay_at_service);
+        $em->persist($booking);
         $em->flush();
 
         $bookingId = $booking->getBookingId();

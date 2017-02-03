@@ -40,6 +40,13 @@ class paPackage extends baseEntity
     private $price;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="completePayment", type="boolean")
+     */
+    private $completePayment;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="maxTourOperators", type="integer")
@@ -56,6 +63,7 @@ class paPackage extends baseEntity
         parent::__construct();
 
         $this->agencyPackages = new ArrayCollection();
+        $this->completePayment = false;
     }
 
     /**
@@ -159,6 +167,33 @@ class paPackage extends baseEntity
     public function setMaxTourOperators($maxTourOperators)
     {
         $this->maxTourOperators = $maxTourOperators;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCompletePayment()
+    {
+        return $this->completePayment;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCompletePayment()
+    {
+        return $this->completePayment;
+    }
+
+
+    /**
+     * @param boolean $completePayment
+     * @return mixed
+     */
+    public function setCompletePayment($completePayment)
+    {
+        $this->completePayment = $completePayment;
         return $this;
     }
 

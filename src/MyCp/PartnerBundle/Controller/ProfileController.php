@@ -26,10 +26,15 @@ class ProfileController extends Controller
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $agency = $tourOperator->getTravelAgency();
         $form = $this->createForm(new paTravelAgencyType($this->get('translator'),true),$agency);
+        $packagesByAgency = $em->getRepository("PartnerBundle:paAgencyPackage")->getPackagesByAgency($agency->getId());
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_profile_agency',
-            'html' => $this->renderView('PartnerBundle:Profile:profile_agency.html.twig', array( 'form'=>$form->createView(), 'email'=>$agency->getEmail()))
+            'html' => $this->renderView('PartnerBundle:Profile:profile_agency.html.twig', array(
+                'form'=>$form->createView(),
+                'email'=>$agency->getEmail(),
+                'packages' => $packagesByAgency
+            ))
         ]);
     }
 
@@ -122,7 +127,15 @@ class ProfileController extends Controller
         $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$tourOperator->getTravelAgency());
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
-                $em->persist($obj);
+            $em->persist($obj);
+
+            $plan = $request->get("plan");
+            $package = $em->getRepository("PartnerBundle:paPackage")->find($plan);
+            //$agencyDat = $em->getRepository('PartnerBundle:paTravelAgency')->find($obj->get);
+            $agencyPackage = $obj->getAgencyPackages()[0];
+            $agencyPackage->setPackage($package);
+            $em->persist($agencyPackage);
+
             if($post['name']!=$user->getUserLastName())
                 $em->persist($user);
                 $em->flush();

@@ -84,10 +84,10 @@ class BackendController extends Controller
 
     public function openReservationsListAction(Request $request)
     {
-       /* $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
+        /*$list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
             'list' => $list
@@ -103,7 +103,13 @@ class BackendController extends Controller
         $ownership_array['own_id']=$ownership->getOwnId();
         $ownership_array['ownname']=$ownership->getOwnName();
         $ownership_array['OwnInmediateBooking2']=$ownership->isOwnInmediateBooking2();
-        $response = $this->renderView('PartnerBundle:ownership:ownership_details_calendar.html.twig',array('ownership'=>$ownership_array,'locale'=>$locale,'currentServiceFee'=>$currentServiceFee));
+        $response = $this->renderView('PartnerBundle:ownership:ownership_details_calendar.html.twig',array(
+            'ownership'=>$ownership_array,
+            'locale'=>$locale,'currentServiceFee'=>$currentServiceFee,
+            'fromPartner' => true,
+            'completePayment' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getCompletePayment()
+
+        ));
         return new Response($response, 200);
     }
 

@@ -130,4 +130,13 @@ class DefaultController extends Controller
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'Instructivo_para_propietarios_de_MyCasa_Renta_v2.0.pdf');
         return $response;
     }
+
+    public function manualRankingDownloadAction(){
+        //variable
+        $pathToFile = $this->container->getParameter("configuration.dir.additionalsFiles");
+
+        $response = new BinaryFileResponse($pathToFile.'Consejos_para_convertirse_en_el_primero_del_ranking.pdf');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'Consejos_para_convertirse_en_el_primero_del_ranking.pdf');
+        return $response;
+    }
 }

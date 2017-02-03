@@ -2,6 +2,9 @@
 {% block title %}{{ 'title.page.howwork' | trans }}{% endblock %}
 {% block carousel %}
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 {% block login_register %}
     {% include 'LayoutBundle:Security:overlay_login.html.twig' %}
 {% endblock %}
@@ -9,6 +12,9 @@
     {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
 {% endblock %}
 {% block body %}
+    {#-----Modal-----#}
+    {{ include('PartnerBundle:Modal:modal-register-partner.html.twig') }}
+
     <div class="space space-70"></div>
     <div style="
             background: url({{ asset('bundles/partner/img/icon/comofunciona.png') }}) no-repeat scroll center center / cover ;

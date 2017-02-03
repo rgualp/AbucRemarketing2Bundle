@@ -134,7 +134,7 @@ class BookingService extends Controller
 
         $ownReservations = $em
             ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $bookingId));
+            ->findBy(array('own_res_reservation_booking' => $bookingId, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
 
         $totalPrice = 0;
         $totalPercentPrice = 0;
@@ -306,7 +306,7 @@ class BookingService extends Controller
 
         $ownReservations = $em
             ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $bookingId));
+            ->findBy(array('own_res_reservation_booking' => $bookingId, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
 
         $totalPrice = 0;
         $totalPercentPrice = 0;

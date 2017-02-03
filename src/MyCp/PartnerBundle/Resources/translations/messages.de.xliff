@@ -2257,7 +2257,7 @@
                  </trans-unit>
                <trans-unit id="12">
                    <source>cancel.reservation.successful.alert</source>
-                   <target>Rservation was cancelled successfully</target>
+                   <target>Reservation was cancelled successfully</target>
              </trans-unit>
         <trans-unit id="13">
             <source>cancel.reservation.error.alert</source>
@@ -2265,8 +2265,32 @@
       </trans-unit>
       <trans-unit id="14">
                               <source>client_name_require</source>
-                              <target>The client name is equired field.</target>
+                              <target>The client name is required field.</target>
                         </trans-unit>
+      <trans-unit id="15">
+                  <source>SERVICE_AGENCY_TAX</source>
+                  <target>Agency Tax</target>
+            </trans-unit>
+      <trans-unit id="16">
+          <source>AGENCY_COMMISSION</source>
+          <target>Travel agency commission</target>
+    </trans-unit>
+      <trans-unit id="17">
+          <source>PAYMENT_COMPLETE</source>
+          <target>Complete payment</target>
+    </trans-unit>
+      <trans-unit id="18">
+          <source>SERVICE_TRANSFERENCE_TAX</source>
+          <target>Transference tax</target>
+    </trans-unit>
+    <trans-unit id="19">
+        <source>payment.agency_commission</source>
+        <target>#percent#% by Agency Commission</target>
+      </trans-unit>
+    <trans-unit id="20">
+        <source>payment.online_payment</source>
+        <target>Online Payment</target>
+      </trans-unit>
         </body>
   </file>
 </xliff>

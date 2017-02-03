@@ -21,6 +21,18 @@ var App = function () {
     var addFormContactInAgency=function(){
         App.addTagForm($collectionHolder, $newLinkLi);
     }
+
+    var registerAgency=function(){
+        $('#myModalRegisterAgency').on('show.bs.modal', function (e) {
+            //var $invoker = $(e.relatedTarget);
+
+            if($(e.relatedTarget).attr("data-package")) {
+                var packageId = $(e.relatedTarget).data('package');
+                $("#packageSelect").val(packageId);
+                $('#packageSelect').trigger('chosen:updated');
+            }
+        });
+    }
     /**
      * Register Agency
      */
@@ -35,6 +47,7 @@ var App = function () {
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
+
         var form = $("#form-agency");
         var formData = new FormData(form[0]);
         formData.append("password", $('#password').val());
@@ -111,6 +124,7 @@ var App = function () {
           //IMPORTANT!!!: Do not modify the call order.
             addFormContactInAgency();
             initForm();
+            registerAgency();
         },
         addTagForm:function($collectionHolder, $newLinkLi) {
         // Get the data-prototype explained earlier

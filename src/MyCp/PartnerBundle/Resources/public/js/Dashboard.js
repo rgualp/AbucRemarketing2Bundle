@@ -757,19 +757,42 @@ var Dashboard = function () {
                         if (response.html != "") {
                             result.html(response.html);
                             onShowMorePaymentButton();
-                            $("#totalPrepayment").html(response.totalPrepaymentTxt);
-                            $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
-                            $("#totalPrepaymentGeneralInput").val(response.totalPrepayment);
-                            $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
-                            $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
-                            $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
-                            $("#fixedTax").html(response.fixedTaxTxt);
-                            $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
-                            $("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
-                            $("#totalPayment").html(response.totalPaymentTxt);
+                            $("#completePayment").val(response.completePayment);
 
-                            $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
-                            $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
+                            if(!response.completePayment) {
+                                $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                                $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
+                                $("#totalPrepaymentGeneralInput").val(response.totalPrepayment);
+                                $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
+                                $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
+                                $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
+                                $("#fixedTax").html(response.fixedTaxTxt);
+                                $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
+                                $("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
+                                $("#totalPayment").html(response.totalPaymentTxt);
+                            }
+                            else{
+                                $("#totalPrepayment").html(response.totalPrepaymentTxt);
+                                $("#totalPrepaymentGeneral").html(response.totalPrepaymentTxt);
+                                $("#totalPayment").html(response.totalPaymentTxt);
+
+                                $("#totalPrepaymentGeneralInput").val(response.totalPrepayment);
+                                $("#totalAccommodationsPayment").html(response.totalAccommodationPaymentTxt);
+                                $("#totalTransferFeePayment").html(response.totalTransferFeePaymentTxt);
+
+                                $("#agencyCommissionHeader").html(response.totalAgencyCommissionTxt);
+                                $("#agencyCommissionContent").html(response.totalAgencyCommissionTxt);
+
+                                $("#totalServiceTaxesPayment").html(response.totalServiceTaxPaymentTxt);
+                                $("#totalServiceTaxesPrepayment").html(response.totalServiceTaxPaymentTxt);
+                                $("#fixedTax").html(response.fixedTaxTxt);
+                                $("#fixedTaxPrepayment").html(response.fixedTaxTxt);
+                                //$("#totalPercentAccommodationsPrepayment").html(response.totalPercentAccommodationPrepaymentTxt);
+                                $("#totalPayment").html(response.totalPaymentTxt);
+
+                                $("#atServicePayment").html(response.totalPayAtAccommodationPaymentTxt);
+                                $("#atServicePercentPayment").html(response.totalPayAtAccommodationPaymentTxt);
+                            }
 
                             //cartPrepayment = response.totalPrepayment;
                             $("#paymentsRow").removeClass("hide");

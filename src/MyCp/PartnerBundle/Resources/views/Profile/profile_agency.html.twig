@@ -58,6 +58,15 @@
                             <i class="glyphicon glyphicons globe_af"></i>
                             {{ form_widget(form.country, { 'attr': {'data-placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                         </div>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons package"></i>
+                            <select required="required" aria-required="true" aria-describedby="partner_agency_plan-error" name="plan" id="plan" data-placeholder="{{ 'title.column_one'|trans }}" data-toggle="tooltip" data-container="body" class="form-control chosen-select-deselect">
+                                {% for pack in packages %}
+                                    <option value="{{ pack.id }}" {% if pack.hasPackage %}selected="selected"{% endif %}>{{ pack.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <span id="partner_agency_plan-error" class="has-error"></span>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group m-b profile-agency-email">

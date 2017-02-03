@@ -129,13 +129,24 @@ class BackendAgencyController extends Controller {
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
         $errors = array();
 
+        $packagesByAgency = $em->getRepository("PartnerBundle:paAgencyPackage")->getPackagesByAgency($id);
+
         $form = $this->createForm(new paTravelAgencyType($this->get('translator')),$obj);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()){
+
                 $agency_data = $form->getData();
                 $em->persist($agency_data);
+
+                $plan = $request->get("plan");
+                $package = $em->getRepository("PartnerBundle:paPackage")->find($plan);
+                $agencyDat = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
+                $agencyPackage = $agencyDat->getAgencyPackages()[0];
+                $agencyPackage->setPackage($package);
+                $em->persist($agencyPackage);
+
                 $em->flush();
                 $message = 'La agencia se ha actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -147,7 +158,8 @@ class BackendAgencyController extends Controller {
         return $this->render('mycpBundle:agency:edit.html.twig', array(
             'form' => $form->createView(),
             'id_agency' => $id,
-            'agency' => $agency
+            'agency' => $agency,
+            'packages' => $packagesByAgency
         ));
     }
 

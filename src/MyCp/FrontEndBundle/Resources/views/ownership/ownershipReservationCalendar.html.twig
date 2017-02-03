@@ -177,12 +177,22 @@
     <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
          class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
 </div>
+<input type="hidden" id="commissionAgency" value="{{ commissionAgency is defined ? commissionAgency : 0}}"/>
+<input type="hidden" id="completePayment" value="{{ completePayment is defined ? completePayment : 0 }}"/>
+
 <script type="text/javascript">
     var cont_array_dates={{ array_dates | length}};
     $("#body_calendar").scrollLeft(999999);
     var today_date="{{"now"|date("d/m/Y") }}";
 </script>
-{%if fromBackend%}
+{% if fromPartner is defined and fromPartner and completePayment is defined and completePayment %}
+    {% javascripts
+    '@PartnerBundle/Resources/public/js/ownership.calendar.partner.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{%elseif fromBackend%}
     {% javascripts
     '@mycpBundle/Resources/public/js/ownership.calendar.backend.js'
     filter='?uglifyjs2'

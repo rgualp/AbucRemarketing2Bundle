@@ -45,21 +45,27 @@ class BackendFailureController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $existingReservationsInFailures = $em->getRepository("mycpBundle:failure")->findBy(array("reservation" => $failure->getReservation()->getGenResId()));
 
-                $creationDate = new \DateTime();
+                if(count($existingReservationsInFailures) == 0) {
+                    $creationDate = new \DateTime();
 
-                $failure->setAccommodation($accommodation)
-                    ->setCreationDate($creationDate)
-                    ->setUser($this->getUser());
+                    $failure->setAccommodation($accommodation)
+                        ->setCreationDate($creationDate)
+                        ->setUser($this->getUser());
 
-                $em->persist($failure);
-                $em->flush();
+                    $em->persist($failure);
+                    $em->flush();
 
-                $message='El fallo se ha insertado satisfactoriamente.';
-                $this->get('session')->getFlashBag()->add('message_ok',$message);
+                    $message = 'El fallo se ha insertado satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-
-                return $this->redirect($this->generateUrl('mycp_list_touristfailures', array("accommodationId" => $accommodationId)));
+                    return $this->redirect($this->generateUrl('mycp_list_touristfailures', array("accommodationId" => $accommodationId)));
+                }
+                else{
+                    $message = 'Ya existe un fallo asociado a esta reserva';
+                    $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                }
             }
         }
 

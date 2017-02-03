@@ -185,6 +185,7 @@ class paTravelAgencyRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT
           ag.id as id,
+          ag.commission,
           ag.name as name,
           ag.phone as ag_phone,
           ag.phoneAux as ag_phone_aux,

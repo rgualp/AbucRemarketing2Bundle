@@ -67,12 +67,27 @@ class booking
     private $payments;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="payAtService", type="decimal", precision=10, scale=2 )
+     */
+    private $payAtService;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_payment", type="boolean")
+     */
+    private $complete_payment;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->booking_own_reservations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->complete_payment = false;
     }
 
     /**
@@ -232,5 +247,39 @@ class booking
         return $payedAmount;
     }
 
+    /**
+     * @return int
+     */
+    public function getPayAtService()
+    {
+        return $this->payAtService;
+    }
 
+    /**
+     * @param int $payAtService
+     * @return mixed
+     */
+    public function setPayAtService($payAtService)
+    {
+        $this->payAtService = $payAtService;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompletePayment()
+    {
+        return $this->complete_payment;
+    }
+
+    /**
+     * @param int $complete_payment
+     * @return mixed
+     */
+    public function setCompletePayment($complete_payment)
+    {
+        $this->complete_payment = $complete_payment;
+        return $this;
+    }
 }
