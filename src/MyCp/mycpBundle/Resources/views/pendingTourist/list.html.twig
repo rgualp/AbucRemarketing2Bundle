@@ -104,6 +104,7 @@
             {% set cat='pay' %}
             <th><input name="all_select_{{cat}}" class="all_select {{cat}}" type="checkbox"/></th>
             <th>Número</th>
+            <th>Id cancelación</th>
             <th>Fecha Pago</th>
             <th>Monto a pagar al turista</th>
             <th>Estado</th>
@@ -116,6 +117,7 @@
         <tr>
             <td><input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ payment.pendingId }}"/></td>
             <td>{{payment.pendingId}}</td>
+            <td>{{payment.getCancelId.getCancelId}}</td>
             <td>{% if payment.paymentDate is not null %}{{payment.paymentDate | date ("d/m/Y")}}{% else %}-{% endif %}</td>
             <td>{{ payment.payAmount }} {{ payment.getCancelId.getBooking.getBookingCurrency.getCurrSymbol }}</td>
             <td>{{ payment.type.translations[0].nomLangDescription }}</td>
