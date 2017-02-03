@@ -215,3 +215,7 @@ mycp_backend_payment_pending_ownership:
 mycp_backend_cancel_payment:
     resource: "@mycpBundle/Resources/config/routingBackendCancelPayment.yml"
     prefix:   backend/payments/cancel/
+
+mycp_backend_payment_pending_agency:
+    resource: "@mycpBundle/Resources/config/routingBackendPaymentPendingAgency.yml"
+    prefix:   backend/payments/pending/agency/

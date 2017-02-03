@@ -29,6 +29,12 @@ class paPendingPaymentAgency
     private $reservation;
 
     /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\booking")
+     * @ORM\JoinColumn(name="booking", referencedColumnName="booking_id", nullable=true)
+     */
+    private $booking;
+
+    /**
      * @ORM\ManyToOne(targetEntity="paTravelAgency")
      * @ORM\JoinColumn(name="agency", referencedColumnName="id", nullable=false)
      */
@@ -46,7 +52,7 @@ class paPendingPaymentAgency
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pay_date", type="datetime")
+     * @ORM\Column(name="pay_date", type="datetime", nullable=true)
      */
     private $pay_date;
 
@@ -68,6 +74,19 @@ class paPendingPaymentAgency
      * @ORM\JoinColumn(name="type",referencedColumnName="nom_id")
      */
     private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\user")
+     * @ORM\JoinColumn(name="user", referencedColumnName="user_id", nullable=true)
+     */
+    private $user;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="register_date", type="datetime", nullable=true)
+     */
+    private $register_date;
 
     /**
      * @return int
@@ -200,6 +219,60 @@ class paPendingPaymentAgency
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBooking()
+    {
+        return $this->booking;
+    }
+
+    /**
+     * @param mixed $booking
+     * @return mixed
+     */
+    public function setBooking($booking)
+    {
+        $this->booking = $booking;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getRegisterDate()
+    {
+        return $this->register_date;
+    }
+
+    /**
+     * @param \DateTime $register_date
+     * @return mixed
+     */
+    public function setRegisterDate($register_date)
+    {
+        $this->register_date = $register_date;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return mixed
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
         return $this;
     }
 
