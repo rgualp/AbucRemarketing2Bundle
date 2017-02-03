@@ -73,10 +73,13 @@ class BackendOverrideController extends Controller {
      * @return JsonResponse
      */
     public function findAction(Request $request){
-        $name = $request->get('name');
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
+
+        $name = $request->get('name');
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $item = $em->getRepository('mycpBundle:user')->findBy(array('user_name' => $name));
         if(count($item))
             return new JsonResponse(['success' => true, 'iduser' =>$item[0]->getUserId(),'name'=> $item[0]->getUserUserName() . ' ' . $item[0]->getUserLastName(),'email'=>$item[0]->getUserEmail()]);
@@ -92,7 +95,22 @@ class BackendOverrideController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function overrideAction(Request $request){
-        print_r(1);die;
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+
+        $user_override_by = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideBy'));
+        $user_override_to = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideTo'));
+
+        $overrideUser = new overrideuser();
+        $overrideUser->setReason();
+        $overrideUser->setOverrideTo($user_override_to);
+        $overrideUser->setOverrideBy($user_override_by);
+        $overrideUser->setOverrideDate();
+        $overrideUser->setOverridePassword();
+        $overrideUser->setOverrideDate();
+
+
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find(26);
         $user->setUserPassword($this->getUser()->getUserPassword());
