@@ -1515,7 +1515,7 @@ class BackendReservationController extends Controller {
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
 
-                        $price_tourist=$this->calculateTourist($reservations_ids);
+                        $price_tourist=$this->calculateTourist($reservations_ids,true);
                         if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
                             $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
                         }
@@ -1568,11 +1568,14 @@ class BackendReservationController extends Controller {
                     {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
 
-                            $price_tourist=$this->calculateTourist($reservations_ids);
-                            if(count($booking->getBookingOwnReservations())==count($reservations_ids))
+                            $price_tourist=$this->calculateTourist($reservations_ids,false);
+
+                            if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
                                 $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
-                            else
+                            }
+                            else{
                                 $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                            }
 
                             //Se registra un Pago Pendiente a Turista
                             $pending_tourist=new pendingPaytourist();
@@ -1724,7 +1727,7 @@ class BackendReservationController extends Controller {
      * @param $reservations_ids
      * @return array
      */
-    public function calculateTourist($reservations_ids){
+    public function calculateTourist($reservations_ids,$sum_tax){
         $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
         $price=0;
@@ -1735,7 +1738,7 @@ class BackendReservationController extends Controller {
                 $generalReservation = $ownershipReservation->getOwnResGenResId();
                 if($fixed==0)
                     $fixed=$generalReservation->getServiceFee()->getFixedFee();
-                $price =$price+ $em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time);
+                $price =$price+ $em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time,$sum_tax);
             }
         }
         return array('price'=>$price,'fixed'=>$fixed);
