@@ -12,21 +12,21 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_mail_list') }}">Listas de correo</a> <span class="divider">/</span></li>
-    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}lista</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_mail_list') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li><a href="{{ path('mycp_list_override_user') }}">Suplantar usuarios</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}suplantación de usuario</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_override_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
 {% block form_actions %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_mail_list') }}">Listas de correo</a> <span class="divider">/</span></li>
-    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}lista</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_mail_list') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li><a href="{{ path('mycp_list_override_user') }}">Suplantar usuarios</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}suplantación de usuario</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_override_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <button class="btn btn-success" id="btn_save">Guardar</button>
-    <a class="btn" href="{{ path('mycp_list_mail_list') }}">Cancelar</a>
+    <a class="btn" href="{{ path('mycp_list_override_user') }}">Cancelar</a>
 </div>
 </form>
 {% endblock %}
