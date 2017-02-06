@@ -52,13 +52,10 @@ class BackendOverrideController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-
                 $em->persist($overrideUser);
                 $em->flush();
-
                 $message = 'Suplantación realizada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-
                 return $this->redirect($this->generateUrl('mycp_list_override_user'));
             }
         }
@@ -77,8 +74,10 @@ class BackendOverrideController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $item = $em->getRepository('mycpBundle:overrideuser')->find($id);
-        $user = $item->getOverrideBy();
+        $user = $item->getOverrideTo();
         $user->setUserPassword($item->getOverridePassword());
+        $item->setOverrideEnable(false);
+        $em->persist($item);
         $em->persist($user);
         $em->flush();
         return $this->redirect($this->generateUrl('mycp_list_override_user'));
@@ -107,30 +106,42 @@ class BackendOverrideController extends Controller {
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @param $id
+     * @return JsonResponse
      */
-    public function overrideAction(Request $request){
+    public function overrideAction(Request $request,$id){
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
-        $user_override_by = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideBy'));
-        $user_override_to = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideTo'));
+        if($id!=''){
+            $overrideUser = $em->getRepository('mycpBundle:overrideuser')->find($id);
+            $user_override_by = $overrideUser->getOverrideBy();
+            $user_override_to = $overrideUser->getOverrideTo();
 
-        $overrideUser = new overrideuser();
-        $overrideUser->setReason('');
-        $overrideUser->setOverrideTo($user_override_to);
-        $overrideUser->setOverrideBy($user_override_by);
+        }
+        else{
+            $user_override_by = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideBy'));
+            $user_override_to = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideTo'));
+
+            $overrideUser = new overrideuser();
+            $overrideUser->setReason($request->get('reason'));
+            $overrideUser->setOverrideTo($user_override_to);
+            $overrideUser->setOverrideBy($user_override_by);
+        }
         $overrideUser->setOverrideDate(new \DateTime(date('Y-m-d')));
         $overrideUser->setOverridePassword($user_override_to->getUserPassword());
+        $overrideUser->setOverrideEnable(true);
 
         $em->persist($overrideUser);
 
         $user_override_to->setUserPassword($user_override_by->getUserPassword());
         $em->persist($user_override_to);
         $em->flush();
-        return new JsonResponse(['success' => true]);
-
+        if ( $request->isXmlHttpRequest() )
+            return new JsonResponse(['success' => true]);
+        else
+            return $this->redirect($this->generateUrl('mycp_list_override_user'));
     }
 
 }

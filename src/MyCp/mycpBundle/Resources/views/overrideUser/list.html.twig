@@ -9,7 +9,7 @@
 {% block content %}
 <h2>Listado de suplantación de usuario</h2>
 <hr/>
-<a class="btn" href="{{path('mycp_add_override_user')}}"><i class="icon-plus"></i> Adicionar suplantación</a>&nbsp;
+<a class="btn" href="{{path('mycp_add_override_user')}}"><i class="icon-plus"></i> Adicionar suplantación</a>
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
@@ -64,7 +64,12 @@
         <td>{{ item.getReason}}</td>
 
         <td style="text-align: right">
-            <button data='{{path('mycp_delete_override_user',{'id': item.getOverrideId})}}' class="btn btn-mini btn-danger delete">Terminar suplantación</button>
+            {% if item.getOverrideEnable %}
+                <button data='{{path('mycp_delete_override_user',{'id': item.getOverrideId})}}' class="btn btn-mini btn-danger delete">Terminar suplantación</button>
+            {% else %}
+                <a class="btn" href="{{path('mycp_override_user',{'id': item.getOverrideId})}}">Suplantar</a>
+            {% endif %}
+
 
         </td>
     </tr>
@@ -85,7 +90,7 @@
     {% else %}
     <p> <div class="alert alert-block">No hay listas de correo disponibles.</div></p>
     {% endif %}
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea terminar la suplantación de usuario?','confirmation_action_label':'Eliminar'}%}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea terminar la suplantación de usuario?','confirmation_action_label':'Terminar'}%}
 {% endblock %}
 {% block javascripts %}
     {% javascripts

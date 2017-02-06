@@ -57,6 +57,13 @@ class overrideuser
     private $override_date;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="override_enable", type="boolean")
+     */
+    private $override_enable;
+
+    /**
      * Get override_id
      *
      * @return integer
@@ -179,5 +186,28 @@ class overrideuser
     public function getOverridePassword()
     {
         return $this->override_password;
+    }
+
+    /**
+     * Set override_enable
+     *
+     * @param boolean $overrideEnable
+     * @return overrideuser
+     */
+    public function setOverrideEnable($overrideEnable)
+    {
+        $this->override_enable = $overrideEnable;
+
+        return $this;
+    }
+
+    /**
+     * Get override_enable
+     *
+     * @return boolean
+     */
+    public function getOverrideEnable()
+    {
+        return $this->override_enable;
     }
 }

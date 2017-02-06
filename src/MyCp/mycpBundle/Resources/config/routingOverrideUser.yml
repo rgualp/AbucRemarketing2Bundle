@@ -15,5 +15,5 @@ mycp_find_user:
     defaults: { _controller: mycpBundle:BackendOverride:find }
 
 mycp_override_user:
-    pattern:  /override
-    defaults: { _controller: mycpBundle:BackendOverride:override }
+    pattern:  /override/{id}
+    defaults: { _controller: mycpBundle:BackendOverride:override,id:'' }
