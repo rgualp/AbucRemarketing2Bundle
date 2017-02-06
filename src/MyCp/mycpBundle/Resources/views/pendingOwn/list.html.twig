@@ -126,7 +126,7 @@
             <td>{{ payment.payAmount }} CUC</td>
             <td>{{ payment.getUserCasa.ownMcpCode }}</td>
             <td>{{ payment.getUserCasa.ownName }}</td>
-            <td>{{payment.getCancelId.getBooking.getBookingId}}</td>
+            <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':payment.getCancelId.getBooking.getBookingId}) }}">{{payment.getCancelId.getBooking.getBookingId}}</a></td>
             <td>{{payment.registerDate | date ("d/m/Y")}}</td>
             <td>{{ payment.type.translations[0].nomLangDescription }}</td>
             <td style="text-align: right">
