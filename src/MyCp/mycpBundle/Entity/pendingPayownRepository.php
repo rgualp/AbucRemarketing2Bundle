@@ -20,8 +20,7 @@ class pendingPayownRepository extends EntityRepository {
             ->from("mycpBundle:pendingPayown", "op")
             ->join("op.user_casa", "acc")
             ->join("op.type", "type")
-            ->orderBy("op.pending_id", "DESC")
-            ->orderBy("op.payment_date", "DESC");
+            ->orderBy("op.pending_id", "DESC");
 
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
         {
