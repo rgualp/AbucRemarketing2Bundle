@@ -13,11 +13,11 @@ use Doctrine\ORM\EntityRepository;
 class overrideUserRepository extends EntityRepository {
 
     /**
+     * @return array
      */
     public function getAll() {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT u FROM mycpBundle:overrideuser u");
         return $query->getResult();
     }
-
 }
