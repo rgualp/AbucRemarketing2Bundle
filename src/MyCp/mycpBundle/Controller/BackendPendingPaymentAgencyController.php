@@ -150,8 +150,8 @@ class BackendPendingPaymentAgencyController extends Controller {
      */
     public function exportAction(Request $request) {
         try {
-            $service_security = $this->get('Secure');
-            $service_security->verifyAccess();
+            /*$service_security = $this->get('Secure');
+            $service_security->verifyAccess();*/
             $em = $this->getDoctrine()->getManager();
 
             $filter_number = $request->get('filter_number');
@@ -160,25 +160,30 @@ class BackendPendingPaymentAgencyController extends Controller {
             $filter_payment_date_from = $request->get('filter_payment_date_from');
             $filter_payment_date_to = $request->get('filter_payment_date_to');
 
+            $filter_type = $request->get('filter_type ');
+            $filter_destination = $request->get('filter_destination');
+            $filter_booking = $request->get('filter_booking');
+            $filter_accommodation = $request->get('filter_accommodation');
+            $filter_reservation = $request->get('filter_reservation');
 
-            $items = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
+            $items = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to, $filter_type, $filter_destination, $filter_booking, $filter_accommodation, $filter_reservation)->getResult();
 
             $date = new \DateTime();
             if(count($items)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportPendingTourist($items, $date);
+                return $exporter->exportPendingAgencyPayment($items, $date);
             }
             else {
                 $message = 'No hay datos para llenar el Excel a descargar.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-                return $this->redirect($this->generateUrl("mycp_list_payments_pending_tourist"));
+                return $this->redirect($this->generateUrl("mycp_list_payments_pending_agency"));
             }
         }
         catch (\Exception $e) {
             $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
 
-            return $this->redirect($this->generateUrl("mycp_list_payments_pending_tourist"));
+            return $this->redirect($this->generateUrl("mycp_list_payments_pending_agency"));
         }
     }
 }
