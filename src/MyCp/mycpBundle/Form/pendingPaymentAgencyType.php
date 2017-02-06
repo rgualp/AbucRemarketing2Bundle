@@ -17,7 +17,7 @@ class pendingPaymentAgencyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type', 'entity', array(
+            ->add('status', 'entity', array(
                     'label'=>'Estado:',
                     'class' => 'MyCp\mycpBundle\Entity\nomenclator',
                     'query_builder' => function (EntityRepository $er) {
@@ -31,21 +31,6 @@ class pendingPaymentAgencyType extends AbstractType
                     'required' => true,
                     'multiple' => false
                 ))
-            ->add('pay_amount','text',array(
-                'label'=>'Cantidad pagada:',
-                'constraints'=>array(new NotBlank())
-            ))
-
-            ->add('payment_date',null,array(
-                'widget'=>'single_text',
-                'format'=>'dd/MM/yyyy',
-                'label'=>'Fecha de pago (dia/mes/año - dd/mm/yyyy):',
-                'attr'=>array('class'=>'input-block-level datepicker_textbox', "style" => "width: 30%")
-            ))
-            ->add('reason','textarea',array(
-                    'label'=>'Motivos:',
-                    'attr'=>array('class'=>'textarea', "style" => "width: 80%")
-                ))
         ;
     }
     
@@ -54,6 +39,6 @@ class pendingPaymentAgencyType extends AbstractType
      */
     public function getName()
     {
-        return 'mycp_mycpbundle_payment_pending_tourist';
+        return 'mycp_mycpbundle_payment_pending_agency';
     }
 }

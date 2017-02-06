@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Controller;
 
 
+use MyCp\mycpBundle\Form\pendingPaymentAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,15 +103,18 @@ class BackendPendingPaymentAgencyController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     function editAction($id, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($id);
-        $form = $this->createForm(new pendingPaytouristType(), $payment);
+        $form = $this->createForm(new pendingPaymentAgencyType(), $payment);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $user = $this->getUser();
+                $payment->setUser($user);
+                $payment->setRegisterDate(new \DateTime());
 
                 $em->persist($payment);
                 $em->flush();
@@ -118,7 +122,7 @@ class BackendPendingPaymentAgencyController extends Controller {
                 $message = 'Pago actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                return $this->redirect($this->generateUrl('mycp_list_payments_pending_tourist'));
+                return $this->redirect($this->generateUrl('mycp_list_payments_pending_agency'));
             }
         }
 
