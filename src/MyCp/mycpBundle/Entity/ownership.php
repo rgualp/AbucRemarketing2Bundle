@@ -629,6 +629,12 @@ class ownership {
      */
     private $modalityUpdateFrequency;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="modifying", type="boolean", nullable=true)
+     */
+    private $modifying;
 
     /**
      * Constructor
@@ -2862,4 +2868,20 @@ class ownership {
     {
         $this->rankingExtras->removeElement($rankingExtra);
     }
+
+    /**
+     * @return int
+     */
+    public function getModifying() {
+        return $this->modifying;
+    }
+
+    /**
+     * @param int $modifying
+     */
+    public function setModifying($modifying) {
+        $this->modifying = $modifying;
+    }
+
+
 }

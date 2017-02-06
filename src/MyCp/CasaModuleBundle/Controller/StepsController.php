@@ -461,8 +461,17 @@ class StepsController extends Controller {
 
         $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership' => $ownership, 'user_locale' => "es", 'user_full_name' => $this->getUser()->getUserUserName() . ' ' . $this->getUser()->getUserLastName()));
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
-        $service_email = $this->get('Email');
-        $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
+
+        if($ownership->getModifying()){
+            $ownership->setModifying(false);
+            $em->persist($ownership);
+            $em->flush();
+        }
+        else{
+            $service_email = $this->get('Email');
+            $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
+        }
+
         return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array(
             "code" => $ownership->getOwnMcpCode(),
             'assistant' => $localOperationAssistant
@@ -1089,6 +1098,7 @@ class StepsController extends Controller {
 
         $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
         $ownership->setOwnStatus($status);
+        $ownership->setModifying(true);
         $em->persist($ownership);
         $em->flush();
 
@@ -1098,7 +1108,7 @@ class StepsController extends Controller {
             self::submitEmailReservationTeamProperty($ownership, $reserved);
         }
 
-        return $this->redirect($this->generateUrl('my_cp_casa_module_homepage'));
+        return $this->redirect($this->generateUrl('my_cp_casa_module_homepage', array('modif'=>true)));
     }
 
     /**

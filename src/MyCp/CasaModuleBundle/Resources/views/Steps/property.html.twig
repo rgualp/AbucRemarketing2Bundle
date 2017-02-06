@@ -33,6 +33,31 @@
                         <div class="col-md-11 col-xs-10">
                             <span style="color: #b5b5b5 ; font-size: 20px;margin-left: -10px;">{% if ownership is defined and ownership.ownCategory is not null %}{{ ownership.ownCategory }}{% endif %}</span>
                         </div>
+
+
+                            {% if ownership is defined %}
+                                <div class="col-md-11 col-xs-10">
+                                    {#{% if data['top_20'] %}
+                                                                        <span class="label label-warning vertical_middle" title="Top 20">Top 20</span>
+                                                                    {% endif %}
+                                                                    {% if data['selection'] %}
+                                                                        <span class="label label-info vertical_middle" title="Casa Selección">Casa Selección</span>
+                                                                    {% endif %}#}
+                                    {% if ownership.ownInmediateBooking is not null and ownership.ownInmediateBooking%}
+                                        <span class="label label-important vertical_middle" title="Reserva Rápida"><i class="glyphicons electricity white"></i> Reserva Rápida</span>
+                                    {% endif %}
+                                    {% if ownership.ownInmediateBooking2 is not null and ownership.ownInmediateBooking2 %}
+                                        <span class="label vertical_middle" style="color: #fff; background-color: #ff0000;" title="Reserva Inmediata"><i class="fa fa-rocket"></i> Reserva Inmediata</span>
+                                    {% endif %}
+                                    {#{% if data['not_recommendable'] %}
+                                        <span class="label label-important vertical_middle" title="No recomendables">No recomendable</span>
+                                    {% endif %}#}
+                                </div>
+                            {% endif %}
+
+
+
+
                         </div>
                     </div>
                     <div class="col-xs-12">

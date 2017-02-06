@@ -156,6 +156,46 @@ var Step4 = function () {
         else
             App.initializePlugins('.js-switch-'+($('#nav-tabs-backend li').size()-1));
     }
+
+    var isValidPrices = function(){
+        var v = true;
+        var s = '';
+        for(var i=0;i<$('#nav-tabs-backend li').size();i++){
+            var data={};
+            $("#form-number-"+(i + 1)).serializeArray().map(function(x){data[x.name] = x.value;});
+
+            /*
+             price_high_season
+             price_low_season
+             price_special_season
+             */
+            if((data.hasOwnProperty('price_high_season') && data['price_high_season'] == '') || (data.hasOwnProperty('price_low_season') && data['price_low_season'] == '')/* || (data.hasOwnProperty('price_special_season') && data['price_special_season'] == '')*/){
+                if(s == ''){
+                    s = 'Hab ' + (i + 1);
+                }
+                else {
+                    s += ', ' + 'Hab ' + (i + 1);
+                }
+                v = false;
+            }
+        }
+
+        if (!v){
+            $('#li2 a').click();
+            swal("El precio de las habitaciones " + s + " es obligatorio.", "", "error");
+        }
+        return v;
+    };
+
+    var roundNumber = function(num, scale) {
+        var number = Math.round(num * Math.pow(10, scale)) / Math.pow(10, scale);
+        if(num - number > 0) {
+            return (number + Math.floor(2 * Math.round((num - number) * Math.pow(10, (scale + 1))) / 10) / Math.pow(10, scale));
+        } else {
+            return number;
+        }
+    };
+
     return {
         //main function to initiate template pages
         init: function () {
@@ -172,7 +212,14 @@ var Step4 = function () {
             initialicePlugins();
 
         },
+        isValidPrices:function(){
+          return isValidPrices();
+        },
         saveRoom:function(flag){
+            if(!isValidPrices()){
+                //alert('Precios invalidos');
+                return;
+            }
             HoldOn.open();
             var rooms = new Array();
             var url='';
@@ -183,6 +230,7 @@ var Step4 = function () {
                     url= form.attr('action');
                 }
                 $("#form-number-"+(i + 1)).serializeArray().map(function(x){data[x.name] = x.value;});
+
                 rooms.push(data);
             }
             //if(!App.equals(rooms,dataStep4)){
@@ -243,6 +291,7 @@ var Step4 = function () {
             var commission = $("#inputCommission").val();
             var realPrice = parseFloat(price) * (1 - commission / 100);
 
+            realPrice = roundNumber(realPrice, 2);
 
             if(realPrice > 0) {
                 $(spanElement).html("Usted recibe " + realPrice + " CUC.");
