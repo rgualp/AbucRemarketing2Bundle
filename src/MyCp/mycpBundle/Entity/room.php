@@ -181,10 +181,18 @@ class room {
      */
     private $own_unavailability_details;
 
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="creation_date", type="datetime", nullable=true)
+     */
+    private $creation_date;
+
     public function __construct() {
         $this->own_unavailability_details = new ArrayCollection();
         $this->room_sync_st = SyncStatuses::ADDED;
         $this->room_active = true;
+        $this->creation_date = new \DateTime();
     }
 
     /**
@@ -794,4 +802,20 @@ class room {
             case "Habitación individual": return "HI";
         }
     }
+
+    /**
+     * @return datetime
+     */
+    public function getCreationDate() {
+        return $this->creation_date;
+    }
+
+    /**
+     * @param datetime $creation_date
+     */
+    public function setCreationDate($creation_date) {
+        $this->creation_date = $creation_date;
+    }
+
+
 }
