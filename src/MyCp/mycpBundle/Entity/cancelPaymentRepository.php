@@ -32,8 +32,7 @@ class cancelPaymentRepository extends EntityRepository {
             ->join("op.ownreservations", "cpown")
             ->join("cpown.own_res_gen_res_id", "gr")
             ->join("gr.gen_res_own_id", "own")
-            ->orderBy("op.cancel_id", "DESC")
-            ->orderBy("op.cancel_date", "DESC");
+            ->orderBy("op.cancel_id", "DESC");
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
         {
             $qb->andWhere("op.cancel_id LIKE :cancel_id")

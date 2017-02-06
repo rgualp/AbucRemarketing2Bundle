@@ -1514,7 +1514,6 @@ class BackendReservationController extends Controller {
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
-
                         $price_tourist=$this->calculateTourist($reservations_ids,true);
                         if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
                             $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
@@ -1522,8 +1521,6 @@ class BackendReservationController extends Controller {
                         else{
                             $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
                         }
-
-
                         //Se registra un Pago Pendiente a Turista
                         $pending_tourist=new pendingPaytourist();
                         $pending_tourist->setCancelId($obj);
