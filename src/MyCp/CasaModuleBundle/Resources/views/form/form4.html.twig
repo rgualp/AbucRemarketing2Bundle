@@ -203,6 +203,7 @@
                         <span id="label_room_window_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomWindows }}</span>
                     {% endif %}
                     <select id="select_room_window_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_window" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomWindows == 0 %} selected="TRUE" {% endif %} value="0">0</option>
                         <option {% if room is defined and room.RoomWindows == 1 %} selected="TRUE" {% endif %} value="1">1</option>
                         <option {% if room is defined and room.RoomWindows == 2 %} selected="TRUE" {% endif %} value="2">2</option>
                         <option {% if room is defined and room.RoomWindows == 3 %} selected="TRUE" {% endif %} value="3">3</option>
@@ -223,6 +224,7 @@
                         <span id="label_room_balcony_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomBalcony }}</span>
                     {% endif %}
                     <select id="select_room_balcony_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_balcony" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomBalcony == 0 %} selected="TRUE" {% endif %} value="0">0</option>
                         <option {% if room is defined and room.RoomBalcony == 1 %} selected="TRUE" {% endif %} value="1">1</option>
                         <option {% if room is defined and room.RoomBalcony == 2 %} selected="TRUE" {% endif %} value="2">2</option>
                         <option {% if room is defined and room.RoomBalcony == 3 %} selected="TRUE" {% endif %} value="3">3</option>
