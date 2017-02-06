@@ -678,6 +678,7 @@ limit 1
         $today = \date('Y-m-d');
 
         $totalDiffDays = $timerService->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
+
         $serviceFee = $generalReservation->getServiceFee();
         $refundTotal = 0;
 
@@ -686,14 +687,18 @@ limit 1
         $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
 
         $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
+
         $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
 
-        if($totalDiffDays > 7){
+        /*if($totalDiffDays > 7){*/
             if($sum_tax)
                 $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;
             else
                 $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission);
-        }
+        /*}
+        else
+            $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;*/
+
         return $refundTotal;
     }
 
