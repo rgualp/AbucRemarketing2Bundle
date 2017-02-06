@@ -131,10 +131,15 @@ class BackendPendingPaymentAgencyController extends Controller {
             foreach($cheked as $item){
                 $pay= $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($item);
                 $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_payed_status')));
+
+                $user = $this->getUser();
+                $pay->setUser($user);
+                $pay->setRegisterDate(new \DateTime());
+
                 $em->persist($pay);
             }
             $em->flush();
-            return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado el pago satisfactoriamente']);
+            return new JsonResponse(['success' => true, 'message' =>'Se han adicionado los pagos satisfactoriamente']);
         }
         return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
     }

@@ -144,7 +144,11 @@
         <tbody>
         {% for payment in list %}
         <tr>
-            <td><input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ payment.id }}"/></td>
+            <td>
+                {% if payment.status.nomName == "pendingPayment_pending_status" or payment.status.nomName == "pendingPayment_process_status" %}
+                <input type="checkbox" name="check_reservations" class="{{ cat }}" id="{{ payment.id }}"/>
+                {% endif %}
+            </td>
             <td>{{payment.id}}</td>
             <td>
                 <small> <b>Fecha:</b> {% if payment.payDate is not null %}{{payment.payDate | date ("d/m/Y")}}{% else %}-{% endif %}</small> <br/>
