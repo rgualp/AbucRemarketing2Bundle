@@ -78,8 +78,8 @@ class BackendPendingPaymentAgencyController extends Controller {
      */
     public function detailAction($id, Request $request){
         $em = $this->getDoctrine()->getManager();
-        $pending_payment = $em->getRepository('mycpBundle:pendingPaytourist')->find($id);
-        $id_booking = $pending_payment->getCancelId()->getBooking()->getBookingId();
+        $pending_payment = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($id);
+        $id_booking = $pending_payment->getBooking()->getBookingId();
 
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $pending_payment->getCancelId()->getBooking()->getBookingUserId()));
@@ -105,7 +105,7 @@ class BackendPendingPaymentAgencyController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $payment = $em->getRepository('mycpBundle:pendingPaytourist')->find($id);
+        $payment = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($id);
         $form = $this->createForm(new pendingPaytouristType(), $payment);
 
         if ($request->getMethod() == 'POST') {
@@ -136,7 +136,7 @@ class BackendPendingPaymentAgencyController extends Controller {
         $cheked=$request->get('cheked');
         if(count($cheked)){
             foreach($cheked as $item){
-                $pay= $em->getRepository('mycpBundle:pendingPaytourist')->find($item);
+                $pay= $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($item);
                 $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_payed_status')));
                 $em->persist($pay);
             }
@@ -163,7 +163,7 @@ class BackendPendingPaymentAgencyController extends Controller {
             $filter_payment_date_to = $request->get('filter_payment_date_to');
 
 
-            $items = $em->getRepository('mycpBundle:pendingPaytourist')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
+            $items = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
 
             $date = new \DateTime();
             if(count($items)) {
