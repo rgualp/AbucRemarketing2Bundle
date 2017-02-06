@@ -89,6 +89,13 @@ class paPendingPaymentAgency
     private $register_date;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reason", type="text", nullable=true)
+     */
+    private $reason;
+
+    /**
      * @return int
      */
     public function getId()
@@ -273,6 +280,24 @@ class paPendingPaymentAgency
     public function setUser($user)
     {
         $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * @param string $reason
+     * @return mixed
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
         return $this;
     }
 

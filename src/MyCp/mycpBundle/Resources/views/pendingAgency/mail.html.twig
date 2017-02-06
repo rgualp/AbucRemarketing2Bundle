@@ -5,11 +5,11 @@
     {% set flag = 0 %}
     <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
     <div style="font-family: Arial; font-size: 14px">
-        <p>Se ha registrado un pago pendiente a turistas desde MyCasaParticular</p>
+        <p>Se ha registrado un pago pendiente a agencia desde MyCasaParticular</p>
         <p>
-            <b>Datos del turista:</b><br/>
-            <b>Nombre del turista:</b> {{ user_tourist.userTouristUser.userUserName }} {{ user_tourist.userTouristUser.userLastName }}<br/>
-            <b>Correo del turista:</b> {{ user_tourist.userTouristUser.userEmail }}<br/>
+            <b>Datos del la agencia:</b><br/>
+            <b>Nombre:</b> {{ agency.name }}<br/>
+            <b>Correo:</b> {{ agency.email }}<br/>
         </p>
         <p>
             <b>Datos del Booking:</b><br/>
@@ -22,7 +22,7 @@
             <b>Habitaciones:</b><br/>
 
             {% for reservation_rooms in ownershipReservations %}
-                <b>{{ reservation_rooms.getOwnResGenResId.getCASId }}</b><br/>
+                <b>CAS.{{ reservation_rooms.getOwnResGenResId.getCASId }}</b><br/>
                 <b>Código Alojamiento:</b>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}<br/>
                 <b>Precio Habitación:</b> {%if rooms[flag]%}
                 Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
@@ -32,16 +32,16 @@
                     Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
                 {%endif%}
             {%endif%}<br/>
-                {#<b>Cantidad de Noches:</b>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}<br/>#}
+                <b>Cantidad de Noches:</b>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}<br/>
 
 
             {% endfor %}
         </p>
         <p>
             <b>Datos de la Devolución:</b><br/>
-            <b>Fecha del pago:</b> {{ pending_tourist.paymentDate|date("d/m/Y") }}<br/>
-            <b>Monto de la devolución en la moneda que pago el cliente:</b> {{ pending_tourist.payAmount }}<br/>
-            <b>Motivo de la devolución: {{ pending_tourist.reason }}</b><br/>
+            <b>Fecha del pago:</b> {{ pendingPayment.payDate|date("d/m/Y") }}<br/>
+            <b>Monto de la devolución en la moneda que pago el cliente:</b> {{ pendingPayment.amount }}<br/>
+            <b>Motivo de la devolución: {{ pendingPayment.reason }}</b><br/>
         </p>
 
         <p>Para consultar sus dudas, por favor, escr&iacute;banos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas tambi&eacute;n estar&aacute; a su disposici&oacute;n a trav&eacute;s del tel&eacute;fono 78673574</p>
