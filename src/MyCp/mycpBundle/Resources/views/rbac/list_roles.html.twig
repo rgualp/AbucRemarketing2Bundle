@@ -10,6 +10,7 @@
 <h2>Roles</h2>
 <hr/>
 <a class="btn" href="{{path('mycp_rbac_add_role')}}"><i class="icon-plus"></i> Adicionar rol</a>&nbsp;
+<a class="btn" href="{{path('mycp_suplantar_user')}}"><i class="icon-plus"></i> Suplantar usuario</a>
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
     <div class="alert alert-error">{{ message }}</div>
