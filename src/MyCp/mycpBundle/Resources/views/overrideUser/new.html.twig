@@ -89,8 +89,6 @@
     <script>
         $('.textarea').wysihtml5();
         $(document).ready(function() {
-            var idOverrideBy='';
-            var idOverrideTo='';
             $('#find_user_by').click(function () {
                 if($('#user_name_by').val()!='')
                     find_user($('#user_name_by').val(),$('#label_name_by'),$('#override_by'));
@@ -109,7 +107,7 @@
                         success:function (response) {
                             HoldOn.close();
                             if(response.success){
-
+                                window.location.href = "{{ url('mycp_list_override_user') }}";
                             }
                         }
                     });
