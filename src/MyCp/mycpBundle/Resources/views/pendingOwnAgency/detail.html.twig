@@ -44,7 +44,7 @@
                         <b>Fecha del pago: </b>{{ payment.payDate | date("d/m/Y") }}
                     </div>
                     <div class="span6">
-                        <b>CAS: </b> <a href="{{ path("mycp_details_reservation", {"id_reservation": payment.reservation.genResId}) }}">CAS.{{ payment.reservation.genResId }}</a>
+                        <b>CAS: </b> <a target="_blank" href="{{ path("mycp_details_reservation_ag", {"id_reservation": payment.reservation.genResId}) }}">CAS.{{ payment.reservation.genResId }}</a>
                     </div>
                 </div>
                 <div class="row-fluid">

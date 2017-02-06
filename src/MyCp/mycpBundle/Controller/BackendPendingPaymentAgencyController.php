@@ -79,21 +79,10 @@ class BackendPendingPaymentAgencyController extends Controller {
      */
     public function detailAction($id, Request $request){
         $em = $this->getDoctrine()->getManager();
-        $pending_payment = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($id);
-        $id_booking = $pending_payment->getBooking()->getBookingId();
-
-        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
-        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $pending_payment->getCancelId()->getBooking()->getBookingUserId()));
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
-
-        $form = $this->createForm(new cancelPaymentType());
+        $payment = $em->getRepository('PartnerBundle:paPendingPaymentAgency')->find($id);
 
         return $this->render('mycpBundle:pendingAgency:detail.html.twig', array(
-                'user' => $user,
-                'form'=>$form->createView(),
-                'reservations' => $reservations,
-                'payment' => $payment,
-                'pending_payment'=>$pending_payment
+                'payment'=>$payment
             ));
     }
 
