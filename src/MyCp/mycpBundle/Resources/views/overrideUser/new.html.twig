@@ -25,7 +25,7 @@
     <li class="pull-right"><a href="{{ path('mycp_list_override_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-success" id="btn_save">Guardar</button>
+    <a class="btn btn-success" id="btn_save">Guardar</a>
     <a class="btn" href="{{ path('mycp_list_override_user') }}">Cancelar</a>
 </div>
 </form>
@@ -39,45 +39,33 @@
     <div class="row-fluid">
         <input type="hidden" name="override_by" id="override_by">
         <input type="hidden" name="override_to" id="override_to">
-        <div class="input-append">
-            <input type="text" class="span6 search-query">
-            <button type="submit" class="btn">Search</button>
+        <div class="span6" style="margin-left: 0px">
+            <div class="input-append">
+                <input type="text" class="span12 search-query" name="user_name_by" id="user_name_by" placeholder="Usuario que suplanta">
+                <a id="find_user_by" class="btn">Buscar</a>
+            </div>
         </div>
-        <div class="input-prepend">
-            <button type="submit" class="btn">Search</button>
-            <input type="text" class="span6 search-query">
+        <div class="span6" style="margin-left: 0px">
+            <div class="input-prepend">
+                <a id="find_user_to" class="btn">Buscar</a>
+                <input type="text" class="span12 search-query" name="user_name_to" id="user_name_to" placeholder="Usuario a suplantar">
+            </div>
         </div>
-        {#<div class="span4">
-            <input type="text" name="user_name_by" id="user_name_by" placeholder="Usuario que suplanta" style="width: 100%">
-        </div>
-        <div class="span1">
-            <a class="btn btn-mini" id="find_user_by"><i class="fa fa-search"></i></a>
-        </div>
-        <div class="span4">
-            <input type="text" name="user_name_to" id="user_name_to" placeholder="Usuario a suplantar" style="width: 100%">
-        </div>
-        <div class="span1">
-            <a class="btn btn-mini" id="find_user_to"><i class="fa fa-search"></i></a>
-        </div>#}
     </div>
-    {#<div class="row-fluid">
+    <div class="row-fluid">
         <div class="span2">
             <label class="required"><b>Nombre completo:</b></label>
-            <label class="required"><b>Corrreo:</b></label>
         </div>
         <div class="span4">
             <label class="required" id="label_name_by"></label>
-            <label class="required" id="label_email_by"></label>
         </div>
         <div class="span2">
             <label class="required"><b>Nombre completo:</b></label>
-            <label class="required"><b>Corrreo:</b></label>
         </div>
         <div class="span4">
             <label class="required" id="label_name_to"></label>
-            <label class="required" id="label_email_to"></label>
         </div>
-    </div>#}
+    </div>
     <div class="row-fluid">
         {{form_row(form.reason)}}
 
@@ -105,11 +93,11 @@
             var idOverrideTo='';
             $('#find_user_by').click(function () {
                 if($('#user_name_by').val()!='')
-                    find_user($('#user_name_by').val(),$('#label_name_by'),$('#label_email_by'),$('#override_by'));
+                    find_user($('#user_name_by').val(),$('#label_name_by'),$('#override_by'));
             });
             $('#find_user_to').click(function () {
                 if($('#user_name_to').val()!='')
-                    find_user($('#user_name_to').val(),$('#label_name_to'),$('#label_email_to'),$('#override_to'));
+                    find_user($('#user_name_to').val(),$('#label_name_to'),$('#override_to'));
             });
             $('#btn_save').click(function () {
                 HoldOn.open();
@@ -132,7 +120,7 @@
              *
              * @param name
              */
-            function find_user(name,lbName,lbEmail,input){
+            function find_user(name,lbName,input){
                 if(name!=''){
                     HoldOn.open();
                     $.ajax({
@@ -143,7 +131,6 @@
                             HoldOn.close();
                             if(response.success){
                                 lbName.text(response.name);
-                                lbEmail.text(response.email);
                                 input.val(response.iduser);
                             }
                         }
