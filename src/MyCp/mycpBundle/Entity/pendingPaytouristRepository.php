@@ -29,8 +29,7 @@ class pendingPaytouristRepository extends EntityRepository {
             ->join("op.user_tourist", "acc")
             ->join("acc.user_tourist_user", "us")
             ->join("op.type", "type")
-            ->orderBy("op.pending_id", "DESC")
-            ->orderBy("op.payment_date", "DESC");
+            ->orderBy("op.pending_id", "DESC");
 
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
         {
