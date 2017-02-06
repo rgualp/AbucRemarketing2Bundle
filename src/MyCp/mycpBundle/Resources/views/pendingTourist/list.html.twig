@@ -106,6 +106,7 @@
             <th>Número</th>
             <th>Id cancelación</th>
             <th>Fecha Pago</th>
+            <th>Id Booking</th>
             <th>Monto a pagar al turista</th>
             <th>Estado</th>
             <th>Turistas</th>
@@ -119,6 +120,7 @@
             <td>{{payment.pendingId}}</td>
             <td>{{payment.getCancelId.getCancelId}}</td>
             <td>{% if payment.paymentDate is not null %}{{payment.paymentDate | date ("d/m/Y")}}{% else %}-{% endif %}</td>
+            <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':payment.getCancelId.getBooking.getBookingId}) }}">{{payment.getCancelId.getBooking.getBookingId}}</a></td>
             <td>{{ payment.payAmount }} {{ payment.getCancelId.getBooking.getBookingCurrency.getCurrSymbol }}</td>
             <td>{{ payment.type.translations[0].nomLangDescription }}</td>
             <td>{{ payment.userTourist.userTouristUser.userUserName }} {{ payment.userTourist.userTouristUser.userLastName }}</td>
