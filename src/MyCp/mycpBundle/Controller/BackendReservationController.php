@@ -1509,9 +1509,10 @@ class BackendReservationController extends Controller {
                 $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
                 $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
 
-                if($date_cancel_payment<$min_date_arrive){
+                //if($date_cancel_payment<$min_date_arrive){
                     //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
+
                     if($form_data['type']==1)//Si el tipo de cancelación es de propietario
                     {
                         $price_tourist=$this->calculateTourist($reservations_ids,true);
@@ -1563,8 +1564,7 @@ class BackendReservationController extends Controller {
                     }
                     if($form_data['type']==2)//Si el tipo de cancelación  es de turista
                     {
-                        if($day>=7){  //Antes  de los 7 días de llegada del turista:
-
+                        if($day>=7 && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
                             $price_tourist=$this->calculateTourist($reservations_ids,false);
 
                             if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
@@ -1639,7 +1639,6 @@ class BackendReservationController extends Controller {
                             $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
                         }
                         else{   //Despues de los 7 días antes de la fecha de llegada
-
                             if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                                 $array_id_ownership=array();
 
@@ -1696,7 +1695,7 @@ class BackendReservationController extends Controller {
                             }
                         }
                     }
-                }
+                //}
                 //Change status reservations
                 if(count($reservations_ids)){
                     foreach($reservations_ids as $genResId){
