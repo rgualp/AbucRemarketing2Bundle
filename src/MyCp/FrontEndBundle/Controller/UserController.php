@@ -145,7 +145,7 @@ class UserController extends Controller {
                     $em->flush();
                 }*/
 
-                return $this->redirect($this->generateUrl('frontend_welcome'));
+                return $this->redirect($this->generateUrl('frontend-welcome'));
             }
         }
 
@@ -287,7 +287,7 @@ class UserController extends Controller {
                         $token = new UsernamePasswordToken($user, $password, $providerKey, $user->getRoles());
                         $this->get("security.context")->setToken($token);
                         $this->get('session')->set('_security_user', serialize($token));
-                        return $this->redirect($this->generateUrl("frontend_welcome"));
+                        return $this->redirect($this->generateUrl("frontend-welcome"));
                     }
                 } else {
                     throw $this->createNotFoundException($this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR"));

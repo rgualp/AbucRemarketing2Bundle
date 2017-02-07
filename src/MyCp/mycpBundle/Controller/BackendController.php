@@ -23,7 +23,7 @@ class BackendController extends Controller
         if ($this->get('security.context')->isGranted('ROLE_CLIENT_TOURIST')) {
             $this->get('security.context')->setToken(null);
             //$this->get('request')->getSession()->invalidate();
-            return $this->redirect($this->generateUrl('frontend_welcome'));
+            return $this->redirect($this->generateUrl('frontend-welcome'));
         } else if ($this->get('security.context')->isGranted('ROLE_CLIENT_CASA')) {
             return $this->redirect($this->generateUrl('mycp_lodging_front'));
         } else {
