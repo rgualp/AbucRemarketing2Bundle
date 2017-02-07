@@ -750,7 +750,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "") {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false) {
 
         $condition = '';
 
@@ -829,8 +829,12 @@ class ownershipRepository extends EntityRepository {
                 $condition .= " AND ow.own_destination = :filter_destination ";
         }
         if($filter_commission != 'null' && $filter_commission != '') {
-
             $condition .= " AND ow.own_commission_percent = :filter_commission ";
+        }
+
+        $order_by = 'ow.own_mcp_code ASC';
+        if($hot){
+            $order_by = 'ow.own_hot_date';
         }
 
         $em = $this->getEntityManager();
@@ -842,6 +846,8 @@ class ownershipRepository extends EntityRepository {
         ow.own_inmediate_booking,
         ow.own_inmediate_booking_2,
         ow.own_name,
+        ow.own_creation_date,
+        ow.own_hot_date,
         mun.mun_name,
         prov.prov_name,
         ow.own_comment,
@@ -858,7 +864,7 @@ class ownershipRepository extends EntityRepository {
         JOIN ow.data data
         LEFT JOIN ow.own_destination d
         LEFT JOIN ow.own_status s
-        WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
+        WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ".$order_by);
 
         if($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
