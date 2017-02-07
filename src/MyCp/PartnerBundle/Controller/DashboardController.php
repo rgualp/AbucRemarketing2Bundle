@@ -5,6 +5,7 @@ namespace MyCp\PartnerBundle\Controller;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\PartnerBundle\Entity\paCancelPayment;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAgency;
 use MyCp\PartnerBundle\Form\FilterOwnershipType;
@@ -1299,7 +1300,6 @@ class DashboardController extends Controller
                 $em->persist($ownRes);
 
                 if ($hasToRefund) {
-
                 }
             }
 
@@ -2193,6 +2193,16 @@ class DashboardController extends Controller
             $payment->setStatus($pendingStatus);
 
             $em->persist($payment);
+
+            $nomCancelFromAgency = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_agency", "nom_category" => "agencyCancelPaymentType"));
+            $cancelPayment = new paCancelPayment();
+            $cancelPayment->setBooking($bookingData["booking"]);
+            $cancelPayment->setCancelDate(new \DateTime());
+            $cancelPayment->setGiveAgency(true);
+            $cancelPayment->setUser($this->getUser());
+            $cancelPayment->setType($nomCancelFromAgency);
+
+            $em->persist($cancelPayment);
         }
 
         $em->flush();

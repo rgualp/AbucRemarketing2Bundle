@@ -12,9 +12,11 @@ use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\Reservation;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
+use MyCp\PartnerBundle\Entity\paCancelPayment;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAgency;
 use MyCp\PartnerBundle\Entity\paReservation;
 use MyCp\PartnerBundle\Entity\paReservationDetail;
+use MyCp\PartnerBundle\Form\paCancelPaymentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -624,14 +626,14 @@ class BackendReservationAgController extends Controller {
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $payment->getBooking()->getBookingUserId()));
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
 
-        $form = $this->createForm(new cancelPaymentType());
+        $form = $this->createForm(new paCancelPaymentType());
 
         return $this->render('mycpBundle:reservationAgency:bookingCancel.html.twig', array(
             'user' => $user,
             'form'=>$form->createView(),
             'reservations' => $reservations,
             'payment' => $payment,
-            'cancel_payment'=>$em->getRepository('mycpBundle:cancelPayment')->findBy(array('booking' => $id_booking))
+            'cancel_payment'=>$em->getRepository('PartnerBundle:paCancelPayment')->findBy(array('booking' => $id_booking))
         ));
     }
 
@@ -651,12 +653,10 @@ class BackendReservationAgController extends Controller {
         $total_nights = array();
         $service_time = $this->get('time');
 
-        $obj = ($id!='') ? $em->getRepository('mycpBundle:cancelPayment')->find($id) : new cancelPayment();
+        $obj = ($id!='') ? $em->getRepository('PartnerBundle:paCancelPayment')->find($id) : new paCancelPayment();
 
-        $newForm= new cancelPaymentType();
+        $newForm= new paCancelPaymentType();
         $form = $this->createForm($newForm, $obj);
-
-
 
         if(!$request->get('formEmpty')){
             $form->handleRequest($request);
@@ -667,6 +667,8 @@ class BackendReservationAgController extends Controller {
                 $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $request->get('idBooking')));
                 $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $payment->getBooking()->getBookingUserId()));
                 $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+                $nomCancelFromAgency = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_agency", "nom_category" => "agencyCancelPaymentType"));
+                $nomCancelFromHost = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_host", "nom_category" => "agencyCancelPaymentType"));
 
                 //Obtener los datos del formulario
                 $form_data=$request->get('mycp_mycpbundle_cancelpayment');
@@ -677,7 +679,7 @@ class BackendReservationAgController extends Controller {
                 if($date_cancel_payment<$min_date_arrive){
                     //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
-                    if($form_data['type']==1)//Si el tipo de cancelación es de propietario
+                    if($form_data['type']==$nomCancelFromHost->getNomId())//Si el tipo de cancelación es de propietario
                     {
 
                         $price_agency=$this->calculateAgency($reservations_ids,true);
@@ -733,7 +735,7 @@ class BackendReservationAgController extends Controller {
                             }
                         }
                     }
-                    if($form_data['type']==2)//Si el tipo de cancelación  es de turista/agencia
+                    if($form_data['type']==$nomCancelFromAgency->getNomId())//Si el tipo de cancelación  es de agencia
                     {
                         if($day>=7){  //Antes  de los 7 días de llegada del turista:
 
