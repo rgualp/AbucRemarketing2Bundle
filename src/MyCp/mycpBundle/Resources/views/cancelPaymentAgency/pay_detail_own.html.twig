@@ -1,0 +1,4 @@
+{% for pay in pays %}
+        <td>{{ pay.getAccommodation.getOwnMcpCode }} - {{ pay.getAccommodation.getOwnName }}</td>
+        <td>{{ pay.getAmount }} CUC </td>
+{% endfor %}

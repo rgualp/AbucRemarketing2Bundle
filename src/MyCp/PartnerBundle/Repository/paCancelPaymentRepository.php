@@ -12,4 +12,65 @@ use Doctrine\ORM\EntityRepository;
  */
 class paCancelPaymentRepository extends EntityRepository {
 
+    /**
+     * @param string $filter_number
+     * @param string $filter_code
+     * @param string $filter_method
+     * @param string $filter_payment_date_from
+     * @param string $filter_payment_date_to
+     * @return \Doctrine\ORM\Query
+     */
+    function findAllByFilters($filter_number="", $filter_code="",  $filter_method="", $filter_name="",$filter_payment_date_from="", $filter_payment_date_to="",$filter_own="")
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("op")
+            ->from("PartnerBundle:paCancelPayment", "op")
+            ->join("op.type", "type")
+            ->join("op.booking", "booking")
+            ->join("op.ownreservations", "cpown")
+            ->join("cpown.own_res_gen_res_id", "gr")
+            ->join("gr.gen_res_own_id", "own")
+            ->orderBy("op.id", "DESC");
+        if($filter_number != null && $filter_number != "" && $filter_number != "null")
+        {
+            $qb->andWhere("op.id LIKE :id")
+                ->setParameter("id", '%'.$filter_number.'%');
+        }
+        if($filter_payment_date_from != null && $filter_payment_date_from != "" && $filter_payment_date_from != "null")
+        {
+            $qb->andWhere("op.cancel_date >= :dateFrom")
+                ->setParameter("dateFrom", $filter_payment_date_from);
+        }
+
+        if($filter_payment_date_to != null && $filter_payment_date_to != "" && $filter_payment_date_to != "null")
+        {
+            $qb->andWhere("op.cancel_date <= :dateTo")
+                ->setParameter("dateTo", $filter_payment_date_to);
+        }
+        if($filter_method != null && $filter_method != "" && $filter_method != "null")
+        {
+            $qb->andWhere("type.nom_id = :type")
+                ->setParameter("type", $filter_method);
+        }
+        if($filter_code != null && $filter_code != "" && $filter_code != "null")
+        {
+            $qb->andWhere("booking.booking_id LIKE :code")
+                ->setParameter("code", '%'.$filter_code.'%');
+        }
+        if($filter_name != null && $filter_name != "" && $filter_name != "null")
+        {
+            $qb->andWhere("booking.booking_user_dates LIKE :booking_user_dates")
+                ->setParameter("booking_user_dates", '%'.$filter_name.'%');
+        }
+        if($filter_own != null && $filter_own != "" && $filter_own != "null")
+        {
+            $qb->andWhere("own.own_mcp_code LIKE :own_mcp_code")
+                ->setParameter("own_mcp_code", '%'.$filter_own.'%');
+        }
+        return $qb->getQuery();
+
+    }
+
+
 }
