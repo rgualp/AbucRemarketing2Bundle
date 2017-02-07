@@ -324,13 +324,13 @@ class destinationRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query_string = "SELECT d,
-                         (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
+                         (SELECT min(dl.des_lang_brief) from mycpBundle:destinationLang dl
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
-                         (SELECT description.des_lang_desc from mycpBundle:destinationLang description
+                         (SELECT min(description.des_lang_desc) from mycpBundle:destinationLang description
                           JOIN description.des_lang_lang desc_l WHERE description.des_lang_destination = d.des_id AND desc_l.lang_code = '$locale') as desc_full,
-                          (SELECT dkl.dkl_keywords from mycpBundle:destinationKeywordLang dkl
+                          (SELECT min(dkl.dkl_keywords) from mycpBundle:destinationKeywordLang dkl
                           JOIN dkl.dkl_id_lang lang WHERE dkl.dkl_destination = d.des_id AND lang.lang_code = '$locale')as keywords,
-                          (SELECT dkld.dkl_description from mycpBundle:destinationKeywordLang dkld
+                          (SELECT min(dkld.dkl_description) from mycpBundle:destinationKeywordLang dkld
                           JOIN dkld.dkl_id_lang langd WHERE dkld.dkl_destination = d.des_id AND langd.lang_code = '$locale')as keyword_description,
                          (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
                          (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
@@ -345,7 +345,7 @@ class destinationRepository extends EntityRepository {
     }
 
     /**
-     * Returns a set of destination�s descriptions
+     * Returns a set of destination's descriptions
      * @param array $destination_array - Set of destination to search it's description
      * @param string $lang_code
      * @return array

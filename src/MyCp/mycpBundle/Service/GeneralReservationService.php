@@ -255,6 +255,7 @@ class GeneralReservationService extends Controller
                     $status = generalReservation::STATUS_NOT_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
                     $reservation->setCurrentResponseTime();
+                    $reservation->setGenResStatusDate(new \DateTime());
 
                     //Enviar oferta con 3 casas de reserva inmediata
                     $service_email = $this->container->get('Email');
@@ -281,26 +282,35 @@ class GeneralReservationService extends Controller
 
                 } else if ($available_total > 0 && $available_total == $details_total) {
                     $status = generalReservation::STATUS_AVAILABLE;
+
+                    /*if($reservation->getGenResStatus() == generalReservation::STATUS_OUTDATED)
+                        $reservation->setGenResDate(new \DateTime());*/
+
                     $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     $send_notification = true;
                     $reservation->setCurrentResponseTime();
+                    $reservation->setGenResStatusDate(new \DateTime());
                 } else if ($non_available_total > 0 && $available_total > 0){
                     $status = generalReservation::STATUS_PARTIAL_AVAILABLE;
                     $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
                     $reservation->setCurrentResponseTime();
+                    $reservation->setGenResStatusDate(new \DateTime());
                 }
                 else if ($cancelled_total > 0 && $cancelled_total != $details_total) {
                     $status = generalReservation::STATUS_PARTIAL_CANCELLED;
                     $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
+                    $reservation->setGenResStatusDate(new \DateTime());
                 } else if ($outdated_total > 0 && $outdated_total == $details_total){
                     $status = generalReservation::STATUS_OUTDATED;
                     $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+                    $reservation->setGenResStatusDate(new \DateTime());
                 }
 
             }
             if ($cancelled_total > 0 && $cancelled_total == $details_total) {
                 $status = generalReservation::STATUS_CANCELLED;
                 $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                $reservation->setGenResStatusDate(new \DateTime());
             }
 
             if ($send_notification){
