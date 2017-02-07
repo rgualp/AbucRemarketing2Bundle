@@ -46,8 +46,8 @@
 <table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th>Usuario que suplanta</th>
-        <th>Usuario suplantado</th>
+        <th>Nombre usuario que suplanta</th>
+        <th>Nombre usuario suplantado</th>
         <th>Fecha de la suplantación</th>
         <th>Motivo</th>
         <th style="text-align: right">
@@ -58,8 +58,8 @@
     <tbody>
     {% for item in list %}
     <tr>
-        <td>{{ item.getOverrideBy.getUserUserName }} {{ item.getOverrideBy.getUserLastName }}</td>
-        <td>{{ item.getOverrideTo.getUserUserName }} {{ item.getOverrideTo.getUserLastName }}</td>
+        <td>{{ item.getOverrideBy.getUserCompleteName }} - <b>Usuario:</b>{{ item.getOverrideBy.getName }}</td>
+        <td>{{ item.getOverrideTo.getUserCompleteName }} - <b>Usuario:</b>{{ item.getOverrideTo.getName }}</td>
         <td>{{ item.getOverrideDate|date("d/m/Y")}}</td>
         <td>{{ item.getReason}}</td>
 

@@ -1,15 +1,15 @@
-frontend_welcome:
+frontend-welcome:
     locales:  { en: "/", es: "/", de: "/", fr: "/", it: "/" }
     defaults: { _controller: FrontEndBundle:Public:welcome }
-_frontend_welcome:
+_frontend-welcome:
     locales:  { en: "/lodging-where-cuba-cuba-is/", es: "/alojarse-donde-cuba-cuba-es/", de: "/uebernachten-wo-kuba-kuba-ist/" }
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, permanent: true  }
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend-welcome, permanent: true  }
 # This route shouldn't be used in the code as it only redirects the old homepage URLs
-frontend_welcome_old:
+frontend-welcome_old:
     locales:  { en: "/welcome/", es: "/bienvenido/", de: "/willkommen/" }
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: frontend_welcome
+        route: frontend-welcome
         permanent: true
 
 frontend_destination:

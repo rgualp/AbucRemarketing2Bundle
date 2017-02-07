@@ -4,11 +4,11 @@ my_cp_mobile_frontend_homepage:
 
 my_cp_mobile_frontend_top_nav_control:
     locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}", fr: "/topNav/{route}/{routeParams}", it: "/topNav/{route}/{routeParams}" }
-    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:topNav, route: frontend_welcome, routeParams: null  }
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:topNav, route: frontend-welcome, routeParams: null  }
 
 my_cp_mobile_frontend_menu_lang_curr:
     locales:  { en: "/langcurr/{route}/{routeParams}", es: "/langcurr/{route}/{routeParams}", de: "/langcurr/{route}/{routeParams}", fr: "/langcurr/{route}/{routeParams}", it: "/langcurr/{route}/{routeParams}" }
-    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:langCurr, route: frontend_welcome, routeParams: null  }
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:langCurr, route: frontend-welcome, routeParams: null  }
 
 my_cp_mobile_insert_favorite_callback:
     pattern:  /favorite-insert/
