@@ -19,7 +19,7 @@
         {% for ownershipReservation in ownershipReservations %}
             <p>
                 <b>Habitaciones:</b><br/>
-                <b>{{ ownershipReservation.getOwnResGenResId.getCASId }}</b><br/>
+                <b>CAS.{{ ownershipReservation.getOwnResGenResId.getCASId }}</b><br/>
                 <b>Precio Habitación:</b>
                 Baja: {{ ownershipReservation.getOwnResRoomPriceDown }} CUC <br/>
                 Alta: {{ ownershipReservation.getOwnResRoomPriceUp }} CUC<br/>

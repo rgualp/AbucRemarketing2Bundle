@@ -2183,17 +2183,6 @@ class DashboardController extends Controller
 
         foreach($bookingDataArrays as $bookingData)
         {
-            $payment = new paPendingPaymentAgency();
-            $payment->setBooking($bookingData["booking"]);
-            $payment->setAmount($bookingData["refund"]);
-            $payment->setAgency($bookingData["agency"]);
-            $payment->setReservation($bookingData["reservation"]);
-            $payment->setCreatedDate(new \DateTime());
-            $payment->setType($cancelPaymentType);
-            $payment->setStatus($pendingStatus);
-
-            $em->persist($payment);
-
             $nomCancelFromAgency = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_agency", "nom_category" => "agencyCancelPaymentType"));
             $cancelPayment = new paCancelPayment();
             $cancelPayment->setBooking($bookingData["booking"]);
@@ -2203,6 +2192,18 @@ class DashboardController extends Controller
             $cancelPayment->setType($nomCancelFromAgency);
 
             $em->persist($cancelPayment);
+
+            $payment = new paPendingPaymentAgency();
+            $payment->setBooking($bookingData["booking"]);
+            $payment->setAmount($bookingData["refund"]);
+            $payment->setAgency($bookingData["agency"]);
+            $payment->setReservation($bookingData["reservation"]);
+            $payment->setCreatedDate(new \DateTime());
+            $payment->setType($cancelPaymentType);
+            $payment->setStatus($pendingStatus);
+            $payment->setCancelPayment($cancelPayment);
+
+            $em->persist($payment);
         }
 
         $em->flush();

@@ -96,6 +96,12 @@ class paPendingPaymentAgency
     private $reason;
 
     /**
+     * @ORM\ManyToOne(targetEntity="paCancelPayment")
+     * @ORM\JoinColumn(name="cancel_payment", referencedColumnName="id", nullable=true)
+     */
+    private $cancelPayment;
+
+    /**
      * @return int
      */
     public function getId()
@@ -301,6 +307,22 @@ class paPendingPaymentAgency
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCancelPayment()
+    {
+        return $this->cancelPayment;
+    }
 
+    /**
+     * @param mixed $cancelPayment
+     * @return mixed
+     */
+    public function setCancelPayment($cancelPayment)
+    {
+        $this->cancelPayment = $cancelPayment;
+        return $this;
+    }
 
 }
