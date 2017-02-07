@@ -1,3 +1,9 @@
 User-agent: *
-Disallow:
-Sitemap: https://www.mycasaparticular.com/sitemap.xml
+Disallow: /backend
+Disallow: /mycasa
+
+
+
+
+
+Sitemap: https://mycasaparticular.com/sitemap.xml

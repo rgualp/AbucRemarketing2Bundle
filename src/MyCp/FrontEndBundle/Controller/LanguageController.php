@@ -11,6 +11,7 @@ class LanguageController extends Controller
 {
     public function getLanguagesAction($route, $routeParams = null)
     {
+        $route="frontend-welcome";
         $routeParams = empty($routeParams) ? array() : $routeParams;
 
         $em = $this->getDoctrine()->getManager();
