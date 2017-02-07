@@ -13,6 +13,7 @@ class MobileController extends Controller
 
     public function topNavAction($route, $routeParams = null)
     {
+        $route="frontend-welcome";
         $routeParams = empty($routeParams) ? array() : $routeParams;
 
         $em = $this->getDoctrine()->getManager();
