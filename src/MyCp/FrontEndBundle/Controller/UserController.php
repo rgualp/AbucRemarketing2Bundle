@@ -251,8 +251,8 @@ class UserController extends Controller {
     public function changePasswordAction($string, Request $request) {
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
-        $errors = array();
         $form = $this->createForm(new changePasswordUserType($this->get('translator')));
+        $errors='';
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_change_password_usertype');
             $form->handleRequest($request);
@@ -266,28 +266,29 @@ class UserController extends Controller {
                         $factory = $this->get('security.encoder_factory');
                         $user2 = new user();
                         $encoder = $factory->getEncoder($user2);
-                        if (isset($post['user_password']['Clave']))
-                            $password = $encoder->encodePassword($post['user_password']['Clave'], $user->getSalt());
+
+                        if($post['user_password']['first'] == $post['user_password']['second']){
+                            $password = $encoder->encodePassword($post['user_password']['first'], $user->getSalt());
+                            $user->setUserPassword($password);
+                            $em->persist($user);
+                            $em->flush();
+
+                            $message = $this->get('translator')->trans('EMAIL_PASS_CHANGED');
+                            //mailing
+                            $service_email = $this->get('Email');
+                            $service_email->sendTemplatedEmail($message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
+
+                            $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                            //authenticate the user
+                            $providerKey = 'user'; //the name of the firewall
+                            $token = new UsernamePasswordToken($user, $password, $providerKey, $user->getRoles());
+                            $this->get("security.context")->setToken($token);
+                            $this->get('session')->set('_security_user', serialize($token));
+                            return $this->redirect($this->generateUrl("frontend-welcome"));
+                        }
                         else
-                            $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
-                        $user->setUserPassword($password);
-                        $em->persist($user);
-                        $em->flush();
+                            $errors=$this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR");
 
-                        $message = $this->get('translator')->trans('EMAIL_PASS_CHANGED');
-                        //mailing
-                        $service_email = $this->get('Email');
-                        $service_email->sendTemplatedEmail(
-                                $message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
-
-                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
-//                        return $this->redirect($this->generateUrl('frontend_login'));
-                        //authenticate the user
-                        $providerKey = 'user'; //the name of the firewall
-                        $token = new UsernamePasswordToken($user, $password, $providerKey, $user->getRoles());
-                        $this->get("security.context")->setToken($token);
-                        $this->get('session')->set('_security_user', serialize($token));
-                        return $this->redirect($this->generateUrl("frontend-welcome"));
                     }
                 } else {
                     throw $this->createNotFoundException($this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR"));
