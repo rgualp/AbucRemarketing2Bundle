@@ -85,11 +85,7 @@ frontend_logout:
 
 mycp_main:
     pattern:  /
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend-welcome, _locale: en }
-
-#mycp_main:
-#    pattern:  /
-#    defaults: { _controller: FrontEndBundle:Public:welcome, route: frontend-welcome, _locale: en }
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend-welcome }
 
 remarketing_legal_terms:
     pattern:  /legal-terms-email/{_locale}/{locale}

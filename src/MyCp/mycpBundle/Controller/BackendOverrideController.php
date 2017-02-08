@@ -92,10 +92,11 @@ class BackendOverrideController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
-        $name = $request->get('name');
+        $filter_user_name = $request->get('name');
+        $filter_email = $request->get('email');
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $item = $em->getRepository('mycpBundle:user')->findBy(array('user_name' => $name));
+        $item = $em->getRepository('mycpBundle:user')->getUserByFilters($filter_user_name, '', '', '', '', '', $filter_email);
         if(count($item))
             return new JsonResponse(['success' => true, 'iduser' =>$item[0]->getUserId(),'name'=> $item[0]->getUserUserName() . ' ' . $item[0]->getUserLastName(),'email'=>$item[0]->getUserEmail()]);
         else
