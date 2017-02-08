@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Controller;
 
 
+use MyCp\PartnerBundle\Form\paCancelPaymentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,18 +126,6 @@ class BackendCancelPaymentAgController extends Controller {
     }
 
     /**
-     * @param $selectedValue
-     * @return Response
-     */
-    public function getNomenclatorListAction($selectedValue)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $nomenclators = $em->getRepository('mycpBundle:cancelType')->findAll();
-        return $this->render('mycpBundle:cancelPaymentAgency:listNomenclators.html.twig', array('nomenclators' => $nomenclators
-            ,'selected'=>$selectedValue));
-    }
-
-    /**
      * @param $id
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -179,15 +168,16 @@ class BackendCancelPaymentAgController extends Controller {
         $id_booking = $cancel->getBooking()->getBookingId();
 
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
-        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $cancel->getBooking()->getBookingUserId()));
+        $tourOperator = $em->getRepository('PartnerBundle:paTourOperator')->findOneBy(array('tourOperator' => $cancel->getBooking()->getBookingUserId()));
 
-        $form = $this->createForm(new cancelPaymentType());
+        $form = $this->createForm(new paCancelPaymentType());
 
         return $this->render('mycpBundle:cancelPaymentAgency:detail.html.twig', array(
-                'user' => $user,
+                'user' => $tourOperator->getTourOperator(),
                 'form'=>$form->createView(),
                 'reservations' => $cancel->getOwnreservations(),
                 'payment' => $payment,
+                'idCancel' => $id,
                 'cancel_payment'=>$em->getRepository('PartnerBundle:paCancelPayment')->findBy(array('booking' => $id_booking))
             ));
     }
