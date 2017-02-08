@@ -14,23 +14,23 @@
     <ul class="breadcrumb">
         <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
         <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
-        <li><a href="{{ path('mycp_list_cancel_payment') }}">Listado de cancelaciones</a> <span class="divider">/</span></li>
-        <li class="active">Detalles del pago de la cancelación</li>
-        <li class="pull-right"><a href="{{ path('mycp_list_cancel_payment') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+        <li><a href="{{ path('mycp_list_cancel_payment_ag') }}">Cancelaciones</a> <span class="divider">/</span></li>
+        <li class="active">Detalles del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
 {% endblock %}
 {% block form_actions %}
     <ul class="breadcrumb">
         <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
         <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
-        <li><a href="{{ path('mycp_list_cancel_payment') }}">Listado de cancelaciones</a> <span class="divider">/</span></li>
-        <li class="active">Detalles del pago de la cancelación</li>
-        <li class="pull-right"><a href="{{ path('mycp_list_cancel_payment') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+        <li><a href="{{ path('mycp_list_cancel_payment_ag') }}">Cancelaciones</a> <span class="divider">/</span></li>
+        <li class="active">Detalles del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
 {% endblock %}
 {% block content %}
     <h2>Detalles del pago de la cancelación</h2>
-    {{ render(controller('mycpBundle:BackendCancelPayment:getPaymentByCancel', {'post': {'selected':idcancel}})) }}
+    {{ render(controller('mycpBundle:BackendCancelPaymentAg:getPaymentByCancel', {'post': {'selected':idcancel}})) }}
     <hr/>
 
 {% endblock %}

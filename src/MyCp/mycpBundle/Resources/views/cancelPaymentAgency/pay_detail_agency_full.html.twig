@@ -3,7 +3,7 @@
     <tr>
         <th>Fecha del pago</th>
         <th>Tipo de Cancelación</th>
-        <th>Alojamiento</th>
+        <th>Agencia</th>
         <th>Monto del Pagar</th>
         <th>Estado del pago</th>
         <th>Usuario</th>
@@ -14,14 +14,16 @@
     <tbody>
     {% for pay in pays %}
         <td>{{ pay.getPayDate | date("d/m/Y") }}</td>
-        <td>{{ pay.getCancelPayment.getType.translations[0].nomLangDescription }}</td>.
-        <td style="font-size: smaller"><b>Alojamiento:</b> {{ pay.accommodation.getOwnMcpCode }} - {{ pay.accommodation.getOwnName }}<br/>
-            <b>Propietario:</b> {{ pay.accommodation.getOwnHomeowner1 }}<br/>
-            <b>Correo:</b> {{ pay.accommodation.getOwnEmail1 }}</td>
-        <td>{{ pay.getAmount }} CUC </td>
+        <td>{{ pay.getCancelPayment.getType.getCancelName }}</td>.
+        <td style="font-size: smaller">
+            <b>Nombre:</b>{{ pay.agency.name }}
+            <b>Correo:</b>{{ pay.agency.email }}
+        </td>
+        <td>{{ pay.getAmount }} {{ pay.getCancelPayment.getBooking.getBookingCurrency.getCurrSymbol }} </td>
         <td>{{ pay.getType.translations[0].nomLangDescription }}</td>
         <td>{% if pay.getUser != null %}{{ pay.getUser.getUserCompleteName }}{% else %} - {% endif %}</td>
         <td>{{pay.registerDate | date ("d/m/Y")}}</td>
     {% endfor %}
     </tbody>
 </table>
+
