@@ -218,6 +218,13 @@ class generalReservation {
     private $responseTime;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_payment", type="boolean")
+     */
+    private $complete_payment;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -228,6 +235,7 @@ class generalReservation {
 
         $this->travelAgencyDetailReservations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->complete_payment = false;
     }
 
     /**
@@ -596,6 +604,7 @@ class generalReservation {
         $genRes->setGenResTotalInSite($this->gen_res_total_in_site);
         $genRes->setGenResUserId($this->gen_res_user_id);
         $genRes->setServiceFee($this->service_fee);
+        $genRes->setCompletePayment($this->complete_payment);
 
         return $genRes;
     }
@@ -918,4 +927,24 @@ class generalReservation {
 
         return null;
     }
+
+    /**
+     * @return int
+     */
+    public function getCompletePayment()
+    {
+        return $this->complete_payment;
+    }
+
+    /**
+     * @param int $complete_payment
+     * @return mixed
+     */
+    public function setCompletePayment($complete_payment)
+    {
+        $this->complete_payment = $complete_payment;
+        return $this;
+    }
+
+
 }

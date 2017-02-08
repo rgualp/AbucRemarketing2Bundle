@@ -758,6 +758,7 @@ class DashboardController extends Controller
         $travelAgency = $tourOperator->getTravelAgency();
         $contacts = $travelAgency->getContacts();
         $phone_contact = (count($contacts)) ? $contacts[0]->getPhone() . ', ' . $contacts[0]->getMobile() : ' ';
+        $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
         //Send email team reservations
         $content = $this->render('PartnerBundle:Mail:newAvailabilityCheckReservations.html.twig', array(
             "reservations" => $paGeneralReservation->getTravelAgencyOpenReservationsDetails(),
@@ -772,7 +773,7 @@ class DashboardController extends Controller
         ));
         $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'solicitud.partner@mycasaparticular.com', $content);
 
-        $generalReservation = $paGeneralReservation->createReservation();
+        $generalReservation = $paGeneralReservation->createReservation($completePayment);
 
         $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
         //Pasar los paOwnershipReservation a ownershipReservation
@@ -1589,6 +1590,11 @@ class DashboardController extends Controller
     {
         $check_dispo = $request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
+
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
@@ -1746,10 +1752,10 @@ class DashboardController extends Controller
         if ($user_ids["user_id"] != null) {
             if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 1 && !$showErrorOwnExist) {
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo($arrayIdCart, $request, false, $id_ownership);
+                $this->checkDispo($arrayIdCart, $request, false, $id_ownership, $completePayment);
             } elseif (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && !$showErrorOwnExist) {
                 //Es que el usuario mando a hacer una reserva
-                $own_ids = $this->checkDispo($arrayIdCart, $request, true, $id_ownership);
+                $own_ids = $this->checkDispo($arrayIdCart, $request, true, $id_ownership, $completePayment);
             } else {
                 if (!$request->isXmlHttpRequest()) {
                     $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
@@ -1818,7 +1824,7 @@ class DashboardController extends Controller
      * @param $request
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function checkDispo($arrayIdCart, $request, $inmediatily_booking, $id_ownership)
+    public function checkDispo($arrayIdCart, $request, $inmediatily_booking, $id_ownership, $completePayment)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -1881,6 +1887,7 @@ class DashboardController extends Controller
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
+                    $general_reservation->setCompletePayment($completePayment);
                     if ($inmediatily_booking)
                         $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     else
