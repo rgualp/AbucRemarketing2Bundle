@@ -24,6 +24,80 @@ class BackendExportController extends Controller {
         return $exporter->exportAccommodationsDirectory();
     }
 
+    function exportAccommodationsHotToExcelAction(Request $request) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+
+        $filter_active = $request->get('filter_active');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get('filter_destination');
+        $filter_name = $request->get('filter_name');
+        $filter_municipality = $request->get('filter_municipality');
+        $filter_type = $request->get('filter_type');
+        $filter_category = $request->get('filter_category');
+        $filter_code = $request->get('filter_code');
+        $filter_saler = $request->get('filter_saler');
+        $filter_visit_date = $request->get('filter_visit_date');
+        $filter_other = $request->get('filter_other');
+        $filter_commission = $request->get('filter_commission');
+
+
+        $filter_start_creation_date = ($request->get('filter_start_creation_date') != null && $request->get('filter_start_creation_date') != '') ? ($request->get('filter_start_creation_date')) : (null);
+        $filter_end_creation_date = ($request->get('filter_end_creation_date') != null && $request->get('filter_end_creation_date') != '') ? ($request->get('filter_end_creation_date')) : (null);
+
+        if(isset($filter_start_creation_date) && !isset($filter_end_creation_date)){
+            $filter_end_creation_date = $filter_start_creation_date;
+        }
+        if(!isset($filter_start_creation_date) && isset($filter_end_creation_date)){
+            $filter_start_creation_date = $filter_end_creation_date;
+        }
+        if(isset($filter_start_creation_date) && isset($filter_end_creation_date)){
+            $xfilter_start_creation_date = \DateTime::createFromFormat('d-m-Y', $filter_start_creation_date);
+            $xfilter_end_creation_date = \DateTime::createFromFormat('d-m-Y', $filter_end_creation_date);
+            if($filter_start_creation_date == $filter_end_creation_date){
+                $xfilter_end_creation_date->modify('+1 day');
+            }
+
+            $filter_start_creation_date = $xfilter_start_creation_date->format('Y-m-d');
+            $filter_end_creation_date = $xfilter_end_creation_date->format('Y-m-d');
+        }
+
+        if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
+            $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' &&
+            $filter_destination == 'null' && $filter_other == 'null' && $filter_commission == 'null' && !isset($filter_start_creation_date) && !isset($filter_end_creation_date)
+        ) {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_ownerships_hot'));
+        }
+
+        if ($filter_code == 'null')
+            $filter_code = '';
+        if ($filter_name == 'null')
+            $filter_name = '';
+        if ($filter_saler == 'null')
+            $filter_saler = '';
+        if ($filter_visit_date == 'null')
+            $filter_visit_date = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_other == 'null')
+            $filter_other = '';
+        if ($filter_commission == 'null')
+            $filter_commission = '';
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getManager();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->getAll(
+            $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other, $filter_commission, true, $filter_start_creation_date, $filter_end_creation_date
+        )->getResult();
+
+
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportAccommodationsHotsDirectory('casascalientes', $ownerships);
+    }
+
     function checkInToExcelAction($date, $sort_by) {
         /* $service_security = $this->get('Secure');
           $service_security->verifyAccess(); */

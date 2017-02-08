@@ -509,6 +509,88 @@ class ExportToExcel extends Controller {
         return $this->excelDirectoryPath.$fileName;
     }
 
+    public function exportAccommodationsHotsDirectory($fileName = "casascalientes", $ownerships = array()) {
+        $excel = $this->configExcel("Directorio de alojamientos calientes", "Directorio de alojamientos calientes de MyCasaParticular", "alojamientos calientes");
+
+        $data = $this->dataForAccommodationsHots($ownerships);
+
+        if (count($data) > 0) {
+            $excel = $this->createSheetForAccommodationsHotsDirectory($excel, "Casas calientes", $data);
+        }
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+
+        return $this->export($fileName);
+
+    }
+
+    private function dataForAccommodationsHots($ownerships) {
+        $results = array();
+
+        foreach ($ownerships as $own) {
+            $data = array();
+
+            $own["own_creation_date"] = ($own["own_creation_date"] != null) ? ($own["own_creation_date"]->format('d-m-Y')) : ('No tiene');
+
+
+            $data[0] = $own["own_mcp_code"];
+            $data[1] = $own["own_name"];
+            $data[2] = $own["des_name"];
+            $data[3] = $own["own_creation_date"];
+
+            $modalidades = '';
+            if($own['own_inmediate_booking'] != null && $own['own_inmediate_booking']){
+                $modalidades .= 'Resrva Rapida';
+            }
+            else if($own['own_inmediate_booking_2'] != null && $own['own_inmediate_booking_2']){
+                $modalidades .= 'Resrva Inmediata';
+            }
+            else{
+                $modalidades .= 'Por solicitud';
+            }
+
+            $data[4] = $modalidades;
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetForAccommodationsHotsDirectory($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', 'Código');
+        $sheet->setCellValue('b1', 'Casa');
+        $sheet->setCellValue('c1', 'Destino');
+        $sheet->setCellValue('d1', 'Creada');
+        $sheet->setCellValue('e1', 'Modalidad');
+
+
+        $sheet = $this->styleHeader("a1:e1", $sheet);
+
+        $sheet->fromArray($data, ' ', 'A2');
+
+        $this->setColumnAutoSize("a", "e", $sheet);
+
+        /*for($i = 0; $i < count($data); $i++)
+        {
+            if($data[$i][9] != "Activo")
+            {
+                $style = array(
+                    'font' => array(
+                        'color' => array('rgb' => 'FF0000'),
+                    ),
+                );
+                $sheet->getStyle("A".($i + 2).":L".($i + 2))->applyFromArray($style);
+            }
+        }*/
+
+        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
+
+        return $excel;
+    }
+
     private function dataForAccommodationsDirectory($excel,$idProvince, $status = null) {
         $results = array();
 
