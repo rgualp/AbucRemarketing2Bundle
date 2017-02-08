@@ -35,14 +35,14 @@
                         <input id="filter_number" value="{{(filter_number != "null")?filter_number:''}}" class="input-block-level" name="filter_number" type="text"/>
                     </div>
                     <div class="span3">
-                        <label>Id Booking:</label>
+                        <label>Booking:</label>
                         <input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>
                     </div>
 
                     <div class="span3">
-                        <label>Tipo de Cancelación:</label>
+                        <label>Tipo:</label>
                         <select id="filter_method" class="input-block-level" name="filter_method">
-                            {{ render(controller('mycpBundle:BackendCancelPaymentAg:getNomenclatorList', {'selectedValue': filter_method})) }}
+                            {{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': filter_method, 'category': 'agencyCancelPaymentType'})) }}
                         </select>
                     </div>
                     <div class="span3">
@@ -60,7 +60,7 @@
                         <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
                     </div>
                     <div class="span3">
-                        <label>Código de la Casa:</label>
+                        <label>Código Alojamiento:</label>
                         <input id="filter_own" value="{{(filter_own != "null")?filter_own:''}}" class="input-block-level" name="filter_own" type="text"/>
                     </div>
                     <div class="span3">
@@ -73,7 +73,7 @@
                                 <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_cancel_payment_ag') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                             </div>
                             <div class="span4">
-                                <a {% if list | length > 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_cancel_payment_ag',{'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                                <a {% if list | length == 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_cancel_payment_ag',{'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                             </div>
                         </div>
                     </div>
@@ -110,12 +110,12 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Fecha Registro</th>
+            <th>Creada</th>
             <th>Tipo </th>
             <th>Booking</th>
-            <th>Habitaciones canceladas</th>
+            <th>Hab. canceladas</th>
             <th>Devolver A</th>
-            <th>Monto a devolver</th>
+            <th>Monto</th>
             <th style="text-align: right">Acciones</th>
         </tr>
         </thead>
@@ -129,9 +129,9 @@
             <td>{{item.ownreservations | length}}</td>
             {{ render(controller('mycpBundle:BackendCancelPaymentAg:getPayment', {'post': {'selected':item.id}})) }}
             <td style="text-align: right">
-                <a class="btn btn-mini" href="{{ path("mycp_details_cancel_payment_ag", {"id": item.id}) }}">Detalles</a>
-                <a class="btn btn-mini" href="{{ path("mycp_edit_cancel_payment_ag", {"id": item.id}) }}">Editar</a>
-                <a class="btn btn-mini" href="{{ path("mycp_pay_cancel_payment_ag", {"idcancel": item.id}) }}">Ver pago</a>
+                <a class="btn btn-mini btn-info" title="Ver registro de cancelacion" href="{{ path("mycp_details_cancel_payment_ag", {"id": item.id}) }}"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-mini" title="Editar registro de cancelacion" href="{{ path("mycp_edit_cancel_payment_ag", {"id": item.id}) }}"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-mini btn-success" title="Ver pago asociado" href="{{ path("mycp_pay_cancel_payment_ag", {"idcancel": item.id}) }}"><i class="fa fa-money"></i></a>
             </td>
         </tr>
         {% endfor %}
