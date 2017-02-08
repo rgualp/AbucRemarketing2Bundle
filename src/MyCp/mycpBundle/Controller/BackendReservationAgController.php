@@ -684,6 +684,8 @@ class BackendReservationAgController extends Controller {
                     if($form_data['type']==$nomCancelFromHost->getNomId())//Si el tipo de cancelación es de propietario
                     {
 
+                        $price_agency=$this->calculateAgency($reservations_ids,true);
+
                         if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
                             $total_price=($price_agency['price']+$price_agency['fixed'])*$payment->getCurrentCucChangeRate();
                         }
