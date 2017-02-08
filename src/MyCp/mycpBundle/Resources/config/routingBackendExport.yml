@@ -2,6 +2,10 @@ mycp_accommodations_export_excel:
     pattern:  /excel/accommodations
     defaults: { _controller: mycpBundle:BackendExport:exportAccommodationsToExcel }
 
+mycp_accommodations_hots_export_excel:
+    pattern:  /excel/accommodations/hots
+    defaults: { _controller: mycpBundle:BackendExport:exportAccommodationsHotToExcel }
+
 mycp_checkin_export_excel:
     pattern:  /excel/check-in/{date}/{sort_by}
     defaults: { _controller: mycpBundle:BackendExport:checkInToExcel}

@@ -1535,12 +1535,35 @@ class BackendOwnershipController extends Controller {
         $filter_visit_date = $request->get('filter_visit_date');
         $filter_other = $request->get('filter_other');
         $filter_commission = $request->get('filter_commission');
+
+
+        $filter_start_creation_date = ($request->get('filter_start_creation_date') != null && $request->get('filter_start_creation_date') != '') ? ($request->get('filter_start_creation_date')) : (null);
+        $filter_end_creation_date = ($request->get('filter_end_creation_date') != null && $request->get('filter_end_creation_date') != '') ? ($request->get('filter_end_creation_date')) : (null);
+
+        if(isset($filter_start_creation_date) && !isset($filter_end_creation_date)){
+            $filter_end_creation_date = $filter_start_creation_date;
+        }
+        if(!isset($filter_start_creation_date) && isset($filter_end_creation_date)){
+            $filter_start_creation_date = $filter_end_creation_date;
+        }
+        if(isset($filter_start_creation_date) && isset($filter_end_creation_date)){
+            $xfilter_start_creation_date = \DateTime::createFromFormat('d-m-Y', $filter_start_creation_date);
+            $xfilter_end_creation_date = \DateTime::createFromFormat('d-m-Y', $filter_end_creation_date);
+            if($filter_start_creation_date == $filter_end_creation_date){
+                $xfilter_end_creation_date->modify('+1 day');
+            }
+
+            $filter_start_creation_date = $xfilter_start_creation_date->format('Y-m-d');
+            $filter_end_creation_date = $xfilter_end_creation_date->format('Y-m-d');
+        }
+
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-            $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null' && $filter_other == 'null' && $filter_commission == 'null'
+            $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' &&
+            $filter_destination == 'null' && $filter_other == 'null' && $filter_commission == 'null' && !isset($filter_start_creation_date) && !isset($filter_end_creation_date)
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+            return $this->redirect($this->generateUrl('mycp_list_ownerships_hot'));
         }
 
         if ($filter_code == 'null')
@@ -1564,7 +1587,7 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
-            $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other, $filter_commission, true
+            $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other, $filter_commission, true, $filter_start_creation_date, $filter_end_creation_date
         ))->getResult();
         /* $data = array();
           foreach ($ownerships as $ownership) {
@@ -1591,7 +1614,9 @@ class BackendOwnershipController extends Controller {
             'filter_visit_date' => $filter_visit_date,
             'filter_destination' => $filter_destination,
             'filter_other' => $filter_other,
-            'filter_commission' => $filter_commission
+            'filter_commission' => $filter_commission,
+            'filter_start_creation_date'=>$filter_start_creation_date,
+            'filter_end_creation_date'=>$filter_end_creation_date
         ));
     }
 }
