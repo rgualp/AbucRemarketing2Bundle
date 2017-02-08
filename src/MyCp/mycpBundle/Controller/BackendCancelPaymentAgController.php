@@ -135,9 +135,10 @@ class BackendCancelPaymentAgController extends Controller {
 //        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $obj = $em->getRepository('PartnerBundle:paCancelPayment')->find($id);
-        $form = $this->createForm(new cancelPaymentType(), $obj);
+        $form = $this->createForm(new paCancelPaymentType(), $obj);
 
-        $user_tourist= $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $obj->getBooking()->getBookingUserId()));
+        $tourOperator = $em->getRepository('PartnerBundle:paTourOperator')->findOneBy(array('tourOperator' => $obj->getBooking()->getBookingUserId()));
+
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -148,12 +149,12 @@ class BackendCancelPaymentAgController extends Controller {
                 $message = 'Pago actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                return $this->redirect($this->generateUrl('mycp_list_cancel_payment'));
+                return $this->redirect($this->generateUrl('mycp_list_cancel_payment_ag'));
             }
         }
 
         return $this->render('mycpBundle:cancelPaymentAgency:new.html.twig', array(
-                'form' => $form->createView(), 'edit_payment' => $id, 'obj' => $obj,'user_tourist'=>$user_tourist[0]
+                'form' => $form->createView(), 'edit_payment' => $id, 'obj' => $obj,'user'=>$tourOperator->getTourOperator()
             ));
     }
 

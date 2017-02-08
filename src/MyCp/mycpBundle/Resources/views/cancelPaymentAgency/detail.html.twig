@@ -106,7 +106,7 @@
                             <td>{{ item.type.translations[0].nomLangDescription }}</td>
                             <td>{% if item.giveAgency %}Si{% else %}No{% endif %}</td>
                             {{ render(controller('mycpBundle:BackendCancelPaymentAg:getPayment', {'post': {'selected':item.id}})) }}
-                            <td>{{ item.reason }}</td>
+                            <td>{{ item.reason | raw }}</td>
                             <td>{{ item.cancelDate | date("d/m/Y") }}</td>
                             <td>{{ item.user.UserUserName }} {{ item.user.UserLastName }}</td>
                             <td style="text-align: right">
