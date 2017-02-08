@@ -39,7 +39,7 @@ class BackendCancelPaymentAgController extends Controller {
             $date = new \DateTime();
             if(count($items)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportCancelPayment($items, $date);
+                return $exporter->exportCancelPayment($items, $date, true);
             }
             else {
                 $message = 'No hay datos para llenar el Excel a descargar.';
