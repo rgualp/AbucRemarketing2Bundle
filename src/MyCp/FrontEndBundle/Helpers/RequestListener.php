@@ -26,15 +26,7 @@ class RequestListener {
         $attr=$this->container->get('request')->attributes->all();
         $lang="";
 
-        if(!isset($attr['_locale'])){
-            //Seteo el idioma por el del navegador
-            if(isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
-                $lang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2);
-                $lang = strtolower($lang);
-                $attr['_locale']=$lang;
-                $attr['_route_params']['_locale']=$lang;
-            }
-        }
+
         if(isset($attr['_route']) && $attr['_route']!='frontend_payment_skrill_status' && $attr['_route']!='mycp_sitemap' && $attr['_route']!='_wdt' && $attr['_route']!='_internal'
             && !strpos($attr['_route'], '_callback') && !strpos($attr['_route'], '_control'))
         {
@@ -77,8 +69,7 @@ class RequestListener {
                         try{
                             $new_route=$this->container->get('router')->generate($last_route,$last_route_params);
                             $this->container->get('session')->set('browser_lang',$lang);
-                            if($attr['_route']!='frontend-welcome')
-                                $event->setResponse(new RedirectResponse($new_route));
+                            $event->setResponse(new RedirectResponse($new_route));
                         }catch (RouteNotFoundException $e){}
                     }
                 }

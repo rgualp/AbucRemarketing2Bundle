@@ -100,12 +100,9 @@
                                         </select>
                                     </div>
             <div class="span3">
-                <label>Fecha Creada:</label>
-                <input name="filter_start_creation_date" value="{%if filter_start_creation_date is defined and filter_start_creation_date != null%}{{filter_start_creation_date | date('d/m/Y')}}{%endif%}" id="filter_start_creation_date" class="input-block-level datepicker">
-            </div>
-            <div class="span3">
-                <label>Fecha Visita:</label>
-                <input name="filter_end_creation_date" value="{%if filter_end_creation_date is defined and filter_end_creation_date != null%}{{filter_end_creation_date | date('d/m/Y')}}{%endif%}" id="filter_end_creation_date" class="input-block-level datepicker">
+                <label>Creada:</label>
+                <input name="filter_start_creation_date" value="{%if filter_start_creation_date is defined and filter_start_creation_date != null%}{{filter_start_creation_date | date('d/m/Y')}}{%endif%}" id="filter_start_creation_date" class="input-block-level datepicker span6">
+                <input name="filter_end_creation_date" value="{%if filter_end_creation_date is defined and filter_end_creation_date != null%}{{filter_end_creation_date | date('d/m/Y')}}{%endif%}" id="filter_end_creation_date" class="input-block-level datepicker span6">
             </div>
             <div class="hide">
                 <div class="span3">
@@ -216,7 +213,7 @@
 <div class="row-fluid">
                         <div class="span3">
                             {% if is_granted('ROLE_CLIENT_STAFF') %}
-                            <a id="donwload_" class="btn btn-mini btn-success" href="javascript:action_submit($('#donwload_').data('href'));" data-href="{{ path('mycp_accommodations_hots_export_excel') }}">Descargar listado completo</a>&nbsp;
+                            <a id="donwload_" class="btn btn-mini btn-success" href="javascript:action_submit($('#donwload_').data('href'));" data-href="{{ path('mycp_accommodations_hots_export_excel') }}">Descargar listado</a>&nbsp;
                             {%endif%}
                         </div>
                         <div class="paginator-cont span9">
