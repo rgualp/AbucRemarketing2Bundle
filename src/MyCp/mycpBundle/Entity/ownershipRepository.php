@@ -750,7 +750,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false) {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false, $filter_start_creation_date = null, $filter_end_creation_date = null) {
 
         $condition = '';
 
@@ -811,7 +811,6 @@ class ownershipRepository extends EntityRepository {
         if($filter_type != 'null' && $filter_type != '') {
             $condition .= " AND ow.own_type = :filter_type ";
         }
-
         if($filter_name != 'null' && $filter_name != '') {
             $condition .= " AND ow.own_name LIKE :filter_name ";
         }
@@ -834,7 +833,11 @@ class ownershipRepository extends EntityRepository {
 
         $order_by = 'ow.own_mcp_code ASC';
         if($hot){
-            $order_by = 'ow.own_hot_date';
+            $order_by = ' ow.own_hot_date,ow.own_inmediate_booking_2 DESC, ow.own_inmediate_booking DESC ';
+        }
+
+        if(isset($filter_start_creation_date) && isset($filter_end_creation_date)) {
+            $condition .= " AND ow.own_creation_date >= :filter_start_creation_date AND ow.own_creation_date <= :filter_end_creation_date ";
         }
 
         $em = $this->getEntityManager();
@@ -903,6 +906,11 @@ class ownershipRepository extends EntityRepository {
 
         if($filter_commission != 'null' && $filter_commission != '')
             $query->setParameter('filter_commission', $filter_commission);
+
+        if(isset($filter_start_creation_date) && isset($filter_end_creation_date)) {
+            $query->setParameter('filter_start_creation_date', $filter_start_creation_date);
+            $query->setParameter('filter_end_creation_date', $filter_end_creation_date);
+        }
 
         return $query;
     }
