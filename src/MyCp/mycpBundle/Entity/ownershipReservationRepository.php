@@ -694,12 +694,12 @@ limit 1
         if($totalDiffDays > 7){
             $firstNightPayment = $roomPrice * (1 - $accommodationCommission);
 
-            $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedTax());
+            $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedFee());
         }
         else{
 
             if($nights > 1)
-                $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedTax());
+                $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedFee());
         }
 
         $totalToSubstractFromGeneralTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $accommodationCommission);
