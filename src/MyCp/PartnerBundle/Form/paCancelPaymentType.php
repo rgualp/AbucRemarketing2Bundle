@@ -33,7 +33,7 @@ class paCancelPaymentType extends AbstractType
             ->add('cancel_date',null,array(
                     'widget'=>'single_text',
                     'format'=>'dd/MM/yyyy',
-                    'label'=>'Fecha de cancelación de la reserva: (dia/mes/año - dd/mm/yyyy):',
+                    'label'=>'Fecha de cancelación de la reserva: (dia/mes/año):',
                     'attr'=>array('class'=>'input-block-level datepicker_textbox', "style" => "width: 30%")
                 ))
             ->add('reason','textarea',array(
