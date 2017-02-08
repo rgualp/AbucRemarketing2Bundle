@@ -67,17 +67,18 @@ function totalPrice(curr,percent, totalNights)
     $('#accommodation_price').html(normalize_prices(total_price_var));
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
 
-    var fixed_tax = parseInt($("#tourist_service").data("fixed-tax"));
+    var fixed_tax = parseFloat($("#tourist_service").data("fixed-tax"));
+    fixed_tax = fixed_tax*curr;
     var commissionAgency = parseInt($("#commissionAgency").val());
     var completePayment = parseInt($("#completePayment").val());
 
     var summatoryTax = parseFloat(total_price_var+tourist_service + fixed_tax);
     console.log("Sumatoria " + summatoryTax);
-    var agencyCommissionTax = parseFloat(summatoryTax * commissionAgency/100);
+    var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
     console.log("Comision Agencia " + agencyCommissionTax);
-    var transferTax = parseFloat(summatoryTax * 0.1);
+    var transferTax = parseFloat((total_price_var+tourist_service + fixed_tax) * 0.1);
     console.log("Tansferencia " + transferTax);
-    var totalCost = parseFloat(summatoryTax * 1.1);
+    var totalCost = parseFloat((total_price_var+tourist_service + fixed_tax) * 1.1);
     console.log("Costo total " + totalCost);
 
     if(completePayment != 0)
