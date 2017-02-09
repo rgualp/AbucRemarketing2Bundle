@@ -268,7 +268,7 @@ class OwnershipController extends Controller {
                 throw $this->createNotFoundException();
         }
         else
-            return $this->redirect($this->generateUrl('frontend_welcome', array('_locale' => "en")));
+            return $this->redirect($this->generateUrl('frontend-welcome', array('_locale' => "en")));
     }
 
     public function simpleAction($mycp_code) {
@@ -681,7 +681,7 @@ class OwnershipController extends Controller {
         else if ($category == 'premium')
             $real_category = 'Premium';
         else
-            return $this->redirect($this->generateUrl('frontend_welcome'));
+            return $this->redirect($this->generateUrl('frontend-welcome'));
 
 
 

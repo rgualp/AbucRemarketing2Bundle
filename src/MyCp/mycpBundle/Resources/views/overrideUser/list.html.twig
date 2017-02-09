@@ -1,0 +1,102 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Listado de suplantación de usuario</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Listado de suplantación de usuario</h2>
+<hr/>
+<a class="btn" href="{{path('mycp_add_override_user')}}"><i class="icon-plus"></i> Adicionar suplantación</a>
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+
+    {% if list %}
+<div class="alert">
+    <div class="row-fluid">
+        <div class="pull-left">
+            Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+        </div>
+        <div class="pull-right">
+            Mostrar:
+            <a class="{% if items_per_page == 10 %}selected{% endif %}" href="{{ path('mycp_list_mail_list',{'items_per_page':10})}}">10</a>
+            <a class="{% if items_per_page == 20 %}selected{% endif %}" href="{{ path('mycp_list_mail_list',{'items_per_page':20})}}">20</a>
+            <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_mail_list',{'items_per_page':50})}}">50</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_mail_list',{'items_per_page':100})}}">100</a>
+        </div>
+
+
+    </div>
+</div>
+<div class="paginator-cont span11">
+    {{ simple_paginator_render('mycp_list_mail_list',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page}
+}) }}
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Nombre usuario que suplanta</th>
+        <th>Nombre usuario suplantado</th>
+        <th>Fecha de la suplantación</th>
+        <th>Motivo</th>
+        <th style="text-align: right">
+            Acciones
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in list %}
+    <tr>
+        <td>{{ item.getOverrideBy.getUserCompleteName }} - <b>Usuario:</b>{{ item.getOverrideBy.getName }}</td>
+        <td>{{ item.getOverrideTo.getUserCompleteName }} - <b>Usuario:</b>{{ item.getOverrideTo.getName }}</td>
+        <td>{{ item.getOverrideDate|date("d/m/Y")}}</td>
+        <td>{{ item.getReason}}</td>
+
+        <td style="text-align: right">
+            {% if item.getOverrideEnable %}
+                <button data='{{path('mycp_delete_override_user',{'id': item.getOverrideId})}}' class="btn btn-mini btn-danger delete">Terminar suplantación</button>
+            {% else %}
+                <a class="btn" href="{{path('mycp_override_user',{'id': item.getOverrideId})}}">Suplantar</a>
+            {% endif %}
+
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="paginator-cont span11">
+    {{ simple_paginator_render('mycp_list_mail_list',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page}
+}) }}
+</div>
+    {% else %}
+    <p> <div class="alert alert-block">No hay listas de correo disponibles.</div></p>
+    {% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea terminar la suplantación de usuario?','confirmation_action_label':'Terminar'}%}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

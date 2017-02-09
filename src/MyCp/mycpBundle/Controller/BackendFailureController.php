@@ -59,14 +59,13 @@ class BackendFailureController extends Controller {
 
                     $message = 'El fallo se ha insertado satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    return $this->redirect($this->generateUrl('mycp_list_touristfailures', array("accommodationId" => $accommodationId)));
                 }
                 else{
                     $message = 'Ya existe un fallo asociado a esta reserva';
                     $this->get('session')->getFlashBag()->add('message_error_main', $message);
                 }
-
-
-                return $this->redirect($this->generateUrl('mycp_list_touristfailures', array("accommodationId" => $accommodationId)));
             }
         }
 

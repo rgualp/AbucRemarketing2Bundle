@@ -240,7 +240,7 @@ class OAuthController extends Controller
                 }
             }
         }
-        return $this->redirect($this->generateUrl("frontend_welcome"));
+        return $this->redirect($this->generateUrl("frontend-welcome"));
     }
     /**
      * @param $id_car

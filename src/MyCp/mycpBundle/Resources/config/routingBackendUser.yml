@@ -56,3 +56,7 @@ mycp_get_user_photo:
 mycp_edit_user:
     pattern:  /edit/user/{idUser}
     defaults: { _controller: mycpBundle:BackendUser:editUser }
+
+mycp_suplantar_user:
+    pattern:  /suplantar
+    defaults: { _controller: mycpBundle:BackendUser:suplantar }

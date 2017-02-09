@@ -629,6 +629,19 @@ class ownership {
      */
     private $modalityUpdateFrequency;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="modifying", type="boolean", nullable=true)
+     */
+    private $modifying;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="own_hot_date", type="datetime", nullable=true)
+     */
+    private $own_hot_date;
 
     /**
      * Constructor
@@ -2862,4 +2875,34 @@ class ownership {
     {
         $this->rankingExtras->removeElement($rankingExtra);
     }
+
+    /**
+     * @return int
+     */
+    public function getModifying() {
+        return $this->modifying;
+    }
+
+    /**
+     * @param int $modifying
+     */
+    public function setModifying($modifying) {
+        $this->modifying = $modifying;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getOwnHotDate() {
+        return $this->own_hot_date;
+    }
+
+    /**
+     * @param DateTime $own_hot_date
+     */
+    public function setOwnHotDate($own_hot_date) {
+        $this->own_hot_date = $own_hot_date;
+    }
+
+
 }
