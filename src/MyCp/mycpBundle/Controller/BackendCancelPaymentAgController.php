@@ -110,18 +110,19 @@ class BackendCancelPaymentAgController extends Controller {
             $paAccommodation = $em->getRepository("PartnerBundle:paPendingPaymentAccommodation")->findBy(array("cancelPayment" => $post['selected']));
             $payAgency = $em->getRepository("PartnerBundle:paPendingPaymentAgency")->findBy(array("cancelPayment" => $post['selected']));
 
-            if(count($paAccommodation))
+            //if(count($paAccommodation))
                 return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_own.html.twig',array(
-                        'pays'=>$paAccommodation
+                        'pays'=>$paAccommodation,
+                        'paysAgency'=>$payAgency
                     ));
-            else if(count($payAgency))
-                return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_agency.html.twig',array(
-                        'pays'=>$payAgency
-                    ));
-            else
-                return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_agency.html.twig',array(
-                        'pays'=>array()
-                    ));
+//            else if(count($payAgency))
+//                return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_agency.html.twig',array(
+//                        'pays'=>$payAgency
+//                    ));
+//            else
+//                return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_agency.html.twig',array(
+//                        'pays'=>array()
+//                    ));
         }
     }
 
@@ -203,12 +204,13 @@ class BackendCancelPaymentAgController extends Controller {
             $pendingPaymentAccommodation = $em->getRepository("PartnerBundle:paPendingPaymentAccommodation")->findBy(array("cancelPayment" => $post['selected']));
             $pendingPaymentAgency = $em->getRepository("PartnerBundle:paPendingPaymentAgency")->findBy(array("cancelPayment" => $post['selected']));
 
-            if(count($pendingPaymentAccommodation))
+            //if(count($pendingPaymentAccommodation))
                 return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_own_full.html.twig',array(
                         'pays'=>$pendingPaymentAccommodation,
+                        'paysAgency'=>$pendingPaymentAgency,
                         'idcancel'=>$post['selected']
                     ));
-            else if(count($pendingPaymentAgency))
+            /*else if(count($pendingPaymentAgency))
                 return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_agency_full.html.twig',array(
                         'pays'=>$pendingPaymentAgency,
                         'idcancel'=>$post['selected']
@@ -216,7 +218,7 @@ class BackendCancelPaymentAgController extends Controller {
             else
                 return $this->render('mycpBundle:cancelPaymentAgency:pay_detail_agency_full.html.twig',array(
                         'pays'=>array()
-                    ));
+                    ));*/
         }
     }
 }

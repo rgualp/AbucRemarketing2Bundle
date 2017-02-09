@@ -1,4 +1,13 @@
+{% set refundTo = "" %}
+{% set refundAmount = "" %}
 {% for pay in pays %}
-        <td>{{ pay.getAccommodation.getOwnMcpCode }} - {{ pay.getAccommodation.getOwnName }}</td>
-        <td>{{ pay.getAmount }} CUC </td>
+    {% set refundTo = refundTo ~  pay.getAccommodation.getOwnMcpCode ~ " - " ~ pay.getAccommodation.getOwnName ~ "<br/>" %}
+    {% set refundAmount = refundAmount ~ pay.getAmount ~ " CUC <br/>" %}
 {% endfor %}
+{% for pay in paysAgency %}
+    {% set refundTo = refundTo ~  pay.getAgency.getName ~ " - " ~ pay.getAgency.getEmail ~ "<br/>" %}
+    {% set refundAmount = refundAmount ~ pay.getAmount ~ " " ~ pay.getCancelPayment.getBooking.getBookingCurrency.getCurrSymbol ~ "<br/>" %}
+{% endfor %}
+
+<td>{{ refundTo | raw }}</td>
+<td>{{ refundAmount | raw }} </td>

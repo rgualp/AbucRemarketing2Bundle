@@ -28,7 +28,7 @@ class paCancelPaymentRepository extends EntityRepository {
             ->from("PartnerBundle:paCancelPayment", "op")
             ->join("op.type", "type")
             ->join("op.booking", "booking")
-            ->join("op.ownreservations", "cpown")
+            ->leftJoin("op.ownreservations", "cpown")
             ->join("cpown.own_res_gen_res_id", "gr")
             ->join("gr.gen_res_own_id", "own")
             ->orderBy("op.id", "DESC");

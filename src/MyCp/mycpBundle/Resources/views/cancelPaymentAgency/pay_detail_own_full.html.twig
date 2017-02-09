@@ -13,6 +13,7 @@
     </thead>
     <tbody>
     {% for pay in pays %}
+        <tr>
         <td>{{ pay.getPayDate | date("d/m/Y") }}</td>
         <td>{{ pay.getCancelPayment.getType.translations[0].nomLangDescription }}</td>.
         <td style="font-size: smaller"><b>Alojamiento:</b> {{ pay.accommodation.getOwnMcpCode }} - {{ pay.accommodation.getOwnName }}<br/>
@@ -22,6 +23,21 @@
         <td>{{ pay.getType.translations[0].nomLangDescription }}</td>
         <td>{% if pay.getUser != null %}{{ pay.getUser.getUserCompleteName }}{% else %} - {% endif %}</td>
         <td>{{pay.registerDate | date ("d/m/Y")}}</td>
+        </tr>
+    {% endfor %}
+    {% for pay in paysAgency %}
+        <tr>
+        <td>{{ pay.getPayDate | date("d/m/Y") }}</td>
+        <td>{{ pay.getCancelPayment.getType.translations[0].nomLangDescription }}</td>.
+        <td style="font-size: smaller">
+            <b>Nombre:</b>{{ pay.agency.name }}<br/>
+            <b>Correo:</b>{{ pay.agency.email }}
+        </td>
+        <td>{{ pay.getAmount }} {{ pay.getCancelPayment.getBooking.getBookingCurrency.getCurrSymbol }} </td>
+        <td>{{ pay.getType.translations[0].nomLangDescription }}</td>
+        <td>{% if pay.getUser != null %}{{ pay.getUser.getUserCompleteName }}{% else %} - {% endif %}</td>
+        <td>{{pay.registerDate | date ("d/m/Y")}}</td>
+        </tr>
     {% endfor %}
     </tbody>
 </table>
