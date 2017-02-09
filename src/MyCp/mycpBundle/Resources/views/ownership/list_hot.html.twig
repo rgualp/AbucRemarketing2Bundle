@@ -101,8 +101,17 @@
                                     </div>
             <div class="span3">
                 <label>Creada:</label>
-                <input name="filter_start_creation_date" value="{%if filter_start_creation_date is defined and filter_start_creation_date != null%}{{filter_start_creation_date | date('d/m/Y')}}{%endif%}" id="filter_start_creation_date" class="input-block-level datepicker span6">
-                <input name="filter_end_creation_date" value="{%if filter_end_creation_date is defined and filter_end_creation_date != null%}{{filter_end_creation_date | date('d/m/Y')}}{%endif%}" id="filter_end_creation_date" class="input-block-level datepicker span6">
+                <div class="row-fluid">
+                    <div class="span5">
+                        <input placeholder="Desde" name="filter_start_creation_date" value="{%if filter_start_creation_date is defined and filter_start_creation_date != null%}{{filter_start_creation_date | date('d/m/Y')}}{%endif%}" id="filter_start_creation_date" class="input-block-level datepicker">
+                    </div>
+                    <div class="span2" style="text-align: center">
+                        <p>a</p>
+                    </div>
+                    <div class="span5">
+                        <input placeholder="Hasta" name="filter_end_creation_date" value="{%if filter_end_creation_date is defined and filter_end_creation_date != null%}{{filter_end_creation_date | date('d/m/Y')}}{%endif%}" id="filter_end_creation_date" class="input-block-level datepicker">
+                    </div>
+                </div>
             </div>
             <div class="hide">
                 <div class="span3">
