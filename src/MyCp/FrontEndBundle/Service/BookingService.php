@@ -8,6 +8,7 @@ use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -467,9 +468,48 @@ class BookingService extends Controller
         $this->setPaymentStatusProcessed($payment);
 
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
+        $toPayAtService = 0;
+
         if(count($ownershipReservations)){
+            $generalReservation = $ownershipReservations[0]->getOwnResGenResId();
+            $generalReservationId = $generalReservation->getGenResId();
+            $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
+            $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+            $travelAgency = $tourOperator->getTravelAgency();
+
+            $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
+            $completePaymentType= $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
+
             foreach ($ownershipReservations as $own) {
                 $this->updateICal($own->getOwnResSelectedRoomId());
+
+                if($booking->getCompletePayment()) {
+                    $accommodation = $own->getOwnResGenResId()->getGenResOwnId();
+                    $toPayAtService += $own->getOwnResTotalInSite() * $accommodation->getOwnCommissionPercent() / 100;
+
+                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId) {
+                        $toDate = $own->getOwnResGenResId()->getGenResToDate();
+                        $new_date = strtotime('+3 day', strtotime($toDate));
+                        $payDate = new \DateTime();
+                        $payDate->setTimestamp($new_date);
+
+                        $generalReservationId = $own->getOwnResGenResId()->getGenResId();
+                        $pendingPayment = new paPendingPaymentAccommodation();
+                        $pendingPayment->setAmount($toPayAtService);
+                        $pendingPayment->setAgency($travelAgency);
+                        $pendingPayment->setBooking($booking);
+                        $pendingPayment->setCreatedDate(new \DateTime());
+                        $pendingPayment->setReservation($own->getOwnResGenResId());
+                        $pendingPayment->setPayDate($payDate);
+                        $pendingPayment->setStatus($pendingPaymentStatusPending);
+                        $pendingPayment->setType($completePaymentType);
+
+                        $this->em->persist($pendingPayment);
+                        $this->em->flush();
+
+                        $toPayAtService = 0;
+                    }
+                }
             }
         }
 
