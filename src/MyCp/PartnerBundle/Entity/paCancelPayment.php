@@ -26,7 +26,7 @@ class paCancelPayment
     /**
      * @var string
      *
-     * @ORM\Column(name="reason", type="string", length=500)
+     * @ORM\Column(name="reason", type="string", length=500, nullable=true)
      */
     private $reason;
 
