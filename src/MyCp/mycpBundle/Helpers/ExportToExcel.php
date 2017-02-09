@@ -532,25 +532,25 @@ class ExportToExcel extends Controller {
             $data = array();
 
             $own["own_creation_date"] = ($own["own_creation_date"] != null) ? ($own["own_creation_date"]->format('d-m-Y')) : ('No tiene');
-
+            $own["own_hot_date"] = ($own["own_hot_date"] != null) ? ($own["own_hot_date"]->format('d-m-Y')) : ('No tiene');
 
             $data[0] = $own["own_mcp_code"];
             $data[1] = $own["own_name"];
             $data[2] = $own["des_name"];
             $data[3] = $own["own_creation_date"];
+            $data[4] = $own["own_hot_date"];
 
             $modalidades = '';
-            if($own['own_inmediate_booking'] != null && $own['own_inmediate_booking']){
-                $modalidades .= 'Resrva Rapida';
+            if($own['own_inmediate_booking_2'] != null && $own['own_inmediate_booking_2']){
+                $modalidades .= 'Reserva Inmediata';
             }
-            else if($own['own_inmediate_booking_2'] != null && $own['own_inmediate_booking_2']){
-                $modalidades .= 'Resrva Inmediata';
+            else if($own['own_inmediate_booking'] != null && $own['own_inmediate_booking']){
+                $modalidades .= 'Reserva Rapida';
             }
             else{
                 $modalidades .= 'Por solicitud';
             }
-
-            $data[4] = $modalidades;
+            $data[5] = $modalidades;
 
             array_push($results, $data);
         }
@@ -564,14 +564,15 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('b1', 'Casa');
         $sheet->setCellValue('c1', 'Destino');
         $sheet->setCellValue('d1', 'Creada');
-        $sheet->setCellValue('e1', 'Modalidad');
+        $sheet->setCellValue('e1', 'Fecha Reserva');
+        $sheet->setCellValue('f1', 'Modalidad');
 
 
-        $sheet = $this->styleHeader("a1:e1", $sheet);
+        $sheet = $this->styleHeader("a1:f1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
-        $this->setColumnAutoSize("a", "e", $sheet);
+        $this->setColumnAutoSize("a", "f", $sheet);
 
         /*for($i = 0; $i < count($data); $i++)
         {
