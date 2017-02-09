@@ -2060,7 +2060,8 @@ class DashboardController extends Controller
                 //Calcular el dinero a devolver
                 $hasToRefund = ($reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED && $reservation->getOwnResReservationFromDate() > $today);
                 if ($hasToRefund) {
-                    $refund = $em->getRepository("mycpBundle:ownershipReservation")->cancelReservationByAgency($reservation, $timer);
+                    $tripleChargeRoom = $this->container->getParameter('configuration.triple.room.charge');
+                    $refund = $em->getRepository("mycpBundle:ownershipReservation")->cancelReservationByAgency($reservation, $timer, $tripleChargeRoom);
                     $firstNightPaymentAccommodationTotal += $refund["firstNightPayment"];
                     $totalRefund += $refund["refundTotal"];
                     $totalToSubstract += $refund["totalToSubtract"];

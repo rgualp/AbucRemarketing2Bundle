@@ -668,7 +668,7 @@ limit 1
         return $query->setParameter('id_booking', $id_booking)->getResult();
     }
 
-    function cancelReservationByAgency($ownershipReservation, $timerService){
+    function cancelReservationByAgency($ownershipReservation, $timerService, $tripleChargeValue){
         $em = $this->getEntityManager();
         $generalReservation = $ownershipReservation->getOwnResGenResId();
 
@@ -693,6 +693,9 @@ limit 1
 
         if($totalDiffDays > 7){
             $firstNightPayment = $roomPrice * (1 - $accommodationCommission);
+
+            if($ownershipReservation->getTripleRoomCharged())
+                $firstNightPayment -= $tripleChargeValue;
 
             $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedFee());
         }
