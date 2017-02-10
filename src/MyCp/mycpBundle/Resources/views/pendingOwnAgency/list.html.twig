@@ -178,6 +178,9 @@
                 {% if payment.status.nomName == "pendingPayment_pending_status" or payment.status.nomName == "pendingPayment_process_status" %}
                     <a class="btn btn-mini btn-info" href="{{ path("mycp_edit_payment_agency_pending_ownership", {"id": payment.id}) }}"><i class="fa fa-edit"></i></a>
                 {% endif %}
+                {% if payment.cancelPayment is not null %}
+                    <a title="Ver registro de cancelación" class="btn btn-mini btn-danger" href="{{ path("mycp_details_cancel_payment_ag", {"id": payment.cancelPayment.id}) }}"><i class="fa fa-times"></i></a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
