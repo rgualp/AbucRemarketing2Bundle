@@ -142,6 +142,7 @@
                     <td title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">{%if booking.arrivalDate != null%}{{ booking.arrivalDate | date("d/m/Y") }}{%else%} - {%endif%}</td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
+                        <a class="btn btn-mini btn-danger" href="{{ path('mycp_cancel_reservations_booking',{'id_booking':booking.booking_id}) }}">Cancelar</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
