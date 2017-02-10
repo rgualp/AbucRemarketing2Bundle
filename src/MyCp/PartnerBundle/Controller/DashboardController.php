@@ -2097,10 +2097,12 @@ class DashboardController extends Controller
             "accommodationCommission" => $accommodationCommission
         );
 
+
         $em->flush();
 
         $this->afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency, $cancelPayment);
         $this->createAgencyPendingPayment($bookingDataArrays, $cancelPayment, $timer, $tripleChargeRoom);
+
 
         if($totalRefund > 0) {
             //Enviar correo a Nataly y a Sarahi con el total a devolver
@@ -2209,21 +2211,25 @@ class DashboardController extends Controller
             $ch = 0;
             $nights = 0;
             $totalRooms = 0;
+            $reservationO = $bookingData["reservations"][0];
 
-            $generalReservationId = $bookingData["reservations"][0]->getOwnResGenResId();
+            $generalReservationId = 0;
 
             foreach($bookingData["reservations"] as $reservation){
 
-                $ch += $reservation->getOwnResTotalInSite();
-                $totalRooms++;
-                $nights += $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
-
-                if($reservation->getTripleRoomCharged())
-                    $ch -= $tripleRoomCharge;
-
-                if($reservation->getOwnResGenResId() != $generalReservationId)
+                if($generalReservationId == 0 || $reservation->getOwnResGenResId() == $generalReservationId)
                 {
-                    $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($generalReservationId);
+                    $ch += $reservation->getOwnResTotalInSite();
+                    $totalRooms++;
+                    $nights += $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+
+                    if($reservation->getTripleRoomCharged())
+                        $ch -= $tripleRoomCharge;
+                }
+
+                if($reservation->getOwnResGenResId()->getGenResId() != $generalReservationId || count($bookingData["reservations"]) == 1)
+                {
+                    $generalReservation =  $reservation->getOwnResGenResId();
                     $paymentSkrill = $em->getRepository("mycpBundle:payment")->findOneBy(array("booking" => $bookingData["booking"]->getBookingId()));
 
                     $commission = $bookingData["agency"]->getCommission() / 100;
@@ -2258,7 +2264,6 @@ class DashboardController extends Controller
 
                     $generalReservationId = $reservation->getOwnResGenResId();
                     $ch = 0;
-                    $refund = 0;
                     $totalRooms = 0;
                     $nights = 0;
                 }
