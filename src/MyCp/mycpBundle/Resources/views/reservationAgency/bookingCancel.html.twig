@@ -89,6 +89,8 @@
                     <th>Id cancelación</th>
                     <th>Tipo cancelación</th>
                     <th>Devolver a agencia</th>
+                    <th>Devolver A</th>
+                    <th>Monto</th>
                     <th>Motivo</th>
                     <th>Fecha de cancelación</th>
                     <th>Cancelada por</th>
@@ -100,6 +102,7 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.type.translations[0].nomLangDescription }}</td>
                         <td>{% if item.giveAgency %}Sí{% else %}No{% endif %}</td>
+                        {{ render(controller('mycpBundle:BackendCancelPaymentAg:getPayment', {'post': {'selected':item.id}})) }}
                         <td>{{ item.reason }}</td>
                         <td>{{ item.cancelDate | date("d/m/Y") }}</td>
                         <td>{{ item.user.UserUserName }} {{ item.user.UserLastName }}</td>

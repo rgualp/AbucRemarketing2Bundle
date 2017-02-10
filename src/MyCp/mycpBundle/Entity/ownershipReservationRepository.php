@@ -763,4 +763,18 @@ limit 1
         return $refundTotal;
     }
 
+    function findByBookingAndReservationsIds($bookingId, $idsArray){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->where("owres.own_res_id IN (:ids)")
+            ->andWhere("owres.own_res_reservation_booking = :booking")
+            ->setParameter("ids", $idsArray)
+            ->setParameter("booking", $bookingId)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
