@@ -96,7 +96,7 @@ class paPendingPaymentAgency
     private $reason;
 
     /**
-     * @ORM\ManyToOne(targetEntity="paCancelPayment")
+     * @ORM\ManyToOne(targetEntity="paCancelPayment",cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="cancel_payment", referencedColumnName="id", nullable=true)
      */
     private $cancelPayment;
