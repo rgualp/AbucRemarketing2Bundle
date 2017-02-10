@@ -50,6 +50,9 @@
                             <a style="width: 150px; color: #ffffff" target="_blank" class="btn btn-danger" href="{{ path('frontend_view_confirmation_reservation',{'id_booking':res['own_res_reservation_booking']['booking_id']}) }}">
                 {{ 'VIEW_CONFIRMATION'|trans }}</a></div>
                             <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>{{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b></div>
+                    <div>
+                        <a style="width: 150px; color: #ffffff" class="btn btn-danger" href="{{ path('frontend_delete_confirmation_reservation',{'id_reservation':res['own_res_id']}) }}">
+                            {{ 'REMOVE_RESERVE'|trans }}</a></div>
                         </div>
                     </div>
                     <hr/>
@@ -70,6 +73,7 @@
 }) }}
                         </div>
             {%endif%}
+
     <div class="text-center">
         <!-- Your like button code -->
         <div class="col-md-6">

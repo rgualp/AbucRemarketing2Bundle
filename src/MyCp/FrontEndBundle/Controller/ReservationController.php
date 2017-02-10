@@ -800,4 +800,15 @@ class ReservationController extends Controller {
         }
     }
 
+    /**
+     * @param $id_reservation
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteConfirmationAction($id_reservation){
+        $bookingService = $this->get('front_end.services.booking');
+        $cancel_date=new \DateTime(date('Y-m-d'));
+        $response=$bookingService->cancelReservations(array($id_reservation),1,$cancel_date->format('Y/m/d'),'',true);
+        return $this->redirect($this->generateUrl("frontend_mycasatrip_payment"));
+    }
+
 }
