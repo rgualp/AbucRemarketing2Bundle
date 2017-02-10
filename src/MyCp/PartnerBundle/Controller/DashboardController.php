@@ -5,6 +5,7 @@ namespace MyCp\PartnerBundle\Controller;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\PartnerBundle\Entity\paCancelPayment;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAgency;
 use MyCp\PartnerBundle\Form\FilterOwnershipType;
@@ -757,6 +758,7 @@ class DashboardController extends Controller
         $travelAgency = $tourOperator->getTravelAgency();
         $contacts = $travelAgency->getContacts();
         $phone_contact = (count($contacts)) ? $contacts[0]->getPhone() . ', ' . $contacts[0]->getMobile() : ' ';
+        $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
         //Send email team reservations
         $content = $this->render('PartnerBundle:Mail:newAvailabilityCheckReservations.html.twig', array(
             "reservations" => $paGeneralReservation->getTravelAgencyOpenReservationsDetails(),
@@ -771,7 +773,7 @@ class DashboardController extends Controller
         ));
         $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', 'solicitud.partner@mycasaparticular.com', $content);
 
-        $generalReservation = $paGeneralReservation->createReservation();
+        $generalReservation = $paGeneralReservation->createReservation($completePayment);
 
         $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
         //Pasar los paOwnershipReservation a ownershipReservation
@@ -1299,7 +1301,6 @@ class DashboardController extends Controller
                 $em->persist($ownRes);
 
                 if ($hasToRefund) {
-
                 }
             }
 
@@ -1589,6 +1590,11 @@ class DashboardController extends Controller
     {
         $check_dispo = $request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
+
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
@@ -1746,10 +1752,10 @@ class DashboardController extends Controller
         if ($user_ids["user_id"] != null) {
             if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 1 && !$showErrorOwnExist) {
                 //Es que el usuario mando a consultar la disponibilidad
-                $this->checkDispo($arrayIdCart, $request, false, $id_ownership);
+                $this->checkDispo($arrayIdCart, $request, false, $id_ownership, $completePayment);
             } elseif (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && !$showErrorOwnExist) {
                 //Es que el usuario mando a hacer una reserva
-                $own_ids = $this->checkDispo($arrayIdCart, $request, true, $id_ownership);
+                $own_ids = $this->checkDispo($arrayIdCart, $request, true, $id_ownership, $completePayment);
             } else {
                 if (!$request->isXmlHttpRequest()) {
                     $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
@@ -1818,7 +1824,7 @@ class DashboardController extends Controller
      * @param $request
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function checkDispo($arrayIdCart, $request, $inmediatily_booking, $id_ownership)
+    public function checkDispo($arrayIdCart, $request, $inmediatily_booking, $id_ownership, $completePayment)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -1881,6 +1887,7 @@ class DashboardController extends Controller
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
+                    $general_reservation->setCompletePayment($completePayment);
                     if ($inmediatily_booking)
                         $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     else
@@ -2004,6 +2011,8 @@ class DashboardController extends Controller
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
+        $nomCancelFromAgency = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_agency", "nom_category" => "agencyCancelPaymentType"));
+        $tripleChargeRoom = $this->container->getParameter('configuration.triple.room.charge');
 
         $idsArray = $request->get('checkValues');
         $generalReservationsArray = array();
@@ -2019,11 +2028,19 @@ class DashboardController extends Controller
         $generalReservationId = (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResId() : 0;
         $accommodationCommission = (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100: 0;
 
+        $cancelPayment = new paCancelPayment();
+        $cancelPayment->setBooking($ownershipReservations[0]->getOwnResReservationBooking());
+        $cancelPayment->setCancelDate(new \DateTime());
+        $cancelPayment->setGiveAgency(true);
+        $cancelPayment->setUser($this->getUser());
+        $cancelPayment->setType($nomCancelFromAgency);
+
         foreach ($ownershipReservations as $reservation) {
 
             $reservationUser = $reservation->getOwnResGenResId()->getGenResUserId();
             $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
             $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
+            $cancelPayment->addOwnershipReservation($reservation);
 
             if ($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
                 if ($generalReservationId != $reservation->getOwnResGenResId()->getGenResId()) {
@@ -2044,7 +2061,7 @@ class DashboardController extends Controller
                 //Calcular el dinero a devolver
                 $hasToRefund = ($reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED && $reservation->getOwnResReservationFromDate() > $today);
                 if ($hasToRefund) {
-                    $refund = $em->getRepository("mycpBundle:ownershipReservation")->cancelReservationByAgency($reservation, $timer);
+                    $refund = $em->getRepository("mycpBundle:ownershipReservation")->cancelReservationByAgency($reservation, $timer, $tripleChargeRoom, count($ownershipReservations));
                     $firstNightPaymentAccommodationTotal += $refund["firstNightPayment"];
                     $totalRefund += $refund["refundTotal"];
                     $totalToSubstract += $refund["totalToSubtract"];
@@ -2055,11 +2072,13 @@ class DashboardController extends Controller
                 if(!in_array($bookingId, $bookingArrays, true)){
                     array_push($bookingArrays, $bookingId);
 
+                    $bookingReservations = $em->getRepository("mycpBundle:ownershipReservation")->findByBookingAndReservationsIds($bookingId, $idsArray);
+
                     array_push($bookingDataArrays, array(
                         "booking" => $reservation->getOwnResReservationBooking(),
-                        "refund" => $totalBookingRefund,
-                        "reservation" => $reservation->getOwnResGenResId(),
+                        "reservations" => $bookingReservations,
                         "agency" => $currentTravelAgency
+
                     ));
                     $totalBookingRefund = 0;
                 }
@@ -2069,6 +2088,8 @@ class DashboardController extends Controller
             }
         }
 
+        $em->persist($cancelPayment);
+
         $generalReservationsArray[] = array(
             "reservation" => $reservation->getOwnResGenResId(),
             "firstNightPayment" => $firstNightPaymentAccommodationTotal,
@@ -2076,11 +2097,12 @@ class DashboardController extends Controller
             "accommodationCommission" => $accommodationCommission
         );
 
+
         $em->flush();
 
+        $this->afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency, $cancelPayment);
+        $this->createAgencyPendingPayment($bookingDataArrays, $cancelPayment, $timer, $tripleChargeRoom);
 
-        $this->afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency);
-        $this->createAgencyPendingPayment($bookingDataArrays);
 
         if($totalRefund > 0) {
             //Enviar correo a Nataly y a Sarahi con el total a devolver
@@ -2090,7 +2112,6 @@ class DashboardController extends Controller
                 'bookings' => $bookingArrays,
                 'refund' => $totalRefund
             ));
-
 
             $service_email = $this->get('Email');
             //$service_email->sendEmail("Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body);
@@ -2106,7 +2127,7 @@ class DashboardController extends Controller
 
     }
 
-    private function afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency)
+    private function afterCancelReservationProcess($generalReservationsArray, $currentTravelAgency, $cancelPayment)
     {
         $em = $this->getDoctrine()->getManager();
         $cancelPendingPaymentStatus = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array(
@@ -2134,6 +2155,7 @@ class DashboardController extends Controller
                     "type" => $completePaymentType
                 ));
 
+            if($completePayment != null) {
                 if ($genReservation["newCompletePaymentTotal"] == 0) {
                     $completePayment->setStatus($cancelPendingPaymentStatus);
                 } else {
@@ -2141,6 +2163,7 @@ class DashboardController extends Controller
                 }
 
                 $em->persist($completePayment);
+            }
 
             //Crear un pago pendiente a propietario por motivo de cancelacion
             if($genReservation["firstNightPayment"] > 0) {
@@ -2157,6 +2180,7 @@ class DashboardController extends Controller
                 $pendingPayment->setStatus($pendingPaymentStatusPending);
                 $pendingPayment->setType($cancelPaymentType);
                 $pendingPayment->setAccommodation($reservation->getGenResOwnId());
+                $pendingPayment->setCancelPayment($cancelPayment);
                 $em->persist($pendingPayment);
             }
 
@@ -2168,7 +2192,7 @@ class DashboardController extends Controller
 
     }
 
-    private function createAgencyPendingPayment($bookingDataArrays)
+    private function createAgencyPendingPayment($bookingDataArrays, $cancelPayment, $timer, $tripleRoomCharge)
     {
         $em = $this->getDoctrine()->getManager();
         $cancelPaymentType = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array(
@@ -2183,16 +2207,68 @@ class DashboardController extends Controller
 
         foreach($bookingDataArrays as $bookingData)
         {
-            $payment = new paPendingPaymentAgency();
-            $payment->setBooking($bookingData["booking"]);
-            $payment->setAmount($bookingData["refund"]);
-            $payment->setAgency($bookingData["agency"]);
-            $payment->setReservation($bookingData["reservation"]);
-            $payment->setCreatedDate(new \DateTime());
-            $payment->setType($cancelPaymentType);
-            $payment->setStatus($pendingStatus);
+            $refund = 0;
+            $ch = 0;
+            $nights = 0;
+            $totalRooms = 0;
+            $reservationO = $bookingData["reservations"][0];
 
-            $em->persist($payment);
+            $generalReservationId = 0;
+
+            foreach($bookingData["reservations"] as $reservation){
+
+                if($generalReservationId == 0 || $reservation->getOwnResGenResId() == $generalReservationId)
+                {
+                    $ch += $reservation->getOwnResTotalInSite();
+                    $totalRooms++;
+                    $nights += $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+
+                    if($reservation->getTripleRoomCharged())
+                        $ch -= $tripleRoomCharge;
+                }
+
+                if($reservation->getOwnResGenResId()->getGenResId() != $generalReservationId || count($bookingData["reservations"]) == 1)
+                {
+                    $generalReservation =  $reservation->getOwnResGenResId();
+                    $paymentSkrill = $em->getRepository("mycpBundle:payment")->findOneBy(array("booking" => $bookingData["booking"]->getBookingId()));
+
+                    $commission = $bookingData["agency"]->getCommission() / 100;
+                    $serviceFee = $generalReservation->getServiceFee();
+                    $agencyTax = $ch * $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($nights / $totalRooms), ($ch / $nights),$serviceFee->getId());
+
+                    $today = \date('Y-m-d');
+                    $totalDiffDays = $timer->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
+
+                    $refund = $ch - ($commission * ($ch + $agencyTax + $serviceFee->getFixedFee()));
+
+                    if($totalDiffDays <= 7){
+
+                        $firstNightPayment = $ch / $nights;
+                        $accommodationCommission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100;
+                        $firstNightPayment -= $firstNightPayment*$accommodationCommission;
+
+                        $refund -= $firstNightPayment;
+                    }
+
+                    $payment = new paPendingPaymentAgency();
+                    $payment->setBooking($bookingData["booking"]);
+                    $payment->setAmount($refund * $paymentSkrill->getCurrentCucChangeRate());
+                    $payment->setAgency($bookingData["agency"]);
+                    $payment->setReservation($generalReservation);
+                    $payment->setCreatedDate(new \DateTime());
+                    $payment->setType($cancelPaymentType);
+                    $payment->setStatus($pendingStatus);
+                    $payment->setCancelPayment($cancelPayment);
+                    $em->persist($payment);
+                    $em->flush();
+
+                    $generalReservationId = $reservation->getOwnResGenResId();
+                    $ch = 0;
+                    $totalRooms = 0;
+                    $nights = 0;
+                }
+            }
+
         }
 
         $em->flush();

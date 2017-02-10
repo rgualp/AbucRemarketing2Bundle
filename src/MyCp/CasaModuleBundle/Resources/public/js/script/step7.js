@@ -76,6 +76,11 @@ var Step7 = function () {
             //    App.fireEventSaveTab());
         },
         saveProfile:function(flag, publishAccommodation) {
+            if (!Step4.isValidPrices()){
+                //alert('Precios invalidos');
+                return;
+            }
+
             var validate = true;
             var changePassword = false;
 

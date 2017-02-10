@@ -142,7 +142,8 @@ class ownershipReservationRepository extends EntityRepository {
     function getByBookingAndOwnership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
-        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own AND ore.own_res_status = :own_res_status");
+        $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED);
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
     }
 
@@ -175,7 +176,9 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN o.own_address_municipality as mun
             JOIN o.own_address_province as prov
             JOIN gre.service_fee serviceFee
-        WHERE ore.own_res_reservation_booking = :id_booking");
+        WHERE ore.own_res_reservation_booking = :id_booking AND ore.own_res_status = :own_res_status");
+        $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED);
+
         return $query->setParameter('id_booking', $id_booking)->getArrayResult();
     }
 
@@ -665,7 +668,7 @@ limit 1
         return $query->setParameter('id_booking', $id_booking)->getResult();
     }
 
-    function cancelReservationByAgency($ownershipReservation, $timerService){
+    function cancelReservationByAgency($ownershipReservation, $timerService, $tripleChargeValue){
         $em = $this->getEntityManager();
         $generalReservation = $ownershipReservation->getOwnResGenResId();
 
@@ -691,12 +694,15 @@ limit 1
         if($totalDiffDays > 7){
             $firstNightPayment = $roomPrice * (1 - $accommodationCommission);
 
-            $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedTax());
+            if($ownershipReservation->getTripleRoomCharged())
+                $firstNightPayment -= $tripleChargeValue;
+
+            $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedFee());
         }
         else{
 
             if($nights > 1)
-                $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedTax());
+                $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedFee());
         }
 
         $totalToSubstractFromGeneralTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $accommodationCommission);
@@ -755,6 +761,20 @@ limit 1
             $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;*/
 
         return $refundTotal;
+    }
+
+    function findByBookingAndReservationsIds($bookingId, $idsArray){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->where("owres.own_res_id IN (:ids)")
+            ->andWhere("owres.own_res_reservation_booking = :booking")
+            ->setParameter("ids", $idsArray)
+            ->setParameter("booking", $bookingId)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->getResult();
     }
 
 }

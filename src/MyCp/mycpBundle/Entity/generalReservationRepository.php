@@ -639,7 +639,7 @@ class generalReservationRepository extends EntityRepository {
         $s = "";
         if($filter_partner) {
             $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH u.user_id = up.tourOperator JOIN up.travelAgency agency";
-            $s = "agency.name aName, agency.email aEmail,";
+            $s = "agency.name aName, agency.email aEmail, ";
             if($filter_agencia_booking != "") {
                 $where .= " AND agency.name LIKE :filter_agencia_booking ";
             }
@@ -653,6 +653,7 @@ class generalReservationRepository extends EntityRepository {
         booking.booking_id,
         curr.curr_code,
         booking.booking_user_dates,
+        booking.complete_payment,
         $s
         (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
         (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate

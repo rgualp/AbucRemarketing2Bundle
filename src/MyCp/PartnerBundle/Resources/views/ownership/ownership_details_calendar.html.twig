@@ -60,12 +60,12 @@
     <li class="lead">
         {% if completePayment is defined and completePayment %}
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-        <div class="row all-prices-numbers">
-            <div class="row text-right">
+        <div class="all-prices-numbers">
+            <div class="text-right">
                 {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:
                 {{ currSymbol }} <span id="accommodation_price"></span>
             </div>
-            <div class="row text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+            <div class="text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_AGENCY_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="tourist_service"
@@ -79,18 +79,18 @@
                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
             </div>
-            <div  class="row text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+            <div  class="text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_TRANSFERENCE_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="service_transfer_tax"></span>
             </div>
-            <div  class="row text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+            <div  class="text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_FIXED_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
             </div>
             <hr/>
-            <div  class="row text-right">
+            <div  class="text-right">
                 {{ 'RESERVATION_TOTAL_PRICE' | trans }}
                 {{ currSymbol }}
                 <span id="total_price"></span>

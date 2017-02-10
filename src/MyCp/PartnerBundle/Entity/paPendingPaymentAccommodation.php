@@ -35,6 +35,12 @@ class paPendingPaymentAccommodation
     private $reservation;
 
     /**
+ * @ORM\ManyToOne(targetEntity="paCancelPayment")
+ * @ORM\JoinColumn(name="cancel_payment", referencedColumnName="id", nullable=true)
+ */
+    private $cancelPayment;
+
+    /**
      * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\ownership")
      * @ORM\JoinColumn(name="accommodation", referencedColumnName="own_id", nullable=true)
      */
@@ -300,6 +306,22 @@ class paPendingPaymentAccommodation
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCancelPayment()
+    {
+        return $this->cancelPayment;
+    }
 
+    /**
+     * @param mixed $cancelPayment
+     * @return mixed
+     */
+    public function setCancelPayment($cancelPayment)
+    {
+        $this->cancelPayment = $cancelPayment;
+        return $this;
+    }
 
 }

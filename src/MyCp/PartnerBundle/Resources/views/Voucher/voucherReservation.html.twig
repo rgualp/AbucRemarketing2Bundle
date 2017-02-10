@@ -173,7 +173,7 @@
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (own_res_payments[own.genResOwnId.ownId].total_price)| number_format(2) }}</h4></td>
             </tr>
             <tr>
-                <td><b>{% if booking.completePayment | trans({}, "messages", user_locale) %}{{ "SERVICE_AGENCY_TAX" }}{% else %}{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}{% endif %}</b></td>
+                <td><b>{% if booking.completePayment | trans({}, "messages", user_locale) %}{{ "SERVICE_AGENCY_TAX" |trans({}, "messages", user_locale) }}{% else %}{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}{% endif %}</b></td>
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((own_res_payments[own.genResOwnId.ownId].touristTax)) | number_format(2) }}</h4></td>
             </tr>
             {% set fixedTax = 0 %}

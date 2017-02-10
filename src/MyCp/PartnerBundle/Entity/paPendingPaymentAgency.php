@@ -89,6 +89,19 @@ class paPendingPaymentAgency
     private $register_date;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reason", type="text", nullable=true)
+     */
+    private $reason;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="paCancelPayment",cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="cancel_payment", referencedColumnName="id", nullable=true)
+     */
+    private $cancelPayment;
+
+    /**
      * @return int
      */
     public function getId()
@@ -276,6 +289,40 @@ class paPendingPaymentAgency
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
 
+    /**
+     * @param string $reason
+     * @return mixed
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCancelPayment()
+    {
+        return $this->cancelPayment;
+    }
+
+    /**
+     * @param mixed $cancelPayment
+     * @return mixed
+     */
+    public function setCancelPayment($cancelPayment)
+    {
+        $this->cancelPayment = $cancelPayment;
+        return $this;
+    }
 
 }

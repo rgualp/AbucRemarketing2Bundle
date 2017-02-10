@@ -1,0 +1,20 @@
+mycp_list_cancel_payment_ag:
+    pattern:  /list/{items_per_page}/{filter_number}/{filter_code}/{filter_method}/{filter_name}/{filter_payment_date_from}/{filter_payment_date_to}/{filter_own}
+    defaults: { _controller: mycpBundle:BackendCancelPaymentAg:list, items_per_page: 100,filter_number:'',filter_code:'',filter_method:'',filter_name:'', filter_payment_date_from:'',filter_payment_date_to:'',filter_own:''}
+
+mycp_details_cancel_payment_ag:
+    pattern:  /detail/{id}
+    defaults: { _controller: mycpBundle:BackendCancelPaymentAg:detail }
+
+mycp_edit_cancel_payment_ag:
+    pattern:  /edit/{id}
+    defaults: { _controller: mycpBundle:BackendCancelPaymentAg:edit }
+
+mycp_pay_cancel_payment_ag:
+    pattern:  /details/pay/{idcancel}
+    defaults: { _controller: mycpBundle:BackendCancelPaymentAg:pay }
+
+mycp_export_list_cancel_payment_ag:
+    pattern:  /export/{filter_number}/{filter_code}/{filter_method}/{filter_name}/{filter_payment_date_from}/{filter_payment_date_to}/{filter_own}
+    defaults: { _controller: mycpBundle:BackendCancelPaymentAg:export,filter_number:'',filter_code:'',filter_method:'',filter_name:'', filter_payment_date_from:'',filter_payment_date_to:'',filter_own:''}
+
