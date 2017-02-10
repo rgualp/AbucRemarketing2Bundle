@@ -2217,7 +2217,7 @@ class DashboardController extends Controller
 
             foreach($bookingData["reservations"] as $reservation){
 
-                if($generalReservationId == 0 || $reservation->getOwnResGenResId() == $generalReservationId)
+                if($generalReservationId == 0 || $reservation->getOwnResGenResId()->getGenResId() == $generalReservationId)
                 {
                     $ch += $reservation->getOwnResTotalInSite();
                     $totalRooms++;
@@ -2250,6 +2250,9 @@ class DashboardController extends Controller
                         $refund -= $firstNightPayment;
                     }
 
+                    $payDate = new \DateTime();
+                    $payDate->add(new \DateInterval('P1D'));
+
                     $payment = new paPendingPaymentAgency();
                     $payment->setBooking($bookingData["booking"]);
                     $payment->setAmount($refund * $paymentSkrill->getCurrentCucChangeRate());
@@ -2259,6 +2262,7 @@ class DashboardController extends Controller
                     $payment->setType($cancelPaymentType);
                     $payment->setStatus($pendingStatus);
                     $payment->setCancelPayment($cancelPayment);
+                    $payment->setPayDate($payDate);
                     $em->persist($payment);
                     $em->flush();
 
