@@ -1487,7 +1487,7 @@ class BackendReservationController extends Controller {
                 $bookingService = $this->get('front_end.services.booking');
                 //Obtener los datos del formulario
                 $form_data=$request->get('mycp_mycpbundle_cancelpayment');
-                $response=$bookingService->cancelReservations($reservations_ids,$form_data['type'],$form_data['cancel_date'],$form_data['reason'],$form_data['give_tourist']);
+                $response=$bookingService->cancelReservations($reservations_ids,$form_data['type'],$form_data['cancel_date'],(isset($form_data['reason']))?$form_data['reason']:'',(isset($form_data['give_tourist']))?$form_data['give_tourist']:'');
                 return new JsonResponse($response);
             }
         }
