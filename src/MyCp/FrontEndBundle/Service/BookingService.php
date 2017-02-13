@@ -1253,8 +1253,6 @@ class BookingService extends Controller
             $payment = $this->em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $idBooking));
             $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
 
-
-
             $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
             $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($cancel_date, '/', 1);
 
@@ -1262,13 +1260,17 @@ class BookingService extends Controller
             //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
             $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
 
+            //Se crea el objeto de cancelación
             $obj = new cancelPayment();
+            $generalReserv=$onReservation->getOwnResGenResId();
             $flag=false;
+            if(count($booking->getBookingOwnReservations())==count($reservations_ids))
+                   $flag=true;
+
             if($type==1)//Si el tipo de cancelación es de propietario
             {
                 $price_tourist=$this->calculateTourist($reservations_ids,true);
                 if(count($booking->getBookingOwnReservations())==count($reservations_ids)){     //es que las cancelo todas
-                    $flag=true;
                     $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
                 }
                 else{
@@ -1288,13 +1290,6 @@ class BookingService extends Controller
 
                 $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                 $this->em->persist($pending_tourist);
-                $generalReserv=$onReservation->getOwnResGenResId();
-                if($flag)
-                    $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_CANCELLED);
-                else
-                    $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_PARTIAL_CANCELLED);
-
-                $this->em->persist($generalReserv);
 
                 //Se penaliza la casa en el ranking
                 if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
@@ -1325,9 +1320,7 @@ class BookingService extends Controller
             {
                 if($day>=7 && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
                     $price_tourist=$this->calculateTourist($reservations_ids,false);
-                    $flag=false;
                     if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
-                        $flag=true;
                         $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
                     }
                     else{
@@ -1488,6 +1481,15 @@ class BookingService extends Controller
             $obj->setGiveTourist($give_tourist);
             $this->em->persist($obj);
             $this->em->flush();
+
+            if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
+                $flag=true;
+            if($flag)
+                $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_CANCELLED);
+            else
+                $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_PARTIAL_CANCELLED);
+            $this->em->persist($generalReserv);
+            $this->em->flush();
             return array('success' => true, 'message' =>'Se ha cancelado satisfactoriamente');
         }
         else
@@ -1508,7 +1510,7 @@ class BookingService extends Controller
                 $generalReservation = $ownershipReservation->getOwnResGenResId();
                 if($fixed==0)
                     $fixed=$generalReservation->getServiceFee()->getFixedFee();
-                $price =$price+ $this->em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time,$sum_tax);
+                $price =$price+ $this->em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time,$sum_tax,$service_time);
             }
         }
         return array('price'=>$price,'fixed'=>$fixed);
