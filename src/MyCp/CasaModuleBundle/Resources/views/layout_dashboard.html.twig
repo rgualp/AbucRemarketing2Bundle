@@ -78,11 +78,27 @@
         <!-- Custom config -->
         {% include 'MyCpCasaModuleBundle::layout_config.html.twig' %}
         <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>
+
+        {% if ownership.modifying %}
+            <script>
+                $(document).on('ready', function () {
+                    $(window).scroll(function(){
+                        if($(this).scrollTop()>$('#pub_always').position().top){
+                            $('#pub_always').css({position:'fixed',top:0, zIndex:3000});
+                        }else{
+                            $('#pub_always').css({position:'relative'});
+                        }
+
+                    });
+                });
+            </script>
+        {% endif %}
     {% endblock javascripts %}
+
+
 
     {% block body %}
         <div id="wrapper">
-
             {% block nav %}
                 <nav class="navbar-default navbar-static-side" role="navigation">
                   <div class="pull-right" style="position: relative;z-index: 1000;right: 0;">
@@ -143,7 +159,19 @@
                 </div>
 
                 <div id="content_id" class="{% if dashboard is defined and dashboard %}wrapper wrapper-content white-bg{% else %}row white-bg{% endif %}" style="padding-bottom:40px">
-                     {% block content %}
+
+                    {% if ownership.modifying %}
+                        <div id="pub_always" class="col-xs-12 text-center" style="display: flex">
+                            <div class="col-md-9 col-xs-12">
+                                <h3 style="background-color: rgb(233, 75, 61); padding: 5px; color: white">OJO Su casa estará inactiva hasta que usted no complete todos los pasos y acceda a la opción Publicar.</h3>
+                                <button onclick="Step7.saveProfile(false, true)" class="btn btn-primary dim" type="button" data-url="{{ path("can_publish_accommodation") }}">Publicar <img src="{{ asset('bundles/mycpcasamodule/img/thumbs_up.png') }}"/></button>
+                            </div>
+                            <div class="col-md-3 oneblue-bg">
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% block content %}
                          {% include 'MyCpCasaModuleBundle:Steps:wizard.html.twig' %}
                      {% endblock content %}
                 </div>
