@@ -111,6 +111,7 @@
                 <tr>
                     <th>Id cancelación</th>
                     <th>Fecha de Registro</th>
+                    <th>Devolver</th>
                     <th>Tipo de Cancelación</th>
                     <th>Id Booking</th>
                     <th>Habitaciones canceladas</th>
@@ -123,6 +124,7 @@
                     <tr>
                         <td>{{item.cancelId}}</td>
                         <td>{{item.cancelDate | date ("d/m/Y")}}</td>
+                        <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
                         <td>{{item.type.cancelName}}</td>
                         <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':item.booking.bookingId}) }}">{{item.booking.bookingId}}</a></td>
                         <td>{{item.ownreservations | length}}</td>
