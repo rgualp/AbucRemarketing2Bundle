@@ -807,7 +807,7 @@ class ReservationController extends Controller {
     public function deleteConfirmationAction($id_reservation){
         $bookingService = $this->get('front_end.services.booking');
         $cancel_date=new \DateTime(date('Y-m-d'));
-        $response=$bookingService->cancelReservations(array($id_reservation),1,$cancel_date->format('Y/m/d'),'',true);
+        $response=$bookingService->cancelReservations(array($id_reservation),2,$cancel_date->format('Y/m/d'),'',true);
         return $this->redirect($this->generateUrl("frontend_mycasatrip_payment"));
     }
 

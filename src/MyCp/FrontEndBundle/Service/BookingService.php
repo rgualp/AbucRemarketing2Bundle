@@ -1233,6 +1233,8 @@ class BookingService extends Controller
      * @return JsonResponse
      */
     public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true){
+
+        $notificationService = $this->container->get("mycp.notification.service");
         if(count($reservations_ids)){
             //Servicios
             $templatingService = $this->container->get('templating');
@@ -1254,7 +1256,7 @@ class BookingService extends Controller
 
 
             $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
-            $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
+            $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($cancel_date, '/', 1);
 
             //if($date_cancel_payment<$min_date_arrive){
             //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
@@ -1357,6 +1359,13 @@ class BookingService extends Controller
                                     $failure_tourist->setCreationDate(new \DateTime());
                                     $this->em->persist($failure_tourist);
                                 }
+
+                                //Se envia un sms al prpietario
+                                $mobileNumber=$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnMobileNumber();
+                                $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista.";
+                                if($mobileNumber!='')
+                                    $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
+
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                 //Adiciono al arreglo de reservaciones
@@ -1385,13 +1394,13 @@ class BookingService extends Controller
                         ));
                     //$emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
                     $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
+
                 }
                 else{   //Despues de los 7 días antes de la fecha de llegada
                     if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                         $array_id_ownership=array();
-
                         foreach($reservations_ids as $genResId){
-                            $ownershipReservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                            $ownershipReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
                             $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
                             if (!array_key_exists($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
                                 $failure = $this->em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
@@ -1439,6 +1448,12 @@ class BookingService extends Controller
                                 ));
                             // $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
                             $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
+                            //Se envia un sms al prpietario
+                            $mobileNumber=$ownership->getOwnMobileNumber();
+                            $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
+                            if($mobileNumber!='')
+                                $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
+
                         }
                     }
                 }
