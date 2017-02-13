@@ -88,6 +88,12 @@
                             </tr>
                         </table>
 
+                        {% if roomReservation.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED') %}
+                            <div class="text-right">
+                                <button type="button" onclick="cancelReserv(this)" class="btn btn-danger  dim" data-href="{{ path('my_casa_module_cancel_reservow', {'id':roomReservation.ownResId}) }}"><i {#class="glyphicons bin"#} style="color:#fff"></i>Cancelar Hab.</button>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </div>
             {% endfor %}
@@ -133,7 +139,11 @@
             {#<button type="button" id="deactive-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId !=1 %} hide {% endif %}" ><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
             <button type="button" id="activate-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==1 %} hide {% endif %}" ><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
             <button type="button" id="modify-property" class="btn btn-primary  dim" onclick="window.location = '{{ path('modify_property') }}'"><i class="glyphicons pencil" style="color:#fff"></i> Modificar</button>
-            #}<button type="button" onclick="cancelReserv(this)" class="btn btn-danger  dim" data-href="{{ path('my_casa_module_cancel_reserv', {'id':reservation.genResId}) }}"><i {#class="glyphicons bin"#} style="color:#fff"></i>Cancelar Reservación</button>
+            #}
+
+            {%if reservation.genresStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+            <button type="button" onclick="cancelReserv(this)" class="btn btn-danger  dim" data-href="{{ path('my_casa_module_cancel_reserv', {'id':reservation.genResId}) }}"><i {#class="glyphicons bin"#} style="color:#fff"></i>Cancelar Todo</button>
+            {% endif %}
         </div>
     </div>
 </div>
