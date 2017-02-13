@@ -133,7 +133,7 @@
             {#<button type="button" id="deactive-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId !=1 %} hide {% endif %}" ><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
             <button type="button" id="activate-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==1 %} hide {% endif %}" ><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
             <button type="button" id="modify-property" class="btn btn-primary  dim" onclick="window.location = '{{ path('modify_property') }}'"><i class="glyphicons pencil" style="color:#fff"></i> Modificar</button>
-            #}<button type="button" onclick="cancelReserv(this)" class="btn btn-danger  dim" data-href="{{ path('my_casa_module_cancel_reserv', {'id':reservation.genResId}) }}"><i {#class="glyphicons bin"#} style="color:#fff"></i> Cancelar</button>
+            #}<button type="button" onclick="cancelReserv(this)" class="btn btn-danger  dim" data-href="{{ path('my_casa_module_cancel_reserv', {'id':reservation.genResId}) }}"><i {#class="glyphicons bin"#} style="color:#fff"></i>Cancelar Reservación</button>
         </div>
     </div>
 </div>
@@ -146,7 +146,7 @@
     function cancelReserv(el){
         swal({
             title: "¿Estás seguro?",
-            text: "¿Está seguro que desea cancelar esta reservación?",
+            text: "¿Seguro que desea cancelar la reserva?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#e94b3d",
