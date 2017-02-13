@@ -18,7 +18,6 @@ use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Entity\pendingPayown;
 use MyCp\mycpBundle\Entity\failure;
 use MyCp\mycpBundle\Entity\cancelPayment;
-use MyCp\mycpBundle\Entity\generalReservation;
 class BookingService extends Controller
 {
     /**
