@@ -16,8 +16,9 @@
     <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
     <div class="form-actions">
-       <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
-       <a href="{{ path('mycp_send_voucher_reservation_booking',{ 'id_booking' :  payment.booking.bookingId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
+        <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
+        <a href="{{ path('mycp_send_voucher_reservation_booking',{ 'id_booking' :  payment.booking.bookingId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
+        <a class="btn btn-danger" href="{{ path('mycp_cancel_reservations_booking',{'id_booking':payment.booking.bookingId}) }}">Cancelar Booking</a>
     </div>
 {% endblock %}
 {% block content %}

@@ -509,6 +509,89 @@ class ExportToExcel extends Controller {
         return $this->excelDirectoryPath.$fileName;
     }
 
+    public function exportAccommodationsHotsDirectory($fileName = "casascalientes", $ownerships = array()) {
+        $excel = $this->configExcel("Directorio de alojamientos calientes", "Directorio de alojamientos calientes de MyCasaParticular", "alojamientos calientes");
+
+        $data = $this->dataForAccommodationsHots($ownerships);
+
+        if (count($data) > 0) {
+            $excel = $this->createSheetForAccommodationsHotsDirectory($excel, "Casas calientes", $data);
+        }
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+
+        return $this->export($fileName);
+
+    }
+
+    private function dataForAccommodationsHots($ownerships) {
+        $results = array();
+
+        foreach ($ownerships as $own) {
+            $data = array();
+
+            $own["own_creation_date"] = ($own["own_creation_date"] != null) ? ($own["own_creation_date"]->format('d-m-Y')) : ('No tiene');
+            $own["own_hot_date"] = ($own["own_hot_date"] != null) ? ($own["own_hot_date"]->format('d-m-Y')) : ('No tiene');
+
+            $data[0] = $own["own_mcp_code"];
+            $data[1] = $own["own_name"];
+            $data[2] = $own["des_name"];
+            $data[3] = $own["own_creation_date"];
+            $data[4] = $own["own_hot_date"];
+
+            $modalidades = '';
+            if($own['own_inmediate_booking_2'] != null && $own['own_inmediate_booking_2']){
+                $modalidades .= 'Reserva Inmediata';
+            }
+            else if($own['own_inmediate_booking'] != null && $own['own_inmediate_booking']){
+                $modalidades .= 'Reserva Rapida';
+            }
+            else{
+                $modalidades .= 'Por solicitud';
+            }
+            $data[5] = $modalidades;
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetForAccommodationsHotsDirectory($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', 'Código');
+        $sheet->setCellValue('b1', 'Casa');
+        $sheet->setCellValue('c1', 'Destino');
+        $sheet->setCellValue('d1', 'Creada');
+        $sheet->setCellValue('e1', 'Fecha Reserva');
+        $sheet->setCellValue('f1', 'Modalidad');
+
+
+        $sheet = $this->styleHeader("a1:f1", $sheet);
+
+        $sheet->fromArray($data, ' ', 'A2');
+
+        $this->setColumnAutoSize("a", "f", $sheet);
+
+        /*for($i = 0; $i < count($data); $i++)
+        {
+            if($data[$i][9] != "Activo")
+            {
+                $style = array(
+                    'font' => array(
+                        'color' => array('rgb' => 'FF0000'),
+                    ),
+                );
+                $sheet->getStyle("A".($i + 2).":L".($i + 2))->applyFromArray($style);
+            }
+        }*/
+
+        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
+
+        return $excel;
+    }
+
     private function dataForAccommodationsDirectory($excel,$idProvince, $status = null) {
         $results = array();
 
@@ -1719,6 +1802,336 @@ ORDER BY own.own_mcp_code ASC
 
             return $this->export($fileName);
         }
+    }
+
+
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportPendingOwn($items, $startingDate, $fileName = "reservaciones") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de pagos pendientes a propietarios", "Listado de pagos pendientes a propietarios", "pagos");
+
+            $data = $this->dataForPendingOwn($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForPendingOwn($excel, "Pagos", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportPendingTourist($items, $startingDate, $fileName = "reservaciones") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de pagos pendientes a turstas", "Listado de pagos pendientes a turistas", "pagos");
+
+            $data = $this->dataForPendingTourist($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForPendingTourist($excel, "Pagos", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportCancelPayment($items, $startingDate, $fileName = "reservaciones") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de cancelaciones", "Listado de cancelaciones", "pagos");
+
+            $data = $this->dataForCancelPayment($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForCancelPayment($excel, "Pagos", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForCancelPayment($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+            $pay_own = $this->em->getRepository("mycpBundle:pendingPayown")->findBy(array("cancel_id" => $item->getCancelId()));
+            $pay_tourist = $this->em->getRepository("mycpBundle:pendingPaytourist")->findBy(array("cancel_id" => $item->getCancelId()));
+            $dest='';
+            $pay=0;
+
+            if(count($pay_own)){
+                $dest='Código de Casa:'.$pay_own[0]->getUserCasa()->getOwnMcpCode().'- Nombre de la casa:'.$pay_own[0]->getUserCasa()->getOwnName();
+                $pay=$pay_own[0]->getPayAmount().' CUC';
+
+            }
+            else if(count($pay_tourist)){
+                $dest='Nombre Cliente (Turista) :'.' '.$pay_tourist[0]->getUserTourist()->getUserTouristUser()->getUserCompleteName().' -Correo: '.$pay_tourist[0]->getUserTourist()->getUserTouristUser()->getUserEmail();
+                $pay=$pay_tourist[0]->getPayAmount().' '.$pay_tourist[0]->getCancelId()->getBooking()->getBookingCurrency()->getCurrSymbol();
+
+            }
+
+            //Número
+            $data[] = $item->getCancelId();
+            //Fecha
+            $data[] = ($item->getCancelDate()!='')?$item->getCancelDate()->format("d/m/Y"):'';
+            //Tipo de Cancelación (De Propietario /De Turista)
+            $data[] = $item->getType()->getCancelName();
+            //Id booking
+            $data[] = $item->getBooking()->getBookingId();
+            //Habitaciones canceladas
+            $data[] = count($item->getOwnreservations());
+            //Devolver a
+            $data[] = $dest;
+            //Monto a pagar
+            $data[] = $pay;
+
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForCancelPayment($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de cancelaciones");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Número');
+        $sheet->setCellValue('b5', 'Fecha de Registro)');
+        $sheet->setCellValue('c5', 'Tipo de Cancelación');
+        $sheet->setCellValue('d5', 'Id Booking');
+        $sheet->setCellValue('e5', 'Habitaciones canceladas');
+        $sheet->setCellValue('f5', 'Devolver A');
+        $sheet->setCellValue('g5', 'Monto a devolver');
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:H1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:H5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "h", $sheet);
+
+        $sheet->setAutoFilter("A5:H".(count($data)+5));
+
+        return $excel;
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForPendingTourist($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+            //Fecha
+            $data[] = ($item->getPaymentDate()!='')?$item->getPaymentDate()->format("d/m/Y"):'';
+            //Tipo de Cancelación (De Propietario /De Turista)
+            $data[] = $item->getCancelId()->getType()->getCancelName();
+            //Nombre del cliente
+            $data[] = $item->getUserTourist()->getUserTouristUser()->getUserCompleteName();
+            //Correo del cliente
+            $data[] = $item->getUserTourist()->getUserTouristUser()->getUserEmail();
+            //Monto a pagar
+            $data[] = $item->getPayAmount().' '.$item->getCancelId()->getBooking()->getBookingCurrency()->getCurrSymbol();
+            //Id Booking
+            $data[] = $item->getCancelId()->getBooking()->getBookingId();
+            //Fecha de registro
+            $data[] = $item->getRegisterDate()->format("d/m/Y");
+            //Estado: (Pendiente/En proceso/Pagado
+            $data[] = $item->getType()->getTranslations()[0]->getNomLangDescription();
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForPendingTourist($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de pagos pendientes a turistas");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Fecha de pago');
+        $sheet->setCellValue('b5', 'Tipo de Cancelación (De Propietario /De Turista)');
+        $sheet->setCellValue('c5', 'Nombre del cliente');
+
+        $sheet->setCellValue('d5', 'Correo del cliente');
+        $sheet->setCellValue('e5', 'Monto a pagar');
+        $sheet->setCellValue('f5', 'Id Booking');
+        $sheet->setCellValue('g5', 'Fecha de Registro');
+        $sheet->setCellValue('h5', 'Estado: (Pendiente/En proceso/Pagado)');
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:H1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:H5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "h", $sheet);
+
+        $sheet->setAutoFilter("A5:H".(count($data)+5));
+
+        return $excel;
+    }
+
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForPendingOwn($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+            //Fecha de pago
+            $data[] = $item->getPaymentDate()->format("d/m/Y");
+            //Monto a la casa
+            $data[] = $item->getPayAmount()." CUC";
+            //Código de la Casa
+            $data[] = $item->getUserCasa()->getOwnMcpCode();
+            //Nombre de la casa
+            $data[] = $item->getUserCasa()->getOwnName();
+            //Destino
+            $data[] = $item->getUserCasa()->getOwnDestination()->getDesName();
+            //Id Booking
+            $data[] = $item->getCancelId()->getBooking()->getBookingId();
+            //Fecha de Registro
+            $data[] = $item->getRegisterDate()->format("d/m/Y");
+            //Estado: (Pendiente/En proceso/Pagado
+            $data[] = $item->getType()->getTranslations()[0]->getNomLangDescription();
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForPendingOwn($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de pagos pendientes a propietarios");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Fecha de pago');
+        $sheet->setCellValue('b5', 'Monto a pagar a la casa');
+        $sheet->setCellValue('c5', 'Código de la Casa');
+        $sheet->setCellValue('d5', 'Nombre de la casa');
+        $sheet->setCellValue('e5', 'Destino');
+        $sheet->setCellValue('f5', 'Id Booking)');
+        $sheet->setCellValue('g5', 'Fecha de Registro');
+        $sheet->setCellValue('h5', 'Estado: (Pendiente/En proceso/Pagado)');
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:H1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:H5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "h", $sheet);
+
+        $sheet->setAutoFilter("A5:H".(count($data)+5));
+
+        return $excel;
     }
 
     private function dataForReservations($excel,$reservations) {

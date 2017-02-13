@@ -659,5 +659,50 @@ limit 1
         return $FromToTravel;
 
     }
+    /**
+     */
+    function getBookingById($id_booking) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT min(ore.own_res_reservation_from_date) as arrivalDate  FROM mycpBundle:ownershipReservation ore
+        WHERE ore.own_res_reservation_booking = :id_booking");
+        return $query->setParameter('id_booking', $id_booking)->getResult();
+    }
+
+    /**
+     * @param $ownershipReservation
+     * @param $timerService
+     * @return int
+     */
+    function cancelReservationByTourist($ownershipReservation, $timerService,$sum_tax){
+        $em = $this->getEntityManager();
+        $generalReservation = $ownershipReservation->getOwnResGenResId();
+
+        $commission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent()/ 100;
+        $today = \date('Y-m-d');
+
+        $totalDiffDays = $timerService->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
+
+        $serviceFee = $generalReservation->getServiceFee();
+        $refundTotal = 0;
+
+        $nights = date_diff($ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResReservationFromDate())->days;
+
+        $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
+
+        $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
+
+        $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
+
+        /*if($totalDiffDays > 7){*/
+            if($sum_tax)
+                $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;
+            else
+                $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission);
+        /*}
+        else
+            $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;*/
+
+        return $refundTotal;
+    }
 
 }

@@ -379,15 +379,14 @@ class CartController extends Controller
 
         $total_pay_at_service = 0;
 
-        if(!$completePayment) {
-            foreach ($roomsToPay as $own_res) {
-                $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
-                $own->setOwnResReservationBooking($booking);
-                $em->persist($own);
 
-                $total_pay_at_service += $own->getOwnResTotalInSite() * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent());
-            }
+        foreach ($roomsToPay as $own_res) {
+            $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
+            $own->setOwnResReservationBooking($booking);
+            $em->persist($own);
+            $total_pay_at_service += $own->getOwnResTotalInSite() * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent()/100);
         }
+
 
         $booking->setPayAtService($total_pay_at_service);
         $em->persist($booking);
