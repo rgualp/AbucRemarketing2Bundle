@@ -128,10 +128,35 @@
             </tr>
         </table>
     </div>
+    <div class="col-xs-12">
+        <div class="row text-right">
+            {#<button type="button" id="deactive-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId !=1 %} hide {% endif %}" ><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
+            <button type="button" id="activate-property" data-href="{{ path('active_property') }}" class="btn btn-default  dim {% if ownership.ownStatus.statusId ==1 %} hide {% endif %}" ><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
+            <button type="button" id="modify-property" class="btn btn-primary  dim" onclick="window.location = '{{ path('modify_property') }}'"><i class="glyphicons pencil" style="color:#fff"></i> Modificar</button>
+            #}<button type="button" onclick="cancelReserv(this)" class="btn btn-danger  dim" data-href="{{ path('my_casa_module_cancel_reserv', {'id':reservation.genResId}) }}"><i {#class="glyphicons bin"#} style="color:#fff"></i> Cancelar</button>
+        </div>
+    </div>
 </div>
 
 <script>
     $('.closeDetails').click(function () {
         $(".detailsContainer").addClass('hidden');
     });
+
+    function cancelReserv(el){
+        swal({
+            title: "¿Estás seguro?",
+            text: "¿Está seguro que desea cancelar esta reservación?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#e94b3d",
+            cancelButtonColor: "#64a433",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No",
+            closeOnConfirm: true
+        }, function () {
+            var ss = $(el).data('href');
+            window.location.href=ss;
+        });
+    }
 </script>

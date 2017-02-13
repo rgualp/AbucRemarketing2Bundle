@@ -78,3 +78,6 @@ my_casa_module_notificationresp:
     pattern:  /notifications/{id}/{act}
     defaults: { _controller: MyCpCasaModuleBundle:Notification:notificationresp,id:'',act:''}
 
+my_casa_module_cancel_reserv:
+    pattern:  /reservation/cancel/{id}
+    defaults: { _controller: MyCpCasaModuleBundle:Reservation:cancelReserv,id:''}
