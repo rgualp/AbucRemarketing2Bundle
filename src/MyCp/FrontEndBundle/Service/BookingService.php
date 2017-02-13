@@ -1253,8 +1253,6 @@ class BookingService extends Controller
             $payment = $this->em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $idBooking));
             $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
 
-
-
             $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
             $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($cancel_date, '/', 1);
 
@@ -1265,11 +1263,9 @@ class BookingService extends Controller
             //Se crea el objeto de cancelación
             $obj = new cancelPayment();
             $generalReserv=$onReservation->getOwnResGenResId();
+            $flag=false;
             if(count($booking->getBookingOwnReservations())==count($reservations_ids))
-                    $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_CANCELLED);
-                else
-                    $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_PARTIAL_CANCELLED);
-            $this->em->persist($generalReserv);
+                   $flag=true;
 
             if($type==1)//Si el tipo de cancelación es de propietario
             {
@@ -1484,6 +1480,15 @@ class BookingService extends Controller
             $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
             $obj->setGiveTourist($give_tourist);
             $this->em->persist($obj);
+            $this->em->flush();
+
+            if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
+                $flag=true;
+            if($flag)
+                $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_CANCELLED);
+            else
+                $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_PARTIAL_CANCELLED);
+            $this->em->persist($generalReserv);
             $this->em->flush();
             return array('success' => true, 'message' =>'Se ha cancelado satisfactoriamente');
         }
