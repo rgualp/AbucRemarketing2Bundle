@@ -82,12 +82,12 @@ function totalPrice(curr,percent, totalNights)
     console.log("Costo total " + totalCost);
 
     if(completePayment != 0)
-        var prepayment = parseFloat(totalCost - agencyCommissionTax);
+        var prepayment = parseFloat(totalCost);
     else
         var prepayment = parseFloat(summatoryTax- agencyCommissionTax) ;
 
     $('#total_prepayment').html(normalize_prices(prepayment));
-    $('#total_price').html( normalize_prices(totalCost) );
+    $('#total_price').html( normalize_prices(totalCost + agencyCommissionTax) );
 
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
