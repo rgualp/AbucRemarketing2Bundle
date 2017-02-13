@@ -1209,7 +1209,16 @@ class StepsController extends Controller {
         //$canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
 
         //dump($ranking);die;
+
+        $year = '2016';
+        if(count($allYearCalculateRanking) > 0){
+            $year = $allYearCalculateRanking[count($allYearCalculateRanking) - 1]['year'];
+        }
+
+        $r = $em->getRepository("mycpBundle:ownershipRankingExtra")->getOfYear($ownership->getOwnId(), $year);
+
         return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
+            'xyearranking'=>$r,
             'ownership' => $ownership,
             'ranking' => $ranking,
             'yearranking' => $yearRanking,
@@ -1298,7 +1307,9 @@ class StepsController extends Controller {
             $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("", 1, "", "", "", $ownership->getOwnDestination()->getDesId())->getResult());
 
             if(count($ranking) > 0) {
+                $r = $em->getRepository("mycpBundle:ownershipRankingExtra")->getOfYear($ownid, $year);
                 return $this->render('MyCpCasaModuleBundle:statistics:resumen_anual.html.twig', array(
+                    'xyearranking'=>$r,
                     "ranking" => $ranking,
                     "ownership" => $ownership,
                     "totalOwnerShipActive" => $totalOwnerShipActive,
