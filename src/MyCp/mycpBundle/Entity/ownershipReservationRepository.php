@@ -685,7 +685,7 @@ limit 1
         $serviceFee = $generalReservation->getServiceFee();
         $refundTotal = 0;
 
-        $nights = date_diff($ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResReservationFromDate())->days;
+        $nights =  $timerService->diffInDays($ownershipReservation->getOwnResReservationToDate()->format("Y-m-d"),$ownershipReservation->getOwnResReservationFromDate()->format("Y-m-d"));
 
         $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
 
