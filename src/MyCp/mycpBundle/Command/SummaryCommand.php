@@ -69,9 +69,9 @@ class SummaryCommand extends ContainerAwareCommand
 
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
-        $factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPayments($yesterday,$day);
-        $factura=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($yesterday,$yesterday);
 
+        $factu=$em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday,$day);
+        $factura=$em->getRepository("mycpBundle:generalReservation")->facturacionNeta($yesterday,$day);
 
         $first_day=$this->_data_first_month_day();
         $total_factu=$em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($first_day,$day);
@@ -116,6 +116,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'diferencia'=>$meta-$totalFactu,
                 'meta'=>$meta
             ));
+        dump($body);die;
         try {
             $subject = "Sumario MyCasaParticular";
 
