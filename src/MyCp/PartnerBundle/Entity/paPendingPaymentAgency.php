@@ -23,7 +23,7 @@ class paPendingPaymentAgency
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\generalReservation")
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\generalReservation",inversedBy="pendingPayments")
      * @ORM\JoinColumn(name="reservation", referencedColumnName="gen_res_id", nullable=false)
      */
     private $reservation;

@@ -406,6 +406,7 @@ class DashboardController extends Controller
 
     public function listBookingCanceledAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $filters = $request->get('booking_canceled_filter_form');
         $filters = (isset($filters)) ? ($filters) : (array());
 
@@ -424,6 +425,13 @@ class DashboardController extends Controller
         foreach ($reservations as $reservation) {
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
+            $pendingPayment = $reservation->getPendingPayments()->first();
+            $payment = $pendingPayment->getBooking()->getPayments()->first();
+            $paymentCurrencyChangeRate = $payment->getCurrentCucChangeRate();
+            $currency = $pendingPayment->getBooking()->getPayments()->first()->getCurrency();
+            $currencyEntity = $em->getRepository("mycpBundle:currency")->find($currency);
+
+
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
                 'cas' => '' . $reservation->getGenResId(),
@@ -433,7 +441,11 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
-                'own_name' => $reservation->getGenResOwnId()->getOwnName());
+                'own_name' => $reservation->getGenResOwnId()->getOwnName(),
+                'cancelDate' => $pendingPayment->getCreatedDate()->format('d-m-Y'),
+                'cancelAmount'  => number_format($pendingPayment->getAmount() * $paymentCurrencyChangeRate, 2),
+                'cancelCurrencyCode' => $currencyEntity->getCurrCode()
+            );
 
             $ownReservations = $reservation->getOwn_reservations();
             $arrTmp['data']['rooms'] = array();
@@ -1197,6 +1209,55 @@ class DashboardController extends Controller
                 'total_prices' => $array_total_prices,
                 'canBeCanceled' => $canBeCanceled,
                 'oneCanBeCanceled' => $oneCanBeCanceled
+            )),
+            'msg' => 'Vista del detalle de una reserva']);
+    }
+
+    public function indexBookingDetailCancelAction($id_reservation, $date, $amount, $currency, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $reservation->getOwnReservations();
+
+        $service_time = $this->get('time');
+        $array_nights = array();
+        $array_total_prices = array();
+        $rooms = array();
+        $canBeCanceled = array();
+        $curr = $this->getCurr($request);
+        $today = new \DateTime();
+        $oneCanBeCanceled = false;
+
+        foreach ($ownership_reservations as $res) {
+            $nights = $res->getNights($service_time);
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            array_push($array_nights, $nights);
+
+            $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
+            array_push($canBeCanceled, $canCancel);
+
+            if (!$oneCanBeCanceled)
+                $oneCanBeCanceled = $canCancel;
+
+            $total_price = ($res->getPriceTotal($service_time) * $curr['change']) . $curr['code'];
+            array_push($array_total_prices, $total_price);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_detail_' . $id_reservation,
+            'html' => $this->renderView('PartnerBundle:Dashboard:detailsCancel.html.twig', array(
+                'id_res' => $id_reservation,
+                'cas' => "CAS.$id_reservation",
+                'reservation' => $reservation,
+                'reservations' => $ownership_reservations,
+                'rooms' => $rooms,
+                'nights' => $array_nights,
+                'total_prices' => $array_total_prices,
+                'canBeCanceled' => $canBeCanceled,
+                'oneCanBeCanceled' => $oneCanBeCanceled,
+                'cancelDate' => $date,
+                'cancelAmount' => $amount." ".$currency
             )),
             'msg' => 'Vista del detalle de una reserva']);
     }

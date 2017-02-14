@@ -3180,8 +3180,27 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
         $qb->join('pard.reservation', 'par');
         $qb->join('par.client', 'client');
 
-        $qb->andWhere('r.gen_res_status = :gen_res_status');
-        $qb->setParameter('gen_res_status', $status);
+
+        if($status == generalReservation::STATUS_RESERVED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
+            $qb->setParameter('gen_res_status', $status);
+        }
+
+        elseif($status == generalReservation::STATUS_CANCELLED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
+            $qb->setParameter('gen_res_status', $status);
+            $qb->leftJoin("r.pendingPayments", "pending");
+            $qb->andWhere("pending.cancelPayment IS NOT NULL");
+
+        }
+        else{
+            $qb->andWhere('r.gen_res_status = :gen_res_status');
+            $qb->setParameter('gen_res_status', $status);
+        }
 
         $qb->orderBy("r.gen_res_id", "DESC");
 
