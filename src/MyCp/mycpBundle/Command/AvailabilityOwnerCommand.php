@@ -55,7 +55,6 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
         $container->get('mailer')->send($message);*/
         /**************/
 
-
         $output->writeln('<info>**** Recopilando disponibilidades dadas por propietarios ****</info>');
 
         $this->container = $this->getContainer();
