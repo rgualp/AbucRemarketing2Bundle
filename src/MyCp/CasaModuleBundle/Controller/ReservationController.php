@@ -210,8 +210,15 @@ class ReservationController extends Controller
         return new Response($content, 200);
     }
 
-    public function cancelReservAction($id, Request $request) {
+    public function cancelOwnReservAction($id, Request $request) {
+        $bookingService = $this->get('front_end.services.booking');
+        $cancel_date=new \DateTime(date('Y-m-d'));
+        $bookingService->cancelReservations(array($id),1,$cancel_date->format('Y/m/d'),'',true);
 
+        return $this->redirect($this->generateUrl('my_casa_module_reservations'));
+    }
+
+    public function cancelReservAction($id, Request $request) {
         $id_reservation = $id;
         $bookingService = $this->get('front_end.services.booking');
         $cancel_date=new \DateTime(date('Y-m-d'));
