@@ -56,7 +56,6 @@ class taskRenta
      */
     private $creation_date;
 
-
     /**
      * Get id
      *
