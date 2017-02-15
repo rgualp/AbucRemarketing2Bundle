@@ -2,22 +2,21 @@
 
 namespace MyCp\FrontEndBundle\Service;
 
+use Abuc\RemarketingBundle\Event\FixedDateJobEvent;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Entity\booking;
+use MyCp\mycpBundle\Entity\cancelPayment;
+use MyCp\mycpBundle\Entity\failure;
+use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\pendingPayown;
+use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use MyCp\mycpBundle\Entity\generalReservation;
-use MyCp\mycpBundle\Entity\ownershipReservation;
-use Abuc\RemarketingBundle\Event\JobEvent;
-use Abuc\RemarketingBundle\Event\FixedDateJobEvent;
-use MyCp\mycpBundle\Entity\pendingPaytourist;
-use MyCp\mycpBundle\Entity\pendingPayown;
-use MyCp\mycpBundle\Entity\failure;
-use MyCp\mycpBundle\Entity\cancelPayment;
+
 class BookingService extends Controller
 {
     /**
@@ -1258,12 +1257,12 @@ class BookingService extends Controller
 
             //if($date_cancel_payment<$min_date_arrive){
             //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
-            $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
-
+            $day=$service_time->diffInDays($min_date_arrive->format("Y-m-d"), $date_cancel_payment->format("Y-m-d"));
             //Se crea el objeto de cancelación
             $obj = new cancelPayment();
             $generalReserv=$onReservation->getOwnResGenResId();
             $flag=false;
+            $failure_flag=false;
             if(count($booking->getBookingOwnReservations())==count($reservations_ids))
                    $flag=true;
 
@@ -1318,7 +1317,8 @@ class BookingService extends Controller
             }
             if($type==2)//Si el tipo de cancelación  es de turista
             {
-                if($day>=7 && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
+                if($day>7 || ($day<=7 && $day>=3) && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
+
                     $price_tourist=$this->calculateTourist($reservations_ids,false);
                     if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
                         $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
@@ -1330,7 +1330,11 @@ class BookingService extends Controller
                     //Se registra un Pago Pendiente a Turista
                     $pending_tourist=new pendingPaytourist();
                     $pending_tourist->setCancelId($obj);
-                    $pending_tourist->setPayAmount($total_price);
+                    if($day>7)
+                        $pending_tourist->setPayAmount($total_price);
+                    if($day<=7 && $day>=3)
+                        $pending_tourist->setPayAmount($total_price/2);
+
                     $pending_tourist->setUserTourist($user_tourist);
                     $pending_tourist->setUser($this->getUser());
                     $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
@@ -1361,6 +1365,7 @@ class BookingService extends Controller
                                     $failure_tourist->setDescription($reason);
                                     $failure_tourist->setCreationDate(new \DateTime());
                                     $this->em->persist($failure_tourist);
+                                    $failure_flag=true;
                                 }
 
                                 //Se envia un sms al prpietario
@@ -1400,7 +1405,8 @@ class BookingService extends Controller
                     $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
 
                 }
-                else{   //Despues de los 7 días antes de la fecha de llegada
+                if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
+
                     if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                         $array_id_ownership=array();
                         foreach($reservations_ids as $genResId){
@@ -1411,14 +1417,16 @@ class BookingService extends Controller
                                 if(count($failure)==0){
                                     //Se le da puntos positivos en el Ranking a la casa
                                     //Registro un fallo de tipo turista
-                                    $failure_tourist = new failure();
-                                    $failure_tourist->setUser($this->getUser());
-                                    $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
-                                    $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
-                                    $failure_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
-                                    $failure_tourist->setDescription($reason);
-                                    $failure_tourist->setCreationDate(new \DateTime());
-                                    $this->em->persist($failure_tourist);
+                                    if(!$failure_flag){
+                                        $failure_tourist = new failure();
+                                        $failure_tourist->setUser($this->getUser());
+                                        $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                        $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                        $failure_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                        $failure_tourist->setDescription($reason);
+                                        $failure_tourist->setCreationDate(new \DateTime());
+                                        $this->em->persist($failure_tourist);
+                                    }
                                 }
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$price,'ownershipReservations'=>array($ownershipReservation),'arrival_date'=>$ownershipReservation->getOwnResReservationFromDate());
@@ -1525,7 +1533,9 @@ class BookingService extends Controller
      * @return float
      */
     public function calculatePriceOwn($from,$to,$price_total_in_site,$commission_percent){
-        $day=date_diff($to,$from)->days;
+        $service_time = $this->get('time');
+        $day=$service_time->diffInDays($to->format("Y-m-d"), $from->format("Y-m-d"));
+
         if($day==1 || $day ==2){
             $price=($price_total_in_site/$day)*(1-$commission_percent/100)*0.5;
             return $price;
