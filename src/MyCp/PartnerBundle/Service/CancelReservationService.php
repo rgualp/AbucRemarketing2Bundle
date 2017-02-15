@@ -49,7 +49,7 @@ class CancelReservationService extends Controller
         $this->sendTeamCancelReservation($travelAgency, $agencyRefund, $generalReservation, $booking);
     }
 
-    private function getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, $agencyCommission, $totalInSite, $totalNights, $totalRooms, $firstNightPrice)
+    public function getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, $agencyCommission, $totalInSite, $totalNights, $totalRooms, $firstNightPrice)
     {
         $serviceFee = $generalReservation->getServiceFee();
 

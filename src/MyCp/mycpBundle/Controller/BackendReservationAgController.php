@@ -655,6 +655,7 @@ class BackendReservationAgController extends Controller {
         $rooms = array();
         $total_nights = array();
         $service_time = $this->get('time');
+        $cancelReservationService = $this->get("mycp.partner.cancelreservation.service");
 
         $obj = ($id!='') ? $em->getRepository('PartnerBundle:paCancelPayment')->find($id) : new paCancelPayment();
 
@@ -682,14 +683,17 @@ class BackendReservationAgController extends Controller {
                 $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
                 $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1);
 
+                $pendingPayments = $this->calculateAgency($cancelReservationService, ($form_data['type']==$nomCancelFromAgency->getNomId()) , $booking, $agency,$reservations_ids,$obj, $service_time, $tripleChargeRoom, $date_cancel_payment);
+
                 if($date_cancel_payment<$min_date_arrive){
+
                     //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
                     $day=date_diff($min_date_arrive,$date_cancel_payment)->days;
                     if($form_data['type']==$nomCancelFromHost->getNomId())//Si el tipo de cancelación es de propietario
                     {
                         $obj->setType($nomCancelFromHost);
 
-                        $this->calculateAgency($booking, $agency,$reservations_ids,$obj, $service_time, $tripleChargeRoom);
+                        //$this->calculateAgency($booking, $agency,$reservations_ids,$obj, $service_time, $tripleChargeRoom, $date_cancel_payment);
 
                         //Se penaliza la casa en el ranking
                         if(count($reservations_ids)){   //Debo  recorrer cada una de las habitaciones para de ellas sacar las casas
@@ -727,8 +731,8 @@ class BackendReservationAgController extends Controller {
                         $cancelPayment->setType($nomCancelFromAgency);
                         $em->persist($cancelPayment);*/
 
-                        $pendingPayments = $this->calculateAgency($booking, $agency,$reservations_ids,$obj, $service_time, $tripleChargeRoom);
-                        if($day>=7){  //Antes  de los 7 días de llegada del turista:
+                        //$pendingPayments = $this->calculateAgency($booking, $agency,$reservations_ids,$obj, $service_time, $tripleChargeRoom, $date_cancel_payment);
+                        if($day>7){  //Antes  de los 7 días de llegada del turista:
 
                             //Array $ownershipReservation para mandar el correo
                             $ownershipReservations=array();
@@ -892,7 +896,7 @@ class BackendReservationAgController extends Controller {
      * @param $reservations_ids
      * @return array
      */
-    public function calculateAgency($booking, $agency,$reservations_ids,$cancelPayment, $timer, $tripleRoomCharge){
+    public function calculateAgency($cancelReservationService, $isFromAgency, $booking, $agency,$reservations_ids,$cancelPayment, $timer, $tripleRoomCharge, $date_cancel_payment){
         $em = $this->getDoctrine()->getManager();
         $cancelPaymentType = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array(
             "nom_name" => "cancel_payment_agency",
@@ -933,22 +937,31 @@ class BackendReservationAgController extends Controller {
 
                 $commission = $agency->getCommission() / 100;
                 $serviceFee = $generalReservation->getServiceFee();
+                $nights = $nights / $totalRooms;
                 $agencyTax = $ch * $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($nights / $totalRooms), ($ch / $nights),$serviceFee->getId());
 
-                $today = \date('Y-m-d');
-                $totalDiffDays = $timer->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
+                $totalDiffDays = $timer->diffInDays($date_cancel_payment->format("Y-m-d"), $generalReservation->getGenResFromDate()->format("Y-m-d"));
 
-                $refund = $ch - ($commission * ($ch + $agencyTax + $serviceFee->getFixedFee()));
+                $ca = $commission * ($ch + $agencyTax + $serviceFee->getFixedFee());
+
+                $firstNightPrice = $ch / $nights;
+                $accommodationCommission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100;
+
+                $refunds = $cancelReservationService->getRefunds($isFromAgency, $date_cancel_payment, $generalReservation, ($agency->getCommission() / 100), $ch, $nights, $totalRooms, $firstNightPrice);
+                $refund = $refunds["agencyRefund"];
 
                 if($totalDiffDays <= 7){
 
                     $firstNightPayment = $ch / $nights;
                     $accommodationCommission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100;
-                    $firstNightPayment -= $firstNightPayment*$accommodationCommission;
+                    //$firstNightPayment -= $firstNightPayment*$accommodationCommission;
 
-                    $ownerships[$generalReservation->getGenResOwnId()->getOwnId()] = $firstNightPayment;
+                    $ownerships[$generalReservation->getGenResOwnId()->getOwnId()] = $firstNightPrice * (1 - $accommodationCommission);
 
-                    $refund -= $firstNightPayment;
+                    //$refund = $ch - $ca - $firstNightPayment;
+                }
+                else{
+                    //$refund = $ch + $serviceFee->getFixedFee() - $ca;
                 }
 
                 $payment = new paPendingPaymentAgency();
