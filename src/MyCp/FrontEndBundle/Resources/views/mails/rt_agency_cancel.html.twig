@@ -9,18 +9,13 @@
 </head>
 <body style="font-family: Arial; font-size: 15px">
 Hola:<br/><br/>
-La Agencia {{ travelAgency.name }} ha cancelado las siguientes reservas:
+La Agencia {{ travelAgency.name }} ha cancelado la siguiente reserva:
 
 <ul>
-{% for reservation in reservations %}
-    <li>CAS.{{ reservation["reservation"].genResId }}: {{ reservation["reservation"].genResOwnId.ownMcpCode }} - {{ reservation["reservation"].genResOwnId.ownName }}</li>
-{% endfor %}
+    <li>CAS.{{ reservation.genResId }}: {{ reservation.genResOwnId.ownMcpCode }} - {{ reservation.genResOwnId.ownName }}</li>
 </ul>
 
-pagadas con el/los bookings:
-{% for booking in bookings %}
-{% if loop.index0 > 0 %}, {% endif %} {{ booking }}
-{% endfor %}
+pagada con el booking: {{ booking.bookingID }}
 
 El monto a devolver es de <b>{{ refund }}</b> CUC.
 

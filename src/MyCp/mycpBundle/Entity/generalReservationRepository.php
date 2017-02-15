@@ -3394,6 +3394,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         elseif($canceled < $totalSubReservations)
             $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
 
+        $generalReservation->setGenResStatusDate(new \DateTime());
 
         $em->persist($generalReservation);
         $em->flush();
