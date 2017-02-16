@@ -2,20 +2,13 @@
 
 namespace MyCp\mycpBundle\Entity;
 
-use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\AST\Join;
-use MyCp\FrontEndBundle\Helpers\Time;
-use MyCp\mycpBundle\Helpers\AccommodationModality;
+use Doctrine\ORM\Query\Expr;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
-use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
-use MyCp\mycpBundle\Entity\generalReservation;
 
-use Doctrine\ORM\Query\Expr;
-use MyCp\PartnerBundle\Repository\paGeneralReservationRepository;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownershipReservationRepository
@@ -1974,6 +1967,37 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         return $qb->getQuery()->getResult();
     }
 
+    function facturacionNeta($filter_date_from,$filter_date_to){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:payment", "p")
+            ->join("p.currency", "curr");
+
+        if($filter_date_from != null && $filter_date_from != "") {
+            $qb->andWhere("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+    function facturacion($filter_date_from = null, $filter_date_to = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
     function getClientsDailySummaryPayments($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -3328,5 +3352,22 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         }
     return $res;
 
+    }
+
+    /**
+     * @param $id_ownReservations
+     * @return array
+     */
+    function getUserByOwnershipReservations($id_ownReservations){
+        $em=$this->getEntityManager();
+        $queryString = "SELECT  user.user_id
+            FROM mycpBundle:generalReservation gres
+            JOIN gres.gen_res_own_id own
+            JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id
+            JOIN uca.user_casa_user user
+            JOIN mycpBundle:ownershipReservation owr with owr.own_res_gen_res_id = gres.gen_res_id where owr.own_res_id =:id_ownReservations";
+
+        $query = $em->createQuery($queryString);
+        return $query->setParameter('id_ownReservations', $id_ownReservations)->getArrayResult();
     }
 }
