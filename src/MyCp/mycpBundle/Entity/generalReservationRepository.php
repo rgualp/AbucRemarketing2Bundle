@@ -3310,6 +3310,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         return array('data' => $data, 'count' => $count);
     }
 
+
     function getReservationCart($idGeneralReservation, $ownReservationIds) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()

@@ -67,6 +67,7 @@
     </tr>
 </table>
 <br/>
+
 {% for own in own_res %}
     {% if loop.index0 > 0 %}
         <div style="page-break-after: always"></div>
@@ -88,35 +89,35 @@
     <table  style="width: 100%">
         <tr style="border-top:none;">
             <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans({}, "messages", user_locale)}}:</b></td>
-            <td style="border-top:none; width:40%">{{ own.genResOwnId.ownName }}</td>
+            <td style="border-top:none; width:40%">{{ own.name }}</td>
             <td rowspan="5" style="border-top:none;width:30%">
                 <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                    <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.genResOwnId.ownGeolocateX}},{{own.genResOwnId.ownGeolocateY}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.genResOwnId.ownGeolocateX}},{{own.genResOwnId.ownGeolocateY}}&a.jpg' alt="{{"Maps" | trans}}"/>
+                    <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>
                 </div>
             </td>
         </tr>
         <tr>
             <td><b>{{"ID_HOME"|trans({}, "messages", user_locale)}}:</b></td>
-            <td>{{ own.genResOwnId.ownMcpCode }}</td>
+            <td>{{ own.mycp_code }}</td>
         </tr>
         <tr>
             <td><b>{{"OWNERS_NAME"|trans({}, "messages", user_locale)}}:</b></td>
-            <td>{{ own.genResOwnId.ownHomeowner1 }} {% if own.genResOwnId.ownHomeowner2 %}& {{ own.genResOwnId.ownHomeowner2 }}{% endif %}</td>
+            <td>{{ own.owner_1 }} {% if own.owner_2 %}& {{ own.owner_2 }}{% endif %}</td>
         </tr>
         <tr>
             <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
-            <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ own.genResOwnId.ownAddressStreet }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ own.genResOwnId.ownAddressNumber }} {%if own.genResOwnId.ownAddressBetweenStreet1 != "" and own.genResOwnId.ownAddressBetweenStreet2 != ""%}, {{ own.genResOwnId.ownAddressBetweenStreet1 }} & {{ own.genResOwnId.ownAddressBetweenStreet2 }}{%endif%}.
-                {{ own.genResOwnId.ownAddressMunicipality.munName }} ,{{ own.genResOwnId.ownAddressProvince.provName }}.
+            <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ own.main_street }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ own.number }} {%if own.street_1 != "" and own.street_2 != ""%}, {{ own.street_1 }} & {{ own.street_2 }}{%endif%}.
+                {{ own.municipality }} ,{{ own.province }}.
             </td>
         </tr>
         <tr>
             <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
-            <td>{%if own.genResOwnId.ownPhoneCode != ""%}(+53) {{ own.genResOwnId.ownPhoneCode }} {{ own.genResOwnId.ownPhoneNumber }}{%else%} - {%endif%}</td>
+            <td>{%if own.prov_code != ""%}(+53) {{ own.prov_code }} {{ own.phone_number }}{%else%} - {%endif%}</td>
         </tr>
-        {% if own.genResOwnId.ownEmail1 != "" or own.genResOwnId.ownEmail2 != "" %}
+        {% if own.own_email_1 != "" or own.own_email_2 != "" %}
             <tr>
                 <td><b>{{"FORMS_EMAIL"|trans}}:</b></td>
-                <td>{% if own.genResOwnId.ownEmail1 == "" and own.genResOwnId.ownEmail2 == "" %}-{% else %}<a href="mailto:{{ own.genResOwnId.ownEmail1 }}">{{ own.genResOwnId.ownEmail2 }}</a>{% if own.genResOwnId.ownEmail1 != "" and own.genResOwnId.ownEmail2 != "" %}, {% endif %}<a href="mailto:{{ own.genResOwnId.ownEmail2 }}">{{ own.genResOwnId.ownEmail2 }}</a>{% endif %}</td>
+                <td>{% if own.own_email_1 == "" and own.own_email_2 == "" %}-{% else %}<a href="mailto:{{ own.own_email_1 }}">{{ own.own_email_1 }}</a>{% if own.own_email_1 != "" and own.own_email_2 != "" %}, {% endif %}<a href="mailto:{{ own.own_email_2 }}">{{ own.own_email_2 }}</a>{% endif %}</td>
             </tr>
         {% endif %}
     </table>
@@ -125,7 +126,7 @@
         <br/>
         <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
             <img src="bundles/frontend/img/icons/vbed.png" alt="{{"BEDS_ROOMS" | trans}}"/>
-            {{"RESERVATION_DETAILS"|trans({}, "messages", user_locale)}}: {{"ROOM_SINGULAR"|trans({}, "messages", user_locale) | capitalize}} {{loop.index}}
+            {{"RESERVATION_DETAILS"|trans({}, "messages", user_locale)}} {{loop.index}}
         </h4>
         <br/>
         <table style="width:100%">
@@ -158,6 +159,9 @@
                 <td><b>{{ "RESERVATION_COST" | trans({}, "messages", user_locale) }}</b></td>
                 <td>{{ currency_symbol }} {{ (res_room.priceInSite * currency_rate) | number_format(2) }}</td>
             </tr>
+            <tr>
+                <td colspan="6"><strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{res_room.fullname }}</td>
+            </tr>
         </table>
     {%endfor%}
     {% if own_res | length > 1 %}
@@ -170,11 +174,11 @@
         <table style="width:100%">
             <tr>
                 <td><b>{{ "ACCOMMODATION_TOTAL_COST" | trans({}, "messages", user_locale) }}</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (own_res_payments[own.genResOwnId.ownId].total_price)| number_format(2) }}</h4></td>
+                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
             </tr>
             <tr>
                 <td><b>{% if booking.completePayment | trans({}, "messages", user_locale) %}{{ "SERVICE_AGENCY_TAX" |trans({}, "messages", user_locale) }}{% else %}{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}{% endif %}</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((own_res_payments[own.genResOwnId.ownId].touristTax)) | number_format(2) }}</h4></td>
+                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
             </tr>
             {% set fixedTax = 0 %}
             {% if own_res | length == 1 and not booking.completePayment %}
@@ -188,7 +192,7 @@
                 <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }} - {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}</b></td>
                 <td class="text-right">
                     <h4 class="no-margin">
-                        {{ currency_symbol }} {{ (own_res_payments[own.genResOwnId.ownId].total_price + fixedTax + own_res_payments[own.genResOwnId.ownId].touristTax)| number_format(2) }}
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)| number_format(2) }}
                     </h4>
                 </td>
             </tr>
@@ -197,17 +201,17 @@
                 <td><b>{{ "ONLINE_PREPAYMENT" | trans({}, "messages", user_locale) }}</b></td>
                 <td class="text-right">
                     <h4 class="no-margin">
-                        {{ currency_symbol }} {{ (own_res_payments[own.genResOwnId.ownId].prepayment + own_res_payments[own.genResOwnId.ownId].touristTax + fixedTax) | number_format(2) }}
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].prepayment + own_res_payments[own.id].touristTax + fixedTax) | number_format(2) }}
                     </h4>
                 </td>
             </tr>
             <tr>
                 <td>-{{"PERCENT_ACCOMMODATION_AMOUNT" | trans({}, "messages", user_locale) | replace({"%percent%": own.genResOwnId.ownCommissionPercent ~ "%"})}}</td>
-                <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.genResOwnId.ownId].prepayment)) | number_format(2) }}</td>
+                <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.id].prepayment)) | number_format(2) }}</td>
             </tr>
             <tr>
                 <td>-{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}</td>
-                <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.genResOwnId.ownId].touristTax)) | number_format(2) }}</td>
+                <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</td>
             </tr>
             {% if own_res | length == 1 %}
                 <tr>
@@ -222,10 +226,10 @@
                 <td>-{{"PERCENT_ACCOMMODATION_AMOUNT" | trans({}, "messages", user_locale) | replace({"%percent%": (100 - own.genResOwnId.ownCommissionPercent) ~ "%"})}}</td>
                 <td class="text-right">
                     <h4 class="no-margin">
-                        {{ currency_symbol }} {{ (own_res_payments[own.genResOwnId.ownId].pay_at_service) | number_format(2) }}
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].pay_at_service) | number_format(2) }}
                     </h4>
                     <h6 class="no-margin">
-                        CUC {{ (own_res_payments[own.genResOwnId.ownId].pay_at_service_cuc) | number_format(2) }}
+                        CUC {{ (own_res_payments[own.id].pay_at_service_cuc) | number_format(2) }}
                     </h6>
                 </td>
             </tr>
@@ -233,18 +237,18 @@
         </table>
     {% endif %}
     <br>
-    <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
-        {{"Clients"|trans({}, "messages", user_locale)}}
-    </h4>
-    <br>
-<table style="width:100%">
+    {#<h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">#}
+        {#{{"Clients"|trans({}, "messages", user_locale)}}#}
+    {#</h4>#}
+    {#<br>#}
+{#<table style="width:100%">#}
 
-    {% for agency in own.travelAgencyDetailReservations %}
-        <tr>
-            <td colspan="6"> <strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{agency.reservation.client.fullName }}</td>
-        </tr>
-    {% endfor %}
-</table>
+    {#{% for agency in own.travelAgencyDetailReservations %}#}
+        {#<tr>#}
+            {#<td colspan="6"> <strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{agency.reservation.client.fullName }}</td>#}
+        {#</tr>#}
+    {#{% endfor %}#}
+{#</table>#}
 {% endfor %}
 <br/>
 <table style="width: 100%;">

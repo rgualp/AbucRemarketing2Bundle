@@ -25,6 +25,10 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
 
+//        $bookingService = $this->get("front_end.services.booking");
+//        return $bookingService->getPrintableBookingConfirmationResponsePartner(17136, $this->getUser());
+//        die;
+
         $categories_own_list = $results["categories"];
         $types_own_list = $results["types"];
         $prices_own_list = $results["prices"];

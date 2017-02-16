@@ -96,7 +96,7 @@ class BookingService extends Controller
         foreach ($ownResDistinct as $own_r) {
             $ownResRooms[$own_r["id"]] = $em
                 ->getRepository('mycpBundle:ownershipReservation')
-                ->getRoomsByAccomodation($bookingId, $own_r["id"]);
+                ->getRoomsByAccomodationForPartner($bookingId, $own_r["id"]);
 
             $ownCommission = $own_r["commission_percent"];
             $ownReservations = $em
@@ -374,6 +374,7 @@ class BookingService extends Controller
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
 
+
         return array(
             'user_locale' => $userLocale,
             'own_res' => $ownResDistinct,
@@ -419,7 +420,8 @@ class BookingService extends Controller
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartner($user->getUserId(),generalReservation::STATUS_RESERVED,array('booking_code'=>$bookingId),0,1000);
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+
         return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',$result);
     }
 
