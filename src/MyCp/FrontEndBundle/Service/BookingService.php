@@ -1486,6 +1486,11 @@ class BookingService extends Controller
             }
             //Set booking save relations
             $obj->setBooking($booking);
+            if($by_system){
+                $user = $this->em->getRepository('mycpBundle:generalReservation')->getUserByOwnershipReservations($reservations_ids[0]);
+                $obj->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
+            }
+            else
             //Set user save relations
             $obj->setUser($this->getUser());
             $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
