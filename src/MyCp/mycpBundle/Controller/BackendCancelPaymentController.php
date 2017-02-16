@@ -3,13 +3,10 @@
 namespace MyCp\mycpBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Form\cancelPaymentType;
-use MyCp\mycpBundle\Entity\cancelPayment;
-
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class BackendCancelPaymentController extends Controller {
@@ -109,7 +106,13 @@ class BackendCancelPaymentController extends Controller {
             $pay_own = $em->getRepository("mycpBundle:pendingPayown")->findBy(array("cancel_id" => $post['selected']));
             $pay_tourist = $em->getRepository("mycpBundle:pendingPaytourist")->findBy(array("cancel_id" => $post['selected']));
 
-            if(count($pay_own))
+            if(count($pay_own) && count($pay_tourist)){
+                return $this->render('mycpBundle:cancelPayment:pay_detail_tourist_own.html.twig',array(
+                        'pay_own'=>$pay_own,
+                        'pay_tourist'=>$pay_tourist
+                ));
+            }
+            else if(count($pay_own))
                 return $this->render('mycpBundle:cancelPayment:pay_detail_own.html.twig',array(
                         'pays'=>$pay_own
                     ));
