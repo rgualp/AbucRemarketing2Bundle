@@ -35,7 +35,7 @@ class generalReservationRepository extends EntityRepository {
         u.user_user_name, u.user_last_name, u.user_email,
         (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
         own.own_inmediate_booking,own.own_inmediate_booking_2,
-        gre.responseTime
+        gre.responseTime, gre.complete_payment
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
