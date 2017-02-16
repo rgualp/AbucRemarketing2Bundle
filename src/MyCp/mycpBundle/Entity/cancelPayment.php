@@ -2,9 +2,9 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * cancelPayment
@@ -72,6 +72,13 @@ class cancelPayment
      * inverseJoinColumns={@ORM\JoinColumn(name="ownreservation", referencedColumnName="own_res_id")})
      */
     private $ownreservations;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="submit_email", type="boolean")
+     */
+    private $submit_email;
     /**
      * Constructor
      */
@@ -248,6 +255,29 @@ class cancelPayment
     public function getGiveTourist()
     {
         return $this->give_tourist;
+    }
+
+    /**
+     * Set submit_email
+     *
+     * @param boolean $submitEmail
+     * @return cancelPayment
+     */
+    public function setSubmitEmail($submitEmail)
+    {
+        $this->submit_email = $submitEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get submit_email
+     *
+     * @return boolean
+     */
+    public function getSubmitEmail()
+    {
+        return $this->submit_email;
     }
 
 }
