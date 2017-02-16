@@ -1231,7 +1231,7 @@ class BookingService extends Controller
      * @param string $reason    Motivo
      * @return JsonResponse
      */
-    public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true){
+    public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true,$by_system=false){
 
         $notificationService = $this->container->get("mycp.notification.service");
         if(count($reservations_ids)){
@@ -1280,6 +1280,11 @@ class BookingService extends Controller
                 $pending_tourist->setCancelId($obj);
                 $pending_tourist->setPayAmount($total_price);
                 $pending_tourist->setUserTourist($user_tourist);
+                if($by_system){
+                    $user = $this->em->getRepository('mycpBundle:generalReservation')->getUserByOwnershipReservations($reservations_ids[0]);
+                    $pending_tourist->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
+                }
+                else
                 $pending_tourist->setUser($this->getUser());
                 $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
@@ -1465,7 +1470,6 @@ class BookingService extends Controller
                             $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
                             if($mobileNumber!='')
                                 $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
-
                         }
                     }
                 }
