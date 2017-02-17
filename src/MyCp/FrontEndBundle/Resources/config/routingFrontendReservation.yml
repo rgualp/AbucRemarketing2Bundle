@@ -15,7 +15,7 @@ frontend_view_confirmation_reservation:
     defaults: { _controller: FrontEndBundle:Reservation:viewConfirmation }
 
 frontend_delete_confirmation_reservation:
-    locales:  { en: "/user/reservation/delete/{id_reservation}/", es: "/usuario/reservacion/eliminar/{id_reservation}/", de: "/user/reservation/loschen/{id_reservation}/", fr: "/user/reservation/supprimer/{id_reservation}/", it: "/user/reservation/prenotazione/{id_reservation}/" }
+    locales:  { en: "/user/reservation/delete", es: "/usuario/reservacion/eliminar", de: "/user/reservation/loschen", fr: "/user/reservation/supprimer", it: "/user/reservation/prenotazione" }
     defaults: { _controller: FrontEndBundle:Reservation:deleteConfirmation }
 
 frontend_boucher_reservation:

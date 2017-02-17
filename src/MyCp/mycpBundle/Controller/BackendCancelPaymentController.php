@@ -108,8 +108,8 @@ class BackendCancelPaymentController extends Controller {
 
             if(count($pay_own) && count($pay_tourist)){
                 return $this->render('mycpBundle:cancelPayment:pay_detail_tourist_own.html.twig',array(
-                        'pay_own'=>$pay_own,
-                        'pay_tourist'=>$pay_tourist
+                        'own'=>$em->getRepository("mycpBundle:pendingPayown")->findOneBy(array("cancel_id" => $post['selected'])),
+                        'tourist'=>$em->getRepository("mycpBundle:pendingPaytourist")->findOneBy(array("cancel_id" => $post['selected']))
                 ));
             }
             else if(count($pay_own))
