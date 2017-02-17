@@ -69,7 +69,8 @@ class RequestListener {
                         try{
                             $new_route=$this->container->get('router')->generate($last_route,$last_route_params);
                             $this->container->get('session')->set('browser_lang',$lang);
-                            $event->setResponse(new RedirectResponse($new_route));
+                            if($attr['_route']!='frontend-welcome')
+                                $event->setResponse(new RedirectResponse($new_route));
                         }catch (RouteNotFoundException $e){}
                     }
                 }

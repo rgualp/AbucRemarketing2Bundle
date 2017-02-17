@@ -12,12 +12,12 @@ frontend_partner_navbar:
 #Change language update profile data
 frontend_partner_change_language_callback:
     locales:  { en: "/partner/change-language/{lang}/{route}/{routeParams}", es: "/partner/cambiar-lenguaje/{lang}/{route}/{routeParams}", de: "/partner/change-language/{lang}/{route}/{routeParams}", fr: "/partner/change-language/{lang}/{route}/{routeParams}", it: "/partner/change-language/{lang}/{route}/{routeParams}" }
-    defaults: { _controller: PartnerBundle:Language:change, route: frontend_welcome, routeParams: null }
+    defaults: { _controller: PartnerBundle:Language:change, route: frontend-welcome, routeParams: null }
 
 #Change currency update profile data
 frontend_partner_change_currency_callback:
     locales:  { en: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", es: "/partner/cambiar-moneda/{currencyCode}/{route}/{routeParams}", de: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", fr: "/partner/change-currency/{currencyCode}/{route}/{routeParams}", it: "/partner/change-currency/{currencyCode}/{route}/{routeParams}" }
-    defaults: { _controller: PartnerBundle:Currency:change, route: frontend_welcome, routeParams: null }
+    defaults: { _controller: PartnerBundle:Currency:change, route: frontend-welcome, routeParams: null }
 
 
 #Login content

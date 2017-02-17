@@ -2,7 +2,7 @@
 {% extends 'FrontEndBundle:mycasatrip:layout_order_by.html.twig' %}
 
 {% block breadcrumbs %}
-<a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+<a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
 <span>››</span>
 <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="MyCasa Trip">MyCasa Trip</a>
 <span>››</span>
@@ -50,6 +50,9 @@
                             <a style="width: 150px; color: #ffffff" target="_blank" class="btn btn-danger" href="{{ path('frontend_view_confirmation_reservation',{'id_booking':res['own_res_reservation_booking']['booking_id']}) }}">
                 {{ 'VIEW_CONFIRMATION'|trans }}</a></div>
                             <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>{{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b></div>
+                    {#<div>
+                        <button data="{{ res['own_res_id'] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i>{{ 'REMOVE_RESERVE'|trans }}</button>
+                    </div>#}
                         </div>
                     </div>
                     <hr/>
@@ -70,6 +73,7 @@
 }) }}
                         </div>
             {%endif%}
+
     <div class="text-center">
         <!-- Your like button code -->
         <div class="col-md-6">
@@ -82,6 +86,21 @@
     </div>
 
                     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="confirmation_modal">
+        <div class="modal-dialog" style="margin-top: 10%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    {{"REMOVE_RESERVATION_CONFIRM"|trans}}
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn">{{"CANCEL"|trans}}</button>
+                    <button id="delete_button" data="" class="btn btn-primary">{{"REMOVE"|trans}}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dalog -->
+    </div><!-- /.modal -->
     <script type="text/javascript">
         var locale_plugins="{{app.request.locale}}";
         var faceAppId = "{{ fb_app_id }}";
@@ -105,6 +124,24 @@
             js.src = language_fb;
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+        $('.btn_delete').on('click',function(){
+           $('#confirmation_modal').modal('show');
+             $('#delete_button').attr('data',$(this).attr('data'));
+        });
+        $('#delete_button').on('click',function(){
+            string_url="{{ path('frontend_delete_confirmation_reservation')}}";
+            data_remove=$(this).attr('data');
+            $('.btn_delete').attr('disabled','disable');
+            $('#confirmation_modal').modal('hide');
+            $.ajax({
+                type: "POST",
+                url: string_url,
+                data: "data="+data_remove,
+                success: function(msg){
+                    window.location='{{path('frontend_mycasatrip_payment')}}';
+                }
+            });
+        });
     </script>
 
     <div id="fb-root"></div>

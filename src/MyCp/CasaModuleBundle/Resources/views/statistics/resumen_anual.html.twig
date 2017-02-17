@@ -30,7 +30,15 @@
 {% set positionBronce = bronce * 100 / max_point_ranking %}
 {% set positionPlata = plata * 100 / max_point_ranking %}
 {% set positionOro = oro * 100 / max_point_ranking %}
-{% set current_position = current_ranking.ranking * 100 / max_point_ranking %}
+    
+    {# ************************************************************************** #}
+{% set xranking_points = (xyearranking["ranking_points"]/xyearranking["cant"]) %}
+{% set xplace = (xyearranking["place"]/xyearranking["cant"]) %}
+{% set xdestination_place = (xyearranking["destination_place"]/xyearranking["cant"]) %}
+    {# ************************************************************************** #}
+    
+    
+{% set current_position = xranking_points * 100 / max_point_ranking %}
 
 <div class="col-md-12">
     <div class="row">
@@ -38,7 +46,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <img width="50" src="{{ asset('bundles/mycpcasamodule/img/1imagen.png') }}">
-                    <span class="font-blue" style="font-size: 22px; margin-left: 10px;">Puntos en el Ranking</span>
+                    <span class="font-blue" style="font-size: 22px; margin-left: 10px;">
+                        Puntos en el Ranking
+                    </span>
+                    <span class="font-blue" style="font-size: 12px; margin-left: 10px;">
+                        (Promedio)
+                    </span>
                 </div>
                 <div class="col-md-12 graph-premiun">
                     <div class="row">
@@ -55,7 +68,7 @@
                             </div>
                             <div class="graph-bar"></div>
                             <div style="left: {{ current_position }}%" class="graph-current-marker"><span
-                                        class="font-blue">{{ current_ranking.ranking }}</span>
+                                        class="font-blue">{{ xranking_points }}</span>
                             </div>
                         </div>
                         <div class="col-sm-1"><span class="font-blue">{{ max_point_ranking }}</span></div>
@@ -66,7 +79,7 @@
         <div class="col-md-6 m-t-40">
             <div class="col-sm-12 m-t-30">
                 <div class="row">
-                    {% if current_ranking.ranking < bronce %}
+                    {% if xranking_points < bronce %}
                         <div class="col-sm-12 text-center">
                                             <span style="font-size: 45px; font-weight: bold; color: #c8c8c8;"
                                                   class="font-blue">AMATEUR</span>
@@ -74,23 +87,23 @@
                     {% else %}
                         <div class="col-sm-12 text-center p-0">
                             <div class="col-sm-5">
-                                {% if current_ranking.ranking >= oro %}
+                                {% if xranking_points >= oro %}
                                     <img class="trofeo-oro" width="100%"
                                          src="{{ asset('bundles/mycpcasamodule/img/trofeooro.png') }}">
-                                {% elseif current_ranking.ranking >= plata and current_ranking.ranking < oro %}
+                                {% elseif xranking_points >= plata and xranking_points < oro %}
                                     <img class="trofeo-plata" width="100%"
                                          src="{{ asset('bundles/mycpcasamodule/img/trofeoplata.png') }}">
-                                {% elseif current_ranking.ranking >= bronce and current_ranking.ranking < plata %}
+                                {% elseif xranking_points >= bronce and xranking_points < plata %}
                                     <img class="trofeo-bronce" width="100%"
                                          src="{{ asset('bundles/mycpcasamodule/img/trofeobronce.png') }}">
                                 {% endif %}
                             </div>
                             <div class="col-sm-7 m-t-10">
-                                {% if current_ranking.ranking >= oro %}
+                                {% if xranking_points >= oro %}
                                     <span class="font-blue" style="font-size: 45px; font-weight: bold; color: #d0a41e;">ORO</span>
-                                {% elseif current_ranking.ranking >= plata and current_ranking.ranking < oro %}
+                                {% elseif xranking_points >= plata and xranking_points < oro %}
                                     <span style="font-size: 45px; font-weight: bold; color: #c8c8c8;" class="font-blue">PLATA</span>
-                                {% elseif current_ranking.ranking >= bronce and current_ranking.ranking < plata %}
+                                {% elseif xranking_points >= bronce and xranking_points < plata %}
                                     <span style="font-size: 45px; font-weight: bold; color: #b57940;" class="font-blue">BRONCE</span>
                                 {% endif %}
                             </div>
@@ -108,45 +121,23 @@
             <div class="row">
                 <div class="col-md-12">
                     <img width="50"
-                         src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}"> <span
-                            class="font-blue step-span "
-                            style="font-size: 20px;font-variant-caps: petite-caps">Lugar en <b
-                                style="color: green;font-weight: bold">My</b><b>CasaParticular</b></span>
+                         src="{{ asset('bundles/mycpcasamodule/img/2imagenstats.png') }}">
+
+                    <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
+                            Lugar en <b style="font-size: 20px; color: green;font-weight: bold">My</b> <b style="font-size: 20px;">CasaParticular</b> <b style="font-size: 12px;"> (Promedio)</b></span>
                 </div>
                 <div class="col-sm-12">
                     <ul class="ranking-mycp">
-                        <li>
-                            {% if how_move_up_current_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_up_current_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ up_current_ranking.place }}</span>
-                            <span> {{ up_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
-                        </li>
-                        <li class="current">
-                            {% if how_move_current_rankig == "subio" %}
+                        <li class="current" style="padding: 5px;">
+                            {#{% if how_move_current_rankig == "subio" %}
                                 <i class="glyphicons up_arrow"></i>
                             {% elseif how_move_current_rankig == "mantuvo" %}
                                 <i class="fa fa-minus"></i>
                             {% else %}
                                 <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ current_ranking.place }}</span>
+                            {% endif %}#}
+                            <span>{{ xplace }}</span>
                             <span> {{ current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
-                        </li>
-                        <li>
-                            {% if how_move_down_current_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_down_current_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ down_current_ranking.place }}</span>
-                            <span> {{ down_current_ranking.accommodation.getOwnName | replace("Casa Particular en","") }}</span>
                         </li>
                     </ul>
                 </div>
@@ -159,43 +150,21 @@
             <div class="row">
                 <div class="col-md-12">
                     <img width="50" src="{{ asset('bundles/mycpcasamodule/img/3imagen.png') }}">
-                    <span class="font-blue step-span "
-                          style="font-size: 20px;font-variant-caps: petite-caps">Lugar en {{ ownership.getOwnDestination.getDesName }}</span>
+                    <span class="font-blue step-span " style="font-size: 14px;font-variant-caps: petite-caps">
+                            Lugar en <b style="font-size: 20px;">{{ ownership.getOwnDestination.getDesName }}</b> <b style="font-size: 12px;"> (Promedio)</b></span>
                 </div>
                 <div class="col-sm-12">
                     <ul class="ranking-mycp inprovince">
-                        <li>
-                            {% if how_move_up_destination_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_up_destination_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ up_destination_ranking.destinationPlace }}</span>
-                            <span> {{ up_destination_ranking.accommodation.getOwnName }}</span>
-                        </li>
-                        <li class="current">
-                            {% if how_move_current_destination_rankig == "subio" %}
+                        <li class="current" style="padding: 5px;">
+                            {#{% if how_move_current_destination_rankig == "subio" %}
                                 <i class="glyphicons up_arrow"></i>
                             {% elseif how_move_current_destination_rankig == "mantuvo" %}
                                 <i class="fa fa-minus"></i>
                             {% else %}
                                 <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ current_ranking.destinationPlace }}</span>
+                            {% endif %}#}
+                            <span>{{ xdestination_place }}</span>
                             <span> {{ current_ranking.accommodation.getOwnName }}</span>
-                        </li>
-                        <li>
-                            {% if how_move_down_destination_ranking == "subio" %}
-                                <i class="glyphicons up_arrow"></i>
-                            {% elseif how_move_down_destination_ranking == "mantuvo" %}
-                                <i class="fa fa-minus"></i>
-                            {% else %}
-                                <i class="glyphicons down_arrow"></i>
-                            {% endif %}
-                            <span>{{ down_destination_ranking.destinationPlace }}</span>
-                            <span> {{ down_destination_ranking.accommodation.getOwnName }}</span>
                         </li>
                     </ul>
                 </div>
@@ -210,9 +179,9 @@
     <div class="col-sm-6">
         <div class="row">
             <div class="col-sm-12">
-                {% set total_reserved = current_ranking.totalAvailableRooms + current_ranking.totalNonAvailableRooms %}
-                {% set nonavaliable_percent = current_ranking.totalNonAvailableRooms * 100 / total_reserved %}
-                {% set avaliable_percent = current_ranking.totalAvailableRooms * 100 / total_reserved %}
+                {% set total_reserved = xyearranking["unavailable"] + xyearranking["available"] %}
+                {% set nonavaliable_percent = xyearranking["unavailable"] * 100 / total_reserved %}
+                {% set avaliable_percent = xyearranking["available"] * 100 / total_reserved %}
 
                 <span style="font-size: 20px;">Total de solicitudes: <b>{{ total_reserved }}</b></span>
             </div>
@@ -225,16 +194,16 @@
                 <div class="row">
                     <div class="col-sm-6">
                                     <span class="font-green">
-                                        <b>{{ current_ranking.totalAvailableRooms }}</b> Disponibles
+                                        <b>{{ xyearranking["available"] }}</b> Disponibles
                                     <br>
-                                        A recibir <b>{{ current_ranking.getTotalAvailableFacturation }} CUC</b>
+                                        A recibir <b>{{ xyearranking["available_facturation"] }} CUC</b>
                                 </span>
                     </div>
                     <div class="col-sm-6 p-0">
                                     <span class="font-blue">
-                                        <b>{{ current_ranking.totalNonAvailableRooms }}</b> No Disponibles
+                                        <b>{{ xyearranking["unavailable"] }}</b> No Disponibles
                                         <br>
-                                        Dejo de recibir <b>{{ current_ranking.getTotalNonAvailableFacturation }} CUC</b>
+                                        Dejo de recibir <b>{{ xyearranking["unavailable_facturation"] }} CUC</b>
                                     </span>
                     </div>
                 </div>
@@ -247,27 +216,27 @@
                 <img style="margin-right: 10px;" width="35"
                      src="{{ asset('bundles/mycpcasamodule/img/8imagengalax.png') }}"> <span
                         class="font-blue step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{ current_ranking.getVisits }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">Visitas a su alojamiento: <b>{{ xyearranking["visits"] }}</b></span>
             </div>
             <div class="col-md-12">
                 <img style="margin-right: 10px;" width="35"
                      src="{{ asset('bundles/mycpcasamodule/img/6imagenpuerta.png') }}"> <span
                         class="font-green step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>{{ current_ranking.totalReservedRooms }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">Total de reservas: <b>{{ xyearranking["total_reserved"] }}</b></span>
             </div>
             <div class="col-md-12">
                 <i class="glyphicons coins"
                    style="color: rgb(149, 149, 149); margin: 0px 11px;"></i> <span
                         class="font-green step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>{{ current_ranking.totalFacturation }}</b></span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">A recibir: <b>{{ xyearranking["total_facturation"] }}</b></span>
             </div>
             <div class="col-md-12">
                 <img style="margin: 6px;" width="35"
                      src="{{ asset('bundles/mycpcasamodule/img/7imagemoney.png') }}"> <span
                         class="font-blue step-span "
-                        style="font-size: 17px;font-variant-caps: petite-caps">Facturado por alojamiento:</span>
+                        style="font-size: 17px;font-variant-caps: petite-caps">Facturado por alojamiento: <b>{{ xyearranking["current_month_facturation"] }}</b></span>
             </div>
-            <div class="col-md-12">
+            {#<div class="col-md-12">
                 <div class="col-sm-6">
                     {% if before_ranking is defined %}
                         <div class="col-sm-12 text-center facturated blue">
@@ -284,7 +253,7 @@
                         <span class="number">{{ current_ranking.currentYearFacturation }}</span>
                     </div>
                 </div>
-            </div>
+            </div>#}
         </div>
     </div>
 </div>

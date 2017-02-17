@@ -69,3 +69,7 @@ mycp_save_photo_owner_ownership:
 mycp_logs_ownership:
     pattern:  /logs/{items_per_page}/{filter_user}/{filter_status}/{filter_date}/{filter_created}/{filter_description}
     defaults: { _controller: mycpBundle:BackendOwnershipLogs:logs, items_per_page: 100,filter_user:'',filter_status:'',filter_date:'',filter_created:'',filter_description:'' }
+
+mycp_list_ownerships_hot:
+    pattern:  /list_hot/{items_per_page}/{filter_code}/{filter_active}/{filter_category}/{filter_province}/{filter_municipality}/{filter_destination}/{filter_type}/{filter_name}/{filter_saler}/{filter_visit_date}/{filter_other}/{filter_commission}
+    defaults: { _controller: mycpBundle:BackendOwnership:list_ownerships_hot, items_per_page: 100,filter_code:'',filter_active:'',filter_category:'',filter_province:'',filter_municipality:'',filter_destination:'',filter_type:'',filter_name:'', filter_saler:'', filter_visit_date:'', filter_other:'', filter_commission:''}

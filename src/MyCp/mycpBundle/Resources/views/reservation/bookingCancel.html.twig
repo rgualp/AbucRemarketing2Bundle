@@ -81,7 +81,7 @@
                 Adicionar Cancelación
             </button>
             <span style="font-style: italic;font-weight: bold">  (Debe de seleccionar algún CAS en el listado de reservas)*</span>
-            <table class="table table-striped table-hover">
+            {#<table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th>Id cancelación</th>
@@ -102,6 +102,35 @@
                         <td>{{ item.reason }}</td>
                         <td>{{ item.cancelDate | date("d/m/Y") }}</td>
                         <td>{{ item.user.UserUserName }} {{ item.user.UserLastName }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>#}
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Id cancelación</th>
+                    <th>Fecha de Registro</th>
+                    <th>Devolver</th>
+                    <th>Tipo de Cancelación</th>
+                    <th>Id Booking</th>
+                    <th>Habitaciones canceladas</th>
+                    <th>Devolver A </th>
+                    <th>Monto a devolver </th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cancel_payment %}
+                    <tr>
+                        <td>{{item.cancelId}}</td>
+                        <td>{{item.cancelDate | date ("d/m/Y")}}</td>
+                        <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
+                        <td>{{item.type.cancelName}}</td>
+                        <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':item.booking.bookingId}) }}">{{item.booking.bookingId}}</a></td>
+                        <td>{{item.ownreservations | length}}</td>
+                        {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':item.cancelId}})) }}
+                        <td> {% if item.submitEmail is null %}<a class="btn btn-mini" href="{{ path("mycp_submit_cancel_payment", {"idcancel": item.cancelId}) }}">Enviar pago</a>{% endif %}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

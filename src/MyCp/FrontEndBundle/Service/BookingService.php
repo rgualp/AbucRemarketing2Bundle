@@ -2,18 +2,20 @@
 
 namespace MyCp\FrontEndBundle\Service;
 
+use Abuc\RemarketingBundle\Event\FixedDateJobEvent;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Entity\booking;
+use MyCp\mycpBundle\Entity\cancelPayment;
+use MyCp\mycpBundle\Entity\failure;
+use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\pendingPayown;
+use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use MyCp\mycpBundle\Entity\generalReservation;
-use MyCp\mycpBundle\Entity\ownershipReservation;
-use Abuc\RemarketingBundle\Event\JobEvent;
-use Abuc\RemarketingBundle\Event\FixedDateJobEvent;
 
 class BookingService extends Controller
 {
@@ -1247,6 +1249,322 @@ class BookingService extends Controller
         }
 
         return $rooms;
+    }
+
+    /**
+     * @param array $reservations_ids
+     * @param int $type   De tipo 1 es una cancelación de tipo propietario
+     * @param $cancel_date      Fecha de cancelación
+     * @param string $reason    Motivo
+     * @return JsonResponse
+     */
+    public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true,$by_system=false){
+
+        $notificationService = $this->container->get("mycp.notification.service");
+        if(count($reservations_ids)){
+            //Servicios
+            $templatingService = $this->container->get('templating');
+            $emailService = $this->container->get('mycp.service.email_manager');
+            $service_time = $this->get('time');
+            //Variables
+            $rooms = array();
+            $total_nights = array();
+
+            //Obtener datos de los repositorios
+            $onReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($reservations_ids[0]);
+            $booking=$onReservation->getOwnResReservationBooking();
+            $idBooking=$booking->getBookingId();
+
+            $min_date = $this->em->getRepository('mycpBundle:ownershipReservation')->getBookingById($idBooking);
+            $payment = $this->em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $idBooking));
+            $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
+
+            $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
+            $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
+
+            //if($date_cancel_payment<$min_date_arrive){
+            //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
+            $day=$service_time->diffInDays($min_date_arrive->format("Y-m-d"), $date_cancel_payment->format("Y-m-d"));
+            //Se crea el objeto de cancelación
+            $obj = new cancelPayment();
+            $generalReserv=$onReservation->getOwnResGenResId();
+            $flag=false;
+            $failure_flag=false;
+            if(count($booking->getBookingOwnReservations())==count($reservations_ids))
+                   $flag=true;
+
+            if($type==1)//Si el tipo de cancelación es de propietario
+            {
+                $price_tourist=$this->calculateTourist($reservations_ids,true);
+                if(count($booking->getBookingOwnReservations())==count($reservations_ids)){     //es que las cancelo todas
+                    $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                }
+                else{
+                    $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                }
+                //Se registra un Pago Pendiente a Turista
+                $pending_tourist=new pendingPaytourist();
+                $pending_tourist->setCancelId($obj);
+                $pending_tourist->setPayAmount($total_price);
+                $pending_tourist->setUserTourist($user_tourist);
+                if($by_system){
+                    $user = $this->em->getRepository('mycpBundle:generalReservation')->getUserByOwnershipReservations($reservations_ids[0]);
+                    $pending_tourist->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
+                }
+                else
+                $pending_tourist->setUser($this->getUser());
+                $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
+
+                $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
+                $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
+                $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
+
+                $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                $this->em->persist($pending_tourist);
+
+                //Se penaliza la casa en el ranking
+                if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
+                    $array_id_ownership=array();
+                    foreach($reservations_ids as $genResId){
+                        $ownershipReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                        if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                            $failure = $this->em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
+                            if(count($failure)==0){
+                                //Registro un fallo de tipo propietario
+                                $failure_own = new failure();
+                                $failure_own->setUser($this->getUser());
+                                $failure_own->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                $failure_own->setReservation($ownershipReservation->getOwnResGenResId());
+                                $failure_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'accommodation_failure')));
+                                $failure_own->setDescription($reason);
+                                $failure_own->setCreationDate(new \DateTime());
+                                $this->em->persist($failure_own);
+                            }
+                            //Adiciono el id de la casa al arreglo de casas
+                            $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                        }
+                    }
+                }
+            }
+            if($type==2)//Si el tipo de cancelación  es de turista
+            {
+                if($day>7 || ($day<=7 && $day>=3) && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
+
+                    $price_tourist=$this->calculateTourist($reservations_ids,false);
+                    if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
+                        $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    }
+                    else{
+                        $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                    }
+
+                    //Se registra un Pago Pendiente a Turista
+                    $pending_tourist=new pendingPaytourist();
+                    $pending_tourist->setCancelId($obj);
+                    if($day>7)
+                        $pending_tourist->setPayAmount($total_price);
+                    if($day<=7 && $day>=3)
+                        $pending_tourist->setPayAmount($total_price/2);
+
+                    $pending_tourist->setUserTourist($user_tourist);
+                    $pending_tourist->setUser($this->getUser());
+                    $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
+
+                    $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
+                    $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
+                    $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
+
+                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                    $this->em->persist($pending_tourist);
+
+                    //Array $ownershipReservation para mandar el correo
+                    $ownershipReservations=array();
+                    //Se de da putos en el ranking a la casa
+                    if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
+                        $array_id_ownership=array();
+                        foreach($reservations_ids as $genResId){
+                            $ownershipReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                            if (!in_array ($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                $failure = $this->em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
+                                if(count($failure)==0){
+                                    //Registro un fallo de tipo turista
+                                    $failure_tourist = new failure();
+                                    $failure_tourist->setUser($this->getUser());
+                                    $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                    $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                    $failure_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                    $failure_tourist->setDescription($reason);
+                                    $failure_tourist->setCreationDate(new \DateTime());
+                                    $this->em->persist($failure_tourist);
+                                    $failure_flag=true;
+                                }
+
+                                //Se envia un sms al prpietario
+                                $mobileNumber=$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnMobileNumber();
+                                $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista.";
+                                if($mobileNumber!='')
+                                    $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
+
+                                //Adiciono el id de la casa al arreglo de casas
+                                $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
+                                //Adiciono al arreglo de reservaciones
+                                $ownershipReservations[]=$ownershipReservation;
+                                //Adiciono las rooms de esa casa
+                                array_push($rooms, $this->em->getRepository('mycpBundle:room')->find($ownershipReservation->getOwnResSelectedRoomId()));
+                                $temp_total_nights = 0;
+                                $nights = $service_time->nights($ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp());
+                                $temp_total_nights += $nights;
+                                array_push($total_nights, $temp_total_nights);
+                            }
+
+                        }
+                    }
+                }
+                if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
+
+                    if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
+                        $array_id_ownership=array();
+                        foreach($reservations_ids as $genResId){
+                            $ownershipReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                            $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
+                            if (!array_key_exists($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
+                                $failure = $this->em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
+                                if(count($failure)==0){
+                                    //Se le da puntos positivos en el Ranking a la casa
+                                    //Registro un fallo de tipo turista
+                                    if(!$failure_flag){
+                                        $failure_tourist = new failure();
+                                        $failure_tourist->setUser($this->getUser());
+                                        $failure_tourist->setAccommodation($ownershipReservation->getOwnResGenResId()->getGenResOwnId());
+                                        $failure_tourist->setReservation($ownershipReservation->getOwnResGenResId());
+                                        $failure_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'tourist_failure')));
+                                        $failure_tourist->setDescription($reason);
+                                        $failure_tourist->setCreationDate(new \DateTime());
+                                        $this->em->persist($failure_tourist);
+                                    }
+                                }
+                                //Adiciono el id de la casa al arreglo de casas
+                                $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$price,'ownershipReservations'=>array($ownershipReservation),'arrival_date'=>$ownershipReservation->getOwnResReservationFromDate());
+                            }
+                            else{
+                                $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price'] = $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price']+$price;
+                                $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['ownershipReservations'][] = $ownershipReservation;
+                            }
+                        }
+                        foreach($array_id_ownership as $item){
+                            $ownership = $this->em->getRepository('mycpBundle:ownership')->find($item['idown']);
+                            //Se registra un Pago Pendiente a Propietario
+                            $pending_own=new pendingPayown();
+                            $pending_own->setCancelId($obj);
+                            $pending_own->setPayAmount($item['price']);
+                            $pending_own->setUserCasa($ownership);
+                            $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                            $pending_own->setUser($this->getUser());
+                            $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
+                            $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
+                            $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
+                            $this->em->persist($pending_own);
+
+                            //Se envia un sms al prpietario
+                            $mobileNumber=$ownership->getOwnMobileNumber();
+                            $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
+                            if($mobileNumber!='')
+                                $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
+                        }
+                    }
+                }
+            }
+            //}
+            //Change status reservations
+            if(count($reservations_ids)){
+                foreach($reservations_ids as $genResId){
+                    $reservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                    $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                    $this->em->persist($reservation);
+                    $obj->addOwnershipReservation($reservation);
+                }
+            }
+            //Set booking save relations
+            $obj->setBooking($booking);
+            if($by_system){
+                $user = $this->em->getRepository('mycpBundle:generalReservation')->getUserByOwnershipReservations($reservations_ids[0]);
+                $obj->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
+            }
+            else
+            //Set user save relations
+            $obj->setUser($this->getUser());
+            $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
+            $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
+            $obj->setGiveTourist($give_tourist);
+            $this->em->persist($obj);
+            $this->em->flush();
+
+            if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
+                $flag=true;
+            if($flag)
+                $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_CANCELLED);
+            else
+                $generalReserv->setGenResStatus(\Proxies\__CG__\MyCp\mycpBundle\Entity\generalReservation::STATUS_PARTIAL_CANCELLED);
+            $this->em->persist($generalReserv);
+            $this->em->flush();
+            return array('success' => true, 'message' =>'Se ha cancelado satisfactoriamente');
+        }
+        else
+            return array('success' => false, 'message' =>'Debe de seleccionar algún CAS a cancelar');
+    }
+
+    /**
+     * @param $reservations_ids
+     * @return array
+     */
+    public function calculateTourist($reservations_ids,$sum_tax){
+        $service_time = $this->get('time');
+        $price=0;
+        $fixed=0;
+        if(count($reservations_ids)){
+            foreach($reservations_ids as $genResId){
+                $ownershipReservation=$this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                $generalReservation = $ownershipReservation->getOwnResGenResId();
+                if($fixed==0)
+                    $fixed=$generalReservation->getServiceFee()->getFixedFee();
+                $price =$price+ $this->em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time,$sum_tax,$service_time);
+            }
+        }
+        return array('price'=>$price,'fixed'=>$fixed);
+
+    }
+
+    /**
+     * @param $from
+     * @param $to
+     * @param $price_total_in_site
+     * @param $commission_percent
+     * @return float
+     */
+    public function calculatePriceOwn($from,$to,$price_total_in_site,$commission_percent){
+        $service_time = $this->get('time');
+        $day=$service_time->diffInDays($to->format("Y-m-d"), $from->format("Y-m-d"));
+
+        if($day==1 || $day ==2){
+            $price=($price_total_in_site/$day)*(1-$commission_percent/100)*0.5;
+            return $price;
+        }
+        else{
+            $price=($price_total_in_site/$day)*(1-$commission_percent/100);
+            return $price;
+        }
+    }
+
+    /**
+     * @param $subject
+     * @param $body
+     * @param $from
+     * @param $to
+     */
+    public function sendMailCancelPayment($subject,$body,$from,$to){
+        //Servicios
+        $emailService = $this->container->get('mycp.service.email_manager');
+        $emailService->sendEmail($from, $subject,  $body, $to);
     }
 
 }

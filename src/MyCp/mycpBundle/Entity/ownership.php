@@ -637,6 +637,13 @@ class ownership {
     private $modifying;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="own_hot_date", type="datetime", nullable=true)
+     */
+    private $own_hot_date;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -2881,6 +2888,20 @@ class ownership {
      */
     public function setModifying($modifying) {
         $this->modifying = $modifying;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getOwnHotDate() {
+        return $this->own_hot_date;
+    }
+
+    /**
+     * @param DateTime $own_hot_date
+     */
+    public function setOwnHotDate($own_hot_date) {
+        $this->own_hot_date = $own_hot_date;
     }
 
 
