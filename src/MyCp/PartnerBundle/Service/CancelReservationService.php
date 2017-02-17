@@ -39,6 +39,10 @@ class CancelReservationService extends Controller
         $agencyRefund = $refunds["agencyRefund"];
         $accommodationRefund = $refunds["accommodationRefund"];
 
+        dump($agencyRefund);
+        dump($accommodationRefund);
+
+
         $this->updateCompletePayment($generalReservation, $travelAgency, $agencyRefund);
         $this->createAgencyPendingPayment($generalReservation, $travelAgency, $agencyRefund, $booking, $cancelPayment, $cancelPaymentType);
         $this->createAccommodationPendingPayment($generalReservation, $travelAgency, $accommodationRefund, $booking, $cancelPayment, $cancelPaymentType, $pendingPaymentStatusPending);
@@ -56,21 +60,31 @@ class CancelReservationService extends Controller
         $totalDiffDays = $this->timer->diffInDays($cancelDate->format("Y-m-d"), $generalReservation->getGenResFromDate()->format("Y-m-d"));
 
         //Tarifa fija
-        $tf = $generalReservation->getServiceFee()->getFixedFee();
+        $tf = floatval($generalReservation->getServiceFee()->getFixedFee());
 
         //Tarifa de agencia
         $tag = $totalInSite * $this->em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, ($totalInSite / $totalNights),$serviceFee->getId());
 
         //Comision de agencia
-        $ca = $agencyCommission * $totalInSite;
+        $ca = $agencyCommission * ($totalInSite + $tf + $tag);
         $firstNightCost = $firstNightPrice * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100);
 
+        $result = array();
         if($totalDiffDays > 7){
-            return ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite + $tf - $ca), "accommodationRefund" => 0) : array("agencyRefund" => ($totalInSite + $tag + $tf - $ca), "accommodationRefund" => 0);
+            $result = ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite + $tf - $ca), "accommodationRefund" => 0) : array("agencyRefund" => ($totalInSite + $tag + $tf - $ca), "accommodationRefund" => 0);
         }
         else{
-            return  ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite - $ca - $firstNightPrice), "accommodationRefund" => $firstNightCost) : array("agencyRefund" => ($totalInSite + $tag + $tf - $ca), "accommodationRefund" => $firstNightCost);
+            $result =  ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite - $ca - $firstNightPrice), "accommodationRefund" => $firstNightCost) : array("agencyRefund" => ($totalInSite + $tag + $tf - $ca), "accommodationRefund" => $firstNightCost);
         }
+
+        /*dump($totalDiffDays);
+        dump($firstNightCost);
+        dump($firstNightPrice);
+        dump($totalInSite);
+        dump($tf);
+        dump($ca);
+        dump($result); die;*/
+        return $result;
     }
 
     private function updateCompletePayment($generalReservation, $travelAgency, $agencyRefund)
@@ -92,14 +106,18 @@ class CancelReservationService extends Controller
             "type" => $completePaymentType
         ));
 
-        $newPayment = $completePayment->getAmount() - $agencyRefund;
+        if($completePayment != null) {
+            $newPayment = $completePayment->getAmount() - $agencyRefund;
 
-        if($newPayment <= 0) {
-            $completePayment->setStatus($cancelPendingPaymentStatus);
-        } else {
-            $completePayment->setAmount($newPayment);
+            if ($newPayment <= 0) {
+                $completePayment->setStatus($cancelPendingPaymentStatus);
+            } else {
+                $completePayment->setAmount($newPayment);
+            }
+
+            $this->em->persist($completePayment);
         }
-        $this->em->persist($completePayment);
+
     }
 
     private function createAgencyPendingPayment($generalReservation, $travelAgency, $agencyRefund, $booking, $cancelPayment, $cancelPaymentType){
@@ -110,12 +128,14 @@ class CancelReservationService extends Controller
             "nom_category" => "paymentPendingStatus"
         ));
 
+        $currChange = floatval($paymentSkrill->getCurrentCucChangeRate());
+
         $payDate = new \DateTime();
         $payDate->add(new \DateInterval('P1D'));
 
         $payment = new paPendingPaymentAgency();
         $payment->setBooking($booking);
-        $payment->setAmount($agencyRefund * $paymentSkrill->getCurrentCucChangeRate());
+        $payment->setAmount($agencyRefund * $currChange);
         $payment->setAgency($travelAgency);
         $payment->setReservation($generalReservation);
         $payment->setCreatedDate(new \DateTime());
@@ -130,7 +150,7 @@ class CancelReservationService extends Controller
     {
         //Crear un pago pendiente a propietario por motivo de cancelacion
         if($accommodationRefund > 0) {
-            $payDate = $generalReservation->getGenResToDate();
+            $payDate = $generalReservation->getGenResFromDate();
             $payDate->add(new \DateInterval('P3D'));
 
             $pendingPayment = new paPendingPaymentAccommodation();
@@ -157,7 +177,7 @@ class CancelReservationService extends Controller
             'refund' => $agencyRefund
         ));
 
-        $this->mailService->setTo(array(/*'sarahy_amor@yahoo.com', 'reservation@mycasaparticular.com', 'andy@hds.li'*/"yanet.moralesr@gmail.com"));
+        $this->mailService->setTo(array(/*'sarahy_amor@yahoo.com', */'reservation@mycasaparticular.com', 'andy@hds.li'));
         $this->mailService->setSubject("Cancelación de Agencia");
         $this->mailService->setFrom("reservation@mycasaparticular.com", 'MyCasaParticular.com');
         $this->mailService->setBody($emailBody->getContent());
