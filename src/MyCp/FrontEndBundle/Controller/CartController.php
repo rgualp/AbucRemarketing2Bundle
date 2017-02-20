@@ -2,16 +2,14 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
-use MyCp\mycpBundle\Entity\room;
-use MyCp\mycpBundle\Entity\season;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use MyCp\mycpBundle\Entity\generalReservation;
-use MyCp\mycpBundle\Entity\cart;
 use Abuc\RemarketingBundle\Event\JobEvent;
+use MyCp\mycpBundle\Entity\cart;
+use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller {
 
@@ -27,7 +25,7 @@ class CartController extends Controller {
 
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
             'count' => $countItems,
-            'search' => $search
+            'search' => $search 
         ));
     }
 
