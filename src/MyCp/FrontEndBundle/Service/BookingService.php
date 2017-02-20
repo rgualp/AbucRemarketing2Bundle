@@ -1253,7 +1253,7 @@ class BookingService extends Controller
             $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
 
             $min_date_arrive=\MyCp\mycpBundle\Helpers\Dates::createFromString($min_date[0]['arrivalDate'], '-', 1);
-            $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createFromString($cancel_date, '/', 1);
+            $date_cancel_payment=\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
 
             //if($date_cancel_payment<$min_date_arrive){
             //Se calcula la diferencia entre las fechas de cancelación y la mínima reserva
@@ -1316,7 +1316,6 @@ class BookingService extends Controller
                             //Adiciono el id de la casa al arreglo de casas
                             $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                         }
-
                     }
                 }
             }
@@ -1379,7 +1378,6 @@ class BookingService extends Controller
                                 if($mobileNumber!='')
                                     $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
 
-
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                 //Adiciono al arreglo de reservaciones
@@ -1394,21 +1392,6 @@ class BookingService extends Controller
 
                         }
                     }
-                    //Notificar Pago Pendiente a Turista
-                    $pay_cost=$booking->getBookingPrepay();
-
-                    $body = $templatingService->renderResponse('mycpBundle:pendingTourist:mail.html.twig', array(
-                            'user_locale'=>'es',
-                            'user_tourist' => $user_tourist,
-                            'payment'=>$payment,
-                            'pending_tourist'=>$pending_tourist,
-                            'pay_cost'=>$pay_cost,
-                            'ownershipReservations'=>$ownershipReservations,
-                            'rooms'=>$rooms
-                        ));
-                    //$emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
-                    $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
-
                 }
                 if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
 
@@ -1455,16 +1438,6 @@ class BookingService extends Controller
                             $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
                             $this->em->persist($pending_own);
 
-                            //Notificar Pago Pendiente a Propietario
-                            $body = $templatingService->renderResponse('mycpBundle:pendingOwn:mail.html.twig', array(
-                                    'user_locale'=>'es',
-                                    'ownership'=>$ownership,
-                                    'ownershipReservations'=>$item['ownershipReservations'],
-                                    'price'=>$item['price'],
-                                    'reason'=>$reason
-                                ));
-                            // $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
-                            $emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
                             //Se envia un sms al prpietario
                             $mobileNumber=$ownership->getOwnMobileNumber();
                             $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
