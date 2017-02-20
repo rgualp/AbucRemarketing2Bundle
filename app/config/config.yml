@@ -357,4 +357,5 @@ google:
                     - 'linkid'
                     - 'ecommerce'
         whitelist: [ 'q', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign' ]
-
+tinypng:
+    api_key: Va2dGNIare8Aj3xo8tKZOrZKI6GIqY9R
