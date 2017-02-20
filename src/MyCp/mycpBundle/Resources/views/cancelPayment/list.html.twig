@@ -128,10 +128,11 @@
             <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':item.booking.bookingId}) }}">{{item.booking.bookingId}}</a></td>
             <td>{{item.ownreservations | length}}</td>
             {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':item.cancelId}})) }}
-            <td style="text-align: right">
+            <td style="text-align: center">
                 <a class="btn btn-mini" href="{{ path("mycp_details_cancel_payment", {"id": item.cancelId}) }}">Detalles</a>
                 <a class="btn btn-mini" href="{{ path("mycp_edit_cancel_payment", {"id": item.cancelId}) }}">Editar</a>
                 <a class="btn btn-mini" href="{{ path("mycp_pay_cancel_payment", {"idcancel": item.cancelId}) }}">Ver pago</a>
+                {% if item.submitEmail is null %}<a class="btn btn-mini" href="{{ path("mycp_submit_cancel_payment", {"idcancel": item.cancelId}) }}">Enviar pago</a>{% endif %}
             </td>
         </tr>
         {% endfor %}

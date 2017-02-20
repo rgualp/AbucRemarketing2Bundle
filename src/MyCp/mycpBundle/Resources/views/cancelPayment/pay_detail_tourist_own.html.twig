@@ -1,9 +1,5 @@
-{% for own in pay_own %}
-        <td><b>Código de Casa:</b> {{ own.getUserCasa.getOwnMcpCode }} - <b>Nombre de la casa:</b> {{ own.getUserCasa.getOwnName }}</td>
-        <td>{{ own.getPayAmount }} CUC </td>
-{% endfor %}
+        <td><b>Código de Casa:</b> {{ own.getUserCasa.getOwnMcpCode }} - <b>Nombre de la casa:</b> {{ own.getUserCasa.getOwnName }}<br>
+            <b>Nombre Cliente (Turista) :</b>{{ tourist.getUserTourist.getUserTouristUser.getUserCompleteName }} - <b>Correo:</b>{{ tourist.getUserTourist.getUserTouristUser.getUserEmail }}
+        </td>
+        <td>{{ own.getPayAmount }} CUC <br>{{ tourist.getPayAmount }} {{ tourist.getCancelId.getBooking.getBookingCurrency.getCurrSymbol }}</td>
 
-{% for tourist in pay_tourist %}
-    <td><b>Nombre Cliente (Turista) :</b>{{ tourist.getUserTourist.getUserTouristUser.getUserCompleteName }} - <b>Correo:</b>{{ tourist.getUserTourist.getUserTouristUser.getUserEmail }}</td>
-    <td>{{ tourist.getPayAmount }} {{ tourist.getCancelId.getBooking.getBookingCurrency.getCurrSymbol }} </td>
-{% endfor %}
