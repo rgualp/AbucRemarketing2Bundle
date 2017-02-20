@@ -1,0 +1,4 @@
+mycp_list_ranking:
+    pattern:  /list/{startDate}/{endDate}
+    defaults: { _controller: mycpBundle:BackendRanking:list,startDate:'',endDate:''}
+

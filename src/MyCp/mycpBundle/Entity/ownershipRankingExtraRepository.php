@@ -65,4 +65,36 @@ class ownershipRankingExtraRepository extends EntityRepository {
         $m = array_merge($r, $r1);
         return $m;
     }
+
+    function getList($startDate, $endDate)
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->select("extra")
+            ->from("mycpBundle:ownershipRankingExtra", "extra")
+            ->where("extra.startDate = :startDate")
+            ->andWhere("extra.endDate = :endDate")
+            ->orderBy("extra.place", "ASC")
+            ->addOrderBy("extra.destinationPlace", "ASC")
+            ->setParameter("startDate", $startDate)
+            ->setParameter("endDate", $endDate)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    function getLastDates()
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->select("extra.startDate, extra.endDate")
+            ->from("mycpBundle:ownershipRankingExtra", "extra")
+            ->where("extra.place is not null")
+            ->orderBy("extra.startDate", "DESC")
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
