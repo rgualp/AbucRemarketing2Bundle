@@ -35,13 +35,9 @@ class CancelReservationService extends Controller
         $pendingPaymentStatusPending = $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
         $cancelPaymentType= $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "cancel_payment_accommodation", "nom_category" => "paymentPendingType"));
 
-        $refunds = $this->getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, ($travelAgency->getCommission() / 100), $totalInSite, $totalNights, $totalRooms, $firstNightPrice);
+        $refunds = $this->getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, ($travelAgency->getCommission() / 100), $totalInSite, $totalNights, $totalRooms, $firstNightPrice, $booking);
         $agencyRefund = $refunds["agencyRefund"];
         $accommodationRefund = $refunds["accommodationRefund"];
-
-        dump($agencyRefund);
-        dump($accommodationRefund);
-
 
         $this->updateCompletePayment($generalReservation, $travelAgency, $agencyRefund);
         $this->createAgencyPendingPayment($generalReservation, $travelAgency, $agencyRefund, $booking, $cancelPayment, $cancelPaymentType);
@@ -53,14 +49,17 @@ class CancelReservationService extends Controller
         $this->sendTeamCancelReservation($travelAgency, $agencyRefund, $generalReservation, $booking);
     }
 
-    public function getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, $agencyCommission, $totalInSite, $totalNights, $totalRooms, $firstNightPrice)
+    public function getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, $agencyCommission, $totalInSite, $totalNights, $totalRooms, $firstNightPrice, $booking)
     {
+        $cancelInfo = $this->em->getRepository("mycpBundle:ownershipReservation")->getStatsForCancelByBooking($booking->getBookingId());
+
         $serviceFee = $generalReservation->getServiceFee();
 
         $totalDiffDays = $this->timer->diffInDays($cancelDate->format("Y-m-d"), $generalReservation->getGenResFromDate()->format("Y-m-d"));
 
         //Tarifa fija
         $tf = floatval($generalReservation->getServiceFee()->getFixedFee());
+        $tfInFormula = ($cancelInfo["canceledTotal"] == $cancelInfo["reservationsTotal"]) ? $tf : 0;
 
         //Tarifa de agencia
         $tag = $totalInSite * $this->em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, ($totalInSite / $totalNights),$serviceFee->getId());
@@ -71,19 +70,12 @@ class CancelReservationService extends Controller
 
         $result = array();
         if($totalDiffDays > 7){
-            $result = ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite + $tf - $ca), "accommodationRefund" => 0) : array("agencyRefund" => ($totalInSite + $tag + $tf - $ca), "accommodationRefund" => 0);
+            $result = ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite + $tfInFormula - $ca), "accommodationRefund" => 0) : array("agencyRefund" => ($totalInSite + $tag + $tfInFormula - $ca), "accommodationRefund" => 0);
         }
         else{
-            $result =  ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite - $ca - $firstNightPrice), "accommodationRefund" => $firstNightCost) : array("agencyRefund" => ($totalInSite + $tag + $tf - $ca), "accommodationRefund" => $firstNightCost);
+            $result =  ($isCancelFromAgency) ? array("agencyRefund" => ($totalInSite - $ca - $firstNightPrice), "accommodationRefund" => $firstNightCost) : array("agencyRefund" => ($totalInSite + $tag + $tfInFormula - $ca), "accommodationRefund" => $firstNightCost);
         }
 
-        /*dump($totalDiffDays);
-        dump($firstNightCost);
-        dump($firstNightPrice);
-        dump($totalInSite);
-        dump($tf);
-        dump($ca);
-        dump($result); die;*/
         return $result;
     }
 

@@ -803,4 +803,18 @@ limit 1
         return $qb->getQuery()->getResult();
     }
 
+    function getStatsForCancelByBooking($bookingId){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("COUNT(IF(owres.own_res_status = :canceledStatus, 1, 0)) as canceledTotal")
+            ->addSelect("COUNT(owres.own_res_id) as reservationsTotal")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->where("owres.own_res_reservation_booking = :booking")
+            ->setParameter("booking", $bookingId)
+            ->setParameter("canceledStatus", ownershipReservation::STATUS_CANCELLED)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
+    }
+
 }

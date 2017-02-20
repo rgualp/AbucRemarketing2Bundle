@@ -947,7 +947,7 @@ class BackendReservationAgController extends Controller {
                 $firstNightPrice = $ch / $nights;
                 $accommodationCommission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100;
 
-                $refunds = $cancelReservationService->getRefunds($isFromAgency, $date_cancel_payment, $generalReservation, ($agency->getCommission() / 100), $ch, $nights, $totalRooms, $firstNightPrice);
+                $refunds = $cancelReservationService->getRefunds($isFromAgency, $date_cancel_payment, $generalReservation, ($agency->getCommission() / 100), $ch, $nights, $totalRooms, $firstNightPrice, $booking);
                 $refund = $refunds["agencyRefund"];
 
                 if($totalDiffDays <= 7){
