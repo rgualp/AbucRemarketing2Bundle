@@ -31,7 +31,7 @@
         {% endfor %}
         <p>
             <b>Datos de la Devolución:</b><br/>
-            <b>Fecha Pago:</b><br/>
+            <b>Fecha Pago:</b>{{ payment_date | date("d/m/Y")}}<br/>
             <b>Monto de la devolución:</b> {{ price }} CUC<br/>
             <b>Motivo de la devolución:</b>{{ reason }}<br/>
         </p>

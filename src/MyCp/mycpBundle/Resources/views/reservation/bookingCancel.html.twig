@@ -117,6 +117,7 @@
                     <th>Habitaciones canceladas</th>
                     <th>Devolver A </th>
                     <th>Monto a devolver </th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -129,6 +130,7 @@
                         <td><a  href="{{ path('mycp_details_reservations_booking',{'id_booking':item.booking.bookingId}) }}">{{item.booking.bookingId}}</a></td>
                         <td>{{item.ownreservations | length}}</td>
                         {{ render(controller('mycpBundle:BackendCancelPayment:getPayment', {'post': {'selected':item.cancelId}})) }}
+                        <td> {% if item.submitEmail is null %}<a class="btn btn-mini" href="{{ path("mycp_submit_cancel_payment", {"idcancel": item.cancelId}) }}">Enviar pago</a>{% endif %}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
