@@ -25,15 +25,20 @@ class Images {
             $source = \Tinify\fromFile($path);
         } catch(AccountException $e) {
             //print("The error message is: " + $e.getMessage());
-            die('Verify your API key and account limit.');
+            //die('Verify your API key and account limit.');
+              die('Verificar su API key y el límite de la cuenta.');
         } catch(ClientException $e) {
-            die('Check your source image and request options.');
+            //die('Check your source image and request options.');
+            die('Compruebe su imagen de origen y las opciones de solicitud.');
         } catch(ServerException $e) {
-            die('Temporary issue with the Tinify API.');
+            //die('Temporary issue with the Tinify API.');
+            die('Problema temporal con la API Tinify');
         } catch(ConnectionException $e) {
-            die('A network connection error occurred.');
+            //die('A network connection error occurred.');
+            die('Se ha producido un error de conexión a la red.');
         } catch(Exception $e) {
-            die('Something else went wrong, unrelated to the Tinify API.');
+            //die('Something else went wrong, unrelated to the Tinify API.');
+            die('Otra cosa salió mal, no relacionado con la API Tinify.');
         }
 
         $resized = $source->resize(array(
