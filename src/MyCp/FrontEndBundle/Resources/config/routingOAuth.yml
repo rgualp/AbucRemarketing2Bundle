@@ -4,5 +4,3 @@ facebook_login:
 check_email:
     pattern: /check_email
     defaults: { _controller: FrontEndBundle:OAuth:checkEmail }
-
-
