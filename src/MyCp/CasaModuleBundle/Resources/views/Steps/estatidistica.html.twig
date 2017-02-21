@@ -96,7 +96,7 @@
                         </div>
                         <div id="resumen-anual">
                             {% if yearranking | length > 0 %}
-                                {% include "MyCpCasaModuleBundle:statistics:resumen_anual.html.twig" with { "ranking" : yearranking, "ownership": ownership, "totalOwnerShipActive": totalOwnerShipActive, "totalOwnerShipByDestination": totalOwnerShipByDestination, "beforeranking": beforeYearranking} %}
+                                {% include "MyCpCasaModuleBundle:statistics:resumen_anual.html.twig" with { "ranking" : yearranking, "ownership": ownership, "totalOwnerShipActive": totalOwnerShipActive, "totalOwnerShipByDestination": totalOwnerShipByDestination, "beforeranking": beforeYearranking, "xyearranking":xyearranking} %}
                             {% endif %}
                         </div>
                     </div>

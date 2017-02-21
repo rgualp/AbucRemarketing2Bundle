@@ -2,20 +2,13 @@
 
 namespace MyCp\mycpBundle\Entity;
 
-use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\AST\Join;
-use MyCp\FrontEndBundle\Helpers\Time;
-use MyCp\mycpBundle\Helpers\AccommodationModality;
+use Doctrine\ORM\Query\Expr;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
-use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
-use MyCp\mycpBundle\Entity\generalReservation;
 
-use Doctrine\ORM\Query\Expr;
-use MyCp\PartnerBundle\Repository\paGeneralReservationRepository;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownershipReservationRepository
@@ -35,7 +28,7 @@ class generalReservationRepository extends EntityRepository {
         u.user_user_name, u.user_last_name, u.user_email,
         (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
         own.own_inmediate_booking,own.own_inmediate_booking_2,
-        gre.responseTime
+        gre.responseTime, gre.complete_payment
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
@@ -639,7 +632,7 @@ class generalReservationRepository extends EntityRepository {
         $s = "";
         if($filter_partner) {
             $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH u.user_id = up.tourOperator JOIN up.travelAgency agency";
-            $s = "agency.name aName, agency.email aEmail,";
+            $s = "agency.name aName, agency.email aEmail, ";
             if($filter_agencia_booking != "") {
                 $where .= " AND agency.name LIKE :filter_agencia_booking ";
             }
@@ -653,6 +646,7 @@ class generalReservationRepository extends EntityRepository {
         booking.booking_id,
         curr.curr_code,
         booking.booking_user_dates,
+        booking.complete_payment,
         $s
         (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
         (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate
@@ -1974,6 +1968,37 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         return $qb->getQuery()->getResult();
     }
 
+    function facturacionNeta($filter_date_from,$filter_date_to){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:payment", "p")
+            ->join("p.currency", "curr");
+
+        if($filter_date_from != null && $filter_date_from != "") {
+            $qb->andWhere("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+    function facturacion($filter_date_from = null, $filter_date_to = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
     function getClientsDailySummaryPayments($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -3179,8 +3204,27 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
         $qb->join('pard.reservation', 'par');
         $qb->join('par.client', 'client');
 
-        $qb->andWhere('r.gen_res_status = :gen_res_status');
-        $qb->setParameter('gen_res_status', $status);
+
+        if($status == generalReservation::STATUS_RESERVED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
+            $qb->setParameter('gen_res_status', $status);
+        }
+
+        elseif($status == generalReservation::STATUS_CANCELLED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
+            $qb->setParameter('gen_res_status', $status);
+            $qb->leftJoin("r.pendingPayments", "pending");
+            $qb->andWhere("pending.cancelPayment IS NOT NULL");
+
+        }
+        else{
+            $qb->andWhere('r.gen_res_status = :gen_res_status');
+            $qb->setParameter('gen_res_status', $status);
+        }
 
         $qb->orderBy("r.gen_res_id", "DESC");
 
@@ -3290,6 +3334,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         return array('data' => $data, 'count' => $count);
     }
 
+
     function getReservationCart($idGeneralReservation, $ownReservationIds) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -3329,6 +3374,23 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         }
     return $res;
 
+    }
+
+    /**
+     * @param $id_ownReservations
+     * @return array
+     */
+    function getUserByOwnershipReservations($id_ownReservations){
+        $em=$this->getEntityManager();
+        $queryString = "SELECT  user.user_id
+            FROM mycpBundle:generalReservation gres
+            JOIN gres.gen_res_own_id own
+            JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id
+            JOIN uca.user_casa_user user
+            JOIN mycpBundle:ownershipReservation owr with owr.own_res_gen_res_id = gres.gen_res_id where owr.own_res_id =:id_ownReservations";
+
+        $query = $em->createQuery($queryString);
+        return $query->setParameter('id_ownReservations', $id_ownReservations)->getArrayResult();
     }
 
      function changeReservationStatus(generalReservation $generalReservation){
@@ -3374,6 +3436,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         elseif($canceled < $totalSubReservations)
             $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
 
+        $generalReservation->setGenResStatusDate(new \DateTime());
 
         $em->persist($generalReservation);
         $em->flush();

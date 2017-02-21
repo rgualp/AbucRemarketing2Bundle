@@ -165,7 +165,9 @@
             }
             else {
 
-                /*swal({
+                var cancelLink = $(this);
+
+                swal({
                     title: $("#alertMessages").data("alerttitle"),
                     text: $("#alertMessages").data("alertcontent"),
                     type: "warning",
@@ -174,10 +176,10 @@
                     confirmButtonText: $("#alertMessages").data("confirmbutton"),
                     cancelButtonText: $("#alertMessages").data("cancelbutton"),
                     closeOnConfirm: true
-                }, function () {*/
+                }, function () {
                     $("#overlayLoading").removeClass("hide");
                     HoldOn.open();
-                    var _url = $(this).data("url");//Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+                    var _url = cancelLink.data("url");//Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
 
                     $.post(_url, {
                         'checkValues': checkValues
@@ -187,7 +189,7 @@
                             executeAjax(link, null);
                         }
                     });
-                /*});*/
+                });
 
                 $('#selectedReservations').slimScroll({
                     height: '350px',

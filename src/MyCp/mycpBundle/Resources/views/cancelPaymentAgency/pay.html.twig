@@ -1,0 +1,36 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+    '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_list_cancel_payment_ag') }}">Cancelaciones</a> <span class="divider">/</span></li>
+        <li class="active">Detalles del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+{% endblock %}
+{% block form_actions %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_list_cancel_payment_ag') }}">Cancelaciones</a> <span class="divider">/</span></li>
+        <li class="active">Detalles del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+    <h2>Detalles del pago de la cancelación</h2>
+    {{ render(controller('mycpBundle:BackendCancelPaymentAg:getPaymentByCancel', {'post': {'selected':idcancel}})) }}
+    <hr/>
+
+{% endblock %}

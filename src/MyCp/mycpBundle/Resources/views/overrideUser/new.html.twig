@@ -1,0 +1,137 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+    '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_override_user') }}">Suplantar usuarios</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}suplantación de usuario</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_override_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_override_user') }}">Suplantar usuarios</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}suplantación de usuario</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_override_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <a class="btn btn-success" id="btn_save">Guardar</a>
+    <a class="btn" href="{{ path('mycp_list_override_user') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>{% if edit is defined %}Editar {% else %}Adicionar {% endif %}suplantación de usuario</h2>
+<hr/>
+<form action="{% if edit_override is defined %}{{ path('mycp_edit_override_user', {'id': edit_override})}}{% else %}{{ path('mycp_add_override_user')}}{% endif %}" method="POST" class="form-search">
+    {% if edit_override is defined %}<input style="display: none;" name="edit_override" value="{{edit_override}}"> {% endif %}
+    {{form_row(form._token)}}
+    <div class="row-fluid">
+        <input type="hidden" name="override_by" id="override_by">
+        <input type="hidden" name="override_to" id="override_to">
+        <div class="span6" style="margin-left: 0px">
+            <div class="input-append">
+                <input type="text" class="span12 search-query" name="user_name_by" id="user_name_by" placeholder="Usuario que suplanta">
+                <a id="find_user_by" class="btn">Buscar</a>
+            </div>
+        </div>
+        <div class="span6" style="margin-left: 0px">
+            <div class="input-prepend">
+                <a id="find_user_to" class="btn">Buscar</a>
+                <input type="text" class="span6 search-query" name="user_name_to" id="user_name_to" placeholder="Usuario a suplantar">
+                <input type="text" class="span6 search-query" name="user_email_to" id="user_email_to" placeholder="Correo de usuario a suplantar">
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">
+            <label class="required"><b>Nombre completo:</b></label>
+        </div>
+        <div class="span4">
+            <label class="required" id="label_name_by"></label>
+        </div>
+        <div class="span2">
+            <label class="required"><b>Nombre completo:</b></label>
+        </div>
+        <div class="span4">
+            <label class="required" id="label_name_to"></label>
+        </div>
+    </div>
+    <div class="row-fluid">
+        {{form_row(form.reason)}}
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+    </script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
+    '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
+    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+    '@LayoutBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $('.textarea').wysihtml5();
+        $(document).ready(function() {
+            $('#find_user_by').click(function () {
+                    find_user($('#user_name_by').val(),$('#label_name_by'),$('#override_by'),'');
+            });
+            $('#find_user_to').click(function () {
+                    find_user($('#user_name_to').val(),$('#label_name_to'),$('#override_to'),$('#user_email_to').val());
+            });
+            $('#btn_save').click(function () {
+                HoldOn.open();
+                if($('#override_by').val()!='' && $('#override_to').val()!=''){
+                    $.ajax({
+                        type:"POST",
+                        url:"{{ path('mycp_override_user') }}",
+                        data:{'idOverrideBy':$('#override_by').val(),'idOverrideTo':$('#override_to').val(),'reason':$('#mycp_mycpbundle_overrideuser_reason').val()},
+                        success:function (response) {
+                            HoldOn.close();
+                            if(response.success){
+                                window.location.href = "{{ url('mycp_list_override_user') }}";
+                            }
+                        }
+                    });
+                }
+            });
+
+            /**
+             *
+             * @param name
+             */
+            function find_user(name,lbName,input,email){
+                    HoldOn.open();
+                    $.ajax({
+                        type:"POST",
+                        url:"{{ path('mycp_find_user') }}",
+                        data:{'name':name,'email':email},
+                        success:function (response) {
+                            HoldOn.close();
+                            if(response.success){
+                                lbName.text(response.name);
+                                input.val(response.iduser);
+                            }
+                        }
+                    });
+            }
+        });
+    </script>
+{% endblock %}

@@ -461,8 +461,17 @@ class StepsController extends Controller {
 
         $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership' => $ownership, 'user_locale' => "es", 'user_full_name' => $this->getUser()->getUserUserName() . ' ' . $this->getUser()->getUserLastName()));
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
-        $service_email = $this->get('Email');
-        $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
+
+        if($ownership->getModifying()){
+            $ownership->setModifying(false);
+            $em->persist($ownership);
+            $em->flush();
+        }
+        else{
+            $service_email = $this->get('Email');
+            $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
+        }
+
         return $this->render('MyCpCasaModuleBundle:Registration:published.html.twig', array(
             "code" => $ownership->getOwnMcpCode(),
             'assistant' => $localOperationAssistant
@@ -1089,6 +1098,7 @@ class StepsController extends Controller {
 
         $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
         $ownership->setOwnStatus($status);
+        $ownership->setModifying(true);
         $em->persist($ownership);
         $em->flush();
 
@@ -1098,7 +1108,7 @@ class StepsController extends Controller {
             self::submitEmailReservationTeamProperty($ownership, $reserved);
         }
 
-        return $this->redirect($this->generateUrl('my_cp_casa_module_homepage'));
+        return $this->redirect($this->generateUrl('my_cp_casa_module_homepage', array('modif'=>true)));
     }
 
     /**
@@ -1199,7 +1209,16 @@ class StepsController extends Controller {
         //$canPublish = $em->getRepository("mycpBundle:ownership")->getFacturacionMes($code);
 
         //dump($ranking);die;
+
+        $year = '2016';
+        if(count($allYearCalculateRanking) > 0){
+            $year = $allYearCalculateRanking[count($allYearCalculateRanking) - 1]['year'];
+        }
+
+        $r = $em->getRepository("mycpBundle:ownershipRankingExtra")->getOfYear($ownership->getOwnId(), $year);
+
         return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
+            'xyearranking'=>$r,
             'ownership' => $ownership,
             'ranking' => $ranking,
             'yearranking' => $yearRanking,
@@ -1288,7 +1307,9 @@ class StepsController extends Controller {
             $totalOwnerShipByDestination = count($em->getRepository("mycpBundle:ownership")->getAll("", 1, "", "", "", $ownership->getOwnDestination()->getDesId())->getResult());
 
             if(count($ranking) > 0) {
+                $r = $em->getRepository("mycpBundle:ownershipRankingExtra")->getOfYear($ownid, $year);
                 return $this->render('MyCpCasaModuleBundle:statistics:resumen_anual.html.twig', array(
+                    'xyearranking'=>$r,
                     "ranking" => $ranking,
                     "ownership" => $ownership,
                     "totalOwnerShipActive" => $totalOwnerShipActive,

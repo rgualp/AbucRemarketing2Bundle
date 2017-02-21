@@ -750,7 +750,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "") {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false, $filter_start_creation_date = null, $filter_end_creation_date = null) {
 
         $condition = '';
 
@@ -811,7 +811,6 @@ class ownershipRepository extends EntityRepository {
         if($filter_type != 'null' && $filter_type != '') {
             $condition .= " AND ow.own_type = :filter_type ";
         }
-
         if($filter_name != 'null' && $filter_name != '') {
             $condition .= " AND ow.own_name LIKE :filter_name ";
         }
@@ -829,8 +828,16 @@ class ownershipRepository extends EntityRepository {
                 $condition .= " AND ow.own_destination = :filter_destination ";
         }
         if($filter_commission != 'null' && $filter_commission != '') {
-
             $condition .= " AND ow.own_commission_percent = :filter_commission ";
+        }
+
+        $order_by = 'ow.own_mcp_code ASC';
+        if($hot){
+            $order_by = ' ow.own_hot_date,ow.own_inmediate_booking_2 DESC, ow.own_inmediate_booking DESC ';
+        }
+
+        if(isset($filter_start_creation_date) && isset($filter_end_creation_date)) {
+            $condition .= " AND ow.own_creation_date >= :filter_start_creation_date AND ow.own_creation_date <= :filter_end_creation_date ";
         }
 
         $em = $this->getEntityManager();
@@ -842,6 +849,8 @@ class ownershipRepository extends EntityRepository {
         ow.own_inmediate_booking,
         ow.own_inmediate_booking_2,
         ow.own_name,
+        ow.own_creation_date,
+        ow.own_hot_date,
         mun.mun_name,
         prov.prov_name,
         ow.own_comment,
@@ -858,7 +867,7 @@ class ownershipRepository extends EntityRepository {
         JOIN ow.data data
         LEFT JOIN ow.own_destination d
         LEFT JOIN ow.own_status s
-        WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
+        WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ".$order_by);
 
         if($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
@@ -897,6 +906,11 @@ class ownershipRepository extends EntityRepository {
 
         if($filter_commission != 'null' && $filter_commission != '')
             $query->setParameter('filter_commission', $filter_commission);
+
+        if(isset($filter_start_creation_date) && isset($filter_end_creation_date)) {
+            $query->setParameter('filter_start_creation_date', $filter_start_creation_date);
+            $query->setParameter('filter_end_creation_date', $filter_end_creation_date);
+        }
 
         return $query;
     }
@@ -1133,6 +1147,8 @@ class ownershipRepository extends EntityRepository {
         if($filters['room'] != "")
             $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
+        //Eliminar las reservas inmediatas
+        $where .= " AND " . "o.own_inmediate_booking_2 = :inmediate_booking_2";
 
         if($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
@@ -1152,6 +1168,10 @@ class ownershipRepository extends EntityRepository {
         //die(dump($query));
         if($user_id != null)
             $query->setParameter('user_id', $user_id);
+
+        //Eliminar las reservas inmediatas
+        $query->setParameter('inmediate_booking_2', false);
+
 
         if($session_id != null)
             $query->setParameter('session_id', $session_id);

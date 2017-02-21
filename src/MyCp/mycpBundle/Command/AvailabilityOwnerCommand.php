@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Command;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\taskRenta;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -41,9 +42,14 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        $this->executeAvailabilitiesOwner($input, $output);
+        $this->executeCancelBooking($input, $output);
+    }
+
+    private function executeAvailabilitiesOwner(InputInterface $input, OutputInterface $output) {
         $now = new \DateTime();
         $now_format = $now->format('Y-m-d H:i:s');
-        $output->writeln('<info>**** ---------------------Inicio:' . $now_format .'--------------------- ****</info>');
+        $output->writeln('<info>**** ---------------------Inicio executeAvailabilitiesOwner:' . $now_format . '--------------------- ****</info>');
 
         /*Informe Test*/
         /*$message = \Swift_Message::newInstance()
@@ -54,7 +60,6 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $container->get('mailer')->send($message);*/
         /**************/
-
 
         $output->writeln('<info>**** Recopilando disponibilidades dadas por propietarios ****</info>');
 
@@ -67,7 +72,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
 
         $container = $this->getContainer();
 
-        foreach ($r as $availabilityOwner){
+        foreach ($r as $availabilityOwner) {
             /*Proceso de actualización*/
             $generalReservation = $availabilityOwner->getReservation();
             $availability = $availabilityOwner->getResStatus();
@@ -76,15 +81,15 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             foreach ($ownership_reservations as $ownership_reservation) {
                 $output->writeln('<info>**** Ownership_reservation:' . $ownership_reservation->getOwnResId() . ' ****</info>');
 
-                if($availability == 1){
+                if($availability == 1) {
                     $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_AVAILABLE);
                 }
-                else{
+                else {
                     $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
                 }
                 $this->em->persist($ownership_reservation);
                 $this->em->flush();
-                $output->writeln('<info>**** Ownership_reservation:' . $ownership_reservation->getOwnResId() . ' actualizada a:'.$ownership_reservation->getOwnResStatus().'****</info>');
+                $output->writeln('<info>**** Ownership_reservation:' . $ownership_reservation->getOwnResId() . ' actualizada a:' . $ownership_reservation->getOwnResStatus() . '****</info>');
             }
 
             if($availability == 1) {
@@ -97,7 +102,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             $output->writeln('<info>**** Respondiendo notificacions****</info>');
             $notifications = $generalReservation->getNotifications();
             $serviceNotification = $container->get('mycp.notification.service');
-            foreach($notifications as $notification){
+            foreach ($notifications as $notification) {
                 $output->writeln('<info>**** Respondiendo notificacion:' . $notification->getId() . ' ****</info>');
                 $serviceNotification->notificationresp($notification, $availability, false);
                 $output->writeln('<info>**** Respondida notificacion:' . $notification->getId() . ' ****</info>');
@@ -107,7 +112,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             $availabilityOwner->setActive(0);
             $this->em->persist($availabilityOwner);
             $this->em->flush();
-            $output->writeln('<info>**** AvailabilityOwner:' . $availabilityOwner->getId() . ' actualizada a:'.$availabilityOwner->getActive().'****</info>');
+            $output->writeln('<info>**** AvailabilityOwner:' . $availabilityOwner->getId() . ' actualizada a:' . $availabilityOwner->getActive() . '****</info>');
 
             /*Envio de Email*/
             $output->writeln('<info>**** Enviando Correo ****</info>');
@@ -122,7 +127,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
 
             $output->writeln('<info>**** Enviando Correo ****</info>');
 
-            if ($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE){
+            if($generalReservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE) {
                 $output->writeln('<info>**** Incertando job ****</info>');
                 // inform listeners that a reservation was sent out
                 $dispatcher = $container->get('event_dispatcher');
@@ -134,7 +139,40 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
 
         $now = new \DateTime();
         $now_format = $now->format('Y-m-d H:i:s');
-        $output->writeln('<info>**** -------------------------Fin:' . $now_format .'--------------------------- ****</info>');
+        $output->writeln('<info>**** -------------------------Fin executeAvailabilitiesOwner:' . $now_format . '--------------------------- ****</info>');
     }
 
+    private function executeCancelBooking(InputInterface $input, OutputInterface $output) {
+        $now = new \DateTime();
+        $now_format = $now->format('Y-m-d H:i:s');
+        $output->writeln('<info>**** ---------------------Inicio executeCancelBooking:' . $now_format . '--------------------- ****</info>');
+
+        $output->writeln('<info>**** Recopilando cancelaciones dadas por propietarios ****</info>');
+
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $repository = $em->getRepository("mycpBundle:taskRenta");
+        $canceledBookings = $repository->getCanceledBooking();
+
+        $output->writeln('<info>**** Cantidad de cancelaciones no leidas ' . count($canceledBookings) . ' ****</info>');
+
+        foreach ($canceledBookings as $cancelBooking) {
+            $bookingService = $container->get('front_end.services.booking');
+            $cancel_date = new \DateTime(date('Y-m-d'));
+            $bookingService->cancelReservations(array($cancelBooking->getData()), 1, $cancel_date->format('Y/m/d'), '', true, true);
+
+            $cancelBooking->setStatus(taskRenta::STATUS_EXECUTED);
+            $em->persist($cancelBooking);
+            $em->flush();
+
+            $mailer = $container->get('mailer');
+            $spool = $mailer->getTransport()->getSpool();
+            $transport = $container->get('swiftmailer.transport.real');
+            $spool->flushQueue($transport);
+        }
+
+        $now = new \DateTime();
+        $now_format = $now->format('Y-m-d H:i:s');
+        $output->writeln('<info>**** -------------------------Fin executeCancelBooking:' . $now_format . '--------------------------- ****</info>');
+    }
 }

@@ -13,7 +13,7 @@ use MyCp\mycpBundle\Entity\metaTag;
 class PublicController extends Controller {
 
     public function homePageAction() {
-        return $this->redirect($this->generateUrl('frontend_welcome'));
+        return $this->redirect($this->generateUrl('frontend-welcome'));
     }
 
     public function getMetaTagsAction($section = metaTag::SECTION_GENERAL, $onlyDescription = false)
@@ -48,7 +48,7 @@ class PublicController extends Controller {
             //var_dump($locale);
             $locale = array('locale' => $locale, '_locale' => $locale);
             $session->remove("just_logged");
-            return $this->redirect($this->generateUrl("frontend_welcome", $locale));
+            return $this->redirect($this->generateUrl("frontend-welcome", $locale));
         }
 
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
@@ -132,7 +132,7 @@ class PublicController extends Controller {
         $user = $this->getUser();
 
         if($user != null)
-            return $this->redirect($this->generateUrl('frontend_welcome'));
+            return $this->redirect($this->generateUrl('frontend-welcome'));
 
         if ($session->get('user_failure_language')){
             $la = $session->get('user_failure_language');
@@ -326,7 +326,7 @@ class PublicController extends Controller {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_welcome', $routingParams),
+                'loc' => $this->get('router')->generate('frontend-welcome', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );

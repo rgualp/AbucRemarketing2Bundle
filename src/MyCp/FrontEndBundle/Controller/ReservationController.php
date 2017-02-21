@@ -2,22 +2,18 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
-use MyCp\mycpBundle\Entity\mycpService;
-use MyCp\mycpBundle\Helpers\FileIO;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use MyCp\mycpBundle\Entity\ownershipReservation;
-use MyCp\mycpBundle\Entity\booking;
-use MyCp\mycpBundle\Entity\season;
-use MyCp\mycpBundle\Entity\generalReservation;
-use MyCp\mycpBundle\Entity\cart;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
+use MyCp\mycpBundle\Entity\booking;
+use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 class ReservationController extends Controller {
 
@@ -799,6 +795,17 @@ class ReservationController extends Controller {
                 )
             );
         }
+    }
+
+    /**
+     * @param $id_reservation
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteConfirmationAction(Request $request){
+        $bookingService = $this->get('front_end.services.booking');
+        $cancel_date=new \DateTime(date('Y-m-d'));
+        $response=$bookingService->cancelReservations(array($request->get('data')),2,$cancel_date->format('Y/m/d'),'',true);
+        return new JsonResponse(array('success'=>true));
     }
 
 }

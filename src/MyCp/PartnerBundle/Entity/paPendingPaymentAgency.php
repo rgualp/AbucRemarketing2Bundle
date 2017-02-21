@@ -23,7 +23,7 @@ class paPendingPaymentAgency
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\generalReservation")
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\generalReservation",inversedBy="pendingPayments")
      * @ORM\JoinColumn(name="reservation", referencedColumnName="gen_res_id", nullable=false)
      */
     private $reservation;
@@ -94,6 +94,12 @@ class paPendingPaymentAgency
      * @ORM\Column(name="reason", type="text", nullable=true)
      */
     private $reason;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="paCancelPayment",cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="cancel_payment", referencedColumnName="id", nullable=true)
+     */
+    private $cancelPayment;
 
     /**
      * @return int
@@ -301,6 +307,22 @@ class paPendingPaymentAgency
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCancelPayment()
+    {
+        return $this->cancelPayment;
+    }
 
+    /**
+     * @param mixed $cancelPayment
+     * @return mixed
+     */
+    public function setCancelPayment($cancelPayment)
+    {
+        $this->cancelPayment = $cancelPayment;
+        return $this;
+    }
 
 }

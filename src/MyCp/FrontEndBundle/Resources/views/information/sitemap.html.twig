@@ -13,13 +13,13 @@
 {{"SITEMAP_CONTENT" | trans}}
 {% endblock %}
 {% block breadcrumbs %}
-    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
     <span>››</span>
     <a href="#" class="active"  title="{{"SITEMAP"|trans}}">{{"SITEMAP"|trans}}</a>
 {% endblock %}
 {% block body %}
 <div class="container text-center site-map">
-    <h4 class="caecilia-roman"><a href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a></h4>
+    <h4 class="caecilia-roman"><a href="{{path('frontend-welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a></h4>
 
     <br/>
     <h4 class="caecilia-roman upper">{{"DESTINATIONS" | trans}}</h4>
