@@ -5,9 +5,9 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 use MyCp\mycpBundle\Helpers\Dates;
+
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
-
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
@@ -1967,6 +1967,37 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @param null $filter_date_from
+     * @param null $filter_date_to
+     * @return array
+     */
+    function facturacion($filter_date_from = null, $filter_date_to = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("DATE(gres.gen_res_date) as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
+        count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
+        SUM(DISTINCT CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount*curr.curr_cuc_change ELSE p.payed_amount*p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr")
+            ->groupBy("fecha");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+            $qb->Where("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $filter_date_from
+     * @param $filter_date_to
+     * @return array
+     */
     function facturacionNeta($filter_date_from,$filter_date_to){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -1977,23 +2008,6 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         if($filter_date_from != null && $filter_date_from != "") {
             $qb->andWhere("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
-        }
-
-        return $qb->getQuery()->getResult();
-    }
-    function facturacion($filter_date_from = null, $filter_date_to = null) {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->select("SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
-            ->from("mycpBundle:ownershipReservation", "owres")
-            ->join("owres.own_res_gen_res_id", "gres")
-            ->join("owres.own_res_reservation_booking", "b")
-            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
-            ->join("p.currency", "curr");
-
-        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
-            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
@@ -2103,6 +2117,21 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 //                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
 //            ;
 //        }
+
+        return $qb->getQuery()->getResult();
+    }
+    function getPaymentByDate($filter_date_from = null, $filter_date_to = null){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("DATE(p.created) as fecha,SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:payment", "p")
+            ->join("p.currency", "curr")
+            ->groupBy("fecha");
+
+        if($filter_date_from != null && $filter_date_from != "") {
+            $qb->andWhere("p.created >= '$filter_date_from 00:00:00' AND p.created <= '$filter_date_to 23:59:59'");
+        }
 
         return $qb->getQuery()->getResult();
     }
