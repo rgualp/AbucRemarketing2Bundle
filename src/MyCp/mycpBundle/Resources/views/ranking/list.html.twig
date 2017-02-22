@@ -28,11 +28,11 @@
     <div class="well well-small">
         <div class="row-fluid">
             <div class="span3">
-                <label>Propiedad:</label><input id="filter_code" value="{{filter_code}}" class="input-block-level" name="filter_code" type="text"/>
+                <label>Propiedad:</label><input id="filter_code" value="{{(filter_code == "null") ? "": filter_code}}" class="input-block-level" name="filter_code" type="text"/>
             </div>
             <div class="span3">
                 <label>Nombre:</label>
-                <input name="filter_name" value="{{filter_name}}" id="filter_name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendOwnership:get_ownerships_names')) }}'>
+                <input name="filter_name" value="{{(filter_name == "null") ? "": filter_name}}" id="filter_name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendOwnership:get_ownerships_names')) }}'>
             </div>
             <div class="span3">
                 <label>Destino:</label>
@@ -88,7 +88,7 @@
         <div class="row-fluid" style="margin-top: 10px">
             <div class="span9">&nbsp;</div>
             <div class="span1">
-                <a rel="tooltip" title="Descargar listado" href="#" class="tooltip_msg btn btn-block btn-warning"><i class="icon-download-alt icon-white"></i></a>
+                <a rel="tooltip" title="Descargar listado" href="{{ path("mycp_export_ranking", {"filter_code": filter_code, "filter_name": filter_name, "filter_destination": filter_destination, "filter_modality": filter_modality, "filter_month": filter_month, "filter_year": filter_year, "filter_point_option": filter_point_option, "filter_point_from": filter_point_from, "filter_point_to": filter_point_to}) }}" class="tooltip_msg btn btn-block btn-warning"><i class="icon-download-alt icon-white"></i></a>
             </div>
             <div class="span1">
                 <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
@@ -108,7 +108,7 @@
                      <th>Lugar Destino</th>
                      <th>Alojamiento</th>
                      <th>Destino</th>
-                     <th>Registrada</th>
+                     <th>Registrado</th>
                      <th>Modalidad</th>
                      <th>Puntos</th>
                      <th>Categoría</th>
@@ -121,7 +121,7 @@
                 <td>{{ item.destinationPlace }}</td>
                 <td><a target="_blank" href="{{ path("mycp_edit_ownership", {"id_ownership": item.accommodation.ownId}) }}">{{ item.accommodation.ownMcpCode }} - {{ item.accommodation.ownName }}</a></td>
                 <td>{{ (item.accommodation.ownDestination != null) ? item.accommodation.ownDestination.desName : " - " }}</td>
-                <td>{{ item.accommodation.ownCreationDate | date("d/m/Y") }}</td>
+                <td>{{ item.startDate | date("d/m/Y") }}</td>
                 <td>{{ (item.rr == 5) ? "RR" : ((item.ri == 5) ? "RI": "-") }}</td>
                 <td>{{ item.ranking }}</td>
                 <td>{{ (item.category != null) ? item.category.translations[0].nomLangDescription : " - " }}</td>
