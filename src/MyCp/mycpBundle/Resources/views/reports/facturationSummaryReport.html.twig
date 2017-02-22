@@ -221,7 +221,8 @@
                 <td style="text-align: center">{{ item.personas_involucradas }}</td>
                 <td style="text-align: center">{{ item.habitaciones }}</td>
                 <td style="text-align: center">{{item.noches}}</td>
-                <td style="text-align: center">{{item.facturacion | number_format(2)}} CUC</td>
+                {#<td style="text-align: center">{{item.facturacion | number_format(2)}} CUC</td>#}
+                <td style="text-align: center">{{payment[loop.index-1].facturacion | number_format(2)}} CUC</td>
             </tr>
         {% endfor %}
         </tbody>
