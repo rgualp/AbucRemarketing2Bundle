@@ -1,4 +1,4 @@
 mycp_list_ranking:
-    pattern:  /list/{startDate}/{endDate}
-    defaults: { _controller: mycpBundle:BackendRanking:list,startDate:'',endDate:''}
+    pattern:  /list/{filter_code}/{filter_name}/{filter_destination}/{filter_modality}/{filter_month}/{filter_year}/{filter_point_option}/{filter_point_from}/{filter_point_to}
+    defaults: { _controller: mycpBundle:BackendRanking:list,filter_code:'', filter_name:'', filter_destination:'', filter_modality:'', filter_month:'', filter_year: '', filter_point_option:'', filter_point_from:'', filter_point_to:''}
 
