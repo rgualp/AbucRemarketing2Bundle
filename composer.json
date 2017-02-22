@@ -47,7 +47,8 @@
         "friendsofsymfony/rest-bundle": "^1.7",
         "jms/serializer-bundle": "^1.0",
         "php-imap/php-imap": "^2.0",
-        "antimattr/google-bundle": "~2.0@stable"
+        "antimattr/google-bundle": "~2.0@stable",
+        "loevgaard/tinypng-bundle": "^0.1.7"
     },
     "scripts": {
         "post-install-cmd": [
