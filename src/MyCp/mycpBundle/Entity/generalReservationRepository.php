@@ -5,8 +5,8 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 use MyCp\mycpBundle\Helpers\Dates;
-use MyCp\mycpBundle\Helpers\Operations;
 
+use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 
@@ -2117,6 +2117,21 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 //                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
 //            ;
 //        }
+
+        return $qb->getQuery()->getResult();
+    }
+    function getPaymentByDate($filter_date_from = null, $filter_date_to = null){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("DATE(p.created) as fecha,SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:payment", "p")
+            ->join("p.currency", "curr")
+            ->groupBy("fecha");
+
+        if($filter_date_from != null && $filter_date_from != "") {
+            $qb->andWhere("p.created >= '$filter_date_from 00:00:00' AND p.created <= '$filter_date_to 23:59:59'");
+        }
 
         return $qb->getQuery()->getResult();
     }

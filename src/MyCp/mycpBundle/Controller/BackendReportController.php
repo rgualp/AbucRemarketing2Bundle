@@ -4,10 +4,8 @@ namespace MyCp\mycpBundle\Controller;
 
 use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Intl\Exception\NotImplementedException;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class BackendReportController extends Controller
@@ -1834,6 +1832,8 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
+        $payment=$em->getRepository("mycpBundle:generalReservation")->getPaymentByDate($dateFrom, $dateTo);
+
 
         $tc = 0;
         $ts = 0;
@@ -1869,14 +1869,14 @@ ORDER BY own.own_mcp_code ASC
         $tpip = 0;
         $tnp = 0;
         $tfr = 0;
-        foreach($clientsSummaryPayments as $item)
+        foreach($clientsSummaryPayments as $i=>$item)
         {
             $tcp += $item["clientes"];
             $trp += $item["solicitudes"];
             $thp += $item["habitaciones"];
             $tpip += $item["personas_involucradas"];
             $tnp += $item["noches"];
-            $tfr += $item["facturacion"];
+            $tfr += $payment[$i]["facturacion"];
         }
 
         $summary = array(
@@ -1888,6 +1888,7 @@ ORDER BY own.own_mcp_code ASC
             'clientsSummary' => $clientsSummary,
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
+            'payment'=>$payment,
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'accommodationModality' => $accommodationModality,
