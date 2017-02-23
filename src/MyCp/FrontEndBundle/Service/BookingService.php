@@ -1267,6 +1267,31 @@ class BookingService extends Controller
             if(count($booking->getBookingOwnReservations())==count($reservations_ids))
                    $flag=true;
 
+            //Change status reservations
+            if(count($reservations_ids)){
+                foreach($reservations_ids as $genResId){
+                    $reservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
+                    $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                    $this->em->persist($reservation);
+                    $obj->addOwnershipReservation($reservation);
+                }
+            }
+            //Set booking save relations
+            $obj->setBooking($booking);
+            if($by_system){
+                $user = $this->em->getRepository('mycpBundle:generalReservation')->getUserByOwnershipReservations($reservations_ids[0]);
+                $obj->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
+            }
+            else
+                //Set user save relations
+                $obj->setUser($this->getUser());
+
+                $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
+                $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
+                $obj->setGiveTourist($give_tourist);
+                $this->em->persist($obj);
+                //$this->em->flush();
+
             if($type==1)//Si el tipo de cancelación es de propietario
             {
                 $price_tourist=$this->calculateTourist($reservations_ids,true);
@@ -1322,23 +1347,25 @@ class BookingService extends Controller
             }
             if($type==2)//Si el tipo de cancelación  es de turista
             {
-                if($day>7 || ($day<=7 && $day>=3) && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
 
-                    $price_tourist=$this->calculateTourist($reservations_ids,false);
+                if($day>7 || ($day<=7 && $day>=3) && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
+                    $price_tourist=($day>7)?$this->calculateTourist($reservations_ids,false):$this->calculateTourist($reservations_ids,true);
                     if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
-                        $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                        $total_price=$price_tourist['price']+$price_tourist['fixed'];
                     }
                     else{
-                        $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                        $total_price=($price_tourist['price']);
                     }
 
                     //Se registra un Pago Pendiente a Turista
                     $pending_tourist=new pendingPaytourist();
                     $pending_tourist->setCancelId($obj);
                     if($day>7)
-                        $pending_tourist->setPayAmount($total_price);
-                    if($day<=7 && $day>=3)
-                        $pending_tourist->setPayAmount($total_price/2);
+                        $pending_tourist->setPayAmount($total_price*$payment->getCurrentCucChangeRate());
+                    if($day<=7 && $day>=3){
+                         $pending_tourist->setPayAmount(($total_price*0.5)*$payment->getCurrentCucChangeRate());
+                    }
+
 
                     $pending_tourist->setUserTourist($user_tourist);
                     $pending_tourist->setUser($this->getUser());
@@ -1392,14 +1419,17 @@ class BookingService extends Controller
 
                         }
                     }
+
                 }
                 if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
-
                     if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                         $array_id_ownership=array();
                         foreach($reservations_ids as $genResId){
                             $ownershipReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
-                            $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
+                            if($day<=2)
+                                $price=$this->calculatePriceOwnOtherCase($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
+                            else
+                                $price=$this->calculatePriceOwn($ownershipReservation->getOwnResReservationFromDate(),$ownershipReservation->getOwnResReservationToDate(),$ownershipReservation->getOwnResTotalInSite(),$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent());
                             if (!array_key_exists($ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(), $array_id_ownership)){
                                 $failure = $this->em->getRepository('mycpBundle:failure')->findBy(array("reservation" => $ownershipReservation->getOwnResGenResId()->getGenResId()));
                                 if(count($failure)==0){
@@ -1424,52 +1454,33 @@ class BookingService extends Controller
                                 $array_id_ownership[$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['ownershipReservations'][] = $ownershipReservation;
                             }
                         }
+
                         foreach($array_id_ownership as $item){
                             $ownership = $this->em->getRepository('mycpBundle:ownership')->find($item['idown']);
                             //Se registra un Pago Pendiente a Propietario
-                            $pending_own=new pendingPayown();
-                            $pending_own->setCancelId($obj);
-                            $pending_own->setPayAmount($item['price']);
-                            $pending_own->setUserCasa($ownership);
-                            $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
-                            $pending_own->setUser($this->getUser());
-                            $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
-                            $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
-                            $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
-                            $this->em->persist($pending_own);
+                            if($item['price']>0){
+                                $pending_own=new pendingPayown();
+                                $pending_own->setCancelId($obj);
+                                $pending_own->setPayAmount($item['price']);
+                                $pending_own->setUserCasa($ownership);
+                                $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                                $pending_own->setUser($this->getUser());
+                                $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
+                                $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
+                                $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
+                                $this->em->persist($pending_own);
 
-                            //Se envia un sms al prpietario
-                            $mobileNumber=$ownership->getOwnMobileNumber();
-                            $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
-                            $notificationService->sendSMSReservationsCancel($mobileNumber, $message, $ownershipReservation->getOwnResGenResId());
+                                //Se envia un sms al prpietario
+                                $mobileNumber=$ownership->getOwnMobileNumber();
+                                $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
+                                $notificationService->sendSMSReservationsCancel($mobileNumber, $message, $ownershipReservation->getOwnResGenResId());
+                            }
+
                         }
                     }
                 }
             }
             //}
-            //Change status reservations
-            if(count($reservations_ids)){
-                foreach($reservations_ids as $genResId){
-                    $reservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
-                    $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
-                    $this->em->persist($reservation);
-                    $obj->addOwnershipReservation($reservation);
-                }
-            }
-            //Set booking save relations
-            $obj->setBooking($booking);
-            if($by_system){
-                $user = $this->em->getRepository('mycpBundle:generalReservation')->getUserByOwnershipReservations($reservations_ids[0]);
-                $obj->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
-            }
-            else
-            //Set user save relations
-            $obj->setUser($this->getUser());
-            $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
-            $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
-            $obj->setGiveTourist($give_tourist);
-            $this->em->persist($obj);
-            $this->em->flush();
 
             if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
                 $flag=true;
@@ -1499,7 +1510,7 @@ class BookingService extends Controller
                 $generalReservation = $ownershipReservation->getOwnResGenResId();
                 if($fixed==0)
                     $fixed=$generalReservation->getServiceFee()->getFixedFee();
-                $price =$price+ $this->em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time,$sum_tax,$service_time);
+                $price =$price+ $this->em->getRepository('mycpBundle:ownershipReservation')->cancelReservationByTourist($this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId),$service_time,$sum_tax);
             }
         }
         return array('price'=>$price,'fixed'=>$fixed);
@@ -1516,15 +1527,33 @@ class BookingService extends Controller
     public function calculatePriceOwn($from,$to,$price_total_in_site,$commission_percent){
         $service_time = $this->get('time');
         $day=$service_time->diffInDays($to->format("Y-m-d"), $from->format("Y-m-d"));
-
-        if($day==1 || $day ==2){
+        $price=0;
+        if($day>3 && $day<6){
             $price=($price_total_in_site/$day)*(1-$commission_percent/100)*0.5;
-            return $price;
         }
-        else{
+        if($day>=6){
             $price=($price_total_in_site/$day)*(1-$commission_percent/100);
-            return $price;
         }
+        return $price;
+    }
+    /**
+     * @param $from
+     * @param $to
+     * @param $price_total_in_site
+     * @param $commission_percent
+     * @return float
+     */
+    public function calculatePriceOwnOtherCase($from,$to,$price_total_in_site,$commission_percent){
+        $service_time = $this->get('time');
+        $day=$service_time->diffInDays($to->format("Y-m-d"), $from->format("Y-m-d"));
+        $price=0;
+        if($day>0 && $day<3){
+            $price=($price_total_in_site/$day)*(1-$commission_percent/100)*0.5;
+        }
+        if($day>=3){
+            $price=($price_total_in_site/$day)*(1-$commission_percent/100);
+        }
+        return $price;
     }
 
     /**
