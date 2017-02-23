@@ -18,11 +18,15 @@ class notification
     const SUB_TYPE_CHECKIN = "CHECKIN";
     const SUB_TYPE_INMEDIATE_BOOKING = "INMEDIATE_BOOKING";
     const SUB_TYPE_RESERVATION_PAID = "RESERVATION_PAID";
-    const SUB_TYPE_RESERVATION_CANCEL_TOURIST = "RESERVATION_CANCEL_TOURIST";
+    const SUB_TYPE_CANCELED_BOOKING = "SUB_TYPE_CANCELED_BOOKING";
 
     const ACTION_RESPONSE_CLOSE = "CLOSE";
     const ACTION_RESPONSE_AVAILABLE = "AVAILABLE";
     const ACTION_RESPONSE_UNAVAILABLE = "UNAVAILABLE";
+
+    const STATUS_NEW = 0;
+    const STATUS_READ = 1;
+    const STATUS_DISCARDED = 2;
 
     /**
      * @var integer
@@ -61,8 +65,9 @@ class notification
     private $subtype;
 
     /**
-     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="")
-     * @ORM\JoinColumn(name="status",referencedColumnName="nom_id")
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer")
      */
     private $status;
 
@@ -112,6 +117,13 @@ class notification
      * @ORM\JoinColumn(name="id_ownership",referencedColumnName="own_id")
      */
     private $ownership;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->status = notification::STATUS_NEW;
+    }
 
     /**
      * @return int
@@ -327,6 +339,7 @@ class notification
     public function setActionResponse($actionResponse)
     {
         $this->actionResponse = $actionResponse;
+        $this->setStatus(notification::STATUS_READ);
 
         return $this;
     }

@@ -107,25 +107,22 @@ class NotificationController extends Controller
 
             switch($act){
                 case "1":
-                    $notification->setActionResponse(notification::ACTION_RESPONSE_AVAILABLE);
-                    $em->persist($notification);
-                    $this->notificationresp($notification, 1);
+                    $this->answerInmediateBooking($notification, 1);
                     break;
                 case "2":
-                    $notification->setActionResponse(notification::ACTION_RESPONSE_UNAVAILABLE);
-                    $em->persist($notification);
-                    $this->notificationresp($notification, 0);
+                    $this->answerInmediateBooking($notification, 0);
                     break;
                 case "3":
                     $notification->setActionResponse(notification::ACTION_RESPONSE_CLOSE);
                     $em->persist($notification);
+                    $em->flush();
                     break;
                 case "4":
-                    $em->remove($notification);
+                    $notification->setStatus(notification::STATUS_DISCARDED);
+                    $em->persist($notification);
+                    $em->flush();
                     break;
             }
-
-            $em->flush();
         }
 
         if($act == "4"){
@@ -134,8 +131,8 @@ class NotificationController extends Controller
         return $this->redirect($this->generateUrl('my_casa_module_actives_notifications'));
     }
 
-    public function notificationresp(notification $notification, $availability){
+    public function answerInmediateBooking(notification $notification, $availability){
         $service = $this->get('mycp.notification.service');
-        $service->notificationresp($notification, $availability);
+        $service->answerInmediateBooking($notification, $availability);
     }
 }
