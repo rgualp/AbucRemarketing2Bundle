@@ -60,6 +60,14 @@ class messageRepository extends EntityRepository
                ->setParameter("filter_sender_type", $filter_sender_type);
         }
 
+        if($filter_sender != "" && $filter_sender != "null" && $filter_sender != null)
+        {
+            $qb->andWhere("(sender.user_name LIKE :filter_sender or sender.user_last_name LIKE :filter_sender_1)")
+                ->setParameter("filter_sender", "%".$filter_sender."%")
+                ->setParameter("filter_sender_1", "%".$filter_sender."%")
+            ;
+        }
+
         return $qb->getQuery();
     }
 }
