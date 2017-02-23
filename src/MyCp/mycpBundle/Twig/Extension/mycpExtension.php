@@ -31,6 +31,7 @@ class mycpExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('season', array($this, 'season')),
             new \Twig_SimpleFilter('user', array($this, 'user')),
             new \Twig_SimpleFilter('logOperationName', array($this, 'logOperationName')),
+            new \Twig_SimpleFilter('monthname', array($this, 'monthname')),
         );
     }
 
@@ -44,6 +45,23 @@ class mycpExtension extends \Twig_Extension {
             'statusByClient' => new \Twig_Function_Method($this, 'statusByClient'),
             'statusByClientAG' => new \Twig_Function_Method($this, 'statusByClientAG'),
         );
+    }
+
+    public function monthname($intMonth){
+        switch($intMonth){
+            case 1: return "Enero";
+            case 2: return "Febrero";
+            case 3: return "Marzo";
+            case 4: return "Abril";
+            case 5: return "Mayo";
+            case 6: return "Junio";
+            case 7: return "Julio";
+            case 8: return "Agosto";
+            case 9: return "Septiembre";
+            case 10: return "Octubre";
+            case 11: return "Noviembre";
+            case 12: return "Diciembre";
+        }
     }
 
     public function logOperationName($logOperationName) {
