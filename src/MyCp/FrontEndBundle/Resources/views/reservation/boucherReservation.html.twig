@@ -254,7 +254,7 @@
                     <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>
                 </tr>
-                <tr class="b-cyan">
+                <tr>
                     <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }}</b></td>
                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((total_prepayment + total_servicing_price)) | number_format(2) }}</h4></td>
                 </tr>
@@ -275,18 +275,18 @@
                     <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
                 </tr>
 
-                <tr>
+                <tr  class="b-cyan">
                     <td colspan="2"><b>{{ "PAY_AT_ACCOMMODATION" | trans({}, "messages", user_locale) }}</b></td>
                 </tr>
 
-                <tr>
+                <tr  class="b-cyan">
                     <td>-{{"ACCOMMODATION_TOTAL_COST_PLURAL" | trans({}, "messages", user_locale)}} ({% for comm in commissions %}{{100-comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
-                    <td class="text-right"><h4 class="no-margin">
+                    <td class="text-right">
                             {{ currency_symbol }} {{ (total_servicing_price) | number_format(2)}}
-                        </h4>
-                        <h6 class="no-margin">
+
+                        <h4 class="no-margin">
                             CUC {{ (total_price_to_pay_at_service_in_cuc) | number_format(2) }}
-                        </h6>
+                        </h4>
                         <!--h6 class="no-margin cursive h-only-blue">
                     1 CUC = {#{currency_rate}#} {#{currency_symbol}#}
                 </h6-->
