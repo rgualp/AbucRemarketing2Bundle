@@ -3019,6 +3019,122 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 
         return $excel;
     }
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportRanking($items, $startingDate, $fileName = "ranking") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de ranking", "Listado de ranking", "ranking");
+
+            $data = $this->dataForRanking($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForRanking($excel, "Ranking", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForRanking($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+
+            //Lugar general
+            $data[] = $item->getPlace();
+            //Lugar destino
+            $data[] = $item->getDestinationPlace();
+            //Alojamiento
+            $accommodation = $item->getAccommodation();
+            $data[] = $accommodation->getOwnMcpCode();
+            $data[] = $accommodation->getOwnName();
+
+            //Destino
+            $destination = $accommodation->getOwnDestination();
+            $data[] = ($destination != null) ? $destination->getDesName() : " - ";
+
+            //Fecha registro casa
+            $data[] = $item->getStartDate()->format("d/m/Y");
+
+            //Modalidad
+            $data[] = ($item->getRI() == 5) ? "Reserva Inmediate" : (($item->getRR() == 5) ? "Reserva Rápida" : "Solicitud de disponibilidad");
+
+            //Puntos
+            $data[] = $item->getRanking();
+
+            //Categoria
+            $category = $item->getCategory();
+            $data[] = ($category != null) ? $category->getTranslations()[0]->getNomLangDescription(): " - ";
+
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForRanking($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de ranking");
+        $sheet->mergeCells("A1:I1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:I2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:I3");
+
+        $sheet->setCellValue('a5', 'Lugar General');
+        $sheet->setCellValue('b5', 'Lugar Destino');
+        $sheet->setCellValue('c5', 'Codigo Alojamiento');
+        $sheet->setCellValue('d5', 'Nombre Alojamiento');
+        $sheet->setCellValue('e5', 'Destino');
+        $sheet->setCellValue('f5', 'Fecha ranking');
+        $sheet->setCellValue('g5', 'Modalidad');
+        $sheet->setCellValue('h5', 'Puntos');
+        $sheet->setCellValue('i5', 'Categoría');
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:I1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:I5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "i", $sheet);
+
+        $sheet->setAutoFilter("A5:I".(count($data)+5));
+
+        return $excel;
+    }
 }
 
 ?>
