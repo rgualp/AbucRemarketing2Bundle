@@ -40,4 +40,34 @@ class messageRepository extends EntityRepository
         }
         return null;
     }
+
+    public function getMessages($filter_sender_type = '', $filter_sender = "", $filter_sender_email='', $filter_sendTo='', $filter_sendTo_email='', $filter_date_created_from = "", $filter_date_created_to = "")
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("message")
+            ->from("mycpBundle:message", "message")
+            ->join("message.message_send_to", "to")
+            ->join("message.message_sender", "sender")
+            /*->where("(to.user_role = :userCasaRole OR sender.user_role = :userCasaRole1)")
+            ->setParameter("userCasaRole", "ROLE_CLIENT_CASA")
+            ->setParameter("userCasaRole1", "ROLE_CLIENT_CASA")*/
+            ->orderBy("message.message_date", "DESC");
+
+        if($filter_sender_type != "" && $filter_sender_type != "null" && $filter_sender_type != null)
+        {
+            $qb->andWhere("sender.user_role = :filter_sender_type")
+               ->setParameter("filter_sender_type", $filter_sender_type);
+        }
+
+        if($filter_sender != "" && $filter_sender != "null" && $filter_sender != null)
+        {
+            $qb->andWhere("(sender.user_name LIKE :filter_sender or sender.user_last_name LIKE :filter_sender_1)")
+                ->setParameter("filter_sender", "%".$filter_sender."%")
+                ->setParameter("filter_sender_1", "%".$filter_sender."%")
+            ;
+        }
+
+        return $qb->getQuery();
+    }
 }
