@@ -693,6 +693,8 @@ limit 1
 
         $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
 
+
+
         /*if($totalDiffDays > 7){*/
             if($sum_tax)
                 $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;
