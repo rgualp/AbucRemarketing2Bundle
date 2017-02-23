@@ -146,6 +146,28 @@ class NotificationService extends Controller
         }
     }
 
+    /**
+     * @param $mobileNumber
+     * @param $message
+     * @param $subtype
+     */
+    public function sendSMSReservationsCancel($mobileNumber, $message, $reservation){
+        $reservationObj = array(
+            "casId" => $reservation->getCASId(),
+            "genResId" => $reservation->getGenResId()
+        );
+        $response=null;
+        if($mobileNumber!='')
+            $response = $this->sendSMSNotification($mobileNumber, $message, notification::SUB_TYPE_RESERVATION_CANCEL_TOURIST);
+
+        if ($response == null){
+            $response['response'] = 'respuesta del servidor de notificaciones no recibida';
+            $response["code"]='401';
+            $response["message"]=$message;
+            $response["mobile"]=$mobileNumber;
+        }
+        $this->createNotification($reservationObj, notification::SUB_TYPE_RESERVATION_CANCEL_TOURIST, $response);
+    }
     public function sendSMSNotification($mobileNumber, $message, $subtype)
     {
         if($this->notificationSendSms == 1 && $message != null && $message != "" && $mobileNumber != null  && $mobileNumber != "") {
@@ -190,8 +212,8 @@ class NotificationService extends Controller
             else
                 $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "success_ns"));
 
-
             $notification = new notification();
+
             $notification->setCode($response["code"])
                 ->setReservation($reservation)
                 ->setResponse($response["response"])

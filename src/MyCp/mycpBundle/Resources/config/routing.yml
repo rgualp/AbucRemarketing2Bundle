@@ -219,3 +219,11 @@ mycp_backend_cancel_payment:
 mycp_override_user:
     resource: "@mycpBundle/Resources/config/routingOverrideUser.yml"
     prefix:   backend/override/
+
+mycp_override_user:
+    resource: "@mycpBundle/Resources/config/routingOverrideUser.yml"
+    prefix:   backend/override/
+
+mycp_ranking:
+    resource: "@mycpBundle/Resources/config/routingRanking.yml"
+    prefix:   backend/ranking/

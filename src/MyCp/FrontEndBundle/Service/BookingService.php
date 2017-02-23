@@ -12,6 +12,7 @@ use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\pendingPayown;
+use MyCp\mycpBundle\Entity\notification;
 use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
@@ -1375,8 +1376,7 @@ class BookingService extends Controller
                                 //Se envia un sms al prpietario
                                 $mobileNumber=$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnMobileNumber();
                                 $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista.";
-                                if($mobileNumber!='')
-                                    $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
+                                $notificationService->sendSMSReservationsCancel($mobileNumber, $message,$ownershipReservation->getOwnResGenResId());
 
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
@@ -1441,8 +1441,7 @@ class BookingService extends Controller
                             //Se envia un sms al prpietario
                             $mobileNumber=$ownership->getOwnMobileNumber();
                             $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
-                            if($mobileNumber!='')
-                                $notificationService->sendSMSNotification($mobileNumber, $message, "Cancelación de Reserva");
+                            $notificationService->sendSMSReservationsCancel($mobileNumber, $message, $ownershipReservation->getOwnResGenResId());
                         }
                     }
                 }
