@@ -134,4 +134,39 @@ class BackendMessageController extends Controller {
         return $data;
     }
 
+    public function conversationsAction($items_per_page, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_sender_type = $request->get("filter_sender_type");
+        $filter_sender = $request->get("filter_sender");
+        $filter_sender_email = $request->get("filter_sender_email");
+        $filter_sendTo = $request->get("filter_sendTo");
+        $filter_sendTo_email = $request->get("filter_sendTo_email");
+        $filter_date_created_from = $request->get("filter_date_created_from");
+        $filter_date_created_to = $request->get("filter_date_created_to");
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $page = 1;
+        $messages = $paginator->paginate($em->getRepository("mycpBundle:message")->getMessages($filter_sender_type, $filter_sender, $filter_sender_email, $filter_sendTo, $filter_sendTo_email, $filter_date_created_from, $filter_date_created_to))->getResult();
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        return $this->render('mycpBundle:message:list.html.twig', array(
+            'list' => $messages,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_sender_type' => $filter_sender_type,
+            'filter_sender' => $filter_sender,
+            'filter_sender_email' => $filter_sender_email,
+            'filter_sendTo' => $filter_sendTo,
+            'filter_sendTo_email' => $filter_sendTo_email,
+            'filter_date_created_from' => $filter_date_created_from,
+            'filter_date_created_to' => $filter_date_created_to
+        ));
+    }
+
 }
