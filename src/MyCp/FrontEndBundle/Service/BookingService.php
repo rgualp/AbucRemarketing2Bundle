@@ -1442,7 +1442,7 @@ class BookingService extends Controller
                     }
 
                 }
-                if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
+                else if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
                     if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                         $array_id_ownership=array();
                         foreach($reservations_ids as $genResId){
