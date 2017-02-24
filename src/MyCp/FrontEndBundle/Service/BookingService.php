@@ -1274,6 +1274,15 @@ class BookingService extends Controller
                     $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
                     $this->em->persist($reservation);
                     $obj->addOwnershipReservation($reservation);
+
+                    //Submit email
+                    $service_email = $this->get('Email');
+                    $service_email->sendReservation($genResId, '', false);
+
+                    // inform listeners that a reservation was sent out
+                    $dispatcher = $this->get('event_dispatcher');
+                    $eventData = new GeneralReservationJobData($genResId);
+                    $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
                 }
             }
             //Set booking save relations
