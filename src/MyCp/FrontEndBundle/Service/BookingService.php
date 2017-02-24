@@ -17,6 +17,8 @@ use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use MyCp\mycpBundle\JobData\GeneralReservationJobData;
+use Abuc\RemarketingBundle\Event\JobEvent;
 
 class BookingService extends Controller
 {
@@ -1277,7 +1279,7 @@ class BookingService extends Controller
 
                     //Submit email
                     $service_email = $this->get('Email');
-                    $service_email->sendReservation($genResId, '', false);
+                    $service_email->sendReservation($reservation->getOwnResGenResId(), '', false);
 
                     // inform listeners that a reservation was sent out
                     $dispatcher = $this->get('event_dispatcher');
