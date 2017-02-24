@@ -446,6 +446,12 @@ class BookingService extends Controller
             $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
         }
 
+        $notificationService = $this->container->get("mycp.notification.service");
+        $generalReservations = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin($bookingId);
+        foreach ($generalReservations as $generalReservation) {
+            $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+        }
+
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         foreach ($ownershipReservations as $own) {
             $this->updateICal($own->getOwnResSelectedRoomId());
@@ -475,6 +481,12 @@ class BookingService extends Controller
         $this->updateReservationStatuses($bookingId, $status);
         $this->processPaymentEmailsPartner($booking, $paymentPending);
         $this->setPaymentStatusProcessed($payment);
+
+        $notificationService = $this->container->get("mycp.notification.service");
+        $generalReservations = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin($bookingId);
+        foreach ($generalReservations as $generalReservation) {
+            $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+        }
 
         $notificationService = $this->container->get("mycp.notification.service");
         $generalReservations = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin($bookingId);
