@@ -81,31 +81,6 @@
                 Adicionar Cancelación
             </button>
             <span style="font-style: italic;font-weight: bold">  (Debe de seleccionar algún CAS en el listado de reservas)*</span>
-            {#<table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>Id cancelación</th>
-                    <th>Tipo cancelación</th>
-                    <th>Devolver al turista</th>
-                    <th>Motivo</th>
-                    <th>Fecha de cancelación</th>
-                    <th>Cacelada por</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if cancel_payment | length==0%}<tr><p> <div class="alert alert-block">No hay cancelaciones disponibles.</div></p></tr>{% endif %}
-                {% for item in cancel_payment %}
-                    <tr>
-                        <td>{{ item.cancelId }}</td>
-                        <td>{{ item.type.cancelName }}</td>
-                        <td>{% if item.giveTourist %}Si{% else %}No{% endif %}</td>
-                        <td>{{ item.reason }}</td>
-                        <td>{{ item.cancelDate | date("d/m/Y") }}</td>
-                        <td>{{ item.user.UserUserName }} {{ item.user.UserLastName }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>#}
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>

@@ -169,4 +169,39 @@ class BackendMessageController extends Controller {
         ));
     }
 
+    public function exportAction(Request $request) {
+        try {
+//            $service_security = $this->get('Secure');
+//            $service_security->verifyAccess();
+            $em = $this->getDoctrine()->getManager();
+
+            $filter_sender_type = $request->get("filter_sender_type");
+            $filter_sender = $request->get("filter_sender");
+            $filter_sender_email = $request->get("filter_sender_email");
+            $filter_sendTo = $request->get("filter_sendTo");
+            $filter_sendTo_email = $request->get("filter_sendTo_email");
+            $filter_date_created_from = $request->get("filter_date_created_from");
+            $filter_date_created_to = $request->get("filter_date_created_to");
+
+            $items = $em->getRepository("mycpBundle:message")->getMessages($filter_sender_type, $filter_sender, $filter_sender_email, $filter_sendTo, $filter_sendTo_email, $filter_date_created_from, $filter_date_created_to)->getResult();
+
+            $date = new \DateTime();
+            if(count($items)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportConversations($items, $date);
+            }
+            else {
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_ranking"));
+            }
+        }
+        catch (\Exception $e) {
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_conversations"));
+        }
+    }
+
 }

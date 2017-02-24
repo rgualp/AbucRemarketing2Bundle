@@ -17,6 +17,8 @@ use MyCp\mycpBundle\Entity\pendingPaytourist;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use MyCp\mycpBundle\JobData\GeneralReservationJobData;
+use Abuc\RemarketingBundle\Event\JobEvent;
 
 class BookingService extends Controller
 {
@@ -317,9 +319,9 @@ class BookingService extends Controller
 
         foreach ($ownReservations as $own) {
             $array_dates = $timeService->datesBetween(
-                    $own->getOwnResReservationFromDate()->getTimestamp(),
-                    $own->getOwnResReservationToDate()->getTimestamp()
-                );
+                $own->getOwnResReservationFromDate()->getTimestamp(),
+                $own->getOwnResReservationToDate()->getTimestamp()
+            );
             //array_push($nights, count($array_dates) - 1);
             $nights[$own->getOwnResId()] = count($array_dates) - 1;
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
@@ -579,7 +581,7 @@ class BookingService extends Controller
     public function createBookingVoucherIfNotExistingPartner($bookingId, $user,$replaceExistingVoucher = false)
     {
         $response = $this->getPrintableBookingConfirmationResponsePartner($bookingId,$user);
-       // dump($response);die;
+        // dump($response);die;
         $pdfFilePath = $this->getVoucherFilePathByBookingId($bookingId);
 
         if (file_exists($pdfFilePath)) {
@@ -707,15 +709,15 @@ class BookingService extends Controller
 
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
         $body = $this->render('FrontEndBundle:mails:boletin.html.twig', array(
-            'bookId' => $bookingId,
-            'user' => $user,
-            'reservations' => $ownershipReservations,
-            'photos' => $arrayPhotos,
-            'nights' => $arrayNights,
-            'user_locale' => $userLocale,
-            'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null,
-            'reservationStatus' => (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
-        ));
+                'bookId' => $bookingId,
+                'user' => $user,
+                'reservations' => $ownershipReservations,
+                'photos' => $arrayPhotos,
+                'nights' => $arrayNights,
+                'user_locale' => $userLocale,
+                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null,
+                'reservationStatus' => (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
+            ));
 
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
@@ -733,14 +735,14 @@ class BookingService extends Controller
                 $pdfFilePath
             );
 
-           /*$emailService->sendEmail(
-                $subject,
-                'send@mycasaparticular.com',
-                $subject . ' - MyCasaParticular.com',
-                "luiseduardo@hds.li",
-                $body,
-                $pdfFilePath
-            );*/
+            /*$emailService->sendEmail(
+                 $subject,
+                 'send@mycasaparticular.com',
+                 $subject . ' - MyCasaParticular.com',
+                 "luiseduardo@hds.li",
+                 $body,
+                 $pdfFilePath
+             );*/
 
             $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
                 (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
@@ -768,13 +770,13 @@ class BookingService extends Controller
             );
 
             try {
-               /* $emailService->sendEmail(
-                    'Confirmación de pago',
-                    'no-reply@mycasaparticular.com',
-                    'MyCasaParticular.com',
-                    'reservation@mycasaparticular.com',
-                    $bodyRes
-                );*/
+                /* $emailService->sendEmail(
+                     'Confirmación de pago',
+                     'no-reply@mycasaparticular.com',
+                     'MyCasaParticular.com',
+                     'reservation@mycasaparticular.com',
+                     $bodyRes
+                 );*/
 
                 $emailService->sendEmail(
                     'Confirmación de pago',
@@ -916,10 +918,10 @@ class BookingService extends Controller
 
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         $body = $this->render('PartnerBundle:Mail:voucher.html.twig', array(
-            'user_locale' => $userLocale,
-            'user_currency' => $user->getUserCurrency(),
-            'user'=>$user
-        ));
+                'user_locale' => $userLocale,
+                'user_currency' => $user->getUserCurrency(),
+                'user'=>$user
+            ));
 
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
@@ -941,8 +943,8 @@ class BookingService extends Controller
                 (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
         } catch (\Exception $e) {
             $logger->error(sprintf(
-                'EMAIL: Could not send Email to User. Booking ID: %s, Email: %s',
-                $bookingId, $userEmail));
+                    'EMAIL: Could not send Email to User. Booking ID: %s, Email: %s',
+                    $bookingId, $userEmail));
             $logger->error($e->getMessage());
         }
         // send email to reservation team
@@ -977,51 +979,51 @@ class BookingService extends Controller
         }*/
 
         // send email to accommodation owner
-       /* foreach ($arrayOwnershipReservationByHouse as $owns) {
-            $bodyOwner = $this->render(
-                'PartnerBundle:Mail:email_house_confirmation.html.twig',
-                array(
-                    'user' => $user,
-                    'user_tourist' => $user,
-                    'reservations' => $owns,
-                    'nights' => $arrayNightsByOwnershipReservation,
-                    'rooms' => $rooms,
-                    'booking' => $bookingId
-                )
-            );
+        /* foreach ($arrayOwnershipReservationByHouse as $owns) {
+             $bodyOwner = $this->render(
+                 'PartnerBundle:Mail:email_house_confirmation.html.twig',
+                 array(
+                     'user' => $user,
+                     'user_tourist' => $user,
+                     'reservations' => $owns,
+                     'nights' => $arrayNightsByOwnershipReservation,
+                     'rooms' => $rooms,
+                     'booking' => $bookingId
+                 )
+             );
 
-            $ownerEmail = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
-            $ownerEmail = trim($ownerEmail);
+             $ownerEmail = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
+             $ownerEmail = trim($ownerEmail);
 
-            if (empty($ownerEmail)) {
-                $logger->warning('EMAIL: Could not send Email to Casa Owner as the Email address is empty. Booking ID: ' .
-                    $bookingId . '. General Reservation ID: ' .
-                    $owns[0]->getOwnResGenResId()->getGenResId() . '.');
-            } else {
-                try {
-                    $emailService->sendEmail(
-                        'Confirmación de reserva',
-                        'no-reply@mycasaparticular.com',
-                        'MyCasaParticular.com',
-                        $ownerEmail,
-                        $bodyOwner
-                    );
+             if (empty($ownerEmail)) {
+                 $logger->warning('EMAIL: Could not send Email to Casa Owner as the Email address is empty. Booking ID: ' .
+                     $bookingId . '. General Reservation ID: ' .
+                     $owns[0]->getOwnResGenResId()->getGenResId() . '.');
+             } else {
+                 try {
+                     $emailService->sendEmail(
+                         'Confirmación de reserva',
+                         'no-reply@mycasaparticular.com',
+                         'MyCasaParticular.com',
+                         $ownerEmail,
+                         $bodyOwner
+                     );
 
-                    $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
-                        $bookingId . ', Email: ' . $ownerEmail);
-                } catch (\Exception $e) {
-                    $logger->error('EMAIL: Could not send Email to Casa Owner. Booking ID: ' .
-                        $bookingId . '. General Reservation ID: ' .
-                        $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $ownerEmail);
-                    $logger->error($e->getMessage());
-                }
-            }
+                     $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
+                         $bookingId . ', Email: ' . $ownerEmail);
+                 } catch (\Exception $e) {
+                     $logger->error('EMAIL: Could not send Email to Casa Owner. Booking ID: ' .
+                         $bookingId . '. General Reservation ID: ' .
+                         $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $ownerEmail);
+                     $logger->error($e->getMessage());
+                 }
+             }
 
-            //Suscripción al evento para feedback
-            $dispatcher = $this->get('event_dispatcher');
-            $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
-            $dispatcher->dispatch('mycp.event.feedback', new FixedDateJobEvent($owns[0]->getOwnResGenResId()->getGenResToDate(),$eventData));
-        }*/
+             //Suscripción al evento para feedback
+             $dispatcher = $this->get('event_dispatcher');
+             $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
+             $dispatcher->dispatch('mycp.event.feedback', new FixedDateJobEvent($owns[0]->getOwnResGenResId()->getGenResToDate(),$eventData));
+         }*/
     }
 
     /**
@@ -1265,7 +1267,7 @@ class BookingService extends Controller
             $flag=false;
             $failure_flag=false;
             if(count($booking->getBookingOwnReservations())==count($reservations_ids))
-                   $flag=true;
+                $flag=true;
 
             //Change status reservations
             if(count($reservations_ids)){
@@ -1274,6 +1276,15 @@ class BookingService extends Controller
                     $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
                     $this->em->persist($reservation);
                     $obj->addOwnershipReservation($reservation);
+
+                    //Submit email
+                    $service_email = $this->get('Email');
+                    $service_email->sendReservation($reservation->getOwnResGenResId(), '', false);
+
+                    // inform listeners that a reservation was sent out
+                    $dispatcher = $this->get('event_dispatcher');
+                    $eventData = new GeneralReservationJobData($genResId);
+                    $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
                 }
             }
             //Set booking save relations
@@ -1286,11 +1297,11 @@ class BookingService extends Controller
                 //Set user save relations
                 $obj->setUser($this->getUser());
 
-                $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
-                $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
-                $obj->setGiveTourist($give_tourist);
-                $this->em->persist($obj);
-                //$this->em->flush();
+            $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
+            $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
+            $obj->setGiveTourist($give_tourist);
+            $this->em->persist($obj);
+            //$this->em->flush();
 
             if($type==1)//Si el tipo de cancelación es de propietario
             {
@@ -1311,7 +1322,7 @@ class BookingService extends Controller
                     $pending_tourist->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
                 }
                 else
-                $pending_tourist->setUser($this->getUser());
+                    $pending_tourist->setUser($this->getUser());
                 $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
                 $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
@@ -1363,7 +1374,7 @@ class BookingService extends Controller
                     if($day>7)
                         $pending_tourist->setPayAmount($total_price*$payment->getCurrentCucChangeRate());
                     if($day<=7 && $day>=3){
-                         $pending_tourist->setPayAmount(($total_price*0.5)*$payment->getCurrentCucChangeRate());
+                        $pending_tourist->setPayAmount(($total_price*0.5)*$payment->getCurrentCucChangeRate());
                     }
 
 
