@@ -13,3 +13,11 @@ mycp_list_clientComment:
 mycp_insert_clientComment:
     pattern:  /client-comment/insert
     defaults: { _controller: mycpBundle:BackendMessage:insertClientComment }
+
+mycp_list_conversations:
+    pattern:  /conversations/{items_per_page}/{filter_sender_type}/{filter_sender}/{filter_sender_email}/{filter_sendTo}/{filter_sendTo_email}/{filter_date_created_from}/{filter_date_created_to}
+    defaults: { _controller: mycpBundle:BackendMessage:conversations, items_per_page: 100, filter_sender_type:'', filter_sender:'', filter_sender_email:'', filter_sendTo:'', filter_sendTo_email:'', filter_date_created_from:'', filter_date_created_to:'' }
+
+mycp_export_conversations:
+    pattern:  /export/{items_per_page}/{filter_sender_type}/{filter_sender}/{filter_sender_email}/{filter_sendTo}/{filter_sendTo_email}/{filter_date_created_from}/{filter_date_created_to}
+    defaults: { _controller: mycpBundle:BackendMessage:export, items_per_page: 100, filter_sender_type:'', filter_sender:'', filter_sender_email:'', filter_sendTo:'', filter_sendTo_email:'', filter_date_created_from:'', filter_date_created_to:'' }
