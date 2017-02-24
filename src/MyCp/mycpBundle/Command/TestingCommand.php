@@ -27,7 +27,10 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $this->testingStoreProcedure($em, $output, $container);
+        //$this->testingStoreProcedure($em, $output, $container);
+
+        $this->testingSMSPaymentProcess($em, $output, $container);
+        $this->testingCheckingSMSNotifications($em, $output, $container);
 
         $output->writeln("End of testings");
     }
@@ -48,13 +51,15 @@ EOT
 
     private function testingCheckingSMSNotifications($em,OutputInterface $output, $container)
     {
+        $output->writeln("Step 1");
         $notificationService = $container->get("mycp.notification.service");
-        $checkIns = $em->getRepository("mycpBundle:generalReservation")->getCheckins('04/04/2016');
+        $checkIns = $em->getRepository("mycpBundle:generalReservation")->getCheckins('24/02/2017');
 
+        $output->writeln("Step 2");
         $check = $checkIns[2];
         $payAtService = $check["to_pay_at_service"] - $check["to_pay_at_service"] * $check["own_commission_percent"] / 100;
         $reservationObj = array(
-            "mobile" => "52540669",
+            "mobile" => "52015356",
             "nights" => $check["nights"] / $check["rooms"],
             "smsNotification" => $check["own_sms_notifications"],
             "touristCompleteName" => $check["user_user_name"]." ".$check["user_last_name"],
@@ -85,6 +90,23 @@ EOT
         $notificationService->sendInmediateBookingSMSNotification($reservation, true);
         //$notificationService->sendConfirmPaymentSMSNotification($reservation, true);
         //$notificationService->sendCheckinSMSNotification($reservationObj, true);
+    }
+
+    private function testingSMSPaymentProcess($em,OutputInterface $output)
+    {
+        $container = $this->getContainer();
+        /*$bookingService = $container->get("front_end.services.booking");
+
+        $booking = $em->getRepository("mycpBundle:booking")->find(1360);
+
+        $bookingService->processPaymentEmails($booking, PaymentHelper::STATUS_PENDING);*/
+
+        $notificationService = $container->get("mycp.notification.service");
+        $generalReservations = $em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin(5318);
+        foreach ($generalReservations as $generalReservation) {
+            $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+        }
+
     }
 
     private function testingPostPaymentProcess($em,OutputInterface $output)

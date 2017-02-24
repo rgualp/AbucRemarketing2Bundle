@@ -99,10 +99,6 @@ class NotificationService extends Controller
                     $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
                     $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
                 }
-
-                if ($response == null){
-                    $response = 'respuesta del servidor de notificaciones no recibida';
-                }
                 $this->createNotification($reservationObj, $subType, $response);
             }
         }
@@ -119,11 +115,6 @@ class NotificationService extends Controller
                 $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $reservationObj["mobile"];
                 $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
             }
-
-            if ($response == null){
-                $response = 'respuesta del servidor de notificaciones no recibida';
-            }
-
             $this->createNotification($reservationObj, $subType, $response);
         }
     }
@@ -134,7 +125,7 @@ class NotificationService extends Controller
             $accommodation = $reservation->getGenResOwnId();
 
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
-            $message = "Mycasaparticular confirma reserva del cliente " . $touristName . ", revise su correo o contáctenos al " . $this->smsContactPhone;
+            $message = "MyCasaParticular confirma reserva del cliente " . $touristName . ", revise su correo o contáctenos al " . $this->smsContactPhone;
             $subType = notification::SUB_TYPE_RESERVATION_PAID;
             $reservationObj = array(
                 "casId" => $reservation->getCASId(),
@@ -145,10 +136,6 @@ class NotificationService extends Controller
             if ($accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
                 $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
                 $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            }
-
-            if ($response == null){
-                $response = 'respuesta del servidor de notificaciones no recibida';
             }
             $this->createNotification($reservationObj, $subType, $response);
         }
@@ -177,15 +164,9 @@ class NotificationService extends Controller
                 $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
                 $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
             }
-
-            if ($response == null){
-                $response = 'respuesta del servidor de notificaciones no recibida';
-            }
             $this->createNotification($reservationObj, $subType, $response);
         }
     }
-
-    /* * ***************************************************************** * */
 
     public function sendSMSNotification($mobileNumber, $message, $subtype)
     {
@@ -226,6 +207,10 @@ class NotificationService extends Controller
             $notificationType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationType", "nom_name" => "sms_nt"));
             $reservation = $this->em->getRepository("mycpBundle:generalReservation")->find($reservationObj["genResId"]);
 
+            $sync = false;
+            if($response != null && isset($response["code"]) /*&& Response::HTTP_OK*/){
+               $sync = true;
+            }
             /*if($response["code"] != 201)
                 $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "failed_ns"));
             else
@@ -298,6 +283,7 @@ class NotificationService extends Controller
             $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
             $notification->setActionResponse(notification::ACTION_RESPONSE_UNAVAILABLE);
         }
+        $this->em->persist($generalReservation);
         $this->em->persist($notification);
         $this->em->flush();
 

@@ -189,6 +189,8 @@ class notification
                 return "SOLICITUD DE DISPONIBILIDAD";
             case notification::SUB_TYPE_RESERVATION_PAID:
                 return "RESERVACIÓN PAGADA";
+            case notification::SUB_TYPE_CANCELED_BOOKING:
+                return "RESERVACIÓN CANCELADA";
         }
         return $this->subtype;
     }

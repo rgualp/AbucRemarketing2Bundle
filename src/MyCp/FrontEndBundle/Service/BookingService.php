@@ -440,6 +440,12 @@ class BookingService extends Controller
         $this->processPaymentEmails($booking, $paymentPending);
         $this->setPaymentStatusProcessed($payment);
 
+        $notificationService = $this->container->get("mycp.notification.service");
+        $generalReservations = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin($bookingId);
+        foreach ($generalReservations as $generalReservation) {
+            $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+        }
+
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         foreach ($ownershipReservations as $own) {
             $this->updateICal($own->getOwnResSelectedRoomId());
@@ -469,6 +475,12 @@ class BookingService extends Controller
         $this->updateReservationStatuses($bookingId, $status);
         $this->processPaymentEmailsPartner($booking, $paymentPending);
         $this->setPaymentStatusProcessed($payment);
+
+        $notificationService = $this->container->get("mycp.notification.service");
+        $generalReservations = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin($bookingId);
+        foreach ($generalReservations as $generalReservation) {
+            $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+        }
 
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         $toPayAtService = 0;
@@ -1374,9 +1386,7 @@ class BookingService extends Controller
                                 }
 
                                 //Se envia un sms al prpietario
-                                $mobileNumber=$ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnMobileNumber();
-                                $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista.";
-                                $notificationService->sendSMSReservationsCancel($mobileNumber, $message,$ownershipReservation->getOwnResGenResId());
+                                $notificationService->sendSMSReservationsCancel($ownershipReservation);
 
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
@@ -1393,7 +1403,7 @@ class BookingService extends Controller
                         }
                     }
                 }
-                if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
+                else if($day<=7){   //Despues de los 7 días antes de la fecha de llegada
 
                     if(count($reservations_ids)){   //Debo de recorrer cada una de las habitaciones para de ellas sacar las casas
                         $array_id_ownership=array();
@@ -1439,9 +1449,7 @@ class BookingService extends Controller
                             $this->em->persist($pending_own);
 
                             //Se envia un sms al prpietario
-                            $mobileNumber=$ownership->getOwnMobileNumber();
-                            $message="MyCasaParticular le informa que el CAS.".$ownershipReservation->getOwnResGenResId()->getGenResId()." con fecha de llegada: ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por el turista. Tendrá un reembolso de ".$item['price']." CUC antes del ".\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1)->format("d/m/Y")."";
-                            $notificationService->sendSMSReservationsCancel($mobileNumber, $message, $ownershipReservation->getOwnResGenResId());
+                            $notificationService->sendSMSReservationsCancel($ownershipReservation, $item['price']);
                         }
                     }
                 }
