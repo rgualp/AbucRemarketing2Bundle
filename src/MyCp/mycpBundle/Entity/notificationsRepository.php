@@ -31,10 +31,12 @@ class notificationsRepository extends EntityRepository {
         $filters['ownership'] = $idOwnership;
 
         if($active){
-            $filters['actionResponse'] = '';
+            //$filters['actionResponse'] = '';
+            $filters['status'] = notification::STATUS_NEW;
         }
         else{
-            $filters['actionResponse'] = array('prop'=>'actionResponse', 'key'=>'actionResponse', 'operator'=>'!=', 'value'=>'');
+            $filters['status'] = notification::STATUS_READ;
+            //$filters['actionResponse'] = array('prop'=>'actionResponse', 'key'=>'actionResponse', 'operator'=>'!=', 'value'=>'');
         }
 
 
