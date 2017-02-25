@@ -90,4 +90,24 @@ class BackendFailureController extends Controller {
 
         return $this->redirect($this->generateUrl('mycp_list_touristfailures', array("accommodationId" => $accommodationId)));
     }
+
+    public function listGeneralAction()
+    {
+//        $service_security = $this->get('Secure');
+//        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage(100);
+        $failures = $paginator->paginate($em->getRepository('mycpBundle:failure')->getList())->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        return $this->render('mycpBundle:failure:list_general.html.twig', array(
+            'list' => $failures,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
+        ));
+    }
 }
