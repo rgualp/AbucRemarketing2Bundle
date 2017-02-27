@@ -47,7 +47,7 @@ class failureType extends AbstractType
                         ->join("b.payments", "p")
                         ->where("o.gen_res_status = :reservedStatus")
                         ->andWhere("(p.status = :successfulPayment or p.status = :processedPayment)")
-                        ->andWhere("o.gen_res_date >= :date")
+                        ->andWhere("o.gen_res_from_date >= :date")
                         ->andWhere("o.gen_res_own_id = :accommodationId")
                         ->andWhere("NOT EXISTS (SELECT f FROM mycpBundle:failure f WHERE f.reservation = o.gen_res_id)")
                         ->orderBy('o.gen_res_id', 'DESC')
@@ -55,7 +55,7 @@ class failureType extends AbstractType
                         ->setParameter("successfulPayment", PaymentHelper::STATUS_SUCCESS)
                         ->setParameter("processedPayment", PaymentHelper::STATUS_PROCESSED)
                         ->setParameter("accommodationId", $this->accommodationId)
-                        ->setParameter("date", new \DateTime('-3 month'))
+                        ->setParameter("date", new \DateTime('-1 month'))
                         ;
                 },
                 'property' => 'casDateAndTourist',
