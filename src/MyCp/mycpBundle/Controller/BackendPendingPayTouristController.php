@@ -88,8 +88,8 @@ class BackendPendingPayTouristController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     function editAction($id, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:pendingPaytourist')->find($id);
         $form = $this->createForm(new pendingPaytouristType(), $payment);
