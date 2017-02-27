@@ -27,4 +27,16 @@ class failureRepository extends EntityRepository {
         return $query;
     }
 
+    public function getList(){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQueryBuilder()
+            ->from("mycpBundle:failure", "p")
+            ->select("p")
+            ->orderBy("p.creationDate", "DESC")
+            ->getQuery();
+        ;
+        return $query;
+    }
+
 }

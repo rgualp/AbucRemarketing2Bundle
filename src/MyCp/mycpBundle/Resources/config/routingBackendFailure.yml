@@ -10,3 +10,7 @@ mycp_create_touristfailures:
 mycp_delete_touristfailures:
     pattern:  /delete/{idFailure}
     defaults: { _controller: mycpBundle:BackendFailure:delete }
+
+mycp_list_failures:
+    pattern:  /list-general
+    defaults: { _controller: mycpBundle:BackendFailure:listGeneral}

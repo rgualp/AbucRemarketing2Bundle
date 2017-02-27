@@ -3414,4 +3414,44 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $data = $qb->getQuery()->getResult();
         return $data;
     }
+
+    function getReservationsToGetOutdatedCount(){
+        $em=$this->getEntityManager();
+
+        $date = new \DateTime();
+        $date = $date->modify("-53 hours");
+
+        $qb = $em->createQueryBuilder()
+            ->select("count(gres)")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("gres.own_reservations", "reservation")
+            ->where("(gres.gen_res_status = :status or reservation.own_res_status = :resStatus or reservation.own_res_status = :resStatus2)")
+            ->andWhere("gres.gen_res_date <= :date")
+            ->setParameter("status", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("resStatus", ownershipReservation::STATUS_AVAILABLE)
+            ->setParameter("resStatus2", ownershipReservation::STATUS_AVAILABLE2)
+            ->setParameter("date", $date)->setMaxResults(1);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    function getReservationsToGetOutdated(){
+        $em=$this->getEntityManager();
+
+        $date = new \DateTime();
+        $date = $date->modify("-53 hours");
+
+        $qb = $em->createQueryBuilder()
+            ->select("gres")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("gres.own_reservations", "reservation")
+            ->where("(gres.gen_res_status = :status or reservation.own_res_status = :resStatus or reservation.own_res_status = :resStatus2)")
+            ->andWhere("gres.gen_res_date <= :date")
+            ->setParameter("status", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("resStatus", ownershipReservation::STATUS_AVAILABLE)
+            ->setParameter("resStatus2", ownershipReservation::STATUS_AVAILABLE2)
+            ->setParameter("date", $date);
+
+        return $qb->getQuery()->getResult();
+    }
 }

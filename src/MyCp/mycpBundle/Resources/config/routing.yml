@@ -184,6 +184,10 @@ mycp_change_password_user:
     pattern:  /backend/cambiar-contrasenna/{string}
     defaults: { _controller: mycpBundle:Backend:changePassword }
 
+mycp_reservations_outdated_action:
+    pattern:  /backend/reservations-outdated
+    defaults: { _controller: mycpBundle:Backend:getReservationsOutdated }
+
 mycp_backend_award:
     resource: "@mycpBundle/Resources/config/routingBackendAward.yml"
     prefix:   backend/awards/
