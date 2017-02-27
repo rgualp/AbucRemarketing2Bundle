@@ -65,107 +65,113 @@ class NotificationService extends Controller
 
     public function sendInmediateBookingSMSNotification($reservation)
     {
-        if($this->notificationSendInmediatebookingSms) {
-            $accommodation = $reservation->getGenResOwnId();
+        $accommodation = $reservation->getGenResOwnId();
 
-            //$touristName = $reservation->getGenResUserId()->getUserCompleteName();
-            $reservationDatas = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
+        //$touristName = $reservation->getGenResUserId()->getUserCompleteName();
+        $reservationDatas = $this->em->getRepository("mycpBundle:generalReservation")->getDataFromGeneralReservation($reservation->getGenResId());
 
-            foreach ($reservationDatas as $reservationData) {
-                $fromDate = $reservationData["fromDate"];
-                $fromDate = $fromDate->format("d-m-y");
-                $rooms = $reservationData["rooms"];
-                $nights = $reservationData["nights"] / $rooms;
-                $guests = $reservationData["guests"];
-                $reservationId = $reservation->getGenResId();
+        foreach ($reservationDatas as $reservationData) {
+            $fromDate = $reservationData["fromDate"];
+            $fromDate = $fromDate->format("d-m-y");
+            $rooms = $reservationData["rooms"];
+            $nights = $reservationData["nights"] / $rooms;
+            $guests = $reservationData["guests"];
+            $reservationId = $reservation->getGenResId();
 
-                //$message = "";
-                $noches = ($nights > 1) ? 's' : '';
-                $personas = ($guests > 1) ? 's' : '';
-                $contactPhone = $this->smsContactPhone;
-                $contactMobile = $this->smsContactMobile;
+            //$message = "";
+            $noches = ($nights > 1) ? 's' : '';
+            $personas = ($guests > 1) ? 's' : '';
+            $contactPhone = $this->smsContactPhone;
+            $contactMobile = $this->smsContactMobile;
 
-                //$message = 'MyCasaParticular:Si está disponible para ' . $fromDate . ',' . $nights . 'noche' . $noches . ',' . $guests . 'persona' . $personas . ',' . $rooms . 'hab, CAS' . $reservationId . ', llame al ' . $contactPhone . '/' . $contactMobile . ' o envíe SMS con su CAS.';
-                $message = 'MyCasaParticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al '.$contactPhone.' o '.$contactMobile.'.';
+            //$message = 'MyCasaParticular:Si está disponible para ' . $fromDate . ',' . $nights . 'noche' . $noches . ',' . $guests . 'persona' . $personas . ',' . $rooms . 'hab, CAS' . $reservationId . ', llame al ' . $contactPhone . '/' . $contactMobile . ' o envíe SMS con su CAS.';
+            $message = 'MyCasaParticular:Solicitud para '.$fromDate.', '.$nights.' noche'.$noches.', '.$guests.' persona'.$personas.', '.$rooms.'hab, CAS'.$reservationId.'. Llame ahora al '.$contactPhone.' o '.$contactMobile.'.';
 
-                $subType = notification::SUB_TYPE_INMEDIATE_BOOKING;
-                $reservationObj = array(
-                    "casId" => $reservation->getCASId(),
-                    "genResId" => $reservation->getGenResId()
-                );
+            $subType = notification::SUB_TYPE_INMEDIATE_BOOKING;
+            $reservationObj = array(
+                "casId" => $reservation->getCASId(),
+                "genResId" => $reservation->getGenResId()
+            );
 
-                $response = null;
-                if ($accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
-                    $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
-                    $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-                }
-                $this->createNotification($reservationObj, $subType, $response);
+            $mobileNumber = "";
+            $response = array();
+            if ($this->notificationSendInmediatebookingSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+                $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
+                $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
             }
+            $response["message"] = $message;
+            $response["mobile"] = $mobileNumber;
+            $this->createNotification($reservationObj, $subType, $response);
         }
     }
 
     public function sendCheckinSMSNotification($reservationObj)
     {
-        if($this->notificationSendCheckingsSms) {
-            $message = "MyCasaParticular le recuerda, cliente " . $reservationObj["touristCompleteName"] . " arriba el " . $reservationObj["arrivalDate"] . " por " . $reservationObj["nights"] . " noches pagará " . $reservationObj["payAtService"] . " CUC.";
-            $subType = notification::SUB_TYPE_CHECKIN;
+        $message = "MyCasaParticular le recuerda, cliente " . $reservationObj["touristCompleteName"] . " arriba el " . $reservationObj["arrivalDate"] . " por " . $reservationObj["nights"] . " noches pagará " . $reservationObj["payAtService"] . " CUC.";
+        $subType = notification::SUB_TYPE_CHECKIN;
 
-            $response = null;
-            if ($reservationObj["mobile"] != null && $reservationObj["mobile"] != "" && $reservationObj["smsNotification"]) {
-                $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $reservationObj["mobile"];
-                $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            }
-            $this->createNotification($reservationObj, $subType, $response);
+        $mobileNumber = "";
+        $response = array();
+
+        if ($this->notificationSendCheckingsSms && $reservationObj["mobile"] != null && $reservationObj["mobile"] != "" && $reservationObj["smsNotification"]) {
+            $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $reservationObj["mobile"];
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
         }
+
+        $response["message"] = $message;
+        $response["mobile"] = $mobileNumber;
+        $this->createNotification($reservationObj, $subType, $response);
     }
 
-    public function sendConfirmPaymentSMSNotification($reservation)
+    public function sendConfirmPaymentSMSNotification(generalReservation $reservation)
     {
-        if($this->notificationSendConfirmationSms) {
-            $accommodation = $reservation->getGenResOwnId();
+        $accommodation = $reservation->getGenResOwnId();
 
-            $touristName = $reservation->getGenResUserId()->getUserCompleteName();
-            $message = "MyCasaParticular confirma reserva del cliente " . $touristName . ", revise su correo o contáctenos al " . $this->smsContactPhone;
-            $subType = notification::SUB_TYPE_RESERVATION_PAID;
-            $reservationObj = array(
-                "casId" => $reservation->getCASId(),
-                "genResId" => $reservation->getGenResId()
-            );
+        $touristName = $reservation->getGenResUserId()->getUserCompleteName();
+        $message = "MyCasaParticular confirma CAS".$reservation->getGenResId()." llegada ".$reservation->getGenResFromDate()->format('d/m/Y').", cliente " . $touristName . "." /*$this->smsContactPhone*/;
+        $subType = notification::SUB_TYPE_RESERVATION_PAID;
+        $reservationObj = array(
+            "casId" => $reservation->getCASId(),
+            "genResId" => $reservation->getGenResId()
+        );
 
-            $response = null;
-            if ($accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
-                $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
-                $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            }
-            $this->createNotification($reservationObj, $subType, $response);
+        $mobileNumber = "";
+        $response = array();
+        if ($this->notificationSendConfirmationSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+            $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
         }
+        $response["message"] = $message;
+        $response["mobile"] = $mobileNumber;
+        $this->createNotification($reservationObj, $subType, $response);
     }
 
     public function sendSMSReservationsCancel(ownershipReservation $ownershipReservation, $refund = null)
     {
-        if($this->notificationSendConfirmationSms) {
-            $reservation = $ownershipReservation->getOwnResGenResId();
-            $accommodation = $reservation->getGenResOwnId();
-            $room = $this->em->getRepository("mycpBundle:room")->find($ownershipReservation->getOwnResSelectedRoomId());
+        $reservation = $ownershipReservation->getOwnResGenResId();
+        $accommodation = $reservation->getGenResOwnId();
+        $room = $this->em->getRepository("mycpBundle:room")->find($ownershipReservation->getOwnResSelectedRoomId());
 
-            $message="MyCasaParticular informa:CAS".$reservation->getGenResId()." con fecha de llegada ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por turista (Hab.".$room->getRoomNum().").";
-            if($refund != null){
-                $message .= " Se le rembolsará ".$refund." CUC.";
-            }
-
-            $subType = notification::SUB_TYPE_CANCELED_BOOKING;
-            $reservationObj = array(
-                "casId" => $reservation->getCASId(),
-                "genResId" => $reservation->getGenResId()
-            );
-
-            $response = null;
-            if ($accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
-                $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
-                $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
-            }
-            $this->createNotification($reservationObj, $subType, $response);
+        $message="MyCasaParticular informa:CAS".$reservation->getGenResId()." con fecha de llegada ".$ownershipReservation->getOwnResReservationFromDate()->format('d/m/Y')." ha sido cancelada por turista (Hab.".$room->getRoomNum().").";
+        if($refund != null){
+            $message .= " Se le rembolsará ".$refund." CUC.";
         }
+
+        $subType = notification::SUB_TYPE_CANCELED_BOOKING;
+        $reservationObj = array(
+            "casId" => $reservation->getCASId(),
+            "genResId" => $reservation->getGenResId()
+        );
+
+        $mobileNumber = "";
+        $response = array();
+        if ($this->notificationSendConfirmationSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+            $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+        }
+        $response["message"] = $message;
+        $response["mobile"] = $mobileNumber;
+        $this->createNotification($reservationObj, $subType, $response);
     }
 
     public function sendSMSNotification($mobileNumber, $message, $subtype)
@@ -217,14 +223,15 @@ class NotificationService extends Controller
                 $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "success_ns"));*/
 
             $code = ($response != null && isset($response["code"])) ? ($response["code"]) : (Response::HTTP_BAD_REQUEST);
+            $r = ($response != null && isset($response["response"])) ? ($response["response"]) : "sin respuesta";
 
             $notification = new notification();
             $notification->setCode($code)
                 ->setReservation($reservation)
-                ->setResponse($response["response"])
+                ->setResponse($r)
                 ->setCreated(new \DateTime())
-                ->setMessage($response["message"])
-                ->setSendTo(($this->notificationTestEnvironment) ? $this->notificationTestPhone : $response["mobile"])
+                ->setMessage($response["message"]);
+            $notification->setSendTo(($this->notificationTestEnvironment) ? $this->notificationTestPhone : $response["mobile"])
                 ->setSubType($subType)
                 ->setDescription($reservationObj["casId"])
                 ->setNotificationType($notificationType)
@@ -233,6 +240,7 @@ class NotificationService extends Controller
 
             $this->em->persist($notification);
             $this->em->flush();
+
         }
         catch(\Exception $e)
         {

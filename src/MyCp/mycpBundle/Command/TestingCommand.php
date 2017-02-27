@@ -53,10 +53,11 @@ EOT
     {
         $output->writeln("Step 1");
         $notificationService = $container->get("mycp.notification.service");
-        $checkIns = $em->getRepository("mycpBundle:generalReservation")->getCheckins('24/02/2017');
+        $checkIns = $em->getRepository("mycpBundle:generalReservation")->getCheckins('28/02/2017');
 
         $output->writeln("Step 2");
-        $check = $checkIns[2];
+
+        $check = $checkIns[1];
         $payAtService = $check["to_pay_at_service"] - $check["to_pay_at_service"] * $check["own_commission_percent"] / 100;
         $reservationObj = array(
             "mobile" => "52015356",
@@ -69,6 +70,7 @@ EOT
             "genResId" => $check["gen_res_id"]
 
         );
+        $output->writeln("Step 3");
         $notificationService->sendCheckinSMSNotification($reservationObj, true);
     }
 
