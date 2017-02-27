@@ -20,12 +20,18 @@
     </ul>
 {% endblock %}
 {% block form_actions %}
-    <ul class="breadcrumb">
-        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-        <li><a href="{{ path('mycp_list_reservations_booking') }}">Bookings</a> <span class="divider">/</span></li>
-        <li class="active">Detalles de Booking</li>
-        <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_tourist') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
-    </ul>
+    {#<ul class="breadcrumb">#}
+        {#<li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>#}
+        {#<li><a href="{{ path('mycp_list_reservations_booking') }}">Bookings</a> <span class="divider">/</span></li>#}
+        {#<li class="active">Detalles de Booking</li>#}
+        {#<li class="pull-right"><a href="{{ path('mycp_list_payments_pending_tourist') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>#}
+    {#</ul>#}
+    <div class="form-actions">
+        <div class="btn-toolbar" role="toolbar">
+                <a class="btn btn-success" href="{{ path('mycp_edit_payment_pending_tourist', {'id' : pending_payment.pendingId}) }}">Editar</a>
+                <a class="btn" href="{{ path('mycp_list_payments_pending_tourist') }}">Ir al listado</a>
+        </div>
+    </div>
 {% endblock %}
 {% block content %}
     <h2>Booking {{ payment.booking.bookingId }}</h2>
