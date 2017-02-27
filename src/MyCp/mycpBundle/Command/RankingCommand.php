@@ -107,7 +107,7 @@ class RankingCommand extends ContainerAwareCommand {
             if($rankingValue["ranking"] <= 0 || $rankingValue["previousRank"] == null)
             {
 //                if(!$sendTestingEmail1)
-                    $emailValues = $this->sendEmailAccommodationsWithNegativeOrZeroRanking($rankingValue);
+                    //$emailValues = $this->sendEmailAccommodationsWithNegativeOrZeroRanking($rankingValue);
 //                $sendTestingEmail1 = true;
             }
             elseif($rankingValue["place"] <= 10)
