@@ -24,7 +24,7 @@ class cancelPaymentType extends AbstractType
                 'required' => true,
                 'multiple' => false
             ))
-            ->add('give_tourist', 'checkbox', array('label' => 'Devolver dinero:', 'attr' => array('checked' => true)))
+            ->add('give_tourist', 'checkbox', array('label' => 'Devolver dinero:', 'required' => false))
             ->add('cancel_date',null,array(
                     'widget'=>'single_text',
                     'format'=>'dd/MM/yyyy',
@@ -33,6 +33,7 @@ class cancelPaymentType extends AbstractType
                 ))
             ->add('reason','textarea',array(
                     'label'=>'Motivos:',
+                    'required' => false,
                     'attr'=>array('class'=>'textarea', "style" => "width: 80%")
                 ));
     }

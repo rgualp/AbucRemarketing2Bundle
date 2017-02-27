@@ -56,8 +56,8 @@ class BackendCancelPaymentController extends Controller {
      * @return Response
      */
     function listAction($items_per_page, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
 
         $filter_number = $request->get('filter_number');
@@ -145,8 +145,8 @@ class BackendCancelPaymentController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     function editAction($id, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
         $obj = $em->getRepository('mycpBundle:cancelPayment')->find($id);
         $form = $this->createForm(new cancelPaymentType(), $obj);
@@ -155,7 +155,10 @@ class BackendCancelPaymentController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $post = $request->get("mycp_mycpbundle_cancelpayment");
+                $giveTourist = (isset($post["give_tourist"]) && $post["give_tourist"] == "1") ? true: false;
 
+                $obj->setGiveTourist($giveTourist);
                 $em->persist($obj);
                 $em->flush();
 
