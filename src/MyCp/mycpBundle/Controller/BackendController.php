@@ -2,11 +2,14 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Form\changePasswordUserType;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
 use MyCp\mycpBundle\Helpers\Notifications;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +20,6 @@ class BackendController extends Controller
 
     public function backend_frontAction(Request $request)
     {
-
         if (!$this->getUser() instanceof UserInterface)
             return $this->redirect($this->generateUrl('backend_login'));
         if ($this->get('security.context')->isGranted('ROLE_CLIENT_TOURIST')) {
@@ -27,6 +29,7 @@ class BackendController extends Controller
         } else if ($this->get('security.context')->isGranted('ROLE_CLIENT_CASA')) {
             return $this->redirect($this->generateUrl('mycp_lodging_front'));
         } else {
+            $totalReservationsToGetOutdated = 0;
             $reporData = null;
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getManager();
@@ -39,10 +42,16 @@ class BackendController extends Controller
                 $reporData = $em->getRepository("mycpBundle:report")->dashBoardSummary();
             }
 
+            if($this->get('security.context')->isGranted('ROLE_CLIENT_STAFF'))
+            {
+                $totalReservationsToGetOutdated = $em->getRepository("mycpBundle:generalReservation")->getReservationsToGetOutdatedCount();
+            }
+
             return $this->render('mycpBundle:backend:welcome.html.twig',
                 array(
                     'photo' => $photo,
-                    'reportData' => $reporData
+                    'reportData' => $reporData,
+                    'toGetOutdated' => $totalReservationsToGetOutdated
                 )
             );
         }
@@ -85,8 +94,6 @@ class BackendController extends Controller
             'errors' => $errors
         ));
     }
-
-
 
     public function changePasswordAction($string, Request $request)
     {
@@ -136,7 +143,48 @@ class BackendController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function getReservationsOutdatedAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
 
+        $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationsToGetOutdated();
+
+        foreach($reservations as $reservation){
+             $details = $reservation->getOwn_reservations();
+
+            foreach($details as $detail)
+            {
+                if($detail->getOwnResStatus() == ownershipReservation::STATUS_AVAILABLE || $detail->getOwnResStatus() == ownershipReservation::STATUS_AVAILABLE2)
+                {
+                    $detail->setOwnResStatus(ownershipReservation::STATUS_OUTDATED);
+                    $em->persist($detail);
+                }
+
+                if($reservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE)
+                {
+                    $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+                    $em->persist($reservation);
+                }
+            }
+
+            $em->flush();
+        }
+
+        try {
+            return new JsonResponse(
+                array('success' => true, 'message' => 'Se ha finalizado el proceso satisfactoriamente')
+            );
+        }
+        catch(\Exception $e)
+        {
+            return new JsonResponse(
+                array('success' => false, 'message' => 'Ha ocurrido un error durante el proceso')
+            );
+        }
+    }
 
 
 

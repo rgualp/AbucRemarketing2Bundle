@@ -585,8 +585,16 @@ class BackendDestinationController extends Controller
 
                         /**********/
                         $fileName = uniqid('destination-').'-photo.png';
-                        $fileName = Images::saveWithTinify($file->getRealPath(), $dir.$subPath, $fileName);
-                        //$file->move($dir.$subPath, $fileName);
+
+                        $saveWithTinify = Images::saveWithTinify($file->getRealPath(), $dir.$subPath, $fileName);
+                        if($saveWithTinify != false){
+                            $fileName = $saveWithTinify;
+                        }
+
+                        if($saveWithTinify == false){
+                            $file->move($dir.$subPath, $fileName);
+                        }
+
                         //Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir.$subPath.$fileName, $dir_thumbs.$subPath.$fileName, $thumbs_size);
                         //\MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir, $fileName, $dir_watermark, 480, $this->container);

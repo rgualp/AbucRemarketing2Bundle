@@ -208,7 +208,7 @@ class NotificationService extends Controller
             $reservation = $this->em->getRepository("mycpBundle:generalReservation")->find($reservationObj["genResId"]);
 
             $sync = false;
-            if($response != null && isset($response["code"]) /*&& Response::HTTP_OK*/){
+            if($response != null && isset($response["code"]) && $response["code"] == Response::HTTP_CREATED){
                $sync = true;
             }
             /*if($response["code"] != 201)
@@ -228,6 +228,7 @@ class NotificationService extends Controller
                 ->setSubType($subType)
                 ->setDescription($reservationObj["casId"])
                 ->setNotificationType($notificationType)
+                ->setSync($sync)
                 ->setOwnership($reservation->getGenResOwnId());
 
             $this->em->persist($notification);

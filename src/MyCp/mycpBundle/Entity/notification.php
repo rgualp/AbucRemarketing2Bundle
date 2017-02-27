@@ -18,7 +18,7 @@ class notification
     const SUB_TYPE_CHECKIN = "CHECKIN";
     const SUB_TYPE_INMEDIATE_BOOKING = "INMEDIATE_BOOKING";
     const SUB_TYPE_RESERVATION_PAID = "RESERVATION_PAID";
-    const SUB_TYPE_CANCELED_BOOKING = "SUB_TYPE_CANCELED_BOOKING";
+    const SUB_TYPE_CANCELED_BOOKING = "CANCELED_BOOKING";
 
     const ACTION_RESPONSE_CLOSE = "CLOSE";
     const ACTION_RESPONSE_AVAILABLE = "AVAILABLE";
@@ -117,6 +117,13 @@ class notification
      * @ORM\JoinColumn(name="id_ownership",referencedColumnName="own_id")
      */
     private $ownership;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="sync", type="boolean", nullable=true)
+     */
+    private $sync;
 
     /**
      * Constructor
@@ -394,5 +401,29 @@ class notification
     public function getOwnership()
     {
         return $this->ownership;
+    }
+
+    /**
+     * Set sync
+     *
+     * @param boolean $sync
+     *
+     * @return notification
+     */
+    public function setSync($sync)
+    {
+        $this->sync = $sync;
+
+        return $this;
+    }
+
+    /**
+     * Get sync
+     *
+     * @return boolean
+     */
+    public function getSync()
+    {
+        return $this->sync;
     }
 }
