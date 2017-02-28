@@ -3422,7 +3422,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $date = $date->modify("-53 hours");
 
         $qb = $em->createQueryBuilder()
-            ->select("count(gres)")
+            ->select("count(DISTINCT gres)")
             ->from("mycpBundle:generalReservation", "gres")
             ->join("gres.own_reservations", "reservation")
             ->where("(gres.gen_res_status = :status or reservation.own_res_status = :resStatus or reservation.own_res_status = :resStatus2)")
