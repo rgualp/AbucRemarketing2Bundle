@@ -59,6 +59,26 @@ class BackendPenaltyController extends Controller {
         ));
     }
 
+    public function listGeneralAction()
+    {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getManager();
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage(100);
+        $penalties = $paginator->paginate($em->getRepository('mycpBundle:penalty')->findAll())->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        return $this->render('mycpBundle:penalty:listGeneral.html.twig', array(
+            'list' => $penalties,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
+        ));
+    }
+
     public function createAction($accommodationId, Request $request)
     {
         $service_security = $this->get('Secure');
