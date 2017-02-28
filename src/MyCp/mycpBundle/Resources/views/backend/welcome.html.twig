@@ -1,5 +1,14 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+    '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li class="active">Administración</li>
@@ -14,13 +23,49 @@
     <div class="span10">
         <div class="alert alert-block">
             Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>
+
+        {% if is_granted('ROLE_CLIENT_STAFF') and toGetOutdated > 0%}
+            {% set buttonClass = (toGetOutdated > 100) ? "btn-danger" : ((toGetOutdated > 50 and toGetOutdated <= 100) ? "btn-warning" : "btn-primary") %}
+            <a id="btnReservationsAction" class="btn btn-large {{ buttonClass }}">Vencer reservaciones ({{ toGetOutdated }})</a>
+        {% endif %}
     </div>
 </div>
     <br/>
-    <div class="row-fluid">
+    <div class="row-fluid" style="margin-top: 30px">
         <div class="span12">
             {{ include('mycpBundle:reports:dashboardSummary.html.twig') }}
         </div>
     </div>
         <br/>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@LayoutBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#btnReservationsAction').on('click',function(){
+                HoldOn.open();
+                var url ='{{ path('mycp_reservations_outdated_action') }}';
+
+                $.ajax({
+                    url: url,
+                    data: {},
+                    success: function(data, textStatus, jqXHR){
+                        window.location.href = "{{ url('mycp_backend_front') }}";
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        toastr.error('Ha ocurrido un error mientras se vencían las reservaciones');
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

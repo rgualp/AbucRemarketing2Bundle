@@ -49,9 +49,9 @@ class messageRepository extends EntityRepository
             ->from("mycpBundle:message", "message")
             ->join("message.message_send_to", "to")
             ->join("message.message_sender", "sender")
-            /*->where("(to.user_role = :userCasaRole OR sender.user_role = :userCasaRole1)")
+            ->where("(to.user_role = :userCasaRole OR sender.user_role = :userCasaRole1)")
             ->setParameter("userCasaRole", "ROLE_CLIENT_CASA")
-            ->setParameter("userCasaRole1", "ROLE_CLIENT_CASA")*/
+            ->setParameter("userCasaRole1", "ROLE_CLIENT_CASA")
             ->orderBy("message.message_date", "DESC");
 
         if($filter_sender_type != "" && $filter_sender_type != "null" && $filter_sender_type != null)
@@ -65,6 +65,42 @@ class messageRepository extends EntityRepository
             $qb->andWhere("(sender.user_name LIKE :filter_sender or sender.user_last_name LIKE :filter_sender_1)")
                 ->setParameter("filter_sender", "%".$filter_sender."%")
                 ->setParameter("filter_sender_1", "%".$filter_sender."%")
+            ;
+        }
+
+        if($filter_sender_email != "" && $filter_sender_email != "null" && $filter_sender_email != null)
+        {
+            $qb->andWhere("sender.user_email LIKE :filter_sender_email")
+                ->setParameter("filter_sender_email", "%".$filter_sender_email."%")
+            ;
+        }
+
+        if($filter_sendTo != "" && $filter_sendTo != "null" && $filter_sendTo != null)
+        {
+            $qb->andWhere("(to.user_name LIKE :filter_sendTo or sender.user_last_name LIKE :filter_sendTo_1)")
+                ->setParameter("filter_sendTo", "%".$filter_sendTo."%")
+                ->setParameter("filter_sendTo_1", "%".$filter_sendTo."%")
+            ;
+        }
+
+        if($filter_sendTo_email != "" && $filter_sendTo_email != "null" && $filter_sendTo_email != null)
+        {
+            $qb->andWhere("to.user_email LIKE :filter_sendTo_email")
+                ->setParameter("filter_sendTo_email", "%".$filter_sendTo_email."%")
+            ;
+        }
+
+        if($filter_date_created_from != "" && $filter_date_created_from != "null" && $filter_date_created_from != null)
+        {
+            $qb->andWhere("message.message_date >= :filter_date_created_from")
+                ->setParameter("filter_date_created_from", $filter_date_created_from)
+            ;
+        }
+
+        if($filter_date_created_to != "" && $filter_date_created_to != "null" && $filter_date_created_to != null)
+        {
+            $qb->andWhere("message.message_date <= :filter_date_created_to")
+                ->setParameter("filter_date_created_to", $filter_date_created_to)
             ;
         }
 
