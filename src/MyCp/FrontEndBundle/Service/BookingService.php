@@ -1341,7 +1341,11 @@ class BookingService extends Controller
                 $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
                 $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
 
-                $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                if($give_tourist)
+                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                else
+                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+
                 $this->em->persist($pending_tourist);
 
                 //Se penaliza la casa en el ranking
@@ -1398,7 +1402,11 @@ class BookingService extends Controller
                     $date = $service_time->add("+1 days",$date_pay->format('Y/m/d'), "Y/m/d");
                     $pending_tourist->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($date, '/', 1));
 
-                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                    if($give_tourist)
+                        $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                    else
+                        $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+
                     $this->em->persist($pending_tourist);
 
                     //Array $ownershipReservation para mandar el correo
@@ -1484,7 +1492,14 @@ class BookingService extends Controller
                                 $pending_own->setCancelId($obj);
                                 $pending_own->setPayAmount($item['price']);
                                 $pending_own->setUserCasa($ownership);
-                                $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+//                                $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+
+                                if($give_tourist)
+                                    $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                                else
+                                    $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+
+
                                 $pending_own->setUser($this->getUser());
                                 $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
                                 $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");

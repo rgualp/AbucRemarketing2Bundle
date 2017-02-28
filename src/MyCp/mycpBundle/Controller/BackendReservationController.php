@@ -468,8 +468,8 @@ class BackendReservationController extends Controller {
      * @return Response
      */
     public function cancel_bookingAction($id_booking) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
