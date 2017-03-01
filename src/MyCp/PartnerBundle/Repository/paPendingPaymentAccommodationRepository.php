@@ -19,7 +19,7 @@ class paPendingPaymentAccommodationRepository extends EntityRepository {
             ->select("op")
             ->from("PartnerBundle:paPendingPaymentAccommodation", "op")
             ->join("op.reservation", "reservation")
-            ->join("reservation.gen_res_own_id", "acc")
+            ->join("op.accommodation", "acc")
             ->join("acc.own_destination", "destination")
             ->join("op.booking", "booking")
             ->join("op.agency", "agency")

@@ -512,6 +512,7 @@ class BookingService extends Controller
 
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         $toPayAtService = 0;
+        $count = 0;
 
         if(count($ownershipReservations)){
             $generalReservation = $ownershipReservations[0]->getOwnResGenResId();
@@ -528,9 +529,10 @@ class BookingService extends Controller
 
                 if($booking->getCompletePayment()) {
                     $accommodation = $own->getOwnResGenResId()->getGenResOwnId();
-                    $toPayAtService += $own->getOwnResTotalInSite() * $accommodation->getOwnCommissionPercent() / 100;
+                    $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
+                    $count++;
 
-                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId) {
+                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId || $count == count($ownershipReservations)) {
                         $payDate = $own->getOwnResGenResId()->getGenResToDate();
                         $payDate->add(new \DateInterval('P3D'));
                         /*$new_date = strtotime('+3 day', strtotime($toDate));
@@ -541,6 +543,7 @@ class BookingService extends Controller
                         $pendingPayment = new paPendingPaymentAccommodation();
                         $pendingPayment->setAmount($toPayAtService);
                         $pendingPayment->setAgency($travelAgency);
+                        $pendingPayment->setAccommodation($accommodation);
                         $pendingPayment->setBooking($booking);
                         $pendingPayment->setCreatedDate(new \DateTime());
                         $pendingPayment->setReservation($own->getOwnResGenResId());
