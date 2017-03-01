@@ -10,7 +10,6 @@ namespace MyCp\mycpBundle\Command;
 
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -70,6 +69,10 @@ class SummaryCommand extends ContainerAwareCommand
         $yesterday= date("Y-m-d", strtotime('-1 day'));
         $day=date("Y-m-d");
 
+
+        //$yesterday= "2017-02-01";
+        //$day="2017-02-02";
+
         $factu=$em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday,$day);
         $factura=$em->getRepository("mycpBundle:generalReservation")->facturacionNeta($yesterday,$day);
 
@@ -116,7 +119,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'diferencia'=>$meta-$totalFactu,
                 'meta'=>$meta
             ));
-        dump($body);die;
+        //dump($body);die;
         try {
             $subject = "Sumario MyCasaParticular";
 

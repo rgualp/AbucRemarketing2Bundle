@@ -8,7 +8,55 @@
 
 namespace MyCp\mycpBundle\Helpers;
 
+use Tinify\AccountException;
+use Tinify\ClientException;
+use Tinify\ConnectionException;
+use Tinify\ServerException;
+
 class Images {
+
+    public static function saveWithTinify($path, $directory, $fileName) {
+        /*$strm = fopen($file->getRealPath(),'rb');
+                            $ss = stream_get_contents($strm);*/
+        $fileName = 'optimized-'.$fileName;
+        $toPath = $directory.'/'.$fileName;
+
+        try {
+            $source = \Tinify\fromFile($path);
+        } catch(AccountException $e) {
+            //die('Verify your API key and account limit.');
+              //die('Verificar su API key y el límite de la cuenta.');
+            return false;
+        } catch(ClientException $e) {
+            //die('Check your source image and request options.');
+            //die('Compruebe su imagen de origen y las opciones de solicitud.');
+            return false;
+        } catch(ServerException $e) {
+            //die('Temporary issue with the Tinify API.');
+            //die('Problema temporal con la API Tinify');
+            return false;
+        } catch(ConnectionException $e) {
+            //die('A network connection error occurred.');
+            //die('Se ha producido un error de conexión a la red.');
+            return false;
+        } catch(Exception $e) {
+            //die('Something else went wrong, unrelated to the Tinify API.');
+            //die('Otra cosa salió mal, no relacionado con la API Tinify.');
+            return false;
+        }
+
+        $resized = $source->resize(array(
+            "method" => "fit",
+            "width" => 1920,
+            "height" => 760
+        ));
+        $resized->toFile($toPath);
+        return $fileName;
+
+        //die($toPath);
+
+        /*file_put_contents("xxxx.png", $ss . PHP_EOL, FILE_APPEND);*/
+    }
 
     public static function createThumbnail($origin_file_full_path, $thumb_file_full_path, $height) {
         if(!file_exists(realpath($thumb_file_full_path))){
@@ -24,10 +72,15 @@ class Images {
         }
     }
 
-    public static function resize($origin_file_full_path, $new_height) {
+    public static function resize($origin_file_full_path, $new_height, $onlyWidth = false) {
         $imagine = new \Imagine\Gd\Imagine();
         $image = $imagine->open($origin_file_full_path);
         $size = $image->getSize();
+
+        if($onlyWidth){
+            return $size->getWidth();
+        }
+
         $new_width = ($size->getWidth() * $new_height) / $size->getHeight();
 
         $image->resize(new \Imagine\Image\Box($new_width, $new_height))
@@ -57,15 +110,14 @@ class Images {
         return true;
     }
 
-    public static function resizeAndWatermark($origin_file_full_path, $fileName, $watermark_full_path, $new_height, $container, $subPath = "") {
+    public static function resizeAndWatermark($origin_file_full_path, $fileName, $watermark_full_path, $new_height, $container, $subPath = "", $onlyWidth = false) {
         $imagine = new \Imagine\Gd\Imagine();
 
         $dirOriginalsPhotos= $container->getParameter('ownership.dir.photos.originals');
         FileIO::createDirectoryIfNotExist($dirOriginalsPhotos.$subPath);
-        $imagine->open($origin_file_full_path."/".$fileName)
-                ->save($dirOriginalsPhotos.$subPath."/".$fileName, array('format' => 'jpeg','quality' => 100));
+        $imagine->open($origin_file_full_path."/".$fileName)->save($dirOriginalsPhotos.$subPath."/".$fileName, array('format' => 'jpeg','quality' => 100));
 
-        $new_width = Images::resize($origin_file_full_path."/".$fileName, $new_height);
+        $new_width = Images::resize($origin_file_full_path."/".$fileName, $new_height, $onlyWidth);
 
         $watermark = $imagine->open($watermark_full_path);
         $wSize = $watermark->getSize();

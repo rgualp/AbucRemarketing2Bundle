@@ -120,8 +120,15 @@ class ownershipPhotoRepository extends EntityRepository {
 
         if($nameOrder == "0")
         {
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file->move($dirUserPhoto, $fileName);
+            $fileName = uniqid('user-') . '-photo.png';
+            $saveWithTinify = Images::saveWithTinify($file->getRealPath(), $dirUserPhoto, $fileName);
+            if($saveWithTinify != false){
+                $fileName = $saveWithTinify;
+            }
+            if($saveWithTinify == false){
+                $file->move($dirUserPhoto, $fileName);
+            }
+
             Images::resize($dirUserPhoto . $fileName, $userPhotoSize);
             $photo->setPhoName($fileName);
             $ownership->setOwnOwnerPhoto($photo);
@@ -133,16 +140,24 @@ class ownershipPhotoRepository extends EntityRepository {
             FileIO::createDirectoryIfNotExist($dir."originals/".$newPathToPhoto);
             FileIO::createDirectoryIfNotExist($dir_thumbs.$newPathToPhoto);
 
-            $fileName = uniqid('ownership-') . '-photo.jpg';
-            $file->move($dir.$newPathToPhoto, $fileName);
+            $fileName = uniqid('ownership-') . '-photo.png';
+            $saveWithTinify = Images::saveWithTinify($file->getRealPath(), $dir.$newPathToPhoto, $fileName);
+            $onlyWidth = false;
+            if($saveWithTinify != false){
+                $fileName = $saveWithTinify;
+                $onlyWidth = true;
+            }
+            if($saveWithTinify == false){
+                $file->move($dir.$newPathToPhoto, $fileName);
+            }
+
             $photo->setPhoName($newPathToPhoto."/".$fileName);
             $photo->setPhoNotes($fileName);
             $photo->setPhoOrder($photoIndex);
 
-
             //Creando thumbnail, redimensionando y colocando marca de agua
             Images::createThumbnail($dir.$newPathToPhoto."/". $fileName, $dir_thumbs .$newPathToPhoto."/" . $fileName, $thumbs_size);
-            Images::resizeAndWatermark($dir.$newPathToPhoto, $fileName, $dir_watermark, $photo_size, $container, $newPathToPhoto);
+            Images::resizeAndWatermark($dir.$newPathToPhoto, $fileName, $dir_watermark, $photo_size, $container, $newPathToPhoto, $onlyWidth);
 
             $ownershipPhoto->setOwnPhoOwn($ownership);
             $ownershipPhoto->setOwnPhoPhoto($photo);

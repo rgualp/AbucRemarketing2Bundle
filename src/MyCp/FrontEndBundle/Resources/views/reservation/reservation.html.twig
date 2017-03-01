@@ -5,7 +5,7 @@
 {{"FILL_FORM_CORRECTLY" | trans}}</div>
 {%endif%}
 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>
-<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{ dates_string_day[0] }}{{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string_day[dates_string|length -1]}}{{dates_string[dates_string|length -1]}}</div>
+<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{ dates_string_day[0] }}{{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string_day[dates_string_day|length -1]}}{{dates_string[dates_string|length -1]}}</div>
 <div class="items-cart">
 {% set flag_1 = 0%}
 {% for date_str in dates_string %}

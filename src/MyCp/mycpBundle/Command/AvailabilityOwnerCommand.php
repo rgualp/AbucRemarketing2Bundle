@@ -104,7 +104,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             $serviceNotification = $container->get('mycp.notification.service');
             foreach ($notifications as $notification) {
                 $output->writeln('<info>**** Respondiendo notificacion:' . $notification->getId() . ' ****</info>');
-                $serviceNotification->notificationresp($notification, $availability, false);
+                $serviceNotification->answerInmediateBooking($notification, $availability, false);//se pone false el tercer parametro porque el correo se manda en este mismo metodo mas abajo con flush
                 $output->writeln('<info>**** Respondida notificacion:' . $notification->getId() . ' ****</info>');
             }
 

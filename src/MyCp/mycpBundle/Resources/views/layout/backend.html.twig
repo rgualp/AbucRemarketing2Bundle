@@ -56,6 +56,12 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_ownerships_hot') }}"><i class="icon-home"></i> Propiedades Calientes</a>
                 </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_failures') }}"><i class="fa fa-warning"></i> Fallos</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_general_penalties') }}"><i class="fa fa-bullhorn"></i> Penalizaciones</a>
+                </div>
             </div>
         </div>
         <div class="accordion-group">
@@ -112,7 +118,7 @@
                     Generales <i class="icon-chevron-right  pull-right"></i>
                 </a>
             </div>
-            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController'%}in{%endif%}">
+            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController' or temp == 'BackendMessageController'%}in{%endif%}">
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_users') }}"><i class="icon-user"></i> Usuarios</a>
                 </div>
@@ -128,6 +134,10 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_season') }}"><i class="icon-tags"></i> Temporadas</a>
                 </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_conversations') }}"><i class="glyphicons comments"></i> Conversaciones</a>
+                </div>
+
             </div>
         </div>
         <div class="accordion-group">
@@ -136,13 +146,16 @@
                     Estadísticas <i class="icon-chevron-right  pull-right"></i>
                 </a>
             </div>
-            <div id="collapseReports" class="accordion-body collapse {%if temp == 'BackendReportController'%}in{%endif%}">
+            <div id="collapseReports" class="accordion-body collapse {%if temp == 'BackendReportController' or temp == 'BackendRankingController'%}in{%endif%}">
 
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_reports') }}"><i class="icon-folder-open"></i> Reportes</a>
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_reports_ownership_sales_summary') }}"><i class="icon-shopping-cart"></i> {{ "backend.menu.statistics.reports.sales" | trans }}</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_ranking') }}"><i class="glyphicons charts"></i> Ranking</a>
                 </div>
             </div>
         </div>

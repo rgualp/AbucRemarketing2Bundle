@@ -358,6 +358,9 @@ class ReservationController extends Controller {
             array_push($array_dates_string_day, \date('d', $date));
         }
 
+        //dump($array_dates_temp); die;
+
+
         $season_types = array();
         $season_types_temp = array();
 

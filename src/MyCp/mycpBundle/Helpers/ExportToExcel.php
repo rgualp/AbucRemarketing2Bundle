@@ -1804,6 +1804,8 @@ ORDER BY own.own_mcp_code ASC
         }
     }
 
+
+
     /**
      * @param $items
      * @param $startingDate
@@ -3445,6 +3447,226 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->getStyle("A5:R".(count($data)+5))
             ->getAlignment()
             ->setWrapText(true);
+
+        return $excel;
+    }
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportRanking($items, $startingDate, $fileName = "ranking") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de ranking", "Listado de ranking", "ranking");
+
+            $data = $this->dataForRanking($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForRanking($excel, "Ranking", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForRanking($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+
+            //Lugar general
+            $data[] = $item->getPlace();
+            //Lugar destino
+            $data[] = $item->getDestinationPlace();
+            //Alojamiento
+            $accommodation = $item->getAccommodation();
+            $data[] = $accommodation->getOwnMcpCode();
+            $data[] = $accommodation->getOwnName();
+
+            //Destino
+            $destination = $accommodation->getOwnDestination();
+            $data[] = ($destination != null) ? $destination->getDesName() : " - ";
+
+            //Fecha registro casa
+            $data[] = $item->getStartDate()->format("d/m/Y");
+
+            //Modalidad
+            $data[] = ($item->getRI() == 5) ? "Reserva Inmediate" : (($item->getRR() == 5) ? "Reserva Rápida" : "Solicitud de disponibilidad");
+
+            //Puntos
+            $data[] = $item->getRanking();
+
+            //Categoria
+            $category = $item->getCategory();
+            $data[] = ($category != null) ? $category->getTranslations()[0]->getNomLangDescription(): " - ";
+
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForRanking($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de ranking");
+        $sheet->mergeCells("A1:I1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:I2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:I3");
+
+        $sheet->setCellValue('a5', 'Lugar General');
+        $sheet->setCellValue('b5', 'Lugar Destino');
+        $sheet->setCellValue('c5', 'Codigo Alojamiento');
+        $sheet->setCellValue('d5', 'Nombre Alojamiento');
+        $sheet->setCellValue('e5', 'Destino');
+        $sheet->setCellValue('f5', 'Fecha ranking');
+        $sheet->setCellValue('g5', 'Modalidad');
+        $sheet->setCellValue('h5', 'Puntos');
+        $sheet->setCellValue('i5', 'Categoría');
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:I1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:I5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "i", $sheet);
+
+        $sheet->setAutoFilter("A5:I".(count($data)+5));
+
+        return $excel;
+    }
+
+    /**
+     * @param $items
+     * @param $startingDate
+     * @param string $fileName
+     * @return Response
+     */
+    public function exportConversations($items, $startingDate, $fileName = "conversaciones") {
+        if(count($items) > 0) {
+            $excel = $this->configExcel("Listado de conversaciones", "Listado de conversaciones", "conversaciones");
+
+            $data = $this->dataForConversations($excel, $items);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForConversations($excel, "Conversaciones", $data, $startingDate);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    /**
+     * @param $excel
+     * @param $items
+     * @return array
+     */
+    private function dataForConversations($excel,$items) {
+        $results = array();
+        foreach ($items as $item) {
+            $data = array();
+
+            //Fecha y hora
+            $data[] = $item->getMessageDate()->format("d/m/Y H:i:s");
+            //Nombre del remitente
+            $data[] = $item->getMessageSender()->getUserCompleteName();
+            //Correo del remitente
+            $data[] = $item->getMessageSender()->getUserEmail();
+
+            //Destinatario
+            $data[] = $item->getMessageSendTo()->getUserCompleteName();
+            $data[] = $item->getMessageSendTo()->getUserEmail();
+
+            //Asunto
+            $data[] = $item->getMessageSubject();
+
+            //Mensaje
+            $data[] = $item->getMessageBody();
+
+            array_push($results, $data);
+        }
+        return $results;
+    }
+
+    /**
+     * @param $excel
+     * @param $sheetName
+     * @param $data
+     * @param $startingDate
+     * @return mixed
+     */
+    private function createSheetForConversations($excel, $sheetName, $data, $startingDate) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de conversaciones");
+        $sheet->mergeCells("A1:G1");
+        $now = new \DateTime();
+        $sheet->mergeCells("A2:G2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:G3");
+
+        $sheet->setCellValue('a5', 'Fecha y hora');
+        $sheet->setCellValue('b5', 'Nombre Remitente');
+        $sheet->setCellValue('c5', 'Correo Remitente');
+        $sheet->setCellValue('d5', 'Nombre Destinatario');
+        $sheet->setCellValue('e5', 'Correo Destinatario');
+        $sheet->setCellValue('f5', 'Asunto');
+        $sheet->setCellValue('g5', 'Mensaje');
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:G1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:G5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "g", $sheet);
+
+        $sheet->setAutoFilter("A5:G".(count($data)+5));
 
         return $excel;
     }

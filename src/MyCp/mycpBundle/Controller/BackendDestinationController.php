@@ -6,6 +6,7 @@ use MyCp\mycpBundle\Entity\destinationCategory;
 use MyCp\mycpBundle\Entity\destinationCategoryLang;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\mycpBundle\Helpers\Images;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -581,12 +582,24 @@ class BackendDestinationController extends Controller
                     {
                         $destinationPhoto= new destinationPhoto();
                         $photo= new photo();
-                        $fileName = uniqid('destination-').'-photo.jpg';
-                        $file->move($dir.$subPath, $fileName);
+
+                        /**********/
+                        $fileName = uniqid('destination-').'-photo.png';
+
+                        $saveWithTinify = Images::saveWithTinify($file->getRealPath(), $dir.$subPath, $fileName);
+                        if($saveWithTinify != false){
+                            $fileName = $saveWithTinify;
+                        }
+
+                        if($saveWithTinify == false){
+                            $file->move($dir.$subPath, $fileName);
+                        }
+
                         //Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir.$subPath.$fileName, $dir_thumbs.$subPath.$fileName, $thumbs_size);
                         //\MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir, $fileName, $dir_watermark, 480, $this->container);
-                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$subPath.$fileName, $photo_size);
+                        //\MyCp\mycpBundle\Helpers\Images::resize($dir.$subPath.$fileName, $photo_size);
+                        /********/
 
                         $photo->setPhoName($subPath.$fileName);
                         $photo->setPhoNotes($fileName);

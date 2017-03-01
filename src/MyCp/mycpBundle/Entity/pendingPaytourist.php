@@ -30,7 +30,7 @@ class pendingPaytourist
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="cancelPayment")
+     * @ORM\ManyToOne(targetEntity="cancelPayment",cascade={"persist"})
      * @ORM\JoinColumn(name="cancel_id", referencedColumnName="cancel_id", nullable=false)
      */
     private $cancel_id;
@@ -39,7 +39,7 @@ class pendingPaytourist
     /**
      * @var string
      *
-     * @ORM\Column(name="reason", type="string", length=500)
+     * @ORM\Column(name="reason", type="string", length=500, nullable=true)
      */
     private $reason;
 

@@ -27,4 +27,17 @@ class penaltyRepository extends EntityRepository {
         return $query;
     }
 
+    public function findAll(){
+        $em = $this->getEntityManager();
+
+        $query = $em->createQueryBuilder()
+            ->from("mycpBundle:penalty", "p")
+            ->select("p")
+            ->join("p.accommodation", "accommodation")
+            ->orderBy("p.creationDate", "DESC")
+            ->getQuery();
+        ;
+        return $query;
+    }
+
 }

@@ -468,8 +468,8 @@ class BackendReservationController extends Controller {
      * @return Response
      */
     public function cancel_bookingAction($id_booking) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
@@ -842,7 +842,6 @@ class BackendReservationController extends Controller {
         if($request->getMethod() == 'POST') {
             try {
                 $errors = $reservationService->updateReservationFromRequest($post, $reservation, $ownership_reservations);
-
                 $calendarService = $this->get("mycp.service.calendar");
                 $calendarService->createICalForAccommodation($reservation->getGenResOwnId()->getOwnId());
                 if(count($errors) == 0) {
@@ -857,6 +856,7 @@ class BackendReservationController extends Controller {
         }
 
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
         $array_nights = array();
         $rooms = array();
         foreach ($ownership_reservations as $res) {
