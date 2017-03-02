@@ -330,6 +330,10 @@ partner_payment_postfinance_status:
     pattern:  /postfinance/status
     defaults: { _controller: PartnerBundle:Payment:postfinanceStatus }
 
+partner_dashboard_cancel_payed_reservation:
+    locales:  { en: "/dashboard/reservations/cancel-reservation/{idReservation}", es: "/dashboard/reservations/cancel-reservation/{idReservation}", de: "/dashboard/reservations/cancel-reservation/{idReservation}", fr: "/dashboard/reservations/cancel-reservation/{idReservation}", it: "/dashboard/reservations/cancel-reservation/{idReservation}" }
+    defaults: { _controller: PartnerBundle:Dashboard:cancelPayedReservation}
+
 partner_dashboard_booking_cancel_reservation:
     locales:  { en: "/dashboard/booking/cancel-reservation/{idReservation}", es: "/dashboard/booking/cancel-reservation/{idReservation}", de: "/dashboard/booking/cancel-reservation/{idReservation}", fr: "/dashboard/booking/cancel-reservation/{idReservation}", it: "/dashboard/booking/cancel-reservation/{idReservation}" }
     defaults: { _controller: PartnerBundle:Dashboard:cancelReservation}
@@ -346,3 +350,12 @@ partner_frontend_get_reservation_calendar_ownership_callback:
 partner_add_to_cart:
     locales:  { en: "/user/cart/add/{id_ownership}", es: "/usuario/cesta/agregar/{id_ownership}", de: "/user/cart/add/{id_ownership}" }
     defaults: { _controller: PartnerBundle:Dashboard:addToCart }
+
+partner_frontend_cancel_reservations_callback:
+    pattern:  /cancel-reservations/
+    locales:  { en: "/cancel-reservations/", es: "/cancel-reservations/", de: "/cancel-reservations/" }
+    defaults: { _controller: PartnerBundle:Dashboard:reservationsToCancel }
+
+partner_dashboard_booking_detail_cancel:
+    locales:  { en: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", es: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", de: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", fr: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", it: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingDetailCancel,id_reservation:'', date:'', amount:'', currency:''}

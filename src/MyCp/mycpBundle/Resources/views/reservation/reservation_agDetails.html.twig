@@ -51,6 +51,9 @@
     {% if reservation.genResOwnId.ownInmediateBooking %}
     <span style="text-align: center" class="badge badge-important"><i class="glyphicons electricity white"></i> Reserva Rápida</span>
     {% endif %}
+    {% if reservation.completePayment != null %}
+        <span style="text-align: center; background-color: #5bc0de" class="badge" title="Pago completo"><i class="glyphicons history white"></i> Pago Completo</span>
+    {% endif %}
 </h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
@@ -224,7 +227,7 @@
     </div>
     <ul class="nav nav-tabs" id="tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Resumen</a>
+            <a href="#reservas" data-toggle="tab">Resumen {% if reservation.completePayment %}- Pago Completo{% endif %}</a>
         </li>
         {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')  %}
         <li>
@@ -243,6 +246,69 @@
     </ul>
 <div class="tab-content" id="myTabContent" style="margin-bottom: 3%">
     <div id="reservas" class="tab-pane fade active in">
+    {% if reservation.completePayment %}
+    <table class="table" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>Habitación</th>
+            <th>Adultos</th>
+            <th>Niños</th>
+            <th>Noches</th>
+            <th>Precio alojamiento</th>
+            <th>Pago al alojamiento</th>
+            <th>Tarifa transferencia</th>
+            <th>Tarifa agencia</th>
+            <th>Tarifa fija</th>
+            <th style="text-align: right">Total a pagar</th>
+        </tr>
+        </thead>
+        {% set touristTax = total_price * touristTax(total_rooms, real_total_nights , ((total_nights<= 1) ? total_price : total_price / total_nights), currentServiceFee.id) %}
+        {% set prepayment = (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?currentServiceFee.fixedFee: 0) + ((total_price)?touristTax: 0)%}
+        {% set transferTax = 0.1 * (total_price + currentServiceFee.fixedFee + touristTax) %}
+        {% set completePayment = total_price + touristTax + transferTax + currentServiceFee.fixedFee  %}
+        <tr>
+            <td>{{ total_rooms }}</td>
+            <td>{{ total_adults }}</td>
+            <td>{{ total_kids }}</td>
+            <td>{{ total_nights }}</td>
+            <td>{{ total_price}} CUC</td>
+            <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
+            <td>{{ transferTax }} CUC</td>
+            <td>{%if total_price%}{{touristTax}} CUC{%else%} - {%endif%}</td>
+            <td>{%if total_price%}{{currentServiceFee.fixedFee}} CUC{%else%} - {%endif%}</td>
+            {% if user.getUserCurrency.getCurrCucChange is defined %}
+            <td style="text-align: right">
+                <b>{{ completePayment }} CUC</b><br/>
+                <b>{{completePayment * user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b></td>
+            {% else %}
+            <td style="text-align: right"><b>{{ completePayment }} CUC </b></td>
+            {% endif %}
+        </tr>
+        <tr>
+            {% if reservations[0].getOwnResGenResId.getChildrenAges != null %}
+            <td>
+                <b>Edad de los niños</b>
+            </td>
+            <td colspan="7">
+                {% for roomNumber, ages in reservations[0].getOwnResGenResId.getChildrenAges %}
+                    {% if loop.index0 > 0 %} <br/> {% endif %}  <b>Habitación # {{ roomNumber }}</b>: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}
+                {% endfor %}
+            </td>
+            <td style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                {% if user.getUserCurrency.getCurrCucChange is defined %}
+                    <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
+                {%endif%}
+            </td>
+                {% else %}
+                    <td colspan="10" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                        {% if user.getUserCurrency.getCurrCucChange is defined %}
+                            <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
+                        {%endif%}
+                    </td>
+                {% endif %}
+        </tr>
+    </table>
+    {% else %}
     <table class="table" style="font-size: 12px;">
         <thead>
         <tr>
@@ -271,35 +337,36 @@
             <td>{%if total_price%}{{touristTax}} CUC{%else%} - {%endif%}</td>
             <td>{%if total_price%}{{currentServiceFee.fixedFee}} CUC{%else%} - {%endif%}</td>
             {% if user.getUserCurrency.getCurrCucChange is defined %}
-            <td style="text-align: right"><b>{{ prepayment }} CUC ({{prepayment * user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }})</b></td>
+                <td style="text-align: right"><b>{{ prepayment }} CUC ({{prepayment * user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }})</b></td>
             {% else %}
-            <td style="text-align: right"><b>{{ prepayment }} CUC </b></td>
+                <td style="text-align: right"><b>{{ prepayment }} CUC </b></td>
             {% endif %}
         </tr>
         <tr>
             {% if reservations[0].getOwnResGenResId.getChildrenAges != null %}
-            <td>
-                <b>Edad de los niños</b>
-            </td>
-            <td colspan="7">
-                {% for roomNumber, ages in reservations[0].getOwnResGenResId.getChildrenAges %}
-                    {% if loop.index0 > 0 %} <br/> {% endif %}  <b>Habitación # {{ roomNumber }}</b>: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}
-                {% endfor %}
-            </td>
-            <td style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
-                {% if user.getUserCurrency.getCurrCucChange is defined %}
-                    <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
-                {%endif%}
-            </td>
-                {% else %}
-                    <td colspan="10" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
-                        {% if user.getUserCurrency.getCurrCucChange is defined %}
-                            <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
-                        {%endif%}
-                    </td>
-                {% endif %}
+                <td>
+                    <b>Edad de los niños</b>
+                </td>
+                <td colspan="7">
+                    {% for roomNumber, ages in reservations[0].getOwnResGenResId.getChildrenAges %}
+                        {% if loop.index0 > 0 %} <br/> {% endif %}  <b>Habitación # {{ roomNumber }}</b>: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}
+                    {% endfor %}
+                </td>
+                <td style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                    {% if user.getUserCurrency.getCurrCucChange is defined %}
+                        <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
+                    {%endif%}
+                </td>
+            {% else %}
+                <td colspan="10" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                    {% if user.getUserCurrency.getCurrCucChange is defined %}
+                        <b>1 CUC = {{user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
+                    {%endif%}
+                </td>
+            {% endif %}
         </tr>
     </table>
+    {% endif %}
     </div>
     {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')  %}
     <div id="booking" class="tab-pane fade" data-url="{{ path("mycp_reservation_bookings_callback") }}" data-has-content = "false">

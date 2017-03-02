@@ -181,16 +181,23 @@ class CartController extends Controller
         $totalPercentAccommodationPrepayment = 0;
         $totalAgencyCommission = 0;
         $totalOnlinePayment = 0;
+        $totalTouristAgencyTax = 0;
 
         $totalTransferFee = 0;
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $fixedFee = $currentServiceFee->getFixedFee();
 
+        $itemsTotal = 0;
+
         foreach($list as $item)
         {
+            $itemsTotal++;
+
             $touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
             $commission = $item["totalInSite"]*$item["commission"]/100;
+
+            $totalTouristAgencyTax += $touristFee;
 
             $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
 
@@ -213,14 +220,16 @@ class CartController extends Controller
                     "taxFees" => $touristFee + $fixedFee
                 );
             }
-            else{
-                $transferFee = 0.1 * ($item["totalInSite"] + $touristFee);
-                $agencyCommission = ($item["totalInSite"] + $touristFee) * $currentTravelAgency->getCommission() / 100;
-                $totalPayment = ($item["totalInSite"] + $touristFee) * 1.1;
+            else{ // agregar la tarfia fija a los calculos
+                $subTotal = ($itemsTotal == count($list)) ? ($item["totalInSite"] + $touristFee + $fixedFee) : ($item["totalInSite"] + $touristFee);
+                $addFixedFee = ($itemsTotal == count($list)) ? $fixedFee : 0;
+                $transferFee =  0.1 *  $subTotal;
+                $agencyCommission = $subTotal * $currentTravelAgency->getCommission() / 100;
+                $totalPayment = $item["totalInSite"] + $touristFee + $transferFee + $addFixedFee;
 
-                $totalOnlinePayment += $totalPayment - $agencyCommission;
+                $totalOnlinePayment += $totalPayment;
 
-                $totalPrepayment += $totalPayment;
+                $totalPrepayment += $totalPayment + $agencyCommission;
 
                 $totalAccommodationPayment += $item["totalInSite"];
                 $totalServicesTax += $touristFee + $transferFee;
@@ -229,16 +238,16 @@ class CartController extends Controller
                 $totalAgencyCommission += $agencyCommission;
 
                 $payments[$item["gen_res_id"]] = array(
-                    "totalPayment" => $totalPayment,
+                    "totalPayment" => $totalPayment +  $agencyCommission,
                     "transferFee" => $transferFee,
                     "agencyCommission" => $agencyCommission,
-                    "onlinePayment" => $totalPayment -  $agencyCommission,
+                    "onlinePayment" => $totalPayment,
                     "agencyFee" => $touristFee,
                     "reservations" => $reservations,
                     "lodgingPrice" => $item["totalInSite"],
                     "agencyCommissionPercent" => $currentTravelAgency->getCommission(),
                     "fixedFee" => $fixedFee,
-                    "taxFees" => $touristFee + $transferFee
+                    "taxFees" => $touristFee + $transferFee,
                 );
             }
         }
@@ -247,8 +256,10 @@ class CartController extends Controller
             $totalPrepayment += $currentServiceFee->getFixedFee();
         else
         {
-            $totalPrepayment += 1.1*$currentServiceFee->getFixedFee();
-            $totalOnlinePayment += 1.1*$currentServiceFee->getFixedFee();
+            /*$totalPrepayment += 1.1*$currentServiceFee->getFixedFee();
+            $totalTransferFee += 0.1*$currentServiceFee->getFixedFee();
+            $totalAgencyCommission += $currentServiceFee->getFixedFee() * $currentTravelAgency->getCommission() / 100;*/
+            $totalOnlinePayment = $totalPrepayment - $totalAgencyCommission;
         }
 
         $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
@@ -277,7 +288,8 @@ class CartController extends Controller
                 'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
                 'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
-                'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol()
+                'totalPayAtAccommodationPaymentTxt' => number_format(($totalAccommodationPayment - $totalPercentAccommodationPrepayment) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                "totalTouristAgencyTax" => $totalTouristAgencyTax
 
             ]);
         }
@@ -300,7 +312,8 @@ class CartController extends Controller
                 'totalTransferFeePayment' => $totalTransferFee,
                 'totalTransferFeePaymentTxt' => number_format(($totalTransferFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalAgencyCommission' => $totalAgencyCommission,
-                'totalAgencyCommissionTxt' => number_format($totalAgencyCommission * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol()
+                'totalAgencyCommissionTxt' => number_format($totalAgencyCommission * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                "totalTouristAgencyTax" => $totalTouristAgencyTax
 
             ]);
         }
@@ -323,6 +336,7 @@ class CartController extends Controller
         $extraData = explode(",", $extraData);
         $extraData = array_unique($extraData);
         $cartPrepayment = $request->get("totalPrepaymentGeneralInput");
+        $totalTouristAgencyTax = $request->get("totalTouristAgencyTax");
         //$completePayment = $request->get("completePayment");
         $paymentMethod = $request->get('payment_method');
 
@@ -375,10 +389,10 @@ class CartController extends Controller
         $booking->setBookingUserId($user->getUserId());
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
         $booking->setCompletePayment($completePayment);
+        $booking->setTaxForService($totalTouristAgencyTax);
         $em->persist($booking);
 
         $total_pay_at_service = 0;
-
 
         foreach ($roomsToPay as $own_res) {
             $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
@@ -386,7 +400,6 @@ class CartController extends Controller
             $em->persist($own);
             $total_pay_at_service += $own->getOwnResTotalInSite() * (1 - $generalReservation->getGenResOwnId()->getOwnCommissionPercent()/100);
         }
-
 
         $booking->setPayAtService($total_pay_at_service);
         $em->persist($booking);

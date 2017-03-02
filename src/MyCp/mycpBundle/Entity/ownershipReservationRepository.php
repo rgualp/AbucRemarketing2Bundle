@@ -199,6 +199,32 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getArrayResult();
     }
 
+    function getRoomsByAccomodationForPartner($id_booking, $own_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT
+            ore.own_res_id,
+            ore.own_res_room_type,
+            ore.own_res_reservation_from_date,
+            ore.own_res_reservation_to_date,
+            ore.own_res_count_adults,
+            ore.own_res_count_childrens,
+            (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
+            ore.own_res_total_in_site as priceInSite,
+            ore.own_res_night_price as priceNight,
+            c.fullname
+            FROM mycpBundle:ownershipReservation ore
+            JOIN ore.own_res_gen_res_id gre
+            JOIN gre.travelAgencyDetailReservations agencyReservation
+            JOIN agencyReservation.reservation detailReservation
+            JOIN detailReservation.client c
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and ore.own_res_status = :reservedStatus");
+        return $query
+                ->setParameter('id_booking', $id_booking)
+                ->setParameter('id_own', $own_id)
+                ->setParameter("reservedStatus", ownershipReservation::STATUS_RESERVED)
+                ->getArrayResult();
+    }
+
     function getById($id_reservation) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre,us, ow,owm,owp,uc FROM mycpBundle:ownershipReservation ore
@@ -668,6 +694,64 @@ limit 1
         return $query->setParameter('id_booking', $id_booking)->getResult();
     }
 
+    function cancelReservationByAgency($ownershipReservation, $timerService, $tripleChargeValue){
+        $em = $this->getEntityManager();
+        $generalReservation = $ownershipReservation->getOwnResGenResId();
+
+        $user = $generalReservation->getGenResUserId();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $commission = $travelAgency->getCommission() / 100;
+
+        $today = \date('Y-m-d');
+        $totalDiffDays = $timerService->diffInDays($today, $generalReservation->getGenResFromDate()->format("Y-m-d"));
+        $serviceFee = $generalReservation->getServiceFee();
+        $refundTotal = 0;
+        $totalToSubstractFromGeneralTotal = 0;
+        $nights = $timerService->diffInDays($ownershipReservation->getOwnResReservationToDate()->format("Y-m-d"), $ownershipReservation->getOwnResReservationFromDate()->format("Y-m-d"));
+        $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
+
+        $agencyTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
+        $agencyTax = $agencyTax * $ownershipReservation->getOwnResTotalInSite();
+
+        $accommodationCommission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent() / 100;
+        $firstNightPayment = 0;
+
+        if($totalDiffDays > 7){
+            $firstNightPayment = $roomPrice * (1 - $accommodationCommission);
+
+            if($ownershipReservation->getTripleRoomCharged())
+                $firstNightPayment -= $tripleChargeValue;
+
+            $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $commission  * ($agencyTax + $serviceFee->getFixedFee());
+        }
+        else{
+
+            if($nights > 1)
+                $refundTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $commission) - $roomPrice - $commission  * ($agencyTax + $serviceFee->getFixedFee());
+        }
+
+        $totalToSubstractFromGeneralTotal = $ownershipReservation->getOwnResTotalInSite() * (1 - $accommodationCommission);
+
+        return array(
+            "refundTotal" => $refundTotal,
+            "firstNightPayment" => $firstNightPayment,
+            "totalToSubtract" => $totalToSubstractFromGeneralTotal
+        );
+}
+
+    function getByIds($idsArray){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->where("owres.own_res_id IN (:ids)")
+            ->setParameter("ids", $idsArray)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * @param $ownershipReservation
      * @param $timerService
@@ -705,6 +789,34 @@ limit 1
             $refundTotal = ($ownershipReservation->getOwnResTotalInSite() * $commission) + $touristTax;*/
 
         return $refundTotal;
+    }
+
+    function findByBookingAndReservationsIds($bookingId, $idsArray){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->where("owres.own_res_id IN (:ids)")
+            ->andWhere("owres.own_res_reservation_booking = :booking")
+            ->setParameter("ids", $idsArray)
+            ->setParameter("booking", $bookingId)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->getResult();
+    }
+
+    function getStatsForCancelByBooking($bookingId){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select("COUNT(IF(owres.own_res_status = :canceledStatus, 1, 0)) as canceledTotal")
+            ->addSelect("COUNT(owres.own_res_id) as reservationsTotal")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->where("owres.own_res_reservation_booking = :booking")
+            ->setParameter("booking", $bookingId)
+            ->setParameter("canceledStatus", ownershipReservation::STATUS_CANCELLED)
+            ->orderBy("owres.own_res_gen_res_id");
+
+        return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
     }
 
 }

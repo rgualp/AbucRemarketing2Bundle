@@ -174,8 +174,12 @@
                         <td>
                             {% if reservation.gen_res_status==pending %}
                                 <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{ reservation.gen_res_id }}"/>
-                            {% elseif reservation.isOffer > 0 %}
+                            {% endif %}
+                            {% if reservation.isOffer > 0 %}
                                 <i class="icon-asterisk" title="Oferta enviada al cliente"/>
+                            {% endif %}
+                            {% if reservation.complete_payment > 0 %}
+                            <i class="glyphicons history" title="Pago Completo" style="color: green"></i>
                             {% endif %}
                         </td>
                         <td>{{ reservation.gen_res_date |date("d/m/Y") }}</td>
@@ -183,7 +187,7 @@
                             <a title="Detalles" href="{{ path('mycp_details_agency', {'id':reservation.ag_id}) }}">{{ reservation.user_last_name }}</a>
                         </td>
                         <td>{{ reservation.client }}</td>
-                        <td>{{ reservation.gen_res_id | getCASId }}</td>
+                        <td><a href="{{ path('mycp_details_reservation_ag',{'id_reservation':reservation.gen_res_id}) }}">{{ reservation.gen_res_id | getCASId }}</a></td>
                         <td>
                             {{ reservation.own_mcp_code }}
                             {% if reservation.own_inmediate_booking %}

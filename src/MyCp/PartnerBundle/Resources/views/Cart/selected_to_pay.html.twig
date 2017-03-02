@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="col-md-4 ">
-                        {% include 'PartnerBundle:Cart:accommodation_payment_info.html.twig' %}
+                        {% include 'PartnerBundle:Cart:accommodation_payment_info.html.twig' with {"isLastItem": (loop.index == items | length)} %}
                     </div>
                 </div>
             </div>

@@ -441,14 +441,14 @@ class ownership {
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_minimum_price", type="integer", nullable=true)
+     * @ORM\Column(name="own_minimum_price", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $own_minimum_price;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_maximum_price", type="integer", nullable=true)
+     * @ORM\Column(name="own_maximum_price", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $own_maximum_price;
 
