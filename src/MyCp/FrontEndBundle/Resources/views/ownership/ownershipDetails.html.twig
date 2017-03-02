@@ -139,7 +139,7 @@
                                                     title="{{ "AUTOMATIC_TRANSLATED" | trans }}"
                                                     alt="{{ "AUTOMATIC_TRANSLATED" | trans }}"/></p>
                                     {% endif %}
-                                    <p class="h-size-4" style="margin-top: 0">{{ ownership.ownname }}</p>
+                                    <h3 class="h-size-4" style="margin-top: 0">{{ ownership.ownname }}</h3>
 
                                     <p>{{ description| raw }}</p>
                                 </div>
@@ -746,7 +746,7 @@
                 var img = "{{asset('uploads/ownershipImages/'~photo.photo_name)}}";
                 var description = "{{photo.photo_description}}";
 
-                slider.appendSlide('<img rel="tooltip" title="' + description + '" class="rsImg" src="' + img + '" alt="" />');
+                slider.appendSlide('<img rel="tooltip" title="' + description + '" class="rsImg" src="' + img + '" alt="' + description + '" />');
                 {% endfor %}
             });
 
