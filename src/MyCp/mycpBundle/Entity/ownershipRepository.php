@@ -1148,7 +1148,7 @@ class ownershipRepository extends EntityRepository {
             $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
         //Eliminar las reservas inmediatas
-        $where .= " AND " . "o.own_inmediate_booking_2 = :inmediate_booking_2";
+        //$where .= " AND " . "o.own_inmediate_booking_2 = :inmediate_booking_2";
 
         if($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
@@ -1170,7 +1170,7 @@ class ownershipRepository extends EntityRepository {
             $query->setParameter('user_id', $user_id);
 
         //Eliminar las reservas inmediatas
-        $query->setParameter('inmediate_booking_2', false);
+        //$query->setParameter('inmediate_booking_2', false);
 
 
         if($session_id != null)
