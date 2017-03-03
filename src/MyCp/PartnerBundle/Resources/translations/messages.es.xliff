@@ -2290,6 +2290,14 @@
         <source>payment.online_payment</source>
         <target>Pago Online</target>
       </trans-unit>
+    <trans-unit id="21">
+        <source>cancelPayment.refundAmount</source>
+        <target>Monto a devolver</target>
+      </trans-unit>
+    <trans-unit id="22">
+        <source>cancelPayment.cancelDate</source>
+        <target>Fecha de cancelación</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

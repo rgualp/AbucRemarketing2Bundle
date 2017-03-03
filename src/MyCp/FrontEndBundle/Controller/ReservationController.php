@@ -474,6 +474,7 @@ class ReservationController extends Controller {
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
                 $booking->setPayAtService($total_pay_at_service);
+                $booking->setTaxForService($touristTax);
                 $em->persist($booking);
 
                 foreach ($own_reservations as $own_res) {

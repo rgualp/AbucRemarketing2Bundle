@@ -25,6 +25,10 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
 
+//        $bookingService = $this->get("front_end.services.booking");
+//        return $bookingService->getPrintableBookingConfirmationResponsePartner(17136, $this->getUser());
+//        die;
+
         $categories_own_list = $results["categories"];
         $types_own_list = $results["types"];
         $prices_own_list = $results["prices"];
@@ -171,6 +175,7 @@ class BackendController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
         $reservation = $em->getRepository("PartnerBundle:paReservation")->find($id);
 
         //Pasar el paGeneralReservation a generalReservation
@@ -233,7 +238,7 @@ class BackendController extends Controller
             $rooms[]=$paGeneralReservation->getPaOwnershipReservations();
             $paOwnershipReservations = $paGeneralReservation->getPaOwnershipReservations(); //a eliminar una a una
 
-            $generalReservation = $paGeneralReservation->createReservation();
+            $generalReservation = $paGeneralReservation->createReservation($completePayment);
 
             //Pasar los paOwnershipReservation a ownershipReservation
             foreach($paOwnershipReservations as $paORes){

@@ -842,7 +842,6 @@ class BackendReservationController extends Controller {
         if($request->getMethod() == 'POST') {
             try {
                 $errors = $reservationService->updateReservationFromRequest($post, $reservation, $ownership_reservations);
-
                 $calendarService = $this->get("mycp.service.calendar");
                 $calendarService->createICalForAccommodation($reservation->getGenResOwnId()->getOwnId());
                 if(count($errors) == 0) {
@@ -857,6 +856,7 @@ class BackendReservationController extends Controller {
         }
 
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
         $array_nights = array();
         $rooms = array();
         foreach ($ownership_reservations as $res) {

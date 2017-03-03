@@ -162,13 +162,15 @@ class BackendController extends Controller
                     $detail->setOwnResStatus(ownershipReservation::STATUS_OUTDATED);
                     $em->persist($detail);
                 }
-
-                if($reservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE)
-                {
-                    $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
-                    $em->persist($reservation);
-                }
             }
+
+            if($reservation->getGenResStatus() == generalReservation::STATUS_AVAILABLE)
+            {
+                $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+                $reservation->setGenResStatusDate(new \DateTime());
+                $em->persist($reservation);
+            }
+
 
             $em->flush();
         }

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * paPendingPaymentAccommodation
  *
  * @ORM\Table(name="pa_pending_payment_accommodation")
- * @ORM\Entity(repositoryClass="MyCp\mPartnerBundle\Repository\paPendingPaymentAccommodationRepository")
+ * @ORM\Entity(repositoryClass="MyCp\PartnerBundle\Repository\paPendingPaymentAccommodationRepository")
  */
 class paPendingPaymentAccommodation
 {
@@ -33,6 +33,18 @@ class paPendingPaymentAccommodation
      * @ORM\JoinColumn(name="reservation", referencedColumnName="gen_res_id", nullable=false)
      */
     private $reservation;
+
+    /**
+ * @ORM\ManyToOne(targetEntity="paCancelPayment")
+ * @ORM\JoinColumn(name="cancel_payment", referencedColumnName="id", nullable=true)
+ */
+    private $cancelPayment;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\ownership")
+     * @ORM\JoinColumn(name="accommodation", referencedColumnName="own_id", nullable=true)
+     */
+    private $accommodation;
 
     /**
      * @ORM\ManyToOne(targetEntity="paTravelAgency")
@@ -74,6 +86,19 @@ class paPendingPaymentAccommodation
      * @ORM\JoinColumn(name="type",referencedColumnName="nom_id")
      */
     private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\user")
+     * @ORM\JoinColumn(name="user", referencedColumnName="user_id", nullable=true)
+     */
+    private $user;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="register_date", type="datetime", nullable=true)
+     */
+    private $register_date;
 
     /**
      * @return int
@@ -227,6 +252,76 @@ class paPendingPaymentAccommodation
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getRegisterDate()
+    {
+        return $this->register_date;
+    }
 
+    /**
+     * @param \DateTime $register_date
+     * @return mixed
+     */
+    public function setRegisterDate($register_date)
+    {
+        $this->register_date = $register_date;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return mixed
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAccommodation()
+    {
+        return $this->accommodation;
+    }
+
+    /**
+     * @param mixed $accommodation
+     * @return mixed
+     */
+    public function setAccommodation($accommodation)
+    {
+        $this->accommodation = $accommodation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCancelPayment()
+    {
+        return $this->cancelPayment;
+    }
+
+    /**
+     * @param mixed $cancelPayment
+     * @return mixed
+     */
+    public function setCancelPayment($cancelPayment)
+    {
+        $this->cancelPayment = $cancelPayment;
+        return $this;
+    }
 
 }

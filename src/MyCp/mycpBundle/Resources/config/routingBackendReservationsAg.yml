@@ -33,3 +33,11 @@ mycp_list_reservations_byuser_ag:
 mycp_generate_clients_ag_callback:
     pattern:  /generate_client/
     defaults: { _controller: mycpBundle:BackendReservationAg:generateClientCallback }
+
+mycp_cancel_reservations_booking_ag:
+    pattern:  /booking/cancel/{id_booking}
+    defaults: { _controller: mycpBundle:BackendReservationAg:cancel_booking }
+
+mycp_save_cancelreservations_booking_ag:
+    pattern:  /booking/save/cancel/
+    defaults: { _controller: mycpBundle:BackendReservationAg:save_cancel_booking }

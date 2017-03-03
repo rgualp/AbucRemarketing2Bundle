@@ -1,0 +1,4 @@
+{% for pay in pays %}
+    <td>{{ pay.getAgency.getName }} - {{ pay.getAgency.getEmail }}</td>
+    <td>{{ pay.getAmount }} {{ pay.getCancelPayment.getBooking.getBookingCurrency.getCurrSymbol }} </td>
+{% endfor %}

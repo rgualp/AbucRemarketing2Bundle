@@ -5,9 +5,9 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 use MyCp\mycpBundle\Helpers\Dates;
-
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
+
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
@@ -28,7 +28,7 @@ class generalReservationRepository extends EntityRepository {
         u.user_user_name, u.user_last_name, u.user_email,
         (SELECT COUNT(ofl) from mycpBundle:offerLog ofl where ofl.log_offer_reservation = gre.gen_res_id) as isOffer,
         own.own_inmediate_booking,own.own_inmediate_booking_2,
-        gre.responseTime
+        gre.responseTime, gre.complete_payment
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id u ";
@@ -632,7 +632,7 @@ class generalReservationRepository extends EntityRepository {
         $s = "";
         if($filter_partner) {
             $filter_partner = " JOIN PartnerBundle:paTourOperator up WITH u.user_id = up.tourOperator JOIN up.travelAgency agency";
-            $s = "agency.name aName, agency.email aEmail,";
+            $s = "agency.name aName, agency.email aEmail, ";
             if($filter_agencia_booking != "") {
                 $where .= " AND agency.name LIKE :filter_agencia_booking ";
             }
@@ -646,6 +646,7 @@ class generalReservationRepository extends EntityRepository {
         booking.booking_id,
         curr.curr_code,
         booking.booking_user_dates,
+        booking.complete_payment,
         $s
         (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
         (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate
@@ -3232,8 +3233,27 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
         $qb->join('pard.reservation', 'par');
         $qb->join('par.client', 'client');
 
-        $qb->andWhere('r.gen_res_status = :gen_res_status');
-        $qb->setParameter('gen_res_status', $status);
+
+        if($status == generalReservation::STATUS_RESERVED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
+            $qb->setParameter('gen_res_status', $status);
+        }
+
+        elseif($status == generalReservation::STATUS_CANCELLED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
+            $qb->setParameter('gen_res_status', $status);
+            $qb->leftJoin("r.pendingPayments", "pending");
+            $qb->andWhere("pending.cancelPayment IS NOT NULL");
+
+        }
+        else{
+            $qb->andWhere('r.gen_res_status = :gen_res_status');
+            $qb->setParameter('gen_res_status', $status);
+        }
 
         $qb->orderBy("r.gen_res_id", "DESC");
 
@@ -3362,6 +3382,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
             ->orderBy("ownRes.own_res_reservation_from_date");
         return $qb->getQuery()->getResult();
     }
+
     function getOwnShipReserByUser($iduser){
         $res=array();
         $day = date("Y-m-d");
@@ -3422,7 +3443,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $date = $date->modify("-53 hours");
 
         $qb = $em->createQueryBuilder()
-            ->select("count(gres)")
+            ->select("count(DISTINCT gres)")
             ->from("mycpBundle:generalReservation", "gres")
             ->join("gres.own_reservations", "reservation")
             ->where("(gres.gen_res_status = :status or reservation.own_res_status = :resStatus or reservation.own_res_status = :resStatus2)")
@@ -3454,4 +3475,54 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
 
         return $qb->getQuery()->getResult();
     }
+
+     function changeReservationStatus(generalReservation $generalReservation){
+        $em = $this->getEntityManager();
+        $available = 0;
+        $nonAvailable = 0;
+        $reserved = 0;
+        $canceled = 0;
+        $pending = 0;
+        $outdated = 0;
+
+        $totalSubReservations = count($generalReservation->getOwn_reservations());
+
+        foreach($generalReservation->getOwn_reservations() as $reservation){
+            switch($reservation->getOwnResStatus())
+            {
+                case ownershipReservation::STATUS_RESERVED: $reserved++; break;
+                case ownershipReservation::STATUS_AVAILABLE: $available++; break;
+                case ownershipReservation::STATUS_AVAILABLE2: $available++; break;
+                case ownershipReservation::STATUS_CANCELLED: $canceled++; break;
+                case ownershipReservation::STATUS_NOT_AVAILABLE: $nonAvailable++; break;
+                case ownershipReservation::STATUS_OUTDATED: $outdated++; break;
+                case ownershipReservation::STATUS_PENDING: $pending++; break;
+            }
+        }
+
+        if($totalSubReservations == $pending)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PENDING);
+        elseif($totalSubReservations == $reserved)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
+        elseif($totalSubReservations == $available)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+        elseif($totalSubReservations == $canceled)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+        elseif($totalSubReservations == $nonAvailable)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+        elseif($totalSubReservations == $outdated)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+        elseif($reserved < $totalSubReservations)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_RESERVED);
+        elseif($available < $totalSubReservations)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+        elseif($canceled < $totalSubReservations)
+            $generalReservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
+
+        $generalReservation->setGenResStatusDate(new \DateTime());
+
+        $em->persist($generalReservation);
+        $em->flush();
+    }
+
 }

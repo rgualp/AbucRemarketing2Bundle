@@ -134,6 +134,7 @@ class FrontendController extends Controller
             }
             else {
                 $obj->setCountry($em->getRepository('mycpBundle:country')->find($post['country']));
+                $obj->setCommission(10);
                 $em->persist($obj);
                 $em->flush();
 

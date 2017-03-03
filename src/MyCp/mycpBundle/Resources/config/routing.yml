@@ -218,12 +218,16 @@ mycp_backend_payment_pending_ownership:
 
 mycp_backend_cancel_payment:
     resource: "@mycpBundle/Resources/config/routingBackendCancelPayment.yml"
-    prefix:   backend/payments/cancel/    prefix:   backend/reservation_ag/
+    prefix:   backend/payments/cancel/
 
-mycp_override_user:
-    resource: "@mycpBundle/Resources/config/routingOverrideUser.yml"
-    prefix:   backend/override/
+mycp_backend_payment_pending_agency:
+    resource: "@mycpBundle/Resources/config/routingBackendPaymentPendingAgency.yml"
+    prefix:   backend/payments/pending/agency/
 
+mycp_backend_cancel_payment_ag:
+    resource: "@mycpBundle/Resources/config/routingBackendCancelPaymentAg.yml"
+    prefix:   backend/payments/cancel/agency/
+    
 mycp_override_user:
     resource: "@mycpBundle/Resources/config/routingOverrideUser.yml"
     prefix:   backend/override/

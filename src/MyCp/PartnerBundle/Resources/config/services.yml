@@ -88,3 +88,7 @@ services:
    # base_entity.listener:
    #     class: MyCp\PartnerBundle\Listener\BaseEntityListener
    #     arguments: ["@service_container"]
+
+    mycp.partner.cancelreservation.service:
+        class: MyCp\PartnerBundle\Service\CancelReservationService
+        arguments: [@doctrine.orm.entity_manager, @Time, @service_container, @mycp.notification.mail.service, @templating]
