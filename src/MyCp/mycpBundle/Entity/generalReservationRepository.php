@@ -3271,6 +3271,7 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             $booking_code = (array_key_exists('booking_code', $filters) && isset($filters['booking_code']));
             $booking_date = (array_key_exists('booking_date', $filters) && isset($filters['booking_date']));
             $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
+            $partner_client_id = (array_key_exists('partner_client_id', $filters) && isset($filters['partner_client_id']));
 
             if($cas) {
                 $qb->andWhere('r.gen_res_id = :gen_res_id');
@@ -3345,6 +3346,10 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
             if($client_dates) {
                 $qb->andWhere('client.fullname LIKE :client_dates');
                 $qb->setParameter('client_dates', '%' . trim($filters['client_dates']) . '%');
+            }
+            if($partner_client_id) {
+                $qb->andWhere('client.id = :partner_client_id');
+                $qb->setParameter('partner_client_id', $filters['partner_client_id']);
             }
         }
 
