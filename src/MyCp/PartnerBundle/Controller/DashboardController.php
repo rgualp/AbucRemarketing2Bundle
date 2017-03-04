@@ -1414,8 +1414,17 @@ class DashboardController extends Controller
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
 
         $name = 'voucher' . $booking->getBookingUserId() . '_' . $booking->getBookingId() . '.pdf';
-        $response = new BinaryFileResponse($pathToFile . $name);
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+        $nameZip = 'vouchers_'.$booking->getBookingId(). '_' . $booking->getBookingUserId() . '.zip';
+
+        if (file_exists(realpath($pathToFile.$nameZip))){
+            $response = new BinaryFileResponse($pathToFile . $nameZip);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $nameZip);
+        }
+        else{
+            $response = new BinaryFileResponse($pathToFile . $name);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+        }
+
         return $response;
     }
 
