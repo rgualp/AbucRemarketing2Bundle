@@ -1848,11 +1848,11 @@ class DashboardController extends Controller
             if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && !$showErrorOwnExist) {
                 if ($user_ids["user_id"] != null) {
                     $request->getSession()->set('reservation_own_ids', $own_ids);
-                    return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                    return $this->redirect($this->generateUrl('partner_dashboard_cart'));
                 } else {
                     $message = $this->get('translator')->trans("VOUCHER_PREHEADER_NEWMSG");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
+                    return $this->redirect($this->generateUrl('partner_dashboard_cart'));
                 }
 
             } elseif ($showErrorOwnExist)
