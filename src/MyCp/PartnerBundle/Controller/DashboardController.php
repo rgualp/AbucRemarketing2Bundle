@@ -1856,9 +1856,9 @@ class DashboardController extends Controller
                 }
 
             } elseif ($showErrorOwnExist)
-                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+                return $this->redirect($this->generateUrl('backend_partner_dashboard'));
             else
-                return $this->redirect($this->generateUrl('frontend_view_cart'));
+                return $this->redirect($this->generateUrl('partner_dashboard_cart'));
         }
     }
 
@@ -1868,11 +1868,19 @@ class DashboardController extends Controller
 
         //Adding new reservation
         $clientName = $request->get("clientName");
+
+        if($clientName == "")
+            $clientName = $request->get("partnerClientName");
+
         $dateFrom = $min_date;
         $dateTo = $max_date;
 //        $adults = $request->get("adults");
 //        $children = $request->get("children");
         $clientId = $request->get("clientId");
+
+        if($clientId == "")
+            $clientId = $request->get("partnerClientId");
+
         $accommodationId = $id_ownership;
         //$roomType = $request->get("roomType");
         //$roomsTotal = $request->get("roomsTotal");
