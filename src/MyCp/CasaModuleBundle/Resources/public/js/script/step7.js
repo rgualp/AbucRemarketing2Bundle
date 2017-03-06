@@ -59,7 +59,108 @@ var Step7 = function () {
         return true;
     }
 
+    var saveProfile = function(flag, publishAccommodation){
+        var validate = true;
+        var changePassword = false;
 
+        if (flag) {
+            validate = validatePassword();
+            changePassword = validate;
+        }
+        var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+        //Se muestra un texto a modo de ejemplo, luego va a ser un icono
+        if ($('#owner_email_2').val()!=''&&!emailRegex.test($('#owner_email_2').val())) {
+            validate=false;
+            $("#email2Errors").html("Email inválido.");
+            $("#email2Errors").removeClass("hide");
+            $('#owner_email_2').on('keyup', function(){
+                if ($('#owner_email_2').val()!=''&&emailRegex.test($('#owner_email_2').val())) {
+                    $("#email2Errors").addClass("hide");
+
+                }
+                else $("#email2Errors").removeClass("hide");
+            });
+        }
+        else   $("#email2Errors").addClass("hide");
+        if (validate) {
+            //$("#loading").removeClass("hide");
+            //if(flag)
+            HoldOn.open();
+            var url = $("#submit-url").val();
+            var homeownerName = $("#homeownerName").val();
+            var mobile = $("#own_mobile_number").val();
+            var phone = $("#own_phone_number").val();
+            var mainStreet = $("#owner_street").val();
+            var streetNumber = $("#owner_street_number").val();
+            var between1 = $("#owner_between_street_1").val();
+            var between2 = $("#owner_between_street_2").val();
+            var municipalityId = $("#owner_municipality").val();
+            var provinceId = $("#owner_province").val();
+            var email = $("#owner_email").val();
+            var email2 = $("#owner_email_2").val();
+            var secondOwner = $("#owner_second_owner").val();
+            var password = $("#password").val();
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: {
+                    idAccommodation: App.getOwnId(),
+                    mobile: mobile,
+                    phone: phone,
+                    mainStreet: mainStreet,
+                    streetNumber: streetNumber,
+                    between1: between1,
+                    between2: between2,
+                    municipalityId: municipalityId,
+                    provinceId: provinceId,
+                    email: email,
+                    email2: email2,
+                    homeownerName: homeownerName,
+                    secondOwner: secondOwner,
+                    password: password,
+                    changePassword: changePassword,
+                    dashboard: flag,
+                    publishAccommodation: publishAccommodation
+                },
+                success: function (data) {
+                    //$("#loading").addClass("hide");
+                    if(flag)
+                        HoldOn.close();
+                    if(publishAccommodation) {
+                        if (data.success === false) {
+                            swal({
+                                title: "Ooops!",
+                                text: data.msg,
+                                type: "error"
+                            });
+                            hasError = true;
+                            return false;
+                        }
+                        else
+                            window.location = publishUrl;
+                    }
+                },
+                error: function(data){
+                    if(flag)
+                        HoldOn.close();
+                    if(publishAccommodation) {
+                        if (data.success  === false) {
+                            swal({
+                                title: "Ooops!",
+                                text: data.msg,
+                                type: "error"
+                            });
+                            hasError = true;
+                            return false;
+                        }
+                        else
+                            window.location = publishUrl;
+                    }
+                }
+            });
+        }
+    }
 
     return {
         //main function to initiate template pages
@@ -80,107 +181,13 @@ var Step7 = function () {
                 //alert('Precios invalidos');
                 return;
             }
-
-            var validate = true;
-            var changePassword = false;
-
-            if (flag) {
-                validate = validatePassword();
-                changePassword = validate;
-            }
-           var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-            //Se muestra un texto a modo de ejemplo, luego va a ser un icono
-            if ($('#owner_email_2').val()!=''&&!emailRegex.test($('#owner_email_2').val())) {
-                validate=false;
-                $("#email2Errors").html("Email inválido.");
-                $("#email2Errors").removeClass("hide");
-                $('#owner_email_2').on('keyup', function(){
-                    if ($('#owner_email_2').val()!=''&&emailRegex.test($('#owner_email_2').val())) {
-                        $("#email2Errors").addClass("hide");
-
-                    }
-                    else $("#email2Errors").removeClass("hide");
+            else {
+                Step4.saveRoom(false, function(){
+                    saveProfile(flag, publishAccommodation);
                 });
             }
-            else   $("#email2Errors").addClass("hide");
-            if (validate) {
-                //$("#loading").removeClass("hide");
-                //if(flag)
-                    HoldOn.open();
-                var url = $("#submit-url").val();
-                var homeownerName = $("#homeownerName").val();
-                var mobile = $("#own_mobile_number").val();
-                var phone = $("#own_phone_number").val();
-                var mainStreet = $("#owner_street").val();
-                var streetNumber = $("#owner_street_number").val();
-                var between1 = $("#owner_between_street_1").val();
-                var between2 = $("#owner_between_street_2").val();
-                var municipalityId = $("#owner_municipality").val();
-                var provinceId = $("#owner_province").val();
-                var email = $("#owner_email").val();
-                var email2 = $("#owner_email_2").val();
-                var secondOwner = $("#owner_second_owner").val();
-                var password = $("#password").val();
 
-                $.ajax({
-                    type: 'post',
-                    url: url,
-                    data: {
-                        idAccommodation: App.getOwnId(),
-                        mobile: mobile,
-                        phone: phone,
-                        mainStreet: mainStreet,
-                        streetNumber: streetNumber,
-                        between1: between1,
-                        between2: between2,
-                        municipalityId: municipalityId,
-                        provinceId: provinceId,
-                        email: email,
-                        email2: email2,
-                        homeownerName: homeownerName,
-                        secondOwner: secondOwner,
-                        password: password,
-                        changePassword: changePassword,
-                        dashboard: flag,
-                        publishAccommodation: publishAccommodation
-                    },
-                    success: function (data) {
-                        //$("#loading").addClass("hide");
-                        if(flag)
-                            HoldOn.close();
-                        if(publishAccommodation) {
-                            if (data.success === false) {
-                                swal({
-                                    title: "Ooops!",
-                                    text: data.msg,
-                                    type: "error"
-                                });
-                                hasError = true;
-                                return false;
-                            }
-                            else
-                                window.location = publishUrl;
-                        }
-                    },
-                    error: function(data){
-                        if(flag)
-                            HoldOn.close();
-                        if(publishAccommodation) {
-                            if (data.success  === false) {
-                                swal({
-                                    title: "Ooops!",
-                                    text: data.msg,
-                                    type: "error"
-                                });
-                                hasError = true;
-                                return false;
-                            }
-                            else
-                                window.location = publishUrl;
-                        }
-                    }
-                });
-            }
+
         }
     };
 }();

@@ -93,6 +93,41 @@ class ZipService {
         return $this->zipDirectoryPath . $zipName;
     }
 
+    public function createZipFile($zipName, $contentFilePathArray, $zipDirectoryPath) {
+
+        FileIO::createDirectoryIfNotExist($zipDirectoryPath);
+        $zip = new ZipArchive();
+
+        $filesCount = 0;
+        if ($zip->open($zipDirectoryPath . $zipName, \ZipArchive::CREATE)) {
+            $zipFile = "";
+
+            foreach($contentFilePathArray as $file)
+            {
+                $photoFile = "";
+                if (file_exists(realpath($file))) {
+                    $zipFile = realpath($file);
+                }
+
+                if ($zipFile != "") {
+                    $splittedName = explode("/", $file);
+                    $nameLength = count($splittedName);
+                    $zip->addFromString($splittedName[$nameLength-1], file_get_contents($zipFile));
+                    $filesCount++;
+                }
+            }
+        }
+        $zip->close();
+
+        if ($filesCount === 0) {
+            //Deleting the Zip File
+            FileIO::deleteFile($this->zipDirectoryPath . $zipName);
+            return null;
+        }
+
+        return $this->zipDirectoryPath . $zipName;
+    }
+
     public function download($zipFileName,$deleteZip)
     {
         if (!$zipFileName)

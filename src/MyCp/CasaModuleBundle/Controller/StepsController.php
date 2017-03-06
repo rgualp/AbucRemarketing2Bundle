@@ -12,14 +12,17 @@ namespace MyCp\CasaModuleBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownershipStatistics;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\FileIO;
 use MyCp\mycpBundle\Helpers\Images;
+use MyCp\mycpBundle\Helpers\Operations;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -991,8 +994,12 @@ class StepsController extends Controller {
         }*/
         $udetailsService = $this->get('mycp.udetails.service');
 
-        if($status == 0)
+        $service_log = $this->get('log');
+
+        if($status == 0){
             $udetailsService->addUDetail($room, $start, $end, 'Por el propietario');
+            $service_log->saveLog("Por el propietario desde el Modulo Casa. Fechas:(".$request->get('date_from').' a '.$request->get('date_to').')', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, Operations::SAVE_AND_NEW, 'unavailabilitydetails');
+        }
         else //remove uDetails
         {
             $udetailsService->removeUDetail($room, $start, $end, 'Por el propietario');
