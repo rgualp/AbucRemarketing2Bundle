@@ -108,6 +108,7 @@ class FilterOwnershipType extends AbstractType
             ))
             ->add('own_award', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('own_inmediate_booking', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('own_inmediate_booking2', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('room_climatization', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('own_others_pets', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('room_audiovisuals', 'checkbox', array('required' => false, 'attr' => array('class' => 'form-control')))
