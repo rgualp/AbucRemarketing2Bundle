@@ -85,17 +85,17 @@ var Step4 = function () {
     var showRealPriceRoom=function(){
             $(".price_low_season").on('change', function (){
                 var roomId = $(this).data("roomid");
-               Step4.calculateRealRoomPrice("#input_price_low_season_"+roomId, "span.input_price_low_season_"+roomId);
+               Step4.calculateRealRoomPrice("input_price_low_season_"+roomId, "span.input_price_low_season_"+roomId);
             });
 
             $(".price_high_season").on('change', function (){
                 var roomId = $(this).data("roomid");
-                Step4.calculateRealRoomPrice("#input_price_high_season_"+roomId, "span.input_price_high_season_"+roomId);
+                Step4.calculateRealRoomPrice("input_price_high_season_"+roomId, "span.input_price_high_season_"+roomId);
             });
 
             $(".price_special_season").on('change', function (){
                 var roomId = $(this).data("roomid");
-                Step4.calculateRealRoomPrice("#input_price_special_season_"+roomId, "span.input_price_special_season_"+roomId);
+                Step4.calculateRealRoomPrice("input_price_special_season_"+roomId, "span.input_price_special_season_"+roomId);
             });
     }
 
@@ -169,7 +169,7 @@ var Step4 = function () {
              price_low_season
              price_special_season
              */
-            if((data.hasOwnProperty('price_high_season') && data['price_high_season'] == '') || (data.hasOwnProperty('price_low_season') && data['price_low_season'] == '')/* || (data.hasOwnProperty('price_special_season') && data['price_special_season'] == '')*/){
+            if((data.hasOwnProperty('price_high_season') && (data['price_high_season'] == '' || data['price_high_season'] == 'NaN') ) || (data.hasOwnProperty('price_low_season') && (data['price_low_season'] == '' || data['price_low_season'] == 'NaN'))/* || (data.hasOwnProperty('price_special_season') && data['price_special_season'] == '')*/){
                 if(s == ''){
                     s = 'Hab ' + (i + 1);
                 }
@@ -196,6 +196,12 @@ var Step4 = function () {
         }
     };
 
+    var normalizePrices = function(price, decimal)
+    {
+        //return (Math.round(price * Math.pow(10,2))/Math.pow(10,2));
+        return parseFloat(parseFloat(Math.round(price*100)/100).toFixed(decimal));
+    }
+
     return {
         //main function to initiate template pages
         init: function () {
@@ -215,7 +221,7 @@ var Step4 = function () {
         isValidPrices:function(){
           return isValidPrices();
         },
-        saveRoom:function(flag){
+        saveRoom:function(flag, callback){
             if(!isValidPrices()){
                 //alert('Precios invalidos');
                 return;
@@ -245,17 +251,22 @@ var Step4 = function () {
                     url: url,
                     data:  {rooms: rooms,idown:App.getOwnId()},
                     success: function (data) {
-                        var response=data;
-                        if(data.success){
-                            var j=1;
-                            for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
-                                var idRoom=response.ids[parseInt(j)-parseInt(1)];
-                                if($("#id-room-"+i).val()==""){
-                                    document.getElementById('id-room-'+i).value=idRoom;
+                        if(callback && typeof callback === "function"){
+                            callback();
+                        }
+                        else {
+                            var response=data;
+                            if(data.success){
+                                var j=1;
+                                for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
+                                    var idRoom=response.ids[parseInt(j)-parseInt(1)];
+                                    if($("#id-room-"+i).val()==""){
+                                        document.getElementById('id-room-'+i).value=idRoom;
+                                    }
                                 }
-                            }
 
-                            HoldOn.close();
+                                HoldOn.close();
+                            }
                         }
                     }
                 });
@@ -286,16 +297,27 @@ var Step4 = function () {
             $('#tab25').remove(); //remove respective tab content
         },
         calculateRealRoomPrice: function(inputElement, spanElement){
-            var price = $(inputElement).val();
-
+            var rInputElement = $('#r_' + inputElement);
+            var inputElement = $('#' + inputElement);
             var commission = $("#inputCommission").val();
-            var realPrice = parseFloat(price) * (1 - commission / 100);
 
-            realPrice = roundNumber(realPrice, 2);
+            if(rInputElement.val() != '' && rInputElement.val() != 0 && rInputElement.val() != '0'){
+                var toTeceive = parseFloat(rInputElement.val());
+                var inSite = toTeceive / (1 - commission / 100);
+                inSite = normalizePrices(inSite, 2);
+                /*var a = roundNumber(4.448, 2);
+                 var b = normalizePrices(4.448, 2);*/
 
-            if(realPrice > 0) {
-                $(spanElement).html("Usted recibe " + realPrice + " CUC.");
+                inputElement.val(inSite);
+                if(inSite > 0) {
+                    $(spanElement).html("En el sitio " + inSite + " CUC.");
+                    $(spanElement).removeClass("hide");
+                }
+            }
+            else {
+                $(spanElement).html("El precio es obligatorio.");
                 $(spanElement).removeClass("hide");
+                inputElement.val('');
             }
 
         },
