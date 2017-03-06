@@ -184,7 +184,7 @@ class NotificationService extends Controller
         $accommodation = $pendingPaymentAccommodation->getAccommodation();
         $reservation = $pendingPaymentAccommodation->getReservation();
 
-        $message = "MyCasaParticular confirma solicitud de agencia. Usted recibirá ".$pendingPaymentAccommodation->getAmount()."CUC. CAS".$reservation->getGenResId().$pendingPaymentAccommodation->getPayDate()->format('d/m/Y').". " /*$this->smsContactPhone*/;
+        $message = "MyCasaParticular confirma solicitud de agencia. Usted recibirá ".$pendingPaymentAccommodation->getAmount()."CUC. CAS".$reservation->getGenResId().". El turista llega ".$reservation->getGenResFromDate()->format('d/m/Y').". " /*$this->smsContactPhone*/;
         $subType = notification::SUB_TYPE_COMPLETE_PAYMENT;
         $reservationObj = array(
             "casId" => $reservation->getCASId(),
