@@ -17,6 +17,7 @@ use MyCp\mycpBundle\Entity\reservationNotification;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\Dates;
+use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Abuc\RemarketingBundle\Event\JobEvent;
@@ -42,6 +43,8 @@ class NotificationService extends Controller
     private $notificationSendConfirmationSms;
     private $notificationSendInmediatebookingSms;
     private $notificationSendCanceledbookingSms;
+    private $notificationAgencyCompletePaymentSms;
+    private $notificationAgencyCompletePaymentDepositSms;
     protected $container;
 
     public function __construct(ObjectManager $em, $serviceNotificationUrl, $notificationServiceApiKey, $time, $notificationSendSms, $notificationTestEnvironment, $notificationTestPhone, $smsContactPhone, $smsContactMobile, $loggerService, $notificationSend, $container)
@@ -60,6 +63,8 @@ class NotificationService extends Controller
         $this->notificationSendConfirmationSms = $notificationSend['confirmation_sms'];
         $this->notificationSendInmediatebookingSms = $notificationSend['inmediatebooking_sms'];
         $this->notificationSendCanceledbookingSms = $notificationSend['canceledbooking_sms'];
+        $this->notificationAgencyCompletePaymentSms = $notificationSend['agency_complete_payment_sms'];
+        $this->notificationAgencyCompletePaymentDepositSms = $notificationSend['agency_complete_payment_deposit_sms'];
         $this->container = $container;
     }
 
@@ -166,6 +171,52 @@ class NotificationService extends Controller
         $mobileNumber = "";
         $response = array();
         if ($this->notificationSendConfirmationSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+            $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+        }
+        $response["message"] = $message;
+        $response["mobile"] = $mobileNumber;
+        $this->createNotification($reservationObj, $subType, $response);
+    }
+
+    public function sendAgencyCompletePaymentSMSNotification(paPendingPaymentAccommodation $pendingPaymentAccommodation)
+    {
+        $accommodation = $pendingPaymentAccommodation->getAccommodation();
+        $reservation = $pendingPaymentAccommodation->getReservation();
+
+        $message = "MyCasaParticular confirma solicitud de agencia. Usted recibirá ".$pendingPaymentAccommodation->getAmount()."CUC. CAS".$reservation->getGenResId().$pendingPaymentAccommodation->getPayDate()->format('d/m/Y').". " /*$this->smsContactPhone*/;
+        $subType = notification::SUB_TYPE_COMPLETE_PAYMENT;
+        $reservationObj = array(
+            "casId" => $reservation->getCASId(),
+            "genResId" => $reservation->getGenResId()
+        );
+
+        $mobileNumber = "";
+        $response = array();
+        if ($this->notificationAgencyCompletePaymentSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+            $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+        }
+        $response["message"] = $message;
+        $response["mobile"] = $mobileNumber;
+        $this->createNotification($reservationObj, $subType, $response);
+    }
+
+    public function sendAgencyCompletePaymentDepositSMSNotification(paPendingPaymentAccommodation $pendingPaymentAccommodation)
+    {
+        $accommodation = $pendingPaymentAccommodation->getAccommodation();
+        $reservation = $pendingPaymentAccommodation->getReservation();
+
+        $message = "MyCasaParticular confirma pago realizado por reserva de agencia. Usted recibió ".$pendingPaymentAccommodation->getAmount()."CUC."/*$this->smsContactPhone*/;
+        $subType = notification::SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT;
+        $reservationObj = array(
+            "casId" => $reservation->getCASId(),
+            "genResId" => $reservation->getGenResId()
+        );
+
+        $mobileNumber = "";
+        $response = array();
+        if ($this->notificationAgencyCompletePaymentDepositSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
             $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
             $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
         }
