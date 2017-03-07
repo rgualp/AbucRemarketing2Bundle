@@ -2298,6 +2298,10 @@
         <source>cancelPayment.cancelDate</source>
         <target>Fecha de cancelación</target>
       </trans-unit>
+      <trans-unit id="23">
+          <source>label.reserv.inmediatly2</source>
+          <target state="new">Reserva Inmediata</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

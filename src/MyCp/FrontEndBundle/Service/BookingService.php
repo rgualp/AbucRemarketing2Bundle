@@ -46,12 +46,15 @@ class BookingService extends Controller
 
     private $zipService;
 
-    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath, $tripleRoomCharge, $zipService)
+    private $smsNotificationService;
+
+    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath, $tripleRoomCharge, $zipService, $smsNotificationService)
     {
         $this->em = $em;
         $this->serviceChargeInCuc = (float)$serviceChargeInCuc;
         $this->tripleRoomCharge = (float)$tripleRoomCharge;
         $this->zipService = $zipService;
+        $this->smsNotificationService = $smsNotificationService;
 
         if (!is_dir($voucherDirectoryPath)) {
             throw new \InvalidArgumentException('Invalid directory given: ' . $voucherDirectoryPath);
@@ -732,6 +735,9 @@ class BookingService extends Controller
 
                         $this->em->persist($pendingPayment);
                         $this->em->flush();
+
+                        //Send a notification
+                        $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
 
                         $toPayAtService = 0;
                     }

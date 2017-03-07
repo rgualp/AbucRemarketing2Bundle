@@ -191,9 +191,11 @@
                         </button>
                     </div>#}
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
+                        <input type="hidden"  value="" name="partnerClientName" id="partnerClientName"/>
+                        <input type="hidden"  value="" name="partnerClientId" id="partnerClientId"/>
                     <div class="col-sm-6">
                         {% if ownership.OwnInmediateBooking2 %}
-                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShipPartner" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                             {% else %}
@@ -222,19 +224,26 @@
     {% endif %}
     $('#partner_reservation_client').change(function() {
         $("#partner_reservation_name").val($('#partner_reservation_client option:selected').text());
+        $("#partnerClientName").val($('#partner_reservation_client option:selected').text());
+        $("#partnerClientId").val($('#partner_reservation_client').val());
+    });
+    $('#partner_reservation_name').change(function() {
+        $("#partnerClientName").val($('#partner_reservation_name').val());
+        $("#partnerClientId").val($('#partner_reservation_client').val());
     });
     var form = $("#form-check-available");
         form.on("submit", function (e) {
             if( $("#partner_reservation_name").val() !=''){
+                var clientName = $("#partner_reservation_name").val();
+                var clientId = $("#partner_reservation_client").val();
+                var formData = new FormData(form[0]);
+                formData.append("clientName", clientName);
+                formData.append("clientId", clientId);
+
                 if($('#check_dispo').val()!=2){
                     e.stopPropagation();
                     e.preventDefault();
 
-                    var clientName = $("#partner_reservation_name").val();
-                    var clientId = $("#partner_reservation_client").val();
-                    var formData = new FormData(form[0]);
-                    formData.append("clientName", clientName);
-                    formData.append("clientId", clientId);
                     HoldOn.open();
                     $.ajax({
                         url: form.attr('action'),
@@ -280,7 +289,7 @@
         $('#check_dispo').val('1');
         $('#myModalOwnerShipCalendar').modal('hide');
     });
-    $('#reservedOwnerShip').on('click',function(){
+    $('#reservedOwnerShipPartner').on('click',function(){
         $('#check_dispo').val('2');
         $('#myModalOwnerShipCalendar').modal('hide');
     });
