@@ -1,0 +1,95 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+    '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_list_payments_pending_agency') }}">Pagos pendientes a agencia</a> <span class="divider">/</span></li>
+        <li class="active">Detalle del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_agency') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+{% endblock %}
+{% block form_actions %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_list_payments_pending_agency') }}">Pagos pendientes a agencia</a> <span class="divider">/</span></li>
+        <li class="active">Detalle del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_agency') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+    <h2>Pago #{{ payment.id }}</h2>
+    <hr/>
+    <div class="row-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#reservas" data-toggle="tab">Detalles</a>
+                    </li>
+                </ul>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <b>Fecha del pago: </b>{{ payment.payDate | date("d/m/Y") }}
+                    </div>
+                    <div class="span6">
+                        <b>CAS: </b> <a target="_blank" href="{{ path("mycp_details_reservation_ag", {"id_reservation": payment.reservation.genResId}) }}">CAS.{{ payment.reservation.genResId }}</a>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <b>Tipo de pago: </b>{{ payment.type.translations[0].nomLangDescription }}
+                    </div>
+                    <div class="span6">
+                        <b>Agencia: </b> {{ payment.agency.name }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <b>Monto del pago a agencia: </b>{{ payment.amount }}  {{ payment.booking.payments[0].currency.currCode }}
+                    </div>
+                    <div class="span6">
+                        <b>Estado del pago: </b> {{ payment.status.translations[0].nomLangDescription }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <b>Usuario: </b> {% if payment.user != null %}{{ payment.user.userCompleteName }}{% else %}-{% endif %}
+                    </div>
+                    <div class="span6">
+                        <b>Fecha de registro: </b> {% if payment.registerDate != null %}{{ payment.registerDate | date("d/m/Y") }}{% else %}-{% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@LayoutBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".cas").addClass('hide');
+        });
+    </script>
+{% endblock %}

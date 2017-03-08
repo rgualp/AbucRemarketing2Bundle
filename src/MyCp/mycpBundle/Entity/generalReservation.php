@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\PartnerBundle\Entity\paClientReservation;
+use MyCp\PartnerBundle\Entity\paPendingPaymentAgency;
 
 /**
  * generalreservation
@@ -218,6 +219,18 @@ class generalReservation {
     private $responseTime;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_payment", type="boolean")
+     */
+    private $complete_payment;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MyCp\PartnerBundle\Entity\paPendingPaymentAgency",mappedBy="reservation")
+     */
+    private $pendingPayments;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -228,6 +241,8 @@ class generalReservation {
 
         $this->travelAgencyDetailReservations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->complete_payment = false;
+        $this->pendingPayments = new ArrayCollection();
     }
 
     /**
@@ -596,6 +611,7 @@ class generalReservation {
         $genRes->setGenResTotalInSite($this->gen_res_total_in_site);
         $genRes->setGenResUserId($this->gen_res_user_id);
         $genRes->setServiceFee($this->service_fee);
+        $genRes->setCompletePayment($this->complete_payment);
 
         return $genRes;
     }
@@ -907,4 +923,77 @@ class generalReservation {
     {
         return $this->notifications;
     }
+
+    public function getFirstBookingWithPayment()
+    {
+        foreach($this->getOwn_reservations() as $resevation)
+        {
+            if($resevation->getOwnResReservationBooking() != null && count($resevation->getOwnResReservationBooking()->getPayments()))
+                return $resevation->getOwnResReservationBooking();
+        }
+
+        return null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompletePayment()
+    {
+        return $this->complete_payment;
+    }
+
+    /**
+     * @param int $complete_payment
+     * @return mixed
+     */
+    public function setCompletePayment($complete_payment)
+    {
+        $this->complete_payment = $complete_payment;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPendingPayments()
+    {
+        return $this->pendingPayments;
+    }
+
+    /**
+     * @param mixed $pendingPayments
+     * @return mixed
+     */
+    public function setPendingPayments($pendingPayments)
+    {
+        $this->pendingPayments = $pendingPayments;
+        return $this;
+    }
+
+    /**
+     * Add paPendingPaymentAgency
+     *
+     * @param paPendingPaymentAgency $paPendingPaymentAgency
+     *
+     * @return ownership
+     */
+    public function addPendingPayment(paPendingPaymentAgency $paPendingPaymentAgency)
+    {
+        $this->pendingPayments[] = $paPendingPaymentAgency;
+
+        return $this;
+    }
+
+    /**
+     * Remove paPendingPaymentAgency
+     *
+     * @param paPendingPaymentAgency $paPendingPaymentAgency
+     */
+    public function removePendingPayment(paPendingPaymentAgency $paPendingPaymentAgency)
+    {
+        $this->pendingPayments->removeElement($paPendingPaymentAgency);
+    }
+
+
 }

@@ -2291,6 +2291,18 @@
         <source>payment.online_payment</source>
         <target>Online Payment</target>
       </trans-unit>
+    <trans-unit id="21">
+        <source>cancelPayment.refundAmount</source>
+        <target>Refund amount</target>
+      </trans-unit>
+    <trans-unit id="22">
+        <source>cancelPayment.cancelDate</source>
+        <target>Cancel date</target>
+      </trans-unit>
+    <trans-unit id="23">
+        <source>label.reserv.inmediatly2</source>
+        <target state="new">Inmediate Booking</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

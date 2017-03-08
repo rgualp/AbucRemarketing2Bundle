@@ -10,3 +10,7 @@ mycp_create_penalty:
 mycp_delete_penalty:
     pattern:  /delete/{idPenalty}
     defaults: { _controller: mycpBundle:BackendPenalty:delete }
+
+mycp_general_penalties:
+    pattern:  /list-general
+    defaults: { _controller: mycpBundle:BackendPenalty:listGeneral}

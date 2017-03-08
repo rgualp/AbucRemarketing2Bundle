@@ -370,7 +370,7 @@ class paGeneralReservation {
     }
 
 
-    public function createReservation() {
+    public function createReservation($completePayment = false) {
         $genRes = new generalReservation();
         $genRes->setGenResArrivalHour($this->hour->format("G"));
         $genRes->setGenResDate(new \DateTime(date('Y-m-d')));
@@ -388,6 +388,7 @@ class paGeneralReservation {
         $genRes->setServiceFee($this->service_fee);
         $genRes->setChildrenAges($this->childrenAges);
         $genRes->setGenResNights($this->nights);
+        $genRes->setCompletePayment($completePayment);
 
         return $genRes;
     }

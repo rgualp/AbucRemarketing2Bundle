@@ -49,15 +49,17 @@
                                 </td>
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
                                     <b>{{"ID_RESERVATION"|trans({}, "messages", user_locale)}}:</b> {{reservation.getOwnResGenResId.getCASId}}<br/><br/>
-                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') or reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE2'))%}
                                         <span style="background-color: #468847; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
                                         <span style="background-color: #999999; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-
-                                    {% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE'))%}
                                         <span style="background-color: #f89406; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED'))%}
+                                        <span style="background-color: #b94a48; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"CANCELLED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_OUTDATED'))%}
                                         <span style="background-color: #000; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"OUTDATED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>

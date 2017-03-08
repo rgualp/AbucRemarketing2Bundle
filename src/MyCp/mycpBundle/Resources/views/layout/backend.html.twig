@@ -59,6 +59,9 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_failures') }}"><i class="fa fa-warning"></i> Fallos</a>
                 </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_general_penalties') }}"><i class="fa fa-bullhorn"></i> Penalizaciones</a>
+                </div>
             </div>
         </div>
         <div class="accordion-group">
@@ -91,7 +94,7 @@
                     Contabilidad <i class="icon-chevron-right pull-right"></i>
                 </a>
             </div>
-            <div id="collapseTwoA" class="accordion-body collapse {%if temp == 'BackendPaymentController'%}in{%endif%}">
+            <div id="collapseTwoA" class="accordion-body collapse {%if temp == 'BackendPaymentController' or temp == 'BackendPendingPayTourist' or temp == 'BackendPendingPaymentAgency' or temp == 'BAckendPendingPayOwn'%}in{%endif%}">
                 <div class="accordion-inner">
                     <a href="{{ path("mycp_list_payments") }}"><i class="glyphicons money"></i> Pagos - Alojamientos</a>
                 </div>
@@ -100,6 +103,12 @@
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path("mycp_list_payments_pending_ownership") }}"><i class="glyphicons money"></i> Pagos - Pendientes a propietarios</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path("mycp_list_payments_agency_pending_ownership") }}"><i class="glyphicons money"></i> Agencia - Pendientes a propietarios</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path("mycp_list_payments_pending_agency") }}"><i class="glyphicons money"></i> Pagos - Pendientes a agencias</a>
                 </div>
             </div>
         </div>
@@ -225,7 +234,9 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_reservations_ag') }}"><i class="icon-tags"></i> Reservas</a>
                 </div>
-
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="fa fa-times"></i> Cancelaciones</a>
+                </div>
             </div>
         </div>
     </div>

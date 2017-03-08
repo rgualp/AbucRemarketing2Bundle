@@ -46,7 +46,7 @@
             <tr>
                 <th>{{ 'RESERVATION_SELECTED_ROOM' | trans }}</th>
                 <th>{{ 'RESERVATION_TYPE' | trans }}</th>
-                <th>{{ 'RESERVATION_ROOM_NUMBER' | trans }}</th>
+                <th>{{ 'NIGHTS' | trans }}</th>
                 <th>{{ 'ADULTS' | trans }}</th>
                 <th>{{ 'KIDS' | trans }}</th>
                 <th>{{ 'RESERVATION_PRICE' | trans }}</th>
@@ -60,12 +60,12 @@
     <li class="lead">
         {% if completePayment is defined and completePayment %}
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-        <div class="row all-prices-numbers">
-            <div class="row text-right">
+        <div class="all-prices-numbers">
+            <div class="text-right">
                 {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:
                 {{ currSymbol }} <span id="accommodation_price"></span>
             </div>
-            <div class="row text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+            <div class="text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_AGENCY_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="tourist_service"
@@ -79,18 +79,18 @@
                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
             </div>
-            <div  class="row text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+            <div  class="text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_TRANSFERENCE_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="service_transfer_tax"></span>
             </div>
-            <div  class="row text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+            <div  class="text-right"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_FIXED_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
             </div>
             <hr/>
-            <div  class="row text-right">
+            <div  class="text-right">
                 {{ 'RESERVATION_TOTAL_PRICE' | trans }}
                 {{ currSymbol }}
                 <span id="total_price"></span>
@@ -191,9 +191,11 @@
                         </button>
                     </div>#}
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
+                        <input type="hidden"  value="" name="partnerClientName" id="partnerClientName"/>
+                        <input type="hidden"  value="" name="partnerClientId" id="partnerClientId"/>
                     <div class="col-sm-6">
                         {% if ownership.OwnInmediateBooking2 %}
-                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShipPartner" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                             {% else %}
@@ -222,19 +224,26 @@
     {% endif %}
     $('#partner_reservation_client').change(function() {
         $("#partner_reservation_name").val($('#partner_reservation_client option:selected').text());
+        $("#partnerClientName").val($('#partner_reservation_client option:selected').text());
+        $("#partnerClientId").val($('#partner_reservation_client').val());
+    });
+    $('#partner_reservation_name').change(function() {
+        $("#partnerClientName").val($('#partner_reservation_name').val());
+        $("#partnerClientId").val($('#partner_reservation_client').val());
     });
     var form = $("#form-check-available");
         form.on("submit", function (e) {
             if( $("#partner_reservation_name").val() !=''){
+                var clientName = $("#partner_reservation_name").val();
+                var clientId = $("#partner_reservation_client").val();
+                var formData = new FormData(form[0]);
+                formData.append("clientName", clientName);
+                formData.append("clientId", clientId);
+
                 if($('#check_dispo').val()!=2){
                     e.stopPropagation();
                     e.preventDefault();
 
-                    var clientName = $("#partner_reservation_name").val();
-                    var clientId = $("#partner_reservation_client").val();
-                    var formData = new FormData(form[0]);
-                    formData.append("clientName", clientName);
-                    formData.append("clientId", clientId);
                     HoldOn.open();
                     $.ajax({
                         url: form.attr('action'),
@@ -280,7 +289,7 @@
         $('#check_dispo').val('1');
         $('#myModalOwnerShipCalendar').modal('hide');
     });
-    $('#reservedOwnerShip').on('click',function(){
+    $('#reservedOwnerShipPartner').on('click',function(){
         $('#check_dispo').val('2');
         $('#myModalOwnerShipCalendar').modal('hide');
     });
