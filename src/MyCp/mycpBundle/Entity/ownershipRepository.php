@@ -2751,4 +2751,18 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
+    public function getPaymentMethodsList()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownership", "o")
+            ->leftJoin("o.effectiveMethodsPayment", "effective")
+            ->leftJoin("o.transferMethodsPayment", "transfer")
+            ->select("o")
+            ->orderBy("LENGTH(o.own_mcp_code)","ASC")
+            ->addOrderBy("o.own_mcp_code", "ASC");
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

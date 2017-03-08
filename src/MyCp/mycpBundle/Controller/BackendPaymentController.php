@@ -288,7 +288,7 @@ class BackendPaymentController extends Controller {
         $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
 
-        $filter_number = $request->get('filter_number');
+        /*$filter_number = $request->get('filter_number');
         $filter_code = $request->get('filter_code');
         $filter_service = $request->get('filter_service');
         $filter_method = $request->get('filter_method');
@@ -300,7 +300,7 @@ class BackendPaymentController extends Controller {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_payments'));
-        }
+        }*/
         /*if ($filter_number == 'null')
             $filter_number = '';
 
@@ -309,21 +309,21 @@ class BackendPaymentController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $payments = $paginator->paginate($em->getRepository('mycpBundle:ownershipPayment')->findAllByCreationDate($filter_number, $filter_code, $filter_service, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+        $methods = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getPaymentMethodsList())->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        return $this->render('mycpBundle:payment:list.html.twig', array(
-            'list' => $payments,
+        return $this->render('mycpBundle:payment:methods.html.twig', array(
+            'list' => $methods,
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
+            'current_page' => $page/*,
             'filter_number' => $filter_number,
             'filter_code' => $filter_code,
             'filter_service' => $filter_service,
             'filter_method' => $filter_method,
             'filter_payment_date_from' => $filter_payment_date_from,
-            'filter_payment_date_to' => $filter_payment_date_to
+            'filter_payment_date_to' => $filter_payment_date_to*/
         ));
     }
 }
