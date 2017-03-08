@@ -644,6 +644,16 @@ class ownership {
     private $own_hot_date;
 
     /**
+     * @ORM\OneToMany(targetEntity="transferMethodPayment", mappedBy="accommodation")
+     */
+    private $transferMethodsPayment;
+
+    /**
+     * @ORM\OneToMany(targetEntity="effectiveMethodPayment", mappedBy="accommodation")
+     */
+    private $effectiveMethodsPayment;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -674,6 +684,8 @@ class ownership {
         $this->confidence = false;
         $this->calendarModalityFrequency = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->transferMethodsPayment = new ArrayCollection();
+        $this->effectiveMethodsPayment = new ArrayCollection();
     }
 
     /**
@@ -2904,5 +2916,84 @@ class ownership {
         $this->own_hot_date = $own_hot_date;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTransferMethodsPayment()
+    {
+        return $this->transferMethodsPayment;
+    }
+
+    /**
+     * @param mixed $transferMethodsPayment
+     */
+    public function setTransferMethodsPayment($transferMethodsPayment)
+    {
+        $this->transferMethodsPayment = $transferMethodsPayment;
+    }
+
+    /**
+ * Add transferMethodPayment
+ *
+ * @param transferMethodPayment $transferMethodPayment
+ *
+ * @return ownership
+ */
+    public function addTransferMethodPayment(transferMethodPayment $transferMethodPayment)
+    {
+        $this->transferMethodsPayment[] = $transferMethodPayment;
+
+        return $this;
+    }
+
+    /**
+     * Remove transferMethodPayment
+     *
+     * @param transferMethodPayment $transferMethodPayment
+     */
+    public function removeTransferMethodPayment(transferMethodPayment $transferMethodPayment)
+    {
+        $this->transferMethodsPayment->removeElement($transferMethodPayment);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEffectiveMethodsPayment()
+    {
+        return $this->effectiveMethodsPayment;
+    }
+
+    /**
+     * @param mixed $effectiveMethodsPayment
+     */
+    public function setEffectiveMethodsPayment($effectiveMethodsPayment)
+    {
+        $this->effectiveMethodsPayment = $effectiveMethodsPayment;
+    }
+
+    /**
+     * Add effectiveMethodPayment
+     *
+     * @param effectiveMethodPayment $effectiveMethodPayment
+     *
+     * @return ownership
+     */
+    public function addEffectiveMethodPayment(effectiveMethodPayment $effectiveMethodPayment)
+    {
+        $this->effectiveMethodsPayment[] = $effectiveMethodPayment;
+
+        return $this;
+    }
+
+    /**
+     * Remove effectiveMethodPayment
+     *
+     * @param effectiveMethodPayment $effectiveMethodPayment
+     */
+    public function removeEffectiveMethodPayment(effectiveMethodPayment $effectiveMethodPayment)
+    {
+        $this->effectiveMethodsPayment->removeElement($effectiveMethodPayment);
+    }
 
 }

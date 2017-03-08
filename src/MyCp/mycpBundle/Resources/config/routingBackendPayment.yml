@@ -29,3 +29,7 @@ mycp_inactive_accommodation_payment:
 mycp_send_email_reminder_payment:
     pattern:  /send-email-reminder/{id}
     defaults: { _controller: mycpBundle:BackendPayment:sendEmailReminder }
+
+mycp_methods_payment:
+    pattern:  /methods
+    defaults: { _controller: mycpBundle:BackendPayment:methods, items_per_page: 100 }
