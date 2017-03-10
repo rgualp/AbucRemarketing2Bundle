@@ -326,4 +326,8 @@ class BackendPaymentController extends Controller {
             'filter_payment_date_to' => $filter_payment_date_to*/
         ));
     }
+
+    public function insertTransferMethodAction(){
+
+    }
 }

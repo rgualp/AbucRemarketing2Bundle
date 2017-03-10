@@ -119,7 +119,7 @@
                     <small>Tipo Cuenta: <b>{{ accommodation.transferMethodsPayment[0].accountType.translations[0].nomLangDescription }}</b></small><br/>
                     <a class="btn btn-successful btn-mini">Editar</a>
                 {% else %}
-                    <a class="btn btn-info btn-mini">Adicionar</a>
+                    <a class="btn btn-info btn-mini" href="{{ path("mycp_insert_transfer_method_payment") }}">Adicionar</a>
                 {% endif %}
 
             </td>
