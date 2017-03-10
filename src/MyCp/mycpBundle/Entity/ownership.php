@@ -686,6 +686,7 @@ class ownership {
         $this->notifications = new ArrayCollection();
         $this->transferMethodsPayment = new ArrayCollection();
         $this->effectiveMethodsPayment = new ArrayCollection();
+        $this->count_visits = 0;
     }
 
     /**
