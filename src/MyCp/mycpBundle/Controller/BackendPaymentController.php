@@ -358,4 +358,33 @@ class BackendPaymentController extends Controller {
         ));
 
     }
+
+    public function editTransferMethodAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $transferMethod = $em->getRepository("mycpBundle:transferMethodPayment")->find($id);
+        $form = $this->createForm(new transferMethodPaymentType(), $transferMethod);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->persist($transferMethod);
+                $em->flush();
+
+                $message = 'Método de pago actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->saveLog($transferMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_UPDATE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+                return $this->redirect($this->generateUrl('mycp_methods_payment'));
+            }
+        }
+        return $this->render('mycpBundle:payment:new_method.html.twig', array(
+            'form' => $form->createView(),
+            'accommodation' => $transferMethod->getAccommodation(),
+            'edit_payment' => $transferMethod->getId()
+        ));
+
+    }
 }

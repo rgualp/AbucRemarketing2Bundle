@@ -37,3 +37,7 @@ mycp_methods_payment:
 mycp_insert_transfer_method_payment:
     pattern:  /methods/insert-transfer/{idAccommodation}
     defaults: { _controller: mycpBundle:BackendPayment:insertTransferMethod }
+
+mycp_edit_transfer_method_payment:
+    pattern:  /methods/edit-transfer/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:editTransferMethod }

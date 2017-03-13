@@ -45,7 +45,7 @@
 <h2>{% if edit_payment is defined %}Editar método de pago {% else %} Adicionar método de pago {% endif %} - {{ accommodation.ownMcpCode }}</h2>
         <hr/>
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form action="{% if edit_payment is defined %}{{ path('mycp_edit_payment', {'id': edit_payment})}}{% else %}{{ path('mycp_insert_transfer_method_payment', {"idAccommodation": accommodation.ownId})}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
+<form action="{% if edit_payment is defined %}{{ path('mycp_edit_transfer_method_payment', {'id': edit_payment})}}{% else %}{{ path('mycp_insert_transfer_method_payment', {"idAccommodation": accommodation.ownId})}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
 {% if edit_payment is defined %}<input style="display: none;" name="edit_payment" value="{{edit_payment}}"> {% endif %}
 
     {{form_widget(form)}}
