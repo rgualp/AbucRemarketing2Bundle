@@ -194,6 +194,8 @@ class BackendPendingPayOwnController extends Controller {
         $payment = $em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->find($id);
         $form = $this->createForm(new paPendingPaymentAccommodationType(), $payment);
 
+        $previousStatus = $payment->getStatus();
+
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -210,6 +212,12 @@ class BackendPendingPayOwnController extends Controller {
 
                 $em->persist($payment);
                 $em->flush();
+
+                if($payment->getStatus()->getNomName() == "pendingPayment_payed_status" && $previousStatus->getNomName() != $payment->getStatus()->getNomName())
+                {
+                    $smsNotificationService = $this->get("mycp.notification.service");
+                    $smsNotificationService->sendAgencyCompletePaymentDepositSMSNotification($payment);
+                }
 
                 $message = 'Pago actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);

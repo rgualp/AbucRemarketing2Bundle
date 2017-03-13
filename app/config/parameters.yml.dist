@@ -56,6 +56,8 @@ parameters:
         confirmation_sms: 0
         inmediatebooking_sms: 1
         canceledbooking_sms: 1
+        agency_complete_payment_sms: 0
+        agency_complete_payment_deposit_sms: 0
 
     mycasa_contact_cuba_phone: (+53) 78673574
     sms_contact_phone: 78673574

@@ -1848,17 +1848,17 @@ class DashboardController extends Controller
             if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && !$showErrorOwnExist) {
                 if ($user_ids["user_id"] != null) {
                     $request->getSession()->set('reservation_own_ids', $own_ids);
-                    return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                    return $this->redirect($this->generateUrl('partner_dashboard_cart'));
                 } else {
                     $message = $this->get('translator')->trans("VOUCHER_PREHEADER_NEWMSG");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_reservation_reservation_afterlogin'));
+                    return $this->redirect($this->generateUrl('partner_dashboard_cart'));
                 }
 
             } elseif ($showErrorOwnExist)
-                return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+                return $this->redirect($this->generateUrl('backend_partner_dashboard'));
             else
-                return $this->redirect($this->generateUrl('frontend_view_cart'));
+                return $this->redirect($this->generateUrl('partner_dashboard_cart'));
         }
     }
 
@@ -1868,11 +1868,19 @@ class DashboardController extends Controller
 
         //Adding new reservation
         $clientName = $request->get("clientName");
+
+        if($clientName == "")
+            $clientName = $request->get("partnerClientName");
+
         $dateFrom = $min_date;
         $dateTo = $max_date;
 //        $adults = $request->get("adults");
 //        $children = $request->get("children");
         $clientId = $request->get("clientId");
+
+        if($clientId == "")
+            $clientId = $request->get("partnerClientId");
+
         $accommodationId = $id_ownership;
         //$roomType = $request->get("roomType");
         //$roomsTotal = $request->get("roomsTotal");
