@@ -283,13 +283,12 @@ class PublicController extends Controller {
             foreach($houses as $house)
             {
                 $house_name=Utils::urlNormalize($house->getOwnName());
+                $loc = urldecode($this->get('router')->generate('frontend_details_ownership', array_merge($routingParams, array('own_name' => $house_name))));
                 $url = array(
-                    'loc' => $this->get('router')->generate('frontend_details_ownership',
-                            array_merge($routingParams, array('own_name' => $house_name))),
+                    'loc' => $loc,
                     'priority' => '1.0',
                     'changefreq'=> 'monthly'
                 );
-
                 array_push($url_houses,$url);
             }
         }
@@ -300,9 +299,9 @@ class PublicController extends Controller {
         $destinations=$em->getRepository('mycpBundle:destination')->findBy(array('des_active'=>1));
         foreach($languages as $lang) {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
-
+            $loc = urldecode($this->get('router')->generate('frontend_list_destinations', $routingParams));
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_list_destinations', $routingParams),
+                'loc' => $loc,
                 'priority' => '0.8',
                 'changefreq'=> 'monthly'
             );
@@ -327,7 +326,7 @@ class PublicController extends Controller {
 
             $url = array(
                 'loc' => $this->get('router')->generate('frontend-welcome', $routingParams),
-                'priority' => '0.5',
+                'priority' => '1.0',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
@@ -347,36 +346,7 @@ class PublicController extends Controller {
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_view_cart', $routingParams),
-                'priority' => '0.5',
-                'changefreq'=> 'daily'
-            );
-            array_push($url_sites,$url);
-
-            $url = array(
                 'loc' => $this->get('router')->generate('frontend_register_user', $routingParams),
-                'priority' => '0.5',
-                'changefreq'=> 'daily'
-            );
-            array_push($url_sites,$url);
-
-
-            $url = array(
-                'loc' => $this->get('router')->generate('frontend_restore_password_user', $routingParams),
-                'priority' => '0.5',
-                'changefreq'=> 'daily'
-            );
-            array_push($url_sites,$url);
-
-            $url = array(
-                'loc' => $this->get('router')->generate('frontend_register_confirmation_user', $routingParams),
-                'priority' => '0.5',
-                'changefreq'=> 'daily'
-            );
-            array_push($url_sites,$url);
-
-            $url = array(
-                'loc' => $this->get('router')->generate('frontend_mycasatrip_pending', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
@@ -484,6 +454,7 @@ class PublicController extends Controller {
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
+
             array_push($url_sites,$url);
         }
 
