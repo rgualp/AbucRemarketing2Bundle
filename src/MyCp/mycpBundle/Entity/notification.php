@@ -19,9 +19,11 @@ class notification
     const SUB_TYPE_INMEDIATE_BOOKING = "INMEDIATE_BOOKING";
     const SUB_TYPE_RESERVATION_PAID = "RESERVATION_PAID";
     const SUB_TYPE_CANCELED_BOOKING = "CANCELED_BOOKING";
-    const SUB_TYPE_COMPLETE_PAYMENT = "COMPLETE_PAYMENT";
-    const SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT = "COMPLETE_PAYMENT_DEPOSIT";
+    const SUB_TYPE_COMPLETE_PAYMENT = "COMPLETE_PAYMENT";//todo. Implementar en Mycasa Renta.
+    const SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT = "COMPLETE_PAYMENT_DEPOSIT";//todo. Implementar en Mycasa Renta.
+    const SUB_TYPE_COMMENT_OWN = "COMMENT_OWN";//todo. Implementar en Mycasa Renta.
 
+    //todo. Adicionar la accion de vencida e implementar el comando
     const ACTION_RESPONSE_CLOSE = "CLOSE";
     const ACTION_RESPONSE_AVAILABLE = "AVAILABLE";
     const ACTION_RESPONSE_UNAVAILABLE = "UNAVAILABLE";
@@ -200,6 +202,12 @@ class notification
                 return "RESERVACIÓN PAGADA";
             case notification::SUB_TYPE_CANCELED_BOOKING:
                 return "RESERVACIÓN CANCELADA";
+            case notification::SUB_TYPE_COMPLETE_PAYMENT:
+                return "SOLICITUD DE AGENCIA";
+            case notification::SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT:
+                return "PAGO POR RESERVA DE AGENCIA";
+            case notification::SUB_TYPE_COMMENT_OWN:
+                return "COMENTARIO DE CLIENTE ";
         }
         return $this->subtype;
     }

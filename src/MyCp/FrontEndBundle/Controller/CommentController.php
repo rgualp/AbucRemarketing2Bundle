@@ -15,7 +15,7 @@ class CommentController extends Controller {
     public function insertAction($ownid, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        if(!$user instanceof UserInterface){
+        if(!$user instanceof UserInterface) {
             return new RedirectResponse($this->generateUrl('frontend_login'));
         }
         $data = array();
@@ -33,7 +33,11 @@ class CommentController extends Controller {
         if($existComment == null) {
             $em->getRepository('mycpBundle:comment')->insert($data, $user);
 
-            if($own_obj->getOwnEmail1()!=null) {
+            $notificationService = $this->get("mycp.notification.service");
+            $comment = $data['com_comments'];
+            $notificationService->sendCommentNotification($own_obj, $comment);
+
+            if($own_obj->getOwnEmail1() != null) {
                 $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
                     'host_user_name' => $own_obj->getOwnHomeowner1(),
                     'user_name' => $user->getName() . ' ' . $user->getUserLastName(),
@@ -41,23 +45,23 @@ class CommentController extends Controller {
                 ));
 
                 $service_email = $this->get('mycp.service.email_manager');
-                $service_email->sendEmail($own_obj->getOwnEmail1(),'Nuevos comentarios recibidos', $body->getContent());
+                $service_email->sendEmail($own_obj->getOwnEmail1(), 'Nuevos comentarios recibidos', $body->getContent());
             }
         }
 
-         $paginator = $this->get('ideup.simple_paginator');
-         $items_per_page = 5;
-         $paginator->setItemsPerPage($items_per_page);
-         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getByOwnership($ownid))->getResult();
-         $page = 1;
-         if (isset($_GET['page']))
-             $page = $_GET['page'];
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 5;
+        $paginator->setItemsPerPage($items_per_page);
+        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getByOwnership($ownid))->getResult();
+        $page = 1;
+        if(isset($_GET['page']))
+            $page = $_GET['page'];
 
         $friends = array();
 
-        $ownership = array('ownname'=> $own_obj->getOwnName(),
-                            'rating' => $own_obj->getOwnRating(),
-                            'comments_total' => $own_obj->getOwnCommentsTotal());
+        $ownership = array('ownname' => $own_obj->getOwnName(),
+            'rating' => $own_obj->getOwnRating(),
+            'comments_total' => $own_obj->getOwnCommentsTotal());
 
         $response = $this->renderView('FrontEndBundle:comment:listComments.html.twig', array(
             'comments' => $comments,
@@ -68,11 +72,10 @@ class CommentController extends Controller {
             'comments_current_page' => $page,
             'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user->getUserId(), $ownid),
             'ownership' => $ownership
-                ));
+        ));
 
         return new Response($response, 200);
     }
-
 
 
 }
