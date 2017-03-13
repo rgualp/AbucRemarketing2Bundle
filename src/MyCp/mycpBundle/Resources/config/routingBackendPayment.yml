@@ -41,3 +41,7 @@ mycp_insert_transfer_method_payment:
 mycp_edit_transfer_method_payment:
     pattern:  /methods/edit-transfer/{id}
     defaults: { _controller: mycpBundle:BackendPayment:editTransferMethod }
+
+mycp_delete_transfer_method_payment:
+    pattern:  /methods/delete-transfer/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:deleteTransferMethod }

@@ -387,4 +387,24 @@ class BackendPaymentController extends Controller {
         ));
 
     }
+
+    public function deleteTransferMethodAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $transferMethod = $em->getRepository("mycpBundle:transferMethodPayment")->find($id);
+
+        if ($transferMethod)
+            $em->remove($transferMethod);
+        $em->flush();
+
+        $message = 'Método de pago eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($transferMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_DELETE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+
+        return $this->redirect($this->generateUrl('mycp_methods_payment'));
+
+
+    }
 }
