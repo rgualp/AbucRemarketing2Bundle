@@ -41,6 +41,9 @@
                                         <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_INMEDIATE_BOOKING') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_INMEDIATE_BOOKING') }}">SOLICITUD DE DISPONIBILIDAD</option>
                                         <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_RESERVATION_PAID') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_RESERVATION_PAID') }}">RESERVACIÓN PAGADA</option>
                                         <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_CANCELED_BOOKING') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_CANCELED_BOOKING') }}">RESERVACIÓN CANCELADA</option>
+                                        <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMPLETE_PAYMENT') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMPLETE_PAYMENT') }}">SOLICITUD DE AGENCIA</option>
+                                        <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT') }}">PAGO POR RESERVA DE AGENCIA</option>
+                                        <option {% if filters['subtype'] is defined and filters['subtype']==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMMENT_OWN') %} selected="true" {% endif %} value="{{ constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMMENT_OWN') }}">COMENTARIO DE CLIENTE</option>
                                     </select>
                                 </div>
                             </div>
@@ -102,6 +105,13 @@
                                             </a>
                                             |
                                             {% endif %}
+
+                                            {% if notification.subtype==constant('\\MyCp\\mycpBundle\\Entity\\notification::SUB_TYPE_COMMENT_OWN') %}
+                                            <a href="{{ path("my_casa_module_comments") }}" title="Ver">
+                                                <i class="fa fa-eye"></i>
+                                            </a> |
+                                            {% endif %}
+
                                             <a href="{{ path('my_casa_module_notificationresp', {'id':notification.id, 'act':3}) }}" title="Cerrar">
                                                 <i class="fa fa-close"></i>
                                             </a>
