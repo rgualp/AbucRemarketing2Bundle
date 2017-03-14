@@ -579,9 +579,9 @@
                                 </div>
                             </div>
                             {% else %}
-                        <h1 class="no-margin">
+                        <h2 class="no-margin" style="font-size: 32px;">
                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> {{ ownership.ownminimumprice | price }}
-                        </h1>
+                        </h2>
                             {% endif %}
 
                     </li>
@@ -663,9 +663,9 @@
                 <hr class="margin-t"/>
                 <h3 class="caecilia-roman text-center margin-t">{{ "RECOMENDS_RATINGS" | trans }}</h3>
 
-                <h1 class="text-center big-price-green no-margin">
+                <h4 class="text-center big-price-green no-margin">
                     {% if ownership.comments_total > 0 %}+{% endif %}{{ ownership.comments_total }}
-                </h1>
+                </h4>
                 {#<hr class="no-margin" style="margin-bottom: 10px"/>#}
                 {#{% if can_comment %}#}
                     {#<span class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</span>#}
