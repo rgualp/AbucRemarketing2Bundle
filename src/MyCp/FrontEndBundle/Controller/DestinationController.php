@@ -41,6 +41,7 @@ class DestinationController extends Controller {
     }
 
     public function detailsAction($destination_name) {
+        $destination_name = Utils::convert_text($destination_name);
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
