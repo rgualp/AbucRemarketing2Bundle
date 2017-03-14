@@ -266,8 +266,8 @@ class NotificationService extends Controller
 
         $subType = notification::SUB_TYPE_COMMENT_OWN;
         $reservationObj = array(
-            "casId" => null,
-            "genResId" => $comment,
+            "casId" => $comment,
+            "genResId" => '',
             "accommodation"=>$accommodation
         );
 

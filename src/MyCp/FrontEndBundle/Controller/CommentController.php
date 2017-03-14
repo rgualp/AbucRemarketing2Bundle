@@ -33,8 +33,9 @@ class CommentController extends Controller {
         if($existComment == null) {
             $em->getRepository('mycpBundle:comment')->insert($data, $user);
 
+            $now = new \DateTime();
             $notificationService = $this->get("mycp.notification.service");
-            $comment = $data['com_comments'];
+            $comment =  'Cliente:'.$user->getUserCompleteName().'. Fecha:'.$now->format("d-m-y").'. Comenta:'.$data['com_comments'];
             $notificationService->sendCommentNotification($own_obj, $comment);
 
             if($own_obj->getOwnEmail1() != null) {

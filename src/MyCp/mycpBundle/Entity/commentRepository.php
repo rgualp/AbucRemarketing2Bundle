@@ -20,6 +20,7 @@ class commentRepository extends EntityRepository {
         $ownership = $em->getRepository('mycpBundle:ownership')->find($data['com_ownership_id']);
         $reservations = count($em->getRepository('mycpBundle:ownershipReservation')->getByOwnershipAndUser(ownershipReservation::STATUS_RESERVED, $ownership->getOwnId(), $user->getUserId()));
         $is_public = $reservations > 0;
+        $byClient = $reservations > 0;
 
         $comment = new comment();
         $comment->setComDate(new \DateTime());
@@ -29,6 +30,7 @@ class commentRepository extends EntityRepository {
         $comment->setComUser($user);
         $comment->setComPublic($is_public);
         $comment->setPositive(null);
+        $comment->setComByClient($byClient);
 
         $em->persist($comment);
         $em->flush();
