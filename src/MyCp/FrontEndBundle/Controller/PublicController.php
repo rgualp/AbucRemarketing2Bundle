@@ -283,7 +283,7 @@ class PublicController extends Controller {
             foreach($houses as $house)
             {
                 $house_name=Utils::urlNormalize($house->getOwnName());
-                $loc = urldecode($this->get('router')->generate('frontend_details_ownership', array_merge($routingParams, array('own_name' => $house_name))));
+                $loc = $this->get('router')->generate('frontend_details_ownership', array_merge($routingParams, array('own_name' => $house_name)));
                 $url = array(
                     'loc' => $loc,
                     'priority' => '1.0',
@@ -299,7 +299,7 @@ class PublicController extends Controller {
         $destinations=$em->getRepository('mycpBundle:destination')->findBy(array('des_active'=>1));
         foreach($languages as $lang) {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
-            $loc = urldecode($this->get('router')->generate('frontend_list_destinations', $routingParams));
+            $loc = $this->get('router')->generate('frontend_list_destinations', $routingParams);
             $url = array(
                 'loc' => $loc,
                 'priority' => '0.8',
