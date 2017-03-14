@@ -45,6 +45,7 @@ class NotificationService extends Controller
     private $notificationSendCanceledbookingSms;
     private $notificationAgencyCompletePaymentSms;
     private $notificationAgencyCompletePaymentDepositSms;
+    private $notificationCommentSms;
     protected $container;
 
     public function __construct(ObjectManager $em, $serviceNotificationUrl, $notificationServiceApiKey, $time, $notificationSendSms, $notificationTestEnvironment, $notificationTestPhone, $smsContactPhone, $smsContactMobile, $loggerService, $notificationSend, $container)
@@ -65,6 +66,7 @@ class NotificationService extends Controller
         $this->notificationSendCanceledbookingSms = $notificationSend['canceledbooking_sms'];
         $this->notificationAgencyCompletePaymentSms = $notificationSend['agency_complete_payment_sms'];
         $this->notificationAgencyCompletePaymentDepositSms = $notificationSend['agency_complete_payment_deposit_sms'];
+        $this->notificationCommentSms = $notificationSend['comment_own'];
         $this->container = $container;
     }
 
@@ -258,6 +260,30 @@ class NotificationService extends Controller
         return null;
     }
 
+    public function sendCommentNotification(ownership $accommodation, $comment)
+    {
+        $message = 'MyCasaParticular informa: Un cliente ha realizado un comentario a su propiedad.';
+
+        $subType = notification::SUB_TYPE_COMMENT_OWN;
+        $reservationObj = array(
+            "casId" => $comment,
+            "genResId" => '',
+            "accommodation"=>$accommodation
+        );
+
+        $mobileNumber = "";
+        $response = array();
+        if ($this->notificationCommentSms && $accommodation->getOwnMobileNumber() != null && $accommodation->getOwnMobileNumber() != "" && $accommodation->getOwnSmsNotifications()) {
+            $mobileNumber = ($this->notificationTestEnvironment) ? $this->notificationTestPhone : $accommodation->getOwnMobileNumber();
+            $response = $this->sendSMSNotification($mobileNumber, $message, $subType);
+        }
+        $response["message"] = $message;
+        $response["mobile"] = $mobileNumber;
+        $this->createNotification($reservationObj, $subType, $response);
+    }
+
+    /* ***************************************************************************************************** */
+
     private function createNotification($reservationObj, $subType, $response)
     {
         try {
@@ -276,6 +302,8 @@ class NotificationService extends Controller
             $code = ($response != null && isset($response["code"])) ? ($response["code"]) : (Response::HTTP_BAD_REQUEST);
             $r = ($response != null && isset($response["response"])) ? ($response["response"]) : "sin respuesta";
 
+            $accommodation = (isset($reservationObj['accommodation'])) ? ($reservationObj['accommodation']) : ($reservation->getGenResOwnId());
+
             $notification = new notification();
             $notification->setCode($code)
                 ->setReservation($reservation)
@@ -287,7 +315,7 @@ class NotificationService extends Controller
                 ->setDescription($reservationObj["casId"])
                 ->setNotificationType($notificationType)
                 ->setSync($sync)
-                ->setOwnership($reservation->getGenResOwnId());
+                ->setOwnership($accommodation);
 
             $this->em->persist($notification);
             $this->em->flush();

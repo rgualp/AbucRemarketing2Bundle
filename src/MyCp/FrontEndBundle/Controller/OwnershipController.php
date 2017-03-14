@@ -262,7 +262,7 @@ class OwnershipController extends Controller {
             $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
             if ($ownership && $ownership->getOwnStatus()->getStatusId() == \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE) {
                 $own_name = Utils::urlNormalize($ownership->getOwnName());
-                return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
+                return $this->redirect(urldecode($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name))));
             }
             else
                 throw $this->createNotFoundException();

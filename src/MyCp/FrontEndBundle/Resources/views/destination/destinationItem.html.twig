@@ -26,7 +26,7 @@
                </tr>
            </table>
            <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
-           <h1 class="h-blue">{{des_name}}</h1>
+           <h3 class="h-blue">{{des_name}}</h3>
            </a>
             <div class="dest-description">
            {{ des_description | slice(0,200) | striptags }}{% if des_description|length>200 %}...{% endif %}

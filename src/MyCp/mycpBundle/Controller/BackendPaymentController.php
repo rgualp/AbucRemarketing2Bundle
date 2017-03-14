@@ -4,7 +4,9 @@ namespace MyCp\mycpBundle\Controller;
 
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\ownershipPayment;
+use MyCp\mycpBundle\Entity\transferMethodPayment;
 use MyCp\mycpBundle\Form\ownershipPaymentType;
+use MyCp\mycpBundle\Form\transferMethodPaymentType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
@@ -327,7 +329,82 @@ class BackendPaymentController extends Controller {
         ));
     }
 
-    public function insertTransferMethodAction(){
+    public function insertTransferMethodAction($idAccommodation, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $transferMethod = new transferMethodPayment();
+        $accommodation = $em->getRepository("mycpBundle:ownership")->find($idAccommodation);
+        $form = $this->createForm(new transferMethodPaymentType(), $transferMethod);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid() && $accommodation != null) {
+
+                $transferMethod->setAccommodation($accommodation);
+                $em->persist($transferMethod);
+                $em->flush();
+
+                $message = 'Método de pago añadido satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->saveLog($transferMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_INSERT, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+                return $this->redirect($this->generateUrl('mycp_methods_payment'));
+            }
+        }
+        return $this->render('mycpBundle:payment:new_method.html.twig', array(
+            'form' => $form->createView(),
+            'accommodation' => $accommodation
+        ));
+
+    }
+
+    public function editTransferMethodAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $transferMethod = $em->getRepository("mycpBundle:transferMethodPayment")->find($id);
+        $form = $this->createForm(new transferMethodPaymentType(), $transferMethod);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->persist($transferMethod);
+                $em->flush();
+
+                $message = 'Método de pago actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->saveLog($transferMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_UPDATE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+                return $this->redirect($this->generateUrl('mycp_methods_payment'));
+            }
+        }
+        return $this->render('mycpBundle:payment:new_method.html.twig', array(
+            'form' => $form->createView(),
+            'accommodation' => $transferMethod->getAccommodation(),
+            'edit_payment' => $transferMethod->getId()
+        ));
+
+    }
+
+    public function deleteTransferMethodAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $transferMethod = $em->getRepository("mycpBundle:transferMethodPayment")->find($id);
+
+        if ($transferMethod)
+            $em->remove($transferMethod);
+        $em->flush();
+
+        $message = 'Método de pago eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($transferMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_DELETE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+
+        return $this->redirect($this->generateUrl('mycp_methods_payment'));
+
 
     }
 }

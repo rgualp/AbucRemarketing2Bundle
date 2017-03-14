@@ -78,6 +78,13 @@ class comment
      */
     private $positive;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="com_by_client", type="boolean")
+     */
+    private $com_by_client;
+
     public function __construct()
     {
         $this->setPositive(false);
@@ -288,4 +295,38 @@ class comment
     }
 
 
+
+    /**
+     * Get positive
+     *
+     * @return boolean
+     */
+    public function getPositive()
+    {
+        return $this->positive;
+    }
+
+    /**
+     * Set comByClient
+     *
+     * @param boolean $comByClient
+     *
+     * @return comment
+     */
+    public function setComByClient($comByClient)
+    {
+        $this->com_by_client = $comByClient;
+
+        return $this;
+    }
+
+    /**
+     * Get comByClient
+     *
+     * @return boolean
+     */
+    public function getComByClient()
+    {
+        return $this->com_by_client;
+    }
 }

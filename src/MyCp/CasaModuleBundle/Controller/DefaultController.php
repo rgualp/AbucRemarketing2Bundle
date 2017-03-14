@@ -82,7 +82,6 @@ class DefaultController extends Controller
         ));
     }
 
-
     public function commentsAction(Request $request)
     {
         $sort_by=$request->get('sort_by');
@@ -112,6 +111,17 @@ class DefaultController extends Controller
         ));
     }
 
+    public function publicCommentAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $comment = $em->getRepository('mycpBundle:comment')->find($id);
+
+        $comment->setComPublic(true);
+        $em->persist($comment);
+        $em->flush();
+
+        return new RedirectResponse($this->generateUrl('my_casa_module_comments'));
+    }
 
     public function showAdviceAction(Request $request)
     {
