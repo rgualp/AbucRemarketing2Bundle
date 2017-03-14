@@ -35,5 +35,13 @@ mycp_methods_payment:
     defaults: { _controller: mycpBundle:BackendPayment:methods, items_per_page: 100 }
 
 mycp_insert_transfer_method_payment:
-    pattern:  /methods/insert-transfer
+    pattern:  /methods/insert-transfer/{idAccommodation}
     defaults: { _controller: mycpBundle:BackendPayment:insertTransferMethod }
+
+mycp_edit_transfer_method_payment:
+    pattern:  /methods/edit-transfer/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:editTransferMethod }
+
+mycp_delete_transfer_method_payment:
+    pattern:  /methods/delete-transfer/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:deleteTransferMethod }

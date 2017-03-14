@@ -1,6 +1,7 @@
 <?php
 namespace MyCp\mycpBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\FormMode;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
