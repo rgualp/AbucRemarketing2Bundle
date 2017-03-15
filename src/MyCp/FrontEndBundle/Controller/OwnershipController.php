@@ -333,13 +333,13 @@ class OwnershipController extends Controller {
 
     public function detailsAction($own_name, Request $request)
     {
+        $own_name = Utils::convert_text($own_name);
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $locale = $this->get('translator')->getLocale();
 
         $own_name = str_replace('-', ' ', $own_name);
         $own_name = str_replace('  ', '-', $own_name);
-        //$own_name = str_replace("nn", "ñ", $own_name);
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetails($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
 
