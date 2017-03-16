@@ -3,7 +3,7 @@
                 <a href="#reservas" data-toggle="tab">Cliente</a>
             </li>
         </ul>
-        <table class="table table-striped" style="font-size: 12px">
+<table class="table table-striped" style="font-size: 12px">
             <tr>
                 <td rowspan="4" style="width: 100px"><a title="Editar" href="{{ path("mycp_details_client_reservation", {'id_client': user.userId}) }}">{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': user.userId})) }}</a></td>
                 <td colspan="2"><b>Cliente: </b><a title="Editar" href="{{ path("mycp_details_client_reservation", {'id_client': user.userId}) }}">{{ user.getUserUserName }} {{ user.getUserLastName }}</a></td>

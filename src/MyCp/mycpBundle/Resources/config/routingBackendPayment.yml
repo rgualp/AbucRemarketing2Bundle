@@ -45,3 +45,15 @@ mycp_edit_transfer_method_payment:
 mycp_delete_transfer_method_payment:
     pattern:  /methods/delete-transfer/{id}
     defaults: { _controller: mycpBundle:BackendPayment:deleteTransferMethod }
+
+mycp_insert_effective_method_payment:
+    pattern:  /methods/insert-effective/{idAccommodation}
+    defaults: { _controller: mycpBundle:BackendPayment:insertEffectiveMethod }
+
+mycp_edit_effective_method_payment:
+    pattern:  /methods/edit-effective/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:editEffectiveMethod }
+
+mycp_delete_effective_method_payment:
+    pattern:  /methods/delete-effective/{id}
+    defaults: { _controller: mycpBundle:BackendPayment:deleteEffectiveMethod }
