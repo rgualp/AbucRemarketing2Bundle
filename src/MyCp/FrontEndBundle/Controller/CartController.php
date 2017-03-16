@@ -37,9 +37,10 @@ class CartController extends Controller {
         $user = $this->getUser();
         // disponibles Mayores que (hoy - 30) días
         $date = \date('Y-m-j');
-        $new_date = strtotime('-60 hours', strtotime($date));
-        $new_date = \date('Y-m-j', $new_date);
-        $string_sql = "AND gre.gen_res_status_date > '$new_date'";
+        //$new_date = strtotime('-60 hours', strtotime($date));
+        //$new_date = \date('Y-m-j', $new_date);
+        //$string_sql = "AND gre.gen_res_status_date > '$new_date'";
+        $string_sql = "AND gre.gen_res_status_date >= '$date'";
         $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_AVAILABLE;
         $list = ($user!='')?$em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql):array();
 
