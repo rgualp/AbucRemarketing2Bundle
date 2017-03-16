@@ -113,4 +113,17 @@ class BackendRankingController extends Controller {
         }
     }
 
+    function viewAction($id)
+    {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getManager();
+
+        $rankingData = $em->getRepository("mycpBundle:ownershipRankingExtra")->find($id);
+
+        return $this->render('mycpBundle:ranking:view.html.twig', array(
+            'data' => $rankingData
+        ));
+    }
+
 }
