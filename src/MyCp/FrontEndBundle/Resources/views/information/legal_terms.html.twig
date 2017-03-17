@@ -4,6 +4,11 @@
 {{"LEGAL_TERMS" | trans}}
 {% endblock %}
 
+{% block metas %}
+    {{ get_metas('Términos y Condiciones', lang_code)|raw }}
+{% endblock metas %}
+
+
 {% block breadcrumbs %}
 <a href="{{ path('frontend-welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
 <span>››</span>
