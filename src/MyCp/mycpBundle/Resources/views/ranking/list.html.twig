@@ -123,7 +123,7 @@
                 <td>{{ (item.accommodation.ownDestination != null) ? item.accommodation.ownDestination.desName : " - " }}</td>
                 <td>{{ item.startDate | date("d/m/Y") }}</td>
                 <td>{{ (item.rr == 5) ? "RR" : ((item.ri == 5) ? "RI": "-") }}</td>
-                <td>{{ item.ranking }}</td>
+                <td><a href="{{ path("mycp_view_ranking", {"id": item.id}) }}">{{ item.ranking }}</a></td>
                 <td>{{ (item.category != null) ? item.category.translations[0].nomLangDescription : " - " }}</td>
             </tr>
     {% endfor %}

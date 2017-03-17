@@ -128,9 +128,10 @@
                 {% if accommodation.effectiveMethodsPayment | length > 0 %}
                     <small>Contacto: <b>{{ accommodation.effectiveMethodsPayment[0].contactName }}</b></small><br/>
                     <small>Número de identidad: <b>{{ accommodation.effectiveMethodsPayment[0].identityNumber }}</b></small><br/>
-                    <a class="btn btn-successful btn-mini">Editar</a>
+                    <a class="btn btn-success btn-mini" title="Editar" href="{{ path("mycp_edit_effective_method_payment", {"id": accommodation.effectiveMethodsPayment[0].id}) }}"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger btn-mini delete" title="Eliminar" href="{{ path("mycp_delete_effective_method_payment", {"id": accommodation.effectiveMethodsPayment[0].id}) }}"><i class="fa fa-times"></i></a>
                 {% else %}
-                    <a class="btn btn-info btn-mini">Adicionar</a>
+                    <a class="btn btn-info btn-mini" href="{{ path("mycp_insert_effective_method_payment", {"idAccommodation": accommodation.ownId}) }}">Adicionar</a>
                 {% endif %}
             </td>
 

@@ -430,8 +430,8 @@ class ownershipReservationRepository extends EntityRepository {
 
     function getMainMenu($id_user) {
         $date_days = \date('Y-m-j');
-        $date_days = strtotime('-60 hours', strtotime($date_days));
-        $date_days = \date('Y-m-j', $date_days);
+        //$date_days = strtotime('-60 hours', strtotime($date_days));
+        //$date_days = \date('Y-m-j', $date_days);
 
         $em = $this->getEntityManager();
         /*$query = $em->createQuery("SELECT count(ore_avail) as available
@@ -440,7 +440,8 @@ class ownershipReservationRepository extends EntityRepository {
                                    WHERE gen_res.gen_res_user_id = $id_user
                                      AND ore_avail.own_res_status=" . ownershipReservation::STATUS_AVAILABLE . "
                                      AND gen_res.gen_res_date > '$date_days'");*/
-        $query=$em->createQuery("SELECT count(ow) as available FROM mycpBundle:ownershipReservation ownre
+        $query=$em->createQuery("SELECT us,ownre,
+        ow,mun,prov,gre,booking FROM mycpBundle:ownershipReservation ownre
         JOIN ownre.own_res_gen_res_id gre
         JOIN gre.gen_res_own_id ow
         JOIN gre.gen_res_user_id us
@@ -449,8 +450,10 @@ class ownershipReservationRepository extends EntityRepository {
         JOIN ow.own_address_province prov
         WHERE ownre.own_res_status=" . ownershipReservation::STATUS_AVAILABLE . "
         AND us.user_id=$id_user
-        AND gre.gen_res_date > '$date_days'");
-        return $query->getScalarResult();
+        AND gre.gen_res_date >= '$date_days'");
+
+        $list = $query->getResult();
+        return count($list);
     }
 
     function getByUserAndStatus($id_user, $status) {
