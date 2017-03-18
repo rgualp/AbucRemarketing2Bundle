@@ -81,10 +81,10 @@
     </div>
 </div>
 <div class="row h-blue prices-cart">
-    <div class="col-sm-6"  rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
+    <div class="col-sm-6" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
         {{"PREPAYMENT" | trans}}: <span>{{(total_percent +touristTax + currentServiceFee.fixedFee) | price}}</span>
     </div>
-    <div class="col-sm-6 text-right"  rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
+    <div class="col-sm-6 text-right" rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
         {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span>{{(totalRoomPrice - total_percent) | price}}</span> <br/>
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
         {% if currSymbol != "CUC" %}
