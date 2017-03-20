@@ -106,9 +106,18 @@ class SeoUtilsExtension extends \Twig_Extension
             if (count($allLanguage) > 0){
                 foreach ($allLanguage as $lang){
                     $paramas['locale'] = strtolower($lang->getLangCode());
-                    $url = $this->container->get('router')->generate($attributes['_route'],$paramas, true);
-                    $new_url = str_replace("/".$language_code."/", "/".strtolower($lang->getLangCode())."/", $url);
 
+                    if ($attributes['_route'] == "frontend_search_ownership"){
+                        $aux_params = array('locale' => $paramas['locale']);
+                        if ($paramas['text'] != null){
+                            $aux_params = array('locale' => $paramas['locale'],'text' => $paramas['text']);
+                        }
+                        $url = $this->container->get('router')->generate($attributes['_route'],$aux_params, true);
+                    }else{
+                        $url = $this->container->get('router')->generate($attributes['_route'],$paramas, true);
+                    }
+
+                    $new_url = str_replace("/".$language_code."/", "/".strtolower($lang->getLangCode())."/", $url);
                     $hreflang = 'hreflang=';
                     $rel = "alternate";
                     $hreflang = $hreflang.'"'.strtolower($lang->getLangCode()).'"';

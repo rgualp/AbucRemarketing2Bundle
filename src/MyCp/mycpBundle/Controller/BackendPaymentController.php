@@ -2,9 +2,11 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\effectiveMethodPayment;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\ownershipPayment;
 use MyCp\mycpBundle\Entity\transferMethodPayment;
+use MyCp\mycpBundle\Form\effectiveMethodPaymentType;
 use MyCp\mycpBundle\Form\ownershipPaymentType;
 use MyCp\mycpBundle\Form\transferMethodPaymentType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
@@ -401,6 +403,85 @@ class BackendPaymentController extends Controller {
 
         $service_log = $this->get('log');
         $service_log->saveLog($transferMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_DELETE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+
+        return $this->redirect($this->generateUrl('mycp_methods_payment'));
+
+
+    }
+
+    public function insertEffectiveMethodAction($idAccommodation, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $effectiveMethod = new effectiveMethodPayment();
+        $accommodation = $em->getRepository("mycpBundle:ownership")->find($idAccommodation);
+        $form = $this->createForm(new effectiveMethodPaymentType(), $effectiveMethod);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid() && $accommodation != null) {
+
+                $effectiveMethod->setAccommodation($accommodation);
+                $em->persist($effectiveMethod);
+                $em->flush();
+
+                $message = 'Método de pago añadido satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->saveLog($effectiveMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_INSERT, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+                return $this->redirect($this->generateUrl('mycp_methods_payment'));
+            }
+        }
+        return $this->render('mycpBundle:payment:new_method_effective.html.twig', array(
+            'form' => $form->createView(),
+            'accommodation' => $accommodation
+        ));
+
+    }
+
+    public function editEffectiveMethodAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $effectiveMethod = $em->getRepository("mycpBundle:effectiveMethodPayment")->find($id);
+        $form = $this->createForm(new effectiveMethodPaymentType(), $effectiveMethod);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->persist($effectiveMethod);
+                $em->flush();
+
+                $message = 'Método de pago actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->saveLog($effectiveMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_UPDATE, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+                return $this->redirect($this->generateUrl('mycp_methods_payment'));
+            }
+        }
+        return $this->render('mycpBundle:payment:new_method_effective.html.twig', array(
+            'form' => $form->createView(),
+            'accommodation' => $effectiveMethod->getAccommodation(),
+            'edit_payment' => $effectiveMethod->getId()
+        ));
+
+    }
+
+    public function deleteEffectiveMethodAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $effectiveMethod = $em->getRepository("mycpBundle:effectiveMethodPayment")->find($id);
+
+        if ($effectiveMethod)
+            $em->remove($effectiveMethod);
+        $em->flush();
+
+        $message = 'Método de pago eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($effectiveMethod->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_DELETE, DataBaseTables::ACCOMMODATION_PAYMENT);
 
 
         return $this->redirect($this->generateUrl('mycp_methods_payment'));

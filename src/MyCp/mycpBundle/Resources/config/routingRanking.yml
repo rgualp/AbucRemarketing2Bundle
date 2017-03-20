@@ -5,3 +5,7 @@ mycp_list_ranking:
 mycp_export_ranking:
     pattern:  /export/{filter_code}/{filter_name}/{filter_destination}/{filter_modality}/{filter_month}/{filter_year}/{filter_point_option}/{filter_point_from}/{filter_point_to}
     defaults: { _controller: mycpBundle:BackendRanking:export,filter_code:'', filter_name:'', filter_destination:'', filter_modality:'', filter_month:'', filter_year: '', filter_point_option:'', filter_point_from:'', filter_point_to:''}
+
+mycp_view_ranking:
+    pattern:  /view/{id}
+    defaults: { _controller: mycpBundle:BackendRanking:view}
