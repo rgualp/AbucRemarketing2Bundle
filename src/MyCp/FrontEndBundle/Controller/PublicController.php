@@ -36,6 +36,7 @@ class PublicController extends Controller {
     }
 
     public function welcomeAction() {
+
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
         $em = $this->getDoctrine()->getManager();
