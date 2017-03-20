@@ -340,6 +340,8 @@ class payment
                 $transaction->setCurrency($this->getCurrency()->getCurrCode());
                 $controller->get('google.analytics')->setTransaction($transaction);
 
+                $this->get('google.adwords')->activateConversionByKey('checkout_thanks',$booking->getBookingPrepay(),$this->getCurrency()->getCurrCode());
+
                 foreach ($acomodations as $key => $acomodation){
 
 //            $total = $acomodations[$key]['total'];
