@@ -357,5 +357,13 @@ google:
                     - 'linkid'
                     - 'ecommerce'
         whitelist: [ 'q', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign' ]
+
+    adwords:
+        conversions:
+            checkout_thanks:
+                id:    1016854742
+                label: -guECPr9lAMQ1vHv5AM
+                value: 0
+
 tinypng:
     api_key: Va2dGNIare8Aj3xo8tKZOrZKI6GIqY9R
