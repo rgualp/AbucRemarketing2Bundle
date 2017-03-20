@@ -1151,6 +1151,22 @@ class StepsController extends Controller {
         $time = new \DateTime();
         $start = $time->format('Y-m-d H:i:s');
         $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationByRoomByStartDate($request->get('idroom'), $start);
+
+        $unavailabilitiesDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->findBy(array('room'=>$room->getRoomId()));
+        if(count($unavailabilitiesDetails)){
+            foreach($unavailabilitiesDetails as $unavailabilityDetails){
+               $em->remove($unavailabilityDetails);
+            }
+            $em->flush();
+        }
+        $carts = $em->getRepository('mycpBundle:cart')->findBy(array('cart_room'=>$room->getRoomId()));
+        if(count($carts)){
+            foreach($carts as $cart){
+                $em->remove($cart);
+            }
+            $em->flush();
+        }
+
         if(count($reserved)) {
             $em->remove($room);
             $em->flush();
