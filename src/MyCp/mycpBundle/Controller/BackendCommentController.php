@@ -85,6 +85,7 @@ class BackendCommentController extends Controller {
                     $comment->setComDate(new \DateTime(date('Y-m-d')));
                     $comment->setComOwnership($accommodation);
                     $comment->setComUser($user);
+                    $comment->setComByClient(true);
                     $em->persist($comment);
                     $em->flush();
 
