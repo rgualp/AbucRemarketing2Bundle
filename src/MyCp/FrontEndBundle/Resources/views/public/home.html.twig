@@ -12,16 +12,6 @@
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-    {% javascripts
-    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.min.js'
-    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.mobile.customized.min.js'
-    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.easing.1.3.js'
-    '@FrontEndBundle/Resources/public/js/carousel-master/camera.min.js'
-    filter='?uglifyjs2'
-    %}
-
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
     {#<script>
         // Added this just so I didn't have to wait 5 seconds to see if the transition worked. //
         $(document).ready(function() {
@@ -98,30 +88,32 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
-    old_class='';
-    $('.home_cat .col-md-4 div').mouseover(function(){
-        elem=$('.'+$(this).attr('data'));
-        old_class= elem.attr('class');
-        elem.addClass('hover');
-    })
-    $('.home_cat .col-md-4 div').mouseout(function(){
-        elem=$('.'+$(this).attr('data'));
-        elem.attr('class',old_class);
-    });
+        var frontend_public_load_slide = "{{ path("frontend_public_load_slide") }}";
 
-    $(function() {
-        $("#full-width-slider").load("{{ path("frontend_public_load_slide") }}",[],function (e) {
-            jQuery('#camera_wrap_1').camera({
-                thumbnails: false,
-                pagination:false,
-                height:'400px'
+        function initJSTwig() {
+            $("#full-width-slider").load(frontend_public_load_slide,[],function (e) {
+                jQuery('#camera_wrap_1').camera({
+                    thumbnails: false,
+                    pagination:false,
+                    height:'400px'
+                });
             });
-        });
 
-        $('#th-destination-carousel').on('slid.bs.carousel', function () {
-            $(window).trigger("scroll");
-        })
-    });
-</script>
+            $('#th-destination-carousel').on('slid.bs.carousel', function () {
+                $(window).trigger("scroll");
+            })
+
+            old_class='';
+            $('.home_cat .col-md-4 div').mouseover(function(){
+                elem=$('.'+$(this).attr('data'));
+                old_class= elem.attr('class');
+                elem.addClass('hover');
+            })
+            $('.home_cat .col-md-4 div').mouseout(function(){
+                elem=$('.'+$(this).attr('data'));
+                elem.attr('class',old_class);
+            });
+        }
+    </script>
 {% endblock javascripts %}
 
