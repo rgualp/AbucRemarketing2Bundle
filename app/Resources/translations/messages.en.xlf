@@ -3905,7 +3905,7 @@
 
                   <trans-unit id="981">
                        <source>ACCOMMODATION_TOTAL_COST</source>
-                       <target>Lodging Amount</target>
+                       <target>Lodging Price</target>
                   </trans-unit>
                   <trans-unit id="982">
                        <source>SERVICES_TOTAL_COST</source>
@@ -3917,19 +3917,19 @@
                   </trans-unit>
                   <trans-unit id="984">
                        <source>ONLINE_PREPAYMENT</source>
-                       <target>Online Prepayment</target>
+                       <target>Online Prepayment for the Services</target>
                   </trans-unit>
                   <trans-unit id="985">
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
-                       <target>%percent% of Lodging Amount</target>
+                       <target>%percent% of Lodging Price</target>
                   </trans-unit>
                   <trans-unit id="986">
                      <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
-                     <target>Lodging Amounts</target>
+                     <target>Lodging Prices</target>
                 </trans-unit>
                   <trans-unit id="987">
                      <source>PREPAYMENT</source>
-                     <target>Online Prepayments</target>
+                     <target>Online Prepayment for the Services</target>
                 </trans-unit>
                   <trans-unit id="988">
                      <source>PRICE_NIGHT</source>
@@ -4058,7 +4058,18 @@
 
                                   We recommend you to search through our Website the available casas in ¨Immediate Booking¨ or other houses that you prefer. ]]></target>
              </trans-unit>
-
+            <trans-unit id="1018">
+                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
+                 <target>It refers to the sum of the Lodging Price plus the Client Service Fee, and the Fixed Fee. It is equal to the sum of the Online Prepayment for the Services plus the Casa Payment.</target>
+            </trans-unit>
+            <trans-unit id="1019">
+                 <source>PREPAYMENT_TOOLTIP</source>
+                 <target>It is the payment for the pre-booking and booking services, it is made online, and it is equal to the sum of the Client Service Fee, plus the Lodging Fee, plus the Fixed Fee. It is not included in the payment to be done at the casa, (Casa Payment)</target>
+            </trans-unit>
+            <trans-unit id="1020">
+                 <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
+                 <target>It refers to the payment that must be done to the casa owner by tourist client on arrival, it is calculated from the difference between the Casa Price and the Lodging Fee. It must be done in CUC (Cuban Convertible Peso)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

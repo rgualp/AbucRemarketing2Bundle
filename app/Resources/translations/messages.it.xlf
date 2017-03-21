@@ -1148,7 +1148,7 @@
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
-                <target>Prezzo totale:</target>
+                <target>Prezzo Totale:</target>
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
@@ -3905,7 +3905,7 @@
 
                   <trans-unit id="981">
                        <source>ACCOMMODATION_TOTAL_COST</source>
-                       <target>Importo per sistemazione</target>
+                       <target>Importo per l’alloggio</target>
                   </trans-unit>
                   <trans-unit id="982">
                        <source>SERVICES_TOTAL_COST</source>
@@ -3917,7 +3917,7 @@
                   </trans-unit>
                   <trans-unit id="984">
                        <source>ONLINE_PREPAYMENT</source>
-                       <target>Prepagato Online</target>
+                       <target>PPagamento online per i servizi</target>
                   </trans-unit>
                   <trans-unit id="985">
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
@@ -3929,7 +3929,7 @@
                 </trans-unit>
                   <trans-unit id="987">
                      <source>PREPAYMENT</source>
-                     <target>Pagamento anticipato</target>
+                     <target>Pagamento online per i servizi</target>
                 </trans-unit>
                   <trans-unit id="988">
                      <source>PRICE_NIGHT</source>
@@ -4019,7 +4019,7 @@
                 </trans-unit>
                 <trans-unit id="1011">
                     <source>SERVICE_TOURIST_TAX</source>
-                    <target>Tourist Service</target>
+                    <target>Tariffe per il servizio al cliente</target>
                 </trans-unit>
                 <trans-unit id="1012">
                     <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
@@ -4027,7 +4027,7 @@
                 </trans-unit>
                 <trans-unit id="1013">
                     <source>SERVICE_FIXED_TAX</source>
-                    <target>Tasso Fisso</target>
+                    <target>Tariffa fissa</target>
                 </trans-unit>
                 <trans-unit id="1014">
                     <source>TOTAL_PAY_AT_SERVICE</source>
@@ -4117,6 +4117,30 @@
 
                                                          Si consiglia di ricerca del nostro sito, immediati case di prenotazione che sono disponibili per la data o altre case di vostro gradimento.]]></target>
                                     </trans-unit>
+             <trans-unit id="1035">
+                  <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
+                  <target>si riferisce al prezzo per abitazione per notte che del soggiorno di un cliente turista in un alloggio. È il proprietario che stabilisce l’importo per l’alloggio</target>
+             </trans-unit>
+             <trans-unit id="1036">
+                  <source>SERVICE_TOURIST_TAX_TITLE</source>
+                  <target>Si riferisce alla tariffa applicata da  MyCP ai  clienti turisti per l’uso dei nostri servizi, calcolata partendo da percentuali applicate agli importi per l’alloggio.</target>
+             </trans-unit>
+             <trans-unit id="1037">
+                  <source>SERVICE_FIXED_TAX_TITLE</source>
+                  <target>Per ogni pagamento realizzato.</target>
+             </trans-unit>
+             <trans-unit id="1038">
+                  <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
+                  <target>Si riferisce alla somma dell’ Importo per l’alloggio , le  Tariffe per il servizio al cliente e la Tariffa fissa. È uguale alla somma  del Pagamento online per i servizi con il Pagamento in casa.</target>
+             </trans-unit>
+            <trans-unit id="1039">
+                 <source>PREPAYMENT_TOOLTIP</source>
+                 <target>Pagamento per i servizi  di gestione di pre-prenotazione e   prenotazione, si effettia in forma  online, costituisce la somma  delle  Tariffe per il servizio al cliente, Tariffe sull’alloggio  e la Tariffa fissa. Non include il pagamento che si deve effettuare  in casa. (Pagamento in casa)</target>
+            </trans-unit>
+            <trans-unit id="1040">
+                 <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
+                 <target>Si riferisce al pagamento che deve effettuare il cliente turista al proprietario una volta raggiunto l’alloggio,  calcolato sulla differenza dell’Importo per alloggio  - Tariffe sull’alloggio. Lo stesso si deve effettuare in moneta CUC.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

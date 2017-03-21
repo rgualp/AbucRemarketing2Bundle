@@ -3761,12 +3761,12 @@
 
         <trans-unit id="945">
             <source>SERVICE_TOURIST_TAX</source>
-            <target>Tourist service</target>
+            <target>Client Service Fee</target>
         </trans-unit>
 
         <trans-unit id="946">
             <source>SERVICE_FIXED_TAX</source>
-            <target>Fixed rate (Apps)</target>
+            <target>Fixed Fee</target>
         </trans-unit>
 
         <trans-unit id="947">
@@ -3776,12 +3776,12 @@
 
         <trans-unit id="948">
             <source>SERVICE_TOURIST_TAX_TITLE</source>
-            <target>Cubre los gastos de nuestra plataforma, comisión por pre-reserva y reservación</target>
+            <target>It refers to the amount charged by MyCP to the tourist clients in a lodging.</target>
         </trans-unit>
 
         <trans-unit id="949">
             <source>SERVICE_FIXED_TAX_TITLE</source>
-            <target>Incluye las app móviles MyCasa Trip y MyCuba Map</target>
+            <target>Per every payment done</target>
         </trans-unit>
 
         <trans-unit id="950">
