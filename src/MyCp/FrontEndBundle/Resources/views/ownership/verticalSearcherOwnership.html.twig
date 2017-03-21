@@ -51,11 +51,5 @@
     var today_date="{{"now"|date("d/m/Y") }}";
     var start_date="{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
     var end_date="{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
-    
-    $.fn.typeahead &&
-    $('[data-provide="typeahead"]').typeahead({
-        name: "states",
-        local: {{ autocomplete_text_list |raw}},
-        limit: 4
-    });
+    var url_autocomplete = "{{ path('frontend_autocompletetext_callback') }}";
 </script>

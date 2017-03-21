@@ -1973,7 +1973,7 @@ class ownershipRepository extends EntityRepository {
                 $result[] = $own["code"];
         }
 
-        return json_encode($result);
+        return $result;
     }
 
     public function getNotSynchronized() {
