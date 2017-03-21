@@ -4084,6 +4084,26 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                  <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
                  <target>Es bezieht sich auf  die Barzahlung, die der Gast an Eigentümer leisten soll, einmal in der Unterkunft. Es ist gleich dem Betrag für Unterkunft weniger Unterkunftsgebühr. Es muss in lokaler Währung CUC erfolgen.</target>
             </trans-unit>
+            <trans-unit id="1021">
+                 <source>SUCCESS_PAYMENT_TITLE</source>
+                 <target>Successful Payment</target>
+            </trans-unit>
+            <trans-unit id="1022">
+                 <source>PAYED_AMOUNT</source>
+                 <target>Payed amount:</target>
+            </trans-unit>
+            <trans-unit id="1023">
+                 <source>BOOKING_ID</source>
+                 <target>Booking id:</target>
+            </trans-unit>
+            <trans-unit id="1024">
+                 <source>DOWNLOAD_VOUCHERS</source>
+                 <target>Download vouchers</target>
+            </trans-unit>
+            <trans-unit id="1025">
+                 <source>DASHBOARD_RETURN</source>
+                 <target>Return to dashboard</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

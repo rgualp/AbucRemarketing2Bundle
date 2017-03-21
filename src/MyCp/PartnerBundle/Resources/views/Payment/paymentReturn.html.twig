@@ -1,0 +1,54 @@
+{% extends 'LayoutBundle:Layout:layout_partner_frontend.html.twig' %}
+{% block navbar %}
+{% endblock %}
+{% block carousel %}
+{% endblock %}
+{% block login_register %}
+{% endblock %}
+{% block body_class %}bg-blue{% endblock %}
+{% block body %}
+    <div id="scrollOverlay" class="middle-box loginscreen animated fadeInDown">
+
+        <div class="loginscreen animated fadeInDown">
+            <div class="text-center">
+                <h1 class="color-white" style="font-size: 64px;font-family: MyriadProRegular;line-height: 0px">{{ 'SUCCESS_PAYMENT_TITLE' | trans }}</h1>
+                <p class="color-white" style="font-size: 24px;font-family: MyriadProRegular">{{ 'PAYMENT_SUCCESS' | trans }}</p>
+            </div>
+            <hr/>
+                <div>
+                    <label  class="MyriadProRegular color-white ">{{ "BOOKING_ID" | trans }} {{ booking.bookingId }}</label>
+                </div>
+            <div>
+                <label  class="MyriadProRegular color-white">{{ "PAYED_AMOUNT" | trans }} {{ booking.bookingPrepay }} {{ booking.bookingCurrency.currCode }}</label>
+            </div>
+            <div class="MyriadProRegular color-white text-right">
+                <a href="{{ path("partner_download_voucher", {"bookingId": booking.bookingId}) }}" class="page-scroll MyriadProRegular" style="color: #fff; text-decoration: underline">{{ "DOWNLOAD_VOUCHERS" | trans }}</a>
+            </div>
+
+            <div style="margin-top: 10px">
+                <a href="{{ path("backend_partner_dashboard") }}"  class="btn btn-sm btn-login color-white">{{ 'DASHBOARD_RETURN' | trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            var b = $("#forgot-link");
+            b.one('click', function () {
+                HoldOn.open();
+                var overlay = $(b.data('overlay'));
+                var xpath ='{{ path('frontend_partner_forgopassword') }}';
+                var params = {action:1};
+                $('.f-content',overlay).load(xpath, params, function (e) {
+                    HoldOn.close();
+                    overlay.show();
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

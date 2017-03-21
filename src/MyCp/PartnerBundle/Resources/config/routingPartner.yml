@@ -359,3 +359,7 @@ partner_frontend_cancel_reservations_callback:
 partner_dashboard_booking_detail_cancel:
     locales:  { en: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", es: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", de: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", fr: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}", it: "/dashboard/booking/detail-cancel/{id_reservation}/{date}/{amount}/{currency}" }
     defaults: { _controller: PartnerBundle:Dashboard:indexBookingDetailCancel,id_reservation:'', date:'', amount:'', currency:''}
+
+partner_post_payment_return:
+    locales:  { en: "/payment/return/{idBooking}", es: "/pago/retorno/{idBooking}", de: "/payment/return/{idBooking}" }
+    defaults: { _controller: PartnerBundle:Payment:paymentReturn }
