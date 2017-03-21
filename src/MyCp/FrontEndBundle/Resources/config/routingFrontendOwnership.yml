@@ -104,4 +104,9 @@ frontend_show_modal_ownership_calendar:
     locales:  { en: "/ownership/calendar", es: "/casa/calendario", de: "/ownership/calendar", fr: "/ownership/calendar", it: "/ownership/calendar" }
     defaults: { _controller: FrontEndBundle:Ownership:showModalOwnerShipCalendar }
 
+frontend_autocompletetext_callback:
+    pattern:  /autocompletetext/
+    locales:  { en: "/autocompletetext/", es: "/autocompletetext/", de: "/autocompletetext/", fr: "/autocompletetext/", it: "/autocompletetext/" }
+    defaults: { _controller: FrontEndBundle:Ownership:autoCompleteTextList }
+
 
