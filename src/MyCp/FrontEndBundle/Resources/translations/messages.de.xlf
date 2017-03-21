@@ -1156,7 +1156,7 @@
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
-                <target>Gesamtpreis Unterkünfte:</target>
+                <target>Gesamtbetrag:</target>
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
@@ -3176,12 +3176,12 @@
 
         <trans-unit id="945">
             <source>SERVICE_TOURIST_TAX</source>
-            <target>Betrag für den Kundendienst</target>
+            <target>Dienstgebühr (Betrag für den Kundendienst)</target>
         </trans-unit>
 
         <trans-unit id="946">
             <source>SERVICE_FIXED_TAX</source>
-            <target>Feste Gebühr (Apps)</target>
+            <target>Feste Gebühr</target>
         </trans-unit>
 
         <trans-unit id="947">
@@ -3191,12 +3191,12 @@
 
         <trans-unit id="948">
             <source>SERVICE_TOURIST_TAX_TITLE</source>
-            <target>Cubre los gastos de nuestra plataforma, comisión por pre-reserva y reservación</target>
+            <target>Es bezieht sich auf den Preis, von MyCP an die Kunden belastet für die Nutzung unserer Dienstleistungen, berechnet aus angewandt Prozente auf die Beträge pro Unterkunft</target>
         </trans-unit>
 
         <trans-unit id="949">
             <source>SERVICE_FIXED_TAX_TITLE</source>
-            <target>Incluye las app móviles MyCasa Trip y MyCuba Map</target>
+            <target>Für jede durchgeführte Zahlung </target>
         </trans-unit>
 
         <trans-unit id="950">

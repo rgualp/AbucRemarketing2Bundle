@@ -56,7 +56,7 @@
     <li class="lead">
 
             <div class="row all-prices-numbers">
-                <div class="col-sm-3">
+                <div class="col-sm-3" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
                     {{ 'ACCOMMODATION_TOTAL_COST' | trans }} <br/>
                     {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                     <span id="accommodation_price"></span>
@@ -64,7 +64,7 @@
                 <div class="col-sm-1">
                     <label>+</label>
                 </div>
-                <div class="col-sm-2"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+                <div class="col-sm-2" rel="tooltip" title="{{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}}">
                     {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
                     {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
                     <span id="tourist_service"
@@ -81,7 +81,7 @@
                 <div class="col-sm-1">
                     <label>+</label>
                 </div>
-                <div class="col-sm-2"> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+                <div class="col-sm-2" rel="tooltip" title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}">
                     {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
                     {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
                     {{ currSymbol }}
@@ -90,19 +90,19 @@
                 <div class="col-sm-1" style="width: 5%">
                     <label>=</label>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}">
                     {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
                     {{ currSymbol }}
                     <span id="total_price"></span>
                 </div>
             </div>
             <div class="row" style="font-size: 20px; margin-top: 10px">
-                <div class="col-sm-6">
+                <div class="col-sm-6" rel="tooltip" title="{{ 'PREPAYMENT_TOOLTIP' | trans()}}">
                     {{ 'PREPAYMENT'|trans }}
                     : {{ currSymbol }}
                     <span id="total_prepayment"></span>
                 </div>
-                <div class="col-sm-6 text-right" style="padding-right: 25px">
+                <div class="col-sm-6 text-right" style="padding-right: 25px" rel="tooltip" title="{{ 'TOTAL_PAY_AT_SERVICE_TOOLTIP' | trans()}}">
                     {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
                     : {{ currSymbol }}
                     <span id="pay_at_service"></span><br/>

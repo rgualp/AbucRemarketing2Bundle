@@ -17,6 +17,18 @@ class Reservation  {
 
     public static function sendNewOfferToTeam($controller, $emailService, $tourist, $newReservations, $arrayNights, $oldReservation)
     {
+        $bookings = array();
+        $totalAmount = 0;
+
+        foreach($newReservations as $reservation){
+            $booking = $reservation->getOwnResReservationBooking();
+            if($booking != null && !in_array($booking->getBookingId(), $bookings))
+            {
+                $totalAmount += $booking->getPayedAmount();
+                $bookings[] = $booking->getBookingId();
+            }
+        }
+
         $body = $controller->render(
             'FrontEndBundle:mails:rt_newOffer.html.twig',
             array(
@@ -24,7 +36,8 @@ class Reservation  {
                 'user_tourist' => array($tourist),
                 'reservations' => $newReservations,
                 'nights' => $arrayNights,
-                'oldReservation' => $oldReservation
+                'oldReservation' => $oldReservation,
+                'payedAmount' => $totalAmount
             )
         );
 
