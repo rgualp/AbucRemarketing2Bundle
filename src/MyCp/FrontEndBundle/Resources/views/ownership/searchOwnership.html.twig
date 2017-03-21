@@ -24,7 +24,6 @@
                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
                 {{ include('FrontEndBundle:ownership:verticalSearcherOwnership.html.twig',
                 {'is_within_search_results':true,
-                    'autocomplete_text_list': autocomplete_text_list,
                     'locale': locale}) }}
                 <div class="filter">
                     <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"

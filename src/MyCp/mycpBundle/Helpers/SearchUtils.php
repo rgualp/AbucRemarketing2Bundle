@@ -177,7 +177,7 @@ class SearchUtils {
                 $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
             }
             else{
-                $arrival = new DateTime();
+                $arrival = new \DateTime();
                 $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
             }
             if ($leavingDate != null && $leavingDate != "undefined")

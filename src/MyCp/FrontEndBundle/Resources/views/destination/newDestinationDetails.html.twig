@@ -69,7 +69,6 @@
 
             {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
             {'is_within_search_results':true,
-                'autocomplete_text_list': autocomplete_text_list,
                 'locale': locale, 'isDestination': true})}}
             <div class="filter accordion-body collapse" id="collapseFilters">
                 <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}" data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
