@@ -5,8 +5,6 @@
 var BaseTwigJs = function () {
     var inits = function () {
 
-        console.log(showMarquesina);
-
         $('#delete_button_reservation').on('click',function(){
             string_url= frontend_remove_from_whislist;
             data_remove=$(this).attr('data');
@@ -41,13 +39,6 @@ var BaseTwigJs = function () {
 
             $( event.target ).blur();
             return false;
-        });
-
-        $.fn.typeahead &&
-        $('[data-provide="typeahead"]').typeahead({
-            name: "states",
-            local: autocomplete_text_list,
-            limit: 4
         });
 
         topmenucont = $('#top-menu-cont');
