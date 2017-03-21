@@ -1159,7 +1159,7 @@
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
-                <target>Prix total:</target>
+                <target>Prix Total:</target>
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
@@ -3911,7 +3911,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                   </trans-unit>
                   <trans-unit id="981">
                        <source>ACCOMMODATION_TOTAL_COST</source>
-                       <target>Montant pour l’hébergement</target>
+                       <target>Montant pour hébergement</target>
                   </trans-unit>
                   <trans-unit id="982">
                        <source>SERVICES_TOTAL_COST</source>
@@ -3923,7 +3923,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                   </trans-unit>
                   <trans-unit id="984">
                        <source>ONLINE_PREPAYMENT</source>
-                       <target>Paiement acompte en ligne. </target>
+                       <target>Paiement en ligne pour les services</target>
                   </trans-unit>
                   <trans-unit id="985">
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
@@ -3931,11 +3931,11 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                   </trans-unit>
                   <trans-unit id="986">
                      <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
-                     <target>montants pour  hébergements</target>
+                     <target>Montants pour hébergements</target>
                 </trans-unit>
                   <trans-unit id="987">
                      <source>PREPAYMENT</source>
-                     <target>Acompte</target>
+                     <target>Paiement en ligne pour les services</target>
                 </trans-unit>
                   <trans-unit id="988">
                      <source>PRICE_NIGHT</source>
@@ -4032,7 +4032,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
              </trans-unit>
                 <trans-unit id="1011">
                         <source>SERVICE_TOURIST_TAX</source>
-                        <target>Service au touriste</target>
+                        <target>Frais du service</target>
                     </trans-unit>
                     <trans-unit id="1012">
                         <source>TOOL_TIP_IMMEDIATE_BOOKING</source>
@@ -4040,11 +4040,11 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                     </trans-unit>
                     <trans-unit id="1013">
                         <source>SERVICE_FIXED_TAX</source>
-                        <target>Tarif fixe</target>
+                        <target>Frais fixes</target>
                     </trans-unit>
                     <trans-unit id="1014">
                         <source>TOTAL_PAY_AT_SERVICE</source>
-                        <target>Paiement  à la maison</target>
+                        <target>Paiement à la maison</target>
                     </trans-unit>
                     <trans-unit id="1015">
                         <source>IMMEDIATE_BOOKING</source>
@@ -4130,6 +4130,30 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
 
                                          Nous vous conseillons de rechercher sur notre site les maisons de réservation immédiate qui sont libres pour la date prévu ou d’autres logements aimés.]]></target>
                     </trans-unit>
+             <trans-unit id="1035">
+                  <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
+                  <target>C’est le prix établi pour chambre pour nuit du séjour du touriste à la maison. C’est le propriétaire de la maison qui établit ce prix.</target>
+             </trans-unit>
+             <trans-unit id="1036">
+                  <source>SERVICE_TOURIST_TAX_TITLE</source>
+                  <target>Ce sont les frais facturés par MyCP aux clients touristes pour l’utilisation de nos services, ce qui est calculé à partir de pourcentages appliqués sur les montants pour hébergement.</target>
+             </trans-unit>
+             <trans-unit id="1037">
+                  <source>SERVICE_FIXED_TAX_TITLE</source>
+                  <target>Pour chaque paiement effectué.</target>
+             </trans-unit>
+             <trans-unit id="1038">
+                  <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
+                  <target>C’est la somme du montant pour hébergement, des frais du service au client et des frais fixes. Cela correspond également à la somme du paiement en ligne pour les services avec le paiement qui doit être effectué à la maison.</target>
+             </trans-unit>
+            <trans-unit id="1039">
+                 <source>PREPAYMENT_TOOLTIP</source>
+                 <target>Paiement pour les services de gestion de pré-réservation et réservation, effectué sur le site et qui constitue la somme des frais du service, des tarifs au logement et des frais fixe. Ce paiement ne comprend pas le montant qui doit être effectué une fois à la maison (paiement à la maison).</target>
+            </trans-unit>
+            <trans-unit id="1040">
+                 <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
+                 <target>C’est le paiement que le client touriste doit effectuer une fois qu’il arrive au logement, au propriétaire de la maison, montant qui est calculé à partir de la soustraction du montant pour hébergement moins le tarif facturé au logement. Ce paiement doit être effectué en CUC (Peso cubain convertible).</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

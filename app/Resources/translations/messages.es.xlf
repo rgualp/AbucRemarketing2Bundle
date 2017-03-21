@@ -1148,7 +1148,7 @@
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
-                <target>Precio total:</target>
+                <target>Precio Total:</target>
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
@@ -3903,7 +3903,7 @@
                   </trans-unit>
                   <trans-unit id="984">
                        <source>ONLINE_PREPAYMENT</source>
-                       <target>Prepago Online</target>
+                       <target>Pago online por los servicios</target>
                   </trans-unit>
                   <trans-unit id="985">
                        <source>PERCENT_ACCOMMODATION_AMOUNT</source>
@@ -3915,7 +3915,7 @@
                 </trans-unit>
                   <trans-unit id="987">
                      <source>PREPAYMENT</source>
-                     <target>Prepago</target>
+                     <target>Pago online por los servicios</target>
                 </trans-unit>
                   <trans-unit id="988">
                      <source>PRICE_NIGHT</source>
@@ -4045,6 +4045,18 @@
                         Lamentablemente la casa estará ocupada para la fecha deseada.<br/>
 
                         Le recomendamos buscar en nuestro sitio, las casas de reserva inmediata que se encuentren disponibles para la fecha u otras casas de su agrado.]]></target>
+            </trans-unit>
+             <trans-unit id="1019">
+                  <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
+                  <target>Hace referencia al precio por habitación por noche de estancia de un cliente turista en un alojamiento. Es el propietario el que determina el importe por alojamiento.</target>
+             </trans-unit>
+            <trans-unit id="1020">
+                 <source>PREPAYMENT_TOOLTIP</source>
+                 <target>Pago por los servicios de gestión de pre-reserva y reserva, se efectúa de forma online, constituye la sumatoria de las Tarifas por el servicio al cliente, Tarifas al alojamiento y la Tarifa fija. No incluye el pago que debe efectuarse en casa. (Pago en casa)</target>
+            </trans-unit>
+            <trans-unit id="1021">
+                 <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
+                 <target>Se refiere al pago que debe efectuar el cliente turista al propietario una vez arribado al alojamiento, calculado de la resta del Importe por alojamiento - Tarifas al alojamiento. El mismo debe ser efectuado en moneda CUC.</target>
             </trans-unit>
         </body>
     </file>
