@@ -24,11 +24,11 @@
           </trans-unit>
           <trans-unit id="5500bcc86c03cfb07ccfa62c569665c1b440943d" resname="ACCOMMODATION_TOTAL_COST">
             <source>ACCOMMODATION_TOTAL_COST</source>
-            <target state="new">Lodging Amount</target>
+            <target state="new">Lodging Price</target>
           </trans-unit>
           <trans-unit id="73718714acfb1edc3ce40deca84522401505dcec" resname="ACCOMMODATION_TOTAL_COST_PLURAL">
             <source>ACCOMMODATION_TOTAL_COST_PLURAL</source>
-            <target state="new">Lodging Amounts</target>
+            <target state="new">Lodging Prices</target>
           </trans-unit>
           <trans-unit id="f4117223726361342d2ce2107c544c8059462d3d" resname="ADDRESS">
             <source>ADDRESS</source>
@@ -460,7 +460,7 @@
           </trans-unit>
           <trans-unit id="26395a011987f8862145a822bc683ed0a9394c9e" resname="PERCENT_ACCOMMODATION_AMOUNT">
             <source>PERCENT_ACCOMMODATION_AMOUNT</source>
-            <target state="new">%percent% of Lodging Amount</target>
+            <target state="new">%percent% of Lodging Price</target>
           </trans-unit>
           <trans-unit id="3582d4b13b17e606edcfd7130c6a8c3a3eb3ae4d" resname="PETS_OTHERS_FILTER">
             <source>PETS_OTHERS_FILTER</source>
@@ -584,7 +584,7 @@
           </trans-unit>
           <trans-unit id="300cfccb65edfcf83f70cdf5e1499b01ddd2c8db" resname="SERVICE_FIXED_TAX">
             <source>SERVICE_FIXED_TAX</source>
-            <target state="new">Fixed rate (Apps)</target>
+            <target state="new">Feste Gebühr</target>
           </trans-unit>
           <trans-unit id="5c35037c7eb54cb13fceaef6cf5db04c14b29007" resname="SHARED_BATHROOM_FILTER">
             <source>SHARED_BATHROOM_FILTER</source>
@@ -1000,7 +1000,7 @@
           </trans-unit>
           <trans-unit id="35408b83cf258c7c24cccb02385a107b78bc2223" resname="dashboard.booking.totalprice">
             <source>dashboard.booking.totalprice</source>
-            <target state="new">Total price</target>
+            <target state="new">Gesamtbetrag</target>
           </trans-unit>
           <trans-unit id="db8c6d98a8ba44a289c4721bb722e8da31da9ffc" resname="dashboard.booking.totalprice_inhome">
             <source>dashboard.booking.totalprice_inhome</source>
@@ -2117,7 +2117,7 @@
           </trans-unit>
           <trans-unit id="25ac703d44bb6b5a686a62ee77f3f5a06789cae7" resname="payment.total">
             <source>payment.total</source>
-            <target>Total Price</target>
+            <target>Gesamtbetrag</target>
           </trans-unit>
           <trans-unit id="71fe815a7413f4d594b000f9b263e5fb867a49fe" resname="quick_booking_tooltip">
             <source>quick_booking_tooltip</source>

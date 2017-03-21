@@ -63,28 +63,28 @@
 <form method="POST" action="{{ path('frontend_check_availability_submit_cart') }}">
 <!--textarea style="height: 100px" name="comment_cart" class="form-control"></textarea-->
 <div class="row h-blue prices-cart">
-    <div class="col-sm-3">{{"ACCOMMODATION_TOTAL_COST" | trans}} <br/><span>{{totalRoomPrice | price}}</span></div>
+    <div class="col-sm-3"  rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">{{"ACCOMMODATION_TOTAL_COST" | trans}} <br/><span>{{totalRoomPrice | price}}</span></div>
     <div class="col-sm-1">
         <label>+</label>
     </div>
-    <div class="col-sm-2">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
+    <div class="col-sm-2" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
     <div class="col-sm-1">
         <label>+</label>
     </div>
-    <div class="col-sm-2">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
+    <div class="col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
     <div class="col-sm-1">
         <label>=</label>
     </div>
-    <div class="col-sm-2 text-right">
+    <div class="col-sm-2 text-right" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
         {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
         <span>{{(totalRoomPrice + touristTax + currentServiceFee.fixedFee) | price}}</span>
     </div>
 </div>
 <div class="row h-blue prices-cart">
-    <div class="col-sm-6">
-        {{"TOTAL_PREPAYMENT" | trans}}: <span>{{(total_percent +touristTax + currentServiceFee.fixedFee) | price}}</span>
+    <div class="col-sm-6" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
+        {{"PREPAYMENT" | trans}}: <span>{{(total_percent +touristTax + currentServiceFee.fixedFee) | price}}</span>
     </div>
-    <div class="col-sm-6 text-right">
+    <div class="col-sm-6 text-right" rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
         {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span>{{(totalRoomPrice - total_percent) | price}}</span> <br/>
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
         {% if currSymbol != "CUC" %}

@@ -3181,7 +3181,7 @@
 
         <trans-unit id="945">
             <source>SERVICE_TOURIST_TAX</source>
-            <target>Servicio al turista</target>
+            <target>Tarifas por el servicio al cliente</target>
         </trans-unit>
 
         <trans-unit id="946">
@@ -3196,12 +3196,12 @@
 
         <trans-unit id="948">
             <source>SERVICE_TOURIST_TAX_TITLE</source>
-            <target>Cubre los gastos de nuestra plataforma, comisión por pre-reserva y reservación</target>
+            <target>Se refiere a la tarifa cobrada por MyCP a los clientes turistas por el uso de nuestros servicios, calculado a partir de porcientos aplicados a los importes por alojamiento.</target>
         </trans-unit>
 
         <trans-unit id="949">
             <source>SERVICE_FIXED_TAX_TITLE</source>
-            <target>Incluye las app móviles MyCasa Trip y MyCuba Map</target>
+            <target>Por cada pago realizado </target>
         </trans-unit>
 
         <trans-unit id="950">

@@ -931,6 +931,10 @@ class ownershipRepository extends EntityRepository {
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 
+        $leavingDateObject = date_create($leavingDate);
+        date_sub($leavingDateObject, date_interval_create_from_date_string('1 days'));
+        $leavingDate = date_format($leavingDateObject, 'd-m-Y');
+
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
         $q = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id, false);
@@ -1969,7 +1973,7 @@ class ownershipRepository extends EntityRepository {
                 $result[] = $own["code"];
         }
 
-        return json_encode($result);
+        return $result;
     }
 
     public function getNotSynchronized() {
