@@ -109,22 +109,6 @@ class SearchUtils {
             $dates_where = "";
             $dates_where_count = "";
 
-            if ($arrivalDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(ud.ud_from_date <= :arrival_date AND ud.ud_to_date >= :arrival_date)";
-
-                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
-                $dates_where_count .= "(ud1.ud_from_date <= :arrival_date AND ud1.ud_to_date >= :arrival_date)";
-            }
-
-            if ($leavingDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(ud.ud_from_date <= :leaving_date AND ud.ud_to_date >= :leaving_date)";
-
-                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
-                $dates_where_count .= "(ud1.ud_from_date <= :leaving_date AND ud1.ud_to_date >= :leaving_date)";
-            }
-
             if ($arrivalDate != null && $leavingDate != null) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(ud.ud_from_date >= :arrival_date AND ud.ud_to_date <= :leaving_date)";
@@ -132,6 +116,25 @@ class SearchUtils {
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(ud1.ud_from_date >= :arrival_date AND ud1.ud_to_date <= :leaving_date)";
             }
+            else {
+
+                if ($arrivalDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(ud.ud_from_date <= :arrival_date AND ud.ud_to_date >= :arrival_date)";
+
+                    $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                    $dates_where_count .= "(ud1.ud_from_date <= :arrival_date AND ud1.ud_to_date >= :arrival_date)";
+                }
+
+                if ($leavingDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(ud.ud_from_date <= :leaving_date AND ud.ud_to_date >= :leaving_date)";
+
+                    $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                    $dates_where_count .= "(ud1.ud_from_date <= :leaving_date AND ud1.ud_to_date >= :leaving_date)";
+                }
+            }
+
 
             $query_string = "SELECT DISTINCT ow.own_id from mycpBundle:unavailabilityDetails ud
                              JOIN ud.room r
@@ -177,7 +180,7 @@ class SearchUtils {
                 $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
             }
             else{
-                $arrival = new DateTime();
+                $arrival = new \DateTime();
                 $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
             }
             if ($leavingDate != null && $leavingDate != "undefined")
@@ -193,6 +196,7 @@ class SearchUtils {
                 $departure = $arrival->modify('+2 days')->format("Y-m-d");
                 $query_details->setParameter('leaving_date', $departure);
             }
+
 
             $uDetails = $query_details->getResult();
 

@@ -1509,7 +1509,7 @@ class OwnershipController extends Controller
         $session = $this->getRequest()->getSession();
         $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'));
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, 1, 1, $session->get('search_order'), false, null, 0, null, null, false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
@@ -1555,7 +1555,8 @@ class OwnershipController extends Controller
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
             'list_preffix' => 'voted_best',
-            'awards' => $awards
+            'awards' => $awards,
+            'cant_pages' => $items_per_page
         ));
     }
 
