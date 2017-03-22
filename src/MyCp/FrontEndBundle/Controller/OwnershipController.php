@@ -1509,7 +1509,7 @@ class OwnershipController extends Controller
         $session = $this->getRequest()->getSession();
         $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'));
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, 1, 1, $session->get('search_order'), false, null, 0, null, null, false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
@@ -1555,7 +1555,8 @@ class OwnershipController extends Controller
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
             'list_preffix' => 'voted_best',
-            'awards' => $awards
+            'awards' => $awards,
+            'cant_pages' => $items_per_page
         ));
     }
 
@@ -1587,8 +1588,7 @@ class OwnershipController extends Controller
         }
 
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
-
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters);
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters,0,null,null,false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
@@ -1645,6 +1645,9 @@ class OwnershipController extends Controller
         $check_filters['own_others_pets'] = false;
         $check_filters['own_others_internet'] = false;
         $awards = $em->getRepository('mycpBundle:award')->findAll();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
 
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
             'search_text' => null,
@@ -1662,7 +1665,9 @@ class OwnershipController extends Controller
             'check_filters' => $check_filters,
             'list_preffix' => 'search',
             'list' => $search_results_list,
-            'awards' => $awards
+            'awards' => $awards,
+            'current_page' => $page,
+            'cant_pages' => $paginator->getLastPage()
         ));
     }
 
