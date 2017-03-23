@@ -209,6 +209,7 @@ function reservations_in_details()
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
                 $('#tr_'+$(this).attr('data')).remove();
+                $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                 if ($('#rooms_selected >tbody >tr').length == 0){
                     $('#rooms_selected').css({display: 'none'});
                     $('.calendar-results').css({display: 'none'});
