@@ -114,35 +114,6 @@ function do_paginate()
     });
 }
 
-// function datePickersStarUp_searcher() {
-//     $('.show_calendar').click(function(){
-//     $("#"+$(this).prev().attr('id')).datepicker('show');
-//     });
-//     $('#input_arrival_date').datepicker({
-//         format: 'dd/mm/yyyy',
-//         todayBtn: true,
-//         autoclose: true,
-//         startDate: today_date,
-//         date: start_date,
-//         language: $('#input_arrival_date').attr('data-localization')
-//     }).on('changeDate', function(ev) {
-//             var startDate = new Date(ev.date);
-//             startDate.setDate(startDate.getDate() + 1);
-//             departure_datepicker.setStartDate(startDate);
-//             var valueDate = new Date(ev.date);
-//             valueDate.setDate(valueDate.getDate() + 2);
-//             departure_datepicker.setDate(valueDate);
-//         });
-//
-//     var departure_datepicker = $('#input_departure_date').datepicker({
-//         format: 'dd/mm/yyyy',
-//         todayBtn: false,
-//         autoclose: true,
-//         startDate: '+1d',
-//         date: end_date,
-//         language: $('#input_departure_date').attr('data-localization')
-//     }).data('datepicker');
-// }
 
 function connectSearchOnEnter() {
     $('#orange_search_bar').keydown(function(e) {
@@ -162,78 +133,6 @@ function create_dateDMY(date_text) {
     }
     return null;
 }
-
-// function datePickersStarUp(){
-//
-//     $('#top_reservation_filter_date_from').datepicker({
-//         format:'dd/mm/yyyy',
-//         todayBtn:'linked',
-//         autoclose: true,
-//         startDate: today_date,
-//         date: start_date,
-//         language: $('#top_reservation_filter_date_from').attr('data-localization')
-//     }).on('changeDate', function(ev){
-//             var startDate = new Date(ev.date);
-//             startDate.setDate(startDate.getDate() + 1);
-//             reservation_filter_date_to.setStartDate(startDate);
-//             var date = new Date(ev.date);
-//             date.setDate(date.getDate() + 2);
-//             reservation_filter_date_to.setDate(date);
-//
-//             var startDate = new Date(ev.date);
-//             startDate.setDate(startDate.getDate() + 1);
-//             $('#filter_date_from').datepicker("setDate", startDate);
-//             $('#filter_date_to').datepicker("setDate", date);
-//
-//
-//             $('.datepicker').hide();
-//             $('#top_reservation_submit_button').attr('type','submit');
-//             $('#top_reservation_submit_button').attr('onclick','');
-//             $('#top_reservation_submit_button').html(reservation_see_prices_text);
-//         });
-//
-//     var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
-//         format:'dd/mm/yyyy',
-//         todayBtn:false,
-//         autoclose: true,
-//         startDate: '+1d',
-//         date: end_date,
-//         language: $('#top_reservation_filter_date_to').attr('data-localization')
-//     }).data('datepicker');
-//
-//     $('#filter_date_from').datepicker({
-//         format:'dd/mm/yyyy',
-//         todayBtn:'linked',
-//         autoclose: true,
-//         startDate: today_date,
-//         date: start_date,
-//         language: $('#filter_date_from').attr('data-localization')
-//     }).on('changeDate', function(ev){
-//             var startDate = new Date(ev.date);
-//             startDate.setDate(startDate.getDate() + 1);
-//             $('#filter_date_to').datepicker("setStartDate", startDate);
-//             var date = new Date(ev.date);
-//             date.setDate(date.getDate() + 2);
-//             $('#filter_date_to').datepicker("setDate", date);
-//             $('.datepicker').hide();
-//
-//             refresh_calendar(startDate.getDate() + '/' + (startDate.getMonth() + 1) + '/' + startDate.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
-//
-//             /*var start_date = new Date(ev.date);
-//              start_date.setDate(start_date.getDate() + 1);
-//              $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
-//              $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
-//         });
-//
-//     var filter_date_to =$('#filter_date_to').datepicker({
-//         format:'dd/mm/yyyy',
-//         todayBtn: false,
-//         autoclose: true,
-//         startDate: '+1d',
-//         date: end_date,
-//         language: $('#filter_date_to').attr('data-localization')
-//     }).data('datepicker');
-// }
 
 function change_order()
 {

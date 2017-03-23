@@ -10,18 +10,6 @@
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-    {#<link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/ion.rangeSlider.css') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
-    {% javascripts
-    '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
-    '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 <style>
 </style>
 {% endblock %}
@@ -36,6 +24,15 @@
          {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
      {% endif %}#}
  {% endblock metas %}
+
+{% block other_load_js %}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/ownership.js'
+    filter='?uglifyjs2'
+    %}
+    .script('{{ asset_url }}')
+    {% endjavascripts %}
+{% endblock %}
 
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
@@ -110,68 +107,80 @@
             </div>
         </div>
     {% block marquesina_js %}{% endblock %}
-    {% block include_javascripts %}
-
-        <script>var otherpage = {{ current_page }};</script>
-
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
-        '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
-        '@FrontEndBundle/Resources/public/js/ownership.js'
-        filter='?uglifyjs2'
-        %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-
+    {% block javascripts %}
         <script>
-            $('.bs-select').selectpicker({
-                iconBase: 'fa',
-                tickIcon: 'fa-check'
-            });
+            var otherpage = {{ current_page }};
 
-            var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
+            function initJSTwig() {
+                $('.bs-select').selectpicker({
+                    iconBase: 'fa',
+                    tickIcon: 'fa-check'
+                });
 
-            $('#div_result').slimScroll({
-                height: h+'px',
-                start: 'top',
-                allowPageScroll: true
-            }).bind('slimscrolling', function(e, pos){
-                if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
-                    otherpage++;
-                    if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
-                        $('#div_result')[0].scrollTop = pos - 200;
-                        research(otherpage);
+                var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
 
-//                        $(".elementList").each(function (e) {
-//                            var h = $(this).height();
-//                            if ($(this).find('img.lazy').hasClass('taller'))
-//                                $(this).find('.efect-blur').css('background-size', 'auto ' + h + "px");
-//                        });
+                $('#div_result').slimScroll({
+                    height: h+'px',
+                    start: 'top',
+                    allowPageScroll: true
+                }).bind('slimscrolling', function(e, pos){
+                    if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
+                        otherpage++;
+                        if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
+                            $('#div_result')[0].scrollTop = pos - 200;
+                            research(otherpage);
+                        }
                     }
-                }
-            });
-
-//            $('#div_result').scroll(function () {
-//                if ($('#search-result').scrollTop() >= $('#list-ownership').height() - $('#search-result').height()) {
-//
-//                }
-//            });
+                });
 
             var h1 = $('#search-container').height();
 
-            $('#search_map').css('height',h1+'px');
+                $('#search_map').css('height',h1+'px');
 
 
-            $('[data-submenu]').submenupicker();
+                $('[data-submenu]').submenupicker();
 
-            $(function() {
-               $(".show-more-footer a").click(function (e) {
-                   e.preventDefault();
-                   $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
-               })
+                $(".show-more-footer a").click(function (e) {
+                    e.preventDefault();
+                    $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
+                })
 
                 $("iframe").css("position", "fixed");
-            });
+
+                $("#priceFilter").slider({});
+                $('#cancel-filters').on('click',function(){
+                    $('#button_research').removeClass('hide');
+                    $('#more_filters').addClass('collapsed');
+                });
+
+                $('#more_filters').on('click', function () {
+                    if ($('#more_filters').hasClass('collapsed')) {
+                        $('#button_research').addClass('hide');
+                        $('#more_filters').removeClass('collapsed');
+
+
+                        var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height() + 20);
+                        var scroll_h = full_height - 100;
+
+                        $('#collapseFilters .thumbnail').css("height", full_height + "px");
+
+                        $('#collapseFilters .thumbnail .content-filter').slimScroll({
+                            height: scroll_h + 'px',
+                            start: 'top'
+                        });
+
+
+                    }
+                    else {
+                        $('#button_research').removeClass('hide');
+                        $('#more_filters').addClass('collapsed');
+                    }
+                });
+
+            }
+
+
+
 
         </script>
         {{ include('FrontEndBundle:script:script.html.twig') }}
