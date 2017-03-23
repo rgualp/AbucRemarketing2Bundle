@@ -231,12 +231,14 @@ function reservations_in_details()
                     value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
                     $('.normalPrice_' + $(this).attr('data')).css({display: 'none'});
                     $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                 }
                 else
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr');
                     $('.normalPrice_' + $(this).attr('data')).css({display: 'block'});
                     $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                 }
                 value= normalize_prices(value);
                 $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
@@ -257,12 +259,14 @@ function reservations_in_details()
                 value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1)) ;
                 $('.normalPrice_' + $(this).attr('data')).css({display: 'none'});
                 $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
             }
             else
             {
                 value=$(this).attr('data_total')*$(this).attr('data_curr');
                 $('.normalPrice_' + $(this).attr('data')).css({display: 'block'});
                 $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
             }
 
             value= normalize_prices(value);
