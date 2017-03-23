@@ -41,7 +41,8 @@
                     {% endif %}
                     {% if print_price == 1%}
                         {% if prices_dates[cont-1][loop.index0] is defined %}
-                            {{ prices_dates[cont-1][loop.index0] * currRate}}
+                            <span class="normalPrice_{{ room.roomId }}">{{ prices_dates[cont-1][loop.index0] * currRate}}</span>
+                            <span class="triplePrice_{{ room.roomId }}" style="display: none">{{ (prices_dates[cont-1][loop.index0] + tripleChargeRoom) * currRate}}</span>
                         {% else %}
                             -
                         {% endif %}
