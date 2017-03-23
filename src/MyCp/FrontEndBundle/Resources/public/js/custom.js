@@ -26,6 +26,7 @@ function startCustom() {
     reservations();
 
     startTypeHead();
+
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }

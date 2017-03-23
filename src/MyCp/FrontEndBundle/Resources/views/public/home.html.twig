@@ -91,6 +91,12 @@
         var frontend_public_load_slide = "{{ path("frontend_public_load_slide") }}";
 
         function initJSTwig() {
+            // $("img.lazyload").Lazy({
+            //     onFinishedAll: function() {
+            //         console.log("ok");
+            //     }
+            // });
+
             $("#full-width-slider").load(frontend_public_load_slide,[],function (e) {
                 jQuery('#camera_wrap_1').camera({
                     thumbnails: false,

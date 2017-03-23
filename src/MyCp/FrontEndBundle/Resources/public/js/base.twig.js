@@ -95,8 +95,6 @@ var BaseTwigJs = function () {
         $('#homeCarrousel a[href="#premium"]').click(function () {
             loadAccommodationsByCategory("Premium", "premium", "premium");
         });
-
-        $("img.lazyload").unveil();
     }
 
 
