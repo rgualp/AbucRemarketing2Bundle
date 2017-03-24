@@ -406,6 +406,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
+
     function countForMenu($id_user) {
         $date = \date('Y-m-j');
         $new_date = strtotime('-30 day', strtotime($date));
