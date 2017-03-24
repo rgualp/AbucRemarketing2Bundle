@@ -221,7 +221,7 @@ class OwnershipController extends Controller
             $do_operation = true;
             $flag_room++;
         }
-
+        $tripleChargeRoom = $this->container->getParameter('configuration.triple.room.charge');
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
         if ($mobileDetector->isMobile()) {
@@ -234,7 +234,8 @@ class OwnershipController extends Controller
                 'prices_dates' => $prices_dates,
                 'reservations' => $array_no_available,
                 'fromBackend' => $fromBackend,
-                'nights' => $nights
+                'nights' => $nights,
+                'tripleChargeRoom' => $tripleChargeRoom
             ));
         } else {
             //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
@@ -247,7 +248,8 @@ class OwnershipController extends Controller
                 'prices_dates' => $prices_dates,
                 'reservations' => $array_no_available,
                 'fromBackend' => $fromBackend,
-                'nights' => $nights
+                'nights' => $nights,
+                'tripleChargeRoom' => $tripleChargeRoom
             ));
         }
     }
