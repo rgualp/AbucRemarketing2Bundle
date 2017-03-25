@@ -4141,6 +4141,10 @@
                  <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
                  <target>Si riferisce al pagamento che deve effettuare il cliente turista al proprietario una volta raggiunto l’alloggio,  calcolato sulla differenza dell’Importo per alloggio  - Tariffe sull’alloggio. Lo stesso si deve effettuare in moneta CUC.</target>
             </trans-unit>
+            <trans-unit id="1041">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Torna a MyCasaTrip</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

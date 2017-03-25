@@ -4079,6 +4079,11 @@
                  <target>Regresar al dashboard</target>
             </trans-unit>
 
+            <trans-unit id="1027">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Regresar a MyCasaTrip</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

@@ -392,7 +392,6 @@ class ReservationController extends Controller {
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
 
-
         return $this->render('FrontEndBundle:reservation:reservation.html.twig', array(
                     'nights' => $nights,
                     'user_tourist' => $userTourist,
@@ -409,6 +408,22 @@ class ReservationController extends Controller {
                     'currentServiceFee' => $currentServiceFee,
                     'touristTax' => $touristTax
         ));
+    }
+
+    public function removeReservationAction($idReservation, Request $request) {
+        $session = $request->getSession();
+        $array_ids = $session->get('reservation_own_ids');
+        $newArraysIds = array();
+
+        foreach($array_ids as $id){
+            if($id != $idReservation)
+            {
+                $newArraysIds[] = $id;
+            }
+        }
+
+        $session->set('reservation_own_ids', $newArraysIds);
+        return $this->redirect($this->generateUrl("frontend_reservation_reservation"));
     }
 
     public function confirmationAction($id_booking) {
