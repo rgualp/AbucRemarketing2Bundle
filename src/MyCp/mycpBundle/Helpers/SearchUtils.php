@@ -33,21 +33,6 @@ class SearchUtils {
             $dates_where = "";
             $dates_where_count = "";
 
-            if (self::isDefined($arrivalDate)) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-
-                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
-                $dates_where_count .= "(owr1.own_res_reservation_from_date <= :arrival_date AND owr1.own_res_reservation_to_date >= :arrival_date)";
-            }
-
-            if (self::isDefined($leavingDate)) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-
-                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
-                $dates_where_count .= "(owr1.own_res_reservation_from_date <= :leaving_date AND owr1.own_res_reservation_to_date >= :leaving_date)";
-            }
 
             if (self::isDefined($arrivalDate) && self::isDefined($leavingDate)) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
@@ -56,6 +41,24 @@ class SearchUtils {
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(owr1.own_res_reservation_from_date >= :arrival_date AND owr1.own_res_reservation_to_date <= :leaving_date)";
             }
+            else{
+                if (self::isDefined($arrivalDate)) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
+
+                    $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                    $dates_where_count .= "(owr1.own_res_reservation_from_date <= :arrival_date AND owr1.own_res_reservation_to_date >= :arrival_date)";
+                }
+                if (self::isDefined($leavingDate)) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
+
+                    $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                    $dates_where_count .= "(owr1.own_res_reservation_from_date <= :leaving_date AND owr1.own_res_reservation_to_date >= :leaving_date)";
+                }
+
+            }
+
 
             $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
