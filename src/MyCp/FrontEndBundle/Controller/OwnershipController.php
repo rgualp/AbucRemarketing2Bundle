@@ -608,7 +608,8 @@ class OwnershipController extends Controller
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
+                'currentServiceFee' => $currentServiceFee,
+                'lastPage' => $paginator->getLastPage()
             ));
         } else {
 
@@ -645,7 +646,8 @@ class OwnershipController extends Controller
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
+                'currentServiceFee' => $currentServiceFee,
+                'lastPage' => $paginator->getLastPage()
             ));
         }
     }

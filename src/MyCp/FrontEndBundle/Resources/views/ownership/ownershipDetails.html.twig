@@ -15,6 +15,17 @@
     <meta name="keywords"
           content="{{ ownership.owntype }} {{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">
 
+    {% set page = app.request.query.get('page')  %}
+    {% set next = page + 1 %}
+    {% set prev = page - 1 %}
+    {% if page == "" or page == 1 %}
+        <link rel="next" href="{{ path("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": next}) }}" />
+    {% elseif page > 1 and page < lastPage %}
+        <link rel="next" href="{{ path("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": next}) }}" />
+        <link rel="prev" href="{{ path("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": prev}) }}" />
+    {% elseif page == lastPage %}
+        <link rel="prev" href="{{ path("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": prev}) }}" />
+    {% endif %}
 {% endblock %}
 {% block open_graph_metas %}
     <!-- Propiedades Open Graph -->
@@ -43,6 +54,7 @@
     <a href="#" class="active" title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
 {% endblock %}
 {% block body %}
+
     <div class="bg-solid-ligth-blue" style="margin-top: -16px">
         <div class="container">
             <div class="row">
