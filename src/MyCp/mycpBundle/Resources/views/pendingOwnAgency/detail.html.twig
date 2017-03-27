@@ -33,19 +33,99 @@
     <hr/>
     <div class="row-fluid">
         <div class="row-fluid">
+            <div class="span6">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#reservas" data-toggle="tab">Datos Reserva</a>
+                    </li>
+                </ul>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Booking: </b>{{ payment.booking.bookingId }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>CAS: </b> <a target="_blank" href="{{ path("mycp_details_reservation_ag", {"id_reservation": payment.reservation.genResId}) }}">CAS.{{ payment.reservation.genResId }}</a>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Fecha entrada cliente: </b> {{ payment.reservation.genResFromDate | date("d/m/Y") }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Fecha salida cliente: </b> {{ payment.reservation.genResToDate | date("d/m/Y") }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Agencia: </b> {{ payment.reservation.genResUserId.getUserCompleteName }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Cliente turista: </b> {{ payment.reservation.travelAgencyDetailReservations[0].reservation.client.fullname }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="span6">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#reservas" data-toggle="tab">Alojamiento</a>
+                    </li>
+                </ul>
+                {% set accommodation = payment.accommodation %}
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Código: </b> {{ accommodation.ownMcpCode }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Nombre: </b> {{ accommodation.ownName }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Propietario: </b> {{ accommodation.ownHomeowner1 }} {% if accommodation.ownHomeowner2 != null and accommodation.ownHomeowner2 != "" %}/ {{ accommodation.ownHomeowner2 }} {% endif %}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Dirección: </b> Calle {{ accommodation.ownAddressStreet }} #{{ accommodation.ownAddressNumber }}. Entre {{ accommodation.ownAddressBetweenStreet1 }} y {{ accommodation.ownAddressBetweenStreet2 }}. {{ accommodation.ownAddressMunicipality.munName }}. {{ accommodation.ownAddressProvince.provName }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Teléfono: </b> ({{ accommodation.ownAddressProvince.provPhoneCode }}) {{ accommodation.ownPhoneNumber }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <b>Móvil: </b> {{ accommodation.ownMobileNumber }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row-fluid">
             <div class="span12">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#reservas" data-toggle="tab">Detalles</a>
+                        <a href="#reservas" data-toggle="tab">Datos del Pago</a>
                     </li>
                 </ul>
                 <div class="row-fluid">
                     <div class="span6">
-                        <b>Fecha del pago: </b>{{ payment.payDate | date("d/m/Y") }}
+                        <b>ID: </b> {{ payment.id }}
                     </div>
                     <div class="span6">
-                        <b>CAS: </b> <a target="_blank" href="{{ path("mycp_details_reservation_ag", {"id_reservation": payment.reservation.genResId}) }}">CAS.{{ payment.reservation.genResId }}</a>
+                        <b>Fecha del pago: </b>{{ payment.payDate | date("d/m/Y") }}
                     </div>
+
                 </div>
                 <div class="row-fluid">
                     <div class="span6">

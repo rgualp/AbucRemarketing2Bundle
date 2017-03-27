@@ -4058,6 +4058,32 @@
                  <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
                  <target>Se refiere al pago que debe efectuar el cliente turista al propietario una vez arribado al alojamiento, calculado de la resta del Importe por alojamiento - Tarifas al alojamiento. El mismo debe ser efectuado en moneda CUC.</target>
             </trans-unit>
+            <trans-unit id="1022">
+                 <source>SUCCESS_PAYMENT_TITLE</source>
+                 <target>Pago Exitoso</target>
+            </trans-unit>
+            <trans-unit id="1023">
+                 <source>PAYED_AMOUNT</source>
+                 <target>Cantidad pagada:</target>
+            </trans-unit>
+            <trans-unit id="1024">
+                 <source>BOOKING_ID</source>
+                 <target>Código del pago:</target>
+            </trans-unit>
+            <trans-unit id="1025">
+                 <source>DOWNLOAD_VOUCHERS</source>
+                 <target>Descargar vouchers</target>
+            </trans-unit>
+            <trans-unit id="1026">
+                 <source>DASHBOARD_RETURN</source>
+                 <target>Regresar al dashboard</target>
+            </trans-unit>
+
+            <trans-unit id="1027">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Regresar a MyCasaTrip</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

@@ -4070,6 +4070,30 @@
                  <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
                  <target>It refers to the payment that must be done to the casa owner by tourist client on arrival, it is calculated from the difference between the Casa Price and the Lodging Fee. It must be done in CUC (Cuban Convertible Peso)</target>
             </trans-unit>
+            <trans-unit id="1021">
+                 <source>SUCCESS_PAYMENT_TITLE</source>
+                 <target>Successful Payment</target>
+            </trans-unit>
+            <trans-unit id="1022">
+                 <source>PAYED_AMOUNT</source>
+                 <target>Payed amount:</target>
+            </trans-unit>
+            <trans-unit id="1023">
+                 <source>BOOKING_ID</source>
+                 <target>Booking id:</target>
+            </trans-unit>
+            <trans-unit id="1024">
+                 <source>DOWNLOAD_VOUCHERS</source>
+                 <target>Download vouchers</target>
+            </trans-unit>
+            <trans-unit id="1025">
+                 <source>DASHBOARD_RETURN</source>
+                 <target>Return to dashboard</target>
+            </trans-unit>
+            <trans-unit id="1026">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Return to MyCasaTrip</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

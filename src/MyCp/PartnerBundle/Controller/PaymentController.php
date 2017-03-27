@@ -129,8 +129,11 @@ class PaymentController extends Controller
         $pendingUrl = $this->generateUrl('frontend_confirmation_reservation',
             array('id_booking' => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);*/
 
-        $confirmationUrl = $this->generateUrl('partner_dashboard_cart',
-            array(), UrlGeneratorInterface::ABSOLUTE_URL);
+//        $confirmationUrl = $this->generateUrl('partner_dashboard_cart',
+//            array(), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $confirmationUrl = $this->generateUrl('partner_post_payment_return',
+            array("idBooking" => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $pendingUrl = $this->generateUrl('partner_dashboard_cart',
             array(), UrlGeneratorInterface::ABSOLUTE_URL);
@@ -267,13 +270,23 @@ class PaymentController extends Controller
         $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));*/
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
-            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $postfinancePayment->getId());
+            ': Payment ID: ' . $payment->getId() . "\nPostfinanceRequest ID: " . $postfinancePayment->getId());
 
         //return new Response('Thanks', 200);
         $trans = $this->get('translator');
-        $message = $trans->trans('PAYMENT_SUCCESS');
-        $this->get('session')->getFlashBag()->add('message_global_success', $message);
-        return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+//        $message = $trans->trans('PAYMENT_SUCCESS');
+//        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+        return $this->redirect($this->generateUrl("partner_post_payment_return", array("idBooking" => $payment->getBooking()->getBookingId())));
+    }
+
+    public function paymentReturnAction($idBooking)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository("mycpBundle:booking")->find($idBooking);
+
+        return $this->render('PartnerBundle:Payment:paymentReturn.html.twig', array(
+            'booking' => $booking
+        ));
     }
 
     private function getArrayFromRequest($queryString){

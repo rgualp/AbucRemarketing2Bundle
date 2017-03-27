@@ -44,7 +44,8 @@
                     {% endif %}
                     {% if print_price == 1%}
                         {% if prices_dates[cont-1][loop.index0] is defined %}
-                            {{ prices_dates[cont-1][loop.index0] * currRate}}
+                            <span class="normalPrice_{{ room.roomId }}">{{ prices_dates[cont-1][loop.index0] * currRate}}</span>
+                            <span class="triplePrice_{{ room.roomId }}"  style="display: none">{{ (prices_dates[cont-1][loop.index0] + tripleChargeRoom) * currRate}}</span>
                         {% else %}
                             -
                         {% endif %}
@@ -162,6 +163,10 @@
                         <option value="12">12</option>
                     </select>
                 </div>
+            <td id="tripleAlert_{{room.getRoomId}}" style="display: none; border:none">
+                <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                     class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
+            </td>
             </td>
         {% else %}
             <div style="text-align: center" class="badge badge-warning btn-block">{{"NOT_AVAILABLE"|trans}}</div>

@@ -209,6 +209,7 @@ function reservations_in_details()
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
                 $('#tr_'+$(this).attr('data')).remove();
+                $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                 if ($('#rooms_selected >tbody >tr').length == 0){
                     $('#rooms_selected').css({display: 'none'});
                     $('.calendar-results').css({display: 'none'});
@@ -226,13 +227,19 @@ function reservations_in_details()
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
                 console.log("Antes de ver el up 2");
                 isUp2($(this).attr("name"), $(this).attr('data'));
-                if($(this).attr('data_is_triple')==='true' && persons>=3)
+                if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
+                    $('.normalPrice_' + $(this).attr('data')).css({display: 'none'});
+                    $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                 }
                 else
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr');
+                    $('.normalPrice_' + $(this).attr('data')).css({display: 'block'});
+                    $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                 }
                 value= normalize_prices(value);
                 $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
@@ -248,13 +255,19 @@ function reservations_in_details()
             value=0;
             real_value=0;
             persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-            if($(this).attr('data_is_triple')==='true' && persons>=3)
+            if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
             {
                 value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1)) ;
+                $('.normalPrice_' + $(this).attr('data')).css({display: 'none'});
+                $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
             }
             else
             {
                 value=$(this).attr('data_total')*$(this).attr('data_curr');
+                $('.normalPrice_' + $(this).attr('data')).css({display: 'block'});
+                $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
             }
 
             value= normalize_prices(value);
