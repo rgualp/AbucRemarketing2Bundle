@@ -852,6 +852,7 @@ class OwnershipController extends Controller
                 'check_filters' => $check_filters,
                 'show_paginator' => true,
                 'awards' => $awards
+                xffgdfg
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
