@@ -837,6 +837,7 @@ class OwnershipController extends Controller
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
                 'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
@@ -851,8 +852,9 @@ class OwnershipController extends Controller
                 'current_page' => $page,
                 'check_filters' => $check_filters,
                 'show_paginator' => true,
-                'awards' => $awards
-                xffgdfg
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
@@ -861,6 +863,7 @@ class OwnershipController extends Controller
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
                 'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
@@ -875,7 +878,9 @@ class OwnershipController extends Controller
                 'cant_pages' => $paginator->getMaxPagerItems(),
                 'current_page' => $page,
                 'show_paginator' => true,
-                'awards' => $awards
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate
             ));
     }
 

@@ -35,6 +35,17 @@
      {#{% if search_text=='la habana' %}
          {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
      {% endif %}#}
+     {% set page = app.request.query.get('page')  %}
+     {% set next = page + 1 %}
+     {% set prev = page - 1 %}
+     {% if page == "" or page == 1 %}
+         <link rel="next" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
+     {% elseif page > 1 and page < lastPage %}
+         <link rel="next" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
+         <link rel="prev" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
+     {% elseif page == lastPage %}
+         <link rel="prev" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
+     {% endif %}
  {% endblock metas %}
 
 {% set main_tab = 5 %}
