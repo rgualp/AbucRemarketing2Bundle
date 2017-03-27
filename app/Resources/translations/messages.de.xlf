@@ -4014,7 +4014,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                  </trans-unit>
                 <trans-unit id="1004">
                     <source>SEE_NOW</source>
-                    <target>Schauen jetzt</target>
+                    <target>Schauen Sie jetzt!</target>
                 </trans-unit>
                 <trans-unit id="1005">
                     <source>pinterest</source>
@@ -4103,6 +4103,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <trans-unit id="1025">
                  <source>DASHBOARD_RETURN</source>
                  <target>Return to dashboard</target>
+            </trans-unit>
+            <trans-unit id="1026">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Kehrt zu MyCasaTrip zurück</target>
             </trans-unit>
     </body>
     </file>

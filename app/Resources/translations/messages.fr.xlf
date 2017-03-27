@@ -4154,6 +4154,10 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                  <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
                  <target>C’est le paiement que le client touriste doit effectuer une fois qu’il arrive au logement, au propriétaire de la maison, montant qui est calculé à partir de la soustraction du montant pour hébergement moins le tarif facturé au logement. Ce paiement doit être effectué en CUC (Peso cubain convertible).</target>
             </trans-unit>
+            <trans-unit id="1041">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Retour à MyCasaTrip</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

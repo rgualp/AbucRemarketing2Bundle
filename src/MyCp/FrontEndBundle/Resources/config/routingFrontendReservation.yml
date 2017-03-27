@@ -30,6 +30,10 @@ frontend_reservation_test_email:
     locales:  { en: "/testemail/{idbooking}", es: "/testemail/{idbooking}", de: "/testemail/{idbooking}", fr: "/testemail/{idbooking}", it: "/testemail/{idbooking}" }
     defaults: { _controller: FrontEndBundle:Reservation:testPaymentEmails }
 
+frontend_reservation_removing_payment_page:
+    locales:  { en: "/user/reservation/remove/{idReservation}", es: "/usuario/reserva/eliminar/{idReservation}", de: "/user/reservation/remove/{idReservation}", fr: "/user/reservation/remove/{idReservation}", it: "/user/reservation/remove/{idReservation}" }
+    defaults: { _controller: FrontEndBundle:Reservation:removeReservation }
+
 
 
 
