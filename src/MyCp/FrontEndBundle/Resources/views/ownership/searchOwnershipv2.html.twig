@@ -36,6 +36,7 @@
          {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
      {% endif %}#}
      {% set page = app.request.query.get('page')  %}
+     {% set page = (page == "" or page == 0)? 1: page  %}
      {% set next = page + 1 %}
      {% set prev = page - 1 %}
      {% if page == "" or page == 1 %}

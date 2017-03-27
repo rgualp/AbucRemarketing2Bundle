@@ -6,6 +6,7 @@
 
 {% block metas %}
     {% set page = app.request.query.get('page')  %}
+    {% set page = (page == "" or page == 0)? 1: page  %}
     {% set next = page + 1 %}
     {% set prev = page - 1 %}
     {% if page == "" or page == 1 %}
