@@ -42,9 +42,9 @@
          <link rel="next" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
      {% elseif page > 1 and page < lastPage %}
          <link rel="next" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
-         <link rel="prev" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
+         <link rel="prev" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": prev}) }}" />
      {% elseif page == lastPage %}
-         <link rel="prev" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": next}) }}" />
+         <link rel="prev" href="{{ path("frontend_search_ownership", {'text':search_text, "arrival": search_arrival_date, "departure": search_departure_date, "guests": search_guests, "rooms": search_rooms, "inmediate": inmediate, "page": prev}) }}" />
      {% endif %}
  {% endblock metas %}
 

@@ -4,6 +4,20 @@
 {{("OWNERSHIP_"~title| upper~"_CATEGORYPAGE_TITLE")  | trans }}
 {% endblock %}
 
+{% block metas %}
+    {% set page = app.request.query.get('page')  %}
+    {% set next = page + 1 %}
+    {% set prev = page - 1 %}
+    {% if page == "" or page == 1 %}
+        <link rel="next" href="{{ path("frontend_category_ownership", {"category": category, "page": next}) }}" />
+    {% elseif page > 1 and page < lastPage %}
+        <link rel="next" href="{{ path("frontend_category_ownership", {"category": category, "page": next}) }}" />
+        <link rel="prev" href="{{ path("frontend_category_ownership", {"category": category, "page": prev}) }}" />
+    {% elseif page == lastPage %}
+        <link rel="prev" href="{{ path("frontend_category_ownership", {"category": category, "page": prev}) }}" />
+    {% endif %}
+{% endblock metas %}
+
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
 {{("OWNERSHIP_"~title| upper~"_DESCRIPTION")  | trans }}

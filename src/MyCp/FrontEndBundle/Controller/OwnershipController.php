@@ -707,7 +707,8 @@ class OwnershipController extends Controller
             'list_preffix' => 'category',
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
