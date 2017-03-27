@@ -78,11 +78,36 @@
                         {% endif %}
                     </h1>
                 </div>
-                {% if ownership.award %}
-                <div class="col-lg-1">
-                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;" alt="{{"Upload" | trans}}"/>
+                <div class="col-sm-2">
+                    <div id="box-booking" class="row" style="position: fixed;width: 244px;right: 63px;">
+                        <div class="col-sm-12" style="padding: 0;">
+                            <div style="padding: 0" class="input-group">
+                                <span class="input-group-addon">{{ "ARRIVAL_RESERVATION" | trans }}..</span>
+                                <input type="text" placeholder="{{ "ARRIVAL_RESERVATION" | trans }}" class="form-control"
+                                       name="top_reservation_filter_date_from"
+                                       id="top_reservation_filter_date_from"
+                                       value="{{ start_date }}"
+                                       data-localization='{{ locale }}'>
+                                <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding: 0;">
+                            <div style="padding: 0" class="input-group">
+                                <span class="input-group-addon">{{ "DEPARTURE_RESERVATION" | trans }}.....</span>
+                                <input type="text" placeholder="{{ "DEPARTURE_RESERVATION" | trans }}" class="form-control"
+                                       name="top_reservation_filter_date_to"
+                                       id="top_reservation_filter_date_to"
+                                       value="{{ end_date }}"
+                                       data-localization='{{ locale }}'>
+                                <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding: 0;">
+                            <button style="width: 100%;" onclick="javascript:refresh_calendar_button()"
+                                    class="btn btn-primary">{{ "VERIFY_PRICES_FOR_THIS_DATES" | trans }}</button>
+                        </div>
+                    </div>
                 </div>
-                {% endif %}
             </div>
 
 
@@ -604,33 +629,10 @@
                             {% endif %}
 
                     </li>
-                    <li class="lead-2">
-                        {{ "ARRIVAL_RESERVATION" | trans }}<br/>
-
-                        <div style="padding: 0" class="input-group">
-                            <input type="text" placeholder="{{ "ARRIVAL_RESERVATION" | trans }}" class="form-control"
-                                   name="top_reservation_filter_date_from"
-                                   id="top_reservation_filter_date_from"
-                                   value="{{ start_date }}"
-                                   data-localization='{{ locale }}'>
-                            <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
-                        </div>
-                    </li>
-                    <li class="lead-2">
-                        {{ "DEPARTURE_RESERVATION" | trans }}<br/>
-
-                        <div style="padding: 0" class="input-group">
-                            <input type="text" placeholder="{{ "DEPARTURE_RESERVATION" | trans }}" class="form-control"
-                                   name="top_reservation_filter_date_to"
-                                   id="top_reservation_filter_date_to"
-                                   value="{{ end_date }}"
-                                   data-localization='{{ locale }}'>
-                            <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
-                        </div>
-                    </li>
-                    <li>
-                        <button onclick="javascript:refresh_calendar_button()"
-                                class="btn btn-primary">{{ "VERIFY_PRICES_FOR_THIS_DATES" | trans }}</button>
+                    <li class="lead text-center">
+                        {% if ownership.award %}
+                            <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;" alt="{{"Upload" | trans}}"/>
+                        {% endif %}
                     </li>
                 </ul>
                 <hr class="margin-t"/>
@@ -707,10 +709,11 @@
 
             function initJSTwig() {
 
+                var height_slide = $(window).height() - $("#top-menu").height();
                 jQuery('#camera_wrap_1').camera({
                     thumbnails: false,
                     pagination:true,
-                    height:'520px'
+                    height: height_slide+'px'
                 });
 
                 from = $('#filter_date_from').val();
@@ -720,6 +723,18 @@
 
                 $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
                     //console.log(e.target); // activated tab
+                });
+
+                $(window).on('scroll', function (e) {
+
+                    if ( $(window).scrollTop() > $("#li-reservations").offset().top - 150 && $(window).scrollTop() < $("#tab-desc").offset().top - 120 ){
+                        if ( $("#box-booking").hasClass('noshow') == false )
+                            $("#box-booking").hide('fade').addClass('noshow');
+                    }else{
+                        if ( $("#box-booking").hasClass('noshow') )
+                            $("#box-booking").show('fade').removeClass('noshow');
+                    }
+
                 });
 
                 $('input#filter_date_to').change(function () {
@@ -808,12 +823,19 @@
             }
 
             function refresh_calendar_button() {
+
+                var reservatio_box_scroll_top = $("#li-reservations").offset().top - 100;
+
+                jQuery('html, body').animate({
+                    scrollTop: reservatio_box_scroll_top
+                }, '2000', 'swing');
+
                 $('#tabs_pho_map_res li').each(function () {
                     $(this).removeClass('active');
                 });
+
                 $('#tab-reservations').attr('class', 'active');
                 $('.li-tabs').attr('class', '');
-                $('#tab-photos').removeClass('active');
                 $('#tab-map').removeClass('active');
                 $('#li-reservations').attr('class', 'active');
 

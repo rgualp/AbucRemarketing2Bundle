@@ -120,7 +120,9 @@
 
             .wait(function() {
                 BaseTwigJs.init();
-                initJSTwig();
+
+                (typeof initJSTwig === 'function') ? initJSTwig() : console.log("No existe Init");
+
                 console.log("Termino!!!");
 
                 if ($('.bttrlazyloading').length > 0){
@@ -355,8 +357,7 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-N23FRP9');</script>
 <!-- End Google Tag Manager -->
-{% block javascripts %}
-{% endblock javascripts %}
+{% block javascripts %}{% endblock javascripts %}
 </body>
 </html>
 {% endspaceless %}

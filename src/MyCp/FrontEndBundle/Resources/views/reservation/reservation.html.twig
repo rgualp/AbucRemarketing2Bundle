@@ -181,23 +181,30 @@
 <button id="btn_payment" style="margin-top: 35px"  type="submit" class="btn btn-action btn-warning" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
 <p style="margin-top: 0; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{prepayment}}</p>
 </form>
-<script type="text/javascript">
-    $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
-    });
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        function initJSTwig() {
+            $('#mct_change_order').change(function () {
+                $('#order_by_form').submit();
+            })
 
-    if($('#terms_conditions').is(":checked"))
-            $('#btn_payment').removeAttr('disabled');
-        else
-            $('#btn_payment').attr('disabled','disabled');
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
 
-    $('#terms_conditions').change(function(){
-        if($('#terms_conditions').is(":checked"))
-            $('#btn_payment').removeAttr('disabled');
-        else
-            $('#btn_payment').attr('disabled','disabled');
-    });
+            if($('#terms_conditions').is(":checked"))
+                $('#btn_payment').removeAttr('disabled');
+            else
+                $('#btn_payment').attr('disabled','disabled');
 
-</script>
+            $('#terms_conditions').change(function(){
+                if($('#terms_conditions').is(":checked"))
+                    $('#btn_payment').removeAttr('disabled');
+                else
+                    $('#btn_payment').attr('disabled','disabled');
+            });
+        }
+    </script>
 {% endblock %}
