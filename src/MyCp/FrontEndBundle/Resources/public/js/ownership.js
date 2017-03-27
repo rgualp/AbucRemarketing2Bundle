@@ -235,13 +235,19 @@ function research(_page)
             result.append(data.html);
         }
 
-
-
+        if ($('.bttrlazyloading').length > 0){
+            $('.bttrlazyloading.no_show').each(function () {
+                $(this).removeClass("no_show");
+                $(this).bttrlazyloading();
+            });
+        }
 
         hide_loading();
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
+
         initialize_search_map();
+
     });
 
     return false;

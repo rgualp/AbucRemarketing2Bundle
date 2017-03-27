@@ -15,6 +15,7 @@
     '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
     '@MyCpMobileFrontendBundle/Resources/public/css/ionicons.css'
     '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
+    '@FrontEndBundle/Resources/public/css/carousel-master/camera.css'
     '@FrontEndBundle/Resources/public/css/bttrlazyloading.min.css'
     '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
     '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
@@ -89,14 +90,14 @@
         '@LayoutBundle/Resources/public/js/bootstrap-submenu.js'
         '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
         '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
-        '@FrontEndBundle/Resources/public/js/respond.min.js'
         '@FrontEndBundle/Resources/public/js/carousel-master/jquery.min.js'
         '@FrontEndBundle/Resources/public/js/carousel-master/jquery.mobile.customized.min.js'
         '@FrontEndBundle/Resources/public/js/carousel-master/jquery.easing.1.3.js'
         '@FrontEndBundle/Resources/public/js/carousel-master/camera.min.js'
+        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+        '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
+        '@FrontEndBundle/Resources/public/js/respond.min.js'
         '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
         '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
         '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
@@ -118,8 +119,8 @@
             {% block other_load_js %}{% endblock %}
 
             .wait(function() {
-                initJSTwig();
                 BaseTwigJs.init();
+                initJSTwig();
                 console.log("Termino!!!");
 
                 if ($('.bttrlazyloading').length > 0){

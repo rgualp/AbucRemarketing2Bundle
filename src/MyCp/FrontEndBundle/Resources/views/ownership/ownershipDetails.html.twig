@@ -33,27 +33,49 @@
     <meta property=”fb:admins” content=”312774092497”/>
 {% endblock %}
 
+{% block other_load_js %}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
+    filter='?uglifyjs2' %}
+        .script('{{ asset_url }}')
+    {% endjavascripts %}
+{% endblock %}
+
 {% block title %}{{ ownership.ownname }}{% endblock %}
 {% set main_tab = 5 %}
-{% block breadcrumbs %}
-    <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
-    <span>››</span>
-    <a href="{{ path('frontend_search_ownership') }}" title="{{ "OWNERSHIPS" | trans }}">{{ "OWNERSHIPS" | trans }}</a>
-    <span>››</span>
-    <a href="#" class="active" title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
+{% block custom_menus %}
+    <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
+        <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+            <div class="container">
+                {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
+            </div>
+            {% if is_home is not defined %}
+                <div class="breadcrumb-top">
+                    <div class="container">
+                        <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
+                        <span>››</span>
+                        <a href="{{ path('frontend_search_ownership') }}" title="{{ "OWNERSHIPS" | trans }}">{{ "OWNERSHIPS" | trans }}</a>
+                        <span>››</span>
+                        <a href="#" class="active" title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
+                    </div>
+                </div>
+            {% endif %}
+        </nav>
+
+    </div>
+
 {% endblock %}
 {% block body %}
-    <div class="bg-solid-ligth-blue" style="margin-top: -16px">
+    <div class="bg-solid-ligth-blue" style="margin-top: -16px;position: absolute;top: 96px;z-index: 1000;width: 100%;background: rgba(0,0,0,0.3);">
         <div class="container">
             <div class="row">
                 <div {% if ownership.award %}class="col-lg-10"{% endif %}>
-                    <h1 class="caecilia-roman h-size-3">
-                        {{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}
+                    <h1 class="caecilia-roman h-size-3" style="margin: 10px 0; color:#fff;">
+                        {{ ownership.ownAddressProvince }}
                         : {{ ownership.ownname }} ({{ ownership.mycpcode }}).
                         {% if rooms is defined and rooms | length %}
                             {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}.
                         {% endif %}
-                        {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}
                     </h1>
                 </div>
                 {% if ownership.award %}
@@ -73,37 +95,33 @@
       </label-->
         </div>
     </div>
-    <br/>
+    <div id="full-width-slider" style="margin-top: 26px;">
+        <div id="myCarousel" class="carousel slide">
+            <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
+                {% for photo in  gallery_photos%}
+                    <div data-thumb="{{asset('uploads/ownershipImages/originals/'~photo.photo_name)}}" data-src="{{asset('uploads/ownershipImages/originals/'~photo.photo_name)}}">
+                    </div>
+                {% endfor %}
+            </div><!-- #camera_wrap_1 -->
+        </div> <!-- /.carousel -->
+    </div>
     <div class="container">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="margin-top: 5px;">
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
-                        {% if gallery_photos | length %}
-                            <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab"
-                                                                                               href="#tab-photos">{{ "PHOTO_TAB_DETAILS" | trans }}</a>
-                            </li>
-                        {% endif %}
+                        <li id="li-reservations"
+                            class="li-tabs active">
+                            <a data-toggle="tab" href="#tab-reservations">{{ 'RESERVATION_TITLE' | trans }}</a></li>
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
-                            <li onclick="javascript:hide_calendar()" {% if not gallery_photos | length %} class="active li-tabs" {% endif %}>
+                            <li onclick="javascript:hide_calendar()" class="li-tabs">
                                 <a id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
-
-                        <li id="li-reservations"
-                            class="li-tabs {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            <a data-toggle="tab" href="#tab-reservations">{{ 'RESERVATION_TITLE' | trans }}</a></li>
                     </ul>
                     <div class="tab-content">
-                        {% if gallery_photos | length %}
-                            <div id="tab-photos" class="tab-pane active">
-                                <div id="full-width-slider" class="royalSlider rsDefault">
-
-                                </div>
-                            </div>
-                        {% endif %}
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
-                            <div id="tab-map" class="tab-pane {% if gallery_photos | length == 0 %}active{% endif %}">
+                            <div id="tab-map" class="tab-pane">
                                 <div id="big_map_details" class="flexible-container google-maps"
                                      data-x="{{ ownership.OwnGeolocateX }}"
                                      data-y="{{ ownership.OwnGeolocateY }}"
@@ -115,8 +133,8 @@
                             </div>
                         {% endif %}
                         <div id="tab-reservations"
-                             class="tab-pane {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            {%  include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : true }  %}
+                             class="tab-pane active">
+                            {%  include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : false }  %}
                         </div>
                     </div>
                 </div>
@@ -532,7 +550,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="margin-top: 5px;">
                 <ul class="span4 price">
                     <li>
                         {% if ownership.category == "Premium" %}
@@ -667,45 +685,12 @@
                 <h4 class="text-center big-price-green no-margin">
                     {% if ownership.comments_total > 0 %}+{% endif %}{{ ownership.comments_total }}
                 </h4>
-                {#<hr class="no-margin" style="margin-bottom: 10px"/>#}
-                {#{% if can_comment %}#}
-                    {#<span class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</span>#}
-                    {#<div class="radio"><label><input type="radio" value="5" id="option5"#}
-                                                     {#name="radio_rating">{{ "5_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" value="4" id="option4"#}
-                                                     {#name="radio_rating">{{ "4_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" checked="checked" value="3" id="option3"#}
-                                                     {#name="radio_rating">{{ "3_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" value="2" id="option2"#}
-                                                     {#name="radio_rating">{{ "2_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" value="1" id="option1"#}
-                                                     {#name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>#}
-                    {#<textarea class="col-sm-12 form-control" id="input_comment"#}
-                              {#requiered-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>#}
-                    {#<button class="btn btn-primary margin-t" id="btn_insert_comment"#}
-                            {#data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">#}
-                        {#{{ "SEND_COMMENT_DETAILS" | trans }}#}
-                    {#</button>#}
-                    {#<div id="loading" class="alert alert-info hidden">#}
-                        {#<img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>#}
-                    {#</div>#}
-                    {#<div id="message_text" class="hidden"#}
-                         {#ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>#}
-                    {#<hr class="margin-t hr-green"/>#}
-                {#{% endif %}#}
-
             </div>
         </div>
     </div>
-
-
-    {% block include_javascripts %}
+    {% block marquesina_js %}{% endblock %}
+    {% block marquesina %}{% endblock %}
+    {% block javascripts %}
         <script type="text/javascript">
             var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
             var own_id = "{{ownership.own_id}}";
@@ -713,55 +698,114 @@
         </script>
         <script type="text/javascript">
 
-            var cont_array_dates
-                    ={{ array_dates | length}};
+            var cont_array_dates = {{ array_dates | length}};
             var today_date = "{{"now"|date("d/m/Y") }}";
             var start_date = "{{start_date }}";
             var end_date = "{{end_date}}";
 
-            $(document).ready(function ($) {
-                $('#full-width-slider').royalSlider({
-                    arrowsNav: true,
-                    numImagesToPreload: 5,
-                    loop: false,
-                    keyboardNavEnabled: true,
-                    imageScaleMode: 'fill fit',
-                    arrowsNavAutoHide: false,
-                    autoScaleSlider: true,
-                    autoScaleSliderWidth: 640,
-                    autoScaleSliderHeight: 480,
-                    controlNavigation: false,
-                    thumbsFitInViewport: false,
-                    navigateByClick: true,
-                    startSlideId: 0,
-                    autoPlay: false,
-                    transitionType: 'move',
-                    globalCaption: false,
-                    deeplinking: {
-                        enabled: true,
-                        change: false
-                    }
+
+
+            function initJSTwig() {
+
+                jQuery('#camera_wrap_1').camera({
+                    thumbnails: false,
+                    pagination:true,
+                    height:'520px'
                 });
-                {% for photo in  gallery_photos%}
-                var slider = $("#full-width-slider").data('royalSlider');
-                var img = "{{asset('uploads/ownershipImages/'~photo.photo_name)}}";
-                var description = "{{photo.photo_description}}";
 
-                slider.appendSlide('<img rel="tooltip" title="' + description + '" class="rsImg" src="' + img + '" alt="' + description + '" />');
-                {% endfor %}
-            });
-
-            $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                //console.log(e.target); // activated tab
-            })
-
-            $('input#filter_date_to').change(function () {
                 from = $('#filter_date_from').val();
                 to = $('#filter_date_to').val();
+
                 refresh_calendar(from, to);
-                //$('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
-                //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
-            });
+
+                $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                    //console.log(e.target); // activated tab
+                });
+
+                $('input#filter_date_to').change(function () {
+                    from = $('#filter_date_from').val();
+                    to = $('#filter_date_to').val();
+                    refresh_calendar(from, to);
+                    //$('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
+                    //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
+                });
+
+                var form = $("#form-check-available");
+                form.on("submit", function (e) {
+                    //Solo se envia por ajax
+                    //1-si el usuario no esta logueado solo se envia para el wishlist.
+                    //2-Cuando el usser esta login se manda por ajax la wishlist y la consulta de disponibilidad.
+                    if((login && ($('#check_dispo').val()==1 || $('#check_dispo').val()=='')) || (!login && $('#check_dispo').val()=='')){
+                        e.stopPropagation();
+                        e.preventDefault();
+                        var formData = new FormData(form[0]);
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: "post",
+                            dataType: "html",
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function(response){
+                                if(response=='0'){
+                                    if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
+                                        swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
+                                    }
+                                    else
+                                        swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                                    $('#addWhisList').removeClass('hide');
+                                }
+                                else{
+                                    if(login){
+                                        if($('#check_dispo').val()==''){
+                                            $('#list-cart').attr('href','#');
+                                            $('#list-cart').attr('data-toggle','dropdown');
+                                            $('#list-cart').addClass('dropdown-toggle');
+                                            $('#whish-list').html(response);
+                                            $('#count-cart').text($('#total-cart').data('counter'));
+                                            swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                            $('#addWhisList').removeClass('hide');
+                                        }
+                                        if($('#check_dispo').val()==1){
+                                            swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                                        }
+                                        if($('#check_dispo').val()==2){
+                                            window.location.href="{{ path('frontend_mycasatrip_available') }}";
+                                            swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                                        }
+                                    }
+                                    else{
+                                        swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                        window.location.href="{{ path('frontend_public_login') }}";
+                                        $('#addWhisList').removeClass('hide');
+                                    }
+
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+                $('#addWhisList').on('click',function(){
+                    $('#addWhisList').addClass('hide');
+                    $('#myModalOwnerShipCalendar').modal('hide');
+                    if($(this).data('modal')){
+                        $('#myModalOwnerShipCalendar').modal('hide');
+
+                    }
+
+                });
+                $('#checkAvailable').on('click',function(){
+                    $('#check_dispo').val('1');
+                    $('#myModalOwnerShipCalendar').modal('hide');
+                });
+                $('#reservedOwnerShip').on('click',function(){
+                    $('#check_dispo').val('2');
+                    $('#myModalOwnerShipCalendar').modal('hide');
+                });
+            }
 
             function refresh_calendar_button() {
                 $('#tabs_pho_map_res li').each(function () {
@@ -823,26 +867,12 @@
                 var date = date_text.split('/');
                 new_date = date[2] + '-' + date[1] + '-' + date[0];
                 return new_date;
-
-
             }
 
         </script>
 
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
-        filter='?uglifyjs2' %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
     {% endblock %}
     <script type="text/javascript">
-        from = $('#filter_date_from').val();
-        to = $('#filter_date_to').val();
-
-        refresh_calendar(from, to);
-
         var faceAppId = "{{ fb_app_id }}";
         var shareUrl = "{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}";
 

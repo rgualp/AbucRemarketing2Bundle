@@ -5,22 +5,6 @@
 
 {#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
 
-{% block include_javascripts_and_css %}
-    {% stylesheets
-    '@FrontEndBundle/Resources/public/css/carousel-master/camera.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-    {#<script>
-        // Added this just so I didn't have to wait 5 seconds to see if the transition worked. //
-        $(document).ready(function() {
-            $('#myCarousel').carousel({
-                interval:   5000
-            });
-        });
-    </script>#}
-{% endblock %}
 {% block big_banner %}
     <div id="full-width-slider">
         {#{{ include('FrontEndBundle:layout:carousel.html.twig') }}#}
