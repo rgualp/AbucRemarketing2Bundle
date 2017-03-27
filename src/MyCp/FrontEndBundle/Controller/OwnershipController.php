@@ -670,7 +670,8 @@ class OwnershipController extends Controller
             'list_preffix' => 'last_added',
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
@@ -1567,7 +1568,8 @@ class OwnershipController extends Controller
             'current_page' => $page,
             'list_preffix' => 'voted_best',
             'awards' => $awards,
-            'cant_pages' => $items_per_page
+            'cant_pages' => $items_per_page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
