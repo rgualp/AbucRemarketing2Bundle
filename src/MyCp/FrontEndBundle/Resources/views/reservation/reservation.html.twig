@@ -162,13 +162,8 @@
 {% block javascripts %}
     <script type="text/javascript">
         function initJSTwig() {
-            $('#mct_change_order').change(function () {
+            $('#mct_change_order').on('change', function () {
                 $('#order_by_form').submit();
-            })
-
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green'
             });
 
             if($('#terms_conditions').is(":checked"))
@@ -176,12 +171,13 @@
             else
                 $('#btn_payment').attr('disabled','disabled');
 
-            $('#terms_conditions').change(function(){
+            $('#terms_conditions').on('change',function(){
                 if($('#terms_conditions').is(":checked"))
                     $('#btn_payment').removeAttr('disabled');
                 else
                     $('#btn_payment').attr('disabled','disabled');
             });
+
         }
     </script>
 {% endblock %}

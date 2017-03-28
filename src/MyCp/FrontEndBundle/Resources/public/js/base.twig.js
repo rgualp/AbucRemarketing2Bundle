@@ -52,34 +52,6 @@ var BaseTwigJs = function () {
             }
         });
 
-
-        if (showMarquesina){
-
-
-            NavbarScrollFixed.init(".marquesina", "fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
-            $("#marquee-close").on("click", function (e) {
-                e.preventDefault();
-                $(".marquesina").hide();
-            });
-
-            // {#{% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
-            //     //Inicializar el servidor de mensajeria
-            //     MeanClient.init("{{ url_mean }}","{{ ws_mean }}");
-            //     {% endif %}#}
-
-            // Open close right sidebar
-            // $('.right-sidebar-toggle, .close-btn').click(function () {
-            //     $('#right-sidebar').toggleClass('sidebar-open');
-            // });
-
-            // Initialize slimscroll for right sidebar
-            // $('.sidebar-container').slimScroll({
-            //     height: '100%',
-            //     railOpacity: 0.4,
-            //     wheelStep: 10
-            // });
-        }
-
         $('#homeCarrousel a[href="#lastAdded"]').click(function () {
             loadLastAdded();
         });

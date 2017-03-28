@@ -1,9 +1,9 @@
 $(function() {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
-});
 
-$(document).ready(startCustom);
+    startCustom();
+});
 
 function startCustom() {
     $('.numeric').keydown(function(e) {

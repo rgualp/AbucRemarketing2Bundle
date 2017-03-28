@@ -1,6 +1,6 @@
-$(document).ready(start);
+$(document).ready(startD);
 
-function start() {
+function startD() {
     // $('#destinations-slider').royalSlider({
     //     arrowsNav: true,
     //     loop: true,
