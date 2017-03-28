@@ -3830,7 +3830,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                  </trans-unit>
  <trans-unit id="10958">
                  <source>MYTAXICUBACONTE1</source>
-                 <target>Descubre Cuba con estilo. Recogidas en el aeropuerto y hasta la puerta de casa, paseos en autos antiguos y servicio de transfer. Estamos a tu lado siempre. Muevete con MyTaxiCuba.</target>
+                 <target>Découvrez Cuba avec style. Transfert de l'aéroport jusqu'à la maison réservée, tours dans des vieilles voitures américaines et service de transfer. Nous sommes toujours à côté de vous. Voyagez avec MyTaxiCuba.</target>
                  </trans-unit>
 
 <trans-unit id="10959">
@@ -4153,6 +4153,10 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             <trans-unit id="1040">
                  <source>TOTAL_PAY_AT_SERVICE_TOOLTIP</source>
                  <target>C’est le paiement que le client touriste doit effectuer une fois qu’il arrive au logement, au propriétaire de la maison, montant qui est calculé à partir de la soustraction du montant pour hébergement moins le tarif facturé au logement. Ce paiement doit être effectué en CUC (Peso cubain convertible).</target>
+            </trans-unit>
+            <trans-unit id="1041">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Retour à MyCasaTrip</target>
             </trans-unit>
         </body>
     </file>

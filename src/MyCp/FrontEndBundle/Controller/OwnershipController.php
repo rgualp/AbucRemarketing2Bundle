@@ -221,7 +221,7 @@ class OwnershipController extends Controller
             $do_operation = true;
             $flag_room++;
         }
-
+        $tripleChargeRoom = $this->container->getParameter('configuration.triple.room.charge');
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
         if ($mobileDetector->isMobile()) {
@@ -234,7 +234,8 @@ class OwnershipController extends Controller
                 'prices_dates' => $prices_dates,
                 'reservations' => $array_no_available,
                 'fromBackend' => $fromBackend,
-                'nights' => $nights
+                'nights' => $nights,
+                'tripleChargeRoom' => $tripleChargeRoom
             ));
         } else {
             //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
@@ -247,7 +248,8 @@ class OwnershipController extends Controller
                 'prices_dates' => $prices_dates,
                 'reservations' => $array_no_available,
                 'fromBackend' => $fromBackend,
-                'nights' => $nights
+                'nights' => $nights,
+                'tripleChargeRoom' => $tripleChargeRoom
             ));
         }
     }
@@ -606,7 +608,8 @@ class OwnershipController extends Controller
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
+                'currentServiceFee' => $currentServiceFee,
+                'lastPage' => $paginator->getLastPage()
             ));
         } else {
 
@@ -643,7 +646,8 @@ class OwnershipController extends Controller
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
+                'currentServiceFee' => $currentServiceFee,
+                'lastPage' => $paginator->getLastPage()
             ));
         }
     }
@@ -666,7 +670,8 @@ class OwnershipController extends Controller
             'list_preffix' => 'last_added',
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
@@ -703,7 +708,8 @@ class OwnershipController extends Controller
             'list_preffix' => 'category',
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
@@ -833,6 +839,7 @@ class OwnershipController extends Controller
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
                 'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
@@ -847,7 +854,9 @@ class OwnershipController extends Controller
                 'current_page' => $page,
                 'check_filters' => $check_filters,
                 'show_paginator' => true,
-                'awards' => $awards
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
@@ -856,6 +865,7 @@ class OwnershipController extends Controller
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
                 'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
@@ -870,7 +880,9 @@ class OwnershipController extends Controller
                 'cant_pages' => $paginator->getMaxPagerItems(),
                 'current_page' => $page,
                 'show_paginator' => true,
-                'awards' => $awards
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate
             ));
     }
 
@@ -1509,7 +1521,7 @@ class OwnershipController extends Controller
         $session = $this->getRequest()->getSession();
         $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'));
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, 1, 1, $session->get('search_order'), false, null, 0, null, null, false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
@@ -1555,7 +1567,9 @@ class OwnershipController extends Controller
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
             'list_preffix' => 'voted_best',
-            'awards' => $awards
+            'awards' => $awards,
+            'cant_pages' => $items_per_page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
@@ -1587,8 +1601,7 @@ class OwnershipController extends Controller
         }
 
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
-
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters);
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters,0,null,null,false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
@@ -1645,6 +1658,9 @@ class OwnershipController extends Controller
         $check_filters['own_others_pets'] = false;
         $check_filters['own_others_internet'] = false;
         $awards = $em->getRepository('mycpBundle:award')->findAll();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
 
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
             'search_text' => null,
@@ -1662,7 +1678,9 @@ class OwnershipController extends Controller
             'check_filters' => $check_filters,
             'list_preffix' => 'search',
             'list' => $search_results_list,
-            'awards' => $awards
+            'awards' => $awards,
+            'current_page' => $page,
+            'cant_pages' => $paginator->getLastPage()
         ));
     }
 

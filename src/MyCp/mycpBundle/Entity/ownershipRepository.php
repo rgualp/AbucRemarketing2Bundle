@@ -925,15 +925,17 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate=0, $start = null, $limit = null) {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate=0, $start = null, $limit = null, $setupDates = true) {
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 
-        $leavingDateObject = date_create($leavingDate);
-        date_sub($leavingDateObject, date_interval_create_from_date_string('1 days'));
-        $leavingDate = date_format($leavingDateObject, 'd-m-Y');
+        if($setupDates) {
+            $leavingDateObject = date_create($leavingDate);
+            date_sub($leavingDateObject, date_interval_create_from_date_string('0 days'));
+            $leavingDate = date_format($leavingDateObject, 'd-m-Y');
+        }
 
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
