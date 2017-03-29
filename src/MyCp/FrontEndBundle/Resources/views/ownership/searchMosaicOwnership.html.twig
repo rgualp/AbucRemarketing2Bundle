@@ -7,8 +7,7 @@
     <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" alt="{{"No script" | trans}}"></noscript>
+                <img id="{{ ownership.own_id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" alt="{{ ownership.own_name }}"/>
             </a>
         </div>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
@@ -139,11 +138,6 @@
 {% endif %}
 
     </div>
-<script type="text/javascript">
-        $(function(){
-            $('img.lazy').jail();
-        });
-</script>
 
 
 

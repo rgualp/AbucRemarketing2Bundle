@@ -10,20 +10,16 @@
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-    {#<link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/ion.rangeSlider.css') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/css/plugins/ionRangeSlider/') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
-    {#<link href="{{ asset('bundles/frontend/') }}" rel="stylesheet">#}
-    {% javascripts
-    '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
-    '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
     <style>
     </style>
+{% endblock %}
+{% block other_load_js %}
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/ownership.js'
+    filter='?uglifyjs2'
+    %}
+    .script('{{ asset_url }}')
+    {% endjavascripts %}
 {% endblock %}
 
 {% set desName = (destination.desName | trans) %}
@@ -41,7 +37,6 @@
 {% block content_nav_top_body %}
     {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
-{% block marquesina %}{% endblock %}
 {% block custom_menus %}
     <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
         <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
@@ -175,51 +170,40 @@
             {% endif %}
         </div>
     </div>
-    {% block marquesina_js %}{% endblock %}
-    {% block include_javascripts %}
-
-        <script>var otherpage = {{ current_page }};</script>
-
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
-        '@FrontEndBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.min.js'
-        '@FrontEndBundle/Resources/public/js/ownership.js'
-        filter='?uglifyjs2'
-        %}
-        <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-
+    {% block javascripts %}
         <script>
-            $('.bs-select').selectpicker({
-                iconBase: 'fa',
-                tickIcon: 'fa-check'
-            });
+            var otherpage = {{ current_page }};
 
-            var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
-            $(".destination-bar-title").css("height", $('.filters-container').height() + 14 +"px");
+            function initJSTwig() {
+                $('.bs-select').selectpicker({
+                    iconBase: 'fa',
+                    tickIcon: 'fa-check'
+                });
 
-            $('#div_result').slimScroll({
-                height: h+'px',
-                start: 'top',
-                allowPageScroll: true
-            }).bind('slimscrolling', function(e, pos){
-                if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
-                    otherpage++;
-                    if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
-                        $('#div_result')[0].scrollTop = pos - 200;
-                        research(otherpage);
+                var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
+                $(".destination-bar-title").css("height", $('.filters-container').height() + 14 +"px");
+
+                $('#div_result').slimScroll({
+                    height: h+'px',
+                    start: 'top',
+                    allowPageScroll: true
+                }).bind('slimscrolling', function(e, pos){
+                    if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
+                        otherpage++;
+                        if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
+                            $('#div_result')[0].scrollTop = pos - 200;
+                            research(otherpage);
+                        }
                     }
-                }
-            });
+                });
 
-            var h1 = $('#search-container').height() - $(".destination-bar-title.fmap").height();
+                var h1 = $('#search-container').height() - $(".destination-bar-title.fmap").height();
 
-            $('#search_map').css('height',h1+'px');
+                $('#search_map').css('height',h1+'px');
 
 
-            $('[data-submenu]').submenupicker();
+                $('[data-submenu]').submenupicker();
 
-            $(function() {
                 $(".show-more-footer a").click(function (e) {
                     e.preventDefault();
                     $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
@@ -238,8 +222,8 @@
                     $("#poput-description").toggleClass("dhide");
                 })
 
-            });
 
+            }
         </script>
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}

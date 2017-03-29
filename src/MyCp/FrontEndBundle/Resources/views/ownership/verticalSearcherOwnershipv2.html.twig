@@ -118,28 +118,4 @@
     var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y") }}";
 
     var url_autocomplete = "{{ path('frontend_autocompletetext_callback') }}";
-    $('#more_filters').on('click', function () {
-        if ($('#more_filters').hasClass('collapsed')) {
-            $('#button_research').addClass('hide');
-            $('#more_filters').removeClass('collapsed');
-
-
-            var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height() + 20);
-            var scroll_h = full_height - 100;
-
-            $('#collapseFilters .thumbnail').css("height", full_height + "px");
-
-            $('#collapseFilters .thumbnail .content-filter').slimScroll({
-                height: scroll_h + 'px',
-                start: 'top'
-            });
-
-
-        }
-        else {
-            $('#button_research').removeClass('hide');
-            $('#more_filters').addClass('collapsed');
-        }
-    });
-
 </script>

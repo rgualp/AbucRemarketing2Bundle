@@ -109,4 +109,3 @@ frontend_autocompletetext_callback:
     locales:  { en: "/autocompletetext/", es: "/autocompletetext/", de: "/autocompletetext/", fr: "/autocompletetext/", it: "/autocompletetext/" }
     defaults: { _controller: FrontEndBundle:Ownership:autoCompleteTextList }
 
-

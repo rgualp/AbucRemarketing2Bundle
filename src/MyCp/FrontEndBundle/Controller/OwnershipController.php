@@ -34,7 +34,7 @@ class OwnershipController extends Controller
         $reservation_to = explode('/', $to);
         $dateTo = new \DateTime();
         $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
-        $dateTo->setTimestamp($end_timestamp);
+        $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
         $owner_id = $request->get('own_id');
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
@@ -1140,6 +1140,7 @@ class OwnershipController extends Controller
             $own_ids = "0";
             foreach ($results_list as $own)
                 $own_ids .= "," . $own['own_id'];
+
             $session->set('own_ids', $own_ids);
 
             $paginator = $this->get('ideup.simple_paginator');
@@ -1868,6 +1869,7 @@ class OwnershipController extends Controller
         list($width, $height) = getimagesize(realpath("uploads/ownershipImages/" . $photo));
 
         return $this->render('FrontEndBundle:ownership:searchImage.html.twig', array(
+            'id' => uniqid('photo-'),
             'title' => $title,
             'photo' => $photo,
             'taller' => ($height > $width)
