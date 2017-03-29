@@ -99,19 +99,23 @@
         </div>
 </div>
 </div>
-            <script type="text/javascript">
-                $('.sfgen input').addClass('form-control')
-                var receiveInstructions = "{{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS') }}";
-
-                $("#mycp_frontendbundle_contact_owner_owner_instructions").change(function (){
-                   if($("#mycp_frontendbundle_contact_owner_owner_instructions").val() === receiveInstructions){
-                        $("#mycp_frontendbundle_contact_owner_owner_comment").attr('disabled','disabled');
-                        $("#mycp_frontendbundle_contact_owner_owner_comment").removeAttr("required");
-                   }
-                    else {
-                       $("#mycp_frontendbundle_contact_owner_owner_comment").removeAttr('disabled');
-                       $("#mycp_frontendbundle_contact_owner_owner_comment").attr('required', 'required');
-                   }
-                });
-                </script>
 {%endblock%}
+{% block javascripts %}
+    <script type="text/javascript">
+        function initJSTwig() {
+            $('.sfgen input').addClass('form-control')
+            var receiveInstructions = "{{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS') }}";
+
+            $("#mycp_frontendbundle_contact_owner_owner_instructions").change(function (){
+                if($("#mycp_frontendbundle_contact_owner_owner_instructions").val() === receiveInstructions){
+                    $("#mycp_frontendbundle_contact_owner_owner_comment").attr('disabled','disabled');
+                    $("#mycp_frontendbundle_contact_owner_owner_comment").removeAttr("required");
+                }
+                else {
+                    $("#mycp_frontendbundle_contact_owner_owner_comment").removeAttr('disabled');
+                    $("#mycp_frontendbundle_contact_owner_owner_comment").attr('required', 'required');
+                }
+            });
+        }
+    </script>
+{% endblock javascripts %}
