@@ -48,27 +48,30 @@
 
     </form>
 </div>
-<script type="text/javascript">
-    if($('#policies').is(":checked"))
-            $('#btn_submit').removeAttr('disabled');
-        else
-            $('#btn_submit').attr('disabled','disabled');
-
-    $('.sfgen input:text').addClass('input-block-level');
-    $('.sfgen input:password').addClass('input-block-level');
-    $('#policies').change(function(){
-        if($('#policies').is(":checked"))
-            $('#btn_submit').removeAttr('disabled');
-        else
-            $('#btn_submit').attr('disabled','disabled');
-    })
-
-    label=$('.form-horizontal label')
-    label.css('fontWeight','normal');
-    label.css('display','block');
-    label.css('marginTop','10px');
-    $('[type="text"]').attr('class','form-control');
-    $('[type="password"]').attr('class','form-control');
-
-</script>
 {%endblock%}
+{% block javascripts %}
+    <script type="text/javascript">
+        function initJSTwig() {
+            if($('#policies').is(":checked"))
+                $('#btn_submit').removeAttr('disabled');
+            else
+                $('#btn_submit').attr('disabled','disabled');
+
+            $('.sfgen input:text').addClass('input-block-level');
+            $('.sfgen input:password').addClass('input-block-level');
+            $('#policies').change(function(){
+                if($('#policies').is(":checked"))
+                    $('#btn_submit').removeAttr('disabled');
+                else
+                    $('#btn_submit').attr('disabled','disabled');
+            })
+
+            label=$('.form-horizontal label')
+            label.css('fontWeight','normal');
+            label.css('display','block');
+            label.css('marginTop','10px');
+            $('[type="text"]').attr('class','form-control');
+            $('[type="password"]').attr('class','form-control');
+        }
+    </script>
+{% endblock javascripts %}

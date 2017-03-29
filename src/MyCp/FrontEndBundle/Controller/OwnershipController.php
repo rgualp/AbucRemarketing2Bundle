@@ -1140,6 +1140,7 @@ class OwnershipController extends Controller
             $own_ids = "0";
             foreach ($results_list as $own)
                 $own_ids .= "," . $own['own_id'];
+
             $session->set('own_ids', $own_ids);
 
             $paginator = $this->get('ideup.simple_paginator');
@@ -1868,6 +1869,7 @@ class OwnershipController extends Controller
         list($width, $height) = getimagesize(realpath("uploads/ownershipImages/" . $photo));
 
         return $this->render('FrontEndBundle:ownership:searchImage.html.twig', array(
+            'id' => uniqid('photo-'),
             'title' => $title,
             'photo' => $photo,
             'taller' => ($height > $width)
