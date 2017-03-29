@@ -4090,6 +4090,10 @@
                  <source>DASHBOARD_RETURN</source>
                  <target>Return to dashboard</target>
             </trans-unit>
+            <trans-unit id="1026">
+                 <source>GO_MYCASATRIP</source>
+                 <target>Return to MyCasaTrip</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

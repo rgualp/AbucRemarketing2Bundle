@@ -34,7 +34,7 @@ class OwnershipController extends Controller
         $reservation_to = explode('/', $to);
         $dateTo = new \DateTime();
         $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
-        $dateTo->setTimestamp($end_timestamp);
+        $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
         $owner_id = $request->get('own_id');
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
@@ -608,7 +608,8 @@ class OwnershipController extends Controller
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
+                'currentServiceFee' => $currentServiceFee,
+                'lastPage' => $paginator->getLastPage()
             ));
         } else {
 
@@ -645,7 +646,8 @@ class OwnershipController extends Controller
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
-                'currentServiceFee' => $currentServiceFee
+                'currentServiceFee' => $currentServiceFee,
+                'lastPage' => $paginator->getLastPage()
             ));
         }
     }
@@ -668,7 +670,8 @@ class OwnershipController extends Controller
             'list_preffix' => 'last_added',
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
@@ -705,7 +708,8 @@ class OwnershipController extends Controller
             'list_preffix' => 'category',
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 
@@ -835,6 +839,7 @@ class OwnershipController extends Controller
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
                 'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
@@ -849,7 +854,9 @@ class OwnershipController extends Controller
                 'current_page' => $page,
                 'check_filters' => $check_filters,
                 'show_paginator' => true,
-                'awards' => $awards
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
@@ -858,6 +865,7 @@ class OwnershipController extends Controller
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
                 'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
@@ -872,7 +880,9 @@ class OwnershipController extends Controller
                 'cant_pages' => $paginator->getMaxPagerItems(),
                 'current_page' => $page,
                 'show_paginator' => true,
-                'awards' => $awards
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate
             ));
     }
 
@@ -1558,7 +1568,8 @@ class OwnershipController extends Controller
             'current_page' => $page,
             'list_preffix' => 'voted_best',
             'awards' => $awards,
-            'cant_pages' => $items_per_page
+            'cant_pages' => $items_per_page,
+            'lastPage' => $paginator->getLastPage()
         ));
     }
 

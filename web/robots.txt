@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /backend
 Disallow: /mycasa
+Disallow: /ownership/calendar
+Disallow: /casa/calendario
 
 
 
