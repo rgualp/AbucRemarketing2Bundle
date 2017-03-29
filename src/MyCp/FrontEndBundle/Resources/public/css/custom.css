@@ -294,7 +294,7 @@ div#div_b h4{
     padding: 6px 10px;
     position: absolute;
     top: 45%;
-    z-index: 1;
+    z-index: 999;
 }
 .quick-ribbon::before {
     border-color: #945e18 transparent;
