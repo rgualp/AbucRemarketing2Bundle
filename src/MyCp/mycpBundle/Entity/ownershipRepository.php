@@ -1699,9 +1699,12 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
-        $query_string .= " WHERE o.own_name = :own_name AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
+        $query_string .= " WHERE (o.own_name = :own_name OR o.own_old_name = :own_name1) AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
 
-        $accommodation =  $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
+        $accommodation =  $em->createQuery($query_string)
+            ->setParameter('own_name', $own_name)
+            ->setParameter('own_name1', $own_name)
+            ->getOneOrNullResult();
 
         if($accommodation != null)
         {
