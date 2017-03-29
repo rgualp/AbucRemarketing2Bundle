@@ -157,6 +157,23 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $em->createQuery($query_string)->getSingleScalarResult();
     }
 
+    public function existInDateAndRoom($idRoom, $start, $end){
+        $em = $this->getEntityManager();
+        $start = $start->format('Y-m-d');
+        $end = $end->format('Y-m-d');
+
+        $query_string = "SELECT COUNT(o) FROM mycpBundle:unavailabilityDetails o JOIN o.room ro
+WHERE ro.room_id = :room_id AND o.ud_sync_st <> :ud_sync_st AND ((o.ud_from_date <= :start AND o.ud_to_date >= :start) OR (o.ud_from_date <= :end AND o.ud_to_date >= :end))";
+
+        return $em->createQuery($query_string)
+            ->setParameter("room_id", $idRoom)
+            ->setParameter("start", $start)
+            ->setParameter("end", $end)
+            ->setParameter("ud_sync_st", SyncStatuses::DELETED)
+            ->getSingleScalarResult()
+            /*->getResult()*/;
+    }
+
     public function addAvailableRoomByRange($request, $idRoom){
         $em = $this->getEntityManager();
         $conn = $em->getConnection();

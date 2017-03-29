@@ -312,29 +312,38 @@ class BackendUnavailabilityDetailsController extends Controller {
         $date_from = Dates::createFromString($start);
         $date_to = Dates::createFromString($end);
 
-        $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->findOneBy(array(
-            "ud_from_date" => $date_from,
-            "ud_to_date" => $date_to,
-            "room" => $idRoom
-        ));
+        $repo = $em->getRepository('mycpBundle:unavailabilityDetails');
+        $eventId = -1;
 
-        if($uDetails == null)
-            $uDetails = new unavailabilityDetails();
+        $s = $repo->existInDateAndRoom($idRoom, $date_from, $date_to);
+        if($s){
+            $errorMessage = 'Ya existe una no disponibilidad en este rango';
+        }
+        else{
+            $uDetails = $repo->findOneBy(array(
+                "ud_from_date" => $date_from,
+                "ud_to_date" => $date_to,
+                "room" => $idRoom
+            ));
 
-        $uDetails->setUdFromDate($date_from)
-            ->setUdToDate($date_to)
-            ->setUdReason($reason)
-            ->setRoom($room);
-        $em->persist($uDetails);
-        $em->flush();
+            if($uDetails == null)
+                $uDetails = new unavailabilityDetails();
 
-        $eventId = $uDetails->getId();
+            $uDetails->setUdFromDate($date_from)
+                ->setUdToDate($date_to)
+                ->setUdReason($reason)
+                ->setRoom($room);
+            $em->persist($uDetails);
+            $em->flush();
 
-        //Update iCal of selected room
-        $message = $this->updateICal($room);
+            $eventId = $uDetails->getId();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog($uDetails->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_INSERT, DataBaseTables::UNAVAILABILITY_DETAILS);
+            //Update iCal of selected room
+            $message = $this->updateICal($room);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog($uDetails->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_INSERT, DataBaseTables::UNAVAILABILITY_DETAILS);
+        }
 
         $response = array(
             "errorMessage" => $errorMessage,
