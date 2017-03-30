@@ -72,6 +72,7 @@
 
             <ul id="ownPhotos" class="ownPhotos" data-prototype="{{ _self.widget_prototype(photoForm.photos, 'Eliminar elemento')|escape }}">
                 {% for i,photo in photoForm.photos %}
+                    {#die(dump( ownership.photos[i].OwnPhoPhoto.phoId ));#}
                     <li class="col-sm-4 uploaded" data-id="{{ ownership.photos[i].OwnPhoPhoto.phoId }}" data-url="{{ path('delete_uploaded_photo',{'id':ownership.photos[i].OwnPhoPhoto.phoId }) }}">
                     {{ _self.widget_prototype(photo, 'Eliminar elemento') }}
                     </li>
@@ -105,7 +106,8 @@
     <div class="col-md-3 oneblue-bg col-content">
         <div id="help-step6-one" class="row">
             <div class="col-md-12 m-t-20">
-                <p>Por favor es necesario ingresar al menos una foto, de 50 permitidas. Trate de que sus imágenes tengan buena calidad, pero que no excedan el tamaño máximo de 3 megabyte. Se recomienda una resolución mayor de 1280×853 píxeles, preferiblemente de 1920×1280 píxeles. Para una mejor visualización de su Casa, suba imágenes tomadas horizontalmente. Verifique que las imagenes subidas  no muestren teléfonos, logos, marcas de agua, o señales de edición. Recuerde que las personas hacen más énfasis en las propuestas que contienen varias fotografías y que no hay segundas oportunidades para primeras impresiones.  </p>
+                <p>Por favor es necesario ingresar al menos una foto, de 50 permitidas. Trate de que sus imágenes tengan buena calidad, pero que no excedan el tamaño máximo de 3 megabyte. Se recomienda una resolución mayor de 1280×853 píxeles
+                   preferiblemente 1920×1280 píxeles. Para un mejor funcionamiento, suba imágenes tomadas horizontalmente. Verifique que no muestren teléfonos, logos, marcas de agua, o señales de edición. Recuerde que las personas hacen más énfasis en las propuestas que contienen varias fotografías y que no hay segundas oportunidades para primeras impresiones.</p>
             </div>
         </div>
     </div>
