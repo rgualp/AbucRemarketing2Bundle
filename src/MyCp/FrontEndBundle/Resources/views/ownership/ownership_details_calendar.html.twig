@@ -133,7 +133,7 @@
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Pixel" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
                         </button>
                     </div>
-                        <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
+                        <input type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
                         {% if ownership.OwnInmediateBooking2 %}
                             <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
@@ -232,11 +232,11 @@
             }
 
         });
-        $('#checkAvailable').on('click',function(){
+        $('#checkAvailable').on('click',function(){alert(1);
             $('#check_dispo').val('1');
             $('#myModalOwnerShipCalendar').modal('hide');
         });
-        $('#reservedOwnerShip').on('click',function(){
+        $('#reservedOwnerShip').on('click',function(){alert(2);
             $('#check_dispo').val('2');
             $('#myModalOwnerShipCalendar').modal('hide');
         });
