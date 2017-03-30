@@ -279,6 +279,8 @@ class SearchUtils {
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
+
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ";
@@ -286,6 +288,7 @@ class SearchUtils {
             $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 ") : (""));
@@ -325,6 +328,7 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ";
@@ -333,6 +337,7 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : (""));
@@ -343,7 +348,7 @@ class SearchUtils {
 
     public static function getTextWhere($text) {
         if ($text != null && $text != '' && $text != 'null')
-            return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
+            return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text OR des.des_name LIKE :text)";
     }
 
     /**
