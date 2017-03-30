@@ -1215,6 +1215,10 @@ class ownershipRepository extends EntityRepository {
      */
     function top20($locale = "ES", $category = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
+        $owns_id = "0";
+        $reservations=SearchUtils::ownNotAvailable($em);
+        foreach ($reservations as $res)
+            $owns_id .= "," . $res["own_id"];
 
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
@@ -1233,9 +1237,10 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
                          LEFT JOIN op.own_pho_photo pho
-                         WHERE o.own_top_20=1
+                         WHERE o.own_inmediate_booking_2=1
                          AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
+        $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
         if($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
 

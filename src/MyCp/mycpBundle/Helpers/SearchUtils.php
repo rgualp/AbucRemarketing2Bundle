@@ -51,7 +51,8 @@ class SearchUtils {
 
         }
         else{
-            $departure = $arrival->modify('+2 days')->format("Y-m-d");
+            $date = new \DateTime();
+            $departure = $date->modify('+2 days')->format("Y-m-d");
         }
 
         $status_reserved=ownershipReservation::STATUS_RESERVED;
