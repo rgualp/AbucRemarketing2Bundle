@@ -22,6 +22,32 @@
 {% block body %}
 
     <div  class="container">
+        <!--div class="row home_cat">
+    <div class="col-md-4">
+        <a href="">
+        <div data="icon-map" class="select">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-categ icon-map">
+            <h4 class="caecilia-roman">Casas Particulares</h4>
+        </div>
+        </a>
+    </div>
+    <div class="col-md-4" style="padding: 0 2px;">
+        <a href="">
+            <div data="icon-bag">
+                <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-categ icon-bag">
+                <h4 class="caecilia-roman">Paquetes</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="">
+            <div data="icon-table">
+                <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-categ icon-table">
+                <h4 class="caecilia-roman">Guía e información</h4>
+            </div>
+        </a>
+    </div>
+</div-->
         <div class="text-center" style="margin-top: 30px"><span class="caecilia-roman h-dark-grey">{{"HOMEPAGE_SUBTITLE_1" | trans}}</span></div>
         <p style="color: #000000; ">{{"HOMEPAGE_TEXT" | trans}}</p>
         {#<h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>#}
@@ -34,16 +60,20 @@
                 'midrange_total': midrange_total,
                 'economic_total': economic_total}) }}
         </div>
+    </div>
+        <div id="map-cont" style="margin-bottom: 3em">
+            <div class="container">
+                <h2 class="text-center caecilia-roman h-grey h-size-2">{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</h2>
+            </div>
+            <div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px">
+                {{ render(controller('FrontEndBundle:Destination:getBigMap')) }}
+            </div>
+        </div>
+    <div class="container">
         {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
+
     </div>
-    <div id="map-cont">
-        <div class="container">
-            <h2 class="text-center caecilia-roman h-grey h-size-2">{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</h2>
-        </div>
-        <div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px; margin-bottom: 25px;">
-        {{ render(controller('FrontEndBundle:Destination:getBigMap')) }}
-        </div>
-    </div>
+
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
