@@ -37,6 +37,7 @@
 {% block content_nav_top_body %}
     {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
+{% block marquesina %}{% endblock %}
 {% block custom_menus %}
     <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
         <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
@@ -170,6 +171,7 @@
             {% endif %}
         </div>
     </div>
+    {% block marquesina_js %}{% endblock %}
     {% block javascripts %}
         <script>
             var otherpage = {{ current_page }};
