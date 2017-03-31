@@ -52,7 +52,7 @@ class SearchUtils {
         }
         else{
             $date = new \DateTime();
-            $departure = $date->modify('+2 days')->format("Y-m-d");
+            $departure = $date->modify('+1 days')->format("Y-m-d");
         }
 
         $status_reserved=ownershipReservation::STATUS_RESERVED;
@@ -70,10 +70,10 @@ class SearchUtils {
                                 ((owr1.own_res_reservation_from_date <= "'.$arrival.'" AND owr1.own_res_reservation_to_date > "'.$arrival.'") OR (owr1.own_res_reservation_from_date <= "'.$departure.'" AND owr1.own_res_reservation_to_date > "'.$departure.'"))
                         )
                         UNION
-                        (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
-                                INNER JOIN room r3 ON r3.room_id = ud.room_id
-                                INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
-                                WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >= "'.$departure.'"))
+                            (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
+                                    INNER JOIN room r3 ON r3.room_id = ud.room_id
+                                    INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
+                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >= "'.$departure.'"))
                         )
                        ) as two WHERE two.own_id=o.own_id
                     ) >= o.own_rooms_total ';
