@@ -12,9 +12,6 @@
     </div>
 </form>
 <script>
-    $(document).ready(function(){
-        $('#mct_change_order').html($('.option').eq({{order_by}}).html());
-    });
     function onSort(){
         $('#hidden_sort_order').val($('#mct_change_order').attr('data-value'));
         $('#order_by_form').submit();

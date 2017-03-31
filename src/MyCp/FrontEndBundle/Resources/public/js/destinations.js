@@ -1,25 +1,25 @@
-$(document).ready(start);
+$(document).ready(startD);
 
-function start() {
-    $('#destinations-slider').royalSlider({
-        arrowsNav: true,
-        loop: true,
-        keyboardNavEnabled: true,
-        imageScaleMode: 'fill',
-        arrowsNavAutoHide: false,
-        autoScaleSlider: true,
-        autoScaleSliderWidth: 960,
-        autoScaleSliderHeight: 350,
-        controlNavigation: 'bullets',
-        numImagesToPreload: 0,
-        startSlideId: 0,
-        autoPlay: true,
-        transitionType: 'move',
-        deeplinking: {
-            enabled: true,
-            change: false
-        }
-    });
+function startD() {
+    // $('#destinations-slider').royalSlider({
+    //     arrowsNav: true,
+    //     loop: true,
+    //     keyboardNavEnabled: true,
+    //     imageScaleMode: 'fill',
+    //     arrowsNavAutoHide: false,
+    //     autoScaleSlider: true,
+    //     autoScaleSliderWidth: 960,
+    //     autoScaleSliderHeight: 350,
+    //     controlNavigation: 'bullets',
+    //     numImagesToPreload: 0,
+    //     startSlideId: 0,
+    //     autoPlay: true,
+    //     transitionType: 'move',
+    //     deeplinking: {
+    //         enabled: true,
+    //         change: false
+    //     }
+    // });
     
     initialize_map();
     $('#change_view_to_list').click(change_view_to_list);

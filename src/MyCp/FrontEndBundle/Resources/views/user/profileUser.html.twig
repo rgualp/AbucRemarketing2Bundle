@@ -1,5 +1,15 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}{{"USER_MY_PROFILE" | trans}}{% endblock %}
+
+{% block other_load_js %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+    filter='?uglifyjs2'
+    %}
+      .script('{{ asset_url }}')
+    {% endjavascripts %}
+{% endblock %}
+
 {% block breadcrumbs %}
     <a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
     <span>››</span>
@@ -15,13 +25,16 @@
     <div class="row" style="margin-bottom: 30px">
             <div class="col-sm-4"></div>
         <div class="col-sm-4 houses-list thumbs-houses lazy-cont ">
-        {%if user.UserPhoto != ""%}
-            <img class="lazy thumbnail" style="width: 150px" data-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
-            <noscript><img class="nolazy" src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" alt="{{"User" | trans}}"/></noscript>
-        {%else%}
-            <img class="lazy" data-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
-            <noscript><img class="nolazy" src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" alt="{{"No photo" | trans}}"/></noscript>
-        {%endif%}
+            <div class="row">
+                <div class="col-sm-5">
+                    {%if user.UserPhoto != ""%}
+                        <img id="userLazy" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}"/>
+                    {%else%}
+                        <img id="userLazy" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}"/>
+                    {%endif%}
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
         </div>
         </div>
         <form class="form-horizontal" method="POST" action="{{ path('frontend_profile_user') }}" enctype="multipart/form-data" novalidate="true">
@@ -41,14 +54,16 @@
     </div>
         </form>
        </div>
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+
 <script type="text/javascript">
-    $('.sfgen input:text').addClass('input-block-level');
-    $('.sfgen input:password').addClass('input-block-level');
+
 </script>
 {%endblock%}
+{% block javascripts %}
+    <script type="text/javascript">
+        function initJSTwig() {
+            $('.sfgen input:text').addClass('input-block-level');
+            $('.sfgen input:password').addClass('input-block-level');
+        }
+    </script>
+{% endblock javascripts %}

@@ -92,19 +92,3 @@
         {% endif %}
     </div>
 </div>
-<script type="text/javascript">
-
-    $('.content_table').each(function(){
-
-        if($(this).children("table").length==0)
-        {
-            $(this).parent().parent().remove();
-        }
-    });
-    $('.btn_delete').on('click',function(){
-        $('#confirmation_modal').modal('show');
-        $('#delete_button').attr('data',$(this).attr('data'));
-        $('#delete_button').attr('btn_launch',$(this).attr('id'));
-    });
-
-</script>

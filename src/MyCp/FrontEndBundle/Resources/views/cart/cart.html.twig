@@ -73,34 +73,51 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dalog -->
     </div><!-- /.modal -->
-
-
-<script type="text/javascript">
-    $('#delete_button').on('click',function(){
-            string_url="{{ path('frontend_remove_from_cart_callback',{'data':0})}}";
-            data_remove=$(this).attr('data');
-            $('.btn_delete').attr('disabled','disable');
-            string_url=string_url.substr(0,string_url.length -1);
-            string_url = string_url + data_remove;
-            $('#'+$(this).attr('btn_launch')).attr('class','in_process');
-            $('#confirmation_modal').modal('hide');
-            $.ajax({
-                type: "POST",
-                url: string_url,
-                data: "data="+data_remove,
-                success: function(msg){
-                    $('.btn_delete').removeAttr('disabled');
-                    if(msg=='0')
-                    {
-                        window.location='{{path('frontend_view_cart')}}';
-                    }
-                    else
-                    {
-                        $('#cart-cont').html(msg);
-                    }
-                    $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
-                }
-            });
-    });
-</script>
 {% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        function initJSTwig() {
+
+                $('.content_table').each(function(){
+
+                    if($(this).children("table").length==0)
+                    {
+                        $(this).parent().parent().remove();
+                    }
+                });
+
+            $('.btn_delete').on('click',function(){
+                $('#confirmation_modal').modal('show');
+                $('#delete_button').attr('data',$(this).attr('data'));
+                $('#delete_button').attr('btn_launch',$(this).attr('id'));
+            });
+
+            $('#delete_button').on('click',function(){
+                string_url="{{ path('frontend_remove_from_cart_callback',{'data':0})}}";
+                data_remove=$(this).attr('data');
+                $('.btn_delete').attr('disabled','disable');
+                string_url=string_url.substr(0,string_url.length -1);
+                string_url = string_url + data_remove;
+                $('#'+$(this).attr('btn_launch')).attr('class','in_process');
+                $('#confirmation_modal').modal('hide');
+                $.ajax({
+                    type: "POST",
+                    url: string_url,
+                    data: "data="+data_remove,
+                    success: function(msg){
+                        $('.btn_delete').removeAttr('disabled');
+                        if(msg=='0')
+                        {
+                            window.location='{{path('frontend_view_cart')}}';
+                        }
+                        else
+                        {
+                            $('#cart-cont').html(msg);
+                        }
+                        $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
+                    }
+                });
+            });
+        }
+    </script>
+{% endblock javascripts %}

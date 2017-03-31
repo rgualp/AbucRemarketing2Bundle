@@ -15,14 +15,72 @@ class SearchUtils {
 
     public static function createDatesWhere($entity_manager, $arrivalDate = null, $leavingDate = null) {
         $where = "0";
-        $reservations = SearchUtils::getWithReservations($entity_manager, $arrivalDate, $leavingDate);
+        $reservations=SearchUtils::ownNotAvailable($entity_manager, $arrivalDate, $leavingDate);
         foreach ($reservations as $res)
-                $where .= "," . $res["own_id"];
-
-        $uDetails = SearchUtils::getWithUnavailabilityDetails($entity_manager, $arrivalDate, $leavingDate);
-        foreach ($uDetails as $detail)
-                $where .= "," . $detail["own_id"];
+            $where .= "," . $res["own_id"];
         return $where;
+    }
+
+    /**
+     * @author Livan Capote
+     * @description Busca las casas no disponibles
+     * @param $em
+     * @param null $arrivalDate
+     * @param null $leavingDate
+     */
+    public static function ownNotAvailable($em, $arrivalDate = null, $leavingDate = null){
+        $arrival="";
+        $departure="";
+        if ($arrivalDate != null && $arrivalDate != "undefined") {
+            $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+            if($arrival == null)
+                $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
+                $arrival= $arrival->format("Y-m-d");
+        }
+        else{
+            $arrival = new \DateTime();
+            $arrival = $arrival->format("Y-m-d");
+        }
+
+        if ($leavingDate != null && $leavingDate != "undefined")
+        {
+            $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
+            if ($departure == null)
+                $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
+            $departure = $departure->format("Y-m-d");
+
+        }
+        else{
+            $date = new \DateTime();
+            $departure = $date->modify('+2 days')->format("Y-m-d");
+        }
+
+        $status_reserved=ownershipReservation::STATUS_RESERVED;
+        $sql='SELECT DISTINCT o.own_id
+                FROM ownershipreservation owr
+                INNER JOIN generalreservation g ON g.gen_res_id = owr.own_res_gen_res_id
+                INNER JOIN ownership o ON o.own_id = g.gen_res_own_id
+                WHERE (SELECT count(two.own_id)
+                  FROM (
+                        (SELECT DISTINCT r2.room_id,o2.own_id FROM ownershipreservation owr1
+                                INNER JOIN room r2 ON r2.room_id = owr1.own_res_selected_room_id
+                                INNER JOIN generalreservation g2 ON g2.gen_res_id = owr1.own_res_gen_res_id
+                                INNER JOIN ownership o2 ON o2.own_id = g2.gen_res_own_id
+                                WHERE owr1.own_res_status = '.$status_reserved.' AND
+                                ((owr1.own_res_reservation_from_date <= "'.$arrival.'" AND owr1.own_res_reservation_to_date > "'.$arrival.'") OR (owr1.own_res_reservation_from_date <= "'.$departure.'" AND owr1.own_res_reservation_to_date > "'.$departure.'"))
+                        )
+                        UNION
+                        (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
+                                INNER JOIN room r3 ON r3.room_id = ud.room_id
+                                INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
+                                WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >= "'.$departure.'"))
+                        )
+                       ) as two WHERE two.own_id=o.own_id
+                    ) >= o.own_rooms_total ';
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     private static function getWithReservations($entity_manager, $arrivalDate = null, $leavingDate = null)
@@ -36,10 +94,10 @@ class SearchUtils {
 
             if (self::isDefined($arrivalDate) && self::isDefined($leavingDate)) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
+                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date > :leaving_date)";
 
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
-                $dates_where_count .= "(owr1.own_res_reservation_from_date >= :arrival_date AND owr1.own_res_reservation_to_date <= :leaving_date)";
+                $dates_where_count .= "(owr1.own_res_reservation_from_date <= :arrival_date AND owr1.own_res_reservation_to_date > :arrival_date) OR (owr1.own_res_reservation_from_date <= :leaving_date AND owr1.own_res_reservation_to_date > :leaving_date)";
             }
             else{
                 if (self::isDefined($arrivalDate)) {
@@ -69,7 +127,7 @@ class SearchUtils {
                                    AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED;
             $query_string .= ($dates_where_count != '') ? " AND ($dates_where_count)" : "";
             $query_string .= ") >= o.own_rooms_total";
-            $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+            //$query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
 
             $query_reservation = $entity_manager->createQuery($query_string);
 
@@ -114,10 +172,10 @@ class SearchUtils {
 
             if ($arrivalDate != null && $leavingDate != null) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(ud.ud_from_date >= :arrival_date AND ud.ud_to_date <= :leaving_date)";
+                $dates_where .= "(ud.ud_from_date <= :arrival_date AND ud.ud_to_date >= :leaving_date)";
 
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
-                $dates_where_count .= "(ud1.ud_from_date >= :arrival_date AND ud1.ud_to_date <= :leaving_date)";
+                $dates_where_count .= "(ud1.ud_from_date <= :arrival_date AND ud1.ud_to_date >= :arrival_date) OR (ud1.ud_from_date <= :leaving_date AND ud1.ud_to_date >= :leaving_date)";
             }
             else {
 
@@ -147,35 +205,10 @@ class SearchUtils {
 
             $query_string .= ($dates_where_count != '') ? " AND ($dates_where_count)" : "";
             $query_string .= ") >= ow.own_rooms_total";
-            $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+            //$query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
 
             $query_details = $entity_manager->createQuery($query_string);
 
-            /*try {
-                if ($arrivalDate != null) {
-                    $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
-                    if($arrival == null)
-                        $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
-                    $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
-                }
-
-                if ($leavingDate != null)
-                {
-
-                        $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
-                        if ($departure == null)
-                            $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
-                        $query_details->setParameter('leaving_date', $departure->format("Y-m-d"));
-
-                }
-            }
-            catch(\Exception $e)
-            {
-
-                $today = new DateTime();
-                $query_details->setParameter('arrival_date', $today->format("Y-m-d"))
-                              ->setParameter('leaving_date', $today->modify('+2 days')->format("Y-m-d"));
-            }*/
             if ($arrivalDate != null && $arrivalDate != "undefined") {
                 $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
                 if($arrival == null)
@@ -247,6 +280,8 @@ class SearchUtils {
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
+
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ";
@@ -254,6 +289,7 @@ class SearchUtils {
             $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 ") : (""));
@@ -293,6 +329,7 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ";
@@ -301,6 +338,7 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : (""));
@@ -311,7 +349,7 @@ class SearchUtils {
 
     public static function getTextWhere($text) {
         if ($text != null && $text != '' && $text != 'null')
-            return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
+            return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text OR des.des_name LIKE :text)";
     }
 
     /**
