@@ -34,10 +34,11 @@
     {% endif %}
 
     <div>
-        {% if award %}
+       {# {% if award %}
             <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
-        {% endif %}
-        <span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span>
+        {% endif %}#}
+        <div class="col-md-3"> <h4>{{ destination }}</h4></div>
+        <div class="col-md-9"><span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span></div>
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
         {% set url_image = asset("uploads/ownershipImages/" ~ photo) %}
