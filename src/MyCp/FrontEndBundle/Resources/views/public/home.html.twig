@@ -35,6 +35,7 @@
                 'midrange_total': midrange_total,
                 'economic_total': economic_total}) }}
         </div>
+        {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
     </div>
     <div id="map-cont">
         <div class="container">
@@ -43,9 +44,6 @@
         <div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px; margin-bottom: 25px;">
         {{ render(controller('FrontEndBundle:Destination:getBigMap')) }}
         </div>
-    </div>
-    <div class="container">
-        {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
     </div>
 {% endblock %}
 {% block javascripts %}
