@@ -92,7 +92,7 @@
     left: 0;
     padding-top: 15px;
     background-color: rgba(255, 255, 255, 0.75);
-
+    z-index: 150;
 }
 .irs-from, .irs-to, .irs-single {
     background: #027ed4 none repeat scroll 0 0;
