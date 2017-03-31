@@ -1,5 +1,3 @@
-
-
 <div class="thumbnail {% if ownership.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
         {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
             data-text="{{ 'IMMEDIATE_BOOKING'|trans }}"
@@ -10,14 +8,14 @@
         {% endif %}
      style="position:relative" rel="tooltip" title="
     {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
-            {{"TOOL_TIP_IMMEDIATE_BOOKING" | trans}}
+            {{ "TOOL_TIP_IMMEDIATE_BOOKING" | trans }}
     {% elseif  ownership.OwnInmediateBooking and not ownership.OwnInmediateBooking2 %}
-           {{"quick_booking_tooltip" | trans}}
+           {{ "quick_booking_tooltip" | trans }}
     {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
-           {{"TOOL_TIP_IMMEDIATE_BOOKING" | trans}}
+           {{ "TOOL_TIP_IMMEDIATE_BOOKING" | trans }}
      {% else %}
-        {{"MORE_INFO_PREFFIX" | trans}} {{name}}
-     {% endif %}">
+        {{ "MORE_INFO_PREFFIX" | trans }} {{ name }}
+     {% endif %}" xmlns="http://www.w3.org/1999/html">
 
     {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
         <div class="quick-ribbon" style="background-color: #ff0000">
@@ -37,8 +35,7 @@
        {# {% if award %}
             <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
         {% endif %}#}
-        <div class="col-md-3"> <h4>{{ destination }}</h4></div>
-        <div class="col-md-9"><span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span></div>
+        <span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span>
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
         {% set url_image = asset("uploads/ownershipImages/" ~ photo) %}
@@ -53,7 +50,7 @@
 <div class="row">
     <a target="_blank"  href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
     <div class="col-sm-9 h-blue">
-        {{ name| title }}
+        {{ name| title }}</br> <span style="font-size: 12px;margin-top: -6px;position: absolute;">{{ destination }}</span>
     </div>
     </a>
     <div class="col-sm-3" style="margin-top: 20px;">
