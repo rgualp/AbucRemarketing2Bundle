@@ -415,6 +415,11 @@ class ReservationController extends Controller {
         $array_ids = $session->get('reservation_own_ids');
         $newArraysIds = array();
 
+        if (!$array_ids) {
+            return $this->forward('FrontEndBundle:Mycasatrip:available', array('order_by' => 0));
+            //return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+        }
+
         foreach($array_ids as $id){
             if($id != $idReservation)
             {

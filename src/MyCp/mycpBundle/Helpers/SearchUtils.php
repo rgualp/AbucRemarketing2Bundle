@@ -51,7 +51,8 @@ class SearchUtils {
 
         }
         else{
-            $departure = $arrival->modify('+2 days')->format("Y-m-d");
+            $date = new \DateTime();
+            $departure = $date->modify('+1 days')->format("Y-m-d");
         }
 
         $status_reserved=ownershipReservation::STATUS_RESERVED;
@@ -69,10 +70,10 @@ class SearchUtils {
                                 ((owr1.own_res_reservation_from_date <= "'.$arrival.'" AND owr1.own_res_reservation_to_date > "'.$arrival.'") OR (owr1.own_res_reservation_from_date <= "'.$departure.'" AND owr1.own_res_reservation_to_date > "'.$departure.'"))
                         )
                         UNION
-                        (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
-                                INNER JOIN room r3 ON r3.room_id = ud.room_id
-                                INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
-                                WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >= "'.$departure.'"))
+                            (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
+                                    INNER JOIN room r3 ON r3.room_id = ud.room_id
+                                    INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
+                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >= "'.$departure.'"))
                         )
                        ) as two WHERE two.own_id=o.own_id
                     ) >= o.own_rooms_total ';
@@ -279,6 +280,8 @@ class SearchUtils {
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
+
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ";
@@ -286,6 +289,7 @@ class SearchUtils {
             $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 ") : (""));
@@ -325,6 +329,7 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ";
@@ -333,6 +338,7 @@ class SearchUtils {
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
+                             JOIN o.own_destination des
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho ".(($where) ? ("WHERE o.own_status = 1 AND r.room_active = 1 ") : (""));
@@ -343,7 +349,7 @@ class SearchUtils {
 
     public static function getTextWhere($text) {
         if ($text != null && $text != '' && $text != 'null')
-            return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
+            return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text OR des.des_name LIKE :text)";
     }
 
     /**

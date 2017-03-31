@@ -70,6 +70,13 @@ class ownership {
     /**
      * @var string
      *
+     * @ORM\Column(name="own_old_name", type="string", length=255, nullable=true)
+     */
+    private $own_old_name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="own_licence_number", type="string", length=255, nullable=true)
      */
     private $own_licence_number;
@@ -2996,5 +3003,25 @@ class ownership {
     {
         $this->effectiveMethodsPayment->removeElement($effectiveMethodPayment);
     }
+
+    /**
+     * @return string
+     */
+    public function getOwnOldName()
+    {
+        return $this->own_old_name;
+    }
+
+    /**
+     * @param string $own_old_name
+     * @return mixed
+     */
+    public function setOwnOldName($own_old_name)
+    {
+        $this->own_old_name = $own_old_name;
+        return $this;
+    }
+
+
 
 }
