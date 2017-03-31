@@ -386,4 +386,72 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
+    public function getDestinationsByActivitiesForMapAction(){
+        $em = $this->getDoctrine()->getManager();
+        $locale = $this->get('translator')->getLocale();
+        $activities = $em->getRepository('mycpBundle:destinationCategoryLang')->getForMap($locale);
+
+        $items = array_slice($activities, -6);
+//        dump($items);die;
+        $list = array();
+        if ( count($items) > 0){
+            foreach ($items as $activity){
+                $destinations = $em->getRepository('mycpBundle:destination')->getDestinationsByActivities($locale, $activity->getDesCatIdCat()->getDesCatId());
+                //dump($activity);die;
+                $prov = array();
+                $dest_prov = array();
+
+                if (count($destinations) > 0){
+                    foreach ($destinations as $destination){
+
+                        $key_prov = Utils::urlNormalize($destination["province_name"]);
+                        $key_prov = strtolower($key_prov);
+
+                        if (!array_key_exists($key_prov, $prov)){
+                            $dest = array(
+                                "name" => $destination["province_name"],
+                                "location" => array($destination["latituded"], $destination["longituded"])
+                            );
+                            $prov[$key_prov] = $dest;
+                            $dest_prov[$key_prov][] = $destination;
+                        }else{
+                            $dest_prov[$key_prov][] = $destination;
+                        }
+                    }
+                }
+
+//                <a href="{{ path('newfrontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+//                           {% set url_image = asset("uploads/destinationImages/" ~ (des_photo)) %}
+
+                if (count($dest_prov) > 0){
+                    foreach ($dest_prov as $key => $item){
+                        $html = "";
+                        $html .= '<ul style="padding: 0; margin: 0; list-style: none;">';
+                        foreach ($item as $li){
+                            $html .= '<li style="display: inline-block; padding: 5px; text-align: center;"><a href="'.$this->generateUrl('frontend_details_destination', array('destination_name' => $li['des_name_for_url'])).'"><img src="'.$this->container->get('templating.helper.assets')->getUrl('uploads/destinationImages/' . $li['photo']).'" width="150" /> </br> <span class="text-center">'.$li['des_name'].'</span></a></li>';
+                        }
+                        $html .= '</ul>';
+                        $prov[$key]['html'] = $html;
+                    }
+                }
+
+                $key_act = Utils::urlNormalize($activity->getDesCatName());
+                $key_act = strtolower($key_act);
+                $data_act = array(
+                    "icons" => $this->getRequest()->getSchemeAndHttpHost()."/uploads/destinationImages/icons/".$activity->getDesCatIdCat()->getDesIcon(),
+                    "image" => $activity->getDesCatIdCat()->getDesIconProvMap(),
+                    "name" => $activity->getDesCatName(),
+                    "description" => $activity->getDesCatDescription(),
+                    "destinations" => $prov,
+                );
+                $list[$key_act] = $data_act;
+            }
+        }
+
+        return $this->render('FrontEndBundle:destination:map_with_activities.html.twig', array(
+            'activities' => $list,
+            'json' => json_encode($list)
+        ));
+    }
+
 }
