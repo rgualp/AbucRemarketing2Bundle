@@ -62,7 +62,7 @@ function initActivitiesMap(){
                 isHidden: false,
                 boxClass: "mybox",
                 pane: "floatPane",
-                pixelOffset: new google.maps.Size(-200, 80),
+                pixelOffset: new google.maps.Size(-200, 10),
                 enableEventPropagation: false
             };
             var ib = new InfoBoxC(myOptions);
@@ -116,7 +116,7 @@ function addMarkers(activity, map, infobox){
 
             return function()
             {
-                infobox.setContent('<div class="infoWindow" style="border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px">'+marker_bullet.content+'</div>');
+                infobox.setContent('<div class="infoWindow" style="border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 0 25px 0 5px; font-size:11px">'+marker_bullet.content+'</div>');
                 // infobox.setPixelOffset( new google.maps.Size(200,0));
                 infobox.open(map, marker_bullet);
             };
