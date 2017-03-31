@@ -563,7 +563,6 @@ div#div_b h4{
     box-shadow: 2px 3px 1px #ccc;
     position: relative;
     z-index: 100;
-    overflow: hidden;
     border-radius: 10px;
 }
 
@@ -578,6 +577,15 @@ div#div_b h4{
     text-align: center;
     text-shadow: 1px 1px 1px #000;
     text-transform: uppercase;
+    text-decoration: none;
+}
+
+#activity-menu a:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+#activity-menu a:last-child {
+    border-radius: 0 10px 10px 0;
 }
 
 #activity-menu a.activate{
@@ -596,4 +604,5 @@ div#div_b h4{
     -o-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    text-decoration: none;
 }

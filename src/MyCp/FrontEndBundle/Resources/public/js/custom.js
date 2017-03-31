@@ -65,7 +65,9 @@ function initActivitiesMap(){
                 pixelOffset: new google.maps.Size(-200, 10),
                 enableEventPropagation: false
             };
-            var ib = new InfoBoxC(myOptions);
+            //var ib = new InfoBoxC(myOptions);
+
+            var ib = new google.maps.InfoWindow();
 
             $("#activity-menu a").each(function (e) {
                 $(this).click(function (s) {
@@ -77,7 +79,10 @@ function initActivitiesMap(){
                     var activity = activities[$(this).attr("href")];
                     addMarkers(activity, map, ib);
                 })
-            })
+            });
+
+            var activity = activities[$("#activity-menu a.activate").attr("href")];
+            addMarkers(activity, map, ib);
         }
     }
 }
@@ -116,7 +121,7 @@ function addMarkers(activity, map, infobox){
 
             return function()
             {
-                infobox.setContent('<div class="infoWindow" style="border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 0 25px 0 5px; font-size:11px">'+marker_bullet.content+'</div>');
+                infobox.setContent(marker_bullet.content);
                 // infobox.setPixelOffset( new google.maps.Size(200,0));
                 infobox.open(map, marker_bullet);
             };

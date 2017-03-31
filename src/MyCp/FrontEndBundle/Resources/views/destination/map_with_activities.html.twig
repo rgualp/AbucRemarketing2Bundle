@@ -5,7 +5,7 @@
             <div id="activity-menu" class="col-sm-12 col-xs-12">
                 <div class="row">
                     {% for key,value in activities %}
-                        <a href="{{ key }}" class="popover-icon col-sm-2 activity {% if loop.first %}activate{% endif %}" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{{ value["description"] }}" style="background-image: url('{{ asset("uploads/destinationImages/icons/" ~ (value["image"])) }}')">{{ value["name"] }}</a>
+                        <a href="{{ key }}" class="popover-icon col-sm-2 activity {% if loop.first %}activate{% endif %}" rel="tooltip" title="{{ value["description"] }}" style="background-image: url('{{ asset("uploads/destinationImages/icons/" ~ (value["image"])) }}')">{{ value["name"] }}</a>
                     {% endfor %}
                 </div>
             </div>

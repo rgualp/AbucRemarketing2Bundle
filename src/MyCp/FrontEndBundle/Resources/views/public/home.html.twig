@@ -23,9 +23,7 @@
 
     <div class="container">
         {#<h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>#}
-        <div class="text-center"><label class="caecilia-roman"
-                                        style="margin-top: 13px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "HOMEPAGE_SUBTITLE_2" | trans }}</label>
-        </div>
+        <h2 class="text-center caecilia-roman h-grey h-size-2">{{ "HOMEPAGE_SUBTITLE_2" | trans }}</h2>
 
         <div id="top_rated_placeholder" data-url="{{ path('frontend_top_rated_callback_ownership') }}"
              data-url-change-category="{{ path('frontend_top_rated_change_category_callback_ownership') }}">
@@ -35,12 +33,12 @@
                 'economic_total': economic_total}) }}
         </div>
         <div class="text-center" style="margin-top: 30px"><span
-                    class="caecilia-roman h-dark-grey">{{ "HOMEPAGE_SUBTITLE_1" | trans }}</span></div>
-        <p style="color: #000000; ">{{ "HOMEPAGE_TEXT" | trans }}</p>
+                    class="caecilia-roman" style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "HOMEPAGE_SUBTITLE_1" | trans }}</span></div>
+        <p>{{ "HOMEPAGE_TEXT" | trans }}</p>
     </div>
     <div id="map-cont" style="margin-bottom: 3em">
         <div class="container">
-            <h2 class="text-center caecilia-roman h-grey h-size-2">{{ "PLACE_IN_CUBA_TO_VISIT" | trans }}</h2>
+            <div class="text-center"><label class="caecilia-roman" style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "PLACE_IN_CUBA_TO_VISIT" | trans }}</label></div>
         </div>
         <div>
             {{ render(controller('FrontEndBundle:Destination:getDestinationsByActivitiesForMap')) }}
