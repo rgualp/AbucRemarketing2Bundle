@@ -70,5 +70,5 @@
     var today_date="{{"now"|date("d/m/Y") }}";
     var start_date="{{ (isDateTime(app.session.get('search_arrival_date'))) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
     var end_date="{{leavingDate}}";
-    var autocompletelist = {{ autocomplete_text_list |raw}};
+    var url_autocomplete = "{{ path('frontend_autocompletetext_callback') }}";
 </script>
