@@ -1,3 +1,5 @@
+var dmarkers = [];
+
 $(function() {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
@@ -52,6 +54,19 @@ function initActivitiesMap(){
 
             var map = new google.maps.Map(document.getElementById("destination-map"), options);
 
+            var myOptions = {
+                disableAutoPan: false,
+                closeBoxMargin: "10px 2px 2px 2px",
+                closeBoxURL: "https://www.google.com/intl/en_us/mapfiles/close.gif",
+                infoBoxClearance: new google.maps.Size(1, 1),
+                isHidden: false,
+                boxClass: "mybox",
+                pane: "floatPane",
+                pixelOffset: new google.maps.Size(-200, 80),
+                enableEventPropagation: false
+            };
+            var ib = new InfoBoxC(myOptions);
+
             $("#activity-menu a").each(function (e) {
                 $(this).click(function (s) {
                     $("#activity-menu a").each(function (d) {
@@ -60,14 +75,14 @@ function initActivitiesMap(){
                     $(this).addClass("activate");
                     s.preventDefault();
                     var activity = activities[$(this).attr("href")];
-                    addMarkers(activity, map);
+                    addMarkers(activity, map, ib);
                 })
             })
         }
     }
 }
 
-function addMarkers(activity, map){
+function addMarkers(activity, map, infobox){
 
     var clear = {name:"marker"};
     var act_icon = activity.icons;
@@ -75,7 +90,7 @@ function addMarkers(activity, map){
     // $("#destination-map").gmap3(
     //     {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
     // );
-
+    removeMarkers(dmarkers);
 
     for (var destination in activity.destinations) {
 
@@ -83,14 +98,31 @@ function addMarkers(activity, map){
         var latlng = new google.maps.LatLng(activity.destinations[destination].location[0], activity.destinations[destination].location[1]);
 
 
+
         var marker_bullet = new google.maps.Marker({
             map: map,
             position: latlng,
             title: activity.destinations[destination].name,
-            content: "",
+            content: activity.destinations[destination].html,
             icon: act_icon
         });
 
+
+
+        google.maps.event.addListener(marker_bullet, 'click', (function(marker_bullet, i)
+        {
+            infobox.close();
+            infobox.setContent('');
+
+            return function()
+            {
+                infobox.setContent('<div class="infoWindow" style="border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px">'+marker_bullet.content+'</div>');
+                // infobox.setPixelOffset( new google.maps.Size(200,0));
+                infobox.open(map, marker_bullet);
+            };
+        })(marker_bullet, i));
+
+        dmarkers.push(marker_bullet);
         // $("#destination-map").gmap3({
         //     marker:{
         //         latLng: activity.destinations[destination].location,
@@ -122,6 +154,12 @@ function addMarkers(activity, map){
         // });
     }
 
+}
+
+function removeMarkers(gmarkers){
+    for(i=0; i<gmarkers.length; i++){
+        gmarkers[i].setMap(null);
+    }
 }
 
 function startTypeHead(){
