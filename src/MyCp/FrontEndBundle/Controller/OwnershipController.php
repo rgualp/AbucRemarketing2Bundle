@@ -575,6 +575,7 @@ class OwnershipController extends Controller
         $brief_description = Utils::removeNewlines($ownership_array['brief_description']);
 
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+        $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()) {
@@ -612,7 +613,8 @@ class OwnershipController extends Controller
                 'keywords' => $ownership_array['keywords'],
                 'locale' => $locale,
                 'currentServiceFee' => $currentServiceFee,
-                'lastPage' => $paginator->getLastPage()
+                'lastPage' => $paginator->getLastPage(),
+                'allLanguages' => $allLanguages
             ));
         } else {
 
@@ -648,9 +650,9 @@ class OwnershipController extends Controller
                 'real_category' => $real_category,
                 'languages' => $languages,
                 'keywords' => $ownership_array['keywords'],
-                'locale' => $locale,
                 'currentServiceFee' => $currentServiceFee,
-                'lastPage' => $paginator->getLastPage()
+                'lastPage' => $paginator->getLastPage(),
+                'allLanguages' => $allLanguages
             ));
         }
     }
