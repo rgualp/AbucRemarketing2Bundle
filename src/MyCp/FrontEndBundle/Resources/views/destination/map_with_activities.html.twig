@@ -1,0 +1,24 @@
+<!--Activities Map-->
+{% if activities | length > 0 %}
+    <section class="destination-marker-map clearfix mt50 fadeInDown appear">
+        <div class="container">
+            <div id="activity-menu" class="col-sm-12 col-xs-12">
+                <div class="row">
+                    {% for key,value in activities %}
+                        <a href="{{ key }}" class="popover-icon col-sm-2 activity {% if loop.first %}activate{% endif %}" rel="tooltip" title="{{ value["description"] }}" style="background-image: url('{{ asset("uploads/destinationImages/icons/" ~ (value["image"])) }}')">{{ value["name"] }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row">
+                <div id="destination-map"></div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+<!-- End Destinations Map -->
+<script>
+    var activities = {{ json|raw }};
+    var default_icon = "{{ app.request.getSchemeAndHttpHost ~ asset('bundles/frontend/img/marker_blank.png') }}"
+</script>

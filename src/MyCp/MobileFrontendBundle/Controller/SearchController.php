@@ -151,7 +151,6 @@ class SearchController extends Controller
             'view_results' => $session->get('search_view_results'),
             'own_statistics' => $statistics_own_list,
             'locale' => $this->get('translator')->getLocale(),
-            'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
             'list' => $result_list,
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),

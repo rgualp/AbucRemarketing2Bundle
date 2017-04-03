@@ -465,12 +465,12 @@ class StepsController extends Controller {
         $body = $templatingService->renderResponse('MyCpCasaModuleBundle:mail:publishedOwnership.html.twig', array('ownership' => $ownership, 'user_locale' => "es", 'user_full_name' => $this->getUser()->getUserUserName() . ' ' . $this->getUser()->getUserLastName()));
 //        $emailService->sendEmail(array($this->getUser()->getUsername()), $emailSubject, $body);
 
-        if($ownership->getModifying()){
+        if($ownership->getModifying()) {
             $ownership->setModifying(false);
             $em->persist($ownership);
             $em->flush();
         }
-        else{
+        else {
             $service_email = $this->get('Email');
             $service_email->sendEmail($emailSubject, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $this->getUser()->getUsername(), $body);
         }
@@ -996,9 +996,9 @@ class StepsController extends Controller {
 
         $service_log = $this->get('log');
 
-        if($status == 0){
+        if($status == 0) {
             $udetailsService->addUDetail($room, $start, $end, 'Por el propietario');
-            $service_log->saveLog("Por el propietario desde el Modulo Casa. Fechas:(".$request->get('date_from').' a '.$request->get('date_to').')', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, Operations::SAVE_AND_NEW, 'unavailabilitydetails');
+            $service_log->saveLog("Por el propietario desde el Modulo Casa. Fechas:(" . $request->get('date_from') . ' a ' . $request->get('date_to') . ')', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, Operations::SAVE_AND_NEW, 'unavailabilitydetails');
         }
         else //remove uDetails
         {
@@ -1115,7 +1115,7 @@ class StepsController extends Controller {
             self::submitEmailReservationTeamProperty($ownership, $reserved);
         }
 
-        return $this->redirect($this->generateUrl('my_cp_casa_module_homepage', array('modif'=>true)));
+        return $this->redirect($this->generateUrl('my_cp_casa_module_homepage', array('modif' => true)));
     }
 
     /**
@@ -1152,16 +1152,16 @@ class StepsController extends Controller {
         $start = $time->format('Y-m-d H:i:s');
         $reserved = $em->getRepository('mycpBundle:ownershipReservation')->getReservationByRoomByStartDate($request->get('idroom'), $start);
 
-        $unavailabilitiesDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->findBy(array('room'=>$room->getRoomId()));
-        if(count($unavailabilitiesDetails)){
-            foreach($unavailabilitiesDetails as $unavailabilityDetails){
-               $em->remove($unavailabilityDetails);
+        $unavailabilitiesDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->findBy(array('room' => $room->getRoomId()));
+        if(count($unavailabilitiesDetails)) {
+            foreach ($unavailabilitiesDetails as $unavailabilityDetails) {
+                $em->remove($unavailabilityDetails);
             }
             $em->flush();
         }
-        $carts = $em->getRepository('mycpBundle:cart')->findBy(array('cart_room'=>$room->getRoomId()));
-        if(count($carts)){
-            foreach($carts as $cart){
+        $carts = $em->getRepository('mycpBundle:cart')->findBy(array('cart_room' => $room->getRoomId()));
+        if(count($carts)) {
+            foreach ($carts as $cart) {
                 $em->remove($cart);
             }
             $em->flush();
@@ -1234,14 +1234,14 @@ class StepsController extends Controller {
         //dump($ranking);die;
 
         $year = '2016';
-        if(count($allYearCalculateRanking) > 0){
+        if(count($allYearCalculateRanking) > 0) {
             $year = $allYearCalculateRanking[count($allYearCalculateRanking) - 1]['year'];
         }
 
         $r = $em->getRepository("mycpBundle:ownershipRankingExtra")->getOfYear($ownership->getOwnId(), $year);
 
         return $this->render('MyCpCasaModuleBundle:Steps:estatidistica.html.twig', array(
-            'xyearranking'=>$r,
+            'xyearranking' => $r,
             'ownership' => $ownership,
             'ranking' => $ranking,
             'yearranking' => $yearRanking,
@@ -1332,7 +1332,7 @@ class StepsController extends Controller {
             if(count($ranking) > 0) {
                 $r = $em->getRepository("mycpBundle:ownershipRankingExtra")->getOfYear($ownid, $year);
                 return $this->render('MyCpCasaModuleBundle:statistics:resumen_anual.html.twig', array(
-                    'xyearranking'=>$r,
+                    'xyearranking' => $r,
                     "ranking" => $ranking,
                     "ownership" => $ownership,
                     "totalOwnerShipActive" => $totalOwnerShipActive,

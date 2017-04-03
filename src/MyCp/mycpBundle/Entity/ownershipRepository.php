@@ -1215,6 +1215,10 @@ class ownershipRepository extends EntityRepository {
      */
     function top20($locale = "ES", $category = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
+        $owns_id = "0";
+        $reservations=SearchUtils::ownNotAvailable($em);
+        foreach ($reservations as $res)
+            $owns_id .= "," . $res["own_id"];
 
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
@@ -1222,6 +1226,7 @@ class ownershipRepository extends EntityRepository {
                          o.own_comments_total as comments_total,
                          o.own_inmediate_booking as OwnInmediateBooking,
                          o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                         des.des_name as destination,
                          pho.pho_name as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          data.reservedRooms as count_reservations,
@@ -1230,12 +1235,14 @@ class ownershipRepository extends EntityRepository {
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
+                         JOIN o.own_destination des
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
                          LEFT JOIN op.own_pho_photo pho
-                         WHERE o.own_top_20=1
+                         WHERE o.own_inmediate_booking_2=1
                          AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
+        $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
         if($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
 

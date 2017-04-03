@@ -40,11 +40,17 @@ class destinationCategoryLang
      */
     private $des_cat_id_cat;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_cat_description", type="string", length=255)
+     */
+    private $des_cat_description;
 
     /**
      * Get des_cat_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getDesCatId()
     {
@@ -60,14 +66,14 @@ class destinationCategoryLang
     public function setDesCatName($desCatName)
     {
         $this->des_cat_name = $desCatName;
-    
+
         return $this;
     }
 
     /**
      * Get des_cat_name
      *
-     * @return string 
+     * @return string
      */
     public function getDesCatName()
     {
@@ -83,14 +89,14 @@ class destinationCategoryLang
     public function setDesCatIdLang(\MyCp\mycpBundle\Entity\lang $desCatIdLang = null)
     {
         $this->des_cat_id_lang = $desCatIdLang;
-    
+
         return $this;
     }
 
     /**
      * Get des_cat_id_lang
      *
-     * @return \MyCp\mycpBundle\Entity\lang 
+     * @return \MyCp\mycpBundle\Entity\lang
      */
     public function getDesCatIdLang()
     {
@@ -106,18 +112,34 @@ class destinationCategoryLang
     public function setDesCatIdCat(\MyCp\mycpBundle\Entity\destinationCategory $desCatIdCat = null)
     {
         $this->des_cat_id_cat = $desCatIdCat;
-    
+
         return $this;
     }
 
     /**
      * Get des_cat_id_cat
      *
-     * @return \MyCp\mycpBundle\Entity\destinationCategory 
+     * @return \MyCp\mycpBundle\Entity\destinationCategory
      */
     public function getDesCatIdCat()
     {
         return $this->des_cat_id_cat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesCatDescription()
+    {
+        return $this->des_cat_description;
+    }
+
+    /**
+     * @param string $des_cat_description
+     */
+    public function setDesCatDescription($des_cat_description)
+    {
+        $this->des_cat_description = $des_cat_description;
     }
 
 }

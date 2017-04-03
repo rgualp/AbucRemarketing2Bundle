@@ -104,7 +104,7 @@
                     {%for category in owns_categories%}
                         <li>
                             <label class="control control--checkbox f-s-12 f-f-Arial color-454242 f-w-light">
-                                <input data-icon="{{category[0] | trans}}" class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>
+                                <input data-icon="{{category[0] | trans}}" class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and check_filters['own_category'] is defined%} {% if category[0] in check_filters['own_category'] %} checked="checked" {%endif%} {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>
                                 <div class="control__indicator border-gray"></div>
                                 {{category[0] | trans}}
                             </label>

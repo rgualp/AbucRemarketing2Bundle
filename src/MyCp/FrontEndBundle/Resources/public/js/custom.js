@@ -1,3 +1,5 @@
+var dmarkers = [];
+
 $(function() {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
@@ -27,8 +29,142 @@ function startCustom() {
 
     startTypeHead();
 
+    initActivitiesMap();
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
+}
+
+function initActivitiesMap(){
+    // Activities Map
+
+    if ($("#destination-map").length > 0){
+        if (google != undefined){
+
+            var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
+            var options = {
+                'zoom': 7,
+                'center': center,
+                'styles': [{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#e3e3e3"}]},{"featureType":"landscape.natural","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"color":"#cccccc"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#FFFFFF"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}],
+                'navigationControl': false,
+                'scrollwheel': false,
+                'streetViewControl': false,
+                'zoomControl': false,
+                'mapTypeControl': false
+            };
+
+            var map = new google.maps.Map(document.getElementById("destination-map"), options);
+
+            var myOptions = {
+                disableAutoPan: false,
+                closeBoxMargin: "10px 2px 2px 2px",
+                closeBoxURL: "https://www.google.com/intl/en_us/mapfiles/close.gif",
+                infoBoxClearance: new google.maps.Size(1, 1),
+                isHidden: false,
+                boxClass: "mybox",
+                pane: "floatPane",
+                pixelOffset: new google.maps.Size(-200, 10),
+                enableEventPropagation: false
+            };
+            //var ib = new InfoBoxC(myOptions);
+
+            var ib = new google.maps.InfoWindow();
+
+            $("#activity-menu a").each(function (e) {
+                $(this).click(function (s) {
+                    $("#activity-menu a").each(function (d) {
+                        $(this).removeClass("activate");
+                    });
+                    $(this).addClass("activate");
+                    s.preventDefault();
+                    var activity = activities[$(this).attr("href")];
+                    addMarkers(activity, map, ib);
+                })
+            });
+
+            var activity = activities[$("#activity-menu a.activate").attr("href")];
+            addMarkers(activity, map, ib);
+        }
+    }
+}
+
+function addMarkers(activity, map, infobox){
+
+    var clear = {name:"marker"};
+    var act_icon = activity.icons;
+
+    // $("#destination-map").gmap3(
+    //     {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
+    // );
+    removeMarkers(dmarkers);
+
+    for (var destination in activity.destinations) {
+
+        console.log(activity.destinations[destination]);
+        var latlng = new google.maps.LatLng(activity.destinations[destination].location[0], activity.destinations[destination].location[1]);
+
+
+
+        var marker_bullet = new google.maps.Marker({
+            map: map,
+            position: latlng,
+            title: activity.destinations[destination].name,
+            content: activity.destinations[destination].html,
+            icon: act_icon
+        });
+
+
+
+        google.maps.event.addListener(marker_bullet, 'click', (function(marker_bullet, i)
+        {
+            infobox.close();
+            infobox.setContent('');
+
+            return function()
+            {
+                infobox.setContent(marker_bullet.content);
+                // infobox.setPixelOffset( new google.maps.Size(200,0));
+                infobox.open(map, marker_bullet);
+            };
+        })(marker_bullet, i));
+
+        dmarkers.push(marker_bullet);
+        // $("#destination-map").gmap3({
+        //     marker:{
+        //         latLng: activity.destinations[destination].location,
+        //         data   : activity.destinations[destination].html,
+        //         options:{
+        //             title: activity.destinations[destination].name,
+        //             icon: act_icon
+        //         },
+        //         events : {
+        //             click : function(marker, event, context) {
+        //                 var map = $(this).gmap3("get"),
+        //                     infowindow = $(this).gmap3({get:{name:"infowindow"}});
+        //
+        //                 if (infowindow){
+        //                     infowindow.open(map, marker);
+        //                     infowindow.setContent('<div class="infoWindow">'+context.data+'</div>');
+        //                     infowindow.setPixelOffset( new google.maps.Size(200,0));
+        //                 } else {
+        //                     $(this).gmap3({
+        //                         infowindow:{
+        //                             anchor:marker,
+        //                             options:{content: context.data}
+        //                         }
+        //                     });
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
+    }
+
+}
+
+function removeMarkers(gmarkers){
+    for(i=0; i<gmarkers.length; i++){
+        gmarkers[i].setMap(null);
+    }
 }
 
 function startTypeHead(){

@@ -6,16 +6,15 @@
     '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
     '@FrontEndBundle/Resources/public/css/slider.css'
     '@FrontEndBundle/Resources/public/css/filtersv2.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
+    filter='?uglifycss' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-<style>
-</style>
+    <style>
+    </style>
 {% endblock %}
-{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS')%}
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 
-{% block title %}{{"SEARCH_RESULTS_PAGE_TITLE" | trans}}{% endblock %}
+{% block title %}{{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}{% endblock %}
 
  {% block metas %}
      {#{{parent()}}#}
@@ -28,31 +27,32 @@
      {#{% set next = page + 1 %}#}
      {#{% set prev = page - 1 %}#}
      {#{% if page == "" or page == 1 %}#}
-         {#<link rel="next" href="{{ path("frontend_search_ownership", {"page": next}) }}" />#}
+     {#<link rel="next" href="{{ path("frontend_search_ownership", {"page": next}) }}" />#}
      {#{% elseif page > 1 and page < lastPage %}#}
-         {#<link rel="next" href="{{ path("frontend_search_ownership", {"page": next}) }}" />#}
-         {#<link rel="prev" href="{{ path("frontend_search_ownership", {"page": prev}) }}" />#}
+     {#<link rel="next" href="{{ path("frontend_search_ownership", {"page": next}) }}" />#}
+     {#<link rel="prev" href="{{ path("frontend_search_ownership", {"page": prev}) }}" />#}
      {#{% elseif page == lastPage %}#}
-         {#<link rel="prev" href="{{ path("frontend_search_ownership", {"page": prev}) }}" />#}
+     {#<link rel="prev" href="{{ path("frontend_search_ownership", {"page": prev}) }}" />#}
      {#{% endif %}#}
  {% endblock metas %}
 
 {% block other_load_js %}
     {% javascripts
     '@FrontEndBundle/Resources/public/js/ownership.js'
-    filter='?uglifyjs2'
-    %}
+    filter='?uglifyjs2' %}
     .script('{{ asset_url }}')
     {% endjavascripts %}
 {% endblock %}
 
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
-    {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
+    {{ "SEARCH_DESCRIPTION_MAIN_MENU" | trans }}
 {% endblock %}
+{% block marquesina %}{% endblock %}
 {% block custom_menus %}
     <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
-        <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+        <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue"
+             style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
             <div class="container">
                 {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
             </div>
@@ -62,61 +62,67 @@
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
-  <div class="row" id="search-container" style="width: 100%; margin:0;">
-            <div class="col-sm-7 p-0" style="padding-right: 0; position: relative">
-                <div id="loading" class="hidden">
-                    <div class="layer-loading"></div>
-                    <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" alt="{{"Loading" | trans}}"/></div>
-                </div>
-                {#{%if view_results != 'MAP'%}#}
-                    {#<div class="thumbnail" id="map" style="width:100%;height:150px;" class="google-maps"></div>#}
-                {#{%endif%}#}
-                {#<div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"#}
-                      {#data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"#}
-                      {#data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>#}
+    <div class="row" id="search-container" style="width: 100%; margin:0;">
+        <div class="col-sm-7 p-0" style="padding-right: 0; position: relative">
+            <div id="loading" class="hidden">
+                <div class="layer-loading"></div>
+                <div class="loading-signal"><img class="img-circle load-icon"
+                                                 src="{{ asset('bundles/frontend/img/loading.gif') }}"
+                                                 alt="{{ "Loading" | trans }}"/></div>
+            </div>
+            {#{%if view_results != 'MAP'%}#}
+            {#<div class="thumbnail" id="map" style="width:100%;height:150px;" class="google-maps"></div>#}
+            {#{%endif%}#}
+            {#<div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"#}
+            {#data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"#}
+            {#data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>#}
 
-                {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
-                {'is_within_search_results':true,
-                'locale': locale})}}
-                <div class="filter accordion-body collapse" id="collapseFilters">
-                    <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}" data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
-                        {%if check_filters is defined%}
-                            {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
-                            {'own_statistics': own_statistics,'check_filters': check_filters}) }}
-                        {%else%}
-                            {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
-                            {'own_statistics': own_statistics}) }}
-                        {%endif%}
-                    </div>
-                </div>
-                <div id="filter_upper">
-                    {%if check_filters is defined and check_filters | length%}
-
-                    {%endif%}
-                </div>
-
-                <div class="col-sm-12">
-                    <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
-                    <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result" data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
-
-                        {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
-                                {#{'list': list,#}
-                                    {#'list_preffix': 'mosaic'#}
-                                {#}) }}#}
-
-                    </div>
+            {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
+            {'is_within_search_results':true,
+                'locale': locale}) }}
+            <div class="filter accordion-body collapse" id="collapseFilters">
+                <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"
+                     data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
+                    {% if check_filters is defined %}
+                        {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
+                        {'own_statistics': own_statistics,'check_filters': check_filters}) }}
+                    {% else %}
+                        {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
+                        {'own_statistics': own_statistics}) }}
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-sm-5 p-0">
-                {%if view_results != 'MAP'%}
-                <div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>
-                {%endif%}
-                <div  id="json_search_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
-                data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-                data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+            <div id="filter_upper">
+                {% if check_filters is defined and check_filters | length %}
 
+                {% endif %}
+            </div>
+
+            <div class="col-sm-12">
+                <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"
+                     aria-hidden="true"></div>
+                <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result"
+                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
+
+                    {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
+                    {#{'list': list,#}
+                    {#'list_preffix': 'mosaic'#}
+                    {#}) }}#}
+
+                </div>
             </div>
         </div>
+        <div class="col-sm-5 p-0">
+            {% if view_results != 'MAP' %}
+                <div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>
+            {% endif %}
+            <div id="json_search_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"
+                 data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
+                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+
+        </div>
+    </div>
+    {% block marquesina_js %}{% endblock %}
     {% block javascripts %}
         <script>
             var otherpage = {{ current_page }};
@@ -127,25 +133,25 @@
                     tickIcon: 'fa-check'
                 });
 
-                var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
+                var h = $(window).height() - 24 - $('#top-menu-cont').height() - $('.filters-container').height();
 
                 $('#div_result').slimScroll({
-                    height: h+'px',
+                    height: h + 'px',
                     start: 'top',
                     allowPageScroll: true
-                }).bind('slimscrolling', function(e, pos){
-                    if ( pos >= $('#div_result')[0].scrollHeight - $('#div_result').height() ){
+                }).bind('slimscrolling', function (e, pos) {
+                    if (pos >= $('#div_result')[0].scrollHeight - $('#div_result').height()) {
                         otherpage++;
-                        if ( parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page")) ){
+                        if (parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page"))) {
                             $('#div_result')[0].scrollTop = pos - 200;
                             research(otherpage);
                         }
                     }
                 });
 
-            var h1 = $('#search-container').height();
+                var h1 = $('#search-container').height();
 
-                $('#search_map').css('height',h1+'px');
+                $('#search_map').css('height', h1 + 'px');
 
 
                 $('[data-submenu]').submenupicker();
@@ -156,9 +162,8 @@
                 })
 
                 $("iframe").css("position", "fixed");
-
-                $("#priceFilter").slider({});
-                $('#cancel-filters').on('click',function(){
+                jQuery("#priceFilter").slider({});
+                $('#cancel-filters').on('click', function () {
                     $('#button_research').removeClass('hide');
                     $('#more_filters').addClass('collapsed');
                 });
@@ -190,13 +195,12 @@
             }
 
 
-
-
         </script>
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 {% endblock %}
 {% block go_up %}
-    <div class="show-more-footer text-center"><a title="{{"FOOTER" | trans }}" href="#"><i class="ion-more"></i></a></div>
+    <div class="show-more-footer text-center"><a title="{{ "FOOTER" | trans }}" href="#"><i class="ion-more"></i></a>
+    </div>
 {% endblock %}
 {% block forsearch %}{{ 'footer-static' }}{% endblock %}
