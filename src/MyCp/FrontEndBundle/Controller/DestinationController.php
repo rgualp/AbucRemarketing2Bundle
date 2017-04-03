@@ -428,7 +428,7 @@ class DestinationController extends Controller {
                         $html = "";
                         $html .= '<ul style="padding: 0; margin: 0; list-style: none;">';
                         foreach ($item as $li){
-                            $html .= '<li style="display: inline-block; padding: 5px; text-align: center;"><a href="'.$this->generateUrl('frontend_details_destination', array('destination_name' => $li['des_name_for_url'])).'"><img src="'.$this->container->get('templating.helper.assets')->getUrl('uploads/destinationImages/' . $li['photo']).'" width="150" /> </br> <span class="text-center">'.$li['des_name'].'</span></a></li>';
+                            $html .= '<li style="display: inline-block; padding: 5px; text-align: center;"><a href="'.$this->generateUrl('frontend_details_destination', array('destination_name' => $li['des_name_for_url'])).'"><img src="'.$this->container->get('templating.helper.assets')->getUrl('uploads/destinationImages/' . $li['photo']).'" width="150" height="100" style="border-radius: 10px;" /> </br> <span class="text-center" style="display: block; margin-top: 8px;">'.$li['des_name'].'</span></a></li>';
                         }
                         $html .= '</ul>';
                         $prov[$key]['html'] = $html;
