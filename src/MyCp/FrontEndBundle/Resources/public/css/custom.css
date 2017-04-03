@@ -395,6 +395,11 @@ div#div_b h4{
     height: 100px;
 }
 
+.search.fixed-top {
+    position: fixed !important;
+    top: 114px !important;
+    z-index: 9999 !important;
+}
 .marquesina{
     height: 46px;
 }
