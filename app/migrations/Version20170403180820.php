@@ -17,7 +17,7 @@ class Version20170403180820 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql('ALTER TABLE `destinationcategorylang` ADD `des_cat_description` VARCHAR(255)  CHARACTER SET utf8  COLLATE utf8_unicode_ci  NOT NULL  DEFAULT;');
+        $this->addSql('ALTER TABLE `destinationcategorylang` ADD `des_cat_description` VARCHAR(255)  CHARACTER SET utf8  COLLATE utf8_unicode_ci  NOT NULL;');
 
     }
 
