@@ -1028,9 +1028,9 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->getRepository('mycpBundle:generalReservation')
             ->find($reservationId);
 
-        if(empty($generalReservation)) {
+       /* if(empty($generalReservation)) {
             throw new \LogicException('No reservation found for ID ' . $reservationId);
-        }
+        }*/
 
         return $generalReservation;
     }
