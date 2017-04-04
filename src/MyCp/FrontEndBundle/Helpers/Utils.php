@@ -19,6 +19,12 @@ class Utils {
     {
         $furl=str_replace("-", "--", $text);
         $furl=str_replace(" ", "-", $furl);
+        $furl=str_replace("à", "a", $furl);
+        $furl=str_replace("è", "e", $furl);
+        $furl=str_replace("ì", "i", $furl);
+        $furl=str_replace("ò", "o", $furl);
+        $furl=str_replace("ù", "u", $furl);
+        $furl=str_replace("ü", "u", $furl);
         $furl=str_replace("á", "a", $furl);
         $furl=str_replace("é", "e", $furl);
         $furl=str_replace("í", "i", $furl);
@@ -31,9 +37,25 @@ class Utils {
         $furl=str_replace("Í", "I", $furl);
         $furl=str_replace("Ó", "O", $furl);
         $furl=str_replace("Ú", "U", $furl);
+        $furl=str_replace("À", "A", $furl);
+        $furl=str_replace("È", "E", $furl);
+        $furl=str_replace("Ì", "I", $furl);
+        $furl=str_replace("Ò", "O", $furl);
+        $furl=str_replace("Ù", "U", $furl);
         $furl=str_replace("Ñ", "_nn_", $furl);
+        $furl=str_replace("ä", "a", $furl);
+        $furl=str_replace("ü", "u", $furl);
+        $furl=str_replace("Ü", "U", $furl);
+        $furl=str_replace("Ä", "A", $furl);
+        $furl=str_replace("Ë", "E", $furl);
+        $furl=str_replace("ë", "e", $furl);
+        $furl=str_replace("ï", "i", $furl);
+        $furl=str_replace("Ï", "I", $furl);
+        $furl=str_replace("Ö", "O", $furl);
+        $furl=str_replace("ö", "o", $furl);
         $furl = strtolower ($furl);
         $furl=str_replace("_nn_", "ñ", $furl);
+
 
         return $furl;
     }
