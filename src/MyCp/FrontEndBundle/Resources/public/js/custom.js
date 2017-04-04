@@ -1,5 +1,3 @@
-var dmarkers = [];
-
 $(function() {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
@@ -69,19 +67,19 @@ function initActivitiesMap(){
                 }
             });
 
-            $("#activity-menu a").each(function (e) {
-                $(this).click(function (s) {
-                    $("#activity-menu a").each(function (d) {
-                        $(this).removeClass("activate");
+            jQuery("#activity-menu a").each(function (e) {
+                jQuery(this).click(function (s) {
+                    jQuery("#activity-menu a").each(function (d) {
+                        jQuery(this).removeClass("activate");
                     });
-                    $(this).addClass("activate");
+                    jQuery(this).addClass("activate");
                     s.preventDefault();
-                    var activity = activities[$(this).attr("href")];
+                    var activity = activities[jQuery(this).attr("href")];
                     addMarkers(activity);
                 })
             });
 
-            var activity = activities[$("#activity-menu a.activate").attr("href")];
+            var activity = activities[jQuery("#activity-menu a.activate").attr("href")];
             addMarkers(activity);
         }
     }
@@ -135,12 +133,6 @@ function addMarkers(activity){
         });
     }
 
-}
-
-function removeMarkers(gmarkers){
-    for(i=0; i<gmarkers.length; i++){
-        gmarkers[i].setMap(null);
-    }
 }
 
 function startTypeHead(){
