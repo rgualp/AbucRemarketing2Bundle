@@ -36,14 +36,14 @@
                     class="caecilia-roman" style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "HOMEPAGE_SUBTITLE_1" | trans }}</span></div>
         <p>{{ "HOMEPAGE_TEXT" | trans }}</p>
     </div>
-    {#<div id="map-cont" style="margin-bottom: 3em">#}
-        {#<div class="container">#}
-            {#<div class="text-center"><label class="caecilia-roman" style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "PLACE_IN_CUBA_TO_VISIT" | trans }}</label></div>#}
-        {#</div>#}
-        {#<div>#}
-            {#{{ render(controller('FrontEndBundle:Destination:getDestinationsByActivitiesForMap')) }}#}
-        {#</div>#}
-    {#</div>#}
+    <div id="map-cont" style="margin-bottom: 3em">
+        <div class="container">
+            <div class="text-center"><label class="caecilia-roman" style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "PLACE_IN_CUBA_TO_VISIT" | trans }}</label></div>
+        </div>
+        <div>
+            {{ render(controller('FrontEndBundle:Destination:getDestinationsByActivitiesForMap')) }}
+        </div>
+    </div>
     <div class="container">
         {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
     </div>
@@ -83,7 +83,6 @@
                 elem.attr('class', old_class);
             });
 
-            initActivitiesMap();
         }
     </script>
 {% endblock javascripts %}

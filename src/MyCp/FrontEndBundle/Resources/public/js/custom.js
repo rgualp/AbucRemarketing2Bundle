@@ -29,6 +29,7 @@ function startCustom() {
 
     startTypeHead();
 
+    initActivitiesMap();
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }
