@@ -161,7 +161,7 @@
                     <td>{% for accommodation in  accommodations %}
                         <a href="{{ path("mycp_edit_ownership", {"id_ownership": accommodation.own_id}) }}">{{ accommodation.own_mcp_code }}
                             {% if accommodation.own_inmediate_booking_2 %}<i class="fa fa-rocket" title="Reserva Inmediata" style="color: red"></i>{% endif %}
-                            {% if accommodation.own_inmediate_booking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}
+                            {#{% if accommodation.own_inmediate_booking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}#}
 
                             </a>{% if not loop.last %}, {% endif %}
                         {% else %} -
