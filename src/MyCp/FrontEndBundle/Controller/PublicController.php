@@ -163,6 +163,16 @@ class PublicController extends Controller {
 
     }
 
+    public function portafolioAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+
+        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->getPopularDestinations(12, $user_ids['user_id'], $user_ids['session_id']);
+
+        return $this->render('FrontEndBundle:public:portafolio.html.twig', array(
+            'popular_places' => $popular_destinations_list
+        ));
+    }
     public function homeCarrouselAction() {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
