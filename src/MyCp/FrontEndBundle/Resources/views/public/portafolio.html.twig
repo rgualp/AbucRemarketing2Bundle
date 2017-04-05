@@ -1,0 +1,38 @@
+<div class="portfolio-block content content-center" id="portfolio">
+    <div class="row">
+        {% for item in popular_places %}
+            {% set url_image = asset("uploads/destinationImages/" ~ item.photo) %}
+            <div alt="{{ "DESTINATIONS"|trans }} {{ item.des_name }}" class="item col-md-2 col-sm-6 col-xs-12" style="background-image: url({{ url_image }});height:200px;background-size: 240px 200px;background-size: cover;background-position: center center;background-repeat: no-repeat">
+                <a title="{{ "DESTINATIONS"|trans }} {{ item.des_name }}" href="{{ path('frontend_details_destination',{'destination_name':item.des_name|lower|replace(' ','-')}) }}" class="zoom valign-center">
+                    <div class="valign-center-elem" style="position: absolute; top: 50%; margin-top: -40.5px; width: 100%; height: 81px;text-align: center">
+                        <strong>  {{item.des_name | title | slice(0, 27)}}
+                            {%if item.des_name | length > 27%}...{%endif%}</strong>
+                        <em>{{"FROM_PRICES" | trans | lower}} {{ item.min_price | price}}</em>
+                        <b>{{ "VIEW_DETAILS" | trans }}</b>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
