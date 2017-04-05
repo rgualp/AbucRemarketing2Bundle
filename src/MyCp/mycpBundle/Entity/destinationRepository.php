@@ -807,4 +807,42 @@ class destinationRepository extends EntityRepository {
         return $query->getQuery()->getResult();
     }
 
+    function getDestinationsByActivities($locale, $id_act) {
+        $em = $this->getEntityManager();
+
+        $query_string = "SELECT d,
+                             d.des_id,
+                             d.des_name,
+                             d.des_name as des_name_for_url,
+                             d.des_geolocate_x as latituded,
+                             d.des_geolocate_y as longituded,
+                             (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,                     
+                             (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale'),
+                            (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo pho WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order = (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2 JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo
+                             FROM mycpBundle:destination d
+                             LEFT JOIN d.des_categories cat
+                             WHERE cat.des_cat_id = :id_act
+                             AND d.des_active <> 0
+                             ORDER BY d.des_order ASC";
+
+
+        $results = $em->createQuery($query_string)
+            ->setParameter('id_act', $id_act)
+            ->getResult();
+
+        for ($i = 0; $i < count($results); $i++) {
+            if($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if(!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+
+            $results[$i]['des_name_for_url'] = Utils::urlNormalize($results[$i]['des_name_for_url']);
+        }
+
+        return $results;
+
+//        return $query->getQuery()->getResult();
+    }
+
 }

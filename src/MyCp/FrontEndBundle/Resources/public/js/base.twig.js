@@ -52,6 +52,18 @@ var BaseTwigJs = function () {
             }
         });
 
+        if (showMarquesina){
+
+            //NavbarScrollFixed.init(".marquesina", "fixed-top", $(".marquesina").height() + 90, showMarqee, hideMarqee);
+            $("#marquee-close").on("click", function (e) {
+                e.preventDefault();
+                $(".marquesina").hide();
+            });
+
+        }
+        NavbarScrollFixed.init(".search", "fixed-top", $(".search").height() + 90, showMarqee, hideMarqee);
+
+
         $('#homeCarrousel a[href="#lastAdded"]').click(function () {
             loadLastAdded();
         });

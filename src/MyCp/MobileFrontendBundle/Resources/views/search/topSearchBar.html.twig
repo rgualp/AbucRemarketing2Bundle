@@ -83,30 +83,6 @@
     <div class="row bg-gray-mycp">
         <div class="col-xs-12 p-a-0">
             <div class="col-xs-8 p-5">
-                {#<div class="col-xs-4 text-center">#}
-                    {#<label class="control control--checkbox control--btn">#}
-                        {#<input data-icon="glyphicons certificate blue_economic" name="own_category" value="Económica" type="checkbox" />#}
-                        {#<div class="control__indicator">#}
-                            {#<i class="glyphicons certificate blue_economic"></i>#}
-                        {#</div>#}
-                    {#</label>#}
-                {#</div>#}
-                {#<div class="col-xs-4 text-center">#}
-                    {#<label class="control control--checkbox control--btn">#}
-                        {#<input data-icon="glyphicons cup green_mid_range" name="own_category" value="Rango medio" type="checkbox"/>#}
-                        {#<div class="control__indicator">#}
-                            {#<i class="glyphicons cup green_mid_range"></i>#}
-                        {#</div>#}
-                    {#</label>#}
-                {#</div>#}
-                {#<div class="col-xs-4 text-center">#}
-                    {#<label class="control control--checkbox control--btn">#}
-                        {#<input data-icon="glyphicons crown orange_premium" name="own_category" value="Premium" type="checkbox" />#}
-                        {#<div class="control__indicator">#}
-                            {#<i class="glyphicons crown orange_premium"></i>#}
-                        {#</div>#}
-                    {#</label>#}
-                {#</div>#}
                 <div class="col-xs-4 text-center">
                     <label class="control control--checkbox control--btn">
                         <input data-icon="fa fa-rocket" type="checkbox" id="own_inmediate_booking2" name="own_inmediate_booking2" {%if inmediate is defined and inmediate == "1" %} checked="checked" {%endif%} />
@@ -132,3 +108,6 @@
     </div>
 
 </div>
+<script>
+    var url_autocomplete = "{{ path('frontend_autocompletetext_callback') }}";
+</script>

@@ -87,7 +87,11 @@ class LastReservationReminderWorkerCommand extends Worker
                 ->getRepository('mycpBundle:generalReservation')
                 ->getGeneralReservationById($reservationId);
 
-        if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
+        if(is_null($generalReservation)){
+            $output->writeln('No reservation found for ID ' . $reservationId);
+            return true;
+        }
+        elseif($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
 
             /** @var user $user */
             $user = $generalReservation->getGenResUserId();

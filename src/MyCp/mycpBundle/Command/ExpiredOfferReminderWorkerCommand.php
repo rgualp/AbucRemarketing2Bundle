@@ -88,8 +88,11 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         $generalReservation = $this->em
                 ->getRepository('mycpBundle:generalReservation')
                 ->getGeneralReservationById($reservationId);
-
-        if($generalReservation->hasStatusAvailable()) {
+        if(is_null($generalReservation)){
+            $output->writeln('No reservation found for ID ' . $reservationId);
+            return true;
+        }
+        elseif($generalReservation->hasStatusAvailable()) {
             $ownershipReservations = $this->em
                 ->getRepository('mycpBundle:generalReservation')
                 ->getOwnershipReservations($generalReservation);

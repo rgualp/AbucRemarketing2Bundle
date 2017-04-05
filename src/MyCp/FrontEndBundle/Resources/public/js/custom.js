@@ -1,3 +1,5 @@
+var dmarkers = [];
+
 $(function() {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
@@ -27,8 +29,118 @@ function startCustom() {
 
     startTypeHead();
 
+    initActivitiesMap();
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
+}
+
+function initActivitiesMap(){
+    // Activities Map
+
+    if ($("#destination-map").length > 0){
+        if ( jQuery().gmap3 && google != undefined){
+
+            //Activities Map
+
+            jQuery("#destination-map").gmap3({
+                marker: {
+                    values: [{
+                        latLng: [22.01300, -79.26635],
+                        options: {
+                            icon: default_icon
+                        }
+                    }]
+                },
+                map:{
+                    options:{
+                        zoom:7,
+                        mapTypeControl: false,
+                        mapTypeControlOptions: {
+                            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                        },
+                        navigationControl: false,
+                        scrollwheel: false,
+                        streetViewControl: false,
+                        zoomControl: false,
+                        draggable: true,
+                        styles: [{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#e3e3e3"}]},{"featureType":"landscape.natural","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"color":"#cccccc"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#FFFFFF"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}]
+                    },
+
+                }
+            });
+
+            $("#activity-menu a").each(function (e) {
+                $(this).click(function (s) {
+                    $("#activity-menu a").each(function (d) {
+                        $(this).removeClass("activate");
+                    });
+                    $(this).addClass("activate");
+                    s.preventDefault();
+                    var activity = activities[$(this).attr("href")];
+                    addMarkers(activity);
+                })
+            });
+
+            var activity = activities[$("#activity-menu a.activate").attr("href")];
+            addMarkers(activity);
+        }
+    }
+}
+
+function addMarkers(activity){
+
+    var clear = {name:"marker"};
+    var act_icon = activity.icons;
+
+    jQuery("#destination-map").gmap3(
+        {
+            clear: clear,
+        }
+    );
+
+    jQuery("#destination-map").gmap3(
+        {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
+    );
+    //removeMarkers(dmarkers);
+
+    for (var destination in activity.destinations) {
+
+        jQuery("#destination-map").gmap3({
+            marker:{
+                latLng: activity.destinations[destination].location,
+                data   : activity.destinations[destination].html,
+                options:{
+                    title: activity.destinations[destination].name,
+                    icon: act_icon
+                },
+                events : {
+                    click : function(marker, event, context) {
+                        var map = jQuery(this).gmap3("get"),
+                            infowindow = jQuery(this).gmap3({get:{name:"infowindow"}});
+
+                        if (infowindow){
+                            infowindow.open(map, marker);
+                            infowindow.setContent('<div class="infoWindow">'+context.data+'</div>');
+                        } else {
+                            jQuery(this).gmap3({
+                                infowindow:{
+                                    anchor:marker,
+                                    options:{content: context.data}
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+}
+
+function removeMarkers(gmarkers){
+    for(i=0; i<gmarkers.length; i++){
+        gmarkers[i].setMap(null);
+    }
 }
 
 function startTypeHead(){

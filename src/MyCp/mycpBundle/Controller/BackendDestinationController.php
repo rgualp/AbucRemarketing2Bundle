@@ -41,6 +41,7 @@ class BackendDestinationController extends Controller
                     $category_lang->setDesCatIdCat($category);
                     $category_lang->setDesCatIdLang($language);
                     $category_lang->setDesCatName($post['lang' . $language->getLangId()]);
+                    $category_lang->setDesCatDescription($post['langdesc' . $language->getLangId()]);
                     $em->persist($category_lang);
                 }
 
@@ -102,6 +103,7 @@ class BackendDestinationController extends Controller
                     if($dest_cat_lang != null && count($dest_cat_lang) >= 1)
                     {
                         $dest_cat_lang[0]->setDesCatName($post['lang' . $language->getLangId()]);
+                        $dest_cat_lang[0]->setDesCatDescription($post['langdesc' . $language->getLangId()]);
                         $em->persist($dest_cat_lang[0]);
                     }
                     else
@@ -110,7 +112,8 @@ class BackendDestinationController extends Controller
                         $destinationCategory = $em->getRepository("mycpBundle:destinationCategory")->find($id_category);
                         $dest_cat_lang->setDesCatIdCat($destinationCategory)
                             ->setDesCatIdLang($language)
-                            ->setDesCatName($post['lang' . $language->getLangId()]);
+                            ->setDesCatName($post['lang' . $language->getLangId()])
+                            ->setDesCatDescription($post['langdesc' . $language->getLangId()]);
 
                         $em->persist($dest_cat_lang);
                     }

@@ -98,6 +98,8 @@
         '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
         '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
         '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
+        '@FrontEndBundle/Resources/public/js/infobox.js'
+        '@FrontEndBundle/Resources/public/js/plugins/gmap3.min.js'
         '@FrontEndBundle/Resources/public/js/respond.min.js'
         '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
         '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
@@ -108,7 +110,6 @@
         '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
         '@LayoutBundle/Resources/public/js/plugins/toastr/toastr-hds.js'
         '@FrontEndBundle/Resources/public/js/destinations.js'
-        '@FrontEndBundle/Resources/public/js/map.min.js'
         '@FrontEndBundle/Resources/public/js/ownership.min.js'
         '@FrontEndBundle/Resources/public/js/custom.js'
         '@FrontEndBundle/Resources/public/js/base.twig.js'
@@ -137,11 +138,23 @@
     </script>
     {% block include_javascripts_and_css %}{% endblock %}
 </head>
+
+
+
+
+
+
+
+
+
 <body>
 <!-- Google Tag Manager (noscript) -->
 {#<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N23FRP9"#}
                   {#height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>#}
 <!-- End Google Tag Manager (noscript) -->
+{% block marquesina %}
+    {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
+{% endblock %}
 {% block custom_menus %}
     <div class="space space-20"></div>
     <div class="container">
@@ -323,6 +336,13 @@
 {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
 <script type="text/javascript">
     var today_date="{{"now"|date("d/m/Y") }}";
+    var showMarquesina = false;
+    {% block marquesina_js %}
+        showMarquesina = true;
+    {% endblock %}
+</script>
+<script type="text/javascript">
+    var today_date="{{"now"|date("d/m/Y") }}";
 </script>
 
 <!-- Google Analytics -->
@@ -349,8 +369,14 @@
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-N23FRP9');</script>
+    })(window,document,'script','dataLayer','GTM-NQDW23K');</script>
 <!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NQDW23K"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 {% block javascripts %}{% endblock javascripts %}
 </body>
 </html>

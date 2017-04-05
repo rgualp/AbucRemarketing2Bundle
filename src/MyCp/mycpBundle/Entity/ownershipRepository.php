@@ -1226,6 +1226,7 @@ class ownershipRepository extends EntityRepository {
                          o.own_comments_total as comments_total,
                          o.own_inmediate_booking as OwnInmediateBooking,
                          o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                         des.des_name as destination,
                          pho.pho_name as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          data.reservedRooms as count_reservations,
@@ -1234,6 +1235,7 @@ class ownershipRepository extends EntityRepository {
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
+                         JOIN o.own_destination des
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
                          LEFT JOIN op.own_pho_photo pho

@@ -51,7 +51,6 @@
 
                     {{ include('MyCpMobileFrontendBundle:search:topSearchBar.html.twig',
                     {'is_within_search_results':true,
-                        'autocomplete_text_list': autocomplete_text_list,
                         'locale': locale}) }}
                     <div class="filter accordion-body collapse" id="collapseFilters">
                         <div id="filters" data-url-filter="{{ path('my_cp_mobile_filter_ownership_callback') }}"
@@ -104,14 +103,6 @@
             var today_date = "{{ "now"|date("d/m/Y") }}";
             var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
             var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y") }}";
-
-            $.fn.typeahead &&
-            $('[data-provide="typeahead"]').typeahead({
-                name: "states",
-                local: {{ autocomplete_text_list |raw }},
-                limit: 4
-            });
-
         </script>
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
