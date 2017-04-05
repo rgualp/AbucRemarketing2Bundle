@@ -610,3 +610,32 @@ div#div_b h4{
     transition: all 0.3s ease-in-out;
     text-decoration: none;
 }
+
+/*Grid Load*/
+@keyframes flickerAnimation { /* flame pulses */
+    0%   { opacity:1; }
+    50%  { opacity:0.5; }
+    100% { opacity:1; }
+}
+@keyframes flickerAnimationII { /* flame pulses */
+    0%   { opacity:0.5; }
+    50%  { opacity:1; }
+    100% { opacity:0.5; }
+}
+
+#grid-load{
+
+}
+#toprate-list .box{
+    background-color: #e1e1e8;
+    height: 266px;
+    margin-bottom: 58px;
+    opacity:1;
+    animation: flickerAnimation 2s infinite alternate;
+}
+
+#toprate-list .box.p{
+    background-color: #e1e1e8;
+    opacity:1;
+    animation: flickerAnimationII 3s infinite alternate;
+}
