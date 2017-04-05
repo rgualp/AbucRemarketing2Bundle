@@ -21,7 +21,7 @@ class notification
     const SUB_TYPE_CANCELED_BOOKING = "CANCELED_BOOKING";
     const SUB_TYPE_COMPLETE_PAYMENT = "COMPLETE_PAYMENT";//todo. Implementar en Mycasa Renta.
     const SUB_TYPE_COMPLETE_PAYMENT_DEPOSIT = "COMPLETE_PAYMENT_DEPOSIT";//todo. Implementar en Mycasa Renta.
-    const SUB_TYPE_COMMENT_OWN = "COMMENT_OWN";//todo. Implementar en Mycasa Renta.
+    const SUB_TYPE_COMMENT_OWN = "COMMENT_OWN";
 
     //todo. Adicionar la accion de vencida e implementar el comando
     const ACTION_RESPONSE_CLOSE = "CLOSE";

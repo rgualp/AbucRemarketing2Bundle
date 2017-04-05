@@ -43,8 +43,8 @@ class NotificationService extends Controller
     private $notificationSendConfirmationSms;
     private $notificationSendInmediatebookingSms;
     private $notificationSendCanceledbookingSms;
-    private $notificationAgencyCompletePaymentSms;
-    private $notificationAgencyCompletePaymentDepositSms;
+    private $notificationAgencyCompletePaymentSms;//#138:
+    private $notificationAgencyCompletePaymentDepositSms;//139
     private $notificationCommentSms;
     protected $container;
 
