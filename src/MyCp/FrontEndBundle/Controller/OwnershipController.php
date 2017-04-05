@@ -1607,6 +1607,7 @@ class OwnershipController extends Controller
         }
 
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
+        //dump($filters); die;
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters,0,null,null,false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
@@ -1641,7 +1642,7 @@ class OwnershipController extends Controller
         $check_filters['own_reservation_type'] = null;
         $check_filters['own_award'] = null;
         $check_filters['own_category'] = null;
-        $check_filters['own_type'] = array($type);
+        $check_filters['own_type'] = array(ucfirst($type));
         $check_filters['own_price'] = null;
         $check_filters['own_price_from'] = null;
         $check_filters['own_price_to'] = null;

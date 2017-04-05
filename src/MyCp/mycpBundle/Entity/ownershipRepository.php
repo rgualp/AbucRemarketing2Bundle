@@ -1018,6 +1018,9 @@ class ownershipRepository extends EntityRepository {
 
 
         $query_string .= $order;
+
+        //dump($query_string); die;
+
         $query = $em->createQuery($query_string);
         $query_count = $em->createQuery($query_count_string);
         //dump($query_string);die;
@@ -1757,12 +1760,12 @@ class ownershipRepository extends EntityRepository {
 
         if($exclude_id == null)
             $query_string .= " WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
-                              ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
+                              ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         else
             $query_string .= " WHERE o.own_category= :category
                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
-                         ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
+                         ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
