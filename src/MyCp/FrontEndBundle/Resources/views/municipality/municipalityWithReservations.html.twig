@@ -12,12 +12,12 @@
     {% set next = page + 1 %}
     {% set prev = page - 1 %}
     {% if page == "" or page == 1 %}
-        <link rel="next" href="{{ path("frontend_get_with_reservations_municipality", {"page": next}) }}" />
+        <link rel="next" href="{{ url("frontend_get_with_reservations_municipality", {"page": next}) }}" />
     {% elseif page > 1 and page < lastPage %}
-        <link rel="next" href="{{ path("frontend_get_with_reservations_municipality", {"page": next}) }}" />
-        <link rel="prev" href="{{ path("frontend_get_with_reservations_municipality", {"page": prev}) }}" />
+        <link rel="next" href="{{ url("frontend_get_with_reservations_municipality", {"page": next}) }}" />
+        <link rel="prev" href="{{ url("frontend_get_with_reservations_municipality", {"page": prev}) }}" />
     {% elseif page == lastPage %}
-        <link rel="prev" href="{{ path("frontend_get_with_reservations_municipality", {"page": prev}) }}" />
+        <link rel="prev" href="{{ url("frontend_get_with_reservations_municipality", {"page": prev}) }}" />
     {% endif %}
 {% endblock metas %}
 
