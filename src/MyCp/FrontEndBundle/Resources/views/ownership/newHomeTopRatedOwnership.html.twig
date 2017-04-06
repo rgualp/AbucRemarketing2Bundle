@@ -1,0 +1,86 @@
+<div class="bg-solid-orange" style="margin: 35px 0 30px;">
+    <div class="text-center caecilia-roman h-white" style="font-weight: normal; line-height:1.1">
+        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px"
+             class="icon star-orange-icon" alt="{{ "Pixel" | trans }}"/>&nbsp;
+        {{ "TOP_HOUSES_HOME_TITLE" | trans }}
+        &nbsp;<img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px"
+                   class="icon star-orange-icon" alt="{{ "Pixel" | trans }}"/>
+    </div>
+</div>
+<div class="row">
+    <div id="grid-load" class="col-sm-12" style="display: none;">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="toprate-list" class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box p"></div>
+            </div>
+        </div>
+    </div>
+    <div id="toprate-navigation" class="col-sm-12 text-center">
+        {% set today_date = (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d-m-Y")) : ("now"|date("d-m-Y")) %}
+        {% set leavingDate = (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d-m-Y")) : "+2 days" |date("d-m-Y") %}
+
+        <span class="tr-prev act" style="cursor: pointer;">PREV</span>
+        <span><a href="{{ path('frontend_search_ownership',{'text':"null", 'arrival': today_date,'departure':leavingDate ,'guests':'1','rooms':'1','inmediate':'1'})}}">VIEW ALL</a></span>
+        <span class="tr-next act" style="cursor: pointer;">NEXT</span>
+    </div>
+</div>
+<script>
+    var top_rated_callback = "{{ path('frontend_top_rated_callback_ownership') }}";
+</script>
