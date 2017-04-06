@@ -2,7 +2,7 @@
     <div class="row">
     {%set cont=0%}
     {% for ownership in own_top20_list %}
-        <div class="col-sm-4" style="margin-bottom: 15px;">
+        <div class="col-sm-4 animated bounceIn" style="margin-bottom: 15px;">
             {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
                 'id': ownership.own_id,
                 'name': ownership.own_name,

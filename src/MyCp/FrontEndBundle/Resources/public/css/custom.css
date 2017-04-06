@@ -575,7 +575,7 @@ div#div_b h4{
     background-position: center center;
     background-size: cover;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.8;
     text-align: center;
     text-shadow: 1px 1px 1px #000;
@@ -708,4 +708,17 @@ div#div_b h4{
     background-color: #e1e1e8;
     opacity:1;
     animation: flickerAnimationII 3s infinite alternate;
+}
+
+#toprate-navigation span.tr-next, #toprate-navigation span.tr-prev{
+    background: #F4981D;
+    border-radius: 50%;
+    font-size: 44px;
+    width: 30px;
+    height: 30px;
+    padding: 3px 20px;
+    text-align: center;
+    line-height: 1;
+    color: #fff;
+    padding-bottom: 0;
 }

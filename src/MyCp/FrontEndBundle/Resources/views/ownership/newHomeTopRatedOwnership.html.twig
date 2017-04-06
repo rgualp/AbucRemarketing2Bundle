@@ -76,9 +76,11 @@
         {% set today_date = (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d-m-Y")) : ("now"|date("d-m-Y")) %}
         {% set leavingDate = (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d-m-Y")) : "+2 days" |date("d-m-Y") %}
 
-        <span class="tr-prev act" style="cursor: pointer;">PREV</span>
-        <span><a href="{{ path('frontend_search_ownership',{'text':"null", 'arrival': today_date,'departure':leavingDate ,'guests':'1','rooms':'1','inmediate':'1'})}}">VIEW ALL</a></span>
-        <span class="tr-next act" style="cursor: pointer;">NEXT</span>
+        <span title="{{ 'btn.next'|trans }}" class="tr-prev act" style="cursor: pointer;"><i
+                    class="ion-ios-arrow-back"></i></span>
+        <span style="padding: 0 16px;font-size: 20px;position: relative;top: -6px;"><a href="{{ path('frontend_search_ownership',{'text':"null", 'arrival': today_date,'departure':leavingDate ,'guests':'1','rooms':'1','inmediate':'1'}) }}">{{ 'label.view.more'|trans }}</a></span>
+        <span title="{{ 'btn.previous'|trans }}" class="tr-next act" style="cursor: pointer;"><i
+                    class="ion-ios-arrow-forward"></i></span>
     </div>
 </div>
 <script>
