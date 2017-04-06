@@ -190,9 +190,9 @@
                         <td><a href="{{ path('mycp_details_reservation_ag',{'id_reservation':reservation.gen_res_id}) }}">{{ reservation.gen_res_id | getCASId }}</a></td>
                         <td>
                             {{ reservation.own_mcp_code }}
-                            {% if reservation.own_inmediate_booking %}
-                                <i class="glyphicons electricity" title="Reserva Rápida"></i>
-                            {% endif %}
+                            {#{% if reservation.own_inmediate_booking %}#}
+                                {#<i class="glyphicons electricity" title="Reserva Rápida"></i>#}
+                            {#{% endif %}#}
                             {% if reservation.own_inmediate_booking_2%}
                                 <i class="fa fa-rocket" title="Reserva Rápida" style="color: red"></i>
                             {% endif %}

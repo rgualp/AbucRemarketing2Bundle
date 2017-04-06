@@ -34,6 +34,7 @@ function startCustom() {
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }
 
+var myMap = null;
 function initActivitiesMap(){
     // Activities Map
 
@@ -41,7 +42,12 @@ function initActivitiesMap(){
         if ( jQuery().gmap3 && google != undefined){
 
             //Activities Map
+            var strictBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(20.591652,-81.474609),
+                new google.maps.LatLng(22.87744,-76.904297)
+            );
 
+            var center = new google.maps.LatLng(22.01300, -79.26635);
             jQuery("#destination-map").gmap3({
                 marker: {
                     values: [{
@@ -53,6 +59,7 @@ function initActivitiesMap(){
                 },
                 map:{
                     options:{
+                        center:center,
                         zoom:7,
                         mapTypeControl: false,
                         mapTypeControlOptions: {
@@ -65,12 +72,40 @@ function initActivitiesMap(){
                         draggable: true,
                         styles: [{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#e3e3e3"}]},{"featureType":"landscape.natural","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"color":"#cccccc"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#FFFFFF"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}]
                     },
+                    events : {
+                        drag : function() {
+                            if(myMap === null){
+                                myMap = jQuery("#destination-map").gmap3('get');
+                            }
+                            if (strictBounds.contains(myMap.getCenter()))
+                                return;
 
+                            var c = myMap.getCenter(),
+                                x = c.lng(),
+                                y = c.lat(),
+                                maxX = strictBounds.getNorthEast().lng(),
+                                maxY = strictBounds.getNorthEast().lat(),
+                                minX = strictBounds.getSouthWest().lng(),
+                                minY = strictBounds.getSouthWest().lat();
+
+                            if (x < minX) x = minX;
+                            if (x > maxX) x = maxX;
+                            if (y < minY) y = minY;
+                            if (y > maxY) y = maxY;
+
+                            myMap.panTo(new google.maps.LatLng(y, x));
+                        }
+                    }
                 }
             });
 
             $("#activity-menu a").each(function (e) {
                 $(this).click(function (s) {
+                    if(myMap === null){
+                        myMap = jQuery("#destination-map").gmap3('get');
+                    }
+                    myMap.panTo(new google.maps.LatLng(22.01300, -79.26635));
+
                     $("#activity-menu a").each(function (d) {
                         $(this).removeClass("activate");
                     });
@@ -116,9 +151,9 @@ function addMarkers(activity){
         }
     );
 
-    jQuery("#destination-map").gmap3(
+    /*jQuery("#destination-map").gmap3(
         {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
-    );
+    );*/
     //removeMarkers(dmarkers);
 
     for (var destination in activity.destinations) {
