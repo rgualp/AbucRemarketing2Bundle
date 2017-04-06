@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
+use MyCp\mycpBundle\Helpers\SearchUtils;
 
 class OwnershipController extends Controller
 {
@@ -1547,7 +1548,7 @@ class OwnershipController extends Controller
         $session->set('own_ids', $own_ids);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
         $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
@@ -1607,6 +1608,7 @@ class OwnershipController extends Controller
         }
 
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
+        //dump($filters); die;
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters,0,null,null,false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
@@ -1629,7 +1631,7 @@ class OwnershipController extends Controller
         $session->set('own_ids', $own_ids);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
         $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
@@ -1641,7 +1643,7 @@ class OwnershipController extends Controller
         $check_filters['own_reservation_type'] = null;
         $check_filters['own_award'] = null;
         $check_filters['own_category'] = null;
-        $check_filters['own_type'] = array($type);
+        $check_filters['own_type'] = array(ucfirst($type));
         $check_filters['own_price'] = null;
         $check_filters['own_price_from'] = null;
         $check_filters['own_price_to'] = null;
@@ -1710,18 +1712,27 @@ class OwnershipController extends Controller
 
         $category = $session->get("top_rated_category");
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 4 * $session->get("top_rated_show_rows");
+        $items_per_page = 9;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) != "todos") ? $category : null));
-        $own_top20_list = $paginator->paginate($list)->getResult();
-        $page = 1;
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
 
-        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+        $page = 1;
+        $page = $request->request->get('page');
+        //$_GET['page'] = $page;
+
+        if ($page == 1){
+            $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) != "todos") ? $category : null));
+            $top_rated_list = $list->getResult();
+            $session->set("top_rated_list", $top_rated_list);
+        }else{
+            $top_rated_list = $session->get("top_rated_list");
+        }
+        $own_top20_list = $paginator->paginate($top_rated_list)->getResult();
+        $total_item = $paginator->getTotalItems();
+
+        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedList.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
-            'top_rated_total_items' => $paginator->getTotalItems(),
+            'top_rated_total_items' => $total_item,
             'current_page' => $page,
             'premium_total' => $statistics['premium_total'],
             'midrange_total' => $statistics['midrange_total'],
@@ -1758,7 +1769,7 @@ class OwnershipController extends Controller
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedList.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
@@ -1903,6 +1914,44 @@ class OwnershipController extends Controller
         } else {
             return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee));
         }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function searchByDestinationAction(Request $request){
+        $prov_array = $request->request->get('prov_array');
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $user_id = $user_ids['user_id'];
+        $session_id = $user_ids['session_id'];
+        $where="";
+        if(count($prov_array)){
+            $i=0;
+            foreach ($prov_array as $item) {
+                if($i==0)
+                    $where.="prov.prov_id=$item";
+                else
+                    $where.=" OR prov.prov_id=$item ";
+                $i++;
+            }
+        }
+        $query_string = SearchUtils::getBasicQuery(false, $user_id, $session_id);
+        $query_string=$query_string['query'];
+        $query_string.=" AND o.own_inmediate_booking_2=1 AND $where ";
+        $owns_id = "0";
+        $reservations=SearchUtils::ownNotAvailable($em);
+        foreach ($reservations as $res)
+            $owns_id .= "," . $res["own_id"];
+        $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
+        $query = $em->createQuery($query_string);
+        if($session_id != null){
+            $query->setParameter('session_id', $session_id);
+        }
+        $result = $query->setFirstResult(0)->setMaxResults(6)->getResult();
+
+
+        dump($result);die;
     }
 
 }
