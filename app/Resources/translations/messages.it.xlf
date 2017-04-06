@@ -4145,6 +4145,18 @@
                  <source>GO_MYCASATRIP</source>
                  <target>Torna a MyCasaTrip</target>
             </trans-unit>
+            <trans-unit id="1042">
+                 <source>top.next</source>
+                 <target>Seguente</target>
+            </trans-unit>
+            <trans-unit id="1043">
+                 <source>top.prev</source>
+                 <target>Precedente</target>
+            </trans-unit>
+             <trans-unit id="1044">
+                 <source>top.view.more</source>
+                 <target>Vedi più</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
