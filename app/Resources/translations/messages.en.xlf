@@ -4094,6 +4094,18 @@
                  <source>GO_MYCASATRIP</source>
                  <target>Return to MyCasaTrip</target>
             </trans-unit>
+            <trans-unit id="1027">
+                 <source>top.next</source>
+                 <target>Next</target>
+            </trans-unit>
+            <trans-unit id="1028">
+                 <source>top.prev</source>
+                 <target>Previous</target>
+            </trans-unit>
+            <trans-unit id="1029">
+                  <source>top.view.more</source>
+                  <target>View More</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

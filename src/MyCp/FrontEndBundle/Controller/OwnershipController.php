@@ -1548,7 +1548,7 @@ class OwnershipController extends Controller
         $session->set('own_ids', $own_ids);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
         $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
@@ -1631,7 +1631,7 @@ class OwnershipController extends Controller
         $session->set('own_ids', $own_ids);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
         $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
@@ -1712,18 +1712,27 @@ class OwnershipController extends Controller
 
         $category = $session->get("top_rated_category");
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 4 * $session->get("top_rated_show_rows");
+        $items_per_page = 9;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) != "todos") ? $category : null));
-        $own_top20_list = $paginator->paginate($list)->getResult();
-        $page = 1;
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
 
-        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+        $page = 1;
+        $page = $request->request->get('page');
+        //$_GET['page'] = $page;
+
+        if ($page == 1){
+            $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) != "todos") ? $category : null));
+            $top_rated_list = $list->getResult();
+            $session->set("top_rated_list", $top_rated_list);
+        }else{
+            $top_rated_list = $session->get("top_rated_list");
+        }
+        $own_top20_list = $paginator->paginate($top_rated_list)->getResult();
+        $total_item = $paginator->getTotalItems();
+
+        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedList.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
-            'top_rated_total_items' => $paginator->getTotalItems(),
+            'top_rated_total_items' => $total_item,
             'current_page' => $page,
             'premium_total' => $statistics['premium_total'],
             'midrange_total' => $statistics['midrange_total'],
@@ -1760,7 +1769,7 @@ class OwnershipController extends Controller
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedList.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),

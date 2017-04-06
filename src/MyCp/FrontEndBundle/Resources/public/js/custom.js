@@ -1,5 +1,3 @@
-var dmarkers = [];
-
 $(function() {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
@@ -109,7 +107,7 @@ function initActivitiesMap(){
                     $("#activity-menu a").each(function (d) {
                         $(this).removeClass("activate");
                     });
-                    $(this).addClass("activate");
+                    jQuery(this).addClass("activate");
                     s.preventDefault();
                     var activity = activities[$(this).attr("href")];
                     //paintOwnership(activity);
@@ -117,7 +115,7 @@ function initActivitiesMap(){
                 })
             });
 
-            var activity = activities[$("#activity-menu a.activate").attr("href")];
+            var activity = activities[jQuery("#activity-menu a.activate").attr("href")];
             addMarkers(activity);
         }
     }
@@ -188,12 +186,6 @@ function addMarkers(activity){
         });
     }
 
-}
-
-function removeMarkers(gmarkers){
-    for(i=0; i<gmarkers.length; i++){
-        gmarkers[i].setMap(null);
-    }
 }
 
 function startTypeHead(){
