@@ -77,6 +77,7 @@ function initActivitiesMap(){
                     $(this).addClass("activate");
                     s.preventDefault();
                     var activity = activities[$(this).attr("href")];
+                    //paintOwnership(activity);
                     addMarkers(activity);
                 })
             });
@@ -86,7 +87,24 @@ function initActivitiesMap(){
         }
     }
 }
+function paintOwnership(activity){
+    var i=0;
+    var total_item_show=6;
+    var prov_array=new Array();
+    var url="";
+        for (var destination in activity.destinations) {
+            url=activity.destinations[destination].url;
+            if(i<=total_item_show)
+                prov_array.push(activity.destinations[destination].prov_id);
+            i++;
+        }
+        $.post(url, {
+            'prov_array': prov_array
+        }, function(data) {
 
+        });
+
+}
 function addMarkers(activity){
 
     var clear = {name:"marker"};

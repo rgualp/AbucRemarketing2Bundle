@@ -817,6 +817,7 @@ class destinationRepository extends EntityRepository {
                              d.des_geolocate_x as latituded,
                              d.des_geolocate_y as longituded,
                              (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,                     
+                             (SELECT prov2.prov_id FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_province prov2 WHERE loc4.des_loc_destination = d.des_id ) as prov_id,
                              (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale'),
                             (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo pho WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order = (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2 JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo
                              FROM mycpBundle:destination d
