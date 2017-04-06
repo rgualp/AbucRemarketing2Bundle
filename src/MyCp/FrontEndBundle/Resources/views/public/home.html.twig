@@ -116,6 +116,12 @@
 
             jQuery("#toprate-list").load(top_rated_callback, {page: page}, function (result) {
                 initNavigationTopRate();
+
+                if ($('.bttrlazyloading').length > 0){
+                    $('.bttrlazyloading').each(function () {
+                        $("#"+$(this).attr("id")).bttrlazyloading();
+                    });
+                }
             });
         }
     </script>
