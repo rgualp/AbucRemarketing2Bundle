@@ -4158,6 +4158,18 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                  <source>GO_MYCASATRIP</source>
                  <target>Retour à MyCasaTrip</target>
             </trans-unit>
+            <trans-unit id="1042">
+                 <source>top.next</source>
+                 <target>Suivant</target>
+            </trans-unit>
+            <trans-unit id="1043">
+                 <source>top.prev</source>
+                 <target>Précédent</target>
+            </trans-unit>
+            <trans-unit id="1044">
+                  <source>top.view.more</source>
+                  <target>Voir plus</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
