@@ -1547,7 +1547,7 @@ class OwnershipController extends Controller
         $session->set('own_ids', $own_ids);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
         $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
@@ -1630,7 +1630,7 @@ class OwnershipController extends Controller
         $session->set('own_ids', $own_ids);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
         $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
