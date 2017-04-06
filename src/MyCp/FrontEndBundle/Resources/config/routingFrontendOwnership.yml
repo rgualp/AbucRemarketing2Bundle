@@ -109,3 +109,7 @@ frontend_autocompletetext_callback:
     locales:  { en: "/autocompletetext/", es: "/autocompletetext/", de: "/autocompletetext/", fr: "/autocompletetext/", it: "/autocompletetext/" }
     defaults: { _controller: FrontEndBundle:Ownership:autoCompleteTextList }
 
+frontend_search_own_bydestination:
+    locales:  { en: "/byprov", es: "/byprov", de: "/byprov", fr: "/byprov", it: "/byprov" }
+    defaults: { _controller: FrontEndBundle:Ownership:searchByDestination }
+

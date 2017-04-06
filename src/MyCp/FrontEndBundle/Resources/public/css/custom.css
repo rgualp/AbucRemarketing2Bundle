@@ -575,7 +575,7 @@ div#div_b h4{
     background-position: center center;
     background-size: cover;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.8;
     text-align: center;
     text-shadow: 1px 1px 1px #000;
@@ -678,4 +678,47 @@ div#div_b h4{
     background: #fff;
     color: #E85425;
     border-color: #fff;
+}
+
+
+/*Grid Load*/
+@keyframes flickerAnimation { /* flame pulses */
+    0%   { opacity:1; }
+    50%  { opacity:0.5; }
+    100% { opacity:1; }
+}
+@keyframes flickerAnimationII { /* flame pulses */
+    0%   { opacity:0.5; }
+    50%  { opacity:1; }
+    100% { opacity:0.5; }
+}
+
+#grid-load{
+
+}
+#toprate-list .box{
+    background-color: #e1e1e8;
+    height: 266px;
+    margin-bottom: 58px;
+    opacity:1;
+    animation: flickerAnimation 2s infinite alternate;
+}
+
+#toprate-list .box.p{
+    background-color: #e1e1e8;
+    opacity:1;
+    animation: flickerAnimationII 3s infinite alternate;
+}
+
+#toprate-navigation span.tr-next, #toprate-navigation span.tr-prev{
+    background: #F4981D;
+    border-radius: 50%;
+    font-size: 44px;
+    width: 30px;
+    height: 30px;
+    padding: 3px 20px;
+    text-align: center;
+    line-height: 1;
+    color: #fff;
+    padding-bottom: 0;
 }

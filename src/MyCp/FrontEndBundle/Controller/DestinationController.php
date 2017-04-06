@@ -410,6 +410,8 @@ class DestinationController extends Controller {
                         if (!array_key_exists($key_prov, $prov)){
                             $dest = array(
                                 "name" => $destination["province_name"],
+                                "prov_id" => $destination["prov_id"],
+                                "url"=>$this->generateUrl('frontend_search_own_bydestination'),
                                 "location" => array($destination["latituded"], $destination["longituded"])
                             );
                             $prov[$key_prov] = $dest;
