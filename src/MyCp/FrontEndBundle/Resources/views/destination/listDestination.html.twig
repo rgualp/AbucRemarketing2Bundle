@@ -6,52 +6,6 @@
 {% block metas %}
     {{ get_metas('Destinos', app.session.get('app_lang_code')|lower )|raw }}
 {% endblock metas %}
-
-{% block include_javascripts_and_css %}
-    {% javascripts
-    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-    '@FrontEndBundle/Resources/public/js/destinations.min.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-<script type="text/javascript">
-    jQuery(document).ready(function($) {
-        $('#full-width-slider').royalSlider({
-            numImagesToPreload:5,
-            arrowsNav: true,
-            loop: false,
-            keyboardNavEnabled: true,
-            imageScaleMode: 'fill',
-            arrowsNavAutoHide: false,
-            autoScaleSlider: true,
-            autoScaleSliderWidth: 916,
-            autoScaleSliderHeight: 311,
-            controlNavigation: false,
-            thumbsFitInViewport: false,
-            navigateByClick: true,
-            startSlideId: 0,
-            autoPlay: false,
-            transitionType:'move',
-            globalCaption: false,
-            deeplinking: {
-                enabled: true,
-                change: false
-            }
-        });
-
-        var slider = $("#full-width-slider").data('royalSlider');
-
-        var img="{{ asset('bundles/frontend/img/destiny_slide_imgs/') }}";
-
-        for(x=1; x<=6;x++)
-        {
-            slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="" />');
-        }
-
-    });
-</script>
-{% endblock %}
 {% set main_tab = 2 %}
 {% block breadcrumbs %}
     <a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
@@ -101,4 +55,42 @@
     {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
 </div>
 
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript">
+
+        function initJSTwig() {
+            jQuery('#full-width-slider').royalSlider({
+                numImagesToPreload:5,
+                arrowsNav: true,
+                loop: false,
+                keyboardNavEnabled: true,
+                imageScaleMode: 'fill',
+                arrowsNavAutoHide: false,
+                autoScaleSlider: true,
+                autoScaleSliderWidth: 916,
+                autoScaleSliderHeight: 311,
+                controlNavigation: false,
+                thumbsFitInViewport: false,
+                navigateByClick: true,
+                startSlideId: 0,
+                autoPlay: false,
+                transitionType:'move',
+                globalCaption: false,
+                deeplinking: {
+                    enabled: true,
+                    change: false
+                }
+            });
+
+            var slider = $("#full-width-slider").data('royalSlider');
+
+            var img="{{ asset('bundles/frontend/img/destiny_slide_imgs/') }}";
+
+            for(x=1; x<=6;x++)
+            {
+                slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="" />');
+            }
+        }
+    </script>
 {% endblock %}
