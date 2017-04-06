@@ -610,6 +610,76 @@ div#div_b h4{
     transition: all 0.3s ease-in-out;
     text-decoration: none;
 }
+/* Portfolio block */
+.portfolio-block {
+    /*background: #f6f6f6;*/
+    /*padding-top: 60px;*/
+    padding-bottom: 3em;
+}
+.portfolio-block .row {
+    padding: 0;
+    margin: 0;
+}
+.portfolio-block .img-responsive{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.portfolio-block .item {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.portfolio-block .item > a {
+    background: #F4941C;
+    opacity: 0.9;
+    position: absolute;
+    left: 0;
+    bottom: -100%;
+    width: 100%;
+    height: 100%;
+
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+
+    color: #fff;
+}
+.portfolio-block .item:hover > a {
+    bottom: 0;
+}
+.portfolio-block .item > a:hover {
+    text-decoration: none;
+}
+.ie8 .portfolio-block .item > a {
+    background: #e54a1a;
+}
+
+.portfolio-block .item strong {
+    display: block;
+    margin-bottom: 4px;
+}
+.portfolio-block .item em {
+    display: block;
+    margin-bottom: 10px;
+}
+.portfolio-block .item b {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 1;
+    display: inline-block;
+    border: solid 1px #fff;
+    padding: 8px 15px 7px;
+}
+.portfolio-block .item b:hover {
+    background: #fff;
+    color: #E85425;
+    border-color: #fff;
+}
+
 
 /*Grid Load*/
 @keyframes flickerAnimation { /* flame pulses */

@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
+use MyCp\mycpBundle\Helpers\SearchUtils;
 
 class OwnershipController extends Controller
 {
@@ -1607,6 +1608,7 @@ class OwnershipController extends Controller
         }
 
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
+        //dump($filters); die;
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters,0,null,null,false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
@@ -1641,7 +1643,7 @@ class OwnershipController extends Controller
         $check_filters['own_reservation_type'] = null;
         $check_filters['own_award'] = null;
         $check_filters['own_category'] = null;
-        $check_filters['own_type'] = array($type);
+        $check_filters['own_type'] = array(ucfirst($type));
         $check_filters['own_price'] = null;
         $check_filters['own_price_from'] = null;
         $check_filters['own_price_to'] = null;
@@ -1912,6 +1914,44 @@ class OwnershipController extends Controller
         } else {
             return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee));
         }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function searchByDestinationAction(Request $request){
+        $prov_array = $request->request->get('prov_array');
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $user_id = $user_ids['user_id'];
+        $session_id = $user_ids['session_id'];
+        $where="";
+        if(count($prov_array)){
+            $i=0;
+            foreach ($prov_array as $item) {
+                if($i==0)
+                    $where.="prov.prov_id=$item";
+                else
+                    $where.=" OR prov.prov_id=$item ";
+                $i++;
+            }
+        }
+        $query_string = SearchUtils::getBasicQuery(false, $user_id, $session_id);
+        $query_string=$query_string['query'];
+        $query_string.=" AND o.own_inmediate_booking_2=1 AND $where ";
+        $owns_id = "0";
+        $reservations=SearchUtils::ownNotAvailable($em);
+        foreach ($reservations as $res)
+            $owns_id .= "," . $res["own_id"];
+        $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
+        $query = $em->createQuery($query_string);
+        if($session_id != null){
+            $query->setParameter('session_id', $session_id);
+        }
+        $result = $query->setFirstResult(0)->setMaxResults(6)->getResult();
+
+
+        dump($result);die;
     }
 
 }

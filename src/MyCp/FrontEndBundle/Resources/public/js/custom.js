@@ -32,6 +32,7 @@ function startCustom() {
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }
 
+var myMap = null;
 function initActivitiesMap(){
     // Activities Map
 
@@ -39,7 +40,12 @@ function initActivitiesMap(){
         if ( jQuery().gmap3 && google != undefined){
 
             //Activities Map
+            var strictBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(20.591652,-81.474609),
+                new google.maps.LatLng(22.87744,-76.904297)
+            );
 
+            var center = new google.maps.LatLng(22.01300, -79.26635);
             jQuery("#destination-map").gmap3({
                 marker: {
                     values: [{
@@ -51,6 +57,7 @@ function initActivitiesMap(){
                 },
                 map:{
                     options:{
+                        center:center,
                         zoom:7,
                         mapTypeControl: false,
                         mapTypeControlOptions: {
@@ -63,18 +70,47 @@ function initActivitiesMap(){
                         draggable: true,
                         styles: [{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#e3e3e3"}]},{"featureType":"landscape.natural","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"color":"#cccccc"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#FFFFFF"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}]
                     },
+                    events : {
+                        drag : function() {
+                            if(myMap === null){
+                                myMap = jQuery("#destination-map").gmap3('get');
+                            }
+                            if (strictBounds.contains(myMap.getCenter()))
+                                return;
 
+                            var c = myMap.getCenter(),
+                                x = c.lng(),
+                                y = c.lat(),
+                                maxX = strictBounds.getNorthEast().lng(),
+                                maxY = strictBounds.getNorthEast().lat(),
+                                minX = strictBounds.getSouthWest().lng(),
+                                minY = strictBounds.getSouthWest().lat();
+
+                            if (x < minX) x = minX;
+                            if (x > maxX) x = maxX;
+                            if (y < minY) y = minY;
+                            if (y > maxY) y = maxY;
+
+                            myMap.panTo(new google.maps.LatLng(y, x));
+                        }
+                    }
                 }
             });
 
-            jQuery("#activity-menu a").each(function (e) {
-                jQuery(this).click(function (s) {
-                    jQuery("#activity-menu a").each(function (d) {
-                        jQuery(this).removeClass("activate");
+            $("#activity-menu a").each(function (e) {
+                $(this).click(function (s) {
+                    if(myMap === null){
+                        myMap = jQuery("#destination-map").gmap3('get');
+                    }
+                    myMap.panTo(new google.maps.LatLng(22.01300, -79.26635));
+
+                    $("#activity-menu a").each(function (d) {
+                        $(this).removeClass("activate");
                     });
                     jQuery(this).addClass("activate");
                     s.preventDefault();
-                    var activity = activities[jQuery(this).attr("href")];
+                    var activity = activities[$(this).attr("href")];
+                    //paintOwnership(activity);
                     addMarkers(activity);
                 })
             });
@@ -84,7 +120,24 @@ function initActivitiesMap(){
         }
     }
 }
+function paintOwnership(activity){
+    var i=0;
+    var total_item_show=6;
+    var prov_array=new Array();
+    var url="";
+        for (var destination in activity.destinations) {
+            url=activity.destinations[destination].url;
+            if(i<=total_item_show)
+                prov_array.push(activity.destinations[destination].prov_id);
+            i++;
+        }
+        $.post(url, {
+            'prov_array': prov_array
+        }, function(data) {
 
+        });
+
+}
 function addMarkers(activity){
 
     var clear = {name:"marker"};
@@ -96,9 +149,9 @@ function addMarkers(activity){
         }
     );
 
-    jQuery("#destination-map").gmap3(
+    /*jQuery("#destination-map").gmap3(
         {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
-    );
+    );*/
     //removeMarkers(dmarkers);
 
     for (var destination in activity.destinations) {
