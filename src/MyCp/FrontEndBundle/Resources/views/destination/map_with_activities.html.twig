@@ -1,12 +1,11 @@
 <!--Activities Map-->
-{% if activities | length > 0 %}
     <section class="destination-marker-map clearfix mt50 fadeInDown appear">
         <div class="container">
             <div id="activity-menu" class="col-sm-12 col-xs-12">
                 <div class="row">
-                    {% for key,value in activities %}
-                        <a href="{{ key }}" class="popover-icon col-sm-2 activity {% if loop.first %}activate{% endif %}" rel="tooltip" title="{{ value["description"] }}" style="background-image: url('{{ asset("uploads/destinationImages/icons/" ~ (value["image"])) }}')">{{ value["name"] }}</a>
-                    {% endfor %}
+                    {#{% for key,value in activities %}#}
+                        {#<a href="{{ key }}" class="popover-icon col-sm-2 activity {% if loop.first %}activate{% endif %}" rel="tooltip" title="{{ value["description"] }}" style="background-image: url('{{ asset("uploads/destinationImages/icons/" ~ (value["image"])) }}')">{{ value["name"] }}</a>#}
+                    {#{% endfor %}#}
                 </div>
             </div>
         </div>
@@ -16,9 +15,30 @@
             </div>
         </div>
     </section>
-{% endif %}
+<section id="ownership-of-map" style="margin-top: 4em"></section>
+<div id="loader-ownership-map" style="display: none;">
+        <div class="col-sm-2">
+            <div class="box p"></div>
+        </div>
+        <div class="col-sm-2">
+            <div class="box p"></div>
+        </div>
+        <div class="col-sm-2">
+            <div class="box p"></div>
+        </div>
+        <div class="col-sm-2">
+            <div class="box p"></div>
+        </div>
+        <div class="col-sm-2">
+            <div class="box p"></div>
+        </div>
+        <div class="col-sm-2">
+            <div class="box p"></div>
+        </div>
+</div>
 <!-- End Destinations Map -->
 <script>
-    var activities = {{ json|raw }};
-    var default_icon = "{{ app.request.getSchemeAndHttpHost ~ asset('bundles/frontend/img/marker_blank.png') }}"
+    var default_icon = "{{ app.request.getSchemeAndHttpHost ~ asset('bundles/frontend/img/marker_blank.png') }}";
+    var url_load_activities = "{{ path('frontend_activities_destination_callback') }}";
+    var url_load_ownership_map = "{{ path('frontend_search_own_bydestination') }}";
 </script>

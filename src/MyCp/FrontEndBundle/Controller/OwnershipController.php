@@ -1950,8 +1950,11 @@ class OwnershipController extends Controller
         }
         $result = $query->setFirstResult(0)->setMaxResults(6)->getResult();
 
+        $response = $this->renderView('FrontEndBundle:destination:listOwnerShipMap.html.twig', array(
+            'list' => $result,
+        ));
 
-        dump($result);die;
+        return new Response($response, 200);
     }
 
 }
