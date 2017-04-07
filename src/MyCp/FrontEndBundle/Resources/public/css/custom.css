@@ -692,7 +692,18 @@ div#div_b h4{
     50%  { opacity:1; }
     100% { opacity:0.5; }
 }
+@keyframes flickerBackgoundII { /* flame pulses */
+    0%   { background-color: rgba(225, 225, 232,1); }
+    50%  { background-color: rgba(225, 225, 232,0.5); }
+    100% { background-color: rgba(225, 225, 232,0.2); }
+}
 
+
+#ownership-of-map .box.p{
+    min-height: 200px;
+    background-color: #e1e1e8;
+    animation: flickerBackgoundII 2s infinite alternate;
+}
 #grid-load{
 
 }
