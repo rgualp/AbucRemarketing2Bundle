@@ -1938,7 +1938,10 @@ class OwnershipController extends Controller
         }
         $query_string = SearchUtils::getBasicQuery(false, $user_id, $session_id);
         $query_string=$query_string['query'];
-        $query_string.=" AND o.own_inmediate_booking_2=1 AND $where ";
+        if($where!='')
+            $query_string.=" AND o.own_inmediate_booking_2=1 AND $where ";
+        else
+            $query_string.=" AND o.own_inmediate_booking_2=1 ";
         $owns_id = "0";
         $reservations=SearchUtils::ownNotAvailable($em);
         foreach ($reservations as $res)
