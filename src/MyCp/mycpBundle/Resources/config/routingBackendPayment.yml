@@ -35,25 +35,25 @@ mycp_methods_payment:
     defaults: { _controller: mycpBundle:BackendPayment:methods, items_per_page: 100, filter_name:'', filter_code:'', filter_destination:'', filter_province:'' }
 
 mycp_insert_transfer_method_payment:
-    pattern:  /methods/insert-transfer/{idAccommodation}
+    pattern:  /methods-insert-transfer/{idAccommodation}
     defaults: { _controller: mycpBundle:BackendPayment:insertTransferMethod }
 
 mycp_edit_transfer_method_payment:
-    pattern:  /methods/edit-transfer/{id}
+    pattern:  /methods-edit-transfer/{id}
     defaults: { _controller: mycpBundle:BackendPayment:editTransferMethod }
 
 mycp_delete_transfer_method_payment:
-    pattern:  /methods/delete-transfer/{id}
+    pattern:  /methods-delete-transfer/{id}
     defaults: { _controller: mycpBundle:BackendPayment:deleteTransferMethod }
 
 mycp_insert_effective_method_payment:
-    pattern:  /methods/insert-effective/{idAccommodation}
+    pattern:  /methods-insert-effective/{idAccommodation}
     defaults: { _controller: mycpBundle:BackendPayment:insertEffectiveMethod }
 
 mycp_edit_effective_method_payment:
-    pattern:  /methods/edit-effective/{id}
+    pattern:  /methods-edit-effective/{id}
     defaults: { _controller: mycpBundle:BackendPayment:editEffectiveMethod }
 
 mycp_delete_effective_method_payment:
-    pattern:  /methods/delete-effective/{id}
+    pattern:  /methods-delete-effective/{id}
     defaults: { _controller: mycpBundle:BackendPayment:deleteEffectiveMethod }
