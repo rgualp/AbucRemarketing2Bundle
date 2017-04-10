@@ -912,7 +912,7 @@
       "@context": "http://schema.org/",
       "@type": "Product",
       "name": "{{ ownership.ownname }}",
-      "description": "{{ description| raw }}",
+      "description": "{{ description| striptags }}",
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "{{ ownership.rating }}",
