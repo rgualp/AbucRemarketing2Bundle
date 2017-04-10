@@ -1948,6 +1948,9 @@ class OwnershipController extends Controller
         if($session_id != null){
             $query->setParameter('session_id', $session_id);
         }
+        if($user_id != null){
+            $query->setParameter('user_id', $user_id);
+        }
         $result = $query->setFirstResult(0)->setMaxResults(6)->getResult();
 
         $response = $this->renderView('FrontEndBundle:destination:listOwnerShipMap.html.twig', array(
