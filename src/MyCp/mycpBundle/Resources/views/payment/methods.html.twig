@@ -29,48 +29,45 @@
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
-    {#<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_payments')}}">#}
-        {#<div class="well well-small">#}
-            {#<div class="row-fluid">#}
-                {#<div class="span3">#}
-                    {#<label>No.Pago:</label><input id="filter_number" value="{{(filter_number != "null")?filter_number:''}}" class="input-block-level" name="filter_number" type="text"/></div>#}
-                {#<div class="span3"><label>Código Alojamiento:</label>#}
-                    {#<input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>#}
-                {#</div>#}
-                {#<div class="span3">#}
-                    {#<label>Servicio:</label>#}
-                    {#<select id="filter_service" class="input-block-level" name="filter_service">#}
-                        {#{{ render(controller('mycpBundle:Public:getMycpService', {'selectedValue': filter_service})) }}#}
-                    {#</select></div>#}
-                {#<div class="span3">#}
-                    {#<label>Método:</label>#}
-                    {#<select id="filter_method" class="input-block-level" name="filter_method">#}
-                        {#{{ render(controller('mycpBundle:Public:getNomenclatorList', {'selectedValue': filter_method, 'category': 'accommodationPaymentType'})) }}#}
-                    {#</select></div>#}
-                {#</div>#}
-            {#<div class="row-fluid">#}
-                {#<div class="span5">#}
-                    {#<label>Fecha Desde:</label>#}
-                    {#<input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">#}
-                {#</div>#}
-                {#<div class="span5">#}
-                    {#<label>Fecha Hasta:</label>#}
-                    {#<input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">#}
-                {#</div>#}
-                {#<div class="span2">#}
-                    {#<label>&nbsp;</label>#}
-                    {#<div class="row-fluid">#}
-                        {#<div class="span6">#}
-                            {#<a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>#}
-                        {#</div>#}
-                        {#<div class="span6">#}
-                            {#<a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_payments') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
-    {#</form>#}
+    <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_methods_payment')}}">
+        <div class="well well-small">
+            <div class="row-fluid">
+                <div class="span3"><label>Código Alojamiento:</label>
+                    <input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>
+                </div>
+                <div class="span3">
+                    <label>Nombre:</label>
+                    <input id="filter_name" value="{{(filter_name != "null")?filter_name:''}}" class="input-block-level" name="filter_name" type="text"/>
+                </div>
+                <div class="span3">
+                    <label>Destino:</label>
+                    <select class="input-block-level" name="filter_destination" id="filter_destination">
+                        {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':filter_destination}})) }}
+                    </select>
+                </div>
+            <div class="span3">
+                <label>Provincia:</label>
+                <select class="input-block-level" name="filter_province" id="filter_province">
+                    {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':filter_province}})) }}
+                </select>
+            </div>
+        </div>
+            <div class="row-fluid">
+                <div class="span10"></div>
+                <div class="span2">
+                    <label>&nbsp;</label>
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                        </div>
+                        <div class="span6">
+                            <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_payments') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     {% if list %}
 <div class="alert">
     <div class="row-fluid">
@@ -110,7 +107,7 @@
         <tbody>
         {% for accommodation in list %}
         <tr>
-            <td>{{accommodation.ownMcpCode}}</td>
+            <td>{{accommodation.ownMcpCode}} - {{accommodation.ownName}}</td>
             <td>{{(accommodation.ownDestination != null) ? accommodation.ownDestination.desName : " - "}}</td>
             <td>
                 {% if accommodation.transferMethodsPayment | length > 0 %}
@@ -186,26 +183,20 @@
         function action_submit()
         {
             var items_per_page={{items_per_page}};
-            var filter_number=$('#filter_number').val();
-            if(filter_number=='')filter_number='null';
+            var filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
 
             var filter_code=$('#filter_code').val();
             if(filter_code=='')filter_code='null';
 
-            var filter_service=$('#filter_service').val();
-            if(filter_service=='')filter_service='null';
+            var filter_destination=$('#filter_destination').val();
+            if(filter_destination=='')filter_destination='null';
 
-            var filter_method=$('#filter_method').val();
-            if(filter_method=='')filter_method='null';
-
-            var filter_payment_date_from = $("#filter_payment_date_from").val();
-            if(filter_payment_date_from=='')filter_payment_date_from='null';
-
-            var filter_payment_date_to = $("#filter_payment_date_to").val();
-            if(filter_payment_date_to=='')filter_payment_date_to='null';
+            var filter_province=$('#filter_province').val();
+            if(filter_province=='')filter_province='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_number+'/'+filter_code+'/'+filter_service+'/'+filter_method+'/'+filter_payment_date_from+'/'+filter_payment_date_to;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_code+'/'+filter_destination+'/'+filter_province;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }

@@ -2770,16 +2770,42 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function getPaymentMethodsList()
+    public function getPaymentMethodsList($filter_name, $filter_code, $filter_destination, $filter_province)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
             ->from("mycpBundle:ownership", "o")
             ->leftJoin("o.effectiveMethodsPayment", "effective")
             ->leftJoin("o.transferMethodsPayment", "transfer")
+            ->leftJoin("o.own_destination", "d")
+            ->join("o.own_address_province", "p")
             ->select("o")
             ->orderBy("LENGTH(o.own_mcp_code)","ASC")
             ->addOrderBy("o.own_mcp_code", "ASC");
+
+        if($filter_name != null && $filter_name != "null" && $filter_name != "")
+        {
+            $qb->andWhere("o.own_name LIKE :filter_name")
+                ->setParameter("filter_name", "%".$filter_name."%");
+        }
+
+        if($filter_code != null && $filter_code != "null" && $filter_code != "")
+        {
+            $qb->andWhere("o.own_mcp_code = :filter_code")
+                ->setParameter("filter_code", $filter_code);
+        }
+
+        if($filter_destination != null && $filter_destination != "null" && $filter_destination != "")
+        {
+            $qb->andWhere("d.des_id = :filter_destination")
+                ->setParameter("filter_destination", $filter_destination);
+        }
+
+        if($filter_province != null && $filter_province != "null" && $filter_province != "")
+        {
+            $qb->andWhere("p.prov_id = :filter_province")
+                ->setParameter("filter_province", $filter_province);
+        }
 
         return $qb->getQuery()->getResult();
     }

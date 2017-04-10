@@ -107,7 +107,7 @@
         </div>
     </div>
     <br/>
-    <div class="container" itemscope itemtype="http://schema.org/Product" itemref="_description2 _aggregateRating5">
+    <div class="container">
         <div class="row">
             <div class="col-sm-8">
                 <div class="tabbable">
@@ -181,9 +181,9 @@
                                                     title="{{ "AUTOMATIC_TRANSLATED" | trans }}"
                                                     alt="{{ "AUTOMATIC_TRANSLATED" | trans }}"/></p>
                                     {% endif %}
-                                    <h3 class="h-size-4" style="margin-top: 0"><span itemprop="name">{{ ownership.ownname }}</span></h3>
+                                    <h3 class="h-size-4" style="margin-top: 0">{{ ownership.ownname }}</h3>
 
-                                    <p><span id="_description2" itemprop="description">{{ description| raw }}</span></p>
+                                    <p>{{ description| raw }}</p>
                                 </div>
                                 <div class="col-sm-5">
                                     <ul class="span4 price">
@@ -617,7 +617,6 @@
                         {{ "CATEGORY_TAB_DESCRIPTION" | trans }}: {{ ownership.category | trans }}
                     </li>
                     <li class="lead"  {% if ownership['OwnInmediateBooking'] or ownership['OwnInmediateBooking2']  %}style="padding: 0; font-size: 18px; border: none;"{% endif %}>
-                        <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                         {% if ownership['OwnInmediateBooking2'] %}
                             <div class="row">
                                 <div class="col-md-12">
@@ -628,7 +627,7 @@
                                     </div>
                                     <div class="col-md-7">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
-                                            <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small><br/> <span itemprop="price">{{ ownership.ownminimumprice | price }}</span>
+                                            <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small><br/> {{ ownership.ownminimumprice | price }}
                                         </h2>
                                     </div>
                                 </div>
@@ -644,17 +643,16 @@
                                     <div class="col-md-7">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
                                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small>
-                                            <br/> <span itemprop="price">{{ ownership.ownminimumprice | price }}</span>
+                                            <br/> {{ ownership.ownminimumprice | price }}
                                         </h2>
                                     </div>
                                 </div>
                             </div>
                         {% else %}
                             <h2 class="no-margin" style="font-size: 32px;">
-                                <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> <span itemprop="price">{{ ownership.ownminimumprice | price }}</span>
+                                <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> {{ ownership.ownminimumprice | price }}
                             </h2>
                         {% endif %}
-                        </span>
                     </li>
                     <li class="lead-2">
                         {{ "ARRIVAL_RESERVATION" | trans }}<br/>
@@ -909,6 +907,26 @@
         }(document, 'script', 'facebook-jssdk'));
 
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "name": "{{ ownership.ownname }}",
+      "description": "{{ description| striptags }}",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ ownership.rating }}",
+        "reviewCount": "{{ comments_total_items }}",
+        "bestRating": "5",
+        "worstRating": "0"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "{{ app.session.get("curr_symbol") }}",
+        "price": "{{ ownership.ownminimumprice }}"
+      }
+    }
+</script>
 
 {% endblock %}
 

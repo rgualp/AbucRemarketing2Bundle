@@ -265,11 +265,12 @@ class destinationRepository extends EntityRepository {
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
+                        (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o12 WHERE o12.own_destination = d.des_id AND gen_r.gen_res_status = ".generalReservation::STATUS_RESERVED.") as visits,
                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_destination = d.des_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0) as count_ownership,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
-                         ORDER BY d.des_order ASC";
+                         ORDER BY visits DESC, d.des_order ASC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
@@ -303,10 +304,11 @@ class destinationRepository extends EntityRepository {
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
                          (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_destination = d.des_id) as count_ownership,
+                         (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o12 WHERE o12.own_destination = d.des_id AND gen_r.gen_res_status = ".generalReservation::STATUS_RESERVED.") as visits,
                          (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o1.own_destination = d.des_id and o1.own_minimum_price is not null and o1.own_minimum_price > 0) as min_price
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
-                         ORDER BY d.des_order ASC";
+                         ORDER BY visits DESC, d.des_order ASC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
