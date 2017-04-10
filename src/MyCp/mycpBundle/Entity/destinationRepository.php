@@ -776,11 +776,15 @@ class destinationRepository extends EntityRepository {
 
     function getMainMenu() {
         $em = $this->getEntityManager();
-        $query_string = "SELECT DISTINCT d.des_id, d.des_name,
+      /*  $query_string = "SELECT DISTINCT d.des_id, d.des_name,
                          (SELECT count(o) FROM mycpBundle:ownership o
                                           WHERE o.own_destination = d.des_id
                                             AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0
                                             AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . ") as total_owns
+                         FROM mycpBundle:destination d
+                         WHERE d.des_active <> 0
+                         ORDER BY d.des_order ASC";*/
+        $query_string = "SELECT DISTINCT d.des_id, d.des_name
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
