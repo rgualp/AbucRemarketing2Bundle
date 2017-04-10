@@ -63,7 +63,5 @@
     var signal_pos=[{{ destinations|slice(0,(destinations|length)-1)|raw }}];
     var destinations_names=[{{ destinations_names|slice(0,(destinations_names|length)-1)|raw }}];
     var dir="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/destinationImages/icons/') }}";
-
-    console.log(destinations_icons);
 </script>
 <div id="signal_tooltip" style="left: -500px;position: absolute; top: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>
