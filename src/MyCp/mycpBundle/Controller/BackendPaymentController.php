@@ -292,28 +292,26 @@ class BackendPaymentController extends Controller {
         $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
 
-        /*$filter_number = $request->get('filter_number');
+        $filter_name = $request->get('filter_name');
         $filter_code = $request->get('filter_code');
-        $filter_service = $request->get('filter_service');
-        $filter_method = $request->get('filter_method');
-        $filter_payment_date_from = $request->get('filter_payment_date_from');
-        $filter_payment_date_to = $request->get('filter_payment_date_to');
+        $filter_destination = $request->get('filter_destination');
+        $filter_province = $request->get('filter_province');
 
-        if ($request->getMethod() == 'POST' && $filter_number == 'null' && $filter_code == 'null' && $filter_service == 'null' &&
-            $filter_method == 'null' && $filter_payment_date_from == 'null' && $filter_payment_date_to == 'null') {
+        if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_code == 'null' && $filter_destination == 'null' &&
+            $filter_province == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_payments'));
-        }*/
-        /*if ($filter_number == 'null')
-            $filter_number = '';
+            return $this->redirect($this->generateUrl('mycp_methods_payment'));
+        }
+        if ($filter_name == 'null')
+            $filter_name = '';
 
         if ($filter_code == 'null')
-            $filter_code = '';*/
+            $filter_code = '';
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $methods = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getPaymentMethodsList())->getResult();
+        $methods = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getPaymentMethodsList($filter_name, $filter_code, $filter_destination, $filter_province))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -321,13 +319,11 @@ class BackendPaymentController extends Controller {
             'list' => $methods,
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page/*,
-            'filter_number' => $filter_number,
+            'current_page' => $page,
+            'filter_name' => $filter_name,
             'filter_code' => $filter_code,
-            'filter_service' => $filter_service,
-            'filter_method' => $filter_method,
-            'filter_payment_date_from' => $filter_payment_date_from,
-            'filter_payment_date_to' => $filter_payment_date_to*/
+            'filter_province' => $filter_province,
+            'filter_destination' => $filter_destination
         ));
     }
 
