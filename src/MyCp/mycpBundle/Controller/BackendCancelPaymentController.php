@@ -275,7 +275,7 @@ class BackendCancelPaymentController extends Controller {
                         'reason'=>$cancelPayment->getReason(),
                         'payment_date'=>$pay_own->getPaymentDate()
                     ));
-                 $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
+                 $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahi_amor@yahoo.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
                 //$emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
             }
 
@@ -309,7 +309,7 @@ class BackendCancelPaymentController extends Controller {
                     'ownershipReservations'=>$ownershipReservations,
                     'rooms'=>$rooms
                 ));
-            $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
+            $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahi_amor@yahoo.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
             //$emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
 
         }
