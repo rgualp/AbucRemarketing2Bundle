@@ -363,3 +363,7 @@ partner_dashboard_booking_detail_cancel:
 partner_post_payment_return:
     locales:  { en: "/payment/return/{idBooking}", es: "/pago/retorno/{idBooking}", de: "/payment/return/{idBooking}" }
     defaults: { _controller: PartnerBundle:Payment:paymentReturn }
+
+partner_payment_postfinance_cancel:
+    locales:  { en: "/payment/postfinance-cancel", es: "/payment/postfinance-cancel", de: "/payment/postfinance-cancel", fr: "/payment/postfinance-cancel", it: "/payment/postfinance-cancel" }
+    defaults: { _controller: PartnerBundle:Payment:postfinanceCancel }

@@ -438,6 +438,13 @@ class PaymentController extends Controller
             array('status' => 'Cancelled by Skrill'));
     }
 
+    public function postfinanceCancelAction()
+    {
+        return $this->render(
+            'FrontEndBundle:payment:skrillResponseTest.html.twig',
+            array('status' => 'Cancelled by Postfinance'));
+    }
+
     /**
      * Testing method to test a Skrill status response.
      *
@@ -570,8 +577,8 @@ class PaymentController extends Controller
                 'method' => $method,
                 'currency' => $booking->getBookingCurrency()->getCurrCode(),
                 'returnUrl' => $this->generateUrl('frontend_payment_postfinance_status', array(), true),
-                'notifyUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
-                'cancelUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true)
+                'notifyUrl' => $this->generateUrl('frontend_payment_postfinance_cancel', array(), true),
+                'cancelUrl' => $this->generateUrl('frontend_payment_postfinance_cancel', array(), true)
             ]
         )->send();
 
