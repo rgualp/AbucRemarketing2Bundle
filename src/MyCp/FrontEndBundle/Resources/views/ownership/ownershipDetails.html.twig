@@ -920,7 +920,7 @@
       "name": "{{ ownership.ownname }}",
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "{{ ownership.rating }}",
+        "ratingValue": "{{ (ownership.rating is defined and ownership.rating != null) ? ownership.rating : 0 }}",
         "reviewCount": "{{ comments_total_items }}",
         "bestRating": "5",
         "worstRating": "0"

@@ -26,7 +26,7 @@ class PaymentController extends Controller
 {
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
-    private static $postFinance = 'https://e-payment.postfinance.ch/ncol/test/orderstandard.asp';
+    private static $postFinance = 'https://e-payment.postfinance.ch/ncol/prod/orderstandard.asp';
 
     const MAX_SKRILL_NUM_DETAILS = 5;
     const MAX_SKRILL_DETAIL_STRING_LENGTH = 240;
@@ -600,7 +600,7 @@ class PaymentController extends Controller
         $locale = $this->getRequest()->getLocale();
         $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
-        $pspid = "abucTEST";
+        $pspid = "abuc1";
         $amount = round($booking->getBookingPrepay(), 2);
 
         $gateway = Omnipay::create('Postfinance'); //Omnipay::create('Postfinance');
@@ -608,7 +608,7 @@ class PaymentController extends Controller
         $gateway->setShaIn('abcdefghi1234567');
         $gateway->setShaOut('abcdefghi1234567');
         $gateway->setLanguage(PostFinanceHelper::getPostFinanceLanguageFromLocale($locale));
-        $gateway->setTestMode(true);
+        $gateway->setTestMode(false);
         $gateway->setLogo($logoUrl);
 
         // Send purchase request
