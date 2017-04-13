@@ -15,17 +15,18 @@
                 </li>
             </ul>
         </div>
-        <div class="col-sm-5" style="display: table; " id="top-right-menu">
+        <div class="col-sm-5" style="display: table; padding: 0;" id="top-right-menu">
             <ul class="nav nav-pills nav-pills-new">
-                <li class="pull-right"><span style="font-size: 8px; color: #F4981D;     margin-left: -15px; position: absolute;"><b>{{ 'NEW'|trans|upper }}</b></span><a title="{{"JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration')}}">{{"JOIN_CASA"| trans }}</a></li>
-                <li class="dropdown">
+                <li class="pull-right"><span style="font-size: 8px;color: #F4981D;position: absolute; padding: 5px;border-radius: 5px;top: -6px;left: 0;right: 0;margin: auto;width: auto;text-align: center;font-size: 10px;"><b>{{ 'NEW'|trans|upper }}</b></span>
+                    <a style="display: block;width: 114px;text-align: center;margin: 17px 0 0;text-transform: uppercase;font-size: 9px;" title="{{"JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration')}}">{{"JOIN_CASA"| trans }}</a></li>
+                <li class="dropdown pull-right" style="margin-right: 12px;">
                     <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
                         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
                         {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown pull-right">
                     <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
                         {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
