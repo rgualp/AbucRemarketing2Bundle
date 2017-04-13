@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="{{ path('facebook_login') }}" method="post">
+<form id="facebookForm" class="form-horizontal" action="{{ path('facebook_login') }}" method="post">
     <div class="row form-group" id="emailRow" class="hide">
         <div class="col-sm-2">{{ "FORMS_EMAIL" | trans }}</div>
         <div class="col-sm-10">{{ form_widget(fbLoginForm.email) }}</div>
@@ -9,7 +9,7 @@
     </div>
     <div class="row form-group">
         <div class="col-sm-2"></div>
-        <div class="col-sm-10"><input type="submit" class="btn btn-success" value="{{ "FACEBOOK_BUTTON_TEXT" | trans }}"/></div>
+        <div class="col-sm-10"><input id="loginFacebookBtn" type="submit" class="btn btn-success" value="{{ "FACEBOOK_BUTTON_TEXT" | trans }}"/></div>
     </div>
     {{ form_rest(fbLoginForm) }}
 </form>
