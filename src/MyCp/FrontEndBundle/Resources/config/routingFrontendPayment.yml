@@ -39,4 +39,8 @@ frontend_payment_back_url:
     pattern:  /payment/back
     defaults: { _controller: FrontEndBundle:Mycasatrip:available }
 
+frontend_payment_postfinance_cancel:
+    pattern:  /payment/postfinance-cancel
+    defaults: { _controller: FrontEndBundle:Payment:postfinanceCancel }
+
 
