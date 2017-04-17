@@ -17,6 +17,7 @@ use MyCp\mycpBundle\Entity\userTourist;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use MyCp\mycpBundle\Entity\generalReservation;
@@ -32,7 +33,6 @@ class OAuthController extends Controller
                 new FacebookLogin(),
                 array('action' => $this->generateUrl('facebook_login'))
             );
-
             return $this->render(
                 'FrontEndBundle:oauth:facebookLogin.html.twig',
                 array('fbLoginForm' => $fbLoginForm->createView())
@@ -480,11 +480,13 @@ class OAuthController extends Controller
         if($email != "" && Utils::validateEmail($email)) {
             $em=$this->getDoctrine()->getManager();
             $userRepository = $em->getRepository("mycpBundle:user");
-            $user = $userRepository->findOneBy(array('user_email' => $email));
+            $user = $userRepository->findOneBy(array('user_email' => $email, "locked" => false, "user_enabled" => true));
             $response=array();
             $response['exists']=($user!=null)?true:false;
         }
-        $response['exists']=false;
+        else
+            $response['exists']=false;
+        $response['email']=$email;
         return new JsonResponse($response);
     }
 }
