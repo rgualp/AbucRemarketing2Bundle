@@ -39,7 +39,6 @@ function initActivitiesMap() {
 
     if ($("#destination-map").length > 0) {
         $.get(url_load_activities, [], function (result) {
-            console.log(result);
             activities = result.activities;
 
             for (var activity in activities) {
