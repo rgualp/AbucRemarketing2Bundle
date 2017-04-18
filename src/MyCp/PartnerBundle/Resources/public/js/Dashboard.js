@@ -243,6 +243,28 @@ var Dashboard = function () {
                         var start_date = $('#filter_date_from').val();
                         var end_date = $('#filter_date_to').val();
 
+                        if(window.partner_arrival_date!=''){
+                            start_date = window.partner_arrival_date;
+                        }
+                        else if(partner_arrival_date!=''){
+                            start_date = partner_arrival_date;
+                        }
+                        else if($("#requests_ownership_filter_arrival").val() != "")
+                        {
+                            start_date = $("#requests_ownership_filter_arrival").val();
+                        }
+
+                        if(window.partner_exit_date!=''){
+                            end_date = window.partner_exit_date;
+                        }
+                        else if(partner_exit_date!=''){
+                            end_date = partner_exit_date;
+                        }
+                        else if($("#requests_ownership_filter_exit").val() != "")
+                        {
+                            end_date = $("#requests_ownership_filter_exit").val();
+                        }
+
                         $('#filter_date_from').datepicker({
                             format: 'dd/mm/yyyy',
                             todayBtn: false,
@@ -254,11 +276,13 @@ var Dashboard = function () {
                                     return;
                                 }
                                 var startDate = new Date(ev.date);
-                                startDate.setDate(startDate.getDate() + 2);
+                                startDate.setDate(startDate.getDate() + 1);
                                 departure_datepicker.setStartDate(startDate);
-                                var valueDate = new Date(ev.date);
-                                valueDate.setDate(valueDate.getDate() + 2);
-                                departure_datepicker.setDate(valueDate);
+                                if(end_date == "") {
+                                    var valueDate = new Date(ev.date);
+                                    valueDate.setDate(valueDate.getDate() + 2);
+                                    departure_datepicker.setDate(valueDate);
+                                }
                                 from = $('#filter_date_from').val();
                                 to = $('#filter_date_to').val();
                                 refresh_calendar(from, to,selectedAccommodationForReserve,url);
@@ -267,8 +291,8 @@ var Dashboard = function () {
                             format: 'dd/mm/yyyy',
                             todayBtn: false,
                             autoclose: true,
-                            startDate: '+1d',
-                            date: end_date
+                            startDate: end_date,
+                            date: start_date
                         }).on('changeDate', function (ev) {
                                 from = $('#filter_date_from').val();
                                 to = $('#filter_date_to').val();

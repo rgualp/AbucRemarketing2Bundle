@@ -1652,7 +1652,8 @@ class DashboardController extends Controller
             'fromPartner' => true,
             'commissionAgency' => $currentTravelAgency->getCommission(),
             'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
-            'nights' => $nights
+            'nights' => $nights,
+            "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge')
         ));
     }
 
@@ -1956,6 +1957,7 @@ class DashboardController extends Controller
             $service_time = $this->get('Time');
             $nigths = array();
             foreach ($res_array as $resByOwn) {
+
                 if (isset($resByOwn[0])) {
                     $ownership = $em->getRepository('mycpBundle:ownership')->find($resByOwn[0]->getCartRoom()->getRoomOwnership()->getOwnId());
 
@@ -1966,8 +1968,9 @@ class DashboardController extends Controller
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
                     $general_reservation->setCompletePayment($completePayment);
-                    if ($inmediatily_booking)
+                    if ($inmediatily_booking) {
                         $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+                    }
                     else
                         $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
                     $general_reservation->setGenResFromDate($min_date);
@@ -2034,6 +2037,12 @@ class DashboardController extends Controller
                     if ($general_reservation->getGenResOwnId()->getOwnInmediateBooking()) {
                         $smsService = $this->get("mycp.notification.service");
                         $smsService->sendInmediateBookingSMSNotification($general_reservation);
+
+                    }
+
+                    if($inmediatily_booking){
+                        $session = $request->getSession();
+                        $session->set("ri_ids",array($general_reservation->getGenResId()));
                     }
 
                 }
