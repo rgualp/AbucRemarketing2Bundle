@@ -1232,6 +1232,8 @@ class BackendOwnershipController extends Controller {
         $selected = '';
         if (isset($post['room_audiovisual_' . $id]))
             $selected = $post['room_audiovisual_' . $id];
+
+
         return $this->render('mycpBundle:utils:ownership_audiovisual.html.twig', array('selected' => $selected));
     }
 
