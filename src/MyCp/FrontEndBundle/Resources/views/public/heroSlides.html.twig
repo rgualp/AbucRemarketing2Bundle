@@ -1,0 +1,61 @@
+<!-- Revolution Slider -->
+<section class="revolution-slider">
+    <div class="bannercontainer">
+        <div class="banner">
+            <ul>
+                {% for ownership in ownerships %}
+                    <li data-transition="fade" data-slotamount="7" data-masterspeed="1500" >
+                        <!-- Main Image -->
+                        <img src="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}"  alt="kenburns1"  data-bgposition="center center" data-kenburns="on" data-duration="6000" data-ease="Power4.easeInOut" data-bgfit="140" data-bgfitend="100" data-bgpositionend="center center">
+                        {#<img src="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}" style="opacity:0;" alt="{{ ownership.own_name }}"  data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">#}
+                        <!-- Layers -->
+                        <!-- Layer 1 -->
+                        <div class="caption sft big_white"
+                             data-x="left"
+                             data-y="140"
+                             data-speed="700"
+                             data-start="1700"
+                             data-easing="easeOutBack">
+                            <span>{{"SLOGAN_1" | trans}} {{"SLOGAN_2" | trans}}</span>
+                        </div>
+                        <!-- Layer 2 -->
+                        <div class="caption sft big_white"
+                             data-x="left"
+                             data-y="205"
+                             data-speed="800"
+                             data-start="1900"
+                             data-easing="easeOutBack">
+                            <span>{{ 'SLOGAN_3'|trans }}</span></div>
+
+                        <!-- Layer 2 -->
+                        <div class="caption sft big_white"
+                             data-x="right"
+                             data-y="140"
+                             data-speed="800"
+                             data-start="1900"
+                             data-easing="easeOutBack">
+                            <span>{{ 'SLOGAN_3'|trans }}</span></div>
+
+                        <!-- Layer 2 -->
+                        <div class="caption sft big_white"
+                             data-x="right"
+                             data-y="170"
+                             data-speed="800"
+                             data-start="1900"
+                             data-easing="easeOutBack">
+                            <span>{{ 'SLOGAN_3'|trans }}</span></div>
+
+                        <!-- Layer 2 -->
+                        <div class="caption sft big_white"
+                             data-x="right"
+                             data-y="160"
+                             data-speed="800"
+                             data-start="1900"
+                             data-easing="easeOutBack">
+                            <button>{{ 'SLOGAN_3'|trans }}</button></div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
