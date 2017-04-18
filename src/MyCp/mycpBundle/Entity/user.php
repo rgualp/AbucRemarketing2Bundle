@@ -205,6 +205,8 @@ class user implements AdvancedUserInterface,  \Serializable
         $this->tourOperators = new ArrayCollection();
         $this->createdPenalties = new ArrayCollection();
         $this->createdFailures = new ArrayCollection();
+        $this->locked = false;
+        $this->user_enabled = true;
     }
 
 
