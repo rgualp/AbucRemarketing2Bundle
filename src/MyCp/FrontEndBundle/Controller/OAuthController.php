@@ -61,7 +61,7 @@ class OAuthController extends Controller
 
                             //If first-time-user using facebook, we should add him to db
                             $user->setUserName($fbLoginData->getEmail())
-                                ->setUserEmail(strtolower($fbLoginData->getEmail()))
+                                ->setUserEmail(trim(strtolower($fbLoginData->getEmail())))
                                 ->setUserUserName($fbLoginData->getName())
                                 ->setUserLastName($fbLoginData->getLastName())
                                 ->setUserRole("ROLE_CLIENT_TOURIST")
@@ -71,6 +71,7 @@ class OAuthController extends Controller
                                 ->setUserPassword("")
                                 ->setUserEnabled(true)//enable directly because this is a confirmed user email from facebook.
                                 ->setUserCreatedByMigration(false)
+                                ->setLocked(false)
                                 ->setUserSubrole($role[0]);
 
                             $userTourist = new userTourist();
@@ -480,7 +481,7 @@ class OAuthController extends Controller
         if($email != "" && Utils::validateEmail($email)) {
             $em=$this->getDoctrine()->getManager();
             $userRepository = $em->getRepository("mycpBundle:user");
-            $user = $userRepository->findOneBy(array('user_email' => $email, "locked" => false, "user_enabled" => true));
+            $user = $userRepository->findOneBy(array('user_email' => trim(strtolower($email)), "locked" => false, "user_enabled" => true));
             $response=array();
             $response['exists']=($user!=null)?true:false;
         }
