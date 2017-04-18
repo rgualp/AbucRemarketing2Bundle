@@ -661,6 +661,13 @@ class ownership {
     private $effectiveMethodsPayment;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="good_picture", type="boolean", nullable=true)
+     */
+    private $goodPicture;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -2177,7 +2184,7 @@ class ownership {
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getPhotos()
     {
@@ -3022,6 +3029,21 @@ class ownership {
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getGoodPicture()
+    {
+        return $this->goodPicture;
+    }
 
+    /**
+     * @param int $goodPicture
+     */
+    public function setGoodPicture($goodPicture)
+    {
+        $this->goodPicture = $goodPicture;
+        return $this;
+    }
 
 }
