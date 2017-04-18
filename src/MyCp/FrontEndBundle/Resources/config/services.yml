@@ -7,11 +7,6 @@ services:
 #    front_end.example:
 #        class: %front_end.example.class%
 #        arguments:
-    kernel.listener.cache_listener:
-        class: MyCp\FrontEndBundle\Helpers\CacheListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
     front_end.services.pdf:
         class: %front_end.services.pdf.class%
         arguments: ["%kernel.root_dir%/config/dompdf_config.inc.php"]

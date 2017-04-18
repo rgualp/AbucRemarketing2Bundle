@@ -494,6 +494,8 @@ class BackendOwnershipController extends Controller {
         $data['confidence'] = $ownership->isConfidence();
         $post['sms_notification'] = $ownership->getOwnSmsNotifications();
         $data['sms_notification'] = $ownership->getOwnSmsNotifications();
+        $post['good_picture'] = $ownership->getGoodPicture();
+        $data['good_picture'] = $ownership->getGoodPicture();
 
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
         $data['status_id'] = $post['status'];

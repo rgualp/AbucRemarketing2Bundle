@@ -53,6 +53,7 @@ class ownershipRepository extends EntityRepository {
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
         $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
+        $goodPicture = (isset($data['goodPicture'])) ? 1 : 0;
 
         //languages
         $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
@@ -110,7 +111,8 @@ class ownershipRepository extends EntityRepository {
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setConfidence($confidence)
-            ->setOwnSmsNotifications($smsNotification);
+            ->setOwnSmsNotifications($smsNotification)
+            ->setGoodPicture($goodPicture);
 
 
         $nomenclator = null;
@@ -319,6 +321,7 @@ class ownershipRepository extends EntityRepository {
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
         $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
+        $goodPicture = (isset($data['goodPicture'])) ? 1 : 0;
 
         //languages
         $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
@@ -374,6 +377,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setConfidence($confidence)
+            ->setGoodPicture($goodPicture)
             ->setOwnSmsNotifications($smsNotification);
 
         $nomenclator = null;

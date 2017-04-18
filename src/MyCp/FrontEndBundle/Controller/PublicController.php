@@ -4,6 +4,7 @@ namespace MyCp\FrontEndBundle\Controller;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,10 +103,41 @@ class PublicController extends Controller {
     }
 
     public function loadSlidesAction(){
-        $slides = Utils::loadFrontendSlides();
-        return $this->render('FrontEndBundle:layout:carousel.html.twig', array(
-            'slides' => $slides
-        ));
+        $em = $this->getDoctrine()->getManager();
+//        $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array("goodPicture" => true));
+
+        $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as own_name,
+                         prov.prov_name as prov_name,
+                         o.own_comments_total as comments_total,
+                         o.own_inmediate_booking as OwnInmediateBooking,
+                         o.own_inmediate_booking_2 as OwnInmediateBooking2,
+                         des.des_name as destination,
+                         pho.pho_name as photo,
+                         data.reservedRooms as count_reservations,
+                         o.own_minimum_price as minPrice
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_destination des
+                         JOIN o.data data
+                         LEFT JOIN data.principalPhoto op
+                         LEFT JOIN op.own_pho_photo pho
+                         WHERE o.goodPicture = 1
+                         AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
+
+        $query = $em->createQuery($query_string);
+        $ownerships = $query->getResult();
+
+        if (count($ownerships) > 0){
+            return $this->render('FrontEndBundle:public:heroSlides.html.twig', array(
+                'ownerships' => $ownerships
+            ));
+        }else{
+            $slides = Utils::loadFrontendSlides();
+            return $this->render('FrontEndBundle:layout:carousel.html.twig', array(
+                'slides' => $slides
+            ));
+        }
     }
 
     public function topNavAction($route, $routeParams = null)
