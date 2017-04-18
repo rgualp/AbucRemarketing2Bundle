@@ -67,83 +67,88 @@
 
         function initJSTwig() {
 
+
             var rsheight = jQuery(window).height() - (jQuery(".marquesina").height() + jQuery("#top-menu").height() + 67);
             console.log(rsheight);
             $("#full-width-slider").load(frontend_public_load_slide, [], function (e) {
 
-                // Revolution slider
-                if (jQuery().revolution) {
-                    jQuery('.revolution-slider .banner').revolution({
-                        delay: 9000,
-                        startwidth: 1170,
-                        startheight: rsheight,
-                        autoHeight:"off",
-                        fullScreenAlignForce:"off",
+                if (jQuery(".revolution-slider").length > 0){
+                    // Revolution slider
+                    if (jQuery().revolution) {
+                        jQuery('.revolution-slider .banner').revolution({
+                            delay: 9000,
+                            startwidth: 1170,
+                            startheight: rsheight,
+                            autoHeight:"off",
+                            fullScreenAlignForce:"off",
 
-                        onHoverStop: "on",
+                            onHoverStop: "on",
 
-                        thumbWidth: 100,
-                        thumbHeight: 50,
-                        thumbAmount: 3,
+                            thumbWidth: 100,
+                            thumbHeight: 50,
+                            thumbAmount: 3,
 
-                        hideThumbsOnMobile: "on",
-                        hideBulletsOnMobile: "on",
-                        hideArrowsOnMobile: "on",
-                        hideThumbsUnderResoluition: 0,
+                            hideThumbsOnMobile: "on",
+                            hideBulletsOnMobile: "on",
+                            hideArrowsOnMobile: "on",
+                            hideThumbsUnderResoluition: 0,
 
-                        hideThumbs:0,
-                        hideTimerBar:"on",
+                            hideThumbs:0,
+                            hideTimerBar:"on",
 
-                        keyboardNavigation:"on",
+                            keyboardNavigation:"on",
 
-                        navigationType: "none",
-                        navigationArrows: "none",
-                        navigationStyle: "round",
+                            navigationType:"off",
+                            navigationArrows:"solo",
+                            navigationStyle:"round",
 
-                        navigationHAlign: "center",
-                        navigationVAlign: "bottom",
-                        navigationHOffset: 30,
-                        navigationVOffset: 30,
+                            navigationHAlign:"center",
+                            navigationVAlign:"bottom",
+                            navigationHOffset:30,
+                            navigationVOffset:30,
 
-                        // soloArrowLeftHalign: "left",
-                        // soloArrowLeftValign: "center",
-                        // soloArrowLeftHOffset: 20,
-                        // soloArrowLeftVOffset: 0,
+                            soloArrowLeftHalign:"left",
+                            soloArrowLeftValign:"center",
+                            soloArrowLeftHOffset:5,
+                            soloArrowLeftVOffset:0,
 
-                        // soloArrowRightHalign: "right",
-                        // soloArrowRightValign: "center",
-                        // soloArrowRightHOffset: 20,
-                        // soloArrowRightVOffset: 0,
+                            soloArrowRightHalign:"right",
+                            soloArrowRightValign:"center",
+                            soloArrowRightHOffset:5,
+                            soloArrowRightVOffset:0,
 
-                        touchenabled: "on",
-                        swipe_velocity:"0.7",
-                        swipe_max_touches:"1",
-                        swipe_min_touches:"1",
-                        drag_block_vertical:"false",
+                            touchenabled: "on",
+                            swipe_velocity:"0.7",
+                            swipe_max_touches:"1",
+                            swipe_min_touches:"1",
+                            drag_block_vertical:"false",
 
-                        stopAtSlide: -1,
-                        stopAfterLoops: -1,
-                        hideCaptionAtLimit: 0,
-                        hideAllCaptionAtLilmit: 0,
-                        hideSliderAtLimit: 0,
+                            stopAtSlide: -1,
+                            stopAfterLoops: -1,
+                            hideCaptionAtLimit: 0,
+                            hideAllCaptionAtLilmit: 0,
+                            hideSliderAtLimit: 0,
 
-                        dottedOverlay: "none",
+                            dottedOverlay: "none",
 
-                        fullWidth:"on",
-                        forceFullWidth:"on",
-                        fullScreen: "off",
-                        fullScreenOffsetContainer: "#topheader-to-offset",
+                            fullWidth:"on",
+                            forceFullWidth:"on",
+                            fullScreen: "off",
+                            fullScreenOffsetContainer: "#topheader-to-offset",
 
-                        shadow: 0
+                            shadow: 0
 
+                        });
+                    }
+                }else{
+                    jQuery("#banner-msg-cont").show();
+                    jQuery('#camera_wrap_1').camera({
+                        thumbnails: false,
+                        pagination: false,
+                        height: '400px'
                     });
                 }
 
-//                jQuery('#camera_wrap_1').camera({
-//                    thumbnails: false,
-//                    pagination: false,
-//                    height: '400px'
-//                });
             });
 
             $('#th-destination-carousel').on('slid.bs.carousel', function () {
