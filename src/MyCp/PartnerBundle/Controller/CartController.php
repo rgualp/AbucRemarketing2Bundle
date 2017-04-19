@@ -31,6 +31,13 @@ class CartController extends Controller
         $ids_gr = $request->get('ids');
         $ids_gr = ($ids_gr != null) ? $ids_gr:array();
 
+        $session = $request->getSession();
+        $ids_from_session = $session->get("ri_ids");
+        $ids_from_session = ($ids_from_session != null) ? $ids_from_session:array();
+
+        $ids_gr = array_merge($ids_gr, $ids_from_session);
+        $session->remove("ri_ids");
+
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
