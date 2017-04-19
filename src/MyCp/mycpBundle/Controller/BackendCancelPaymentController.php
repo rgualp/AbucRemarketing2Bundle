@@ -249,6 +249,15 @@ class BackendCancelPaymentController extends Controller {
         $pay_tourist= $em->getRepository("mycpBundle:pendingPaytourist")->findOneBy(array("cancel_id" => $idcancel));
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $cancelPayment->getBooking()->getBookingId()));
 
+        $pasarela='';
+        $skrill = $em->getRepository('mycpBundle:skrillPayment')->findOneBy(array("payment" => $payment->getId()));
+        if($skrill!=null)
+            $pasarela='Pasarela: Skrill Id de la transferencia:' .$skrill->getSkrillTransactionId();
+
+        $postfinace = $em->getRepository('mycpBundle:postfinancePayment')->findOneBy(array("payment" => $payment->getId()));
+       if($postfinace!=null)
+           $pasarela='Pasarela: Postfinance Id de la transferencia:' .$postfinace->getPaymentReferenceId();
+
         $reservations_ids=$cancelPayment->getOwnreservations();
         if(!empty($pay_own)){
             $array_id_ownership=array();
@@ -273,7 +282,8 @@ class BackendCancelPaymentController extends Controller {
                         'ownershipReservations'=>$item['ownershipReservations'],
                         'price'=>$item['price'],
                         'reason'=>$cancelPayment->getReason(),
-                        'payment_date'=>$pay_own->getPaymentDate()
+                        'payment_date'=>$pay_own->getPaymentDate(),
+                        'pasarela'=>$pasarela
                     ));
                  $emailService->sendEmail(array("reservation@mycasaparticular.com","yander@hds.li","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
                 //$emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Propietario:",$body,"no-reply@mycasaparticular.com");
@@ -307,8 +317,10 @@ class BackendCancelPaymentController extends Controller {
                     'pending_tourist'=>$pay_tourist,
                     'pay_cost'=>$pay_cost,
                     'ownershipReservations'=>$ownershipReservations,
-                    'rooms'=>$rooms
-                ));
+                    'rooms'=>$rooms,
+                    'pasarela'=>$pasarela
+
+            ));
             $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahi_amor@yahoo.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
             //$emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
 
