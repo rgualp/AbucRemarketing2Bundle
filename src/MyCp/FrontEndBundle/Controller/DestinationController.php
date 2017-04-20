@@ -22,7 +22,14 @@ class DestinationController extends Controller {
 
     public function getMapByProvinceAction() {
         $em = $this->getDoctrine()->getManager();
-        $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
+        //$dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
+
+        $query_string = "SELECT dl FROM mycpBundle:destinationLocation dl
+                          JOIN mycpBundle:destination d WITH dl.des_loc_destination = d.des_id
+                         WHERE d.des_active <> 0";
+
+        $dest_location = $em->createQuery($query_string)->getResult();
+
         return $this->render('FrontEndBundle:destination:destinationByProvince.html.twig', array(
             'locations_destinations' => $dest_location
         ));

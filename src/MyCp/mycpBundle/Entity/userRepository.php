@@ -4,6 +4,8 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\Images;
+use MyCp\mycpBundle\Helpers\RegistrationMode;
+use MyCp\mycpBundle\Helpers\UserStatus;
 
 /**
  * userRepository
@@ -201,62 +203,99 @@ class userRepository extends EntityRepository {
 
 
 
-    public function getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email) {
-        $string_role = '';
-        if ($filter_role != 'null' && $filter_role != '') {
-            $string_role = "AND sr.role_name = :filter_role";
-        }
-
-        $string_city = '';
-        if ($filter_city != 'null' && $filter_city != '') {
-            $string_city = "AND u.user_city LIKE :filter_city";
-        }
-
-        $string_country = '';
-        if ($filter_country != 'null' && $filter_country != '') {
-            $string_country = "AND u.user_country = :filter_country";
-        }
-
-        $string_name = '';
-        if ($filter_name != 'null' && $filter_name != '') {
-            $string_name = "AND u.user_user_name LIKE :filter_name";
-        }
-
-        $string_last_name = '';
-        if ($filter_last_name != 'null' && $filter_last_name != '') {
-            $string_last_name = "AND u.user_last_name LIKE :filter_last_name";
-        }
-
-        $string_email = '';
-        if ($filter_email != 'null' && $filter_email != '') {
-            $string_email = "AND u.user_email LIKE :filter_email";
-        }
-
+    public function getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email, $filter_method, $filter_status, $filter_creation_date_from, $filter_creation_date_to) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT u FROM mycpBundle:user u JOIN u.user_subrole sr
-        WHERE (u.locked is null or u.locked = 0) AND  u.user_name LIKE :filter_user_name $string_role $string_city $string_country $string_name $string_last_name $string_email");
 
-        if ($filter_role != 'null' && $filter_role != '')
-            $query->setParameter('filter_role', $filter_role);
+        $qb = $em->createQueryBuilder()
+            ->select("u")
+            ->from("mycpBundle:user", "u")
+            ->join("u.user_subrole", "sr")
+            ->orderBy("u.user_creation_date", "DESC")
+        ;
 
-        if ($filter_city != 'null' && $filter_city != '')
-            $query->setParameter('filter_city', "%" . $filter_city . "%");
+        if ($filter_role != 'null' && $filter_role != '') {
+            $qb->andWhere("sr.role_name = :filter_role")
+                ->setParameter("filter_role", $filter_role);
+        }
 
-        if ($filter_country != 'null' && $filter_country != '')
-            $query->setParameter('filter_country', $filter_country);
+        if ($filter_city != 'null' && $filter_city != '') {
+            $qb->andWhere("u.user_city LIKE :filter_city")
+                ->setParameter("filter_city", "%".$filter_city."%");
+        }
 
-        if ($filter_name != 'null' && $filter_name != '')
-            $query->setParameter('filter_name', "%" . $filter_name . "%");
+        if ($filter_country != 'null' && $filter_country != '') {
+            $qb->andWhere("u.user_country = :filter_country")
+                ->setParameter("filter_country", $filter_country);
+        }
 
-        if ($filter_last_name != 'null' && $filter_last_name != '')
-            $query->setParameter('filter_last_name', "%" . $filter_last_name . "%");
+        if ($filter_name != 'null' && $filter_name != '') {
+            $qb->andWhere("u.user_user_name LIKE :filter_name")
+                ->setParameter("filter_name", "%".$filter_name."%");
+        }
 
-        if ($filter_email != 'null' && $filter_email != '')
-            $query->setParameter('filter_email', "%" . $filter_email . "%");
+        if ($filter_last_name != 'null' && $filter_last_name != '') {
+            $qb->andWhere("u.user_last_name LIKE :filter_last_name")
+                ->setParameter("filter_last_name", "%".$filter_last_name."%");
+        }
 
-        $query->setParameter('filter_user_name', "%" . $filter_user_name . "%");
+        if ($filter_email != 'null' && $filter_email != '') {
+            $qb->andWhere("u.user_email LIKE :filter_email")
+                ->setParameter("filter_email", "%".$filter_email."%");
+        }
 
-        return $query->getResult();
+        if ($filter_user_name != 'null' && $filter_user_name != '') {
+            $qb->andWhere("u.user_name LIKE :filter_user_name")
+                ->setParameter("filter_user_name", "%".$filter_user_name."%");
+        }
+
+        if ($filter_method != 'null' && $filter_method != '') {
+
+            switch($filter_method){
+                case RegistrationMode::FACEBOOK:
+                {
+                    $qb->andWhere("u.user_created_by_migration = 1");
+                    break;
+                }
+                case RegistrationMode::REGISTRATION:
+                {
+                    $qb->andWhere("u.user_created_by_migration = 0");
+                    break;
+                }
+            }
+        }
+
+        if ($filter_status != 'null' && $filter_status != '') {
+
+            switch($filter_status){
+                case UserStatus::Inactive:
+                {
+                    $qb->andWhere("((u.locked is null or u.locked = 0) AND u.user_enabled = 0)");
+                    break;
+                }
+                case UserStatus::Locked:
+                {
+                    $qb->andWhere("u.locked = 1");
+                    break;
+                }
+                default:
+                {
+                    $qb->andWhere("(u.locked is null or u.locked = 0)");
+                    break;
+                }
+            }
+        }
+
+        if ($filter_creation_date_from != 'null' && $filter_creation_date_from != '') {
+            $qb->andWhere("u.user_creation_date >= :filter_creation_date_from")
+                ->setParameter("filter_creation_date_from", $filter_creation_date_from);
+        }
+
+        if ($filter_creation_date_to != 'null' && $filter_creation_date_to != '') {
+            $qb->andWhere("u.user_creation_date <= :filter_creation_date_to")
+                ->setParameter("filter_creation_date_to", $filter_creation_date_to);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     public function getIds($controller) {
