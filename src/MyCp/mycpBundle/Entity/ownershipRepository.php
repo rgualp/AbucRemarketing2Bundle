@@ -937,7 +937,7 @@ class ownershipRepository extends EntityRepository {
 
         if($setupDates) {
             $leavingDateObject = date_create($leavingDate);
-            date_sub($leavingDateObject, date_interval_create_from_date_string('1 days'));
+            date_sub($leavingDateObject, date_interval_create_from_date_string('0 days'));
             $leavingDate = date_format($leavingDateObject, 'd-m-Y');
         }
 
