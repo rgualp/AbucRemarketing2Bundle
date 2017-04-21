@@ -1832,7 +1832,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
-        $payment=$em->getRepository("mycpBundle:generalReservation")->getPaymentByDate($dateFrom, $dateTo);
+        $payment=$em->getRepository("mycpBundle:generalReservation")->getPaymentByDate($dateFrom, $dateTo, $accommodationModality);
 
 
         $tc = 0;
