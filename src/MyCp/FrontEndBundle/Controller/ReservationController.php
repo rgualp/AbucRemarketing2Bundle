@@ -392,22 +392,43 @@ class ReservationController extends Controller {
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
 
-        return $this->render('FrontEndBundle:reservation:reservation.html.twig', array(
-                    'nights' => $nights,
-                    'user_tourist' => $userTourist,
-                    'user' => $user,
-                    'countries' => $countries,
-                    'reservations' => $reservations,
-                    'total_price' => $total_price,
-                    'errors' => $errors,
-                    'commissions' => $commissions,
-                    'total_percent_price' => $total_percent_price,
-                    'post' => $post,
-                    'post_country' => $post_country,
-                    'total_errors' => $count_errors,
-                    'currentServiceFee' => $currentServiceFee,
-                    'touristTax' => $touristTax
-        ));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:reservation:reservation.html.twig', array(
+                'nights' => $nights,
+                'user_tourist' => $userTourist,
+                'user' => $user,
+                'countries' => $countries,
+                'reservations' => $reservations,
+                'total_price' => $total_price,
+                'errors' => $errors,
+                'commissions' => $commissions,
+                'total_percent_price' => $total_percent_price,
+                'post' => $post,
+                'post_country' => $post_country,
+                'total_errors' => $count_errors,
+                'currentServiceFee' => $currentServiceFee,
+                'touristTax' => $touristTax
+            ));
+        }else{
+            return $this->render('FrontEndBundle:reservation:reservation.html.twig', array(
+                'nights' => $nights,
+                'user_tourist' => $userTourist,
+                'user' => $user,
+                'countries' => $countries,
+                'reservations' => $reservations,
+                'total_price' => $total_price,
+                'errors' => $errors,
+                'commissions' => $commissions,
+                'total_percent_price' => $total_percent_price,
+                'post' => $post,
+                'post_country' => $post_country,
+                'total_errors' => $count_errors,
+                'currentServiceFee' => $currentServiceFee,
+                'touristTax' => $touristTax
+            ));
+        }
+
     }
 
     public function removeReservationAction($idReservation, Request $request) {
