@@ -5,6 +5,11 @@ $(function () {
     startCustom();
 });
 
+jQuery(window).load(function(){
+    startTypeHead();
+    initActivitiesMap();
+});
+
 function startCustom() {
     $('.numeric').keydown(function (e) {
         $('#log').text('keyCode: ' + e.keyCode);
@@ -25,9 +30,6 @@ function startCustom() {
     change_faq();
     reservations();
 
-    startTypeHead();
-
-    initActivitiesMap();
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }
