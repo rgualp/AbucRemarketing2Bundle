@@ -315,6 +315,20 @@ border-color:rgb(255, 255, 255);
 border-style:none;
 }
 
+.tp-caption.large_bold_white_24 {
+	font-size:26px;
+	line-height:65px;
+	font-weight:700;
+	color:#fff;
+	text-decoration:none;
+	background-color:transparent;
+	text-align:center;
+	text-shadow:#000 0px 5px 10px;
+	border-width:0px;
+	border-color:rgb(255, 255, 255);
+	border-style:none;
+}
+
 .tp-caption.medium_text_shadow {
 	font-size:20px;
 	line-height:25px;
