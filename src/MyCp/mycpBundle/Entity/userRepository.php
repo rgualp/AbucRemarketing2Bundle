@@ -253,7 +253,9 @@ class userRepository extends EntityRepository {
             switch($filter_method){
                 case RegistrationMode::FACEBOOK:
                 {
-                    $qb->andWhere("(u.facebook = 1 or u.user_password = '')");
+                    $qb->andWhere("(u.facebook = 1 or u.user_password = '')")
+                        ->andWhere("u.user_role = 'ROLE_CLIENT_TOURIST'")
+                    ;
                     break;
                 }
                 case RegistrationMode::REGISTRATION:
