@@ -90,6 +90,13 @@ class user implements AdvancedUserInterface,  \Serializable
     private $user_newsletters;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="facebook", type="boolean", nullable=true)
+     */
+    private $facebook;
+
+    /**
      * @ORM\ManyToOne(targetEntity="country",inversedBy="users")
      * @ORM\JoinColumn(name="user_country",referencedColumnName="co_id")
      */
@@ -207,6 +214,7 @@ class user implements AdvancedUserInterface,  \Serializable
         $this->createdFailures = new ArrayCollection();
         $this->locked = false;
         $this->user_enabled = true;
+        $this->facebook = false;
     }
 
 
@@ -1121,4 +1129,24 @@ class user implements AdvancedUserInterface,  \Serializable
     {
         $this->createdFailures->removeElement($failure);
     }
+
+    /**
+     * @return boolean
+     */
+    public function isFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * @param boolean $facebook
+     * @return mixed
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+        return $this;
+    }
+
+
 }

@@ -253,7 +253,7 @@ class userRepository extends EntityRepository {
             switch($filter_method){
                 case RegistrationMode::FACEBOOK:
                 {
-                    $qb->andWhere("u.user_created_by_migration = 1");
+                    $qb->andWhere("u.facebook = 1");
                     break;
                 }
                 case RegistrationMode::REGISTRATION:
