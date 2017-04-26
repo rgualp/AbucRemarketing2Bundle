@@ -156,7 +156,7 @@
         <td>{% if user.getUserSubrole.getRoleName is defined %}{{user.getUserSubrole.getRoleName}}{%else%}{{user.getUserRole}}{%endif%}</td>
         <td>{{user.getUserCity}} {% if user.getUserCountry and user.getUserCity %}/{% endif %} {% if user.getUserCountry %}{{user.getUserCountry.getCoName}}{% endif %}</td>
         <td>{% if user.userCreationDate %}{{ user.userCreationDate | date("d/m/Y H:i") }}{% endif %}</td>
-        <td>{% if user.userCreatedByMigration %}Facebook{% else %}Registro {% endif %}</td>
+        <td>{% if (user.facebook or user.userPassword == "") and user.userRole == "ROLE_CLIENT_TOURIST" %}Facebook{% else %}Registro {% endif %}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{% if user.getUserRole =='ROLE_CLIENT_STAFF'%}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId})}}{% elseif user.getUserRole =='ROLE_CLIENT_CASA'%}{{ path('mycp_edit_user_casa',{'id_user':user.getUserId})}}{% elseif user.getUserRole =='ROLE_CLIENT_TOURIST'%}{{ path('mycp_edit_user_tourist',{'id_user':user.getUserId})}}{% elseif user.getUserRole =='ROLE_CLIENT_PARTNER'%}{{ path('mycp_edit_user_partner',{'id_user':user.getUserId})}}{% else %}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId})}}{% endif %}">Editar</a>
             {% if not user.isEnabled %}
