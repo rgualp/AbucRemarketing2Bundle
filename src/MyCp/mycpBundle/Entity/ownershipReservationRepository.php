@@ -249,8 +249,12 @@ class ownershipReservationRepository extends EntityRepository {
             ore.own_res_total_in_site as priceInSite,
             ore.own_res_night_price as priceNight
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
-        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
-        return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getArrayResult();
+        WHERE ore.own_res_reservation_booking = :id_booking
+        AND ore.own_res_status = :own_res_status
+        and gre.gen_res_own_id = :id_own");
+        return $query->setParameter('id_booking', $id_booking)
+            ->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED)
+            ->setParameter('id_own', $own_id)->getArrayResult();
     }
 
     function getRoomsByAccomodationForPartner($id_booking, $own_id) {

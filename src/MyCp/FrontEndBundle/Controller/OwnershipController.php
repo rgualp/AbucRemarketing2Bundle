@@ -726,7 +726,7 @@ class OwnershipController extends Controller
         $session = $this->getRequest()->getSession();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
-            $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
+            $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
         $rooms = ($rooms == "undefined") ? 1 : $rooms;
 
         $session->set('search_arrival_date', null);
@@ -1048,7 +1048,7 @@ class OwnershipController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             if ($session->get('search_order') == null || $session->get('search_order') == '')
-                $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
+                $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
 
             if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
                 $session->set('search_view_results', 'PHOTOS');

@@ -72,7 +72,9 @@ class OAuthController extends Controller
                                 ->setUserEnabled(true)//enable directly because this is a confirmed user email from facebook.
                                 ->setUserCreatedByMigration(false)
                                 ->setLocked(false)
-                                ->setUserSubrole($role[0]);
+                                ->setUserSubrole($role[0])
+                                ->setFacebook(true)
+                            ;
 
                             $userTourist = new userTourist();
 

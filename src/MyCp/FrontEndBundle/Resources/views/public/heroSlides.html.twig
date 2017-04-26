@@ -6,7 +6,7 @@
                 {% for ownership in ownerships %}
                     <li data-transition="fade" data-slotamount="7" data-masterspeed="1500" >
                         <!-- Main Image -->
-                        <img src="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}"  alt="{{ ownership.own_name }}"  data-bgposition="center center" data-kenburns="on" data-duration="6000" data-ease="Power4.easeInOut" data-bgfit="140" data-bgfitend="100" data-bgpositionend="center center">
+                        <img src="{{ asset('bundles/frontend/js/rs-plugin/assets/loader.gif') }}" data-lazyload="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}"  alt="{{ ownership.own_name }}"  data-bgposition="center center" data-kenburns="on" data-duration="6000" data-ease="Power4.easeInOut" data-bgfit="140" data-bgfitend="100" data-bgpositionend="center center">
                         {#<img src="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}" style="opacity:0;" alt="{{ ownership.own_name }}"  data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">#}
                         <!-- Layers -->
                         <!-- Layer 1 -->
@@ -32,7 +32,7 @@
                             <span>{{ 'SLOGAN_3'|trans }}</span></div>
 
                         <!-- Layer 2 -->
-                        <div class="tp-caption sfr lfr large_bold_white_25 caecilia-roman"
+                        <div class="tp-caption sfr lfr large_bold_white_24 caecilia-roman"
                              data-x="right"
                              data-y="center"
                              data-voffset="-50"
@@ -40,7 +40,7 @@
                              data-speed="800"
                              data-start="1900"
                              data-easing="easeInQuad">
-                            <span>{{ ownership.own_name }}</span></div>
+                            <span>{{ ownership.own_name }} {{ 'IN'|trans }} {{ ownership.destination }}</span> </div>
 
                         <!-- Layer 2 -->
                         <div class="tp-caption sfr lfr medium_text_shadow caecilia-roman"
@@ -61,9 +61,8 @@
                              data-speed="1000"
                              data-start="1900"
                              data-easing="easeInQuad">
-                            <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}" class="button btn btn-success btn-lg">{{ 'SEE_NOW'|trans }}</a>
+                            <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}" onClick= "_gaq.push(['_trackEvent','Botones','portada','Cantidad clic',2]);" class="button btn btn-success btn-lg">{{ 'SEE_NOW'|trans }}</a>
                         </div>
-
                     </li>
                 {% endfor %}
             </ul>

@@ -454,8 +454,15 @@ class BackendUserController extends Controller {
         $filter_name = $request->get('filter_name');
         $filter_last_name = $request->get('filter_last_name');
         $filter_email = $request->get('filter_email');
+        $filter_method = $request->get('filter_method');
+        $filter_status = $request->get('filter_status');
+        $filter_creation_date_from = $request->get('filter_creation_date_from');
+        $filter_creation_date_to = $request->get('filter_creation_date_to');
 
-        if ($request->getMethod() == 'POST' && $filter_user_name == 'null' && $filter_role == 'null' && $filter_city == 'null' && $filter_country == 'null' && $filter_name == 'null' && $filter_last_name == 'null' && $filter_email == 'null') {
+        if ($request->getMethod() == 'POST' && $filter_user_name == 'null' && $filter_role == 'null' && $filter_city == 'null' && $filter_country == 'null'
+            && $filter_name == 'null' && $filter_last_name == 'null' && $filter_email == 'null'
+            && $filter_method == 'null'  && $filter_status == 'null'  && $filter_creation_date_from == 'null'  && $filter_creation_date_to == 'null'
+        ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -475,6 +482,14 @@ class BackendUserController extends Controller {
             $filter_last_name = '';
         if ($filter_email == 'null')
             $filter_email = '';
+        if ($filter_method == 'null')
+            $filter_method = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($filter_creation_date_to == 'null')
+            $filter_creation_date_to = '';
+        if ($filter_creation_date_from == 'null')
+            $filter_creation_date_from = '';
 
         $page = 1;
         if (isset($_GET['page']))
@@ -482,7 +497,7 @@ class BackendUserController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
+        $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email, $filter_method, $filter_status, $filter_creation_date_from, $filter_creation_date_to))->getResult();
 //        $service_log = $this->get('log');
 //        $service_log->saveLog('Visit', BackendModuleName::MODULE_USER);
 
@@ -497,7 +512,11 @@ class BackendUserController extends Controller {
                     'filter_country' => $filter_country,
                     'filter_name' => $filter_name,
                     'filter_last_name' => $filter_last_name,
-                    'filter_email' => $filter_email
+                    'filter_email' => $filter_email,
+                    'filter_method' => $filter_method,
+                    'filter_status' => $filter_status,
+                    'filter_creation_date_from' => $filter_creation_date_from,
+                    'filter_creation_date_to' => $filter_creation_date_to
         ));
     }
 
