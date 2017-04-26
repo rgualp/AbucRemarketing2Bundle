@@ -53,33 +53,18 @@ class clientPartnerType extends AbstractType
         $builder->add('user_name','text',array(
             'label'=>'Usuario:',
             'constraints'=>array(new NotBlank())));
-        $builder->add('company_code','text',array(
-            'label'=>'Cod. Empresa:',
-            'constraints'=>array(new NotBlank())
-        ));
-        $builder->add('company_name','text',array(
-            'label'=>'Nombre de la empresa:',
-            'constraints'=>array(new NotBlank())
-        ));
         $builder->add('email','text',array(
             'label'=>'Email:',
             'constraints'=>array(new NotBlank(), new Email()),
         ));
         $builder->add('phone','text',array(
-            'label'=>'Teléfono:',
-            'constraints'=>array(new NotBlank())
+            'label'=>'Teléfono:'
         ));
         $builder->add('address','text',array(
-            'label'=>'Dirección:',
-            'constraints'=>array(new NotBlank())
+            'label'=>'Dirección:'
         ));
         $builder->add('city','text',array(
-            'label'=>'Ciudad:',
-            'constraints'=>array(new NotBlank())
-        ));
-        $builder->add('contact_person','text',array(
-            'label'=>'Persona de contacto:',
-            'constraints'=>array(new NotBlank())
+            'label'=>'Ciudad:'
         ));
 
         if(isset($this->data['edit']) && $this->data['password']=='')
