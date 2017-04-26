@@ -23,151 +23,24 @@
     '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
     '@FrontEndBundle/Resources/public/css/chat.css'
     '@LayoutBundle/Resources/public/css/bootstrap-submenu.css'
+    '@FrontEndBundle/Resources/public/css/economic_house.css'
+    '@FrontEndBundle/Resources/public/css/premium_house.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+
+    {% set css_category = "" %}
     {% if ownership.category is defined and  ownership.category == 'Económica'%}
-        {% stylesheets
-        '@FrontEndBundle/Resources/public/css/economic_house.css'
-        filter='?uglifycss'
-        %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
+        {% set css_category = "economic_house" %}
     {% endif %}
     {% if ownership.category is defined and  ownership.category == 'Premium'%}
-        {% stylesheets
-        '@FrontEndBundle/Resources/public/css/premium_house.css'
-        filter='?uglifycss'
-        %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
+        {% set css_category = "premium_house" %}
     {% endif %}
 
-    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 
-    {#{% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
-        <script src="{{ url_server_node }}socket.io/socket.io.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            var access_token="{{app.session.get('access-token')}}";
-        </script>
-    {% endif %}#}
-    {% if app.session.get('search_guests') != null and app.session.get('search_guests') == "0" %}
-        {{ app.session.set('search_guests', 1) }}
-    {% endif %}
-    {% if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "0" %}
-        {{ app.session.set('search_rooms', 1) }}
-    {% endif %}
-
-    <script>
-        var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
-        var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
-    </script>
-
-    {% javascripts
-    '@FrontEndBundle/Resources/public/js/plugins/labs/LAB.min.js'
-    filter='?uglifyjs2'
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-    <script>
-        var rsheight;
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery-3.1.1.min.js'
-        filter='?uglifyjs2'
-        %}
-        $LAB.script('{{ asset_url }}')
-        {% endjavascripts %}
-
-        {% javascripts
-        '@FrontEndBundle/Resources/public/js/jquery-migrate-3.0.0.min.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
-        '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
-        '@FrontEndBundle/Resources/public/js/jquery.bttrlazyloading.min.js'
-        '@FrontEndBundle/Resources/public/js/jquery.lazy.min.js'
-        '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.js'
-        '@FrontEndBundle/Resources/public/js/typeahead.js'
-        '@LayoutBundle/Resources/public/js/bootstrap-submenu.js'
-        '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
-        '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
-        '@FrontEndBundle/Resources/public/js/carousel-master/jquery.min.js'
-        '@FrontEndBundle/Resources/public/js/carousel-master/jquery.mobile.customized.min.js'
-        '@FrontEndBundle/Resources/public/js/carousel-master/jquery.easing.1.3.js'
-        '@FrontEndBundle/Resources/public/js/carousel-master/camera.min.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
-        '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
-        '@FrontEndBundle/Resources/public/js/infobox.js'
-        '@FrontEndBundle/Resources/public/js/plugins/gmap3.min.js'
-        '@FrontEndBundle/Resources/public/js/respond.min.js'
-        '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
-        '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.tools.min.js'
-        '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.revolution.min.js'
-        '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
-        '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
-        '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
-        '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
-        '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
-        '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
-        '@LayoutBundle/Resources/public/js/plugins/toastr/toastr-hds.js'
-        '@FrontEndBundle/Resources/public/js/destinations.js'
-        '@FrontEndBundle/Resources/public/js/ownership.min.js'
-        '@FrontEndBundle/Resources/public/js/custom.js'
-        '@FrontEndBundle/Resources/public/js/base.twig.js'
-        filter='?uglifyjs2'
-        %}
-            .script('{{ asset_url }}')
-        {% endjavascripts %}
-
-            {% block other_load_js %}{% endblock %}
-
-            .wait(function() {
-                rsheight = jQuery(window).height() - (jQuery(".marquesina").height() + jQuery("#top-menu").height() + 67);
-                $("#full-width-slider").css("min-height", rsheight+"px");
-
-                jQuery(window).load(function(){
-                    BaseTwigJs.init();
-
-                    (typeof initJSTwig === 'function') ? initJSTwig() : console.log("No existe Init");
-
-                    console.log("Termino!!!");
-                    if ($('.bttrlazyloading').length > 0){
-                        $('.bttrlazyloading').each(function () {
-                            $("#"+$(this).attr("id")).bttrlazyloading();
-                        });
-                    }
-                    if ($('.lazyContent').length > 0){
-                        $(".lazyContent").Lazy({
-                            threshold: 0,
-                            // custom loaders
-                            activityLoader: function(element) {
-                                initActivitiesMap();
-                            },
-                            toprateLoader: function (element) {
-                                findTopRate(1);
-                            }
-                        });
-                    }
-
-                });
-
-            });
-
-    </script>
     {% block include_javascripts_and_css %}{% endblock %}
 </head>
-
-
-
-
-
-
-
-
 
 <body>
 {% block marquesina %}
@@ -235,12 +108,14 @@
         </div>
     </div>
 {% endfor %}
-{% block body %}
-    {% block include_javascripts %}{% endblock %}
-    {% block include_javascripts_datepicker_message %}
+<div class="{{ css_category }}">
+    {% block body %}
+        {% block include_javascripts %}{% endblock %}
+        {% block include_javascripts_datepicker_message %}
 
+        {% endblock %}
     {% endblock %}
-{% endblock %}
+</div>
 {% block footer_big %}{% endblock %}
 
 {% block go_up %}
@@ -361,6 +236,121 @@
 </script>
 <script type="text/javascript">
     var today_date="{{"now"|date("d/m/Y") }}";
+</script>
+
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+
+{#{% if app.user.getRegisterNotification is defined  and app.user.getRegisterNotification %}
+    <script src="{{ url_server_node }}socket.io/socket.io.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var access_token="{{app.session.get('access-token')}}";
+    </script>
+{% endif %}#}
+{% if app.session.get('search_guests') != null and app.session.get('search_guests') == "0" %}
+    {{ app.session.set('search_guests', 1) }}
+{% endif %}
+{% if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "0" %}
+    {{ app.session.set('search_rooms', 1) }}
+{% endif %}
+
+<script>
+    var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+    var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+</script>
+
+{% javascripts
+'@FrontEndBundle/Resources/public/js/plugins/labs/LAB.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script>
+    var rsheight;
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-3.1.1.min.js'
+    filter='?uglifyjs2'
+    %}
+    $LAB.script('{{ asset_url }}')
+    {% endjavascripts %}
+
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery-migrate-3.0.0.min.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+    '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.bttrlazyloading.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.lazy.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.js'
+    '@FrontEndBundle/Resources/public/js/typeahead.js'
+    '@LayoutBundle/Resources/public/js/bootstrap-submenu.js'
+    '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
+    '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.min.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.mobile.customized.min.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/jquery.easing.1.3.js'
+    '@FrontEndBundle/Resources/public/js/carousel-master/camera.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
+    '@FrontEndBundle/Resources/public/js/infobox.js'
+    '@FrontEndBundle/Resources/public/js/plugins/gmap3.min.js'
+    '@FrontEndBundle/Resources/public/js/respond.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.tools.min.js'
+    '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.revolution.min.js'
+    '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
+    '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
+    '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+    '@MyCpMobileFrontendBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
+    '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+    '@LayoutBundle/Resources/public/js/plugins/toastr/toastr-hds.js'
+    '@FrontEndBundle/Resources/public/js/destinations.js'
+    '@FrontEndBundle/Resources/public/js/ownership.min.js'
+    '@FrontEndBundle/Resources/public/js/custom.js'
+    '@FrontEndBundle/Resources/public/js/base.twig.js'
+    filter='?uglifyjs2'
+    %}
+        .script('{{ asset_url }}')
+        {% endjavascripts %}
+
+        {% block other_load_js %}{% endblock %}
+
+        .wait(function() {
+            rsheight = jQuery(window).height() - (jQuery(".marquesina").height() + jQuery("#top-menu").height() + 67);
+            $("#full-width-slider").css("min-height", rsheight+"px");
+
+            jQuery(document).ready(function(){
+                BaseTwigJs.init();
+
+                (typeof initJSTwig === 'function') ? initJSTwig() : console.log("No existe Init");
+
+                console.log("Termino!!!");
+                if ($('.bttrlazyloading').length > 0){
+                    $('.bttrlazyloading').each(function () {
+                        $("#"+$(this).attr("id")).bttrlazyloading();
+                    });
+                }
+                if ($('.lazyContent').length > 0){
+                    $(".lazyContent").Lazy({
+                        threshold: 0,
+                        // custom loaders
+                        activityLoader: function(element) {
+                            initActivitiesMap();
+                        },
+                        toprateLoader: function (element) {
+                            findTopRate(1);
+                        }
+                    });
+                }
+
+            });
+
+        });
+
 </script>
 
 <!-- Google Analytics -->
