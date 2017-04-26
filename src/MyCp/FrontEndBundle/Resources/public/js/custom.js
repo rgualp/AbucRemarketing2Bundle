@@ -3,12 +3,7 @@ $(function () {
     $("[data-rel='tooltip']").tooltip();
 
     startCustom();
-    
-});
-
-jQuery(window).load(function(){
     startTypeHead();
-    //initActivitiesMap();
 });
 
 function startCustom() {
