@@ -3,11 +3,7 @@ $(function () {
     $("[data-rel='tooltip']").tooltip();
 
     startCustom();
-});
-
-jQuery(window).load(function(){
     startTypeHead();
-    initActivitiesMap();
 });
 
 function startCustom() {
@@ -38,7 +34,6 @@ var myMap = null;
 var activities = [];
 function initActivitiesMap() {
     // Activities Map
-
     if ($("#destination-map").length > 0) {
         $.get(url_load_activities, [], function (result) {
             activities = result.activities;
