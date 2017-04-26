@@ -28,7 +28,7 @@ class PaymentController extends Controller
 {
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
-    private static $postFinance = 'https://e-payment.postfinance.ch/ncol/test/orderstandard.asp';
+    private static $postFinance = 'https://e-payment.postfinance.ch/ncol/prod/orderstandard.asp';
 
     const MAX_SKRILL_NUM_DETAILS = 5;
     const MAX_SKRILL_DETAIL_STRING_LENGTH = 240;
@@ -438,6 +438,13 @@ class PaymentController extends Controller
             array('status' => 'Cancelled by Skrill'));
     }
 
+    public function postfinanceCancelAction()
+    {
+        return $this->render(
+            'FrontEndBundle:payment:skrillResponseTest.html.twig',
+            array('status' => 'Cancelled by Postfinance'));
+    }
+
     /**
      * Testing method to test a Skrill status response.
      *
@@ -551,7 +558,7 @@ class PaymentController extends Controller
         $locale = $this->getRequest()->getLocale();
         $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
-        $pspid = "abucTEST";
+        $pspid = "abuc1";
         $amount = round($booking->getBookingPrepay(), 2);
 
         $gateway = Omnipay::create('Postfinance'); //Omnipay::create('Postfinance');
@@ -559,7 +566,7 @@ class PaymentController extends Controller
         $gateway->setShaIn('abcdefghi1234567');
         $gateway->setShaOut('abcdefghi1234567');
         $gateway->setLanguage(PostFinanceHelper::getPostFinanceLanguageFromLocale($locale));
-        $gateway->setTestMode(true);
+        $gateway->setTestMode(false);
         $gateway->setLogo($logoUrl);
 
         // Send purchase request
@@ -570,8 +577,8 @@ class PaymentController extends Controller
                 'method' => $method,
                 'currency' => $booking->getBookingCurrency()->getCurrCode(),
                 'returnUrl' => $this->generateUrl('frontend_payment_postfinance_status', array(), true),
-                'notifyUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
-                'cancelUrl' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true)
+                'notifyUrl' => $this->generateUrl('frontend_payment_postfinance_cancel', array(), true),
+                'cancelUrl' => $this->generateUrl('frontend_payment_postfinance_cancel', array(), true)
             ]
         )->send();
 

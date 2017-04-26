@@ -7,7 +7,6 @@ services:
 #    front_end.example:
 #        class: %front_end.example.class%
 #        arguments:
-
     front_end.services.pdf:
         class: %front_end.services.pdf.class%
         arguments: ["%kernel.root_dir%/config/dompdf_config.inc.php"]

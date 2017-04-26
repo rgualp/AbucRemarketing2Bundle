@@ -11,13 +11,10 @@
                 'is_in_favorite': ownership.is_in_favorites,
                 'photo': ownership.photo,
                 'destination': ownership.destination,
-                'list_preffix': "top20",
-                'notLazyLoad': true
+                'list_preffix': "top20"
                 })
             }}
         </div>
     {%endfor%}
     </div>
 </div>
-<div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
-{{ include('FrontEndBundle:script:script.html.twig') }}

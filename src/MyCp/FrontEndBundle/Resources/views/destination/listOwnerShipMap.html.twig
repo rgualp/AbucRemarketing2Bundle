@@ -1,0 +1,16 @@
+
+    {% set cont=0 %}
+    {% for ownership in list %}
+        <div class="col-sm-2 animated bounceIn" style="margin-bottom: 15px;">
+            {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
+                'id': ownership.own_id,
+                'name': ownership.own_name,
+                'award': ownership.award,
+                'minPrice': ownership.minimum_price,
+                'is_in_favorite': ownership.is_in_favorites,
+                'photo': ownership.photo,
+                'destination': ownership.mun_name,
+                'list_preffix': "top20"
+            }) }}
+        </div>
+    {% endfor %}

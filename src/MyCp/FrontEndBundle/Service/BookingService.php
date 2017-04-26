@@ -1570,6 +1570,8 @@ class BookingService extends Controller
             $obj->setType($this->em->getRepository('mycpBundle:cancelType')->find($type));
             $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1));
             $obj->setGiveTourist($give_tourist);
+            $obj->setReason($reason);
+
             $this->em->persist($obj);
             //$this->em->flush();
 

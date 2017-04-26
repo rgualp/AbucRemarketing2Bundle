@@ -156,11 +156,11 @@
             </trans-unit>
             <trans-unit id="39">
                 <source>SLOGAN_1</source>
-                <target>Alojarse,</target>
+                <target>Alojarse </target>
             </trans-unit>
             <trans-unit id="40">
                 <source>SLOGAN_2</source>
-                <target>donde Cuba Cuba es!</target>
+                <target>donde Cuba, Cuba es!</target>
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
@@ -1929,7 +1929,7 @@
             </trans-unit>
             <trans-unit id="491">
                 <source>STAY_WHERE_CUBA_CUBA_IS</source>
-                <target>Alojarse, donde Cuba Cuba es!</target>
+                <target>Alojarse donde Cuba, Cuba es!</target>
             </trans-unit>
             <trans-unit id="492">
                 <source>NIGHTS</source>
@@ -4083,7 +4083,18 @@
                  <source>GO_MYCASATRIP</source>
                  <target>Regresar a MyCasaTrip</target>
             </trans-unit>
-
+            <trans-unit id="1028">
+                 <source>top.next</source>
+                 <target>Siguiente</target>
+            </trans-unit>
+            <trans-unit id="1029">
+                 <source>top.prev</source>
+                 <target>Anterior</target>
+            </trans-unit>
+            <trans-unit id="1030">
+                  <source>top.view.more</source>
+                  <target>Ver Más</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

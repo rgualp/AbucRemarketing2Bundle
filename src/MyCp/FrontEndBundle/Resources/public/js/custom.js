@@ -1,12 +1,18 @@
-$(function() {
+$(function () {
     $("[rel='tooltip']").tooltip();
     $("[data-rel='tooltip']").tooltip();
 
     startCustom();
+    
+});
+
+jQuery(window).load(function(){
+    startTypeHead();
+    //initActivitiesMap();
 });
 
 function startCustom() {
-    $('.numeric').keydown(function(e) {
+    $('.numeric').keydown(function (e) {
         $('#log').text('keyCode: ' + e.keyCode);
         if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 9)
             e.preventDefault();
@@ -25,24 +31,49 @@ function startCustom() {
     change_faq();
     reservations();
 
-    startTypeHead();
-
-    initActivitiesMap();
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }
 
 var myMap = null;
-function initActivitiesMap(){
+var activities = [];
+function initActivitiesMap() {
     // Activities Map
+    if ($("#destination-map").length > 0) {
+        $.get(url_load_activities, [], function (result) {
+            activities = result.activities;
 
-    if ($("#destination-map").length > 0){
-        if ( jQuery().gmap3 && google != undefined){
+            for (var activity in activities) {
+                if (activities.hasOwnProperty(activity)) {
+                    $link = $('<a href="' + activity + '" class="popover-icon col-sm-2 activity" rel="tooltip" title="' + activities[activity].description + '" style="background-image: url(' + activities[activity].image + ')">' + activities[activity].name + '</a>');
+                    $link.click(function (s) {
+                        if (myMap === null) {
+                            myMap = jQuery("#destination-map").gmap3('get');
+                        }
+                        myMap.panTo(new google.maps.LatLng(22.01300, -79.26635));
+
+                        $("#activity-menu a").each(function (d) {
+                            $(this).removeClass("activate");
+                        });
+                        jQuery(this).addClass("activate");
+                        s.preventDefault();
+                        var activity = activities[$(this).attr("href")];
+                        addMarkers(activity);
+                    })
+                }
+                $("#activity-menu .row").append($link);
+            }
+
+            jQuery("#activity-menu a:first-child").addClass("activate");
+            var firstactivity = activities[jQuery("#activity-menu a.activate").attr("href")];
+            addMarkers(firstactivity);
+        })
+        if (jQuery().gmap3 && google != undefined) {
 
             //Activities Map
             var strictBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(20.591652,-81.474609),
-                new google.maps.LatLng(22.87744,-76.904297)
+                new google.maps.LatLng(20.591652, -81.474609),
+                new google.maps.LatLng(22.87744, -76.904297)
             );
 
             var center = new google.maps.LatLng(22.01300, -79.26635);
@@ -55,10 +86,10 @@ function initActivitiesMap(){
                         }
                     }]
                 },
-                map:{
-                    options:{
-                        center:center,
-                        zoom:7,
+                map: {
+                    options: {
+                        center: center,
+                        zoom: 7,
                         mapTypeControl: false,
                         mapTypeControlOptions: {
                             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -68,11 +99,67 @@ function initActivitiesMap(){
                         streetViewControl: false,
                         zoomControl: false,
                         draggable: true,
-                        styles: [{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#e3e3e3"}]},{"featureType":"landscape.natural","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"color":"#cccccc"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#FFFFFF"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}]
+                        styles: [{
+                            "featureType": "administrative",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "administrative.country",
+                            "elementType": "geometry.stroke",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "administrative.province",
+                            "elementType": "geometry.stroke",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "landscape",
+                            "elementType": "geometry",
+                            "stylers": [{"visibility": "on"}, {"color": "#e3e3e3"}]
+                        }, {
+                            "featureType": "landscape.natural",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "poi",
+                            "elementType": "all",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "road",
+                            "elementType": "all",
+                            "stylers": [{"color": "#cccccc"}]
+                        }, {
+                            "featureType": "road",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "transit",
+                            "elementType": "labels.icon",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "transit.line",
+                            "elementType": "geometry",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "transit.line",
+                            "elementType": "labels.text",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "transit.station.airport",
+                            "elementType": "geometry",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "transit.station.airport",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "off"}]
+                        }, {
+                            "featureType": "water",
+                            "elementType": "geometry",
+                            "stylers": [{"color": "#FFFFFF"}]
+                        }, {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "off"}]}]
                     },
-                    events : {
-                        drag : function() {
-                            if(myMap === null){
+                    events: {
+                        drag: function () {
+                            if (myMap === null) {
                                 myMap = jQuery("#destination-map").gmap3('get');
                             }
                             if (strictBounds.contains(myMap.getCenter()))
@@ -96,51 +183,36 @@ function initActivitiesMap(){
                     }
                 }
             });
-
-            $("#activity-menu a").each(function (e) {
-                $(this).click(function (s) {
-                    if(myMap === null){
-                        myMap = jQuery("#destination-map").gmap3('get');
-                    }
-                    myMap.panTo(new google.maps.LatLng(22.01300, -79.26635));
-
-                    $("#activity-menu a").each(function (d) {
-                        $(this).removeClass("activate");
-                    });
-                    jQuery(this).addClass("activate");
-                    s.preventDefault();
-                    var activity = activities[$(this).attr("href")];
-                    //paintOwnership(activity);
-                    addMarkers(activity);
-                })
-            });
-
-            var activity = activities[jQuery("#activity-menu a.activate").attr("href")];
-            addMarkers(activity);
         }
     }
 }
-function paintOwnership(activity){
-    var i=0;
-    var total_item_show=6;
-    var prov_array=new Array();
-    var url="";
-        for (var destination in activity.destinations) {
-            url=activity.destinations[destination].url;
-            if(i<=total_item_show)
-                prov_array.push(activity.destinations[destination].prov_id);
-            i++;
-        }
-        $.post(url, {
-            'prov_array': prov_array
-        }, function(data) {
+function paintOwnership(activity) {
+    var i = 0;
+    var total_item_show = 6;
+    var prov_array = new Array();
 
-        });
+    jQuery("#ownership-of-map").empty();
+    jQuery("#ownership-of-map").append(jQuery("#loader-ownership-map").html());
+
+    var url = url_load_ownership_map;
+    for (var destination in activity.destinations) {
+        url = activity.destinations[destination].url;
+        if (i <= total_item_show)
+            prov_array.push(activity.destinations[destination].prov_id);
+        i++;
+    }
+    $("#ownership-of-map").load(url, {'prov_array': prov_array}, function (s) {
+        if ($('.bttrlazyloading').length > 0){
+            $('.bttrlazyloading').each(function () {
+                $("#"+$(this).attr("id")).bttrlazyloading();
+            });
+        }
+    });
 
 }
-function addMarkers(activity){
+function addMarkers(activity) {
 
-    var clear = {name:"marker"};
+    var clear = {name: "marker"};
     var act_icon = activity.icons;
 
     jQuery("#destination-map").gmap3(
@@ -150,33 +222,33 @@ function addMarkers(activity){
     );
 
     /*jQuery("#destination-map").gmap3(
-        {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
-    );*/
+     {action: 'setCenter', args:[ new google.maps.LatLng(22.01300, -79.26635) ]}
+     );*/
     //removeMarkers(dmarkers);
 
     for (var destination in activity.destinations) {
 
         jQuery("#destination-map").gmap3({
-            marker:{
+            marker: {
                 latLng: activity.destinations[destination].location,
-                data   : activity.destinations[destination].html,
-                options:{
+                data: activity.destinations[destination].html,
+                options: {
                     title: activity.destinations[destination].name,
                     icon: act_icon
                 },
-                events : {
-                    click : function(marker, event, context) {
+                events: {
+                    click: function (marker, event, context) {
                         var map = jQuery(this).gmap3("get"),
-                            infowindow = jQuery(this).gmap3({get:{name:"infowindow"}});
+                            infowindow = jQuery(this).gmap3({get: {name: "infowindow"}});
 
-                        if (infowindow){
+                        if (infowindow) {
                             infowindow.open(map, marker);
-                            infowindow.setContent('<div class="infoWindow">'+context.data+'</div>');
+                            infowindow.setContent('<div class="infoWindow">' + context.data + '</div>');
                         } else {
                             jQuery(this).gmap3({
-                                infowindow:{
-                                    anchor:marker,
-                                    options:{content: context.data}
+                                infowindow: {
+                                    anchor: marker,
+                                    options: {content: context.data}
                                 }
                             });
                         }
@@ -186,11 +258,13 @@ function addMarkers(activity){
         });
     }
 
+    paintOwnership(activity);
+
 }
 
-function startTypeHead(){
+function startTypeHead() {
 
-    if ($('[data-provide="typeahead"]').length > 0){
+    if ($('[data-provide="typeahead"]').length > 0) {
         $.get(url_autocomplete, function (result) {
             $('#input_text').typeahead({
                     hint: true,
@@ -207,7 +281,7 @@ function startTypeHead(){
 
 }
 
-var substringMatcher = function(strs) {
+var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
         var matches, substringRegex;
 
@@ -219,7 +293,7 @@ var substringMatcher = function(strs) {
 
         // iterate through the pool of strings and for any string that
         // contains the substring `q`, add it to the `matches` array
-        $.each(strs, function(i, str) {
+        $.each(strs, function (i, str) {
             if (substrRegex.test(str)) {
                 matches.push(str);
             }
@@ -229,26 +303,25 @@ var substringMatcher = function(strs) {
     };
 };
 
-function reservations(){
-    $('a.combo_genders_elements').click(function(){
-        var item_value=$(this).attr('data-value');
+function reservations() {
+    $('a.combo_genders_elements').click(function () {
+        var item_value = $(this).attr('data-value');
         $('#user_tourist_gender').val(item_value);
     });
 
-    $('ul.combo_nationality_items a.option').click(function(){
-        var item_value=$(this).attr('data-value');
+    $('ul.combo_nationality_items a.option').click(function () {
+        var item_value = $(this).attr('data-value');
         $('#user_tourist_nationality').val(item_value);
     });
 
-    $('ul.combo_hours_elements a.option').click(function(){
-        var item_value=$(this).attr('data-value');
+    $('ul.combo_hours_elements a.option').click(function () {
+        var item_value = $(this).attr('data-value');
         $('#reservation_hour').val(item_value);
     });
 }
 
-function change_faq()
-{
-    $('#faq_categories li').click(function() {
+function change_faq() {
+    $('#faq_categories li').click(function () {
         $('#faq_categories li').removeClass("active");
         $(this).addClass("active");
         var category_id = $(this).attr('data-value');
@@ -260,7 +333,7 @@ function change_faq()
         show_loading();
         $.post(url, {
             'category_id': category_id
-        }, function(data) {
+        }, function (data) {
             result.html(data);
             hide_loading();
         });
@@ -268,9 +341,8 @@ function change_faq()
     });
 }
 
-function language_change()
-{
-    $(".language_link").click(function() {
+function language_change() {
+    $(".language_link").click(function () {
         var url = $(this).attr('data-url');
         var refresh_url = $(this).attr('data-refresh-url');
         var new_lang_code = $(this).attr('data-new-lang-code');
@@ -282,15 +354,14 @@ function language_change()
                 'lang_name': $(this).attr('data-lang-name'),
                 'lang_id': $(this).attr('data-lang-id')
             }
-            , function(data) {
+            , function (data) {
                 window.location = refresh_url.replace("/" + current_lang_code + "/", "/" + new_lang_code + "/");
             });
     });
 }
 
-function currency_change()
-{
-    $(".currency_link").click(function() {
+function currency_change() {
+    $(".currency_link").click(function () {
         var url = $(this).attr('data-url');
         var refresh_url = $(this).attr('data-refresh-url');
         $.post(url,
@@ -298,20 +369,19 @@ function currency_change()
                 'curr_id': $(this).attr('data-currency-id'),
                 'refresh_url': $(this).attr('data-refresh-url')
             }
-            , function(data) {
+            , function (data) {
                 window.location = refresh_url;
             });
     });
 }
 
-function manage_favorities(favorite_class)
-{
+function manage_favorities(favorite_class) {
 
-    $(favorite_class).click(function(e) {
-        var temp=$('#count-fav').text();
-        if($(this).hasClass('favorite_on_action'))
+    $(favorite_class).click(function (e) {
+        var temp = $('#count-fav').text();
+        if ($(this).hasClass('favorite_on_action'))
             temp--;
-        if($(this).hasClass('favorite_off_action'))
+        if ($(this).hasClass('favorite_off_action'))
             temp++;
 
         $('#count-fav').text(temp);
@@ -331,7 +401,7 @@ function manage_favorities(favorite_class)
                 'list_preffix': list_preffix,
                 'include_text': include_text
             }
-            , function(data) {
+            , function (data) {
                 $("." + result_id).html(data);
 
                 manage_favorities("#fav_" + element_id);
@@ -341,12 +411,11 @@ function manage_favorities(favorite_class)
 }
 
 
-function details_favorites(favorite_button)
-{
-    $(favorite_button).click(function() {
+function details_favorites(favorite_button) {
+    $(favorite_button).click(function () {
 
-        var temp=$('#count-fav').text();
-        if(favorite_button=='#delete_from_favorites')
+        var temp = $('#count-fav').text();
+        if (favorite_button == '#delete_from_favorites')
             temp--;
         else
             temp++;
@@ -361,7 +430,7 @@ function details_favorites(favorite_button)
                 'favorite_type': favorite_type,
                 'element_id': element_id
             }
-            , function(data) {
+            , function (data) {
                 $(".favorites_details").html(data);
 
                 details_favorites("#delete_from_favorites");
@@ -370,10 +439,9 @@ function details_favorites(favorite_button)
     });
 }
 
-function delete_from_list_favorites()
-{
-    $(".delete_from_favorite_list").click(function() {
-        var temp=$('#count-fav').text();
+function delete_from_list_favorites() {
+    $(".delete_from_favorite_list").click(function () {
+        var temp = $('#count-fav').text();
         temp--;
         $('#count-fav').text(temp);
         $('#count-fav').html(temp);
@@ -387,7 +455,7 @@ function delete_from_list_favorites()
             {
                 'favorite_type': favorite_type,
                 'element_id': element_id
-            }, function(data) {
+            }, function (data) {
                 update_statistics(favorite_type, url_statistics);
                 if (favorite_type == "ownership" || favorite_type == "ownershipfav")
                     $("#div_result").html(data);
@@ -400,12 +468,11 @@ function delete_from_list_favorites()
     });
 }
 
-function update_statistics(favorite_type, url)
-{
+function update_statistics(favorite_type, url) {
     $.post(url,
         {
             'favorite_type': favorite_type
-        }, function(data) {
+        }, function (data) {
             if (favorite_type == "ownership")
                 $("#total_fav_own").html(data);
             else if (favorite_type == "destination")
@@ -413,13 +480,11 @@ function update_statistics(favorite_type, url)
         });
 }
 
-function show_loading()
-{
+function show_loading() {
     $('#loading').removeClass('hidden');
 }
 
-function hide_loading()
-{
+function hide_loading() {
     $('#loading').addClass('hidden');
 }
 
@@ -450,7 +515,7 @@ function send2Friend() {
         'name_from': name_from,
         'email_from': email_from,
         'email_to': email_to
-    }, function(data) {
+    }, function (data) {
         $('#name_from').val("");
         $('#email_from').val("");
         $('#name_from').val("");
@@ -460,8 +525,7 @@ function send2Friend() {
     });
 }
 
-function move(id)
-{
+function move(id) {
     var to = $(id);
     var position_to = $(to).offset();
     var distance = position_to.top;

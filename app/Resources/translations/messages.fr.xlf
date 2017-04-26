@@ -156,11 +156,11 @@
             </trans-unit>
             <trans-unit id="39">
                 <source>SLOGAN_1</source>
-                <target>Loger ,</target>
+                <target>Loger </target>
             </trans-unit>
             <trans-unit id="40">
                 <source>SLOGAN_2</source>
-                <target>où Cuba, Cuba est!</target>
+                <target>où Cuba c’est Cuba!</target>
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
@@ -1941,7 +1941,7 @@
             </trans-unit>
             <trans-unit id="491">
                 <source>STAY_WHERE_CUBA_CUBA_IS</source>
-                <target>Loger où Cuba, Cuba est!</target>
+                <target>Loger où Cuba c’est Cuba!</target>
             </trans-unit>
             <trans-unit id="492">
                 <source>NIGHTS</source>
@@ -4157,6 +4157,18 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             <trans-unit id="1041">
                  <source>GO_MYCASATRIP</source>
                  <target>Retour à MyCasaTrip</target>
+            </trans-unit>
+            <trans-unit id="1042">
+                 <source>top.next</source>
+                 <target>Suivant</target>
+            </trans-unit>
+            <trans-unit id="1043">
+                 <source>top.prev</source>
+                 <target>Précédent</target>
+            </trans-unit>
+            <trans-unit id="1044">
+                  <source>top.view.more</source>
+                  <target>Voir plus</target>
             </trans-unit>
         </body>
     </file>

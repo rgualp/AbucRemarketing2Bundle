@@ -64,9 +64,9 @@ class NotificationService extends Controller
         $this->notificationSendConfirmationSms = $notificationSend['confirmation_sms'];
         $this->notificationSendInmediatebookingSms = $notificationSend['inmediatebooking_sms'];
         $this->notificationSendCanceledbookingSms = $notificationSend['canceledbooking_sms'];
-        $this->notificationAgencyCompletePaymentSms = $notificationSend['agency_complete_payment_sms'];
-        $this->notificationAgencyCompletePaymentDepositSms = $notificationSend['agency_complete_payment_deposit_sms'];
-        $this->notificationCommentSms = $notificationSend['comment_own'];
+        $this->notificationAgencyCompletePaymentSms = (array_key_exists('agency_complete_payment_sms',$notificationSend))?$notificationSend['agency_complete_payment_sms']:'';
+        $this->notificationAgencyCompletePaymentDepositSms = (array_key_exists('agency_complete_payment_deposit_sms',$notificationSend))?$notificationSend['agency_complete_payment_deposit_sms']:'';
+        $this->notificationCommentSms = (array_key_exists('comment_own',$notificationSend))?$notificationSend['comment_own']:'';
         $this->container = $container;
     }
 

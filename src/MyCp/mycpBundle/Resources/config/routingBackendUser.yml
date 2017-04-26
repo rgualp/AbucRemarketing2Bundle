@@ -38,8 +38,8 @@ mycp_delete_role:
     defaults: { _controller: mycpBundle:BackendUser:delete_role }
 
 mycp_list_users:
-    pattern:  /list/{items_per_page}/{filter_user_name}/{filter_role}/{filter_city}/{filter_country}/{filter_name}/{filter_last_name}/{filter_email}
-    defaults: { _controller: mycpBundle:BackendUser:list_user, items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:''}
+    pattern:  /list/{items_per_page}/{filter_user_name}/{filter_role}/{filter_city}/{filter_country}/{filter_name}/{filter_last_name}/{filter_email}/{filter_method}/{filter_status}/{filter_creation_date_from}/{filter_creation_date_to}
+    defaults: { _controller: mycpBundle:BackendUser:list_user, items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:'', filter_method:'', filter_status:'', filter_creation_date_from:'', filter_creation_date_to:''}
 
 mycp_delete_user:
     pattern:  /delete/{id_user}

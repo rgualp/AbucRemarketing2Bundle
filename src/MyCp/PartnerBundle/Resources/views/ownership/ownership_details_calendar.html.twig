@@ -1,5 +1,5 @@
-{% set start_date = "now"|date("d/m/Y") %}
-{% set end_date = "+2 days" |date("d/m/Y") %}
+{% set start_date = (app.session.get("partner_arrival_date") != "") ? app.session.get("partner_arrival_date") : "now"|date("d/m/Y") %}
+{% set end_date = (app.session.get("partner_exit_date") != "") ? app.session.get("partner_exit_date") : "+2 days" |date("d/m/Y") %}
 <ul class="price calendar-cont" style="border-top: 0">
     <li class="lead-2">
         <div class="row">

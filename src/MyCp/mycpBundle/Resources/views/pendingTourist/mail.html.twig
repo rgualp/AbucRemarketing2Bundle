@@ -42,6 +42,7 @@
             <b>Fecha del pago:</b> {{ pending_tourist.paymentDate|date("d/m/Y") }}<br/>
             <b>Monto de la devolución en la moneda que pago el cliente:</b> {{ pending_tourist.payAmount }}<br/>
             <b>Motivo de la devolución: {{ pending_tourist.reason }}</b><br/>
+            <b>{{ pasarela }}</b><br/>
         </p>
 
         <p>Para consultar sus dudas, por favor, escr&iacute;banos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas tambi&eacute;n estar&aacute; a su disposici&oacute;n a trav&eacute;s del tel&eacute;fono 78673574</p>

@@ -34,11 +34,13 @@ class provinceRepository extends EntityRepository
     function getMainMenu()
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT DISTINCT p.prov_id, p.prov_name,
+        /*$query_string = "SELECT DISTINCT p.prov_id, p.prov_name,
                         (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_province = p.prov_id AND o.own_status = ".ownershipStatus::STATUS_ACTIVE.") as total_owns
                          FROM mycpBundle:province p
                          ORDER BY total_owns DESC
-                         ";
+                         ";*/
+        $query_string = "SELECT DISTINCT p.prov_id, p.prov_name
+                         FROM mycpBundle:province p";
         return $em->createQuery($query_string)->getResult();
     }
 }

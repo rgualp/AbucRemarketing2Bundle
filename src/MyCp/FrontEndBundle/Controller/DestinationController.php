@@ -5,6 +5,7 @@ namespace MyCp\FrontEndBundle\Controller;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DestinationController extends Controller {
 
@@ -21,7 +22,14 @@ class DestinationController extends Controller {
 
     public function getMapByProvinceAction() {
         $em = $this->getDoctrine()->getManager();
-        $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
+        //$dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
+
+        $query_string = "SELECT dl FROM mycpBundle:destinationLocation dl
+                          JOIN mycpBundle:destination d WITH dl.des_loc_destination = d.des_id
+                         WHERE d.des_active <> 0";
+
+        $dest_location = $em->createQuery($query_string)->getResult();
+
         return $this->render('FrontEndBundle:destination:destinationByProvince.html.twig', array(
             'locations_destinations' => $dest_location
         ));
@@ -441,7 +449,7 @@ class DestinationController extends Controller {
                 $key_act = strtolower($key_act);
                 $data_act = array(
                     "icons" => $this->getRequest()->getSchemeAndHttpHost()."/uploads/destinationImages/icons/".$activity->getDesCatIdCat()->getDesIcon(),
-                    "image" => $activity->getDesCatIdCat()->getDesIconProvMap(),
+                    "image" => $this->getRequest()->getSchemeAndHttpHost()."/uploads/destinationImages/icons/".$activity->getDesCatIdCat()->getDesIconProvMap(),
                     "name" => $activity->getDesCatName(),
                     "description" => $activity->getDesCatDescription(),
                     "destinations" => $prov,
@@ -450,10 +458,12 @@ class DestinationController extends Controller {
             }
         }
 
-        return $this->render('FrontEndBundle:destination:map_with_activities.html.twig', array(
-            'activities' => $list,
-            'json' => json_encode($list)
-        ));
+        return new JsonResponse(array('activities' => $list));
+
+//        return $this->render('FrontEndBundle:destination:map_with_activities.html.twig', array(
+//            'activities' => $list,
+//            'json' => json_encode($list)
+//        ));
     }
 
 }

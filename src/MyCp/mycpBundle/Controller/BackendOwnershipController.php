@@ -494,6 +494,8 @@ class BackendOwnershipController extends Controller {
         $data['confidence'] = $ownership->isConfidence();
         $post['sms_notification'] = $ownership->getOwnSmsNotifications();
         $data['sms_notification'] = $ownership->getOwnSmsNotifications();
+        $post['good_picture'] = $ownership->getGoodPicture();
+        $data['good_picture'] = $ownership->getGoodPicture();
 
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
         $data['status_id'] = $post['status'];
@@ -1230,6 +1232,8 @@ class BackendOwnershipController extends Controller {
         $selected = '';
         if (isset($post['room_audiovisual_' . $id]))
             $selected = $post['room_audiovisual_' . $id];
+
+
         return $this->render('mycpBundle:utils:ownership_audiovisual.html.twig', array('selected' => $selected));
     }
 
