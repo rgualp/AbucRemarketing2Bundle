@@ -282,7 +282,6 @@ filter='?uglifyjs2'
     '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
     '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
     '@FrontEndBundle/Resources/public/js/jquery.bttrlazyloading.min.js'
-    '@FrontEndBundle/Resources/public/js/jquery.lazy.min.js'
     '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.js'
     '@FrontEndBundle/Resources/public/js/typeahead.js'
     '@LayoutBundle/Resources/public/js/bootstrap-submenu.js'
@@ -334,18 +333,18 @@ filter='?uglifyjs2'
                         $("#"+$(this).attr("id")).bttrlazyloading();
                     });
                 }
-                if ($('.lazyContent').length > 0){
-                    $(".lazyContent").Lazy({
-                        threshold: 0,
-                        // custom loaders
-                        activityLoader: function(element) {
-                            initActivitiesMap();
-                        },
-                        toprateLoader: function (element) {
-                            findTopRate(1);
-                        }
-                    });
-                }
+//                if ($('.lazyContent').length > 0){
+//                    $(".lazyContent").Lazy({
+//                        threshold: 0,
+//                        // custom loaders
+//                        activityLoader: function(element) {
+//                            initActivitiesMap();
+//                        },
+//                        toprateLoader: function (element) {
+//
+//                        }
+//                    });
+//                }
 
             });
 
