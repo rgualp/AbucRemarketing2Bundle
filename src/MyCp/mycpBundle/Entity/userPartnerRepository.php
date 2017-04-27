@@ -74,39 +74,36 @@ class userPartnerRepository extends EntityRepository
         $photoSize = $container->getParameter('user.photo.size');
         $em = $this->getEntityManager();
 
-        $user_partner = $em->getRepository('mycpBundle:userPartner')->findBy(array('user_partner_user' => $id_user));
+        $user_partner = $em->getRepository('PartnerBundle:paTourOperator')->findBy(array('tourOperator' => $id_user));
         $user_partner = $user_partner[0];
-        $user_partner->getUserPartnerUser()->setUserName($post['user_name']);
-        $user_partner->getUserPartnerUser()->setUserAddress($post['address']);
-        $user_partner->getUserPartnerUser()->setUserEmail($post['email']);
-        $user_partner->getUserPartnerUser()->setUserUserName($post['user_name']);
-        $user_partner->getUserPartnerUser()->setUserLastName($post['user_name']);
-        $user_partner->getUserPartnerUser()->setUserPhone($post['phone']);
-        $user_partner->getUserPartnerUser()->setUserCity($post['city']);
+        $user_partner->getTourOperator()->setUserName($post['user_name']);
+        $user_partner->getTourOperator()->setUserAddress($post['address']);
+        $user_partner->getTourOperator()->setUserEmail($post['email']);
+        $user_partner->getTourOperator()->setUserUserName($post['user_name']);
+        $user_partner->getTourOperator()->setUserLastName($post['user_name']);
+        $user_partner->getTourOperator()->setUserPhone($post['phone']);
+        $user_partner->getTourOperator()->setUserCity($post['city']);
         $country = $em->getRepository('mycpBundle:country')->find($post['country']);
         $currency = $em->getRepository('mycpBundle:currency')->find($post['currency']);
         $language = $em->getRepository('mycpBundle:lang')->find($post['language']);
-        $user_partner->getUserPartnerUser()->setUserCountry($country);
-        $user_partner->setUserPartnerCurrency($currency);
-        $user_partner->setUserPartnerLanguage($language);
-        $user_partner->setUserPartnerCompanyCode($post['company_code']);
-        $user_partner->setUserPartnerCompanyName($post['company_name']);
-        $user_partner->setUserPartnerContactPerson($post['contact_person']);
+        $user_partner->getTourOperator()->setUserCountry($country);
+        $user_partner->getTourOperator()->setUserCurrency($currency);
+        $user_partner->getTourOperator()->setUserLanguage($language);
 
         if ($post['user_password']['Clave:'] != '') {
-            $encoder = $factory->getEncoder($user_partner->getUserPartnerUser());
-            $password = $encoder->encodePassword($post['user_password']['Clave:'], $user_partner->getUserPartnerUser()->getSalt());
-            $user_partner->getUserPartnerUser()->setUserPassword($password);
+            $encoder = $factory->getEncoder($user_partner->getTourOperator());
+            $password = $encoder->encodePassword($post['user_password']['Clave:'], $user_partner->getTourOperator()->getSalt());
+            $user_partner->getTourOperator()->setUserPassword($password);
         }
         $file = $request->files->get('mycp_mycpbundle_client_partnertype');
         if (isset($file['photo'])) {
-            $photo_user = $user_partner->getUserPartnerUser()->getUserPhoto();
+            $photo_user = $user_partner->getTourOperator()->getUserPhoto();
 
             if ($photo_user != null) {
                 $photo_old = $em->getRepository('mycpBundle:photo')->find($photo_user->getPhoId());
                 if ($photo_old)
                     $em->remove($photo_old);
-                @unlink($dir . $user_partner->getUserPartnerUser()->getUserPhoto()->getPhoName());
+                @unlink($dir . $user_partner->getTourOperator()->getUserPhoto()->getPhoName());
             }
 
             $photo = new photo();
@@ -117,7 +114,7 @@ class userPartnerRepository extends EntityRepository
             Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
-            $user_partner->getUserPartnerUser()->setUserPhoto($photo);
+            $user_partner->getTourOperator()->setUserPhoto($photo);
             $em->persist($photo);
         }
         $em->persist($user_partner);
