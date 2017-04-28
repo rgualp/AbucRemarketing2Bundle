@@ -136,6 +136,7 @@
                     });
                 }
 
+                findTopRate(1);
             });
 
             $('#th-destination-carousel').on('slid.bs.carousel', function () {
@@ -185,6 +186,9 @@
                         $("#"+$(this).attr("id")).bttrlazyloading();
                     });
                 }
+
+                $("[rel='tooltip']").tooltip();
+                $("[data-rel='tooltip']").tooltip();
             });
         }
     </script>

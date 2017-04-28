@@ -152,7 +152,7 @@
     {% for user in users %}
     <tr>
         <td>{{user.getUserUserName}} {{user.getUserLastName}}</td>
-        <td>{{user.getName}}</td>
+        <td>{{user.getName}} {% if user.getName != user.userEmail %}<br/> {{ user.userEmail }}{% endif %}</td>
         <td>{% if user.getUserSubrole.getRoleName is defined %}{{user.getUserSubrole.getRoleName}}{%else%}{{user.getUserRole}}{%endif%}</td>
         <td>{{user.getUserCity}} {% if user.getUserCountry and user.getUserCity %}/{% endif %} {% if user.getUserCountry %}{{user.getUserCountry.getCoName}}{% endif %}</td>
         <td>{% if user.userCreationDate %}{{ user.userCreationDate | date("d/m/Y H:i") }}{% endif %}</td>
