@@ -91,7 +91,7 @@ class commentRepository extends EntityRepository {
         JOIN c.com_user us
         WHERE own.own_mcp_code
         LIKE :filter_ownership";
-        return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr, $filter_date_from, $filter_date_to);
+        return $this->getAllByQueryObject($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr, $filter_date_from, $filter_date_to);
     }
 
     function getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
@@ -193,6 +193,83 @@ class commentRepository extends EntityRepository {
 
         return $query->getResult();
     }
+
+    function getAllByQueryObject($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr, $filter_date_from = "", $filter_date_to = "") {
+        $string = '';
+        if ($filter_user != 'null' && $filter_user != '') {
+            $string = "AND c.com_user = :filter_user";
+        }
+
+        $string2 = '';
+        if ($filter_keyword != 'null' && $filter_keyword != '') {
+            $string2 = "AND c.com_comments LIKE :filter_keyword";
+        }
+        $string3 = '';
+        if ($filter_rate != 'null' && $filter_rate != '') {
+            $string3 = "AND c.com_rate = :filter_rate";
+        }
+        $stringDateFrom = '';
+        if ($filter_date_from != 'null' && $filter_date_from != '') {
+            $stringDateFrom = "AND c.com_date >= :filter_date_from";
+        }
+        $stringDateTo = '';
+        if ($filter_date_to != 'null' && $filter_date_to != '') {
+            $stringDateTo = "AND c.com_date <= :filter_date_to";
+        }
+
+
+        $string4 = '';
+        switch ($sort_by) {
+            case OrderByHelper::COMMENT_ACCOMMODATION_CODE_ASC:
+                $string4 = "ORDER BY own.own_mcp_code ASC, c.com_date DESC";
+                break;
+
+            case OrderByHelper::COMMENT_ACCOMMODATION_CODE_DESC:
+                $string4 = "ORDER BY own.own_mcp_code DESC, c.com_date DESC";
+                break;
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::COMMENT_DATE:
+                $string4 = "ORDER BY c.com_date DESC";
+                break;
+            case OrderByHelper::COMMENT_RATING:
+                $string4 = "ORDER BY c.com_rate DESC, c.com_date DESC";
+                break;
+            case OrderByHelper::COMMENT_USER_NAME_ASC:
+                $string4 = "ORDER BY us.user_name ASC, c.com_date DESC";
+                break;
+            case OrderByHelper::COMMENT_USER_NAME_DESC:
+                $string4 = "ORDER BY us.user_name DESC, c.com_date DESC";
+                break;
+        }
+
+        $queryStr = $queryStr . " " . $string . " " . $string2 . " " . $string3 . " " . $stringDateFrom . " " . $stringDateTo . " " . $string4;
+        $em = $this->getEntityManager();
+        $query = $em->createQuery($queryStr);
+
+        if ($filter_user != 'null' && $filter_user != '')
+            $query->setParameter('filter_user', $filter_user);
+
+        if ($filter_keyword != 'null' && $filter_keyword != '')
+            $query->setParameter('filter_keyword', "%" . $filter_keyword . "%");
+
+        if ($filter_rate != 'null' && $filter_rate != '')
+            $query->setParameter('filter_rate', $filter_rate);
+
+        if ($filter_date_from != 'null' && $filter_date_from != '') {
+            $query->setParameter('filter_date_from', $filter_date_from);
+        }
+        if ($filter_date_to != 'null' && $filter_date_to != '') {
+            $query->setParameter('filter_date_to', $filter_date_to);
+        }
+
+        if ($user_casa_id != -1)
+            $query->setParameter("user_casa_id", $user_casa_id);
+
+        $query->setParameter('filter_ownership', "%" . $filter_ownership . "%");
+
+        return $query;
+    }
+
 
     function canComment($user, $own_id) {
 
