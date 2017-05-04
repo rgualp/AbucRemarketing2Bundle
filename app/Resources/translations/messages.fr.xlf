@@ -4170,6 +4170,34 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                   <source>top.view.more</source>
                   <target>Voir plus</target>
             </trans-unit>
+
+            <trans-unit id="4777">
+              <source>PUBLICATION_DETAIL</source>
+              <target>Impressum</target>
+            </trans-unit>
+            <trans-unit id="4778">
+              <source>PUBLICATION_DETAIL_T</source>
+              <target>PostFinance SA est un prestataire de servicesfinanciersqui a le vent en poupe. C'est une des filiales de La Poste Suisse SA, dont elle constituel'une des premièressources de recettes. Numéro un en Suisse des services de paiement et des servicesfinanciersélectroniques, PostFinance SA propose, dans les domaines du paiement, de l'épargne, du placement, de la prévoyance et du financement, une gammecomplète de prestationsfinancièresinnovantes, destinéesaussi bien auxparticuliersqu'auxentreprises.</target>
+            </trans-unit>
+            <trans-unit id="4779">
+              <source>PUBLICATION_DETAIL_1</source>
+              <target>Contact</target>
+            </trans-unit>
+            <trans-unit id="4780">
+              <source>PUBLICATION_DETAIL_2</source>
+              <target>
+                                            <![CDATA[
+                                            PostFinance SA </br>
+                                            Contact Center </br>
+                                            Mingerstrasse 20 </br>
+                                            3030 Berne </br>
+                                            Téléphone: +41 848 888 700 (en Suisse CHF 0.08/min. aumax.) </br>
+                                            Envoyer un e-mail à PostFinance </br>
+                                            Numérod’identificationd'entreprise (IDE): </br>
+                                            CHE-114.583.749 </br>
+                                            ]]>
+                                            </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

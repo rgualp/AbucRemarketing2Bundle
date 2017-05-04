@@ -6,6 +6,10 @@ frontend_reservation_reservation:
     locales:  { en: "/user/reservation/", es: "/usuario/reservacion/", de: "/user/reservation/", fr: "/user/reservation/", it: "/user/reservation/" }
     defaults: { _controller: FrontEndBundle:Reservation:reservation }
 
+frontend_publication_details:
+    locales:  { en: "/user/publication/detail/", es: "/usuario/detalle/publicacion/", de: "/user/impressum/", fr: "/user/publication/detail", it: "/user/publication/detail" }
+    defaults: { _controller: FrontEndBundle:Reservation:publication }
+
 frontend_confirmation_reservation:
     locales:  { en: "/user/payment/{id_booking}/", es: "/usuario/pago/{id_booking}/", de: "/user/payment/{id_booking}/", fr: "/user/payment/{id_booking}/", it: "/user/payment/{id_booking}/" }
     defaults: { _controller: FrontEndBundle:Reservation:confirmation }

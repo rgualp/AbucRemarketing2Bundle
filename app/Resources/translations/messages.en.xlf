@@ -4106,6 +4106,36 @@
                   <source>top.view.more</source>
                   <target>View More</target>
             </trans-unit>
+
+
+<trans-unit id="4777">
+                                        <source>PUBLICATION_DETAIL</source>
+                                        <target>Publishing details</target>
+                                    </trans-unit>
+            <trans-unit id="4778">
+                                        <source>PUBLICATION_DETAIL_T</source>
+                                                                    <target>PostFinance Ltd is a successful financial service provider and a high yielding subsidiary of Swiss Post Ltd. PostFinance Ltd is number one for payment transactions in Switzerland and in e-finance, electronic account management. PostFinance Ltd provides an innovative and all encompassing financial service in the sub-markets of payments, savings, investments, pensions and financing for both private and business customers.</target>
+                                    </trans-unit>
+            <trans-unit id="4779">
+                            <source>PUBLICATION_DETAIL_1</source>
+                            <target>Contact address</target>
+                        </trans-unit>
+            <trans-unit id="4780">
+                            <source>PUBLICATION_DETAIL_2</source>
+                                            <target>
+                                            <![CDATA[
+                                            PostFinance Ltd <br/>
+                                            Contact Center <br/>
+                                            Mingerstrasse 20 <br/>
+                                            3030 Berne <br/>
+                                            Telephone: +41 848 888 700 (max. CHF 0.08/min. in Switzerland) <br/>
+                                            E-mail PostFinance <br/>
+                                            Company identification number (UID): <br/>
+                                            CHE-114.583.749 <br/>
+                                            ]]>
+                                            </target>
+                        </trans-unit>
+
         </body>
     </file>
 </xliff>

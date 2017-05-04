@@ -431,6 +431,12 @@ class ReservationController extends Controller {
 
     }
 
+    public function publicationAction(Request $request){
+        $sss = 2;
+        $dfgdfg = 4;
+        return $this->render('FrontEndBundle:reservation:publication.html.twig', array());
+    }
+
     public function removeReservationAction($idReservation, Request $request) {
         $session = $request->getSession();
         $array_ids = $session->get('reservation_own_ids');
