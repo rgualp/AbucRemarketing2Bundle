@@ -4120,6 +4120,36 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                   <source>top.view.more</source>
                   <target>Siehe Mehr</target>
             </trans-unit>
+
+
+            <trans-unit id="4777">
+                                        <source>PUBLICATION_DETAIL</source>
+                                        <target>Impressum</target>
+                                    </trans-unit>
+            <trans-unit id="4778">
+                                        <source>PUBLICATION_DETAIL_T</source>
+                                                                    <target>Die PostFinance AG isteineerfolgreicheFinanzdienstleisterinundeineertragsstarkeTochtergesellschaft der Schweizerischen Post AG. Die PostFinance AG ist die NummereinsimschweizerischenZahlungsverkehrundim E-Finance, der elektronischenKontobewirtschaftung. PostFinanceerbringtfürPrivat- und Geschäftskunden innovative, umfassendeFinanzdienstleistungen in den TeilmärktenZahlen, Sparen, Anlegen, Vorsorgen und Finanzieren.</target>
+                                    </trans-unit>
+            <trans-unit id="4779">
+                            <source>PUBLICATION_DETAIL_1</source>
+                            <target>Kontaktadresse</target>
+                        </trans-unit>
+<trans-unit id="4780">
+                            <source>PUBLICATION_DETAIL_2</source>
+                                            <target>
+                                            <![CDATA[
+                                            PostFinance AG <br/>
+                                            Kontaktcenter <br/>
+                                            Mingerstrasse 20 <br/>
+                                            3030 Bern <br/>
+                                            Telefon: +41 848 888 700 (im Inland max. CHF 0.08/Min.) <br/>
+                                            E-Mail anPostFinance <br/>
+                                            Firmenidentifikationsnummer (UID): <br/>
+                                            CHE-114.583.749 <br/>
+                                            ]]>
+                                            </target>
+                        </trans-unit>
+
     </body>
     </file>
 </xliff>

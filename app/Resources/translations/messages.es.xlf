@@ -4095,6 +4095,37 @@
                   <source>top.view.more</source>
                   <target>Ver Más</target>
             </trans-unit>
+
+
+<trans-unit id="4777">
+                            <source>PUBLICATION_DETAIL</source>
+                            <target>Detalles de la publicación</target>
+                        </trans-unit>
+
+             <trans-unit id="4778">
+                            <source>PUBLICATION_DETAIL_T</source>
+                                                        <target>PostFinanceLtd es un exitoso proveedor de servicios financieros y una filial de alto rendimiento de Swiss Post Ltd. PostFinanceLtd es el número uno para las transacciones de pago en Suiza y en e-finance, la gestión de cuentas electrónicas. PostFinanceLtd ofrece un servicio financiero innovador y abarcador en los submercados de pagos, ahorros, inversiones, pensiones y financiación para clientes privados y empresariales.</target>
+                        </trans-unit>
+            <trans-unit id="4779">
+                            <source>PUBLICATION_DETAIL_1</source>
+                            <target>Dirección de contacto</target>
+                        </trans-unit>
+            <trans-unit id="4780">
+                            <source>PUBLICATION_DETAIL_2</source>
+                                            <target>
+                                            <![CDATA[
+                                            PostFinanceLtd </br>
+                                            Centro de contacto <br/>
+                                            Mingerstrasse 20 <br/>
+                                            3030 Berna <br/>
+                                            Teléfono: +41 848 888 700 (máximo CHF 0,08 / min en Suiza) <br/>
+                                            Correo electrónico PostFinance <br/>
+                                            Número de identificación de la empresa (UID): <br/>
+                                            CHE - 114.583.749 <br/>
+                                            ]]>
+                                            </target>
+                        </trans-unit>
+
         </body>
     </file>
 </xliff>
