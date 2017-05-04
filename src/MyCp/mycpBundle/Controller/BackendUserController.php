@@ -422,23 +422,25 @@ class BackendUserController extends Controller {
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog($userPartner->getUserPartnerUser()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
+                $service_log->saveLog($userPartner->getTourOperator()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
-            $user_partner = $em->getRepository('mycpBundle:userPartner')->findBy(array('user_partner_user' => $id_user));
+            $user_partner = $em->getRepository('PartnerBundle:paTourOperator')->findBy(array('tourOperator' => $id_user));
+
+
             $user_partner = $user_partner[0];
-            $data_user['user_name'] = $user_partner->getUserPartnerUser()->getName();
-            $data_user['address'] = $user_partner->getUserPartnerUser()->getUserAddress();
-            $data_user['email'] = $user_partner->getUserPartnerUser()->getUserEmail();
-            $data_user['company_name'] = $user_partner->getUserPartnerCompanyName();
-            $data_user['company_code'] = $user_partner->getUserPartnerCompanyCode();
-            $data_user['contact_person'] = $user_partner->getUserPartnerContactPerson();
-            $data_user['phone'] = $user_partner->getUserPartnerUser()->getUserPhone();
-            $data_user['city'] = $user_partner->getUserPartnerUser()->getUserCity();
-            $data_user['country'] = $user_partner->getUserPartnerUser()->getUserCountry()->getCoId();
-            $data_user['currency'] = $user_partner->getUserPartnerCurrency()->getCurrId();
-            $data_user['language'] = $user_partner->getUserPartnerLanguage()->getLangId();
+            $data_user['user_name'] = $user_partner->getTourOperator()->getName();
+            $data_user['address'] = $user_partner->getTourOperator()->getUserAddress();
+            $data_user['email'] = $user_partner->getTourOperator()->getUserEmail();
+            $data_user['company_name'] = "";//$user_partner->getUserPartnerCompanyName();
+            $data_user['company_code'] = "";//$user_partner->getUserPartnerCompanyCode();
+            $data_user['contact_person'] = "";//$user_partner->getUserPartnerContactPerson();
+            $data_user['phone'] = $user_partner->getTourOperator()->getUserPhone();
+            $data_user['city'] = $user_partner->getTourOperator()->getUserCity();
+            $data_user['country'] = $user_partner->getTourOperator()->getUserCountry()->getCoId();
+            $data_user['currency'] = $user_partner->getTourOperator()->getUserCurrency()->getCurrId();
+            $data_user['language'] = $user_partner->getTourOperator()->getUserLanguage()->getLangId();
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserPartner.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user));

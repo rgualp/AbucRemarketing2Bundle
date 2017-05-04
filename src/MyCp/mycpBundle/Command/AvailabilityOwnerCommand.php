@@ -159,7 +159,19 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
         foreach ($canceledBookings as $cancelBooking) {
             $bookingService = $container->get('front_end.services.booking');
             $cancel_date = new \DateTime(date('Y-m-d'));
-            $bookingService->cancelReservations(array($cancelBooking->getData()), 1, $cancel_date->format('Y/m/d'), '', true, true);
+
+            $cancelationData = $cancelBooking->getData();
+            $cancelationDataExplode = explode('-', $cancelationData);
+            $reservation = null;
+            $reason = "";
+            if(count($cancelationDataExplode) > 1){
+                $reservation = $cancelationDataExplode[0] * 1;
+            }
+            if(count($cancelationDataExplode) > 2){
+                $reason = $cancelationDataExplode[1];
+            }
+
+            $bookingService->cancelReservations(array($reservation), 1, $cancel_date->format('Y/m/d'), $reason, false, true);
 
             $cancelBooking->setStatus(taskRenta::STATUS_EXECUTED);
             $em->persist($cancelBooking);

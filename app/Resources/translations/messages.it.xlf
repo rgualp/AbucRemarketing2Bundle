@@ -4157,6 +4157,33 @@
                  <source>top.view.more</source>
                  <target>Vedi più</target>
             </trans-unit>
+
+            <trans-unit id="4777">
+              <source>PUBLICATION_DETAIL</source>
+              <target>Impressum</target>
+            </trans-unit>
+            <trans-unit id="4778">
+              <source>PUBLICATION_DETAIL_T</source>
+              <target>PostFinance SA è un operatoreaffermato di servizifinanziarinonché una redditiziasocietàaffiliatadella Posta Svizzera SA. PostFinance SA è al primo posto in Svizzera per iltrafficodeipagamenti e per e-finance, il sistema di gestione elettronica del conto. Per quantoconcernepagamenti, risparmi, investimenti, previdenza e finanziamenti, PostFinance SA offreserviziglobali e innovativisia per clientiprivatisia per clienticommerciali.</target>
+            </trans-unit>
+            <trans-unit id="4779">
+              <source>PUBLICATION_DETAIL_1</source>
+              <target>Contatto</target>
+            </trans-unit>
+            <trans-unit id="4780">
+              <source>PUBLICATION_DETAIL_2</source>
+              <target>
+                                            <![CDATA[
+                                            PostFinance SA </br>
+                                            Mingerstrasse 20 </br>
+                                            3030 Berna </br>
+                                            Telefono: +41 848 888 700 (in Svizzeramax CHF 0.08/min.) </br>
+                                            Inviareuna e-mail a PostFinance </br>
+                                            Numero di identificazionedelladitta (IDI): </br>
+                                            CHE-114.583.749 </br>
+                                            ]]>
+                                            </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

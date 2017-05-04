@@ -6,10 +6,10 @@
 {#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
 
 {% block big_banner %}
-    <div id="full-width-slider" style="min-height: 400px; background-color: #cfd9f1		 ">
+    <div id="full-width-slider" style="background-color: #cfd9f1; min-height: 600px">
 
     </div>
-    <div id="banner-msg-cont" style="display: none">
+    <div id="banner-msg-cont">
         <div id="banner-msg">
             <h1 class="caecilia-roman">{{ "SLOGAN_1" | trans }}<br> {{ "SLOGAN_2" | trans }}</h1>
             <h2>{{ "SLOGAN_3" | trans }}</h2>
@@ -22,18 +22,9 @@
 {% block body %}
 
     <div class="container">
-        {#<h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>#}
         <h2 class="text-center caecilia-roman h-grey h-size-2">{{ "HOMEPAGE_SUBTITLE_2" | trans }}</h2>
 
-        {#<div id="top_rated_placeholder" data-url="{{ path('frontend_top_rated_callback_ownership') }}"#}
-        {#data-url-change-category="{{ path('frontend_top_rated_change_category_callback_ownership') }}">#}
-        {#{{ include('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,#}
-        {#'premium_total': premium_total,#}
-        {#'midrange_total': midrange_total,#}
-        {#'economic_total': economic_total}) }}#}
-        {#</div>#}
-
-        <div class="row">
+        <div class="lazyContent row" data-loader="toprateLoader">
             {{ include('FrontEndBundle:ownership:newHomeTopRatedOwnership.html.twig') }}
         </div>
 
@@ -43,7 +34,6 @@
         </div>
         <p>{{ "HOMEPAGE_TEXT" | trans }}</p>
     </div>
-    {#{{ render(controller('FrontEndBundle:Public:portafolio')) }}#}
     <div class="container">
         {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
     </div>
@@ -53,8 +43,7 @@
                                             style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "PLACE_IN_CUBA_TO_VISIT" | trans }}</label>
             </div>
         </div>
-        <div>
-            {#{{ render(controller('FrontEndBundle:Destination:getDestinationsByActivitiesForMap')) }}#}
+        <div class="lazyContent" data-loader="activityLoader">
             {{ include('FrontEndBundle:destination:map_with_activities.html.twig') }}
         </div>
     </div>
@@ -66,13 +55,10 @@
         var frontend_public_load_slide = "{{ path("frontend_public_load_slide") }}";
 
         function initJSTwig() {
-
-
-            var rsheight = jQuery(window).height() - (jQuery(".marquesina").height() + jQuery("#top-menu").height() + 67);
-            console.log(rsheight);
             $("#full-width-slider").load(frontend_public_load_slide, [], function (e) {
 
                 if (jQuery(".revolution-slider").length > 0){
+                    jQuery("#banner-msg-cont").hide();
                     // Revolution slider
                     if (jQuery().revolution) {
                         jQuery('.revolution-slider .banner').revolution({
@@ -141,6 +127,7 @@
                         });
                     }
                 }else{
+                    $("#full-width-slider").css("min-height", "400px");
                     jQuery("#banner-msg-cont").show();
                     jQuery('#camera_wrap_1').camera({
                         thumbnails: false,
@@ -149,6 +136,7 @@
                     });
                 }
 
+                findTopRate(1);
             });
 
             $('#th-destination-carousel').on('slid.bs.carousel', function () {
@@ -165,8 +153,6 @@
                 elem = $('.' + $(this).attr('data'));
                 elem.attr('class', old_class);
             });
-
-            findTopRate(1);
         }
 
         function initNavigationTopRate(){
@@ -200,6 +186,9 @@
                         $("#"+$(this).attr("id")).bttrlazyloading();
                     });
                 }
+
+                $("[rel='tooltip']").tooltip();
+                $("[data-rel='tooltip']").tooltip();
             });
         }
     </script>
