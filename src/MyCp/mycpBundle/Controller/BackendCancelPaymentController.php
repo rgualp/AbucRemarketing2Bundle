@@ -321,7 +321,7 @@ class BackendCancelPaymentController extends Controller {
                     'pasarela'=>$pasarela
 
             ));
-            $emailService->sendEmail(array("reservation@mycasaparticular.com","sarahi_amor@yahoo.com","andy.cabrera08@gmail.com","jose.rafael@hds.li"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
+            $emailService->sendEmail(array("reservation@mycasaparticular.com","yander@hds.li","sarahi_amor@yahoo.com","andy.cabrera08@gmail.com","jose.rafael@hds.li"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
             //$emailService->sendEmail(array("damian.flores@mycasaparticular.com","andy.cabrera08@gmail.com"),"Pago Pendiente a Turista:",$body,"no-reply@mycasaparticular.com");
 
         }
