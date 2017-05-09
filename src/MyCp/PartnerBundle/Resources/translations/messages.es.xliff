@@ -656,7 +656,7 @@
       </trans-unit>
       <trans-unit id="f8f20a78ef548299ecf5ccbadfa7e0d1e88af228" resname="Terminos Legales">
         <source>Terminos Legales</source>
-        <target state="new">Términos Legales</target>
+        <target state="new">Términos Legales y Condiciones de Uso</target>
       </trans-unit>
       <trans-unit id="599e48d14063bd506a8a34fc8565bbdc4b89f715" resname="Tipo de Baño">
         <source>Tipo de Baño</source>
@@ -1160,7 +1160,7 @@
       </trans-unit>
       <trans-unit id="7b5e58959ed73e18800e3ad265eb62dbf2fae710" resname="label.check.term2">
         <source>label.check.term2</source>
-        <target state="new">Términos Legales y Políticas de Seguridad</target>
+        <target state="new">Términos Legales y Condiciones de Uso y Políticas de Seguridad</target>
       </trans-unit>
       <trans-unit id="d509de4a38cf564a37c4a9f234a13d2928f21cd3" resname="label.contactus.mcpartner">
         <source>label.contactus.mcpartner</source>
@@ -1749,7 +1749,7 @@
         <target state="new"><![CDATA[<p><strong>TÉRMINOS LEGALES Y CONDICIONES DE USO – MyCasaParticular.com</strong></br>
                             Resulta innegable que Internet se ha transformado en una inmensa fuente de información de acceso universal, que ejerce una importante influencia en la educación y en el ámbito sociocultural; a la vez presenta buenas perspectivas en el ámbito del comercio. Se trata de un importante foro donde se desarrollan numerosas actividades, la mayoría de las cuales son realizadas con fines legítimos y provechosos; pero, obviamente, también se llevan a cabo actividades ilícitas y conductas socialmente no aceptables. </br>
                             Es por ello que las aclaraciones que aparecerán a continuación son referencia obligatoria para el uso adecuado de nuestra plataforma. Al acceder a la plataforma o solicitar cualquiera de nuestros servicios, se declaran nuestros términos y condiciones de uso. Una vez leído y aceptado este documento, Usted estará por consiguiente sujeto a lo suscrito aquí.</br>
-                            Nos reservamos el derecho libre de poder realizar en todo momento cambios y modificaciones en estos Términos Legales. En cada caso, informaremos a todos los usuarios sobre los cambios efectuados en cuanto al uso de nuestro sitio o servicios. Usted deberá aceptar automáticamente estas modificaciones en caso de una nueva inscripción y luego de haberse efectuado cambios en las condiciones generales del contrato.</br>
+                            Nos reservamos el derecho libre de poder realizar en todo momento cambios y modificaciones en estos Términos Legales y Condiciones de Uso. En cada caso, informaremos a todos los usuarios sobre los cambios efectuados en cuanto al uso de nuestro sitio o servicios. Usted deberá aceptar automáticamente estas modificaciones en caso de una nueva inscripción y luego de haberse efectuado cambios en las condiciones generales del contrato.</br>
                             Usted deberá leer cuidadosamente todos los Términos, en orden de entender nuestras condiciones; ya que, este documento constituye aseguramiento legal entre los usuarios y MyCasaParticular.com.</br>
                             Los -usuarios- serán aquellos que se han registrado de una manera u otra, para usar las bondades de nuestra plataforma. Se le llamará de ahora y en lo que resta de documento a los usuarios propietarios de casas de renta, como -anfitriones- y a los usuarios turistas, como -clientes-.</br>
                             MyCasaParticular.com es administrado por ABUC Media Network GmbH (“Sociedad Limitada”) como un servicio dirigido a nuestros usuarios y visitantes. El mismo contiene una colección de recursos Online para el alojamiento en casas particulares (apartamentos para vacaciones y alojamientos privados) en Cuba, así como un servicio de correos electrónicos (denominados “servicios” conjuntos).</br>
@@ -1773,7 +1773,7 @@
                               Si la reserva se cancela por el anfitrión con menos de 7 días de la llegada del  cliente a Cuba, se le devolverá a este último la tarifa de alojamiento(20%) y la tarifa fija(5 cuc).</br>
                               Si la reserva se cancela por el cliente con menos de 7 días antes de su llegada a Cuba, no se efectuará reembolso alguno.</br>
                                 Usos del Sitio</br>
-                                Cualquier uso de la plataforma que no esté dirigido a la consulta, edición e inserción de datos referentes a los objetivos de MyCasaParticular.com, o esté de acuerdo con estos Términos Legales y Condiciones de Uso; está explícitamente prohibido.</br>
+                                Cualquier uso de la plataforma que no esté dirigido a la consulta, edición e inserción de datos referentes a los objetivos de MyCasaParticular.com, o esté de acuerdo con estos Términos Legales y Condiciones de Uso y Condiciones de Uso; está explícitamente prohibido.</br>
                                 Usos no autorizados: Usted acepta que no debe hacer ninguna de las siguientes acciones, a no ser, que esté previamente autorizado por nosotros.</br>
                                 Algún uso comercial que no sea a través de nuestra membresía o suscripción previamente validada.</br>
                                 El uso de las herramientas de nuestra plataforma para rentar o seleccionar algún alojamiento que no esté listado, por alguna circunstancia, bajo una suscripción válida.</br>
@@ -1829,7 +1829,7 @@
                                 Las traducciones dentro del sitio, serán realizadas por el traductor de Google, si surge algún problema de precisión gramatical o lingüística, es responsabilidad del traductor. Para evitar futuros mal entendidos o situaciones, ofrecemos servicios de traducción por profesionales; por lo cuales, podemos ser responsables.</br>
                                 Los mapas están conectados directamente a la aplicación de Google Maps, de surgir alguna duda, puede consultar sus Términos y Condiciones de Uso. (http://www.google.com/intl/en_us/help/terms_maps.html)</br>
                                 Limitaciones de Obligaciones</br>
-                                Si usted no está satisfecho con nuestro sitio, no acepta alguna parte de nuestros Términos Legales y Condiciones de Uso, o pretende hacer alguna reclamación legal contra nosotros o contra alguno de nuestros servicios o condiciones; entonces la acción que debería tomar, sería dejar de usar MyCasaParticular.com.</br>
+                                Si usted no está satisfecho con nuestro sitio, no acepta alguna parte de nuestros Términos Legales y Condiciones de Uso y Condiciones de Uso, o pretende hacer alguna reclamación legal contra nosotros o contra alguno de nuestros servicios o condiciones; entonces la acción que debería tomar, sería dejar de usar MyCasaParticular.com.</br>
                                 Usted debe ser consciente de que las transmisiones hacia y desde nuestro sitio, no son confidenciales y pueden ser leídas por terceros. Usted también acepta que, al publicar su información privada en nuestro sitio, nosotros no podemos hacernos responsables de su seguridad física o prevenir cualquier crimen o acción que le pueda acaecer.</br>
                                 Resultados de Búsqueda</br>
                                 No podemos garantizar que sus ofertas aparezcan en algún orden específico ante los buscadores de Internet; los resultados de búsqueda variarán dependiendo de muchas condiciones y factores. Nos reservamos el derecho de aplicar ciertas técnicas y procedimientos para optimizar los resultados de búsqueda de nuestra plataforma en general, con el objetivo de obtener más visibilidad en Internet.</br>
@@ -1993,7 +1993,7 @@
       </trans-unit>
       <trans-unit id="cf653348d63f83debe0b3eee6efd3af76e2730e2" resname="pa_legal">
         <source>pa_legal</source>
-        <target state="new">Términos Legales</target>
+        <target state="new">Términos Legales y Condiciones de Uso</target>
       </trans-unit>
       <trans-unit id="ea94b54f977e7c441dd74b9e6ae0390c9f762a53" resname="pa_logout">
         <source>pa_logout</source>
@@ -2188,7 +2188,7 @@
       </trans-unit>
       <trans-unit id="4408686dbc1c48e454b5cdc987e06f78b1c227a2" resname="title.page.legal">
         <source>title.page.legal</source>
-        <target state="new">Términos legales</target>
+        <target state="new">Términos Legales y Condiciones de Uso</target>
       </trans-unit>
       <trans-unit id="4441817f4bccf3ff28b7c5af081cfa0820d1bf03" resname="title.page.sitemap">
         <source>title.page.sitemap</source>
