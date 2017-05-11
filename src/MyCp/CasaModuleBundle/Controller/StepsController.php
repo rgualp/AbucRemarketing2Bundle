@@ -191,8 +191,20 @@ class StepsController extends Controller {
                         $ownership_room->setRoomBalcony($room['room_balcony']);
                     $ownership_room->setRoomTerrace((isset($room['room_terrace'])) ? ($room['room_terrace'] == 'on' ? 1 : 0) : 0);
                     $ownership_room->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
+
+                    $aupdateICal = false;
+                    if($ownership_room->getIcal() != $room['ical'] && $room['ical'] != ''){
+                        $aupdateICal = true;
+                    }
+                    $ownership_room->setIcal($room['ical']);
+
                     $em->persist($ownership_room);
                     $em->flush();
+
+                    //if($aupdateICal){
+                        $calendarService = $this->get('mycp.service.calendar');
+                        $calendarService->readICalOfRoom($ownership_room);
+                    //}
 
                     $avgRoomPrice += $ownership_room->getRoomPriceDownTo();
                 }
@@ -217,6 +229,7 @@ class StepsController extends Controller {
                     $obj->setRoomBalcony($room['room_balcony']);
                     $obj->setRoomTerrace((isset($room['room_terrace'])) ? ($room['room_terrace'] == 'on' ? 1 : 0) : 0);
                     $obj->setRoomYard((isset($room['room_yard'])) ? ($room['room_yard'] == 'on' ? 1 : 0) : 0);
+                    $obj->setIcal($room['ical']);
                     $obj->setRoomOwnership($ownership);
                     $em->persist($obj);
                     $em->flush();

@@ -192,10 +192,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                     }
                     */
 
-                    //Update iCal of selected room
-                    $message = $this->updateICal($room);
-
-                    $message = 'Detalle de no disponibilidad añadido satisfactoriamente. ' . $message;
+                    $message = 'Detalle de no disponibilidad añadido satisfactoriamente. ';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));

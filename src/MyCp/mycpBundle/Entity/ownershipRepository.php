@@ -54,6 +54,7 @@ class ownershipRepository extends EntityRepository {
         $confidence = (isset($data['confidence'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
         $goodPicture = (isset($data['goodPicture'])) ? 1 : 0;
+        $withIcal = (isset($data['with_ical'])) ? 1 : 0;
 
         //languages
         $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
@@ -109,6 +110,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnTop20($active_top_20)
             ->setOwnSelection($active_selection)
             ->setOwnNotRecommendable($active_not_recommendable)
+            ->setWithIcal($withIcal)
             ->setOwnCubaCoupon($cubacoupon)
             ->setConfidence($confidence)
             ->setOwnSmsNotifications($smsNotification)
@@ -235,6 +237,7 @@ class ownershipRepository extends EntityRepository {
                 $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
                 //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
                 $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+                $room->setIcal($data['ical_' . $e]);
 
                 if(isset($data['room_price_special_' . $e]))
                     $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
@@ -320,6 +323,7 @@ class ownershipRepository extends EntityRepository {
         $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
         $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
         $confidence = (isset($data['confidence'])) ? 1 : 0;
+        $withIcal = (isset($data['with_ical'])) ? 1 : 0;
         $smsNotification = (isset($data['sms_notification'])) ? 1 : 0;
         $goodPicture = (isset($data['goodPicture'])) ? 1 : 0;
 
@@ -377,6 +381,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnNotRecommendable($active_not_recommendable)
             ->setOwnCubaCoupon($cubacoupon)
             ->setConfidence($confidence)
+            ->setWithIcal($withIcal)
             ->setGoodPicture($goodPicture)
             ->setOwnSmsNotifications($smsNotification);
 
@@ -553,6 +558,7 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+            $room->setIcal($data['ical_' . $e]);
 
             if(isset($data['room_price_special_' . $e]))
                 $room->setRoomPriceSpecial($data['room_price_special_' . $e]);

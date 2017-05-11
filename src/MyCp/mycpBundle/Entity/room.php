@@ -188,6 +188,13 @@ class room {
      */
     private $creation_date;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ical", type="string", nullable=true)
+     */
+    private $ical;
+
     public function __construct() {
         $this->own_unavailability_details = new ArrayCollection();
         $this->room_sync_st = SyncStatuses::ADDED;
@@ -818,4 +825,28 @@ class room {
     }
 
 
+
+    /**
+     * Set ical
+     *
+     * @param string $ical
+     *
+     * @return room
+     */
+    public function setIcal($ical)
+    {
+        $this->ical = $ical;
+
+        return $this;
+    }
+
+    /**
+     * Get ical
+     *
+     * @return string
+     */
+    public function getIcal()
+    {
+        return $this->ical;
+    }
 }

@@ -9,6 +9,7 @@
 namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
+use MyCp\mycpBundle\Entity\room;
 use Symfony\Component\HttpFoundation\Response;
 use Sabre\VObject;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -55,7 +56,12 @@ class CalendarManager{
         }
     }
 
-    public function createICalForRoom($roomId, $roomCode) {
+    public function createICalForRoom($roomId, $roomCode = null) {
+        if($roomCode == null){
+            $room = $this->em->getRepository("mycpBundle:room")->find($roomId);
+            $roomCode = $room->getRoomCode();
+        }
+
         $unavailabilyDetails = $this->em->getRepository("mycpBundle:unavailabilityDetails")->getRoomDetailsForCalendar($roomId);
         $reservations = $this->em->getRepository("mycpBundle:room")->getReservationsForCalendar($roomId);
 
@@ -99,6 +105,47 @@ class CalendarManager{
         $fp = fopen($this->directoryPath . "/".$fileName, "wb");
         fwrite($fp, $content);
         fclose($fp);
+    }
+
+    public function readICalOfRoom(room $room){
+        if(!($room instanceof room)){
+            $room = $this->em->getRepository("mycpBundle:room")->find($room);
+        }
+
+        $ownership = $room->getRoomOwnership();
+        $urlIcal = $room->getIcal();
+        if(!$ownership->getWithIcal() || $urlIcal == null || $urlIcal == ''){
+            return;
+        }
+
+        /*if ( !file_exists($urlIcal) ) {
+            return;
+        }*/
+
+        //fopen('http://mycp.dev/calendars/AR001-1.ics','r')
+        try {
+            $calFile = fopen($urlIcal,'r');
+        } catch (\Exception $exception) {
+            return;
+        }
+
+        if(!$calFile){
+            return;
+        }
+
+        $vcalendar = VObject\Reader::read($calFile);
+
+        $events = $vcalendar->getComponents();
+        $udetailsService = $this->container->get('mycp.udetails.service');
+        foreach ($events as $event) {
+            if($event instanceof VObject\Component\VEvent){
+                $start = $event->DTSTART->getDateTime();
+                $end = $event->DTEND->getDateTime();
+                $sumary = 'ICal-'.$event->SUMMARY->getValue();
+
+                $udetailsService->addUdetailFromICal($room->getRoomId(), $start->format('Y-m-d'), $end->format('Y-m-d'), $sumary);
+            }
+        }
     }
 
 }

@@ -186,6 +186,8 @@ class BookingService extends Controller
             if ($insert == 1) {
                 array_push($commissions, $commission);
             }
+
+            $this->updateICal($own->getOwnResSelectedRoomId());
         }
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
@@ -1545,6 +1547,9 @@ class BookingService extends Controller
                     $reservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
                     $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
                     $this->em->persist($reservation);
+
+                    $this->updateICal($reservation->getOwnResSelectedRoomId());
+
                     $obj->addOwnershipReservation($reservation);
 
                     //Submit email

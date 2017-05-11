@@ -22,9 +22,81 @@ class UDetailsService extends Controller
      */
     private $em;
 
-    public function __construct(ObjectManager $em)
+    protected $container;
+
+    private $conn;
+
+    public function __construct(ObjectManager $em, $container)
     {
         $this->em = $em;
+        $this->container = $container;
+        $this->conn = $em->getConnection();
+    }
+
+    private function addNewUdetail($roomId, $start, $end, $reason){
+        $this->conn->insert('unavailabilitydetails', array('room_id' => $roomId, 'ud_sync_st' => 0, 'ud_from_date' => $start, 'ud_to_date' => $end, 'ud_reason' => $reason));
+        return $this->conn->lastInsertId();
+    }
+
+    private function existUdetails($roomId, $start, $end){
+        /*Verifico la existencia de una q contenga ya este limite de fechas*/
+        $query = "SELECT ud_id FROM unavailabilitydetails WHERE room_id = :room_id AND ud_from_date < :start AND ud_to_date > :end";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue('room_id', $roomId);
+        $stmt->bindValue('start', $start);
+        $stmt->bindValue('end', $end);
+        $stmt->execute();
+        $existOne = $stmt->rowCount() > 0;
+        if($existOne){
+            return true;
+        }
+
+        /*elimino la disponibilidades si caen dentro*/
+        $query = "DELETE FROM unavailabilitydetails WHERE room_id = :room_id AND ud_from_date >= :start AND ud_to_date <= :end";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue('room_id', $roomId);
+        $stmt->bindValue('start', $start);
+        $stmt->bindValue('end', $end);
+        $stmt->execute();
+        $deleteOne = $stmt->rowCount() > 0;
+        if($deleteOne){
+            return false;
+        }
+
+        /*Actualizar la no disponibilidad que el start cae dentro de la no disponibilidad*/
+        $ud_to_date_new = (new \DateTime($start))->modify('-1 day')->format('Y-m-d');
+        $query = "UPDATE unavailabilitydetails SET  ud_to_date = :ud_to_date WHERE room_id = :room_id AND ud_from_date < :start AND ud_to_date >= :start";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue('ud_to_date', $ud_to_date_new);
+        $stmt->bindValue('room_id', $roomId);
+        $stmt->bindValue('start', $start);
+        $stmt->execute();
+        /*$modifOne = $stmt->rowCount() > 0;
+        if($modifOne){
+            $aa = 1;
+        }*/
+
+        /*Actualizar la no disponibilidades que el end cae dentro de la no disponibilidad*/
+        $ud_from_date_new = (new \DateTime($end))->modify('+1 day')->format('Y-m-d');
+        $query = "UPDATE unavailabilitydetails SET ud_from_date = :ud_from_date WHERE room_id = :room_id AND ud_from_date <= :xend AND ud_to_date > :xend";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue('ud_from_date', $ud_from_date_new);
+        $stmt->bindValue('room_id', $roomId);
+        $stmt->bindValue('xend', $end);
+        $stmt->execute();
+        /*$modifOne = $stmt->rowCount() > 0;
+        if($modifOne){
+            $aa = 1;
+        }*/
+
+        return false;
+    }
+
+    public function addUdetailFromICal($roomId, $start, $end, $reason){
+        $existUdetails = $this->existUdetails($roomId, $start, $end);
+        if(!$existUdetails){
+            $this->addNewUdetail($roomId, $start, $end, $reason);
+        }
     }
 
     public function addUDetail($id_room, $date_from, $date_to, $reason)
@@ -48,8 +120,6 @@ class UDetailsService extends Controller
                 $this->em->flush();
             }
         }
-
-
 
         $index = 0;
         $startDate = $date_from;
@@ -107,6 +177,7 @@ class UDetailsService extends Controller
         $unavailabilityDetail["date_range"] = $intervals;
         $this->em->getRepository('mycpBundle:unavailabilityDetails')->addAvailableRoomByRange($unavailabilityDetail, $id_room);
 
+        $this->updateICal($id_room);
     }
 
     public function removeUDetail($id_room, $date_from, $date_to, $reason)
@@ -236,5 +307,16 @@ class UDetailsService extends Controller
 
         $this->em->flush();
 
+        $this->updateICal($id_room);
+    }
+
+    private function updateICal($id_room) {
+        try {
+            $calendarService = $this->container->get('mycp.service.calendar');
+            $calendarService->createICalForRoom($id_room);
+            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
+        } catch (\Exception $e) {
+            return "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage();
+        }
     }
 }

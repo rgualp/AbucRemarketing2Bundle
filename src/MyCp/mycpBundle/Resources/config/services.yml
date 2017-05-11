@@ -100,4 +100,4 @@ services:
 
    mycp.udetails.service:
        class: MyCp\mycpBundle\Service\UDetailsService
-       arguments: [@doctrine.orm.entity_manager]
+       arguments: [@doctrine.orm.entity_manager, @service_container]
