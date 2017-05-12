@@ -89,12 +89,21 @@
                 {{ currSymbol }}
                 <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
             </div>
+            <div  class="text-right">
+                {{ 'AGENCY_COMMISSION'|trans }}
+                : {{ currSymbol }}
+                <span id="agency_commission_one"></span><br/>
+                {% if currSymbol != "CUC" %}
+                    <span id="pay_at_service_cuc" style="font-size: small"></span>
+                {% endif %}
+            </div>
             <hr/>
             <div  class="text-right">
                 {{ 'RESERVATION_TOTAL_PRICE' | trans }}
                 {{ currSymbol }}
                 <span id="total_price"></span>
             </div>
+
         </div>
         <div class="row" style="font-size: 20px; margin-top: 10px">
             <div class="col-sm-6">
