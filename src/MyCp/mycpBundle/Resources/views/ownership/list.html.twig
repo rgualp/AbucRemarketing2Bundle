@@ -270,7 +270,7 @@
                                                 <a class="black-icon" href="{{ path('mycp_list_touristfailures',{'accommodationId':ownership.own_id}) }}" title="Fallos"><i class="fa fa-warning"></i></a>
 
                                                 {% if ownership.withIcal %}
-                                              | <a class="black-icon css-ical" data-id="{{ ownership.own_id }}" data-href="{{ path('mycp_execute_ical_ownership',{'id_ownership':ownership.own_id}) }}" title="Ejecutar actualización desde ICal"><i class="fa fa-calendar-o"></i></a>
+                                              | <a class="black-icon css-ical" data-id="{{ ownership.own_id }}" data-href="{{ path('mycp_execute_ical_ownership',{'id_ownership':ownership.own_id}) }}" title="Ejecutar actualización desde ICal" style="cursor: pointer"><i class="fa fa-calendar-o"></i></a>
                                                 <span id="ical_loading_{{ ownership.own_id }}" class="hidden" title="Importando ICal."><i class="fa fa-refresh fa-spin"></i></span>
                                                 {%endif%}
                                             </td>
@@ -424,6 +424,7 @@
                 success: function (data) {
                     ele.removeClass('hidden');
                     loading.addClass('hidden');
+                    toastr.info('Calendario de ' + data.ownership + ' actualizado con exito.');
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     toastr.error('Ha ocurrido un error');

@@ -1646,7 +1646,8 @@ class BackendOwnershipController extends Controller {
         }
 
         return new JsonResponse([
-            'success' => true
+            'success' => true,
+            'ownership' => $ownership->getOwnMcpCode()
         ]);
     }
 }
