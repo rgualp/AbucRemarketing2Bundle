@@ -93,6 +93,7 @@ function totalPrice(curr,percent, totalNights)
     $("#totalNightsToShow").html(totalNights);
     $("#service_transfer_tax").html(normalize_prices(transferTax));
     $("#agency_commission").html(normalize_prices(agencyCommissionTax));
+    $("#agency_commission_one").html(normalize_prices(agencyCommissionTax));
     $('.calendar-results').css({display: 'block'});
 
     /*if(checkTotalPrice) {
