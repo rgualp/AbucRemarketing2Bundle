@@ -798,6 +798,9 @@ class ownershipRepository extends EntityRepository {
             case FilterHelper::ACCOMMODATION_CONFIDENCE:
                 $condition .= "AND ow.confidence = 1 ";
                 break;
+            case FilterHelper::ACCOMMODATION_WITH_ICAL:
+                $condition .= "AND ow.withIcal = 1 ";
+                break;
         }
 
         if($filter_active != 'null' && $filter_active != '') {
@@ -866,6 +869,7 @@ class ownershipRepository extends EntityRepository {
         ow.own_comment,
         ow.own_id,
         ow.own_cubacoupon,
+        ow.withIcal,
         data.activeRooms as own_rooms_total,
         d.des_name,
         s.status_id,

@@ -58,10 +58,10 @@ class UDetailsService extends Controller
         $stmt->bindValue('start', $start);
         $stmt->bindValue('end', $end);
         $stmt->execute();
-        $deleteOne = $stmt->rowCount() > 0;
+        /*$deleteOne = $stmt->rowCount() > 0;
         if($deleteOne){
             return false;
-        }
+        }*/
 
         /*Actualizar la no disponibilidad que el start cae dentro de la no disponibilidad*/
         $ud_to_date_new = (new \DateTime($start))->modify('-1 day')->format('Y-m-d');

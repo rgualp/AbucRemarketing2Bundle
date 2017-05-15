@@ -73,3 +73,7 @@ mycp_logs_ownership:
 mycp_list_ownerships_hot:
     pattern:  /list_hot/{items_per_page}/{filter_code}/{filter_active}/{filter_category}/{filter_province}/{filter_municipality}/{filter_destination}/{filter_type}/{filter_name}/{filter_saler}/{filter_visit_date}/{filter_other}/{filter_commission}
     defaults: { _controller: mycpBundle:BackendOwnership:list_ownerships_hot, items_per_page: 100,filter_code:'',filter_active:'',filter_category:'',filter_province:'',filter_municipality:'',filter_destination:'',filter_type:'',filter_name:'', filter_saler:'', filter_visit_date:'', filter_other:'', filter_commission:''}
+
+mycp_execute_ical_ownership:
+    pattern:  /ical/{id_ownership}
+    defaults: { _controller: mycpBundle:BackendOwnership:execute_ical }

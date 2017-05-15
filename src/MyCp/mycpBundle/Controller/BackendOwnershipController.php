@@ -8,6 +8,7 @@ use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -1627,5 +1628,25 @@ class BackendOwnershipController extends Controller {
             'filter_start_creation_date'=>$filter_start_creation_date,
             'filter_end_creation_date'=>$filter_end_creation_date
         ));
+    }
+
+    public function execute_icalAction($id_ownership, Request $request) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+
+        $calendarService = $this->get('mycp.service.calendar');
+
+        $rooms = $ownership->getOwnRooms();
+        foreach ( $rooms as $room ) {
+            if($room->getIcal() != '' && $room->getIcal() != null){
+                $calendarService->readICalOfRoom($room);
+            }
+        }
+
+        return new JsonResponse([
+            'success' => true
+        ]);
     }
 }

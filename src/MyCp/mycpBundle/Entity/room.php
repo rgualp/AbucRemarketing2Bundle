@@ -836,6 +836,9 @@ class room {
     public function setIcal($ical)
     {
         $this->ical = $ical;
+        if($this->ical != null && $this->ical != '' && $this->getRoomOwnership() != null){
+            $this->getRoomOwnership()->setWithIcal(true);
+        }
 
         return $this;
     }

@@ -143,11 +143,12 @@ class CalendarManager{
                 $end = $event->DTEND->getDateTime();
                 $sumary = 'ICal-'.$event->SUMMARY->getValue();
 
-                $udetailsService->addUdetailFromICal($room->getRoomId(), $start->format('Y-m-d'), $end->format('Y-m-d'), $sumary);
+                $now = new \DateTime();
+                if($end >= $now){
+                    $udetailsService->addUdetailFromICal($room->getRoomId(), $start->format('Y-m-d'), $end->format('Y-m-d'), $sumary);
+                }
             }
         }
     }
-
 }
-
 ?>
