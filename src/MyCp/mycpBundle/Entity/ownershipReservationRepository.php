@@ -514,11 +514,12 @@ class ownershipReservationRepository extends EntityRepository {
         AND ((ore.own_res_reservation_from_date >= :start AND ore.own_res_reservation_from_date <= :end) OR
              (ore.own_res_reservation_to_date >= :start AND ore.own_res_reservation_to_date <= :end) OR
              (ore.own_res_reservation_from_date <= :start AND ore.own_res_reservation_to_date >= :end))
-        AND  ore.own_res_reservation_from_date <> :end
-        AND  ore.own_res_reservation_to_date <> :start
         AND ore.own_res_selected_room_id = :room_id
         ORDER BY ore.own_res_reservation_from_date ASC");
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('room_id', $roomId)->getResult();
+
+        /*AND  ore.own_res_reservation_from_date <> :end
+        AND  ore.own_res_reservation_to_date <> :start*/
     }
 
     function getOwnReservationsForNightsCounterTotal()
