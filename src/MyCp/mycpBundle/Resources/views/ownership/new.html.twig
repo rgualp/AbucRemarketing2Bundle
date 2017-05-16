@@ -135,7 +135,8 @@
                 <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
                 <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
                 {% if data['edit_ownership'] is defined %}
-                <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
+                    <li class=""><a data-toggle="tab" href="#modality">Modalidad</a></li>
+                    <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
                 {% endif %}
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -709,6 +710,23 @@
     </div>
 </div>
 {% if data['edit_ownership'] is defined %}
+    <div id="modality" class="tab-pane fade">
+        <div class="row-fluid">
+            <div class="span6">
+                <label>Modalidad</label>
+                {% if errors['modality'] is defined %}<label class="error">{{errors['modality']|trim(':')}}</label>{%endif%}
+                <select class="input-block-level" name="modality" id="dllModality">
+                    {{ render(controller('mycpBundle:BackendOwnership:getBookingModality', {'post':post})) }}
+                </select>
+            </div>
+            <div class="span6">
+                <label>Precio</label>
+                <input value="{% if(post['modality_price'] is defined) %}{{post['modality_price']}}{% endif %}" class="input-block-level" type="text" name="modality_price" id="iModality" disabled="disabled" required="true"/>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if data['edit_ownership'] is defined %}
 <div id="comentarios" class="tab-pane fade">
     {% render(controller('mycpBundle:BackendComment:get_comments_by_ownership', {'id_own':data['id_ownership']})) %}
 </div>
@@ -802,6 +820,9 @@
         setSpecialSeasonPrice();
         $('#ownership_destination').change(setSpecialSeasonPrice);
 
+        setModalityPrice();
+        $('#dllModality').change(setModalityPrice);
+
         var activeStatus = {{constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')}};
         $('#status').change(function(){
             selected_val = $('#status').val();
@@ -834,6 +855,21 @@
                 }
                 else
                     $('.special_season_price').attr('disabled', 'disabled');
+            });
+        }
+
+        function setModalityPrice()
+        {
+            $('#dllModality').find("option").each(function(i) {
+                if ($(this).is(":selected") && $(this).attr('data-hasPrice') == 1)
+                {
+                    $('#iModality').removeAttr('disabled');
+                    return false;
+                }
+                else {
+                    $('#iModality').val(0);
+                    $('#iModality').attr('disabled', 'disabled');
+                }
             });
         }
 
