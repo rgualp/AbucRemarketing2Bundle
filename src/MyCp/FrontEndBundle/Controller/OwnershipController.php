@@ -40,9 +40,9 @@ class OwnershipController extends Controller
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
         $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
-        if($dateFrom==$dateTo){
+       /* if($dateFrom==$dateTo){
             $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
-        }
+        }*/
         if (!$owner_id) {
             throw $this->createNotFoundException();
         }
