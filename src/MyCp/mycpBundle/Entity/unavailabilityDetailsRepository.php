@@ -41,9 +41,8 @@ class unavailabilityDetailsRepository extends EntityRepository {
                         JOIN o.room r
                         WHERE o.ud_sync_st<>" . SyncStatuses::DELETED."
                         AND r.room_id = :id_room
-                        AND ((o.ud_from_date >= :start AND o.ud_from_date <= :end) OR
-                             (o.ud_to_date >= :start AND o.ud_to_date <= :end) OR
-                             (o.ud_from_date <= :start AND o.ud_to_date >= :end))
+                        AND ((o.ud_from_date <= :start AND o.ud_to_date >= :start) OR
+                             (o.ud_from_date <= :end AND o.ud_to_date >= :end))
                         ORDER BY o.ud_from_date DESC";
 
         return $em->createQuery($query_string)
