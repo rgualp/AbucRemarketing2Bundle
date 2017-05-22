@@ -216,6 +216,11 @@ class ownership {
     private $notifications;
 
     /**
+     * @ORM\OneToOne(targetEntity="accommodationBookingModality",mappedBy="accommodation")
+     */
+    private $bookingModality;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="own_facilities_breakfast", type="boolean")
@@ -3039,11 +3044,32 @@ class ownership {
 
     /**
      * @param int $goodPicture
+     * @return mixed
      */
     public function setGoodPicture($goodPicture)
     {
         $this->goodPicture = $goodPicture;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBookingModality()
+    {
+        return $this->bookingModality;
+    }
+
+    /**
+     * @param mixed $bookingModality
+     * @return mixed
+     */
+    public function setBookingModality($bookingModality)
+    {
+        $this->bookingModality = $bookingModality;
+        return $this;
+    }
+
+
 
 }

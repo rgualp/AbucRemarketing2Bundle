@@ -16,7 +16,7 @@ class accommodationBookingModality
 {
     /**
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="ownership")
+     * @ORM\OneToOne(targetEntity="ownership", inversedBy="bookingModality")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
     private $accommodation;

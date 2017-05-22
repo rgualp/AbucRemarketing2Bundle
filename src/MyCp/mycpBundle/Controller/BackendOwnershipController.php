@@ -153,8 +153,10 @@ class BackendOwnershipController extends Controller {
         $filter_visit_date = $request->get('filter_visit_date');
         $filter_other = $request->get('filter_other');
         $filter_commission = $request->get('filter_commission');
+        $filter_modality = $request->get("filter_modality");
+
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null' && $filter_other == 'null' && $filter_commission == 'null'
+            $filter_modality == 'null' && $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null' && $filter_other == 'null' && $filter_commission == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -182,7 +184,7 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other, $filter_commission
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other, $filter_commission, false, null, null, $filter_modality
                 ))->getResult();
         /* $data = array();
           foreach ($ownerships as $ownership) {
@@ -209,7 +211,8 @@ class BackendOwnershipController extends Controller {
                     'filter_visit_date' => $filter_visit_date,
                     'filter_destination' => $filter_destination,
                     'filter_other' => $filter_other,
-                    'filter_commission' => $filter_commission
+                    'filter_commission' => $filter_commission,
+                    'filter_modality' => $filter_modality
         ));
     }
 
@@ -450,7 +453,6 @@ class BackendOwnershipController extends Controller {
 
         $post['modality'] = (isset($accommodationBooking)) ? $accommodationBooking->getBookingModality()->getId() : 0;
 
-        dump(isset($accommodationBooking)); die;
         $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));

@@ -790,7 +790,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false, $filter_start_creation_date = null, $filter_end_creation_date = null) {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false, $filter_start_creation_date = null, $filter_end_creation_date = null, $filter_modality = "") {
 
         $condition = '';
 
@@ -871,6 +871,10 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_commission_percent = :filter_commission ";
         }
 
+        if($filter_modality != 'null' && $filter_modality != '') {
+            $condition .= " AND mod.id = :filter_modality ";
+        }
+
         $order_by = 'ow.own_mcp_code ASC';
         if($hot){
             $order_by = ' ow.own_hot_date,ow.own_inmediate_booking_2 DESC, ow.own_inmediate_booking DESC ';
@@ -907,6 +911,8 @@ class ownershipRepository extends EntityRepository {
         JOIN ow.data data
         LEFT JOIN ow.own_destination d
         LEFT JOIN ow.own_status s
+        LEFT JOIN ow.bookingModality ow_mod
+        LEFT JOIN ow_mod.bookingModality mod
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ".$order_by);
 
         if($filter_active != 'null' && $filter_active != '')
@@ -946,6 +952,9 @@ class ownershipRepository extends EntityRepository {
 
         if($filter_commission != 'null' && $filter_commission != '')
             $query->setParameter('filter_commission', $filter_commission);
+
+        if($filter_modality != 'null' && $filter_modality != '')
+            $query->setParameter('filter_modality', $filter_modality);
 
         if(isset($filter_start_creation_date) && isset($filter_end_creation_date)) {
             $query->setParameter('filter_start_creation_date', $filter_start_creation_date);
