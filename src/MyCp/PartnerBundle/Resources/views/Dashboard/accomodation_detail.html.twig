@@ -247,12 +247,12 @@
                                                     <ul class="list-services">
                                                         {%if ownership.ownFacilitiesBreakfast %}
                                                         <li style="width: auto;">
-                                                            <span class="icono-with-check detail-value"><i class="glyphicons tea_kettle"></i> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</span>
+                                                            <span class="icono-with-check detail-value"><i class="glyphicons tea_kettle"></i> {{"BREAKFAST_TAB_DESCRIPTION" | trans}} {{ownership.ownFacilitiesBreakfastPrice}} </span>
                                                         </li>
                                                         {% endif %}
                                                         {%if ownership.ownFacilitiesDinner %}
                                                             <li style="width: auto;">
-                                                                <span class="icono-with-check detail-value"><i class="glyphicons pot"></i> {{"DINNER_TAB_DESCRIPTION" | trans}}</span>
+                                                                <span class="icono-with-check detail-value"><i class="glyphicons pot"></i> {{"DINNER_TAB_DESCRIPTION" | trans}} {{ownership.ownFacilitiesDinnerPriceTo}} </span>
                                                             </li>
                                                         {%endif%}
                                                         {%if ownership.ownDescriptionLaundry %}
@@ -262,7 +262,7 @@
                                                         {%endif%}
                                                         {%if ownership.ownFacilitiesParking %}
                                                             <li style="width: auto;">
-                                                                <span class="icono-with-check detail-value"><i class="glyphicons truck"></i> {{"PARKING_TAB_DESCRIPTION" | trans}}</span>
+                                                                <span class="icono-with-check detail-value"><i class="glyphicons truck"></i> {{"PARKING_TAB_DESCRIPTION" | trans}} {{ownership.ownFacilitiesParkingPrice}} </span>
                                                             </li>
                                                         {%endif%}
                                                     </ul>
