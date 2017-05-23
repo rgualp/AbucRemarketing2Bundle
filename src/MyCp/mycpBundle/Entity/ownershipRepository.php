@@ -2138,7 +2138,8 @@ class ownershipRepository extends EntityRepository {
                         SUM(IF(o.own_langs LIKE '_1__', 1, 0)) as french,
                         SUM(IF(o.own_langs LIKE '__1_', 1, 0)) as german,
                         SUM(IF(o.own_langs LIKE '___1', 1, 0)) as italian,
-                        (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award
+                        (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
+                        (SELECT min(bMod.price) FROM mycpBundle:accommodationBookingModality bMod JOIN bMod.bookingModality mod WHERE bMod.accommodation = o.own_id AND mod.name LIKE '%completa%') as completePrice
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
