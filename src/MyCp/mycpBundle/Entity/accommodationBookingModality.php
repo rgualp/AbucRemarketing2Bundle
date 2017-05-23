@@ -16,15 +16,15 @@ class accommodationBookingModality
 {
     /**
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="ownership",inversedBy="bookingModality")
+     * @ORM\OneToOne(targetEntity="ownership")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
-    private $acommodation;
+    private $accommodation;
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="bookingModality",inversedBy="accommodations")
-     * @ORM\JoinColumn(name="bookingModalit",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="bookingModality")
+     * @ORM\JoinColumn(name="bookingModality",referencedColumnName="id")
      */
     private $bookingModality;
 
@@ -37,18 +37,18 @@ class accommodationBookingModality
     /**
      * @return mixed
      */
-    public function getAcommodation()
+    public function getAccommodation()
     {
-        return $this->acommodation;
+        return $this->accommodation;
     }
 
     /**
-     * @param mixed $acommodation
+     * @param mixed $accommodation
      * @return mixed
      */
-    public function setAcommodation($acommodation)
+    public function setAccommodation($accommodation)
     {
-        $this->acommodation = $acommodation;
+        $this->accommodation = $accommodation;
         return $this;
     }
 
