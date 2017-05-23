@@ -137,6 +137,7 @@ class CalendarManager{
 
         $events = $vcalendar->getComponents();
         $udetailsService = $this->container->get('mycp.udetails.service');
+        $updateIcal = false;
         foreach ($events as $event) {
             if($event instanceof VObject\Component\VEvent){
                 $start = $event->DTSTART->getDateTime();
@@ -146,8 +147,13 @@ class CalendarManager{
                 $now = new \DateTime();
                 if($end >= $now){
                     $udetailsService->addUdetailFromICal($room->getRoomId(), $start->format('Y-m-d'), $end->format('Y-m-d'), $sumary);
+                    $updateIcal = true;
                 }
             }
+        }
+
+        if($updateIcal){
+            $this->createICalForRoom($room->getRoomId());
         }
     }
 }
