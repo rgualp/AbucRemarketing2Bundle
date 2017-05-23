@@ -449,6 +449,8 @@ class BackendOwnershipController extends Controller {
         $post['ownership_destination'] = 0;
 
         $post['modality'] = (isset($accommodationBooking)) ? $accommodationBooking->getBookingModality()->getId() : 0;
+
+        dump(isset($accommodationBooking)); die;
         $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
