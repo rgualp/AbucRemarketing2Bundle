@@ -1075,6 +1075,20 @@ class DashboardController extends Controller
 
         $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
 
+        $curr = $this->getCurr($request);
+
+        if(isset($ownership_array['ownFacilitiesDinner']) && $ownership_array['ownFacilitiesDinner']){
+            $ownership_array['ownFacilitiesDinnerPriceTo'] = ($ownership_array['ownFacilitiesDinnerPriceTo'] * $curr['change']) . ' ' .$curr['code'];
+        }
+
+        if(isset($ownership_array['ownFacilitiesBreakfast']) && $ownership_array['ownFacilitiesBreakfast']){
+            $ownership_array['ownFacilitiesBreakfastPrice'] = ($ownership_array['ownFacilitiesBreakfastPrice'] * $curr['change']) . ' ' . $curr['code'];
+        }
+
+        if(isset($ownership_array['ownFacilitiesParking']) && $ownership_array['ownFacilitiesParking']){
+            $ownership_array['ownFacilitiesParkingPrice'] = ($ownership_array['ownFacilitiesParkingPrice'] * $curr['change']) . ' ' . $curr['code'];
+        }
+
         return $this->render('@Partner/Dashboard/accomodation_detail.html.twig', array(
             'form' => $form->createView(),
             'avail_array_prices' => $avail_array_prices,
@@ -1454,7 +1468,7 @@ class DashboardController extends Controller
         $owner_id = $request->get('own_id');
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
-
+        $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
         if (!$owner_id) {
             throw $this->createNotFoundException();
         }

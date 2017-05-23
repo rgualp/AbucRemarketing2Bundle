@@ -303,6 +303,20 @@ class ownershipRepository extends EntityRepository {
 
         $em->persist($statistic);
 
+        //Modalidad - Insertar
+        if(isset($data["modality"]) && $data["modality"] != "")
+        {
+            $modality = $em->getRepository("mycpBundle:bookingModality")->find($data["modality"]);
+            $price = (isset($data["modality_price"]) && $data["modality_price"] != "") ? floatval($data["modality_price"]): 0;
+
+            $accommodationBookingModality = new accommodationBookingModality();
+            $accommodationBookingModality->setAccommodation($ownership)
+                ->setBookingModality($modality)
+                ->setPrice($price);
+
+            $em->persist($accommodationBookingModality);
+        }
+
         $em->flush();
 
         $this->calculateAccommodationCategory($ownership);
@@ -624,6 +638,28 @@ class ownershipRepository extends EntityRepository {
             ->setNotes("Modify in Backend");
 
         $em->persist($statistic);
+
+        //Modalidad - Editar
+        if(isset($data["modality"]) && $data["modality"] != "")
+        {
+            $accommodationBookingModality = $em->getRepository("mycpBundle:accommodationBookingModality")->findOneBy(array("accommodation" => $ownership->getOwnId()));
+
+            if(!isset($accommodationBookingModality) || $accommodationBookingModality == null )
+            {
+                $accommodationBookingModality = new accommodationBookingModality();
+                $accommodationBookingModality->setAccommodation($ownership);
+            }
+
+            $modality = $em->getRepository("mycpBundle:bookingModality")->find($data["modality"]);
+            $price = (isset($data["modality_price"]) && $data["modality_price"] != "") ? floatval($data["modality_price"]): 0;
+
+
+            $accommodationBookingModality->setBookingModality($modality)
+                ->setPrice($price);
+
+            $em->persist($accommodationBookingModality);
+        }
+
 
         $em->flush();
 

@@ -407,6 +407,7 @@ class BackendOwnershipController extends Controller {
         //$ownershipGeneralLangs = $em->getRepository('mycpBundle:ownershipGeneralLang')->findBy(array('ogl_ownership' => $id_ownership));
         $ownershipDescriptionLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $id_ownership));
         $ownershipKeywordsLangs = $em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_ownership' => $id_ownership));
+        $accommodationBooking = $em->getRepository("mycpBundle:accommodationBookingModality")->findOneBy(array("accommodation" => $id_ownership));
         $errors = array();
         $data = array();
         $data['count_errors'] = 0;
@@ -447,6 +448,10 @@ class BackendOwnershipController extends Controller {
         $data['ownership_publish_date'] = $ownership->getOwnPublishDate();
         $data['ownership_mcp_code'] = $ownership->getOwnMcpCode();
         $post['ownership_destination'] = 0;
+
+        $post['modality'] = (isset($accommodationBooking)) ? $accommodationBooking->getBookingModality()->getId() : 0;
+
+        $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
 
@@ -1387,6 +1392,17 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $salers = $em->getRepository('mycpBundle:ownership')->getSalersNames();
         return $this->render('mycpBundle:utils:saler_names.html.twig', array('salers' => $salers));
+    }
+
+    public function getBookingModalityAction($post) {
+        $selected = '';
+        if (isset($post['modality']))
+            $selected = $post['modality'];
+
+        $em = $this->getDoctrine()->getManager();
+        $listModality = $em->getRepository("mycpBundle:bookingModality")->findAll();
+
+        return $this->render('mycpBundle:utils:list_modality.html.twig', array('selected' => $selected, 'list' => $listModality));
     }
 
     public function get_statusAction($post) {

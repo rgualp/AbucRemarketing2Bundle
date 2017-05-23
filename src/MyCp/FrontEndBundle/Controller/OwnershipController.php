@@ -40,9 +40,9 @@ class OwnershipController extends Controller
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
         $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
-        if($dateFrom==$dateTo){
+       /* if($dateFrom==$dateTo){
             $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
-        }
+        }*/
         if (!$owner_id) {
             throw $this->createNotFoundException();
         }
@@ -123,6 +123,9 @@ class OwnershipController extends Controller
                 }
             }
 
+            /*dump($room->getRoomId());
+            dump($dateFrom);
+            dump($dateTo); die;*/
             $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDateForCalendar($room->getRoomId(), $dateFrom, $dateTo);
             //var_dump("Habitacion id ". $room->getRoomId(). ": REservaciones " .count($reservations). ". Desde: ".date("d-m-Y",$dateFrom->getTimestamp()). ". Hasta: ".date("d-m-Y",$dateTo->getTimestamp())."<br/>");
             foreach ($reservations as $reservation) {

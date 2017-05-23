@@ -278,11 +278,11 @@ var Dashboard = function () {
                                 var startDate = new Date(ev.date);
                                 startDate.setDate(startDate.getDate() + 1);
                                 departure_datepicker.setStartDate(startDate);
-                                if(end_date == "") {
+                                //if(end_date == "") {
                                     var valueDate = new Date(ev.date);
                                     valueDate.setDate(valueDate.getDate() + 2);
                                     departure_datepicker.setDate(valueDate);
-                                }
+                               // }
                                 from = $('#filter_date_from').val();
                                 to = $('#filter_date_to').val();
                                 refresh_calendar(from, to,selectedAccommodationForReserve,url);

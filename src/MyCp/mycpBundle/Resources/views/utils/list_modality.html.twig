@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for mod in list %}
+    <option{% if(selected is defined and selected == mod.id) %} selected="TRUE" {% endif %} value="{{ mod.id }}" data-hasPrice="{{ (mod.name == "Propiedad Completa") ? 1 : 0 }}"> {{ mod.name }}</option>
+{% endfor %}
