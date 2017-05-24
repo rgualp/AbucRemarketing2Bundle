@@ -231,6 +231,13 @@ class generalReservation {
     private $pendingPayments;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_reservation_mode", type="boolean")
+     */
+    private $complete_reservation_mode;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -242,6 +249,7 @@ class generalReservation {
         $this->travelAgencyDetailReservations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->complete_payment = false;
+        $this->complete_reservation_mode = false;
         $this->pendingPayments = new ArrayCollection();
     }
 
@@ -993,6 +1001,24 @@ class generalReservation {
     public function removePendingPayment(paPendingPaymentAgency $paPendingPaymentAgency)
     {
         $this->pendingPayments->removeElement($paPendingPaymentAgency);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompleteReservationMode()
+    {
+        return $this->complete_reservation_mode;
+    }
+
+    /**
+     * @param int $complete_reservation_mode
+     * @return mixed
+     */
+    public function setCompleteReservationMode($complete_reservation_mode)
+    {
+        $this->complete_reservation_mode = $complete_reservation_mode;
+        return false;
     }
 
 
