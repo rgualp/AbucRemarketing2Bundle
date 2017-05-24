@@ -3749,26 +3749,30 @@
                         </trans-unit>
               <trans-unit id="942">
                             <source>MYCASA_RENTA_PARR1</source>
-                            <target>Une application mobile qui permet au propriétaire de gérer la disponibilité de ses chambres et tenir leur calendrier à jour pour actualiser ainsi dans notre site la disponibilité de celles-ci.</target>
+                            <target>C’est une application mobile qui permet aux hôtes de maison de gérer leurs logements et de mettre à jour la disponibilité des chambres sur le calendrier, moyennant un ensemble des fonctions online ou par le biais des SMS.</target>
                         </trans-unit>
               <trans-unit id="943">
                             <source>MYCASA_RENTA_PARR2</source>
-                           <target>  <![CDATA[Connectez-vous sur l’Internet avec votre portable, système Android 2.2 ou supérieur et téléchargez l’application à partir de cette adresse: <a href="https://mycasaparticular.com/es/apprenta" target="_blankhttps://mycasaparticular.com/es/apprenta</a> ou directement sur <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blankGoogle Play</a>. Une fois l’ l’application téléchargé, installez-la.]]></target>
+                           <target>  <![CDATA[Télécharger l’application mobile MyCasaRenta 2.0 depuis le lien: <a href="https://mycasaparticular.com/de/apprenta" target="_blank">https://mycasaparticular.com/de/apprenta</a> ou directement sur <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Une fois l’ l’application téléchargé, installez-la.]]></target>
                         </trans-unit>
                  <trans-unit id="944">
                             <source>MYCASA_RENTA_PARR3</source>
-                            <target>   Pour commencer à utiliser MyCasa Renta vous aurez besoin d’activer votre compte d’utilisateur. Les instructions pour l’activation ont été envoyées par notre équipe dans un e-mail. Si vous n’avez pas encore reçu cette information précisant les détails de votre compte, vous pouvez la demander à  info@mycasaparticular.com.</target>
+                            <target>Accéder à la application MyCasaRenta et mettre le code du logement et le mot de passe sur la page d’accueil. Ce pas doit être réalisé en ligne seulement la première fois afin de parvenir à la synchronisation des données avec l’information du logement enregistrée sur le site  MyCasaParticular. Il faut remarquer qu’avec la nouvelle version de l’application, le mot de passe peut être modifié depuis la page d’accueil au cas où vous l’oublierez.</target>
                         </trans-unit>
                 <trans-unit id="945">
                             <source>MYCASA_RENTA_PARR4</source>
-                            <target>	"Une fois l’application installée dans votre portable et le processus d’activation de compte fini, vous pourrez commencer à utiliser  MyCasa Renta. Dans la page d’accueil de l’application vous devez appuyer sur le bouton Entrer
-                                     Pour commencer à utiliser MyCasa Renta vous devrez vous connecter en employant le code de votre maison, comme utilisateur, code reçu dans l’e-mail de création de la compte d’accès. En tant que mot de passe, utilisez celle que vous avez mis dans le formulaire d’activation."
-                                           </target>
+                            <target>Mettre à jour la disponibilité par chambre, en choisissant sur le calendrier la période où chacune sera libre ou non, sauf les jours signalés en bleu qui correspondent aux jours réservés sur MyCasaParticular. Une fois tous les changements désirés accomplis, vous devez activer l’option Synchroniser changements, visible au milieu inférieur de l’écran, afin d’actualiser l’information sur le site en ligne ou par le biais des SMS (sans connexion Internet).</target>
                         </trans-unit>
                  <trans-unit id="946">
                             <source>MYCASA_RENTA_PARR5</source>
-                            <target>L’application est fondée sur un calendrier interactif, visant à modifier l’état de différentes chambres de votre maison. Chacune des chambres montrera les dates marquées comme Non Disponibles au moment de l’authentification. La première fois que vous utilisez l’application, vous devrez être connecté sur l’Internet afin de pouvoir synchroniser les données de vos logements avec ceux qui sont enregistrés dans notre système.
-                                    </target>
+                            <target><![CDATA[Voir les options du menu de MyCasa Renta 2.0
+                                             <br>• Disponibilité: Modifier le calendrier des disponibilités par chambre.
+                                             <br>• Réservations: Liste ordonnée des réservations (en bleu) et de la non disponibilité (en orange) des toutes les chambres de votre logement. Permet de modifier ou de supprimer les jours où les chambres ne sont pas libres.
+                                             <br>• Prix: Modifier les prix de chaque chambre selon la saison.
+                                             <br>• Statistiques: Montre les statistiques de la chambre au mois en cours.
+                                             <br>• Notifications: Liste de notifications inactives (possibles de supprimer)
+                                             <br>• Télécharger Tout: Permet de restaurer les données de l’application avec la dernière information publiée sur le site web de MyCasaParticular.
+                                             <br>• Déconnecter: Fermer la session active de l’utilisateur authentifié.]]></target>
                         </trans-unit>
                       <trans-unit id="947">
                             <source>MYCASA_RENTA_STEP</source>

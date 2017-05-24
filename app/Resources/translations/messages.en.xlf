@@ -3729,24 +3729,30 @@
                         </trans-unit>
                       <trans-unit id="942">
                                     <source>MYCASA_RENTA_PARR1</source>
-                                    <target>A mobile application that facilitates the owner the management at their accommodation facilities by means of a calendar that shows the days not available for accommodation, and updates the availability of their rooms directly on our web site.</target>
+                                    <target>A Mobile Application that facilitates to the owners the management of their accommodations and the update of the availability of their rooms in the calendar, through a set of online functionalities or SMS messaging.</target>
                                 </trans-unit>
                       <trans-unit id="943">
                                     <source>MYCASA_RENTA_PARR2</source>
-                                   <target><![CDATA[Connect to the internet on your mobile with operating system Android 2.2 or above and download the application from this address: <a href="https://mycasaparticular.com/en/apprenta" target="_blank">https://mycasaparticular.com/en/apprenta</a> or directly from <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. After having downloaded it, install your application.]]></target>
+                                   <target><![CDATA[Download online the mobile application MycasaRenta 2.0 from this address: <a href="https://mycasaparticular.com/en/apprenta" target="_blank">https://mycasaparticular.com/en/apprenta</a> or directly from <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. After having downloaded it, install your application.]]></target>
                                 </trans-unit>
                          <trans-unit id="944">
                                     <source>MYCASA_RENTA_PARR3</source>
-                                    <target>In order to start using MYCasa Renta, you will need to activate your access account. The instructions for the activation have been sent to you via e-mail. If you haven’t received this information yet, in which the details of the creation of your access account have been specified, you can request it through info@mycasaparticular.com.</target>
+                                    <target>Access to the MyCasaRenta application and enter your Lodging Code and Password in the home screen. This step should be done online only the first time for the application to synchronize the data with the information of its hosting stored in the MyCasaParticular site. Note that with the new version, from the home page you can also reset your password in case of forgetting.</target>
                                 </trans-unit>
                         <trans-unit id="945">
                                     <source>MYCASA_RENTA_PARR4</source>
-                                    <target>Once the mobile application has been installed on your telephone, and the process of activation of your account has finished successfully, you will be able to start using MYCasa Renta. On the welcome screen of the app, you should press the button Submit.In order to start using MYCasa Renta, you should authenticate by using as user the code of your house, received in the e-mail of creation of the access account. The password to be used is the one set by you in the activation form.</target>
+                                    <target>Update your Availability by room, selecting in the Calendar the range of days in which each room will be free or occupied, except for those indicated in blue corresponding to the days reserved through MyCasaParticular. When you finish all the desired changes, you must activate the Synchronize Changes button, visible in the lower middle of the screen, to update the information on the site by online or SMS messaging (without internet connection).</target>
                                 </trans-unit>
                          <trans-unit id="946">
                                     <source>MYCASA_RENTA_PARR5</source>
-                                    <target>This application consist of an interactive calendar to modify the state of the different rooms of your property. Each room will show the dates registered as “Not available” at the moment of authentication.
-                                            The first time you use this application, you should have access to the internet so that the data of your accommodation facility can be synchronized with the ones saved on our system.</target>
+                                    <target><![CDATA[See the menu options of MyCasa Renta 2.0
+                                                     <br>• Availability: Modify the calendar of your availability per room.
+                                                     <br>• Reservations: Ordered list of reservations (blue color) and non-availabilities (orange color) in all rooms of your accommodation. Allows modification or elimination of non-availability
+                                                     <br>• Prices: Modify the prices of each room according to the season.
+                                                     <br>• Statistics: Shows the statistics of the room in the current month
+                                                     <br>• Notifications: List of inactive notifications (possible to be deleted)
+                                                     <br>• Download All: Restore application data with the latest information published on the MyCasaParticular website.
+                                                     <br>• Logout: Close the authenticated user's active session]]></target>
                                 </trans-unit>
                               <trans-unit id="947">
                                     <source>MYCASA_RENTA_STEP</source>
