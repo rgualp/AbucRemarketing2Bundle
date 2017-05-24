@@ -3729,25 +3729,33 @@
                         </trans-unit>
                       <trans-unit id="942">
                                     <source>MYCASA_RENTA_PARR1</source>
-                                    <target>un'applicazione mobile che facilita la gestione in proprio alloggio con un calendario che non riflette giorni disponibile in alloggi e aggiorna la disponibilità dei loro camere direttamente sul nostro sito.</target>
+                                    <target>Un’Applicazione per cellulari che facilita ai proprietari la gestione dei loro alloggi e l’attualizzazione della disponibilità delle loro abitazioni nel calendario, attraverso un insieme di funzionalità online o la messaggeria SMS.</target>
                                 </trans-unit>
                       <trans-unit id="943">
                                     <source>MYCASA_RENTA_PARR2</source>
-                                   <target><![CDATA[Connessione a Internet dal cellulare con Android 2.2 o superiore del sistema operativo e scaricare l'applicazione da questo indirizzo: <a href="https://mycasaparticular.com/en/apprenta" target="_blank">https://mycasaparticular.com/en/apprenta</a> o direttamente da <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Una volta scaricato, installare l'applicazione.]]></target>
+                                   <target><![CDATA[Scaricare online l’applicazione per cellulari MyCasaRenta 2.0 da questo indirizzo: <a href="https://mycasaparticular.com/en/apprenta" target="_blank">https://mycasaparticular.com/en/apprenta</a> o direttamente da <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Una volta scaricato, installare l'applicazione.]]></target>
                                 </trans-unit>
                          <trans-unit id="944">
                                     <source>MYCASA_RENTA_PARR3</source>
-                                    <target>Per iniziare a utilizzare MyCasa Renta necessario attivare il tuo account di accesso. Le istruzioni per l'attivazione saranno state inviate dal nostro team via e-mail. Se non avete ancora ricevuto queste informazioni especificándole i dettagli della creazione del tuo account di accesso, è possibile applicare attraverso info@mycasaparticular.com.</target>
+                                    <target>Acceda all’applicazione MyCasaRenta e ponga il suo Codice d’Alloggiamento e Contrassegno nello schermo iniziale. Questo passaggio va realizzato online solo la prima volta perchè l’applicazione sincronizzi i dati con l’informazione del suo alloggiamento, che è situata nel sito MyCasaParticular.  Si noti che con la nuova versione, nella pagina d’inizio può anche ristabilire il suo contrassegno nel caso di dimenticanza.</target>
                                 </trans-unit>
                         <trans-unit id="945">
                                     <source>MYCASA_RENTA_PARR4</source>
-                                    <target>Una volta che l'applicazione mobile sul telefono è installato e ha completato con successo il processo di attivazione del conto, si può iniziare a utilizzare MyCasa Renta. Nella schermata di benvenuto di App, è necessario premere il pulsante Invio. </target>
+                                    <target>Attualizzi la sua Disponibilità per abitazione, selezionando nel Calendario il periodo  dei giorni in cui ogni abitazione sarà libera o occupata, ad eccezione di quelli segnalati in colore azzurro, corrispondenti ai giorni riservati attraverso MyCasaParticular. Quando terminerà tutte le modifiche desiderate, deve attivare il bottone  Sincronizzare Cambi, visibile nella metà inferiore dello schermo, per attualizzare l’informazione nel sito per via online o per messaggeria SMS (senza connessione a internet).</target>
                                 </trans-unit>
                          <trans-unit id="946">
                                     <source>MYCASA_RENTA_PARR5</source>
-                                    <target>l'applicazione è quello di un calendario interattivo, per modificare lo stato delle diverse Camere vostra proprietà. Ogni della tariffa della Camera mostrerà i dati registrati come non disponibile al momento di autenticazione.
-                                     La prima volta si utilizza l'applicazione deve avere accesso a internet ad essere possibile sincronizzare i dati del tuo alloggio con salvato nel nostro sistema.                                                                                                             
-                                </target>
+                                    <target><![CDATA[
+                                    Vedere le opzioni del menù di MyCasa Renta 2.0
+                                    <br>• Disponibilità: Modificare il calendario della sua disponibilità per abitazioni.
+                                    <br>• Prenotazioni: Lista ordinata delle prenotazioni (color azzurro) e della non disponibilità (color arancio) in tutte le abitazioni del suo alloggiamento. Permette di modificare o eliminare le non disponibili.
+                                    <br>• Prezzi : Modificare i prezzi  di  ogni abitazione secondo la stagione.
+                                    <br>• Statistiche: Mostra le statistiche dell’abitazione nel mese attuale.
+                                    <br>• Notifiche: Lista delle notifiche inattive (possibili da eliminare).
+                                    <br>• Scaricare Tutto: Permette di correggere i dati dell’applicazione con l’ultima informazione pubblicata nel sito web di MyCasaParticular.
+                                    <br>• Chiudere la Sessione: Chiude la sessione attiva dell’utente autenticato.
+                                                                                 ]]>
+                                    </target>
                                 </trans-unit>
                               <trans-unit id="947">
                                     <source>MYCASA_RENTA_STEP</source>
