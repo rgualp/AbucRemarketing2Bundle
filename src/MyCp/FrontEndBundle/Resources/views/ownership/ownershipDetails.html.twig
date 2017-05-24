@@ -167,7 +167,7 @@
                         {% endif %}
                         <div id="tab-reservations"
                              class="tab-pane {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            {% include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : false } %}
+                            {% include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : false, 'hasCompleteReservation': hasCompleteReservation } %}
                         </div>
                     </div>
                 </div>
@@ -794,6 +794,7 @@
         var reservation_see_prices_text = "{{ "RESERVATION_SEE_PRICES" | trans }}";
         var own_id = "{{ ownership.own_id }}";
         var today_date = "{{ "now"|date("d/m/Y") }}";
+        var hasCompleteReservation = {{ hasCompleteReservation }};
 
         var cont_array_dates
             ={{ array_dates | length }};
