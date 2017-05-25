@@ -126,6 +126,7 @@
             {% set date_to = "+6 day"|date("d&m&Y") %}
         {% endif %}
         <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}" id="form-check-available" method="POST">
+            <input type="hidden" value="{{ hasCompleteReservation }}" name="hasCompleteReservation"/>
             <div class="row">
                 <div class="col-sm-12 text-center">
                     <div class="col-sm-6">

@@ -69,7 +69,9 @@ class CartController extends Controller {
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
+        $hasCompleteReservation = $request->get('hasCompleteReservation');
         $data = explode('/', $data);
+
 
         $from_date = $data[0];
         $to_date = $data[1];
@@ -165,6 +167,7 @@ class CartController extends Controller {
                     $fromDate = new \DateTime();
                     $fromDate->setTimestamp($start_timestamp);
                     $cart->setCartDateFrom($fromDate);
+                    $cart->setCompleteReservationMode($hasCompleteReservation);
 
                     $toDate = new \DateTime();
                     $toDate->setTimestamp($end_timestamp);
@@ -529,6 +532,7 @@ class CartController extends Controller {
         $array_dates_string = array();
         $array_season = array();
         $array_clear_date = array();
+        $touristTax = 0;
 
         if ($array_dates) {
             $em = $this->getDoctrine()->getManager();

@@ -104,6 +104,13 @@ class cart {
     private $check_available;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_reservation_mode", type="boolean")
+     */
+    private $complete_reservation_mode;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -301,6 +308,7 @@ class cart {
         $clone->setCartUser($this->cart_user);
         $clone->setChildrenAges($this->childrenAges);
         $clone->setServiceFee($this->service_fee);
+        $clone->setCompleteReservationMode($this->complete_reservation_mode);
 
         return $clone;
     }
@@ -319,6 +327,13 @@ class cart {
         $ownership_reservation->setOwnResRoomPriceSpecial($this->cart_room->getRoomPriceSpecial());
         $ownership_reservation->setOwnResGenResId($generalReservation);
         $ownership_reservation->setOwnResRoomType($this->cart_room->getRoomType());
+
+        $ownership = $this->cart_room->getRoomOwnership();
+        $modality = $ownership->getBookingModality();
+
+        if($modality != null && $modality->isCompleteReservationMode() && $modality->getPrice() > 0)
+            $ownership_reservation->setOwnResCompleteReservationPrice($modality->getPrice());
+
 
         if ($calculateTotalPrice)
             $ownership_reservation->setOwnResTotalInSite(0); //TODO: Calcular segun los cambios de estaciones
@@ -424,5 +439,25 @@ class cart {
     public function getCheckAvailable() {
         return $this->check_available;
     }
+
+    /**
+     * @return int
+     */
+    public function getCompleteReservationMode()
+    {
+        return $this->complete_reservation_mode;
+    }
+
+    /**
+     * @param int $complete_reservation_mode
+     * @return cart
+     */
+    public function setCompleteReservationMode($complete_reservation_mode)
+    {
+        $this->complete_reservation_mode = $complete_reservation_mode;
+        return $this;
+    }
+
+
 
 }

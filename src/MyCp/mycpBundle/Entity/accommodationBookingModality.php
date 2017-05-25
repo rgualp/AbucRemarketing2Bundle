@@ -88,5 +88,10 @@ class accommodationBookingModality
         return $this;
     }
 
+    public function isCompleteReservationMode()
+    {
+        return ($this->getBookingModality()->getName() == "Propiedad Completa");
+    }
+
 
 }
