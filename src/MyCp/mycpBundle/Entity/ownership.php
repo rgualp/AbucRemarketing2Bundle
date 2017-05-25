@@ -668,6 +668,13 @@ class ownership {
     private $goodPicture;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="with_ical", type="boolean", nullable=true)
+     */
+    private $withIcal;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -701,6 +708,7 @@ class ownership {
         $this->transferMethodsPayment = new ArrayCollection();
         $this->effectiveMethodsPayment = new ArrayCollection();
         $this->count_visits = 0;
+        $this->withIcal = false;
     }
 
     /**
@@ -3046,4 +3054,76 @@ class ownership {
         return $this;
     }
 
+
+    /**
+     * Set withIcal
+     *
+     * @param boolean $withIcal
+     *
+     * @return ownership
+     */
+    public function setWithIcal($withIcal)
+    {
+        $this->withIcal = $withIcal;
+
+        return $this;
+    }
+
+    /**
+     * Get withIcal
+     *
+     * @return boolean
+     */
+    public function getWithIcal()
+    {
+        return $this->withIcal;
+    }
+
+    /**
+     * Add transferMethodsPayment
+     *
+     * @param \MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment
+     *
+     * @return ownership
+     */
+    public function addTransferMethodsPayment(\MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment)
+    {
+        $this->transferMethodsPayment[] = $transferMethodsPayment;
+
+        return $this;
+    }
+
+    /**
+     * Remove transferMethodsPayment
+     *
+     * @param \MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment
+     */
+    public function removeTransferMethodsPayment(\MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment)
+    {
+        $this->transferMethodsPayment->removeElement($transferMethodsPayment);
+    }
+
+    /**
+     * Add effectiveMethodsPayment
+     *
+     * @param \MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment
+     *
+     * @return ownership
+     */
+    public function addEffectiveMethodsPayment(\MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment)
+    {
+        $this->effectiveMethodsPayment[] = $effectiveMethodsPayment;
+
+        return $this;
+    }
+
+    /**
+     * Remove effectiveMethodsPayment
+     *
+     * @param \MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment
+     */
+    public function removeEffectiveMethodsPayment(\MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment)
+    {
+        $this->effectiveMethodsPayment->removeElement($effectiveMethodsPayment);
+    }
 }

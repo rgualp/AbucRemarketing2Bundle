@@ -318,6 +318,14 @@
                     <input type="checkbox" {% if room is defined and room.RoomStereo== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_stereo"/>
                 </div>
             </div>
+            <div class="row m-t-5">
+                <div class="col-xs-12 col-md-3">
+                    <label>URL ICal</label>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <input placeholder="iCal URL" type="text" class="form-control" name="ical" value="{% if room is defined %}{{ room.ical }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" title="Dirección url de su iCal">
+                </div>
+            </div>
         </div>
     </div>
 </form>
