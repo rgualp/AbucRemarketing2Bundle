@@ -90,7 +90,7 @@ class accommodationBookingModality
 
     public function isCompleteReservationMode()
     {
-        return ($this->getBookingModality()->getName() == "Propiedad Completa");
+        return ($this->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
     }
 
 

@@ -1018,7 +1018,7 @@ class generalReservation {
     public function setCompleteReservationMode($complete_reservation_mode)
     {
         $this->complete_reservation_mode = $complete_reservation_mode;
-        return false;
+        return $this;
     }
 
 

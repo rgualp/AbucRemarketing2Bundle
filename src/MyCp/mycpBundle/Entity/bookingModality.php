@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class bookingModality
 {
+    const COMPLETE_RESERVATION_BOOKING = "Propiedad Completa";
     /**
      * @var integer
      *

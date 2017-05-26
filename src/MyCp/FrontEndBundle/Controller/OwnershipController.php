@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use MyCp\mycpBundle\Entity\bookingModality;
 use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -53,7 +54,7 @@ class OwnershipController extends Controller
     $bookingModality = $ownership->getBookingModality();
 
     $completeReservationPrice = 0;
-    if($bookingModality != null and $bookingModality->getBookingModality()->getName() == "Propiedad Completa")
+    if($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
         $completeReservationPrice = $bookingModality->getPrice();
 
     /*$general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
