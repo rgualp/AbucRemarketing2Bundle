@@ -331,8 +331,10 @@ class cart {
         $ownership = $this->cart_room->getRoomOwnership();
         $modality = $ownership->getBookingModality();
 
-        if($modality != null && $modality->isCompleteReservationMode() && $modality->getPrice() > 0)
+        if($modality != null && $modality->isCompleteReservationMode() && $modality->getPrice() > 0) {
             $ownership_reservation->setOwnResCompleteReservationPrice($modality->getPrice());
+            $ownership_reservation->setOwnResRoomType(bookingModality::COMPLETE_RESERVATION_BOOKING_TRANS);
+        }
 
 
         if ($calculateTotalPrice)
