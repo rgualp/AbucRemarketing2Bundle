@@ -77,3 +77,7 @@ mycp_list_ownerships_hot:
 mycp_execute_ical_ownership:
     pattern:  /ical/{id_ownership}
     defaults: { _controller: mycpBundle:BackendOwnership:execute_ical }
+
+mycp_execute_all_ical_ownership:
+    pattern:  /all/ical
+    defaults: { _controller: mycpBundle:BackendOwnership:execute_all_ical }
