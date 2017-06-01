@@ -293,7 +293,7 @@ class cart {
 
     public function getTripleRoomCharged() {
         return ($this->cart_room->isTriple()) &&
-                ($this->cart_count_adults + $this->cart_count_children >= 3);
+                ($this->cart_count_adults + $this->cart_count_children >= 3) && !$this->complete_reservation_mode;
     }
 
     public function getClone() {
@@ -355,7 +355,20 @@ class cart {
 
         for ($i = 0; $i < count($array_dates) - 1; $i++) {
                 $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
-                $total_price += $this->cart_room->getPriceBySeasonType($seasonType) + $triple_feed;
+
+                if($this->complete_reservation_mode){
+                    $accommodation = $this->cart_room->getRoomOwnership();
+                    $bookingModality = $accommodation->getBookingModality();
+                    $hasCompleteReservation = ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+
+                    if($hasCompleteReservation)
+                    {
+                        $total_price += $bookingModality->getPrice();
+                    }
+
+                }
+                else
+                    $total_price += $this->cart_room->getPriceBySeasonType($seasonType) + $triple_feed;
         }
         $prices = array(
             'totalPrice' => $total_price,

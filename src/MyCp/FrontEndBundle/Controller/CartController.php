@@ -943,6 +943,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResOwnId($ownership);
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
+                    $general_reservation->setCompleteReservationMode($item->getCompleteReservationMode());
 
 
                     $total_price = 0;
@@ -957,9 +958,24 @@ class CartController extends Controller {
                         for ($a = 0; $a < count($array_dates) - 1; $a++) {
                             $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
                             $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
-                            $total_price += $roomPrice + $triple_room_recharge;
-                            $temp_price += $roomPrice + $triple_room_recharge;
+
+                            if($item->getCompleteReservationMode()){
+                                $accommodation = $item->getCartRoom()->getRoomOwnership();
+                                $bookingModality = $accommodation->getBookingModality();
+                                $hasCompleteReservation = ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+
+                                if($hasCompleteReservation)
+                                {
+                                    $total_price += $bookingModality->getPrice();
+                                    $temp_price += $bookingModality->getPrice();
+                                }
+                            }
+                            else{
+                                $total_price += $roomPrice + $triple_room_recharge;
+                                $temp_price += $roomPrice + $triple_room_recharge;
+                            }
                         }
+
                         array_push($partial_total_price, $temp_price);
                     }
                     $general_reservation->setGenResTotalInSite($total_price);
