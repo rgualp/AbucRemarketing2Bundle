@@ -106,6 +106,8 @@ class UDetailsService extends Controller
 
         $unavailabilityDetail["date_range"] = $intervals;
         $this->em->getRepository('mycpBundle:unavailabilityDetails')->addAvailableRoomByRange($unavailabilityDetail, $id_room);
+        //Actualizar la frecuencia de actualizacion
+        $this->em->getRepository("mycpBundle:accommodationCalendarFrequency")->addFrequencyByRoom($room);
 
     }
 
@@ -122,12 +124,6 @@ class UDetailsService extends Controller
             //La no disponibilidad tiene un rango mayor al seleccionado. SE crean dos no disponibilidades
             if($uDetail->getUdFromDate() <= $date_from && $uDetail->getUdToDate() >= $date_to)
             {
-//                var_dump($uDetail->getUdFromDate()->format("Y-m-d"));
-//                var_dump($date_from->format("Y-m-d"));
-//                var_dump($uDetail->getUdToDate()->format("Y-m-d"));
-//                var_dump($date_to->format("Y-m-d"));
-//                var_dump($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to);
-
                 if($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to)
                 {
                     $room = $this->em->getRepository("mycpBundle:room")->find($id_room);
@@ -135,11 +131,6 @@ class UDetailsService extends Controller
                     $dateBefore = date_modify($dateBefore, "-1 day");
                     $dateAfter = $date_to;
                     $dateAfter = date_modify($dateAfter, "+1 day");
-
-//                    dump($uDetail->getUdFromDate());
-//                    dump($dateBefore);
-//                    dump($uDetail->getUdToDate());
-//                    dump($dateAfter);
 
                     if ($uDetail->getUdFromDate() != $dateBefore && $uDetail->getUdFromDate() < $dateBefore) {
                         $newDetail = new unavailabilityDetails();
@@ -151,7 +142,6 @@ class UDetailsService extends Controller
 
                         $this->em->persist($newDetail);
                     }
-
                     elseif ($uDetail->getUdToDate() != $dateAfter && $dateAfter < $uDetail->getUdToDate()) {
                         $newDetail = new unavailabilityDetails();
                         $newDetail->setRoom($room)
@@ -181,6 +171,7 @@ class UDetailsService extends Controller
                     }
                 }
                 $this->em->remove($uDetail);
+
             }
             //La fecha de inicio de otra no disponibilidad es menor que la de inicio del rango y la fecha fin de la no disponibilidad esta en el rango
             elseif($uDetail->getUdFromDate() < $date_from && $uDetail->getUdToDate() >= $date_from && $uDetail->getUdToDate() < $date_to)
@@ -231,6 +222,7 @@ class UDetailsService extends Controller
 
 //            var_dump("Fecha inicio: ".date('Y-m-d',$uDetail->getUdFromDate()->getTimestamp())."<br/>");
 //            var_dump("Fecha fin: ".date('Y-m-d',$uDetail->getUdToDate()->getTimestamp())."<br/>");
+            $this->em->getRepository("mycpBundle:accommodationCalendarFrequency")->addFrequencyByRoom($room);
 
         }
 

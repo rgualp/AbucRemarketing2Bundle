@@ -1916,6 +1916,10 @@ class OwnershipController extends Controller
         $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idOwn'));
         $session = $this->getRequest()->getSession();
 
+        $bookingModality = $ownership->getBookingModality();
+
+        $hasCompleteReservation = ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+
         $locale = $this->get('translator')->getLocale();
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $ownership_array = array();
@@ -1924,9 +1928,9 @@ class OwnershipController extends Controller
         $ownership_array['OwnInmediateBooking2'] = $ownership->isOwnInmediateBooking2();
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()) {
-            return $this->render('MyCpMobileFrontendBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee));
+            return $this->render('MyCpMobileFrontendBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
         } else {
-            return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee));
+            return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
         }
     }
 
