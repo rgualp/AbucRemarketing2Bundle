@@ -19,7 +19,8 @@
 <hr/>
 <a class="btn" href="{{ path('mycp_new_ownership') }}"><i class="icon-plus"></i> Adicionar propiedad</a>&nbsp;
 <a class="btn" href="{{ path('mycp_batch_process_ownership') }}"><i class="icon-tasks"></i> Adicionar múltiples propiedades</a>&nbsp;
-    <a class="btn" href="{{ path("mycp_logs_ownership") }}"><i class="icon-eye-open"></i> Bitácoras</a>&nbsp;
+<a class="btn" href="{{ path("mycp_logs_ownership") }}"><i class="icon-eye-open"></i> Bitácoras</a>&nbsp;
+<a class="btn css-all-ical"><i class="fa fa-calendar-o"></i> Ejecutar todos los ICAL</a>&nbsp;
 <br/><br/>
     <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-toggle="tab" href="#accommodations">Propiedades</a></li>
@@ -432,7 +433,30 @@
                     loading.addClass('hidden');
                 }
             });
+        });
 
+        $('a.css-all-ical').on('click',function(){
+            var ele = $(this);
+
+            var loading = ele.find('i');
+            loading.removeClass('fa-calendar-o');
+            loading.addClass('fa-refresh fa-spin');
+
+            var url = "{{ path("mycp_execute_all_ical_ownership") }}";
+            $.ajax({
+                type: 'post',
+                url: url,
+                success: function (data) {
+                    loading.removeClass('fa-refresh fa-spin');
+                    loading.addClass('fa-calendar-o');
+                    toastr.info('Calendario de ' + data.ownership + ' casas actualizado con exito.');
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    toastr.error('Ha ocurrido un error');
+                    loading.removeClass('fa-refresh fa-spin');
+                    loading.addClass('fa-calendar-o');
+                }
+            });
         });
     </script>
 

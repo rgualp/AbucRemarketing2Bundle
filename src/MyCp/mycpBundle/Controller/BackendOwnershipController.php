@@ -7,6 +7,7 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\mycpBundle\Helpers\FilterHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -1647,6 +1648,10 @@ class BackendOwnershipController extends Controller {
     }
 
     public function execute_icalAction($id_ownership, Request $request) {
+        return $this->execute_ical($id_ownership);
+    }
+
+    public function execute_ical($id_ownership) {
         //$service_security = $this->get('Secure');
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -1664,6 +1669,20 @@ class BackendOwnershipController extends Controller {
         return new JsonResponse([
             'success' => true,
             'ownership' => $ownership->getOwnMcpCode()
+        ]);
+    }
+
+    public function execute_all_icalAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->getAll('', '1', '', '', '', '', '', '', '', '', FilterHelper::ACCOMMODATION_WITH_ICAL, '')->getResult();;
+
+        foreach ( $ownerships as $ownership ){
+            $this->execute_ical($ownership['own_id']);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'ownership' => count($ownerships)
         ]);
     }
 }
