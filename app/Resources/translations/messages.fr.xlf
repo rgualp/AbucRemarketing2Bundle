@@ -732,7 +732,7 @@
             </trans-unit>
             <trans-unit id="192">
                 <source>BREAKFAST_FILTER</source>
-                <target>Petit-déjeuner inclus</target>
+                <target>Petit-déjeuner</target>
             </trans-unit>
             <trans-unit id="193">
                 <source>WINDOWS_FILTER</source>

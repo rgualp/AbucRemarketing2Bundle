@@ -107,6 +107,14 @@ class BackendController extends Controller
         $ownership_array['own_id']=$ownership->getOwnId();
         $ownership_array['ownname']=$ownership->getOwnName();
         $ownership_array['OwnInmediateBooking2']=$ownership->isOwnInmediateBooking2();
+
+        $ownership_array['breakfast']=$ownership->getOwnFacilitiesBreakfast();
+        $priceBreakFast=explode('-',$ownership->getOwnFacilitiesBreakfastPrice());
+        $ownership_array['breakfastPrice']=(count($priceBreakFast)==2)?$priceBreakFast[1]:$priceBreakFast[0];
+
+        $ownership_array['dinner']=$ownership->getOwnFacilitiesDinner();
+        $ownership_array['dinnerPrice']=$ownership->getOwnFacilitiesDinnerPriceTo();
+
         $response = $this->renderView('PartnerBundle:ownership:ownership_details_calendar.html.twig',array(
             'ownership'=>$ownership_array,
             'locale'=>$locale,'currentServiceFee'=>$currentServiceFee,
