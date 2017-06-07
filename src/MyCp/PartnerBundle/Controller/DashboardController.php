@@ -1673,6 +1673,7 @@ class DashboardController extends Controller
 
     public function addToCartAction($id_ownership, Request $request)
     {
+
         $check_dispo = $request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -1993,6 +1994,9 @@ class DashboardController extends Controller
                     $general_reservation->setGenResOwnId($ownership);
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
+                    $general_reservation->setServicedinner($request->get('servicedinner'));
+                    $general_reservation->setServicefast($request->get('servicefast'));
+
 
 
                     $total_price = 0;
