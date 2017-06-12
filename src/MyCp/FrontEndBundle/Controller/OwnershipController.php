@@ -353,7 +353,7 @@ class OwnershipController extends Controller
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetails($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
 
-        if ($ownership_array == null) {
+        if ($ownership_array['own_id'] == null) {
             return $this->redirect($this->generateUrl('frontend_search_ownership'));
         }
 

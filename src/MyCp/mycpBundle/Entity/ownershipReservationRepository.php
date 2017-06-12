@@ -862,12 +862,11 @@ limit 1
 
         $serviceFee = $generalReservation->getServiceFee();
         $refundTotal = 0;
-
         $nights =  $timerService->diffInDays($ownershipReservation->getOwnResReservationToDate()->format("Y-m-d"),$ownershipReservation->getOwnResReservationFromDate()->format("Y-m-d"));
 
-        $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
-
-        $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
+        $temp=($nights==0)?1:$nights;
+        $roomPrice = $ownershipReservation->getOwnResTotalInSite() /$temp;
+        $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $temp, $roomPrice,$serviceFee->getId());
 
         $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
 
