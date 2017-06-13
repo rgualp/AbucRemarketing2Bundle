@@ -732,7 +732,7 @@
             </trans-unit>
             <trans-unit id="192">
                 <source>BREAKFAST_FILTER</source>
-                <target>Desayuno incluido</target>
+                <target>Desayuno</target>
             </trans-unit>
             <trans-unit id="193">
                 <source>WINDOWS_FILTER</source>
@@ -3731,25 +3731,30 @@
                         </trans-unit>
               <trans-unit id="942">
                             <source>MYCASA_RENTA_PARR1</source>
-                            <target>Una aplicación móvil que facilita al propietario la gestión  en sus hospedajes mediante un calendario que refleja los días no disponibles en sus alojamientos y actualiza la disponibilidad de sus habitaciones directamente en nuestro sitio.</target>
+                            <target>Una Aplicación Móvil que facilita a los propietarios la gestión de sus alojamientos y la actualización de la disponibilidad de sus habitaciones en el calendario, a través de un conjunto de funcionalidades online o la mensajería SMS.</target>
                         </trans-unit>
               <trans-unit id="943">
                             <source>MYCASA_RENTA_PARR2</source>
-                           <target><![CDATA[Conéctese a internet desde su móvil con sistema operativo Android 2.2 o superior y descargue la aplicación desde esta dirección: <a href="https://mycasaparticular.com/es/apprenta" target="_blank">https://mycasaparticular.com/es/apprenta</a> o directamente desde <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Una vez descargada, instale su aplicación.]]></target>
+                           <target><![CDATA[Descargar online la aplicación móvil MyCasaRenta 2.0 desde uno de estos sitios: <a href="https://mycasaparticular.com/es/apprenta" target="_blank">https://mycasaparticular.com/es/apprenta</a> o directamente desde <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Una vez descargada, instale su aplicación.]]></target>
                         </trans-unit>
                  <trans-unit id="944">
                             <source>MYCASA_RENTA_PARR3</source>
-                            <target>   Para comenzar a utilizar MyCasa Renta necesitará activar su cuenta de acceso. Las instrucciones para la activación le han sido enviadas por nuestro equipo vía correo electrónico. Si usted no ha recibido aún esta información especificándole los detalles de la creación de su cuenta de acceso, puede solicitarla a través de info@mycasaparticular.com.</target>
+                            <target>Acceder a la aplicación MyCasaRenta ingresar su Código de Alojamiento y Contraseña en la pantalla de inicio. Este paso debe realizarse online solo la primera vez para que la aplicación sincronice los datos con la información de su alojamiento almacenada en el sitio MyCasaParticular. Nótese que con la nueva versión, desde la página de inicio también puede restablecer su contraseña en caso de olvido.</target>
                         </trans-unit>
                 <trans-unit id="945">
                             <source>MYCASA_RENTA_PARR4</source>
-                            <target>Una vez que se encuentre instalada la aplicación móvil en su teléfono y se haya concluido satisfactoriamente el proceso de activación de la cuenta, usted podrá comenzar a utilizar MyCasa Renta. En la pantalla de bienvenida de la App, deberá pulsar el botón Ingresar.
-                                     Para comenzar a usar MyCasa Renta deberá autenticarse utilizando como Usuario el Código de su casa, recibido en el correo de creación de la cuenta de acceso. Como contraseña utilice la establecida por usted en el formulario de activación.</target>
+                            <target>Actualizar su Disponibilidad por habitación, seleccionando en el Calendario el rango de días en que cada habitación estará libre u ocupada, a excepción de aquellos señalados en color azul correspondientes a los días reservados a través de MyCasaParticular. Cuando finalice todas las modificaciones deseadas, debe activar el botón Sincronizar Cambios, visible en el medio inferior de la pantalla, para actualizar la información en el sitio por vía online o por mensajería SMS (sin conexión a internet).</target>
                         </trans-unit>
                  <trans-unit id="946">
                             <source>MYCASA_RENTA_PARR5</source>
-                            <target>La aplicación consiste en un calendario interactivo, para modificar el estado de las diferentes habitaciones de su propiedad. Cada una de las habitaciones mostrará las fechas registradas como No Disponibles en el momento de la autenticación.
-                                    La primera vez que utilice la aplicación deberá tener acceso a Internet para que sea posible sincronizar los datos de su alojamiento con los guardados en nuestro sistema.</target>
+                            <target><![CDATA[Ver las opciones del menú de MyCasa Renta 2.0
+                                             <br>• Disponibilidad: Modificar el calendario de su disponibilidad por habitación.
+                                             <br>• Reservas: Listado ordenado de las reservas (color azul) y no disponibilidades (color naranja) en todas las habitaciones de su alojamiento. Permite modificar o eliminar las no disponibilidades
+                                             <br>• Precios: Modificar los precios de cada habitación según la temporada.
+                                             <br>• Estadísticas: Muestra la estadísticas de la habitación en el mes actual
+                                             <br>• Notificaciones: Listado de notificaciones inactivas (posibles a eliminar)
+                                             <br>• Descargar Todo: Permite restaurar los datos de la aplicación con la última información publicada en el sitio web de MyCasaParticular.
+                                             <br>• Cerrar Sesión: Cierra la sesión activa del usuario autenticado]]></target>
                         </trans-unit>
                       <trans-unit id="947">
                             <source>MYCASA_RENTA_STEP</source>

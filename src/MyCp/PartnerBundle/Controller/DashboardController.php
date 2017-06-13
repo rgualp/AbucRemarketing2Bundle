@@ -1075,6 +1075,20 @@ class DashboardController extends Controller
 
         $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
 
+        $curr = $this->getCurr($request);
+
+        if(isset($ownership_array['ownFacilitiesDinner']) && $ownership_array['ownFacilitiesDinner']){
+            $ownership_array['ownFacilitiesDinnerPriceTo'] = ($ownership_array['ownFacilitiesDinnerPriceTo'] * $curr['change']) . ' ' .$curr['code'];
+        }
+
+        if(isset($ownership_array['ownFacilitiesBreakfast']) && $ownership_array['ownFacilitiesBreakfast']){
+            $ownership_array['ownFacilitiesBreakfastPrice'] = ($ownership_array['ownFacilitiesBreakfastPrice'] * $curr['change']) . ' ' . $curr['code'];
+        }
+
+        if(isset($ownership_array['ownFacilitiesParking']) && $ownership_array['ownFacilitiesParking']){
+            $ownership_array['ownFacilitiesParkingPrice'] = ($ownership_array['ownFacilitiesParkingPrice'] * $curr['change']) . ' ' . $curr['code'];
+        }
+
         return $this->render('@Partner/Dashboard/accomodation_detail.html.twig', array(
             'form' => $form->createView(),
             'avail_array_prices' => $avail_array_prices,
@@ -1659,6 +1673,7 @@ class DashboardController extends Controller
 
     public function addToCartAction($id_ownership, Request $request)
     {
+
         $check_dispo = $request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -1979,6 +1994,9 @@ class DashboardController extends Controller
                     $general_reservation->setGenResOwnId($ownership);
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
+                    $general_reservation->setServicedinner($request->get('servicedinner'));
+                    $general_reservation->setServicefast($request->get('servicefast'));
+
 
 
                     $total_price = 0;

@@ -364,8 +364,8 @@ class OwnershipController extends Controller
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetails($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
 
-        if ($ownership_array == null) {
-            throw $this->createNotFoundException();
+        if ($ownership_array['own_id'] == null) {
+            return $this->redirect($this->generateUrl('frontend_search_ownership'));
         }
 
         $existNonNullValue = false;
@@ -377,7 +377,7 @@ class OwnershipController extends Controller
         }
 
         if (!$existNonNullValue) {
-            throw $this->createNotFoundException();
+            return $this->redirect($this->generateUrl('frontend_search_ownership'));
         }
 
 

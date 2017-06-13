@@ -7,7 +7,9 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\mycpBundle\Helpers\FilterHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -504,6 +506,8 @@ class BackendOwnershipController extends Controller {
         $data['sms_notification'] = $ownership->getOwnSmsNotifications();
         $post['good_picture'] = $ownership->getGoodPicture();
         $data['good_picture'] = $ownership->getGoodPicture();
+        $post['with_ical'] = $ownership->getWithIcal();
+        $data['with_ical'] = $ownership->getWithIcal();
 
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
         $data['status_id'] = $post['status'];
@@ -514,6 +518,7 @@ class BackendOwnershipController extends Controller {
         $post['inmediate_booking'] = ($post['inmediate_booking'] == false) ? 0 : 1;
         $post['inmediate_booking_2'] = ($post['inmediate_booking_2'] == false) ? 0 : 1;
         $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
+        $post['with_ical'] = ($post['with_ical'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
         $post['facilities_parking'] = ($post['facilities_parking'] == false) ? 0 : 1;
@@ -541,6 +546,7 @@ class BackendOwnershipController extends Controller {
             $post['room_beds_number_' . $a] = $rooms[$a - 1]->getRoomBeds();
             //$post['room_price_up_from_' . $a] = $rooms[$a - 1]->getRoomPriceUpFrom();
             $post['room_price_up_to_' . $a] = $rooms[$a - 1]->getRoomPriceUpTo();
+            $post['ical_' . $a] = $rooms[$a - 1]->getIcal();
             //$post['room_price_down_from_' . $a] = $rooms[$a - 1]->getRoomPriceDownFrom();
             $post['room_price_down_to_' . $a] = $rooms[$a - 1]->getRoomPriceDownTo();
             $post['room_price_special_' . $a] = $rooms[$a - 1]->getRoomPriceSpecial();
@@ -1094,6 +1100,7 @@ class BackendOwnershipController extends Controller {
                 $data['status_name'] = $ownership->getOwnStatus()->getStatusName();
                 $data['top_20'] = $ownership->getOwnTop20();
                 $data['not_recommendable'] = $ownership->getOwnNotRecommendable();
+                $data['with_ical'] = $ownership->getWithIcal();
                 $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
                 $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
                 $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
@@ -1641,5 +1648,44 @@ class BackendOwnershipController extends Controller {
             'filter_start_creation_date'=>$filter_start_creation_date,
             'filter_end_creation_date'=>$filter_end_creation_date
         ));
+    }
+
+    public function execute_icalAction($id_ownership, Request $request) {
+        return $this->execute_ical($id_ownership);
+    }
+
+    public function execute_ical($id_ownership) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+
+        $calendarService = $this->get('mycp.service.calendar');
+
+        $rooms = $ownership->getOwnRooms();
+        foreach ( $rooms as $room ) {
+            if($room->getIcal() != '' && $room->getIcal() != null){
+                $calendarService->readICalOfRoom($room);
+            }
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'ownership' => $ownership->getOwnMcpCode()
+        ]);
+    }
+
+    public function execute_all_icalAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->getAll('', '1', '', '', '', '', '', '', '', '', FilterHelper::ACCOMMODATION_WITH_ICAL, '')->getResult();;
+
+        foreach ( $ownerships as $ownership ){
+            $this->execute_ical($ownership['own_id']);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'ownership' => count($ownerships)
+        ]);
     }
 }

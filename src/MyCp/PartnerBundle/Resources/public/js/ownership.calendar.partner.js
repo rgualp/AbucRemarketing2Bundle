@@ -1,4 +1,7 @@
 reservationsBody();
+var totalPriceService=0;
+var totalPriceDinner=0;
+var totalPriceBreakfast=0;
 function totalPrice(curr,percent, totalNights)
 {
     var real_price=0;
@@ -87,7 +90,7 @@ function totalPrice(curr,percent, totalNights)
         var prepayment = parseFloat(summatoryTax- agencyCommissionTax) ;
 
     $('#total_prepayment').html(normalize_prices(prepayment));
-    $('#total_price').html( normalize_prices(totalCost + agencyCommissionTax) );
+    $('#total_price').html( normalize_prices(totalPriceDinner + totalPriceBreakfast + totalCost + agencyCommissionTax) );
 
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
@@ -119,15 +122,87 @@ function totalPrice(curr,percent, totalNights)
         $(".all-prices-numbers").removeClass("error");
     //}
 }
+function updateService(){
+
+    var count_guests=0;
+    $('.guest').each(function() {
+        count_guests =eval(count_guests)+ eval(this.innerHTML);
+    });
+    var count_kids=0;
+    $('.kids').each(function() {
+        count_kids =eval(count_kids)+ eval(this.innerHTML);
+    });
+    $('#persons_breakfast').html(eval(count_guests)+eval(count_kids));
+    $('#persons_dinner').html(eval(count_guests)+eval(count_kids));
+
+    var total= eval(count_guests)+eval(count_kids);
+
+
+
+    if( $('#dinner').is(':checked') ) {
+        totalPriceDinner = normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total);
+
+    }
+    else {
+
+        totalPriceDinner = 0;
+
+    }
+
+    if( $('#breakfast').is(':checked') ) {
+        totalPriceBreakfast = normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total);
+
+    }
+    else{
+
+        totalPriceBreakfast = 0;
+    }
+
+
+
+    $("#servicefast").val(totalPriceBreakfast);
+    $("#servicedinner").val(totalPriceDinner);
+
+
+    $('#calcdinner').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total));
+    $('#calcbreakfast').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total));
+}
 function reservationsBody()
 {
+    var total_persons=0;
 
     $('#rooms_selected > tbody tr').each(function(){
         $(this).remove();
     });
 
     total_price_var=0;
+
+    $('#dinner').change(function(){
+        if(this.checked) {
+            $('#col-pricedinner').removeClass("hidden");
+            updateService();
+            $('#total_price').html(normalize_prices(eval($('#total_price').html())+totalPriceDinner));
+        }
+        else{
+            $('#col-pricedinner').addClass("hidden");
+            $('#total_price').html(normalize_prices(eval($('#total_price').html())-totalPriceDinner));
+            updateService();
+        }
+    });
+    $('#breakfast').change(function(){
+        if(this.checked) {
+            $('#col-pricebreakfast').removeClass("hidden");
+            updateService();
+            $('#total_price').html(normalize_prices(eval($('#total_price').html())+totalPriceBreakfast));
+        }
+        else{
+            $('#col-pricebreakfast').addClass("hidden");
+            $('#total_price').html(normalize_prices(eval($('#total_price').html())-totalPriceBreakfast));
+            updateService();
+        }
+    });
     $('.guest_number').change(function(){
+
         if($('#tr_'+$(this).attr('data')).html()){
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
@@ -192,6 +267,7 @@ function reservationsBody()
 
             totalPrice($(this).attr('data_curr'),$(this).attr('percent_charge'), $("#totalNights").val());
         }
+        updateService();
     });
 }
 

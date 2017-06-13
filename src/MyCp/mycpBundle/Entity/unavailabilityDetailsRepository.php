@@ -44,7 +44,7 @@ class unavailabilityDetailsRepository extends EntityRepository {
                         AND ((o.ud_from_date >= :start AND o.ud_to_date <= :end) OR
                              (o.ud_to_date >= :start AND o.ud_to_date <= :end) OR
                              (o.ud_from_date <= :end AND o.ud_from_date >= :start) OR
-                             (o.ud_from_date <= :start AND o.ud_to_date >= :end))
+                             (o.ud_from_date <= :start AND o.ud_to_date >= :start))
                         ORDER BY o.ud_from_date DESC";
 
         return $em->createQuery($query_string)

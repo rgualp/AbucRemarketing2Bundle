@@ -44,6 +44,7 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
         $this->executeAvailabilitiesOwner($input, $output);
         $this->executeCancelBooking($input, $output);
+        $this->executeUpdateICal($input, $output);
     }
 
     private function executeAvailabilitiesOwner(InputInterface $input, OutputInterface $output) {
@@ -181,6 +182,35 @@ class AvailabilityOwnerCommand extends ContainerAwareCommand {
             $spool = $mailer->getTransport()->getSpool();
             $transport = $container->get('swiftmailer.transport.real');
             $spool->flushQueue($transport);
+        }
+
+        $now = new \DateTime();
+        $now_format = $now->format('Y-m-d H:i:s');
+        $output->writeln('<info>**** -------------------------Fin executeCancelBooking:' . $now_format . '--------------------------- ****</info>');
+    }
+
+    private function executeUpdateICal(InputInterface $input, OutputInterface $output) {
+        $now = new \DateTime();
+        $now_format = $now->format('Y-m-d H:i:s');
+        $output->writeln('<info>**** ---------------------Inicio executeUpdateICal:' . $now_format . '--------------------- ****</info>');
+
+        $output->writeln('<info>**** Actualizaciones a calendario ****</info>');
+
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $repository = $em->getRepository("mycpBundle:taskRenta");
+        $updateICals = $repository->getUpdateICal();
+
+        $output->writeln('<info>**** Cantidad de actualizaciones no leidas ' . count($updateICals) . ' ****</info>');
+
+        foreach ($updateICals as $updateIcal) {
+            $calendarService = $container->get('mycp.service.calendar');
+            $roomId = $updateIcal->getData();
+            $calendarService->createICalForRoom($roomId);
+
+            $updateIcal->setStatus(taskRenta::STATUS_EXECUTED);
+            $em->persist($updateIcal);
+            $em->flush();
         }
 
         $now = new \DateTime();

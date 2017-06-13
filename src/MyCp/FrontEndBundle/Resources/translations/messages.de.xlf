@@ -740,7 +740,7 @@
             </trans-unit>
             <trans-unit id="192">
                 <source>BREAKFAST_FILTER</source>
-                <target>Inklusive Frühstück</target>
+                <target>Frühstück</target>
             </trans-unit>
             <trans-unit id="193">
                 <source>WINDOWS_FILTER</source>

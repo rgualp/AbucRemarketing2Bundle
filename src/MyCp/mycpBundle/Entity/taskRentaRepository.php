@@ -19,4 +19,13 @@ class taskRentaRepository extends EntityRepository
 
         return $qb->getQuery()->execute();
     }
+
+    function getUpdateICal() {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->where('a.type = :type')->setParameter('type', taskRenta::TYPE_UPDATE_ICAL)
+            ->andWhere('a.status = :status')->setParameter('status', taskRenta::STATUS_PENDING);
+
+        return $qb->getQuery()->execute();
+    }
 }

@@ -83,7 +83,7 @@ class utilsExtension extends \Twig_Extension {
         return $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
     }
 
-    public function priceFilter($number, $currency = null, $decimals = 2, $decPoint = '.', $thousandsSep = ',') {
+    public function priceFilter($number, $currency = null, $decimals = 2, $decPoint = '.', $thousandsSep = ',',$show_symbol=true) {
         $rate = 0;
         $symbol = "";
 
@@ -104,7 +104,8 @@ class utilsExtension extends \Twig_Extension {
         }
 
         $price = number_format($number * $rate, $decimals, $decPoint, $thousandsSep);
-        $price = $symbol . ' ' . $price;
+
+        $price = ($show_symbol)?$symbol . ' ' . $price:$price;
 
         return $price;
     }

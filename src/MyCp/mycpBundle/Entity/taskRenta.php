@@ -18,6 +18,7 @@ class taskRenta
 
     const TYPE_NONE = -1;
     const TYPE_CANCELED_BOOKING = 0;
+    const TYPE_UPDATE_ICAL = 1;
 
     /**
      * @var integer

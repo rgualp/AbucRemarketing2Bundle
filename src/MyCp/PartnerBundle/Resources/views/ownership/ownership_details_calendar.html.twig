@@ -58,8 +58,77 @@
         </table>
     </li>
     <li class="lead">
+
         {% if completePayment is defined and completePayment %}
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+            <hr/>
+            {% if ownership.breakfast %}
+                <div class="row col-breakfastprice" data-currentsymbol="{{ currSymbol }}" data-breakfastprice = "{{ ownership.breakfastPrice | price(null,2,'.',',',false)  }}">
+                    <div class="col-md-2" >
+                        <div class="checkbox checkbox-primary" style="text-align: left">
+                            <input class="form-control" data-container="body" value="1" type="checkbox" id="breakfast">
+                            <label>
+                                {{"BREAKFAST_FILTER" | trans}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin-top: 4px">
+                        <label>
+                            : {{ ownership.breakfastPrice | price}}
+                        </label>
+                    </div>
+                    <div class="col-md-6 hidden" id="col-pricebreakfast">
+                        <label id="persons_breakfast">
+                            0
+                        </label>
+                        <label>
+                            x
+                        </label>
+                        <label id="breakfastPrice" >
+                            {{ ownership.breakfastPrice | price}}
+                        </label>
+                        <label>
+                            =
+                        </label>
+                        <label id="calcbreakfast">
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+            {% if ownership.dinner %}
+                <div class="row col-dinnerPrice" data-currentsymbol="{{ currSymbol }}" data-dinnerprice = "{{ ownership.dinnerPrice | price(null,2,'.',',',false)}}">
+                    <div class="col-md-2">
+                        <div class="checkbox checkbox-primary" style="text-align: left">
+                            <input class="form-control" data-container="body" value="1" type="checkbox" id="dinner">
+                            <label>
+                                {{"DINNER_OTHERS_FILTER" | trans}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin-top: 4px">
+                        <label>
+                            : {{ ownership.dinnerPrice | price}}
+                        </label>
+                    </div>
+                    <div class="col-md-6 hidden" id="col-pricedinner">
+                        <label id="persons_dinner">
+                            0
+                        </label>
+                        <label>
+                            x
+                        </label>
+                        <label id="dinnerPrice">
+                            {{ ownership.dinnerPrice | price}}
+                        </label>
+                        <label>
+                            =
+                        </label>
+                        <label id="calcdinner">
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+            <hr/>
         <div class="all-prices-numbers">
             <div class="text-right">
                 {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:
@@ -202,6 +271,8 @@
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
                         <input type="hidden"  value="" name="partnerClientName" id="partnerClientName"/>
                         <input type="hidden"  value="" name="partnerClientId" id="partnerClientId"/>
+                        <input type="hidden"  value="" name="servicefast" id="servicefast"/>
+                        <input type="hidden"  value="" name="servicedinner" id="servicedinner"/>
                     <div class="col-sm-6">
                         {% if ownership.OwnInmediateBooking2 %}
                             <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShipPartner" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>

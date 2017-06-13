@@ -513,7 +513,8 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE (ore.own_res_status = $reservedCode)
         AND ((ore.own_res_reservation_from_date >= :start AND ore.own_res_reservation_to_date < :end) OR
              (ore.own_res_reservation_to_date > :start AND ore.own_res_reservation_to_date < :end) OR
-             (ore.own_res_reservation_from_date <= :end AND ore.own_res_reservation_from_date >= :start))
+             (ore.own_res_reservation_from_date <= :end AND ore.own_res_reservation_from_date >= :start) OR
+             (ore.own_res_reservation_from_date <= :start AND ore.own_res_reservation_to_date > :start))
         AND ore.own_res_selected_room_id = :room_id
         ORDER BY ore.own_res_reservation_from_date ASC");
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('room_id', $roomId)->getResult();
@@ -861,12 +862,11 @@ limit 1
 
         $serviceFee = $generalReservation->getServiceFee();
         $refundTotal = 0;
-
         $nights =  $timerService->diffInDays($ownershipReservation->getOwnResReservationToDate()->format("Y-m-d"),$ownershipReservation->getOwnResReservationFromDate()->format("Y-m-d"));
 
-        $roomPrice = $ownershipReservation->getOwnResTotalInSite() / $nights;
-
-        $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $nights, $roomPrice,$serviceFee->getId());
+        $temp=($nights==0)?1:$nights;
+        $roomPrice = $ownershipReservation->getOwnResTotalInSite() /$temp;
+        $touristTax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee(1, $temp, $roomPrice,$serviceFee->getId());
 
         $touristTax = $touristTax * $ownershipReservation->getOwnResTotalInSite();
 

@@ -19,7 +19,8 @@
 <hr/>
 <a class="btn" href="{{ path('mycp_new_ownership') }}"><i class="icon-plus"></i> Adicionar propiedad</a>&nbsp;
 <a class="btn" href="{{ path('mycp_batch_process_ownership') }}"><i class="icon-tasks"></i> Adicionar múltiples propiedades</a>&nbsp;
-    <a class="btn" href="{{ path("mycp_logs_ownership") }}"><i class="icon-eye-open"></i> Bitácoras</a>&nbsp;
+<a class="btn" href="{{ path("mycp_logs_ownership") }}"><i class="icon-eye-open"></i> Bitácoras</a>&nbsp;
+<a class="btn css-all-ical"><i class="fa fa-calendar-o"></i> Ejecutar todos los ICAL</a>&nbsp;
 <br/><br/>
     <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-toggle="tab" href="#accommodations">Propiedades</a></li>
@@ -108,6 +109,7 @@
                                             <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')%}selected="TRUE"{%endif%}>Con errores (En dirección)</option>
                                             <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_ERROR_GEOLOCALIZATION')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_ERROR_GEOLOCALIZATION')%}selected="TRUE"{%endif%}>Con errores (En geolocalizacion)</option>
                                             <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_MOBILE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_MOBILE')%}selected="TRUE"{%endif%}>Con errores (En móvil)</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ICAL')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ICAL')%}selected="TRUE"{%endif%}>Trabaja con ICal</option>
                                         </select>
                                     </div>
                                     <div class="span3">
@@ -279,6 +281,11 @@
                                                 <a class="black-icon" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}" title="Editar"><i class="fa fa-edit"></i></a> |
                                                 <a class="black-icon" href="{{ path('mycp_list_penalties',{'accommodationId':ownership.own_id}) }}" title="Penalizaciones"><i class="fa fa-bullhorn"></i></a> |
                                                 <a class="black-icon" href="{{ path('mycp_list_touristfailures',{'accommodationId':ownership.own_id}) }}" title="Fallos"><i class="fa fa-warning"></i></a>
+
+                                                {% if ownership.withIcal %}
+                                              | <a class="black-icon css-ical" data-id="{{ ownership.own_id }}" data-href="{{ path('mycp_execute_ical_ownership',{'id_ownership':ownership.own_id}) }}" title="Ejecutar actualización desde ICal" style="cursor: pointer"><i class="fa fa-calendar-o"></i></a>
+                                                <span id="ical_loading_{{ ownership.own_id }}" class="hidden" title="Importando ICal."><i class="fa fa-refresh fa-spin"></i></span>
+                                                {%endif%}
                                             </td>
                                            </tr>
     {% endfor %}
@@ -419,6 +426,55 @@
             $('#filter').attr('action', url_submit);
             $('#filter').submit();
         }
+
+        $('a.css-ical').on('click',function(){
+            var ele = $(this);
+            var id = ele.data('id');
+
+            var loading = $('#ical_loading_'+id);
+            loading.removeClass('hidden');
+            ele.addClass('hidden');
+
+            var url = ele.data('href');
+            $.ajax({
+                type: 'post',
+                url: url,
+                success: function (data) {
+                    ele.removeClass('hidden');
+                    loading.addClass('hidden');
+                    toastr.info('Calendario de ' + data.ownership + ' actualizado con exito.');
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    toastr.error('Ha ocurrido un error');
+                    ele.removeClass('hidden');
+                    loading.addClass('hidden');
+                }
+            });
+        });
+
+        $('a.css-all-ical').on('click',function(){
+            var ele = $(this);
+
+            var loading = ele.find('i');
+            loading.removeClass('fa-calendar-o');
+            loading.addClass('fa-refresh fa-spin');
+
+            var url = "{{ path("mycp_execute_all_ical_ownership") }}";
+            $.ajax({
+                type: 'post',
+                url: url,
+                success: function (data) {
+                    loading.removeClass('fa-refresh fa-spin');
+                    loading.addClass('fa-calendar-o');
+                    toastr.info('Calendario de ' + data.ownership + ' casas actualizado con exito.');
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    toastr.error('Ha ocurrido un error');
+                    loading.removeClass('fa-refresh fa-spin');
+                    loading.addClass('fa-calendar-o');
+                }
+            });
+        });
     </script>
 
     <script src="{{ asset('bundles/mycp/js/bootstrap-typeahead.js') }}" type="text/javascript"></script>

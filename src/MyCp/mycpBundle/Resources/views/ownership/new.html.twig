@@ -399,6 +399,11 @@
                                 {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                             </select>
 
+                            <label>URL ICal</label>
+                            {% if errors['ical_'~i] is defined %}<label class="error">{{errors['ical_'~i]|trim(':')}}</label>{%endif%}
+                            <input value="{% if(post['ical_'~i] is defined) %}{{post['ical_'~i]}}{% endif %}" class="input-block-level" placeholder="URL ICal" type="text" name="ical_{{ i }}" id="ical_{{ i }}"/>
+
+
                             {% if post['room_id_'~i] is defined %}
                             {% if (post['room_active_'~i] is defined) %}
                                 {% if post['room_active_'~i] == 0 %}
@@ -578,6 +583,11 @@
 <h3 class="title">¿Es Confiable?</h3>
 <label class="checkbox">
     <input type="checkbox" {% if post['confidence'] is defined and (post['confidence'] ==1) %} checked="TRUE" {% endif %} name="confidence"> Es una casa confiable para MyCasaParticular
+</label><br/>
+
+<h3 class="title">ICalendar</h3>
+<label class="checkbox">
+    <input type="checkbox" {% if post['with_ical'] is defined and (post['with_ical'] ==1) %} checked="TRUE" {% endif %} name="with_ical"> Trabaja con ICal
 </label><br/>
 
 <h3 class="title">Publicado</h3>
