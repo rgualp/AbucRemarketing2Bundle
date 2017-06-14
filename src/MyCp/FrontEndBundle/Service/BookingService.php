@@ -1584,10 +1584,12 @@ class BookingService extends Controller
             {
                 $price_tourist=$this->calculateTourist($reservations_ids,true);
                 if(count($booking->getBookingOwnReservations())==count($reservations_ids)){     //es que las cancelo todas
-                    $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                    //$total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    $total_price=$payment->getPayedAmount();
                 }
                 else{
-                    $total_price=($price_tourist['price']-$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                   // $total_price=($price_tourist['price']-$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    $total_price=$payment->getPayedAmount()-$price_tourist['fixed'];
                 }
                 //Se registra un Pago Pendiente a Turista
                 $pending_tourist=new pendingPaytourist();
