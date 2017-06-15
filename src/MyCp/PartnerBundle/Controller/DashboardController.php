@@ -1667,7 +1667,8 @@ class DashboardController extends Controller
             'commissionAgency' => $currentTravelAgency->getCommission(),
             'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
             'nights' => $nights,
-            "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge')
+            "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge'),
+            'isCompletePayment' => false
         ));
     }
 
