@@ -673,6 +673,13 @@ class ownership {
     private $goodPicture;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="with_ical", type="boolean", nullable=true)
+     */
+    private $withIcal;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -706,6 +713,7 @@ class ownership {
         $this->transferMethodsPayment = new ArrayCollection();
         $this->effectiveMethodsPayment = new ArrayCollection();
         $this->count_visits = 0;
+        $this->withIcal = false;
     }
 
     /**
@@ -3072,4 +3080,28 @@ class ownership {
 
 
 
+    /**
+     * Get withIcal
+     *
+     * @return boolean
+     */
+    public function getWithIcal()
+    {
+        return $this->withIcal;
+    }
+
+    /**
+     * Get withIcal
+     * @param boolean $withIcal
+     * @return mixed
+     */
+    public function setWithIcal($withIcal)
+    {
+        $this->withIcal = $withIcal;
+
+        return $this;
+    }
+
+
 }
+
