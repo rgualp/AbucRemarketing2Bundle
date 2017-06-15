@@ -9,14 +9,19 @@
                 <div class="col-sm-11 col-xs-9">
                     <h2 class="font-blue">Paso 3</h2>
 
-                    <h3 class="font-blue">Detalle las características de sus habitaciones </h3>
+                    <h3 class="font-blue">Detalle las características de sus habitaciones</h3>
                 </div>
             </div>
             <div class="tabbable font-black tab-mcp">
                 <ul id="nav-tabs-backend" class="nav nav-tabs mcp" data-numroom="{{ ownership.ownRooms | length }}">
                     {% if ownership.ownRooms | length %}
                         {% for room in ownership.ownRooms %}
-                            <li id="nav1{{ room.RoomNum }}" class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="#tab1{{ room.RoomNum }}">Hab {{ room.RoomNum }}</a></li>
+                            <li id="nav1{{ room.RoomNum }}" class="{% if loop.first %}active{% endif %}">
+                                <a data-toggle="tab" href="#tab1{{ room.RoomNum }}">
+                                    {% if not room.RoomActive %} <span style="font-size: 10px;margin-top: 10px;position: absolute;margin-left: -10px;color: red">(desactivada)</span> {#<br>#} {% endif %}
+                                    Hab. {{ room.RoomNum }}
+                                </a>
+                            </li>
                         {% endfor %}
                     {% else %}
                         <li id="nav11" class="active"><a data-toggle="tab" href="#tab11">Hab 1</a></li>
