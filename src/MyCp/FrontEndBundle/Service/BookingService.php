@@ -1588,8 +1588,8 @@ class BookingService extends Controller
                     $total_price=$payment->getPayedAmount();
                 }
                 else{
-                   // $total_price=($price_tourist['price']-$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
-                    $total_price=$payment->getPayedAmount()-$price_tourist['fixed'];
+                    //$total_price=($price_tourist['price']-$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    $total_price=(($payment->getPayedAmount() * count($reservations_ids))/count($booking->getBookingOwnReservations()))-$price_tourist['fixed'];
                 }
                 //Se registra un Pago Pendiente a Turista
                 $pending_tourist=new pendingPaytourist();
