@@ -79,6 +79,11 @@
         {% include 'MyCpCasaModuleBundle::layout_config.html.twig' %}
         <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>
 
+        <script>
+            var logoutUrl='{{ url('my_cp_casa_logout') }}';
+            var publishUrl='{{ url('casa_publish_ownership') }}';
+        </script>
+
         {% if ownership.modifying %}
             <script>
                 $(document).on('ready', function () {
