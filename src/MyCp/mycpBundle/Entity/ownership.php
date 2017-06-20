@@ -3102,6 +3102,11 @@ class ownership {
         return $this;
     }
 
+    public function getCompleteReservationMode()
+    {
+        return ($this->bookingModality != null && $this->bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+    }
+
 
 }
 
