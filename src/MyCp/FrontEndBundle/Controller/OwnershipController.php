@@ -1407,6 +1407,12 @@ class OwnershipController extends Controller
 
             foreach ($list as $own) {
                 $prize = ($own->getOwnMinimumPrice()) * ($session->get('curr_rate') == null ? 1 : $session->get('curr_rate'));
+
+                if($own->getCompleteReservationMode())
+                {
+                    $prize = ($own->getBookingModality()->getPrice()) * ($session->get('curr_rate') == null ? 1 : $session->get('curr_rate'));
+                }
+
                 $result[] = array('latitude' => $own->getOwnGeolocateX(),
                     'longitude' => $own->getOwnGeolocateY(),
                     'title' => $own->getOwnName(),

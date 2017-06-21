@@ -1293,7 +1293,7 @@ class ownershipRepository extends EntityRepository {
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          data.reservedRooms as count_reservations,
                          (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
-                         o.own_minimum_price as minPrice,
+                         IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minPrice,
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1301,6 +1301,8 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
                          LEFT JOIN op.own_pho_photo pho
+                         LEFT JOIN o.bookingModality abMod
+                         LEFT JOIN abMod.bookingModality bMod
                          WHERE o.own_inmediate_booking_2=1
                          AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
@@ -2078,7 +2080,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_rating as rating,
                             o.own_category as category,
                             o.own_type as type,
-                            o.own_minimum_price as minimum_price,
+                            IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minimum_price,
                             o.own_inmediate_booking as OwnInmediateBooking,
                             o.own_inmediate_booking_2 as OwnInmediateBooking2,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
@@ -2091,7 +2093,9 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_municipality mun
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
-                         LEFT JOIN op.own_pho_photo pho";
+                         LEFT JOIN op.own_pho_photo pho
+                         LEFT JOIN o.bookingModality abMod
+                         LEFT JOIN abMod.bookingModality bMod";
         return $query_string;
     }
 
