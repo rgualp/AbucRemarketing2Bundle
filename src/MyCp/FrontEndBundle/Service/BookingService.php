@@ -452,8 +452,20 @@ class BookingService extends Controller
             $tempNights = 0;
 
             $tempGenResId = $ownReservations[0]->getOwnResGenResId()->getGenResId();
+            $tempGenRes = $ownReservations[0]->getOwnResGenResId();
+
             $tempTotalRooms = 0;
             $tempPrice = 0;
+            $countReservations = true;
+
+            if($tempGenRes->getCompleteReservationMode())
+            {
+                $accommodation = $tempGenRes->getGenResOwnId();
+                $tempTotalRooms = count($accommodation->getOwnRooms());
+                $price = ($accommodation->getCompleteReservationMode()) ? $accommodation->getBookingModality()->getPrice() : 0;
+                $tempPrice = $price / $tempTotalRooms;
+                $countReservations = false;
+            }
 
             foreach ($ownReservations as $own) {
 
@@ -472,13 +484,24 @@ class BookingService extends Controller
                 else{
                     $totalNights += ($tempNights / $tempTotalRooms);
                     $tempGenResId = $own->getOwnResGenResId()->getGenResId();
+                    $tempGenRes = $ownReservations[0]->getOwnResGenResId();
+                    $countReservations = !$tempGenRes->getCompleteReservationMode();
+
+                    if($tempGenRes->getCompleteReservationMode())
+                    {
+                        $accommodation = $tempGenRes->getGenResOwnId();
+                        $tempTotalRooms = count($accommodation->getOwnRooms());
+                        $price = ($accommodation->getCompleteReservationMode()) ? $accommodation->getBookingModality()->getPrice() : 0;
+                        $tempPrice = $price / $tempTotalRooms;
+                    }
+                    else
+                        $tempPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
 
                     $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($tempTotalRooms, $tempNights / $tempTotalRooms, $tempPrice / $tempTotalRooms, $own_r["service_fee"]);
                     $touristTaxTotal += $tempPrice * $tax;
 
                     $tempNights = $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
                     $tempTotalRooms = 1;
-                    $tempPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
                 }
             }
 

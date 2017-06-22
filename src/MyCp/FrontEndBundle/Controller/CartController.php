@@ -631,14 +631,14 @@ class CartController extends Controller {
         $totalRooms = 0;
         foreach($cartItems as $item)
         {
-
-               if($accommodationId != $item->getCartRoom()->getRoomOwnership()->getOwnId())
+               $accommodation = $item->getCartRoom()->getRoomOwnership();
+               if($accommodationId != $accommodation->getOwnId())
                {
-                   $accommodationId = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+                   $accommodationId = $accommodation->getOwnId();
                    $destination = (count($cartItems)) ? $cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnDestination(): null;
                    $destination_id = isset($destination) ? $destination->getDesId() : null;
 
-                   $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
+                   $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId(), $accommodation->getCompleteReservationMode(), $accommodation);
                    $touristTax += $tax * $totalPrice;
 
                    $nights = 0;
@@ -663,6 +663,10 @@ class CartController extends Controller {
                }
         }
         if($totalRooms > 0){
+            /*if($accommodation->getCompleteReservationMode())
+                $tax = $em->getRepository("mycpBundle:serviceFee")->calculateForCompleteAccommodationReservation($accommodation, $nights / $totalRooms, $item->getServiceFee()->getId());
+            else*/
+
             $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
             $touristTax += $tax * $totalPrice;
         }
