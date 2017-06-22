@@ -1584,10 +1584,12 @@ class BookingService extends Controller
             {
                 $price_tourist=$this->calculateTourist($reservations_ids,true);
                 if(count($booking->getBookingOwnReservations())==count($reservations_ids)){     //es que las cancelo todas
-                    $total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    //$total_price=($price_tourist['price']+$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    $total_price=$payment->getPayedAmount();
                 }
                 else{
-                    $total_price=($price_tourist['price'])*$payment->getCurrentCucChangeRate();
+                    //$total_price=($price_tourist['price']-$price_tourist['fixed'])*$payment->getCurrentCucChangeRate();
+                    $total_price=(($payment->getPayedAmount() * count($reservations_ids))/count($booking->getBookingOwnReservations()))-$price_tourist['fixed'];
                 }
                 //Se registra un Pago Pendiente a Turista
                 $pending_tourist=new pendingPaytourist();
@@ -1643,10 +1645,10 @@ class BookingService extends Controller
                 if($day>7 || ($day<=7 && $day>=3) && $date_cancel_payment<$min_date_arrive){  //Antes  de los 7 días de llegada del turista:
                     $price_tourist=($day>7)?$this->calculateTourist($reservations_ids,false):$this->calculateTourist($reservations_ids,true);
                     if(count($booking->getBookingOwnReservations())==count($reservations_ids)){
-                        $total_price=$price_tourist['price']+$price_tourist['fixed'];
+                        $total_price=$price_tourist['price'];
                     }
                     else{
-                        $total_price=($price_tourist['price']);
+                        $total_price=($price_tourist['price']-$price_tourist['fixed']);
                     }
 
                     //Se registra un Pago Pendiente a Turista
