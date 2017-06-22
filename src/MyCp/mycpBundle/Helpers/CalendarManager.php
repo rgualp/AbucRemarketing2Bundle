@@ -70,18 +70,18 @@ class CalendarManager{
         foreach ($unavailabilyDetails as $event) {
             $calendar->add('VEVENT', [
                 'SUMMARY' => 'No disponible',
-                'DTSTART' => $event->getUdFromDate(),
-                'DTEND' => $event->getUdToDate(),
+                'DTSTART;VALUE=DATE' => $event->getUdFromDate()->format('Ymd'),
+                'DTEND;VALUE=DATE' => $event->getUdToDate()->format('Ymd'),
             ]);
         }
 
         foreach ($reservations as $event) {
-            $startDate = $event->getOwnResReservationFromDate();
+            $startDate = $event->getOwnResReservationFromDate()->format('Ymd');
             $endDate = $event->getOwnResReservationToDate();
             $calendar->add('VEVENT', [
                 'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - ".$event->getOwnResGenResId()->getCASId() : "Reserva no disponible",
-                'DTSTART' => $startDate,
-                'DTEND' => $endDate->modify("-1 day"),
+                'DTSTART;VALUE=DATE' => $startDate,
+                'DTEND;VALUE=DATE' => $endDate->modify("-1 day")->format('Ymd'),
             ]);
         }
 
