@@ -68,20 +68,22 @@ class CalendarManager{
         $calendar = new VObject\Component\VCalendar();
 
         foreach ($unavailabilyDetails as $event) {
+            $startDate = $event->getUdFromDate()->format('Ymd');
+            $endDate = $event->getUdToDate();
             $calendar->add('VEVENT', [
                 'SUMMARY' => 'No disponible',
-                'DTSTART;VALUE=DATE' => $event->getUdFromDate()->format('Ymd'),
-                'DTEND;VALUE=DATE' => $event->getUdToDate()->format('Ymd'),
+                'DTSTART;VALUE=DATE' => $startDate,
+                'DTEND;VALUE=DATE' => $endDate->modify("+1 day")->format('Ymd'),
             ]);
         }
 
         foreach ($reservations as $event) {
             $startDate = $event->getOwnResReservationFromDate()->format('Ymd');
-            $endDate = $event->getOwnResReservationToDate();
+            $endDate = $event->getOwnResReservationToDate()->format('Ymd');
             $calendar->add('VEVENT', [
                 'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - ".$event->getOwnResGenResId()->getCASId() : "Reserva no disponible",
                 'DTSTART;VALUE=DATE' => $startDate,
-                'DTEND;VALUE=DATE' => $endDate->modify("-1 day")->format('Ymd'),
+                'DTEND;VALUE=DATE' => $endDate,
             ]);
         }
 
@@ -146,7 +148,7 @@ class CalendarManager{
 
                 $now = new \DateTime();
                 if($end >= $now){
-                    $udetailsService->addUdetailFromICal($room->getRoomId(), $start->format('Y-m-d'), $end->format('Y-m-d'), $sumary);
+                    $udetailsService->addUdetailFromICal($room->getRoomId(), $start->format('Y-m-d'), $end->modify("-1 day")->format('Y-m-d'), $sumary);
                     $updateIcal = true;
                 }
             }
