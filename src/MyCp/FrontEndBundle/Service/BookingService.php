@@ -1655,9 +1655,9 @@ class BookingService extends Controller
                     $pending_tourist=new pendingPaytourist();
                     $pending_tourist->setCancelId($obj);
                     if($day>7)
-                        $pending_tourist->setPayAmount($total_price*$payment->getCurrentCucChangeRate());
+                        $pending_tourist->setPayAmount($payment->getPayedAmount());
                     if($day<=7 && $day>=3){
-                        $pending_tourist->setPayAmount(($total_price*0.5)*$payment->getCurrentCucChangeRate());
+                        $pending_tourist->setPayAmount($payment->getPayedAmount()*0.5);
                     }
 
 
