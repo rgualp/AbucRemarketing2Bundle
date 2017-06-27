@@ -69,7 +69,7 @@ var Step7 = function () {
         }
         var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
         //Se muestra un texto a modo de ejemplo, luego va a ser un icono
-        if ($('#owner_email_2').val()!=''&&!emailRegex.test($('#owner_email_2').val())) {
+        if ($('#owner_email_2').val()!=undefined && $('#owner_email_2').val()!='' && !emailRegex.test($('#owner_email_2').val())) {
             validate=false;
             $("#email2Errors").html("Email inválido.");
             $("#email2Errors").removeClass("hide");

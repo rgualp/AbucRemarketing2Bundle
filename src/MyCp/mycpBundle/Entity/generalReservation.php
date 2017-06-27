@@ -231,6 +231,20 @@ class generalReservation {
     private $pendingPayments;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="servicedinner", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $servicedinner = null;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="servicefast", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $servicefast = null;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -993,6 +1007,51 @@ class generalReservation {
     public function removePendingPayment(paPendingPaymentAgency $paPendingPaymentAgency)
     {
         $this->pendingPayments->removeElement($paPendingPaymentAgency);
+    }
+
+    /**
+     * Set servicedinner
+     *
+     * @param float $servicedinner
+     * @return generalReservation
+     */
+    public function setServicedinner($servicedinner)
+    {
+        $this->servicedinner = $servicedinner;
+
+        return $this;
+    }
+
+    /**
+     * Get servicedinner
+     *
+     * @return float
+     */
+    public function getServicedinner()
+    {
+        return $this->servicedinner;
+    }
+    /**
+     * Set servicefast
+     *
+     * @param float $servicefast
+     * @return generalReservation
+     */
+    public function setServicefast($servicefast)
+    {
+        $this->servicefast = $servicefast;
+
+        return $this;
+    }
+
+    /**
+     * Get servicefast
+     *
+     * @return float
+     */
+    public function getServicefast()
+    {
+        return $this->servicefast;
     }
 
 
