@@ -237,7 +237,9 @@ class paReservationRepository extends EntityRepository {
             SUM(ownRes.own_res_total_in_site) as totalInSite,
             accommodation.own_commission_percent as commission,
             reservation.id as idReservation,
-            client.fullname
+            client.fullname,
+            genRes.servicedinner as dinner,
+            genRes.servicefast as breakfast
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join("ownRes.own_res_gen_res_id", "genRes")
