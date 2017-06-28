@@ -92,11 +92,8 @@ class serviceFeeRepository extends EntityRepository {
 
             $avgRoomPrices = $roomPrices / $totalsRooms;
             $totalNights = $totalNights / $totalsRooms;
-            /*var_dump($genResId);
-            var_dump($totalsRooms);
-            var_dump($totalNights);*/
 
-        if($genRes->getCompleteReservationMode())
+        if(!$genRes->getCompleteReservationMode())
             $touristTax = $this->calculateTouristServiceFee($totalsRooms, $totalNights, $avgRoomPrices, $taxId);
         else
             $touristTax = $this->calculateForCompleteAccommodationReservation($genRes->getGenResOwnId(), $totalNights, $taxId);
