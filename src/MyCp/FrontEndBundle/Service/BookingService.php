@@ -1509,6 +1509,7 @@ class BookingService extends Controller
     public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true,$by_system=false){
 
         $notificationService = $this->container->get("mycp.notification.service");
+
         if(count($reservations_ids)){
             //Servicios
             $templatingService = $this->container->get('templating');
@@ -1522,6 +1523,9 @@ class BookingService extends Controller
             $onReservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($reservations_ids[0]);
             $booking=$onReservation->getOwnResReservationBooking();
             $idBooking=$booking->getBookingId();
+
+            $tax = $this->em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($onReservation->getOwnResGenResId(), $service_time);
+
 
             $min_date = $this->em->getRepository('mycpBundle:ownershipReservation')->getBookingById($idBooking);
             $payment = $this->em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $idBooking));
@@ -1655,9 +1659,9 @@ class BookingService extends Controller
                     $pending_tourist=new pendingPaytourist();
                     $pending_tourist->setCancelId($obj);
                     if($day>7)
-                        $pending_tourist->setPayAmount($total_price*$payment->getCurrentCucChangeRate());
+                        $pending_tourist->setPayAmount($payment->getPayedAmount()-($tax*$payment->getCurrentCucChangeRate()));
                     if($day<=7 && $day>=3){
-                        $pending_tourist->setPayAmount(($total_price*0.5)*$payment->getCurrentCucChangeRate());
+                        $pending_tourist->setPayAmount($payment->getPayedAmount()*0.5);
                     }
 
 
@@ -1796,7 +1800,6 @@ class BookingService extends Controller
         else
             return array('success' => false, 'message' =>'Debe de seleccionar algún CAS a cancelar');
     }
-
     /**
      * @param $reservations_ids
      * @return array
