@@ -201,7 +201,9 @@ class paReservationRepository extends EntityRepository {
             ownRes.own_res_total_in_site as totalInSite,
             reservation.id as idReservation,
             ownRes.own_res_id,
-            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showChecked
+            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showChecked,
+            genRes.servicedinner as dinner,
+            genRes.servicefast as breakfast
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join('mycpBundle:room', 'room', Join::WITH, 'ownRes.own_res_selected_room_id = room.room_id')
