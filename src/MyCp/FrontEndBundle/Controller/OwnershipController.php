@@ -44,7 +44,8 @@ class OwnershipController extends Controller
             $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
         }*/
         if (!$owner_id) {
-            throw $this->createNotFoundException();
+            return $this->redirect($this->generateUrl('frontend_search_ownership'));
+            //throw $this->createNotFoundException();
         }
 
         $em = $this->getDoctrine()->getManager();
