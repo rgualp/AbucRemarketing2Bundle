@@ -1993,6 +1993,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         return $qb->getQuery()->getResult();
     }
+    function desglose($filter_date_from = null, $filter_date_to = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("p")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+            $qb->Where("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      * @param $filter_date_from
