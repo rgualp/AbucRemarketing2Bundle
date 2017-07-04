@@ -71,8 +71,8 @@ class SummaryCommand extends ContainerAwareCommand
         $day = date("Y-m-d");
 
 
-        $yesterday = "2017-02-01";
-        $day = "2017-02-02";
+        //$yesterday = "2017-02-01";
+        //$day = "2017-02-02";
 
         $factu = $em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday, $day);
         $desglose = $em->getRepository("mycpBundle:generalReservation")->desglose($yesterday, $day);
