@@ -77,7 +77,7 @@
                             : {{ ownership.breakfastPrice | price}}
                         </label>
                     </div>
-                    <div class="col-md-6 hidden" id="col-pricebreakfast">
+                    <div class="col-md-6 hidden" id="col-pricebreakfast" style="font-size: 14px;margin-top: 10px">
                         <label id="persons_breakfast">
                             0
                         </label>
@@ -86,6 +86,15 @@
                         </label>
                         <label id="breakfastPrice" >
                             {{ ownership.breakfastPrice | price}}
+                        </label>
+                        <label>
+                            x
+                        </label>
+                        <label id="total_nights">
+                            0
+                        </label>
+                        <label>
+                            {{ 'NIGHTS' | trans }}
                         </label>
                         <label>
                             =
@@ -110,7 +119,7 @@
                             : {{ ownership.dinnerPrice | price}}
                         </label>
                     </div>
-                    <div class="col-md-6 hidden" id="col-pricedinner">
+                    <div class="col-md-6 hidden" id="col-pricedinner" style="font-size: 14px;margin-top: 10px">
                         <label id="persons_dinner">
                             0
                         </label>
@@ -120,6 +129,16 @@
                         <label id="dinnerPrice">
                             {{ ownership.dinnerPrice | price}}
                         </label>
+                        <label>
+                            x
+                        </label>
+                        <label id="total_nights">
+                            0
+                        </label>
+                        <label>
+                           {{ 'NIGHTS' | trans }}
+                        </label>
+
                         <label>
                             =
                         </label>

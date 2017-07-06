@@ -123,7 +123,6 @@ function totalPrice(curr,percent, totalNights)
     //}
 }
 function updateService(){
-
     var count_guests=0;
     $('.guest').each(function() {
         count_guests =eval(count_guests)+ eval(this.innerHTML);
@@ -134,13 +133,14 @@ function updateService(){
     });
     $('#persons_breakfast').html(eval(count_guests)+eval(count_kids));
     $('#persons_dinner').html(eval(count_guests)+eval(count_kids));
+    $("[id*=total_nights]").html($("#totalNights").val());
 
     var total= eval(count_guests)+eval(count_kids);
 
 
 
     if( $('#dinner').is(':checked') ) {
-        totalPriceDinner = normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total);
+        totalPriceDinner = normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val());
 
     }
     else {
@@ -150,7 +150,7 @@ function updateService(){
     }
 
     if( $('#breakfast').is(':checked') ) {
-        totalPriceBreakfast = normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total);
+        totalPriceBreakfast = normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val());
 
     }
     else{
@@ -164,8 +164,8 @@ function updateService(){
     $("#servicedinner").val(totalPriceDinner);
 
 
-    $('#calcdinner').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total));
-    $('#calcbreakfast').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total));
+    $('#calcdinner').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
+    $('#calcbreakfast').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
 }
 function reservationsBody()
 {
