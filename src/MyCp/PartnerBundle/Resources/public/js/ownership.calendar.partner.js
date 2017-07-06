@@ -164,8 +164,8 @@ function updateService(){
     $("#servicedinner").val(totalPriceDinner);
 
 
-    $('#calcdinner').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
-    $('#calcbreakfast').html($('.col-dinnerPrice').data("currentsymbol") + normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
+    $('#calcdinner').html($('.col-dinnerPrice').data("currentsymbol") +' '+ normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
+    $('#calcbreakfast').html($('.col-dinnerPrice').data("currentsymbol") +' '+ normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
 }
 function reservationsBody()
 {
