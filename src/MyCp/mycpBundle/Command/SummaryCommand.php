@@ -71,8 +71,8 @@ class SummaryCommand extends ContainerAwareCommand
         $day = date("Y-m-d");
 
 
-        //$yesterday = "2017-02-01";
-        //$day = "2017-02-02";
+        //$yesterday = "2017-07-03";
+        //$day = "2017-07-04";
 
         $factu = $em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday, $day);
         $desglose = $em->getRepository("mycpBundle:generalReservation")->desglose($yesterday, $day);
@@ -140,6 +140,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'meta' => $meta,
                 'res_desglose'=>$res_desglose
             ));
+        //dump($body);die;
         try {
             $subject = "Sumario MyCasaParticular";
 
@@ -158,12 +159,10 @@ class SummaryCommand extends ContainerAwareCommand
         return 0;
     }
     public function in_array_r($needle, $haystack, $strict = false) {
-        $i=0;
-        foreach ($haystack as $item) {
+        foreach ($haystack as $key => $item) {
             if ($item['currency']==$needle) {
-                return $i;
+                return $key;
             }
-            $i++;
         }
         return -1;
     }
