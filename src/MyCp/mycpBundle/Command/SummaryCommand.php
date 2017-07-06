@@ -71,7 +71,7 @@ class SummaryCommand extends ContainerAwareCommand
         $day = date("Y-m-d");
 
 
-        //$yesterday = "2017-07-03";
+       // $yesterday = "2017-07-03";
         //$day = "2017-07-04";
 
         $factu = $em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday, $day);
