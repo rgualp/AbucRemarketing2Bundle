@@ -144,7 +144,7 @@ class SummaryCommand extends ContainerAwareCommand
         try {
             $subject = "Sumario MyCasaParticular";
 
-            $emailService->sendEmail(array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li', 'ander@mycasaparticular.com', 'jose.rafael@hds.li'), $subject, $body, 'no-responder@mycasaparticular.com');
+            $emailService->sendEmail(array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li', 'ander@mycasaparticular.com', 'jose.rafael@hds.li', 'yanexis@hds.li'), $subject, $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email');
 
 
