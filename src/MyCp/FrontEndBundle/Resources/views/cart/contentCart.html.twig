@@ -16,6 +16,7 @@
 {% set total_percent = 0 %}
 {% for item in cartItems %}
     {% set plus = 0 %}
+    {#{{ dates_timestamp[flag] == null }}#}
     {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
     {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
     {% if item.tripleRoomCharged %}
