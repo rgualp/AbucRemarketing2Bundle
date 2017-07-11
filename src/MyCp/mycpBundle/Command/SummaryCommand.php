@@ -71,7 +71,7 @@ class SummaryCommand extends ContainerAwareCommand
         $day = date("Y-m-d");
 
 
-        //$yesterday = "2017-07-03";
+       // $yesterday = "2017-07-03";
         //$day = "2017-07-04";
 
         $factu = $em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday, $day);
@@ -144,7 +144,7 @@ class SummaryCommand extends ContainerAwareCommand
         try {
             $subject = "Sumario MyCasaParticular";
 
-            $emailService->sendEmail(array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li', 'ander@mycasaparticular.com', 'jose.rafael@hds.li'), $subject, $body, 'no-responder@mycasaparticular.com');
+            $emailService->sendEmail(array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li', 'ander@mycasaparticular.com', 'jose.rafael@hds.li', 'yanexis@hds.li'), $subject, $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email');
 
 

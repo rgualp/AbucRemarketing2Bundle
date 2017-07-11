@@ -63,7 +63,7 @@
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
             <hr/>
             {% if ownership.breakfast %}
-                <div class="row col-breakfastprice" data-currentsymbol="{{ currSymbol }}" data-breakfastprice = "{{ ownership.breakfastPrice | price(null,2,'.',',',false)  }}">
+                <div class="row col-breakfastprice" style="font-size: 14px" data-currentsymbol="{{ currSymbol }}" data-breakfastprice = "{{ ownership.breakfastPrice | price(null,2,'.',',',false)  }}">
                     <div class="col-md-2" >
                         <div class="checkbox checkbox-primary" style="text-align: left">
                             <input class="form-control" data-container="body" value="1" type="checkbox" id="breakfast">
@@ -72,12 +72,12 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-4" style="margin-top: 4px">
+                    <div class="col-md-4" style="margin-top: 8px">
                         <label>
-                            : {{ ownership.breakfastPrice | price}}
+                            {{ ownership.breakfastPrice | price}}
                         </label>
                     </div>
-                    <div class="col-md-6 hidden" id="col-pricebreakfast">
+                    <div class="col-md-6 hidden" id="col-pricebreakfast" style="margin-top: 8px">
                         <label id="persons_breakfast">
                             0
                         </label>
@@ -88,6 +88,15 @@
                             {{ ownership.breakfastPrice | price}}
                         </label>
                         <label>
+                            x
+                        </label>
+                        <label id="total_nights">
+                            0
+                        </label>
+                        <label>
+                            {{ 'NIGHTS' | trans }}
+                        </label>
+                        <label>
                             =
                         </label>
                         <label id="calcbreakfast">
@@ -96,7 +105,7 @@
                 </div>
             {% endif %}
             {% if ownership.dinner %}
-                <div class="row col-dinnerPrice" data-currentsymbol="{{ currSymbol }}" data-dinnerprice = "{{ ownership.dinnerPrice | price(null,2,'.',',',false)}}">
+                <div class="row col-dinnerPrice" style="font-size: 14px" data-currentsymbol="{{ currSymbol }}" data-dinnerprice = "{{ ownership.dinnerPrice | price(null,2,'.',',',false)}}">
                     <div class="col-md-2">
                         <div class="checkbox checkbox-primary" style="text-align: left">
                             <input class="form-control" data-container="body" value="1" type="checkbox" id="dinner">
@@ -105,12 +114,12 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-4" style="margin-top: 4px">
+                    <div class="col-md-4" style="margin-top: 8px">
                         <label>
-                            : {{ ownership.dinnerPrice | price}}
+                            {{ ownership.dinnerPrice | price}}
                         </label>
                     </div>
-                    <div class="col-md-6 hidden" id="col-pricedinner">
+                    <div class="col-md-6 hidden" id="col-pricedinner" style="margin-top: 8px">
                         <label id="persons_dinner">
                             0
                         </label>
@@ -120,6 +129,16 @@
                         <label id="dinnerPrice">
                             {{ ownership.dinnerPrice | price}}
                         </label>
+                        <label>
+                            x
+                        </label>
+                        <label id="total_nights">
+                            0
+                        </label>
+                        <label>
+                           {{ 'NIGHTS' | trans }}
+                        </label>
+
                         <label>
                             =
                         </label>

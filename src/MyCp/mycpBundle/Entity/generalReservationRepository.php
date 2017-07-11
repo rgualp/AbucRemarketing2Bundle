@@ -2005,7 +2005,8 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("p.currency", "curr");
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
-            $qb->Where("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+
+            $qb->Where("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
