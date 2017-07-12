@@ -1823,6 +1823,8 @@ class DashboardController extends Controller
                     } else if ($user_ids["session_id"] != null)
                         $cart->setCartSessionId($user_ids["session_id"]);
 
+                    $hasCompleteReservation = false;
+                    $cart->setCompleteReservationMode($hasCompleteReservation);
                     $em->persist($cart);
                     $em->flush();
                     $arrayIdCart[] = $cart->getCartId();

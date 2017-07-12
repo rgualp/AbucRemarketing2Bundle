@@ -228,6 +228,9 @@ class CartController extends Controller
                     "reservations" => $reservations,
                     "lodgingPrice" => $item["totalInSite"],
                     "fixedFee" => $fixedFee,
+                    "dinner"=>$dinner,
+                    "breakfast"=>$breakfast,
+                    "agency_tax"=>($item["totalInSite"]+$dinner+$breakfast)*0.1,
                     "taxFees" => $touristFee + $fixedFee
                 );
             }
@@ -260,6 +263,9 @@ class CartController extends Controller
                     "reservations" => $reservations,
                     "lodgingPrice" => $item["totalInSite"],
                     "agencyCommissionPercent" => $currentTravelAgency->getCommission(),
+                    "dinner"=>$dinner,
+                    "breakfast"=>$breakfast,
+                    "agency_tax"=>($item["totalInSite"]+$dinner+$breakfast)*0.1,
                     "fixedFee" => $fixedFee,
                     "taxFees" => $touristFee + $transferFee,
                 );

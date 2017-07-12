@@ -238,6 +238,20 @@ class generalReservation {
     private $complete_reservation_mode;
 
     /**
+     * @var decimal
+     *
+     * @ORM\Column(name="servicedinner", type="decimal", scale=2, nullable=true)
+     */
+    private $servicedinner;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="servicefast", type="decimal", scale=2, nullable=true)
+     */
+    private $servicefast;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -1018,6 +1032,42 @@ class generalReservation {
     public function setCompleteReservationMode($complete_reservation_mode)
     {
         $this->complete_reservation_mode = $complete_reservation_mode;
+        return $this;
+    }
+
+    /*-----------------*/
+    /**
+     * @return decimal
+     */
+    public function getServicedinner()
+    {
+        return $this->servicedinner;
+    }
+
+    /**
+     * @param decimal $servicedinner
+     * @return mixed
+     */
+    public function setServicedinner($servicedinner)
+    {
+        $this->servicedinner = $servicedinner;
+        return $this;
+    }
+    /**
+     * @return decimal
+     */
+    public function getServicefast()
+    {
+        return $this->servicefast;
+    }
+
+    /**
+     * @param decimal $servicefast
+     * @return mixed
+     */
+    public function setServicefast($servicefast)
+    {
+        $this->servicefast = $servicefast;
         return $this;
     }
 
