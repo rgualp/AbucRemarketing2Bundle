@@ -59,18 +59,19 @@ function totalPrice(curr,percent, totalNights)
 
 
     $('#data_reservation').val(string_url);
-    console.log(total_price_var);
+ // console.log(total_price_var);
 
     $('#subtotal_price').html(normalize_prices(total_price_var));
     var percent_value=total_price_var * percent / 100;
     var tourist_service = total_price_var*tourist_fee_percent;
+    var tour_serv=(total_price_var+totalPriceDinner+totalPriceBreakfast)*0.1;
 
-    $("#tourist_service").html(normalize_prices(tourist_service));
+    $("#tourist_service").html(normalize_prices(tour_serv));
     $('#initial_deposit').html(normalize_prices(percent_value));
     $('#accommodation_price').html(normalize_prices(total_price_var));
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
 
-    var fixed_tax = parseFloat($("#tourist_service").data("fixed-tax"));
+    var fixed_tax = /*parseFloat($("#tourist_service").data("fixed-tax"))*/0;
     fixed_tax = fixed_tax*curr;
     var commissionAgency = parseInt($("#commissionAgency").val());
     var completePayment = parseInt($("#completePayment").val());
@@ -164,8 +165,12 @@ function updateService(){
     $("#servicedinner").val(totalPriceDinner);
 
 
-    $('#calcdinner').html($('.col-dinnerPrice').data("currentsymbol") +' '+ normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
-    $('#calcbreakfast').html($('.col-dinnerPrice').data("currentsymbol") +' '+ normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
+    $('#calcdinner').html( normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
+    $('#calcbreakfast').html( normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
+
+    var tour_serv=(eval($('#accommodation_price').html())+totalPriceDinner+totalPriceBreakfast)*0.1;
+    $("#tourist_service").html(normalize_prices(tour_serv));
+
 }
 function reservationsBody()
 {
