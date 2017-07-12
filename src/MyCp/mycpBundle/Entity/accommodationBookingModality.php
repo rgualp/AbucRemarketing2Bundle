@@ -16,7 +16,7 @@ class accommodationBookingModality
 {
     /**
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="ownership")
+     * @ORM\OneToOne(targetEntity="ownership", inversedBy="bookingModality")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
     private $accommodation;
@@ -86,6 +86,11 @@ class accommodationBookingModality
     {
         $this->price = $price;
         return $this;
+    }
+
+    public function isCompleteReservationMode()
+    {
+        return ($this->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
     }
 
 

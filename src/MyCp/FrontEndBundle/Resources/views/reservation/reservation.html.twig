@@ -17,7 +17,12 @@
                 <b>{{ accommodation.ownName }}</b><br/>
                 {{ accommodation.ownAddressMunicipality.munName }}, {{ accommodation.ownAddressProvince.provName }} <br/>
                 <small>
-                    {{reservation.ownResRoomType|trans}}, {{"ADULTS" | trans}}: {{reservation.ownResCountAdults}}, {{"KIDS" | trans}}: {{reservation.ownResCountChildrens}}<br/>
+                    {% if reservation.ownResGenResId.completeReservationMode %}
+                        {{ "Propiedad completa" | trans }}, {{ reservation.ownResGenResId.genResOwnId.ownRoomsTotal }} {{ "ROOMS" | trans }}
+                    {% else %}
+                        {{reservation.ownResRoomType|trans}}
+                    {% endif %}
+                    , {{"ADULTS" | trans}}: {{reservation.ownResCountAdults}}, {{"KIDS" | trans}}: {{reservation.ownResCountChildrens}}<br/>
                     {{"ARRIVAL_WATERMARK" | trans}}: {{reservation.ownResReservationFromDate |date('d/m/Y')}}, {{"DEPARTURE_WATERMARK" | trans}}: {{reservation.ownResReservationToDate|date('d/m/Y')}}, {{ "NIGHTS" | trans }}: {{ nights[loop.index0] }}
                 </small>
             </td>

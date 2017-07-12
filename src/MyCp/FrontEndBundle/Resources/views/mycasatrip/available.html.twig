@@ -35,7 +35,10 @@
                                     <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
                                 </a>
                                 <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}
-                                    <br>{{res['own_res_room_type']|trans}}</small>
+                                    <br>
+
+                                    {{res['own_res_room_type']|trans}}
+                                </small>
                                 <small class="top">{{"ADULTS" | trans}}: {{res['own_res_count_adults']}} {{"KIDS" | trans}}: {{res['own_res_count_childrens']}}</small>
                                 <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
                             </div>

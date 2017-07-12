@@ -104,6 +104,13 @@ class cart {
     private $check_available;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_reservation_mode", type="boolean")
+     */
+    private $complete_reservation_mode;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -286,7 +293,7 @@ class cart {
 
     public function getTripleRoomCharged() {
         return ($this->cart_room->isTriple()) &&
-                ($this->cart_count_adults + $this->cart_count_children >= 3);
+                ($this->cart_count_adults + $this->cart_count_children >= 3) && !$this->complete_reservation_mode;
     }
 
     public function getClone() {
@@ -301,6 +308,7 @@ class cart {
         $clone->setCartUser($this->cart_user);
         $clone->setChildrenAges($this->childrenAges);
         $clone->setServiceFee($this->service_fee);
+        $clone->setCompleteReservationMode($this->complete_reservation_mode);
 
         return $clone;
     }
@@ -319,6 +327,15 @@ class cart {
         $ownership_reservation->setOwnResRoomPriceSpecial($this->cart_room->getRoomPriceSpecial());
         $ownership_reservation->setOwnResGenResId($generalReservation);
         $ownership_reservation->setOwnResRoomType($this->cart_room->getRoomType());
+
+        $ownership = $this->cart_room->getRoomOwnership();
+        $modality = $ownership->getBookingModality();
+
+        if($modality != null && $modality->isCompleteReservationMode() && $modality->getPrice() > 0) {
+            $ownership_reservation->setOwnResCompleteReservationPrice($modality->getPrice());
+            $ownership_reservation->setOwnResRoomType(bookingModality::COMPLETE_RESERVATION_BOOKING_TRANS);
+        }
+
 
         if ($calculateTotalPrice)
             $ownership_reservation->setOwnResTotalInSite(0); //TODO: Calcular segun los cambios de estaciones
@@ -340,7 +357,20 @@ class cart {
 
         for ($i = 0; $i < count($array_dates) - 1; $i++) {
                 $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
-                $total_price += $this->cart_room->getPriceBySeasonType($seasonType) + $triple_feed;
+
+                if($this->complete_reservation_mode){
+                    $accommodation = $this->cart_room->getRoomOwnership();
+                    $bookingModality = $accommodation->getBookingModality();
+                    $hasCompleteReservation = ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+
+                    if($hasCompleteReservation)
+                    {
+                        $total_price += $bookingModality->getPrice();
+                    }
+
+                }
+                else
+                    $total_price += $this->cart_room->getPriceBySeasonType($seasonType) + $triple_feed;
         }
         $prices = array(
             'totalPrice' => $total_price,
@@ -424,5 +454,25 @@ class cart {
     public function getCheckAvailable() {
         return $this->check_available;
     }
+
+    /**
+     * @return int
+     */
+    public function getCompleteReservationMode()
+    {
+        return $this->complete_reservation_mode;
+    }
+
+    /**
+     * @param int $complete_reservation_mode
+     * @return cart
+     */
+    public function setCompleteReservationMode($complete_reservation_mode)
+    {
+        $this->complete_reservation_mode = $complete_reservation_mode;
+        return $this;
+    }
+
+
 
 }

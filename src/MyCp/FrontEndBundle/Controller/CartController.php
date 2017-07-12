@@ -3,6 +3,7 @@
 namespace MyCp\FrontEndBundle\Controller;
 
 use Abuc\RemarketingBundle\Event\JobEvent;
+use MyCp\mycpBundle\Entity\bookingModality;
 use MyCp\mycpBundle\Entity\cart;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -69,7 +70,9 @@ class CartController extends Controller {
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
+        $hasCompleteReservation = $request->get('hasCompleteReservation');
         $data = explode('/', $data);
+
 
         $from_date = $data[0];
         $to_date = $data[1];
@@ -165,6 +168,7 @@ class CartController extends Controller {
                     $fromDate = new \DateTime();
                     $fromDate->setTimestamp($start_timestamp);
                     $cart->setCartDateFrom($fromDate);
+                    $cart->setCompleteReservationMode($hasCompleteReservation);
 
                     $toDate = new \DateTime();
                     $toDate->setTimestamp($end_timestamp);
@@ -507,6 +511,7 @@ class CartController extends Controller {
 
         $min_date = 0;
         $max_date = 0;
+        //$touristTax = 0;
         $array_photos = array();
         foreach ($cartItems as $item) {
             if ($min_date == 0)
@@ -529,6 +534,7 @@ class CartController extends Controller {
         $array_dates_string = array();
         $array_season = array();
         $array_clear_date = array();
+        $touristTax = 0;
 
         if ($array_dates) {
             $em = $this->getDoctrine()->getManager();
@@ -626,14 +632,14 @@ class CartController extends Controller {
         $totalRooms = 0;
         foreach($cartItems as $item)
         {
-
-               if($accommodationId != $item->getCartRoom()->getRoomOwnership()->getOwnId())
+               $accommodation = $item->getCartRoom()->getRoomOwnership();
+               if($accommodationId != $accommodation->getOwnId())
                {
-                   $accommodationId = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+                   $accommodationId = $accommodation->getOwnId();
                    $destination = (count($cartItems)) ? $cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnDestination(): null;
                    $destination_id = isset($destination) ? $destination->getDesId() : null;
 
-                   $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
+                   $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId(), $accommodation->getCompleteReservationMode(), $accommodation);
                    $touristTax += $tax * $totalPrice;
 
                    $nights = 0;
@@ -658,6 +664,10 @@ class CartController extends Controller {
                }
         }
         if($totalRooms > 0){
+            /*if($accommodation->getCompleteReservationMode())
+                $tax = $em->getRepository("mycpBundle:serviceFee")->calculateForCompleteAccommodationReservation($accommodation, $nights / $totalRooms, $item->getServiceFee()->getId());
+            else*/
+
             $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $nights / $totalRooms, (($nights <= 1) ? $totalPrice : $totalPrice / $nights), $item->getServiceFee()->getId());
             $touristTax += $tax * $totalPrice;
         }
@@ -678,6 +688,8 @@ class CartController extends Controller {
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function checkDispo($arrayIdCart,$request,$inmediatily_booking){
+
+
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $reservations = array();
@@ -731,6 +743,7 @@ class CartController extends Controller {
             $nigths = array();
             foreach ($res_array as $resByOwn) {
                 if (isset($resByOwn[0])) {
+                    $hasCompleteReservation = $resByOwn[0]->getCompleteReservationMode();
                     $ownership = $em->getRepository('mycpBundle:ownership')->find($resByOwn[0]->getCartRoom()->getRoomOwnership()->getOwnId());
 
                     $serviceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
@@ -739,6 +752,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
+                    $general_reservation->setCompleteReservationMode($hasCompleteReservation);
                     if($inmediatily_booking)
                         $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     else
@@ -755,22 +769,37 @@ class CartController extends Controller {
                     $partial_total_price = array();
                     $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
                     foreach ($resByOwn as $item) {
-                        $triple_room_recharge = ($item->getTripleRoomCharged()) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                        $triple_room_recharge = ($item->getTripleRoomCharged() && !$hasCompleteReservation) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
                         $array_dates = $service_time->datesBetween($item->getCartDateFrom()->getTimestamp(), $item->getCartDateTo()->getTimestamp());
                         $temp_price = 0;
                         $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item->getCartDateFrom()->getTimestamp(), $item->getCartDateTo()->getTimestamp(), $destination_id);
 
                         for ($a = 0; $a < count($array_dates) - 1; $a++) {
-                            $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                            $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
+                            if($hasCompleteReservation)
+                            {
+                                $bookingModality = $ownership->getBookingModality();
+
+                                if($bookingModality != null && $bookingModality->isCompleteReservationMode())
+                                {
+                                    $roomPrice = $bookingModality->getPrice();
+                                }
+                                else{
+                                    $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                                    $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
+                                }
+                            }
+                            else {
+                                $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                                $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
+                            }
                             $total_price += $roomPrice + $triple_room_recharge;
                             $temp_price += $roomPrice + $triple_room_recharge;
+
                         }
                         array_push($partial_total_price, $temp_price);
                     }
                     $general_reservation->setGenResTotalInSite($total_price);
                     $em->persist($general_reservation);
-
                     $arrayKidsAge = array();
 
                     $flag_1 = 0;
@@ -919,6 +948,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResOwnId($ownership);
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
+                    $general_reservation->setCompleteReservationMode($item->getCompleteReservationMode());
 
 
                     $total_price = 0;
@@ -933,9 +963,24 @@ class CartController extends Controller {
                         for ($a = 0; $a < count($array_dates) - 1; $a++) {
                             $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
                             $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
-                            $total_price += $roomPrice + $triple_room_recharge;
-                            $temp_price += $roomPrice + $triple_room_recharge;
+
+                            if($item->getCompleteReservationMode()){
+                                $accommodation = $item->getCartRoom()->getRoomOwnership();
+                                $bookingModality = $accommodation->getBookingModality();
+                                $hasCompleteReservation = ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+
+                                if($hasCompleteReservation)
+                                {
+                                    $total_price += $bookingModality->getPrice();
+                                    $temp_price += $bookingModality->getPrice();
+                                }
+                            }
+                            else{
+                                $total_price += $roomPrice + $triple_room_recharge;
+                                $temp_price += $roomPrice + $triple_room_recharge;
+                            }
                         }
+
                         array_push($partial_total_price, $temp_price);
                     }
                     $general_reservation->setGenResTotalInSite($total_price);

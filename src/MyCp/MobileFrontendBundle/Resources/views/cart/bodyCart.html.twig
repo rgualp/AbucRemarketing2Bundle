@@ -4,6 +4,7 @@
         {% set service_flag = 0%}
         {% set totalRoomPrice = 0 %}
         {% set total_percent = 0 %}
+
         {% for date in dates_string %}
             {% set service_flag = 0%}
             {% if array_clear_date[dates_timestamp[flag]] is not defined %}
@@ -12,10 +13,17 @@
                         <div class="row">
                             <div class="col-xs-12 text-xs-center"><span>{{dates_string_day[flag]}}</span>{{date}}</div>
                             {% for item in cartItems %}
+                                {% set hasCompleteReservation = item.getCompleteReservationMode %}
+                                {% set accommodation =  item.cartRoom.roomOwnership%}
                                 {% set plus = 0 %}
                                 {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
-                                {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
-                                {% if item.tripleRoomCharged %}
+                                {% set roomPrice = 0%}
+                                {% if (not hasCompleteReservation) %}
+                                    {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
+                                {% else %}
+                                    {% set roomPrice = accommodation.getBookingModality.price%}
+                                {% endif %}
+                                {% if item.tripleRoomCharged and not hasCompleteReservation %}
                                     {% set plus = configuration_triple_room_charge %}
                                 {% endif %}
                                 {% if dates_timestamp[flag] >= item.cartDateFrom | date("U") and dates_timestamp[flag] <= item.cartDateTo | date("U")%}
@@ -25,14 +33,21 @@
                                             <div class="row" id="{{ item.cartId }}-{{ dates_timestamp[flag] }}">
                                                 <div class="col-xs-10 f-s-12">{{ item.cartRoom.roomOwnership.ownAddressMunicipality.munName}}, {{ item.cartRoom.roomOwnership.ownName}}</div>
                                                 <div class="col-xs-2"><button data="{{ item.cartId }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></div>
-                                                <div class="col-xs-6">{{ item.cartRoom.roomType |trans}}</div>
+                                                <div class="col-xs-6">
+                                                    {% if hasCompleteReservation %}
+                                                        {{ "Propiedad completa" | trans }}, {{ accommodation.ownRoomsTotal }} {{ "ROOMS" | trans }}
+                                                    {% else %}
+                                                        {{ item.cartRoom.roomType |trans}}
+                                                    {% endif %}
+
+                                                </div>
                                                 <div class="col-xs-3 text-xs-center"><i class="ion-man f-s-24"></i><i class="ion-woman f-s-24"></i> {{ item.cartCountAdults}}</div>
                                                 <div class="col-xs-3 text-xs-center"><i class="f-s-24 ion-android-contacts"></i> {{ item.cartCountChildren}}</div>
                                                 <div class="col-xs-12 text-xs-right">
                                                     <small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>
                                                     <span class="f-s-18 f-w-bold">
                                                         {% set total_percent =  total_percent + ((roomPrice + plus) * item.cartRoom.roomOwnership.ownCommissionPercent / 100) %}
-                                                        {% if item.tripleRoomCharged%}
+                                                        {% if item.tripleRoomCharged and not hasCompleteReservation%}
                                                             {{ roomPrice | price}}
                                                             {% set totalRoomPrice = totalRoomPrice +  (roomPrice + plus) %}
                                                         {% else %}
@@ -41,7 +56,7 @@
                                                         {% endif %}
                                                     </span>
                                                 </div>
-                                                {% if item.tripleRoomCharged %}
+                                                {% if item.tripleRoomCharged and not hasCompleteReservation %}
                                                     <div class="col-xs-8 f-s-10">
                                                         {{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}
                                                     </div>
