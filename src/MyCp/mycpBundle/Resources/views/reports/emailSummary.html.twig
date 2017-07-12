@@ -162,8 +162,10 @@
             </td>
         </tr>
     </table>
-
-
+    <h4>Desglose por moneda</h4><br>
+    {% for des in res_desglose %}
+     <div class="alert alert-error">Moneda:{{ des.currency }}    {{ des.amount }}</div></br>
+    {% endfor %}
 
     <p>Saludos Cordiales,
     <p>Equipo de MyCasaParticular.com</p>

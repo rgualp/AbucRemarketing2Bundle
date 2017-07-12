@@ -42,6 +42,14 @@
                                 <br/>
                             {% endfor %}
                         </div>
+                        <div class="row" style="margin-left: 10px">
+                            {% if (item.dinner != null and item.dinner > 0) or (item.breakfast != null and item.breakfast > 0) %}
+                                {{ "SERVICES_TAB_DETAILS" | trans }}:
+                                {% if (item.breakfast != null and item.breakfast > 0) %} {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}: {{ (item.breakfast * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}{% endif %}
+                                {% if (item.dinner != null and item.dinner > 0) and (item.breakfast != null and item.breakfast > 0) %}, {% endif %}
+                                {% if (item.dinner != null and item.dinner > 0) %} {{ "DINNER_TAB_DESCRIPTION" | trans }}: {{ (item.dinner * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }} {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="col-md-4 ">

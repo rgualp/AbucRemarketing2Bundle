@@ -39,14 +39,15 @@ class OwnershipController extends Controller
     $dateTo->setTimestamp($end_timestamp);
     $owner_id = $request->get('own_id');
 
-    $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
-    $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
-    /* if($dateFrom==$dateTo){
-         $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
-     }*/
-    if (!$owner_id) {
-        throw $this->createNotFoundException();
-    }
+        $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
+        $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
+       /* if($dateFrom==$dateTo){
+            $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
+        }*/
+        if (!$owner_id) {
+            return $this->redirect($this->generateUrl('frontend_search_ownership'));    
+            //throw $this->createNotFoundException();
+        }
 
     $em = $this->getDoctrine()->getManager();
 

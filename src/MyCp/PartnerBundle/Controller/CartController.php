@@ -214,6 +214,10 @@ class CartController extends Controller
                 $totalServicesTax += $touristFee;
                 $totalPercentAccommodationPrepayment += $commission;
 
+                $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
+                $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
+                $totalPayment += $dinner + $breakfast;
+
                 $payments[$item["gen_res_id"]] = array(
                     "totalPayment" => $item["totalInSite"] + $touristFee,
                     "totalPrepayment" => $commission + $touristFee,
@@ -233,6 +237,9 @@ class CartController extends Controller
                 $transferFee =  0.1 *  $subTotal;
                 $agencyCommission = $subTotal * $currentTravelAgency->getCommission() / 100;
                 $totalPayment = $item["totalInSite"] + $touristFee + $transferFee + $addFixedFee;
+                $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
+                $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
+                $totalPayment += $dinner + $breakfast;
 
                 $totalOnlinePayment += $totalPayment;
 

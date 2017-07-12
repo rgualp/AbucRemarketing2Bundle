@@ -511,6 +511,7 @@ class CartController extends Controller {
 
         $min_date = 0;
         $max_date = 0;
+        //$touristTax = 0;
         $array_photos = array();
         foreach ($cartItems as $item) {
             if ($min_date == 0)
