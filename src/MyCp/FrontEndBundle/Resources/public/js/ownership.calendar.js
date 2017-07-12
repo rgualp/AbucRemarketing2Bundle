@@ -113,7 +113,7 @@ function showAgesCombos(rowId)
     $("#childrenImg3_"+rowId).css({display: 'none'});
     $("#childrenAge3_"+rowId).css({display: 'none'});
 
-    if(!isCompletePayment) {
+    if(isCompletePayment) {
         if (children != 0)
             $("#childreAgeTh").css({display: 'table-cell'});
 
