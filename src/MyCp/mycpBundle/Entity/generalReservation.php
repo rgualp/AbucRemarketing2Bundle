@@ -233,16 +233,9 @@ class generalReservation {
     /**
      * @var integer
      *
-     * @ORM\Column(name="servicedinner", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="complete_reservation_mode", type="boolean")
      */
-    private $servicedinner = null;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="servicefast", type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private $servicefast = null;
+    private $complete_reservation_mode;
 
     /**
      * Constructor
@@ -256,6 +249,7 @@ class generalReservation {
         $this->travelAgencyDetailReservations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->complete_payment = false;
+        $this->complete_reservation_mode = false;
         $this->pendingPayments = new ArrayCollection();
     }
 
@@ -1010,48 +1004,21 @@ class generalReservation {
     }
 
     /**
-     * Set servicedinner
-     *
-     * @param float $servicedinner
-     * @return generalReservation
+     * @return int
      */
-    public function setServicedinner($servicedinner)
+    public function getCompleteReservationMode()
     {
-        $this->servicedinner = $servicedinner;
+        return $this->complete_reservation_mode;
+    }
 
+    /**
+     * @param int $complete_reservation_mode
+     * @return mixed
+     */
+    public function setCompleteReservationMode($complete_reservation_mode)
+    {
+        $this->complete_reservation_mode = $complete_reservation_mode;
         return $this;
-    }
-
-    /**
-     * Get servicedinner
-     *
-     * @return float
-     */
-    public function getServicedinner()
-    {
-        return $this->servicedinner;
-    }
-    /**
-     * Set servicefast
-     *
-     * @param float $servicefast
-     * @return generalReservation
-     */
-    public function setServicefast($servicefast)
-    {
-        $this->servicefast = $servicefast;
-
-        return $this;
-    }
-
-    /**
-     * Get servicefast
-     *
-     * @return float
-     */
-    public function getServicefast()
-    {
-        return $this->servicefast;
     }
 
 

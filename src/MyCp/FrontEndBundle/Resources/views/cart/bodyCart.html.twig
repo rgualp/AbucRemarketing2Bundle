@@ -2,6 +2,7 @@
 {% set service_flag = 0%}
 {% set totalRoomPrice = 0 %}
 {% set total_percent = 0 %}
+
 {% for date in dates_string %}
     {% set service_flag = 0%}
     {% if array_clear_date[dates_timestamp[flag]] is not defined %}
@@ -12,10 +13,17 @@
                         <td class="date"><span>{{dates_string_day[flag]}}</span>{{date}}</td>
                         <td class="content_table">
                                 {% for item in cartItems %}
+                                    {% set hasCompleteReservation = item.getCompleteReservationMode %}
+                                    {% set accommodation =  item.cartRoom.roomOwnership%}
                                 {% set plus = 0 %}
                                 {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
-                                {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
-                                {% if item.tripleRoomCharged %}
+                                    {% set roomPrice = 0%}
+                                    {% if (not hasCompleteReservation) %}
+                                        {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
+                                    {% else %}
+                                        {% set roomPrice = accommodation.getBookingModality.price%}
+                                    {% endif %}
+                                {% if item.tripleRoomCharged and not hasCompleteReservation %}
                                     {% set plus = configuration_triple_room_charge %}
                                 {% endif %}
                                 {% if dates_timestamp[flag] >= item.cartDateFrom | date("U") and dates_timestamp[flag] <= item.cartDateTo | date("U")%}
@@ -23,12 +31,18 @@
                                         <table class="full-width">
                                             <tr id="{{ item.cartId }}-{{ dates_timestamp[flag] }}">
                                                 <td class="name">{{ item.cartRoom.roomOwnership.ownAddressMunicipality.munName}}, {{ item.cartRoom.roomOwnership.ownName}}</td>
-                                                <td class="room-type">{{ item.cartRoom.roomType |trans}}</td>
+                                                <td class="room-type">
+                                                    {% if hasCompleteReservation %}
+                                                        {{ "Propiedad completa" | trans }}, {{ accommodation.ownRoomsTotal }} {{ "ROOMS" | trans }}
+                                                    {% else %}
+                                                        {{ item.cartRoom.roomType |trans}}
+                                                    {% endif %}
+                                                </td>
                                                 <td class="persons">{{"ADULTS"|trans}}: {{ item.cartCountAdults}} <br/> {{"KIDS"|trans}}: {{ item.cartCountChildren}}</td>
                                                 <td class="cost"><h3 class="no-margin">
 
                                                         {% set total_percent =  total_percent + ((roomPrice + plus) * item.cartRoom.roomOwnership.ownCommissionPercent / 100) %}
-                                                        {% if item.tripleRoomCharged%}
+                                                        {% if item.tripleRoomCharged and not hasCompleteReservation%}
                                                             {{ roomPrice | price}}
                                                             {% set totalRoomPrice = totalRoomPrice +  (roomPrice + plus) %}
                                                         {% else %}
@@ -38,7 +52,7 @@
 
 
                                                     </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small></td>
-                                                {% if item.tripleRoomCharged %}
+                                                {% if item.tripleRoomCharged and not hasCompleteReservation%}
                                                 <td style="vertical-align: top; padding-top: 2%"> + </td>
                                                 <td style="vertical-align: top"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"><h5>{{plus | price}}</h5></td>
                                                 {%endif%}

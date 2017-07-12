@@ -20,17 +20,24 @@ class ReservationHelper {
         $seasons = $em->getRepository("mycpBundle:season")->getSeasons($reservation->getOwnResReservationFromDate(), $reservation->getOwnResReservationToDate(), $destination_id);
         $array_dates = $service_time->datesBetween($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
 
-        if ($reservation->getOwnResNightPrice() == 0) {
-            for ($i = 0; $i < count($array_dates) - 1; $i++) {
-                $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
-                $total_price += $reservation->getPriceBySeason($seasonType);
-            }
-        } else {
-            $total_price += $reservation->getOwnResNightPrice() * (count($array_dates) - 1);
-        }
+        $isCompleteReservation = $reservation->getOwnResGenResId()->getCompleteReservationMode();
 
-        if ($reservation->getTripleRoomCharged())
-            $total_price += $triple_room_charge * (count($array_dates) - 1);
+        if(!$isCompleteReservation) {
+            if ($reservation->getOwnResNightPrice() == 0) {
+                for ($i = 0; $i < count($array_dates) - 1; $i++) {
+                    $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
+                    $total_price += $reservation->getPriceBySeason($seasonType);
+                }
+            } else {
+                $total_price += $reservation->getOwnResNightPrice() * (count($array_dates) - 1);
+            }
+
+            if ($reservation->getTripleRoomCharged())
+                $total_price += $triple_room_charge * (count($array_dates) - 1);
+        }
+        else{
+            $total_price += $reservation->getOwnResCompleteReservationPrice() * (count($array_dates) - 1);
+        }
 
         return $total_price;
     }

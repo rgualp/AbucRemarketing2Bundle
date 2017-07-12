@@ -23,13 +23,21 @@ class serviceFeeRepository extends EntityRepository {
                   ->getQuery()->getOneOrNullResult();
     }
 
-    public function calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices, $taxId = null)
+    public function calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices, $taxId = null, $isCompleteReservation = false, $accommodation = null)
     {
         $em = $this->getEntityManager();
 
         $currentServiceFee = ($taxId == null) ? $this->getCurrent(): $em->getRepository("mycpBundle:serviceFee")->find($taxId);
         $touristTax = 0;
         $totalNights = ceil($totalNights);
+
+        if($isCompleteReservation)
+        {
+            $totalRooms = count($accommodation->getOwnRooms());
+            $price = ($accommodation->getCompleteReservationMode()) ? $accommodation->getBookingModality()->getPrice(): 0;
+            $avgRoomPrices = $price / $totalRooms;
+
+        }
 
         if($totalNights == 1)
         {
@@ -61,33 +69,45 @@ class serviceFeeRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
 
+        $touristTax = 0;
         $genRes = $em->getRepository("mycpBundle:generalReservation")->find($genResId);
-        $reservations = $genRes->getOwn_reservations();
-        $totalsRooms = count($reservations);
-        $taxId = $genRes->getServiceFee()->getId();
 
-        $roomPrices = 0;
-        $totalNights = 0;
-        $totalPrice = 0;
 
-        foreach($reservations as $reservation)
-        {
-            $nights = $serviceTime->nights($reservation->getOwnResReservationFromDate()->format("Y-m-d"), $reservation->getOwnResReservationToDate()->format("Y-m-d"));
-            $price = $reservation->getOwnResTotalInSite();
+            $reservations = $genRes->getOwn_reservations();
+            $totalsRooms = count($reservations);
+            $taxId = $genRes->getServiceFee()->getId();
 
-            $totalNights += $nights;
-            $totalPrice += $price;
-            $roomPrices += $price / $nights;
-        }
+            $roomPrices = 0;
+            $totalNights = 0;
+            $totalPrice = 0;
 
-        $avgRoomPrices = $roomPrices / $totalsRooms;
-        $totalNights = $totalNights / $totalsRooms;
-        /*var_dump($genResId);
-        var_dump($totalsRooms);
-        var_dump($totalNights);*/
+            foreach ($reservations as $reservation) {
+                $nights = $serviceTime->nights($reservation->getOwnResReservationFromDate()->format("Y-m-d"), $reservation->getOwnResReservationToDate()->format("Y-m-d"));
+                $price = $reservation->getOwnResTotalInSite();
 
-        $touristTax = $this->calculateTouristServiceFee($totalsRooms, $totalNights, $avgRoomPrices, $taxId);
+                $totalNights += $nights;
+                $totalPrice += $price;
+                $roomPrices += $price / $nights;
+            }
+
+            $avgRoomPrices = $roomPrices / $totalsRooms;
+            $totalNights = $totalNights / $totalsRooms;
+
+        if(!$genRes->getCompleteReservationMode())
+            $touristTax = $this->calculateTouristServiceFee($totalsRooms, $totalNights, $avgRoomPrices, $taxId);
+        else
+            $touristTax = $this->calculateForCompleteAccommodationReservation($genRes->getGenResOwnId(), $totalNights, $taxId);
 
         return $touristTax * $totalPrice;
+    }
+
+    public function calculateForCompleteAccommodationReservation($accommodation, $totalNights, $taxId){
+
+        $completeReservationPrice = $accommodation->getBookingModality()->getPrice();
+        $totalRooms = count($accommodation->getOwnRooms());
+
+        $avgRoomPrices = $completeReservationPrice / $totalRooms;
+
+        return $this->calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices, $taxId);
     }
 }

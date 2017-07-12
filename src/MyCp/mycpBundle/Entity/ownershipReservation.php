@@ -160,6 +160,13 @@ class ownershipReservation {
     private $own_res_nights;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="own_res_complete_reservation_price", type="string", length=255, nullable=true)
+     */
+    private $own_res_complete_reservation_price;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -622,5 +629,25 @@ class ownershipReservation {
         $p = $this->getPriceTotal($timeService);
         return  $p * (1 - $c);
     }
+
+    /**
+     * @return string
+     */
+    public function getOwnResCompleteReservationPrice()
+    {
+        return $this->own_res_complete_reservation_price;
+    }
+
+    /**
+     * @param string $own_res_complete_reservation_price
+     * @return mixed
+     */
+    public function setOwnResCompleteReservationPrice($own_res_complete_reservation_price)
+    {
+        $this->own_res_complete_reservation_price = $own_res_complete_reservation_price;
+        return $this;
+    }
+
+
 
 }

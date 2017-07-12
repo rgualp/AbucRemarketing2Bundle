@@ -377,6 +377,7 @@ class paGeneralReservation {
         $genRes->setGenResFromDate($this->dateFrom);
         $genRes->setGenResHour(date('G'));
         $genRes->setGenResOwnId($this->accommodation);
+        $genRes->setCompleteReservationMode($this->accommodation->getCompleteReservationMode());
         $genRes->setGenResSaved(false);
         $genRes->setGenResStatus(generalReservation::STATUS_PENDING);
         $genRes->setGenResStatusDate(new \DateTime(date('Y-m-d')));

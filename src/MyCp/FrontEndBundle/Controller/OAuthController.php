@@ -319,6 +319,7 @@ class OAuthController extends Controller
                     $general_reservation->setGenResToDate($max_date);
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
+                    $general_reservation->setCompleteReservationMode($ownership->getCompleteReservationMode());
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
 

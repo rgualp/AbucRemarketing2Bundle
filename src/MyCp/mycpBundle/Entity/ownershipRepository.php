@@ -796,7 +796,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false, $filter_start_creation_date = null, $filter_end_creation_date = null) {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "", $hot = false, $filter_start_creation_date = null, $filter_end_creation_date = null, $filter_modality = "") {
 
         $condition = '';
 
@@ -880,6 +880,10 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_commission_percent = :filter_commission ";
         }
 
+        if($filter_modality != 'null' && $filter_modality != '') {
+            $condition .= " AND mod.id = :filter_modality ";
+        }
+
         $order_by = 'ow.own_mcp_code ASC';
         if($hot){
             $order_by = ' ow.own_hot_date,ow.own_inmediate_booking_2 DESC, ow.own_inmediate_booking DESC ';
@@ -917,6 +921,8 @@ class ownershipRepository extends EntityRepository {
         JOIN ow.data data
         LEFT JOIN ow.own_destination d
         LEFT JOIN ow.own_status s
+        LEFT JOIN ow.bookingModality ow_mod
+        LEFT JOIN ow_mod.bookingModality mod
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ".$order_by);
 
         if($filter_active != 'null' && $filter_active != '')
@@ -956,6 +962,9 @@ class ownershipRepository extends EntityRepository {
 
         if($filter_commission != 'null' && $filter_commission != '')
             $query->setParameter('filter_commission', $filter_commission);
+
+        if($filter_modality != 'null' && $filter_modality != '')
+            $query->setParameter('filter_modality', $filter_modality);
 
         if(isset($filter_start_creation_date) && isset($filter_end_creation_date)) {
             $query->setParameter('filter_start_creation_date', $filter_start_creation_date);
@@ -1284,7 +1293,7 @@ class ownershipRepository extends EntityRepository {
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          data.reservedRooms as count_reservations,
                          (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
-                         o.own_minimum_price as minPrice,
+                         IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minPrice,
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1292,6 +1301,8 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
                          LEFT JOIN op.own_pho_photo pho
+                         LEFT JOIN o.bookingModality abMod
+                         LEFT JOIN abMod.bookingModality bMod
                          WHERE o.own_inmediate_booking_2=1
                          AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
@@ -2069,7 +2080,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_rating as rating,
                             o.own_category as category,
                             o.own_type as type,
-                            o.own_minimum_price as minimum_price,
+                            IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minimum_price,
                             o.own_inmediate_booking as OwnInmediateBooking,
                             o.own_inmediate_booking_2 as OwnInmediateBooking2,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
@@ -2082,7 +2093,9 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_municipality mun
                          JOIN o.data data
                          LEFT JOIN data.principalPhoto op
-                         LEFT JOIN op.own_pho_photo pho";
+                         LEFT JOIN op.own_pho_photo pho
+                         LEFT JOIN o.bookingModality abMod
+                         LEFT JOIN abMod.bookingModality bMod";
         return $query_string;
     }
 
@@ -2139,7 +2152,8 @@ class ownershipRepository extends EntityRepository {
                         SUM(IF(o.own_langs LIKE '_1__', 1, 0)) as french,
                         SUM(IF(o.own_langs LIKE '__1_', 1, 0)) as german,
                         SUM(IF(o.own_langs LIKE '___1', 1, 0)) as italian,
-                        (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award
+                        (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
+                        (SELECT min(bMod.price) FROM mycpBundle:accommodationBookingModality bMod JOIN bMod.bookingModality mod WHERE bMod.accommodation = o.own_id AND mod.name LIKE '%completa%') as completePrice
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
