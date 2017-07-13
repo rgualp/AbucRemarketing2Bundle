@@ -43,7 +43,7 @@
         $(".fb-login-form").css("padding-top", 0);
 
         FB.api('/me', {fields: 'email, name, last_name, gender, locale'}, function (response) {
-            console.log(response);
+            //console.log(response);
             var name = response.name;
             var email = response.email;
             var lastName = response.last_name;
