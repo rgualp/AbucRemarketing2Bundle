@@ -48,14 +48,16 @@
             var lastName = response.last_name;
             var gender = response.gender;
             var locale = response.locale;
-            var language=locale.split('_')[0];
+            if(locale  !== 'undefined'){
+                var language=locale.split('_')[0];
+                $("#FacebookLoginType_language").val(language);
+            }
             //ver si es asi como viene
             $("#FacebookLoginType_name").val(name);
             $("#FacebookLoginType_email").val(email);
             $("#FacebookLoginType_lastName").val(lastName);
             $("#FacebookLoginType_gender").val(gender);
-            $("#FacebookLoginType_language").val(language);
-            console.log(response);
+
           //  $("#FacebookLoginType_country").val(city);
             data={
                 email: email
