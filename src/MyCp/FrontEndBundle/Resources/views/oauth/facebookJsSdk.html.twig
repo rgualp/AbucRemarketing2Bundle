@@ -43,12 +43,13 @@
         $(".fb-login-form").css("padding-top", 0);
 
         FB.api('/me', function (response) {
+            console.log(response);
             var name = response.name;
             var email = response.email;
             var lastName = response.last_name;
             var gender = response.gender;
             var locale = response.locale;
-            if(locale  !== 'undefined'){
+            if(locale  !== undefined){
                 var language=locale.split('_')[0];
                 $("#FacebookLoginType_language").val(language);
             }
