@@ -20,7 +20,7 @@
         FB.init({
             appId      : '{{ fb_app_id }}',
             xfbml      : true,
-            version    : 'v2.2'
+            version    : 'v2.9'
         });
     };
 
@@ -42,8 +42,8 @@
         $(".btn-fb-login").attr("disabled", "disabled").off('click');
         $(".fb-login-form").css("padding-top", 0);
 
-        FB.api('/me', function (response) {
-            //console.log(response);
+        FB.api('/me', {fields: 'email, name, last_name, gender, locale'}, function (response) {
+            console.log(response);
             var name = response.name;
             var email = response.email;
             var lastName = response.last_name;

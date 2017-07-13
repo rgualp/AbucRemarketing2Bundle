@@ -481,10 +481,12 @@ class OAuthController extends Controller
     }
     public function checkEmailAction(Request $request){
         $email=$request->get('email');
+
         if($email != "" && Utils::validateEmail($email)) {
             $em=$this->getDoctrine()->getManager();
             $userRepository = $em->getRepository("mycpBundle:user");
-            $user = $userRepository->findOneBy(array('user_email' => trim(strtolower($email)), "locked" => false, "user_enabled" => true));
+            $user = $userRepository->findOneBy(array('user_role'=> "ROLE_CLIENT_TOURIST", 'user_email' => trim(strtolower($email)), "locked" => false, "user_enabled" => true));
+
             $response=array();
             $response['exists']=($user!=null)?true:false;
         }
