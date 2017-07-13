@@ -48,7 +48,7 @@
             var lastName = response.last_name;
             var gender = response.gender;
             var locale = response.locale;
-            if(locale  !== 'undefined'){
+            if(locale  !== undefined){
                 var language=locale.split('_')[0];
                 $("#FacebookLoginType_language").val(language);
             }
