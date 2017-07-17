@@ -57,9 +57,7 @@ class SearchUtils {
 
         $status_reserved=ownershipReservation::STATUS_RESERVED;
         $sql='SELECT DISTINCT o.own_id
-                FROM ownershipreservation owr
-                INNER JOIN generalreservation g ON g.gen_res_id = owr.own_res_gen_res_id
-                INNER JOIN ownership o ON o.own_id = g.gen_res_own_id
+                FROM  ownership o
                 WHERE (SELECT count(two.own_id)
                   FROM (
                         (SELECT DISTINCT r2.room_id,o2.own_id FROM ownershipreservation owr1
@@ -67,17 +65,16 @@ class SearchUtils {
                                 INNER JOIN generalreservation g2 ON g2.gen_res_id = owr1.own_res_gen_res_id
                                 INNER JOIN ownership o2 ON o2.own_id = g2.gen_res_own_id
                                 WHERE owr1.own_res_status = '.$status_reserved.' AND
-                                ((owr1.own_res_reservation_from_date <= "'.$arrival.'" AND owr1.own_res_reservation_to_date > "'.$arrival.'") OR (owr1.own_res_reservation_from_date <= "'.$departure.'" AND owr1.own_res_reservation_to_date < "'.$departure.'"))
+                                ((owr1.own_res_reservation_from_date <= "'.$arrival.'" AND owr1.own_res_reservation_to_date > "'.$arrival.'") OR (owr1.own_res_reservation_from_date <= "'.$departure.'" AND owr1.own_res_reservation_to_date < "'.$departure.'") OR (owr1.own_res_reservation_from_date >= "'.$arrival.'" AND owr1.own_res_reservation_to_date < "'.$departure.'"))
                         )
                         UNION
                             (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
                                     INNER JOIN room r3 ON r3.room_id = ud.room_id
                                     INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
-                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date <= "'.$departure.'"))
+                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date <= "'.$departure.'") OR ( ud.ud_from_date >="'.$arrival.'"  AND  ud.ud_to_date <= "'.$departure.'"))
                         )
                        ) as two WHERE two.own_id=o.own_id
                     ) >= o.own_rooms_total ';
-
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
