@@ -473,4 +473,20 @@ class userRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    public function getTouristUserByEmail($email)
+    {
+        $em = $this->getEntityManager();
+        return $em->createQueryBuilder()
+            ->select("u")
+            ->from("mycpBundle:user", "u")
+            ->where("u.user_role = :userTouristRole")
+            ->andWhere("u.user_email = :email")
+            ->andWhere("(u.locked is null or u.locked = 0)")
+            ->andWhere("u.user_enabled = 1")
+            ->setParameter("email", $email)
+            ->setParameter("userTouristRole", "ROLE_CLIENT_TOURIST")
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+    }
+
 }

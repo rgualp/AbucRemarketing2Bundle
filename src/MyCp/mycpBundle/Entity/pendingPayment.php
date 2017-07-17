@@ -16,17 +16,23 @@ class pendingPayment
     /**
      * @var integer
      *
-     * @ORM\Column(name="pending_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership")
-     * @ORM\JoinColumn(name="user_casa", referencedColumnName="own_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="generalreservation")
+     * @ORM\JoinColumn(name="reservation", referencedColumnName="gen_res_id")
      */
-    private $accommodation;
+    private $reservation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="booking")
+     * @ORM\JoinColumn(name="booking", referencedColumnName="booking_id")
+     */
+    private $booking;
 
 
     /**
@@ -88,24 +94,44 @@ class pendingPayment
     }
 
     /**
-     * Get accommodation
+     * Get reservation
      *
      * @return ownership
      */
-    public function getAccommodation() {
-        return $this->accommodation;
+    public function getReservation() {
+        return $this->reservation;
     }
 
     /**
      * Set accommodation
      *
-     * @param ownership $accommodation
+     * @param generalReservation $reservation
      * @return pendingPayment
      */
-    public function setAccommodation($accommodation) {
-        $this->accommodation = $accommodation;
+    public function setReservation($reservation) {
+        $this->reservation = $reservation;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBooking()
+    {
+        return $this->booking;
+    }
+
+    /**
+     * @param booking $booking
+     * @return pendingPayment
+     */
+    public function setBooking($booking)
+    {
+        $this->booking = $booking;
+        return $this;
+    }
+
+
 
     /**
      * Get cancel_id
