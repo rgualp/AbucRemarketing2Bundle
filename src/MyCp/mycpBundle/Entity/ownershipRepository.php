@@ -997,7 +997,7 @@ class ownershipRepository extends EntityRepository {
         }
 
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
-
+       // dump($reservations_where);die;
         $q = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id, false);
         $query_string = $q['query'];
         $query_count_string = $q['query_count'];
