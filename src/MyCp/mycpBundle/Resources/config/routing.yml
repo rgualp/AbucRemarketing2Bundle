@@ -125,6 +125,10 @@ mycp_failure:
     resource: "@mycpBundle/Resources/config/routingBackendFailure.yml"
     prefix:   backend/failures/
 
+mycp_pending_payment:
+    resource: "@mycpBundle/Resources/config/routingBackendPaymentPending.yml"
+    prefix:   backend/pending-payments/
+
 #mycp_check:
 #  pattern: /check
 
