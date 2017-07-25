@@ -84,6 +84,12 @@ class pendingPayment
     private $type;
 
     /**
+     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="")
+     * @ORM\JoinColumn(name="status",referencedColumnName="nom_id")
+     */
+    private $status;
+
+    /**
      * Get pending_id
      *
      * @return integer 
@@ -277,4 +283,23 @@ class pendingPayment
     {
         return $this->type;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+
 }

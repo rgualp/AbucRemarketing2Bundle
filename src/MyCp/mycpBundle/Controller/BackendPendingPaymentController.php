@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use MyCp\mycpBundle\Form\pendingPayownershipType;
+use MyCp\mycpBundle\Form\pendingPaymentType;
 use MyCp\mycpBundle\Form\cancelPaymentType;
 use MyCp\mycpBundle\Entity\pendingPayown;
 
@@ -62,11 +62,11 @@ class BackendPendingPaymentController extends Controller {
      */
     public function detailAction($id, Request $request){
         $em = $this->getDoctrine()->getManager();
-        $pending_payment = $em->getRepository('mycpBundle:pendingPayown')->find($id);
-        $id_booking = $pending_payment->getCancelId()->getBooking()->getBookingId();
+        $pending_payment = $em->getRepository('mycpBundle:pendingPayment')->find($id);
+        $id_booking = $pending_payment->getBooking()->getBookingId();
 
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
-        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $pending_payment->getCancelId()->getBooking()->getBookingUserId()));
+        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $pending_payment->getBooking()->getBookingUserId()));
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
 
         $form = $this->createForm(new cancelPaymentType());
@@ -89,8 +89,8 @@ class BackendPendingPaymentController extends Controller {
 //        $service_security = $this->get('Secure');
 //        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $payment = $em->getRepository('mycpBundle:pendingPayown')->find($id);
-        $form = $this->createForm(new pendingPayownershipType(), $payment);
+        $payment = $em->getRepository('mycpBundle:pendingPayment')->find($id);
+        $form = $this->createForm(new pendingPaymentType(), $payment);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
