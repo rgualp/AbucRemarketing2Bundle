@@ -319,6 +319,7 @@ class OAuthController extends Controller
                     $general_reservation->setGenResToDate($max_date);
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
+                    $general_reservation->setCompleteReservationMode($ownership->getCompleteReservationMode());
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
 
@@ -480,10 +481,12 @@ class OAuthController extends Controller
     }
     public function checkEmailAction(Request $request){
         $email=$request->get('email');
+
         if($email != "" && Utils::validateEmail($email)) {
             $em=$this->getDoctrine()->getManager();
             $userRepository = $em->getRepository("mycpBundle:user");
-            $user = $userRepository->findOneBy(array('user_email' => trim(strtolower($email)), "locked" => false, "user_enabled" => true));
+            $user = $userRepository->getTouristUserByEmail(trim(strtolower($email)));
+
             $response=array();
             $response['exists']=($user!=null)?true:false;
         }

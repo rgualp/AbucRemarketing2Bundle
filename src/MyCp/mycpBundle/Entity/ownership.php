@@ -216,6 +216,11 @@ class ownership {
     private $notifications;
 
     /**
+     * @ORM\OneToOne(targetEntity="accommodationBookingModality",mappedBy="accommodation")
+     */
+    private $bookingModality;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="own_facilities_breakfast", type="boolean")
@@ -3047,6 +3052,7 @@ class ownership {
 
     /**
      * @param int $goodPicture
+     * @return mixed
      */
     public function setGoodPicture($goodPicture)
     {
@@ -3054,20 +3060,25 @@ class ownership {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBookingModality()
+    {
+        return $this->bookingModality;
+    }
 
     /**
-     * Set withIcal
-     *
-     * @param boolean $withIcal
-     *
-     * @return ownership
+     * @param mixed $bookingModality
+     * @return mixed
      */
-    public function setWithIcal($withIcal)
+    public function setBookingModality($bookingModality)
     {
-        $this->withIcal = $withIcal;
-
+        $this->bookingModality = $bookingModality;
         return $this;
     }
+
+
 
     /**
      * Get withIcal
@@ -3080,50 +3091,22 @@ class ownership {
     }
 
     /**
-     * Add transferMethodsPayment
-     *
-     * @param \MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment
-     *
-     * @return ownership
+     * Get withIcal
+     * @param boolean $withIcal
+     * @return mixed
      */
-    public function addTransferMethodsPayment(\MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment)
+    public function setWithIcal($withIcal)
     {
-        $this->transferMethodsPayment[] = $transferMethodsPayment;
+        $this->withIcal = $withIcal;
 
         return $this;
     }
 
-    /**
-     * Remove transferMethodsPayment
-     *
-     * @param \MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment
-     */
-    public function removeTransferMethodsPayment(\MyCp\mycpBundle\Entity\transferMethodPayment $transferMethodsPayment)
+    public function getCompleteReservationMode()
     {
-        $this->transferMethodsPayment->removeElement($transferMethodsPayment);
+        return ($this->bookingModality != null && $this->bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
     }
 
-    /**
-     * Add effectiveMethodsPayment
-     *
-     * @param \MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment
-     *
-     * @return ownership
-     */
-    public function addEffectiveMethodsPayment(\MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment)
-    {
-        $this->effectiveMethodsPayment[] = $effectiveMethodsPayment;
 
-        return $this;
-    }
-
-    /**
-     * Remove effectiveMethodsPayment
-     *
-     * @param \MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment
-     */
-    public function removeEffectiveMethodsPayment(\MyCp\mycpBundle\Entity\effectiveMethodPayment $effectiveMethodsPayment)
-    {
-        $this->effectiveMethodsPayment->removeElement($effectiveMethodsPayment);
-    }
 }
+

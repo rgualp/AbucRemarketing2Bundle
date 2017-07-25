@@ -692,21 +692,38 @@ class room {
 
     public function getPriceBySeasonType($seasonType)
     {
-        switch($seasonType)
+        $bookingModality = $this->room_ownership->getBookingModality();
+
+        if($bookingModality != null && $bookingModality->isCompleteReservationMode())
         {
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $this->room_price_up_to;
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
-            default: return $this->room_price_down_to;
+            return $bookingModality->getPrice();
         }
+        else{
+            switch($seasonType)
+            {
+                case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $this->room_price_up_to;
+                case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
+                default: return $this->room_price_down_to;
+            }
+        }
+
     }
 
     public function getPriceBySeasonTypeString($seasonType)
     {
-        switch($seasonType)
+        $bookingModality = $this->room_ownership->getBookingModality();
+
+        if($bookingModality != null && $bookingModality->isCompleteReservationMode())
         {
-            case "top": return $this->room_price_up_to;
-            case "special": return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
-            default: return $this->room_price_down_to;
+            return $bookingModality->getPrice();
+        }
+        else{
+            switch($seasonType)
+            {
+                case "top": return $this->room_price_up_to;
+                case "special": return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
+                default: return $this->room_price_down_to;
+            }
         }
     }
 

@@ -57,9 +57,7 @@ class SearchUtils {
 
         $status_reserved=ownershipReservation::STATUS_RESERVED;
         $sql='SELECT DISTINCT o.own_id
-                FROM ownershipreservation owr
-                INNER JOIN generalreservation g ON g.gen_res_id = owr.own_res_gen_res_id
-                INNER JOIN ownership o ON o.own_id = g.gen_res_own_id
+                FROM  ownership o
                 WHERE (SELECT count(two.own_id)
                   FROM (
                         (SELECT DISTINCT r2.room_id,o2.own_id FROM ownershipreservation owr1
@@ -73,11 +71,10 @@ class SearchUtils {
                             (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
                                     INNER JOIN room r3 ON r3.room_id = ud.room_id
                                     INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
-                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >= "'.$departure.'"))
+                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >="'.$departure.'"))
                         )
                        ) as two WHERE two.own_id=o.own_id
                     ) >= o.own_rooms_total ';
-
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -259,7 +256,7 @@ class SearchUtils {
                             o.own_type as type,
                             o.own_geolocate_x as OwnGeolocateX,
                             o.own_geolocate_y as OwnGeolocateY,
-                            o.own_minimum_price as minimum_price,
+                            IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minimum_price,
                             (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
                             (SELECT min(a1.id) FROM mycpBundle:accommodationAward aw1 JOIN aw1.award a1 WHERE aw1.accommodation = o.own_id ORDER BY aw1.year DESC, a1.ranking_value DESC) as award1,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
@@ -281,10 +278,11 @@ class SearchUtils {
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
                              JOIN o.own_destination des
-
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
-                             LEFT JOIN op.own_pho_photo pho ";
+                             LEFT JOIN op.own_pho_photo pho
+                             LEFT JOIN o.bookingModality abMod
+                             LEFT JOIN abMod.bookingModality bMod ";
             $query_string .= ($where) ? ("WHERE o.own_status = 1 ") : ("");
             $query_string_count = "SELECT COUNT(DISTINCT o.own_id) FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov

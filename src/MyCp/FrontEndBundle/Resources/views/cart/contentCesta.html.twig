@@ -20,7 +20,13 @@
                                         <strong>{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</strong>.
                                     </a>
                                     </br>
-                                    <small class="text-muted">{{res['own_res_room_type']|trans}}</small>
+                                    {% if res['own_res_gen_res_id']['complete_reservation_mode'] %}
+                                        <small class="text-muted">
+                                            {{ "Propiedad completa" | trans }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_rooms_total'] }} {{ "ROOMS" | trans }}
+                                        </small>
+                                    {% else %}
+                                        <small class="text-muted">{{res['own_res_room_type']|trans}}</small>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-12">
                                     <strong>{{"ADULTS"|trans}}:</strong>  {{res['own_res_count_adults']}} | <strong>{{"KIDS"|trans}}: </strong> {{res['own_res_count_childrens']}}

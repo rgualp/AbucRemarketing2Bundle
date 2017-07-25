@@ -2,8 +2,10 @@
 <table class="table "style="margin-bottom: 0px">
     <thead>
     <tr>
+        {% if not isCompletePayment %}
         <th>{{'RESERVATION_ROOMS' | trans}}</th>
         <th>{{'RESERVATION_ROOM_TYPE' | trans}}</th>
+        {% endif %}
         {% for date in array_dates %}
             <th>{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
         {% endfor %}
@@ -16,12 +18,14 @@
     {% set cont = 1 %}
     {% for room in rooms %}
 
-        <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
+        <input class="hidden real_price_room" value="{{ (isCompletePayment)? completeReservationPrice : room.getRoomPriceUpFrom }}">
 
         {% set available = 1 %}
         <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
+            {% if not isCompletePayment %}
             <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
             <td style="width: 200px">{{ room.getRoomType | trans}}</td>
+            {% endif %}
             {% set cont_days = 1 %}
             {% for date in array_dates %}
                 <td>
@@ -42,7 +46,13 @@
                     {% if print_price == 1%}
                         {% if prices_dates[cont-1][loop.index0] is defined %}
                             <span class="normalPrice_{{ room.roomId }}">{{ prices_dates[cont-1][loop.index0] * currRate}}</span>
-                            <span class="triplePrice_{{ room.roomId }}" style="display: none">{{ (prices_dates[cont-1][loop.index0] + tripleChargeRoom) * currRate}}</span>
+                            <span class="triplePrice_{{ room.roomId }}" style="display: none">
+                                {% if not isCompletePayment %}
+                                    {{ (prices_dates[cont-1][loop.index0] + tripleChargeRoom) * currRate}}
+                                {% else %}
+                                    {{ (prices_dates[cont-1][loop.index0]) * currRate}}
+                                {% endif %}
+                            </span>
                         {% else %}
                             -
                         {% endif %}
@@ -65,7 +75,13 @@
                         data-up-2 = '{{ room.roomType == "Habitación doble" and room.roomBeds < 2 }}'
                         style="width: 50px">
                     <option value="0">0</option>
+                    {% if not isCompletePayment %}
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                    {% else %}
+                        {% for i in 1..ownership.ownmaximumnumberguests %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </td>
             <td>
@@ -82,7 +98,13 @@
                         data-up-2 = '{{ room.roomType == "Habitación doble" and room.roomBeds < 2 }}'
                         style="width: 50px">
                     <option value="0">0</option>
+                    {% if not isCompletePayment %}
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                    {% else %}
+                        {% for i in 1..ownership.ownmaximumnumberguests %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </td>
             <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/></td>
@@ -189,6 +211,8 @@
     var cont_array_dates={{ array_dates | length}};
     $("#body_calendar").scrollLeft(999999);
     var today_date="{{"now"|date("d/m/Y") }}";
+    var isCompletePayment = "{{ isCompletePayment }}";
+    isCompletePayment = (isCompletePayment != "false");
 </script>
 {% if fromPartner is defined and fromPartner and completePayment is defined and completePayment %}
     {% javascripts

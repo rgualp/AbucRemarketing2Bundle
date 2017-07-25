@@ -34,7 +34,13 @@
                                     <strong>{{ item.cartRoom.roomOwnership.ownAddressMunicipality.munName}}, {{ item.cartRoom.roomOwnership.ownName}}</strong>. </br>
 
                                 </a>
-                                <small class="text-muted">{{ item.cartRoom.roomType |trans}}</small>
+                                {% if item.completeReservationMode %}
+                                    <small class="text-muted">
+                                        {{ "Propiedad completa" | trans }}, {{ item.cartRoom.roomOwnership.ownRoomsTotal }} {{ "ROOMS" | trans }}
+                                    </small>
+                                {% else %}
+                                    <small class="text-muted">{{ item.cartRoom.roomType |trans}}</small>
+                                {% endif %}
                             </div>
                             <div class="col-md-12">
                                 <strong>{{"ADULTS"|trans}}:</strong>  {{ item.cartCountAdults}} | <strong>{{"KIDS"|trans}}: </strong> {{ item.cartCountChildren}}

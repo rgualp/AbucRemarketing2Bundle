@@ -20,7 +20,7 @@
         FB.init({
             appId      : '{{ fb_app_id }}',
             xfbml      : true,
-            version    : 'v2.2'
+            version    : 'v2.9'
         });
     };
 
@@ -42,20 +42,23 @@
         $(".btn-fb-login").attr("disabled", "disabled").off('click');
         $(".fb-login-form").css("padding-top", 0);
 
-        FB.api('/me', function (response) {
+        FB.api('/me', {fields: 'email, name, last_name, gender, locale'}, function (response) {
+            //console.log(response);
             var name = response.name;
             var email = response.email;
             var lastName = response.last_name;
             var gender = response.gender;
             var locale = response.locale;
-            var language=locale.split('_')[0];
+            if(locale  !== undefined){
+                var language=locale.split('_')[0];
+                $("#FacebookLoginType_language").val(language);
+            }
             //ver si es asi como viene
             $("#FacebookLoginType_name").val(name);
             $("#FacebookLoginType_email").val(email);
-            $("#FacebookLoginType_lastName").val(lastName);
+            $("#FacebookLoginType_lastName").val((lastName  !== undefined)?lastName:name);
             $("#FacebookLoginType_gender").val(gender);
-            $("#FacebookLoginType_language").val(language);
-            console.log(response);
+
           //  $("#FacebookLoginType_country").val(city);
             data={
                 email: email

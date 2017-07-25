@@ -36,7 +36,7 @@
     </li>
 </ul>
 <ul class="price calendar-cont calendar-results">
-    <li class="lead-2">
+    <li class="lead-2" {% if hasCompleteReservation is defined and hasCompleteReservation %} style="display: none" {% endif %}>
         <table id="rooms_selected" class="table" style="margin-bottom: 0px; display: none;">
             <thead>
             <tr>
@@ -126,6 +126,7 @@
             {% set date_to = "+6 day"|date("d&m&Y") %}
         {% endif %}
         <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}" id="form-check-available" method="POST">
+            <input type="hidden" value="{{ hasCompleteReservation }}" name="hasCompleteReservation"/>
             <div class="row">
                 <div class="col-sm-12 text-center">
                     <div class="col-sm-6">

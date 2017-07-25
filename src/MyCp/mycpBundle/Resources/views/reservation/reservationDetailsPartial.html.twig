@@ -54,6 +54,7 @@
             {% set endDate = null %}
 
             {% for reservation_rooms in reservations%}
+                {% set isCompleteReservation = reservation_rooms.ownResGenResId.completeReservationMode %}
             {%if rooms[flag] != null and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
             {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
             {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
@@ -75,21 +76,33 @@
                 {% else %}
                 {% set res_type = rooms[flag].getRoomType %}
                 {% endif %}
-                <td>Hab #{{rooms[flag].getRoomNum}} - {{rooms[flag].getRoomType}}</td>
+                <td>
+                    {% if not isCompleteReservation %}
+                        Hab #{{rooms[flag].getRoomNum}} - {{rooms[flag].getRoomType}}
+                    {% else %}
+                        {{ constant('\\MyCp\\mycpBundle\\Entity\\bookingModality::COMPLETE_RESERVATION_BOOKING') }}
+                    {% endif %}
+                </td>
                 <td>{{ reservation_rooms.getOwnResCountAdults}}</td>
                 <td>{{reservation_rooms.getOwnResCountChildrens}}</td>
                 <td>{{ reservation.getGenResFromDate | date("d/m/Y") }} <br/>
                     {{ reservation.getGenResToDate | date("d/m/Y") }}</td>
                 <td>{{ nights[loop.index0] }}{#{ reservation_rooms.ownResNights }#}</td>
                 <td nowrap=nowrap>
-                {%if rooms[flag]%}
-                    Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
-                    Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
-                    {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
-                    <br/>
-                    Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                    {% if isCompleteReservation %}
+                    <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">
+                            {{ reservation_rooms.ownResCompleteReservationPrice }} CUC
+                        </span>
+                    {% else %}
+                        {%if rooms[flag]%}
+                            Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
+                            Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                            {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
+                            <br/>
+                            Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                            {%endif%}
+                        {%endif%}
                     {%endif%}
-                {%endif%}
             </td>
                 <td style="width: 7%">
                     {% set price_own_res =0%}

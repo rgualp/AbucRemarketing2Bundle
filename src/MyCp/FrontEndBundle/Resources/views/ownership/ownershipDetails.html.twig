@@ -2,6 +2,10 @@
 {% set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') == null) ? "+2 days" |date("d/m/Y") : app.session.get('search_departure_date')|date("d/m/Y")) %}
 
 {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
+{% set promoPrice = (ownership.completePrice != null and ownership.completePrice > 0) ? ownership.completePrice : ownership.ownminimumprice %}
+{% set nightPriceTextTag = (ownership.completePrice != null and ownership.completePrice > 0) ? "BYNIGHT" :  "NIGHT_PER_ROOM" %}
+{% set hasCompleteReservation = (ownership.completePrice != null and ownership.completePrice > 0)  %}
+
 
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
@@ -54,7 +58,7 @@
     <meta property="og:author" content="ABUC media network GmbH"/>
     <meta property="og:site_name" content="MyCasaParticular"/>
     <meta property="og:description"
-          content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %}{{ rooms | length }} {% if rooms | length == 1 %}{{ "ROOM_SINGULAR" | trans | trim }}{% else %}{{ "ROOM_PLURAL" | trans | trim }} {% endif %}{% endif %}. {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}"/>
+          content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}). {% if rooms is defined and rooms | length %}{{ rooms | length }} {% if rooms | length == 1 %}{{ "ROOM_SINGULAR" | trans | trim }}{% else %}{{ "ROOM_PLURAL" | trans | trim }} {% endif %}{% endif %}. {{ "FROM_PRICES" | trans }} {{ promoPrice | price }} {{ nightPriceTextTag | trans }}"/>
     <meta property="og:see_also" content="{{ mail_base_url }}"/>
     <!--meta property="og:locale" content="en_US"/-->
     <meta property="og:url"
@@ -90,7 +94,7 @@
                         {% if rooms is defined and rooms | length %}
                             {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }}. {% else %} {{ "ROOM_PLURAL" | trans }}. {% endif %}
                         {% endif %}
-                        {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}
+                        {{ "FROM_PRICES" | trans }} {{ promoPrice | price }} {{ nightPriceTextTag | trans }}
 
                     </h1>
                 </div>
@@ -155,7 +159,7 @@
                                      data-x="{{ ownership.OwnGeolocateX }}"
                                      data-y="{{ ownership.OwnGeolocateY }}"
                                      data-name="{{ ownership.ownname }}"
-                                     data-description="{{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "BYNIGHTS_PRICES" | trans }}"
+                                     data-description="{{ "FROM_PRICES" | trans }} {{ promoPrice | price }} {{ "BYNIGHTS_PRICES" | trans }}"
                                      data-image="{{ asset('uploads/ownershipImages/thumbnails/'~image) }}"
                                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
                                 </div>
@@ -163,7 +167,7 @@
                         {% endif %}
                         <div id="tab-reservations"
                              class="tab-pane {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            {% include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : false } %}
+                            {% include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : false, 'hasCompleteReservation': hasCompleteReservation } %}
                         </div>
                     </div>
                 </div>
@@ -370,8 +374,10 @@
                                                             style="margin-left: 20px">{{ room.roomtype | trans | title }}</h4>
                                                     </div>
                                                     <div class="col-xs-6">
+                                                        {% if not hasCompleteReservation %}
                                                         <h4 class="no-margin text-right"
                                                             style="margin-right: 20px">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
 
@@ -633,7 +639,7 @@
                                     </div>
                                     <div class="col-md-7">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
-                                            <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small><br/> {{ ownership.ownminimumprice | price }}
+                                            <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small><br/> {{ promoPrice | price }}
                                         </h2>
                                     </div>
                                 </div>
@@ -649,14 +655,14 @@
                                     <div class="col-md-7">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
                                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small>
-                                            <br/> {{ ownership.ownminimumprice | price }}
+                                            <br/> {{ promoPrice | price }}
                                         </h2>
                                     </div>
                                 </div>
                             </div>
                         {% else %}
                             <h2 class="no-margin" style="font-size: 32px;">
-                                <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> {{ ownership.ownminimumprice | price }}
+                                <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small> {{ promoPrice | price }}
                             </h2>
                         {% endif %}
                     </li>
@@ -788,6 +794,8 @@
         var reservation_see_prices_text = "{{ "RESERVATION_SEE_PRICES" | trans }}";
         var own_id = "{{ ownership.own_id }}";
         var today_date = "{{ "now"|date("d/m/Y") }}";
+        var hasCompleteReservation = "{{ hasCompleteReservation }}";
+        hasCompleteReservation = (hasCompleteReservation != "false");
 
         var cont_array_dates
             ={{ array_dates | length }};
@@ -928,7 +936,7 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "{{ app.session.get("curr_symbol") }}",
-        "price": "{{ ownership.ownminimumprice }}"
+        "price": "{{ promoPrice }}"
       }
     }
 </script>

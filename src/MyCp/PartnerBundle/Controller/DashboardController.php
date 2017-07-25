@@ -1667,7 +1667,8 @@ class DashboardController extends Controller
             'commissionAgency' => $currentTravelAgency->getCommission(),
             'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
             'nights' => $nights,
-            "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge')
+            "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge'),
+            'isCompletePayment' => false
         ));
     }
 
@@ -1822,6 +1823,8 @@ class DashboardController extends Controller
                     } else if ($user_ids["session_id"] != null)
                         $cart->setCartSessionId($user_ids["session_id"]);
 
+                    $hasCompleteReservation = false;
+                    $cart->setCompleteReservationMode($hasCompleteReservation);
                     $em->persist($cart);
                     $em->flush();
                     $arrayIdCart[] = $cart->getCartId();
@@ -1992,6 +1995,7 @@ class DashboardController extends Controller
                     $general_reservation->setGenResToDate($max_date);
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
+                    $general_reservation->setCompleteReservationMode($ownership->getCompleteReservationMode());
                     $general_reservation->setGenResDateHour(new \DateTime(date('H:i:s')));
                     $general_reservation->setServiceFee($serviceFee);
                     $general_reservation->setServicedinner($request->get('servicedinner'));
