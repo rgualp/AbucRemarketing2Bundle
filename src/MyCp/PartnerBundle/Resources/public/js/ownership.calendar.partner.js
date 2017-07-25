@@ -193,6 +193,9 @@ function reservationsBody()
             $('#total_price').html(normalize_prices(eval($('#total_price').html())-totalPriceDinner));
             updateService();
         }
+
+        $('#total_prepayment').html(normalize_prices(eval($('#total_price').html())-eval($('#agency_commission').html())));
+
     });
     $('#breakfast').change(function(){
         if(this.checked) {
@@ -205,6 +208,9 @@ function reservationsBody()
             $('#total_price').html(normalize_prices(eval($('#total_price').html())-totalPriceBreakfast));
             updateService();
         }
+
+        $('#total_prepayment').html(normalize_prices(eval($('#total_price').html())-eval($('#agency_commission').html())));
+
     });
     $('.guest_number').change(function(){
 
