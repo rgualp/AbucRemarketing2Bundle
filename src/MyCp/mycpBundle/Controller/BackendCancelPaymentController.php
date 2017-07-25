@@ -318,6 +318,7 @@ class BackendCancelPaymentController extends Controller {
                     'pay_cost'=>$pay_cost,
                     'ownershipReservations'=>$ownershipReservations,
                     'rooms'=>$rooms,
+                    'reason'=>$cancelPayment->getReason(),
                     'pasarela'=>$pasarela
 
             ));
