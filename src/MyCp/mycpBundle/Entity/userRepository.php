@@ -158,8 +158,13 @@ class userRepository extends EntityRepository {
         $user->setUserUserName($post['user_user_name']);
         $user->setUserLastName($post['user_last_name']);
         $user->setUserPhone($post['user_phone']);
-        if(array_key_exists("locked", $post) && $post['locked'])
-            $user->setLocked($post['locked']);
+        if(array_key_exists("locked", $post) && $post['locked']){
+            $user->setLocked(true);
+        }
+        else{
+            $user->setLocked(false);
+        }
+
         if(array_key_exists("user_role", $post) && $post['user_role']){
             $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_id'=>$post['user_role']));
             $user->setUserRole($userRole->getRoleName());

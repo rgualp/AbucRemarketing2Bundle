@@ -135,7 +135,7 @@ class CartController extends Controller {
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
                         (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) ||
                         ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
-                        $item->getCartRoom() == $array_ids_rooms[$a] && $check_dispo!=2
+                        $item->getCartRoom() == $array_ids_rooms[$a] && $check_dispo!=2 && $cartDateFrom >= $cartDateTo
                 ) {
                     $insert = 0;
                     $showError = true;
@@ -152,7 +152,7 @@ class CartController extends Controller {
                         $ownDateTo = $date->getTimestamp();
                         if ((($ownDateFrom <= $start_timestamp && $ownDateTo >= $start_timestamp) ||
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
-                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a] ) {
+                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a] && $ownDateFrom >= $ownDateTo ) {
                             $insert = 0;
                             $showError = true;
                             $showErrorOwnExist = true;
@@ -167,60 +167,68 @@ class CartController extends Controller {
                     $cart = new cart();
                     $fromDate = new \DateTime();
                     $fromDate->setTimestamp($start_timestamp);
-                    $cart->setCartDateFrom($fromDate);
-                    $cart->setCompleteReservationMode($hasCompleteReservation);
-
                     $toDate = new \DateTime();
                     $toDate->setTimestamp($end_timestamp);
-                    $cart->setCartDateTo($toDate);
-                    $cart->setCartRoom($room);
-                    $cart->setServiceFee($serviceFee);
-                    if(isset($check_dispo) && $check_dispo!='' && $check_dispo==1 && $user_ids["user_id"] == null){
-                        $cart->setCheckAvailable(true);
+
+                    if ($fromDate < $toDate) {
+                        $cart->setCartDateFrom($fromDate);
+                        $cart->setCompleteReservationMode($hasCompleteReservation);
+
+
+                        $cart->setCartDateTo($toDate);
+                        $cart->setCartRoom($room);
+                        $cart->setServiceFee($serviceFee);
+                        if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 1 && $user_ids["user_id"] == null) {
+                            $cart->setCheckAvailable(true);
+                        }
+                        if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && $user_ids["user_id"] == null) {
+                            $cart->setInmediateBooking(true);
+                        }
+                        if (isset($array_count_guests[$a]))
+                            $cart->setCartCountAdults($array_count_guests[$a]);
+                        else
+                            $cart->setCartCountAdults(1);
+
+                        if (isset($array_count_kids[$a]))
+                            $cart->setCartCountChildren($array_count_kids[$a]);
+                        else
+                            $cart->setCartCountChildren(0);
+
+                        $kidsAge = array();
+
+                        if (isset($array_count_kidsAge_1[$a]) && $array_count_kidsAge_1[$a] != -1)
+                            $kidsAge["FirstKidAge"] = $array_count_kidsAge_1[$a];
+
+                        if (isset($array_count_kidsAge_2[$a]) && $array_count_kidsAge_2[$a] != -1)
+                            $kidsAge["SecondKidAge"] = $array_count_kidsAge_2[$a];
+
+                        if (isset($array_count_kidsAge_3[$a]) && $array_count_kidsAge_3[$a] != -1)
+                            $kidsAge["ThirdKidAge"] = $array_count_kidsAge_3[$a];
+
+                        if (count($kidsAge))
+                            $cart->setChildrenAges($kidsAge);
+
+                        $cart->setCartCreatedDate(new \DateTime(date('Y-m-d')));
+                        if ($user_ids["user_id"] != null) {
+                            $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
+                            $cart->setCartUser($user);
+                        } else if ($user_ids["session_id"] != null)
+                            $cart->setCartSessionId($user_ids["session_id"]);
+
+                        $em->persist($cart);
+                        $em->flush();
+                        $arrayIdCart[] = $cart->getCartId();
+                        if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
+                            // inform listeners that a reservation was sent out
+                            $dispatcher = $this->get('event_dispatcher');
+                            $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
+                            $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
+                        }
                     }
-                    if(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && $user_ids["user_id"] == null){
-                        $cart->setInmediateBooking(true);
-                    }
-                    if (isset($array_count_guests[$a]))
-                        $cart->setCartCountAdults($array_count_guests[$a]);
-                    else
-                        $cart->setCartCountAdults(1);
-
-                    if (isset($array_count_kids[$a]))
-                        $cart->setCartCountChildren($array_count_kids[$a]);
-                    else
-                        $cart->setCartCountChildren(0);
-
-                    $kidsAge = array();
-
-                    if (isset($array_count_kidsAge_1[$a]) && $array_count_kidsAge_1[$a] != -1)
-                        $kidsAge["FirstKidAge"] = $array_count_kidsAge_1[$a];
-
-                    if (isset($array_count_kidsAge_2[$a]) && $array_count_kidsAge_2[$a] != -1)
-                        $kidsAge["SecondKidAge"] = $array_count_kidsAge_2[$a];
-
-                    if (isset($array_count_kidsAge_3[$a]) && $array_count_kidsAge_3[$a] != -1)
-                        $kidsAge["ThirdKidAge"] = $array_count_kidsAge_3[$a];
-
-                    if (count($kidsAge))
-                        $cart->setChildrenAges($kidsAge);
-
-                    $cart->setCartCreatedDate(new \DateTime(date('Y-m-d')));
-                    if ($user_ids["user_id"] != null) {
-                        $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
-                        $cart->setCartUser($user);
-                    } else if ($user_ids["session_id"] != null)
-                        $cart->setCartSessionId($user_ids["session_id"]);
-
-                    $em->persist($cart);
-                    $em->flush();
-                    $arrayIdCart[]=$cart->getCartId();
-                    if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
-                        // inform listeners that a reservation was sent out
-                        $dispatcher = $this->get('event_dispatcher');
-                        $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
-                        $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
-                    }
+                }
+                else{
+                    $insert = 0;
+                    $showError = true;
                 }
             }
         }

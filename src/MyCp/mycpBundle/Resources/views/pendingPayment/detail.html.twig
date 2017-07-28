@@ -15,22 +15,50 @@
         <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
         <li><a href="#">Contabilidad</a> <span class="divider">/</span></li>
         <li><a href="{{ path('mycp_list_payments_pending_ownership') }}">Pagos pendientes a propietarios</a> <span class="divider">/</span></li>
-        <li class="active">Detalle de la cancelación del Booking</li>
-        <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+        <li class="active">Detalle del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_pending_payment') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
 {% endblock %}
 {% block form_actions %}
     <ul class="breadcrumb">
         <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
         <li><a href="{{ path('mycp_list_reservations_booking') }}">Bookings</a> <span class="divider">/</span></li>
-        <li class="active">Detalles de Booking</li>
-        <li class="pull-right"><a href="{{ path('mycp_list_payments_pending_ownership') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+        <li class="active">Detalles del pago</li>
+        <li class="pull-right"><a href="{{ path('mycp_list_pending_payment') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
 {% endblock %}
 {% block content %}
     <h2>Booking {{ payment.booking.bookingId }}</h2>
     <hr/>
     <div class="row-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#reservas" data-toggle="tab">Pago a propietario</a>
+                    </li>
+                </ul>
+                <table class="table table-striped" style="font-size: 12px">
+                    <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Tipo</th>
+                        <th>Total a pagar</th>
+                        <th>Fecha registro</th>
+                        <th>Fecha pago</th>
+                    </tr>
+                    </thead>
+                        <tr>
+                            <td>{{ (pending_payment.status != null) ? pending_payment.status.translations[0].nomLangDescription: "Pendiente" }}</td>
+                            <td>{{ pending_payment.type.translations[0].nomLangDescription }}</td>
+                            <td>{{ pending_payment.amount }} CUC</td>
+                            <td>{{pending_payment.registerDate | date ("d/m/Y")}}</td>
+                            <td>{{ pending_payment.paymentDate | date("d/m/Y") }}</td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+
         {% set generalReservation = 0 %}
         {% set cucPayment = 0 %}
         {% for reservation in reservations %}
@@ -62,7 +90,7 @@
                         <th>Estado</th>
                     </tr>
                     </thead>
-                    {% for item in pending_payment.getCancelId.getOwnreservations %}
+                    {% for item in pending_payment.reservation.getOwnreservations %}
                         <tr>
                             <td>{{ item.getOwnResGenResId.getCASId }}</td>
                             <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": item.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ item.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} {% if item.getOwnResGenResId.getGenResOwnId.ownInmediateBooking %}<i class="glyphicons electricity" title="Reserva Rápida"></i>{% endif %}</a></td>
@@ -84,6 +112,7 @@
                 </table>
             </div>
         </div>
+        {% if pending_payment.getCancelId != null %}
         <div class="row-fluid">
             <div class="span12">
                 <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
@@ -110,6 +139,7 @@
                 </table>
             </div>
         </div>
+        {% endif %}
     </div>
     <hr/>
 {% endblock %}
