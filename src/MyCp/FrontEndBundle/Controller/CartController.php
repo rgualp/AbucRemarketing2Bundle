@@ -147,12 +147,12 @@ class CartController extends Controller {
                     foreach ($ownerShip as $item){
                         $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
                         $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
-                        $date = new \DateTime();
+                       /* $date = new \DateTime();
                         $date->setTimestamp(strtotime("-1 day", $ownDateTo));
-                        $ownDateTo = $date->getTimestamp();
+                        $ownDateTo = $date->getTimestamp();*/
                         if ((($ownDateFrom <= $start_timestamp && $ownDateTo >= $start_timestamp) ||
-                                ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
-                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a] && $ownDateFrom >= $ownDateTo ) {
+                                ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp) || $ownDateFrom==$start_timestamp && $ownDateTo==$end_timestamp) &&
+                            $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a] ) {
                             $insert = 0;
                             $showError = true;
                             $showErrorOwnExist = true;
