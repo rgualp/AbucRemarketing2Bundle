@@ -170,7 +170,9 @@ class CartController extends Controller {
                     $toDate = new \DateTime();
                     $toDate->setTimestamp($end_timestamp);
 
-                    if ($fromDate < $toDate) {
+                    $existsCartItem = $em->getRepository("mycpBundle:cart")->existsCartItems($user_ids, $fromDate, $toDate, $room->getRoomId());
+
+                    if ($fromDate < $toDate && !$existsCartItem) {
                         $cart->setCartDateFrom($fromDate);
                         $cart->setCompleteReservationMode($hasCompleteReservation);
 

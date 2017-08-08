@@ -410,4 +410,24 @@ class cartRepository extends EntityRepository {
         }
     }
 
+    function existsCartItems($iduser, $dateFrom, $dateTo, $idRoom){
+            $em = $this->getEntityManager();
+            $qb = $em->createQueryBuilder()
+                ->select("cart")
+                ->from("mycpBundle:cart", "cart")
+                ->join("cart.cart_room", "room")
+                ->join("cart.cart_user", "user")
+                ->where("user.user_id = :user")
+                ->andWhere("room.room_id = :room")
+                ->andWhere("cart.cart_date_from >= :from")
+                ->andWhere("cart.cart_date_to <= :to")
+                ->setParameter("user", $iduser['user_id'])
+                ->setParameter("room", $idRoom)
+                ->setParameter("from", $dateFrom)
+                ->setParameter("to", $dateTo)
+            ;
+           return count($qb->getQuery()->getResult()) > 0;
+
+    }
+
 }
