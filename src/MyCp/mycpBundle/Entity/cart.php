@@ -106,7 +106,7 @@ class cart {
     /**
      * @var integer
      *
-     * @ORM\Column(name="complete_reservation_mode", type="boolean")
+     * @ORM\Column(name="complete_reservation_mode", type="boolean", nullable=true)
      */
     private $complete_reservation_mode;
 
