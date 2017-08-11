@@ -274,7 +274,7 @@ class PaymentController extends Controller
         $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));*/
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
-            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $postfinancePayment->getId());
+            ': Payment ID: ' . $payment->getId() . "\nPostfinanceRequest ID: " . $postfinancePayment->getId());
 
         //return new Response('Thanks', 200);
         $trans = $this->get('translator');

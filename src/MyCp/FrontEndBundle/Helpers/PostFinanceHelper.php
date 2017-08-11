@@ -31,6 +31,14 @@ final class PostFinanceHelper
         'de' => 'DE',
         'it' => 'IT'
     );
+    // TODO: This map has to be tested!
+    private static $localeToLanguageMapPostfinance = array(
+        'en' => 'en_US',
+        'es' => 'es_ES',
+        'de' => 'de_DE',
+        'it' => 'it_IT',
+        'fr' => 'fr_FR'
+    );
 
     private static $currencyMap = array(
 
@@ -163,8 +171,8 @@ final class PostFinanceHelper
      */
     public static function getPostFinanceLanguageFromLocale($locale)
     {
-        if(isset(self::$localeToLanguageMap[$locale])) {
-            return self::$localeToLanguageMap[$locale];
+        if(isset(self::$localeToLanguageMapPostfinance[$locale])) {
+            return self::$localeToLanguageMapPostfinance[$locale];
         }
 
         return '';
