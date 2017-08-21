@@ -128,15 +128,14 @@ class CartController extends Controller {
             foreach ($cartItems as $item) {
                 $cartDateFrom = $item->getCartDateFrom()->getTimestamp();
                 $cartDateTo = $item->getCartDateTo()->getTimestamp();
-                $date = new \DateTime();
+             /*   $date = new \DateTime();
                 $date->setTimestamp(strtotime("-1 day", $cartDateTo));
-                $cartDateTo = $date->getTimestamp();
+                $cartDateTo = $date->getTimestamp();*/
 
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
                         (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) ||
-                        ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
-                        $item->getCartRoom() == $array_ids_rooms[$a] && $check_dispo!=2 && $cartDateFrom >= $cartDateTo
-                ) {
+                        ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp) || $cartDateFrom==$start_timestamp && $cartDateTo==$end_timestamp) &&
+                        $item->getCartRoom() == $array_ids_rooms[$a]) {
                     $insert = 0;
                     $showError = true;
                     $showErrorItem=$item;
