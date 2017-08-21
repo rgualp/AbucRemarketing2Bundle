@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\failure;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\pendingPayment;
 use MyCp\mycpBundle\Entity\pendingPayown;
 use MyCp\mycpBundle\Entity\notification;
 use MyCp\mycpBundle\Entity\pendingPaytourist;
@@ -678,7 +679,6 @@ class BookingService extends Controller
             return;
         }
 
-
         $paymentPending = $status == PaymentHelper::STATUS_PENDING;
         $this->updateReservationStatuses($bookingId, $status);
         $this->processPaymentEmails($booking, $paymentPending);
@@ -688,6 +688,7 @@ class BookingService extends Controller
         $generalReservations = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsByBookin($bookingId);
         foreach ($generalReservations as $generalReservation) {
             $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+            $this->generateCompletePayment($booking, $generalReservation);
         }
 
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
@@ -1902,6 +1903,53 @@ class BookingService extends Controller
         //Servicios
         $emailService = $this->container->get('mycp.service.email_manager');
         $emailService->sendEmail($from, $subject,  $body, $to);
+    }
+
+    public function generateCompletePayment($booking, $generalReservation){
+        $user = $generalReservation->getGenResUserId();
+        $commission = $generalReservation->getGenResOwnId()->getOwnCommissionPercent()/100;
+
+        $reservations = $this->getOwnershipReservationsByGenRes($booking->getBookingId(), $generalReservation->getGenResId());
+        $amount = 0;
+        $finalDate = $reservations[0]->getOwnResReservationToDate();
+
+        foreach($reservations as $reservation)
+        {
+            if($finalDate < $reservation->getOwnResReservationToDate())
+                $finalDate = $reservation->getOwnResReservationToDate();
+
+            $amount += $reservation->getOwnResTotalInSite() * (1 - $commission);
+        }
+
+        $type = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "completePayment"));
+        $paymentDate = new \DateTime();
+        $payment_date_timestamp = $finalDate->getTimestamp();
+        $paymentDate->setTimestamp(strtotime("+10 day", $payment_date_timestamp));
+
+        $pendingPayment = new pendingPayment();
+        $pendingPayment->setAmount($amount);
+        $pendingPayment->setBooking($booking);
+        $pendingPayment->setPaymentDate($paymentDate);
+        $pendingPayment->setRegisterDate(new \DateTime());
+        $pendingPayment->setReservation($generalReservation);
+        $pendingPayment->setType($type);
+        $pendingPayment->setUser($user);
+
+        $this->em->persist($pendingPayment);
+        $this->em->flush();
+    }
+
+    /**
+     * @param $bookingId
+     * @param $genResId
+     * @return array
+     */
+    private function getOwnershipReservationsByGenRes($bookingId, $genResId)
+    {
+        $ownershipReservations = $this->em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_reservation_booking' => $bookingId, "own_res_gen_res_id" => $genResId), array("own_res_gen_res_id" => "ASC"));
+        return $ownershipReservations;
     }
 
 }
