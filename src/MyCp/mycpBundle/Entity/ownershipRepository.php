@@ -168,7 +168,10 @@ class ownershipRepository extends EntityRepository {
         $keys = array_keys($data);
 
         $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
-        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
+        $targetLanguageIT = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "IT"));
+        $targetLanguageFR = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "FR"));
+        $targetLanguageEN = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
+        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "ES"));
         foreach ($keys as $item) {
             if(strpos($item, 'ownership_language') !== false) {
 
@@ -185,9 +188,18 @@ class ownershipRepository extends EntityRepository {
                 $briefDescription = $data['description_brief_desc_' . $id];
                 $description = $data['description_desc_' . $id];
                 $translated = false;
+                $targetLangCode = "";
 
-                if($currentLanguage->getLangId() == $targetLanguage->getLangId()) {
-                    $translatedArray = $this->doTranslations("en", "de", $translator, array("briefDescription" => $briefDescription, "description" => $description),
+                switch($currentLanguage->getLangId())
+                {
+                    case $targetLanguage->getLangId(): $targetLangCode = "de"; break;
+                    case $targetLanguageFR->getLangId(): $targetLangCode = "fr"; break;
+                    case $targetLanguageIT->getLangId(): $targetLangCode = "it"; break;
+                    case $targetLanguageEN->getLangId(): $targetLangCode = "en"; break;
+                }
+
+                if($targetLangCode != "") {
+                    $translatedArray = $this->doTranslations("en", $targetLangCode, $translator, array("briefDescription" => $briefDescription, "description" => $description),
                         array("briefDescription" => $data["description_brief_desc_" . $sourceLanguage->getLangId()],
                             "description" => $data["description_desc_" . $sourceLanguage->getLangId()]),
                         false);
@@ -480,7 +492,11 @@ class ownershipRepository extends EntityRepository {
 
         $keys = array_keys($data);
         $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
-        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
+        $targetLanguageEN = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
+        $targetLanguageIT = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "IT"));
+        $targetLanguageFR = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "FR"));
+
+        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "ES"));
 
         foreach ($keys as $item) {
             if(strpos($item, 'description_desc') !== false) {
@@ -489,12 +505,22 @@ class ownershipRepository extends EntityRepository {
                 $briefDescription = $data['description_brief_desc_' . $id];
                 $description = $data['description_desc_' . $id];
                 $translated = false;
+                $targetLangCode = "";
+
                 $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->getDescriptionsByAccommodation($ownership, $currentLanguage->getLangCode());
 
                 if($odl == null)
                     $odl = new ownershipDescriptionLang();
 
-                if($currentLanguage->getLangId() == $targetLanguage->getLangId()) {
+                switch($currentLanguage->getLangId())
+                {
+                    case $targetLanguage->getLangId(): $targetLangCode = "de"; break;
+                    case $targetLanguageFR->getLangId(): $targetLangCode = "fr"; break;
+                    case $targetLanguageIT->getLangId(): $targetLangCode = "it"; break;
+                    case $targetLanguageEN->getLangId(): $targetLangCode = "en"; break;
+                }
+
+                if($targetLangCode != "") {
                     $storedSourceDescription = $em->getRepository('mycpBundle:ownershipDescriptionLang')->getDescriptionsByAccommodation($ownership, "EN");
 
                     if($storedSourceDescription == null)
