@@ -83,7 +83,7 @@
     {% endblock %}
 {% block alerts %}{% endblock %}
 {% block content %}
-    <section class="container">
+    <section class="container" style="margin-bottom: 20px">
         <div class="row text-center middle-box">
             <div>
                 <a href="{{ path('frontend-welcome') }}"> <img src="{{ asset('img/mycp.png') }}"></a>
@@ -224,8 +224,26 @@
                         </div>
                     </div>
                     <div class="bg-yellow m-t-10 col-xs-12 text-center" style="padding: 0">
-                        <p class="m-t-10">La inscripción de su propiedad tiene un costo de 30 CUC</p>
-                        <p>Por favor revise nuestros <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones de uso</a></h3></p>
+                        <MARQUEE>
+                        <p class="m-t-10 font-blue" style="font-weight: bold; animation-duration: 3s;animation-name: slidein; animation-iteration-count: infinite;">La inscripción de su propiedad tiene un costo de 30 CUC</p>
+                        </MARQUEE>
+
+                        <p>
+                            <b>Podrá realizar el pago del siguiente modo:</b></br>
+                            Mediante transferencia bancaria a nuestra cuenta de BANDEC:</br>
+                            <b>9200 0699 9392 5852</b> a nombre de <b>Candida Cobas Ochoa.</b></br>
+                            Realizar su pago directamente en nuestras oficinas centrales en la dirección:</br>
+                            Calle San Nicolás # 358 (bajos) % San Rafael y San Miguel CP 10200.</br>
+                            Municipio Centro Habana, Provincia La Habana, Cuba.
+                        </p>
+                        <h4 class="font-blue">Términos y condiciones del pago por su inscripción</h4>
+                        <p>Usted podrá tener visibilidad de su casa publicada sin realizar su pago por un</br>
+                            periodo de 15 días, tiempo  en el que deberá realizar su abonado. De no realizarlo</br>
+                            de forma automática se desactivara en  nuestro sistema su publicación.</br>
+                            Para mayor información al respecto, podrá contactar con nuestro centro de atención al cliente de 8 AM  a  8 PM a  los números >
+                            78673574 o a nuestro  correo  electrónico: casa@mycasaparicular.com</p>
+
+                            <p>Por favor revise nuestros <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones generales de uso</a></h3></p>
                         <div class="form-group row" style="margin-bottom: 0px">
                             <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
                                 <div class="col-md-12"><h3>Acepte para continuar</h3></div>

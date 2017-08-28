@@ -134,6 +134,7 @@ class TranslatorService extends Controller
         $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . $qQueryPart . '&source='.strtolower($sourceLanguageCode).'&target='.strtolower($targetLanguageCode);
 
         $json = json_decode($this->curl_get_contents($url));
+
         $responseArray = array();
 
         if($json != null) {
@@ -150,6 +151,7 @@ class TranslatorService extends Controller
                 array_push($responseArray, $response);
             }
         }
+
 
         return $responseArray;
     }

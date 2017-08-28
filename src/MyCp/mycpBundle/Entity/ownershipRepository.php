@@ -520,14 +520,16 @@ class ownershipRepository extends EntityRepository {
                     case $targetLanguageEN->getLangId(): $targetLangCode = "en"; break;
                 }
 
+
                 if($targetLangCode != "") {
+
                     $storedSourceDescription = $em->getRepository('mycpBundle:ownershipDescriptionLang')->getDescriptionsByAccommodation($ownership, "EN");
 
                     if($storedSourceDescription == null)
                         $storedSourceDescription = new ownershipDescriptionLang();
 
 
-                    $translatedArray = $this->doTranslationsInEditMode("en", "de", $translator, array("briefDescription" => $briefDescription, "description" => $description),
+                    $translatedArray = $this->doTranslationsInEditMode("es", $targetLangCode, $translator, array("briefDescription" => $briefDescription, "description" => $description),
                         array("briefDescription" => $data["description_brief_desc_" . $sourceLanguage->getLangId()],
                             "description" => $data["description_desc_" . $sourceLanguage->getLangId()]), $storedSourceDescription, $odl);
 

@@ -19,11 +19,21 @@
     {% endblock %}
 {% block alerts %}{% endblock %}
 {% block content %}
+
     <div class="middle-box text-center animated fadeInDown">
         <div>
             <img src="{{ asset('img/mycp.png') }}">
         </div>
         <h2 class="font-blue">Bienvenido!</h2>
+        {% for message in app.session.flashbag.get('message_global_success') %}
+        <div class="container middle-box ">
+            <br/>
+            <div class="alert alert-info" style="margin-bottom: 10px">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
         {% for message in app.session.flashbag.get('message_ok') %}
             <div class="alert alert-info alert-dismissable">
                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
