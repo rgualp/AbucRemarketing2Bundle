@@ -42,6 +42,20 @@ class TestTranslationCommand extends ContainerAwareCommand {
         $output->writeln("Error message: ".$response->getErrorMessage());
         $output->writeln("Traducción: ".$response->getTranslation());
 
+        $response = $translatorService->translate("Esto es un texto de prueba a ver si lo traduces, mijito", "es", "fr");
+
+        $output->writeln("Traduciendo al frances...");
+        $output->writeln("Codigo: ".$response->getCode());
+        $output->writeln("Error message: ".$response->getErrorMessage());
+        $output->writeln("Traducción: ".$response->getTranslation());
+
+        $response = $translatorService->translate("Esto es un texto de prueba a ver si lo traduces, mijito", "es", "it");
+
+        $output->writeln("Traduciendo al italiano...");
+        $output->writeln("Codigo: ".$response->getCode());
+        $output->writeln("Error message: ".$response->getErrorMessage());
+        $output->writeln("Traducción: ".$response->getTranslation());
+
 
         $output->writeln('Operation completed!!!');
         return 0;
