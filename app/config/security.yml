@@ -175,6 +175,7 @@ security:
         - { path: ^/casa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
         - { path: ^/mycasa/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mycasa/bestcasa, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mycasa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }

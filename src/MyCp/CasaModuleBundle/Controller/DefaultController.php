@@ -149,4 +149,16 @@ class DefaultController extends Controller
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'Consejos_para_convertirse_en_el_primero_del_ranking.pdf');
         return $response;
     }
+
+
+    public function bestCasaAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $accommodations = $em->getRepository("mycpBundle:accommodationAward")->getAccommodationsWithAwards();
+
+        return $this->render('MyCpCasaModuleBundle:page:best_casa.html.twig', array(
+                "accommodations" => $accommodations
+            )
+        );
+    }
 }

@@ -91,6 +91,9 @@
             <h2 class="font-blue">¡Bienvenido!</h2>
 
         </div>
+        <div class="row font-blue" style="text-align: right">
+            <a href="{{ path("my_cp_casa_module_bestcasa") }}">¿Cómo convertirte en una Best Casa?</a>
+        </div>
         <hr>
         {% for message in app.session.flashbag.get('message_ok') %}
             <div class="alert alert-info alert-dismissable">
