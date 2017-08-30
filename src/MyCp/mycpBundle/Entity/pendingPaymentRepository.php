@@ -21,6 +21,9 @@ class pendingPaymentRepository extends EntityRepository {
             ->join("op.type", "type")
             ->join("op.reservation", "r")
             ->join("r.gen_res_own_id", "own")
+            ->leftJoin("own.effectiveMethodsPayment", "effective")
+            ->leftJoin("own.transferMethodsPayment", "transfer")
+            ->leftJoin("own.own_destination", "d")
             ->orderBy("op.id", "DESC");
 
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
