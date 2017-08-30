@@ -522,6 +522,67 @@ class BackendUserController extends Controller {
         ));
     }
 
+    public function exportAction(Request $request) {
+        try {
+            //$service_security = $this->get('Secure');
+            //$service_security->verifyAccess();
+            $filter_user_name = $request->get('filter_user_name');
+            $filter_role = $request->get('filter_role');
+            $filter_city = $request->get('filter_city');
+            $filter_country = $request->get('filter_country');
+            $filter_name = $request->get('filter_name');
+            $filter_last_name = $request->get('filter_last_name');
+            $filter_email = $request->get('filter_email');
+            $filter_method = $request->get('filter_method');
+            $filter_status = $request->get('filter_status');
+            $filter_creation_date_from = $request->get('filter_creation_date_from');
+            $filter_creation_date_to = $request->get('filter_creation_date_to');
+
+            if ($filter_user_name == 'null')
+                $filter_user_name = '';
+            if ($filter_role == 'null')
+                $filter_role = '';
+            if ($filter_city == 'null')
+                $filter_city = '';
+            if ($filter_country == 'null')
+                $filter_country = '';
+            if ($filter_name == 'null')
+                $filter_name = '';
+            if ($filter_last_name == 'null')
+                $filter_last_name = '';
+            if ($filter_email == 'null')
+                $filter_email = '';
+            if ($filter_method == 'null')
+                $filter_method = '';
+            if ($filter_status == 'null')
+                $filter_status = '';
+            if ($filter_creation_date_to == 'null')
+                $filter_creation_date_to = '';
+            if ($filter_creation_date_from == 'null')
+                $filter_creation_date_from = '';
+
+
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email, $filter_method, $filter_status, $filter_creation_date_from, $filter_creation_date_to);
+
+            if(count($users)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportUsers($users);
+            }
+            else {
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_users"));
+            }
+        }
+        catch (\Exception $e) {
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_users"));
+        }
+    }
+
     function delete_userAction($id_user) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
