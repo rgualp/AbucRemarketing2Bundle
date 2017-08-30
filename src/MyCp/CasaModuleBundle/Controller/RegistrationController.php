@@ -171,7 +171,7 @@ class RegistrationController extends Controller
            $data['status_id']=$ownership->getOwnStatus()->getStatusId();
            /*return $this->render('MyCpCasaModuleBundle:Registration:success.html.twig',
                array());*/
-           $this->get('session')->getFlashBag()->add('message_global_success', 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente. Recuerde el código de su casa '.$ownership->getOwnMcpCode());
+           $this->get('session')->getFlashBag()->add('message_global_success', 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente. Recuerde para proximas consultas a nuestro sitio este código '.$ownership->getOwnMcpCode().' y la clave que genere a continuación.');
            return $this->redirect($this->generateUrl('my_cp_casa_module_activateAccount', array('token' => $userCasa->getUserCasaSecretToken())));
 
 
