@@ -161,99 +161,129 @@
             <div class="col-sm-12 text-center m-b-10"><a target="_blank" title="Descargar Instructivo de MyCasa Renta" href="{{ path("my_casarenta_manual_download") }}" class="btn btn-danger"><i class="fa fa-download"></i> Descargar Instructivo</a></div>
         </div>
         <div class="col-md-8">
-                <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn" class="form-registerOwn">
-                    <div class="col-md-12 text-center">
-                        <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
-                    </div>
-                    <div class="col-md-12 bg-gray" style="padding-bottom: 0">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon">
-                                        <i class="glyphicon glyphicons home"></i>
-                                        <input type="text" name="own_name" required minlength="6" class="form-control" placeholder="Nombre de la casa" style="width: 97%">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon">
-                                        <i class="glyphicon glyphicons nameplate"></i>
-                                        <input type="text" name="own_license_number" required minlength="3" class="form-control" placeholder="Número de la licencia">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon chosen">
-                                        <i class="glyphicon glyphicons google_maps"></i>
-                                        <select data-placeholder="Seleccione la Provincia" required class="form-control chosen-select-deselect" name="own_province" id="own_province">
-                                            {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon chosen c-muni">
-                                        <i class="glyphicon glyphicons google_maps"></i>
-                                        <select data-placeholder="Seleccione el Municipio" required class="form-control chosen-select-deselect" name="own_municipality" id="own_municipality">
-                                            {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon">
-                                        <i class="glyphicon glyphicons user"></i>
-                                        <input type="text" required name="own_homeowner_1" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userUserName~' '~app.user.userLastName }}" {% endif %} class="form-control" placeholder="Nombre del propietario principal">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon">
-                                        <i class="glyphicon glyphicons envelope"></i>
-                                        <input type="email" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userEmail }}" {% endif %}required name="own_email_1" class="form-control" placeholder="Correo principal">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="inner-addon left-addon">
-                                        <i class="glyphicon glyphicons phone_alt"></i>
-                                        <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono">
-                                    </div>
+            <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn" class="form-registerOwn">
+                <div class="col-md-12 text-center">
+                    <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
+                </div>
+                <div class="col-md-12 bg-gray" style="padding-bottom: 0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons home"></i>
+                                    <input type="text" name="own_name" required minlength="6" class="form-control" placeholder="Nombre de la casa" style="width: 97%">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-yellow m-t-10 col-xs-12 text-center" style="padding: 0">
-                        <MARQUEE>
-                        <p class="m-t-10 font-blue" style="font-weight: bold; animation-duration: 3s;animation-name: slidein; animation-iteration-count: infinite;">La inscripción de su propiedad tiene un costo de 30 CUC</p>
-                        </MARQUEE>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons nameplate"></i>
+                                    <input type="text" name="own_license_number" required minlength="3" class="form-control" placeholder="Número de la licencia">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon chosen">
+                                    <i class="glyphicon glyphicons google_maps"></i>
+                                    <select data-placeholder="Seleccione la Provincia" required class="form-control chosen-select-deselect" name="own_province" id="own_province">
+                                        {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon chosen c-muni">
+                                    <i class="glyphicon glyphicons google_maps"></i>
+                                    <select data-placeholder="Seleccione el Municipio" required class="form-control chosen-select-deselect" name="own_municipality" id="own_municipality">
+                                        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons user"></i>
+                                    <input type="text" required name="own_homeowner_1" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userUserName~' '~app.user.userLastName }}" {% endif %} class="form-control" placeholder="Nombre del propietario principal">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons envelope"></i>
+                                    <input type="email" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userEmail }}" {% endif %}required name="own_email_1" class="form-control" placeholder="Correo principal">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="inner-addon left-addon">
+                                    <i class="glyphicon glyphicons phone_alt"></i>
+                                    <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-yellow m-t-10 col-xs-12 text-center" style="padding: 0">
 
-                        <p>
-                            <b>Podrá realizar el pago del siguiente modo:</b></br>
-                            Mediante transferencia bancaria a nuestra cuenta de BANDEC:</br>
-                            <b>9200 0699 9392 5852</b> a nombre de <b>Candida Cobas Ochoa.</b></br>
-                            Realizar su pago directamente en nuestras oficinas centrales en la dirección:</br>
-                            Calle San Nicolás # 358 (bajos) % San Rafael y San Miguel CP 10200.</br>
-                            Municipio Centro Habana, Provincia La Habana, Cuba.
-                        </p>
-                        <h4 class="font-blue">Términos y condiciones del pago por su inscripción</h4>
-                        <p>Usted podrá tener visibilidad de su casa publicada sin realizar su pago por un</br>
-                            periodo de 15 días, tiempo  en el que deberá realizar su abonado. De no realizarlo</br>
-                            de forma automática se desactivara en  nuestro sistema su publicación.</br>
-                            Para mayor información al respecto, podrá contactar con nuestro centro de atención al cliente de 8 AM  a  8 PM a  los números >
-                            78673574 o a nuestro  correo  electrónico: casa@mycasaparicular.com</p>
-
-                            <p>Por favor revise nuestros <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones generales de uso</a></h3></p>
-                        <div class="form-group row" style="margin-bottom: 0px">
-                            <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
-                                <div class="col-md-12"><h3>Acepte para continuar</h3></div>
-                            </label>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel bg-yellow" style="padding: 0">
+                            <div class="" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <MARQUEE>
+                                            <p class="m-t-10 font-blue" style="font-weight: bold; animation-duration: 3s;animation-name: slidein; animation-iteration-count: infinite;">La inscripción de su propiedad tiene un costo de 30 CUC</p>
+                                        </MARQUEE>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <p>
+                                        <b>Podrá realizar el pago del siguiente modo:</b></br>
+                                        Mediante transferencia bancaria a nuestra cuenta de BANDEC:</br>
+                                        <b>9200 0699 9392 5852</b> a nombre de <b>Candida Cobas Ochoa.</b></br>
+                                        Realizar su pago directamente en nuestras oficinas centrales en la dirección:</br>
+                                        Calle San Nicolás # 358 (bajos) % San Rafael y San Miguel CP 10200.</br>
+                                        Municipio Centro Habana, Provincia La Habana, Cuba.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+                        <div class="panel bg-yellow" style="padding: 0">
+                            <div class="" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h4 class="font-blue">Términos y condiciones del pago por su inscripción</h4>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <p>Usted podrá tener visibilidad de su casa publicada sin realizar su pago por un</br>
+                                        periodo de 15 días, tiempo  en el que deberá realizar su abonado. De no realizarlo</br>
+                                        de forma automática se desactivara en  nuestro sistema su publicación.</br>
+                                        Para mayor información al respecto, podrá contactar con nuestro centro de atención al cliente de 8 AM  a  8 PM a  los números >
+                                        78673574 o a nuestro  correo  electrónico: casa@mycasaparicular.com</p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col-md-12 text-center">
-                        <button class="btn btn-primary dim m-t-10 m-b-30" type="submit">Registrarse</button>
+
+
+
+
+                    <p>Por favor revise nuestros <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones generales de uso</a></h3></p>
+                    <div class="form-group row" style="margin-bottom: 0px">
+                        <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
+                            <div class="col-md-12"><h3>Acepte para continuar</h3></div>
+                        </label>
                     </div>
-                </form>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-primary dim m-t-10 m-b-30" type="submit">Registrarse</button>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -263,69 +293,69 @@
     '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
     '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
     '@MyCpCasaModuleBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
-     filter='?uglifyjs2'
+    filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_es.js') }}"></script>
     <script type="text/javascript">
-     $(document).on('ready', function(){
-         var config = {
-             '.chosen-select'           : {},
-             '.chosen-select-deselect'  : {allow_single_deselect:true},
-             '.chosen-select-no-single' : {disable_search_threshold:10},
-             '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-             '.chosen-select-width'     : {width:"95%"}
-         }
-         for (var selector in config) {
-             $(selector).chosen(config[selector]);
-         }
-         $('.i-checks').iCheck({
+        $(document).on('ready', function(){
+            var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+            }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+            $('.i-checks').iCheck({
 //             checkboxClass: 'icheckbox_square-green',
-             checkboxClass: 'iradio_square-green',
-             radioClass: 'iradio_square-green'
-         });
-         url = "{{ path('mycp_get_mun_by_prov_chosen', { 'country_code': '-1' }) }}";
-         url=url.replace('/-1','');
-         $('#own_province').change(function(){
-             code = $('#own_province').val();
-             if(code!='')
-             {
-                 $('#own_municipality').html('<option value="">Cargando...</option>');
+                checkboxClass: 'iradio_square-green',
+                radioClass: 'iradio_square-green'
+            });
+            url = "{{ path('mycp_get_mun_by_prov_chosen', { 'country_code': '-1' }) }}";
+            url=url.replace('/-1','');
+            $('#own_province').change(function(){
+                code = $('#own_province').val();
+                if(code!='')
+                {
+                    $('#own_municipality').html('<option value="">Cargando...</option>');
 
                     var municipalitySelect=$('#own_municipality');
                     $.ajax({
-                     type:"POST",
-                     url:url + '/' + code,
-                     success:function (data) {
-                         data = (data['aaData']) ? (data['aaData']) : ([]);
+                        type:"POST",
+                        url:url + '/' + code,
+                        success:function (data) {
+                            data = (data['aaData']) ? (data['aaData']) : ([]);
 
-                         municipalitySelect.html('');
-                         for (var i = 0, total = data.length; i < total; i++) {
-                             if (i == 0){
-                                 municipalitySelect.append('<option selected="selected" value=""></option>');
-                             }
-                             municipalitySelect.append('<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>');
-                         }
-                         municipalitySelect.trigger('update');
-                         municipalitySelect.chosen().trigger("chosen:updated");
-                     }
+                            municipalitySelect.html('');
+                            for (var i = 0, total = data.length; i < total; i++) {
+                                if (i == 0){
+                                    municipalitySelect.append('<option selected="selected" value=""></option>');
+                                }
+                                municipalitySelect.append('<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>');
+                            }
+                            municipalitySelect.trigger('update');
+                            municipalitySelect.chosen().trigger("chosen:updated");
+                        }
                     });
-             }
-         });
-         $("#registerOwn").validate({
-             submitHandler: function(form) {
-                 form.submit();
-             },
-             ignore: "",
-             errorElement: 'span', //default input error message container
-             errorClass: 'help-block', // default input error message class
-             focusInvalid: false // do not focus the last invalid input
-             ,
-             invalidHandler: function(event, validator) { //display error alert on form submit
+                }
+            });
+            $("#registerOwn").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                ignore: "",
+                errorElement: 'span', //default input error message container
+                errorClass: 'help-block', // default input error message class
+                focusInvalid: false // do not focus the last invalid input
+                ,
+                invalidHandler: function(event, validator) { //display error alert on form submit
 
-             },
-             rules: {
+                },
+                rules: {
 //                 'mycp_frontendbundle_change_password_usertype[user_password][Clave]':{
 //                     required: true,
 //                     minlength: 6
@@ -333,21 +363,21 @@
 //                 'mycp_frontendbundle_change_password_usertype[user_password][Repetir]': {
 //                     equalTo: "#mycp_frontendbundle_change_password_usertype_user_password_Clave"
 //                 }
-             },
+                },
 
 
-             highlight: function(element) { // hightlight error inputs
-                 $(element)
-                         .closest('.form-group').addClass('has-error'); // set error class to the control group
-             },
+                highlight: function(element) { // hightlight error inputs
+                    $(element)
+                            .closest('.form-group').addClass('has-error'); // set error class to the control group
+                },
 
-             success: function(label) {
-                 label.closest('.form-group').removeClass('has-error');
-                 label.remove();
-             }
-         });
+                success: function(label) {
+                    label.closest('.form-group').removeClass('has-error');
+                    label.remove();
+                }
+            });
 
-     })
+        })
     </script>
 {% endblock %}
 {##{% block javascripts %}#}
