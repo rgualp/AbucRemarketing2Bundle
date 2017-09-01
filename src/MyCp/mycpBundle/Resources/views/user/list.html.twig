@@ -99,11 +99,14 @@
                 {% if filter_creation_date_to ==''%}{% set filter_creation_date_to='null'%}{%endif%}
                 <label>&nbsp;</label>
                 <div class="row-fluid">
-                    <div class="span6">
+                    <div class="span4">
                         <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                     </div>
-                    <div class="span6">
+                    <div class="span4">
                         <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_users') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                    </div>
+                    <div class="span4">
+                        <a {% if not users %}disabled="disabled"{% endif %} rel="tooltip" title="Exportar listado" href="{{ path('mycp_export_list_users',{'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                     </div>
                 </div>
             </div>

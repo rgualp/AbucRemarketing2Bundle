@@ -21,8 +21,8 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 class BackendPaymentController extends Controller {
 
     function listAction($items_per_page, Request $request) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
 
         $filter_number = $request->get('filter_number');

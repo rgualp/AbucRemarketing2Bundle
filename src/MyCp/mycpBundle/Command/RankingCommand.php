@@ -104,7 +104,7 @@ class RankingCommand extends ContainerAwareCommand {
             $emailValues = array("subject" => "", "content" => "");
 
 
-            if($rankingValue["facturation"] <= 0)
+            if($rankingValue["currentMonthFacturation"] <= 0)
             {
                 $emailValues = $this->sendEmailAccommodationsWithNoFacturation($rankingValue);
             }

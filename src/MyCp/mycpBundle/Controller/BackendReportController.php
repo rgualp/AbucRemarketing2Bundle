@@ -2000,6 +2000,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummary($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsMonthlySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
+        $payment=$em->getRepository("mycpBundle:generalReservation")->getPaymentByDate($dateFrom, $dateTo, $accommodationModality);
 
         $tc = 0;
         $ts = 0;
@@ -2058,7 +2059,8 @@ ORDER BY own.own_mcp_code ASC
             'accommodationModality' => $accommodationModality,
             'dateTo' => $dateTo,
             'summary' => $summary,
-            "dateFilter" => "F"
+            "dateFilter" => "F",
+            "payment" => $payment
         ));
     }
 
