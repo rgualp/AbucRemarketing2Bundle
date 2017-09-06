@@ -780,7 +780,12 @@ class room {
 
     public function isTriple()
     {
-        return ($this->room_type == "Habitación Triple" || $this->room_type == "Habitación doble" || $this->room_type == "Habitación doble (Dos camas)");
+        $bookingModality = $this->getRoomOwnership()->getBookingModality();
+        $completeReservationPrice = -1;
+        if($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
+            $completeReservationPrice = $bookingModality->getPrice();
+
+        return ($this->room_type == "Habitación Triple" || $this->room_type == "Habitación doble" || $this->room_type == "Habitación doble (Dos camas)") && $completeReservationPrice == -1;
     }
 
 
