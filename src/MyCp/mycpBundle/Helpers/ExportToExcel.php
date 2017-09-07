@@ -1804,6 +1804,22 @@ ORDER BY own.own_mcp_code ASC
         }
     }
 
+    public function exportUsers($users, $fileName = "usuarios") {
+        if(count($users) > 0) {
+            $excel = $this->configExcel("Listado de usuarios", "Listado de usuarios de MyCasaParticular", "usuarios");
+
+            $data = $this->dataForUsers($excel, $users);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForUsers($excel, "Usuarios", $data);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
 
 
     /**
@@ -2528,6 +2544,82 @@ ORDER BY own.own_mcp_code ASC
 
         //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
         $sheet->setAutoFilter("A5:Q".(count($data)+5));
+
+        return $excel;
+    }
+
+    private function dataForUsers($excel,$users) {
+        $results = array();
+
+        foreach ($users as $user) {
+            $data = array();
+
+            //Nombre completo
+            $data[0] = $user->getUserUserName()." ".$user->getUserLastName();
+            //Usuario
+            $data[1] = $user->getName();
+            //Correo
+            $data[2] = $user->getUserEmail();
+            //Rol
+            $data[3] = ($user->getUserSubrole()->getRoleName() != null) ? $user->getUserSubrole()->getRoleName() : $user->getUserRole();
+            //Ciudad
+            $data[4] = $user->getUserCity();
+            //País
+            $data[5] = ($user->getUserCountry() != null) ? $user->getUserCountry()->getCoName() : "- ";
+            //Creado
+            $data[6] = $user->getUserCreationDate()->format("Y-m-d");
+            //Metodo
+            $data[7] = ($user->isFacebook() || $user->getPassword() == "")? "Facebook" : "Registro";
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetForUsers($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de usuarios");
+        $sheet->mergeCells("A1:H1");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Reporte generado con los usuarios del sistema: ');
+        $sheet->mergeCells("A2:H2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:H3");
+
+        $sheet->setCellValue('a5', 'Nombre completo');
+        $sheet->setCellValue('b5', 'Usuario');
+        $sheet->setCellValue('c5', 'Correo');
+        $sheet->setCellValue('d5', 'Rol');
+        $sheet->setCellValue('e5', 'Ciudad');
+        $sheet->setCellValue('f5', 'País');
+        $sheet->setCellValue('g5', 'Creado');
+        $sheet->setCellValue('h5', 'Método');
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:H1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:H5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "h", $sheet);
+
+        //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
+        $sheet->setAutoFilter("A5:H".(count($data)+5));
 
         return $excel;
     }

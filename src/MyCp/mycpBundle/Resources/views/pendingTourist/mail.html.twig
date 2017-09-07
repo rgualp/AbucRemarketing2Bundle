@@ -41,7 +41,7 @@
             <b>Datos de la Devolución:</b><br/>
             <b>Fecha del pago:</b> {{ pending_tourist.paymentDate|date("d/m/Y") }}<br/>
             <b>Monto de la devolución en la moneda que pago el cliente:</b> {{ pending_tourist.payAmount }}<br/>
-            <b>Motivo de la devolución: {{ pending_tourist.reason }}</b><br/>
+            <b>Motivo de la devolución:</b>{{ reason }}<br/>
             <b>{{ pasarela }}</b><br/>
         </p>
 

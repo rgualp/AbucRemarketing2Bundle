@@ -1,0 +1,340 @@
+{% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
+    {% block stylesheets %}
+        {% stylesheets
+        '@MyCpCasaModuleBundle/Resources/public/css/plugins/iCheck/custom.css'
+        '@MyCpCasaModuleBundle/Resources/public/css/plugins/chosen/chosen.css'
+        filter='?uglifycss'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        <style>
+            .has-error .c-muni{
+                margin-top: 35px;
+            }
+            .has-error .chosen-container-single .chosen-single{
+                border: 1px solid #a94442;
+            }
+            .chosen .help-block{
+                margin-top: 12%;
+                position: absolute;
+            }
+            /* enable absolute positioning */
+            .inner-addon {
+                position: relative;
+            }
+
+            /* style icon */
+            .inner-addon .glyphicon {
+                position: absolute;
+                padding: 5px;
+                border-right: 1px solid #b3b3b3;
+                pointer-events: none;
+                z-index:1;
+                font-size: 19px;
+                margin-top: 4px;
+            }
+
+            /* align icon */
+            .left-addon .glyphicon  { left:  0px;}
+            .right-addon .glyphicon { right: 0px;}
+
+            /* add padding  */
+            .left-addon input  { padding-left:  40px; width: 95%;height: 38px }
+            .right-addon input { padding-right: 40px; }
+            .chosen-container-single .chosen-single div b {
+                margin-top: 7px;
+            }
+            .chosen-container-single .chosen-single span {
+                display: block;
+                margin-left: 28px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .chosen-container-single .chosen-single {
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #e5e6e7;
+                border-radius: 1px;
+                box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+                color: inherit;
+                display: block;
+                height: 23px;
+                line-height: 24px;
+                overflow: hidden;
+                padding: 0 0 0 8px;
+                position: relative;
+                text-decoration: none;
+                white-space: nowrap;
+                transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+                font-size: 14px;
+                padding: 6px 12px;
+                width: 95%;
+            }
+            .chosen-container-single .chosen-single abbr {
+                top: 13px;
+            }
+            #terms-error {
+                margin-top: 2px;
+                min-width: 230px;
+                font-size: 14px;
+            }
+            .number{
+                color: #64a433;
+                font-size: 24px;
+                left: -1em;
+                margin-right: 3px;
+            }
+        </style>
+    {% endblock %}
+{% block alerts %}{% endblock %}
+{% block content %}
+    <section class="container">
+        <div class="row text-center" style="margin: 20px">
+            <div>
+                <img src="{{ asset('img/best_casa_solo.jpg') }}" width="200px">
+            </div>
+            <h1 class="font-blue">Premio Best Casa</h1>
+            <p>Best Casa es el premio que obtienen las mejores casas registradas en el sitio MyCasaParticular.com, con categoría mensual y anual. </p>
+        </div>
+        <hr>
+
+        <div class="col-md-6">
+            <div class="animated fadeInDown">
+                <h3 class="font-blue text-center">Best Casa Mensual</h3>
+                <p>
+                    Es otorgado el primer día de cada mes a las casas con más de 360 puntos acumulados para el ranking del sitio, durante el trimestre anterior. Su validez es por un mes, siempre que no incurra en algún fallo, en cuyo caso será penalizado y se le retirará el sello.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="animated fadeInDown">
+                <h3 class="font-blue text-center">Best Casa Anual</h3>
+                <p>Es otorgado a finales del año a las casas con más de 4320 puntos acumulados para el ranking del sitio, durante todo el año. Es una distinción que perdura por vida y se entrega como reconocimiento al trabajo continuo y esmerado de los propietarios.</p>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="font-blue">Beneficios</h3>
+            <ul>
+                <li>Posicionamiento priorizado en las búsquedas del sitio y por tanto, mayor visibilidad.</li>
+                <li>Recomendación especial a los turistas que visualicen el sello en su paso por el país y a los que deseen viajar a su destino y no tengan disponibilidad.</li>
+                <li>Reconocimiento y estimulación por parte del equipo de MyCasaParticular.</li>
+            </ul>
+        </div>
+        <div class="row bg-gray">
+            <div class="col-md-12 text-center">
+                <h2>Consejos para ser una Best Casa</h2>
+            </div>
+        </div>
+
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            <h3 class="font-blue"><span class="number">1</span> Actualice y notifique su disponibilidad diariamente</h3>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                    <h3>Si usted actualiza y notifica su calendario de disponibilidad diariamente obtendrá los siguientes beneficios:</h3>
+                    <ol>
+                        <li>  Puntos adicionales para el ranking que le harán diferenciarse de la competencia.</li>
+                        <li>  Mayor visibilidad pues su casa aparecerá entre los primeros alojamientos cuando el turista busque calendario actualizado.</li>
+                        <li>  Mayor oportunidad de reservas.</li>
+                    </ol>
+
+                    <h3>¿Cómo actualizar su calendario de disponibilidad?</h3>
+                    <ol>
+                        <li>  Utilice el módulo Propietario: <a href="{{ path("mycp_casa_module_redirect") }}">https://www.mycasaparticular.com/mycasa</a>  y actualice su calendario conectado a la red.</li>
+                        <li>  Utilice la aplicación móvil MyCasa Renta (disponible para android)  y actualice su calendario de disponibilidad mediante el envío de SMS o conectado a la red.</li>
+                        <li>  Llame al 78673574 / 78610147 e infórmenos sobre sus disponibilidad cada vez que esta cambie. Sin costo adicional.</li>
+                    </ol>
+                        </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                            <h3 class="font-blue"><span class="number">2</span> Incluya su casa en la modalidad de Reserva Inmediata (<i class="fa fa-rocket"></i>) y Reserva Rápida (<i class="fa fa-bolt"></i>)</h3></a>
+                    </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Las casas que optan por las modalidades de Reserva Inmediata o Reserva Rápida obtienen puntos adicionales para el Ranking, atraen más turistas y ahorran tiempo y dinero con sólo tener actualizado su calendario de disponibilidad. Se debe cumplir las condiciones del sitio para garantizar la inclusión en las mismas.
+                        </p>
+                        <h3 class="font-blue">Reserva Inmediata (<i class="fa fa-rocket"></i>)</h3>
+                        <ul>
+                            <li>Si su casa se encuentra disponible, el cliente  reserva sin necesidad de solicitar disponibilidad.</li>
+                        </ul>
+                        <h4 class="font-blue">¿Cómo convertirme en una casa de Reserva Inmediata?</h4>
+                        <ul>
+                            <li>Mantenga su calendario actualizado constantemente</li>
+                            <li>Llame al teléfono 78673574 ò 78610147 y solicite inclusión en esta modalidad</li>
+                        </ul>
+                        <h3 class="font-blue">Reserva Rápida (<i class="fa fa-bolt"></i>)</h3>
+                        <ul>
+                            <li>Si su casa se encuentra disponible, el cliente recibe una notificación de disponibilidad con rapidez.</li>
+                        </ul>
+                        <h4 class="font-blue">¿Cómo convertirme en una casa de Reserva Rápida?</h4>
+                        <ul>
+                            <li>Llame al 78673574 / 78610147 para solicitar inclusión y para comunicar disponibilidad</li>
+                            <li>Responda la Notificación de Disponibilidad mediante el envío de SMS con la aplicación móvil MyCasa Renta. No es necesario conexión a Internet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                            <h3 class="font-blue"><span class="number">3</span> Trabaje a favor del incremento de sus reservas</h3></a>
+                    </h4>
+                </div>
+                <div id="collapse5" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Por cada reserva que los turistas te confirmen además de ganar dinero recibirás puntos adicionales para el Ranking.
+                        </p>
+                        <p>¿Qué acciones inciden en el incremento de sus reservas?</p>
+                        <ul>
+                            <li>Subir fotos con calidad y encanto</li>
+                            <li>Informar con inmediatez su disponibilidad para ahorrarle tiempo al cliente y lograr el pago en el momento</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                            <h3 class="font-blue"><span class="number">4</span> Ofrezca un buen servicio a sus clientes</h3></a>
+                    </h4>
+                </div>
+                <div id="collapse4" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Los turistas que reservan por MyCasaParticular soy muy  exigentes, siempre leen los comentarios de otros clientes para saber cómo es el servicio en la casa. Por eso te recomendamos que te esmeres en el servicio al cliente y los invites a que realicen comentarios positivos en los detalles de tu alojamiento en nuestro sitio.
+                        </p>
+                        <p>Con esto ganarás más prestigio y aumentarás tu posición en el ranking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                            <h3 class="font-blue"><span class="number">5</span> Mantenga los parámetros de excelencia durante todo el año</h3></a>
+                    </h4>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Mantener estables sus indicadores de eficiencia le garantiza mejores posiciones en el ranking del sitio y lo convierte en un Anfitrión de Confianza.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                            <h3 class="font-blue"><span class="number">6</span> Consiga una mayor facturación</h3></a>
+                    </h4>
+                </div>
+                <div id="collapse6" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>Al incrementar tus números de facturación garantizas además, una mejor ubicación frente a la competencia posicionándote entre los primeros. Esto favorece el incremento de tus reservas y el dinero percibido.</p>
+                        <h3 class="font-blue">¿Cómo obtener mayor facturación?</h3>
+                        <ul>
+                            <li>Incremente los precios de sus habitaciones.</li>
+                            <li>Priorice a los clientes recibidos por MyCasaParticular que aportan mayores ingresos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+                            <h3 class="font-blue"><span class="number">7</span> Evite los comentarios negativos, los fallos en el servicio y las cancelaciones de las reservas</h3></a>
+                    </h4>
+                </div>
+                <div id="collapse7" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            La reputación, la confianza y la credibilidad son fundamentales para que cualquier negocio sea rentable, más en el sector turístico. Genere comentarios positivos, tenga un servicio de excelencia y su disponibilidad actualizada y de seguro UD será un Anfitrión de Oro.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for accommodation in accommodations %}
+            <div class="col-sm-2">
+                <div class="box p">
+                    <div class="thumbnail {% if accommodation.OwnInmediateBooking %}with-quick-ribbon{% endif %}"
+                            {% if accommodation.OwnInmediateBooking and accommodation.OwnInmediateBooking2 %}
+                                data-text="{{ 'IMMEDIATE_BOOKING'|trans }}"
+                            {% elseif  accommodation.OwnInmediateBooking and not accommodation.OwnInmediateBooking2 %}
+                                data-text="{{ 'quick_bookinhg'|trans }}"
+                            {% elseif  accommodation.OwnInmediateBooking2 and not accommodation.OwnInmediateBooking %}
+                                data-text="{{ 'IMMEDIATE_BOOKING'|trans }}"
+                            {% endif %}
+                         style="position:relative" rel="tooltip" title="
+    {% if accommodation.OwnInmediateBooking and accommodation.OwnInmediateBooking2 %}
+            {{ "TOOL_TIP_IMMEDIATE_BOOKING" | trans }}
+    {% elseif  accommodation.OwnInmediateBooking and not accommodation.OwnInmediateBooking2 %}
+           {{ "quick_booking_tooltip" | trans }}
+    {% elseif  accommodation.OwnInmediateBooking2 and not accommodation.OwnInmediateBooking %}
+           {{ "TOOL_TIP_IMMEDIATE_BOOKING" | trans }}
+     {% else %}
+        {{ "MORE_INFO_PREFFIX" | trans }} {{ name }}
+     {% endif %}" xmlns="http://www.w3.org/1999/html">
+
+                        <div style="height: 63px">
+                            {% if accommodation.award %}
+                                <img src="{{ asset("uploads/awards/" ~ accommodation.award) }}" style="width: 40px; position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
+                            {% endif %}
+                        </div>
+                        <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':accommodation.name  | urlNormalize}) }}">
+                            {% set url_image = asset("uploads/ownershipImages/" ~ accommodation.photo) %}
+                            {% if notLazyLoad is defined and notLazyLoad == true %}
+                                <img class="lazyload" src="{{ url_image | apply_filter('mycp_thumb_front') }}" style="min-height: 200px" />
+                            {% else %}
+                                <img alt="{{ accommodation.name }}" id="image_acc{{ accommodation.id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <div class="row">
+                        <a target="_blank"  href="{{ path('frontend_details_ownership',{'own_name':accommodation.name  | urlNormalize}) }}">
+                            <div class="col-sm-12 h-blue">
+                                {{ accommodation.name| title }}</br> <span style="font-size: 12px;margin-top: -6px;position: absolute;">{{ accommodation.destination }}</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin: 50px 0"></div>
+        <div class="text-center">
+            <a href="{{ path('frontend-welcome') }}"> <img src="{{ asset('img/mycp.png') }}"></a>
+        </div>
+        <div style="margin: 50px 0"></div>
+    </section>
+
+
+{% endblock %}
+
+{##{% block javascripts %}#}
+    {#{{ parent() }}#}
+{#<script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/jquery.validate.min.js') }}"></script>#}
+{#<script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_'~app.request.locale~'.js') }}"></script>#}
+{#{% endblock %}}#}

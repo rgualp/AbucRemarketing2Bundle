@@ -116,4 +116,33 @@ class accommodationAwardRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getAccommodationsWithAwards($maximunTotal = 6)
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('aw.second_icon_or_class_name as award,
+                a.own_name as name,
+                a.own_id as id,
+                a.own_comments_total as comments_total,
+                a.own_inmediate_booking as OwnInmediateBooking,
+                a.own_inmediate_booking_2 as OwnInmediateBooking2,
+                des.des_name as destination,
+                pho.pho_name as photo')
+            ->from("mycpBundle:accommodationAward", "ac")
+            ->join("ac.accommodation", "a")
+            ->join("ac.award", "aw")
+            ->join("a.own_destination", "des")
+            ->leftJoin("a.data", "data")
+            ->leftJoin("data.principalPhoto", "op")
+            ->leftJoin("op.own_pho_photo", "pho")
+            ->orderBy("ac.year", "DESC")
+            ->addOrderBy("a.own_ranking", "DESC");
+
+
+        return $qb->getQuery()
+            ->setMaxResults($maximunTotal)
+            ->getResult();
+    }
 }

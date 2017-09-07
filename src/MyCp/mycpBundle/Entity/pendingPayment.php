@@ -16,7 +16,7 @@ class pendingPayment
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="pending_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -45,7 +45,7 @@ class pendingPayment
     /**
      * @var string
      *
-     * @ORM\Column(name="reason", type="string", length=500)
+     * @ORM\Column(name="reason", type="string", length=500, nullable=true)
      */
     private $reason;
 
@@ -82,6 +82,12 @@ class pendingPayment
      * @ORM\JoinColumn(name="type",referencedColumnName="nom_id")
      */
     private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="nomenclator",inversedBy="")
+     * @ORM\JoinColumn(name="status",referencedColumnName="nom_id")
+     */
+    private $status;
 
     /**
      * Get pending_id
@@ -277,4 +283,23 @@ class pendingPayment
     {
         return $this->type;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+
 }

@@ -1,0 +1,19 @@
+mycp_list_pending_payment:
+    pattern:  /list/{items_per_page}/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
+    defaults: { _controller: mycpBundle:BackendPendingPayment:list, items_per_page: 100,filter_number:'',filter_code:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:''}
+
+mycp_details_pending_payment:
+    pattern:  /detail/{id}
+    defaults: { _controller: mycpBundle:BackendPendingPayment:detail }
+
+mycp_edit_pending_payment:
+    pattern:  /edit/{id}
+    defaults: { _controller: mycpBundle:BackendPendingPayment:edit }
+
+mycp_save_pending_payment:
+    pattern:  /save
+    defaults: { _controller: mycpBundle:BackendPendingPayment:save }
+
+mycp_export_list_pending_payment:
+    pattern:  /export/{filter_number}/{filter_code}/{filter_method}/{filter_payment_date_from}/{filter_payment_date_to}
+    defaults: { _controller: mycpBundle:BackendPendingPayment:export,filter_number:'',filter_code:'',filter_method:'', filter_payment_date_from:'',filter_payment_date_to:''}

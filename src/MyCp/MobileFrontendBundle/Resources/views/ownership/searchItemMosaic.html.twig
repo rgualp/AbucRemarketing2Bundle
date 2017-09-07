@@ -1,6 +1,6 @@
 {% if list | length %}
     {% for ownership in list %}
-        <div class="col-xs-12 relative">
+        <div class="col-xs-12 col-sm-6 relative">
             <div class="row">
                 <a class="f-s-14 f-f-Arial f-w-bold"
                    href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">

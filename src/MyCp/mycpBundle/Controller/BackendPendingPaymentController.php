@@ -1,0 +1,170 @@
+<?php
+
+namespace MyCp\mycpBundle\Controller;
+
+use MyCp\mycpBundle\Form\paPendingPaymentAccommodationType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use MyCp\mycpBundle\Form\pendingPaymentType;
+use MyCp\mycpBundle\Form\cancelPaymentType;
+use MyCp\mycpBundle\Entity\pendingPayown;
+
+class BackendPendingPaymentController extends Controller {
+
+    /**
+     * @param $items_per_page
+     * @param Request $request
+     * @return Response
+     */
+    function listAction($items_per_page, Request $request) {
+//        $service_security = $this->get('Secure');
+//        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_number = $request->get('filter_number');
+        $filter_code = $request->get('filter_code');
+        $filter_method = $request->get('filter_method');
+        $filter_payment_date_from = $request->get('filter_payment_date_from');
+        $filter_payment_date_to = $request->get('filter_payment_date_to');
+
+        if ($request->getMethod() == 'POST' && $filter_number == 'null' && $filter_code == 'null' &&
+            $filter_method == 'null' && $filter_payment_date_from == 'null' && $filter_payment_date_to == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_pending_payment'));
+        }
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $payments = $paginator->paginate($em->getRepository('mycpBundle:pendingPayment')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to))->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        return $this->render('mycpBundle:pendingPayment:list.html.twig', array(
+                'list' => $payments,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page,
+                'filter_number' => $filter_number,
+                'filter_code' => $filter_code,
+                'filter_method' => $filter_method,
+                'filter_payment_date_from' => $filter_payment_date_from,
+                'filter_payment_date_to' => $filter_payment_date_to
+            ));
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     */
+    public function detailAction($id, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $pending_payment = $em->getRepository('mycpBundle:pendingPayment')->find($id);
+        $id_booking = $pending_payment->getBooking()->getBookingId();
+
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
+        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $pending_payment->getBooking()->getBookingUserId()));
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking), array('own_res_gen_res_id' => 'ASC'));
+
+        $form = $this->createForm(new cancelPaymentType());
+
+        return $this->render('mycpBundle:pendingPayment:detail.html.twig', array(
+                'user' => $user,
+                'form'=>$form->createView(),
+                'reservations' => $reservations,
+                'payment' => $payment,
+                'pending_payment'=>$pending_payment
+            ));
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    function editAction($id, Request $request) {
+//        $service_security = $this->get('Secure');
+//        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $payment = $em->getRepository('mycpBundle:pendingPayment')->find($id);
+        $form = $this->createForm(new pendingPaymentType(), $payment);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $em->persist($payment);
+                $em->flush();
+
+                $message = 'Pago actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                return $this->redirect($this->generateUrl('mycp_list_pending_payment'));
+            }
+        }
+
+        return $this->render('mycpBundle:pendingPayment:new.html.twig', array(
+                'form' => $form->createView(), 'edit_payment' => $id, 'payment' => $payment
+            ));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    function saveAction(Request $request){
+       $em = $this->getDoctrine()->getManager();
+       $cheked=$request->get('cheked');
+       if(count($cheked)){
+           foreach($cheked as $item){
+               $pay= $em->getRepository('mycpBundle:pendingPayown')->find($item);
+               $pay->setType($em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_payed_status')));
+               $em->persist($pay);
+           }
+           $em->flush();
+           return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado el pago satisfactoriamente']);
+       }
+        return new JsonResponse(['success' => false, 'message' =>'Debe de seleccionar algún pago']);
+    }
+
+    /**
+ * @param Request $request
+ * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+ */
+    public function exportAction(Request $request) {
+        try {
+//            $service_security = $this->get('Secure');
+//            $service_security->verifyAccess();
+            $em = $this->getDoctrine()->getManager();
+
+            $filter_number = $request->get('filter_number');
+            $filter_code = $request->get('filter_code');
+            $filter_method = $request->get('filter_method');
+            $filter_payment_date_from = $request->get('filter_payment_date_from');
+            $filter_payment_date_to = $request->get('filter_payment_date_to');
+
+            $items = $em->getRepository('mycpBundle:pendingPayown')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to)->getResult();
+
+            $date = new \DateTime();
+            if(count($items)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportPendingOwn($items, $date);
+            }
+            else {
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_payments_pending_ownership"));
+            }
+        }
+        catch (\Exception $e) {
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_pending_payment"));
+        }
+    }
+
+}

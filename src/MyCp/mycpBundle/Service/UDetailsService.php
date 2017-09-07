@@ -189,6 +189,7 @@ class UDetailsService extends Controller
         $unavailabilityDetail["end"] = date('Y-m-d', $date_to->getTimestamp());*/
 
         $uDetails = $this->em->getRepository('mycpBundle:unavailabilityDetails')->getUDetailsByRoomAndDate($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'));
+        $room = $this->em->getRepository("mycpBundle:room")->find($id_room);
 
         foreach($uDetails as $uDetail)
         {
@@ -197,7 +198,7 @@ class UDetailsService extends Controller
             {
                 if($uDetail->getUdFromDate() != $date_from || $uDetail->getUdToDate() != $date_to)
                 {
-                    $room = $this->em->getRepository("mycpBundle:room")->find($id_room);
+
                     $dateBefore = $date_from;
                     $dateBefore = date_modify($dateBefore, "-1 day");
                     $dateAfter = $date_to;

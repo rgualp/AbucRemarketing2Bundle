@@ -39,6 +39,7 @@ class utilsExtension extends \Twig_Extension {
             'getUrl' => new \Twig_Function_Method($this, 'getUrl'),
             'touristTax' => new \Twig_Function_Method($this, 'touristTax'),
             'isDateTime' => new \Twig_Function_Method($this, 'isDateTime'),
+            'existsFile' => new \Twig_Function_Method($this, 'existsFile'),
         );
     }
 
@@ -48,6 +49,11 @@ class utilsExtension extends \Twig_Extension {
         }
         //return ($date instanceof \DateTime); /* edit */
         return false;
+    }
+
+    public function existsFile($filePath)
+    {
+        return file_exists($filePath);
     }
 
     public function ceil_round($number) {

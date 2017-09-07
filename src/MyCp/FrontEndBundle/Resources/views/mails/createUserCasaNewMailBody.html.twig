@@ -4,18 +4,17 @@
 <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
 <p style="font-family: Arial; font-size: 14px">
 Estimado Sr(a). {{user_full_name}}: <br/>
-Gracias por unirse a nosotros. Ahora está a pocos pasos de comenzar a gestionar sus alojamientos. Le decimos cómo:
-PRIMERO necesitará activar su cuenta a través de la siguiente dirección electrónica:<br/>
-<a target="_blank" href="{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}">{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}</a>
+    Gracias por inscribirse en nuestro sitio, es un placer incluir su propiedad como parte de nuestro  producto:<br/>
+<a target="_blank" href="{{ url('my_cp_casa_module_activateAccount',{'token':secret_token}) }}">Verifique su estado presionando este link</a>
 <br/>
 Utilice como nombre de usuario el CÓDIGO de su alojamiento en el sitio ({{user_name}}), y cree su propia contraseña de acceso en el momento de la activación. Cada Código es único para cada usuario, y le permitirá acceder por igual a las dos opciones de administración de sus propiedades en nuestro sitio.
 <br/>
-Puede acceder a la administración web desde aquí:<br/>
+{#Puede acceder a la administración web desde aquí:<br/>
 <a href="{{url('my_cp_casa_login')}}">{{url('my_cp_casa_login')}}</a>. <br/>
 O puede descargar la aplicación móvil MyCasa Renta para dispositivos Android, que le permitirá, desde Internet o a través de una zona wifi, indicar y modificar las fechas en que su alojamiento estará disponible para nuevos clientes turistas:
 <br/>
 <a target="_blank" href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid">https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a>
-<br/>
+<br/>#}
 Para consultar sus dudas, por favor, escríbanos a <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>. Nuestra central de reservas también estará a su disposición a través del teléfono {{ mycasa_contact_cuba_phone }}. <br/>
 Saludos Cordiales,
 <br/>

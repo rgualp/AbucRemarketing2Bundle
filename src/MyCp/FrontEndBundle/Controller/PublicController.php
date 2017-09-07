@@ -61,6 +61,9 @@ class PublicController extends Controller {
 
         if ($mobileDetector->isMobile()) {
             $items_per_page = 2;
+            if ($mobileDetector->isTablet()){
+                $items_per_page = 4;
+            }
         }else{
             $items_per_page = 3 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
         }
