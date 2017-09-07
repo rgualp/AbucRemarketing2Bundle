@@ -108,7 +108,11 @@ class SearchController extends Controller
         // </editor-fold>
 
         $paginator = $this->get('ideup.simple_paginator');
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $items_per_page = 1;
+        if ($mobileDetector->isTablet()) {
+            $items_per_page = 4;
+        }
         $paginator->setItemsPerPage($items_per_page);
         $result_list = $paginator->paginate($list)->getResult();
         $page = 1;
@@ -255,7 +259,13 @@ class SearchController extends Controller
         $session->set("filter_room", $room_filter);
 
         $paginator = $this->get('ideup.simple_paginator');
+
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $items_per_page = 1;
+        if ($mobileDetector->isTablet()) {
+            $items_per_page = 4;
+        }
+        
         $paginator->setItemsPerPage($items_per_page);
         $orderPrice=$request->request->get('order_price');
         $orderComments=$request->request->get('order_comments');
