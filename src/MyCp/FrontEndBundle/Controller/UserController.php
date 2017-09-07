@@ -77,6 +77,7 @@ class UserController extends Controller {
                 $this->get('session')->set('_security_user', serialize($token));
 
                 //mailing
+                $service_email = $this->get('Email');
                 $enableRoute = 'frontend_enable_user';
                 $userTourist = $em->getRepository('mycpBundle:userTourist')
                                        ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
@@ -90,8 +91,15 @@ class UserController extends Controller {
                     'user_name' => $userName,
                     'user_locale' => $userLocale));
 
-                $service_email = $this->get('Email');
                 $service_email->sendTemplatedEmail($this->get('translator')->trans('CREATE_ACCOUNT_EMAIL_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
+
+                //Envio de correo de oferta de servicios extra
+                $bodyExtraServices = $this->render('FrontEndBundle:mails:extraServicesMail.html.twig', array(
+                    'user_name' => $userName,
+                    'user_locale' => $userLocale));
+
+                $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'service@mycasaparticular.com', $user_db->getUserEmail(), $bodyExtraServices->getContent());
+
 
                 $message = $this->get('translator')->trans("CREATE_ACCOUNT_SUCCESS");
                 $this->get('session')->getFlashBag()->add('message_global_success', $message);
