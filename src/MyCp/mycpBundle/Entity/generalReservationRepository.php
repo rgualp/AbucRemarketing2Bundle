@@ -1849,7 +1849,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -1862,7 +1862,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0)
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -1875,7 +1875,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0)
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -1886,7 +1886,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             }
         }
 
-//        if($accommodationModality != null && $accommodationModality != "")
+//        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0)
 //        {
 //            $qb->join("gres.gen_res_own_id", "o")
 //              ->join("o.modalityUpdateFrequency", "modality")
@@ -1914,7 +1914,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -1928,7 +1928,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -1941,7 +1941,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -1952,7 +1952,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             }
         }
 
-//        if($accommodationModality != null && $accommodationModality != "")
+//        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
 //        {
 //            $qb->join("gres.gen_res_own_id", "o")
 //                ->join("o.modalityUpdateFrequency", "modality")
@@ -2055,7 +2055,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2086,7 +2086,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -2099,7 +2099,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -2113,7 +2113,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
 
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -2124,7 +2124,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             }
         }
 
-//        if($accommodationModality != null && $accommodationModality != "")
+//        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
 //        {
 //            $qb->join("gres.gen_res_own_id", "o")
 //                ->join("o.modalityUpdateFrequency", "modality")
@@ -2148,7 +2148,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("p.currency", "curr")
             ->groupBy("fecha");
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qbAccommodations = $em->createQueryBuilder()
                 ->from("mycpBundle:ownership", "o")
@@ -2225,7 +2225,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 //            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
             $qb->andWhere("p.created >= '$filter_date_from 00:00:00' AND p.created <= '$filter_date_to 23:59:59'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -2239,7 +2239,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
             $qb->andWhere("p.created >= '$filter_date_from 00:00:00'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -2252,7 +2252,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
 
-            if($accommodationModality != null && $accommodationModality != "")
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
             {
                 $qb->join("gres.gen_res_own_id", "o")
                     ->join("o.modalityUpdateFrequency", "modality")
@@ -2263,7 +2263,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             }
         }
 
-//        if($accommodationModality != null && $accommodationModality != "")
+//        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
 //        {
 //            $qb->join("gres.gen_res_own_id", "o")
 //                ->join("o.modalityUpdateFrequency", "modality")
@@ -2300,7 +2300,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2338,7 +2338,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2380,7 +2380,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2423,7 +2423,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2460,7 +2460,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2498,7 +2498,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2540,7 +2540,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2583,7 +2583,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
         }
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("gres.gen_res_own_id", "o")
                 ->join("o.modalityUpdateFrequency", "modality")
@@ -2633,7 +2633,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->having('fecha>2013')
             ->orderBy("fecha");
 
-        if($accommodationModality != null && $accommodationModality != "")
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qb->join("p.booking", "b")
                 ->join("b.booking_own_reservations", "owres")

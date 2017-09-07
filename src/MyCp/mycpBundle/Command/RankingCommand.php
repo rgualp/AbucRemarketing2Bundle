@@ -104,21 +104,19 @@ class RankingCommand extends ContainerAwareCommand {
             $emailValues = array("subject" => "", "content" => "");
 
 
-            if($rankingValue["ranking"] <= 0 || $rankingValue["previousRank"] == null)
+            if($rankingValue["currentMonthFacturation"] <= 0)
             {
-//                if(!$sendTestingEmail1)
-                    //$emailValues = $this->sendEmailAccommodationsWithNegativeOrZeroRanking($rankingValue);
-//                $sendTestingEmail1 = true;
+                $emailValues = $this->sendEmailAccommodationsWithNoFacturation($rankingValue);
             }
-            elseif($rankingValue["place"] <= 10)
+            else
             {
 //                if(!$sendTestingEmail2)
-                    $emailValues = $this->sendEmailAccommodationsTop10($rankingValue);
+                    $emailValues = $this->sendEmailAccommodationsWithFacturation($rankingValue);
 
 //                $sendTestingEmail2 = true;
             }
 
-            elseif($rankingValue["place"] > 10 && $rankingValue["place"] <= $rankingValue["previousPlace"])
+            /*elseif($rankingValue["place"] > 10 && $rankingValue["place"] <= $rankingValue["previousPlace"])
             {
 //                if(!$sendTestingEmail3)
                     $emailValues = $this->sendEmailAccommodationsUpRanking($rankingValue);
@@ -131,7 +129,7 @@ class RankingCommand extends ContainerAwareCommand {
                     $emailValues = $this->sendEmailAccommodationsDownRanking($rankingValue);
 
 //                $sendTestingEmail4 = true;
-            }
+            }*/
 
             if($emailValues["subject"] != "" && $emailValues["content"] != "") {
                 $this->notification_email->setTo(array($rankingValue["email"]));
@@ -192,6 +190,24 @@ class RankingCommand extends ContainerAwareCommand {
         $subject = "Descubre cómo tu casa puede conseguir más reservas";
         $email_manager = $this->container->get('mycp.service.email_manager');
         $body = $email_manager->getViewContent('FrontEndBundle:mails:sendEmailRankingAccommodationsWithNegativeOrZeroRanking.html.twig', $rankingValue);
+
+        return array("subject" => $subject, "content" => $body);
+    }
+
+    protected function  sendEmailAccommodationsWithNoFacturation($rankingValue)
+    {
+        $subject = "Si atraviesas un difícil momento, te ayudamos a tomar impulso";
+        $email_manager = $this->container->get('mycp.service.email_manager');
+        $body = $email_manager->getViewContent('FrontEndBundle:mails:sendEmailRankingAccommodationsWithNoFacturation.html.twig', $rankingValue);
+
+        return array("subject" => $subject, "content" => $body);
+    }
+
+    protected function  sendEmailAccommodationsWithFacturation($rankingValue)
+    {
+        $subject = "¡Felicitaciones!";
+        $email_manager = $this->container->get('mycp.service.email_manager');
+        $body = $email_manager->getViewContent('FrontEndBundle:mails:sendEmailRankingAccommodationsWithFacturation.html.twig', $rankingValue);
 
         return array("subject" => $subject, "content" => $body);
     }
