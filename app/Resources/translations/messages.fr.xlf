@@ -4202,6 +4202,14 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                                             ]]>
                                             </target>
             </trans-unit>
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>Avez vous besoin des services supplémentaires pour compléter vos vacances? Nous vous offrons service de transfert, des tours guidés, des excursions, de location de voitures avec chauffeur ou non. Contactez-nous à travers l’émail: </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Cuba à votre portée.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -4130,6 +4130,14 @@
                                             ]]>
                                             </target>
                         </trans-unit>
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>¿Necesita servicios extras para completar sus vacaciones? le ofrecemos transfers, tours guiados, excursiones, renta de carros con chofer o sin él, comidas, Contáctenos a través de </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Cuba a su alcance.</target>
+            </trans-unit>
 
         </body>
     </file>
