@@ -4152,7 +4152,14 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                             ]]>
                                             </target>
                         </trans-unit>
-
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>Benötigen Sie andere Service für Ihre Reise? Wir können Ihnen Transfer Service, Reiseleiter Service, Rundreisen und Auto Vermietung anbieten. Kontaktieren Sie uns durch </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Kuba in Reichweite von die Touristen.</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>
