@@ -98,7 +98,7 @@ class UserController extends Controller {
                     'user_name' => $userName,
                     'user_locale' => $userLocale));
 
-                $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'service@mycasaparticular.com', $user_db->getUserEmail(), $bodyExtraServices->getContent());
+                $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user_db->getUserEmail(), $bodyExtraServices->getContent());
 
 
                 $message = $this->get('translator')->trans("CREATE_ACCOUNT_SUCCESS");
