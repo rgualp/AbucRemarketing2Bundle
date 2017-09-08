@@ -4160,6 +4160,34 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 <source>KUBATRIP_VOUCHER_2</source>
                 <target>Kuba in Reichweite von die Touristen.</target>
             </trans-unit>
+            <trans-unit id="4783">
+                <source>EXTRA_SERVICES_SUBJECT</source>
+                <target>Extra Service in Kuba</target>
+            </trans-unit>
+            <trans-unit id="4784">
+                <source>EXTRA_SERVICES_1</source>
+                <target>Was für eine tolle Zeit nach Kuba zu reisen! Ob Sie für Vergnügen oder Geschäft reisen, wir garantieren Ihnen einen wundervollen Aufenthalt auf dieser wunderschönen Insel.</target>
+            </trans-unit>
+            <trans-unit id="4785">
+                <source>EXTRA_SERVICES_2</source>
+                <target>Durch unsere Mitarbeiter in Kuba bieten wir Ihnen eine Gruppe von Dienstleistungen an: vielleicht ein Mietwagen, der Ihnen erlaubt, die Insel in Ihrem eigenen Tempo zu reisen, oder private Transfers zwischen den Destinationen, die Sie besuchen möchten ... Führungen, Inlandsflüge, Seenausflüge ... Kuba in Ihre Reichweite.</target>
+            </trans-unit>
+            <trans-unit id="4786">
+                <source>EXTRA_SERVICES_3</source>
+                <target>Falls Sie unsere Dienstleistungen benötigen, kontaktieren Sie uns bitte unter folgender E-Mail: </target>
+            </trans-unit>
+            <trans-unit id="4787">
+                <source>EXTRA_SERVICES_4</source>
+                <target>Vielen Dank. Wir wünschen Ihnen einen schönen Aufenthalt.</target>
+            </trans-unit>
+            <trans-unit id="4788">
+                <source>EXTRA_SERVICES_5</source>
+                <target>Beste Grüße,</target>
+            </trans-unit>
+            <trans-unit id="4789">
+                <source>EXTRA_SERVICES_6</source>
+                <target>Reise Service – Manager</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

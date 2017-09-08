@@ -1,0 +1,15 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+<h4 style="font-family: Arial; font-size: 20px">{{"EXTRA_SERVICES_SUBJECT"|trans({}, "messages", user_locale)}}</h4>
+<p style="font-family: arial; font-size: 14px">
+    {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
+    {{ "EXTRA_SERVICES_1"|trans({}, "messages", user_locale) }}<br/><br/>
+    {{"EXTRA_SERVICES_2" | trans({}, "messages", user_locale)}}<br/><br/>
+    {{"EXTRA_SERVICES_3" | trans({}, "messages", user_locale)}} <a href="mailto:service@mycasaparticular.com">service@mycasaparticular.com</a><br/><br/>
+    {{"EXTRA_SERVICES_4" | trans({}, "messages", user_locale)}}<br/><br/><br/><br/>
+    {{"EXTRA_SERVICES_5" | trans({}, "messages", user_locale)}}<br/><br/>
+    Luis E. SM<br/>
+    {{"EXTRA_SERVICES_6" | trans({}, "messages", user_locale)}}
+</p>
+{% endblock %}
