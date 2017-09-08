@@ -113,7 +113,7 @@ class OAuthController extends Controller
                                 'user_name' => $fbLoginData->getName(),
                                 'user_locale' => (($language === null || !isset($language) || $language === "") ? $defaultLanguageCode : $languageCode )));
 
-                            $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'service@mycasaparticular.com', $user->getUserEmail(), $bodyExtraServices->getContent());
+                            $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user->getUserEmail(), $bodyExtraServices->getContent());
 
 
 
