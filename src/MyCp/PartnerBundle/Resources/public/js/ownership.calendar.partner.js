@@ -78,7 +78,8 @@ function totalPrice(curr,percent, totalNights)
     console.log(total_price_var,tourist_service,fixed_tax);
     var summatoryTax = parseFloat(total_price_var+tourist_service + fixed_tax);
     console.log("Sumatoria " + summatoryTax);
-    var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
+    //var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
+    var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * 0.1);
     console.log("Comision Agencia " + agencyCommissionTax);
     var transferTax = parseFloat((total_price_var+tourist_service + fixed_tax) * 0.1);
     console.log("Tansferencia " + transferTax);
