@@ -235,15 +235,18 @@
                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
             </div>
-            <div class="col-sm-1">
-                <label>+</label>
-            </div>
-            {#<div class="col-sm-2"> <!--rel="tooltip" title="&#123;&#35;{ 'SERVICE_FIXED_TAX_TITLE' | trans()}&#35;&#125;"-->
-                {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-                {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
-                {{ currSymbol }}
-                <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
-            </div>#}
+            {% set flag = 1 %}
+            {% if comisionAgency is defined and comisionAgency==flag %}
+                <div class="col-sm-1">
+                    <label>+</label>
+                </div>
+                <div class="col-sm-2"> <!--rel="tooltip" title="&#123;&#35;{ 'SERVICE_FIXED_TAX_TITLE' | trans()}"-->
+                    {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+                    {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
+                    {{ currSymbol }}
+                    <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+                </div>
+            {% endif %}
             <div class="col-sm-1" style="width: 5%">
                 <label>=</label>
             </div>

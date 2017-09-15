@@ -118,6 +118,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="for-map-{{ ownership.own_id }}" class="for-map p-l-1 p-r-1 toClose">
                 <a class="close-btn p-r-1" href="#"><i class="ion-android-close"></i></a>
                 {% set image = (ownership.photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") %}

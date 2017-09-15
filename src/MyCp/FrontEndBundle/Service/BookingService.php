@@ -1833,6 +1833,7 @@ class BookingService extends Controller
         else
             return array('success' => false, 'message' =>'Debe de seleccionar algún CAS a cancelar');
     }
+
     /**
      * @param $reservations_ids
      * @return array

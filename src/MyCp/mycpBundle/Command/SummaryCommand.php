@@ -155,6 +155,7 @@ class SummaryCommand extends ContainerAwareCommand
         }
 
 
+
         $output->writeln('Operation completed!!!');
         return 0;
     }
