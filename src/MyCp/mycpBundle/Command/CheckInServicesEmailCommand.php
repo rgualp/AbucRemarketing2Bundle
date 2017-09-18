@@ -20,7 +20,8 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
         $this
                 ->setName('mycp:checkin-services')
                 ->setDefinition(array())
-                ->setDescription('Send services email to every tourist to enter in 2 days');
+                ->setDescription('Send services email to every tourist to enter in 2 days')
+                ->addOption("testing", null, InputOption::VALUE_NONE, 'Indicate if command is in testing mode');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
@@ -49,19 +50,21 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
         $emailService = $container->get('mycp.service.email_manager');
         $logger = $container->get('logger');
         $translator = $container->get('translator');
+        $testing= $input->getOption('testing');
 
         try{
             foreach($checkInEmails as $tourist)
             {
                 $locale = strtolower($tourist["lang_code"]);
                 $subject = $translator->trans('EXTRA_SERVICES_SUBJECT', array(), null, $locale);
+                $mail = ($testing) ? "yanet.moralesr@gmail.com" : $tourist["user_email"];
 
                 $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:extraServicesMail.html.twig', array(
                     'user_name' => $tourist["user_user_name"],
                     'user_locale' => $locale));
 
 
-                $emailService->sendEmail($tourist["user_email"], $subject, $bodyExtraServices, 'services@mycasaparticular.com');
+                $emailService->sendEmail($mail, $subject, $bodyExtraServices, 'services@mycasaparticular.com');
 
                 $output->writeln('Successfully sent notification email to address '.$tourist["user_email"]);
             }
