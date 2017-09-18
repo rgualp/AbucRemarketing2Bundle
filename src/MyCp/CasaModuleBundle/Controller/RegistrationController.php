@@ -30,7 +30,6 @@ class RegistrationController extends Controller
 {
 
     public function registerAction(Request $request){
-        $errors = array();
         $data = array();
         $data['country_code'] = '';
         $data['municipality_code'] = '';
@@ -170,8 +169,13 @@ class RegistrationController extends Controller
            $data['id_ownership']=$ownership->getOwnId();
            $data['ownership_mcp_code']=$ownership->getOwnMcpCode();
            $data['status_id']=$ownership->getOwnStatus()->getStatusId();
-           return $this->render('MyCpCasaModuleBundle:Registration:success.html.twig',
-               array());
+           /*return $this->render('MyCpCasaModuleBundle:Registration:success.html.twig',
+               array());*/
+           $this->get('session')->getFlashBag()->add('message_global_success', 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente. Recuerde para proximas consultas a nuestro sitio este código '.$ownership->getOwnMcpCode().' y la clave que genere a continuación.');
+           return $this->redirect($this->generateUrl('my_cp_casa_module_activateAccount', array('token' => $userCasa->getUserCasaSecretToken())));
+
+
+
        }
         else
             return $this->render('MyCpCasaModuleBundle:Registration:register.html.twig',
@@ -264,7 +268,10 @@ class RegistrationController extends Controller
                     $em->flush();
 
                     $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
+                    $ownship= $userCasa->getUserCasaOwnership();
+
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
+                    $this->get('session')->getFlashBag()->add('message_ok', 'Para autenticarse utilice el código de su casa: '.$ownship->getOwnMcpCode());
                     return $this->redirect($this->generateUrl('my_cp_casa_login'));
                 }
             }

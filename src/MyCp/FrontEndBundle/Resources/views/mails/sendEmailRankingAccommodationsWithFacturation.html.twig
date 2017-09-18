@@ -1,0 +1,26 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
+
+{% block content %}
+    <p style="font-family: Arial; font-size: 14px">
+    <p>Hola, {{ homeOwner }}:</p>
+    <p>¡Enhorabuena! Has realizado un buen trabajo este mes.</p>
+    <p>Ofrecer un servicio WOW y mantener actualizada la disponibilidad de tu casa particular te mantiene en la preferencia de los viajeros.</p>
+    <p>Has demostrado todo tu potencial como Anfitrión y estamos seguros de que puedes llegar aún más lejos. Verte escalar posiciones es estupendo, así que te aconsejamos convertir tu alojamiento en una <a href="https://www.mycasaparticular.com/mycasa/bestcasa">Best Casa</a>.</p>
+    <p>Te mantenemos al tanto de cada avance que hagas. Sigue así, te lo recomendamos de <span style="font-size: 20px">&#x2661;</span></p>
+    <p><b>Equipo de MyCasaParticular</b></p>
+    <p>
+        <br/>
+        <b>SIGUE LAS ESTADÍSTICAS DE TU CASA ESTE MES</b>
+    </p>
+    <p>{{ date | date('d/m/Y') }}</p>
+    <p><b>Puntos en el Ranking: {{ ranking }}</b></p>
+    <p>Posición entre alojamientos <b>MyCasaParticular</b>: {{ place }}</p>
+    <p>Posición según ubicación: {{ destinationPlace }} ({{ destination }})</p>
+    <p>Visitas a tu perfil: {{ visits }}</p>
+    <p>Solicitud de habitaciones disponibles: {{ totalAvailableRooms }}</p>
+    <p>Solicitud de habitaciones no disponibles: {{ totalNonAvailableRooms }}</p>
+    <p>Reservas y posible facturación: {{ totalReservedRooms }} reservas para {{ totalFacturation | number_format(2) }} CUC</p>
+    <p>Total facturado en el mes: {{ currentMonthFacturation | number_format(2) }} CUC</p>
+
+
+{% endblock %}

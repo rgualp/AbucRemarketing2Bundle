@@ -26,7 +26,12 @@ class OwnershipController extends Controller {
 
         $category = $session->get("top_rated_category");
         $paginator = $this->get('ideup.simple_paginator');
+
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $items_per_page = 2;
+        if ($mobileDetector->isTablet()) {
+            $items_per_page = 4;
+        }
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) != "todos") ? $category : null));
         $own_top20_list = $paginator->paginate($list)->getResult();

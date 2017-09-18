@@ -4192,6 +4192,42 @@
                                             ]]>
                                             </target>
             </trans-unit>
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>Hai bisogno di servizi extra per completare la tua vacanza? offriamo trasferimenti, visite guidate, escursioni, noleggio di automobili con conducente o senza, pasti, contattateci attraverso </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Cuba alla sua portata.</target>
+            </trans-unit>
+            <trans-unit id="4783">
+                <source>EXTRA_SERVICES_SUBJECT</source>
+                <target>Servizi extra a Cuba</target>
+            </trans-unit>
+            <trans-unit id="4784">
+                <source>EXTRA_SERVICES_1</source>
+                <target>¡Che bello per viaggiare a Cuba! Sia che tu stia viaggiando per piacere o per lavoro, ti garantiamo un soggiorno meraviglioso su questa splendida isola.</target>
+            </trans-unit>
+            <trans-unit id="4785">
+                <source>EXTRA_SERVICES_2</source>
+                <target>Attraverso i nostri collaboratori a Cuba vi offriamo un gruppo di servizi: forse un'auto a noleggio che ti permette di viaggiare l'isola al suo ritmo o trasferimenti privati tra le destinazioni che intendi visitare ... visite guidate, voli nazionali, escursioni in mare ....</target>
+            </trans-unit>
+            <trans-unit id="4786">
+                <source>EXTRA_SERVICES_3</source>
+                <target>Se hai bisogno dei nostri servizi, contattaci alla seguente email: </target>
+            </trans-unit>
+            <trans-unit id="4787">
+                <source>EXTRA_SERVICES_4</source>
+                <target>Grazie e ti auguro un soggiorno felice.</target>
+            </trans-unit>
+            <trans-unit id="4788">
+                <source>EXTRA_SERVICES_5</source>
+                <target>Cordiali saluti,</target>
+            </trans-unit>
+            <trans-unit id="4789">
+                <source>EXTRA_SERVICES_6</source>
+                <target>Servizi di viaggio – Manager</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

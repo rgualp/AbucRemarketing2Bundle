@@ -10,6 +10,11 @@ my_cp_casa_module_calendar:
 my_cp_casa_module_registration:
     path:     /registro
     defaults: { _controller: MyCpCasaModuleBundle:Registration:register }
+
+my_cp_casa_module_bestcasa:
+    path:     /bestcasa
+    defaults: { _controller: MyCpCasaModuleBundle:Default:bestCasa }
+
 my_cp_casa_module_activateAccount:
     path: /registro/activar/{token}
     defaults: { _controller: MyCpCasaModuleBundle:Registration:activateAccount }
@@ -89,3 +94,4 @@ my_casa_module_cancel_reservow:
 my_casa_module_cancel_reserv:
     pattern:  /reservation/cancel/{id}
     defaults: { _controller: MyCpCasaModuleBundle:Reservation:cancelReserv,id:''}
+

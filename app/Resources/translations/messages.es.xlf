@@ -4130,6 +4130,42 @@
                                             ]]>
                                             </target>
                         </trans-unit>
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>¿Necesita servicios extras para completar sus vacaciones? le ofrecemos transfers, tours guiados, excursiones, renta de carros con chofer o sin él, comidas, Contáctenos a través de </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Cuba a su alcance.</target>
+            </trans-unit>
+            <trans-unit id="4783">
+                <source>EXTRA_SERVICES_SUBJECT</source>
+                <target>Servicios extras en Cuba</target>
+            </trans-unit>
+            <trans-unit id="4784">
+                <source>EXTRA_SERVICES_1</source>
+                <target>¡Que buen momento para viajar a Cuba! ya sea que viaja por placer o negocios, le garantizamos que tendrá una estancia maravillosa en esta Isla bella.</target>
+            </trans-unit>
+            <trans-unit id="4785">
+                <source>EXTRA_SERVICES_2</source>
+                <target>A través de nuestros colaboradores en Cuba les proponemos un grupo de servicios:  quizás un auto de renta que le permita recorrer la Isla a su ritmo, o traslados privados entre los destinos que piensa visitar… tours guiados, vuelos domésticos, excursiones marítimas… Cuba a su alcance.</target>
+            </trans-unit>
+            <trans-unit id="4786">
+                <source>EXTRA_SERVICES_3</source>
+                <target>Si necesita de nuestros servicios, solo contáctenos al siguiente email: </target>
+            </trans-unit>
+            <trans-unit id="4787">
+                <source>EXTRA_SERVICES_4</source>
+                <target>Gracias y le deseamos una feliz estancia.</target>
+            </trans-unit>
+            <trans-unit id="4788">
+                <source>EXTRA_SERVICES_5</source>
+                <target>Saludos cordiales,</target>
+            </trans-unit>
+            <trans-unit id="4789">
+                <source>EXTRA_SERVICES_6</source>
+                <target>Servicios de Viajes – Manager</target>
+            </trans-unit>
 
         </body>
     </file>

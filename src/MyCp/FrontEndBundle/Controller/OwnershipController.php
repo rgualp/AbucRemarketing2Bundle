@@ -1079,7 +1079,7 @@ class OwnershipController extends Controller
 
             $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
             $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-            $search_arrival_date = ($arriving_date != null && $arriving_date != '' && $arriving_date != $this->get('translator')->trans('ARRIVAL_WATERMARK')) ? $arriving_date : $today->format('d-m-Y');
+            $search_arrival_date = ($arriving_date != null && $arriving_date != '' && $arriving_date != $this->get('translator')->trans('ARRIVAL_WATERMARK')) ? $arriving_date : $today->format('Y-m-d');
 
             $search_departure_date = null;
             if ($departure_date != null && $departure_date != "" && $departure_date != "null" && $departure_date != $this->get('translator')->trans('DEPARTURE_WATERMARK'))
