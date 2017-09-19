@@ -6,7 +6,7 @@
                 {% for ownership in ownerships %}
                     <li data-transition="fade" data-slotamount="7" data-masterspeed="1500" >
                         <!-- Main Image -->
-                        <img src="{{ asset('bundles/frontend/js/rs-plugin/assets/loader.gif') }}" data-lazyload="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}"  alt="{{ ownership.own_name }}"  data-bgposition="center center" data-kenburns="on" data-duration="6000" data-ease="Power4.easeInOut" data-bgfit="140" data-bgfitend="100" data-bgpositionend="center center">
+                        <img src="{{ asset('bundles/frontend/js/rs-plugin/assets/loader.gif') }}" data-lazyload="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}" title="{{ ownership.own_name }}"  alt="{{ ownership.own_name }}"  data-bgposition="center center" data-kenburns="on" data-duration="6000" data-ease="Power4.easeInOut" data-bgfit="140" data-bgfitend="100" data-bgpositionend="center center">
                         {#<img src="{{ asset('uploads/ownershipImages/originals/'~ownership.photo) }}" style="opacity:0;" alt="{{ ownership.own_name }}"  data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">#}
                         <!-- Layers -->
                         <!-- Layer 1 -->

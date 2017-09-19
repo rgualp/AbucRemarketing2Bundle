@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-sm-7" style="display: table;padding: 0;">
             <ul class="nav nav-pills">
-                <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
+                <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"HOW_IT_WORKS" | trans}}" alt="{{"HOW_IT_WORKS" | trans}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                 <li><a class="count-info" title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}">
-                        <img  style="width: 26px; height: 23px;" class="icon big-heart-icon" alt="{{"Heart" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/> {{"FAVORITIES" | trans }}
+                        <img  style="width: 26px; height: 23px;" class="icon big-heart-icon" title="{{"FAVORITIES" | trans}}" alt="{{"FAVORITIES" | trans}}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/> {{"FAVORITIES" | trans }}
                         <span class="label" id="count-fav"> {{ count_fav }} </span>
                     </a></li>
                 <li>
@@ -20,14 +20,14 @@
                 <li class="pull-right"><span style="font-size: 8px;color: #F4981D;position: absolute; padding: 5px;border-radius: 5px;top: -6px;left: 0;right: 0;margin: auto;width: auto;text-align: center;font-size: 10px;"><b>{{ 'NEW'|trans|upper }}</b></span>
                     <a style="display: block;width: 114px;text-align: center;margin: 17px 0 0;text-transform: uppercase;font-size: 11px; font-weight: bold" title="{{"JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration')}}">{{"JOIN_CASA"| trans }}</a></li>
                 <li class="dropdown pull-right" style="margin-right: 12px;">
-                    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
+                    <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"LANGUAGE" | trans}}" alt="{{"LANGUAGE" | trans}}"/>
                         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
                         {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
                     </ul>
                 </li>
                 <li class="dropdown pull-right">
-                    <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
+                    <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"CURRENCY" | trans }}" alt="{{"CURRENCY" | trans }}"/>
                         {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
                         {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}

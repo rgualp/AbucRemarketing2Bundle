@@ -1,9 +1,9 @@
 <a id="list-cart" title="{{"WHISH_LIST" | trans }}" {%if count > 0%}href="#"{% else %}href="{{ path('frontend_view_cart') }}"{% endif %} style="margin-top: 10px"  {%if count > 0%} data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="true"{% else %} class="count-info" {% endif %}>
     <span class="label" id="count-cart">  {{count}} </span>
     {%if count > 0%}
-        <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/whishlistv.png')}}" alt="{{"Pixel" | trans}}"/>
+        <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/whishlistv.png')}}" title="Mycasaparticular" alt="{{"Mycasaparticular" | trans}}"/>
         {% else %}
-            <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/whishlist.png')}}" alt="{{"Pixel" | trans}}"/>
+            <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/whishlist.png')}}" title="Mycasaparticular"  alt="{{"Mycasaparticular" | trans}}"/>
     {% endif %}
     {% if is_mobile() != true %}
         {% if search != true %}

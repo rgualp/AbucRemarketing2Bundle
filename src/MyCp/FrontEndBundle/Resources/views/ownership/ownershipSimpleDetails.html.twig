@@ -115,7 +115,7 @@
                     {%if ownership.ownFacilitiesBreakfast %}
                         <li class="lead-2">
                             <div class="row">
-                                <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services cofee-icon" alt="{{"Pixel" | trans}}"/> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</div>
+                                <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services cofee-icon" title="{{"BREAKFAST_TAB_DESCRIPTION" | trans}}" alt="{{"BREAKFAST_TAB_DESCRIPTION" | trans}}"/> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</div>
                                 <div class="col-xs-4 text-right">
                                     <b>
                                         {%if ownership.ownFacilitiesBreakfastPrice != null and ownership.ownFacilitiesBreakfastPrice != 0%}
@@ -128,7 +128,7 @@
                     {%if ownership.ownFacilitiesDinner %}
                         <li class="lead-2">
                             <div class="row">
-                                <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services food-icon" alt="{{"Pixel" | trans}}"/> {{"DINNER_TAB_DESCRIPTION" | trans}}</div>
+                                <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services food-icon" title="{{"DINNER_TAB_DESCRIPTION" | trans}}" alt="{{"DINNER_TAB_DESCRIPTION" | trans}}/> {{"DINNER_TAB_DESCRIPTION" | trans}}</div>
                                 <div class="col-xs-4 text-right"><b>
                                         {%if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0%}
                                             {{ownership.ownFacilitiesDinnerPriceFrom | price}}
@@ -143,7 +143,7 @@
                     {%if ownership.ownFacilitiesParking %}
                         <li class="lead-2">
                             <div class="row">
-                                <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services parking-icon" alt="{{"Pixel" | trans}}"/> {{"PARKING_TAB_DESCRIPTION" | trans}}</div>
+                                <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services parking-icon" title="{{"PARKING_TAB_DESCRIPTION" | trans}}" alt="{{"PARKING_TAB_DESCRIPTION" | trans}}/> {{"PARKING_TAB_DESCRIPTION" | trans}}</div>
                                 <div class="col-xs-4 text-right">
                                     <b>
                                         {%if ownership.ownFacilitiesParkingPrice != null and ownership.ownFacilitiesParkingPrice != 0%}

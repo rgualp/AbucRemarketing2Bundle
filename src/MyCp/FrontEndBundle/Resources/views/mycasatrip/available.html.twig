@@ -23,9 +23,9 @@
                                 <div data-text="&nbsp;&nbsp;&nbsp;{{'AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
                                     <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                         {% if photos[loop.index0]%}
-                                            <img id="{{ res['own_res_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                                            <img id="{{ res['own_res_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
                                         {% else %}
-                                            <img id="{{ res['own_res_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                                            <img id="{{ res['own_res_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
                                         {% endif %}
                                     </a>
                                 </div>

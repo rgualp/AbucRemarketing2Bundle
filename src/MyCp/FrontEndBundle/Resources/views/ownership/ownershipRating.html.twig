@@ -1,12 +1,12 @@
 <h3 class="caecilia-roman text-center">{{"RATINGS_TEXT_1" | trans}} <br/>{{"RATINGS_TEXT_2" | trans}}</h3>
     {%if ownership.rating > 0%}
     {%for i in 1..ownership.rating%}
-      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-icon-2" alt="{{"Pixel" | trans}}"/>
+      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-icon-2" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
     {%endfor%}
   {%endif%}
 
   {%if ownership.rating < 5%}
     {%for i in 1..(5-ownership.rating)%}
-       <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-off-icon-2" alt="{{"Pixel" | trans}}"/>
+       <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-off-icon-2" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
     {%endfor%}
   {%endif%}
