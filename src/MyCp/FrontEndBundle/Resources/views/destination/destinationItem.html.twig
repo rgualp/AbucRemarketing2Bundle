@@ -4,7 +4,7 @@
                    <td class="full-width">
                        <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
                            {% set url_image = asset("uploads/destinationImages/" ~ (des_photo)) %}
-                           <img title="alt="{{ des_name }}"" alt="{{ des_name }}" id="image_d{{ des_id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
+                           <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" title="alt="{{ des_name }}"" alt="{{ des_name }}" id="image_d{{ des_id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
                        </a>
                    </td>
                    <td>

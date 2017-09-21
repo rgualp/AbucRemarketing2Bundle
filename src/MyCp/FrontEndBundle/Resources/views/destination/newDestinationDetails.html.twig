@@ -40,7 +40,7 @@
 {% block marquesina %}{% endblock %}
 {% block custom_menus %}
     <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
-        <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+        <nav id="top-menu" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
             <div class="container">
                 {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
             </div>
