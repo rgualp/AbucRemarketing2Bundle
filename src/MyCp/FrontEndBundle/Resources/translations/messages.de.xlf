@@ -2568,7 +2568,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>Wir haben alle erfoerderliche Infomationen fuer die Registrierung bei MCP erhalten. Damit sie Zutritt zu unsere Webseite haben und die Reservierung fortsetzen koennen</target>
+                <target><![CDATA[Jetzt gehören Sie zu unserer Familie. herzlichen Glückwünsch! Ihre Registrierungsprozess auf <b>MyCasaParticular.com</b> wurde abgeschlossen.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>

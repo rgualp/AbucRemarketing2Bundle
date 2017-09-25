@@ -2561,7 +2561,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target><![CDATA[Ora siete la nostra famiglia. Complimenti! Il tuo processo di registrazione<b>MyCasaParticular.com</b> è completa. Attiva il tuo account per iniziare a godere dei vantaggi di aderire la nostra comunità.]]></target>
+                <target><![CDATA[Ora siete la nostra famiglia. Complimenti! Il tuo processo di registrazione<b>MyCasaParticular.com</b> è completa.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
