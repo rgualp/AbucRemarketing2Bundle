@@ -4188,6 +4188,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 <source>EXTRA_SERVICES_6</source>
                 <target>Reise Service – Manager</target>
             </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>Rabatt von 20% berechnen</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

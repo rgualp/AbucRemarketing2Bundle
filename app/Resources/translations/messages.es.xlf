@@ -4166,6 +4166,10 @@
                 <source>EXTRA_SERVICES_6</source>
                 <target>Servicios de Viajes – Manager</target>
             </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>Tendrán un 20% de descuento</target>
+            </trans-unit>
 
         </body>
     </file>
