@@ -4168,7 +4168,7 @@
             </trans-unit>
             <trans-unit id="4790">
                 <source>EXTRA_DISCOUNT</source>
-                <target>Tendrán un 20% de descuento</target>
+                <target>-20%</target>
             </trans-unit>
 
         </body>

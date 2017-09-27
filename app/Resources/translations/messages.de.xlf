@@ -4190,7 +4190,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="4790">
                 <source>EXTRA_DISCOUNT</source>
-                <target>Rabatt von 20% berechnen</target>
+                <target>-20%</target>
             </trans-unit>
     </body>
     </file>
