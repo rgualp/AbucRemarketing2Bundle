@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Mieten von Privathäusern, Appartements und Zimmer in Kuba</target>
+                <target>Mieten von Privathäusern, Wohnungen und Zimmer in Kuba</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -4187,6 +4187,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <trans-unit id="4789">
                 <source>EXTRA_SERVICES_6</source>
                 <target>Reise Service – Manager</target>
+            </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>-20%</target>
             </trans-unit>
     </body>
     </file>

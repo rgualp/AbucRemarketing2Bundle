@@ -1,4 +1,4 @@
-<div id="total-cesta" class="hide" data-counter="{{ res_available | length }}"></div>
+<li id="total-cesta" class="hide" data-counter="{{ res_available | length }}"></li>
 <li>
     <div class="text-center link-block">
         <a href="{{ path('frontend_mycasatrip_available') }}" onclick="window.location=this.href">
@@ -7,7 +7,6 @@
     </div>
 </li>
 <li class="divider"></li>
-<form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
     {% for res in res_available %}
         <li>
             <div class="dropdown-messages-box container">
@@ -54,4 +53,3 @@
         </li>
         <hr/>
     {% endfor %}
-</form>

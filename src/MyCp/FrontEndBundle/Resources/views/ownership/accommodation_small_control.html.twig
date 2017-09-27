@@ -42,7 +42,7 @@
         {% if notLazyLoad is defined and notLazyLoad == true %}
             <img title="{{ name }}" alt="{{ name }}" class="lazyload" src="{{ url_image | apply_filter('mycp_thumb_front') }}" style="min-height: 200px" />
         {% else %}
-            <img title="{{ name }}" alt="{{ name }}" id="image_acc{{ id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+            <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" title="{{ name }}" alt="{{ name }}" id="image_acc{{ id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
         {% endif %}
     </a>
 </div>

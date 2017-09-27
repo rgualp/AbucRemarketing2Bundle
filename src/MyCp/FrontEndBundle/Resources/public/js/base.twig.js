@@ -7,7 +7,7 @@ var BaseTwigJs = function () {
 
         $('#delete_button_reservation').on('click',function(){
             string_url= frontend_remove_from_whislist;
-            data_remove=$(this).attr('data');
+            data_remove=$(this).attr('data-rem');
             $('.btn_delete_reservation').attr('disabled','disable');
             $('#'+$(this).attr('btn_launch')).attr('class','in_process');
             $('#confirmation_modal_delete').modal('hide');

@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Rimanere dove Cuba è Cuba!</target>
+                <target>Affitto di case, appartamenti e stanze private a Cuba</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -4227,6 +4227,10 @@
             <trans-unit id="4789">
                 <source>EXTRA_SERVICES_6</source>
                 <target>Servizi di viaggio – Manager</target>
+            </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>-20%</target>
             </trans-unit>
         </body>
     </file>

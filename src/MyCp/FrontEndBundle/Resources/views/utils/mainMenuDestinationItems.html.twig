@@ -1,23 +1,32 @@
 <a title="My Casa Particular - {{"DESTINATIONS_MAIN_MENU" | trans}}" href="{{ path('frontend_list_destinations') }}">{{"DESTINATIONS_MAIN_MENU" | trans}} {%if destinations | length%}<b class="caret"></b>{%endif%}</a>
-{%if destinations | length%} 
+{% set total = destinations | length %}
+{%if destinations | length%}
     {%set counter = 0%}
-<ul class="dropdown-menu">   
+    {%set cont = 1%}
+<ul class="dropdown-menu">
   <li>
     <div class="row-fluid">
          <table style="width: 350px" class="dropdown-table">
-             {%for des in destinations%}
-                 {%if counter == 0%}
-                     <tr>
-                 {%endif%}
-                 <td><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name | trans }} {#({{des.total_owns}})#}</a></td>
-                 {%if counter == 1%}
-                     </tr>
-                     {%set counter = 0%}
-                 {%else%}
-                     {%set counter = counter + 1%}
-                 {%endif%}
-             {%endfor%}
+             <tbody>
+                 {%for des in destinations%}
+                     {%if counter == 0%}
+                         <tr>
+                     {%endif%}
+                     <td><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name | trans }} {#({{des.total_owns}})#}</a></td>
+                     {%if counter == 1%}
+                         </tr>
+                         {%set counter = 0%}
+                     {%else%}
+                         {%set counter = counter + 1%}
+                     {%endif%}
 
+                     {% if total == cont %}
+                        <td></td></tr>
+                         {%set counter = 0%}
+                     {% endif %}
+                     {%set cont = cont + 1%}
+                 {%endfor%}
+             </tbody>
          </table>
     </div>
   </li>

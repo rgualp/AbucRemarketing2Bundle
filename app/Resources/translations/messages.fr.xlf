@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Loger, où Cuba, Cuba est!</target>
+                <target>Chambres chez l’habitant, appartements et chambres à louer à Cuba</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -4237,6 +4237,10 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             <trans-unit id="4789">
                 <source>EXTRA_SERVICES_6</source>
                 <target>Services de voyages- Manager</target>
+            </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>-20%</target>
             </trans-unit>
         </body>
     </file>

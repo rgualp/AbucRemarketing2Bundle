@@ -1,3 +1,5 @@
-<ul class="dropdown-menu dropdown-cesta" style="background-color:#fff;width: 340px;" id="cart-items">
-    {{ include('FrontEndBundle:cart:contentCesta.html.twig')}}
-</ul>
+<form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
+    <ul class="dropdown-menu dropdown-cesta" style="background-color:#fff;width: 340px;" id="cart-items">
+        {{ include('FrontEndBundle:cart:contentCesta.html.twig')}}
+    </ul>
+</form>

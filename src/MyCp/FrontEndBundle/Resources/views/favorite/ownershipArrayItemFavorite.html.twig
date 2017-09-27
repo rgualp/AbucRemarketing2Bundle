@@ -4,7 +4,7 @@
     <div class="col-sm-3">
         <div data-text="&nbsp;&nbsp;&nbsp;{%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
             <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | urlNormalize}) }}">
-                <img id="{{ own['own_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}" title="{{ own['own_name'] }}" alt="{{ own['own_name'] }}"/>
+                <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ own['own_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}" title="{{ own['own_name'] }}" alt="{{ own['own_name'] }}"/>
             </a>
         </div>
     </div>
