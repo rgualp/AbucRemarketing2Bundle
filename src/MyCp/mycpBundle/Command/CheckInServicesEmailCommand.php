@@ -32,7 +32,7 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
 
         $date = new \DateTime();
         $startTimeStamp = $date->getTimestamp();
-        $startTimeStamp = strtotime("+2 day", $startTimeStamp);
+        $startTimeStamp = strtotime("+10 day", $startTimeStamp);
         $date->setTimestamp($startTimeStamp);
         $date = $date->format("d/m/Y");
 
