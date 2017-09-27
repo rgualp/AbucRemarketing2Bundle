@@ -3,9 +3,12 @@
 namespace MyCp\mycpBundle\Controller;
 
 use Abuc\RemarketingBundle\Event\JobEvent;
+use MyCp\FrontEndBundle\Helpers\PostFinanceHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\postfinancePayment;
 use MyCp\mycpBundle\Form\cancelPaymentType;
+use MyCp\mycpBundle\Form\postfinancePaymentType;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
@@ -1493,6 +1496,89 @@ class BackendReservationController extends Controller {
         }
         $data['form']= $form->createView();
         return $this->render('mycpBundle:reservation:modal_cancel_payment.html.twig', $data);
+    }
+
+    public function confirmPaymentAction($id_reservation, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $postfinancePayment = new postfinancePayment();
+        $form = $this->createForm(new postfinancePaymentType(), $postfinancePayment);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $bookingId = $postfinancePayment->getOrderId();
+                $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
+
+                if (empty($booking)) {
+                    $message = 'El booking introducido no existe '. $bookingId;
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    return $this->render('mycpBundle:reservation:postfinance_payment.html.twig', array(
+                        'form' => $form->createView(),
+                        'id_reservation' => $id_reservation
+                    ));
+                }
+
+                $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $booking));
+
+                if (empty($payment)) {
+                    $payment = new payment();
+                    $payment->setCreated(new \DateTime());
+                    $payment->setBooking($booking);
+                }
+                else{
+                    $message = 'El booking introducido '. $bookingId.' ya tiene un pago asociado.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    return $this->render('mycpBundle:reservation:postfinance_payment.html.twig', array(
+                        'form' => $form->createView(),
+                        'id_reservation' => $id_reservation
+                    ));
+                }
+
+                $payment->setPayedAmount($postfinancePayment->getAmount());
+
+                $currencyIsoCode = $postfinancePayment->getCurrency();
+                $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => strtoupper(trim($currencyIsoCode))));
+
+                if (empty($currency)) {
+                    $message = 'La moneda introducida no existe: '.$currencyIsoCode;
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    return $this->render('mycpBundle:reservation:postfinance_payment.html.twig', array(
+                        'form' => $form->createView(),
+                        'id_reservation' => $id_reservation
+                    ));
+                }
+
+                $payment->setCurrency($currency);
+                $payment->setModified(new \DateTime());
+                $payment->setStatus(PostFinanceHelper::getInternalStatusCodeFrom($postfinancePayment->getStatus()));
+                $currencyRate = $currency->getCurrCucChange();
+                $payment->setCurrentCucChangeRate($currencyRate);
+
+                $postfinancePayment->setPayment($payment);
+                $em->persist($payment);
+                $em->persist($postfinancePayment);
+                $em->flush();
+
+                //Cambiar estado a la reserva y enviar vouchers
+                $bookingService = $this->get('front_end.services.booking');
+                $bookingService->postProcessBookingPayment($payment);
+
+                $message = 'Pago confirmado añadido satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->saveLog($postfinancePayment->getId(), BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_INSERT, DataBaseTables::ACCOMMODATION_PAYMENT);
+
+                return $this->redirect($this->generateUrl('mycp_details_reservation', array("id_reservation" => $id_reservation)));
+            }
+        }
+        return $this->render('mycpBundle:reservation:postfinance_payment.html.twig', array(
+            'form' => $form->createView(),
+            'id_reservation' => $id_reservation
+        ));
     }
 
 

@@ -38,7 +38,7 @@
         <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
     {%endif%}
     {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
-        <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Confirmar Pago</a>
+        <a href="{{ path('mycp_confirm_payment_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Confirmar pago" class="tooltip_msg btn btn-warning">Confirmar Pago</a>
     {%endif%}
 
 </div>
