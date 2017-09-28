@@ -4242,6 +4242,18 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                 <source>EXTRA_DISCOUNT</source>
                 <target>-20%</target>
             </trans-unit>
+            <trans-unit id="4791">
+                <source>KUBATRIP_MESSAGE_1</source>
+                <target>KubaTrip</target>
+            </trans-unit>
+            <trans-unit id="4792">
+                <source>KUBATRIP_MESSAGE_2</source>
+                <target>KubaTrip offre un groupe de services qui peuvent vous aider à découvrir Cuba: une location de voiture permettant de parcourir l´île à votre rythme, ou des transferts privés d’une destination à l’autre… des tours guidés, des vols domestiques, des excursions maritimes… Cuba à votre portée.</target>
+            </trans-unit>
+            <trans-unit id="4793">
+                <source>KUBATRIP_MESSAGE_3</source>
+                <target>Si vous avez besoin de nos services, contactez-nous à travers l’émail suivant: </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

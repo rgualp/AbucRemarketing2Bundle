@@ -4181,6 +4181,18 @@
                 <source>EXTRA_DISCOUNT</source>
                 <target>-20%</target>
             </trans-unit>
+            <trans-unit id="4791">
+                <source>KUBATRIP_MESSAGE_1</source>
+                <target>KubaTrip</target>
+            </trans-unit>
+            <trans-unit id="4792">
+                <source>KUBATRIP_MESSAGE_2</source>
+                <target>KubaTrip offer you a group of services which can help you to discover Cuba: a rental car that allows you to travel the island at your own pace, or private transfers between the destinations you intend to visit ... guided tours, domestic flights, sea excursions ... </target>
+            </trans-unit>
+            <trans-unit id="4793">
+                <source>KUBATRIP_MESSAGE_3</source>
+                <target>If you need our services, just contact us at the following email: </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
