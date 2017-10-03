@@ -197,7 +197,7 @@ class commentRepository extends EntityRepository {
     function getAllByQueryObject($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr, $filter_date_from = "", $filter_date_to = "") {
         $string = '';
         if ($filter_user != 'null' && $filter_user != '') {
-            $string = "AND c.com_user = :filter_user";
+            $string = "AND c.com_user LIKE :filter_user";
         }
 
         $string2 = '';
@@ -247,7 +247,7 @@ class commentRepository extends EntityRepository {
         $query = $em->createQuery($queryStr);
 
         if ($filter_user != 'null' && $filter_user != '')
-            $query->setParameter('filter_user', $filter_user);
+            $query->setParameter('filter_user', "%" . $filter_user . "%");
 
         if ($filter_keyword != 'null' && $filter_keyword != '')
             $query->setParameter('filter_keyword', "%" . $filter_keyword . "%");

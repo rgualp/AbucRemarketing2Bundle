@@ -43,10 +43,8 @@
                     </div>
                     <div class="span3">
                         <label>Usuario:</label>
-                        <select id="filter_user" value="{{filter_user}}" class="input-block-level" name="filter_user">
-            {{ render(controller('mycpBundle:BackendUser:get_all_users', {'post': {'selected':filter_user}})) }}
-                            </select>
-                        </div>
+                        <input id="filter_user" value="{{filter_user}}" class="input-block-level" name="filter_user" type="text"/>
+                    </div>
                         <div class="span3">
                             <label>Palabra clave:</label>
                             <input id="filter_keyword" value="{{filter_keyword}}" class="input-block-level" name="filter_keyword" type="text"/>
