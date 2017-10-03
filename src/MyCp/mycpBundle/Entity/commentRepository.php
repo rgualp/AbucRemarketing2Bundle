@@ -197,7 +197,7 @@ class commentRepository extends EntityRepository {
     function getAllByQueryObject($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr, $filter_date_from = "", $filter_date_to = "") {
         $string = '';
         if ($filter_user != 'null' && $filter_user != '') {
-            $string = "AND c.com_user LIKE :filter_user";
+            $string = "AND (us.user_name LIKE :filter_user OR us.user_user_name LIKE :filter_user)";
         }
 
         $string2 = '';
