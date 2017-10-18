@@ -4244,6 +4244,10 @@
                 <source>KUBATRIP_MESSAGE_3</source>
                 <target>Se hai bisogno dei nostri servizi, contattaci alla seguente email: </target>
             </trans-unit>
+            <trans-unit id="4794">
+                <source>HDS_ADDRESS</source>
+                <target>Calle San Nicolas 358 bajo tra San Rafael e San Miguel, Centro Habana, L'Avana</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

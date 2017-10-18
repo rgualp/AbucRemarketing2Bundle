@@ -4182,7 +4182,10 @@
                 <source>KUBATRIP_MESSAGE_3</source>
                 <target>Si necesita de nuestros servicios, solo contáctenos al siguiente email: </target>
             </trans-unit>
-
+            <trans-unit id="4794">
+                <source>HDS_ADDRESS</source>
+                <target>Calle San Nicolas 358 bajos entre San Rafael y San Miguel, Centro Habana, La Habana</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

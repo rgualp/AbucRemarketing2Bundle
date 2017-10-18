@@ -4254,6 +4254,10 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                 <source>KUBATRIP_MESSAGE_3</source>
                 <target>Si vous avez besoin de nos services, contactez-nous à travers l’émail suivant: </target>
             </trans-unit>
+            <trans-unit id="4794">
+                <source>HDS_ADDRESS</source>
+                <target>Rue San Nicolas 358, bas, entre San Rafael et San Miguel, Centro Habana, La Habana</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
