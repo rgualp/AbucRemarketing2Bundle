@@ -25,12 +25,12 @@ destinos
 
 <div style="border: 1px solid gray; padding: 3px;">
     <div id="destinations-slider" class="royalSlider rsDefault">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/1.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/2.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/3.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/4.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/5.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/6.jpg') }}" alt="">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/1.jpg') }}" alt="Mycasaparticular" title="MyCasaparticular">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/2.jpg') }}" alt="Mycasaparticular" title="MyCasaparticular">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/3.jpg') }}" alt="Mycasaparticular" title="MyCasaparticular">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/4.jpg') }}" alt="Mycasaparticular" title="MyCasaparticular">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/5.jpg') }}" alt="Mycasaparticular" title="MyCasaparticular">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/6.jpg') }}" alt="Mycasaparticular" title="MyCasaparticular">
     </div>
 </div>
 
@@ -47,7 +47,7 @@ destinos
                 <h4 style="margin-top: 0px">{{destination.desName}}</h4>
                 <div class="row-fluid">
                     <div class="span6">
-                        <img class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ destination.getFirstDestinationPhotoName)}}" style="height: 110px;" alt="{{"DESTINATION" | trans}}"/>
+                        <img class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ destination.getFirstDestinationPhotoName)}}" style="height: 110px;" title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" alt="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}"/>
                     </div>
                     <div class="span6">
                         <div class="row-fluid dest_stats_box">

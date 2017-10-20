@@ -47,6 +47,7 @@ class BackendCommentController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $em = $this->getDoctrine()->getManager();
         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $filter_date_from, $filter_date_to))->getResult();
+
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
 //        $service_log = $this->get('log');

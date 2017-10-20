@@ -8,7 +8,7 @@
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" class="btn">{{"CANCEL"|trans}}</button>
-                <button id="delete_button_reservation" data="" class="btn btn-primary">{{"REMOVE"|trans}}</button>
+                <button id="delete_button_reservation" data-rem="" class="btn btn-primary">{{"REMOVE"|trans}}</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dalog -->
@@ -23,7 +23,7 @@
 
     function showModalDeleteWishList(e){
         $('#confirmation_modal_delete').modal('show');
-        $('#delete_button_reservation').attr('data',e.attr('data'));
+        $('#delete_button_reservation').attr('data-rem',e.attr('data'));
         $('#delete_button_reservation').attr('btn_launch',e.attr('id'));
     }
 

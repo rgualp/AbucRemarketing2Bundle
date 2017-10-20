@@ -1,7 +1,7 @@
 {% if list | length %}
     {% for ownership in list %}
-        <div class="col-xs-12 col-sm-6 relative">
-            <div class="row">
+        <div class="col-xs-12 col-sm-6 relative m-b-1 p-l-1">
+            <div class="">
                 <a class="f-s-14 f-f-Arial f-w-bold"
                    href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                     <div class="col-xs-12">
@@ -118,8 +118,9 @@
                     </div>
                 </div>
             </div>
-            <div id="for-map-{{ ownership.own_id }}" class="for-map toClose">
-                <a class="close-btn" href="#"><i class="ion-android-close"></i></a>
+
+            <div id="for-map-{{ ownership.own_id }}" class="for-map p-l-1 p-r-1 toClose">
+                <a class="close-btn p-r-1" href="#"><i class="ion-android-close"></i></a>
                 {% set image = (ownership.photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png") %}
                 <div id="google-map-{{ ownership.own_id }}" class="google-maps" style="width:100%;height: 378px;"
                      data-x="{{ ownership.OwnGeolocateX }}"
@@ -131,6 +132,5 @@
                 </div>
             </div>
         </div>
-        <div class="space space-20"></div>
     {% endfor %}
 {% endif %}

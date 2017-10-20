@@ -2568,7 +2568,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>Wir haben alle erfoerderliche Infomationen fuer die Registrierung bei MCP erhalten. Damit sie Zutritt zu unsere Webseite haben und die Reservierung fortsetzen koennen</target>
+                <target><![CDATA[Jetzt gehören Sie zu unserer Familie. herzlichen Glückwünsch! Ihre Registrierungsprozess auf <b>MyCasaParticular.com</b> wurde abgeschlossen.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2975,7 +2975,7 @@
             </trans-unit>
         <trans-unit id="752">
             <source>FOOTER_EMAIL_PACKAGE</source>
-            <target><![CDATA[Fügen Sie service@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin E-Mails von uns erhalten können. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </a><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind auf Verfügbarkeit zu überprüfen. Lesen Sie unsere <a href="%termlink%">Nutzungsbedingungen</a> für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
+            <target><![CDATA[Fügen Sie services@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin E-Mails von uns erhalten können. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </a><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind auf Verfügbarkeit zu überprüfen. Lesen Sie unsere <a href="%termlink%">Nutzungsbedingungen</a> für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
         </trans-unit>
             <trans-unit id="753">
                 <source>PQT_RESERVATION_ER_MAIL_SUBJECT</source>

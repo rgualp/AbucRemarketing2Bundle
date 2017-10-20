@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Mieten von Privathäusern, Appartements und Zimmer in Kuba</target>
+                <target>Mieten von Privathäusern, Wohnungen und Zimmer in Kuba</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -2560,7 +2560,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target><![CDATA[Jetzt gehören Sie zu unserer Familie. herzlichen Glückwünsch! Ihre Registrierungsprozess auf <b>MyCasaParticular.com</b> wurde abgeschlossen. Aktivieren Sie Ihr Konto damit Sie die Vorteile unserer Gemeinschaft profitieren können.]]></target>
+                <target><![CDATA[Jetzt gehören Sie zu unserer Familie. herzlichen Glückwünsch! Ihre Registrierungsprozess auf <b>MyCasaParticular.com</b> wurde abgeschlossen.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -4152,7 +4152,62 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                             ]]>
                                             </target>
                         </trans-unit>
-
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>Benötigen Sie andere Service für Ihre Reise? Wir können Ihnen Transfer Service, Reiseleiter Service, Rundreisen und Auto Vermietung anbieten. Kontaktieren Sie uns durch </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Kuba in Reichweite von die Touristen.</target>
+            </trans-unit>
+            <trans-unit id="4783">
+                <source>EXTRA_SERVICES_SUBJECT</source>
+                <target>Extra Service in Kuba</target>
+            </trans-unit>
+            <trans-unit id="4784">
+                <source>EXTRA_SERVICES_1</source>
+                <target>Was für eine tolle Zeit nach Kuba zu reisen! Ob Sie für Vergnügen oder Geschäft reisen, wir garantieren Ihnen einen wundervollen Aufenthalt auf dieser wunderschönen Insel.</target>
+            </trans-unit>
+            <trans-unit id="4785">
+                <source>EXTRA_SERVICES_2</source>
+                <target>Durch unsere Mitarbeiter in Kuba bieten wir Ihnen eine Gruppe von Dienstleistungen an: vielleicht ein Mietwagen, der Ihnen erlaubt, die Insel in Ihrem eigenen Tempo zu reisen, oder private Transfers zwischen den Destinationen, die Sie besuchen möchten ... Führungen, Inlandsflüge, Seenausflüge ... Kuba in Ihre Reichweite.</target>
+            </trans-unit>
+            <trans-unit id="4786">
+                <source>EXTRA_SERVICES_3</source>
+                <target>Falls Sie unsere Dienstleistungen benötigen, kontaktieren Sie uns bitte unter folgender E-Mail: </target>
+            </trans-unit>
+            <trans-unit id="4787">
+                <source>EXTRA_SERVICES_4</source>
+                <target>Vielen Dank. Wir wünschen Ihnen einen schönen Aufenthalt.</target>
+            </trans-unit>
+            <trans-unit id="4788">
+                <source>EXTRA_SERVICES_5</source>
+                <target>Beste Grüße,</target>
+            </trans-unit>
+            <trans-unit id="4789">
+                <source>EXTRA_SERVICES_6</source>
+                <target>Reise Service – Manager</target>
+            </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>-20%</target>
+            </trans-unit>
+            <trans-unit id="4791">
+                <source>KUBATRIP_MESSAGE_1</source>
+                <target>KubaTrip</target>
+            </trans-unit>
+            <trans-unit id="4792">
+                <source>KUBATRIP_MESSAGE_2</source>
+                <target>MyCasaParticular.com, zusammen mit KubaTrip bieten Ihnen eine Gruppe von Dienstleistungen, die Ihnen Kuba zu entdecken helfen können: ein Mietwagen, der Ihnen erlaubt, die Insel in Ihrem eigenen Tempo zu reisen, oder private Transfers zwischen den Destinationen, die Sie besuchen möchten ... Führungen, Inlandsflüge, Seenausflüge ... Kuba in Ihre Reichweite.</target>
+            </trans-unit>
+            <trans-unit id="4793">
+                <source>KUBATRIP_MESSAGE_3</source>
+                <target>Falls Sie unsere Dienstleistungen benötigen, kontaktieren Sie uns bitte unter folgender E-Mail: </target>
+            </trans-unit>
+            <trans-unit id="4794">
+                <source>HDS_ADDRESS</source>
+                <target>Strasse San Nicolas 358 Erdgeschoss zwischen San Rafael und San Miguel, Centro Habana, La Habana</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

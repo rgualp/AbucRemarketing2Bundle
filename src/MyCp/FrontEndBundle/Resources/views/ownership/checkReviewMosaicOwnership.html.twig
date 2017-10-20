@@ -1,73 +1,89 @@
 <div class="col-sm-4">
-                <table class="full-width">
-                    <tbody><tr>
-                        <td class="">
-                            <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own_comments > 0%}+{%endif%}{{own_comments}}&nbsp;&nbsp;&nbsp;">
-                                <a target="_blank" title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | urlNormalize}) }}">
-                                    <img alt="{{ own_name }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}" alt="{{"Thumbnails" | trans}}">
-                                </a>
-                            </div>
-                        </td>
-                        <td>
-                            {%if category == "Premium"%}
-                        <img rel="tooltip" title="{{category | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
-                        {%else%}
-                            {%if (category | lower) == ("Rango Medio" | lower)%}
-                            <img rel="tooltip" title="{{category | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
-                            {%else%}
-                                <img rel="tooltip" title="{{category | trans}}" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 18px; height: 25px" alt="{{"Pixel" | trans}}">
-                            {%endif%}
-                        {%endif%}
-                            <p>{{category | trans}}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name-cont">
-                            <a target="_blank" title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | urlNormalize}) }}">
-                            <h1 class="h-blue">{{ own_name }}</h1>
-                            </a>
-                            <small>{{own_province}}, {{own_municipality}}<br>{{own_type  | trans}} {%if (own_rooms_count != 0) %}
-                        / {{own_rooms_count}} {% if own_rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small>
-                        </td>
-                        <td style="text-align: right">
-                            <small>{{"FROM_PRICES" | trans | lower}}:</small>
-                            <div class="big-price-blue">{{own_minimum_price | price }}</div>
-                            <small>{{"BYNIGHT" | trans}}</small>
+    <table class="full-width">
+        <tbody>
+        <tr>
+            <td class="">
+                <div class="thumbnail has-ribbon has-ribbon-right"
+                     data-text="&nbsp;&nbsp;&nbsp;{% if own_comments > 0 %}+{% endif %}{{ own_comments }}&nbsp;&nbsp;&nbsp;">
+                    <a target="_blank" title="{{ own_name }}"
+                       href="{{ path('frontend_details_ownership',{'own_name':own_name  | urlNormalize}) }}">
+                        <img title="{{ own_name }}" alt="{{ own_name }}"
+                             src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo) }}">
+                    </a>
+                </div>
+            </td>
+            <td>
+                {% if category == "Premium" %}
+                    <img rel="tooltip" title="{{ category | trans }}" class="icon-medium premium-icon"
+                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{ category | trans }}">
+                {% else %}
+                    {% if (category | lower) == ("Rango Medio" | lower) %}
+                        <img rel="tooltip" title="{{ category | trans }}" class="icon-medium middle-icon"
+                             src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{ "Pixel" | trans }}">
+                    {% else %}
+                        <img rel="tooltip" title="{{ category | trans }}" class="icon economic-icon"
+                             src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 18px; height: 25px"
+                             alt="{{ "Pixel" | trans }}">
+                    {% endif %}
+                {% endif %}
+                <p>{{ category | trans }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="name-cont">
+                <a target="_blank" title="{{ own_name }}"
+                   href="{{ path('frontend_details_ownership',{'own_name':own_name  | urlNormalize}) }}">
+                    <h1 class="h-blue">{{ own_name }}</h1>
+                </a>
+                <small>{{ own_province }}, {{ own_municipality }}
+                    <br>{{ own_type  | trans }} {% if (own_rooms_count != 0) %}
+                        / {{ own_rooms_count }} {% if own_rooms_count == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}{% endif %}
+                </small>
+            </td>
+            <td style="text-align: right">
+                <small>{{ "FROM_PRICES" | trans | lower }}:</small>
+                <div class="big-price-blue">{{ own_minimum_price | price }}</div>
+                <small>{{ "BYNIGHT" | trans }}</small>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div class="row">
-                                <div class="col-xs-6 text-left">
-                                    {%if own_rating > 0%}
-                                    {%for i in 1..own_rating%}
-                                         <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
-                                     {%endfor%}
-                                     {%endif%}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="row">
+                    <div class="col-xs-6 text-left">
+                        {% if own_rating > 0 %}
+                            {% for i in 1..own_rating %}
+                                <img class="icon icon-2 tiny-star-icon"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}">
+                            {% endfor %}
+                        {% endif %}
 
-                                     {%if own_rating < 5%}
-                                     {%for i in 1..(5-own_rating)%}
-                                            <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}">
-                                     {%endfor%}
-                                     {%endif%}
-                                    <br>
-                                    <small>{{own_comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
-                                </div>
-                                <div class="col-xs-6 text-right">
-                                    {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
-                                        {'is_in_favorite': is_in_favorite,
-                                         'favorite_type': 'ownership',
-                                         'element_id':own_id,
-                                         'list_preffix' : list_preffix,
-                                         'include_text': true
-                                         }) }}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody></table>
-            </div>
+                        {% if own_rating < 5 %}
+                            {% for i in 1..(5-own_rating) %}
+                                <img class="icon icon-2 tiny-star-off-icon"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}">
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <small>{{ own_comments }} {{ "FORMS_COMMENTS" | trans | lower }}</small>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+                        {'is_in_favorite': is_in_favorite,
+                            'favorite_type': 'ownership',
+                            'element_id':own_id,
+                            'list_preffix' : list_preffix,
+                            'include_text': true
+                        }) }}
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 
 

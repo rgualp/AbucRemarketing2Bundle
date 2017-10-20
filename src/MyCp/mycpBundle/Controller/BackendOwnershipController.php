@@ -1677,7 +1677,7 @@ class BackendOwnershipController extends Controller {
 
     public function execute_all_icalAction(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->getAll('', '1', '', '', '', '', '', '', '', '', FilterHelper::ACCOMMODATION_WITH_ICAL, '')->getResult();;
+        $ownerships = $em->getRepository('mycpBundle:ownership')->getAll('', '1', '', '', '', '', '', '', '', '', FilterHelper::ACCOMMODATION_WITH_ICAL, '')->getResult();
 
         foreach ( $ownerships as $ownership ){
             $this->execute_ical($ownership['own_id']);
