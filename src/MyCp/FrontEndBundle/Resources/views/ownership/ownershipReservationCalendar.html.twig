@@ -107,7 +107,7 @@
                     {% endif %}
                 </select>
             </td>
-            <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/></td>
+            <td id="childrenImg1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/></td>
             <td id="childrenAge1_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                 <select
                         id="combo_kidsage_1_{{room.getRoomId}}"
@@ -133,7 +133,7 @@
                     <option value="12">12</option>
                 </select>
             </td>
-            <td id="childrenImg2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Pixel" | trans}}"/></td>
+            <td id="childrenImg2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}"><img class="icon-services children" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/></td>
                 <td id="childrenAge2_{{room.getRoomId}}" style="display: none; {% if loop.index < rooms | length %}border-bottom: 1px solid #bbbbbb;{% endif %}">
                     <select
                             id="combo_kidsage_2_{{room.getRoomId}}"
@@ -187,7 +187,7 @@
             </td>
             <td id="tripleAlert_{{room.getRoomId}}" style="display: none; border:none">
                 <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                     class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
+                     class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" title="{{"Question" | trans}}" alt="{{"Question" | trans}}"/>
             </td>
         {% else %}
             <div style="text-align: center" class="badge badge-warning btn-block">{{"NOT_AVAILABLE"|trans}}</div>

@@ -16,7 +16,7 @@
                             <div class="row">
                             <div class="col-xs-6">
                                 <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
-                                    <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width" alt="{{"Thumbnails" | trans}}"/>
+                                    <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width" title="{{list[flag_item].des_name}}"  alt="{{list[flag_item].des_name}}"/>
                                 </a>
                             </div>
                             <div class="col-xs-6"><b>

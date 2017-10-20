@@ -103,6 +103,14 @@ class SeoUtilsExtension extends \Twig_Extension
             $paramas = $attributes['_route_params'];
             $paramas['locale'] = "es";
 
+            $langCountry = array(
+            	'en' => 'en-us',
+            	'es' => 'es-es',
+            	'de' => 'de-de',
+            	'it' => 'it-it',
+            	'fr' => 'fr-fr' 
+            );	
+
             if (count($allLanguage) > 0){
                 foreach ($allLanguage as $lang){
                     $paramas['locale'] = strtolower($lang->getLangCode());
@@ -120,7 +128,8 @@ class SeoUtilsExtension extends \Twig_Extension
                     $new_url = str_replace("/".$language_code."/", "/".strtolower($lang->getLangCode())."/", $url);
                     $hreflang = 'hreflang=';
                     $rel = "alternate";
-                    $hreflang = $hreflang.'"'.strtolower($lang->getLangCode()).'"';
+
+                    $hreflang = $hreflang.'"'.$langCountry[strtolower($lang->getLangCode())].'"';
 
                     if (strtolower($lang->getLangCode()) == $language_code){
                         $rel = "canonical";

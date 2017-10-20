@@ -137,3 +137,7 @@ mycp_new_offer_to_client_ag:
 mycp_send_voucher_reservation_booking:
     pattern:  /send-voucher-booking/{id_booking}
     defaults: { _controller: mycpBundle:BackendReservation:sendVoucherToReservationTeamFromBooking }
+
+mycp_confirm_payment_reservation:
+    pattern:  /confirm-payment/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservation:confirmPayment }

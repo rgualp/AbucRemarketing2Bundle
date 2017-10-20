@@ -107,26 +107,36 @@ class OAuthController extends Controller
                             $em->persist($user);
                             $em->persist($userTourist);
 
+                            //Envio de correo de oferta de servicios extra
+                            $service_email = $this->get('Email');
+                            $bodyExtraServices = $this->render('FrontEndBundle:mails:extraServicesMail.html.twig', array(
+                                'user_name' => $fbLoginData->getName(),
+                                'user_locale' => (($language === null || !isset($language) || $language === "") ? $defaultLanguageCode : $languageCode )));
 
-                           /* $hash_user = hash('sha256', $fbLoginData->getName());
-                            $hash_email = hash('sha256', strtolower($fbLoginData->getEmail()));
-                            $password="";
-                            //Registrando al user en HDS-MEAN
-                            // abrimos la sesión cURL
-                            $ch = curl_init();
-                            // definimos la URL a la que hacemos la petición
-                            curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."register");
-                            // definimos el número de campos o parámetros que enviamos mediante POST
-                            curl_setopt($ch, CURLOPT_POST, 1);
-                            // definimos cada uno de los parámetros
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, "email=".$hash_email.'_'.$this->container->getParameter('mean_project')."&last=".$fbLoginData->getLastName()."&first=".$fbLoginData->getLastName()."&password=".$password."&username=".$hash_user.'_'.$this->container->getParameter('mean_project'));
-                            // recibimos la respuesta y la guardamos en una variable
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            $remote_server_output = curl_exec ($ch);
-                            // cerramos la sesión cURL
-                            curl_close ($ch);
-                            $user->setRegisterNotification(true);
-                            $em->persist($user);*/
+                            $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user->getUserEmail(), $bodyExtraServices->getContent());
+
+
+
+
+                            /* $hash_user = hash('sha256', $fbLoginData->getName());
+                             $hash_email = hash('sha256', strtolower($fbLoginData->getEmail()));
+                             $password="";
+                             //Registrando al user en HDS-MEAN
+                             // abrimos la sesión cURL
+                             $ch = curl_init();
+                             // definimos la URL a la que hacemos la petición
+                             curl_setopt($ch, CURLOPT_URL,$this->container->getParameter('url.mean')."register");
+                             // definimos el número de campos o parámetros que enviamos mediante POST
+                             curl_setopt($ch, CURLOPT_POST, 1);
+                             // definimos cada uno de los parámetros
+                             curl_setopt($ch, CURLOPT_POSTFIELDS, "email=".$hash_email.'_'.$this->container->getParameter('mean_project')."&last=".$fbLoginData->getLastName()."&first=".$fbLoginData->getLastName()."&password=".$password."&username=".$hash_user.'_'.$this->container->getParameter('mean_project'));
+                             // recibimos la respuesta y la guardamos en una variable
+                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                             $remote_server_output = curl_exec ($ch);
+                             // cerramos la sesión cURL
+                             curl_close ($ch);
+                             $user->setRegisterNotification(true);
+                             $em->persist($user);*/
                             $em->flush();
                         }
 

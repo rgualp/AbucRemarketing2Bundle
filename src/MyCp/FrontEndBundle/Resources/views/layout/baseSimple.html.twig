@@ -82,7 +82,7 @@
     <div class="row">
         <div class="col-sm-4" id="center-cont">
             <a href="{{ path('frontend-welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
-                <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+                <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" title="my casa particular" alt="my casa particular"/>
             </a>
         </div>
 
@@ -91,7 +91,7 @@
     </div>
 </div>
 <div id="top-menu-cont" style="height:{% block nav_heigth %} {% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}{% endblock %}">
-    <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+    <nav id="top-menu" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
                 <span class="sr-only">Menu</span>
@@ -176,7 +176,7 @@
         </div>
         <div style="margin: 0 0 10px;">
             <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend-welcome') }}" >
-                <img alt="{{"HOMEPAGE_TITLE" | trans}}" src="{{ asset('bundles/frontend/img/mycp-grey.png')}}">
+                <img title="{{"HOMEPAGE_TITLE" | trans}}" alt="{{"HOMEPAGE_TITLE" | trans}}" src="{{ asset('bundles/frontend/img/mycp-grey.png')}}">
             </a>
         </div>
         <div class="row">

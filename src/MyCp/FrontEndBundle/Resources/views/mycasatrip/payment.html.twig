@@ -18,11 +18,11 @@
                 <div data-text="&nbsp;&nbsp;&nbsp;{{'RESERVE_SINGULAR' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-blue has-ribbon has-ribbon-left">
             {% if photos[loop.index0]%}
                         <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
-                            <img id="{{ res['own_res_reservation_booking']['booking_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                            <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_reservation_booking']['booking_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
                         </a>
             {% else %}
                         <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
-                            <img id="{{ res['own_res_reservation_booking']['booking_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                            <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_reservation_booking']['booking_id'] }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
                         </a>
             {% endif %}
                     </div>

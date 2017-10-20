@@ -119,7 +119,8 @@ class BackendController extends Controller
             'ownership'=>$ownership_array,
             'locale'=>$locale,'currentServiceFee'=>$currentServiceFee,
             'fromPartner' => true,
-            'completePayment' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getCompletePayment()
+            'completePayment' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getCompletePayment(),
+            'comisionAgency' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getId()
 
         ));
         return new Response($response, 200);

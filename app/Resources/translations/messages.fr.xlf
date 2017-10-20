@@ -132,7 +132,7 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Loger, où Cuba, Cuba est!</target>
+                <target>Chambres chez l’habitant, appartements et chambres à louer à Cuba</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
@@ -2574,7 +2574,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target><![CDATA[Maintenant vous appartenez à notre famille. ¡Congratulations! Votre processus d’inscription sur<b>MyCasaParticular.com</b> est complet. Activez votre compte  pour commencer à profiter des avantages de rejoindre notre communauté.]]></target>
+                <target><![CDATA[Maintenant vous appartenez à notre famille. ¡Congratulations! Votre processus d’inscription sur<b>MyCasaParticular.com</b> est complet.]]></target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -4201,6 +4201,62 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                                             CHE-114.583.749 </br>
                                             ]]>
                                             </target>
+            </trans-unit>
+            <trans-unit id="4781">
+                <source>KUBATRIP_VOUCHER</source>
+                <target>Avez vous besoin des services supplémentaires pour compléter vos vacances? Nous vous offrons service de transfert, des tours guidés, des excursions, de location de voitures avec chauffeur ou non. Contactez-nous à travers l’émail: </target>
+            </trans-unit>
+            <trans-unit id="4782">
+                <source>KUBATRIP_VOUCHER_2</source>
+                <target>Cuba à votre portée.</target>
+            </trans-unit>
+            <trans-unit id="4783">
+                <source>EXTRA_SERVICES_SUBJECT</source>
+                <target>Services supplémentaires à Cuba</target>
+            </trans-unit>
+            <trans-unit id="4784">
+                <source>EXTRA_SERVICES_1</source>
+                <target>C’est un bon moment pour voyager à Cuba! Soit un voyage d’affaire ou pour loisir nous vous assurons que votre séjour dans cette bel île sera merveilleux.</target>
+            </trans-unit>
+            <trans-unit id="4785">
+                <source>EXTRA_SERVICES_2</source>
+                <target>À l’aide de nos collaborateurs à Cuba nous vous proposons un groupe de services: peut-être une location de voiture permettant de parcourir l´île à votre rythme, ou des transferts privés d’une destination à l’autre… des tours guidés, des vols domestiques, des excursions maritimes… Cuba à votre portée.</target>
+            </trans-unit>
+            <trans-unit id="4786">
+                <source>EXTRA_SERVICES_3</source>
+                <target>Si vous avez besoin de nos services, contactez-nous à travers l’émail suivant: </target>
+            </trans-unit>
+            <trans-unit id="4787">
+                <source>EXTRA_SERVICES_4</source>
+                <target>Merci. Nous vous souhaitons un séjour très agréable.</target>
+            </trans-unit>
+            <trans-unit id="4788">
+                <source>EXTRA_SERVICES_5</source>
+                <target>Cordialement,</target>
+            </trans-unit>
+            <trans-unit id="4789">
+                <source>EXTRA_SERVICES_6</source>
+                <target>Services de voyages- Manager</target>
+            </trans-unit>
+            <trans-unit id="4790">
+                <source>EXTRA_DISCOUNT</source>
+                <target>-20%</target>
+            </trans-unit>
+            <trans-unit id="4791">
+                <source>KUBATRIP_MESSAGE_1</source>
+                <target>KubaTrip</target>
+            </trans-unit>
+            <trans-unit id="4792">
+                <source>KUBATRIP_MESSAGE_2</source>
+                <target>MyCasaParticular.com avec KubaTrip offre un groupe de services qui peuvent vous aider à découvrir Cuba: une location de voiture permettant de parcourir l´île à votre rythme, ou des transferts privés d’une destination à l’autre… des tours guidés, des vols domestiques, des excursions maritimes… Cuba à votre portée.</target>
+            </trans-unit>
+            <trans-unit id="4793">
+                <source>KUBATRIP_MESSAGE_3</source>
+                <target>Si vous avez besoin de nos services, contactez-nous à travers l’émail suivant: </target>
+            </trans-unit>
+            <trans-unit id="4794">
+                <source>HDS_ADDRESS</source>
+                <target>Rue San Nicolas 358, bas, entre San Rafael et San Miguel, Centro Habana, La Habana</target>
             </trans-unit>
         </body>
     </file>

@@ -1190,6 +1190,37 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         return array_merge($checkingGeneral, $queryOwn->getArrayResult());*/
     }
 
+    function getCheckinsServiceEmail($checkinDate) {
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("DISTINCT us.user_user_name, us.user_last_name, us.user_email, lang.lang_code")
+            ->from("mycpBundle:ownershipReservation", "owreservation")
+            ->join("owreservation.own_res_gen_res_id", "gre")
+            ->join("gre.gen_res_user_id", "us")
+            ->join('mycpBundle:userTourist', 't', Expr\Join::WITH, 'us.user_id = t.user_tourist_user')
+            ->join("t.user_tourist_language", "lang")
+            ->where("owreservation.own_res_reservation_from_date LIKE :filter_date_from")
+            ->andWhere("(gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus)")
+            ->andWhere("us.user_role = 'ROLE_CLIENT_TOURIST'")
+            ->andWhere("owreservation.own_res_status = :reservationStatus")
+            ->groupBy("gre.gen_res_id,owreservation.own_res_reservation_from_date")
+        ;
+
+        $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
+
+
+        $qb->setParameters(array(
+            'filter_date_from' => "%" . $checkinDate . "%",
+            'reservationStatus' => ownershipReservation::STATUS_RESERVED,
+            'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
+            'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
+        ));
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
     function getReservationsForNightCounterTotal() {
         $em = $this->getEntityManager();
         $query_string = "SELECT count(own_r) FROM mycpBundle:generalReservation own_r";
@@ -3209,7 +3240,7 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
 
     function getCheckinsPartner($checkinDate, $orderBy = OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE) {
 
-        $queryStr = "SELECT owreservation,owreservation.own_res_id as booking_id,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
+    $queryStr = "SELECT owreservation,owreservation.own_res_id as booking_id,gre.gen_res_id,gre.gen_res_date,gre.gen_res_total_in_site,gre.gen_res_id,
         COUNT(owreservation) as rooms,
         SUM(owreservation.own_res_count_adults) as adults,
         SUM(owreservation.own_res_count_childrens) as children,
@@ -3239,39 +3270,41 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
         GROUP BY gre.gen_res_id,owreservation.own_res_reservation_from_date
         ";
 
-        $orderByString = "";
+    $orderByString = "";
 
-        switch ($orderBy) {
-            case OrderByHelper::DEFAULT_ORDER_BY:
-            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE:
-                $orderByString .= " ORDER BY own.own_mcp_code ASC ";
-                break;
-            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE:
-                $orderByString .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC ";
-                break;
-            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_CASCODE;
-                $orderByString .= " ORDER BY gre.gen_res_id ASC ";
-                break;
-            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE;
-                $orderByString .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC ";
-                break;
-        }
-
-        $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
-
-        $em = $this->getEntityManager();
-        $query = $em->createQuery($queryStr . $orderByString);
-
-        $query->setParameters(array(
-            'filter_date_from' => "%" . $checkinDate . "%",
-            'reservationStatus' => ownershipReservation::STATUS_RESERVED,
-            'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
-            'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
-        ));
-
-        return $query->getArrayResult();
-
+    switch ($orderBy) {
+        case OrderByHelper::DEFAULT_ORDER_BY:
+        case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE:
+            $orderByString .= " ORDER BY own.own_mcp_code ASC ";
+            break;
+        case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE:
+            $orderByString .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC ";
+            break;
+        case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_CASCODE;
+            $orderByString .= " ORDER BY gre.gen_res_id ASC ";
+            break;
+        case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE;
+            $orderByString .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC ";
+            break;
     }
+
+    $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
+
+    $em = $this->getEntityManager();
+    $query = $em->createQuery($queryStr . $orderByString);
+
+    $query->setParameters(array(
+        'filter_date_from' => "%" . $checkinDate . "%",
+        'reservationStatus' => ownershipReservation::STATUS_RESERVED,
+        'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
+        'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
+    ));
+
+    return $query->getArrayResult();
+
+}
+
+
 
 
     /****************** partner ****************

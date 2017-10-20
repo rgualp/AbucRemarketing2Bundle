@@ -65,6 +65,10 @@
                         </tr>
                     </table>
                     <br/>
+            <br/>
+            {{"KUBATRIP_VOUCHER"| trans({}, "messages", user_locale) | raw}} <a href="mailto:services@mycasaparticular.com">services@mycasaparticular.com</a>. {{"KUBATRIP_VOUCHER_2"| trans({}, "messages", user_locale)}}
+            <br/>
+            <br/>
 {% for own in own_res %}
     {% if loop.index0 > 0 %}
     <div style="page-break-after: always"></div>
@@ -302,5 +306,9 @@
             <b>{{ "PREPAYMENT" | trans({}, "messages", user_locale) }}</b>: {{ "PREPAYMENT_TOOLTIP" | trans({}, "messages", user_locale) }} <br/><br/>
             <b>{{ "TOTAL_PAY_AT_SERVICE" | trans({}, "messages", user_locale) }}</b>: {{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans({}, "messages", user_locale) }} <br/><br/>
             </em>
+            <br/><br/>
+            <hr/>
+            <br/>
+            <img id="logo"  src="bundles/frontend/img/32x32.png" alt="my casa particular"/> {{ "HDS_ADDRESS" | trans({}, "messages", user_locale)}}
         </body>
 </html>

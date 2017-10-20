@@ -33,16 +33,16 @@
 
     <div style="height: 63px">
         {% if award %}
-            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 40px; position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Awards" | trans}}"/>
+            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 40px; position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" title="{{"Awards" | trans}}" alt="{{"Awards" | trans}}"/>
         {% endif %}
         <span class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</span>
     </div>
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
         {% set url_image = asset("uploads/ownershipImages/" ~ photo) %}
         {% if notLazyLoad is defined and notLazyLoad == true %}
-            <img class="lazyload" src="{{ url_image | apply_filter('mycp_thumb_front') }}" style="min-height: 200px" />
+            <img title="{{ name }}" alt="{{ name }}" class="lazyload" src="{{ url_image | apply_filter('mycp_thumb_front') }}" style="min-height: 200px" />
         {% else %}
-            <img alt="{{ name }}" id="image_acc{{ id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+            <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" title="{{ name }}" alt="{{ name }}" id="image_acc{{ id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
         {% endif %}
     </a>
 </div>
