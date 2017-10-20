@@ -593,6 +593,14 @@ class OwnershipController extends Controller
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
+        $langCountry = array(
+                'en' => 'en-us',
+                'es' => 'es-es',
+                'de' => 'de-de',
+                'it' => 'it-it',
+                'fr' => 'fr-fr' 
+        );  
+
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()) {
             return $this->render('MyCpMobileFrontendBundle:ownership:ownershipDetails.html.twig', array(
@@ -630,7 +638,8 @@ class OwnershipController extends Controller
                 'locale' => $locale,
                 'currentServiceFee' => $currentServiceFee,
                 'lastPage' => $paginator->getLastPage(),
-                'allLanguages' => $allLanguages
+                'allLanguages' => $allLanguages,
+                'langCountry' => $langCountry
             ));
         } else {
 
@@ -668,7 +677,8 @@ class OwnershipController extends Controller
                 'keywords' => $ownership_array['keywords'],
                 'currentServiceFee' => $currentServiceFee,
                 'lastPage' => $paginator->getLastPage(),
-                'allLanguages' => $allLanguages
+                'allLanguages' => $allLanguages,
+                'langCountry' => $langCountry
             ));
         }
     }
