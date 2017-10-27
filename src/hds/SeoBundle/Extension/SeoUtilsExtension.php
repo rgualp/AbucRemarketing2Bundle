@@ -21,6 +21,11 @@ class SeoUtilsExtension extends \Twig_Extension
 	 */
 	protected $blockcontent_repository;
 
+    /**
+     * @var \hds\SeoBundle\Repository\Header
+     */
+    protected $header_repository;
+
 	/**
 	 * @var Request
 	 */
@@ -36,11 +41,12 @@ class SeoUtilsExtension extends \Twig_Extension
 	 *
 	 * @param ContainerInterface $container
 	 */
-	public function __construct($container, $block_repository, $blockcontent_repository, $languaje_repository)
+	public function __construct($container, $block_repository, $blockcontent_repository, $header_repository, $languaje_repository)
 	{
 		$this->container = $container;
 		$this->block_repository = $block_repository;
 		$this->blockcontent_repository = $blockcontent_repository;
+		$this->header_repository = $header_repository;
 		$this->languaje_repository = $languaje_repository;
 
 		if ($this->container->isScopeActive('request')) {
@@ -63,8 +69,35 @@ class SeoUtilsExtension extends \Twig_Extension
 		return array(
 			new \Twig_SimpleFunction('get_metas', array($this, 'getMetas')),
 			new \Twig_SimpleFunction('get_lang', array($this, 'getLang')),
+			new \Twig_SimpleFunction('get_tagvalue_bytag', array($this, 'getTagValueByTag')),
 		);
 	}
+
+	public function getTagValueByTag($block_name, $language_code, $type_tag){
+        $block= $this->block_repository->findOneBy(array('name'=>$block_name));
+
+        if(!$block){
+            return false;
+        }
+        if(!$block->getIsActive()){
+            return false;
+        }
+
+        $header = $this->header_repository->findOneBy(array('type_tag'=>$type_tag));
+        if(!$header){
+            return false;
+        }
+        $block_contents= $this->blockcontent_repository->findOneBy(array(
+            'block'=>$block->getId(),
+            'header'=>$header->getId(),
+            'language_code'=>$language_code
+        ));
+        if(!$block_contents){
+            return false;
+        }
+
+        return $block_contents->getContent();
+    }
 
 	public function getMetas($block_name, $language_code, array $replacements=array()){
 

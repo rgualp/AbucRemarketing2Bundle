@@ -28,7 +28,7 @@ class Header
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="string", columnDefinition="enum('meta', 'link')")
+	 * @ORM\Column(type="string", columnDefinition="enum('meta', 'link', 'title')")
 	 * @Assert\NotBlank()
 	 */
 	private $type_tag;

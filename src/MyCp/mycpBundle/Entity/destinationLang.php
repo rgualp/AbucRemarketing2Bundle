@@ -24,6 +24,13 @@ class destinationLang
     /**
      * @var string
      *
+     * @ORM\Column(name="des_lang_name", type="string", length=255)
+     */
+    private $des_lang_name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="des_lang_brief", type="text")
      */
     private $des_lang_brief;
@@ -148,5 +155,23 @@ class destinationLang
     public function getDesLangLang()
     {
         return $this->des_lang_lang;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesLangName()
+    {
+        return $this->des_lang_name;
+    }
+
+    /**
+     * @param string $des_lang_name
+     */
+    public function setDesLangName($des_lang_name)
+    {
+        $this->des_lang_name = $des_lang_name;
+
+        return $this;
     }
 }
