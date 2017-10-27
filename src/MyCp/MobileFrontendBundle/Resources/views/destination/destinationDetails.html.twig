@@ -2,7 +2,11 @@
 
 {% set desName = (destination.desName | trans) %}
 {% block title %}
-    {{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}
+    {% if get_tagvalue_bytag('Destino ' ~ destination.desName, lang_code, 'title') == false %}
+        {{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}
+    {% else %}
+        {{ get_tagvalue_bytag('Destino ' ~ destination.desName, lang_code, 'title')|raw }}
+    {% endif %}
 {% endblock %}
 
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS') %}

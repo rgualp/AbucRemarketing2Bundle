@@ -448,6 +448,7 @@ class BackendDestinationController extends Controller
             {
                 $data['brief_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangBrief();
                 $data['desc_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangDesc();
+                $data['lang_name_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangName();
             }
 
             if(isset($destinationsKeywordLang[$a]))

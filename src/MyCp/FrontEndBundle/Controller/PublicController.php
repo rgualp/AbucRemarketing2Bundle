@@ -263,19 +263,31 @@ class PublicController extends Controller {
     public function getMainMenuDestinationsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $destinations = $em->getRepository('mycpBundle:destination')->getMainMenu();
+        $locale = $this->get('translator')->getLocale();
+        $destinations = $em->getRepository('mycpBundle:destination')->getLangMainMenu($locale);
 
-         $for_url = array();
 
+        $for_url = array();
+        $for_name = array();
+
+        $ulr_name = '';
         foreach ($destinations as $prov)
         {
-            $prov['des_name'] = str_replace("ñ", "nn", $prov['des_name']);
-            $for_url[$prov['des_id']] = Utils::urlNormalize($prov['des_name']);
-            $for_url[$prov['des_id']] = str_replace("nn", "ñ", $for_url[$prov['des_id']]);
+            if ( $prov['d_lang_name'] == '' ){
+                $ulr_name = $prov['dest']->getDesName();
+            }else{
+                $ulr_name = $prov['d_lang_name'];
+            }
+            $for_name[$prov['dest']->getDesId()] = $ulr_name;
+
+            $ulr_name = str_replace("ñ", "nn", $ulr_name);
+            $for_url[$prov['dest']->getDesId()] = Utils::urlNormalize($ulr_name);
+            $for_url[$prov['dest']->getDesId()] = str_replace("nn", "ñ", $for_url[$prov['dest']->getDesId()]);
         }
 
         return $this->render('FrontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
               'destinations'=>$destinations,
+              'for_name' => $for_name,
               'for_url' => $for_url
         ));
     }
@@ -319,7 +331,7 @@ class PublicController extends Controller {
     public function siteMapAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $urls = array();
+        //$url = array();
         $hostname = $this->getRequest()->getHost();
 
         $languages=$em->getRepository('mycpBundle:lang')->findBy(array('lang_active'=>1));
@@ -352,7 +364,7 @@ class PublicController extends Controller {
         //destinations
         $url_destinations=array();
         array_push($url_destinations,$url);
-        $destinations=$em->getRepository('mycpBundle:destination')->findBy(array('des_active'=>1));
+
         foreach($languages as $lang) {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
             $loc = $this->get('router')->generate('frontend_list_destinations', $routingParams);
@@ -362,9 +374,16 @@ class PublicController extends Controller {
                 'changefreq'=> 'monthly'
             );
             array_push($url_destinations,$url);
+            $destinations = $em->getRepository('mycpBundle:destination')->getLangMainMenu($lang->getLangCode());
             foreach($destinations as $destination)
             {
-                $destination_name=Utils::urlNormalize($destination->getDesName());
+                if ( $destination['d_lang_name'] == '' ){
+                    $ulr_name = $destination['dest']->getDesName();
+                }else{
+                    $ulr_name = $destination['d_lang_name'];
+                }
+
+                $destination_name = Utils::urlNormalize($ulr_name);
                 $url = array(
                     'loc' => $this->get('router')->generate('frontend_details_destination',
                             array_merge($routingParams, array('destination_name' => $destination_name))),
