@@ -1,17 +1,17 @@
 frontend_list_destinations:
-    locales:  { en: "/destinations/", es: "/destinos/", de: "/reiseziele/", fr: "/destinos/", it: "/destinos/" }
+    locales:  { en: "/destinations/", es: "/destinos/", de: "/reiseziele/", fr: "/destinations/", it: "/destinazioni/" }
     defaults: { _controller: FrontEndBundle:Destination:popularList }
 
 frontend_filter_by_municipality_destinations:
-    locales:  { en: "/destinations/{province_id}/{municipality_id}", es: "/destinos/{province_id}/{municipality_id}", de: "/reiseziele/{province_id}/{municipality_id}", fr: "/reiseziele/{province_id}/{municipality_id}", it: "/reiseziele/{province_id}/{municipality_id}" }
+    locales:  { en: "/destinations/{province_id}/{municipality_id}", es: "/destinos/{province_id}/{municipality_id}", de: "/reiseziele/{province_id}/{municipality_id}", fr: "/destinations/{province_id}/{municipality_id}", it: "/destinazioni/{province_id}/{municipality_id}" }
     defaults: { _controller: FrontEndBundle:Destination:popularList }
 
 frontend_filter_by_province_destinations:
-    locales:  { en: "/destinations-province/{province_id}", es: "/destinos-provincia/{province_id}", de: "/reiseziele-provinz/{province_id}" , fr: "/reiseziele-provinz/{province_id}", it: "/reiseziele-provinz/{province_id}" }
+    locales:  { en: "/destinations-province/{province_id}", es: "/destinos-provincia/{province_id}", de: "/reiseziele-provinz/{province_id}" , fr: "/destinations-provinz/{province_id}", it: "/destinazioni-provinz/{province_id}" }
     defaults: { _controller: FrontEndBundle:Destination:popularList }
 
 frontend_details_destination:
-    locales:  { en: "/destinations/{destination_name}", es: "/destinos/{destination_name}", de: "/reiseziele/{destination_name}", fr: "/reiseziele/{destination_name}", it: "/reiseziele/{destination_name}" }
+    locales:  { en: "/destinations/{destination_name}", es: "/destinos/{destination_name}", de: "/reiseziele/{destination_name}", fr: "/destinations/{destination_name}", it: "/destinazioni/{destination_name}" }
     defaults: { _controller: FrontEndBundle:Destination:details }
 
 frontend_filter_destination:
