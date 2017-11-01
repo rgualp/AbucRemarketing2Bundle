@@ -594,11 +594,11 @@ class OwnershipController extends Controller
         $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
         $langCountry = array(
-                'en' => 'en-us',
-                'es' => 'es-es',
-                'de' => 'de-de',
-                'it' => 'it-it',
-                'fr' => 'fr-fr' 
+                'en' => 'en-US',
+                'es' => 'es-ES',
+                'de' => 'de-DE',
+                'it' => 'it-IT',
+                'fr' => 'fr-FR'
         );  
 
         $mobileDetector = $this->get('mobile_detect.mobile_detector');

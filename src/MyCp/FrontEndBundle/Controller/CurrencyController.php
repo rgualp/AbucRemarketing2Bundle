@@ -16,6 +16,9 @@ class CurrencyController extends Controller
         $session = $request->getSession();
         $session->set("params_change_curr",$params);
         $routeParams = empty($routeParams) ? array() : $routeParams;
+
+
+
         $response = $this->render('FrontEndBundle:currency:currencies.html.twig', array(
                 'currencies' => $currencies,
                 'route' => $route,
