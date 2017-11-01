@@ -282,7 +282,6 @@ class PublicController extends Controller {
 
             $ulr_name = str_replace("ñ", "_nn_", $ulr_name);
             $for_url[$prov['dest']->getDesId()] = Utils::urlNormalize($ulr_name);
-            $for_url[$prov['dest']->getDesId()] = str_replace("_nn_", "ñ", $for_url[$prov['dest']->getDesId()]);
         }
 
         return $this->render('FrontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
