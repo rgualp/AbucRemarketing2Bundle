@@ -62,7 +62,6 @@ class LanguageController extends Controller
 
         }
 
-        $em = $this->getDoctrine()->getManager();
         $languages = $em
             ->getRepository('mycpBundle:lang')
             ->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));

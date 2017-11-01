@@ -137,11 +137,11 @@ class SeoUtilsExtension extends \Twig_Extension
             $paramas['locale'] = "es";
 
             $langCountry = array(
-            	'en' => 'en-us',
-            	'es' => 'es-es',
-            	'de' => 'de-de',
-            	'it' => 'it-it',
-            	'fr' => 'fr-fr' 
+            	'en' => 'en-US',
+            	'es' => 'es-ES',
+            	'de' => 'de-DE',
+            	'it' => 'it-IT',
+            	'fr' => 'fr-FR'
             );	
 
             if (count($allLanguage) > 0){
