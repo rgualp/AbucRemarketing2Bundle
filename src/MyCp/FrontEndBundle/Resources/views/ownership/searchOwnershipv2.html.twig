@@ -14,26 +14,20 @@
 {% endblock %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 
-{% block title %}{{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}{% endblock %}
+{% block title %}
+    {% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}
+        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+    {% else %}
+        {{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}
+    {% endif %}
+{% endblock %}
 
  {% block metas %}
-     {#{{parent()}}#}
-     {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
-     {#{% if search_text=='la habana' %}
-         {{ get_metas('casa particular habana', app.session.get('app_lang_code')|lower )|raw }}
-     {% endif %}#}
-     {#{% set page = app.request.query.get('page')  %}#}
-     {#{% set page = (page == "" or page == 0)? 1: page  %}#}
-     {#{% set next = page + 1 %}#}
-     {#{% set prev = page - 1 %}#}
-     {#{% if page == "" or page == 1 %}#}
-     {#<link rel="next" href="{{ url("frontend_search_ownership", {"page": next}) }}" />#}
-     {#{% elseif page > 1 and page < lastPage %}#}
-     {#<link rel="next" href="{{ url("frontend_search_ownership", {"page": next}) }}" />#}
-     {#<link rel="prev" href="{{ url("frontend_search_ownership", {"page": prev}) }}" />#}
-     {#{% elseif page == lastPage %}#}
-     {#<link rel="prev" href="{{ url("frontend_search_ownership", {"page": prev}) }}" />#}
-     {#{% endif %}#}
+     {% if get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower ) == false %}
+        {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+    {% else %}
+        {{ get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower )|raw }}
+    {% endif %}
  {% endblock metas %}
 
 {% block other_load_js %}

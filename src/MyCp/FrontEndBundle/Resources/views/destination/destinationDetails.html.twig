@@ -1,6 +1,7 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 
 {% set desName = (destination.desName | trans) %}
+
 {% block title %}
     {{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}
 {% endblock %}
