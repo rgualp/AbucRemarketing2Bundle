@@ -105,7 +105,7 @@ class SeoUtilsExtension extends \Twig_Extension
 		try{
 			$block= $this->block_repository->findOneBy(array('name'=>$block_name));
 			if(!$block){
-				return '<!--- Seo: Bloque "'.$block_name.'" no existe!!! --->';
+				return false;
 			}
 			if(!$block->getIsActive()){
 				return '<!---Seo: Bloque "'.$block_name.'" esta desactivado!!! --->';
