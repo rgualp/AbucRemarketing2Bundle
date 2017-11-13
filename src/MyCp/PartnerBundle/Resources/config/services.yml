@@ -92,3 +92,7 @@ services:
     mycp.partner.cancelreservation.service:
         class: MyCp\PartnerBundle\Service\CancelReservationService
         arguments: [@doctrine.orm.entity_manager, @Time, @service_container, @mycp.notification.mail.service, @templating]
+
+    mycp.partner.package.service:
+        class: MyCp\PartnerBundle\Service\PackageService
+        arguments: [@doctrine.orm.entity_manager, @service_container]

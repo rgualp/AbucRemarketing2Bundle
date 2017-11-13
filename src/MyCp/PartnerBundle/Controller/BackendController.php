@@ -66,6 +66,12 @@ class BackendController extends Controller
         $session->set("partner_exit_date",$filters['exit']);
         $start=$request->request->get('start');
         $limit=$request->request->get('limit');
+
+        $packageService = $this->get("mycp.partner.package.service");
+
+        $filters["showOnlySelectedAccommodations"] = $packageService->isSpecialPackage();
+
+
         $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
             'list' => $list
