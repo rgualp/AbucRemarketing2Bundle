@@ -280,9 +280,8 @@ class PublicController extends Controller {
             }
             $for_name[$prov['dest']->getDesId()] = $ulr_name;
 
-            $ulr_name = str_replace("ñ", "_nn_", $ulr_name);
+            $ulr_name = str_replace("ñ", "nn", $ulr_name);
             $for_url[$prov['dest']->getDesId()] = Utils::urlNormalize($ulr_name);
-            $for_url[$prov['dest']->getDesId()] = str_replace("_nn_", "ñ", $for_url[$prov['dest']->getDesId()]);
         }
 
         return $this->render('FrontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
@@ -298,9 +297,53 @@ class PublicController extends Controller {
         $provinces = $em->getRepository('mycpBundle:province')->getMainMenu();
 
         $for_url = array();
+        $locale = $this->get('translator')->getLocale();    
 
-        foreach ($provinces as $prov)
-            $for_url[$prov['prov_id']] = Utils::urlNormalize($prov['prov_name']);
+        foreach ($provinces as $prov){
+            if ( Utils::urlNormalize('la habana') == Utils::urlNormalize($prov['prov_name']) ){
+                switch ($locale) {
+                    case 'es':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('La Habana');
+                        break;
+                    case 'en':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('havana');
+                        break;
+                    case 'de':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('havanna');
+                        break;        
+                    case 'fr':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('havana');
+                        break;
+                    case 'it':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('lavana');
+                        break;    
+                    default:
+                        break;
+                }
+            }elseif ( Utils::urlNormalize('isla de la juventud') == Utils::urlNormalize($prov['prov_name']) ) {
+                switch ($locale) {
+                    case 'es':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('isla de la juventud');
+                        break;
+                    case 'en':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('isle of youth');
+                        break;
+                    case 'de':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('insel der jugend');
+                        break;        
+                    case 'fr':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('ile de la jeunesse');
+                        break;
+                    case 'it':
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('isola della gioventu');
+                        break;    
+                    default:
+                        break;
+                }
+            }else{
+                $for_url[$prov['prov_id']] = Utils::urlNormalize($prov['prov_name']);    
+            }
+        }
 
         return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,
