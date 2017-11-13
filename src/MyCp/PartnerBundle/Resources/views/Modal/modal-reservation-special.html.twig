@@ -61,9 +61,18 @@
                             <div class="inner-addon left-addon">
                                 <i class="glyphicon glyphicons user" ></i>
                                 {{ form_widget(form.name, { 'attr': {'placeholder': 'label.name.new.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                                <input type="hidden" id="partner_reservation_birthday_date" value=""/>
-                                <input type="hidden" id="partner_reservation_number" value=""/>
-                                <input type="hidden" id="partner_reservation_country" value=""/>
+                            </div>
+                            <div class="inner-addon left-addon">
+                                <i class="glyphicon glyphicons globe" ></i>
+                                {{ form_widget(form.country, { 'attr': {'placeholder': 'label.name.new.client'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control  chosen-select-deselect' }}) }}
+                            </div>
+                            <div class="inner-addon left-addon">
+                                <i class="glyphicon glyphicons calendar" ></i>
+                                {{ form_widget(form.birthday_date, { 'attr': {'placeholder': 'label.name.birthday'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control datepicker' }}) }}
+                            </div>
+                            <div class="inner-addon left-addon">
+                                <i class="glyphicon glyphicons tag" ></i>
+                                {{ form_widget(form.number, { 'attr': {'placeholder': 'label.name.reference'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                             </div>
                         </div>
                         {#<div class="row">
@@ -106,3 +115,11 @@
         </div>
     </div>
 </div>
+
+<script  type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: false,
+        autoclose: true
+    });
+</script>

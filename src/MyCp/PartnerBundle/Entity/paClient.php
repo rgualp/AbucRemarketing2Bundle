@@ -46,6 +46,13 @@ class paClient extends baseEntity
     private $country;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="birthday_date", type="date", nullable=true)
+     */
+    private $birthday_date;
+
+    /**
      * @ORM\ManyToOne(targetEntity="paTravelAgency",inversedBy="clients")
      * @ORM\JoinColumn(name="travelAgency",referencedColumnName="id")
      */
@@ -208,5 +215,25 @@ class paClient extends baseEntity
         $this->email = $email;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getBirthdayDate()
+    {
+        return $this->birthday_date;
+    }
+
+    /**
+     * @param string $birthday_date
+     * @return mixed
+     */
+    public function setBirthdayDate($birthday_date)
+    {
+        $this->birthday_date = $birthday_date;
+        return $this;
+    }
+
+
 
 }

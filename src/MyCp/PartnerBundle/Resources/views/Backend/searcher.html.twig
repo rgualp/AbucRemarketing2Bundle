@@ -293,4 +293,8 @@
     </div>
 </div>
 {#-----Modal-----#}
-{{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}
+{% if isSpecialPackage %}
+    {{ include('PartnerBundle:Modal:modal-reservation-special.html.twig') }}
+{% else %}
+    {{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}
+{% endif %}

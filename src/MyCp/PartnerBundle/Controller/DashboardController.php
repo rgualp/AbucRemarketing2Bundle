@@ -9,6 +9,7 @@ use MyCp\PartnerBundle\Entity\paCancelPayment;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use MyCp\PartnerBundle\Entity\paPendingPaymentAgency;
 use MyCp\PartnerBundle\Form\FilterOwnershipType;
+use MyCp\PartnerBundle\Form\paReservationExtendedType;
 use MyCp\PartnerBundle\Form\paReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -1072,8 +1073,10 @@ class DashboardController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $packageService = $this->get("mycp.partner.package.service");
+        $isSpecialPackage = $packageService->isSpecialPackageFromAgency($travelAgency);
 
-        $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
+        $form = ($isSpecialPackage) ? $this->createForm(new paReservationExtendedType($this->get('translator'), $travelAgency)) : $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
 
         $curr = $this->getCurr($request);
 
@@ -1123,7 +1126,8 @@ class DashboardController extends Controller
             'languages' => $languages,
             'keywords' => $ownership_array['keywords'],
             'locale' => $locale,
-            'currentServiceFee' => $currentServiceFee
+            'currentServiceFee' => $currentServiceFee,
+            "isSpecialPackage" => $isSpecialPackage
         ));
 
     }
@@ -1887,18 +1891,37 @@ class DashboardController extends Controller
 
         //Adding new reservation
         $clientName = $request->get("clientName");
-
         if($clientName == "")
             $clientName = $request->get("partnerClientName");
+
+        $clientId = $request->get("clientId");
+        if($clientId == "")
+            $clientId = $request->get("partnerClientId");
+
+        $clientCountry = $request->get("clientCountry");
+        if($clientCountry == "")
+            $clientCountry = $request->get("partnerClientCountry");
+
+        $clientBirthday = $request->get("clientBirthday");
+        if($clientBirthday == "")
+            $clientBirthday = $request->get("partnerClientBirthday");
+
+        $reservationNumber = $request->get("reservationNumber");
+        if($reservationNumber == "")
+            $reservationNumber = $request->get("partnerReservationReference");
+
+        $client = array(
+            "clientName" => $clientName,
+            "clientCountry" => $clientCountry,
+            "clientId" => $clientId,
+            "clientBirthday" => $clientBirthday,
+        );
 
         $dateFrom = $min_date;
         $dateTo = $max_date;
 //        $adults = $request->get("adults");
 //        $children = $request->get("children");
-        $clientId = $request->get("clientId");
 
-        if($clientId == "")
-            $clientId = $request->get("partnerClientId");
 
         $accommodationId = $id_ownership;
         //$roomType = $request->get("roomType");
@@ -1912,7 +1935,7 @@ class DashboardController extends Controller
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
         $translator = $this->get('translator');
-        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($general_reservation, $travelAgency, $clientName, $adults = 0, $children = 0, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator, $clientId, null, null/*,$clientEmail*/);
+        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($general_reservation, $travelAgency, $client, $adults = 0, $children = 0, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator, $reservationNumber, null, null/*,$clientEmail*/);
         return true;
     }
 

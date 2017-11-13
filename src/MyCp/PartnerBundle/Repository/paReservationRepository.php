@@ -41,12 +41,24 @@ class paReservationRepository extends EntityRepository {
             ->getQuery()->getResult();
     }
 
-    public function newReservation($generalReservation,$agency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container, $translator,$clientId, $roomType = null, $roomsTotal= null/*,$clientEmail*/)
+    public function newReservation($generalReservation,$agency, $clientData, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $container, $translator,$reservationNumber, $roomType = null, $roomsTotal= null/*,$clientEmail*/)
     {
         $em = $this->getEntityManager();
-        if($clientId!=''){
-            $client = $em->getRepository('PartnerBundle:paClient')->find($clientId);
-            $client->setFullName(trim(strtolower($clientName)));
+        $country = null;
+        $birthday = null;
+        if($clientData["clientCountry"] != ""){
+            $country = $em->getRepository("mycpBundle:country")->find($clientData["clientCountry"]);
+        }
+
+        if($clientData["clientBirthday"] != ""){
+            $birthday = \DateTime::createFromFormat("Y-m-d", $clientData["clientBirthday"]);
+        }
+
+        if($clientData["clientId"]!=''){
+            $client = $em->getRepository('PartnerBundle:paClient')->find($clientData["clientId"]);
+            $client->setFullName(trim(strtolower($clientData["clientName"])));
+            $client->setCountry($country);
+            $client->setBirthdayDate($birthday);
             //$client->setEmail(trim(strtolower($clientEmail)));
             $em->persist($client);
             $em->flush();
@@ -59,15 +71,17 @@ class paReservationRepository extends EntityRepository {
             ->where("client.fullname = :fullname")
                 //->andWhere("agency.id = :travelAgencyId")
                 ->setMaxResults(1)
-            ->setParameter("fullname", $clientName)
+            ->setParameter("fullname", $clientData["clientName"])
                 //->setParameter("travelAgencyId", $agency->getId())
                 ->getQuery()->getOneOrNullResult();
 
             if($client == null)
             {
                 $client = new paClient();
-                $client->setFullName(trim(strtolower($clientName)))
-                    ->setTravelAgency($agency);
+                $client->setFullName(trim(strtolower($clientData["clientName"])))
+                    ->setTravelAgency($agency)
+                    ->setCountry($country)
+                    ->setBirthdayDate($birthday);
                     //->setEmail(trim(strtolower($clientEmail)));
                 $em->persist($client);
             }
@@ -94,6 +108,7 @@ class paReservationRepository extends EntityRepository {
 
         }
 
+        $openReservation->setReference($reservationNumber);
         $openReservation->setAdults($adults)
             ->setChildren($children);
 

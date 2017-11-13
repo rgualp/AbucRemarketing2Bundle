@@ -2322,6 +2322,14 @@
           <source>label.reserv.inmediatly2</source>
           <target state="new">Reserva Inmediata</target>
         </trans-unit>
+      <trans-unit id="24">
+          <source>label.name.birthday</source>
+          <target state="new">Fecha de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="25">
+          <source>label.name.reference</source>
+          <target state="new">Referencia de reserva</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
