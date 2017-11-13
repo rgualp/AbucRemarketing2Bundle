@@ -253,8 +253,11 @@ class paReservationRepository extends EntityRepository {
             accommodation.own_commission_percent as commission,
             reservation.id as idReservation,
             client.fullname,
+            co.co_id as country,
+            client.birthday_date,
             genRes.servicedinner as dinner,
-            genRes.servicefast as breakfast
+            genRes.servicefast as breakfast,
+            reservation.reference
             ")
             ->from("mycpBundle:ownershipReservation", "ownRes")
             ->join("ownRes.own_res_gen_res_id", "genRes")
@@ -263,6 +266,7 @@ class paReservationRepository extends EntityRepository {
             ->join("genRes.travelAgencyDetailReservations", "detail")
             ->join("detail.reservation", "reservation")
             ->join("reservation.client", "client")
+            ->join("client.country", "co")
             ->where('ownRes.own_res_id IN (:reservationIds)')
             ->andWhere("ownRes.own_res_status = :availableStatus")
             ->setParameter("reservationIds", $reservationIds, Connection::PARAM_STR_ARRAY)
