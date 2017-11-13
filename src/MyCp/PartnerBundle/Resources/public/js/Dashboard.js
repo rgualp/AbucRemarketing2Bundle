@@ -1002,7 +1002,7 @@ var Dashboard = function () {
             onclickBtnResetFormReservation();
 
             $('.datepicker').datepicker({
-                format: 'dd/mm/yyyy',
+                format: 'yyyy-mm-dd',
                 todayBtn: false,
                 autoclose: true
             });

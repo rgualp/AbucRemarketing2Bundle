@@ -174,12 +174,16 @@ class CartController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ownReservationIds = $request->get("checkValues");
+
         $timer = $this->get("Time");
         $user = $this->getUser();
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
         $completePayment = $agencyPackage->getPackage()->getCompletePayment();
+
+        $packageService = $this->get("mycp.partner.package.service");
+        $isSpecial = $packageService->isSpecialPackageFromAgency($currentTravelAgency);
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
         $payments = array();
@@ -198,6 +202,7 @@ class CartController extends Controller
         $fixedFee = $currentServiceFee->getFixedFee();
 
         $itemsTotal = 0;
+        $totalPayment = 0;
 
         foreach($list as $item)
         {
@@ -284,11 +289,22 @@ class CartController extends Controller
             $totalOnlinePayment = $totalPrepayment - $totalAgencyCommission;
         }
 
-        $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
-            'items' => $list,
-            'payments' => $payments,
-            'completePayment' => $completePayment
-        ));
+        if($isSpecial)
+        {
+            $response = $this->renderView('PartnerBundle:Cart:selected_to_pay_special.html.twig', array(
+                'items' => $list,
+                'payments' => $payments,
+                'completePayment' => $completePayment
+            ));
+        }
+        else{
+            $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
+                'items' => $list,
+                'payments' => $payments,
+                'completePayment' => $completePayment
+            ));
+        }
+
 
         //$totalPayAtAccommodation = ($completePayment) ? $totalAccommodationPayment : $totalAccommodationPayment - $totalPercentAccommodationPrepayment;
         if(!$completePayment) {
