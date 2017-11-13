@@ -21,7 +21,7 @@
     </div>
     #}
 
-    <div class="row" id="selectedReservations"  data-special="0">
+    <div class="row" id="selectedReservations" data-special="1">
 
     </div>
 
@@ -30,16 +30,16 @@
     <div class="row hide MyriadProRegular blue-font" id="rowTotalPrepaymentGeneral" style="margin: 5px 20px; font-size: 30px;">
         <div class="container">
 
-            <div class="col-sm-4 text-center checkbox_skrill MyriadProBold" style="font-size: 20px; ">
-                <img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/skrill.gif') }}" alt="{{"Skrill" | trans}}">
-                <input type="radio" class="i-checks" name="payment_method" value="skrill" checked> {{"SKRILL_PAYMENT" | trans}} </label>
-            </div>
-            <div class="col-sm-5 text-center MyriadProBold" style="font-size: 20px; ">
-                <img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="{{"Postfinance" | trans}}">
-                <input type="radio" class="i-checks" name="payment_method" value="postfinance"> {{"POSTFINANCE_PAYMENT" | trans}} </label>
-            </div>
-            <div class="col-sm-3">
-                {{ 'payment.online_prepayment' | trans }}: <span id="totalPrepaymentGeneral"></span>
+            {#<div class="col-sm-4 text-center checkbox_skrill MyriadProBold" style="font-size: 20px; ">#}
+                {#<img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/skrill.gif') }}" alt="{{"Skrill" | trans}}">#}
+                {#<input type="radio" class="i-checks" name="payment_method" value="skrill" checked> {{"SKRILL_PAYMENT" | trans}} </label>#}
+            {#</div>#}
+            {#<div class="col-sm-5 text-center MyriadProBold" style="font-size: 20px; ">#}
+                {#<img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="{{"Postfinance" | trans}}">#}
+                {#<input type="radio" class="i-checks" name="payment_method" value="postfinance"> {{"POSTFINANCE_PAYMENT" | trans}} </label>#}
+            {#</div>#}
+            <div class="col-sm-6">
+                {{ 'payment.total' | trans }}: <span id="totalPrepaymentGeneral"></span>
                 <input type="hidden" name="totalPrepaymentGeneralInput" id="totalPrepaymentGeneralInput"/>
                 <input type="hidden" name="completePayment" id="completePayment"/>
                 <input type="hidden" name="totalTouristAgencyTax" id="totalTouristAgencyTax"/>
@@ -55,15 +55,10 @@
             </a>
         </div>
         <div class="col-md-4 text-center">
-            <a class="bg-blue color-white payButton" id="payNow">
-                <i class="glyphicons coins"></i> {{ "pay_action" | trans }}</a>
+            <a class="bg-blue color-white payButton" id="generateVouchers">
+                <i class="glyphicons coins"></i> {{ "payment.generate.vouchers" | trans }}</a>
             </a>
         </div>
-        {#<div class="col-md-4">#}
-            {#<a class="bg-blue color-white payButton" href="{{ path("backend_partner_seacrh") }}">#}
-                {#<i class="glyphicons search"></i> {{ "cart.search_again" | trans }}</a>#}
-            {#</a>#}
-        {#</div>#}
     </div>
 
 </div>

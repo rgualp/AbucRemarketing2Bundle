@@ -2330,6 +2330,14 @@
           <source>label.name.reference</source>
           <target state="new">Referencia de reserva</target>
       </trans-unit>
+      <trans-unit id="26">
+          <source>payment.total.price</source>
+          <target state="new">Total a pagar</target>
+      </trans-unit>
+      <trans-unit id="27">
+          <source>payment.generate.vouchers</source>
+          <target state="new">Generar vouchers</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

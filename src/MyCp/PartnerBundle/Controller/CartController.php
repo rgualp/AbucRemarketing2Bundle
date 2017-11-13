@@ -41,6 +41,7 @@ class CartController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $packageService = $this->get("mycp.partner.package.service");
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
 
@@ -70,7 +71,8 @@ class CartController extends Controller
         return $this->render('PartnerBundle:Cart:cart.html.twig', array(
             "items" => $cartItems,
             "details" => $details,
-            "disablePaymentButton" => (count($ids_gr) > 0)
+            "disablePaymentButton" => (count($ids_gr) > 0),
+            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency)
         ));
     }
 
@@ -444,6 +446,7 @@ class CartController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $packageService = $this->get("mycp.partner.package.service");
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
 
@@ -473,7 +476,8 @@ class CartController extends Controller
         return $this->render('PartnerBundle:Cart:cart.html.twig', array(
             "items" => $cartItems,
             "details" => $details,
-            "disablePaymentButton" => (count($ids_gr) > 0)
+            "disablePaymentButton" => (count($ids_gr) > 0),
+            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency)
         ));
     }
 
