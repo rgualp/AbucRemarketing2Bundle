@@ -931,6 +931,51 @@ var Dashboard = function () {
             });*/
         });
     }
+    var onGenerateVouchersButton = function () {
+        $("#generateVouchers").on('click', function () {
+            $("#overlayLoading").removeClass("hide");
+            $(".payButton").attr("disabled", "true");
+            var cartPrepayment = $("#totalPrepaymentGeneralInput").val();
+            //var _url = $(this).data("url");
+            var roomsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function () {
+                return $(this).data('owresid');
+            }).get();
+            $("#roomsToPay").val(roomsToPay);
+
+            var reservationsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function () {
+                return $(this).data('idreservation') + "-" + $(this).data('genresid');
+            }).get();
+            $("#paymentExtraData").val(reservationsToPay);
+
+            /* var extraData = $('select.arrivalTime').map(function () {
+             var genResId = $(this).data('genresid');
+             return {
+             "genResId": genResId,
+             "arrivalTime": $(this).val(),
+             "clientName": $("#clientName_" + genResId).val(),
+             "idReservation": $(this).data("idreservation")
+             };
+             }).get();
+             $("#paymentExtraData").val(extraData);*/
+
+            var form = $("#paPaymentForm");
+            form.submit();
+
+            //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
+            /*$.post(_url, {
+             'roomsToPay': roomsToPay,
+             'extraData': extraData,
+             'cartPrepayment': cartPrepayment
+             }, function (response) {
+
+             if (response.success) {
+             if (response.url != "") {
+             window.location = response.url;
+             }
+             }
+             });*/
+        });
+    }
     var onclickAddClient=function(){
         $('#add-client').on('click',function(){
             $('#row-name').removeClass('hide');
@@ -992,6 +1037,7 @@ var Dashboard = function () {
             onEmptyCartButton();
             onShowMorePaymentButton();
             onPayNowButton();
+            onGenerateVouchersButton();
 
             infiniteScroll();
             details_favorites("#delete_from_favorites");

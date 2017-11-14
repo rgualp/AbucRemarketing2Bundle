@@ -32,7 +32,7 @@ class PackageService extends Controller
     }
 
     public function isSpecialPackage(){
-        return $this->getActivePackage()->getName() == "Especial";
+        return $this->getActivePackage()->isSpecial();
     }
 
     public function getActivePackageFromAgency($travelAgency)
@@ -42,6 +42,6 @@ class PackageService extends Controller
 
     public function isSpecialPackageFromAgency($travelAgency)
     {
-        return $this->getActivePackageFromAgency($travelAgency)->getName() == "Especial";
+        return $this->getActivePackageFromAgency($travelAgency)->isSpecial();
     }
 }

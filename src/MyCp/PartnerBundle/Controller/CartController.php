@@ -365,7 +365,9 @@ class CartController extends Controller
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
-        $completePayment = $agencyPackage->getPackage()->getCompletePayment();
+        $package = $agencyPackage->getPackage();
+        $completePayment = $package->getCompletePayment();
+        $isSpecialPackage = $package->isSpecial();
 
         $roomsToPay = $request->get("roomsToPay");
         $roomsToPay = explode(",", $roomsToPay);
@@ -384,30 +386,45 @@ class CartController extends Controller
             $dataValues = explode("-", $data);
             $idReservation = $dataValues[0];
             $genResId = $dataValues[1];
-            $arrivalHour = $request->get("arrivalHour_".$idReservation);
             $clientName = $request->get("clientName_".$idReservation);
 
             $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($genResId);
             $reservation = $em->getRepository("PartnerBundle:paReservation")->find($idReservation);
-
-            if($arrivalHour != "") {
-                $generalReservation->setGenResArrivalHour($arrivalHour);
-                $em->persist($generalReservation);
-
-                $timeExplode = explode(":", $arrivalHour);
-                $time = new \DateTime();
-                $time->setTime($timeExplode[0], $timeExplode[1], 0);
-
-                $reservation->setArrivalHour($time);
-                $em->persist($reservation);
-            }
+            $client = $reservation->getClient();
 
             if($clientName != "") {
-                $client = $reservation->getClient();
-
                 $client->setFullname($clientName);
-                $em->persist($client);
             }
+
+            if($isSpecialPackage){
+                $country = $request->get("country_".$idReservation);
+                $comments = $request->get("comments_".$idReservation);
+                $reference = $request->get("reference_".$idReservation);
+
+                $client->setComments($comments);
+                $reservation->setReference($reference);
+
+                if($country != "")
+                {
+                    $countryEntity = $em->getRepository("mycpBundle:country")->find($country);
+                    $client->setCountry($countryEntity);
+                }
+            }
+            else{
+                $arrivalHour = $request->get("arrivalHour_".$idReservation);
+                if($arrivalHour != "") {
+                    $generalReservation->setGenResArrivalHour($arrivalHour);
+                    $em->persist($generalReservation);
+
+                    $timeExplode = explode(":", $arrivalHour);
+                    $time = new \DateTime();
+                    $time->setTime($timeExplode[0], $timeExplode[1], 0);
+
+                    $reservation->setArrivalHour($time);
+                    $em->persist($reservation);
+                }
+            }
+            $em->persist($client);
 
             $em->flush();
         }
@@ -450,6 +467,7 @@ class CartController extends Controller
             case "postfinance": return $this->forward('PartnerBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "POSTFINANCE"));
 //                    case "visa": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
 //                    case "mastercard": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "MASTERCARD"));
+            //case "generateVouchersOnly": sd
             default: return $this->forward('PartnerBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
         }
     }
