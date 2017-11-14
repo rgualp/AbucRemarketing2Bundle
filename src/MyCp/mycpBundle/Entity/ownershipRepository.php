@@ -2205,6 +2205,7 @@ class ownershipRepository extends EntityRepository {
             $commentsTotal += $comment->getComRate();
 
         $reservationsTotal = count($em->getRepository("mycpBundle:generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
+        $reservationsTotal += count($em->getRepository("mycpBundle:generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_PENDING_PAYMENT_PARTNER)));
 
         return sqrt(($commentsTotal + 1) * ($reservationsTotal + 1) * ($reservationsTotal + 1));
     }

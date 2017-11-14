@@ -421,9 +421,9 @@ class CartController extends Controller
                     $time->setTime($timeExplode[0], $timeExplode[1], 0);
 
                     $reservation->setArrivalHour($time);
-                    $em->persist($reservation);
                 }
             }
+            $em->persist($reservation);
             $em->persist($client);
 
             $em->flush();
@@ -445,6 +445,7 @@ class CartController extends Controller
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
         $booking->setCompletePayment($completePayment);
         $booking->setTaxForService($totalTouristAgencyTax);
+        $booking->setStatus(booking::STATUS_PENDING_PAYMENT);
         $em->persist($booking);
 
         $total_pay_at_service = 0;
@@ -467,7 +468,7 @@ class CartController extends Controller
             case "postfinance": return $this->forward('PartnerBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "POSTFINANCE"));
 //                    case "visa": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
 //                    case "mastercard": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "MASTERCARD"));
-            //case "generateVouchersOnly": sd
+            case "generateVouchersOnly": return $this->forward('PartnerBundle:Payment:generateVoucherPartner', array('bookingId' => $bookingId));
             default: return $this->forward('PartnerBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
         }
     }

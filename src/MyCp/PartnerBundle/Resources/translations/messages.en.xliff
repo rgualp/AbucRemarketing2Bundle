@@ -2340,6 +2340,10 @@
           <source>payment.generate.vouchers</source>
           <target state="new">Generate vouchers</target>
       </trans-unit>
+      <trans-unit id="28">
+          <source>payment.book_now</source>
+          <target state="new">Book now!!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
