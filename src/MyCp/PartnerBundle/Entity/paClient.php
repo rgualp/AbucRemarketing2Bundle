@@ -59,6 +59,13 @@ class paClient extends baseEntity
     private $travelAgency;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="comments", type="text", nullable=true)
+     */
+    private $comments;
+
+    /**
      * @ORM\OneToMany(targetEntity="paReservation", mappedBy="client")
      */
     private $reservations;
@@ -231,6 +238,24 @@ class paClient extends baseEntity
     public function setBirthdayDate($birthday_date)
     {
         $this->birthday_date = $birthday_date;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param string $comments
+     * @return mixed
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
         return $this;
     }
 
