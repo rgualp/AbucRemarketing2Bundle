@@ -1902,9 +1902,9 @@ class DashboardController extends Controller
         if($clientCountry == "")
             $clientCountry = $request->get("partnerClientCountry");
 
-        $clientBirthday = $request->get("clientBirthday");
-        if($clientBirthday == "")
-            $clientBirthday = $request->get("partnerClientBirthday");
+        $clientComments = $request->get("clientComments");
+        if($clientComments == "")
+            $clientComments = $request->get("partnerClientComments");
 
         $reservationNumber = $request->get("reservationNumber");
         if($reservationNumber == "")
@@ -1914,7 +1914,7 @@ class DashboardController extends Controller
             "clientName" => $clientName,
             "clientCountry" => $clientCountry,
             "clientId" => $clientId,
-            "clientBirthday" => $clientBirthday,
+            "clientComments" => $clientComments,
         );
 
         $dateFrom = $min_date;

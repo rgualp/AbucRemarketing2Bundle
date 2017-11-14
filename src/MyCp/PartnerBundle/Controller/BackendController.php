@@ -161,7 +161,8 @@ class BackendController extends Controller
             "clientName" => $request->get("clientName"),
             "clientCountry" => $request->get("clientCountry"),
             "clientId" => $request->get("clientId"),
-            "clientBirthday" => $request->get("clientBirthday"),
+            //"clientBirthday" => $request->get("clientBirthday"),
+            "clientComments" => $request->get("clientComments"),
         );
         //$clientEmail= $request->get("clientEmail");
 
@@ -483,8 +484,9 @@ class BackendController extends Controller
             'success' => true,
             'fullname'=>$client->getFullName(),
             'email'=>$client->getEmail(),
-            'country' => $client->getCountry()->getCoId(),
-            'birthday' => $client->getBirthdayDate()->format("Y-m-d")
+            'country' => ($client->getCountry() != null) ? $client->getCountry()->getCoId() : 0,
+            //'birthday' => $client->getBirthdayDate()->format("Y-m-d"),
+            "comments" => $client->getComments()
         ]);
     }
 

@@ -264,7 +264,7 @@
       </trans-unit>
       <trans-unit id="c3be17b5a23d2e02581ea55dceb655e56f217a06" resname="FORMS_COMMENTS">
         <source>FORMS_COMMENTS</source>
-        <target state="new">FORMS_COMMENTS</target>
+        <target state="new">Comentarios</target>
       </trans-unit>
       <trans-unit id="bc6ab67e1e5698bda61f2ba71f2e0a2aa1e6f147" resname="FORMS_EMAIL">
         <source>FORMS_EMAIL</source>

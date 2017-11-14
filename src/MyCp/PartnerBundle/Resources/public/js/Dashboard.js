@@ -948,7 +948,7 @@ var Dashboard = function () {
                  }, function (response) {
                      if (response.success) {
                          $("#partner_reservation_name").val(response.fullname);
-                         $("#partner_reservation_birthday_date").val(response.birthday);
+                         $("#partner_reservation_comments").val(response.comments);
                          $("#partner_reservation_country").val(response.country);
                         // $("#partner_reservation_email").val(response.email);
                      }

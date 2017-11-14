@@ -55,7 +55,7 @@ class paReservationExtendedType extends AbstractType
                 'empty_value' => "",
                 'required' => false,
                 'multiple' => false])
-            ->add('birthday_date', 'text', array('required' => false, 'attr' => array('class' => 'form-control datepicker')))
+            ->add('comments', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
             ->add('number', 'text', array('required' => false, 'attr' => array('class' => 'form-control')))
         ;
     }

@@ -296,7 +296,7 @@
                         <input type="hidden"  value="" name="check_dispo" id="check_dispo"/>
                         <input type="hidden"  value="" name="partnerClientName" id="partnerClientName"/>
                         <input type="hidden"  value="" name="partnerClientCountry" id="partnerClientCountry"/>
-                        <input type="hidden"  value="" name="partnerClientBirthday" id="partnerClientBirthday"/>
+                        <input type="hidden"  value="" name="partnerClientComments" id="partnerClientComments"/>
                         <input type="hidden"  value="" name="partnerReservationReference" id="partnerReservationReference"/>
                         <input type="hidden"  value="" name="partnerClientId" id="partnerClientId"/>
                         <input type="hidden"  value="" name="servicefast" id="servicefast"/>
@@ -342,7 +342,7 @@
             }, function (response) {
                 if (response.success) {
                     $("#partner_reservation_name").val(response.fullname);
-                    $("#partner_reservation_birthday_date").val(response.birthday);
+                    $("#partner_reservation_comments").val(response.comments);
                     $("#partner_reservation_country").val(response.country);
                     // $("#partner_reservation_email").val(response.email);
                 }
@@ -353,14 +353,17 @@
         $("#partnerClientName").val($('#partner_reservation_name').val());
         $("#partnerClientId").val($('#partner_reservation_client').val());
     });
-    $('#partner_reservation_birthday_date').change(function() {
-        $("#partnerClientBirthday").val($('#partner_reservation_birthday_date').val());
-    });
+//    $('#partner_reservation_birthday_date').change(function() {
+//        $("#partnerClientBirthday").val($('#partner_reservation_birthday_date').val());
+//    });
     $('#partner_reservation_number').change(function() {
         $("#partnerReservationReference").val($('#partner_reservation_number').val());
     });
     $('#partner_reservation_country').change(function() {
         $("#partnerClientCountry").val($('#partner_reservation_country').val());
+    });
+    $('#partner_reservation_comments').change(function() {
+        $("#partnerClientComments").val($('#partner_reservation_comments').val());
     });
 
     var form = $("#form-check-available");
@@ -369,13 +372,15 @@
                 var clientName = $("#partner_reservation_name").val();
                 var clientId = $("#partner_reservation_client").val();
                 var clientCountry = $("#partner_reservation_country").val();
-                var clientBirthday = $("#partner_reservation_birthday_date").val();
+                //var clientBirthday = $("#partner_reservation_birthday_date").val();
+                var clientComments = $("#partner_reservation_comments").val();
                 var reservationNumber = $("#partner_reservation_number").val();
                 var formData = new FormData(form[0]);
                 formData.append("clientName", clientName);
                 formData.append("clientId", clientId);
                 formData.append("clientCountry", clientCountry);
-                formData.append("clientBirthday", clientBirthday);
+                //formData.append("clientBirthday", clientBirthday);
+                formData.append("clientComments", clientComments);
                 formData.append("reservationNumber", reservationNumber);
 
                 if($('#check_dispo').val()!=2){

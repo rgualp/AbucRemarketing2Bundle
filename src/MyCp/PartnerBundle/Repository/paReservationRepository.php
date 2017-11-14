@@ -45,20 +45,21 @@ class paReservationRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
         $country = null;
-        $birthday = null;
+        //$birthday = null;
         if($clientData["clientCountry"] != ""){
             $country = $em->getRepository("mycpBundle:country")->find($clientData["clientCountry"]);
         }
 
-        if($clientData["clientBirthday"] != ""){
-            $birthday = \DateTime::createFromFormat("Y-m-d", $clientData["clientBirthday"]);
-        }
+//        if($clientData["clientBirthday"] != ""){
+//            $birthday = \DateTime::createFromFormat("Y-m-d", $clientData["clientBirthday"]);
+//        }
 
         if($clientData["clientId"]!=''){
             $client = $em->getRepository('PartnerBundle:paClient')->find($clientData["clientId"]);
             $client->setFullName(trim(strtolower($clientData["clientName"])));
             $client->setCountry($country);
-            $client->setBirthdayDate($birthday);
+            //$client->setBirthdayDate($birthday);
+            $client->setComments($clientData["clientComments"]);
             //$client->setEmail(trim(strtolower($clientEmail)));
             $em->persist($client);
             $em->flush();
@@ -81,7 +82,8 @@ class paReservationRepository extends EntityRepository {
                 $client->setFullName(trim(strtolower($clientData["clientName"])))
                     ->setTravelAgency($agency)
                     ->setCountry($country)
-                    ->setBirthdayDate($birthday);
+                    ->setComments(trim($clientData["clientComments"]));
+                    //->setBirthdayDate($birthday);
                     //->setEmail(trim(strtolower($clientEmail)));
                 $em->persist($client);
             }
@@ -254,7 +256,7 @@ class paReservationRepository extends EntityRepository {
             reservation.id as idReservation,
             client.fullname,
             co.co_id as country,
-            client.birthday_date,
+            client.comments,
             genRes.servicedinner as dinner,
             genRes.servicefast as breakfast,
             reservation.reference
