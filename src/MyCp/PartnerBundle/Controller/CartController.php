@@ -238,15 +238,15 @@ class CartController extends Controller
                     "dinner"=>$dinner,
                     "breakfast"=>$breakfast,
                     "agency_tax"=>($item["totalInSite"]+$dinner+$breakfast)*0.1,
-                    "taxFees" => $touristFee + $fixedFee
+                    "taxFees" => $touristFee
                 );
             }
             else{ // agregar la tarfia fija a los calculos
-                $subTotal = ($itemsTotal == count($list)) ? ($item["totalInSite"] + $touristFee + $fixedFee) : ($item["totalInSite"] + $touristFee);
-                $addFixedFee = ($itemsTotal == count($list)) ? $fixedFee : 0;
+                $subTotal = $item["totalInSite"] + $touristFee;
+
                 $transferFee =  0.1 *  $subTotal;
                 $agencyCommission = $subTotal * $currentTravelAgency->getCommission() / 100;
-                $totalPayment = $item["totalInSite"] + $touristFee + $transferFee + $addFixedFee;
+                $totalPayment = $item["totalInSite"] + $touristFee + $transferFee;
                 $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
                 $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
                 $totalPayment += $dinner + $breakfast;
@@ -279,15 +279,15 @@ class CartController extends Controller
             }
         }
 
-        if(!$completePayment)
+        /*if(!$completePayment)
             $totalPrepayment += $currentServiceFee->getFixedFee();
         else
-        {
+        {*/
             /*$totalPrepayment += 1.1*$currentServiceFee->getFixedFee();
             $totalTransferFee += 0.1*$currentServiceFee->getFixedFee();
             $totalAgencyCommission += $currentServiceFee->getFixedFee() * $currentTravelAgency->getCommission() / 100;*/
             $totalOnlinePayment = $totalPrepayment - $totalAgencyCommission;
-        }
+        //}
 
         if($isSpecial)
         {
@@ -321,8 +321,8 @@ class CartController extends Controller
                 'totalServiceTaxPaymentTxt' => number_format($totalServicesTax * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'fixedTax' => $fixedFee,
                 'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
-                'totalPayment' => $totalAccommodationPayment + $totalServicesTax + $fixedFee,
-                'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax + $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalPayment' => $totalAccommodationPayment + $totalServicesTax,
+                'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
                 'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
@@ -341,8 +341,8 @@ class CartController extends Controller
                 'totalPrepaymentTxt' => number_format($totalOnlinePayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalAccommodationPayment' => $totalAccommodationPayment,
                 'totalAccommodationPaymentTxt' => number_format($totalAccommodationPayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
-                'totalServiceTaxPayment' => $totalServicesTax + 1.1 * $fixedFee,
-                'totalServiceTaxPaymentTxt' => number_format(($totalServicesTax + 1.1 * $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalServiceTaxPayment' => $totalServicesTax,
+                'totalServiceTaxPaymentTxt' => number_format($totalServicesTax, 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'fixedTax' => $fixedFee,
                 'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPayment' => $totalPrepayment,
