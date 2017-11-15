@@ -185,7 +185,7 @@
             </tr>
             {% set fixedTax = 0 %}
             {% if own_res | length == 1 and not booking.completePayment %}
-                {% set fixedTax = service_charge_total %}
+                {#{% set fixedTax = service_charge_total %}#}
                 <tr>
                     <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</h4></td>

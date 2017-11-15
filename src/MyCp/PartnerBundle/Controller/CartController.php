@@ -208,7 +208,8 @@ class CartController extends Controller
         {
             $itemsTotal++;
 
-            $touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
+            //$touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
+            $touristFee = $item["totalInSite"]*0.1;
             $commission = $item["totalInSite"]*$item["commission"]/100;
 
             $totalTouristAgencyTax += $touristFee;

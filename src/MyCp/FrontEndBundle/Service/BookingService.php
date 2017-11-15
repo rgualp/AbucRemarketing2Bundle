@@ -129,14 +129,14 @@ class BookingService extends Controller
 
             }
 
-            if(($serviceChargeInCuc == 0) || ($serviceChargeInCuc != $own_r["fixedFee"] && $own_r["currentFee"]))
-            {
-                $serviceChargeInCuc = $own_r["fixedFee"];
-            }
+//            if(($serviceChargeInCuc == 0) || ($serviceChargeInCuc != $own_r["fixedFee"] && $own_r["currentFee"]))
+//            {
+//                $serviceChargeInCuc = $own_r["fixedFee"];
+//            }
 
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
             $totalRooms = count($ownReservations);
-            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($totalNights/$totalRooms), $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
+            $tax = 0.1;//$em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($totalNights/$totalRooms), $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
 
             $touristTaxTotal += $totalPrice * $tax;
 
