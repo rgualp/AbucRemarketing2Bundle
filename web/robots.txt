@@ -3,9 +3,24 @@ Disallow: /backend
 Disallow: /mycasa
 Disallow: /ownership/calendar
 Disallow: /casa/calendario
-
-
-
+Disallow: /en/ownership/calendar
+Disallow: /fr/hebergement/
+Disallow: /it/unterkuenfte/santa-clara/
+Disallow: /fr/unterkuenfte/santa-clara/
+Disallow: /it/unterkuenfte/camaguey/
+Disallow: /fr/unterkuenfte/camaguey/
+Disallow: /it/unterkuenfte/sancti%20spiritus/
+Disallow: /fr/unterkuenfte/sancti%20spiritus/
+Disallow: /it/unterkuenfte/cienfuegos/
+Disallow: /fr/unterkuenfte/cienfuegos/
+Disallow: /it/unterkuenfte/matanzas/
+Disallow: /fr/unterkuenfte/matanzas/
+Disallow: /it/unterkuenfte/la%20habana/
+Disallow: /fr/unterkuenfte/la%20habana/
+Disallow: /it/unterkuenfte/holguin/
+Disallow: /fr/unterkuenfte/holguin/
+Disallow: /fr/unterkuenfte/guantanamo/
+Disallow: /it/unterkuenfte/guantanamo/
 
 
 Sitemap: https://mycasaparticular.com/sitemap.xml
