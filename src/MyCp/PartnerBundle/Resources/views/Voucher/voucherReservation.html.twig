@@ -163,7 +163,17 @@
                 <td>{{ currency_symbol }} {{ (res_room.priceInSite * currency_rate) | number_format(2) }}</td>
             </tr>
             <tr>
-                <td colspan="6"><strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{res_room.fullname }}</td>
+                <td><b>{{"label.name.client"|trans({}, "messages", user_locale)}}:</b></td>
+                <td>{{res_room.fullname }}</td>
+                <td><b>{{ "label.name.country" |trans({}, "messages", user_locale) }}:</b></td>
+                <td>{{res_room.country }}</td>
+                <td><b>{{ "FORMS_COMMENTS" |trans({}, "messages", user_locale) }}:</b></td>
+                <td>{{res_room.comments }}</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <b>{{ "label.name.reference" |trans({}, "messages", user_locale) }}: {{res_room.reference }}</b>
+                </td>
             </tr>
         </table>
     {%endfor%}
