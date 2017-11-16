@@ -188,8 +188,9 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN o.own_address_municipality as mun
             JOIN o.own_address_province as prov
             JOIN gre.service_fee serviceFee
-        WHERE ore.own_res_reservation_booking = :id_booking AND ore.own_res_status = :own_res_status");
+        WHERE ore.own_res_reservation_booking = :id_booking AND (ore.own_res_status = :own_res_status OR ore.own_res_status = :own_res_status1)");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED);
+        $query->setParameter('own_res_status1', ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER);
 
         return $query->setParameter('id_booking', $id_booking)->getArrayResult();
     }
@@ -227,10 +228,11 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN pard.reservation par
             JOIN par.client client
         WHERE ore.own_res_reservation_booking = :id_booking
-        AND ore.own_res_status = :own_res_status
+        AND (ore.own_res_status = :own_res_status OR ore.own_res_status = :own_res_status1)
         AND client.id = :idClient
         ");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED)
+                ->setParameter('own_res_status1', ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
               ->setParameter("idClient", $idClient)->setParameter('id_booking', $id_booking);
 
         return $query->getArrayResult();
@@ -275,12 +277,13 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.travelAgencyDetailReservations agencyReservation
             JOIN agencyReservation.reservation detailReservation
             JOIN detailReservation.client c
-            JOIN client.country co
-        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and ore.own_res_status = :reservedStatus");
+            JOIN c.country co
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus OR ore.own_res_status = :reservedStatus1)");
         return $query
                 ->setParameter('id_booking', $id_booking)
                 ->setParameter('id_own', $own_id)
                 ->setParameter("reservedStatus", ownershipReservation::STATUS_RESERVED)
+                ->setParameter("reservedStatus1", ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
                 ->getArrayResult();
     }
 
@@ -303,13 +306,14 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN agencyReservation.reservation detailReservation
             JOIN detailReservation.client c
         WHERE ore.own_res_reservation_booking = :id_booking
-        and gre.gen_res_own_id = :id_own and ore.own_res_status = :reservedStatus
+        and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus OR ore.own_res_status = :reservedStatus1)
         and c.id = :idClient
         ");
         return $query
             ->setParameter('id_booking', $id_booking)
             ->setParameter('id_own', $own_id)
             ->setParameter("reservedStatus", ownershipReservation::STATUS_RESERVED)
+            ->setParameter("reservedStatus1", ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
             ->setParameter("idClient", $idClient)
             ->getArrayResult();
     }

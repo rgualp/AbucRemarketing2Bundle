@@ -152,7 +152,7 @@ class PaymentController extends Controller
         $bookingService = $this->get('front_end.services.booking');
 
         //$bookingService->postProcessBookingPayment($payment);
-        $bookingService->postProcessBookingGenerateVouchersOnlyPartner($booking);
+        $bookingService->postProcessBookingGenerateVouchersOnlyPartner($booking, 1);
 
         /*$dispatcher = $this->get('event_dispatcher');
         $eventData = new PaymentJobData($payment->getId());
