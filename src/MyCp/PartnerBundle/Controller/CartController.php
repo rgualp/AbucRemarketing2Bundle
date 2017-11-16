@@ -128,7 +128,8 @@ class CartController extends Controller
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency);
         $response = $this->renderView('PartnerBundle:Cart:cart_reservations.html.twig', array(
-            'items' => $cartItems
+            'items' => $cartItems,
+            "disablePaymentButton" => true
         ));
 
         return new JsonResponse([
