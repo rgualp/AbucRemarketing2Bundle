@@ -2342,6 +2342,10 @@
           <source>payment.book_now</source>
           <target state="new">Pagar ahora</target>
       </trans-unit>
+      <trans-unit id="29">
+          <source>VOUCHER_PAYED</source>
+          <target state="new">PAGADO</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
