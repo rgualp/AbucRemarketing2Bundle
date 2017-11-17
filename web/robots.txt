@@ -5,22 +5,45 @@ Disallow: /ownership/calendar
 Disallow: /casa/calendario
 Disallow: /en/ownership/calendar
 Disallow: /fr/hebergement/
+Disallow: /it/unterkunft/
+Disallow: /fr/unterkunft/
+Disallow: /fr/unterkuenfte/null/
+Disallow: /fr/unterkuenfte/villa%20clara/
 Disallow: /it/unterkuenfte/santa-clara/
 Disallow: /fr/unterkuenfte/santa-clara/
 Disallow: /it/unterkuenfte/camaguey/
+Disallow: /it/reiseziele/camagüey/
+Disallow: /it/reiseziele/Camag%C3%BCey/
 Disallow: /fr/unterkuenfte/camaguey/
+Disallow: /fr/unterkuenfte/Camag%C3%BCey/
 Disallow: /it/unterkuenfte/sancti%20spiritus/
 Disallow: /fr/unterkuenfte/sancti%20spiritus/
+Disallow: /fr/unterkuenfte/sancti spiritus/
 Disallow: /it/unterkuenfte/cienfuegos/
 Disallow: /fr/unterkuenfte/cienfuegos/
 Disallow: /it/unterkuenfte/matanzas/
 Disallow: /fr/unterkuenfte/matanzas/
 Disallow: /it/unterkuenfte/la%20habana/
 Disallow: /fr/unterkuenfte/la%20habana/
+Disallow: /es/destinos/centro-avana/
 Disallow: /it/unterkuenfte/holguin/
 Disallow: /fr/unterkuenfte/holguin/
 Disallow: /fr/unterkuenfte/guantanamo/
 Disallow: /it/unterkuenfte/guantanamo/
+Disallow: /it/unterkuenfte/baracoa/
+Disallow: /fr/unterkuenfte/baracoa/
+Disallow: /it/unterkuenfte/isla-de-la-juventud/
+Disallow: /fr/unterkuenfte/isla-de-la-juventud/
+Disallow: /it/unterkuenfte/centro%20habana/
+Disallow: /fr/unterkuenfte/centro%20habana/
+Disallow: /it/unterkuenfte/trinidad/
+Disallow: /fr/unterkuenfte/trinidad/
+Disallow: /fr/unterkuenfte/Varadero/
+Disallow: /it/unterkuenfte/Varadero/
+Disallow: /it/unterkuenfte/matanzas/
+Disallow: /fr/unterkuenfte/matanzas/
+Disallow: /fr/unterkuenfte/mayabeque/
+Disallow: /it/unterkuenfte/mayabeque/
 
 
 Sitemap: https://mycasaparticular.com/sitemap.xml
