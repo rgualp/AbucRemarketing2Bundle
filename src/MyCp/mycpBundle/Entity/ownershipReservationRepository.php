@@ -142,9 +142,25 @@ class ownershipReservationRepository extends EntityRepository {
     function getByBookingAndOwnership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
-        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own AND ore.own_res_status = :own_res_status");
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own AND (ore.own_res_status = :own_res_status OR ore.own_res_status = :own_res_status1)");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED);
+        $query->setParameter('own_res_status1', ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER);
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
+    }
+
+    function getOwnershipReservationForPartnerVoucher($bookingId){
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->select("owres")
+            ->where("owres.own_res_reservation_booking = :booking")
+            ->andWhere("(owres.own_res_status = :status OR owres.own_res_status = :status1)")
+            ->setParameter("booking", $bookingId)
+            ->setParameter("status", ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
+            ->setParameter("status1", ownershipReservation::STATUS_RESERVED);
+
+        return $qb->getQuery()->getResult();
     }
 
     function getByBookingAndOwnershipClient($id_booking, $own_id, $idClient) {
@@ -277,7 +293,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.travelAgencyDetailReservations agencyReservation
             JOIN agencyReservation.reservation detailReservation
             JOIN detailReservation.client c
-            JOIN c.country co
+            LEFT JOIN c.country co
         WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus OR ore.own_res_status = :reservedStatus1)");
         return $query
                 ->setParameter('id_booking', $id_booking)

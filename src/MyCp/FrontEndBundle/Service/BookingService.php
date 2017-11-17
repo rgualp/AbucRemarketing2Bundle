@@ -157,7 +157,7 @@ class BookingService extends Controller
 
         $ownReservations = $em
             ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $bookingId, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
+            ->getOwnershipReservationForPartnerVoucher($bookingId);
 
         $totalPrice = 0;
         $totalPercentPrice = 0;
@@ -302,6 +302,9 @@ class BookingService extends Controller
 
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
             $totalRooms = count($ownReservations);
+
+            $totalNights = ($totalNights == 0) ? 1: $totalNights;
+            $totalRooms = ($totalRooms == 0) ? 1: $totalRooms;
             $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, ($totalNights/$totalRooms), $totalPrice / $totalNights * $totalRooms, $own_r["service_fee"]);
 
             $touristTaxTotal += $totalPrice * $tax;
@@ -323,7 +326,7 @@ class BookingService extends Controller
 
         $ownReservations = $em
             ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $bookingId, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
+            ->getOwnershipReservationForPartnerVoucher($bookingId);
 
         $totalPrice = 0;
         $totalPercentPrice = 0;

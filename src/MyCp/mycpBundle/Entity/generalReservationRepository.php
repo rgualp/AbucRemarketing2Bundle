@@ -2074,7 +2074,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
-            ->groupBy("fecha");
+            ->groupBy("fecha")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
@@ -2112,7 +2115,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
-            ->groupBy("b.booking_id");
+            ->groupBy("b.booking_id")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
@@ -2241,7 +2247,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
-            ->groupBy("fecha");
+            ->groupBy("fecha")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 //        $qb->select('DATE(gres.gen_res_date) as fecha,
 //        (SELECT SUM(CASE WHEN p1.current_cuc_change_rate IS NOT NULL THEN p1.payed_amount*p1.current_cuc_change_rate ELSE p1.payed_amount*curr.curr_cuc_change END) from mycpBundle:payment p1 WHERE DATE(p1.created)=fecha) as facturacion
 //       ')
@@ -2398,7 +2407,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
             ->groupBy("month")
-            ->orderBy("year ASC, month");
+            ->orderBy("year ASC, month")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
@@ -2440,7 +2452,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
             ->groupBy("month")
-            ->orderBy("year ASC, month");
+            ->orderBy("year ASC, month")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
 //            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
@@ -2558,7 +2573,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
             ->groupBy("fecha")
-            ->orderBy("fecha");
+            ->orderBy("fecha")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
@@ -2600,7 +2618,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
             ->groupBy("fecha")
-            ->orderBy("fecha");
+            ->orderBy("fecha")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
 //            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
@@ -2640,7 +2661,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
-            ->groupBy("b.booking_id");
+            ->groupBy("b.booking_id")
+            ->where("owres.own_res_status = :status")
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
 
         $qb->andWhere("YEAR(DATE(gres.gen_res_date)) = '$year'");
         $clientsSummaryPayments = $qb->getQuery()->getResult();
@@ -2691,6 +2715,66 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 //        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
 //            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
 //        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    function getPaymentByYear($accommodationModality = null){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $currentYear = date("Y");
+        $firstDateOfYear = $currentYear."-01-01";
+
+        $qb->select("YEAR(p.created) as fecha,SUM(CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+            ->from("mycpBundle:payment", "p")
+            ->join("p.currency", "curr")
+            ->groupBy("fecha");
+
+        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
+        {
+            $qbAccommodations = $em->createQueryBuilder()
+                ->from("mycpBundle:ownership", "o")
+                ->select("DISTINCT o.own_id")
+                ->join("o.modalityUpdateFrequency", "modality")
+                ->join("modality.modality", "mod")
+                ->where("mod.nom_id = $accommodationModality")
+                //->andWhere("(modality.startDate <= '$filter_date_to' AND modality.endDate IS NULL) OR modality.endDate > '$filter_date_to'")
+            ;
+
+            $accommodationsArray = $qbAccommodations->getQuery()->getArrayResult();
+
+            $qbBookings = $em->createQueryBuilder()
+                ->from("mycpBundle:booking", "b")
+                ->select("DISTINCT b.booking_id")
+                ->join("b.booking_own_reservations", "owres")
+                ->join("owres.own_res_gen_res_id", "gres")
+                ->join('mycpBundle:room', 'r', Expr\Join::WITH, 'r.room_id = owres.own_res_selected_room_id')
+                ->where("r.room_ownership IN (:accommodations)")
+                ->setParameter("accommodations", $accommodationsArray)
+            ;
+
+            //if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
+                $qbBookings->andWhere("gres.gen_res_date >= '$firstDateOfYear'");
+            //}
+
+//            if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
+//                $qbBookings->andWhere("gres.gen_res_date <= '$filter_date_to'");
+//            }
+
+            $bookingsArray = $qbBookings->getQuery()->getArrayResult();
+
+            $qb->join("p.booking", "b")
+                ->andWhere("b.booking_id IN (:bookings)")
+                ->setParameter("bookings", $bookingsArray)
+            ;
+
+        }
+
+        //if($filter_date_from != null && $filter_date_from != "") {
+            $qb->andWhere("p.created >= '$firstDateOfYear 00:00:00'");
+        //}
+
+
 
         return $qb->getQuery()->getResult();
     }

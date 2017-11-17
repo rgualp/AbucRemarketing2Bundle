@@ -222,7 +222,11 @@
                 <td style="text-align: center">{{ item.habitaciones }}</td>
                 <td style="text-align: center">{{item.noches}}</td>
                 {#<td style="text-align: center">{{item.facturacion | number_format(2)}} CUC</td>#}
-                <td style="text-align: center">{{payment[loop.index-1].facturacion | number_format(2)}} CUC</td>
+                <td style="text-align: center">
+                    {% if payment is defined %}
+                    {{payment[loop.index-1].facturacion | number_format(2)}} CUC
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
