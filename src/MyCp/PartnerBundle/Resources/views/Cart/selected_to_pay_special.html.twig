@@ -12,7 +12,7 @@
                             {{ "pa.modal.reservation.reserve" | trans | upper }} {{ indexReservation }}
                         </div>
                         <div class="col-md-2">
-                            <input type="text" id="reference_{{ idReservation }}" name="reference_{{ idReservation }}" class="form-control" value="{{ item.reference }}"/>
+                            <input placeholder="{{ "label.name.reference" | trans }}" type="text" id="reference_{{ idReservation }}" name="reference_{{ idReservation }}" class="form-control" value="{{ item.reference }}"/>
                         </div>
                         <div class="col-md-3">
                             <input data-genresid="{{ item.gen_res_id }}" id="clientName_{{ idReservation }}" name="clientName_{{ idReservation }}" class="form-control clientName" value="{{ item.fullname }}" placeholder="{{ "label.name.client" | trans }}"/>
@@ -26,7 +26,7 @@
 
                         </div>
                         <div class="col-md-2">
-                            <input type="text" id="comments_{{ idReservation }}" name="comments_{{ idReservation }}"  class="form-control" value="{{ item.comments }}"/>
+                            <input placeholder="{{ "FORMS_COMMENTS" | trans }}" type="text" id="comments_{{ idReservation }}" name="comments_{{ idReservation }}"  class="form-control" value="{{ item.comments }}"/>
                         </div>
                     </div>
                 {% endif %}

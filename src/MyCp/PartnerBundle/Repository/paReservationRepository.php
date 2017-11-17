@@ -268,7 +268,7 @@ class paReservationRepository extends EntityRepository {
             ->join("genRes.travelAgencyDetailReservations", "detail")
             ->join("detail.reservation", "reservation")
             ->join("reservation.client", "client")
-            ->join("client.country", "co")
+            ->leftJoin("client.country", "co")
             ->where('ownRes.own_res_id IN (:reservationIds)')
             ->andWhere("ownRes.own_res_status = :availableStatus")
             ->setParameter("reservationIds", $reservationIds, Connection::PARAM_STR_ARRAY)
