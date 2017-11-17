@@ -62,7 +62,8 @@
         {% if completePayment is defined and completePayment %}
         {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
             <hr/>
-            {% if ownership.breakfast %}
+
+            {% if ownership.breakfast and not isSpecial %}
                 <div class="row col-breakfastprice" style="font-size: 14px" data-currentsymbol="{{ currSymbol }}" data-breakfastprice = "{{ ownership.breakfastPrice | price(null,2,'.',',',false)  }}">
                     <div class="col-md-2" >
                         <div class="checkbox checkbox-primary" style="text-align: left">
@@ -106,7 +107,7 @@
                     </div>
                 </div>
             {% endif %}
-            {% if ownership.dinner %}
+            {% if ownership.dinner and not isSpecial %}
                 <div class="row col-dinnerPrice" style="font-size: 14px" data-currentsymbol="{{ currSymbol }}" data-dinnerprice = "{{ ownership.dinnerPrice | price(null,2,'.',',',false)}}">
                     <div class="col-md-2">
                         <div class="checkbox checkbox-primary" style="text-align: left">
@@ -150,7 +151,9 @@
                     </div>
                 </div>
             {% endif %}
-            <hr/>
+            {% if not isSpecial %}
+                <hr/>
+            {% endif %}
         <div class="all-prices-numbers">
             <div class="text-right">
                 {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:

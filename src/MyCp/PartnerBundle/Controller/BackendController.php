@@ -102,6 +102,9 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+
+        $packageService = $this->get("mycp.partner.package.service");
+        $isSpecial = $packageService->isSpecialPackage();
         /*$list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
@@ -131,7 +134,8 @@ class BackendController extends Controller
             'locale'=>$locale,'currentServiceFee'=>$currentServiceFee,
             'fromPartner' => true,
             'completePayment' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getCompletePayment(),
-            'comisionAgency' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getId()
+            'comisionAgency' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getId(),
+            "isSpecial" => $isSpecial
 
         ));
         return new Response($response, 200);
