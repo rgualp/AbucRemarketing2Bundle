@@ -2352,6 +2352,14 @@
           <source>dashboard.booking.pending.payment</source>
           <target state="new">Pending Payment</target>
       </trans-unit>
+      <trans-unit id="31">
+          <source>client.information</source>
+          <target state="new">Client Information</target>
+      </trans-unit>
+      <trans-unit id="32">
+          <source>today.date</source>
+          <target state="new">Date</target>
+      </trans-unit>
         </body>
   </file>
 </xliff>

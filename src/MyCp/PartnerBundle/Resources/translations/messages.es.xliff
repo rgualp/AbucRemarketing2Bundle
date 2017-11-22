@@ -2350,6 +2350,14 @@
           <source>dashboard.booking.pending.payment</source>
           <target state="new">Pendientes de Pago</target>
       </trans-unit>
+      <trans-unit id="31">
+          <source>client.information</source>
+          <target state="new">Información del cliente</target>
+      </trans-unit>
+      <trans-unit id="32">
+          <source>today.date</source>
+          <target state="new">Fecha</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

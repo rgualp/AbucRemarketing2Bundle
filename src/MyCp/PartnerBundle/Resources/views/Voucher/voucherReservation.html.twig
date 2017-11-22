@@ -33,9 +33,6 @@
 
 <table style="width: 100%">
     <tr>
-        <td colspan="2" style="text-align: right">{{'now'| date('M d, Y') }}</td>
-    </tr>
-    <tr>
         <td>
             <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
         </td>
@@ -47,26 +44,19 @@
 <br/>
 <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
 <hr/>
-<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserLastName }}</h4>
-<p>
-    {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
-    {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
-</p>
-<h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
-<hr/>
 <p>
 <table style="width: 100%">
     <tr>
         <td><b>{{"RESERVATION_NUMBER"|trans({}, "messages", user_locale)}}:</b></td>
         <td>ID_{{ booking.getBookingId }}</td>
-        <td><b>{{"EMAIL_TO"|trans({}, "messages", user_locale)}}</b></td>
-        <td>{{ user.getUserEmail }}</td>
+        <td><b>{{"today.date"|trans({}, "messages", user_locale)}}</b></td>
+        <td>{{'now'| date('M d, Y') }}</td>
     </tr>
     <tr>
         <td><b>{{"CLIENT_NAME"|trans({}, "messages", user_locale)}}:</b></td>
         <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
-        <td><b>{{"NACIONALITY"|trans({}, "messages", user_locale)}}:</b></td>
-        <td>{{ user.getUserCountry.getCoName }}</td>
+        <td><b>{{"EMAIL_TO"|trans({}, "messages", user_locale)}}</b></td>
+        <td>{{ user.getUserEmail }}</td>
     </tr>
 </table>
 <br/>
@@ -76,6 +66,28 @@
         <div style="page-break-after: always"></div>
     {% endif %}
     <hr class="hr-grey-wide"/>
+    <br/><br/>
+
+    <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
+    <hr/>
+
+    <table  style="width: 100%">
+        {% set res_room = own_res_rooms[own.id][0] %}
+        <tr>
+            <td><b>{{"label.name.client"|trans({}, "messages", user_locale)}}:</b></td>
+            <td>{{res_room.fullname }}</td>
+            <td><b>{{ "label.name.country" |trans({}, "messages", user_locale) }}:</b></td>
+            <td>{{res_room.country }}</td>
+            <td><b>{{ "FORMS_COMMENTS" |trans({}, "messages", user_locale) }}:</b></td>
+            <td>{{res_room.comments }}</td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <b>{{ "label.name.reference" |trans({}, "messages", user_locale) }}: {{res_room.reference }}</b>
+            </td>
+        </tr>
+    </table>
+
     <table style="width: 100%">
         <tr>
             <td style="width: 70%">
@@ -161,19 +173,6 @@
                 <td>{{ currency_symbol }} {{ (((res_room.priceNight) ? res_room.priceNight : res_room.priceInSite / nights) * currency_rate) | number_format(2) }}</td>
                 <td><b>{{ "RESERVATION_COST" | trans({}, "messages", user_locale) }}</b></td>
                 <td>{{ currency_symbol }} {{ (res_room.priceInSite * currency_rate) | number_format(2) }}</td>
-            </tr>
-            <tr>
-                <td><b>{{"label.name.client"|trans({}, "messages", user_locale)}}:</b></td>
-                <td>{{res_room.fullname }}</td>
-                <td><b>{{ "label.name.country" |trans({}, "messages", user_locale) }}:</b></td>
-                <td>{{res_room.country }}</td>
-                <td><b>{{ "FORMS_COMMENTS" |trans({}, "messages", user_locale) }}:</b></td>
-                <td>{{res_room.comments }}</td>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    <b>{{ "label.name.reference" |trans({}, "messages", user_locale) }}: {{res_room.reference }}</b>
-                </td>
             </tr>
         </table>
     {%endfor%}
